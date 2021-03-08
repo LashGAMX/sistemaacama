@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Parametros;
+namespace App\Http\Controllers\Config;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -10,7 +10,7 @@ class LaboratorioController extends Controller
     //
     public function index()
     {
-        return view('parametros.parametros');
+        return view('config/laboratorio');
     }
 } 
  
