@@ -10,7 +10,7 @@ class LaboratorioController extends Controller
     //
     public function index()
     {
-        return view('config/laboratorio');
+       return view('config/laboratorio');
     }
 } 
- 
+   

@@ -1,9 +1,18 @@
 @extends('voyager::master')
+
 @section('content')
 
-<ul class="nav nav-tabs" id="myTab" role="tablist">
+  @section('page_header')
+
+  <h6 class="page-title"> 
+      <i class="voyager-lab"></i>
+      Laboratorio
+  </h6>
+  @stop
+  
+<ul class="nav nav-tabs" id="myTab" role="tablist"> 
     <li class="nav-item" role="menu">
-      <a class="nav-link" id="sucursal-tab" data-toggle="tab" href="#sucursal" role="tab" aria-controls="sucursal" aria-selected="true">Sucursal</a>
+      <a class="nav-link active" id="sucursal-tab" data-toggle="tab" href="#sucursal" role="tab" aria-controls="sucursal" aria-selected="true">Sucursal</a>
     </li>
     <li class="nav-item" role="menu">
       <a class="nav-link" id="simbologia-tab" data-toggle="tab" href="#simbologia" role="tab" aria-controls="simbologia" aria-selected="false">Simbologia</a>
@@ -14,18 +23,11 @@
   </ul>
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade show active" id="sucursal" role="tabpanel" aria-labelledby="sucursal-tab">  
-
-    
-@section('page_header')
-<h1 class="page-title">
-    <i class="{{ $dataType->icon }}"></i>
-    {{ __('voyager::generic.'.(isset($dataTypeContent->id) ? 'edit' : 'add')).' '.$dataType->getTranslatedAttribute('display_name_singular') }}
-</h1>
-@stop
-
-
-    </div>
+      <livewire:config.table-sucursal />
+    </div> 
     <div class="tab-pane fade" id="simbologia" role="tabpanel" aria-labelledby="simbologia-tab">Simbologia</div>
     <div class="tab-pane fade" id="unidad" role="tabpanel" aria-labelledby="unidad-tab">Unidad</div>
   </div>
-@endsection 
+
+
+@endsection  

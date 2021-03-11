@@ -16,7 +16,8 @@ class Controller extends BaseController
     public function sendCorreo()
     { 
         $correo = new SendMailable();
-      Mail::to('agentearkng@gmail.com')->send($correo);    
+      Mail::to('agentearkng@gmail.com')->send($correo);   
+      return "Correo enviado";
     }
 }
  

@@ -20,6 +20,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+Route::get('user-datatables', function () {
+    return view('welcome');
+});
+
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();

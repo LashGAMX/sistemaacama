@@ -9,6 +9,8 @@ use Illuminate\Queue\SerializesModels;
  
 class SendMailable extends Mailable
 {
+
+    public $subject = 'Correo' ;
     use Queueable, SerializesModels;
 
     /**
