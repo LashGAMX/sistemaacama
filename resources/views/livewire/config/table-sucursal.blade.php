@@ -1,4 +1,12 @@
-<div class="table-responsive">
+<div>
+  <div class="row">
+    <div class="col-md-8">
+      <button class="btn btn-success btn-sm"><i class="voyager-plus"></i> Crear</button>
+    </div>
+    <div class="col-md-4">
+      <input type="search" class="form-control" placeholder="Buscar">
+    </div>
+  </div>
   <table id="dataTable" class="table table-hover">
       <thead class="thead-dark">
           <tr>
@@ -10,7 +18,7 @@
           </tr>
       </thead>
       <tbody>
-        @foreach ($sucursal as $item)
+        @foreach ($sucursal as $item) 
             <tr>
               <td>{{$item->Id_sucursal}}</td>
               <td>{{$item->Sucursal}}</td>
@@ -23,10 +31,5 @@
         @endforeach
       </tbody>
   </table>
-  <script>
-    $(document).ready(function() {
-    $('#dataTable').DataTable();
-    });
-  </script>
 </div>
  

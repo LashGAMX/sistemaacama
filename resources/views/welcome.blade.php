@@ -8,19 +8,10 @@
 <body>
      
 <div class="container">
-     
-    <div class="card">
-      <div class="card-header">
-        Laravel Livewire Example - Tutsmake.com
-      </div>
-      <div class="card-body">
-        <livewire:user-datatables
-            searchable="name, email"
-            exportable
-         />
-   
-      </div>
-    </div>
+  <livewire:datatable 
+      model="App\Models\User" 
+      searchable="name"
+    />
          
 </div>
      

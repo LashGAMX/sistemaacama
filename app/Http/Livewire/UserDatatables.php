@@ -20,18 +20,6 @@ class UserDatatables extends LivewireDatatable
      */
     public function columns()
     {
-        return [
-            NumberColumn::name('id')
-                ->label('ID')
-                ->sortBy('id'),
-   
-            Column::name('name')
-                ->label('Name'),
-   
-            Column::name('email'),
-   
-            DateColumn::name('created_at')
-                ->label('Creation Date')
-        ];
+
     }
 }

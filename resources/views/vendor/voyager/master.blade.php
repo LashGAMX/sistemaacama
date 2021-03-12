@@ -21,10 +21,11 @@
 
     <!-- App CSS -->
     <link rel="stylesheet" href="{{ voyager_asset('css/app.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.9.2/tailwind.min.css" integrity="sha512-l7qZAq1JcXdHei6h2z8h8sMe3NbMrmowhOl+QkP3UhifPpCW2MC4M0i26Y8wYpbz1xD9t61MLT9L1N773dzlOA==" crossorigin="anonymous" />
 
     @yield('css')
     @if(__('voyager::generic.is_rtl') == 'true')
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous">
         <link rel="stylesheet" href="{{ voyager_asset('css/rtl.css') }}">
         {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"> --}}
     @endif
@@ -121,8 +122,8 @@ if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Ill
 
 @livewireScripts
 <script type="text/javascript" src="{{ voyager_asset('js/app.js') }}"></script>
-<script type="text/javascript" src="{{ voyager_asset('js/app.js') }}"></script>
 <script src="{{ voyager_asset('lib/js/dataTables.responsive.min.js') }}"></script>
+
 {{-- <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script> --}}
 <script>
     @if(Session::has('alerts'))
