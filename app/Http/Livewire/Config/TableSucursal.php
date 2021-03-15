@@ -17,9 +17,9 @@ class TableSucursal extends Component
     protected $queryString = ['search' => ['except' => '']];
     public $perPage = 5;
     public $show = false;
-    public $showEdit = array();
     public $name;
-    public $cont = 0;
+    public $idSuc;
+
 
     protected $rules = [
         'name' => 'required|min:6',
@@ -44,6 +44,20 @@ class TableSucursal extends Component
           'Id_user_m' => $this->idUser, 
       ]);
     }
+    public function store()
+    {
+        $this->validate();
+        $sucursal = Sucursal::find($this->idSuc);
+        $sucursal->Sucursal = $this->name;
+        $sucursal->Id_user_m = $this->idUser;
+        $sucursal->save();
+    }
+    public function setData($id,$name)
+    {
+        $this->resetValidation();
+        $this->idSuc = $id;
+        $this->name = $name;
+    }
 
     public function setBtn()
     {
@@ -60,15 +74,6 @@ class TableSucursal extends Component
             $this->show = false;
         }
     }
-    public function setBtnEdit($con)
-    {
-        if($this->showEdit[$con] != false)
-        {
-            $this->showEdit[$con] = true;
-        }
-    }
- 
-
 
 }
   

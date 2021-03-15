@@ -5,8 +5,8 @@
   @section('page_header')
 
   <h6 class="page-title"> 
-      <i class="voyager-lab"></i>
-      Laboratorio
+      <i class="voyager-exclamation"></i>
+      Analisis
   </h6>
   @stop
 

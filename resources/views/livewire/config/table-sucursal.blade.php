@@ -12,6 +12,7 @@
     <form wire:submit.prevent="setSucursal">
     <div class="col-md-4">
       <input type="text" wire:model='idUser' hidden>
+      <label for="">Sucursal</label>
         <input type="text" wire:model='name' class="form-control" placeholder="Sucursal">
         @error('name') <span class="text-danger">{{ $message  }}</span> @enderror
     </div>
@@ -35,18 +36,16 @@
       <tbody>
       @if ($sucursal->count()) 
       @foreach ($sucursal as $item) 
-      <tr>
+      <tr>  
+        <form wire:submit.prevent="update">
         <td>{{$item->Id_sucursal}}</td>
-        @if ($showEdit[$cont++] == true)
-          <td><input type="text" wire:model='name' value="{{$item->Sucursal}}" class="form-control" placeholder="Sucursal"></td>
-        @else
           <td>{{$item->Sucursal}}</td>          
-        @endif
         <td>{{$item->created_at}}</td>
         <td>{{$item->updated_at}}</td>
         <td>
-            <button class="btn btn-sm btn-info" wire:click="setBtnEdit($cont)"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+          <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_sucursal}}','{{ $item->Sucursal }}')" data-toggle="modal" data-target="#modalSucursal"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
         </td>
+        </form> 
       </tr>
   @endforeach
       @else
@@ -54,5 +53,33 @@
       @endif
       </tbody>
   </table>
+
+
+  
+  <div wire:ignore.self class="modal fade" id="modalSucursal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <form wire:submit.prevent="store">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Modificar sucursal</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" wire:model="idSuc" hidden>
+        <label for="">Sucursal</label>
+        <input type="text" wire:model='name' class="form-control" placeholder="Sucursal">
+        @error('name') <span class="text-danger">{{ $message  }}</span> @enderror
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+  
 </div>
  
