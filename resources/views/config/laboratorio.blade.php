@@ -8,8 +8,8 @@
       Laboratorio
   </h6>
   @stop
-  
-<ul class="nav nav-tabs" id="myTab" role="tablist"> 
+
+  <ul class="nav nav-tabs" id="myTab" role="tablist"> 
     <li class="nav-item" role="menu">
       <a class="nav-link active" id="sucursal-tab" data-toggle="tab" href="#sucursal" role="tab" aria-controls="sucursal" aria-selected="true">Sucursal</a>
     </li>
@@ -21,12 +21,14 @@
     </li>
   </ul>
   <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade show active" id="sucursal" role="tabpanel" aria-labelledby="sucursal-tab">  
-      <livewire:config.table-sucursal />
+    <div class="tab-pane fade  active" id="sucursal" role="tabpanel" aria-labelledby="sucursal-tab">  
+      @livewire('config.table-sucursal',['idUser'=>$idUser])
     </div> 
-    <div class="tab-pane fade" id="simbologia" role="tabpanel" aria-labelledby="simbologia-tab">Simbologia</div>
-    <div class="tab-pane fade" id="unidad" role="tabpanel" aria-labelledby="unidad-tab">Unidad</div>
+    <div class="tab-pane fade" id="simbologia" role="tabpanel" aria-labelledby="simbologia-tab">
+      @livewire('config.table-simbologia', ['idUser' => $idUser])
+    </div>
+    <div class="tab-pane fade" id="unidad" role="tabpanel" aria-labelledby="unidad-tab">
+      @livewire('config.table-unidad', ['idUser' => $idUser])
+    </div>
   </div>
-
-
 @endsection  

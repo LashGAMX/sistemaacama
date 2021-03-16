@@ -7,11 +7,7 @@
 </head>
 <body>
      
-<div class="container">
-  <livewire:datatable 
-      model="App\Models\User" 
-      searchable="name"
-    />
+<h1>Inicio</h1>
          
 </div>
      
