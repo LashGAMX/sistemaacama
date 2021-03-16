@@ -3,7 +3,6 @@
 @section('content')
 
   @section('page_header')
-
   <h6 class="page-title"> 
       <i class="voyager-lab"></i>
       Laboratorio
