@@ -23,7 +23,11 @@
         <tbody>
         @if ($model->count()) 
         @foreach ($model as $item) 
-        <tr>  
+            @if ($item->deleted_at != null)
+                <tr class="bg-danger text-white">  
+            @else
+                <tr>
+            @endif
           {{-- <form wire:submit.prevent="update"> --}}
           <td>{{$item->Id_cliente}}</td>
           <td>{{$item->Empresa}}</td>
@@ -34,7 +38,7 @@
           <td>{{$item->updated_at}}</td>
           <td>
             <button type="button" class="btn btn-primary" 
-            wire:click="setData()" data-toggle="modal" data-target="#modalInter">
+            wire:click="setData('{{$item->Id_cliente}}','{{$item->Empresa}}','{{$item->RFC}}','{{$item->Id_intermediario}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalCliente">
             <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
           {{-- </form>  --}}
@@ -96,22 +100,22 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="">Sucursal</label>
+                            <label for="">Intermediario</label>
                             @if ($sw != true)
-                                <select class="form-control" id="" wire:model='inter' name="sucursal">
+                                <select class="form-control" wire:model='inter' >
                                 <option value="0">Sin seleccionar</option>
                                 @foreach ($intermediario as $item)
-                                    <option value="{{$item->Id_intermediario}}">{{$item->Nombres}}</option>
+                                    <option value="{{$item->Id_intermediario}}">{{$item->Nombres}} {{$item->A_paterno}}</option>
                                 @endforeach
                               </select>
                             @else
-                                <select class="form-control" id="" wire:model='inter' name="sucursal">
+                                <select class="form-control" wire:model='idInter' >
                                     <option value="0">Sin seleccionar</option>
                                     @foreach ($intermediario as $item)
-                                        @if ($lab == $item->Id_sucursal)
-                                        <option value="{{$item->Id_intermediario}}">{{$item->Nombres}}</option>
+                                        @if ($idInter == $item->Id_intermediario)
+                                        <option value="{{$item->Id_intermediario}}" selected>{{$item->Nombres}} {{$item->A_paterno}}</option>
                                         @else
-                                        <option value="{{$item->Id_intermediario}}">{{$item->Nombres}}</option>
+                                        <option value="{{$item->Id_intermediario}}">{{$item->Nombres}} {{$item->A_paterno}}</option>
                                         @endif
                                     @endforeach
                                 </select>

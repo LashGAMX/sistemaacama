@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Clientes;
 
 use App\Models\ClienteGeneral;
+use App\Models\Clientes;
 use App\Models\Intermediario;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -18,31 +19,23 @@ class TableCliente extends Component
     public $sw = false;
 
     public $idCliente;
-    public $cliente = 0;
-    public $rfcCliente;
-    public $idinter;
+    public $cliente;
+    public $rfc;
+    public $idInter = 0;
     public $inter;
     public $status;
 
-    // protected $rules = [ 
-    //     'nombre' => 'required',
-    //     'paterno' => 'required',
-    //     'rfc' => 'required|max:13|min:12|unique:clientes',
-    //     'correo' => 'required',
-    //     'dir' => 'required',
-    //     'tel' => 'required',
-    // ];
-    // protected $messages = [
-    //     'nombre.required' => 'El nombre es un dato requerido',
-    //     'paterno.required' => 'El apellido paterno es requerido',
-    //     'rfc.required' => 'El RFC es un dato requerido',
-    //     'rfc.min' => 'El RFC Tiene que ser entre 12 y 13 caracteres',
-    //     'rfc.max' => 'El RFC Tiene que ser entre 12 y 13 caracteres',
-    //     'correo.required' => 'El correo es un dato requerido',
-    //     'rfc.unique' => 'El rfc ya se encuentra registrado',
-    //     'dir.required' => 'La dirección es un dato requerido',
-    //     'tel.required' => 'El telefono es un dato requerido',
-    // ];
+    protected $rules = [ 
+        'cliente' => 'required',
+        'rfc' => 'required|max:13|min:12|unique:clientes',
+    ];
+    protected $messages = [
+        'cliente.required' => 'El nombre es un dato requerido',
+        'rfc.required' => 'El RFC es un dato requerido',
+        'rfc.min' => 'El RFC Tiene que ser entre 12 y 13 caracteres',
+        'rfc.max' => 'El RFC Tiene que ser entre 12 y 13 caracteres',
+        'rfc.unique' => 'El rfc ya se encuentra registrado',
+    ];
 
     public function render()
     {
@@ -59,69 +52,61 @@ class TableCliente extends Component
     {
         $this->validate();
 
-        // $model = Clientes::create([
-        //     'Nombres' => $this->nombre,
-        //     'A_paterno' => $this->paterno,
-        //     'A_materno' => $this->materno,
-        //     'RFC' => $this->rfc,
-        //     'deleted_at' => $this->status,
-        // ]);
-
-        // Intermediario::create([
-        //     'Id_cliente' => $model->Id_cliente,
-        //     'Laboratorio' => $this->lab,
-        //     'Correo' => $this->correo,
-        //     'Direccion' => $this->dir,
-        //     'Tel_oficina' => $this->tel,
-        //     'Extension' => $this->ext,
-        //     'Celular1' => $this->cel,
-        // ]);
+        $model = Clientes::create([
+            'Nombres' => $this->cliente,
+            'RFC' => $this->rfc,
+            'Id_tipo_liente' => 2,
+        ]);
+        ClienteGeneral::create([
+            'Id_cliente' => $model->Id_cliente,
+            'Empresa' => $this->cliente,
+            'Id_intermediario' => $this->inter
+        ]);
         
     }
     public function store()
     {
-        // $this->validate([
-        //     'nombre' => 'required',
-        //     'paterno' => 'required',
-        //     'rfc' => 'required|max:13|min:12',
-        //     'correo' => 'required',
-        //     'dir' => 'required',
-        //     'tel' => 'required',
-        // ]);
-        // $model = Clientes::find($this->idCliente);
-        // $model->Nombres = $this->nombre;
-        // $model->A_paterno = $this->paterno;
-        // $model->A_materno = $this->materno;
-        // $model->RFC = $this->rfc;
-        // $model->deleted_at = $this->status;
-        // $model->save();
-
-        // $model = Intermediario::where('Id_cliente',$this->idCliente);
-        // $model->Laboratorio = $this->lab;
-        // $model->Correo = $this->correo;
-        // $model->Direccion = $this->dir;
-        // $model->Tel_oficina = $this->tel;
-        // $model->Extension = $this->ext;
-        // $model->Celular1 = $this->cel;
-        // $model->save();
+        $this->validate([
+            'cliente' => 'required',
+            'rfc' => 'required|max:13|min:12',
+        ]);
+        if($this->status != 1) 
+        {
+            Clientes::withTrashed()->where('Id_cliente',$this->idCliente)->restore();
+                $model = Clientes::find($this->idCliente);
+                $model->Nombres = $this->cliente;
+                $model->RFC = $this->rfc;
+                $model->save();
+            Clientes::find($this->idCliente)->delete();
+        }else{
+            Clientes::withTrashed()->where('Id_cliente',$this->idCliente)->restore();
+            $model = Clientes::find($this->idCliente);
+                $model->Nombres = $this->cliente;
+                $model->RFC = $this->rfc;
+                $model->save();
+        }
+        DB::table('clientes_general')
+        ->where('Id_cliente',$this->idCliente)
+        ->update([
+            'Empresa' => $this->cliente,
+            'Id_intermediario' => $this->idInter,
+        ]);
     }
-    // public function setData($id,$nombre,$paterno,$materno,$rfc,$status,$lab,$correo,$dir,$tel,$ext,$cel = '')
-    // {
-    //     $this->sw = true;
-    //     $this->resetValidation();
-    //     $this->idCliente = $id;
-    //     $this->nombre = $nombre;
-    //     $this->paterno = $paterno;
-    //     $this->materno = $materno;
-    //     $this->rfc = $rfc;
-    //     $this->status = $status;
-    //     $this->lab = $lab;
-    //     $this->correo = $correo;
-    //     $this->dir = $dir;
-    //     $this->tel = $tel;
-    //     $this->ext = $ext;
-    //     $this->cel = $cel;
-    // }
+    public function setData($id,$cliente,$rfc,$idInter,$status)
+    {
+        $this->sw = true;
+        $this->resetValidation();
+        $this->idCliente = $id;
+        $this->cliente = $cliente;
+        $this->rfc = $rfc;
+        $this->idInter = $idInter;
+        if($status != null)
+        {
+            $this->status = 0;
+        }else{
+            $this->status = 1;
+        }
+    }
     
     public function btnCreate()
     {
@@ -130,7 +115,7 @@ class TableCliente extends Component
             $this->resetValidation();
             $this->idCliente = '';
             $this->cliente = '';
-            $this->rfcCliente = '';
+            $this->rfc = '';
             $this->idInter = '';
             $this->inter = '';
             $this->status = '';

@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Intermediario extends Model
 {
     use HasFactory;
+    use SoftDeletes;
     protected $table = 'intermediarios';
     protected $primaryKey = 'Id_intermediario';
     public $timestamps = true;
@@ -20,8 +21,8 @@ class Intermediario extends Model
         'Direccion',
         'Tel_oficina',
         'Extension',
-        'Celular',
-        'Detalle'
+        'Celular1',
+        'Detalle',
         // 'Id_user_c',
         // 'Id_user_m',
     ];

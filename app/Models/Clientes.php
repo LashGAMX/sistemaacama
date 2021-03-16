@@ -4,10 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Clientes extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $table = 'clientes';
     protected $primaryKey = 'Id_cliente';
     public $timestamps = true;
@@ -18,7 +19,6 @@ class Clientes extends Model
         'A_materno',
         'RFC',
         'Id_tipo_cliente',
-        'deleted_at'
         // 'Id_user_c',
         // 'Id_user_m',
     ];

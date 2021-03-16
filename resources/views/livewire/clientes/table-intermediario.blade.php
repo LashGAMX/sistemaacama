@@ -7,8 +7,8 @@
         <input type="search" wire:model="search" class="form-control" placeholder="Buscar">
       </div>
     </div>
-    <table class="table table-hover table-striped">
-        <thead class="thead-dark">
+    <table class="table table-dark">
+        <thead>
             <tr>
                 <th>Id</th>
                 <th>Laboratorio</th>
@@ -25,7 +25,11 @@
         <tbody>
         @if ($model->count()) 
         @foreach ($model as $item) 
-        <tr>  
+            @if ($item->deleted_at != null)
+                <tr class="bg-danger text-white">  
+            @else
+                <tr>
+            @endif
           {{-- <form wire:submit.prevent="update"> --}}
           <td>{{$item->Id_intermediario}}</td>
           <td>{{$item->Sucursal}}</td>      
@@ -83,7 +87,7 @@
                             <input wire:model='status' type="checkbox" class="custom-control-input" id="customSwitch1">
                             <label class="custom-control-label" for="customSwitch1">Status</label>
                         </div>
-                    @endif               
+                    @endif      
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
@@ -153,20 +157,20 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="tel">Telefono</label>
-                        <input type="text" class="form-control" wire:model='tel' name="tel" id="tel" placeholder="Telefono">
+                        <input type="number" class="form-control" wire:model='tel' name="tel" id="tel" placeholder="Telefono">
                         @error('tel') <span class="text-danger">{{ $message  }}</span> @enderror
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="ext">Extensión</label>
-                        <input type="text" class="form-control" wire:model='ext' name="ext" id="ext" placeholder="Extensión">
+                        <input type="number" class="form-control" wire:model='ext' name="ext" id="ext" placeholder="Extensión">
                     </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="cel">Celular</label>
-                        <input type="text" class="form-control" wire:model='cel' name="cel" id="cel" placeholder="Celular">
+                        <input type="number" class="form-control" wire:model='cel' name="cel" id="cel" placeholder="Celular">
                     </div>
                 </div>
             </div>

@@ -77,7 +77,6 @@ class TableIntermediario extends Component
             'A_paterno' => $this->paterno,
             'A_materno' => $this->materno,
             'RFC' => $this->rfc,
-            'deleted_at' => $this->status,
         ]);
 
         Intermediario::create([
@@ -88,8 +87,7 @@ class TableIntermediario extends Component
             'Tel_oficina' => $this->tel,
             'Extension' => $this->ext,
             'Celular1' => $this->cel,
-        ]);
-        
+        ]);      
     }
     public function store()
     {
@@ -100,23 +98,40 @@ class TableIntermediario extends Component
             'correo' => 'required',
             'dir' => 'required',
             'tel' => 'required',
-        ]);
-        $model = Clientes::find($this->idCliente);
-        $model->Nombres = $this->nombre;
-        $model->A_paterno = $this->paterno;
-        $model->A_materno = $this->materno;
-        $model->RFC = $this->rfc;
-        $model->deleted_at = $this->status;
-        $model->save();
+        ]); 
 
-        $model = Intermediario::where('Id_cliente',$this->idCliente);
-        $model->Laboratorio = $this->lab;
-        $model->Correo = $this->correo;
-        $model->Direccion = $this->dir;
-        $model->Tel_oficina = $this->tel;
-        $model->Extension = $this->ext;
-        $model->Celular1 = $this->cel;
-        $model->save();
+        // $model = Clientes::find($this->idCliente);
+        if($this->status != 1) 
+        {
+            Clientes::withTrashed()->where('Id_cliente',$this->idCliente)->restore();
+                $model = Clientes::find($this->idCliente);
+                $model->Nombres = $this->nombre;
+                $model->A_paterno = $this->paterno;
+                $model->A_materno = $this->materno;
+                $model->RFC = $this->rfc;
+                $model->save();
+            Clientes::find($this->idCliente)->delete();
+        }else{
+            Clientes::withTrashed()->where('Id_cliente',$this->idCliente)->restore();
+            $model = Clientes::find($this->idCliente);
+            $model->Nombres = $this->nombre;
+            $model->A_paterno = $this->paterno;
+            $model->A_materno = $this->materno;
+            $model->RFC = $this->rfc;
+            $model->save();
+        }
+
+        DB::table('intermediarios')
+        ->where('Id_cliente',$this->idCliente)
+        ->update([
+            'Laboratorio' => $this->lab,
+            'Correo' => $this->correo,
+            'Direccion' => $this->dir,
+            'Tel_oficina' => $this->tel,
+            'Extension' => $this->ext,
+            'Celular1' => $this->cel,
+        ]);
+
     }
     public function setData($id,$nombre,$paterno,$materno,$rfc,$status,$lab,$correo,$dir,$tel,$ext,$cel = '')
     {
@@ -127,7 +142,12 @@ class TableIntermediario extends Component
         $this->paterno = $paterno;
         $this->materno = $materno;
         $this->rfc = $rfc;
-        $this->status = $status;
+        if($status != null)
+        {
+            $this->status = 0;
+        }else{
+            $this->status = 1;
+        }
         $this->lab = $lab;
         $this->correo = $correo;
         $this->dir = $dir;

@@ -8,13 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class ClienteGeneral extends Model
 {
     use HasFactory;
-    protected $table = 'Cliente_general';
+    protected $table = 'clientes_general';
     protected $primaryKey = 'Id_cliente_general';
     public $timestamps = true;
 
     protected $fillable = [
         'Id_cliente',
-        'Nombre',
+        'Nombre', 
         'Empresa',
         'Alias',
         'Id_intermediario',
