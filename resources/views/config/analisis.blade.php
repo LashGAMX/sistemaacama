@@ -12,24 +12,42 @@
 
   <ul class="nav nav-tabs" id="myTab" role="tablist"> 
     <li class="nav-item" role="menu">
-      <a class="nav-link active" id="sucursal-tab" data-toggle="tab" href="#sucursal" role="tab" aria-controls="sucursal" aria-selected="true">Sucursal</a>
+      <a class="nav-link active" id="Tipo-tab" data-toggle="tab" href="#Tipo" role="tab" aria-controls="Tipo" aria-selected="true">Tipo formula </a>
     </li>
     <li class="nav-item" role="menu">
-      <a class="nav-link" id="simbologia-tab" data-toggle="tab" href="#simbologia" role="tab" aria-controls="simbologia" aria-selected="false">Simbologia</a>
+      <a class="nav-link" id="matriz-tab" data-toggle="tab" href="#matriz" role="tab" aria-controls="matriz" aria-selected="false">Matriz</a>
     </li>
     <li class="nav-item" role="menu">
-      <a class="nav-link" id="unidad-tab" data-toggle="tab" href="#unidad" role="tab" aria-controls="unidad" aria-selected="false">Unidad</a>
+      <a class="nav-link" id="rama-tab" data-toggle="tab" href="#rama" role="tab" aria-controls="rama" aria-selected="false">Rama</a>
+    </li>
+    <li class="nav-item" role="menu">
+      <a class="nav-link" id="tecnica-tab" data-toggle="tab" href="#tecnica" role="tab" aria-controls="tecnica" aria-selected="false">Tecnica</a>
+    </li>
+    <li class="nav-item" role="menu">
+      <a class="nav-link" id="area-tab" data-toggle="tab" href="#area" role="tab" aria-controls="area" aria-selected="false">Área de análisis</a>
+    </li>
+    <li class="nav-item" role="menu">
+      <a class="nav-link" id="metodo-tab" data-toggle="tab" href="#metodo" role="tab" aria-controls="metodo" aria-selected="false">Metodo prueba</a>
     </li>
   </ul>
   <div class="tab-content" id="myTabContent">
-    <div class="tab-pane fade  active" id="sucursal" role="tabpanel" aria-labelledby="sucursal-tab">  
-      @livewire('config.table-sucursal',['idUser'=>$idUser])
+    <div class="tab-pane fade  active" id="Tipo" role="tabpanel" aria-labelledby="Tipo-tab">  
+      @livewire('config.table-tipo-formula',['idUser'=>$idUser])
     </div> 
-    <div class="tab-pane fade" id="simbologia" role="tabpanel" aria-labelledby="simbologia-tab">
-      @livewire('config.table-simbologia', ['idUser' => $idUser])
+    <div class="tab-pane fade" id="matriz" role="tabpanel" aria-labelledby="matriz-tab">
+      @livewire('config.table-matriz-parametro', ['idUser'=>$idUser])
     </div>
-    <div class="tab-pane fade" id="unidad" role="tabpanel" aria-labelledby="unidad-tab">
-      @livewire('config.table-unidad', ['idUser' => $idUser])
+    <div class="tab-pane fade" id="rama" role="tabpanel" aria-labelledby="rama-tab">
+      @livewire('config.table-rama', ['idUser'=>$idUser])
+    </div>
+    <div class="tab-pane fade" id="tecnica" role="tabpanel" aria-labelledby="tecnica-tab">
+      @livewire('config.table-tecnica', ['idUser'=>$idUser])
+    </div>
+    <div class="tab-pane fade" id="area" role="tabpanel" aria-labelledby="area-tab">
+      @livewire('config.table-area-analisis', ['idUser'=>$idUser])
+    </div>
+    <div class="tab-pane fade" id="metodo" role="tabpanel" aria-labelledby="metodo-tab">
+      @livewire('config.table-metodo-prueba', ['idUser'=>$idUser])
     </div>
   </div>
 @endsection  

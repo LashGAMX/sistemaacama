@@ -1,6 +1,8 @@
-<?php 
+<?php
+
+use App\Http\Controllers\Clientes\ClienteController;
+use App\Http\Controllers\Clientes\IntermediarioController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('intermediarios', function () {
-   
-});
+Route::get('clientes/intermediarios', [IntermediarioController::class,'index']);
+Route::get('clientes/clientes', [ClienteController::class,'index']);
