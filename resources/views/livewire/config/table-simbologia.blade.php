@@ -33,7 +33,7 @@
         <thead class="thead-dark">
             <tr>
                 <th>Id</th>
-                <th>Simbologia</th>
+                <th>Simbologia</th>  
                 <th>Descripcion</th>
                 <th>Creación</th>
                 <th>Modificación</th>

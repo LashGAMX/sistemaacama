@@ -18,5 +18,10 @@ class ClienteController extends Controller
         $cliente = DB::table('ViewGenerales')->where('Id_cliente',$id)->first();
         return view('clientes.cliente_detalle',compact('cliente'));
     }
+    public function details($id,$idSuc)
+    {
+        $cliente = DB::table('ViewGenerales')->where('Id_cliente',$id)->first();
+        return view('clientes.cliente_detalle',compact('cliente','idSuc'));
+    }
 }
  
