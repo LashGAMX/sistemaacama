@@ -122,5 +122,8 @@ class TableCliente extends Component
             $this->sw = false;
         }
     }
-
+    public function detalle($id)
+    {
+        return redirect()->to('admin/clientes/cliente_detalle/'.$id);
+    }
 }

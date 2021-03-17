@@ -28,7 +28,6 @@
             @else
                 <tr>
             @endif
-          {{-- <form wire:submit.prevent="update"> --}}
           <td>{{$item->Id_cliente}}</td>
           <td>{{$item->Empresa}}</td>
           <td>{{$item->RFC}}</td>
@@ -37,11 +36,11 @@
           <td>{{$item->created_at}}</td>
           <td>{{$item->updated_at}}</td>
           <td>
-            <button type="button" class="btn btn-primary" 
+            <button type="button" class="btn btn-warning" 
             wire:click="setData('{{$item->Id_cliente}}','{{$item->Empresa}}','{{$item->RFC}}','{{$item->Id_intermediario}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalCliente">
             <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button type="button" wire:click="detalle({{$item->Id_cliente}})" class="btn btn-primary"><i class="voyager-external"></i> <span hidden-sm hidden-xs>ver</span> </button>
           </td>
-          {{-- </form>  --}}
         </tr>
     @endforeach
         @else
