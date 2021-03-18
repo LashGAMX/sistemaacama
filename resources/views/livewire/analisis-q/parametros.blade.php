@@ -47,10 +47,9 @@
           <td>{{$item->updated_at}}</td>
           <td>
             <button type="button" class="btn btn-warning" 
-            wire:click="setData()" data-toggle="modal" data-target="#modalCliente">
+            wire:click="setData('{{$item->Id_parametro}}','{{$item->Laboratorio}}','{{$item->Parametro}}','{{$item->Id_unidad}}','{{$item->Id_tipo_formula}}','{{$item->Id_norma}}','{{$item->Limite}}','{{$item->Id_matriz}}','{{$item->Id_rama}}','{{$item->Id_metodo}}','{{$item->Id_procedimiento}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalParametro">
             <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
-
-          </td>
+          </td>  
         </tr>
     @endforeach
         @else
@@ -59,8 +58,8 @@
         </tbody>
     </table>
   
-    {{-- <div wire:ignore.self class="modal fade" id="modalCliente" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <div wire:ignore.self class="modal fade" id="modalParametro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
           <div class="modal-content">
                 @if ($sw != true)
                     <form wire:submit.prevent="create">
@@ -69,9 +68,9 @@
                 @endif
             <div class="modal-header">
                 @if ($sw != true)
-                    <h5 class="modal-title" id="exampleModalLabel">Crear intermediario</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Crear parametro</h5>
                 @else
-                    <h5 class="modal-title" id="exampleModalLabel">Editar intermediario</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Editar parametro</h5>
                 @endif
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -79,56 +78,120 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-3">
                         @if ($sw != true)
                             <div class="custom-control custom-switch">
                                 <input wire:model='status' type="checkbox" class="custom-control-input" id="customSwitch1">
                                 <label class="custom-control-label" for="customSwitch1">Status</label>
                             </div>
                         @else
-                            <input type="text" wire:model="idCliente" hidden>
+                            <input type="text" wire:model="idParametro" hidden>
                             <div class="custom-control custom-switch">
                                 <input wire:model='status' type="checkbox" class="custom-control-input" id="customSwitch1">
                                 <label class="custom-control-label" for="customSwitch1">Status</label>
                             </div>
                         @endif               
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-3">
                         <div class="form-group">
-                            <label for="cliente">Cliente</label>
-                           <input type="text" wire:model='cliente' class="form-control" placeholder="cliente">
-                           @error('cliente') <span class="text-danger">{{ $message  }}</span> @enderror
-                          </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="rfc">RFC</label>
-                           <input type="text" wire:model='rfc' class="form-control" placeholder="RFC">
-                           @error('rfc') <span class="text-danger">{{ $message  }}</span> @enderror
-                          </div>
-                    </div>
-                    <div class="col-md-12">
-                        <div class="form-group">
-                            <label for="">Intermediario</label>
-                            @if ($sw != true)
-                                <select class="form-control" wire:model='inter' >
-                                <option value="0">Sin seleccionar</option>
-                                @foreach ($intermediario as $item)
-                                    <option value="{{$item->Id_intermediario}}">{{$item->Nombres}} {{$item->A_paterno}}</option>
+                            <label for="">Laboratorio</label>
+                                <select class="form-control" wire:model='laboratorio' >
+                                @foreach ($laboratorios as $item)
+                                    <option value="{{$item->Id_sucursal}}">{{$item->Sucursal}}</option>
                                 @endforeach
                               </select>
-                            @else
-                                <select class="form-control" wire:model='idInter' >
-                                    <option value="0">Sin seleccionar</option>
-                                    @foreach ($intermediario as $item)
-                                        @if ($idInter == $item->Id_intermediario)
-                                        <option value="{{$item->Id_intermediario}}" selected>{{$item->Nombres}} {{$item->A_paterno}}</option>
-                                        @else
-                                        <option value="{{$item->Id_intermediario}}">{{$item->Nombres}} {{$item->A_paterno}}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            @endif
+                              @error('laboratorio') <span class="text-danger">{{ $message  }}</span> @enderror
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="parametro">Nombre parámetro</label>
+                           <input type="text" wire:model='parametro' class="form-control" placeholder="Parámetro">
+                           @error('parametro') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Unidad</label>
+                            <select class="form-control" wire:model='unidad' >
+                            @foreach ($unidades as $item)
+                                <option value="{{$item->Id_unidad}}">{{$item->Unidad}}</option>
+                            @endforeach
+                          </select>
+                          @error('unidad') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Tipo formula</label>
+                            <select class="form-control" wire:model='tipo' >
+                            @foreach ($tipos as $item)
+                                <option value="{{$item->Id_tipo_formula}}">{{$item->Tipo_formula}}</option>
+                            @endforeach
+                          </select>
+                          @error('tipo') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Norma</label>
+                            <select class="form-control" wire:model='norma' >
+                            @foreach ($normas as $item)
+                                <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
+                            @endforeach
+                          </select>
+                          @error('norma') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="limite">Limite Cuantificación</label>
+                           <input type="text" wire:model='limite' class="form-control" placeholder="Limite">
+                           @error('limite') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Matriz</label>
+                            <select class="form-control" wire:model='matriz' >
+                            @foreach ($metrices as $item)
+                                <option value="{{$item->Id_matriz_parametro}}">{{$item->Matriz}}</option>
+                            @endforeach
+                          </select>
+                          @error('matriz') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Rama</label>
+                            <select class="form-control" wire:model='rama' >
+                            @foreach ($ramas as $item)
+                                <option value="{{$item->Id_rama}}">{{$item->Rama}}</option>
+                            @endforeach
+                          </select>
+                          @error('rama') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Metodo</label>
+                            <select class="form-control" wire:model='metodo' >
+                            @foreach ($metodos as $item)
+                                <option value="{{$item->Id_metodo}}">{{$item->Metodo_prueba}}</option>
+                            @endforeach
+                          </select>
+                          @error('metodo') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Procedimiento análisis</label>
+                            <select class="form-control" wire:model='procedimiento' >
+                            @foreach ($procedimientos as $item)
+                                <option value="{{$item->Id_procedimiento}}">{{$item->Procedimiento}}</option>
+                            @endforeach
+                          </select>
+                          @error('procedimiento') <span class="text-danger">{{ $message  }}</span> @enderror
                           </div>
                     </div>
                 </div>
@@ -140,7 +203,7 @@
           </form>
           </div>
         </div>
-      </div> --}}
+      </div>
     
   </div>
    
