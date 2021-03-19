@@ -83,7 +83,19 @@ class Parametros extends Component
     }
     public function store()
     {
-        
+        $this->validate();
+        $model = Parametro::find($this->idParametro);
+        $model->Id_laboratorio = $this->laboratorio;
+        $model->Id_tipo_formula = $this->tipo;
+        $model->Id_rama = $this->rama;
+        $model->Parametro = $this->parametro;
+        $model->Id_unidad= $this->unidad;
+        $model->Id_metodo = $this->metodo;
+        $model->Id_norma = $this->norma;
+        $model->Limite = $this->limite;
+        $model->Id_procedimiento = $this->procedimiento;
+        $model->Id_matriz = $this->matriz;
+        $model->save();
     }
     public function setData($id,$laboratorio,$parametro,$unidad,$tipo,$norma,$limite,$matriz,$rama,$metodo,$procedimiento,$status)
     {
