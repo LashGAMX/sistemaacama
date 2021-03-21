@@ -7,8 +7,8 @@
         <input type="search" wire:model="search" class="form-control" placeholder="Buscar">
       </div>
     </div>
-    <table class="table ">
-        <thead class="thead-dark">
+    <table class="table table-sm">
+        <thead class="">
             <tr>
                 <th>Id</th>
                 <th>Laboratorio</th>
@@ -20,8 +20,8 @@
                 <th>Metodo de prueba</th>
                 <th>Norma</th>
                 <th>Limite C.</th>
-                <th>Creación</th>
-                <th>Modificación</th>
+                {{-- <th>Creación</th>
+                <th>Modificación</th> --}}
                 <th>Acción</th> 
             </tr>
         </thead>
@@ -41,13 +41,13 @@
           <td>{{$item->Parametro}}</td>
           <td>{{$item->Unidad}}</td>
           <td>{{$item->Metodo_prueba}}</td>
-          <td>{{$item->Norma}}</td>
+          <td>{{$item->Clave_norma}}</td>
           <td>{{$item->Limite}}</td>
-          <td>{{$item->created_at}}</td>
-          <td>{{$item->updated_at}}</td>
+          {{-- <td>{{$item->created_at}}</td>
+          <td>{{$item->updated_at}}</td> --}}
           <td>
             <button type="button" class="btn btn-warning" 
-            wire:click="setData('{{$item->Id_parametro}}','{{$item->Laboratorio}}','{{$item->Parametro}}','{{$item->Id_unidad}}','{{$item->Id_tipo_formula}}','{{$item->Id_norma}}','{{$item->Limite}}','{{$item->Id_matriz}}','{{$item->Id_rama}}','{{$item->Id_metodo}}','{{$item->Id_procedimiento}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalParametro">
+            wire:click="setData('{{$item->Id_parametro}}','{{$item->Id_laboratorio}}','{{$item->Parametro}}','{{$item->Id_unidad}}','{{$item->Id_tipo_formula}}','{{$item->Id_norma}}','{{$item->Limite}}','{{$item->Id_matriz}}','{{$item->Id_rama}}','{{$item->Id_metodo}}','{{$item->Id_procedimiento}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalParametro">
             <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>  
         </tr>
