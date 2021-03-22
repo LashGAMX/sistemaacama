@@ -23,21 +23,18 @@
                 <th>Servicio</th>
                 <th>Fecha Cotización</th>
                 <th>Supervición</th>
-                <th>Fecha Cotización</th>
-                <th>Supervicion</th>
                 <th>Acciónes</th>
             </tr>
         </thead>
         <tbody>
-          <td>1</td>
-          <td>2</td>
-          <td>3</td>
-          <td>4</td>
-          <td>5</td>
-          <td>6</td>
-          <td>7</td>
-          <td>8</td>
-          <td>9</td>
+            @foreach ($model as $item)
+          <td>{{$item->Cliente}}</td>
+          <td>{{$item->Folio_servicio}}</td>
+          <td>{{$item->Cotizacion_folio}}</td>
+          <td>{{$item->Empresa }}</td>
+          <td>{{$item->Servicio}}</td>
+          <td>{{$item->Fecha_cotizacion}}</td>
+          <td>{{$item->Supervicion}}</td>
           <td>
             <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalCotizacionPrincipal">
             <i class="voyager-edit"></i> <span hidden-sm hidden-xs>Editar</span> </button>
@@ -46,6 +43,7 @@
                 <span hidden-sm hidden-xs>Historico</span> </button>
           </td>
         </tr>
+        @endforeach
         </tbody>
     </table>
     <!-- ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ -->
@@ -60,163 +58,477 @@
             </div>
             <div class="modal-body">
                 <!-- Body-->
-                <nav>
+                {{-- <nav>
                     <div class="nav nav-tabs" id="nav-tab" role="tablist">
                         <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true"> <b style="color:black;"> 1. Información Basica|<b> </a>
                         <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false"><b style="color: black;">2. Parametros|<b></a>
                         <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false"><b style="color: black;">3. Datos de Cotización|<b></a>
                     </div>
-                </nav>
+                </nav> --}}
+                <ul class="nav nav-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                      <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">1. Información Basica|</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">2. Parametros|</a>
+                    </li>
+                    <li class="nav-item">
+                      <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">2. Parametros|</a>
+                    </li>
+                  </ul>
+
+                  <div class="tab-content" id="myTabContent">
+                    <div class="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab"> <div class="col-md-12">
+                        <h6 class="mt-2"><b>&nbsp;&nbsp;Intermediarios</b></h6>
+                    </div>
+                    <div class="col-md-12">
+                        <select id="intermediarios" class="form-control mt-2">
+                            <option value="">Luis Alberto</option>
+                            <option value="">Katerin </option>
+                        </select>
+                    </div>
+                    <!--  -->
+                    <div class="col-md-12">
+                        <h6 class="mt-1"><b>&nbsp;&nbsp;Clientes Registrados</b></h6>
+                    </div>
+                    <div class="col-md-12">
+                        <select id="intermediarios" class="form-control mt-1">
+                            <option value="">Agua Puebla S.A. de C.V.</option>
+                            <option value="">Minerales el Sur S.A. de C.V.</option>
+                        </select>
+                    </div>
+                    <!-- Nombre del Cliente-->
+                    <div class="col-md-6">
+                        <label for="">Nombre del Cliente:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <!-- Dirección -->
+                    <div class="col-md-6">
+                        <label for="">Dirección</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-md-12">
+                        <h6 class="mt-1"><b>&nbsp;&nbsp;A quien va Dirijida la Cotización</b></h6>
+                    </div>
+                    <!-- Con Atención a -->
+                    <div class="col-md-6">
+                        <label for="">Con Atención a:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <!-- Telefono -->
+                    <div class="col-md-6">
+                        <label for="">Telfono:</label>
+                        <input type="number" class="form-control">
+                    </div>
+                    <!-- Correo Electronico-->
+                    <div class="col-md-6">
+                        <label for="">Email:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                      <!-- Estado de la Cotización  -->
+                    <div class="col-md-6">
+                        <label for="">Estado de la Cotización:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Tipo de Servicio -->
+                    <div class="col-md-6">
+                        <label for="">Tipo de Servicio:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Tipo de Descarga -->
+                        <label for="">Tipo de Descarga:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Clasificación de la Norma -->
+                    <div class="col-md-6">
+                        <label for="">Clasifiación de la Norma:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Norma -->
+                    <div class="col-md-6">
+                        <label for="">Norma:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Fecha -->
+                    <div class="col-md-6">
+                        <label for="">Fecha:</label>
+                        <input type="date" id="fInicio" name="filtroFecha" placeholder="Fecha inicio" class="form-control" value="">
+                    </div>
+                    <!-- Frecuencia -->
+                    <div class="col-md-6">
+                        <label for="">Frecuencia:</label>
+                        <input type="number" class="form-control">
+                    </div>
+                    <!-- Tipo de Muestra -->
+                    <div class="col-md-3">
+                        <label for="">Tipo de Muestra:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Promedio -->
+                    <div class="col-md-3">
+                        <label for="">Promedio:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Puntos de Muestreo -->
+                    <div class="col-md-3">
+                        <label for="">Numero de Puntos de Muestreo:</label>
+                        <input type="number" class="form-control">
+                    </div>
+                    <!-- Tipo de reporte  -->
+                    <div class="col-md-3">
+                        <label for="">Tipo de Reporte:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Condicciónes de Venta -->
+                    <div class="col-md-12 mt-1">
+                        <label for="">Condicciónes de Venta:</label>
+                        <textarea name="" id="" cols="30" rows="2" class="form-control">
+                    </textarea>
+                    </div>
+                    <!-- Boton Guardar -->
+                    <div class="col-md-12 mt-1">
+                        <button class="btn  btn-success">Guardar</button>
+                    </div></div>
+                    <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab"> <div class="col-md-12">
+                        <h6 class="mt-2"><b>&nbsp;&nbsp;Intermediarios</b></h6>
+                    </div>
+                    <div class="col-md-12">
+                        <select id="intermediarios" class="form-control mt-2">
+                            <option value="">Luis Alberto</option>
+                            <option value="">Katerin </option>
+                        </select>
+                    </div>
+                    <!--  -->
+                    <div class="col-md-12">
+                        <h6 class="mt-1"><b>&nbsp;&nbsp;Clientes Registrados</b></h6>
+                    </div>
+                    <div class="col-md-12">
+                        <select id="intermediarios" class="form-control mt-1">
+                            <option value="">Agua Puebla S.A. de C.V.</option>
+                            <option value="">Minerales el Sur S.A. de C.V.</option>
+                        </select>
+                    </div>
+                    <!-- Nombre del Cliente-->
+                    <div class="col-md-6">
+                        <label for="">Nombre del Cliente:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <!-- Dirección -->
+                    <div class="col-md-6">
+                        <label for="">Dirección</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-md-12">
+                        <h6 class="mt-1"><b>&nbsp;&nbsp;A quien va Dirijida la Cotización</b></h6>
+                    </div>
+                    <!-- Con Atención a -->
+                    <div class="col-md-6">
+                        <label for="">Con Atención a:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <!-- Telefono -->
+                    <div class="col-md-6">
+                        <label for="">Telfono:</label>
+                        <input type="number" class="form-control">
+                    </div>
+                    <!-- Correo Electronico-->
+                    <div class="col-md-6">
+                        <label for="">Email:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                      <!-- Estado de la Cotización  -->
+                    <div class="col-md-6">
+                        <label for="">Estado de la Cotización:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Tipo de Servicio -->
+                    <div class="col-md-6">
+                        <label for="">Tipo de Servicio:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Tipo de Descarga -->
+                        <label for="">Tipo de Descarga:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Clasificación de la Norma -->
+                    <div class="col-md-6">
+                        <label for="">Clasifiación de la Norma:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Norma -->
+                    <div class="col-md-6">
+                        <label for="">Norma:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Fecha -->
+                    <div class="col-md-6">
+                        <label for="">Fecha:</label>
+                        <input type="date" id="fInicio" name="filtroFecha" placeholder="Fecha inicio" class="form-control" value="">
+                    </div>
+                    <!-- Frecuencia -->
+                    <div class="col-md-6">
+                        <label for="">Frecuencia:</label>
+                        <input type="number" class="form-control">
+                    </div>
+                    <!-- Tipo de Muestra -->
+                    <div class="col-md-3">
+                        <label for="">Tipo de Muestra:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Promedio -->
+                    <div class="col-md-3">
+                        <label for="">Promedio:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Puntos de Muestreo -->
+                    <div class="col-md-3">
+                        <label for="">Numero de Puntos de Muestreo:</label>
+                        <input type="number" class="form-control">
+                    </div>
+                    <!-- Tipo de reporte  -->
+                    <div class="col-md-3">
+                        <label for="">Tipo de Reporte:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Condicciónes de Venta -->
+                    <div class="col-md-12 mt-1">
+                        <label for="">Condicciónes de Venta:</label>
+                        <textarea name="" id="" cols="30" rows="2" class="form-control">
+                    </textarea>
+                    </div>
+                    <!-- Boton Guardar -->
+                    <div class="col-md-12 mt-1">
+                        <button class="btn  btn-success">Guardar</button>
+                    </div></div>
+                    <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab"> <div class="col-md-12">
+                        <h6 class="mt-2"><b>&nbsp;&nbsp;Intermediarios</b></h6>
+                    </div>
+                    <div class="col-md-12">
+                        <select id="intermediarios" class="form-control mt-2">
+                            <option value="">Luis Alberto</option>
+                            <option value="">Katerin </option>
+                        </select>
+                    </div>
+                    <!--  -->
+                    <div class="col-md-12">
+                        <h6 class="mt-1"><b>&nbsp;&nbsp;Clientes Registrados</b></h6>
+                    </div>
+                    <div class="col-md-12">
+                        <select id="intermediarios" class="form-control mt-1">
+                            <option value="">Agua Puebla S.A. de C.V.</option>
+                            <option value="">Minerales el Sur S.A. de C.V.</option>
+                        </select>
+                    </div>
+                    <!-- Nombre del Cliente-->
+                    <div class="col-md-6">
+                        <label for="">Nombre del Cliente:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <!-- Dirección -->
+                    <div class="col-md-6">
+                        <label for="">Dirección</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <div class="col-md-12">
+                        <h6 class="mt-1"><b>&nbsp;&nbsp;A quien va Dirijida la Cotización</b></h6>
+                    </div>
+                    <!-- Con Atención a -->
+                    <div class="col-md-6">
+                        <label for="">Con Atención a:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                    <!-- Telefono -->
+                    <div class="col-md-6">
+                        <label for="">Telfono:</label>
+                        <input type="number" class="form-control">
+                    </div>
+                    <!-- Correo Electronico-->
+                    <div class="col-md-6">
+                        <label for="">Email:</label>
+                        <input type="text" class="form-control">
+                    </div>
+                      <!-- Estado de la Cotización  -->
+                    <div class="col-md-6">
+                        <label for="">Estado de la Cotización:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Tipo de Servicio -->
+                    <div class="col-md-6">
+                        <label for="">Tipo de Servicio:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <!-- Tipo de Descarga -->
+                        <label for="">Tipo de Descarga:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Clasificación de la Norma -->
+                    <div class="col-md-6">
+                        <label for="">Clasifiación de la Norma:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Norma -->
+                    <div class="col-md-6">
+                        <label for="">Norma:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Fecha -->
+                    <div class="col-md-6">
+                        <label for="">Fecha:</label>
+                        <input type="date" id="fInicio" name="filtroFecha" placeholder="Fecha inicio" class="form-control" value="">
+                    </div>
+                    <!-- Frecuencia -->
+                    <div class="col-md-6">
+                        <label for="">Frecuencia:</label>
+                        <input type="number" class="form-control">
+                    </div>
+                    <!-- Tipo de Muestra -->
+                    <div class="col-md-3">
+                        <label for="">Tipo de Muestra:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Promedio -->
+                    <div class="col-md-3">
+                        <label for="">Promedio:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Puntos de Muestreo -->
+                    <div class="col-md-3">
+                        <label for="">Numero de Puntos de Muestreo:</label>
+                        <input type="number" class="form-control">
+                    </div>
+                    <!-- Tipo de reporte  -->
+                    <div class="col-md-3">
+                        <label for="">Tipo de Reporte:</label>
+                        <select name="" id="" class="form-control">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+                    <!-- Condicciónes de Venta -->
+                    <div class="col-md-12 mt-1">
+                        <label for="">Condicciónes de Venta:</label>
+                        <textarea name="" id="" cols="30" rows="2" class="form-control">
+                    </textarea>
+                    </div>
+                    <!-- Boton Guardar -->
+                    <div class="col-md-12 mt-1">
+                        <button class="btn  btn-success">Guardar</button>
+                    </div></div>
+                  </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 <div class="tab-content" id="nav-tabContent">
-
-                    <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-                        <div class="col-md-12">
-                            <h6 class="mt-2"><b>&nbsp;&nbsp;Intermediarios</b></h6>
-                        </div>
-                        <div class="col-md-12">
-                            <select id="intermediarios" class="form-control mt-2">
-                                <option value="">Luis Alberto</option>
-                                <option value="">Katerin </option>
-                            </select>
-                        </div>
-                        <!--  -->
-                        <div class="col-md-12">
-                            <h6 class="mt-1"><b>&nbsp;&nbsp;Clientes Registrados</b></h6>
-                        </div>
-                        <div class="col-md-12">
-                            <select id="intermediarios" class="form-control mt-1">
-                                <option value="">Agua Puebla S.A. de C.V.</option>
-                                <option value="">Minerales el Sur S.A. de C.V.</option>
-                            </select>
-                        </div>
-                        <!-- Nombre del Cliente-->
-                        <div class="col-md-6">
-                            <label for="">Nombre del Cliente:</label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <!-- Dirección -->
-                        <div class="col-md-6">
-                            <label for="">Dirección</label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class="col-md-12">
-                            <h6 class="mt-1"><b>&nbsp;&nbsp;A quien va Dirijida la Cotización</b></h6>
-                        </div>
-                        <!-- Con Atención a -->
-                        <div class="col-md-6">
-                            <label for="">Con Atención a:</label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <!-- Telefono -->
-                        <div class="col-md-6">
-                            <label for="">Telfono:</label>
-                            <input type="number" class="form-control">
-                        </div>
-                        <!-- Correo Electronico-->
-                        <div class="col-md-6">
-                            <label for="">Email:</label>
-                            <input type="text" class="form-control">
-                        </div>
-                          <!-- Estado de la Cotización  -->
-                        <div class="col-md-6">
-                            <label for="">Estado de la Cotización:</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">Opcion 1</option>
-                                <option value="">Opcion 2</option>
-                                <option value="">Opcion 3</option>
-                            </select>
-                        </div>
-                        <!-- Tipo de Servicio -->
-                        <div class="col-md-6">
-                            <label for="">Tipo de Servicio:</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">Opcion 1</option>
-                                <option value="">Opcion 2</option>
-                                <option value="">Opcion 3</option>
-                            </select>
-                        </div>
-                        <div class="col-md-6">
-                            <!-- Tipo de Descarga -->
-                            <label for="">Tipo de Descarga:</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">Opcion 1</option>
-                                <option value="">Opcion 2</option>
-                                <option value="">Opcion 3</option>
-                            </select>
-                        </div>
-                        <!-- Clasificación de la Norma -->
-                        <div class="col-md-6">
-                            <label for="">Clasifiación de la Norma:</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">Opcion 1</option>
-                                <option value="">Opcion 2</option>
-                                <option value="">Opcion 3</option>
-                            </select>
-                        </div>
-                        <!-- Norma -->
-                        <div class="col-md-6">
-                            <label for="">Norma:</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">Opcion 1</option>
-                                <option value="">Opcion 2</option>
-                                <option value="">Opcion 3</option>
-                            </select>
-                        </div>
-                        <!-- Fecha -->
-                        <div class="col-md-6">
-                            <label for="">Fecha:</label>
-                            <input type="date" id="fInicio" name="filtroFecha" placeholder="Fecha inicio" class="form-control" value="">
-                        </div>
-                        <!-- Frecuencia -->
-                        <div class="col-md-6">
-                            <label for="">Frecuencia:</label>
-                            <input type="number" class="form-control">
-                        </div>
-                        <!-- Tipo de Muestra -->
-                        <div class="col-md-3">
-                            <label for="">Tipo de Muestra:</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">Opcion 1</option>
-                                <option value="">Opcion 2</option>
-                                <option value="">Opcion 3</option>
-                            </select>
-                        </div>
-                        <!-- Promedio -->
-                        <div class="col-md-3">
-                            <label for="">Promedio:</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">Opcion 1</option>
-                                <option value="">Opcion 2</option>
-                                <option value="">Opcion 3</option>
-                            </select>
-                        </div>
-                        <!-- Puntos de Muestreo -->
-                        <div class="col-md-3">
-                            <label for="">Numero de Puntos de Muestreo:</label>
-                            <input type="number" class="form-control">
-                        </div>
-                        <!-- Tipo de reporte  -->
-                        <div class="col-md-3">
-                            <label for="">Tipo de Reporte:</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">Opcion 1</option>
-                                <option value="">Opcion 2</option>
-                                <option value="">Opcion 3</option>
-                            </select>
-                        </div>
-                        <!-- Condicciónes de Venta -->
-                        <div class="col-md-12 mt-1">
-                            <label for="">Condicciónes de Venta:</label>
-                            <textarea name="" id="" cols="30" rows="2" class="form-control">
-                        </textarea>
-                        </div>
-                        <!-- Boton Guardar -->
-                        <div class="col-md-12 mt-1">
-                            <button class="btn  btn-success">Guardar</button>
-                        </div>
-                    </div> <!-- Fin tab-content  01 -->
-</div>
                     <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
                             <p>Testing One</p>
                             {{-- <div class="col-md-6">
