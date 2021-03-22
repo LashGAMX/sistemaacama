@@ -4,9 +4,13 @@ namespace App\Http\Livewire\AnalisisQ;
 
 use App\Models\Norma;
 use Livewire\Component;
+use Livewire\WithPagination;
 
 class Normas extends Component
 {
+    use WithPagination;
+    public $perPage = 5;
+
     public $sw = false;
     public $idNorma;
     public $norma;
@@ -30,7 +34,8 @@ class Normas extends Component
 
     public function render()
     {
-        $model = Norma::withTrashed()->get();
+        $model = Norma::withTrashed()
+        ->paginate($this->perPage);
         return view('livewire.analisis-q.normas',compact('model'));
     }
     public function create()

@@ -49,7 +49,7 @@
           <td>
 
                 <button type="button" class="btn btn-warning" wire:click="setData('{{$item->Id_norma}}','{{$item->Norma}}','{{$item->Clave_norma}}','{{$item->Inicio_validez}}','{{$item->Fin_validez}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalNorma"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
-                <button class="btn btn-primary btn-sm" wire:click="showDetils('{{$item->Id_norma}}')""><i class="voyager-external"></i> Ver</button>
+                <button class="btn btn-primary btn-sm" wire:click="showDetils('{{$item->Id_norma}}')"><i class="voyager-external"></i> Ver</button>
 
           </td>  
         </tr>
@@ -112,7 +112,7 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="inicio">Iniio validez</label>
+                            <label for="inicio">Inicio validez</label>
                            <input type="date" wire:model='inicio' class="form-control" placeholder="Inicio validez">
                            @error('inicio') <span class="text-danger">{{ $message  }}</span> @enderror
                           </div>

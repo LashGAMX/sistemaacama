@@ -40,7 +40,8 @@
           <td>{{$item->Norma}}</td>          
           <td>{{$item->Clave}}</td>
           <td>
-            <button type="button" class="btn btn-primary" wire:click="setData()"  data-toggle="modal" data-target="#modalSubNorma"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button type="button" class="btn btn-warning btn-sm" wire:click="setData('{{$item->Id_subnorma}}','{{$item->Norma}}','{{$item->Clave}}','{{$item->deleted_at}}')"  data-toggle="modal" data-target="#modalSubNorma"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button class="btn btn-primary btn-sm" wire:click="showDetils('{{$item->Id_subnorma}}')"><i class="voyager-external"></i> Ver</button>
           </td>
           {{-- </form>  --}}
         </tr>
@@ -71,18 +72,11 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        @if ($sw != true)
-                            <div class="custom-control custom-switch">
-                                <input wire:model='status' type="checkbox">
-                                <label class="custom-control-label" for=""> Activo</label>
-                            </div>
-                        @else
                             <input type="text" wire:model="idNorma" hidden>
                             <div class="custom-control custom-switch">
                                 <input wire:model='status' type="checkbox" class="custom-control-input" id="customSwitch1">
                                 <label class="custom-control-label" for="customSwitch1">Activo</label>
-                            </div>
-                        @endif               
+                            </div> 
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">

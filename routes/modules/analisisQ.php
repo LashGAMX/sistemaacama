@@ -6,5 +6,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('analisisQ/parametros', [ParametroController::class,'index']);
 Route::get('analisisQ/normas', [NormaController::class,'index']);
+
 Route::get('analisisQ/detalle_normas/{id}', [NormaController::class,'show']);
-  
+Route::get('analisisQ/detalle_normas/{id}/{idSub}', [NormaController::class,'details']);
+   

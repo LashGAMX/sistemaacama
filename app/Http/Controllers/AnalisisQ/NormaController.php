@@ -14,8 +14,13 @@ class NormaController extends Controller
     }
     public function show($id) 
     {
-        $norma = Norma::find($id)->first();
+        $norma = Norma::find($id);
         return view('analisisQ.detalle_normas',compact('id','norma'));
+    }
+    public function details($id,$idSub) 
+    {
+        $norma = Norma::find($id);
+        return view('analisisQ.detalle_normas',compact('id','norma','idSub'));
     }
 }
   

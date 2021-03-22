@@ -11,6 +11,6 @@ class Cotizacion extends Component
 
     public function render()
     {
-        return view('livewire.cotizacion.cotizacion');
+        return view('cotizacion.cotizacion');
     }
 }
