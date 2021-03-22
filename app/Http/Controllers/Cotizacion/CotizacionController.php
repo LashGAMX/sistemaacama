@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\AnalisisQ;
+namespace App\Http\Controllers\Cotizacion;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
