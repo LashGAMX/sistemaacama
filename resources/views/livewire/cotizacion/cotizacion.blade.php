@@ -86,9 +86,10 @@
                         <h6 class="mt-1"><b>&nbsp;&nbsp;Clientes Registrados</b></h6>
                     </div>
                     <div class="col-md-12">
-                        <select id="intermediarios" class="form-control mt-1">
-                            <option value="">Agua Puebla S.A. de C.V.</option>
-                            <option value="">Minerales el Sur S.A. de C.V.</option>
+                        <select id="clientes" class="form-control mt-1 select">
+                            @foreach ($cliente as $client)
+                            <option value="{{$client->Id_cliente}}">{{$client->Nombres}}</option>
+                            @endforeach
                         </select>
                     </div>
                     <!-- Nombre del Cliente-->

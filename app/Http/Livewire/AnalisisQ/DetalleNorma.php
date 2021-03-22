@@ -23,14 +23,14 @@ class DetalleNorma extends Component
 
     protected $rules = [
         'sub' => 'required',
-        'clave' => 'required', 
+        'clave' => 'required',
     ];
 
     protected $messages = [
         'sub.required' => 'El nombre es un dato requerido',
         'clave.required' => 'La clave es un dato requerido',
     ];
-    
+
     public function render()
     {
         $model = SubNorma::where('Id_norma',$this->idNorma)->get();
