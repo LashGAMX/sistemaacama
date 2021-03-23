@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\AnalisisQ;
 
 use App\Http\Controllers\Controller;
-use App\Models\Norma;
+use App\Models\Norma; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 

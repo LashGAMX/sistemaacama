@@ -7,14 +7,14 @@ use Livewire\Component;
 
 class ListaNorma extends Component
 {
-    public $idNorma = 0;
+    public $idNorma;
     public $norma;
 
     public function render() 
     {
-        $this->norma = $this->idNorma;   
+        // $this->norma = $this->idNorma;   
         $model = Norma::all();
-        return view('livewire.analisis-q.lista-norma',compact('model'));
+        return view('livewire.analisis-q.lista-norma',compact('model')); 
     }
     public function show()
     {

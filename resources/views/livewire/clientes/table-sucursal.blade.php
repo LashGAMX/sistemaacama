@@ -29,7 +29,7 @@
           @if ($item->Id_siralab == 1)
             <td>Reporte</td>
           @else
-            @if ($item->Id_siralab == 2)
+            @if ($item->Id_siralab == 2) 
             <td>Reporte / Siralab</td>
             @else
             <td>Sin seleccionar</td>

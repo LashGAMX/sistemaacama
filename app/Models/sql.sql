@@ -67,3 +67,20 @@ INNER JOIN parametros as p
 ON n.Id_parametro = p.Id_parametro
 INNER JOIN matriz_parametros as mat
 ON p.Id_matriz = mat.Id_matriz_parametro
+
+/* Vista Lista View_limite001*/
+CREATE VIEW ViewLimite001 as SELECT lim.Id_limite,lim.Id_tipo,tipo.Categoria,lim.Id_parametro,pa.Parametro,lim.Prom_Mmax,lim.Prom_Mmin,lim.Prom_Dmax,lim.Prom_Dmin FROM limitepnorma_001 as lim
+INNER JOIN detalles_tipoCuerpo as tipo
+ON lim.Id_tipo = tipo.Id_detalle
+INNER JOIN parametros as pa
+ON lim.Id_parametro = pa.Id_parametro
+
+/*Vista   Lista precio catalgo*/
+CREATE VIEW ViewPrecioCat as SELECT cat.Id_precio,cat.Id_parametro,par.Parametro,par.Tipo_formula,par.Rama,par.Unidad,
+par.Descripcion,par.Limite,par.Procedimiento,par.Matriz,par.Metodo_prueba,cat.Id_laboratorio,lab.Laboratorio,cat.Precio,
+cat.created_at,cat.updated_at,cat.deleted_at
+FROM precio_catalogo as cat
+INNER JOIN ViewParametros as par
+ON cat.Id_parametro = par.Id_parametro
+INNER JOIN laboratorios as lab
+ON cat.Id_laboratorio = lab.Id_laboratorio
