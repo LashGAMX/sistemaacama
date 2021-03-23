@@ -46,13 +46,13 @@ class Cotizacion extends Component
     public function render()
     {
         $detallesTipoCuerpos = DetallesTipoCuerpo::withTrashed()->get();
-        $parametro  = Parametro::withTrashed()->get();
+        $parametros  = Parametro::withTrashed()->get();
         $intermediarios = IntermediariosView::withTrashed()->get();
         $cliente = Clientes::withTrashed()->get();
         $norma = Norma::withTrashed()->get();
         $model = Cotizaciones::withTrashed()->get();
         return view('livewire.cotizacion.cotizacion',compact('model','norma',
-        'cliente','intermediarios','parametro','detallesTipoCuerpos'));
+        'cliente','intermediarios','parametros','detallesTipoCuerpos'));
     }
 
     public function clienteAgregadoPorSeleccion(){

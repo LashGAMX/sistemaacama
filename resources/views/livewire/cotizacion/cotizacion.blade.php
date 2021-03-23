@@ -112,17 +112,18 @@
                                 <button class="btn btn-sm btn-success" wire:click="clienteAgregadoPorSeleccion">Agregar </button>
                             </div>
                            @if($clienteAgregadoPorSeleccion == false)
-
                             <!-- Nombre del Cliente-->
                         <div class="col-md-6">
                             <label for="">Nombre del Cliente:</label>
                             <input type="text" class="form-control" wire:model="clienteManual">
                         </div>
+
                         <!-- Dirección -->
                         <div class="col-md-6">
                             <label for="">Dirección</label>
                             <input type="text" class="form-control" wire:model="direccion">
                         </div>
+
                         @endif
                         <div class="col-md-12">
                             <h6 class="mt-1"><b>&nbsp;&nbsp;A quien va Dirijida la Cotización</b></h6>
@@ -240,6 +241,7 @@
                         <div class="col-md-3">
                             <label for="">Numero de Puntos de Muestreo:</label>
                             <input type="number" class="form-control" wire:model="puntosMuestreo" >
+                            <p>Puntos de Muestreo</p>
                         </div>
 
                         <!-- Tipo de reporte  -->
@@ -274,8 +276,62 @@
 
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                         <div class="row">
-                            <p>Pro 2020</p>
-                            <p>Pro 2020 sklacmlkscascsamklcsa</p>
+                            <div class="row">
+                                <div class="col-md-6">
+                                        <div class="col-md-6">
+                                            <label for="">Norma:</label>
+                                            <select class="form-control" wire:model="normaFormularioDos">
+                                                @foreach ($norma as $norm)
+                                                <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <label for="">Parametros:</label>
+                                            <select name="" id="" class="form-control">
+                                                @foreach ($parametro as $parm)
+                                                <option value="{{$parm->Id_parametro}}">{{$parm->Parametro}}</option>
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="col-md-12">
+                                        <label for="">Filtro</label>
+                                        <select name="" id="" class="form-control">
+                                            @foreach($detallesTipoCuerpos as $detallesTipoCuerpo)
+                                            <option value="{{$detallesTipoCuerpo->Id_detalle}}">{{$detallesTipoCuerpo->Categoria}}</option>
+                                            @endforeach
+                                        </select>
+                                     </div>
+                                         <div class="col-12">
+                                            <div class="form-group">
+                                                <div class="bootstrap-duallistbox-container row moveonselect moveondoubleclick">
+                                                    <div class="box1 col-md-6"> <label for="bootstrap-duallistbox-nonselected-list_" style="display: none;"></label> <span class="info-container"> <span class="info">Showing all 6</span> <button type="button" class="btn btn-sm clear1" style="float:right!important;">show all</button> </span> <input class="form-control filter" type="text" placeholder="Filter">
+                                                        <div class="btn-group buttons"> <button type="button" class="btn moveall btn-outline-secondary" title="Move all">&gt;&gt;</button> </div> <select multiple="multiple" id="bootstrap-duallistbox-nonselected-list_" name="_helper1" style="height: 102px;">
+                                                            @foreach($parametros as $parametro)
+                                                                 <option value="{{$parametro->Id_parametro}}">{{$detallesTipoCuerpo->Parametro}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                    <div class="box2 col-md-6"> <label for="bootstrap-duallistbox-selected-list_" style="display: none;"></label> <span class="info-container"> <span class="info">Showing all 1</span> <button type="button" class="btn btn-sm clear2" style="float:right!important;">show all</button> </span> <input class="form-control filter" type="text" placeholder="Filter">
+                                                        <div class="btn-group buttons"> <button type="button" class="btn removeall btn-outline-secondary" title="Remove all">&lt;&lt;</button> </div> <select multiple="multiple" id="bootstrap-duallistbox-selected-list_" name="_helper2" style="height: 102px;">
+                                                            @foreach($parametros as $parametro)
+                                                                 <option value="{{$parametro->Id_parametro}}">{{$detallesTipoCuerpo->Parametro}}</option>
+                                                            @endforeach
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                                <select class="duallistbox" multiple="multiple" style="display: none;">
+                                                    <option selected="">Parametro D</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                            </div>
+                                    </div>
+                            </div>
+                        </div>
+
                         </div>
                     </div>
 
