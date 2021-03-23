@@ -1,7 +1,7 @@
 <div>
     <div class="row">
       <div class="col-md-2">
-        <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#modalCotizacionPrincipal" >i class="voyager-plus"></i> Crear</button>
+        <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#modalCotizacionPrincipal"><i class="voyager-plus"></i> Crear</button>
       </div>
       <div class="col-md-2">
         <input type="text" class="form-control" placeholder="Búsqueda por día">
@@ -275,9 +275,9 @@
                     <!-- ******************** -->
 
                     <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                        <div class="row">
                             <div class="row">
                                 <div class="col-md-6">
+                                    <!--Norma --->
                                         <div class="col-md-6">
                                             <label for="">Norma:</label>
                                             <select class="form-control" wire:model="normaFormularioDos">
@@ -286,6 +286,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
+                                        <!--Parametros --->
                                         <div class="col-md-6">
                                             <label for="">Parametros:</label>
                                             <select name="" id="" class="form-control">
@@ -296,6 +297,7 @@
                                         </div>
                                 </div>
                                 <div class="col-md-6">
+                                      <!-- Filtro --->
                                     <div class="col-md-12">
                                         <label for="">Filtro</label>
                                         <select name="" id="" class="form-control">
@@ -304,7 +306,7 @@
                                             @endforeach
                                         </select>
                                      </div>
-                                         <div class="col-12">
+                                         <div class="col-md-12">
                                             <div class="form-group">
                                                 <div class="bootstrap-duallistbox-container row moveonselect moveondoubleclick">
                                                     <div class="box1 col-md-6"> <label for="bootstrap-duallistbox-nonselected-list_" style="display: none;"></label> <span class="info-container"> <span class="info">Showing all 6</span> <button type="button" class="btn btn-sm clear1" style="float:right!important;">show all</button> </span> <input class="form-control filter" type="text" placeholder="Filter">
@@ -327,182 +329,181 @@
                                                 </select>
                                             </div>
                                         </div>
-                            </div>
+                                            </div>
                                     </div>
-                            </div>
                         </div>
 
-                        </div>
-                    </div>
 
                     <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-                div class="col-md-12">
-    <h6> <b> Datos Intermediario</b></h6>
-</div>
-<div class="col-md-3">
-    <h6> <b>Intermediario:</b>Alberto </h6>
-</div>
-<div class="col-md-3">
-    <h6> <b>Estado de Cotización:</b>Cotización </h6>
-</div>
-<div class="col-md-3">
-    <h6> <b>Ser nombre:</b>Análisis y Muestreo </h6>
-</div>
-<div class="col-md-3">
-    <h6> <b>Tipo Descarga:</b>Residual </h6>
-</div>
-<div class="col-md-12">
-    <hr>
-    <h6> <b> Cliente:</b></h6>
-</div>
-<div class="col-md-6">
-    <label for="">Nombre del Cliente</label>
-    <input type="text" class="form-control">
-</div>
-<div class="col-md-6">
-    <label for="">Con Atención a:</label>
-    <input type="text" class="form-control">
-</div>
-<div class="col-md-6">
-    <label for="">Telefono:</label>
-    <input type="number" class="form-control">
-</div>
-<div class="col-md-6">
-    <label for="">Email:</label>
-    <input type="number" class="form-control">
-</div>
-<div class="col-md-12 mt-1">
-    <label for="">Dirección de Cotización:</label>
-    <textarea name="" id="" cols="30" rows="1" class="form-control">
-</textarea>
-</div>
-<div class="col-md-12">
-    <hr>
-    <h6> <b> Datos de Cotización:</b></h6>
-</div>
-<div class="col-md-5">
-    <h6>Norma:<b> NOM-001-SEMRNAT-1996</b></h6>
-</div>
-<div class="col-md-7">
-    <p><b>Muestreo</b> 18 HRS - <b>Numero de Tomas</b> 6 <b>Fecha de Muestreo:</b> 13/03/2021</p>
-</div>
-<div class="col-md-3">
-    <label for=""># tomas Muestreo:</label>
-    <input type="text" class="form-control">
-</div>
-<div class="col-md-3">
-    <label for="">Viaticos:</label>
-    <input type="text" class="form-control">
-</div>
-<div class="col-md-3">
-    <label for="">Gastos Paqueteria:</label>
-    <input type="text" class="form-control">
-</div>
-<div class="col-md-3">
-    <label for="">Gasto Adicional:</label>
-    <input type="text" class="form-control">
-</div>
-<div class="col-md-3">
-    <label for="">N Servicio:</label>
-    <input type="text" class="form-control">
-</div>
-<div class="col-md-3">
-    <label for="">Km Extra:</label>
-    <input type="text" class="form-control">
-</div>
-<div class="col-md-3">
-    <label for="">Precio Km:</label>
-    <input type="text" class="form-control">
-</div>
-<div class="col-md-3">
-    <label for="">Precio Km Extra:</label>
-    <input type="text" class="form-control">
-</div>
-<div class="col-md-12 mt-1">
-    <label for="">Observación interna:</label>
-    <textarea name="" id="" cols="30" rows="2" class="form-control">
-</textarea>
-</div>
-<div class="col-md-12 mt-1">
-    <label for="">Observación cotización:</label>
-    <textarea name="" id="" cols="30" rows="2" class="form-control">
-</textarea>
-</div>
-<div class="col-md-6">
-    <label for="">Forma de Pago</label>
-    <select name="" id="" class="form-control">
-        <option value="">Tarjeta de Credito </option>
-        <option value="">Deposito</option>
-        <option value="">Efectivo</option>
-    </select>
-</div>
-<div class="col-md-6">
-    <label for="">Tiempo de Entrega</label>
-    <input type="text" class="form-control">
-</div>
-<div class="col-md-12">
-    <h6>Puntos de Muestreo</h6>
-</div>
-<div class="col-md-4">
-    <label for="">Numero</label>
-    <input type="text" class="form-control">
-</div>
-<div class="col-md-4">
-    <label for="">Punto de Muestreo</label>
-    <input type="text" class="form-control">
-</div>
-<div class="col-md-4 mt-2">
-    <hr>
-    <button class="btn btn-primary btn-sm mt-1">Añadir</button>
-</div>
-<div class="col-md-12">
-    <table id="tablaCotizacion" class="table mt-1 ">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Punto de muestreo</th>
-                <th scope="col">Acciónes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td scope="col">1</td>
-                <td scope="col">San Juan del Rio Queretaro Puente de Agua Potable</td>
-                <td scope="col">
-                    <button class="btn btn-danger btn-sm mt-1">x</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
-<div class="col-md-12">
-    <label for="">Punto de Muestreo</label>
-    <input type="text" class="form-control">
-</div>
-<div class="col-md-12">
-    <table id="tablaCotizacion" class="table mt-1 ">
-        <thead class="thead-dark">
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Parametros</th>
-                <th scope="col">Acciónes</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td scope="col">1</td>
-                <td scope="col">Metales</td>
-                <td scope="col">
-                    <button class="btn btn-danger btn-sm mt-1" disabled>x</button>
-                </td>
-            </tr>
-        </tbody>
-    </table>
-</div>
+                        <div>
+                            <h6> <b> Datos de Cotización:</b></h6>
+                         </div>
+                         <div class="col-md-5">
+                             <h6>Norma:<b> NOM-001-SEMRNAT-1996</b></h6>
+                         </div>
+                         <div class="col-md-7">
+                             <p><b>Muestreo</b> 18 HRS - <b>Numero de Tomas</b> 6 <b>Fecha de Muestreo:</b> 13/03/2021</p>
+                         </div>
+                         <div class="col-md-3">
+                             <label for=""># tomas Muestreo:</label>
+                             <input type="text" class="form-control">
+                         </div>
+                         <div class="col-md-3">
+                             <label for="">Viaticos:</label>
+                             <input type="text" class="form-control">
+                         </div>
+                         <div class="col-md-3">
+                             <label for="">Gastos Paqueteria:</label>
+                             <input type="text" class="form-control">
+                         </div>
+                         <div class="col-md-3">
+                             <label for="">Gasto Adicional:</label>
+                             <input type="text" class="form-control">
+                         </div>
+                         <div class="col-md-3">
+                             <label for="">N Servicio:</label>
+                             <input type="text" class="form-control">
+                         </div>
+                         <div class="col-md-3">
+                             <label for="">Km Extra:</label>
+                             <input type="text" class="form-control">
+                         </div>
+                         <div class="col-md-3">
+                             <label for="">Precio Km:</label>
+                             <input type="text" class="form-control">
+                         </div>
+                         <div class="col-md-3">
+                             <label for="">Precio Km Extra:</label>
+                             <input type="text" class="form-control">
+                         </div>
+                         <div class="col-md-12 mt-1">
+                             <label for="">Observación interna:</label>
+                             <textarea name="" id="" cols="30" rows="2" class="form-control">
+                         </textarea>
+                         </div>
+                         <div class="col-md-12 mt-1">
+                             <label for="">Observación cotización:</label>
+                             <textarea name="" id="" cols="30" rows="2" class="form-control">
+                         </textarea>
+                         </div>
+                         <div class="col-md-6">
+                             <label for="">Forma de Pago</label>
+                             <select name="" id="" class="form-control">
+                                 <option value="">Tarjeta de Credito </option>
+                                 <option value="">Deposito</option>
+                                 <option value="">Efectivo</option>
+                             </select>
+                         </div>
+                         <div class="col-md-6">
+                             <label for="">Tiempo de Entrega</label>
+                             <input type="text" class="form-control">
+                         </div>
+                         <div class="col-md-12">
+                             <h6>Puntos de Muestreo</h6>
+                         </div>
+                         <div class="col-md-4">
+                             <label for="">Numero</label>
+                             <input type="text" class="form-control">
+                         </div>
+                         <div class="col-md-4">
+                             <label for="">Punto de Muestreo</label>
+                             <input type="text" class="form-control">
+                         </div>
+                         <div class="col-md-4 mt-2">
+                             <hr>
+                             <button class="btn btn-primary btn-sm mt-1">Añadir</button>
+                         </div>
+                         <div class="col-md-12">
+                             <h6> <b> Datos Intermediario</b></h6>
+                         </div>
+                         <div class="col-md-3">
+                             <h6> <b>Intermediario:</b>Alberto </h6>
+                         </div>
+                         <div class="col-md-3">
+                             <h6> <b>Estado de Cotización:</b>Cotización </h6>
+                         </div>
+                         <div class="col-md-3">
+                             <h6> <b>Ser nombre:</b>Análisis y Muestreo </h6>
+                         </div>
+                         <div class="col-md-3">
+                             <h6> <b>Tipo Descarga:</b>Residual </h6>
+                         </div>
+                         <div class="col-md-12">
+                             <hr>
+                             <h6> <b> Cliente:</b></h6>
+                         </div>
+                         <div class="col-md-6">
+                             <label for="">Nombre del Cliente</label>
+                             <input type="text" class="form-control">
+                         </div>
+                         <div class="col-md-6">
+                             <label for="">Con Atención a:</label>
+                             <input type="text" class="form-control">
+                         </div>
+                         <div class="col-md-6">
+                             <label for="">Telefono:</label>
+                             <input type="number" class="form-control">
+                         </div>
+                         <div class="col-md-6">
+                             <label for="">Email:</label>
+                             <input type="number" class="form-control">
+                         </div>
+                         <div class="col-md-12 mt-1">
+                             <label for="">Dirección de Cotización:</label>
+                             <textarea name="" id="" cols="30" rows="1" class="form-control">
+                         </textarea>
+                         </div>
+                         <div class="col-md-9">
+                            <label for="">Punto de Muestreo</label>
+                            <input type="text" class="form-control">
+                        </div>
+                        <div class="col-md-9">
+                            <button class="btn btn-sm btn-success"> Añadir</button>
+                        </div>
+                         <div class="col-md-12">
+                             <table id="tablaCotizacion" class="table mt-1 ">
+                                 <thead class="thead-dark">
+                                     <tr>
+                                         <th scope="col">#</th>
+                                         <th scope="col">Punto de muestreo</th>
+                                         <th scope="col">Acciónes</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr>
+                                         <td scope="col">1</td>
+                                         <td scope="col">San Juan del Rio Queretaro Puente de Agua Potable</td>
+                                         <td scope="col">
+                                             <button class="btn btn-danger btn-sm mt-1">x</button>
+                                         </td>
+                                     </tr>
+                                 </tbody>
+                             </table>
+                         </div>
+                         <div class="col-md-12">
+                             <table id="tablaCotizacion" class="table mt-1 ">
+                                 <thead class="thead-dark">
+                                     <tr>
+                                         <th scope="col">#</th>
+                                         <th scope="col">Parametros</th>
+                                         <th scope="col">Acciónes</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr>
+                                         <td scope="col">1</td>
+                                         <td scope="col">Metales</td>
+                                         <td scope="col">
+                                             <button class="btn btn-danger btn-sm mt-1" disabled>x</button>
+                                         </td>
+                                     </tr>
+                                 </tbody>
+                             </table>
+                         </div>
 
-                    </div>
+                    </div>   <!-- Cierra el div del ultimo tab -->
 
-                  </div><!-- Fin del Div Content-->
+                    </div><!-- Fin del Div Content-->
              </div><!-- Fin del Body-->
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
