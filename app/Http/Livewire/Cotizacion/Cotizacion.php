@@ -45,13 +45,7 @@ class Cotizacion extends Component
      */
     public function render()
     {
-        // $detallesTipoCuerpos = DetallesTipoCuerpo::withTrashed()->get();
-        // $parametros  = Parametro::withTrashed()->get();
-        // $intermediarios = IntermediariosView::all();
-        // $cliente = Clientes::withTrashed()->get();
-        // $norma = Norma::withTrashed()->get();
-        // $model = Cotizaciones::withTrashed()->get();
-            $detallesTipoCuerpos = DetallesTipoCuerpo::all();
+        $detallesTipoCuerpos = DetallesTipoCuerpo::all();
         $parametros  = Parametro::all();
         $intermediarios = IntermediariosView::all();
         $cliente = Clientes::all();
