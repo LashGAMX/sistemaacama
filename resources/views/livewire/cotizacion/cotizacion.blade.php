@@ -405,7 +405,7 @@
                              <label for="">Numero</label>
                              <input type="text" class="form-control">
                          </div>
-                         <div class="col-md-4">
+                         <div class="col-md-8">
                              <label for="">Punto de Muestreo</label>
                              <input type="text" class="form-control">
                          </div>
