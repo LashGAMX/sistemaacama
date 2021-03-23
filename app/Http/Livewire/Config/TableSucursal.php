@@ -15,10 +15,11 @@ class TableSucursal extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']];
-    public $perPage = 5;
+    public $perPage = 50;
     public $show = false;
     public $name;
     public $idSuc;
+    public $alert = false;
 
 
     protected $rules = [
@@ -43,6 +44,7 @@ class TableSucursal extends Component
           'Id_user_c' => $this->idUser, 
           'Id_user_m' => $this->idUser, 
       ]);
+      $this->alert = true;
     }
     public function store()
     {
@@ -51,21 +53,22 @@ class TableSucursal extends Component
         $sucursal->Sucursal = $this->name;
         $sucursal->Id_user_m = $this->idUser;
         $sucursal->save();
+        $this->alert = true;
     }
     public function setData($id,$name)
     {
         $this->resetValidation();
         $this->idSuc = $id;
         $this->name = $name;
+        $this->alert = false;
     }
 
     public function setBtn()
-    {
-        if($this->show == false)
-        {
-            $this->resetValidation();
-            $this->show = true;
-        }
+    {  
+        $this->clean();
+        $this->resetValidation();
+        $this->show = true;
+        $this->alert = false;
     }
     public function deleteBtn()
     {
@@ -73,6 +76,11 @@ class TableSucursal extends Component
         {
             $this->show = false;
         }
+    }
+    public function clean()
+    {
+        $this->name ='';
+        $this->idSuc = '';
     }
 
 }

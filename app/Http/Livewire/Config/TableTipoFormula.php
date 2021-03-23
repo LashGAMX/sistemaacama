@@ -14,7 +14,7 @@ class TableTipoFormula extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']];
-    public $perPage = 5;
+    public $perPage = 30;
     public $show = false;
     public $tipo;
     public $idTipo;

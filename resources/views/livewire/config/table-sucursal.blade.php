@@ -17,8 +17,8 @@
         @error('name') <span class="text-danger">{{ $message  }}</span> @enderror
     </div>
     <div class="col-md-4">
-      <button class="btn btn-sm btn-success" ><i class="voyager-check"></i> <span hidden-sm hidden-xs>Aceptar</span> </button>
-      <button class="btn btn-sm btn-danger"  wire:click="deleteBtn"><i class="voyager-x"></i> <span hidden-sm hidden-xs>Cancel</span> </button>
+      <button class="btn btn-sm btn-success" type="submit" ><i class="voyager-check"></i> <span hidden-sm hidden-xs>Aceptar</span> </button>
+      <button class="btn btn-sm btn-danger" type="button" wire:click="deleteBtn"><i class="voyager-x"></i> <span hidden-sm hidden-xs>Cancel</span> </button>
     </div>
   </form>
   </div>  
@@ -80,6 +80,13 @@
     </div>
   </div>
 </div>
-  
+ 
+@if ($alert == true)
+<script>
+  swal("Registro!", "Registro guardado correctamente!", "success");
+  $('#modalSucursal').modal('hide')
+</script>
+@endif
+
 </div>
  
