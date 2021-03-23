@@ -14,8 +14,10 @@ class TableSimbologia extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']];
-    public $perPage = 5;
+    public $perPage = 50;
     public $show = false;
+    public $alert = false;
+
     public $simbologia;
     public $description;
     public $idSim; 
@@ -44,6 +46,7 @@ class TableSimbologia extends Component
             'Simbologia' => $this->simbologia,
             'Descripcion' => $this->description,
         ]);
+        $this->alert = true;
     }
     public function store()
     {
@@ -52,21 +55,25 @@ class TableSimbologia extends Component
         $model->Simbologia = $this->simbologia;
         $model->Descripcion = $this->description;
         $model->save();
+        $this->alert = true;
     }
     public function setData($id,$name,$description)
     {
         $this->idSim = $id;
         $this->simbologia = $name;
         $this->description = $description;
+        $this->alert = false;
     }
     
     public function setBtn()
     {
+        $this->clean();
         if($this->show == false)
         {
             $this->resetValidation();
             $this->show = true;
         }
+        $this->alert = false;
     }
     public function deleteBtn()
     {
@@ -74,5 +81,11 @@ class TableSimbologia extends Component
         {
             $this->show = false;
         }
+    }
+    public function clean()
+    {
+        $this->simbologia = '';
+        $this->description = '';
+        $this->idSim = '';
     }
 }
