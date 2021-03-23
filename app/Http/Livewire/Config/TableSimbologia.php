@@ -88,4 +88,8 @@ class TableSimbologia extends Component
         $this->description = '';
         $this->idSim = '';
     }
+    public function resetAlert()
+    {
+        $this->alert = false;
+    }
 }

@@ -90,4 +90,8 @@ class TableUnidad extends Component
         $this->name = '';
         $this->description = '';
     }
+    public function resetAlert()
+    {
+        $this->alert = false;
+    }
 }

@@ -10,8 +10,10 @@ class TableRama extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']];
-    public $perPage = 5;
+    public $perPage = 50;
     public $show = false;
+    public $aler = false;
+
     public $rama;
     public $idRama;
 
@@ -35,7 +37,7 @@ class TableRama extends Component
         Rama::create([
             'Rama' => $this->rama,
         ]);
-        
+        $this->alert = true;
     }
     public function store()
     {
@@ -43,6 +45,7 @@ class TableRama extends Component
         $model = Rama::find($this->idRama);
         $model->Rama = $this->rama;
         $model->save();
+        $this->alert = true;
     }
     public function setData($id,$rama)
     {
@@ -65,5 +68,14 @@ class TableRama extends Component
         {
             $this->show = false;
         }
+    }
+    public function resetAlert()
+    {
+        $this->alert = false;
+    }
+    public function clean()
+    {
+        $this->idRama = '';
+        $this->rama = '';
     }
 }

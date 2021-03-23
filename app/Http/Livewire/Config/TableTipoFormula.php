@@ -14,8 +14,10 @@ class TableTipoFormula extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']];
-    public $perPage = 30;
+    public $perPage = 50;
     public $show = false;
+    public $alert = false;
+
     public $tipo;
     public $idTipo;
 
@@ -39,7 +41,7 @@ class TableTipoFormula extends Component
         TipoFormula::create([
             'Tipo_formula' => $this->tipo,
         ]);
-        
+        $this->alert = true;
     }
     public function store()
     {
@@ -47,9 +49,12 @@ class TableTipoFormula extends Component
         $model = TipoFormula::find($this->idTipo);
         $model->Tipo_formula = $this->tipo;
         $model->save();
+        $this->alert = true;
     }
     public function setData($id,$tipo)
     {
+        $this->clean();
+        $this->alert = false;
         $this->resetValidation();
         $this->idTipo = $id;
         $this->tipo = $tipo;
@@ -57,6 +62,8 @@ class TableTipoFormula extends Component
     
     public function setBtn()
     {
+        $this->clean();
+        $this->alert = false;
         if($this->show == false)
         {
             $this->resetValidation();
@@ -69,5 +76,14 @@ class TableTipoFormula extends Component
         {
             $this->show = false;
         }
+    }
+    public function resetAlert()
+    {
+        $this->alert = false;
+    }
+    public function clean()
+    {
+        $this->idTipo = '';
+        $this->tipo = '';
     }
 }
