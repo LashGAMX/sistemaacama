@@ -62,7 +62,7 @@ class TableCliente extends Component
             'Empresa' => $this->cliente,
             'Id_intermediario' => $this->inter
         ]);
-        
+
     }
     public function store()
     {

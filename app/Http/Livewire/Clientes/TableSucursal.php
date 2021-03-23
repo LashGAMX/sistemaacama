@@ -29,7 +29,7 @@ class TableSucursal extends Component
 
     protected $rules = [ 
         'empresa' => 'required',
-    ];
+    ]; 
     protected $messages = [
         'empresa.required' => 'El nombre es un dato requerido',
     ];
