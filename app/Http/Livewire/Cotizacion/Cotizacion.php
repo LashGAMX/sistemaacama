@@ -1,7 +1,7 @@
 <?php
 
 namespace App\Http\Livewire\Cotizacion;
-
+use App\Models\IntermediariosView;
 use App\Models\Cotizaciones;
 use App\Models\Norma;
 use App\Models\Parametro;
@@ -20,18 +20,22 @@ class Cotizacion extends Component
     public $codiccionesVenta;
     public $puntosMuestreo;
     public $promedio;
+    public $normaFormularioUno;
+    #Atributos del segundo Formulario
+    public $normaFormularioDos;
     /**
      * Muestra la Pantalla Inicial
      */
     public function render()
     {
+
         $parametro  = Parametro::withTrashed()->get();
-        $intermediario = Intermediario::withTrashed()->get();
+        $intermediarios = IntermediariosView::withTrashed()->get();
         $cliente = Clientes::withTrashed()->get();
         $norma = Norma::withTrashed()->get();
         $model = Cotizaciones::withTrashed()->get();
         return view('livewire.cotizacion.cotizacion',compact('model','norma',
-        'cliente','intermediario','parametro'));
+        'cliente','intermediarios','parametro'));
     }
 
     public function clienteAgregadoPorSeleccion(){
