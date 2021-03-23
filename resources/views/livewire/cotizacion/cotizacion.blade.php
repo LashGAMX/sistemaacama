@@ -81,7 +81,8 @@
                     <!-- ******************** -->
                     <!-- ******************** -->
                     <!-- Tab Formulario 1-->
-                    <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+                    <div class="tab-pane fade active" id="home" role="tabpanel" aria-labelledby="home-tab">
+
                         <div class="row">
 
                             <div class="col-md-12">
@@ -89,7 +90,7 @@
                             </div>
 
                             <div class="col-md-12">
-                            <select id="intermediarios" class="form-control select2">
+                            <select id="intermediarios" class="form-control select2" wire:model='intermediario'>
                                @foreach($intermediarios as $intermediario)
                                 <option value="{{$intermediario->Id_intermediario}}">{{$intermediario->Nombres}}</option>
                                 @endforeach
@@ -100,7 +101,7 @@
                                 <h6 class="mt-0"><b>&nbsp;&nbsp;Clientes Registrados</b></h6>
                             </div>
                             <div class="col-md-9">
-                                <select id="clientes" class="form-control select2" wire:model="clientes">
+                                <select id="clientes" class="form-control select2" wire:model="clienteObtenidoSelect" >
                                     @foreach ($cliente as $client)
                                     <option value="{{$client->Id_cliente}}">{{$client->Nombres}}</option>
                                     @endforeach
@@ -115,12 +116,12 @@
                             <!-- Nombre del Cliente-->
                         <div class="col-md-6">
                             <label for="">Nombre del Cliente:</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" wire:model="clienteManual">
                         </div>
                         <!-- Dirección -->
                         <div class="col-md-6">
                             <label for="">Dirección</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" wire:model="direccion">
                         </div>
                         @endif
                         <div class="col-md-12">
@@ -130,25 +131,25 @@
                         <!-- Con Atención a -->
                         <div class="col-md-6">
                             <label for="">Con Atención a:</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" wire:model="atencionA">
                         </div>
 
                         <!-- Telefono -->
                         <div class="col-md-6">
                             <label for="">Telefono:</label>
-                            <input type="number" class="form-control">
+                            <input type="number" class="form-control" wire:model="telefono">
                         </div>
 
                         <!-- Correo Electronico-->
                         <div class="col-md-6">
                             <label for="">Email:</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" wire:model="correo">
                         </div>
 
                           <!-- Estado de la Cotización  -->
                         <div class="col-md-6">
                             <label for="">Estado de la Cotización:</label>
-                            <select name="" id="" class="form-control">
+                            <select name="" id="" class="form-control" wire:model="estadoCotizacion">
                                 <option value="Cancelado">Cancelado</option>
                                 <option value="Cotización">Cotización</option>
                                 <option value="Cotización autorizada">Cotización autorizada</option>
@@ -158,7 +159,7 @@
                         <!-- Tipo de Servicio -->
                         <div class="col-md-6">
                             <label for="">Tipo de Servicio:</label>
-                            <select name="" id="" class="form-control">
+                            <select name="" id="" class="form-control" wire:model="tipoServicio">
                                 <option value="ANÁLISIS Y MUESTREO">ANÁLISIS Y MUESTREO</option>
                                 <option value="MUESTREO">MUESTREO</option>
                                 <option value="ANALISIS">ANALISIS</option>
@@ -168,7 +169,7 @@
                         <div class="col-md-6">
                             <!-- Tipo de Descarga -->
                             <label for="">Tipo de Descarga:</label>
-                            <select name="" id="" class="form-control">
+                            <select name="" id="" class="form-control" wire:model="tipoDescarga">
                                 <option value="AGUAS SALINAS">AGUAS SALINAS</option>
                                 <option value="ALBERCA">ALBERCA</option>
                                 <option value="CONDICIONES PARTICULARES DE DESCARGA">CONDICIONES PARTICULARES DE DESCARGA</option>
@@ -183,7 +184,7 @@
                         <!-- Clasificación de la Norma -->
                         <div class="col-md-6">
                             <label for="">Clasifiación de la Norma:</label>
-                            <select name="" id="" class="form-control">
+                            <select name="" id="" class="form-control" wire:model="clasifacionNorma">
                             <option value="BALANCE">BALANCE</option>
                             <option value="BLANCO">BLANCO</option>
                             <option value="CONFICIONES PARTICULARES DE DESCARGA">CONFICIONES PARTICULARES DE DESCARGA</option>
@@ -207,19 +208,19 @@
                         <!-- Fecha -->
                         <div class="col-md-6">
                             <label for="">Fecha:</label>
-                            <input type="date" id="fInicio" name="filtroFecha" placeholder="Fecha inicio" class="form-control" value="">
+                            <input type="date" wire:model="fechaCotizacion" placeholder="Fecha inicio" class="form-control" value="">
                         </div>
 
                         <!-- Frecuencia -->
                         <div class="col-md-6">
                             <label for="">Frecuencia:</label>
-                            <input type="number" class="form-control">
+                            <input type="number" class="form-control" wire:model="frecuencia">
                         </div>
 
                         <!-- Tipo de Muestra -->
                         <div class="col-md-3">
                             <label for="">Tipo de Muestra:</label>
-                            <select name="" id="" class="form-control">
+                            <select name="" id="" class="form-control" wire:model="tipoMuestra">
                                 <option value="INSTANTANEA">INSTANTANEA</option>
                                 <option value="COMPUESTA">COMPUESTA</option>
                             </select>
@@ -244,7 +245,7 @@
                         <!-- Tipo de reporte  -->
                         <div class="col-md-3">
                             <label for="">Tipo de Reporte:</label>
-                            <select name="" id="" class="form-control">
+                            <select name="" id="" class="form-control" wire:model="Reporte">
                                 <option value="">Opcion 1</option>
                                 <option value="">Opcion 2</option>
                                 <option value="">Opcion 3</option>
@@ -252,10 +253,15 @@
                         </div>
 
                         <!-- Condicciónes de Venta -->
-                        <div class="col-md-12 mt-1">
+                        <div class="col-md-12 mt-1">-
                             <label for="">Condicciónes de Venta:</label>
                             <textarea name="" id="" cols="30" rows="2" class="form-control" wire:model="codiccionesVenta">
                         </textarea>
+                        </div>
+
+                         <!-- Boton Guardar -->
+                        <div class="col-md-12 mt-1">
+                            <button class="btn  btn-success" wire:click="create">Guardar</button>
                         </div>
 
                         </div>
