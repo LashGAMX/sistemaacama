@@ -13,10 +13,13 @@ class TableRfcReporte extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']]; 
-    public $perPage = 5;
+    public $perPage = 10;
     public $show = false;
+    public $alert = false;
+
     public $rfc;
     public $idRfc;
+    public $status = 1;
 
     protected $rules = [ 
         'rfc' => 'required|max:13|min:12|unique:rfc_sucursal',
@@ -28,9 +31,10 @@ class TableRfcReporte extends Component
 
     public function render()
     {
-        // $model = AreaAnalisis::where('Area_analisis','LIKE',"%{$this->search}%")
-        // ->paginate($this->perPage);
-        $model = RfcSucursal::where('Id_sucursal',$this->idSuc)->get();
+        $model = RfcSucursal::withTrashed()
+        ->where('Id_sucursal',$this->idSuc)
+        ->where('RFC','LIKE',"%{$this->search}%")
+        ->paginate($this->perPage);
         return view('livewire.clientes.table-rfc-reporte',compact('model'));
     }
 
@@ -41,7 +45,7 @@ class TableRfcReporte extends Component
             'Id_sucursal' => $this->idSuc,
             'RFC' => $this->rfc,
         ]);
-        
+        $this->alert = true;
     }
     public function store()
     {
@@ -52,16 +56,38 @@ class TableRfcReporte extends Component
         $model->RFC = $this->rfc;
         $model->save();
 
+        if($this->status != 1)
+        {
+            $model = RfcSucursal::withTrashed()->find($this->idRfc);
+            $model->RFC = $this->rfc;
+            $model->save();
+            RfcSucursal::find($this->idRfc)->delete();
+        }else{
+            $model = RfcSucursal::withTrashed()->find($this->idRfc);
+            $model->RFC = $this->rfc;
+            $model->save();
+        }
+
+        $this->alert = true;
     }
-    public function setData($id,$rfc)
+    public function setData($id,$rfc,$status)
     {
+        $this->alert = false;
         $this->resetValidation();
         $this->idRfc = $id;
         $this->rfc = $rfc;
+        if($status != null)
+        {
+            $this->status = 0;
+        }else{
+            $this->status = 1;
+        }
     }
     
     public function setBtn()
     {
+        $this->alert = false;
+        $this->clean();
         if($this->show == false)
         {
             $this->resetValidation();
@@ -79,5 +105,10 @@ class TableRfcReporte extends Component
     {
         $this->idRfc = '';
         $this->rfc = '';
+        $this->status = 1;
+    }
+    public function resetAlert()
+    {
+        $this->alert = false;
     }
 }

@@ -1,15 +1,20 @@
 <div>
     <div class="row">
       <div class="col-md-8">
-        <button class="btn btn-success btn-sm" wire:click="setBtn"><i class="voyager-plus"></i> Crear</button>
+        <button class="btn btn-success" wire:click="setBtn"><i class="voyager-plus"></i> Crear</button>
       </div>
       <div class="col-md-4">
-        <input type="search" wire:model="search" class="form-control" placeholder="Buscar">
+        <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">
       </div>
     </div>
     @if ($show != false)  
     <div class="row">
       <form wire:submit.prevent="create">
+        <div class="col-md-2">
+          <label for="">Activo</label>
+            <input type="checkbox" wire:model='status'>
+            @error('status') <span class="text-danger">{{ $message  }}</span> @enderror
+        </div>
       <div class="col-md-5">
         <input type="text" wire:model='idUser' hidden>
         <label for="">RCF</label>
@@ -17,8 +22,8 @@
           @error('rfc') <span class="text-danger">{{ $message  }}</span> @enderror
       </div>
       <div class="col-md-5">
-        <button class="btn btn-sm btn-success" type="submit"><i class="voyager-check"></i> <span hidden-sm hidden-xs>Aceptar</span> </button>
-        <button class="btn btn-sm btn-danger" type="button" wire:click="deleteBtn"><i class="voyager-x"></i> <span hidden-sm hidden-xs>Cancel</span> </button>
+        <button class="btn btn-success" type="submit"><i class="voyager-check"></i> <span hidden-sm hidden-xs>Aceptar</span> </button>
+        <button class="btn btn-danger" type="button" wire:click="deleteBtn"><i class="voyager-x"></i> <span hidden-sm hidden-xs>Cancel</span> </button>
       </div>
     </form>
     </div>  
@@ -36,14 +41,18 @@
         <tbody>
         @if ($model->count()) 
         @foreach ($model as $item) 
-        <tr>  
+        @if ($item->deleted_at != 'null')
+          <tr class="bg-danger text-white">  
+        @else
+            <tr>
+        @endif
           {{-- <form wire:submit.prevent="update"> --}}
           <td>{{$item->Id_rfc}}</td>
           <td>{{$item->RFC}}</td>          
           <td>{{$item->created_at}}</td>
           <td>{{$item->updated_at}}</td>
           <td>
-            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_rfc}}','{{$item->RFC}}')"  data-toggle="modal" data-target="#modalRfcSiralab"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_rfc}}','{{$item->RFC}}','{{$item->deleted_at}}')"  data-toggle="modal" data-target="#modalRfcSiralab"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
           {{-- </form>  --}}
         </tr>
@@ -68,6 +77,11 @@
         </div>
         <div class="modal-body">
             <div class="row">
+              <div class="col-md-12">
+                <label for="">Activo</label>
+                  <input type="checkbox" wire:model='status'>
+                  @error('status') <span class="text-danger">{{ $message  }}</span> @enderror
+              </div>
                 <div class="col-md-12">
                     <input type="text" wire:model="idRfc" hidden>
                     <label for="">RFC</label>
@@ -84,6 +98,14 @@
       </div>
     </div>
   </div>
+
+  @if ($alert == true)
+<script>
+  swal("Registro!", "Registro guardado correctamente!", "success");
+  $('#modalCliente').modal('hide')
+</script>
+
+@endif
     
   </div>
    

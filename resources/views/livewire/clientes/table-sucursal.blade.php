@@ -1,10 +1,10 @@
 <div>
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-7">
         <button class="btn btn-success btn-sm" wire:click="btnCreate" data-toggle="modal" data-target="#modalDetalleCliente" ><i class="voyager-plus"></i> Crear</button>
       </div>
-      <div class="col-md-4">
-        {{-- <input type="search" wire:model="search" class="form-control" placeholder="Buscar"> --}}
+      <div class="col-md-5">
+        <input type="search" wire:model="search" class="form-control" placeholder="Buscar">
       </div>
     </div>
     
@@ -72,13 +72,13 @@
             <div class="row">
                 <div class="col-md-6">
                     <div class="custom-control custom-switch">
-                      <input wire:model='status' type="checkbox" class="custom-control-input" id="customSwitch1">
+                      <input wire:model='status' type="checkbox">
                       <label class="custom-control-label" for="customSwitch1">Status</label>
                   </div>
                 </div>
                 <div class="col-md-6">
                     <label for="">Nombre empresa |</label>
-                        <input wire:click="duplicateMatriz" type="checkbox" class="custom-control-input">
+                        <input wire:click="duplicateMatriz" wire:model='dup' type="checkbox" class="custom-control-input">
                         <label class="custom-control-label" for="customSwitch1">Nombre Matriz</label>
                     <input type="text" wire:model='empresa' class="form-control" placeholder="Sucursal">
                     @error('empresa') <span class="text-danger">{{ $message  }}</span> @enderror
@@ -89,28 +89,18 @@
                   <option value="0">Sin seleccionar</option>
                   @foreach ($estados as $item)
                   <option value="{{$item->Nombre}}">{{$item->Nombre}}</option>
-              @endforeach
+                @endforeach
                 </select>
+                @error('estado') <span class="text-danger">{{ $message  }}</span> @enderror
               </div>
               <div class="col-md-6">
                 <label>Tipo</label>
                 <select class="form-control" wire:model='tipo' >
-                  @if ($tipo == 0)
-                    <option value="0" selected>Sin seleccionar</option>
-                  @else
-                    <option value="0">Sin seleccionar</option>  
-                  @endif
-                  @if ($tipo == 1)
-                    <option value="1" selected>Reporte</option>
-                  @else
+                  <option value="0">Sin seleccionar</option>  
                     <option value="1">Reporte</option>
-                  @endif
-                  @if ($tipo == 2)
-                    <option value="2" selected>Reporte / Siralab</option>
-                  @else
                     <option value="2">Reporte / Siralab</option>
-                  @endif
                 </select>
+                @error('tipo') <span class="text-danger">{{ $message  }}</span> @enderror
               </div>
             </div>
         </div>
@@ -122,6 +112,13 @@
       </div>
     </div>
   </div>
+
+  @if ($alert == true)
+<script>
+  swal("Registro!", "Registro guardado correctamente!", "success");
+  $('#modalDetalleCliente').modal('hide')
+</script>
+@endif
 
   </div>
    
