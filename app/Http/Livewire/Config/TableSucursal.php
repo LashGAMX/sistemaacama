@@ -29,8 +29,9 @@ class TableSucursal extends Component
         'name.required' => 'El nombre es un dato requerido',
     ];
  
-    public function render() 
+    public function render() //Loop
     { 
+
         $sucursal = Sucursal::where('Sucursal','LIKE',"%{$this->search}%")
         ->orWhere('Id_sucursal','LIKE',"%{$this->search}%")
         ->paginate($this->perPage);
@@ -77,11 +78,16 @@ class TableSucursal extends Component
             $this->show = false;
         }
     }
+    public function resetAlert()
+    {
+        $this->alert = false;
+    }
     public function clean()
     {
         $this->name ='';
         $this->idSuc = '';
     }
+    
 
 }
   

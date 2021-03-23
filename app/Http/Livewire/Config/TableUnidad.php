@@ -12,10 +12,14 @@ class TableUnidad extends Component
     use WithPagination;
 
     public $idUser;
+    
     public $search = '';
     protected $queryString = ['search' => ['except' => '']];
-    public $perPage = 30;
+
+    public $perPage = 50;
     public $show = false;
+    public $alert = false;
+
     public $name;
     public $description;
     public $idUni;
@@ -44,7 +48,7 @@ class TableUnidad extends Component
             'Unidad' => $this->name,
             'Descripcion' => $this->description,
         ]);
-        
+        $this->alert = true;
     }
     public function store()
     {
@@ -53,9 +57,11 @@ class TableUnidad extends Component
         $model->Unidad = $this->name;
         $model->Descripcion = $this->description;
         $model->save();
+        $this->alert = true;
     }
     public function setData($id,$name,$description)
     {
+        $this->alert = false;
         $this->idUni = $id;
         $this->name = $name;
         $this->description = $description;
@@ -63,6 +69,8 @@ class TableUnidad extends Component
     
     public function setBtn()
     {
+        $this->clean();
+        $this->alert = false;
         if($this->show == false)
         {
             $this->resetValidation();
@@ -75,5 +83,11 @@ class TableUnidad extends Component
         {
             $this->show = false;
         }
+    }
+    public function clean()
+    {
+        $this->idUni = '';
+        $this->name = '';
+        $this->description = '';
     }
 }

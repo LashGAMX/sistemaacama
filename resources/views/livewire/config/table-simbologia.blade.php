@@ -102,7 +102,7 @@
   @if ($alert == true)
   <script>
     swal("Registro!", "Registro guardado correctamente!", "success");
-    $('#modalSucursal').modal('hide')
+    $('#modalSimbologia').modal('hide')
   </script>
   @endif
   
