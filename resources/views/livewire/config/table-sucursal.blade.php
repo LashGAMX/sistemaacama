@@ -4,7 +4,7 @@
       <button class="btn btn-success btn-sm" wire:click="setBtn"><i class="voyager-plus"></i> Crear</button>
     </div>
     <div class="col-md-4">
-      <input type="search" wire:model="search" class="form-control" placeholder="Buscar">
+      <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">
     </div>
   </div>
   @if ($show != false)  
