@@ -16,11 +16,12 @@ class TableIntermediario extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']]; 
-    public $perPage = 5;
+    public $perPage = 50;
     public $sw = false;
+    public $alert = false;
 
     public $idCliente;
-    public $lab = 0;
+    public $lab = 1;
     public $nombre;
     public $paterno;
     public $materno; 
@@ -28,7 +29,7 @@ class TableIntermediario extends Component
     public $correo;
     public $dir;
     public $tel;
-    public $status;
+    public $status = 1;
     public $ext;
     public $cel;
 
@@ -54,9 +55,7 @@ class TableIntermediario extends Component
 
     public function render()
     {
-        // $model = MetodoPrueba::where('Metodo_prueba','LIKE',"%{$this->search}%")
-        // ->orWhere('Clave_metodo','LIKE',"%{$this->search}%")
-        // ->paginate($this->perPage);
+
         $sucursal = Sucursal::all();
         $model = DB::table('ViewIntermediarios')
         ->where('Nombres','LIKE',"%{$this->search}%")
@@ -64,7 +63,7 @@ class TableIntermediario extends Component
         ->orWHere('A_materno','LIKE',"%{$this->search}%")
         ->orWhere('RFC','LIKE',"%{$this->search}%")
         ->orWhere('Correo','LIKE',"%{$this->search}%")
-        ->get();
+        ->paginate($this->perPage);
         return view('livewire.clientes.table-intermediario',compact('model','sucursal'));
     }
 
@@ -88,6 +87,7 @@ class TableIntermediario extends Component
             'Extension' => $this->ext,
             'Celular1' => $this->cel,
         ]);      
+        $this->alert = true;
     }
     public function store()
     {
@@ -131,6 +131,7 @@ class TableIntermediario extends Component
             'Extension' => $this->ext,
             'Celular1' => $this->cel,
         ]);
+        $this->alert = true;
 
     }
     public function setData($id,$nombre,$paterno,$materno,$rfc,$status,$lab,$correo,$dir,$tel,$ext,$cel = '')
@@ -154,27 +155,36 @@ class TableIntermediario extends Component
         $this->tel = $tel;
         $this->ext = $ext;
         $this->cel = $cel;
+        $this->alert = false;
     }
     
     public function btnCreate()
     {
+        $this->alert = false;
         if($this->sw == true)
         {
             $this->resetValidation();
-            $this->idCliente = '';
-            $this->nombre = '';
-            $this->paterno = '';
-            $this->materno = '';
-            $this->rfc = '';
-            $this->status = '';
-            $this->lab = '';
-            $this->correo = '';
-            $this->dir = '';
-            $this->tel = '';
-            $this->ext = '';
-            $this->cel = '';
-            $this->sw = false;
+            $this->clean();
         }
     }
-
+    public function resetAlert()
+    {
+        $this->alert = false;
+    }
+    public function clean()
+    {
+        $this->idCliente = '';
+        $this->nombre = '';
+        $this->paterno = '';
+        $this->materno = '';
+        $this->rfc = '';
+        $this->status = '';
+        $this->lab = '';
+        $this->correo = '';
+        $this->dir = '';
+        $this->tel = '';
+        $this->ext = '';
+        $this->cel = '';
+        $this->sw = false;
+    }
 }

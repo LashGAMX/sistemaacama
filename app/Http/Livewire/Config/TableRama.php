@@ -12,7 +12,7 @@ class TableRama extends Component
     protected $queryString = ['search' => ['except' => '']];
     public $perPage = 50;
     public $show = false;
-    public $aler = false;
+    public $alert = false;
 
     public $rama;
     public $idRama;
@@ -49,6 +49,7 @@ class TableRama extends Component
     }
     public function setData($id,$rama)
     {
+        $this->alert = false;    
         $this->resetValidation();
         $this->idRama = $id;
         $this->rama = $rama;
@@ -56,6 +57,8 @@ class TableRama extends Component
     
     public function setBtn()
     {
+        $this->alert = false;
+        $this->clean();
         if($this->show == false)
         {
             $this->resetValidation();

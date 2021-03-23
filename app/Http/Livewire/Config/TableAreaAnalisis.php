@@ -12,8 +12,10 @@ class TableAreaAnalisis extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']]; 
-    public $perPage = 5;
+    public $perPage = 50;
     public $show = false;
+    public $alert = false;
+
     public $area;
     public $idArea;
 
@@ -37,7 +39,7 @@ class TableAreaAnalisis extends Component
         AreaAnalisis::create([
             'Area_analisis' => $this->area,
         ]);
-        
+        $this->alert = true;
     }
     public function store()
     {
@@ -45,9 +47,11 @@ class TableAreaAnalisis extends Component
         $model = AreaAnalisis::find($this->idArea);
         $model->Area_analisis = $this->area;
         $model->save();
+        $this->alert = true;
     }
     public function setData($id,$area)
     {
+        $this->alert = false;
         $this->resetValidation();
         $this->idArea = $id;
         $this->area = $area;
@@ -55,6 +59,8 @@ class TableAreaAnalisis extends Component
     
     public function setBtn()
     {
+        $this->clean();
+        $this->alert = false;
         if($this->show == false)
         {
             $this->resetValidation();
@@ -67,5 +73,14 @@ class TableAreaAnalisis extends Component
         {
             $this->show = false;
         }
+    }
+    public function resetAlert()
+    {
+        $this->alert = false;
+    }
+    public function clean()
+    {
+        $this->idArea = '';
+        $this->area = '';
     }
 }

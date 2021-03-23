@@ -8,10 +8,10 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class DetallesTipoCuerpo extends Model
 {
-    use HasFactory,SoftDeletes;
+    use HasFactory;
     protected $table = 'detalles_tipoCuerpo';
     protected $primaryKey = 'Id_cotizacion';
-    public $timestamps = true;
+    
 
     protected $fillable = [
         'Id_detalle',

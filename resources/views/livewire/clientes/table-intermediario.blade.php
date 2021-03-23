@@ -4,7 +4,7 @@
         <button class="btn btn-success btn-sm" wire:click='btnCreate' data-toggle="modal" data-target="#modalInter" ><i class="voyager-plus"></i> Crear</button>
       </div>
       <div class="col-md-4">
-        <input type="search" wire:model="search" class="form-control" placeholder="Buscar">
+        <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">
       </div>
     </div>
     <table class="table table-dark">
@@ -36,7 +36,7 @@
           <td>{{$item->Nombres}} {{$item->A_paterno}}</td>    
           <td>{{$item->RFC}}</td>
           <td>{{$item->Correo}}</td>
-          <td>{{$item->Direccion}}</td>
+          <td>{{substr($item->Direccion,0,100)}}</td>
           <td>{{$item->Tel_oficina}}</td>
           <td>{{$item->created_at}}</td>
           <td>{{$item->updated_at}}</td>
@@ -92,31 +92,17 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="">Sucursal</label>
-                        @if ($sw != true)
                             <select class="form-control" id="" wire:model='lab' name="sucursal">
-                            <option value="0">Sin seleccionar</option>
                             @foreach ($sucursal as $item)
                                 <option value="{{$item->Id_sucursal}}">{{$item->Sucursal}}</option>
                             @endforeach
                           </select>
-                        @else
-                            <select class="form-control" id="" wire:model='lab' name="sucursal">
-                                <option value="0">Sin seleccionar</option>
-                                @foreach ($sucursal as $item)
-                                    @if ($lab == $item->Id_sucursal)
-                                        <option value="{{$item->Id_sucursal}}" selected>{{$item->Sucursal}}</option>
-                                    @else
-                                    <option value="{{$item->Id_sucursal}}">{{$item->Sucursal}}</option>
-                                    @endif
-                                @endforeach
-                            </select>
-                        @endif
                       </div>
                 </div>
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
-                       <input type="text" wire:model='nombre' class="form-control" placeholder="Nombre">
+                       <input type="text" wire:model='nombre' class="form-control" placeholder="Nombre cliente">
                        @error('nombre') <span class="text-danger">{{ $message  }}</span> @enderror
                       </div>
                 </div>
@@ -143,7 +129,7 @@
                 <div class="col-md-3">
                     <div class="form-group">
                         <label for="correo">Correo</label>
-                        <input type="text" class="form-control" wire:model='correo' name="correo" id="correo" placeholder="correo@ejemplo.com">
+                        <input type="email" class="form-control" wire:model='correo' name="correo" id="correo" placeholder="correo@ejemplo.com">
                         @error('correo') <span class="text-danger">{{ $message  }}</span> @enderror
                     </div>
                 </div>
@@ -184,7 +170,14 @@
     </div>
   </div>
 
-    
+     
+@if ($alert == true)
+<script>
+  swal("Registro!", "Registro guardado correctamente!", "success");
+  $('#modalInter').modal('hide')
+</script>
+@endif
+
   </div>
    
 

@@ -15,8 +15,9 @@ class TableCliente extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']]; 
-    public $perPage = 5;
+    public $perPage = 50;
     public $sw = false;
+    public $alert = false;
 
     public $idCliente;
     public $cliente;
@@ -43,7 +44,9 @@ class TableCliente extends Component
         // ->orWhere('Clave_metodo','LIKE',"%{$this->search}%")
         // ->paginate($this->perPage);
         $intermediario = DB::table('ViewIntermediarios')->get();
-        $model = DB::table('ViewGenerales')->get();
+        $model = DB::table('ViewGenerales')
+        ->orderBy('Id_cliente','desc')
+        ->get();
 
         return view('livewire.clientes.table-cliente',compact('model','intermediario'));
     }
@@ -112,18 +115,26 @@ class TableCliente extends Component
     {
         if($this->sw == true)
         {
-            $this->resetValidation();
-            $this->idCliente = '';
-            $this->cliente = '';
-            $this->rfc = '';
-            $this->idInter = '';
-            $this->inter = '';
-            $this->status = '';
-            $this->sw = false;
+            $this->clean();
         }
     }
     public function detalle($id)
     {
         return redirect()->to('admin/clientes/cliente_detalle/'.$id);
+    }
+    public function resetAlert()
+    {
+        $this->alert = false;
+    }
+    public function clean()
+    {
+        $this->resetValidation();
+        $this->idCliente = '';
+        $this->cliente = '';
+        $this->rfc = '';
+        $this->idInter = '';
+        $this->inter = '';
+        $this->status = '';
+        $this->sw = false;
     }
 }

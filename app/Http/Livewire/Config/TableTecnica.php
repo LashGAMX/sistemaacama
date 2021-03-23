@@ -12,8 +12,10 @@ class TableTecnica extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']];
-    public $perPage = 5;
+    public $perPage = 50;
     public $show = false;
+    public $alert = false;
+
     public $tecnica;
     public $idTecnica;
 
@@ -37,7 +39,7 @@ class TableTecnica extends Component
         Tecnica::create([
             'Tecnica' => $this->tecnica,
         ]);
-        
+        $this->alert = true;
     }
     public function store()
     {
@@ -45,9 +47,11 @@ class TableTecnica extends Component
         $model = Tecnica::find($this->idTecnica);
         $model->Tecnica = $this->tecnica;
         $model->save();
+        $this->alert = true;
     }
     public function setData($id,$tecnica)
     {
+        $this->alert = false;
         $this->resetValidation();
         $this->idTecnica = $id;
         $this->tecnica = $tecnica;
@@ -55,6 +59,8 @@ class TableTecnica extends Component
     
     public function setBtn()
     {
+        $this->alert = false;
+        $this->clean();
         if($this->show == false)
         {
             $this->resetValidation();
@@ -67,5 +73,14 @@ class TableTecnica extends Component
         {
             $this->show = false;
         }
+    }
+    public function resetAlert()
+    {
+        $this->alert = false;
+    }
+    public function clean()
+    {
+        $this->idTecnica = '';
+        $this->tecnica = '';
     }
 }

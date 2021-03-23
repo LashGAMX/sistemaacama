@@ -4,13 +4,13 @@
         <button class="btn btn-success btn-sm" wire:click='btnCreate' data-toggle="modal" data-target="#modalCliente" ><i class="voyager-plus"></i> Crear</button>
       </div>
       <div class="col-md-4">
-        <input type="search" wire:model="search" class="form-control" placeholder="Buscar">
+        <input type="search" wire:model="search" wire:click class="form-control" placeholder="Buscar">
       </div>
     </div>
     <table class="table table-hover table-striped">
         <thead class="thead-dark">
             <tr>
-                <th>Id</th>
+                <th>Id</th> 
                 <th>Cliente</th>
                 <th>RFC</th>
                 <th>Id inter</th>
@@ -131,6 +131,14 @@
           </div>
         </div>
       </div>
+         
+@if ($alert == true)
+<script>
+  swal("Registro!", "Registro guardado correctamente!", "success");
+  $('#modalCliente').modal('hide')
+</script>
+@endif
+
     
   </div>
    

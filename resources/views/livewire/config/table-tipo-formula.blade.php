@@ -81,7 +81,7 @@
           <button type="submit" class="btn btn-primary">Guardar cambios</button>
         </div>
       </form>
-      </div>
+      </div> 
     </div>
   </div>
     

@@ -12,8 +12,10 @@ class TableMetodoPrueba extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']]; 
-    public $perPage = 5;
+    public $perPage = 50;
     public $show = false;
+    public $alert = false;
+
     public $metodo;
     public $clave;
     public $idMetodo;
@@ -42,7 +44,7 @@ class TableMetodoPrueba extends Component
             'Metodo_prueba' => $this->metodo,
             'Clave_metodo' => $this->clave,
         ]);
-        
+        $this->alert = true;
     }
     public function store()
     {
@@ -51,6 +53,7 @@ class TableMetodoPrueba extends Component
         $model->Metodo_prueba = $this->metodo;
         $model->Clave_metodo = $this->clave;
         $model->save();
+        $this->alert = true;
     }
     public function setData($id,$metodo,$clave)
     {
@@ -58,10 +61,13 @@ class TableMetodoPrueba extends Component
         $this->idMetodo = $id;
         $this->metodo = $metodo;
         $this->clave = $clave;
+        $this->alert = false;
     }
     
     public function setBtn()
     {
+        $this->alert = false;
+        $this->clean();
         if($this->show == false)
         {
             $this->resetValidation();
@@ -74,5 +80,14 @@ class TableMetodoPrueba extends Component
         {
             $this->show = false;
         }
+    }
+    public function resetAlert()
+    {
+        $this->alert = false;
+    }
+    public function clean()
+    {
+        $this->idTipo = '';
+        $this->tipo = '';
     }
 }
