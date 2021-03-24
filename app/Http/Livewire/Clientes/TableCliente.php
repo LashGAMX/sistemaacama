@@ -24,11 +24,12 @@ class TableCliente extends Component
     public $rfc;
     public $idInter = 0;
     public $inter;
-    public $status;
+    public $status = 1;
 
     protected $rules = [ 
         'cliente' => 'required',
         'rfc' => 'required|max:13|min:12|unique:clientes',
+        'inter' => 'required',
     ];
     protected $messages = [
         'cliente.required' => 'El nombre es un dato requerido',
@@ -45,7 +46,9 @@ class TableCliente extends Component
         // ->paginate($this->perPage);
         $intermediario = DB::table('ViewIntermediarios')->get();
         $model = DB::table('ViewGenerales')
-        ->orderBy('Id_cliente','desc')
+        ->where('Empresa','LIKE',"%{$this->search}%")
+        ->orWhere('RFC','LIKE',"%{$this->search}%")
+        ->orderBy('Id_cliente','desc') 
         ->get();
 
         return view('livewire.clientes.table-cliente',compact('model','intermediario'));
@@ -65,7 +68,11 @@ class TableCliente extends Component
             'Empresa' => $this->cliente,
             'Id_intermediario' => $this->inter
         ]);
-
+        if($this->status != 1)
+        {
+            Clientes::find($model->Id_cliente)->delete();
+        }
+        $this->alert = true;
     }
     public function store()
     {
@@ -94,10 +101,12 @@ class TableCliente extends Component
             'Empresa' => $this->cliente,
             'Id_intermediario' => $this->idInter,
         ]);
+        $this->alert = true;
     }
     public function setData($id,$cliente,$rfc,$idInter,$status)
     {
         $this->sw = true;
+        $this->alert = false;
         $this->resetValidation();
         $this->idCliente = $id;
         $this->cliente = $cliente;
@@ -113,6 +122,7 @@ class TableCliente extends Component
     
     public function btnCreate()
     {
+        $this->alert = false;
         if($this->sw == true)
         {
             $this->clean();

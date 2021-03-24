@@ -1,10 +1,11 @@
 <div>
+
     <div class="row">
       <div class="col-md-8">
         <button class="btn btn-success btn-sm" wire:click='btnCreate' data-toggle="modal" data-target="#modalCliente" ><i class="voyager-plus"></i> Crear</button>
       </div>
       <div class="col-md-4">
-        <input type="search" wire:model="search" wire:click class="form-control" placeholder="Buscar">
+        <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">
       </div>
     </div>
     <table class="table table-hover table-striped">
@@ -23,7 +24,7 @@
         <tbody>
         @if ($model->count()) 
         @foreach ($model as $item) 
-            @if ($item->deleted_at != null)
+            @if ($item->deleted_at != 'null')
                 <tr class="bg-danger text-white">  
             @else
                 <tr>
@@ -100,25 +101,13 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="">Intermediario</label>
-                            @if ($sw != true)
                                 <select class="form-control" wire:model='inter' >
                                 <option value="0">Sin seleccionar</option>
                                 @foreach ($intermediario as $item)
                                     <option value="{{$item->Id_intermediario}}">{{$item->Nombres}} {{$item->A_paterno}}</option>
                                 @endforeach
                               </select>
-                            @else
-                                <select class="form-control" wire:model='idInter' >
-                                    <option value="0">Sin seleccionar</option>
-                                    @foreach ($intermediario as $item)
-                                        @if ($idInter == $item->Id_intermediario)
-                                        <option value="{{$item->Id_intermediario}}" selected>{{$item->Nombres}} {{$item->A_paterno}}</option>
-                                        @else
-                                        <option value="{{$item->Id_intermediario}}">{{$item->Nombres}} {{$item->A_paterno}}</option>
-                                        @endif
-                                    @endforeach
-                                </select>
-                            @endif
+                              @error('inter') <span class="text-danger">{{ $message  }}</span> @enderror
                           </div>
                     </div>
                 </div>

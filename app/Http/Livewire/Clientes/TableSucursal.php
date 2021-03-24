@@ -16,19 +16,22 @@ class TableSucursal extends Component
     public $idCliente;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']]; 
-    public $perPage = 5;
+    public $perPage = 30;
     public $sw = 0;
     public $dup = 0;
+    public $alert = false;
 
     public $idSuc;
     public $empresa;
     public $estado;
     public $idEstado;
-    public $tipo;
-    public $status;
+    public $tipo = '';
+    public $status = 1;
 
     protected $rules = [ 
-        'empresa' => 'required',
+        'empresa' => 'required', 
+        'estado' => 'required',
+        'tipo' => 'required',
     ]; 
     protected $messages = [
         'empresa.required' => 'El nombre es un dato requerido',
@@ -39,7 +42,10 @@ class TableSucursal extends Component
         // $model = AreaAnalisis::where('Area_analisis','LIKE',"%{$this->search}%")
         // ->paginate($this->perPage);
         $model = SucursalCliente::where('Id_cliente',$this->idCliente)
-        ->get();
+        ->where('Empresa','LIKE',"%{$this->search}%")
+        ->orWhere('Estado','LIKE',"%{$this->search}%")
+        ->orderBy('Id_sucursal','desc')
+        ->paginate($this->perPage);
         $estados = DB::table('estados')->get();
         return view('livewire.clientes.table-sucursal',compact('model','estados'));
     }
@@ -53,18 +59,17 @@ class TableSucursal extends Component
             'Estado' => $this->estado,
             'Id_siralab' => $this->tipo,
         ]);
+        $this->alert = true;
     }
     public function duplicateMatriz()
     {
-        if($this->dup == 0)
+        if($this->dup == 1)
         {
             $matriz = Clientes::find($this->idCliente);
             $this->empresa = $matriz->Nombres;
-            $this->dup = 1;
-        }else if($this->dup == 1)
+        }else if($this->dup == 0)
         {
             $this->empresa = '';
-            $this->dup = 0;
         }
     }
     public function store()
@@ -87,10 +92,12 @@ class TableSucursal extends Component
             $model->Id_siralab = $this->tipo;
             $model->save();
         }
+        $this->alert = true;
         
     }
     public function setData($id,$empresa,$estado,$tipo,$status)
     {
+        $this->alert = false;
         $this->resetValidation();
         $this->sw = 0;
         $this->idSuc = $id;
@@ -110,19 +117,22 @@ class TableSucursal extends Component
     }
     public function btnCreate()
     {
-        $this->reiniciar();
-        if($this->sw == 0)
-        {
-            $this->resetValidation();
-            $this->sw = 1;
-        }
+        $this->dup = 0;
+        $this->alert = false;
+        $this->clean();
+        $this->resetValidation();
+        $this->sw = 1;
     }
-    public function reiniciar()
+    public function resetAlert()
+    {
+        $this->alert = false;
+    }
+    public function clean()
     {
         $this->suc = '';
         $this->empresa = '';
         $this->estado = '';
         $this->tipo = '';
-        $this->status = '';
+        $this->status = 1;
     }
 }

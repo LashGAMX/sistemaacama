@@ -37,6 +37,17 @@
     <div class="col-md-7">
         <div class="card">
             <div class="card-body">
+              <div class="row">
+                <div class="col-md-4">
+                  <h6>Id_cliente: {{@$sucursal->Id_sucursal}}</h6>
+                </div>
+                <div class="col-md-4">
+                  <h6>Sucursal: {{@$sucursal->Empresa}}</h6>
+                </div>
+                <div class="col-md-4">
+                  <h6>Estado: {{@$sucursal->Estado}}</h6>
+                </div>
+              </div>
                 <ul class="nav nav-tabs" id="myTab" role="tablist">
                     <li class="nav-item" role="presentation">
                       <a class="nav-link active" id="reporte-tab" data-toggle="tab" href="#reporte" role="tab" aria-controls="reporte" aria-selected="true">Reporte</a>
