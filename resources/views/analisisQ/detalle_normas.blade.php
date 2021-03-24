@@ -14,7 +14,7 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-6">
-                      <h5 class="card-title"><strong>Norma: </strong>{{$norma->Norma}}</h5>
+                      <h5 class="card-title"><strong>Norma: </strong>{{@$norma->Norma}}</h5>
                     </div>
                 </div>
                 <div class="row">
@@ -29,7 +29,8 @@
       <div class="row">
         <div class="col-md-12">
           <h6>Norma: {{@$subnorma->Clave}}</h6>
-          <input type="text" id="idSub" value="{{$idSub}}">
+          <input type="text" id="idSub" value="{{@$idSub}}" hidden>
+          <input type="text" id="idNorma" value="{{@$id}}" hidden>
         </div>
         <div class="col-md-12">
             <h5>Parametros</h5>
@@ -44,6 +45,9 @@
     </div>
   </div>
 
+  <div id="divModal">
+
+  </div>
 
 
   @stop
@@ -51,7 +55,11 @@
 
 @endsection   
 
-  
+
+@section('javascript') 
 <script src="{{asset('js/analisisQ/detalle_normas.js')}}"></script>
 <script src="{{asset('js/libs/componentes.js')}}"></script>
 <script src="{{asset('js/libs/tablas.js')}}"></script>
+@stop
+
+  

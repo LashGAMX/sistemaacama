@@ -8,6 +8,7 @@ use Livewire\Component;
 class LimiteParametros001 extends Component
 {
     public $idParametro;
+    public $alert = false;
     public function render()
     {
         $model = DB::table('ViewLimite001')->get();
