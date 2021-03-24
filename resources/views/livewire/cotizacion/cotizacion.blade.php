@@ -1,23 +1,20 @@
     <div class="row">
+        {{-- <input type="text" value="{{$idUser}}"> --}}
         <!-- Parte de Encabezado-->
       <div class="col-md-2">
         <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#modalCotizacionPrincipal">
             <i class="voyager-plus"></i> Crear</button>
       </div>
-
-      <div class="col-md-2 mt-2">
-        <input type="text" class="form-control" placeholder="Búsqueda por día" wire:model="fechaDia">
-       </div>
-
-       <div class="col-md-2 mt-2">
+        {{-- {{$idUser}} --}}
+       <div class="col-md-4 mt-2">
            <input type="date"  placeholder="Fecha inicio" class="form-control" value=""  wire:model="fechaRangoIncial">
-       </div>
-       <div class="col-md-2 mt-2">
+            {{ "La Fecha a Buscar es:".$fechaRangoIncial}}
+        </div>
+       <div class="col-md-4 mt-2">
            <input type="date"  placeholder="Fecha inicio" class="form-control" value="" wire:model="fechaRangoFinal">
+           {{"La Ultima Fecha a Buscar es: ".$fechaRangoFinal}}
        </div>
-      <div class="col-md-2">
-        <button type="button" class="btn btn-success btn-sm " wire:model="buscador"><i class="fa fa-search"></i> Buscar</button>
-      </div>
+
       <div class="col-md-2 mt-2">
         <input type="search" class="form-control" placeholder="Buscar" wire:model="search">
       </div>
@@ -49,7 +46,7 @@
               <td>
                 <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalCotizacionPrincipal">
                 <i class="voyager-edit"></i> <span hidden-sm hidden-xs>Editar</span> </button>
-                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalCotizacionHistorico">
+                <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalCotizacionHistorico" wire:click="details('{{$item->Id_cotizacion}}')">
                     <i class="voyager-list" aria-hidden="true"></i>
                     <span hidden-sm hidden-xs>Historico</span> </button>
               </td>
@@ -83,14 +80,14 @@
                   <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">3. Información Cotización|</a>
                 </li>
             </ul><!-- Fin Content Tab-->
-            {{-- <div class="tab-content" id="myTabContent"> --}}
+            {{-- <div class="tab-content" id="myTabContent">
                 <!-- ******************** -->
                 <!-- ******************** -->
                 <!-- ******************** -->
                 <!-- ******************** -->
                 <!-- Tab Formulario 1-->
-                {{-- <div class="tab-pane fade active" id="home" role="tabpanel" aria-labelledby="home-tab">
-
+                 <div class="tab-pane fade active" id="home" role="tabpanel" aria-labelledby="home-tab">
+ --}}
                     <div class="row">
 
                         <div class="col-md-12">
@@ -255,7 +252,7 @@
                     <!-- Tipo de reporte  -->
                     <div class="col-md-3">
                         <label for="">Tipo de Reporte:</label>
-                        <select name="" id="" class="form-control" wire:model="Reporte">
+                        <select name="" id="" class="form-control" wire:model="reporte">
                             <option value="">Opcion 1</option>
                             <option value="">Opcion 2</option>
                             <option value="">Opcion 3</option>
@@ -276,23 +273,25 @@
 
                     </div>
 
-                </div><!--  Fin Tab Formulario 1--> --}}
+                </div><!--  Fin Tab Formulario 1-->
                 <!-- ******************** -->
                 <!-- ******************** -->
                 <!-- ******************** -->
                 <!-- ******************** -->
-                <div class="col-md-12">
-                    {{$test}}
-                    <button wire:click="increment">+</button>
-                    <h1>{{ $this->count }}</h1>
-                    <button wire:click="decrement">-</button>
-                </div>
-             {{-- </div> --}}
+                {{-- <div class="row">
+                    <div class="col-md-12">
+                        {{$test}}
+                        {{-- <button wire:click="create">Y</button>
+                        <p>{{$test}}</p>
+                    </div>
+                </div> --}}
+                <!-- El Trabajo Inteligente Tiene Más Esfuerzo que el Contrario -->
+             </div>
 
          </div><!-- Fin del Body-->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+          <button type="submit" class="btn btn-primary" wire:click="create">Guardar cambios</button>
         </div>
 
       </div>
