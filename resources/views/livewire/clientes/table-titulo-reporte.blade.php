@@ -10,7 +10,7 @@
     @if ($show != false)  
     <div class="row">
       <form wire:submit.prevent="create">
-      <div class="col-md-5">
+      <div class="col-md-7">
         <input type="text" wire:model='idUser' hidden>
         <label for="">Titulo</label>
           <input type="text" wire:model='titulo' class="form-control" placeholder="Titulo reporte">
@@ -84,6 +84,14 @@
       </div>
     </div>
   </div>
+
+  @if ($alert == true)
+  <script>
+    swal("Registro!", "Registro guardado correctamente!", "success");
+    $('#modalTituloReporte').modal('hide')
+  </script>
+  
+  @endif
     
   </div>
    

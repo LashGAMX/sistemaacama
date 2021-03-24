@@ -22,7 +22,7 @@ class ClienteController extends Controller
     public function details($id,$idSuc)
     {
         $cliente = DB::table('ViewGenerales')->where('Id_cliente',$id)->first();
-        $sucursal = SucursalCliente::where('Id_cliente',$id)->first();
+        $sucursal = SucursalCliente::where('Id_sucursal',$idSuc)->first();
         return view('clientes.cliente_detalle',compact('cliente','idSuc','sucursal'));
     }
 }

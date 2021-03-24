@@ -1,19 +1,5 @@
 <div>
-    @if ($alert === true)
-    <div class="alert alert-success" role="alert">
-        {{$msg}}
-  </div>   
-@endif
-@if ($alert === false)
-    <div class="alert alert-success" role="alert">
-    {{$msg}}
-  </div>   
-@endif
-<script type="text/javascript">
-        setTimeout(function() {
-            $(".alert").fadeOut(1500);
-        },6000);
-</script>
+
     <div class="row">
       <div class="col-md-8" style="align-content: right">
         <button class="btn btn-success btn-sm" wire:click='btnCreate'  data-toggle="modal" data-target="#modalNormaParametro" ><i class="voyager-plus"></i> Crear</button>
@@ -56,7 +42,7 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <select multiple="multiple" wire:model='parametro'>
+                        <select multiple="multiple" class="duallistbox" wire:click='llenarDato' wire:model='parametro'>
                             @foreach ($parametros as $item)
                             <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
                             @endforeach
@@ -66,20 +52,22 @@
                 <div class="row">
                     <div class="col-md-12">
                         <h6>Selecionado</h6>
-                        {{$parametro}}
+                        @php
+                            echo ''.$dataArray;
+                        @endphp
                     </div>
                 </div>
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-              <button type="submit" class="btn btn-primary" >Guardar cambios</button>
+              <button type="submit" class="btn btn-primary"  onclick="getData()">Guardar cambios</button>
             </div>
         </form>
           </div>
         </div>
       </div> 
 
- 
+
 @if ($sw == true)
     <script>
 
@@ -91,6 +79,7 @@
     infoText:'Mostrar todo {0}',
     filterPlaceHolder:'Filtro'
     });
+                      
     </script>
 @endif
   </div>

@@ -13,11 +13,11 @@ class NormaParametros extends Component
 
     public $idParametro;
     public $parametro;
+    public $dataArray = array();
     public $datos;
      
     public $sw = false;
-    public $msg = 'Dato guardado correctamente';
-    public $alert = null;
+    public $alert = false;
 
     public function render()
     {
@@ -29,6 +29,10 @@ class NormaParametros extends Component
     {
         $this->sw = true;
     }   
+    public function llenarDato()
+    {
+        $this->dataArray[0] = $this->parametro;
+    }
     public function update()
     {
         $this->datos = $this->parametro;

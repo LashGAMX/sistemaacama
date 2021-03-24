@@ -4,13 +4,13 @@
         <button class="btn btn-success btn-sm" wire:click="setBtn"><i class="voyager-plus"></i> Crear</button>
       </div>
       <div class="col-md-4">
-        <input type="search" wire:model="search" class="form-control" placeholder="Buscar">
+        <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">
       </div>
     </div>
     @if ($show != false)  
     <div class="row">
       <form wire:submit.prevent="create">
-      <div class="col-md-5">
+      <div class="col-md-7">
         <input type="text" wire:model='idUser' hidden>
         <label for="">Punto muestreo</label>
           <input type="text" wire:model='punto' class="form-control" placeholder="Punto muestreo">
@@ -84,6 +84,14 @@
       </div>
     </div>
   </div>
+
+  @if ($alert == true)
+  <script>
+    swal("Registro!", "Registro guardado correctamente!", "success");
+    $('#modalPuntoReporte').modal('hide')
+  </script>
+  
+  @endif
     
   </div>
    

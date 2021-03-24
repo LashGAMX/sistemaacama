@@ -10,7 +10,7 @@ class DetallesTipoCuerpo extends Model
 {
     use HasFactory;
     protected $table = 'detalles_tipoCuerpo';
-    protected $primaryKey = 'Id_cotizacion';
+    protected $primaryKey = 'Id_detalle';
     
 
     protected $fillable = [

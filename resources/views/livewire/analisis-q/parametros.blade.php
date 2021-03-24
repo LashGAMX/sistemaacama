@@ -4,7 +4,7 @@
         <button class="btn btn-success btn-sm" wire:click='btnCreate' data-toggle="modal" data-target="#modalParametro" ><i class="voyager-plus"></i> Crear</button>
       </div>
       <div class="col-md-4">
-        <input type="search" wire:model="search" class="form-control" placeholder="Buscar">
+        <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">
       </div>
     </div>
     <table class="table table-sm">
@@ -34,7 +34,7 @@
                 <tr>
             @endif
           <td>{{$item->Id_parametro}}</td>
-          <td>{{$item->Laboratorio}}</td>
+          <td>{{$item->Sucursal}}</td>
           <td>{{$item->Tipo_formula}}</td>
           <td>{{$item->Matriz}}</td>
           <td>{{$item->Rama}}</td>
@@ -205,6 +205,14 @@
         </div>
       </div>
     
+      @if ($alert == true)
+      <script>
+        swal("Registro!", "Registro guardado correctamente!", "success");
+        $('#modalParametro').modal('hide')
+      </script>
+      
+      @endif
+
   </div>
    
 
