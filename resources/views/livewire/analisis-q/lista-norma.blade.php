@@ -6,7 +6,11 @@
                 <select class="form-control" wire:model='norma'>
                     <option value="0">Sin seleccionar</option>
                     @foreach ($model as $item)
-                        <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
+                        @if ($idNorma == $item->Id_norma)
+                            <option value="{{$item->Id_norma}}" selected>{{$item->Clave_norma}}</option>
+                        @else
+                            <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
+                        @endif
                     @endforeach
                 </select>
             </div> 

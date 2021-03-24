@@ -2,71 +2,67 @@
 
 namespace App\Http\Livewire\Clientes;
 
-use App\Models\RfcSiralab;
+use App\Models\TituloConsecionSir;
 use Livewire\Component;
 use Livewire\WithPagination;
 
-class TableRfcSiralab extends Component
+class TableTituloSiralab extends Component
 {
     use WithPagination; 
     public $idSuc;
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']]; 
-    public $perPage = 5;
+    public $perPage = 30;
     public $show = false;
-    public $alert = false; 
+    public $alert = false;
 
-    public $rfc;
-    public $idRfc;
+    public $titulo;
+    public $idTitulo;
 
     protected $rules = [ 
-        'rfc' => 'required|max:13|min:12|unique:rfc_sucursal',
+        'titulo' => 'required',
     ];
     protected $messages = [
-        'rfc.required' => 'El RFC es un dato requerido',
-        'rfc.unique' => 'Este RFC ya se encuentra registrado',
+        'titulo.required' => 'El titulo es un dato requerido',
     ];
 
     public function render()
     {
-        // $model = AreaAnalisis::where('Area_analisis','LIKE',"%{$this->search}%")
-        // ->paginate($this->perPage);
-        $model = RfcSiralab::where('Id_sucursal',$this->idSuc)->get();
-        return view('livewire.clientes.table-rfc-siralab',compact('model'));
+        $model = TituloConsecionSir::where('Id_sucursal',$this->idSuc)->get();
+            
+        return view('livewire.clientes.table-titulo-siralab',compact('model'));
     }
 
     public function create()
     {
         $this->validate();
-        RfcSiralab::create([
+        TituloConsecionSir::create([
+            'Titulo' => $this->titulo,
             'Id_sucursal' => $this->idSuc,
-            'RFC' => $this->rfc,
         ]);
         $this->alert = true;
     }
     public function store()
     {
-        $this->validate([
-            'rfc' => 'required|max:13|min:12',
-        ]);
-        $model = RfcSiralab::find($this->idRfc);
-        $model->RFC = $this->rfc;
+        $this->validate();
+        $model = TituloConsecionSir::find($this->idTitulo);
+        $model->Titulo = $this->titulo;
         $model->save();
         $this->alert = true;
     }
-    public function setData($id,$rfc)
+    public function setData($id,$titulo)
     {
         $this->alert = false;
         $this->resetValidation();
-        $this->idRfc = $id;
-        $this->rfc = $rfc;
+        $this->idTitulo = $id;
+        $this->titulo = $titulo;
     }
     
     public function setBtn()
     {
-        $this->alert = false;
         $this->clean();
+        $this->alert = false;
         if($this->show == false)
         {
             $this->resetValidation();
@@ -82,9 +78,8 @@ class TableRfcSiralab extends Component
     }
     public function clean()
     {
-        $this->idRfc = '';
-        $this->rfc = '';
-        $this->status = 1;
+        $this->idTitulo = '';
+        $this->titulo = '';
     }
     public function resetAlert()
     {

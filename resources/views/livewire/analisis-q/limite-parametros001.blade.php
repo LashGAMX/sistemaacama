@@ -15,7 +15,7 @@
       </ul>
       <div class="tab-content" id="myTabContent">
 
-        <div class="tab-pane fade active" id="rios" role="tabpanel" aria-labelledby="rios-tab">
+        <div class="tab-pane fade" id="rios" role="tabpanel" aria-labelledby="rios-tab">
             <div class="accordion" id="accordionExample">
                 <table class="table table-hover table-striped">
                     <thead class="thead-dark">
@@ -37,7 +37,7 @@
                         <td>{{$model[$i]->Prom_Mmin}}</td>
                         <td>{{$model[$i]->Prom_Dmax}}</td>
                         <td>{{$model[$i]->Prom_Dmin}}</td>
-                        <td><button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
+                        <td><button type="button" class="btn btn-primary" wire:click="setData('{{$model[$i]->Id_limite}}','{{$model[$i]->Prom_Mmax}}','{{$model[$i]->Prom_Mmin}}','{{$model[$i]->Prom_Dmax}}','{{$model[$i]->Prom_Dmin}}')" data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
                       </tr>
                     @endfor
                     @else
@@ -70,7 +70,7 @@
                         <td>{{$model[$i]->Prom_Mmin}}</td>
                         <td>{{$model[$i]->Prom_Dmax}}</td>
                         <td>{{$model[$i]->Prom_Dmin}}</td>
-                        <td></td>
+                        <td><button type="button" class="btn btn-primary" wire:click="setData('{{$model[$i]->Id_limite}}','{{$model[$i]->Prom_Mmax}}','{{$model[$i]->Prom_Mmin}}','{{$model[$i]->Prom_Dmax}}','{{$model[$i]->Prom_Dmin}}')" data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
                       </tr>
                     @endfor
                     @else
@@ -104,7 +104,7 @@
                         <td>{{$model[$i]->Prom_Mmin}}</td>
                         <td>{{$model[$i]->Prom_Dmax}}</td>
                         <td>{{$model[$i]->Prom_Dmin}}</td>
-                        <td></td>
+                        <td><button type="button" class="btn btn-primary" wire:click="setData('{{$model[$i]->Id_limite}}','{{$model[$i]->Prom_Mmax}}','{{$model[$i]->Prom_Mmin}}','{{$model[$i]->Prom_Dmax}}','{{$model[$i]->Prom_Dmin}}')" data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
                       </tr>
                     @endfor
                     @else
@@ -138,7 +138,7 @@
                         <td>{{$model[$i]->Prom_Mmin}}</td>
                         <td>{{$model[$i]->Prom_Dmax}}</td>
                         <td>{{$model[$i]->Prom_Dmin}}</td>
-                        <td></td>
+                        <td><button type="button" class="btn btn-primary" wire:click="setData('{{$model[$i]->Id_limite}}','{{$model[$i]->Prom_Mmax}}','{{$model[$i]->Prom_Mmin}}','{{$model[$i]->Prom_Dmax}}','{{$model[$i]->Prom_Dmin}}')" data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
                       </tr>
                     @endfor
                     @else
@@ -170,15 +170,15 @@
                     </div>
                     <div class="col-md-6">
                         <label for="">Prom Mmin</label>
-                        <input type="text" wire:model='Prom_Mmax' class="form-control" placeholder="Prom_Mmax">
-                    </div>
-                    <div class="col-md-">
-                        <label for="">Prom Dmax</label>
-                        <input type="text" wire:model='Prom_Mmax' class="form-control" placeholder="Prom_Mmax">
+                        <input type="text" wire:model='Prom_Mmin' class="form-control" placeholder="Prom_Mmax">
                     </div>
                     <div class="col-md-6">
                         <label for="">Prom Dmax</label>
-                        <input type="text" wire:model='Prom_Mmax' class="form-control" placeholder="Prom_Mmax">
+                        <input type="text" wire:model='Prom_Dmax' class="form-control" placeholder="Prom_Mmax">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="">Prom Dmax</label>
+                        <input type="text" wire:model='Prom_Dmin' class="form-control" placeholder="Prom_Mmax">
                     </div>
                 </div>
             </div>
@@ -194,7 +194,7 @@
       @if ($alert == true)
       <script>
         swal("Registro!", "Registro guardado correctamente!", "success");
-        $('#modalRfcSiralab').modal('hide')
+        $('#modalLimiteParametro').modal('hide')
       </script>
     @endif
     

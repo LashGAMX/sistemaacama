@@ -22,7 +22,7 @@
             </tr>
         </thead>
         <tbody>
-        @if ($model->count()) 
+        @if ($model->count())  
         @foreach ($model as $item) 
         <tr>  
 

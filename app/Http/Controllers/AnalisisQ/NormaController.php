@@ -34,7 +34,10 @@ class NormaController extends Controller
     }
     public function getParametro()
     {
-        $model = DB::table('ViewParametros')->get();
+        $idSub = $_POST['idSub'];
+        $model = DB::table('ViewNormaParametro')
+        ->where('Id_norma',$idSub)
+        ->get();
         $data = array(
             'model' => $model,
         );

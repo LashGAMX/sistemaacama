@@ -182,7 +182,7 @@ var newModal2 = (function(idDiv = '',idModal = '',titulo = "Modal",sizeModal = '
 });
 
 
-var modalType = (function (idDiv = '',idModal = '',titulo = "Modal",sizeModal = 'xl',body,btn = '<button>Boton</button>'){
+var modalType = (function (idDiv = '',idModal = '',titulo = "Modal",sizeModal = 'lg',body,btn = '<button>Boton</button>'){
     let div = document.getElementById(idDiv);
     let content = body;
     let com = '';

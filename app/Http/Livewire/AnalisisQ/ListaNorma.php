@@ -12,7 +12,6 @@ class ListaNorma extends Component
 
     public function render() 
     {
-        // $this->norma = $this->idNorma;   
         $model = Norma::all();
         return view('livewire.analisis-q.lista-norma',compact('model')); 
     }

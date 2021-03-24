@@ -12,9 +12,9 @@
       <form wire:submit.prevent="create">
       <div class="col-md-7">
         <input type="text" wire:model='idUser' hidden>
-        <label for="">RCF</label>
-          <input type="text" wire:model='rfc' class="form-control" placeholder="RFC siralab">
-          @error('rfc') <span class="text-danger">{{ $message  }}</span> @enderror
+        <label for="">Titulo</label>
+          <input type="text" wire:model='titulo' class="form-control" placeholder="Titulo reporte">
+          @error('titulo') <span class="text-danger">{{ $message  }}</span> @enderror
       </div>
       <div class="col-md-5">
         <button class="btn btn-sm btn-success" type="submit" ><i class="voyager-check"></i> <span hidden-sm hidden-xs>Aceptar</span> </button>
@@ -25,29 +25,29 @@
   @endif
     <table class="table table-hover table-striped">
         <thead class="thead-dark">
-            <tr>
+            <tr> 
                 <th>Id</th>
-                <th>RFC</th>
+                <th>Titulo</th>
                 <th>Creación</th>
                 <th>Modificación</th>
                 <th>Acción</th>
             </tr>
         </thead>
         <tbody>
-        @if ($model->count()) 
+        @if ($model->count())  
         @foreach ($model as $item) 
         <tr>  
           {{-- <form wire:submit.prevent="update"> --}}
-          <td>{{$item->Id_rfc}}</td>
-          <td>{{$item->RFC}}</td>          
+          <td>{{$item->Id_titulo}}</td>
+          <td>{{$item->Titulo}}</td>          
           <td>{{$item->created_at}}</td>
           <td>{{$item->updated_at}}</td>
           <td>
-            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_rfc}}','{{$item->RFC}}')"  data-toggle="modal" data-target="#modalRfcReporte"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_titulo}}','{{$item->Titulo}}')"  data-toggle="modal" data-target="#modalTituloReporte"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
           {{-- </form>  --}}
         </tr>
-    @endforeach
+    @endforeach 
         @else
             <h6>No hay resultados para la búsqueda "{{$search}}"</h6>
         @endif
@@ -56,12 +56,12 @@
   
   
     
-    <div wire:ignore.self class="modal fade" id="modalRfcReporte" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="modalTituloReporte" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <form wire:submit.prevent="store">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modificar RFC reporte</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Modificar titulo siralab</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -69,10 +69,10 @@
         <div class="modal-body">
             <div class="row">
                 <div class="col-md-12">
-                    <input type="text" wire:model="idRfc" hidden>
-                    <label for="">RFC</label>
-                    <input type="text" wire:model='rfc' class="form-control" placeholder="RFC de reporte">
-                    @error('rfc') <span class="text-danger">{{ $message  }}</span> @enderror
+                    <input type="text" wire:model="idTitulo" hidden>
+                    <label for="">Titulo</label>
+                    <input type="text" wire:model='titulo' class="form-control" placeholder="Titulo de reporte">
+                    @error('titulo') <span class="text-danger">{{ $message  }}</span> @enderror
                 </div>
             </div>
         </div>
@@ -85,14 +85,13 @@
     </div>
   </div>
 
-  
   @if ($alert == true)
-<script>
-  swal("Registro!", "Registro guardado correctamente!", "success");
-  $('#modalRfcReporte').modal('hide')
-</script>
-
-@endif
+  <script>
+    swal("Registro!", "Registro guardado correctamente!", "success");
+    $('#modalTituloReporte').modal('hide')
+  </script>
   
+  @endif
+    
   </div>
    
