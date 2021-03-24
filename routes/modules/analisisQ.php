@@ -10,6 +10,8 @@ Route::get('analisisQ/normas', [NormaController::class,'index']);
 
 Route::get('analisisQ/detalle_normas/{id}', [NormaController::class,'show']);
 Route::get('analisisQ/detalle_normas/{id}/{idSub}', [NormaController::class,'details']);
+Route::post('analisisQ/detalle_normas/create', [NormaController::class,'create']);
+Route::post('analisisQ/detalle_normas/getParametro', [NormaController::class,'getParametro']);
    
 Route::get('analisisQ/limites', [LimitesController::class,'index']);
 Route::get('analisisQ/limites/{idNorma}', [LimitesController::class,'show']); 

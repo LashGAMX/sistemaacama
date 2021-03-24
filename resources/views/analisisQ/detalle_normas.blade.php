@@ -28,15 +28,30 @@
     <div class="col-md-7">
       <div class="row">
         <div class="col-md-12">
+          <h6>Norma: {{@$subnorma->Clave}}</h6>
+          <input type="text" id="idSub" value="{{$idSub}}">
+        </div>
+        <div class="col-md-12">
             <h5>Parametros</h5>
         </div>
         <div class="col-md-12">
-          @livewire('analisis-q.norma-parametros', ['idUser' => Auth::user()->id,'idSub' => @$idSub])
+          {{-- @livewire('analisis-q.norma-parametros', ['idUser' => Auth::user()->id,'idSub' => @$idSub]) --}}
+          <div id="tabParametros">
+
+          </div>
         </div>  
     </div>
     </div>
   </div>
+
+
+
   @stop
 
 
 @endsection   
+
+  
+<script src="{{asset('js/analisisQ/detalle_normas.js')}}"></script>
+<script src="{{asset('js/libs/componentes.js')}}"></script>
+<script src="{{asset('js/libs/tablas.js')}}"></script>

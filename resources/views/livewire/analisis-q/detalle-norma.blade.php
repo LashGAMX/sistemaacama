@@ -1,19 +1,5 @@
 <div>
-    @if ($alert === true)
-    <div class="alert alert-success" role="alert">
-        {{$msg}}
-  </div>   
-@endif
-@if ($alert === false)
-    <div class="alert alert-success" role="alert">
-    {{$msg}}
-  </div>   
-@endif
-<script type="text/javascript">
-        setTimeout(function() {
-            $(".alert").fadeOut(1500);
-        },6000);
-</script>
+
     <div class="row">
       <div class="col-md-8">
         <button class="btn btn-success btn-sm"  data-toggle="modal" data-target="#modalSubNorma" wire:click="btnCreate"><i class="voyager-plus"></i> Crear</button>
@@ -103,6 +89,14 @@
           </div>
         </div>
       </div>
+
+      @if ($alert == true)
+      <script>
+        swal("Registro!", "Registro guardado correctamente!", "success");
+        $('#modalRfcSiralab').modal('hide')
+      </script>
+      
+      @endif
     
   </div>
    

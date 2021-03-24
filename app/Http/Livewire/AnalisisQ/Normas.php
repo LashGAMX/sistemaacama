@@ -9,9 +9,11 @@ use Livewire\WithPagination;
 class Normas extends Component
 {
     use WithPagination;
-    public $perPage = 5;
-
+    public $perPage = 50;
     public $sw = false;
+    public $search = '';
+    protected $queryString = ['search' => ['except' => '']]; 
+
     public $idNorma;
     public $norma;
     public $status;
@@ -19,8 +21,7 @@ class Normas extends Component
     public $inicio;
     public $fin;
 
-    public $alert =  NULL;
-    public $msg = '';
+    public $alert =  false;
     
     protected $rules = [
         'norma' => 'required',
@@ -35,6 +36,8 @@ class Normas extends Component
     public function render()
     {
         $model = Norma::withTrashed()
+        ->where('Norma','LIKE',"%{$this->search}%")
+        ->orWhere('Clave_norma','LIKE',"%{$this->search}%")
         ->paginate($this->perPage);
         return view('livewire.analisis-q.normas',compact('model'));
     }
@@ -47,6 +50,7 @@ class Normas extends Component
             'Inicio_validez' => $this->inicio,
             'Fin_validez' => $this->fin
         ]);
+        $this->alert = true;
     }
     public function store()
     {
@@ -57,17 +61,15 @@ class Normas extends Component
         $model->Inicio_validez = $this->inicio;
         $model->Fin_validez = $this->fin;
         $model->save();
+        
         $this->alert = true;
-        $this->msg = 'Norma modificada correctamente';
     }
     public function btnCreate()
     {
         $this->resetValidation();
-        $this->status = 1;
-        if($this->sw != false)
-        {
+        $this->alert = false;
+        $this->clean();
             $this->sw = true;
-        }
     }
     public function setData($idNorma,$norma,$clave,$inicio,$fin,$status)
     {
@@ -83,10 +85,24 @@ class Normas extends Component
             $this->status = 1;
         }
         $this->sw = true;
+        $this->alert = false;
     }
     public function showDetils($id)
     {
         return redirect()->to('/admin/analisisQ/detalle_normas/'.$id);
+    }
+    public function clean()
+    {
+        $this->idNorma = '';
+        $this->norma = '';
+        $this->status = 1;
+        $this->clave = '';
+        $this->inicio = '';
+        $this->fin = '';
+    }
+    public function resetAlert()
+    {
+        $this->alert = false;
     }
 
 }

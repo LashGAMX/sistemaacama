@@ -13,8 +13,10 @@ class TableTituloReporte extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']]; 
-    public $perPage = 5;
+    public $perPage = 30;
     public $show = false;
+    public $alert = false;
+
     public $titulo;
     public $idTitulo;
 
@@ -39,6 +41,7 @@ class TableTituloReporte extends Component
             'Titulo' => $this->titulo,
             'Id_sucursal' => $this->idSuc,
         ]);
+        $this->alert = true;
     }
     public function store()
     {
@@ -46,9 +49,11 @@ class TableTituloReporte extends Component
         $model = TituloConsecion::find($this->idTitulo);
         $model->Titulo = $this->titulo;
         $model->save();
+        $this->alert = true;
     }
     public function setData($id,$titulo)
     {
+        $this->alert = false;
         $this->resetValidation();
         $this->idTitulo = $id;
         $this->titulo = $titulo;
@@ -57,6 +62,7 @@ class TableTituloReporte extends Component
     public function setBtn()
     {
         $this->clean();
+        $this->alert = false;
         if($this->show == false)
         {
             $this->resetValidation();
@@ -74,6 +80,10 @@ class TableTituloReporte extends Component
     {
         $this->idTitulo = '';
         $this->titulo = '';
+    }
+    public function resetAlert()
+    {
+        $this->alert = false;
     }
 }
  

@@ -1,25 +1,11 @@
 <div>
-    @if ($alert === true)
-        <div class="alert alert-success" role="alert">
-            {{$msg}}
-      </div>   
-    @endif
-    @if ($alert === false)
-        <div class="alert alert-success" role="alert">
-        {{$msg}}
-      </div>   
-    @endif
-    <script type="text/javascript">
-            setTimeout(function() {
-                $(".alert").fadeOut(1500);
-            },6000);
-    </script>
+
     <div class="row">
       <div class="col-md-8">
         <button class="btn btn-success btn-sm" wire:click='btnCreate' data-toggle="modal" data-target="#modalNorma" ><i class="voyager-plus"></i> Crear</button>
       </div>
       <div class="col-md-4">
-        <input type="search" wire:model="search" class="form-control" placeholder="Buscar">
+        <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">
       </div>
     </div>
     <table class="table table-sm">
@@ -135,6 +121,14 @@
           </div>
         </div>
       </div>
+
+      @if ($alert == true)
+      <script>
+        swal("Registro!", "Registro guardado correctamente!", "success");
+        $('#modalNorma').modal('hide')
+      </script>
+      
+      @endif
 
   </div>
    

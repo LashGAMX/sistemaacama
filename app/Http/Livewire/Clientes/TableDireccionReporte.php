@@ -14,8 +14,10 @@ class TableDireccionReporte extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']]; 
-    public $perPage = 5;
+    public $perPage = 30;
     public $show = false;
+    public $alert = false;
+
     public $dir;
     public $idDir;
 
@@ -28,8 +30,9 @@ class TableDireccionReporte extends Component
 
     public function render()
     {
-        $model = DireccionReporte::where('Id_sucursal',$this->idSuc)->get();
-            
+        $model = DireccionReporte::where('Id_sucursal',$this->idSuc)
+        ->orWhere('Direccion','LIKE',"%{$this->search}%")
+        ->get();
         return view('livewire.clientes.table-direccion-reporte',compact('model'));
     }
 
@@ -40,6 +43,7 @@ class TableDireccionReporte extends Component
             'Direccion' => $this->dir,
             'Id_sucursal' => $this->idSuc,
         ]);
+        $this->alert = true;
     }
     public function store()
     {
@@ -47,9 +51,11 @@ class TableDireccionReporte extends Component
         $model = DireccionReporte::find($this->idDir);
         $model->Direccion = $this->dir;
         $model->save();
+        $this->alert = true;
     }
     public function setData($id,$dir)
     {
+        $this->alert = false;
         $this->resetValidation();
         $this->idDir = $id;
         $this->dir = $dir;
@@ -57,6 +63,7 @@ class TableDireccionReporte extends Component
     
     public function setBtn()
     {
+        $this->alert = false;
         $this->clean();
         if($this->show == false)
         {
@@ -75,5 +82,10 @@ class TableDireccionReporte extends Component
     {
         $this->idDir = '';
         $this->dir = '';
+    }
+
+    public function resetAlert()
+    {
+        $this->alert = false;
     }
 }

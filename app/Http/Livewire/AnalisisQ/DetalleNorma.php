@@ -7,7 +7,8 @@ use Livewire\Component;
 
 class DetalleNorma extends Component
 {
-    public $search;
+    public $search = '';
+    protected $queryString = ['search' => ['except' => '']]; 
     public $stdNorma;
     public $name;
     public $idNorma;
@@ -18,8 +19,7 @@ class DetalleNorma extends Component
     public $status;
 
     public $sw;
-    public $msg = 'Dato guardado correctamente';
-    public $alert = null;
+    public $alert = false;
 
     protected $rules = [
         'sub' => 'required',
@@ -57,12 +57,13 @@ class DetalleNorma extends Component
     public function setData($idSub,$sub,$clave,$status)
     {
         $this->sw = true;
+        $this->alert = false;
         $this->resetValidation();
         $this->idSub = $idSub;
         $this->sub = $sub;
         $this->clave = $clave;
         if($status != null)
-        {
+        { 
             $this->status = 0;
         }else{
             $this->status = 1;
@@ -75,6 +76,7 @@ class DetalleNorma extends Component
     public function btnCreate()
     {
         $this->clean();
+        $this->alert = false;
         $this->resetValidation();
         $this->status = 1;
         if($this->sw != false)
