@@ -1,12 +1,9 @@
 <?php
 
-use App\Http\Controllers\Cotizacion\CotizacionController;
 use App\Http\Controllers\Cotizacion\CotizacionConfigController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('cotizacion', [CotizacionController::class,'index']);
-
-Route::get('cotizacioncatalogos', [CotizacionConfigController::class,'index']);
+Route::get('cotizacionConfig', [CotizacionConfigController::class,'index']);
 
 //Route::get('cotizacion', [CotizacionController::class,'index']);
 

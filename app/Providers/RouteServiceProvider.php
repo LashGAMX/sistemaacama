@@ -63,7 +63,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->prefix('admin')
                 ->group(base_path('routes/modules/cotizacion.php'));
-                Route::middleware('web', 'auth')
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/cotizacionConfig.php'));
+            Route::middleware('web', 'auth')
                 ->namespace($this->namespace)
                 ->prefix('admin')
                 ->group(base_path('routes/modules/precios.php'));
