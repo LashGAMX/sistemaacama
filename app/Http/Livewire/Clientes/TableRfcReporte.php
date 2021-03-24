@@ -20,7 +20,7 @@ class TableRfcReporte extends Component
     public $rfc;
     public $idRfc;
     public $status = 1;
-
+ 
     protected $rules = [ 
         'rfc' => 'required|max:13|min:12|unique:rfc_sucursal',
     ];
@@ -52,17 +52,16 @@ class TableRfcReporte extends Component
         $this->validate([
             'rfc' => 'required|max:13|min:12',
         ]);
-        $model = RfcSucursal::find($this->idRfc);
-        $model->RFC = $this->rfc;
-        $model->save();
 
         if($this->status != 1)
         {
+            RfcSucursal::withTrashed()->find($this->idRfc)->restore();
             $model = RfcSucursal::withTrashed()->find($this->idRfc);
             $model->RFC = $this->rfc;
             $model->save();
             RfcSucursal::find($this->idRfc)->delete();
         }else{
+            RfcSucursal::withTrashed()->find($this->idRfc)->restore();
             $model = RfcSucursal::withTrashed()->find($this->idRfc);
             $model->RFC = $this->rfc;
             $model->save();

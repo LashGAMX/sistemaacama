@@ -76,10 +76,9 @@ class Cotizacion extends Component
         $intermediarios = IntermediariosView::all();
         $cliente = Clientes::all();
         $norma = Norma::all();
-        $model = Cotizaciones::all()
-        ->where('Cliente','LIKE',"%{$this->search}%")
-        ->where('Fecha_cotizacion', '>=' , "{$this->fechaRangoIncial}")
-        ->orWhere('Fecha_cotizacion','=',"{$this->fechaDia}");
+        $model = Cotizaciones::where('Cliente','LIKE',"%{$this->search}%")
+        ->where('Fecha_cotizacion', '>=' , "%{$this->fechaRangoIncial}%")
+        ->orWhere('Fecha_cotizacion','<=',"%{$this->fechaDia}%");
 //--------------
         // ->where('Cliente','LIKE',"%{$this->search}%")
         // ->where('Fecha_cotizacion', '>=' , '{$fechaRangoIncial}')

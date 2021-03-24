@@ -28,7 +28,7 @@
     </form>
     </div>  
   @endif
-    <table class="table table-hover table-striped">
+    <table class="table">
         <thead class="thead-dark">
             <tr>
                 <th>Id</th>
@@ -41,7 +41,7 @@
         <tbody>
         @if ($model->count()) 
         @foreach ($model as $item) 
-        @if ($item->deleted_at != 'null')
+        @if ($item->deleted_at != null)
           <tr class="bg-danger text-white">  
         @else
             <tr>
@@ -75,7 +75,7 @@
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <div class="modal-body">
+        <div class="modal-body"> 
             <div class="row">
               <div class="col-md-12">
                 <label for="">Activo</label>
@@ -102,7 +102,7 @@
   @if ($alert == true)
 <script>
   swal("Registro!", "Registro guardado correctamente!", "success");
-  $('#modalCliente').modal('hide')
+  $('#modalRfcSiralab').modal('hide')
 </script>
 
 @endif
