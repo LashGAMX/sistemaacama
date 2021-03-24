@@ -21,6 +21,7 @@ class Cotizaciones extends Model
         'Servicio',
         'Fecha_cotizacion',
         'Supervicion',
-        'Created_by'
+        'Created_by',
+        'deleted_at'
     ];
 }

@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Cotizacion;
 use Illuminate\Support\Facades\DB;
 
+use App\Models\User;
 use App\Models\IntermediariosView;
 use App\Models\Cotizaciones;
 use App\Models\Norma;
@@ -17,19 +18,7 @@ class Cotizacion extends Component
     use WithPagination;
 
     public $test = 'y';
-    public $count = 0;
-
-     //------
-    public function increment(): void
-    {
-        $this->count++;
-    }
-
-    public function decrement(): void
-    {
-        $this->count--;
-    }
-
+    public $idCotizacion = 0;
     #Atributos de Fecha
     public $fechaDia = '';
     public $fechaRangoIncial = '';
@@ -43,6 +32,8 @@ class Cotizacion extends Component
     public $clienteAgregadoPorSeleccion = false;
     public $clientes;
     public $testing;
+
+    public $idUser;
      #Atributos del primer Formulario
     public $intermediario;
     public $clienteObtenidoSelect;
@@ -50,6 +41,8 @@ class Cotizacion extends Component
     public $atencionA;
     public $tipoServicio;
     public $fechaCotizacion;
+
+    public $reporte;
 
     public $codiccionesVenta;
     public $puntosMuestreo;
@@ -64,6 +57,8 @@ class Cotizacion extends Component
     public $telefono;
     public $direccion;
 
+    public $usuario;
+
     #Atributos del segundo Formulario
     public $normaFormularioDos;
     /**
@@ -77,8 +72,17 @@ class Cotizacion extends Component
         $cliente = Clientes::all();
         $norma = Norma::all();
         $model = Cotizaciones::where('Cliente','LIKE',"%{$this->search}%")
-        ->where('Fecha_cotizacion', '>=' , "%{$this->fechaRangoIncial}%")
-        ->orWhere('Fecha_cotizacion','<=',"%{$this->fechaDia}%");
+        ->orWhere('Folio_servicio','LIKE',"%{$this->search}%")
+        ->orWHere('Cotizacion_folio','LIKE',"%{$this->search}%")
+        ->orWhere('Empresa','LIKE',"%{$this->search}%")
+        ->orWhere('Servicio','LIKE',"%{$this->search}%")
+        ->orWhere('Supervicion','LIKE',"%{$this->search}%")
+        ->orwhere("Fecha_cotizacion","LIKE","%{$this->search}%")->paginate(50);
+
+        //->orwhere("Fecha_cotizacion","=","{$this->fechaRangoIncial}")
+
+        //   ->orwhere('Fecha_cotizacion', '>=' , "{$this->fechaRangoIncial}")
+        //->orwhere('Fecha_cotizacion', '<=' , "{$this->fechaRangoFinal}")
 //--------------
         // ->where('Cliente','LIKE',"%{$this->search}%")
         // ->where('Fecha_cotizacion', '>=' , '{$fechaRangoIncial}')
@@ -97,31 +101,44 @@ class Cotizacion extends Component
     public function clienteAgregadoPorSeleccion(){
         $this->clienteAgregadoPorSeleccion = true;
     }
+
+    public function edit($id){
+        $cotizacion = Cotizaciones::where('Id_cotizacion',$id)->first();
+
+        $this->clienteManual =  $cotizacion->Cliente;
+        // $cotizacion->Folio_servicio;
+        // $cotizacion->Cotizacion_folio;
+        $this->atencionA =  $cotizacion->Empresa;
+        $this->tipoServicio = $cotizacion->Servicio;
+        $this->fechaCotizacion = $cotizacion->Fecha_cotizacion;
+        // $cotizacion->Supervicion;
+    }
+
+    public function details($id){
+        $cotizacion = Cotizaciones::where('Id_cotizacion',$id)->first();
+    }
+
     public function create(): void
     {
         # code...
-        // $cotizacion = Cotizaciones::withTrashed()->get();
-        // $num = count($cotizacion);
-        // $num++;
-        // $resultado = Cotizaciones::create([
-        //     // 'Cliente' => $this->clienteManual,
-        //     // 'Folio_servicio' => '23-03/'.$num,
-        //     // 'Cotizacion_folio' => '23-03/'.$num,
-        //     // 'Empresa' => $this->atencionA,
-        //     // 'Servicio' => $this->tipoServicio,
-        //     // 'Fecha_cotizacion' => $this->fechaCotizacion,
-        //     // 'Supervicion' => 'por Asignar',
-        //     // 'created_by' =>  'por Asignar',
-        //     'Cliente' => 'testing',
-        //     'Folio_servicio' => '23-03/'.$num,
-        //     'Cotizacion_folio' => '23-03/'.$num,
-        //     'Empresa' => 'testing',
-        //     'Servicio' => 'testing',
-        //     'Fecha_cotizacion' => 'testing',
-        //     'Supervicion' => 'testing',
-        //     'created_by' => 'testing',
-        // ]);
-         $this->test = 's';
+        $cotizacion = Cotizaciones::withTrashed()->get();
+        $num = count($cotizacion);
+        $num++;
+
+           Cotizaciones::create([
+            'Cliente' => $this->clienteManual,
+            'Folio_servicio' => '24-03/'.$num,
+            'Cotizacion_folio' => '24-03/'.$num,
+            'Empresa' => $this->atencionA,
+            'Servicio' => $this->tipoServicio,
+            'Fecha_cotizacion' => $this->fechaCotizacion,
+            'Supervicion' => 'por Asignar',
+            'deleted_at' => NULL,
+            'created_by' =>  $this->idUser
+        ]);
+        $data = Cotizaciones::latest('Id_cotizacion')->first();
+        $this->test = $data->Id_cotizacion;
+         $this->resetValidation();
     }
 
 }
