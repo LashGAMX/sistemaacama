@@ -6,6 +6,8 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('cotizacion', [CotizacionController::class,'index']);
 
+Route::get('cotizacion/crear', [CotizacionController::class,'create']);
+
 Route::get('cotizacioncatalogos', [CotizacionConfigController::class,'index']);
 
 //Route::get('cotizacion', [CotizacionController::class,'index']);

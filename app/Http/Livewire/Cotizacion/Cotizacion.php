@@ -17,6 +17,12 @@ class Cotizacion extends Component
 {
     use WithPagination;
 
+    public $testOne;
+    public $testTwo;
+    public $testThree;
+
+
+
     public $test = 'y';
     public $idCotizacion = 0;
     #Atributos de Fecha
@@ -56,7 +62,7 @@ class Cotizacion extends Component
     public $correo;
     public $telefono;
     public $direccion;
-
+    public $value;
     public $usuario;
 
     #Atributos del segundo Formulario
@@ -98,8 +104,29 @@ class Cotizacion extends Component
         'cliente','intermediarios','parametros','detallesTipoCuerpos'));
     }
 
+
     public function clienteAgregadoPorSeleccion(){
         $this->clienteAgregadoPorSeleccion = true;
+    }
+    public $tab = '1';
+    public $tabNombre = '';
+    public function controlTab($control)
+    {
+        $this->tab = $control;
+        switch ($this->tab) {
+            case '1':
+                $this->tabNombre = 'Información Basica';
+                break;
+            case '2':
+                $this->tabNombre = 'Parametros';
+                break;
+            case '3':
+                $this->tabNombre = 'Información Cotización';
+                break;
+            default:
+                # code...
+                break;
+        }
     }
 
     public function edit($id){
@@ -124,7 +151,6 @@ class Cotizacion extends Component
         $cotizacion = Cotizaciones::withTrashed()->get();
         $num = count($cotizacion);
         $num++;
-
            Cotizaciones::create([
             'Cliente' => $this->clienteManual,
             'Folio_servicio' => '24-03/'.$num,

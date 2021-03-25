@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Cotizacion;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-
+use App\Models\Cotizaciones;
 class CotizacionController extends Controller
 {
 
@@ -14,6 +14,13 @@ class CotizacionController extends Controller
     public function index()
     {
         //Vista Cotización
-        return view('cotizacion.cotizacion');
+        $model = Cotizaciones::All();
+        return view('cotizacion.cotizacion',compact('model'));
+    }
+
+    public function create()
+    {
+        //Vista Crear
+        return view('cotizacion.cotizacionCrear');
     }
 }

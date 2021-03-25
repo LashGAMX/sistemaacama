@@ -47,15 +47,16 @@
                 <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalCotizacionPrincipal">
                 <i class="voyager-edit"></i> <span hidden-sm hidden-xs>Editar</span> </button>
                 <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalCotizacionHistorico" wire:click="details('{{$item->Id_cotizacion}}')">
-                    <i class="voyager-list" aria-hidden="true"></i>
-                    <span hidden-sm hidden-xs>Historico</span> </button>
+                <i class="voyager-list" aria-hidden="true"></i>
+                <span hidden-sm hidden-xs>Historico</span> </button>
+                    <button type="button" class="btn btn-sm btn-dark" data-toggle="modal" data-target="#modalCotizacionHistorico" wire:click="details('{{$item->Id_cotizacion}}')">
+                        <i class="voyager-documentation" aria-hidden="true"></i>
+                        <span hidden-sm hidden-xs>Duplicar</span> </button>
               </td>
             </tr>
             @endforeach
             </tbody>
         </table>
-
-
 
 
  <!-- Modal Principal -->
@@ -68,227 +69,87 @@
           </button>
         </div>
         <div class="modal-body"> <!-- Body-->
-
-            <ul class="nav nav-tabs" id="myTab" role="tablist">  <!-- Content Tab-->
-                <li class="nav-item">
-                  <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="informacionBasica" aria-selected="true">1. Información Basica|</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">2. Parametros|</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">3. Información Cotización|</a>
-                </li>
-            </ul><!-- Fin Content Tab-->
-            {{-- <div class="tab-content" id="myTabContent">
-                <!-- ******************** -->
-                <!-- ******************** -->
-                <!-- ******************** -->
-                <!-- ******************** -->
-                <!-- Tab Formulario 1-->
-                 <div class="tab-pane fade active" id="home" role="tabpanel" aria-labelledby="home-tab">
- --}}
-                    <div class="row">
-
-                        <div class="col-md-12">
-                            <h6> <b> Datos Intermediario</b></h6>
+                    <div class="container-fluid">
+                        <div class="row justify-content-center">
+                            <div class="col-11 col-sm-9 col-md-7 col-lg-6 col-xl-5 text-center p-0 mt-3 mb-2">
+                                <div class="card px-0 pt-4 pb-0 mt-3 mb-3">
+                                    <h2 id="heading">Sign Up Your User Account</h2>
+                                    <p>Fill all form field to go to next step</p>
+                                    <form id="msform">
+                                        <!-- progressbar -->
+                                        <ul id="progressbar">
+                                            <li class="active" id="account"><strong>Account</strong></li>
+                                            <li id="personal"><strong>Personal</strong></li>
+                                            <li id="payment"><strong>Image</strong></li>
+                                            <li id="confirm"><strong>Finish</strong></li>
+                                        </ul>
+                                        <div class="progress">
+                                            <div class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div> <br> <!-- fieldsets -->
+                                        <fieldset>
+                                            <div class="form-card">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <h2 class="fs-title">Account Information:</h2>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <h2 class="steps">Step 1 - 4</h2>
+                                                    </div>
+                                                </div> <label class="fieldlabels">Email: *</label> <input type="email" name="email" placeholder="Email Id" /> <label class="fieldlabels">Username: *</label> <input type="text" name="uname" placeholder="UserName" /> <label class="fieldlabels">Password: *</label> <input type="password" name="pwd" placeholder="Password" /> <label class="fieldlabels">Confirm Password: *</label> <input type="password" name="cpwd" placeholder="Confirm Password" />
+                                            </div> <input type="button" name="next" class="next action-button" value="Next" />
+                                        </fieldset>
+                                        <fieldset>
+                                            <div class="form-card">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <h2 class="fs-title">Personal Information:</h2>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <h2 class="steps">Step 2 - 4</h2>
+                                                    </div>
+                                                </div> <label class="fieldlabels">First Name: *</label> <input type="text" name="fname" placeholder="First Name" /> <label class="fieldlabels">Last Name: *</label> <input type="text" name="lname" placeholder="Last Name" /> <label class="fieldlabels">Contact No.: *</label> <input type="text" name="phno" placeholder="Contact No." /> <label class="fieldlabels">Alternate Contact No.: *</label> <input type="text" name="phno_2" placeholder="Alternate Contact No." />
+                                            </div> <input type="button" name="next" class="next action-button" value="Next" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                                        </fieldset>
+                                        <fieldset>
+                                            <div class="form-card">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <h2 class="fs-title">Image Upload:</h2>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <h2 class="steps">Step 3 - 4</h2>
+                                                    </div>
+                                                </div> <label class="fieldlabels">Upload Your Photo:</label> <input type="file" name="pic" accept="image/*"> <label class="fieldlabels">Upload Signature Photo:</label> <input type="file" name="pic" accept="image/*">
+                                            </div> <input type="button" name="next" class="next action-button" value="Submit" /> <input type="button" name="previous" class="previous action-button-previous" value="Previous" />
+                                        </fieldset>
+                                        <fieldset>
+                                            <div class="form-card">
+                                                <div class="row">
+                                                    <div class="col-7">
+                                                        <h2 class="fs-title">Finish:</h2>
+                                                    </div>
+                                                    <div class="col-5">
+                                                        <h2 class="steps">Step 4 - 4</h2>
+                                                    </div>
+                                                </div> <br><br>
+                                                <h2 class="purple-text text-center"><strong>SUCCESS !</strong></h2> <br>
+                                                <div class="row justify-content-center">
+                                                    <div class="col-3"> <img src="https://i.imgur.com/GwStPmg.png" class="fit-image"> </div>
+                                                </div> <br><br>
+                                                <div class="row justify-content-center">
+                                                    <div class="col-7 text-center">
+                                                        <h5 class="purple-text text-center">You Have Successfully Signed Up</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </fieldset>
+                                    </form>
+                                </div>
+                            </div>
                         </div>
-
-                        <div class="col-md-12">
-                        <select id="intermediarios" class="form-control select2" wire:model="intermediario">
-                           @foreach($intermediarios as $intermediario)
-                            <option value="{{$intermediario->Id_intermediario}}">{{$intermediario->Nombres}}</option>
-                            @endforeach
-                        </select>
-                        </div>
-
-                        <div class="col-md-12">
-                            <h6 class="mt-0"><b>&nbsp;&nbsp;Clientes Registrados</b></h6>
-                        </div>
-                        <div class="col-md-9">
-                            <select id="clientes" class="form-control select2" wire:model="clienteObtenidoSelect" >
-                                @foreach ($cliente as $client)
-                                <option value="{{$client->Id_cliente}}">{{$client->Nombres}}</option>
-                                @endforeach
-                            </select>
-                        </div>
-
-                        <div class="col-md-3">
-                            <button class="btn btn-sm btn-success" wire:click="clienteAgregadoPorSeleccion">Agregar </button>
-                        </div>
-
-                        <!-- Nombre del Cliente-->
-                    <div class="col-md-6">
-                        <label for="">Nombre del Cliente:</label>
-                        <input type="text" class="form-control" wire:model="clienteManual">
-                    </div>
-
-                    <!-- Dirección -->
-                    <div class="col-md-6">
-                        <label for="">Dirección</label>
-                        <input type="text" class="form-control" wire:model="direccion">
                     </div>
 
 
-                    <div class="col-md-12">
-                        <h6 class="mt-1"><b>&nbsp;&nbsp;A quien va Dirijida la Cotización</b></h6>
-                    </div>
-
-                    <!-- Con Atención a -->
-                    <div class="col-md-6">
-                        <label for="">Con Atención a:</label>
-                        <input type="text" class="form-control" wire:model="atencionA">
-                    </div>
-
-                    <!-- Telefono -->
-                    <div class="col-md-6">
-                        <label for="">Telefono:</label>
-                        <input type="number" class="form-control" wire:model="telefono">
-                    </div>
-
-                    <!-- Correo Electronico-->
-                    <div class="col-md-6">
-                        <label for="">Email:</label>
-                        <input type="text" class="form-control" wire:model="correo">
-                    </div>
-
-                      <!-- Estado de la Cotización  -->
-                    <div class="col-md-6">
-                        <label for="">Estado de la Cotización:</label>
-                        <select name="" id="" class="form-control" wire:model="estadoCotizacion">
-                            <option value="Cancelado">Cancelado</option>
-                            <option value="Cotización">Cotización</option>
-                            <option value="Cotización autorizada">Cotización autorizada</option>
-                        </select>
-                    </div>
-
-                    <!-- Tipo de Servicio -->
-                    <div class="col-md-6">
-                        <label for="">Tipo de Servicio:</label>
-                        <select name="" id="" class="form-control" wire:model="tipoServicio">
-                            <option value="ANÁLISIS Y MUESTREO">ANÁLISIS Y MUESTREO</option>
-                            <option value="MUESTREO">MUESTREO</option>
-                            <option value="ANALISIS">ANALISIS</option>
-                        </select>
-                    </div>
-
-                    <!-- Tipo de Descarga -->
-                    <div class="col-md-6">
-                        <label for="">Tipo de Descarga:</label>
-                        <select name="" id="" class="form-control" wire:model="tipoDescarga">
-                            <option value="AGUAS SALINAS">AGUAS SALINAS</option>
-                            <option value="ALBERCA">ALBERCA</option>
-                            <option value="CONDICIONES PARTICULARES DE DESCARGA">CONDICIONES PARTICULARES DE DESCARGA</option>
-                            <option value="POTABLE">POTABLE</option>
-                            <option value="PURIFICADA">PURIFICADA</option>
-                            <option value="RESIDUAL">RESIDUAL</option>
-                            <option value="SOLIDOS DISUELTOS TOTALES">SOLIDOS DISUELTOS TOTALES</option>
-                            <option value="TODOS LOS PARAMETROS">TODOS LOS PARAMETROS</option>
-                        </select>
-                    </div>
-
-                    <!-- Clasificación de la Norma -->
-                    <div class="col-md-6">
-                        <label for="">Clasifiación de la Norma:</label>
-                        <select name="" id="" class="form-control" wire:model="clasifacionNorma">
-                        <option value="BALANCE">BALANCE</option>
-                        <option value="BLANCO">BLANCO</option>
-                        <option value="CONFICIONES PARTICULARES DE DESCARGA">CONFICIONES PARTICULARES DE DESCARGA</option>
-                        <option value="ING.JAIME RANGEL">ING.JAIME RANGEL</option>
-                        <option value="NMX-C-122">NMX-C-122</option>
-                        <option value="NOM-117">NOM-117</option>
-                        <option value="NOM-127">NOM-127</option>
-                        </select>
-                    </div>
-
-                    <!-- Norma -->
-                    <div class="col-md-6">
-                        <label for="">Norma:</label>
-                            <select name="" id="" class="form-control" wire:model="normaFormularioUno">
-                                @foreach ($norma as $norm)
-                                <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
-                                @endforeach
-                            </select>
-                    </div>
-
-                    <!-- Fecha -->
-                    <div class="col-md-6">
-                        <label for="">Fecha:</label>
-                        <input type="date" wire:model="fechaCotizacion" placeholder="Fecha inicio" class="form-control" value="">
-                    </div>
-
-                    <!-- Frecuencia -->
-                    <div class="col-md-6">
-                        <label for="">Frecuencia:</label>
-                        <input type="number" class="form-control" wire:model="frecuencia">
-                    </div>
-
-                    <!-- Tipo de Muestra -->
-                    <div class="col-md-3">
-                        <label for="">Tipo de Muestra:</label>
-                        <select name="" id="" class="form-control" wire:model="tipoMuestra">
-                            <option value="INSTANTANEA">INSTANTANEA</option>
-                            <option value="COMPUESTA">COMPUESTA</option>
-                        </select>
-                    </div>
-
-                    <!-- Promedio -->
-                    <div class="col-md-3">
-                        <label for="">Promedio:</label>
-                        <select name="" id="" class="form-control" wire:model="promedio">
-                            <option value="MUESTREO INSTANTANEO">MUESTREO INSTANTANEO</option>
-                            <option value="MENSUAL">MENSUAL</option>
-                            <option value="DIARIO">DIARIO</option>
-                        </select>
-                    </div>
-
-                    <!-- Puntos de Muestreo -->
-                    <div class="col-md-3">
-                        <label for="">Numero de Puntos de Muestreo:</label>
-                        <input type="number" class="form-control" wire:model="puntosMuestreo" >
-                        <p>Puntos de Muestreo</p>
-                    </div>
-
-                    <!-- Tipo de reporte  -->
-                    <div class="col-md-3">
-                        <label for="">Tipo de Reporte:</label>
-                        <select name="" id="" class="form-control" wire:model="reporte">
-                            <option value="">Opcion 1</option>
-                            <option value="">Opcion 2</option>
-                            <option value="">Opcion 3</option>
-                        </select>
-                    </div>
-
-                    <!-- Condicciónes de Venta -->
-                    <div class="col-md-12 mt-1">-
-                        <label for="">Condicciónes de Venta:</label>
-                        <textarea name="" id="" cols="30" rows="2" class="form-control" wire:model="codiccionesVenta">
-                    </textarea>
-                    </div>
-
-                     <!-- Boton Guardar -->
-                     <div class="col-md-12 mt-1">
-                        <button class="btn  btn-success" wire:click="create">Guardar</button>
-                    </div>
-
-                    </div>
-
-                </div><!--  Fin Tab Formulario 1-->
-                <!-- ******************** -->
-                <!-- ******************** -->
-                <!-- ******************** -->
-                <!-- ******************** -->
-                {{-- <div class="row">
-                    <div class="col-md-12">
-                        {{$test}}
-                        {{-- <button wire:click="create">Y</button>
-                        <p>{{$test}}</p>
-                    </div>
-                </div> --}}
-                <!-- El Trabajo Inteligente Tiene Más Esfuerzo que el Contrario -->
-             </div>
-
-         </div><!-- Fin del Body-->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
           <button type="submit" class="btn btn-primary" wire:click="create">Guardar cambios</button>
@@ -300,4 +161,3 @@
 <!-- Fin de Modal Principal -->
 
     </div>
-
