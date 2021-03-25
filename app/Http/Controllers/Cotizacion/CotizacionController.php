@@ -5,6 +5,9 @@ namespace App\Http\Controllers\Cotizacion;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cotizaciones;
+use App\Models\IntermediariosView;
+use App\Models\Clientes;
+use App\Models\Norma;
 class CotizacionController extends Controller
 {
 
@@ -15,7 +18,10 @@ class CotizacionController extends Controller
     {
         //Vista Cotización
         $model = Cotizaciones::All();
-        return view('cotizacion.cotizacion',compact('model'));
+        $intermediarios = IntermediariosView::All();
+        $cliente = Clientes::All();
+        $norma = Norma::All();
+        return view('cotizacion.cotizacion',compact('model','intermediarios','cliente','norma'));
     }
 
     public function create()

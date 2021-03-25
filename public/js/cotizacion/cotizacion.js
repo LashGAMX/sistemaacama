@@ -16,3 +16,20 @@ function abrirModal(opt) {
     }
 
 }
+function formularioUno() {
+    console.log('Formaulario Dos');
+    $("#formularioUno").css("display", "");
+    $("#formularioDos").css("display", "none");
+}
+
+function formularioDos() {
+    console.log('Formaulario Dos');
+    $("#formularioUno").css("display", "none");
+    $("#formularioTres").css("display", "none");
+}
+
+function formularioTres() {
+    console.log('Formulario Tres');
+    $("#formularioUno").css("display", "none");
+    $("#formularioDos").css("display", "none");
+}

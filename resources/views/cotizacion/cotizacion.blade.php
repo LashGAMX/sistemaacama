@@ -83,19 +83,208 @@
         <div class="modal-body">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true">Información Basica</a>
+                  <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" onclick="formularioUno()">Información Basica</a>
                 </li>
                 <li class="nav-item">
-                  <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">Parametros</a>
+                  <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" onclick="formularioDos()">Parametros</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false">Información de Cotización</a>
                 </li>
               </ul>
               <div class="tab-content" id="myTabContent">
-                <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">...</div>
-                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">...</div>
-                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">...</div>
+                <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
+
+                    <div class="row" id="formularioUno">
+
+                        <div class="col-md-12">
+                            <h6> <b> Datos Intermediario</b></h6>
+                        </div>
+
+                        <div class="col-md-12">
+                        <select id="intermediarios" class="form-control select2" id="intermediario">
+                           @foreach($intermediarios as $intermediario)
+                            <option value="{{$intermediario->Id_intermediario}}">{{$intermediario->Nombres}}</option>
+                            @endforeach
+                        </select>
+                        </div>
+
+                        <div class="col-md-12">
+                            <h6 class="mt-0"><b>&nbsp;&nbsp;Clientes Registrados</b></h6>
+                        </div>
+                        <div class="col-md-9">
+                            <select id="clientes" class="form-control select2" id="clienteObtenidoSelect" >
+                                @foreach ($cliente as $client)
+                                <option value="{{$client->Id_cliente}}">{{$client->Nombres}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+
+                        <div class="col-md-3">
+                            <button class="btn btn-sm btn-success" id="clienteAgregadoPorSeleccion">Agregar </button>
+                        </div>
+
+                        <!-- Nombre del Cliente-->
+                    <div class="col-md-6">
+                        <label for="">Nombre del Cliente:</label>
+                        <input type="text" class="form-control" id="clienteManual">
+                    </div>
+
+                    <!-- Dirección -->
+                    <div class="col-md-6">
+                        <label for="">Dirección</label>
+                        <input type="text" class="form-control" id="direccion">
+                    </div>
+
+                    <div class="col-md-12">
+                        <h6 class="mt-1"><b>&nbsp;&nbsp;A quien va Dirijida la Cotización</b></h6>
+                    </div>
+
+                    <!-- Con Atención a -->
+                    <div class="col-md-6">
+                        <label for="">Con Atención a:</label>
+                        <input type="text" class="form-control" id="atencionA">
+                    </div>
+
+                    <!-- Telefono -->
+                    <div class="col-md-6">
+                        <label for="">Telefono:</label>
+                        <input type="number" class="form-control" id="telefono">
+                    </div>
+
+                    <!-- Correo Electronico-->
+                    <div class="col-md-6">
+                        <label for="">Email:</label>
+                        <input type="text" class="form-control" id="correo">
+                    </div>
+
+                      <!-- Estado de la Cotización  -->
+                    <div class="col-md-6">
+                        <label for="">Estado de la Cotización:</label>
+                        <select name="" id="" class="form-control" id="estadoCotizacion">
+                            <option value="Cancelado">Cancelado</option>
+                            <option value="Cotización">Cotización</option>
+                            <option value="Cotización autorizada">Cotización autorizada</option>
+                        </select>
+                    </div>
+
+                    <!-- Tipo de Servicio -->
+                    <div class="col-md-6">
+                        <label for="">Tipo de Servicio:</label>
+                        <select name="" id="" class="form-control" id="tipoServicio">
+                            <option value="ANÁLISIS Y MUESTREO">ANÁLISIS Y MUESTREO</option>
+                            <option value="MUESTREO">MUESTREO</option>
+                            <option value="ANALISIS">ANALISIS</option>
+                        </select>
+                    </div>
+
+                    <!-- Tipo de Descarga -->
+                    <div class="col-md-6">
+                        <label for="">Tipo de Descarga:</label>
+                        <select name="" id="" class="form-control" id="tipoDescarga">
+                            <option value="AGUAS SALINAS">AGUAS SALINAS</option>
+                            <option value="ALBERCA">ALBERCA</option>
+                            <option value="CONDICIONES PARTICULARES DE DESCARGA">CONDICIONES PARTICULARES DE DESCARGA</option>
+                            <option value="POTABLE">POTABLE</option>
+                            <option value="PURIFICADA">PURIFICADA</option>
+                            <option value="RESIDUAL">RESIDUAL</option>
+                            <option value="SOLIDOS DISUELTOS TOTALES">SOLIDOS DISUELTOS TOTALES</option>
+                            <option value="TODOS LOS PARAMETROS">TODOS LOS PARAMETROS</option>
+                        </select>
+                    </div>
+
+                    <!-- Clasificación de la Norma -->
+                    <div class="col-md-6">
+                        <label for="">Clasifiación de la Norma:</label>
+                        <select name="" id="" class="form-control" id="clasifacionNorma">
+                        <option value="BALANCE">BALANCE</option>
+                        <option value="BLANCO">BLANCO</option>
+                        <option value="CONFICIONES PARTICULARES DE DESCARGA">CONFICIONES PARTICULARES DE DESCARGA</option>
+                        <option value="ING.JAIME RANGEL">ING.JAIME RANGEL</option>
+                        <option value="NMX-C-122">NMX-C-122</option>
+                        <option value="NOM-117">NOM-117</option>
+                        <option value="NOM-127">NOM-127</option>
+                        </select>
+                    </div>
+
+                    <!-- Norma -->
+                    <div class="col-md-6">
+                        <label for="">Norma:</label>
+                            <select name="" id="" class="form-control" id="normaFormularioUno">
+                                @foreach ($norma as $norm)
+                                <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
+                                @endforeach
+                            </select>
+                    </div>
+
+                    <!-- Fecha -->
+                    <div class="col-md-6">
+                        <label for="">Fecha:</label>
+                        <input type="date" id="fechaCotizacion" placeholder="Fecha inicio" class="form-control" value="">
+                    </div>
+
+                    <!-- Frecuencia -->
+                    <div class="col-md-6">
+                        <label for="">Frecuencia:</label>
+                        <input type="number" class="form-control" id="frecuencia">
+                    </div>
+
+                    <!-- Tipo de Muestra -->
+                    <div class="col-md-3">
+                        <label for="">Tipo de Muestra:</label>
+                        <select name="" id="" class="form-control" id="tipoMuestra">
+                            <option value="INSTANTANEA">INSTANTANEA</option>
+                            <option value="COMPUESTA">COMPUESTA</option>
+                        </select>
+                    </div>
+
+                    <!-- Promedio -->
+                    <div class="col-md-3">
+                        <label for="">Promedio:</label>
+                        <select name="" id="" class="form-control" id="promedio">
+                            <option value="MUESTREO INSTANTANEO">MUESTREO INSTANTANEO</option>
+                            <option value="MENSUAL">MENSUAL</option>
+                            <option value="DIARIO">DIARIO</option>
+                        </select>
+                    </div>
+
+                    <!-- Puntos de Muestreo -->
+                    <div class="col-md-3">
+                        <label for="">Numero de Puntos de Muestreo:</label>
+                        <input type="number" class="form-control" id="puntosMuestreo" >
+                        <p>Puntos de Muestreo</p>
+                    </div>
+
+                    <!-- Tipo de reporte  -->
+                    <div class="col-md-3">
+                        <label for="">Tipo de Reporte:</label>
+                        <select name="" id="" class="form-control" id="reporte">
+                            <option value="">Opcion 1</option>
+                            <option value="">Opcion 2</option>
+                            <option value="">Opcion 3</option>
+                        </select>
+                    </div>
+
+                    <!-- Condicciónes de Venta -->
+                    <div class="col-md-12 mt-1">-
+                        <label for="">Condicciónes de Venta:</label>
+                        <textarea name="" id="" cols="30" rows="2" class="form-control" id="codiccionesVenta">
+                    </textarea>
+                    </div>
+
+
+                </div>
+
+                <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+                    <div class="row" id="formularioDos">
+                        <input type="text" placeholder="example">
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+                    <div class="row" id="formularioTres">
+                        <input type="text" placeholder="exampleTwo">
+                    </div>
+                </div>
               </div>
         </div>
         <div class="modal-footer">
