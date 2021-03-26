@@ -1,3 +1,5 @@
+console.log('V.02');
+
 // Abrir Modal
 function abrirModal(opt) {
     let option = opt;
@@ -16,24 +18,45 @@ function abrirModal(opt) {
     }
 
 }
-
+/**
+ *
+ */
 function formularioUno() {
-    console.log('Formaulario Dos');
+
+}
+/**
+ *
+ */
+function formularioDos() {
+
+}
+/**
+ *
+ */
+function formularioTres() {
+
+}
+function formulario(id) {
+    console.log(id);
+    console.log(typeof(id));
+    if(id == 1){
+        console.log('Formaulario Dos');
     $("#formularioUno").css("display", "");
     $("#formularioDos").css("display", "none");
     $("#formularioTres").css("display", "none");
-}
+    }
 
-function formularioDos() {
+    if(id == 2){
     console.log('Formaulario Dos');
     $("#formularioUno").css("display", "none");
     $("#formularioTres").css("display", "none");
     $("#formularioDos").css("display", "");
-}
+    }
 
-function formularioTres() {
-    console.log('Formulario Tres');
-    $("#formularioUno").css("display", "none");
-    $("#formularioDos").css("display", "none");
-    $("#formularioTres").css("display", "");
+    if (id == 3) {
+        console.log('Formulario Tres');
+        $("#formularioUno").css("display", "none");
+        $("#formularioDos").css("display", "none");
+        $("#formularioTres").css("display", "");
+    }
 }
