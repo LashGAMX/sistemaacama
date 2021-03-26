@@ -24,6 +24,7 @@ class Parametro extends Model
         'Limite',
         'Id_procedimiento',
         'Id_matriz',
+        'Id_simbologia',
         'F_inicio_vigencia',
         'F_fin_vigencia',
         'Precio'

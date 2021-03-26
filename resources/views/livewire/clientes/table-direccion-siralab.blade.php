@@ -7,7 +7,7 @@
         <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">
       </div>
     </div>
-    <table class="table table-hover table-striped">
+    <table class="table">
         <thead class="thead-dark">
             <tr> 
                 <th>Titulo</th>
@@ -18,6 +18,7 @@
                 <th>Municipio</th>
                 <th>Colonia</th>
                 <th>C.P</th>
+                <th>Ciudad</th>
                 <th>Localidad</th>
                 <th>Acción</th>
             </tr>
@@ -39,9 +40,11 @@
           <td>{{$item->Localidad}}</td>
           
           <td>
-            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_direccion}}','{{$item->Direccion}}')"  data-toggle="modal" data-target="#modalDireccionSiralab"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button type="button" class="btn btn-primary" 
+            wire:click="setData('{{$item->Id_cliente_siralab}}','{{$item->Titulo_concesion}}','{{$item->Calle}}','{{$item->Num_exterior}}','{{$item->Num_interior}}','{{$item->Estado}}','{{$item->Municipio}}','{{$item->Colonia}}','{{$item->CP}}','{{$item->Localidad}}','{{$item->Ciudad}}')" 
+            data-toggle="modal" data-target="#modalDireccionSiralab"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
-          {{-- </form>  --}}
+          {{-- </form>  --}} 
         </tr>
     @endforeach 
         @else
@@ -49,7 +52,7 @@
         @endif
         </tbody>
     </table>
-  
+   
   
    
     <div wire:ignore.self class="modal fade" id="modalDireccionSiralab" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -151,6 +154,13 @@
                  @error('localidad') <span class="text-danger">{{ $message  }}</span> @enderror
                 </div>
           </div>
+          <div class="col-md-4">
+            <div class="form-group">
+                <label for="ciudad">Ciudad</label> 
+               <input type="text" wire:model='ciudad' class="form-control" placeholder="Ciudad">
+               @error('ciudad') <span class="text-danger">{{ $message  }}</span> @enderror
+              </div>
+        </div>
                 </div>
             </div>
             <div class="modal-footer">

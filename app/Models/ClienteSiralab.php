@@ -14,7 +14,7 @@ class ClienteSiralab extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Is_sucursal',
+        'Id_sucursal',
         'Titulo_concesion',
         'Calle',
         'Num_exterior',
