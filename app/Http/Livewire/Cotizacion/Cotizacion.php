@@ -17,6 +17,7 @@ class Cotizacion extends Component
 {
     use WithPagination;
 
+<<<<<<< HEAD
     public $name;
     public $email;
     public $color;
@@ -95,10 +96,17 @@ class Cotizacion extends Component
     }
 
 
+=======
+>>>>>>> c066c2306195a74a4f3ff72f5ce6b6c66af689e4
     public $testOne;
     public $testTwo;
     public $testThree;
 
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> c066c2306195a74a4f3ff72f5ce6b6c66af689e4
     public $test = 'y';
     public $idCotizacion = 0;
     #Atributos de Fecha
@@ -138,7 +146,7 @@ class Cotizacion extends Component
     public $correo;
     public $telefono;
     public $direccion;
-
+    public $value;
     public $usuario;
 
     #Atributos del segundo Formulario
@@ -180,8 +188,29 @@ class Cotizacion extends Component
         'cliente','intermediarios','parametros','detallesTipoCuerpos'));
     }
 
+
     public function clienteAgregadoPorSeleccion(){
         $this->clienteAgregadoPorSeleccion = true;
+    }
+    public $tab = '1';
+    public $tabNombre = '';
+    public function controlTab($control)
+    {
+        $this->tab = $control;
+        switch ($this->tab) {
+            case '1':
+                $this->tabNombre = 'Información Basica';
+                break;
+            case '2':
+                $this->tabNombre = 'Parametros';
+                break;
+            case '3':
+                $this->tabNombre = 'Información Cotización';
+                break;
+            default:
+                # code...
+                break;
+        }
     }
 
     public function edit($id){

@@ -4,7 +4,7 @@
 
   @section('page_header')
 
-  <h6 class="page-title"> 
+  <h6 class="page-title">
       <i class="voyager-person"></i>
       Detalle normas
   </h6>
@@ -40,7 +40,7 @@
           <div id="tabParametros">
 
           </div>
-        </div>  
+        </div>
     </div>
     </div>
   </div>
@@ -53,13 +53,13 @@
   @stop
 
 
-@endsection   
+@endsection
 
 
-@section('javascript') 
+@section('javascript')
 <script src="{{asset('js/analisisQ/detalle_normas.js')}}"></script>
 <script src="{{asset('js/libs/componentes.js')}}"></script>
 <script src="{{asset('js/libs/tablas.js')}}"></script>
 @stop
 
-  
+
