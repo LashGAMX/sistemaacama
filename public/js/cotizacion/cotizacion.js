@@ -18,24 +18,7 @@ function abrirModal(opt) {
     }
 
 }
-/**
- *
- */
-function formularioUno() {
 
-}
-/**
- *
- */
-function formularioDos() {
-
-}
-/**
- *
- */
-function formularioTres() {
-
-}
 function formulario(id) {
     console.log(id);
     console.log(typeof(id));
