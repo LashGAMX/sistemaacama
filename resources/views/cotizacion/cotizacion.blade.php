@@ -54,7 +54,7 @@
                       <td>{{$item->Fecha_cotizacion}}</td>
                       <td>{{$item->Supervicion}}</td>
                       <td>
-                        <button type="button" class="btn btn-sm btn-warning" data-toggle="modal" data-target="#modalCotizacionPrincipal">
+                        <button type="button" class="btn btn-sm btn-warning" onclick=abrirModal(2)>
                         <i class="voyager-edit"></i> <span hidden-sm hidden-xs>Editar</span> </button>
                         <button type="button" class="btn btn-sm btn-primary" data-toggle="modal" data-target="#modalCotizacionHistorico" wire:click="details('{{$item->Id_cotizacion}}')">
                         <i class="voyager-list" aria-hidden="true"></i>
