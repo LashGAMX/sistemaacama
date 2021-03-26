@@ -85,7 +85,7 @@ function agregarParametros(idSub)
     inputMultiple('parametros','','Lista de parametros',parametro,parametroId,'Parametros',normaId,'duallistbox'),
   ];
   itemModal[0] = element;
-  newModal('divModal','listaParametros','Asignar parametros','lg',1,1,0,inputBtn('','','Guardar','save','success','setParametros('+idSub+')'));
+  newModal('divModal','listaParametros','Asignar parametros','lg',1,1,0,inputBtn('','','Guardar','save','success','createNormaParametro('+idSub+')'));
   $('.duallistbox').bootstrapDualListbox({
     nonSelectedListLabel: 'No seleccionado',
     selectedListLabel: 'Seleccionado',
@@ -95,35 +95,37 @@ function agregarParametros(idSub)
     filterPlaceHolder:'Filtro'
   });
 }
-// function setParametros(id,idSub)
-// {
-//   let parametros = document.getElementById('parametros');
-//   let itemP = new Array();
-//   for (let i = 0; i < parametros.length; i++) {
-//     if(parametros[i].selected == true)
-//     {
-//       itemP.push(parametros[i].value);
-//     }
-//   }
-//   $.ajax({
-//     url: base_url + 'admin/nalisisQ/detalle_normas/create', //archivo que recibe la peticion
-//     type: 'POST', //método de envio
-//     data: {
-//       id:id,
-//       idSub:idSub,
-//       parametros:itemP,
-//     },
-//     dataType: 'json', 
-//     async: false,
-//     success: function (response) {
-//       console.log(response);
-//       if (response.sw == true) {
-//         tablaParametros(idSub);
-//         swal("Registro!", "Registro exitoso!", "success");
-//       } else if (response.sw == false) {
-//         tablaParametros(idSub);
-//         swal("Error!", "Error en el registro !Por favor verifique los datos¡", "error");
-//       }
-//     }
-//   });
-// }
+function createNormaParametro(idSub)
+{
+  let parametros = document.getElementById('parametros');
+  let itemP = new Array();
+  for (let i = 0; i < parametros.length; i++) {
+    if(parametros[i].selected == true)
+    {
+      itemP.push(parametros[i].value);
+    }
+  }
+  $.ajax({
+    url: base_url + '/admin/analisisQ/detalle_normas/createNormaParametro', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      idSub:idSub,
+      parametros:itemP,
+      _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json', 
+    async: false,
+    success: function (response) {
+      console.log(response);
+      if (response.sw == true) {
+        tablaParametros();
+        swal("Registro!", "Registro exitoso!", "success");
+        $('#listaParametros').modal('hide');
+      } else if (response.sw == false) {
+        tablaParametros();
+        swal("Error!", "Error en el registro !Por favor verifique los datos¡", "error");
+        $('#listaParametros').modal('hide');
+      }
+    }
+  });
+}

@@ -29,6 +29,9 @@
     <li class="nav-item" role="menu">
       <a class="nav-link" id="metodo-tab" data-toggle="tab" href="#metodo" role="tab" aria-controls="metodo" aria-selected="false">Metodo prueba</a>
     </li>
+    <li class="nav-item" role="menu">
+      <a class="nav-link" id="simbologia-tab" data-toggle="tab" href="#simbologia" role="tab" aria-controls="simbologia" aria-selected="false">Simbología</a>
+    </li>
   </ul>
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade  active" id="Tipo" role="tabpanel" aria-labelledby="Tipo-tab">  
@@ -49,5 +52,8 @@
     <div class="tab-pane fade" id="metodo" role="tabpanel" aria-labelledby="metodo-tab">
       @livewire('config.table-metodo-prueba', ['idUser'=>$idUser])
     </div>
+    <div class="tab-pane fade" id="simbologia" role="tabpanel" aria-labelledby="simbologia-tab">
+      @livewire('config.table-simbologia-parametro', ['idUser'=>$idUser])
+    </div>
   </div>
-@endsection  
+@endsection   

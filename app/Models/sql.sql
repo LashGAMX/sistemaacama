@@ -39,7 +39,8 @@ ON inter.Id_cliente = cli2.Id_cliente
 
 /* Vista Lista parametros */
 CREATE VIEW ViewParametros as SELECT param.Id_parametro,param.Id_laboratorio,lab.Sucursal,param.Id_tipo_formula,tipo.Tipo_formula,param.Id_rama,ram.Rama,param.Parametro,
-param.Id_unidad,uni.Unidad,uni.Descripcion,param.Id_metodo,param.Id_norma,param.Limite,param.Id_procedimiento,pro.Procedimiento,param.Id_matriz,mat.Matriz
+param.Id_unidad,uni.Unidad,uni.Descripcion,param.Id_metodo,param.Id_norma,param.Limite,param.Id_procedimiento,pro.Procedimiento,param.Id_matriz,mat.Matriz,param.Id_simbologia,
+sim.Simbologia,sim.Descripcion as Descripcion_sim
 ,nor.Norma,nor.Clave_norma,met.Metodo_prueba,met.Clave_metodo,param.Precio,param.F_inicio_vigencia,param.F_fin_vigencia,param.created_at,param.updated_at,
 param.deleted_at FROM parametros as param
 INNER JOIN sucursales as lab
@@ -58,6 +59,8 @@ INNER JOIN procedimiento_analisis as pro
 ON param.Id_procedimiento = pro.Id_procedimiento
 INNER JOIN matriz_parametros as mat
 ON param.Id_matriz = mat.Id_matriz_parametro
+INNER JOIN simbologia_parametros as sim
+ON param.Id_simbologia = sim.Id_simbologia
 
 /* Vista Lista norma-parametros */
 CREATE VIEW ViewNormaParametro as SELECT n.Id_norma_param,n.Id_norma,nor.Norma,nor.Clave,n.Id_parametro,p.Parametro,p.Id_matriz,mat.Matriz FROM norma_parametros as n

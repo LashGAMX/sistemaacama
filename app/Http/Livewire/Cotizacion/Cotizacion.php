@@ -17,6 +17,88 @@ class Cotizacion extends Component
 {
     use WithPagination;
 
+    public $name;
+    public $email;
+    public $color;
+
+    public $step;
+
+    public $customer;
+
+    private $stepActions = [
+        'submit1',
+        'submit2',
+        'submit3',
+    ];
+
+    public function mount()
+    {
+        $this->step = 0;
+    }
+
+
+    public function decreaseStep()
+    {
+        $this->step--;
+    }
+
+    public function submit()
+    {
+
+        $action = $this->stepActions[$this->step];
+
+        $this->$action();
+    }
+
+    public function submit1()
+    {
+        $this->validate([
+            'name' => 'required|min:4',
+        ]);
+
+        if ($this->customer) {
+            $this->customer= tap($this->customer)->update(['name' => $this->name]);
+            session()->flash('message', 'Customer successfully updated.');
+
+        }else {
+            $this->customer = Customer::create(['name' => $this->name]);
+            session()->flash('message', 'Customer successfully created.');
+
+        }
+
+
+        $this->step++;
+    }
+
+    public function submit2()
+    {
+        $this->validate([
+            'email' => 'email|required',
+        ]);
+
+        $this->customer = tap($this->customer)->update(['email' => $this->email]);
+
+        $this->step++;
+    }
+    public function submit3()
+    {
+        $this->validate([
+            'color' => 'required',
+        ]);
+
+        $this->customer = tap($this->customer)->update(['color' => $this->color]);
+
+        session()->flash('message', 'Wow! '. $this->customer->color .' is nice color '. $this->customer->name);
+
+        $this->step++;
+
+    }
+
+
+    public $testOne;
+    public $testTwo;
+    public $testThree;
+
     public $test = 'y';
     public $idCotizacion = 0;
     #Atributos de Fecha
@@ -124,7 +206,6 @@ class Cotizacion extends Component
         $cotizacion = Cotizaciones::withTrashed()->get();
         $num = count($cotizacion);
         $num++;
-
            Cotizaciones::create([
             'Cliente' => $this->clienteManual,
             'Folio_servicio' => '24-03/'.$num,

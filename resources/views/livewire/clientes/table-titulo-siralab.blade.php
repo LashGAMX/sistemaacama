@@ -43,7 +43,7 @@
           <td>{{$item->created_at}}</td>
           <td>{{$item->updated_at}}</td>
           <td>
-            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_titulo}}','{{$item->Titulo}}')"  data-toggle="modal" data-target="#modalTituloReporte"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_titulo}}','{{$item->Titulo}}')"  data-toggle="modal" data-target="#modalTituloSiralab"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
           {{-- </form>  --}}
         </tr>
@@ -56,7 +56,7 @@
   
   
     
-    <div wire:ignore.self class="modal fade" id="modalTituloReporte" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="modalTituloSiralab" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <form wire:submit.prevent="store">
