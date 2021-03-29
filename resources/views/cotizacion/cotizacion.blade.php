@@ -283,13 +283,20 @@
                         <div class="col-md-6">
                             <div class="col-md-6">
                                 <label for="">Norma</label>
-                                <input type="text" name="" id="" class="form-control">
-                            </div>
-                            <div class="col-md-6">
-                                <button class="btn btn-success">+ Parametros</button>
+                                <select name="" id="" class="form-control" id="normaFormularioUno">
+                                    @foreach ($norma as $norm)
+                                    <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-md-12">
-                               <label for="">Parametros selecionados</label>
+                                <hr>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" name="" id="" class="form-control">
+                            </div>
+                            <div class="col-md-12">
+                               <label for="">Parametros Extras</label>
                             </div>
                     </div>
 
