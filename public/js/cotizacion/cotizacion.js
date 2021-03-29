@@ -1,5 +1,6 @@
-console.log('V.02');
+// const { some } = require("lodash");
 
+console.log('V.03');
 // Abrir Modal
 function abrirModal(opt) {
     let option = opt;
@@ -27,6 +28,11 @@ function formulario(id) {
     $("#formularioUno").css("display", "");
     $("#formularioDos").css("display", "none");
     $("#formularioTres").css("display", "none");
+
+    $("home-tab").css("display", "none");
+    $("nuevo").css("display", "none");
+    $("pro").css("display", "none");
+    $("contact-tab").css("display", "none");
     }
 
     if(id == 2){
@@ -34,12 +40,23 @@ function formulario(id) {
     $("#formularioUno").css("display", "none");
     $("#formularioTres").css("display", "none");
     $("#formularioDos").css("display", "");
-    }
 
+    $("home-tab").css("display", "none");
+    $("nuevo").css("display", "none");
+    $("pro").css("display", "none");
+    $("contact-tab").css("display", "none");
+    }
     if (id == 3) {
         console.log('Formulario Tres');
         $("#formularioUno").css("display", "none");
         $("#formularioDos").css("display", "none");
         $("#formularioTres").css("display", "");
+
+    $("home-tab").css("display", "none");
+    $("nuevo").css("display", "none");
+    $("pro").css("display", "none");
+    $("contact-tab").css("display", "none");
+
     }
-}
+
+    }

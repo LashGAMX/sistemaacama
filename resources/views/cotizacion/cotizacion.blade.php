@@ -68,6 +68,7 @@
                     </tbody>
                 </table>
             {{-- @livewire('cotizacion.cotizacion', ['idUser' => Auth::user()->id]) --}}
+            {{-- @livewire('cotizacion.cotizacion', ['idUser' => Auth::user()->id]) --}}
         </div>
       </div>
 </div>
@@ -498,7 +499,24 @@
         <!-- -->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-primary">Guardar Cambios</button>
+          {{-- <button type="button" class="btn btn-primary" id="bnt_uno" onclick="formulario(2)">Siguiente</button>
+          <button type="button" class="btn btn-primary" id="bnt_dos" onclick="formulario(3)">Siguiente</button> --}}
+
+                {{-- <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" onclick="formulario(1)">
+                    <button type="button" class="btn btn-primary">Anterior</button></a> --}}
+
+                <a class="nav-link" id="nuevo" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" onclick="formulario(2)">
+                    <button type="button" class="btn btn-primary" id="bnt_dos">Siguiente</button>
+                  </a>
+{{--
+                <a class="nav-link" id="pro" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" onclick="formulario(2)">
+                    <button type="button" class="btn btn-primary" id="bnt_dos_atras">Anterior</button>
+                  </a>
+
+                <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false" onclick="formulario(3)">
+                    <button type="button" class="btn btn-primary" id="bnt_tres">Siguiente</button>
+                  </a> --}}
+
         </div>
       </div>
     </div>
