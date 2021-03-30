@@ -9,6 +9,7 @@ use App\Models\IntermediariosView;
 use App\Models\Clientes;
 use App\Models\Norma;
 use App\Models\DetallesTipoCuerpo;
+use Carbon\Carbon;
 class CotizacionController extends Controller
 {
 
@@ -55,6 +56,9 @@ class CotizacionController extends Controller
 
     public function registrar(Request $request)
     {
+        $now = Carbon::now();
+        $now->year;
+        $now->month;
         $clienteManual =   $request->atencionA;
         $tipoServicio = $request->tipoServicio;
         $atencionA = $request->clienteManual;

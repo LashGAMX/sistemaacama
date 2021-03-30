@@ -4,7 +4,7 @@
  * Modulo: Cotización
  */
 $(function () {
-    console.log("V..02075!");//You ar
+    console.log("-V..020756!-");
     var guardarFormulario = document.getElementById("guardarFormulario");
     // var btn_primero = document.getElementById('btn_primero');
     // var bnt_dos_atras = document.getElementById('bnt_dos_atras');
@@ -138,4 +138,40 @@ $(document).ready(function () {
 
         });
     });
+});
+
+let datos = [];
+function addTodoItem() {
+    var todoItem = $("#new-todo-item").val();
+    datos.push(todoItem);
+    console.log(datos);
+    $("#todo-list").append("<li><input type='checkbox'" +
+        " name='todo-item-done'" +
+        " class='todo-item-done'" +
+        " value='" + todoItem + "' /> " +
+        todoItem +
+        " <button class='todo-item-delete'>" +
+        "Delete</button></li>");
+
+    $("#new-todo-item").val("");
+}
+
+function deleteTodoItem(e, item) {
+    e.preventDefault();
+    console.log(e);
+    $(item).parent().fadeOut('slow', function () {
+        $(item).parent().remove();
+    });
+}
+
+$(function () {
+    $("#add-todo-item").on('click', function (e) {
+        e.preventDefault();
+        addTodoItem()
+    });
+    $("#todo-list").on('click', '.todo-item-delete', function (e) {
+        var item = this;
+        console.log(item);
+        deleteTodoItem(e, item)
+    })
 });

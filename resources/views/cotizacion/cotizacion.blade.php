@@ -435,14 +435,14 @@
                         </div>
                         <div class="col-md-6">
                             <label for="">Punto de Muestreo</label>
-                            <input type="text" class="form-control" id="new-todo-item">
+                            <input type="text" id="new-todo-item" class="new-todo-item form-control" name="todo" />
                         </div>
                         <div class="col-md-6 mt-2">
                             <hr>
-                            <input type="submit" id="add-todo-item" class="btn btn-primary btn-sm " value="Añadir" />
+                            <input type="submit" id="add-todo-item" class="add-todo-item" value="Añadir" />
                         </div>
                         <div class="col-md-12">
-                            <ul id="todo-list">
+                            <ul id="todo-list" class="todo-list">
                             </ul>
                         </div>
                         <div class="col-md-12">
