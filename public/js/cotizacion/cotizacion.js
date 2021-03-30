@@ -4,7 +4,7 @@
  * Modulo: Cotización
  */
 $(function () {
-    console.log("V..02066!");
+    console.log("V..02075!");//You ar
     var guardarFormulario = document.getElementById("guardarFormulario");
     // var btn_primero = document.getElementById('btn_primero');
     // var bnt_dos_atras = document.getElementById('bnt_dos_atras');
@@ -132,6 +132,7 @@ $(document).ready(function () {
             success: function (response) {
                 if (response) {
                     console.log('nuevo-pro-2020');
+                    formulario(id);
                 }
             }
 

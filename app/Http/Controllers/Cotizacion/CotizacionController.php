@@ -65,8 +65,8 @@ class CotizacionController extends Controller
         $num++;
            Cotizaciones::create([
             'Cliente' => $clienteManual,
-            'Folio_servicio' => '21-88/'.$num,
-            'Cotizacion_folio' => '21-88/'.$num,
+            'Folio_servicio' => '21-89/'.$num,
+            'Cotizacion_folio' => '21-89/'.$num,
             'Empresa' => $atencionA,
             'Servicio' => $tipoServicio,
             'Fecha_cotizacion' => $fechaCotizacion,
