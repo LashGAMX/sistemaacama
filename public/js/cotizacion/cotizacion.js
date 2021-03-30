@@ -4,7 +4,7 @@
  * Modulo: Cotización
  */
 $(function () {
-    console.log("-V..020756!-");
+    console.log("V1.035757!");
     var guardarFormulario = document.getElementById("guardarFormulario");
     // var btn_primero = document.getElementById('btn_primero');
     // var bnt_dos_atras = document.getElementById('bnt_dos_atras');
@@ -132,7 +132,7 @@ $(document).ready(function () {
             success: function (response) {
                 if (response) {
                     console.log('nuevo-pro-2020');
-                    formulario(id);
+                    formulario(1);
                 }
             }
 
@@ -150,15 +150,16 @@ function addTodoItem() {
         " class='todo-item-done'" +
         " value='" + todoItem + "' /> " +
         todoItem +
-        " <button class='todo-item-delete'>" +
-        "Delete</button></li>");
-
+        " <button class='btn btn-danger btn-sm mt-1'>" +
+        "X</button></li>");
     $("#new-todo-item").val("");
 }
 
 function deleteTodoItem(e, item) {
-    e.preventDefault();
+    console.log('Bienvenidos');
+    console.log(item);
     console.log(e);
+    e.preventDefault();
     $(item).parent().fadeOut('slow', function () {
         $(item).parent().remove();
     });

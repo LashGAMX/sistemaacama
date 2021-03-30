@@ -439,7 +439,8 @@
                         </div>
                         <div class="col-md-6 mt-2">
                             <hr>
-                            <input type="submit" id="add-todo-item" class="add-todo-item" value="Añadir" />
+                            <!-- -->
+                            <input type="submit" id="add-todo-item" class="btn btn-primary btn-sm mt-1" value="Añadir" />
                         </div>
                         <div class="col-md-12">
                             <ul id="todo-list" class="todo-list">
