@@ -6,16 +6,16 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PrecioCatalogo extends Model
+class DetalleIntermediario extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'precio_catalogo';
-    protected $primaryKey = 'Id_precio';
+    protected $table = 'detalle_intermediarios';
+    protected $primaryKey = 'Id_detalle';
     public $timestamps = true;
 
     protected $fillable = [
-        'Id_parametro',
-        'Id_laboratorio',
-        'Precio',
+        'Id_intermediario',
+        'Id_nivel',
+        'Descuento',
     ];
 }

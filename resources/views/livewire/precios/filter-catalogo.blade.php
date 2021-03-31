@@ -3,8 +3,8 @@
         <form wire:submit.prevent="show">
             <div class="col-md-10">
                 <label for="normas">Laboratorio</label>
-                <select class="form-control" wire:model='sucursal'> 
-                    <option value="0">Sin seleccionar</option>
+                <select class="form-control" wire:model='idSucursal'> 
+                    <option value="0">Sin seleccionar</option> 
                     @foreach ($model as $item)
                         <option value="{{$item->Id_sucursal}}">{{$item->Sucursal}}</option>
                     @endforeach

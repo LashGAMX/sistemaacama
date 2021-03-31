@@ -8,7 +8,7 @@
         <input type="search" wire:model="search" class="form-control" placeholder="Buscar">
       </div> --}}
     </div>
-    <table class="table table-hover table-striped">
+    <table class="table">
         <thead class="thead-dark">
             <tr>
                 <th>Id</th>
@@ -20,10 +20,14 @@
         <tbody>
         @if ($model->count()) 
         @foreach ($model as $item) 
-        <tr>  
+        @if ($item->deleted_at != null)
+        <tr class="bg-danger text-white">  
+          @else
+              <tr>
+          @endif
           {{-- <form wire:submit.prevent="update"> --}}
           <td>{{$item->Id_subnorma}}</td>
-          <td>{{$item->Norma}}</td>          
+          <td>{{$item->Norma}}</td>           
           <td>{{$item->Clave}}</td>
           <td>
             <button type="button" class="btn btn-warning btn-sm" wire:click="setData('{{$item->Id_subnorma}}','{{$item->Norma}}','{{$item->Clave}}','{{$item->deleted_at}}')"  data-toggle="modal" data-target="#modalSubNorma"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
@@ -93,7 +97,7 @@
       @if ($alert == true)
       <script>
         swal("Registro!", "Registro guardado correctamente!", "success");
-        $('#modalRfcSiralab').modal('hide')
+        $('#modalSubNorma').modal('hide')
       </script>
       
       @endif

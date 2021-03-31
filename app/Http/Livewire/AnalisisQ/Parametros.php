@@ -10,6 +10,7 @@ use App\Models\Norma;
 use App\Models\Parametro;
 use App\Models\ProcedimientoAnalisis;
 use App\Models\Rama;
+use App\Models\SimbologiaParametros;
 use App\Models\Sucursal;
 use App\Models\TipoFormula;
 use App\Models\Unidad;
@@ -38,6 +39,7 @@ class Parametros extends Component
     public $rama;
     public $metodo;
     public $procedimiento;
+    public $simbologia;
     public $status;
  
 
@@ -52,6 +54,7 @@ class Parametros extends Component
         'rama' => 'required',
         'metodo' => 'required',
         'procedimiento' => 'required',
+        'simbologia' => 'required',
     ];
     protected $messages = [
         'parametro.required' => 'El parametro es un dato requerido',
@@ -70,9 +73,10 @@ class Parametros extends Component
         $ramas = Rama::all();
         $metodos = MetodoPrueba::all();
         $procedimientos = ProcedimientoAnalisis::all();
+        $simbologias = SimbologiaParametros::all();
 
         return view('livewire.analisis-q.parametros', 
-        compact('model','laboratorios','unidades','tipos','normas','metrices','ramas','metodos','procedimientos'));
+        compact('model','laboratorios','unidades','tipos','normas','metrices','ramas','metodos','procedimientos','simbologias'));
     }
     public function create()
     {
@@ -87,7 +91,8 @@ class Parametros extends Component
             'Id_norma' => $this->norma,
             'Limite' => $this->limite,
             'Id_procedimiento' => $this->procedimiento,
-            'Id_matriz' => $this->matriz
+            'Id_matriz' => $this->matriz,
+            'Id_simbologia' => $this->simbologia,
         ]);
 
         switch($this->norma)
@@ -101,15 +106,20 @@ class Parametros extends Component
                         'Id_parametro' => $parametro->Id_parametro,
                     ]);
                 }
-                break;
+                break; 
             default:
             break;
+        }
+        if($this->status != 1) 
+        {
+            Parametro::find($parametro->Id_parametro)->delete();   
         }
         $this->alert = true;
     }
     public function store()
     {
         $this->validate();
+        Parametro::withTrashed()->find($this->idParametro)->restore();
         $model = Parametro::find($this->idParametro);
         $model->Id_laboratorio = $this->laboratorio;
         $model->Id_tipo_formula = $this->tipo;
@@ -121,10 +131,15 @@ class Parametros extends Component
         $model->Limite = $this->limite;
         $model->Id_procedimiento = $this->procedimiento;
         $model->Id_matriz = $this->matriz;
+        $model->Id_simbologia = $this->simbologia;
         $model->save();
+        if($this->status != 1) 
+        {
+            Parametro::find($this->idParametro)->delete();   
+        }
         $this->alert = true;
     }
-    public function setData($id,$laboratorio,$parametro,$unidad,$tipo,$norma,$limite,$matriz,$rama,$metodo,$procedimiento,$status)
+    public function setData($id,$laboratorio,$parametro,$unidad,$tipo,$norma,$limite,$matriz,$simbologia,$rama,$metodo,$procedimiento,$status)
     {
         $this->sw = true;
         $this->resetValidation();
@@ -136,6 +151,7 @@ class Parametros extends Component
         $this->norma = $norma;
         $this->limite = $limite;
         $this->matriz = $matriz;
+        $this->simbologia = $simbologia;
         $this->rama = $rama;
         $this->metodo = $metodo;
         $this->procedimiento = $procedimiento;
@@ -157,6 +173,7 @@ class Parametros extends Component
         $this->norma = 1;
         $this->limite = '';
         $this->matriz = 1;
+        $this->simbologia = 1;
         $this->rama = 1;
         $this->metodo = 1;
         $this->procedimiento = 1;

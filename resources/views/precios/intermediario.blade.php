@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    @livewire('precios.filter-catalogo',['idSucursal' => @$idSucursal])
+                    {{-- @livewire('precios.filter-catalogo',['idSucursal' => @$idSucursal]) --}}
                 </div>
               </div>
         </div>
@@ -18,15 +18,15 @@
         <div class="col-md-12"> 
           <div class="card">
             <div class="card-body">
-              {{-- @livewire('precios.catalogo', ['idSucursal' => @$idSucursal]) --}}
-              @livewire('precios.catalogo', ['idSucursal' => @$idSucursal])
+              @livewire('precios.intermediario')
             </div>
           </div>
         </div>
 
       </div>
 
-</div> 
+</div>  
   @stop
 
 @endsection 
+ 

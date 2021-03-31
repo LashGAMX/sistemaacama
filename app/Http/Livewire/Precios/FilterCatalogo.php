@@ -6,7 +6,8 @@ use App\Models\Sucursal;
 use Livewire\Component;
 
 class FilterCatalogo extends Component
-{
+{ 
+    public $idSucursal;
     public $sucursal;
     public function render()
     {
@@ -15,6 +16,6 @@ class FilterCatalogo extends Component
     }
     public function show()
     {
-        return redirect()->to('admin/precios/catalogo/'.$this->sucursal);
+        return redirect()->to('admin/precios/catalogo/'.$this->idSucursal);
     }
 }

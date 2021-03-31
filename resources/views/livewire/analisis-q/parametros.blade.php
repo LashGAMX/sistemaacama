@@ -17,7 +17,7 @@
                 <th>Rama</th>
                 <th>Parametro</th>
                 <th>Unidad</th>
-                <th>Metodo de prueba</th>
+                <th>Metodo de prueba</th> 
                 <th>Norma</th>
                 <th>Limite C.</th>
                 {{-- <th>Creación</th>
@@ -38,7 +38,7 @@
           <td>{{$item->Tipo_formula}}</td>
           <td>{{$item->Matriz}}</td>
           <td>{{$item->Rama}}</td>
-          <td>{{$item->Parametro}}</td>
+          <td>{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
           <td>{{$item->Unidad}}</td>
           <td>{{$item->Metodo_prueba}}</td>
           <td>{{$item->Clave_norma}}</td>
@@ -47,7 +47,7 @@
           <td>{{$item->updated_at}}</td> --}}
           <td>
             <button type="button" class="btn btn-warning" 
-            wire:click="setData('{{$item->Id_parametro}}','{{$item->Id_laboratorio}}','{{$item->Parametro}}','{{$item->Id_unidad}}','{{$item->Id_tipo_formula}}','{{$item->Id_norma}}','{{$item->Limite}}','{{$item->Id_matriz}}','{{$item->Id_rama}}','{{$item->Id_metodo}}','{{$item->Id_procedimiento}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalParametro">
+            wire:click="setData('{{$item->Id_parametro}}','{{$item->Id_laboratorio}}','{{$item->Parametro}}','{{$item->Id_unidad}}','{{$item->Id_tipo_formula}}','{{$item->Id_norma}}','{{$item->Limite}}','{{$item->Id_matriz}}','{{$item->Id_simbologia}}','{{$item->Id_rama}}','{{$item->Id_metodo}}','{{$item->Id_procedimiento}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalParametro">
             <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>  
         </tr>
@@ -192,6 +192,17 @@
                             @endforeach
                           </select>
                           @error('procedimiento') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Simbologia</label>
+                            <select class="form-control" wire:model='simbologia' >
+                            @foreach ($simbologias as $item)
+                                <option value="{{$item->Id_simbologia}}">{{$item->Simbologia}}</option>
+                            @endforeach
+                          </select>
+                          @error('simbologia') <span class="text-danger">{{ $message  }}</span> @enderror
                           </div>
                     </div>
                 </div>
