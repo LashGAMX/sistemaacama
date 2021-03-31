@@ -6,9 +6,9 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('cotizacion', [CotizacionController::class,'index']);
 
-Route::get('cotizacion/crear', [CotizacionController::class,'create']);
 
-Route::get('cotizacioncatalogos', [CotizacionConfigController::class,'index']);
+//Route::post('cotizacion', [CotizacionController::class,'registrar'])->name('cotizacion.registrar');
+Route::post('cotizacion/save', [CotizacionController::class,'registrar'])->name('cotizacion.registrar');
 
 //Route::get('cotizacion', [CotizacionController::class,'index']);
 

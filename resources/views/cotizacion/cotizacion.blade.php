@@ -13,7 +13,7 @@
                 {{-- <input type="text" value="{{$idUser}}"> --}}
                 <!-- Parte de Encabezado-->
               <div class="col-md-2">
-<!-- -->
+
                 <button class="btn btn-success btn-sm"  onclick="abrirModal(1)">
                     <i class="voyager-plus"></i> Crear</button>
               </div>
@@ -67,14 +67,12 @@
                     @endforeach
                     </tbody>
                 </table>
-            {{-- @livewire('cotizacion.cotizacion', ['idUser' => Auth::user()->id]) --}}
-            {{-- @livewire('cotizacion.cotizacion', ['idUser' => Auth::user()->id]) --}}
         </div>
       </div>
 </div>
 <!-- Modal -->
 <div class="modal fade" id="modalCotizacionPrincipal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" style="width:98%">
+    <div class="modal-dialog modal-lg" style="width:100%">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="tituloModal"></h5>
@@ -85,20 +83,20 @@
         <div class="modal-body">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item">
-                  <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" onclick="formulario(1)">Información Basica</a>
+                  <a class="nav-link active" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" onclick="formulario(1)"></a>
                 </li>
-                <li class="nav-item">
+                {{-- <li class="nav-item">
                   <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" onclick="formulario(2)">Parametros</a>
                 </li>
                 <li class="nav-item">
                   <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false" onclick="formulario(3)">Información de Cotización</a>
-                </li>
+                </li> --}}
               </ul>
               <div class="tab-content" id="myTabContent">
                 <div class="tab-pane fade" id="home" role="tabpanel" aria-labelledby="home-tab">
-
                     <div class="row" id="formularioUno">
-
+                        <form id="formularioCotizacion">
+                            <input type="hidden" name="_token" id="csrf" value="{{Session::token()}}">
                         <div class="col-md-12">
                             <h6> <b> Datos Intermediario</b></h6>
                         </div>
@@ -114,6 +112,7 @@
                         <div class="col-md-12">
                             <h6 class="mt-0"><b>&nbsp;&nbsp;Clientes Registrados</b></h6>
                         </div>
+
                         <div class="col-md-9">
                             <select id="clientes" class="form-control select2" id="clienteObtenidoSelect" >
                                 @foreach ($cliente as $client)
@@ -283,14 +282,24 @@
                         <div class="col-md-6">
                             <div class="col-md-6">
                                 <label for="">Norma</label>
-                                <input type="text" name="" id="" class="form-control">
-                            </div>
-                            <div class="col-md-6">
-                                <button class="btn btn-success">+ Parametros</button>
+                                <select name="" id="" class="form-control" id="normaFormularioUno">
+                                    @foreach ($norma as $norm)
+                                    <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
+                                    @endforeach
+                                </select>
                             </div>
                             <div class="col-md-12">
-                               <label for="">Parametros selecionados</label>
+                                <h6><p>Parametros Extras</p></h6>
+                                <hr>
                             </div>
+                            <div class="col-md-12">
+                                <select name="" id="" class="form-control" id="parametrosExtras">
+                                    @foreach ($norma as $norm)
+                                    <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+
                     </div>
 
                     <div class="col-md-6">
@@ -302,23 +311,11 @@
                          </div>
                              <div class="col-12">
                                 <div class="form-group">
-                                    <div class="bootstrap-duallistbox-container row moveonselect moveondoubleclick">
-                                        <div class="box1 col-md-6"> <label for="bootstrap-duallistbox-nonselected-list_" style="display: none;"></label> <span class="info-container"> <span class="info">Showing all 6</span> <button type="button" class="btn btn-sm clear1" style="float:right!important;">show all</button> </span> <input class="form-control filter" type="text" placeholder="Filter">
-                                            <div class="btn-group buttons"> <button type="button" class="btn moveall btn-outline-secondary" title="Move all">&gt;&gt;</button> </div> <select multiple="multiple" id="bootstrap-duallistbox-nonselected-list_" name="_helper1" style="height: 102px;">
-                                                <option>Parametro A</option>
-                                                <option>Parametro B</option>
-                                                <option>Parametro C</option>
-                                            </select>
-                                        </div>
-                                        <div class="box2 col-md-6"> <label for="bootstrap-duallistbox-selected-list_" style="display: none;"></label> <span class="info-container"> <span class="info">Showing all 1</span> <button type="button" class="btn btn-sm clear2" style="float:right!important;">show all</button> </span> <input class="form-control filter" type="text" placeholder="Filter">
-                                            <div class="btn-group buttons"> <button type="button" class="btn removeall btn-outline-secondary" title="Remove all">&lt;&lt;</button> </div> <select multiple="multiple" id="bootstrap-duallistbox-selected-list_" name="_helper2" style="height: 102px;">
-                                                <option selected="">Parametro A</option>
-                                            </select>
-                                        </div>
-                                    </div>
-                                    <select class="duallistbox" multiple="multiple" style="display: none;">
-                                        <option selected="">Parametro D</option>
-                                    </select>
+                                    <select multiple="multiple" size="10" name="duallistbox_demo2" class="demo2" id="parametrosPorClasifiacion">
+                                        @foreach ($norma as $norm)
+                                        <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
+                                        @endforeach
+                                      </select>
                                 </div>
                             </div>
                 </div>
@@ -333,16 +330,16 @@
                             <h6> <b> Datos Intermediario</b></h6>
                         </div>
                         <div class="col-md-3">
-                            <h6> <b>Intermediario:</b>Alberto </h6>
+                            <h6> <b>Intermediario:</b> <p id="obtenerIntermediario"></p> </h6>
                         </div>
                         <div class="col-md-3">
-                            <h6> <b>Estado de Cotización:</b>Cotización </h6>
+                            <h6> <b>Estado de Cotización:</b><p id="obtenerCotizacion"></p> </h6>
                         </div>
                         <div class="col-md-3">
-                            <h6> <b>Ser nombre:</b>Análisis y Muestreo </h6>
+                            <h6> <b>Ser nombre:</b><p id="obtenerNombreServicio"></p> </h6>
                         </div>
                         <div class="col-md-3">
-                            <h6> <b>Tipo Descarga:</b>Residual </h6>
+                            <h6> <b>Tipo Descarga:</b><p id="obtenerTipoDescarga"></p> </h6>
                         </div>
                         <div class="col-md-12">
                             <hr>
@@ -350,11 +347,11 @@
                         </div>
                         <div class="col-md-6">
                             <label for="">Nombre del Cliente</label>
-                            <input type="text" class="form-control" disabled>
+                            <input type="text" class="form-control" disabled id="obtenerNombreClienet">
                         </div>
                         <div class="col-md-6">
                             <label for="">Con Atención a:</label>
-                            <input type="text" class="form-control" disabled>
+                            <input type="text" class="form-control" disabled id="obtenerAtencion">
                         </div>
                         <div class="col-md-6">
                             <label for="">Telefono:</label>
@@ -362,7 +359,7 @@
                         </div>
                         <div class="col-md-6">
                             <label for="">Email:</label>
-                            <input type="number" class="form-control" disabled>
+                            <input type="email" class="form-control" disabled>
                         </div>
                         <div class="col-md-12 mt-1">
                             <label for="">Dirección de Cotización:</label>
@@ -374,56 +371,56 @@
                             <h6> <b> Datos de Cotización:</b></h6>
                         </div>
                         <div class="col-md-5">
-                            <h6>Norma:<b> NOM-001-SEMRNAT-1996</b></h6>
+                            <h6>Norma:<b> <p id="obtenerNorma"></p></b></h6>
                         </div>
                         <div class="col-md-7">
                             <p><b>Muestreo</b> 18 HRS - <b>Numero de Tomas</b> 6 <b>Fecha de Muestreo:</b> 13/03/2021</p>
                         </div>
                         <div class="col-md-3">
                             <label for=""># tomas Muestreo:</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="tomasMuestreo">
                         </div>
                         <div class="col-md-3">
                             <label for="">Viaticos:</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="viaticos">
                         </div>
                         <div class="col-md-3">
                             <label for="">Gastos Paqueteria:</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="paqueteria">
                         </div>
                         <div class="col-md-3">
                             <label for="">Gasto Adicional:</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="gastosExtras">
                         </div>
                         <div class="col-md-3">
                             <label for="">N Servicio:</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="servicio">
                         </div>
                         <div class="col-md-3">
                             <label for="">Km Extra:</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="kmExtra">
                         </div>
                         <div class="col-md-3">
                             <label for="">Precio Km:</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="precioKm">
                         </div>
                         <div class="col-md-3">
                             <label for="">Precio Km Extra:</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="precioKmExtra">
                         </div>
                         <div class="col-md-12 mt-1">
                             <label for="">Observación interna:</label>
-                            <textarea name="" id="" cols="30" rows="2" class="form-control">
+                            <textarea name="" id="" cols="30" rows="2" class="form-control" id="observacionInterna">
                         </textarea>
                         </div>
                         <div class="col-md-12 mt-1">
                             <label for="">Observación cotización:</label>
-                            <textarea name="" id="" cols="30" rows="2" class="form-control">
+                            <textarea name="" id="" cols="30" rows="2" class="form-control" id="observaciónCotizacion">
                         </textarea>
                         </div>
                         <div class="col-md-6">
                             <label for="">Forma de Pago</label>
-                            <select name="" id="" class="form-control">
+                            <select name="" id="" class="form-control" id="tarjeta">
                                 <option value="">Tarjeta de Credito </option>
                                 <option value="">Deposito</option>
                                 <option value="">Efectivo</option>
@@ -431,42 +428,23 @@
                         </div>
                         <div class="col-md-6">
                             <label for="">Tiempo de Entrega</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" id="tiempoEntrega">
                         </div>
                         <div class="col-md-12">
                             <h6>Puntos de Muestreo</h6>
                         </div>
-                        <div class="col-md-4">
-                            <label for="">Numero</label>
-                            <input type="text" class="form-control">
-                        </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label for="">Punto de Muestreo</label>
-                            <input type="text" class="form-control">
+                            <input type="text" id="new-todo-item" class="new-todo-item form-control" name="todo" />
                         </div>
-                        <div class="col-md-4 mt-2">
+                        <div class="col-md-6 mt-2">
                             <hr>
-                            <button class="btn btn-primary btn-sm mt-1">Añadir</button>
+                            <!-- -->
+                            <input type="submit" id="add-todo-item" class="btn btn-primary btn-sm mt-1" value="Añadir" />
                         </div>
                         <div class="col-md-12">
-                            <table id="tablaCotizacion" class="table mt-1 ">
-                                <thead class="thead-dark">
-                                    <tr>
-                                        <th scope="col">#</th>
-                                        <th scope="col">Punto de muestreo</th>
-                                        <th scope="col">Acciónes</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td scope="col">1</td>
-                                        <td scope="col">San Juan del Rio Queretaro Puente de Agua Potable</td>
-                                        <td scope="col">
-                                            <button class="btn btn-danger btn-sm mt-1">x</button>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <ul id="todo-list" class="todo-list">
+                            </ul>
                         </div>
                         <div class="col-md-12">
                             <label for="">Punto de Muestreo</label>
@@ -492,6 +470,7 @@
                                 </tbody>
                             </table>
                         </div>
+
                     </div>
                 </div>
               </div>
@@ -499,24 +478,27 @@
         <!-- -->
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          {{-- <button type="button" class="btn btn-primary" id="bnt_uno" onclick="formulario(2)">Siguiente</button>
-          <button type="button" class="btn btn-primary" id="bnt_dos" onclick="formulario(3)">Siguiente</button> --}}
-
-                {{-- <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" onclick="formulario(1)">
-                    <button type="button" class="btn btn-primary">Anterior</button></a> --}}
-
-                <a class="nav-link" id="nuevo" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" onclick="formulario(2)">
-                    <button type="button" class="btn btn-primary" id="bnt_dos">Siguiente</button>
-                  </a>
 {{--
-                <a class="nav-link" id="pro" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" onclick="formulario(2)">
+           <a class="nav-link" id="home-tab" data-toggle="tab" href="#home" role="tab" aria-controls="home" aria-selected="true" onclick="formulario(1)">
+                    <button type="button" class="btn btn-primary" id="btn_primero">Anterior</button></a> --}}
+
+             <a class="nav-link" id="nuevo" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" onclick="formulario(2)">
+                    <button type="button" class="btn btn-primary" id="bnt_dos" >Siguiente</button>
+            </a>
+
+                {{-- <a class="nav-link" id="pro" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false" onclick="formulario(2)">
                     <button type="button" class="btn btn-primary" id="bnt_dos_atras">Anterior</button>
-                  </a>
+                  </a> --}}
 
                 <a class="nav-link" id="contact-tab" data-toggle="tab" href="#contact" role="tab" aria-controls="contact" aria-selected="false" onclick="formulario(3)">
                     <button type="button" class="btn btn-primary" id="bnt_tres">Siguiente</button>
-                  </a> --}}
+                  </a>
 
+
+                  <a href="">
+                    <button type="submit" class="btn btn-primary"  id="guardarFormulario">Guardar</button>
+                  </a>
+                </form>
         </div>
       </div>
     </div>

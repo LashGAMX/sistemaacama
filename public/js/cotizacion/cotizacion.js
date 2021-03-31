@@ -1,10 +1,40 @@
-// const { some } = require("lodash");
+/**
+ * Programador: Jose David Barrita Lopez
+ * Fecha: 29 de Marzo del 2021
+ * Modulo: Cotización
+ */
+$(function () {
+    console.log("V1.035757!");
+    var guardarFormulario = document.getElementById("guardarFormulario");
+    // var btn_primero = document.getElementById('btn_primero');
+    // var bnt_dos_atras = document.getElementById('bnt_dos_atras');
+    var bnt_tres = document.getElementById('bnt_tres');
+    var bnt_dos = document.getElementById('bnt_dos');
 
-console.log('V.03');
+    guardarFormulario.style.display = "none";
+    // btn_primero.style.display = "none";
+    bnt_tres.style.display = "none";
+    // bnt_dos_atras.style.display = "none";
+    bnt_dos.style.display = "none";
+    var nombretabs = document.getElementById("home-tab");
+    nombretabs.innerHTML = "Formulario de Cotización";
+    formulario(1);
+});
+// Funcion para cargar componente
+function obtenerParametros() {
+    var demo2 = $('.demo2').bootstrapDualListbox({
+        nonSelectedListLabel: 'No seleccionado',
+        selectedListLabel: 'Seleccionado',
+        preserveSelectionOnMove: 'Mover',
+        moveOnSelect: true,
+        nonSelectedFilter: 'Filtro'
+    });
+}
+
 // Abrir Modal
 function abrirModal(opt) {
     let option = opt;
-    console.log(typeof(option));
+    console.log(typeof (option));
     console.log('nuevo------------');
     console.log(option)
     $('#modalCotizacionPrincipal').modal('show');
@@ -22,41 +52,127 @@ function abrirModal(opt) {
 
 function formulario(id) {
     console.log(id);
-    console.log(typeof(id));
-    if(id == 1){
+    console.log(typeof (id));
+    if (id == 1) {
         console.log('Formaulario Dos');
-    $("#formularioUno").css("display", "");
-    $("#formularioDos").css("display", "none");
-    $("#formularioTres").css("display", "none");
+        $("#formularioUno").css("display", "");
+        $("#formularioDos").css("display", "none");
+        $("#formularioTres").css("display", "none");
 
-    $("home-tab").css("display", "none");
-    $("nuevo").css("display", "none");
-    $("pro").css("display", "none");
-    $("contact-tab").css("display", "none");
+        $("home-tab").css("display", "none");
+        $("nuevo").css("display", "none");
+        $("pro").css("display", "none");
+        $("contact-tab").css("display", "none");
+
+        // Ver
+        bnt_dos.style.display = "block"
+
+        // No ver
+        guardarFormulario.style.display = "none";
+        bnt_tres.style.display = "none";
     }
 
-    if(id == 2){
-    console.log('Formaulario Dos');
-    $("#formularioUno").css("display", "none");
-    $("#formularioTres").css("display", "none");
-    $("#formularioDos").css("display", "");
+    if (id == 2) {
+        obtenerParametros();
+        console.log('Formaulario Dos');
+        $("#formularioUno").css("display", "none");
+        $("#formularioTres").css("display", "none");
+        $("#formularioDos").css("display", "");
 
-    $("home-tab").css("display", "none");
-    $("nuevo").css("display", "none");
-    $("pro").css("display", "none");
-    $("contact-tab").css("display", "none");
+        $("home-tab").css("display", "none");
+        $("nuevo").css("display", "none");
+        $("pro").css("display", "none");
+        $("contact-tab").css("display", "none");
+
+        //Ver
+        bnt_tres.style.display = "block";
+        // No ver
+        guardarFormulario.style.display = "none";
+        bnt_dos.style.display = "none"
     }
     if (id == 3) {
-        console.log('Formulario Tres');
+
         $("#formularioUno").css("display", "none");
         $("#formularioDos").css("display", "none");
         $("#formularioTres").css("display", "");
 
-    $("home-tab").css("display", "none");
-    $("nuevo").css("display", "none");
-    $("pro").css("display", "none");
-    $("contact-tab").css("display", "none");
+        $("home-tab").css("display", "none");
+        $("nuevo").css("display", "none");
+        $("pro").css("display", "none");
+        $("contact-tab").css("display", "none");
 
+        //Ver
+        guardarFormulario.style.display = "block";
+        bnt_dos.style.display = "none";
+        bnt_tres.style.display = "none";
     }
+}
 
-    }
+$(document).ready(function () {
+    $('#formularioCotizacion').submit(function (e) {
+        console.log('submot');
+        e.preventDefault();
+        var clienteManual = $('#clienteManual').val();
+        var tipoServicio = $('#tipoServicio').val();
+        var atencionA = $('#atencionA').val();
+        var fechaCotizacion = $('#fechaCotizacion').val();
+        var _token = $("#csrf").val();
+
+        $.ajax({
+            url: "cotizacion/save",
+            type: "POST",
+            data: {
+                clienteManual: clienteManual,
+                tipoServicio: tipoServicio,
+                atencionA: atencionA,
+                fechaCotizacion: fechaCotizacion,
+                _token: _token
+
+            },
+            success: function (response) {
+                if (response) {
+                    console.log('nuevo-pro-2020');
+                    formulario(1);
+                }
+            }
+
+        });
+    });
+});
+
+let datos = [];
+function addTodoItem() {
+    var todoItem = $("#new-todo-item").val();
+    datos.push(todoItem);
+    console.log(datos);
+    $("#todo-list").append("<li><input type='checkbox'" +
+        " name='todo-item-done'" +
+        " class='todo-item-done'" +
+        " value='" + todoItem + "' /> " +
+        todoItem +
+        " <button class='btn btn-danger btn-sm mt-1'>" +
+        "X</button></li>");
+    $("#new-todo-item").val("");
+}
+
+function deleteTodoItem(e, item) {
+    console.log('Bienvenidos');
+    console.log(item);
+    console.log(e);
+    e.preventDefault();
+    $(item).parent().fadeOut('slow', function () {
+        $(item).parent().remove();
+    });
+}
+
+$(function () {
+    $("#add-todo-item").on('click', function (e) {
+        e.preventDefault();
+        addTodoItem()
+    });
+    $("#todo-list").on('click', '.todo-item-delete', function (e) {
+        var item = this;
+        console.log(item);
+        deleteTodoItem(e, item)
+    })
+});
