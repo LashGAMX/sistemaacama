@@ -109,3 +109,8 @@ pre.Id_precio,pre.Id_intermediario,pre.Tipo_precio,pre.Id_catalogo,cat.Parametro
 FROM precio_intermediario as pre
 INNER JOIN ViewPrecioCat as cat
 ON pre.Id_catalogo = cat.Id_parametro
+
+/* Lista precio intermediario Paquete */
+CREATE VIEW ViewPrecioPaqInter as SELECT pre.Id_precio,pre.Id_intermediario,pre.Tipo_precio,pre.Id_catalogo,sub.Id_norma,sub.Norma,sub.Clave,pre.Precio,pre.Original,pre.Descuento,pre.created_at,pre.updated_at,pre.deleted_at FROM precio_intermediario as pre
+INNER JOIN sub_normas as sub
+ON pre.Id_catalogo = sub.Id_subnorma

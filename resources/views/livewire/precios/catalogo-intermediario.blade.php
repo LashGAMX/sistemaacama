@@ -17,6 +17,8 @@
                 <th>Id</th>
                 <th>Parametro</th>
                 <th>Precio</th>
+                <th>Descuento</th>
+                <th>Original</th>
                 <th>Acción</th>
             </tr>
         </thead>
@@ -31,6 +33,8 @@
           <td>{{$item->Id_precio}}</td>
           <td>{{$item->Parametro}}</td>          
           <td>$ {{$item->Precio}}</td>
+          <td>% {{$item->Descuento}}</td>   
+          <td>$ {{$item->Original}}</td>  
           <td>
             <button type="button" class="btn btn-warning" 
             wire:click="setData('{{$item->Id_precio}}','{{$item->Id_catalogo}}','{{$item->Descuento}}','{{$item->Precio}}','{{$item->deleted_at}}')"
