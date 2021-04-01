@@ -100,9 +100,9 @@
                         <div class="col-md-12">
                             <h6> <b> Datos Intermediario</b></h6>
                         </div>
-
+                        <!-- Busqueda por Cliente Intermediario -->
                         <div class="col-md-12">
-                        <select id="intermediarios" class="form-control select2" id="intermediario">
+                        <select  class="form-control select2" id="intermediario">
                            @foreach($intermediarios as $intermediario)
                             <option value="{{$intermediario->Id_intermediario}}">{{$intermediario->Nombres}}</option>
                             @endforeach
@@ -112,37 +112,31 @@
                         <div class="col-md-12">
                             <h6 class="mt-0"><b>&nbsp;&nbsp;Clientes Registrados</b></h6>
                         </div>
-
-                        <div class="col-md-9">
-                            <select id="clientes" class="form-control select2" id="clienteObtenidoSelect" >
+                        <!-- Busqueda por Cliente-->
+                        <div class="col-md-12">
+                            <select  class="form-control select2" id="clienteObtenidoSelect" >
                                 @foreach ($cliente as $client)
                                 <option value="{{$client->Id_cliente}}">{{$client->Nombres}}</option>
                                 @endforeach
                             </select>
                         </div>
-
-                        <div class="col-md-3">
-                            <button class="btn btn-sm btn-success" id="clienteAgregadoPorSeleccion">Agregar </button>
-                        </div>
-
                         <!-- Nombre del Cliente-->
                     <div class="col-md-6">
-                        <label for="">Nombre del Cliente:</label>
+                        <label for="" id="nombreCliente">Nombre del Cliente:</label>
                         <input type="text" class="form-control" id="clienteManual">
                     </div>
 
                     <!-- Dirección -->
                     <div class="col-md-6">
-                        <label for="">Dirección</label>
+                        <label for="" id="nombreDireccion">Dirección</label>
                         <input type="text" class="form-control" id="direccion">
                     </div>
-
+                    <!-- A quien va Dirigido -->
                     <div class="col-md-12">
-                        <h6 class="mt-1"><b>&nbsp;&nbsp;A quien va Dirijida la Cotización</b></h6>
+                        <h6 class="mt-1"><b>&nbsp;&nbsp;A quien va Dirigida la Cotización</b></h6>
                     </div>
-
                     <!-- Con Atención a -->
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label for="">Con Atención a:</label>
                         <input type="text" class="form-control" id="atencionA">
                     </div>
@@ -158,7 +152,9 @@
                         <label for="">Email:</label>
                         <input type="text" class="form-control" id="correo">
                     </div>
-
+                    <div class="col-md-12">
+                        <hr>
+                    </div>
                       <!-- Estado de la Cotización  -->
                     <div class="col-md-6">
                         <label for="">Estado de la Cotización:</label>
@@ -221,7 +217,12 @@
                     <!-- Fecha -->
                     <div class="col-md-6">
                         <label for="">Fecha:</label>
-                        <input type="date" id="fechaCotizacion" placeholder="Fecha inicio" class="form-control" value="">
+                        <input type="date" id="fechaCotizacion" placeholder="Fecha inicio" class="form-control">
+                    </div>
+
+                     <!-- Separación -->
+                    <div class="col-md-12">
+                        <hr>
                     </div>
 
                     <!-- Frecuencia -->
@@ -267,13 +268,12 @@
                     </div>
 
                     <!-- Condicciónes de Venta -->
-                    <div class="col-md-12 mt-1">-
+                    <div class="col-md-12 mt-1">
                         <label for="">Condicciónes de Venta:</label>
-                        <textarea name="" id="" cols="30" rows="2" class="form-control" id="codiccionesVenta">
+                        <textarea  cols="30" rows="2" class="form-control" id="codiccionesVenta">
                     </textarea>
                     </div>
-
-
+                                                <!-- Fin del Primer Formulario -->
                 </div>
 
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
@@ -305,17 +305,21 @@
                     <div class="col-md-6">
                         <div class="col-md-12">
                             <label for="">Filtro</label>
-                            <select name="" id="" class="form-control">
-                                <option value="">Clasificación</option>
-                            </select>
+                                <select class="form-control" id="parametrosPorClasifiacion">
+                                    @foreach ($subNormas as $subNorma)
+                                    <option value="{{$subNorma->Id_subnorma}}" onclick='cargarParametros()'>{{$subNorma->Clave}}</option>
+                                    @endforeach
+                                  </select>
+                                </select>
                          </div>
+                            <!-- -->
                              <div class="col-12">
                                 <div class="form-group">
-                                    <select multiple="multiple" size="10" name="duallistbox_demo2" class="demo2" id="parametrosPorClasifiacion">
-                                        @foreach ($norma as $norm)
-                                        <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
-                                        @endforeach
-                                      </select>
+                                    <div id="selectParametros">
+
+                                    </div>
+
+
                                 </div>
                             </div>
                 </div>

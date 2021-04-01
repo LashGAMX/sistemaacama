@@ -1,10 +1,11 @@
 /**
  * Programador: Jose David Barrita Lopez
+ * Revisión: Luis Alberto Santiago Hernandez
  * Fecha: 29 de Marzo del 2021
  * Modulo: Cotización
  */
 $(function () {
-    console.log("V1.035757!");
+    console.log("V1.303030!");
     var guardarFormulario = document.getElementById("guardarFormulario");
     // var btn_primero = document.getElementById('btn_primero');
     // var bnt_dos_atras = document.getElementById('bnt_dos_atras');
@@ -51,10 +52,9 @@ function abrirModal(opt) {
 }
 
 function formulario(id) {
-    console.log(id);
-    console.log(typeof (id));
+
     if (id == 1) {
-        console.log('Formaulario Dos');
+
         $("#formularioUno").css("display", "");
         $("#formularioDos").css("display", "none");
         $("#formularioTres").css("display", "none");
@@ -74,7 +74,7 @@ function formulario(id) {
 
     if (id == 2) {
         obtenerParametros();
-        console.log('Formaulario Dos');
+
         $("#formularioUno").css("display", "none");
         $("#formularioTres").css("display", "none");
         $("#formularioDos").css("display", "");
@@ -91,7 +91,7 @@ function formulario(id) {
         bnt_dos.style.display = "none"
     }
     if (id == 3) {
-
+        obtenerDatos();
         $("#formularioUno").css("display", "none");
         $("#formularioDos").css("display", "none");
         $("#formularioTres").css("display", "");
@@ -127,7 +127,6 @@ $(document).ready(function () {
                 atencionA: atencionA,
                 fechaCotizacion: fechaCotizacion,
                 _token: _token
-
             },
             success: function (response) {
                 if (response) {
@@ -139,8 +138,32 @@ $(document).ready(function () {
         });
     });
 });
+/**
+ * Obtener Datos
+ */
+function obtenerDatos() {
+    console.log('a');
+    var clienteManual = $('clienteManual').val();
+    console.log(clienteManual);
+    var dirrecion = $('direcion').val();
+    var atencionA = $('atencionA').val();
+    console.log(atencionA);
+    var telefono = $('telefono').val();
+    var correo = $('correo').val();
+    $('obtenerNombreClienet').val(clienteManual);
+    $('obtenerAtencion').val(atencionA);
+}
+
+function cargarParametros() {
+    console.log('David');
+
+    var select = document.getElementById('parametrosPorClasifiacion');
+    console.log(select.value);
+
+}
 
 let datos = [];
+
 function addTodoItem() {
     var todoItem = $("#new-todo-item").val();
     datos.push(todoItem);
@@ -176,3 +199,62 @@ $(function () {
         deleteTodoItem(e, item)
     })
 });
+
+/**
+ * Función para Saber si es Un Cliente Intermediario.
+ **/
+
+$('#intermediario').change(function () {
+    var intermediario = $(this).val();
+    if (intermediario) {
+        // Se oculta los datos de cliente manual
+        $("#clienteManual").css("display", "none");
+        $("#direccion").css("display", "none");
+        $("#nombreCliente").css("display", "none");
+        $("#nombreDireccion").css("display", "none")
+    }
+});
+
+/**
+ * Función para Saber si el cliente ya esta registrado.
+ **/
+$('#clienteObtenidoSelect').change(function () {
+    var clienteObtenidoSelect = $(this).val();
+    if (clienteObtenidoSelect) {
+        // Se oculta los datos de cliente manual
+        $("#clienteManual").css("display", "none");
+        $("#direccion").css("display", "none");
+        $("#nombreCliente").css("display", "none");
+        $("#nombreDireccion").css("display", "none")
+    }
+});
+/**
+ * Parametros por Clasificación
+ */
+$("#parametrosPorClasifiacion").change(function () {
+    var id_subnorma = $("#parametrosPorClasifiacion").val();
+    let select = document.getElementById('selectParametros');
+    $.ajax({
+        data: {
+            id_subnorma: id_subnorma
+        },
+        url: 'cotizacion/obtenerParametros',
+        type: 'POST',
+        success: function (response) {
+            //$("#obtenerParametros").html(response);
+            var result =  '';
+            result += '<select multiple="multiple" size="10" name="duallistbox_demo2" class="demo2" id="obtenerParametros">';
+            result += response;
+            result += '</select>'
+            console.log('.........');
+            console.log(response);
+            console.log('.........');
+            console.log(result);
+            select.innerHTML = result;
+        },
+        error: function () {
+            console.log(id_subnorma);
+            console.log("error");
+        }
+    });
+})

@@ -9,6 +9,7 @@ Route::get('cotizacion', [CotizacionController::class,'index']);
 
 //Route::post('cotizacion', [CotizacionController::class,'registrar'])->name('cotizacion.registrar');
 Route::post('cotizacion/save', [CotizacionController::class,'registrar'])->name('cotizacion.registrar');
+Route::post('cotizacion/obtenerParametros', [CotizacionController::class,'obtenerParametros'])->name('cotizacion.obtenerParametros');
 
 //Route::get('cotizacion', [CotizacionController::class,'index']);
 
