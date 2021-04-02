@@ -110,7 +110,7 @@
                         </div>
 
                         <div class="col-md-12">
-                            <h6 class="mt-0"><b>&nbsp;&nbsp;Clientes Registrados</b></h6>
+                            <h6 class="mt-0"><b>Clientes Registrados</b></h6>
                         </div>
                         <!-- Busqueda por Cliente-->
                         <div class="col-md-12">
@@ -119,6 +119,9 @@
                                 <option value="{{$client->Id_cliente}}">{{$client->Nombres}}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="col-md-12">
+                            <hr>
                         </div>
                         <!-- Nombre del Cliente-->
                     <div class="col-md-6">
@@ -158,7 +161,7 @@
                       <!-- Estado de la Cotización  -->
                     <div class="col-md-6">
                         <label for="">Estado de la Cotización:</label>
-                        <select name="" id="" class="form-control" id="estadoCotizacion">
+                        <select name=""  class="form-control" id="estadoCotizacion">
                             <option value="Cancelado">Cancelado</option>
                             <option value="Cotización">Cotización</option>
                             <option value="Cotización autorizada">Cotización autorizada</option>
@@ -168,7 +171,7 @@
                     <!-- Tipo de Servicio -->
                     <div class="col-md-6">
                         <label for="">Tipo de Servicio:</label>
-                        <select name="" id="" class="form-control" id="tipoServicio">
+                        <select name="" class="form-control" id="tipoServicio">
                             <option value="ANÁLISIS Y MUESTREO">ANÁLISIS Y MUESTREO</option>
                             <option value="MUESTREO">MUESTREO</option>
                             <option value="ANALISIS">ANALISIS</option>
@@ -178,7 +181,7 @@
                     <!-- Tipo de Descarga -->
                     <div class="col-md-6">
                         <label for="">Tipo de Descarga:</label>
-                        <select name="" id="" class="form-control" id="tipoDescarga">
+                        <select name=""  class="form-control" id="tipoDescarga">
                             <option value="AGUAS SALINAS">AGUAS SALINAS</option>
                             <option value="ALBERCA">ALBERCA</option>
                             <option value="CONDICIONES PARTICULARES DE DESCARGA">CONDICIONES PARTICULARES DE DESCARGA</option>
@@ -190,28 +193,22 @@
                         </select>
                     </div>
 
-                    <!-- Clasificación de la Norma -->
-                    <div class="col-md-6">
-                        <label for="">Clasifiación de la Norma:</label>
-                        <select name="" id="" class="form-control" id="clasifacionNorma">
-                        <option value="BALANCE">BALANCE</option>
-                        <option value="BLANCO">BLANCO</option>
-                        <option value="CONFICIONES PARTICULARES DE DESCARGA">CONFICIONES PARTICULARES DE DESCARGA</option>
-                        <option value="ING.JAIME RANGEL">ING.JAIME RANGEL</option>
-                        <option value="NMX-C-122">NMX-C-122</option>
-                        <option value="NOM-117">NOM-117</option>
-                        <option value="NOM-127">NOM-127</option>
-                        </select>
-                    </div>
-
                     <!-- Norma -->
                     <div class="col-md-6">
                         <label for="">Norma:</label>
-                            <select name="" id="" class="form-control" id="normaFormularioUno">
+                            <select name="" class="form-control" id="normaFormularioUno">
                                 @foreach ($norma as $norm)
                                 <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
                                 @endforeach
                             </select>
+                    </div>
+
+                    <!-- Clasificación de la Norma -->
+                    <div class="col-md-6">
+                        <label for="">Clasifiación de la Norma:</label>
+                        <div id="clasificacionNorma">
+
+                        </div>
                     </div>
 
                     <!-- Fecha -->
@@ -234,7 +231,7 @@
                     <!-- Tipo de Muestra -->
                     <div class="col-md-3">
                         <label for="">Tipo de Muestra:</label>
-                        <select name="" id="" class="form-control" id="tipoMuestra">
+                        <select name=""  class="form-control" id="tipoMuestra">
                             <option value="INSTANTANEA">INSTANTANEA</option>
                             <option value="COMPUESTA">COMPUESTA</option>
                         </select>
@@ -243,7 +240,7 @@
                     <!-- Promedio -->
                     <div class="col-md-3">
                         <label for="">Promedio:</label>
-                        <select name="" id="" class="form-control" id="promedio">
+                        <select name=""  class="form-control" id="promedio">
                             <option value="MUESTREO INSTANTANEO">MUESTREO INSTANTANEO</option>
                             <option value="MENSUAL">MENSUAL</option>
                             <option value="DIARIO">DIARIO</option>
@@ -260,10 +257,10 @@
                     <!-- Tipo de reporte  -->
                     <div class="col-md-3">
                         <label for="">Tipo de Reporte:</label>
-                        <select name="" id="" class="form-control" id="reporte">
-                            <option value="">Opcion 1</option>
-                            <option value="">Opcion 2</option>
-                            <option value="">Opcion 3</option>
+                        <select name="" class="form-control" id="reporte">
+                            <option value="OpcionOne">Opcion 1</option>
+                            <option value="OpcionTwo">Opcion 2</option>
+                            <option value="OpcionThree">Opcion 3</option>
                         </select>
                     </div>
 
@@ -282,7 +279,7 @@
                         <div class="col-md-6">
                             <div class="col-md-6">
                                 <label for="">Norma</label>
-                                <select name="" id="" class="form-control" id="normaFormularioUno">
+                                <select name=""  class="form-control" id="normaFormularioDos">
                                     @foreach ($norma as $norm)
                                     <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
                                     @endforeach
@@ -293,7 +290,7 @@
                                 <hr>
                             </div>
                             <div class="col-md-12">
-                                <select name="" id="" class="form-control" id="parametrosExtras">
+                                <select name="" class="form-control" id="parametrosExtras">
                                     @foreach ($norma as $norm)
                                     <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
                                     @endforeach
@@ -312,17 +309,14 @@
                                   </select>
                                 </select>
                          </div>
-                            <!-- -->
+                            <!-- Select Parametros :) -->
                              <div class="col-12">
                                 <div class="form-group">
                                     <div id="selectParametros">
-
                                     </div>
-
-
                                 </div>
                             </div>
-                </div>
+                </div><!-- Parte Dos :)  -->
 
                     </div>
                     <!-- -->
@@ -374,65 +368,83 @@
                             <hr>
                             <h6> <b> Datos de Cotización:</b></h6>
                         </div>
-                        <div class="col-md-5">
+                        <div class="col-md-12">
                             <h6>Norma:<b> <p id="obtenerNorma"></p></b></h6>
                         </div>
-                        <div class="col-md-7">
+                        <div class="col-md-12">
                             <p><b>Muestreo</b> 18 HRS - <b>Numero de Tomas</b> 6 <b>Fecha de Muestreo:</b> 13/03/2021</p>
                         </div>
+                        <div class="col-md-12">
+                            <hr>
+                        </div>
+                        <!-- Tomas de Muestra-->
                         <div class="col-md-3">
                             <label for=""># tomas Muestreo:</label>
                             <input type="text" class="form-control" id="tomasMuestreo">
                         </div>
+                         <!-- Viaticos -->
                         <div class="col-md-3">
                             <label for="">Viaticos:</label>
                             <input type="text" class="form-control" id="viaticos">
                         </div>
+                         <!-- Gastos de Paqueteria -->
                         <div class="col-md-3">
                             <label for="">Gastos Paqueteria:</label>
                             <input type="text" class="form-control" id="paqueteria">
                         </div>
+                         <!-- Gasto Adicional -->
                         <div class="col-md-3">
                             <label for="">Gasto Adicional:</label>
                             <input type="text" class="form-control" id="gastosExtras">
                         </div>
+                         <!-- Numero de Servicio-->
                         <div class="col-md-3">
                             <label for="">N Servicio:</label>
-                            <input type="text" class="form-control" id="servicio">
+                            <input type="text" class="form-control" id="numeroServicio">
                         </div>
+                         <!-- Km Extra-->
                         <div class="col-md-3">
                             <label for="">Km Extra:</label>
                             <input type="text" class="form-control" id="kmExtra">
                         </div>
+                         <!-- Precio Km-->
                         <div class="col-md-3">
                             <label for="">Precio Km:</label>
                             <input type="text" class="form-control" id="precioKm">
                         </div>
+                        <!-- Tomas de Muestra-->
                         <div class="col-md-3">
                             <label for="">Precio Km Extra:</label>
                             <input type="text" class="form-control" id="precioKmExtra">
                         </div>
+                         <!-- Observación Interna -->
                         <div class="col-md-12 mt-1">
                             <label for="">Observación interna:</label>
-                            <textarea name="" id="" cols="30" rows="2" class="form-control" id="observacionInterna">
+                            <textarea  cols="30" rows="2" class="form-control" id="observacionInterna">
                         </textarea>
                         </div>
+                         <!-- Observación cotización  -->
                         <div class="col-md-12 mt-1">
                             <label for="">Observación cotización:</label>
-                            <textarea name="" id="" cols="30" rows="2" class="form-control" id="observaciónCotizacion">
+                            <textarea cols="30" rows="2" class="form-control" id="observacionCotizacion">
                         </textarea>
                         </div>
+                         <!-- Forma de pago-->
                         <div class="col-md-6">
                             <label for="">Forma de Pago</label>
-                            <select name="" id="" class="form-control" id="tarjeta">
-                                <option value="">Tarjeta de Credito </option>
-                                <option value="">Deposito</option>
-                                <option value="">Efectivo</option>
+                            <select name=""  class="form-control" id="tarjeta">
+                                <option value="Tarjeta de Credito">Tarjeta de Credito </option>
+                                <option value="Deposito">Deposito</option>
+                                <option value="Efectivo">Efectivo</option>
                             </select>
                         </div>
+                         <!-- Tiempo de Entrega -->
                         <div class="col-md-6">
                             <label for="">Tiempo de Entrega</label>
                             <input type="text" class="form-control" id="tiempoEntrega">
+                        </div>
+                        <div class="col-md-12">
+                            <hr>
                         </div>
                         <div class="col-md-12">
                             <h6>Puntos de Muestreo</h6>

@@ -4,8 +4,9 @@
  * Fecha: 29 de Marzo del 2021
  * Modulo: Cotización
  */
+
 $(function () {
-    console.log("V1.303030!");
+    console.log("V1...02!");
     var guardarFormulario = document.getElementById("guardarFormulario");
     // var btn_primero = document.getElementById('btn_primero');
     // var bnt_dos_atras = document.getElementById('bnt_dos_atras');
@@ -116,6 +117,31 @@ $(document).ready(function () {
         var tipoServicio = $('#tipoServicio').val();
         var atencionA = $('#atencionA').val();
         var fechaCotizacion = $('#fechaCotizacion').val();
+        var telefono = $('#telefono').val();
+        var correo = $('#correo').val();
+        var estadoCotizacion = $('#estadoCotizacion').val();
+        var tipoDescarga = $('#tipoDescarga').val();
+        var clasifacionNorma = $('#clasifacionNorma').val();
+        var normaFormularioUno = $('#normaFormularioUno').val();
+        var frecuencia = $('#frecuencia').val();
+        var tipoMuestra = $('#tipoMuestra').val();
+        var promedio = $('#promedio').val();
+        var puntosMuestreo = $('#puntosMuestreo').val();
+        var reporte = $('#reporte').val();
+        var codiccionesVenta = $('#codiccionesVenta').val();
+
+        var tomasMuestreo = $('#tomasMuestreo').val();
+        var viaticos = $('#viaticos').val();
+        var paqueteria = $('#paqueteria').val();
+        var gastosExtras = $('#gastosExtras').val();
+        var numeroServicio = $('#numeroServicio').val();
+        var kmExtra = $('#kmExtra').val();
+        var precioKm = $('#precioKm').val();
+        var precioKmExtra = $('#precioKmExtra').val();
+        var observacionInterna = $('#observacionInterna').val();
+        var observacionCotizacion =   $('#observacionCotizacion').val();
+        var tarjeta = $('#tarjeta').val();
+        var tiempoEntrega = $('#tiempoEntrega').val();
         var _token = $("#csrf").val();
 
         $.ajax({
@@ -126,12 +152,37 @@ $(document).ready(function () {
                 tipoServicio: tipoServicio,
                 atencionA: atencionA,
                 fechaCotizacion: fechaCotizacion,
+                telefono: telefono,
+                correo: correo,
+                estadoCotizacion: estadoCotizacion,
+                tipoDescarga: tipoDescarga,
+                clasifacionNorma: clasifacionNorma,
+                normaFormularioUno: normaFormularioUno,
+                frecuencia: frecuencia,
+                tipoMuestra: tipoMuestra,
+                promedio: promedio,
+                puntosMuestreo: puntosMuestreo,
+                reporte: reporte,
+                codiccionesVenta: codiccionesVenta,
+                tomasMuestreo:tomasMuestreo,
+                viaticos:viaticos,
+                paqueteria:paqueteria,
+                gastosExtras:gastosExtras,
+                numeroServicio:numeroServicio,
+                kmExtra:kmExtra,
+                precioKm:precioKm,
+                precioKmExtra:precioKmExtra,
+                observacionInterna: observacionInterna,
+                observacionCotizacion: observacionCotizacion,
+                tarjeta:tarjeta,
+                tiempoEntrega:tiempoEntrega,
                 _token: _token
             },
             success: function (response) {
                 if (response) {
                     console.log('nuevo-pro-2020');
-                    formulario(1);
+                    // formulario(1);
+                    window.location.assign("https://dev.sistemaacama.com.mx/admin/cotizacion");
                 }
             }
 
@@ -241,19 +292,42 @@ $("#parametrosPorClasifiacion").change(function () {
         url: 'cotizacion/obtenerParametros',
         type: 'POST',
         success: function (response) {
-            //$("#obtenerParametros").html(response);
-            var result =  '';
+            var result = '';
             result += '<select multiple="multiple" size="10" name="duallistbox_demo2" class="demo2" id="obtenerParametros">';
             result += response;
             result += '</select>'
-            console.log('.........');
-            console.log(response);
-            console.log('.........');
-            console.log(result);
             select.innerHTML = result;
+            obtenerParametros();
         },
         error: function () {
             console.log(id_subnorma);
+            console.log("error");
+        }
+    });
+})
+/**
+ * Funcion para Formulario Select
+ */
+$("#normaFormularioUno").change(function () {
+    var id_norma = $("#normaFormularioUno").val();console.log(id_norma);
+    let selectTwo = document.getElementById('clasificacionNorma');console.log(selectTwo);
+    $.ajax({
+        data: {
+            id_norma: id_norma
+        },
+        url: 'cotizacion/obtenerClasificacion',
+        type: 'POST',
+        success: function (res) {
+             var resulto = '';
+             resulto +=  '<select name=""  class="form-control" id="clasifacionNorma">';
+             resulto += res;
+             resulto += '</select>';
+             selectTwo.innerHTML = resulto;
+             console.log(resulto);
+            console.log('..........'); console.log(res);console.log('.......');
+        },
+        error: function () {
+            console.log(id_norma);
             console.log("error");
         }
     });

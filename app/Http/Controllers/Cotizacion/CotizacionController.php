@@ -13,6 +13,7 @@ use App\Models\DetallesTipoCuerpo;
 use App\Models\NormaParametroView;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+
 class CotizacionController extends Controller
 {
 
@@ -28,7 +29,7 @@ class CotizacionController extends Controller
         $norma = Norma::All();
         $clasificacion = DetallesTipoCuerpo::All();
         $subNormas = SubNorma::All();
-        return view('cotizacion.cotizacion',compact('model','intermediarios','cliente','norma','subNormas'));
+        return view('cotizacion.cotizacion', compact('model', 'intermediarios', 'cliente', 'norma', 'subNormas'));
     }
     /**
      * Metodo para Registrar Cotización
@@ -42,21 +43,71 @@ class CotizacionController extends Controller
         $tipoServicio = $request->tipoServicio;
         $atencionA = $request->clienteManual;
         $fechaCotizacion = $request->fechaCotizacion;
+        $telefono = $request->telefono;
+        $correo =  $request->correo;
+        $estadoCotizacion = $request->estadoCotizacion;
+        $tipoDescarga = $request->tipoDescarga;
+        $clasifacionNorma =  $request->clasifacionNorma;
+        $normaFormularioUno =  $request->normaFormularioUno;
+        $frecuencia = $request->frecuencia;
+        $tipoMuestra = $request->tipoMuestra;
+        $promedio =  $request->promedio;
+        $puntosMuestreo =  $request->puntosMuestreo;
+        $reporte =  $request->reporte;
+        $codiccionesVenta = $request->codiccionesVenta;
 
+        $viaticos = $request->viaticos;
+        $paqueteria = $request->paqueteria;
+        $gastosExtras = $request->gastosExtras;
+        $numeroServicio = $request->numeroServicio;
+        $kmExtra = $request->kmExtra;
+        $precioKm = $request->precioKm;
+        $precioKmExtra = $request->precioKmExtra;
+        $observacionInterna = $request->observacionInterna;
+        $observacionCotizacion= $request->observacionCotizacion;
+        $tarjeta= $request->tarjeta;
+        $tiempoEntrega= $request->tiempoEntrega;
         $cotizacion = Cotizaciones::withTrashed()->get();
         $num = count($cotizacion);
         $num++;
-           Cotizaciones::create([
-            'Cliente' => $clienteManual,
-            'Folio_servicio' => '21-89/'.$num,
-            'Cotizacion_folio' => '21-89/'.$num,
-            'Empresa' => $atencionA,
-            'Servicio' => $tipoServicio,
-            'Fecha_cotizacion' => $fechaCotizacion,
-            'Supervicion' => 'por Asignar',
-            'deleted_at' => NULL,
-            'created_by' =>  'David Barrita'
-        ]);
+        try {
+            $newCotizacion =  Cotizaciones::create([
+                'Cliente' => $clienteManual,
+                'Folio_servicio' => '21-89/' . $num,
+                'Cotizacion_folio' => '21-89/' . $num,
+                'Empresa' => $atencionA,
+                'Servicio' => $tipoServicio,
+                'Fecha_cotizacion' => $fechaCotizacion,
+                'Supervicion' => 'por Asignar',
+                'deleted_at' => NULL,
+                'created_by' =>  'David Barrita',
+                'Telefono' => $telefono,
+                'Correo' => $correo,
+                'Tipo_descarga' => $tipoDescarga,
+                'Tipo_servicio' => $tipoServicio,
+                'Estado_cotizacion' => $estadoCotizacion,
+                'Puntos_muestreo' => $puntosMuestreo,
+                'Promedio' =>  $promedio,
+                'Tipo_muestra' => $tipoMuestra,
+                'frecuencia' => $frecuencia,
+                'Norma_formulario_uno' => $normaFormularioUno,
+                'clasificacion_norma' => $clasifacionNorma,
+                'Reporte' => $reporte,
+                'condicciones_venta' =>  $codiccionesVenta,
+                'Viaticos' =>  $viaticos,
+                'Paqueteria' => $paqueteria,
+                'Gastos_extras' => $gastosExtras,
+                'Numero_servicio' => $numeroServicio,
+                'Km_extra' => $kmExtra,
+                'observacionInterna' => $observacionInterna,
+                'observacionCotizacion' => $observacionCotizacion,
+                'tarjeta' => $tarjeta,
+                'tiempoEntrega' => NULL,
+                'precioKmExtra' => $precioKmExtra
+            ]);
+        } catch (\Throwable $th) {
+            return $th;
+        }
 
         return back();
     }
@@ -66,13 +117,24 @@ class CotizacionController extends Controller
      */
     public function obtenerParametros(Request $request)
     {
-        $html="";
-         $subNorma =  $request->id_subnorma;
-        $parametros =  DB::table('ViewNormaParametro')->where('Id_norma',2)->get();
-        foreach($parametros as $parametro){
-            $html.="<option value='".$parametro->Id_norma_param."'>".$parametro->Clave."</option>";
+        $html = "";
+        $subNorma =  $request->id_subnorma;
+        $parametros =  DB::table('ViewNormaParametro')->where('Id_norma', 2)->get();
+        foreach ($parametros as $parametro) {
+            $html .= "<option value='" . $parametro->Id_norma_param . "'>" . $parametro->Parametro . "</option>";
         }
         echo $html;
-
+    }
+    /**
+     * Obtener Select
+     */
+    public function obtenerClasificacion(Request $request){
+        $html = "";
+        $norma = $request->id_norma;
+        $parametros =  DB::table('ViewNormaParametro')->where('Id_norma', 2)->get();
+        foreach ($parametros as $parametro) {
+            $html .= "<option value='" . $parametro->Id_norma_param . "'>" . $parametro->Parametro . "</option>";
+        }
+        echo $html;
     }
 }
