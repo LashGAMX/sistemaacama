@@ -44,24 +44,32 @@ class Normas extends Component
     public function create()
     {
         $this->validate();
-        Norma::create([
+        $model = Norma::create([
             'Norma' => $this->norma,
             'Clave_norma' => $this->clave,
             'Inicio_validez' => $this->inicio,
             'Fin_validez' => $this->fin
         ]);
+        if($this->status != 1) 
+        {
+            Norma::find($model->Id_norma)->delete();   
+        }
         $this->alert = true;
     }
     public function store()
     {
         $this->validate();
+        Norma::withTrashed()->find($this->idNorma)->restore();
         $model = Norma::find($this->idNorma);   
         $model->Norma = $this->norma;
         $model->Clave_norma = $this->clave;
         $model->Inicio_validez = $this->inicio;
         $model->Fin_validez = $this->fin;
         $model->save();
-        
+        if($this->status != 1) 
+        {
+            Norma::find($this->idNorma)->delete();   
+        }
         $this->alert = true;
     }
     public function btnCreate()

@@ -80,10 +80,37 @@ ON lim.Id_parametro = pa.Id_parametro
 
 /*Vista   Lista precio catalgo*/
 CREATE VIEW ViewPrecioCat as SELECT cat.Id_precio,cat.Id_parametro,par.Parametro,par.Tipo_formula,par.Rama,par.Unidad,
-par.Descripcion,par.Limite,par.Procedimiento,par.Matriz,par.Metodo_prueba,cat.Id_laboratorio,lab.Laboratorio,cat.Precio,
+par.Descripcion,par.Limite,par.Procedimiento,par.Matriz,par.Metodo_prueba,cat.Id_laboratorio,lab.Sucursal,cat.Precio,
 cat.created_at,cat.updated_at,cat.deleted_at
 FROM precio_catalogo as cat
 INNER JOIN ViewParametros as par
 ON cat.Id_parametro = par.Id_parametro
-INNER JOIN laboratorios as lab
-ON cat.Id_laboratorio = lab.Id_laboratorio
+INNER JOIN sucursales as lab
+ON cat.Id_laboratorio = lab.Id_sucursal
+
+/* Lista precio paquete */
+CREATE VIEW ViewPrecioPaq as SELECT
+p.Id_precio,p.Id_paquete,sub.Norma,sub.Clave,p.Precio,p.Id_tipo,p.created_at,p.updated_at,p.deleted_at
+FROM precio_paquete as p
+INNER JOIN sub_normas as sub
+ON p.Id_paquete = sub.Id_subnorma
+
+/* Lista detalle Intermediario */
+CREATE VIEW ViewDetalleInter as SELECT 
+detalle.Id_detalle,inter.Id_intermediario,inter.Id_cliente,inter.Id_laboratorio,inter.Sucursal, inter.Nombres,inter.A_paterno,inter.RFC,inter.Detalle,detalle.Id_nivel,nivel.Nivel,
+nivel.Descuento as DescNivel,detalle.Descuento,detalle.created_at,detalle.updated_at,detalle.deleted_at 
+FROM detalle_intermediarios as detalle 
+INNER JOIN ViewIntermediarios as inter ON detalle.Id_intermediario = inter.Id_cliente 
+INNER JOIN nivel_clientes as nivel ON detalle.Id_nivel = nivel.Id_nivel
+
+/* Lista precio intermediario catalogo */
+CREATE VIEW ViewPrecioCatInter as SELECT 
+pre.Id_precio,pre.Id_intermediario,pre.Tipo_precio,pre.Id_catalogo,cat.Parametro,pre.Precio,pre.Original,pre.Descuento,pre.created_at,pre.updated_at,pre.deleted_at
+FROM precio_intermediario as pre
+INNER JOIN ViewPrecioCat as cat
+ON pre.Id_catalogo = cat.Id_parametro
+
+/* Lista precio intermediario Paquete */
+CREATE VIEW ViewPrecioPaqInter as SELECT pre.Id_precio,pre.Id_intermediario,pre.Tipo_precio,pre.Id_catalogo,sub.Id_norma,sub.Norma,sub.Clave,pre.Precio,pre.Original,pre.Descuento,pre.created_at,pre.updated_at,pre.deleted_at FROM precio_intermediario as pre
+INNER JOIN sub_normas as sub
+ON pre.Id_catalogo = sub.Id_subnorma

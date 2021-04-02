@@ -1,11 +1,11 @@
 <div>
     <div class="row">
       <div class="col-md-4">
-        <button class="btn btn-success btn-sm" wire:click="btnCreate" data-toggle="modal" data-target="#modalPrecioCatalgo" ><i class="voyager-plus"></i> Crear</button>
+        <button class="btn btn-success btn-sm" wire:click="btnCreate" data-toggle="modal" data-target="#modalPrecioPaquete" ><i class="voyager-plus"></i> Crear</button>
       </div>
-      <div class="col-md-4">
+      {{-- <div class="col-md-4">
         <button class="btn btn-dark btn-sm" onclick="confirmar()" ><i class="voyager-list-add"></i> Anual</button>
-      </div>
+      </div> --}}
       <div class="col-md-4">
         <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">
       </div>
@@ -16,15 +16,13 @@
             <tr>
                 <th>Id</th>
                 <th>Parametro</th>
-                <th>Tipo fórmula</th>
-                <th>Matriz</th>
-                <th>Rama</th>
-                <th>Unidad</th>
                 <th>Precio</th>
+                <th>Descuento</th>
+                <th>Original</th>
                 <th>Acción</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody> 
         @if ($model->count())  
         @foreach ($model as $item) 
         @if ($item->deleted_at != null)
@@ -33,15 +31,14 @@
             <tr>
         @endif
           <td>{{$item->Id_precio}}</td>
-          <td>{{$item->Parametro}}</td>          
-          <td>{{$item->Tipo_formula}}</td>
-          <td>{{$item->Matriz}}</td>
-          <td>{{$item->Rama}}</td>
-          <td>{{$item->Unidad}}</td>
+          <td>{{$item->Clave}}</td>          
           <td>$ {{$item->Precio}}</td>
+          <td>% {{$item->Descuento}}</td>   
+          <td>$ {{$item->Original}}</td>   
           <td>
             <button type="button" class="btn btn-warning" 
-            wire:click="setData('{{$item->Id_precio}}','{{$item->Id_parametro}}','{{$item->Precio}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalPrecioCatalgo"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            wire:click="setData('{{$item->Id_precio}}','{{$item->Id_catalogo}}','{{$item->Descuento}}','{{$item->Precio}}','{{$item->deleted_at}}')"
+             data-toggle="modal" data-target="#modalPrecioPaquete"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
 
         </tr>
@@ -55,7 +52,7 @@
   
     {{-- Modal crear precios --}}
     
-<div wire:ignore.self class="modal fade" id="modalPrecioCatalgo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div wire:ignore.self class="modal fade" id="modalPrecioPaquete" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         @if ($sw == false)
@@ -83,27 +80,36 @@
                 </div>
                 <div class="col-md-12">
                     <div class="form-group">
-                        <label>Parametro</label>
+                        <label>Paquetes</label>
                         @if ($sw == false)
-                            <select class="form-control" wire:model='parametro' >
+                            <select class="form-control" wire:model='paquete' wire:click='calcularDes'>
                         @else
-                            <select class="form-control" wire:model='parametro' disabled>
+                            <select class="form-control" wire:model='paquete' disabled>
                         @endif
                           <option value="0">Sin seleccionar</option>
-                          @foreach ($parametros as $item)
-                          <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
+                          @foreach ($paquetes as $item)
+                          <option value="{{$item->Id_subnorma}}">{{$item->Clave}}</option>
                              @endforeach
                         </select>
-                    </div>
-                </div>
+                    </div> 
+                </div> 
                 <div class="col-md-12">
+                        <label>Descuento %</label>
+                        <input type="number" wire:model='desc'  max="{{$descNivel}}" class="form-control" placeholder="Descuento" required>
+                    @error('precio') <span class="text-danger">{{ $message  }}</span> @enderror
+                </div>
+              
+                <div class="col-md-6">
                     <label for="">Precio</label>
-                        <label>Precio</label>
-                        <input type="number" wire:model='precio' class="form-control" placeholder="Precio" required>
+                        <input type="number" wire:model='precio' class="form-control" placeholder="Precio" disabled>
                         @error('precio') <span class="text-danger">{{ $message  }}</span> @enderror
                 </div>
+                <div class="col-md-6">
+                    <label for="">Calcular</label>
+                        <input type="number" wire:model='calcular' class="form-control" placeholder="Calcular"  disabled>
+                </div>
             </div>
-        </div>
+        </div> 
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
           <button type="submit" class="btn btn-primary">Guardar cambios</button>
@@ -114,7 +120,7 @@
   </div>
 
   {{-- Modal subir precio --}}
-  <div wire:ignore.self class="modal fade" id="modalPrecioAnual"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div wire:ignore.self class="modal fade" id="modalPrecioPaqueteAnual"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
           <form wire:submit.prevent="createPrecio">
@@ -137,7 +143,7 @@
           <button type="submit" class="btn btn-primary">Guardar cambios</button>
         </div>
       </form>
-      </div>
+      </div> 
     </div>
   </div>
 
@@ -164,12 +170,12 @@
     @if ($error == true)
         <script>
             swal("Error!", "Este parametro ya se encuentra registrado!", "error");
-            $('#modalPrecioCatalgo').modal('hide')
+            $('#modalPrecioPaquete').modal('hide')
         </script>
     @else
         <script>
             swal("Registro!", "Registro guardado correctamente!", "success");
-            $('#modalPrecioCatalgo').modal('hide')
+            $('#modalPrecioPaquete').modal('hide')
         </script>  
     @endif
 @endif
@@ -177,3 +183,4 @@
 
   </div>
    
+

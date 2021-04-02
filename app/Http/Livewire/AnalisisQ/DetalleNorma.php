@@ -33,25 +33,34 @@ class DetalleNorma extends Component
 
     public function render()
     {
-        $model = SubNorma::where('Id_norma',$this->idNorma)->get();
+        $model = SubNorma::withTrashed()->where('Id_norma',$this->idNorma)->get();
         return view('livewire.analisis-q.detalle-norma',compact('model'));
     }
     public function create()
     {
         $this->validate();
-        SubNorma::create([
+        $model = SubNorma::create([
             'Id_norma' => $this->idNorma,
             'Norma' => $this->sub,
             'Clave' => $this->clave,
         ]);
+        if($this->status != 1) 
+        {
+            SubNorma::find($model->Id_subnorma)->delete();   
+        }
         $this->alert = true;
     }
     public function store()
     {
         $this->validate();
+        SubNorma::withTrashed()->find($this->idSub)->restore();
         $model = SubNorma::find($this->idSub);
         $model->Norma = $this->sub;
         $model->Clave = $this->clave;
+        if($this->status != 1) 
+        {
+            SubNorma::find($this->idSub)->delete();   
+        }
         $this->alert = true;
     }
     public function setData($idSub,$sub,$clave,$status)

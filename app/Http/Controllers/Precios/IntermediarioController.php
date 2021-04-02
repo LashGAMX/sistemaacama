@@ -9,18 +9,14 @@ use Livewire\WithPagination;
 
 class IntermediarioController extends Controller
 {
-    //
-    use WithPagination;
-    
-    public $search = '';
-    protected $queryString = ['search' => ['except' => '']];
-    public $sw = false;
-    public $perPage = 30;
-    public $alert = false;
     
     public function index()
     {
-        $model = DB::table('ViewPrecioPaq')->get();
-        return view('precios.intermediario',compact('model'));
+        return view('precios.intermediario');
+    }
+    public function details($idCliente)
+    {
+        $model = DB::table('ViewDetalleInter')->where('Id_cliente',$idCliente)->first();
+        return view('precios.precioIntermediario',compact('idCliente','model')); 
     }
 }

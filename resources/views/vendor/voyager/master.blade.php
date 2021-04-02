@@ -6,12 +6,6 @@
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
     <meta name="assets-path" content="{{ route('voyager.voyager_assets') }}"/>
 
-    <style>
-        input{
-            text-transform: uppercase;
-        }
-    </style>
-
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,700" rel="stylesheet">
 
@@ -24,19 +18,20 @@
     @endif
 
 
-    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> --}}
+
     <!-- App CSS -->
     <link rel="stylesheet" href="{{ voyager_asset('css/app.css') }}">
-    {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/1.9.2/tailwind.min.css" integrity="sha512-l7qZAq1JcXdHei6h2z8h8sMe3NbMrmowhOl+QkP3UhifPpCW2MC4M0i26Y8wYpbz1xD9t61MLT9L1N773dzlOA==" crossorigin="anonymous" /> --}}
+
     @yield('css')
     @if(__('voyager::generic.is_rtl') == 'true')
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css">
         <link rel="stylesheet" href="{{ voyager_asset('css/rtl.css') }}">
-        {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css"> --}}
     @endif
-    {{-- <link rel="stylesheet" href="{{ voyager_asset('lib/css/responsive.dataTables.min.css') }}"> --}}
+
     <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{url('assets/duallist/dist/bootstrap-duallistbox.min.css')}}">
+
     <!-- Few Dynamic Styles -->
     <style type="text/css">
         .voyager .side-menu .navbar-header {
@@ -57,9 +52,8 @@
     @if(!empty(config('voyager.additional_css')))<!-- Additional CSS -->
         @foreach(config('voyager.additional_css') as $css)<link rel="stylesheet" type="text/css" href="{{ asset($css) }}">@endforeach
     @endif
-
-    @yield('head')
     @livewireStyles
+    @yield('head')
 </head>
 
 <body class="voyager @if(isset($dataType) && isset($dataType->slug)){{ $dataType->slug }}@endif">
@@ -124,17 +118,18 @@ if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Ill
 </div>
 @include('voyager::partials.app-footer')
 
-<!-- Javascript Libs --> 
-
-
+<!-- Javascript Libs -->
 @livewireScripts
+
 <script type="text/javascript" src="{{ voyager_asset('js/app.js') }}"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{{url('assets/duallist/dist/jquery.bootstrap-duallistbox.min.js')}}"></script>
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+{{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> --}}
+
+
 
 <script>
     @if(Session::has('alerts'))
