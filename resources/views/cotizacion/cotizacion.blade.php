@@ -81,10 +81,10 @@
         </div>
 
 
-
-  <!-- Modal Historico -->
+ <!--  Modal Historico  -->
+  <!--  Modal Historico -->
   <div class="modal fade" id="modalCotizacionHistorico">
-    <div class="modal-dialog modal-xl" style="width:50%">
+    <div class="modal-dialog modal-lg" style="width:80%">
       <div class="modal-content">
 
         <!-- Modal Header -->

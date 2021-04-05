@@ -9,7 +9,7 @@
  * Logica de Botones & Como Mostrar los Formularios
  */
 $(function () {
-    console.log("V1...13!");
+    console.log("V1...14!");
     var guardarFormulario = document.getElementById("guardarFormulario");
     // var btn_primero = document.getElementById('btn_primero');
     // var bnt_dos_atras = document.getElementById('bnt_dos_atras');
