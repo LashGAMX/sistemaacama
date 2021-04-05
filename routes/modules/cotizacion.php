@@ -13,3 +13,5 @@ Route::post('cotizacion/obtenerClasificacion', [CotizacionController::class,'obt
 Route::get('cotizacion/create', [Cotizacion2Controller::class,'create']);
 Route::post('cotizacion/getSubNorma', [Cotizacion2Controller::class,'getSubNorma']);
  
+Route::post('cotizacion/obtenerHistorico', [CotizacionController::class,'obtenerHistorico'])->name('cotizacion.obtenerHistorico');
+Route::post('cotizacion/duplicarCotizacion', [CotizacionController::class,'duplicarCotizacion'])->name('cotizacion.duplicarCotizacion');

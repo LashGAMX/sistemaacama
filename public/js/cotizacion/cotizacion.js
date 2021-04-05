@@ -4,9 +4,25 @@
  * Fecha: 29 de Marzo del 2021
  * Modulo: Cotización
  */
-
+var clienteManualCopia = '',
+    direccionCopia = '',
+    atencionACopia = '',
+    telefonoCopia = '';
+var correoCopia = '',
+    estadoCotizacionCopia = '',
+    tipoServicioCopia = '',
+    tipoDescargaCopia = '';
+var normaFormularioUnoCopia = '',
+    frecuenciaCopia = '',
+    tipoMuestraCopia = '',
+    promedioCopia = '';
+var reporteCopia, condiccionesVentaCopia = '',fechaCotizacionCopia='';
+//Codigo Jquery
+/**
+ * Logica de Botones & Como Mostrar los Formularios
+ */
 $(function () {
-    console.log("V1...02!");
+    console.log("V1...20!");
     var guardarFormulario = document.getElementById("guardarFormulario");
     // var btn_primero = document.getElementById('btn_primero');
     // var bnt_dos_atras = document.getElementById('bnt_dos_atras');
@@ -46,6 +62,9 @@ function abrirModal(opt) {
             break;
         case 2:
             $("#tituloModal").html("Modificar Cotización");
+            console.log('Modo Modificar');
+            var idModal = $(this).data("id");
+            console.log(idModal);
         default:
             break;
     }
@@ -64,6 +83,7 @@ function formulario(id) {
         $("nuevo").css("display", "none");
         $("pro").css("display", "none");
         $("contact-tab").css("display", "none");
+
 
         // Ver
         bnt_dos.style.display = "block"
@@ -90,9 +110,47 @@ function formulario(id) {
         // No ver
         guardarFormulario.style.display = "none";
         bnt_dos.style.display = "none"
+
+        clienteManualCopia = $('#clienteManual').val();
+        $('#obtenerNombreClienteCopy').val(clienteManualCopia);
+        direccionCopia = $('#direccion').val();
+        $('#direccionCopy').val(direccionCopia);
+        atencionACopia = $('#atencionA').val();
+        $('#obtenerAtencionCopy').val(atencionACopia);
+        telefonoCopia = $('#telefono').val();
+        $('#telefonoCopy').val(telefonoCopia);
+        correoCopia = $('#correo').val();
+        $('#correoCopy').val(correoCopia);
+        estadoCotizacionCopia = $('#estadoCotizacion').val();
+        $('#estadoCotizacionCopy').val(estadoCotizacionCopia);
+        tipoServicioCopia = $('#tipoServicio').val();
+        $('#servicioNombreCopy').val(tipoServicioCopia);
+        tipoDescargaCopia = $('#tipoDescarga').val();
+        $('#tipoDescargaCopy').val(tipoDescargaCopia);
+        normaFormularioUnoCopia = $('#normaFormularioUno').val();
+        $('#obtenerNormaCopy').val(normaFormularioUnoCopia);
+        fechaCotizacionCopia = $('#fechaCotizacion').val();
+        $('#fechaCopy').val(fechaCotizacionCopia);
+        frecuenciaCopia = $('#frecuencia').val();
+        $('#frecuenciaCopy').val(frecuenciaCopia);
+        tipoMuestraCopia = $('#tipoMuestra').val();
+        promedioCopia = $('#promedio').val();
+        $('#tomasCopy').val(promedioCopia);
+        reporteCopia = $('#reporte').val();
+        condiccionesVentaCopia = $('#condiccionesVenta').val();
+        puntosMuestreoCopiaa =  $('#puntosMuestreo').val();
+        //Listar los inputs de muestreo
+        let inputsPuntosMuestreo = $('#tomasMuestreo').val(puntosMuestreoCopiaa);
+        let inputs = ''
+        for(let i=0; i<= parseInt(inputsPuntosMuestreo); i++){
+            inputs += `<input type="text" class="form-control"  id="${i}">`;
+        }
+        let add = document.getElementById('inputsPuntoMuestrodiv');
+        add.innerHTML = inputs;
+        console.log(inputs);
     }
     if (id == 3) {
-        obtenerDatos();
+
         $("#formularioUno").css("display", "none");
         $("#formularioDos").css("display", "none");
         $("#formularioTres").css("display", "");
@@ -108,7 +166,9 @@ function formulario(id) {
         bnt_tres.style.display = "none";
     }
 }
-
+/**
+ * Guardar Cotización
+ */
 $(document).ready(function () {
     $('#formularioCotizacion').submit(function (e) {
         console.log('submot');
@@ -139,9 +199,12 @@ $(document).ready(function () {
         var precioKm = $('#precioKm').val();
         var precioKmExtra = $('#precioKmExtra').val();
         var observacionInterna = $('#observacionInterna').val();
-        var observacionCotizacion =   $('#observacionCotizacion').val();
+        var observacionCotizacion = $('#observacionCotizacion').val();
         var tarjeta = $('#tarjeta').val();
         var tiempoEntrega = $('#tiempoEntrega').val();
+        var valoresParametros = new Array(); //
+        valoresParametros = $("#obtenerParametros").val();
+        console.log(valoresParametros);
         var _token = $("#csrf").val();
 
         $.ajax({
@@ -164,18 +227,19 @@ $(document).ready(function () {
                 puntosMuestreo: puntosMuestreo,
                 reporte: reporte,
                 codiccionesVenta: codiccionesVenta,
-                tomasMuestreo:tomasMuestreo,
-                viaticos:viaticos,
-                paqueteria:paqueteria,
-                gastosExtras:gastosExtras,
-                numeroServicio:numeroServicio,
-                kmExtra:kmExtra,
-                precioKm:precioKm,
-                precioKmExtra:precioKmExtra,
+                tomasMuestreo: tomasMuestreo,
+                viaticos: viaticos,
+                paqueteria: paqueteria,
+                gastosExtras: gastosExtras,
+                numeroServicio: numeroServicio,
+                kmExtra: kmExtra,
+                precioKm: precioKm,
+                precioKmExtra: precioKmExtra,
                 observacionInterna: observacionInterna,
                 observacionCotizacion: observacionCotizacion,
-                tarjeta:tarjeta,
-                tiempoEntrega:tiempoEntrega,
+                tarjeta: tarjeta,
+                tiempoEntrega: tiempoEntrega,
+                valoresParametros: valoresParametros,
                 _token: _token
             },
             success: function (response) {
@@ -189,28 +253,37 @@ $(document).ready(function () {
         });
     });
 });
-/**
- * Obtener Datos
- */
-function obtenerDatos() {
-    console.log('a');
-    var clienteManual = $('clienteManual').val();
-    console.log(clienteManual);
-    var dirrecion = $('direcion').val();
-    var atencionA = $('atencionA').val();
-    console.log(atencionA);
-    var telefono = $('telefono').val();
-    var correo = $('correo').val();
-    $('obtenerNombreClienet').val(clienteManual);
-    $('obtenerAtencion').val(atencionA);
-}
 
+/**
+ * Obtener Parametros
+ */
 function cargarParametros() {
     console.log('David');
-
     var select = document.getElementById('parametrosPorClasifiacion');
     console.log(select.value);
-
+    $("#parametrosPorClasifiacion").change(function () {
+        var id_subnorma = $("#parametrosPorClasifiacion").val();
+        let select = document.getElementById('selectParametros');
+        $.ajax({
+            data: {
+                id_subnorma: id_subnorma
+            },
+            url: 'cotizacion/obtenerParametros',
+            type: 'POST',
+            success: function (response) {
+                var result = '';
+                result += '<select multiple="multiple" size="10" name="duallistbox_demo2" class="demo2" id="obtenerParametros">';
+                result += response;
+                result += '</select>'
+                select.innerHTML = result;
+                obtenerParametros();
+            },
+            error: function () {
+                console.log(id_subnorma);
+                console.log("error");
+            }
+        });
+    })
 }
 
 let datos = [];
@@ -304,13 +377,13 @@ $("#parametrosPorClasifiacion").change(function () {
             console.log("error");
         }
     });
-})
+});
 /**
  * Funcion para Formulario Select
  */
 $("#normaFormularioUno").change(function () {
-    var id_norma = $("#normaFormularioUno").val();console.log(id_norma);
-    let selectTwo = document.getElementById('clasificacionNorma');console.log(selectTwo);
+    var id_norma = $("#normaFormularioUno").val();
+    let selectTwo = document.getElementById('clasificacionNorma');
     $.ajax({
         data: {
             id_norma: id_norma
@@ -318,17 +391,175 @@ $("#normaFormularioUno").change(function () {
         url: 'cotizacion/obtenerClasificacion',
         type: 'POST',
         success: function (res) {
-             var resulto = '';
-             resulto +=  '<select name=""  class="form-control" id="clasifacionNorma">';
-             resulto += res;
-             resulto += '</select>';
-             selectTwo.innerHTML = resulto;
-             console.log(resulto);
-            console.log('..........'); console.log(res);console.log('.......');
+            var resulto = '';
+            resulto += '<select name=""  class="form-control" id="clasifacionNorma">';
+            resulto += res;
+            resulto += '</select>';
+            selectTwo.innerHTML = resulto;
+            console.log(resulto);
         },
         error: function () {
             console.log(id_norma);
             console.log("error");
         }
     });
-})
+});
+/**
+ * Funcion para Formulario Select Norma Formulario Dos
+ */
+$("#normaSelectFormularioDos").change(function () {
+    var id_norma = $("#normaSelectFormularioDos").val();
+    console.log(id_norma);
+    let selectThree = document.getElementById('clasificacionNormaFormularioDos');
+    $.ajax({
+        data: {
+            id_norma: id_norma
+        },
+        url: 'cotizacion/obtenerClasificacion',
+        type: 'POST',
+        success: function (resq) {
+            var resultoo = '';
+            resultoo += '<select name=""  class="form-control" id="parametrosPorClasifiacion" onclick="cargarParametros()">';
+            resultoo += resq;
+            resultoo += '</select>';
+            selectThree.innerHTML = resultoo;
+            console.log(resultoo);
+        },
+        error: function () {
+            console.log(id_norma);
+            console.log("error");
+        }
+    });
+});
+
+/**
+ * Función para Editar
+ * @param {*} id
+ */
+function edit_columna(id) {
+    console.log(`Bienvenido a Editar${id}`);
+
+
+}
+
+/**
+ * Función para ver el Historico
+ * @param {*} id
+ */
+function ver_historico(idCotizacion) {
+    console.log(`Bienvenido a Historico${idCotizacion}`);
+    let tablaHistorico = document.getElementById('historicoById');
+    $.ajax({
+        data: {
+            idCotizacion: idCotizacion
+        },
+        url: 'cotizacion/obtenerHistorico',
+        type: 'POST',
+        success: function (resq) {
+            var resulquery = '';
+            resulquery += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
+            resulquery += '    <thead class="thead-dark">';
+            resulquery += '        <tr>';
+            resulquery += '            <th style="width: 5%;">Id</th>';
+            resulquery += '            <th>Cliente</th>';
+            resulquery += '            <th>Servicio Folio</th>';
+            resulquery += '            <th>Cotización Folio</th>';
+            resulquery += '            <th>Empresa</th>';
+            resulquery += '            <th>Servicio</th>';
+            resulquery += '            <th>Fecha Cotización</th>';
+            resulquery += '            <th>Fecha Control:</th>';
+            resulquery += '            <th>Hora Control:</th>';
+            resulquery += '            <th>Autor</th>';
+            resulquery += '        </tr>';
+            resulquery += '    </thead>';
+            resulquery += '    <tbody>';
+            resulquery += resq;
+            resulquery += '</tbody>';
+            resulquery += '</table>';
+            tablaHistorico.innerHTML = resulquery;
+            console.log(resulquery);
+        },
+        error: function () {
+            console.log("error");
+        }
+    });
+}
+
+/**
+ * Función para duplicar(DUPLICAR)
+ * @param {*} id
+ */
+function edit_duplicacion(id) {
+    console.log(`Bienvenido a Duplicar${id}`);
+    swal({
+            title: "¿Está segura o seguro de duplicar, al generarlo se creara un nuevo folio con la misma información?",
+            text: "Las cotizaciones son importantes has un buen uso de la duplicación.!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                $.ajax({
+                    data: {
+                        id: id
+                    },
+                    url: 'cotizacion/duplicarCotizacion',
+                    type: 'POST',
+                    success: function (respuesta) {
+                        var json_data = JSON.parse(respuesta);
+                        $.ajax({
+                            url: "cotizacion/save",
+                            type: "POST",
+                            data: {
+                                clienteManual: json_data.Cliente,
+                                tipoServicio: json_data.Servicio,
+                                atencionA: null,
+                                fechaCotizacion: null,
+                                telefono: json_data.Telefono,
+                                correo: json_data.Correo,
+                                estadoCotizacion: null,
+                                tipoDescarga: json_data.Tipo_descarga,
+                                clasifacionNorma: null,
+                                normaFormularioUno: null,
+                                frecuencia: json_data.frecuencia,
+                                tipoMuestra: json_data.Tipo_muestra,
+                                promedio: json_data.Promedio,
+                                puntosMuestreo: null,
+                                reporte: json_data.Reporte,
+                                codiccionesVenta: codiccionesVenta,
+                                tomasMuestreo: null,
+                                viaticos: json_data.Viaticos,
+                                paqueteria: null,
+                                gastosExtras: null,
+                                numeroServicio: null,
+                                kmExtra: null,
+                                precioKm: null,
+                                precioKmExtra: json_data.precioKmExtra,
+                                observacionInterna: json_data.observacionInterna,
+                                observacionCotizacion: json_data.observacionCotizacion,
+                                tarjeta: json_data.tarjeta,
+                                tiempoEntrega: json_data.tiempoEntrega
+                            },
+                            success: function (response) {
+                                if (response) {
+                                    console.log('nuevo-pro-2020');
+
+                                }
+                            }
+                        });
+                        swal("Cotizacion! Generada Correctamente!", {
+                            icon: "success",
+                        });
+                    },
+                    error: function () {
+                        console.log("error");
+                        swal("Un Error!");
+                    }
+                });
+
+            } else {
+                swal("El proceso no fue realizado!");
+            }
+        });
+}
