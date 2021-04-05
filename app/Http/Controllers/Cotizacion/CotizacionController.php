@@ -70,13 +70,12 @@ class CotizacionController extends Controller
         $cotizacion = Cotizaciones::withTrashed()->get();
         $num = count($cotizacion);
         $num++;
-        $valoresParametros = [];
         $valoresParametros = $request->valoresParametros;
         try {
             $newCotizacion =  Cotizaciones::create([
                 'Cliente' => $clienteManual,
-                'Folio_servicio' => '21-89/' . $num,
-                'Cotizacion_folio' => '21-89/' . $num,
+                'Folio_servicio' => '21-92/' . $num,
+                'Cotizacion_folio' => '21-92/' . $num,
                 'Empresa' => $atencionA,
                 'Servicio' => $tipoServicio,
                 'Fecha_cotizacion' => $fechaCotizacion,
@@ -107,13 +106,17 @@ class CotizacionController extends Controller
                 'tiempoEntrega' => NULL,
                 'precioKmExtra' => $precioKmExtra
             ]);
-
-            foreach ($valoresParametros as $valorParametro) {
-                DB::table('evaluacion_parametros')->insert([
-                    'Id_cotizacion' => 10,
-                    'Id_parametro' => $valorParametro,
-                    'Es_extra' => 0
-                ]);
+            #Alamacenar parametros de la cotización
+            if (@$valoresParametros) {
+                $value = sizeof($valoresParametros);
+                #Recorrer
+                for ($i = 0; $i <= 10; $i++) {
+                    DB::table('evaluacion_parametros')->insert([
+                        'Id_cotizacion' => $value,
+                        'Id_parametro' => $value,
+                        'Es_extra' => 0
+                    ]);
+                }
             }
         } catch (\Throwable $th) {
             return $th;

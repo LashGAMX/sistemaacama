@@ -6,7 +6,7 @@
  */
 
 $(function () {
-    console.log("V1...05!");
+    console.log("V1...06!");
     var guardarFormulario = document.getElementById("guardarFormulario");
     // var btn_primero = document.getElementById('btn_primero');
     // var bnt_dos_atras = document.getElementById('bnt_dos_atras');
@@ -144,7 +144,7 @@ $(document).ready(function () {
         var observacionCotizacion = $('#observacionCotizacion').val();
         var tarjeta = $('#tarjeta').val();
         var tiempoEntrega = $('#tiempoEntrega').val();
-        var valoresParametros = []; //
+        var valoresParametros =  new Array(); //
         valoresParametros = $("#obtenerParametros").val();
         console.log(valoresParametros);
         var _token = $("#csrf").val();

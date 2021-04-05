@@ -459,7 +459,7 @@
                         <div class="col-md-12">
                             <hr>
                         </div>
-                        <div class="col-md-12">
+                        {{-- <div class="col-md-12">
                             <h6>Puntos de Muestreo</h6>
                         </div>
                         <div class="col-md-6">
@@ -474,10 +474,11 @@
                         <div class="col-md-12">
                             <ul id="todo-list" class="todo-list">
                             </ul>
-                        </div>
+                        </div> --}}
+                        <!-- -->
                         <div class="col-md-12">
                             <label for="">Punto de Muestreo</label>
-                            <input type="text" class="form-control">
+                            <input type="text" class="form-control" disabled>
                         </div>
                         <div class="col-md-12">
                             <table id="tablaCotizacion" class="table mt-1 ">
