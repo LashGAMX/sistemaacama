@@ -4,9 +4,12 @@
  * Fecha: 29 de Marzo del 2021
  * Modulo: Cotización
  */
-
+//Codigo Jquery
+/**
+ * Logica de Botones & Como Mostrar los Formularios
+ */
 $(function () {
-    console.log("V1...06!");
+    console.log("V1...13!");
     var guardarFormulario = document.getElementById("guardarFormulario");
     // var btn_primero = document.getElementById('btn_primero');
     // var bnt_dos_atras = document.getElementById('bnt_dos_atras');
@@ -46,6 +49,9 @@ function abrirModal(opt) {
             break;
         case 2:
             $("#tituloModal").html("Modificar Cotización");
+            console.log('Modo Modificar');
+            var idModal = $(this).data("id");
+            console.log(idModal);
         default:
             break;
     }
@@ -144,7 +150,7 @@ $(document).ready(function () {
         var observacionCotizacion = $('#observacionCotizacion').val();
         var tarjeta = $('#tarjeta').val();
         var tiempoEntrega = $('#tiempoEntrega').val();
-        var valoresParametros =  new Array(); //
+        var valoresParametros = new Array(); //
         valoresParametros = $("#obtenerParametros").val();
         console.log(valoresParametros);
         var _token = $("#csrf").val();
@@ -181,7 +187,7 @@ $(document).ready(function () {
                 observacionCotizacion: observacionCotizacion,
                 tarjeta: tarjeta,
                 tiempoEntrega: tiempoEntrega,
-                valoresParametros:valoresParametros,
+                valoresParametros: valoresParametros,
                 _token: _token
             },
             success: function (response) {
@@ -385,3 +391,65 @@ $("#normaSelectFormularioDos").change(function () {
         }
     });
 });
+
+/**
+ * Función para Editar
+ * @param {*} id
+ */
+function edit_columna(id) {
+    console.log(`Bienvenido a Editar${id}`);
+
+
+}
+
+/**
+ * Función para ver el Historico
+ * @param {*} id
+ */
+function ver_historico(idCotizacion) {
+    console.log(`Bienvenido a Historico${idCotizacion}`);
+    let tablaHistorico = document.getElementById('historicoById');
+    $.ajax({
+        data: {
+            idCotizacion: idCotizacion
+        },
+        url: 'cotizacion/obtenerHistorico',
+        type: 'POST',
+        success: function (resq) {
+            var resulquery = '';
+            resulquery += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
+            resulquery += '    <thead class="thead-dark">';
+            resulquery += '        <tr>';
+            resulquery += '            <th style="width: 5%;">Id</th>';
+            resulquery += '            <th>Cliente</th>';
+            resulquery += '            <th>Servicio Folio</th>';
+            resulquery += '            <th>Cotización Folio</th>';
+            resulquery += '            <th>Empresa</th>';
+            resulquery += '            <th>Servicio</th>';
+            resulquery += '            <th>Fecha Cotización</th>';
+            resulquery += '            <th>Fecha Control:</th>';
+            resulquery += '            <th>Hora Control:</th>';
+            resulquery += '            <th>Autor</th>';
+            resulquery += '        </tr>';
+            resulquery += '    </thead>';
+            resulquery += '    <tbody>';
+            resulquery += resq;
+            resulquery += '</tbody>';
+            resulquery += '</table>';
+            tablaHistorico.innerHTML = resulquery;
+            console.log(resulquery);
+        },
+        error: function () {
+            console.log(id_norma);
+            console.log("error");
+        }
+    });
+}
+
+/**
+ * Función para duplicar
+ * @param {*} id
+ */
+function edit_duplicacion(id) {
+    console.log(`Bienvenido a Duplicar${id}`);
+}

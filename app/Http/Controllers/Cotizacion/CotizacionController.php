@@ -12,7 +12,10 @@ use App\Models\SubNorma;
 use App\Models\DetallesTipoCuerpo;
 use App\Models\NormaParametroView;
 use App\Models\EvaluacionParametros;
+use App\Models\Usuarios;
+use App\Models\CotizacionHistorico;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class CotizacionController extends Controller
@@ -37,6 +40,8 @@ class CotizacionController extends Controller
      */
     public function registrar(Request $request)
     {
+        $user = Auth::user();
+        $user = $user->name;
         $now = Carbon::now();
         $now->year;
         $now->month;
@@ -72,47 +77,80 @@ class CotizacionController extends Controller
         $num = count($cotizacion);
         $num++;
         @$valoresParametros = @$request->valoresParametros;
-        try {
-            $newCotizacion =  Cotizaciones::create([
-                'Cliente' => $clienteManual,
-                'Folio_servicio' => '21-92/' . $num,
-                'Cotizacion_folio' => '21-92/' . $num,
-                'Empresa' => $atencionA,
-                'Servicio' => $tipoServicio,
-                'Fecha_cotizacion' => $fechaCotizacion,
-                'Supervicion' => 'por Asignar',
-                'deleted_at' => NULL,
-                'created_by' =>  'David Barrita',
-                'Telefono' => $telefono,
-                'Correo' => $correo,
-                'Tipo_descarga' => $tipoDescarga,
-                'Tipo_servicio' => $tipoServicio,
-                'Estado_cotizacion' => $estadoCotizacion,
-                'Puntos_muestreo' => $puntosMuestreo,
-                'Promedio' =>  $promedio,
-                'Tipo_muestra' => $tipoMuestra,
-                'frecuencia' => $frecuencia,
-                'Norma_formulario_uno' => $normaFormularioUno,
-                'clasificacion_norma' => $clasifacionNorma,
-                'Reporte' => $reporte,
-                'condicciones_venta' =>  $codiccionesVenta,
-                'Viaticos' =>  $viaticos,
-                'Paqueteria' => $paqueteria,
-                'Gastos_extras' => $gastosExtras,
-                'Numero_servicio' => $numeroServicio,
-                'Km_extra' => $kmExtra,
-                'observacionInterna' => $observacionInterna,
-                'observacionCotizacion' => $observacionCotizacion,
-                'tarjeta' => $tarjeta,
-                'tiempoEntrega' => NULL,
-                'precioKmExtra' => $precioKmExtra
-            ]);
-            #Alamacenar parametros de la cotización.
-                    #Recorrer.
 
-        } catch (\Throwable $th) {
-            return $th;
-        }
+        $newCotizacion =  Cotizaciones::create([
+            'Cliente' => $clienteManual,
+            'Folio_servicio' => '21-92/' . $num,
+            'Cotizacion_folio' => '21-92/' . $num,
+            'Empresa' => $atencionA,
+            'Servicio' => $tipoServicio,
+            'Fecha_cotizacion' => $fechaCotizacion,
+            'Supervicion' => 'por Asignar',
+            'deleted_at' => NULL,
+            'created_by' =>  'David Barrita',
+            'Telefono' => $telefono,
+            'Correo' => $correo,
+            'Tipo_descarga' => $tipoDescarga,
+            'Tipo_servicio' => $tipoServicio,
+            'Estado_cotizacion' => $estadoCotizacion,
+            'Puntos_muestreo' => $puntosMuestreo,
+            'Promedio' =>  $promedio,
+            'Tipo_muestra' => $tipoMuestra,
+            'frecuencia' => $frecuencia,
+            'Norma_formulario_uno' => $normaFormularioUno,
+            'clasificacion_norma' => $clasifacionNorma,
+            'Reporte' => $reporte,
+            'condicciones_venta' =>  $codiccionesVenta,
+            'Viaticos' =>  $viaticos,
+            'Paqueteria' => $paqueteria,
+            'Gastos_extras' => $gastosExtras,
+            'Numero_servicio' => $numeroServicio,
+            'Km_extra' => $kmExtra,
+            'observacionInterna' => $observacionInterna,
+            'observacionCotizacion' => $observacionCotizacion,
+            'tarjeta' => $tarjeta,
+            'tiempoEntrega' => NULL,
+            'precioKmExtra' => $precioKmExtra
+        ]);
+
+        $newCotizacionHistorico = CotizacionHistorico::create([
+            'Cliente' => $clienteManual,
+            'Id_busquedad' => $newCotizacion->Id_cotizacion,
+            'Folio_servicio' => '21-92/' . $num,
+            'Cotizacion_folio' => '21-92/' . $num,
+            'Empresa' => $atencionA,
+            'Servicio' => $tipoServicio,
+            'Fecha_cotizacion' => $fechaCotizacion,
+            'Supervicion' => 'por Asignar',
+            'deleted_at' => NULL,
+            'created_by' =>  'David Barrita',
+            'Telefono' => $telefono,
+            'Correo' => $correo,
+            'Tipo_descarga' => $tipoDescarga,
+            'Tipo_servicio' => $tipoServicio,
+            'Estado_cotizacion' => $estadoCotizacion,
+            'Puntos_muestreo' => $puntosMuestreo,
+            'Promedio' =>  $promedio,
+            'Tipo_muestra' => $tipoMuestra,
+            'frecuencia' => $frecuencia,
+            'Norma_formulario_uno' => $normaFormularioUno,
+            'clasificacion_norma' => $clasifacionNorma,
+            'Reporte' => $reporte,
+            'condicciones_venta' =>  $codiccionesVenta,
+            'Viaticos' =>  $viaticos,
+            'Paqueteria' => $paqueteria,
+            'Gastos_extras' => $gastosExtras,
+            'Numero_servicio' => $numeroServicio,
+            'Km_extra' => $kmExtra,
+            'observacionInterna' => $observacionInterna,
+            'observacionCotizacion' => $observacionCotizacion,
+            'tarjeta' => $tarjeta,
+            'tiempoEntrega' => NULL,
+            'precioKmExtra' => $precioKmExtra,
+            'fecha' => date("Y/m/d"),
+            'hora' => date("h:i:sa"),
+            'autor' =>  $user
+        ]);
 
         return back();
     }
@@ -140,6 +178,29 @@ class CotizacionController extends Controller
         $parametrosDos =  DB::table('sub_normas')->where('Id_norma',  $norma)->get();
         foreach ($parametrosDos as $parametroDos) {
             $html .= "<option value='" . $parametroDos->Id_subnorma . "'>" . $parametroDos->Clave . "</option>";
+        }
+        echo $html;
+    }
+
+    public function obtenerHistorico(Request $request)
+    {
+        $html = "";
+        $idCotizacion = $request->idCotizacion;
+        $historicos = DB::table('cotizacion_historico')->where('Id_busquedad',  $idCotizacion)->get();
+
+        foreach ($historicos as $historico) {
+            $html .= "<tr>";
+            $html .= "<td>" . $historico->Id_cotizacion_historico . "</td>";
+            $html .= "<td>" . $historico->Cliente . "</td>";
+            $html .= "<td>" . $historico->Folio_servicio . "</td>";
+            $html .= "<td>" . $historico->Cotizacion_folio . "</td>";
+            $html .= "<td>" . $historico->Empresa . "</td>";
+            $html .= "<td>" . $historico->Servicio . "</td>";
+            $html .= "<td>" . $historico->Fecha_cotizacion . "</td>";
+            $html .= "<td>" . $historico->fecha . "</td>";
+            $html .= "<td>" . $historico->hora. "</td>";
+            $html .= "<td>" . $historico->autor . "</td>";
+            $html .=  "</tr>";
         }
         echo $html;
     }
