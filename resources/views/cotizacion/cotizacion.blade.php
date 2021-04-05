@@ -64,7 +64,7 @@
                                         onclick="ver_historico('{{ $item->Id_cotizacion }}');">
                                         <i class="voyager-list" aria-hidden="true"></i>
                                         <span hidden-sm hidden-xs>Historico</span> </button>
-                                     <!-- Boton para Duplicar-->
+                                    <!-- Boton para Duplicar-->
                                     <button type="button" class="btn btn-sm btn-dark"
                                         onclick="edit_duplicacion('{{ $item->Id_cotizacion }}');">
                                         <i class="voyager-documentation" aria-hidden="true"></i>
@@ -80,37 +80,38 @@
         </div>
 
 
- <!--  Modal Historico  -->
-  <!--  Modal Historico -->
-  <div class="modal fade" id="modalCotizacionHistorico">
-    <div class="modal-dialog modal-lg" style="width:100%">
-      <div class="modal-content">
+        <!--  Modal Historico  -->
+        <!--  Modal Historico -->
+        <div class="modal fade" id="modalCotizacionHistorico">
+            <div class="modal-dialog modal-lg" style="width:100%">
+                <div class="modal-content">
 
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Historico</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">Historico</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        Historico:
+                        <div id="historicoById">
+                        </div>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+
+                </div>
+            </div>
         </div>
 
-        <!-- Modal body -->
-        <div class="modal-body">
-          Historico:
-          <div id="historicoById">
-          </div>
-        </div>
-
-        <!-- Modal footer -->
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        </div>
-
-      </div>
-    </div>
-  </div>
 
 
-
- <!-- Modal --> <!-- Modal -->
+        <!-- Modal -->
+        <!-- Modal -->
         <!-- Modal -->
         <!-- Modal -->
         <div class="modal fade" id="modalCotizacionPrincipal" tabindex="-1" role="dialog"
@@ -316,7 +317,7 @@
                                         <div class="col-md-12 mt-1">
                                             <label for="">Condicciónes de Venta:</label>
                                             <textarea cols="30" rows="2" class="form-control" id="codiccionesVenta">
-                            </textarea>
+                                    </textarea>
                                         </div>
                                         <!-- Fin del Primer Formulario -->
                                 </div>
@@ -391,8 +392,8 @@
                                             <h6> <b> Datos Intermediario</b></h6>
                                         </div>
                                         <div class="col-md-3">
-                                                <label for="">Intermediario:</label>
-                                                <input type="text" class="form-control" disabled>
+                                            <label for="">Intermediario:</label>
+                                            <input type="text" class="form-control" disabled>
                                         </div>
 
                                         <div class="col-md-3">
@@ -406,7 +407,7 @@
                                         </div>
 
                                         <div class="col-md-3">
-                                             <label for="">Tipo Descarga</label>
+                                            <label for="">Tipo Descarga</label>
                                             <input type="text" class="form-control" disabled id="tipoDescargaCopy">
                                         </div>
                                         <div class="col-md-12">
@@ -432,23 +433,23 @@
                                         <div class="col-md-12 mt-1">
                                             <label for="">Dirección de Cotización:</label>
                                             <textarea cols="30" rows="1" class="form-control" disabled id="direccionCopy">
-                                </textarea>
+                                        </textarea>
                                         </div>
                                         <div class="col-md-12">
                                             <hr>
                                             <h6> <b> Datos de Cotización:</b></h6>
                                         </div>
                                         <div class="col-md-12">
-                                                <label for="">Norma:</label>
-                                                <input type="text" class="form-control" disabled id="obtenerNormaCopy">
+                                            <label for="">Norma:</label>
+                                            <input type="text" class="form-control" disabled id="obtenerNormaCopy">
                                         </div>
                                         <div class="col-md-12">
-                                                <label for="">Muestreo:</label>
-                                                <input type="text" class="form-control" disabled id="tomasCopy">
-                                                <label for="">Numero de Tomas:</label>
-                                                <input type="text" class="form-control" disabled id="frecuenciaCopy">
-                                                <label for="">Fecha de Muestreo:</label>
-                                                <input type="text" class="form-control" disabled id="fechaCopy">
+                                            <label for="">Muestreo:</label>
+                                            <input type="text" class="form-control" disabled id="tomasCopy">
+                                            <label for="">Numero de Tomas:</label>
+                                            <input type="text" class="form-control" disabled id="frecuenciaCopy">
+                                            <label for="">Fecha de Muestreo:</label>
+                                            <input type="text" class="form-control" disabled id="fechaCopy">
                                         </div>
                                         <div class="col-md-12">
                                             <hr>
@@ -497,13 +498,13 @@
                                         <div class="col-md-12 mt-1">
                                             <label for="">Observación interna:</label>
                                             <textarea cols="30" rows="2" class="form-control" id="observacionInterna">
-                                </textarea>
+                                        </textarea>
                                         </div>
                                         <!-- Observación cotización  -->
                                         <div class="col-md-12 mt-1">
                                             <label for="">Observación cotización:</label>
                                             <textarea cols="30" rows="2" class="form-control" id="observacionCotizacion">
-                                </textarea>
+                                        </textarea>
                                         </div>
                                         <!-- Forma de pago-->
                                         <div class="col-md-6">
@@ -522,8 +523,14 @@
                                         <div class="col-md-12">
                                             <hr>
                                         </div>
+                                        <div class="col-md-12">
+                                            <h6>Puntos de Muestreo</h6>
+                                            <div id="inputsPuntoMuestrodiv">
+
+                                            </div>
+                                        </div>
+
                                         {{-- <div class="col-md-12">
-                            <h6>Puntos de Muestreo</h6>
                         </div>
                         <div class="col-md-6">
                             <label for="">Punto de Muestreo</label>

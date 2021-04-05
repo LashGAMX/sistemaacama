@@ -22,7 +22,7 @@ var reporteCopia, condiccionesVentaCopia = '',fechaCotizacionCopia='';
  * Logica de Botones & Como Mostrar los Formularios
  */
 $(function () {
-    console.log("V1...18!");
+    console.log("V1...20!");
     var guardarFormulario = document.getElementById("guardarFormulario");
     // var btn_primero = document.getElementById('btn_primero');
     // var bnt_dos_atras = document.getElementById('bnt_dos_atras');
@@ -138,6 +138,16 @@ function formulario(id) {
         $('#tomasCopy').val(promedioCopia);
         reporteCopia = $('#reporte').val();
         condiccionesVentaCopia = $('#condiccionesVenta').val();
+        puntosMuestreoCopiaa =  $('#puntosMuestreo').val();
+        //Listar los inputs de muestreo
+        let inputsPuntosMuestreo = $('#tomasMuestreo').val(puntosMuestreoCopiaa);
+        let inputs = ''
+        for(let i=0; i<= parseInt(inputsPuntosMuestreo); i++){
+            inputs += `<input type="text" class="form-control"  id="${i}">`;
+        }
+        let add = document.getElementById('inputsPuntoMuestrodiv');
+        add.innerHTML = inputs;
+        console.log(inputs);
     }
     if (id == 3) {
 
