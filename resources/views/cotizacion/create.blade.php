@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container-fluid">
+<div class="container-fluid"> 
   <div class="row">
       <div class="col-md-12">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -16,6 +16,8 @@
             <a class="nav-link" id="cotizacion-tab" data-toggle="tab" href="#cotizacion" role="tab" aria-controls="cotizacion" aria-selected="false">3. Cotización</a>
           </li>
         </ul>
+        <form action="{{url('admin/cotizacion/setCotizacion')}}" method="post">
+          @csrf 
         {{-- Contenido de nav --}}
         <div class="tab-content" id="myTabContent">
           {{-- Inicio Datos --}}
@@ -82,9 +84,9 @@
                 <div class="form-group">
                   <label for="tipoServicio">Tipo de servicio</label>
                   <select name="tipoServicio" id="tipoServicio" class="form-control">
-                    <option value="1">Análisis</option>
-                    <option value="2">Muestreo</option>
-                    <option value="3">Análisis y muestreo</option>
+                    <option>Análisis</option>
+                    <option>Muestreo</option>
+                    <option>Análisis y muestreo</option>
                   </select>
                 </div>
               </div>
@@ -92,11 +94,11 @@
                 <div class="form-group">
                   <label for="tipoDescarga">Tipo descarga</label>
                   <select name="tipoDescarga" id="tipoDescarga" class="form-control">
-                    <option value="0">Sin seleccionar</option>
-                    <option value="1">Rios</option>
-                    <option value="2">Embalse natural</option>
-                    <option value="3">Agua costera</option>
-                    <option value="4">Suelo</option>
+                    {{-- <option >Sin seleccionar</option> --}}
+                    <option >Rios</option>
+                    <option >Embalse natural</option>
+                    <option >Agua costera</option>
+                    <option >Suelo</option>
                   </select>
                 </div>
               </div>
@@ -137,9 +139,9 @@
                 <div class="form-group">
                   <label for="tipoMuestra">Tipo de muestra</label>
                   <select name="tipoMuestra" id="tipoMuestra" class="form-control">
-                    <option value="0">Sin seleccionar</option>
-                    <option value="1">INSTANTANEA</option>
-                    <option value="2">COMPUESTA</option>
+                    <option>Sin seleccionar</option>
+                    <option>INSTANTANEA</option>
+                    <option>COMPUESTA</option>
                   </select>
                 </div>
               </div>
@@ -177,7 +179,7 @@
                 </div>
               </div>
 
-            </div>
+            </div> 
           </div>
           {{-- Fin datos --}}
           {{-- Inicio parametros --}}
@@ -199,12 +201,192 @@
                 </div>
               </div>
             </div>
-
+ 
           </div>
           {{-- Fin parametros --}}
-          <div class="tab-pane fade" id="cotizacion" role="tabpanel" aria-labelledby="cotizacion-tab">Cotizacion</div>
+          {{-- Inicio datos Cotizacion --}}
+          <div class="tab-pane fade" id="cotizacion" role="tabpanel" aria-labelledby="cotizacion-tab">
+            <div class="row">
+
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="textInter">Intermediario</label>
+                      <input type="text" class="form-control" id="textInter" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="textEstado">Estado Cotización</label>
+                      <input type="text" class="form-control" id="textEstado" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="textServicio">Servicio</label>
+                      <input type="text" class="form-control" id="textServicio" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-3">
+                    <div class="form-group">
+                      <label for="textDescarga">Tipo descarga</label>
+                      <input type="text" class="form-control" id="textDescarga" disabled>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="textCliente">Nombre cliente</label>
+                      <input type="text" class="form-control" id="textCliente" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="textAtencion">Con atenció a</label>
+                      <input type="text" class="form-control" id="textAtencion" disabled>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="textDireccion">Dirección cotización</label>
+                      <textarea name="textDireccion" class="form-control" id="textDireccion" disabled></textarea>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                        <label for="textTelefono">Teléfono</label>
+                        <input type="text" class="form-control" id="textTelefono" disabled>
+                      </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                        <label for="textEmail">Correo</label>
+                        <input type="text" class="form-control" id="textEmail" disabled>
+                      </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <hr>
+                <h6> <b> Datos de Cotización:</b></h6>
+            </div>
+            <div class="col-md-12">
+                <label for="">Norma:</label>
+                <input type="text" class="form-control" disabled id="textNorma">
+            </div>
+            <div class="col-md-12">
+                <label for="">Muestreo:</label>
+                <input type="text" class="form-control" disabled id="textMuestreo">
+                <label for="">Numero de Tomas:</label>
+                <input type="text" class="form-control"  id="TextTomas">
+                <label for="">Fecha de Muestreo:</label>
+                <input type="date" class="form-control" disabled id="fechaCopy">
+            </div>
+            <div class="col-md-12">
+                <hr>
+            </div>
+            <!-- Tomas de Muestra-->
+            <div class="col-md-3">
+                <label for=""># tomas Muestreo:</label>
+                <input type="text" class="form-control" id="tomasMuestreo">
+            </div>
+            <!-- Viaticos -->
+            <div class="col-md-3">
+                <label for="">Viaticos:</label>
+                <input type="text" class="form-control" id="viaticos">
+            </div>
+            <!-- Gastos de Paqueteria -->
+            <div class="col-md-3">
+                <label for="">Gastos Paqueteria:</label>
+                <input type="text" class="form-control" id="paqueteria">
+            </div>
+            <!-- Gasto Adicional -->
+            <div class="col-md-3">
+                <label for="">Gasto Adicional:</label>
+                <input type="text" class="form-control" id="gastosExtras">
+            </div>
+            <!-- Numero de Servicio-->
+            <div class="col-md-3">
+                <label for="">N Servicio:</label>
+                <input type="text" class="form-control" id="numeroServicio">
+            </div>
+            <!-- Km Extra-->
+            <div class="col-md-3">
+                <label for="">Km Extra:</label>
+                <input type="text" class="form-control" id="kmExtra">
+            </div>
+            <!-- Precio Km-->
+            <div class="col-md-3">
+                <label for="">Precio Km:</label>
+                <input type="text" class="form-control" id="precioKm">
+            </div>
+            <!-- Tomas de Muestra-->
+            <div class="col-md-3">
+                <label for="">Precio Km Extra:</label>
+                <input type="text" class="form-control" id="precioKmExtra">
+            </div>
+            <!-- Observación Interna -->
+            <div class="col-md-12 mt-1">
+                <label for="">Observación interna:</label>
+                <textarea cols="30" rows="2" class="form-control" id="observacionInterna">
+            </textarea>
+            </div>
+            <!-- Observación cotización  -->
+            <div class="col-md-12 mt-1">
+                <label for="">Observación cotización:</label>
+                <textarea cols="30" rows="2" class="form-control" id="observacionCotizacion">
+            </textarea>
+            </div>
+            <!-- Forma de pago-->
+            <div class="col-md-6">
+                <label for="">Forma de Pago</label>
+                <select name="" class="form-control" id="tarjeta">
+                    <option value="Tarjeta de Credito">Tarjeta de Credito </option>
+                    <option value="Deposito">Deposito</option>
+                    <option value="Efectivo">Efectivo</option>
+                </select>
+            </div>
+            <!-- Tiempo de Entrega -->
+            <div class="col-md-6">
+                <label for="">Tiempo de Entrega</label>
+                <input type="text" class="form-control" id="tiempoEntrega">
+            </div>
+            <div class="col-md-12">
+                <hr>
+            </div>
+            <div class="col-md-12">
+                <h6>Puntos de Muestreo</h6>
+                <div id="inputsPuntoMuestrodiv">
+
+                </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="precio">Costo cotizacion</label>
+                <input type="text" class="form-control" id="precio" disabled>
+              </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary">Crear cotización</button>
+            </div>
+          </div>
+        </form>
+          {{-- Fin datos Cotizacion --}}
         </div>
     </div>
+</div>
+ 
+<div id="divModal">
 </div>
 
 @endsection

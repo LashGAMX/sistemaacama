@@ -3,8 +3,8 @@
 @section('content')
 @section('page_header')
     <div class="container-fluid">
-        <p>Cotización</p>
-        <div class="row">
+        <p>Cotización</p> 
+        <div class="row"> 
             <div class="col-md-12">
                 {{-- {{ Auth::user()->id }}
                 {{ Auth::user()->name }} --}}
@@ -14,8 +14,9 @@
                     <!-- Parte de Encabezado-->
                     <div class="col-md-2">
 
-                        <button class="btn btn-success btn-sm" onclick="abrirModal(1)">
-                            <i class="voyager-plus"></i> Crear</button>
+                        {{-- <button class="btn btn-success btn-sm" onclick="abrirModal(1)"> --}}
+                            <a href="{{url('admin/cotizacion/create')}}" class="btn btn-success btn-sm"><i class="voyager-plus"></i> Crear</a>
+                            {{-- <i class="voyager-plus"></i> Crear</button> --}}
                     </div>
                     {{-- {{$idUser}} --}}
                     <div class="col-md-4 mt-2">

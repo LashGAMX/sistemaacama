@@ -73,7 +73,7 @@ class CotizacionController extends Controller
         $now = Carbon::now();
         $now->year;
         $now->month;
-        $clienteManual =   $request->atencionA;
+        $clienteManual =   $request->nombreCliente;
         $tipoServicio = $request->tipoServicio;
         $atencionA = $request->clienteManual;
         $fechaCotizacion = $request->fechaCotizacion;
@@ -108,8 +108,8 @@ class CotizacionController extends Controller
 
         $newCotizacion =  Cotizaciones::create([
             'Cliente' => $clienteManual,
-            'Folio_servicio' => '21-92/' . $num,
-            'Cotizacion_folio' => '21-92/' . $num,
+            // 'Folio_servicio' => '96-92/' . $num,
+            'Cotizacion_folio' => '96-'.$num.'/' . $now->year,
             'Empresa' => $atencionA,
             'Servicio' => $tipoServicio,
             'Fecha_cotizacion' => $fechaCotizacion,
@@ -198,7 +198,7 @@ class CotizacionController extends Controller
     }
     /**
      * Obtener La Subnorma
-     */
+     */ 
     public function obtenerClasificacion(Request $request)
     {
         $html = "";

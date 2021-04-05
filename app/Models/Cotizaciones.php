@@ -8,8 +8,8 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Cotizaciones extends Model
 {
-    use HasFactory,SoftDeletes;
-    protected $table = 'cotizacion';
+    use HasFactory;
+    protected $table = 'cotizacion'; 
     protected $primaryKey = 'Id_cotizacion';
     public $timestamps = true;
 
@@ -22,7 +22,6 @@ class Cotizaciones extends Model
         'Fecha_cotizacion',
         'Supervicion',
         'Created_by',
-        'deleted_at',
         'Telefono',
         'Correo',
         'Tipo_descarga',
@@ -36,7 +35,7 @@ class Cotizaciones extends Model
         'clasificacion_norma',
         'condicciones_venta',
         'Reporte',
-        'Viaticos',
+        'Viaticos', 
         'Paqueteria',
         'Gastos_extras',
         'Numero_servicio',
