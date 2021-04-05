@@ -11,6 +11,7 @@ use App\Models\Norma;
 use App\Models\SubNorma;
 use App\Models\DetallesTipoCuerpo;
 use App\Models\NormaParametroView;
+use App\Models\EvaluacionParametros;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
 
@@ -108,12 +109,12 @@ class CotizacionController extends Controller
             ]);
             #Alamacenar parametros de la cotización
             if (@$valoresParametros) {
-                $value = sizeof($valoresParametros);
                 #Recorrer
-                for ($i = 0; $i <= 10; $i++) {
-                    DB::table('evaluacion_parametros')->insert([
-                        'Id_cotizacion' => $value,
-                        'Id_parametro' => $value,
+                $nuevo = ['a', 'e', 'i', 'o', 'u'];
+                for ($i = 0; $i <= 4; $i++) {
+                    EvaluacionParametros::create([
+                        'Id_cotizacion' => $nuevo[$i],
+                        'Id_parametro' => $nuevo[$i],
                         'Es_extra' => 0
                     ]);
                 }
