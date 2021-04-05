@@ -10,6 +10,7 @@ use App\Models\Clientes;
 use App\Models\Norma;
 use App\Models\SubNorma;
 use App\Models\DetallesTipoCuerpo;
+use App\Models\Intermediario;
 use App\Models\NormaParametroView;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -30,6 +31,33 @@ class CotizacionController extends Controller
         $clasificacion = DetallesTipoCuerpo::All();
         $subNormas = SubNorma::All();
         return view('cotizacion.cotizacion', compact('model', 'intermediarios', 'cliente', 'norma', 'subNormas'));
+    }
+    public function create()
+    {
+        $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at',null)->get();
+        $generales = DB::table('ViewGenerales')->where('deleted_at',null)->get();
+        $normas = Norma::all();
+        $subNormas = SubNorma::all();
+
+        $data = array(
+            'intermediarios' => $intermediarios,
+            'generales' => $generales,
+            'normas' => $normas,
+            'subNormas' => $subNormas,
+        );
+        return view('cotizacion.create',$data);
+    }
+    public function getCliente() 
+    { 
+        $id = $_POST['cliente'];
+        $model = DB::table('ViewGenerales')->where('Id_cliente',$id)->first();
+        return response()->json($model);
+    }
+    public function getSubNorma()
+    {
+        $id = $_POST['norma'];
+        $model = DB::table('sub_normas')->where('Id_norma',$id)->first();
+        return response()->json(compact('model'));
     }
     /**
      * Metodo para Registrar Cotización
