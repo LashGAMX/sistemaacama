@@ -35,12 +35,14 @@ class Cotizacion2Controller extends Controller
         $generales = DB::table('ViewGenerales')->where('deleted_at',null)->get();
         $normas = Norma::all();
         $subNormas = SubNorma::all();
+        $servicios = DB::table('tipo_servicios')->get();
 
         $data = array(
             'intermediarios' => $intermediarios,
             'generales' => $generales,
             'normas' => $normas,
             'subNormas' => $subNormas,
+            'servicios' => $servicios,
         );
         return view('cotizacion.create',$data);
     }

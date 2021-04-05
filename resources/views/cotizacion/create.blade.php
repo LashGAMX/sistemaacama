@@ -84,9 +84,9 @@
                 <div class="form-group">
                   <label for="tipoServicio">Tipo de servicio</label>
                   <select name="tipoServicio" id="tipoServicio" class="form-control">
-                    <option>Análisis</option>
-                    <option>Muestreo</option>
-                    <option>Análisis y muestreo</option>
+                    @foreach ($servicios as $item)
+                    <option value="{{$item->Id_tipo}}">{{$item->Servicio}}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>
