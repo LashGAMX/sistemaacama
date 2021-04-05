@@ -71,7 +71,7 @@ class CotizacionController extends Controller
         $cotizacion = Cotizaciones::withTrashed()->get();
         $num = count($cotizacion);
         $num++;
-        $valoresParametros = $request->valoresParametros;
+        @$valoresParametros = @$request->valoresParametros;
         try {
             $newCotizacion =  Cotizaciones::create([
                 'Cliente' => $clienteManual,
@@ -110,11 +110,10 @@ class CotizacionController extends Controller
             #Alamacenar parametros de la cotización
             if (@$valoresParametros) {
                 #Recorrer
-                $nuevo = ['a', 'e', 'i', 'o', 'u'];
                 for ($i = 0; $i <= 4; $i++) {
                     EvaluacionParametros::create([
-                        'Id_cotizacion' => $nuevo[$i],
-                        'Id_parametro' => $nuevo[$i],
+                        'Id_cotizacion' => 'a',
+                        'Id_parametro' => 'b',
                         'Es_extra' => 0
                     ]);
                 }
