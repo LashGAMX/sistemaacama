@@ -65,8 +65,7 @@
                                         <i class="voyager-list" aria-hidden="true"></i>
                                         <span hidden-sm hidden-xs>Historico</span> </button>
                                      <!-- Boton para Duplicar-->
-                                    <button type="button" class="btn btn-sm btn-dark" data-toggle="modal"
-                                        data-target="#modalDuplicar"
+                                    <button type="button" class="btn btn-sm btn-dark"
                                         onclick="edit_duplicacion('{{ $item->Id_cotizacion }}');">
                                         <i class="voyager-documentation" aria-hidden="true"></i>
                                         <span hidden-sm hidden-xs>Duplicar</span> </button>
@@ -84,7 +83,7 @@
  <!--  Modal Historico  -->
   <!--  Modal Historico -->
   <div class="modal fade" id="modalCotizacionHistorico">
-    <div class="modal-dialog modal-lg" style="width:80%">
+    <div class="modal-dialog modal-lg" style="width:100%">
       <div class="modal-content">
 
         <!-- Modal Header -->
@@ -123,12 +122,17 @@
 
         <!-- Modal body -->
         <div class="modal-body">
-          Modal body..
+            <div class="row">
+                <div class="col-md-12">
+                    <h4 style="color:tomato"><b> ¿Está segura o seguro de duplicar, al generarlo se creara un nuevo folio con la misma información? </b></h4>
+                    <button type="button" class="btn btn-success">Confirmar</button>
+                </div>
+            </div>
         </div>
 
         <!-- Modal footer -->
         <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         </div>
 
       </div>

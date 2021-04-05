@@ -452,4 +452,20 @@ function ver_historico(idCotizacion) {
  */
 function edit_duplicacion(id) {
     console.log(`Bienvenido a Duplicar${id}`);
+    swal({
+            title: "¿Está segura o seguro de duplicar, al generarlo se creara un nuevo folio con la misma información?",
+            text: "Once deleted, you will not be able to recover this imaginary file!",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                swal("Poof! Your imaginary file has been deleted!", {
+                    icon: "success",
+                });
+            } else {
+                swal("Your imaginary file is safe!");
+            }
+        });
 }
