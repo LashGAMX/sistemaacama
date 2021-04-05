@@ -31,7 +31,7 @@ class Intermediario extends Component
 
     public function render()
     {
-        $intermediarios = DB::table('ViewIntermediarios')->get();
+        $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at',NULL)->get();
         $niveles = DB::table('nivel_clientes')->get();
         $model = DB::table('ViewDetalleInter')->get();
         return view('livewire.precios.intermediario',compact('model','intermediarios','niveles'));
