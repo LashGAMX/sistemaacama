@@ -107,13 +107,9 @@ class CotizacionController extends Controller
                 'tiempoEntrega' => NULL,
                 'precioKmExtra' => $precioKmExtra
             ]);
-            #Alamacenar parametros de la cotización
-                    #Recorrer
-                    EvaluacionParametros::create([
-                        'Id_cotizacion' => 'a',
-                        'Id_parametro' => 'b',
-                        'Es_extra' => 0
-                    ]);
+            #Alamacenar parametros de la cotización.
+                    #Recorrer.
+
         } catch (\Throwable $th) {
             return $th;
         }
