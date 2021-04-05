@@ -203,11 +203,10 @@
                             </select>
                     </div>
 
-                    <!-- Clasificación de la Norma -->
+                    <!--. Clasificación de la Norma --->
                     <div class="col-md-6">
-                        <label for="">Clasifiación de la Norma:</label>
+                        <label for="">Clasificación de la Norma:</label>
                         <div id="clasificacionNorma">
-
                         </div>
                     </div>
 
@@ -276,7 +275,7 @@
                 <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
                     <div class="row" id="formularioDos">
 
-                        <div class="col-md-6">
+                        {{-- <div class="col-md-6">
                             <div class="col-md-6">
                                 <label for="">Norma</label>
                                 <select name=""  class="form-control" id="normaFormularioDos">
@@ -286,27 +285,40 @@
                                 </select>
                             </div>
                             <div class="col-md-12">
-                                <h6><p>Parametros Extras</p></h6>
-                                <hr>
-                            </div>
-                            <div class="col-md-12">
-                                <select name="" class="form-control" id="parametrosExtras">
-                                    @foreach ($norma as $norm)
-                                    <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
-                                    @endforeach
-                                </select>
-                            </div>
-
-                    </div>
-
-                    <div class="col-md-6">
-                        <div class="col-md-12">
-                            <label for="">Filtro</label>
                                 <select class="form-control" id="parametrosPorClasifiacion">
                                     @foreach ($subNormas as $subNorma)
                                     <option value="{{$subNorma->Id_subnorma}}" onclick='cargarParametros()'>{{$subNorma->Clave}}</option>
                                     @endforeach
                                   </select>
+                                </select>
+                            </div>
+                            <div class="col-md-12">
+                                <h6><p>Parametros Extras</p></h6>
+                                <hr>
+                            </div>
+
+
+                    </div> --}}
+
+                    <div class="col-md-6">
+                        <div class="col-md-6">
+                            <label id="txtNorma"> <b>Norma:</b></label>
+                            <select name="" class="form-control" id="normaSelectFormularioDos">
+                                @foreach ($norma as $norm)
+                                <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="col-md-6">
+                            <label id="txtFiltro"><b>Filtro:</b></label>
+                                {{-- <select class="form-control" id="parametrosPorClasifiacion">
+                                    @foreach ($subNormas as $subNorma)
+                                    <option value="{{$subNorma->Id_subnorma}}" onclick='cargarParametros()'>{{$subNorma->Clave}}</option>
+                                    @endforeach
+                                  </select> --}}
+                                  <div id="clasificacionNormaFormularioDos">
+
+                                  </div>
                                 </select>
                          </div>
                             <!-- Select Parametros :) -->
@@ -315,6 +327,7 @@
                                     <div id="selectParametros">
                                     </div>
                                 </div>
+                        
                             </div>
                 </div><!-- Parte Dos :)  -->
 

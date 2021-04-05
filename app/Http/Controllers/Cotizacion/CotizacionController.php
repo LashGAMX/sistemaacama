@@ -131,9 +131,9 @@ class CotizacionController extends Controller
     public function obtenerClasificacion(Request $request){
         $html = "";
         $norma = $request->id_norma;
-        $parametros =  DB::table('ViewNormaParametro')->where('Id_norma', 2)->get();
-        foreach ($parametros as $parametro) {
-            $html .= "<option value='" . $parametro->Id_norma_param . "'>" . $parametro->Parametro . "</option>";
+        $parametrosDos =  DB::table('ViewNormaParametro')->where('Id_norma', 2)->get();
+        foreach ($parametrosDos as $parametroDos) {
+            $html .= "<option value='" . $parametroDos->Id_norma_param . "'>" . $parametroDos->Parametro . "</option>";
         }
         echo $html;
     }

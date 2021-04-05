@@ -6,7 +6,7 @@
  */
 
 $(function () {
-    console.log("V1...02!");
+    console.log("V1...05!");
     var guardarFormulario = document.getElementById("guardarFormulario");
     // var btn_primero = document.getElementById('btn_primero');
     // var bnt_dos_atras = document.getElementById('bnt_dos_atras');
@@ -139,9 +139,12 @@ $(document).ready(function () {
         var precioKm = $('#precioKm').val();
         var precioKmExtra = $('#precioKmExtra').val();
         var observacionInterna = $('#observacionInterna').val();
-        var observacionCotizacion =   $('#observacionCotizacion').val();
+        var observacionCotizacion = $('#observacionCotizacion').val();
         var tarjeta = $('#tarjeta').val();
         var tiempoEntrega = $('#tiempoEntrega').val();
+        var valoresParametros = []; //
+        valoresParametros = $("#obtenerParametros").val();
+        console.log(valoresParametros);
         var _token = $("#csrf").val();
 
         $.ajax({
@@ -164,18 +167,19 @@ $(document).ready(function () {
                 puntosMuestreo: puntosMuestreo,
                 reporte: reporte,
                 codiccionesVenta: codiccionesVenta,
-                tomasMuestreo:tomasMuestreo,
-                viaticos:viaticos,
-                paqueteria:paqueteria,
-                gastosExtras:gastosExtras,
-                numeroServicio:numeroServicio,
-                kmExtra:kmExtra,
-                precioKm:precioKm,
-                precioKmExtra:precioKmExtra,
+                tomasMuestreo: tomasMuestreo,
+                viaticos: viaticos,
+                paqueteria: paqueteria,
+                gastosExtras: gastosExtras,
+                numeroServicio: numeroServicio,
+                kmExtra: kmExtra,
+                precioKm: precioKm,
+                precioKmExtra: precioKmExtra,
                 observacionInterna: observacionInterna,
                 observacionCotizacion: observacionCotizacion,
-                tarjeta:tarjeta,
-                tiempoEntrega:tiempoEntrega,
+                tarjeta: tarjeta,
+                tiempoEntrega: tiempoEntrega,
+                valoresParametros:valoresParametros,
                 _token: _token
             },
             success: function (response) {
@@ -207,10 +211,31 @@ function obtenerDatos() {
 
 function cargarParametros() {
     console.log('David');
-
     var select = document.getElementById('parametrosPorClasifiacion');
     console.log(select.value);
-
+    $("#parametrosPorClasifiacion").change(function () {
+        var id_subnorma = $("#parametrosPorClasifiacion").val();
+        let select = document.getElementById('selectParametros');
+        $.ajax({
+            data: {
+                id_subnorma: id_subnorma
+            },
+            url: 'cotizacion/obtenerParametros',
+            type: 'POST',
+            success: function (response) {
+                var result = '';
+                result += '<select multiple="multiple" size="10" name="duallistbox_demo2" class="demo2" id="obtenerParametros">';
+                result += response;
+                result += '</select>'
+                select.innerHTML = result;
+                obtenerParametros();
+            },
+            error: function () {
+                console.log(id_subnorma);
+                console.log("error");
+            }
+        });
+    })
 }
 
 let datos = [];
@@ -304,13 +329,13 @@ $("#parametrosPorClasifiacion").change(function () {
             console.log("error");
         }
     });
-})
+});
 /**
  * Funcion para Formulario Select
  */
 $("#normaFormularioUno").change(function () {
-    var id_norma = $("#normaFormularioUno").val();console.log(id_norma);
-    let selectTwo = document.getElementById('clasificacionNorma');console.log(selectTwo);
+    var id_norma = $("#normaFormularioUno").val();
+    let selectTwo = document.getElementById('clasificacionNorma');
     $.ajax({
         data: {
             id_norma: id_norma
@@ -318,17 +343,43 @@ $("#normaFormularioUno").change(function () {
         url: 'cotizacion/obtenerClasificacion',
         type: 'POST',
         success: function (res) {
-             var resulto = '';
-             resulto +=  '<select name=""  class="form-control" id="clasifacionNorma">';
-             resulto += res;
-             resulto += '</select>';
-             selectTwo.innerHTML = resulto;
-             console.log(resulto);
-            console.log('..........'); console.log(res);console.log('.......');
+            var resulto = '';
+            resulto += '<select name=""  class="form-control" id="clasifacionNorma">';
+            resulto += res;
+            resulto += '</select>';
+            selectTwo.innerHTML = resulto;
+            console.log(resulto);
         },
         error: function () {
             console.log(id_norma);
             console.log("error");
         }
     });
-})
+});
+/**
+ * Funcion para Formulario Select Norma Formulario Dos
+ */
+$("#normaSelectFormularioDos").change(function () {
+    var id_norma = $("#normaSelectFormularioDos").val();
+    console.log(id_norma);
+    let selectThree = document.getElementById('clasificacionNormaFormularioDos');
+    $.ajax({
+        data: {
+            id_norma: id_norma
+        },
+        url: 'cotizacion/obtenerClasificacion',
+        type: 'POST',
+        success: function (resq) {
+            var resultoo = '';
+            resultoo += '<select name=""  class="form-control" id="parametrosPorClasifiacion" onclick="cargarParametros()">';
+            resultoo += resq;
+            resultoo += '</select>';
+            selectThree.innerHTML = resultoo;
+            console.log(resultoo);
+        },
+        error: function () {
+            console.log(id_norma);
+            console.log("error");
+        }
+    });
+});
