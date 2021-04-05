@@ -108,16 +108,12 @@ class CotizacionController extends Controller
                 'precioKmExtra' => $precioKmExtra
             ]);
             #Alamacenar parametros de la cotización
-            if (@$valoresParametros) {
-                #Recorrer
-                for ($i = 0; $i <= 4; $i++) {
+                    #Recorrer
                     EvaluacionParametros::create([
                         'Id_cotizacion' => 'a',
                         'Id_parametro' => 'b',
                         'Es_extra' => 0
                     ]);
-                }
-            }
         } catch (\Throwable $th) {
             return $th;
         }
