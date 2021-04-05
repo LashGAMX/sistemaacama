@@ -57,7 +57,7 @@
                                 <td>
                                     <!-- Boton para Editar-->
                                     <button type="button" class="btn btn-sm btn-warning"
-                                        onclick="edit_columna('{{ $item->Id_cotizacion }}');">
+                                        onclick="edit_columna('{{ $item->Id_cotizacion }}');" data-toggle="modal"  data-target="#modalCotizacionEditar">
                                         <i class="voyager-edit"></i> <span hidden-sm hidden-xs>Editar</span> </button>
                                     <!-- Boton para ver Historico-->
                                     <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"
@@ -108,7 +108,35 @@
                 </div>
             </div>
         </div>
+        <!-- Modal Editar -->
+        <!-- Modal Editar -->
+        <!-- Modal Editar -->
+        <!-- Modal Editar -->
+        <div class="modal fade" id="modalCotizacionEditar">
+            <div class="modal-dialog modal-lg" style="width:100%">
+                <div class="modal-content">
 
+                    <!-- Modal Header -->
+                    <div class="modal-header">
+                        <h4 class="modal-title">&nbsp; &nbsp; Editar Cotización</h4>
+                        <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    </div>
+
+                    <!-- Modal body -->
+                    <div class="modal-body">
+                        Historico:
+                        <div id="historicoById">
+                        </div>
+                    </div>
+
+                    <!-- Modal footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+
+                </div>
+            </div>
+        </div>
 
 
         <!-- Modal -->
@@ -525,7 +553,7 @@
                                             <hr>
                                         </div>
                                         <div class="col-md-12">
-                                            <h6>Puntos de Muestreo</h6>
+                                            {{-- <h6>Puntos de Muestreo</h6> --}}
                                             <div id="inputsPuntoMuestrodiv">
 
                                             </div>

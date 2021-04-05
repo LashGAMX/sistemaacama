@@ -51,8 +51,8 @@ class CotizacionController extends Controller
         );
         return view('cotizacion.create',$data);
     }
-    public function getCliente() 
-    { 
+    public function getCliente()
+    {
         $id = $_POST['cliente'];
         $model = DB::table('ViewGenerales')->where('Id_cliente',$id)->first();
         return response()->json($model);
@@ -114,8 +114,7 @@ class CotizacionController extends Controller
             'Servicio' => $tipoServicio,
             'Fecha_cotizacion' => $fechaCotizacion,
             'Supervicion' => 'por Asignar',
-            'deleted_at' => NULL,
-            'created_by' =>  'David Barrita',
+            'Created_by' =>  'David Barrita',
             'Telefono' => $telefono,
             'Correo' => $correo,
             'Tipo_descarga' => $tipoDescarga,
@@ -141,44 +140,44 @@ class CotizacionController extends Controller
             'precioKmExtra' => $precioKmExtra
         ]);
 
-        $newCotizacionHistorico = CotizacionHistorico::create([
-            'Cliente' => $clienteManual,
-            'Id_busquedad' => $newCotizacion->Id_cotizacion,
-            'Folio_servicio' => '21-95/' . $num,
-            'Cotizacion_folio' => '21-95/' . $num,
-            'Empresa' => $atencionA,
-            'Servicio' => $tipoServicio,
-            'Fecha_cotizacion' => $fechaCotizacion,
-            'Supervicion' => 'por Asignar',
-            'deleted_at' => NULL,
-            'created_by' =>  'David Barrita',
-            'Telefono' => $telefono,
-            'Correo' => $correo,
-            'Tipo_descarga' => $tipoDescarga,
-            'Tipo_servicio' => $tipoServicio,
-            'Estado_cotizacion' => $estadoCotizacion,
-            'Puntos_muestreo' => $puntosMuestreo,
-            'Promedio' =>  $promedio,
-            'Tipo_muestra' => $tipoMuestra,
-            'frecuencia' => $frecuencia,
-            'Norma_formulario_uno' => $normaFormularioUno,
-            'clasificacion_norma' => $clasifacionNorma,
-            'Reporte' => $reporte,
-            'condicciones_venta' =>  $codiccionesVenta,
-            'Viaticos' =>  $viaticos,
-            'Paqueteria' => $paqueteria,
-            'Gastos_extras' => $gastosExtras,
-            'Numero_servicio' => $numeroServicio,
-            'Km_extra' => $kmExtra,
-            'observacionInterna' => $observacionInterna,
-            'observacionCotizacion' => $observacionCotizacion,
-            'tarjeta' => $tarjeta,
-            'tiempoEntrega' => NULL,
-            'precioKmExtra' => $precioKmExtra,
-            'fecha' => date("Y/m/d"),
-            'hora' => date("h:i:sa"),
-            'autor' =>  $user
-        ]);
+        // $newCotizacionHistorico = CotizacionHistorico::create([
+        //     'Cliente' => $clienteManual,
+        //     'Id_busquedad' => $newCotizacion->Id_cotizacion,
+        //     'Folio_servicio' => '21-95/' . $num,
+        //     'Cotizacion_folio' => '21-95/' . $num,
+        //     'Empresa' => $atencionA,
+        //     'Servicio' => $tipoServicio,
+        //     'Fecha_cotizacion' => $fechaCotizacion,
+        //     'Supervicion' => 'por Asignar',
+        //     'deleted_at' => NULL,
+        //     'created_by' =>  'David Barrita',
+        //     'Telefono' => $telefono,
+        //     'Correo' => $correo,
+        //     'Tipo_descarga' => $tipoDescarga,
+        //     'Tipo_servicio' => $tipoServicio,
+        //     'Estado_cotizacion' => $estadoCotizacion,
+        //     'Puntos_muestreo' => $puntosMuestreo,
+        //     'Promedio' =>  $promedio,
+        //     'Tipo_muestra' => $tipoMuestra,
+        //     'frecuencia' => $frecuencia,
+        //     'Norma_formulario_uno' => $normaFormularioUno,
+        //     'clasificacion_norma' => $clasifacionNorma,
+        //     'Reporte' => $reporte,
+        //     'condicciones_venta' =>  $codiccionesVenta,
+        //     'Viaticos' =>  $viaticos,
+        //     'Paqueteria' => $paqueteria,
+        //     'Gastos_extras' => $gastosExtras,
+        //     'Numero_servicio' => $numeroServicio,
+        //     'Km_extra' => $kmExtra,
+        //     'observacionInterna' => $observacionInterna,
+        //     'observacionCotizacion' => $observacionCotizacion,
+        //     'tarjeta' => $tarjeta,
+        //     'tiempoEntrega' => NULL,
+        //     'precioKmExtra' => $precioKmExtra,
+        //     'fecha' => date("Y/m/d"),
+        //     'hora' => date("h:i:sa"),
+        //     'autor' =>  $user
+        // ]);
 
         return back();
     }
