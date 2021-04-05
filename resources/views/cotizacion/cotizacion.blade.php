@@ -109,35 +109,7 @@
   </div>
 
 
-  <!-- Modal Duplicar -->
-  <div class="modal fade" id="modalDuplicar">
-    <div class="modal-dialog modal-xl">
-      <div class="modal-content">
 
-        <!-- Modal Header -->
-        <div class="modal-header">
-          <h4 class="modal-title">Duplicar</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-
-        <!-- Modal body -->
-        <div class="modal-body">
-            <div class="row">
-                <div class="col-md-12">
-                    <h4 style="color:tomato"><b> ¿Está segura o seguro de duplicar, al generarlo se creara un nuevo folio con la misma información? </b></h4>
-                    <button type="button" class="btn btn-success">Confirmar</button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal footer -->
-        <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        </div>
-
-      </div>
-    </div>
-  </div>
  <!-- Modal --> <!-- Modal -->
         <!-- Modal -->
         <!-- Modal -->
@@ -419,24 +391,23 @@
                                             <h6> <b> Datos Intermediario</b></h6>
                                         </div>
                                         <div class="col-md-3">
-                                            <h6> <b>Intermediario:</b>
-                                                <p id="obtenerIntermediario"></p>
-                                            </h6>
+                                                <label for="">Intermediario:</label>
+                                                <input type="text" class="form-control" disabled>
                                         </div>
+
                                         <div class="col-md-3">
-                                            <h6> <b>Estado de Cotización:</b>
-                                                <p id="obtenerCotizacion"></p>
-                                            </h6>
+                                            <label for="">Estado de Cotización:</label>
+                                            <input type="text" class="form-control" disabled id="estadoCotizacionCopy">
                                         </div>
+
                                         <div class="col-md-3">
-                                            <h6> <b>Ser nombre:</b>
-                                                <p id="obtenerNombreServicio"></p>
-                                            </h6>
+                                            <label for="">Servicio Nombre:</label>
+                                            <input type="text" class="form-control" disabled id="servicioNombreCopy">
                                         </div>
+
                                         <div class="col-md-3">
-                                            <h6> <b>Tipo Descarga:</b>
-                                                <p id="obtenerTipoDescarga"></p>
-                                            </h6>
+                                             <label for="">Tipo Descarga</label>
+                                            <input type="text" class="form-control" disabled id="tipoDescargaCopy">
                                         </div>
                                         <div class="col-md-12">
                                             <hr>
@@ -444,23 +415,23 @@
                                         </div>
                                         <div class="col-md-6">
                                             <label for="">Nombre del Cliente</label>
-                                            <input type="text" class="form-control" disabled id="obtenerNombreClienet">
+                                            <input type="text" class="form-control" disabled id="obtenerNombreClienteCopy">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="">Con Atención a:</label>
-                                            <input type="text" class="form-control" disabled id="obtenerAtencion">
+                                            <input type="text" class="form-control" disabled id="obtenerAtencionCopy">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="">Telefono:</label>
-                                            <input type="number" class="form-control" disabled>
+                                            <input type="number" class="form-control" disabled id="telefonoCopy">
                                         </div>
                                         <div class="col-md-6">
                                             <label for="">Email:</label>
-                                            <input type="email" class="form-control" disabled>
+                                            <input type="email" class="form-control" disabled id="correoCopy">
                                         </div>
                                         <div class="col-md-12 mt-1">
                                             <label for="">Dirección de Cotización:</label>
-                                            <textarea name="" id="" cols="30" rows="1" class="form-control" disabled>
+                                            <textarea cols="30" rows="1" class="form-control" disabled id="direccionCopy">
                                 </textarea>
                                         </div>
                                         <div class="col-md-12">
@@ -468,13 +439,16 @@
                                             <h6> <b> Datos de Cotización:</b></h6>
                                         </div>
                                         <div class="col-md-12">
-                                            <h6>Norma:<b>
-                                                    <p id="obtenerNorma"></p>
-                                                </b></h6>
+                                                <label for="">Norma:</label>
+                                                <input type="text" class="form-control" disabled id="obtenerNormaCopy">
                                         </div>
                                         <div class="col-md-12">
-                                            <p><b>Muestreo</b> 18 HRS - <b>Numero de Tomas</b> 6 <b>Fecha de Muestreo:</b>
-                                                13/03/2021</p>
+                                                <label for="">Muestreo:</label>
+                                                <input type="text" class="form-control" disabled id="tomasCopy">
+                                                <label for="">Numero de Tomas:</label>
+                                                <input type="text" class="form-control" disabled id="frecuenciaCopy">
+                                                <label for="">Fecha de Muestreo:</label>
+                                                <input type="text" class="form-control" disabled id="fechaCopy">
                                         </div>
                                         <div class="col-md-12">
                                             <hr>

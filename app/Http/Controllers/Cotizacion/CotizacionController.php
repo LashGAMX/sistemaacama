@@ -116,8 +116,8 @@ class CotizacionController extends Controller
         $newCotizacionHistorico = CotizacionHistorico::create([
             'Cliente' => $clienteManual,
             'Id_busquedad' => $newCotizacion->Id_cotizacion,
-            'Folio_servicio' => '21-92/' . $num,
-            'Cotizacion_folio' => '21-92/' . $num,
+            'Folio_servicio' => '21-95/' . $num,
+            'Cotizacion_folio' => '21-95/' . $num,
             'Empresa' => $atencionA,
             'Servicio' => $tipoServicio,
             'Fecha_cotizacion' => $fechaCotizacion,
@@ -198,10 +198,104 @@ class CotizacionController extends Controller
             $html .= "<td>" . $historico->Servicio . "</td>";
             $html .= "<td>" . $historico->Fecha_cotizacion . "</td>";
             $html .= "<td>" . $historico->fecha . "</td>";
-            $html .= "<td>" . $historico->hora. "</td>";
+            $html .= "<td>" . $historico->hora . "</td>";
             $html .= "<td>" . $historico->autor . "</td>";
             $html .=  "</tr>";
         }
         echo $html;
+    }
+
+    public function duplicarCotizacion(Request $request)
+    {
+        # code...
+        $idCotizacion = $request->id;
+        $cotizacionCopia = DB::table('cotizacion')
+            ->where('Id_cotizacion', $idCotizacion)
+            ->first();
+
+            // $user = Auth::user();
+            // $user = $user->name;
+            // $now = Carbon::now();
+            // $now->year;
+            // $now->month;
+            // $cotizacion = Cotizaciones::withTrashed()->get();
+            // $num = count($cotizacion);
+            // $num++;
+            // $newCotizacionCopia =  [
+            //     'Cliente' =>  $cotizacionCopia->clienteManual,
+            //     'Folio_servicio' => '21-92/' . $num.'-2',
+            //     'Cotizacion_folio' => '21-92/' . $num.'-2',
+            //     'Empresa' => $cotizacionCopia->atencionA,
+            //     'Servicio' => $cotizacionCopia->tipoServicio,
+            //     'Fecha_cotizacion' => $cotizacionCopia->fechaCotizacion,
+            //     'Supervicion' => 'por Asignar',
+            //     'deleted_at' => NULL,
+            //     'created_by' =>  'David Barrita',
+            //     'Telefono' => $cotizacionCopia->telefono,
+            //     'Correo' => $cotizacionCopia->correo,
+            //     'Tipo_descarga' => $cotizacionCopia->tipoDescarga,
+            //     'Tipo_servicio' => $cotizacionCopia->tipoServicio,
+            //     'Estado_cotizacion' => $cotizacionCopia->estadoCotizacion,
+            //     'Puntos_muestreo' => $cotizacionCopia->puntosMuestreo,
+            //     'Promedio' =>  $cotizacionCopia->promedio,
+            //     'Tipo_muestra' => $cotizacionCopia->tipoMuestra,
+            //     'frecuencia' => $cotizacionCopia->frecuencia,
+            //     'Norma_formulario_uno' => $cotizacionCopia->normaFormularioUno,
+            //     'clasificacion_norma' => $cotizacionCopia->clasifacionNorma,
+            //     'Reporte' => $cotizacionCopia->reporte,
+            //     'condicciones_venta' =>  $cotizacionCopia->codiccionesVenta,
+            //     'Viaticos' =>  $cotizacionCopia->viaticos,
+            //     'Paqueteria' => $cotizacionCopia->paqueteria,
+            //     'Gastos_extras' => $cotizacionCopia->gastosExtras,
+            //     'Numero_servicio' => $cotizacionCopia->numeroServicio,
+            //     'Km_extra' => $cotizacionCopia->kmExtra,
+            //     'observacionInterna' => $cotizacionCopia->observacionInterna,
+            //     'observacionCotizacion' => $cotizacionCopia->observacionCotizacion,
+            //     'tarjeta' => $cotizacionCopia->tarjeta,
+            //     'tiempoEntrega' => NULL,
+            //     'precioKmExtra' => $cotizacionCopia->precioKmExtra
+            // ];
+
+            // $newCotizacionHistorico = CotizacionHistorico::create([
+            //     'Cliente' => $cotizacionCopia->clienteManual,
+            //     'Id_busquedad' => $newCotizacionCopia->Id_cotizacion,
+            //     'Folio_servicio' => '21-92/' . $num,
+            //     'Cotizacion_folio' => '21-92/' . $num,
+            //     'Empresa' => $cotizacionCopia->atencionA,
+            //     'Servicio' => $cotizacionCopia->tipoServicio,
+            //     'Fecha_cotizacion' => $cotizacionCopia->fechaCotizacion,
+            //     'Supervicion' => 'por Asignar',
+            //     'deleted_at' => NULL,
+            //     'created_by' =>  'David Barrita',
+            //     'Telefono' => $cotizacionCopia->telefono,
+            //     'Correo' => $cotizacionCopia->correo,
+            //     'Tipo_descarga' => $cotizacionCopia->tipoDescarga,
+            //     'Tipo_servicio' => $cotizacionCopia->tipoServicio,
+            //     'Estado_cotizacion' => $cotizacionCopia->estadoCotizacion,
+            //     'Puntos_muestreo' => $cotizacionCopia->puntosMuestreo,
+            //     'Promedio' =>  $cotizacionCopia->promedio,
+            //     'Tipo_muestra' => $cotizacionCopia->tipoMuestra,
+            //     'frecuencia' => $cotizacionCopia->frecuencia,
+            //     'Norma_formulario_uno' => $cotizacionCopia->normaFormularioUno,
+            //     'clasificacion_norma' => $cotizacionCopia->clasifacionNorma,
+            //     'Reporte' => $cotizacionCopia->reporte,
+            //     'condicciones_venta' =>  $cotizacionCopia->codiccionesVenta,
+            //     'Viaticos' =>  $cotizacionCopia->viaticos,
+            //     'Paqueteria' => $cotizacionCopia->paqueteria,
+            //     'Gastos_extras' => $cotizacionCopia->gastosExtras,
+            //     'Numero_servicio' => $cotizacionCopia->numeroServicio,
+            //     'Km_extra' => $cotizacionCopia->kmExtra,
+            //     'observacionInterna' => $cotizacionCopia->observacionInterna,
+            //     'observacionCotizacion' => $cotizacionCopia->observacionCotizacion,
+            //     'tarjeta' => $cotizacionCopia->tarjeta,
+            //     'tiempoEntrega' => NULL,
+            //     'precioKmExtra' => $cotizacionCopia->precioKmExtra,
+            //     'fecha' => date("Y/m/d"),
+            //     'hora' => date("h:i:sa"),
+            //     'autor' =>  $user
+            // ]);
+
+        //Retornar la Respuesta
+         return json_encode($cotizacionCopia);
     }
 }

@@ -9,4 +9,4 @@ Route::post('cotizacion/save', [CotizacionController::class,'registrar'])->name(
 Route::post('cotizacion/obtenerParametros', [CotizacionController::class,'obtenerParametros'])->name('cotizacion.obtenerParametros');
 Route::post('cotizacion/obtenerClasificacion', [CotizacionController::class,'obtenerClasificacion'])->name('cotizacion.obtenerClasificacion');
 Route::post('cotizacion/obtenerHistorico', [CotizacionController::class,'obtenerHistorico'])->name('cotizacion.obtenerHistorico');
-
+Route::post('cotizacion/duplicarCotizacion', [CotizacionController::class,'duplicarCotizacion'])->name('cotizacion.duplicarCotizacion');

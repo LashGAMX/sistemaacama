@@ -4,12 +4,25 @@
  * Fecha: 29 de Marzo del 2021
  * Modulo: Cotización
  */
+var clienteManualCopia = '',
+    direccionCopia = '',
+    atencionACopia = '',
+    telefonoCopia = '';
+var correoCopia = '',
+    estadoCotizacionCopia = '',
+    tipoServicioCopia = '',
+    tipoDescargaCopia = '';
+var normaFormularioUnoCopia = '',
+    frecuenciaCopia = '',
+    tipoMuestraCopia = '',
+    promedioCopia = '';
+var reporteCopia, condiccionesVentaCopia = '',fechaCotizacionCopia='';
 //Codigo Jquery
 /**
  * Logica de Botones & Como Mostrar los Formularios
  */
 $(function () {
-    console.log("V1...14!");
+    console.log("V1...18!");
     var guardarFormulario = document.getElementById("guardarFormulario");
     // var btn_primero = document.getElementById('btn_primero');
     // var bnt_dos_atras = document.getElementById('bnt_dos_atras');
@@ -71,6 +84,7 @@ function formulario(id) {
         $("pro").css("display", "none");
         $("contact-tab").css("display", "none");
 
+
         // Ver
         bnt_dos.style.display = "block"
 
@@ -96,9 +110,37 @@ function formulario(id) {
         // No ver
         guardarFormulario.style.display = "none";
         bnt_dos.style.display = "none"
+
+        clienteManualCopia = $('#clienteManual').val();
+        $('#obtenerNombreClienteCopy').val(clienteManualCopia);
+        direccionCopia = $('#direccion').val();
+        $('#direccionCopy').val(direccionCopia);
+        atencionACopia = $('#atencionA').val();
+        $('#obtenerAtencionCopy').val(atencionACopia);
+        telefonoCopia = $('#telefono').val();
+        $('#telefonoCopy').val(telefonoCopia);
+        correoCopia = $('#correo').val();
+        $('#correoCopy').val(correoCopia);
+        estadoCotizacionCopia = $('#estadoCotizacion').val();
+        $('#estadoCotizacionCopy').val(estadoCotizacionCopia);
+        tipoServicioCopia = $('#tipoServicio').val();
+        $('#servicioNombreCopy').val(tipoServicioCopia);
+        tipoDescargaCopia = $('#tipoDescarga').val();
+        $('#tipoDescargaCopy').val(tipoDescargaCopia);
+        normaFormularioUnoCopia = $('#normaFormularioUno').val();
+        $('#obtenerNormaCopy').val(normaFormularioUnoCopia);
+        fechaCotizacionCopia = $('#fechaCotizacion').val();
+        $('#fechaCopy').val(fechaCotizacionCopia);
+        frecuenciaCopia = $('#frecuencia').val();
+        $('#frecuenciaCopy').val(frecuenciaCopia);
+        tipoMuestraCopia = $('#tipoMuestra').val();
+        promedioCopia = $('#promedio').val();
+        $('#tomasCopy').val(promedioCopia);
+        reporteCopia = $('#reporte').val();
+        condiccionesVentaCopia = $('#condiccionesVenta').val();
     }
     if (id == 3) {
-        obtenerDatos();
+
         $("#formularioUno").css("display", "none");
         $("#formularioDos").css("display", "none");
         $("#formularioTres").css("display", "");
@@ -201,22 +243,10 @@ $(document).ready(function () {
         });
     });
 });
-/**
- * Obtener Datos
- */
-function obtenerDatos() {
-    console.log('a');
-    var clienteManual = $('clienteManual').val();
-    console.log(clienteManual);
-    var dirrecion = $('direcion').val();
-    var atencionA = $('atencionA').val();
-    console.log(atencionA);
-    var telefono = $('telefono').val();
-    var correo = $('correo').val();
-    $('obtenerNombreClienet').val(clienteManual);
-    $('obtenerAtencion').val(atencionA);
-}
 
+/**
+ * Obtener Parametros
+ */
 function cargarParametros() {
     console.log('David');
     var select = document.getElementById('parametrosPorClasifiacion');
@@ -440,32 +470,86 @@ function ver_historico(idCotizacion) {
             console.log(resulquery);
         },
         error: function () {
-            console.log(id_norma);
             console.log("error");
         }
     });
 }
 
 /**
- * Función para duplicar
+ * Función para duplicar(DUPLICAR)
  * @param {*} id
  */
 function edit_duplicacion(id) {
     console.log(`Bienvenido a Duplicar${id}`);
     swal({
             title: "¿Está segura o seguro de duplicar, al generarlo se creara un nuevo folio con la misma información?",
-            text: "Once deleted, you will not be able to recover this imaginary file!",
+            text: "Las cotizaciones son importantes has un buen uso de la duplicación.!",
             icon: "warning",
             buttons: true,
             dangerMode: true,
         })
         .then((willDelete) => {
             if (willDelete) {
-                swal("Poof! Your imaginary file has been deleted!", {
-                    icon: "success",
+                $.ajax({
+                    data: {
+                        id: id
+                    },
+                    url: 'cotizacion/duplicarCotizacion',
+                    type: 'POST',
+                    success: function (respuesta) {
+                        var json_data = JSON.parse(respuesta);
+                        $.ajax({
+                            url: "cotizacion/save",
+                            type: "POST",
+                            data: {
+                                clienteManual: json_data.Cliente,
+                                tipoServicio: json_data.Servicio,
+                                atencionA: null,
+                                fechaCotizacion: null,
+                                telefono: json_data.Telefono,
+                                correo: json_data.Correo,
+                                estadoCotizacion: null,
+                                tipoDescarga: json_data.Tipo_descarga,
+                                clasifacionNorma: null,
+                                normaFormularioUno: null,
+                                frecuencia: json_data.frecuencia,
+                                tipoMuestra: json_data.Tipo_muestra,
+                                promedio: json_data.Promedio,
+                                puntosMuestreo: null,
+                                reporte: json_data.Reporte,
+                                codiccionesVenta: codiccionesVenta,
+                                tomasMuestreo: null,
+                                viaticos: json_data.Viaticos,
+                                paqueteria: null,
+                                gastosExtras: null,
+                                numeroServicio: null,
+                                kmExtra: null,
+                                precioKm: null,
+                                precioKmExtra: json_data.precioKmExtra,
+                                observacionInterna: json_data.observacionInterna,
+                                observacionCotizacion: json_data.observacionCotizacion,
+                                tarjeta: json_data.tarjeta,
+                                tiempoEntrega: json_data.tiempoEntrega
+                            },
+                            success: function (response) {
+                                if (response) {
+                                    console.log('nuevo-pro-2020');
+
+                                }
+                            }
+                        });
+                        swal("Cotizacion! Generada Correctamente!", {
+                            icon: "success",
+                        });
+                    },
+                    error: function () {
+                        console.log("error");
+                        swal("Un Error!");
+                    }
                 });
+
             } else {
-                swal("Your imaginary file is safe!");
+                swal("El proceso no fue realizado!");
             }
         });
 }
