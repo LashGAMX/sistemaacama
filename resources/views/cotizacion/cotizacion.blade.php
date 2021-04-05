@@ -198,7 +198,7 @@
                         <label for="">Norma:</label>
                             <select name="" class="form-control" id="normaFormularioUno">
                                 @foreach ($norma as $norm)
-                                <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
+                                <option value="{{$norm->Id_norma}}">{{$norm->Clave_norma}}</option>
                                 @endforeach
                             </select>
                     </div>
@@ -299,13 +299,13 @@
 
 
                     </div> --}}
-
+                    <!-- Norma -->
                     <div class="col-md-6">
                         <div class="col-md-6">
                             <label id="txtNorma"> <b>Norma:</b></label>
                             <select name="" class="form-control" id="normaSelectFormularioDos">
                                 @foreach ($norma as $norm)
-                                <option value="{{$norm->Id_norma}}">{{$norm->Norma}}</option>
+                                <option value="{{$norm->Id_norma}}">{{$norm->Clave_norma}}</option>
                                 @endforeach
                             </select>
                         </div>

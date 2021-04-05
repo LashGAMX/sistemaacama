@@ -139,15 +139,15 @@ class CotizacionController extends Controller
         echo $html;
     }
     /**
-     * Obtener Select
+     * Obtener La Subnorma
      */
     public function obtenerClasificacion(Request $request)
     {
         $html = "";
         $norma = $request->id_norma;
-        $parametrosDos =  DB::table('ViewNormaParametro')->where('Id_norma', 2)->get();
+        $parametrosDos =  DB::table('sub_normas')->where('Id_norma',  $norma)->get();
         foreach ($parametrosDos as $parametroDos) {
-            $html .= "<option value='" . $parametroDos->Id_norma_param . "'>" . $parametroDos->Parametro . "</option>";
+            $html .= "<option value='" . $parametroDos->Id_subnorma . "'>" . $parametroDos->Clave . "</option>";
         }
         echo $html;
     }
