@@ -108,7 +108,9 @@ function formulario(id) {
         bnt_tres.style.display = "none";
     }
 }
-
+/**
+ * Guardar Cotización
+ */
 $(document).ready(function () {
     $('#formularioCotizacion').submit(function (e) {
         console.log('submot');

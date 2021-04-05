@@ -64,12 +64,14 @@ class CotizacionController extends Controller
         $precioKm = $request->precioKm;
         $precioKmExtra = $request->precioKmExtra;
         $observacionInterna = $request->observacionInterna;
-        $observacionCotizacion= $request->observacionCotizacion;
-        $tarjeta= $request->tarjeta;
-        $tiempoEntrega= $request->tiempoEntrega;
+        $observacionCotizacion = $request->observacionCotizacion;
+        $tarjeta = $request->tarjeta;
+        $tiempoEntrega = $request->tiempoEntrega;
         $cotizacion = Cotizaciones::withTrashed()->get();
         $num = count($cotizacion);
         $num++;
+        $valoresParametros = [];
+        $valoresParametros = $request->valoresParametros;
         try {
             $newCotizacion =  Cotizaciones::create([
                 'Cliente' => $clienteManual,
@@ -105,6 +107,14 @@ class CotizacionController extends Controller
                 'tiempoEntrega' => NULL,
                 'precioKmExtra' => $precioKmExtra
             ]);
+
+            foreach ($valoresParametros as $valorParametro) {
+                DB::table('evaluacion_parametros')->insert([
+                    'Id_cotizacion' => 10,
+                    'Id_parametro' => $valorParametro,
+                    'Es_extra' => 0
+                ]);
+            }
         } catch (\Throwable $th) {
             return $th;
         }
@@ -128,7 +138,8 @@ class CotizacionController extends Controller
     /**
      * Obtener Select
      */
-    public function obtenerClasificacion(Request $request){
+    public function obtenerClasificacion(Request $request)
+    {
         $html = "";
         $norma = $request->id_norma;
         $parametrosDos =  DB::table('ViewNormaParametro')->where('Id_norma', 2)->get();
