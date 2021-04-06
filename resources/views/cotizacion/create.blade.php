@@ -94,11 +94,9 @@
                 <div class="form-group">
                   <label for="tipoDescarga">Tipo descarga</label>
                   <select name="tipoDescarga" id="tipoDescarga" class="form-control">
-                    {{-- <option >Sin seleccionar</option> --}}
-                    <option >Rios</option>
-                    <option >Embalse natural</option>
-                    <option >Agua costera</option>
-                    <option >Suelo</option>
+                   @foreach ($descargas as $item)
+                       <option value="{{$item->Id_tipo}}">{{$item->Descarga}}</option>
+                   @endforeach
                   </select>
                 </div>
               </div>
@@ -107,10 +105,7 @@
                 <div class="form-group">
                   <label for="norma">Clasificaciòn de la norma</label>
                   <select name="norma" id="norma" class="form-control">
-                    <option value="0">Sin seleccionar</option>
-                    @foreach ($normas as $item)
-                        <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
-                    @endforeach
+                    
                   </select>
                 </div>
               </div>

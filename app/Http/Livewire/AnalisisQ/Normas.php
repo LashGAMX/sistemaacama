@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\AnalisisQ;
 
 use App\Models\Norma;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -16,6 +17,7 @@ class Normas extends Component
 
     public $idNorma;
     public $norma;
+    public $descarga;
     public $status;
     public $clave;
     public $inicio;
@@ -35,11 +37,12 @@ class Normas extends Component
 
     public function render()
     {
+        $descargas = DB::table('tipo_descargas')->get();
         $model = Norma::withTrashed()
         ->where('Norma','LIKE',"%{$this->search}%")
         ->orWhere('Clave_norma','LIKE',"%{$this->search}%")
         ->paginate($this->perPage);
-        return view('livewire.analisis-q.normas',compact('model'));
+        return view('livewire.analisis-q.normas',compact('model','descargas'));
     }
     public function create()
     {
@@ -47,6 +50,7 @@ class Normas extends Component
         $model = Norma::create([
             'Norma' => $this->norma,
             'Clave_norma' => $this->clave,
+            'Id_descarga' => $this->descarga,
             'Inicio_validez' => $this->inicio,
             'Fin_validez' => $this->fin
         ]);
@@ -63,6 +67,7 @@ class Normas extends Component
         $model = Norma::find($this->idNorma);   
         $model->Norma = $this->norma;
         $model->Clave_norma = $this->clave;
+        $model->Id_descarga = $this->descarga;
         $model->Inicio_validez = $this->inicio;
         $model->Fin_validez = $this->fin;
         $model->save();
@@ -79,11 +84,12 @@ class Normas extends Component
         $this->clean();
             $this->sw = true;
     }
-    public function setData($idNorma,$norma,$clave,$inicio,$fin,$status)
+    public function setData($idNorma,$norma,$clave,$descarga,$inicio,$fin,$status)
     {
         $this->idNorma = $idNorma;
         $this->norma = $norma;
         $this->clave = $clave;
+        $this->descarga = $descarga;
         $this->inicio = $inicio;
         $this->fin = $fin;
         if($status != null)

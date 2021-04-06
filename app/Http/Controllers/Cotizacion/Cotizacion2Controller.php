@@ -33,16 +33,17 @@ class Cotizacion2Controller extends Controller
     {
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at',null)->get();
         $generales = DB::table('ViewGenerales')->where('deleted_at',null)->get();
-        $normas = Norma::all();
+        
         $subNormas = SubNorma::all();
         $servicios = DB::table('tipo_servicios')->get();
+        $descargas = DB::table('tipo_descargas')->get();
 
         $data = array(
             'intermediarios' => $intermediarios,
             'generales' => $generales,
-            'normas' => $normas,
             'subNormas' => $subNormas,
             'servicios' => $servicios,
+            'descargas' => $descargas,
         );
         return view('cotizacion.create',$data);
     }
@@ -56,6 +57,15 @@ class Cotizacion2Controller extends Controller
     {
         $id = $_POST['norma'];
         $model = DB::table('ViewPrecioPaq')->where('Id_paquete',$id)->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function getNorma()
+    {
+        $diDescarga = $_POST['idDescarga'];
+        $model = Norma::where('Id_descarga',$diDescarga)->get();
         $data = array(
             'model' => $model,
         );

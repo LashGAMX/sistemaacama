@@ -12,6 +12,7 @@ Route::post('cotizacion/obtenerClasificacion', [CotizacionController::class,'obt
 
 Route::get('cotizacion/create', [Cotizacion2Controller::class,'create']);
 Route::post('cotizacion/getSubNorma', [Cotizacion2Controller::class,'getSubNorma']);
+Route::post('cotizacion/getNorma', [Cotizacion2Controller::class,'getNorma']);
 Route::post('cotizacion/getDatos2', [Cotizacion2Controller::class,'getDatos2']);
 Route::post('cotizacion/setCotizacion', [Cotizacion2Controller::class,'setCotizacion']); 
 Route::get('cotizacion/fecha', [Cotizacion2Controller::class,'fecha']);

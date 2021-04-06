@@ -42,35 +42,40 @@ class RouteServiceProvider extends ServiceProvider
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
+               
+                Route::prefix('api')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/encuesta.php'));
 
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
 
-            Route::middleware('web', 'auth')
-                ->namespace($this->namespace)
-                ->prefix('admin')
-                ->group(base_path('routes/modules/config.php'));
-            Route::middleware('web', 'auth')
-                ->namespace($this->namespace)
-                ->prefix('admin')
-                ->group(base_path('routes/modules/clientes.php'));
-            Route::middleware('web', 'auth')
-                ->namespace($this->namespace)
-                ->prefix('admin')
-                ->group(base_path('routes/modules/analisisQ.php'));
-            Route::middleware('web', 'auth')
-                ->namespace($this->namespace)
-                ->prefix('admin')
-                ->group(base_path('routes/modules/cotizacion.php'));
-            Route::middleware('web', 'auth')
-                ->namespace($this->namespace)
-                ->prefix('admin')
-                ->group(base_path('routes/modules/cotizacionConfig.php'));
-            Route::middleware('web', 'auth')
-                ->namespace($this->namespace)
-                ->prefix('admin')
-                ->group(base_path('routes/modules/precios.php'));
+                Route::middleware('web', 'auth')
+                    ->namespace($this->namespace)
+                    ->prefix('admin')
+                    ->group(base_path('routes/modules/config.php'));
+                Route::middleware('web', 'auth')
+                    ->namespace($this->namespace)
+                    ->prefix('admin')
+                    ->group(base_path('routes/modules/clientes.php'));
+                Route::middleware('web', 'auth')
+                    ->namespace($this->namespace)
+                    ->prefix('admin')
+                    ->group(base_path('routes/modules/analisisQ.php'));
+                Route::middleware('web', 'auth')
+                    ->namespace($this->namespace)
+                    ->prefix('admin')
+                    ->group(base_path('routes/modules/cotizacion.php'));
+                Route::middleware('web', 'auth')
+                    ->namespace($this->namespace)
+                    ->prefix('admin')
+                    ->group(base_path('routes/modules/cotizacionConfig.php'));
+                Route::middleware('web', 'auth')
+                    ->namespace($this->namespace)
+                    ->prefix('admin')
+                    ->group(base_path('routes/modules/precios.php'));
         });
     }
 

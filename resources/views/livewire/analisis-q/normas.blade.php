@@ -34,7 +34,7 @@
           <td>{{$item->Fin_validez}}</td>
           <td>
 
-                <button type="button" class="btn btn-warning" wire:click="setData('{{$item->Id_norma}}','{{$item->Norma}}','{{$item->Clave_norma}}','{{$item->Inicio_validez}}','{{$item->Fin_validez}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalNorma"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+                <button type="button" class="btn btn-warning" wire:click="setData('{{$item->Id_norma}}','{{$item->Norma}}','{{$item->Clave_norma}}','{{$item->Id_descarga}}','{{$item->Inicio_validez}}','{{$item->Fin_validez}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalNorma"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
                 <button class="btn btn-primary btn-sm" wire:click="showDetils('{{$item->Id_norma}}')"><i class="voyager-external"></i> Ver</button>
 
           </td>  
@@ -94,6 +94,16 @@
                             <label for="clave">Clave de norma</label>
                            <input type="text" wire:model='clave' class="form-control" placeholder="Clave de norma">
                            @error('clave') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="clave">Tipo de descarga</label>
+                           <select class="form-control" wire:model='descarga'>
+                               @foreach ($descargas as $item)
+                                   <option value="{{$item->Id_tipo}}">{{$item->Descarga}}</option>
+                               @endforeach
+                           </select>
                           </div>
                     </div>
                     <div class="col-md-12">

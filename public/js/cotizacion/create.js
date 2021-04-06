@@ -14,8 +14,11 @@ $(document).ready(function () {
     $('#clientes').click(function () {
         dataCliente();
     });
+    $('#tipoDescarga').click(function () {
+      dataNorma();
+    });
     $('#norma').click(function () {
-        dataNorma();
+      dataSubnorma();
     });
 });
 var norma;
@@ -77,7 +80,7 @@ function dataCliente() {
     });
 }
 var model;
-function dataNorma()
+function dataSubnorma()
 {
     let sub = document.getElementById('subnorma');
     let tab = '';
@@ -95,6 +98,29 @@ function dataNorma()
             model = response;
             $.each(response.model, function (key, item) {
                 tab += '<option value="'+item.Id_paquete+'">'+item.Clave+'</option>';
+            });
+            sub.innerHTML = tab;
+        }
+    });
+}
+function dataNorma()
+{
+    let sub = document.getElementById('norma');
+    let tab = '';
+    $.ajax({
+        url: base_url + '/admin/cotizacion/getNorma', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          idDescarga: $('#tipoDescarga').val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            console.log(response)
+            model = response;
+            $.each(response.model, function (key, item) {
+                tab += '<option value="'+item.Id_norma+'">'+item.Clave+'</option>';
             });
             sub.innerHTML = tab;
         }
