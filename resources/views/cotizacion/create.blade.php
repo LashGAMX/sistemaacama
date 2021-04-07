@@ -23,7 +23,10 @@
           {{-- Inicio Datos --}}
           <div class="tab-pane fade" id="datos" role="tabpanel" aria-labelledby="datos-tab">
             <div class="row">
-
+              <div class="col-md-12">
+                <h6>Intermediario</h6>
+                <hr>
+            </div>
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="intermediario">Intermediario</label>
@@ -34,6 +37,10 @@
                   </select>
                 </div>
               </div>
+              <div class="col-md-12">
+                <h6>Cliente</h6>
+                <hr>
+            </div>
               <div class="col-md-12"> 
                 <div class="form-group">
                   <label for="clientes">Clientes registrados</label>
@@ -78,7 +85,10 @@
                 </div>
               </div>
 
-              <div class="dropdown-divider"></div>
+              <div class="col-md-12">
+                <h6>Datos generales</h6>
+                <hr>
+            </div>
 
               <div class="col-md-6">
                 <div class="form-group">
@@ -119,18 +129,33 @@
 
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="fecha">Fecha</label>
+                  <label for="fecha">Fecha de muestreo</label>
                   <input type="date" class="form-control" placeholder="Fecha" id="fecha" name="fecha">
                 </div>
               </div> 
-              <div class="col-md-6">
+              <div class="col-md-4">
                 <div class="form-group">
                   <label for="frecuencia">Frecuencia muestreo</label>
-                  <input type="number" class="form-control" placeholder="Frecuencia" id="frecuencia" name="frecuencia">
+                  <select  class="form-control" placeholder="Frecuencia" id="frecuencia" name="frecuencia">
+                    @foreach ($frecuencia as $item)
+                        <option value="{{$item->Id_frecuencia}}">{{$item->Descripcion}}</option>
+                    @endforeach
+                  </select>
                 </div>
               </div>
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="tomas"># de tomas</label>
+                  <input type="number" class="form-control" placeholder="# de tomas" id="tomas" name="tomas">
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <h6>Espesificaciones</h6>
+                <hr>
+            </div>
  
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label for="tipoMuestra">Tipo de muestra</label>
                   <select name="tipoMuestra" id="tipoMuestra" class="form-control">
@@ -140,7 +165,7 @@
                   </select>
                 </div>
               </div>
-              <div class="col-md-4">
+              <div class="col-md-6">
                 <div class="form-group">
                   <label for="promedio">Promedio</label>
                   <select name="promedio"  class="form-control" id="promedio">
@@ -150,12 +175,7 @@
                 </select>
                 </div>
               </div>
-              <div class="col-md-4">
-                <div class="form-group">
-                  <label for="puntoMuestro"># de puntos de muestreo</label>
-                  <input type="number" class="form-control" placeholder="# puntos de muestreo" id="puntoMuestro" name="puntoMuestro">
-                </div>
-              </div>
+           
 
               <div class="col-md-12">
                 <div class="form-group">
@@ -167,11 +187,24 @@
                 </div>
               </div>
 
-              <div class="col-md-12">
+              {{-- <div class="col-md-12">
                 <div class="form-group">
                   <label for="condicionVenta">Condiciones de venta</label>
                   <textarea name="condicionVenta" class="form-control" id="condicionVenta" placeholder="Condiciones de venta"></textarea>
                 </div>
+              </div> --}}
+
+              <div class="col-md-12">
+                <label for="puntoMuestro">Punto de muestreo</label>
+                <button id="addRow" type="button" class="btn btn-sm btn-success"><i class="voyager-list-add"></i> Agregar</button>
+                <table id="puntoMuestro" class="display" style="width:100%">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th style="width: 90%">Descripción</th>
+                        </tr>
+                    </thead>
+                </table>
               </div>
 
             </div> 
@@ -202,7 +235,10 @@
           {{-- Inicio datos Cotizacion --}}
           <div class="tab-pane fade" id="cotizacion" role="tabpanel" aria-labelledby="cotizacion-tab">
             <div class="row">
-
+              <div class="col-md-12">
+                <h6>Datos intermediario</h6>
+                <hr>
+            </div>
               <div class="col-md-12">
                 <div class="row">
                   <div class="col-md-3">
@@ -231,6 +267,11 @@
                   </div>
                 </div>
               </div>
+
+              <div class="col-md-12">
+                <h6>Cliente</h6>
+                <hr>
+            </div>
 
               <div class="col-md-12">
                 <div class="row">
@@ -272,8 +313,8 @@
               </div>
 
               <div class="col-md-12">
+                <h6>Datos cotización</h6>
                 <hr>
-                <h6> <b> Datos de Cotización:</b></h6>
             </div>
             <div class="col-md-12">
                 <label for="">Norma:</label>

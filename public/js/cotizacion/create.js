@@ -20,12 +20,32 @@ $(document).ready(function () {
     $('#norma').click(function () {
       dataSubnorma();
     });
+    $('#frecuencia').click(function () {
+      dataTomas();
+    });
+
+    addColPunto();
 });
 var norma;
 function getDatos1()
 {
     let subnorma = document.getElementById('subnorma')
     $('#normaPa').val(subnorma.textContent);
+}
+function addColPunto()
+{
+  var t = $('#puntoMuestro').DataTable();
+  var counterPunto = 1;
+
+  $('#addRow').on( 'click', function () {
+      t.row.add( [
+        counterPunto,
+        inputText('Punto de muestreo','punto'+counterPunto,'punto','',''),
+      ] ).draw( false );
+
+      counterPunto++;
+  } );
+
 }
 function getDatos2()
 {
@@ -68,7 +88,7 @@ function dataCliente() {
         url: base_url + '/admin/cotizacion/getCliente', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
-            cliente: $('#clientes').val(),
+          cliente: $('#clientes').val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: 'json',
@@ -78,6 +98,23 @@ function dataCliente() {
             $('#nombreCliente').val(response.Empresa);
         }
     });
+}
+function dataTomas() {
+
+  $.ajax({
+      url: base_url + '/admin/cotizacion/getTomas', //archivo que recibe la peticion
+      type: 'POST', //método de envio
+      data: {
+          idFrecuencia: $('#frecuencia').val(),
+          _token: $('input[name="_token"]').val(),
+      },
+      dataType: 'json',
+      async: false,
+      success: function (response) {
+          console.log(response)
+          $('#tomas').val(response.Tomas);
+      }
+  });
 }
 var model;
 function dataSubnorma()
@@ -120,7 +157,7 @@ function dataNorma()
             console.log(response)
             model = response;
             $.each(response.model, function (key, item) {
-                tab += '<option value="'+item.Id_norma+'">'+item.Clave+'</option>';
+                tab += '<option value="'+item.Id_norma+'">'+item.Clave_norma+'</option>';
             });
             sub.innerHTML = tab;
         }

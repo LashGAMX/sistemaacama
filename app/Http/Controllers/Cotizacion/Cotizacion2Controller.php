@@ -33,7 +33,7 @@ class Cotizacion2Controller extends Controller
     {
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at',null)->get();
         $generales = DB::table('ViewGenerales')->where('deleted_at',null)->get();
-        
+        $frecuencia = DB::table('frecuencia001')->get();
         $subNormas = SubNorma::all();
         $servicios = DB::table('tipo_servicios')->get();
         $descargas = DB::table('tipo_descargas')->get();
@@ -44,6 +44,7 @@ class Cotizacion2Controller extends Controller
             'subNormas' => $subNormas,
             'servicios' => $servicios,
             'descargas' => $descargas,
+            'frecuencia' => $frecuencia,
         );
         return view('cotizacion.create',$data);
     }
@@ -92,6 +93,12 @@ class Cotizacion2Controller extends Controller
             'precio' => $precio,
         );
         return response()->json($data);
+    }
+    public function getTomas()
+    {
+        $idFrecuencia = $_POST['idFrecuencia'];
+        $model = DB::table('frecuencia001')->where('Id_frecuencia',$idFrecuencia)->first();
+        return response()->json($model);
     }
     public function setCotizacion(Request $request){
         
