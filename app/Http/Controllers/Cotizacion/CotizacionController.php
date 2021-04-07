@@ -36,6 +36,9 @@ class CotizacionController extends Controller
         $subNormas = SubNorma::All();
         return view('cotizacion.cotizacion', compact('model', 'intermediarios', 'cliente', 'norma', 'subNormas'));
     }
+    /**
+     * Crear
+     */
     public function create()
     {
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at',null)->get();
@@ -51,12 +54,18 @@ class CotizacionController extends Controller
         );
         return view('cotizacion.create',$data);
     }
+    /**
+     * Obtener Cliente
+     */
     public function getCliente()
     {
         $id = $_POST['cliente'];
         $model = DB::table('ViewGenerales')->where('Id_cliente',$id)->first();
         return response()->json($model);
     }
+    /**
+     * Obtener Norma
+     */
     public function getSubNorma()
     {
         $id = $_POST['norma'];
@@ -197,7 +206,7 @@ class CotizacionController extends Controller
     }
     /**
      * Obtener La Subnorma
-     */ 
+     */
     public function obtenerClasificacion(Request $request)
     {
         $html = "";
