@@ -63,13 +63,16 @@ INNER JOIN simbologia_parametros as sim
 ON param.Id_simbologia = sim.Id_simbologia
 
 /* Vista Lista norma-parametros */
-CREATE VIEW ViewNormaParametro as SELECT n.Id_norma_param,n.Id_norma,nor.Norma,nor.Clave,n.Id_parametro,p.Parametro,p.Id_matriz,mat.Matriz FROM norma_parametros as n
+CREATE VIEW ViewNormaParametro as SELECT n.Id_norma_param,n.Id_norma,nor.Norma,nor.Clave,n.Id_parametro,p.Parametro,p.Id_matriz,mat.Matriz,p.Id_simbologia,sim.Simbologia,sim.Descripcion 
+FROM norma_parametros as n
 INNER JOIN sub_normas as nor
 ON n.Id_norma = nor.Id_subnorma
 INNER JOIN parametros as p
 ON n.Id_parametro = p.Id_parametro
 INNER JOIN matriz_parametros as mat
 ON p.Id_matriz = mat.Id_matriz_parametro
+INNER JOIN simbologia_parametros as sim
+ON p.Id_simbologia = sim.Id_simbologia
 
 /* Vista Lista View_limite001*/
 CREATE VIEW ViewLimite001 as SELECT lim.Id_limite,lim.Id_tipo,tipo.Categoria,lim.Id_parametro,pa.Parametro,lim.Prom_Mmax,lim.Prom_Mmin,lim.Prom_Dmax,lim.Prom_Dmin FROM limitepnorma_001 as lim
@@ -90,7 +93,7 @@ ON cat.Id_laboratorio = lab.Id_sucursal
 
 /* Lista precio paquete */
 CREATE VIEW ViewPrecioPaq as SELECT
-p.Id_precio,p.Id_paquete,sub.Norma,sub.Clave,p.Precio,p.Id_tipo,p.created_at,p.updated_at,p.deleted_at
+p.Id_precio,p.Id_paquete,sub.Id_norma,sub.Norma,sub.Clave,p.Precio,p.Id_tipo,p.created_at,p.updated_at,p.deleted_at
 FROM precio_paquete as p
 INNER JOIN sub_normas as sub
 ON p.Id_paquete = sub.Id_subnorma

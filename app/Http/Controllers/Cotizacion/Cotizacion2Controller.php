@@ -37,6 +37,7 @@ class Cotizacion2Controller extends Controller
         $subNormas = SubNorma::all();
         $servicios = DB::table('tipo_servicios')->get();
         $descargas = DB::table('tipo_descargas')->get();
+        $metodoPago = DB::table('metodo_pago')->get();
 
         $data = array(
             'intermediarios' => $intermediarios,
@@ -45,6 +46,7 @@ class Cotizacion2Controller extends Controller
             'servicios' => $servicios,
             'descargas' => $descargas,
             'frecuencia' => $frecuencia,
+            'metodoPago' => $metodoPago,
         );
         return view('cotizacion.create',$data);
     }
@@ -57,7 +59,16 @@ class Cotizacion2Controller extends Controller
     public function getSubNorma()
     {
         $id = $_POST['norma'];
-        $model = DB::table('ViewPrecioPaq')->where('Id_paquete',$id)->get();
+        $model = DB::table('ViewPrecioPaq')->where('Id_norma',$id)->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function getSubNormaId()
+    {
+        $id = $_POST['idSub'];
+        $model = DB::table('sub_normas')->where('Id_subnorma',$id)->first();
         $data = array(
             'model' => $model,
         );
@@ -74,23 +85,57 @@ class Cotizacion2Controller extends Controller
     }
     public function getDatos2() 
     { 
-        $id = $_POST['intermediario'];
+        $idIntermediario = $_POST['intermediario'];
         $idSub = $_POST['idSub'];
-        $intermediarios = DB::table('ViewIntermediarios')->where('Id_cliente',$id)->first();
+        $idParametros = $_POST['idParametros'];
+        $parametroExtra = array();
+
+        $intermediarios = DB::table('ViewIntermediarios')->where('Id_cliente',$idIntermediario)->first();
         $subnorma = DB::table('sub_normas')->where('Id_subnorma',$idSub)->first();
         
-        $precio = DB::table('ViewPrecioPaqInter')->where('Id_norma',$idSub)->first();
-
-        if($precio != NULL){
-
-        }else{
-            $precio = DB::table('ViewPrecioPaq')->where('Id_paquete',$idSub)->first();
+        $contExtra = 0;
+        for ($i=0; $i < sizeof($idParametros) ; $i++) { 
+            $parPre = DB::table('norma_parametros')->where('Id_norma',$idSub)->where('Id_parametro',$idParametros[$i])->get();
+            if($parPre->count())
+            {}else{
+                $parametroExtra[$contExtra] = $idParametros[$i];
+                $contExtra++;
+            }
         }
- 
+
+        $precioTotal = 0;
+
+            # Obtiene el precio del paquete
+        $precioModel = DB::table('ViewPrecioPaqInter')->where('Id_intermediario',$idIntermediario)->where('Id_catalogo',$idSub)->first();
+        if($precioModel != NULL){
+            $precioTotal = $precioTotal + $precioModel->Precio;
+        }else{
+            $precioModel = DB::table('ViewPrecioPaq')->where('Id_paquete',$idSub)->first();
+            $precioTotal = $precioTotal+  $precioModel->Precio;
+        }
+            # Obtener el precio por parametro extra
+
+        if(sizeof($parametroExtra) > 0)
+        {
+            for ($i=0; $i < sizeof($parametroExtra); $i++) { 
+                # code...
+                $precioModel = DB::table('ViewPrecioCatInter')->where('Id_intermediario',$idIntermediario)->where('Id_catalogo',$parametroExtra[$i])->first();
+                if($precioModel != null)
+                {
+                    $precioTotal += $precioModel->Precio;
+                }else{
+                    $precioModel = DB::table('ViewPrecioCat')->where('Id_laboratorio',1)->where('Id_parametro',$parametroExtra[$i])->first();
+                    $precioTotal += $precioModel->Precio;
+                }
+            }
+        }
+        
+        
         $data = array(
             'intermediarios' => $intermediarios,
             'subnorma' => $subnorma,
-            'precio' => $precio,
+            'idParametros' => $idParametros,
+            'precioTotal' => $precioTotal,
         );
         return response()->json($data);
     }

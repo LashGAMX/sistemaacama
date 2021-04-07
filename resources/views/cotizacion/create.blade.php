@@ -324,9 +324,9 @@
                 <label for="">Muestreo:</label>
                 <input type="text" class="form-control" disabled id="textMuestreo">
                 <label for="">Numero de Tomas:</label>
-                <input type="text" class="form-control"  id="TextTomas">
+                <input type="text" class="form-control"  id="TextTomas" disabled>
                 <label for="">Fecha de Muestreo:</label>
-                <input type="date" class="form-control" disabled id="fechaCopy">
+                <input type="date" class="form-control" disabled id="fechaMuestreo">
             </div>
             <div class="col-md-12">
                 <hr>
@@ -334,7 +334,7 @@
             <!-- Tomas de Muestra-->
             <div class="col-md-3">
                 <label for=""># tomas Muestreo:</label>
-                <input type="text" class="form-control" id="tomasMuestreo">
+                <input type="text" class="form-control" id="tomasMuestreo" disabled>
             </div>
             <!-- Viaticos -->
             <div class="col-md-3">
@@ -387,9 +387,9 @@
             <div class="col-md-6">
                 <label for="">Forma de Pago</label>
                 <select name="" class="form-control" id="tarjeta">
-                    <option value="Tarjeta de Credito">Tarjeta de Credito </option>
-                    <option value="Deposito">Deposito</option>
-                    <option value="Efectivo">Efectivo</option>
+                    @foreach ($metodoPago as $item)
+                        <option value="{{$item->Id_metodo}}">{{$item->Metodo}}</option>
+                    @endforeach
                 </select>
             </div>
             <!-- Tiempo de Entrega -->
