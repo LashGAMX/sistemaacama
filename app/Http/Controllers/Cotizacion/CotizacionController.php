@@ -1,10 +1,11 @@
 <?php
 
 namespace App\Http\Controllers\Cotizacion;
-
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\Cotizaciones;
+use App\Models\Cotizacion;
 use App\Models\IntermediariosView;
 use App\Models\Clientes;
 use App\Models\Norma;
@@ -17,7 +18,7 @@ use App\Models\Usuarios;
 use App\Models\CotizacionHistorico;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+
 
 class CotizacionController extends Controller
 {
@@ -241,14 +242,16 @@ class CotizacionController extends Controller
         echo $html;
     }
 
-    public function duplicarCotizacion(Request $request)
+    public function duplicarCotizacion()
     {
+        //Guardar Duplicado
+        $this->saveCotizacionCopia();
         # code...
-        $idCotizacion = $request->id;
-        $cotizacionCopia = DB::table('cotizacion')
-            ->where('Id_cotizacion', $idCotizacion)
-            ->first();
-
+    //    $idCotizacion = $request->id;
+        // $cotizacionCopia = DB::table('cotizacion')
+        //     ->where('Id_cotizacion', $idCotizacion)
+        //     ->first();
+            // Request $request
             // $user = Auth::user();
             // $user = $user->name;
             // $now = Carbon::now();
@@ -332,6 +335,32 @@ class CotizacionController extends Controller
             // ]);
 
         //Retornar la Respuesta
-         return json_encode($cotizacionCopia);
+
+               echo "Hello";
+    }
+    public function saveCotizacionCopia()
+    {
+        $isTrue =  Cotizacion::create([
+            'Id_intermedio' => 1,
+             'Id_cliente' => 1,
+             'Nombre'=> 1,
+             'Direccion'=> 1,
+             'Atencion'=> 1,
+             'Telefono'=> 1,
+             'Correo'=> 1,
+             'Tipo_servicio'=> 1,
+             'Tipo_descarga'=> 1,
+             'Id_norma'=> 1,
+             'Id_subnorma'=> 1,
+             'Frecuencia_muestreo'=> 1,
+             'Tipo_muestra'=> 1,
+             'Promedio'=> 1,
+             'Numero_puntos'=> 1,
+             'Tipo_reporte'=> 1,
+             'Condicion_venta'=> 1,
+             'Metodo_pago'=> 1,
+             'Tiempo_entrega'=> 1,
+             'Costo_total'=> 1,
+         ]);
     }
 }
