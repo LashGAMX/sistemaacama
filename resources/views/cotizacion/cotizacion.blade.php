@@ -3,8 +3,8 @@
 @section('content')
 @section('page_header')
     <div class="container-fluid">
-        <p>Cotización</p> 
-        <div class="row"> 
+        <p>Cotización</p>
+        <div class="row">
             <div class="col-md-12">
                 {{-- {{ Auth::user()->id }}
                 {{ Auth::user()->name }} --}}
@@ -47,11 +47,11 @@
                         </thead>
                         <tbody>
                             @foreach ($model as $item)
-                                <td>{{ $item->Cliente }}</td>
+                                <td>{{ $item->Nombre }}</td>
                                 <td>{{ $item->Folio_servicio }}</td>
                                 <td>{{ $item->Cotizacion_folio }}</td>
-                                <td>{{ $item->Empresa }}</td>
-                                <td>{{ $item->Servicio }}</td>
+                                <td></td>
+                                <td>{{ $item->Tipo_servicio }}</td>
                                 <td>{{ $item->Fecha_cotizacion }}</td>
                                 <td>{{ $item->Supervicion }}</td>
                                 <td>

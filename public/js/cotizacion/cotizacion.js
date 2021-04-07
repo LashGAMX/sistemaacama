@@ -16,7 +16,8 @@ var normaFormularioUnoCopia = '',
     frecuenciaCopia = '',
     tipoMuestraCopia = '',
     promedioCopia = '';
-var reporteCopia, condiccionesVentaCopia = '',fechaCotizacionCopia='';
+var reporteCopia, condiccionesVentaCopia = '',
+    fechaCotizacionCopia = '';
 //Codigo Jquery
 /**
  * Logica de Botones & Como Mostrar los Formularios
@@ -138,12 +139,12 @@ function formulario(id) {
         $('#tomasCopy').val(promedioCopia);
         reporteCopia = $('#reporte').val();
         condiccionesVentaCopia = $('#condiccionesVenta').val();
-        puntosMuestreoCopiaa =  $('#puntosMuestreo').val();
+        puntosMuestreoCopiaa = $('#puntosMuestreo').val();
         //Listar los inputs de muestreo
         console.log('Muestreo');
         let inputsPuntosMuestreo = $('#tomasMuestreo').val(puntosMuestreoCopiaa);
         let inputs = '';
-        for(let i=0; i<= parseInt(inputsPuntosMuestreo); i++){
+        for (let i = 0; i <= parseInt(inputsPuntosMuestreo); i++) {
             inputs += '<input type="text" class="form-control"  id="${i}">';
         }
         let add = document.getElementById('inputsPuntoMuestrodiv');
@@ -508,61 +509,23 @@ function edit_duplicacion(id) {
                     data: {
                         id: id
                     },
-                    url: 'cotizacion/duplicarCotizacion',
+                    url: 'cotizacion/obtenerHistorico',
                     type: 'POST',
-                    success: function (respuesta) {
-                        var json_data = JSON.parse(respuesta);
-                        $.ajax({
-                            url: "cotizacion/save",
-                            type: "POST",
-                            data: {
-                                clienteManual: json_data.Cliente,
-                                tipoServicio: json_data.Servicio,
-                                atencionA: null,
-                                fechaCotizacion: null,
-                                telefono: json_data.Telefono,
-                                correo: json_data.Correo,
-                                estadoCotizacion: null,
-                                tipoDescarga: json_data.Tipo_descarga,
-                                clasifacionNorma: null,
-                                normaFormularioUno: null,
-                                frecuencia: json_data.frecuencia,
-                                tipoMuestra: json_data.Tipo_muestra,
-                                promedio: json_data.Promedio,
-                                puntosMuestreo: null,
-                                reporte: json_data.Reporte,
-                                codiccionesVenta: codiccionesVenta,
-                                tomasMuestreo: null,
-                                viaticos: json_data.Viaticos,
-                                paqueteria: null,
-                                gastosExtras: null,
-                                numeroServicio: null,
-                                kmExtra: null,
-                                precioKm: null,
-                                precioKmExtra: json_data.precioKmExtra,
-                                observacionInterna: json_data.observacionInterna,
-                                observacionCotizacion: json_data.observacionCotizacion,
-                                tarjeta: json_data.tarjeta,
-                                tiempoEntrega: json_data.tiempoEntrega
-                            },
-                            success: function (response) {
-                                if (response) {
-                                    console.log('nuevo-pro-2020');
-
-                                }
-                            }
-                        });
-                        swal("Cotizacion! Generada Correctamente!", {
-                            icon: "success",
-                        });
+                    success: function (req) {
+                        console.log('---------------');
+                        console.log(req);
+                        //location.reload('https://dev.sistemaacama.com.mx/admin/cotizacion');
                     },
-                    error: function () {
-                        console.log("error");
-                        swal("Un Error!");
+                    error: function (req) {
+                        console.log('---------------');
+                        console.log(req);
                     }
                 });
-
+                // swal("Cotizacion! Generada Correctamente!", {
+                //     icon: "success",
+                // });
             } else {
+                console.log('No');
                 swal("El proceso no fue realizado!");
             }
         });

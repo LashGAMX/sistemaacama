@@ -1,5 +1,5 @@
 <?php
- 
+
 use App\Http\Controllers\Cotizacion\Cotizacion2Controller;
 use App\Http\Controllers\Cotizacion\CotizacionController;
 use App\Http\Controllers\Cotizacion\CotizacionConfigController;
@@ -16,11 +16,10 @@ Route::post('cotizacion/getSubNormaId', [Cotizacion2Controller::class,'getSubNor
 Route::post('cotizacion/getNorma', [Cotizacion2Controller::class,'getNorma']);
 Route::post('cotizacion/getCliente', [Cotizacion2Controller::class,'getCliente']);
 Route::post('cotizacion/getDatos2', [Cotizacion2Controller::class,'getDatos2']);
-Route::post('cotizacion/setCotizacion', [Cotizacion2Controller::class,'setCotizacion']); 
+Route::post('cotizacion/setCotizacion', [Cotizacion2Controller::class,'setCotizacion']);
 Route::post('cotizacion/getTomas', [Cotizacion2Controller::class,'getTomas']);
 
 Route::get('cotizacion/fecha', [Cotizacion2Controller::class,'fecha']);
- 
+
 Route::post('cotizacion/obtenerHistorico', [CotizacionController::class,'obtenerHistorico'])->name('cotizacion.obtenerHistorico');
 Route::post('cotizacion/duplicarCotizacion', [CotizacionController::class,'duplicarCotizacion'])->name('cotizacion.duplicarCotizacion');
-      
