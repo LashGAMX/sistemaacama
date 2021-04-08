@@ -219,32 +219,32 @@ class CotizacionController extends Controller
         }
         echo $html;
     }
-
+    /**
+     * Metodo para Obtener el Historico
+     */
     public function obtenerHistorico(Request $request)
     {
         //Incializando el string
         $html = "";
+        #Obtenemos el Id
         $idCotizacion = $request->idCotizacion;
-        $historicos = CotizacionHistorico::where('Id_busquedad', $idCotizacion)->first();
-        // foreach ($historicos as $historico) {
-        //     $html .= "<tr>";
-        //     $html .= "<td>" . $historico->Id_cotizacion_historico . "</td>";
-        //     $html .= "<td>" . $historico->Cliente . "</td>";
-        //     $html .= "<td>" . $historico->Folio_servicio . "</td>";
-        //     $html .= "<td>" . $historico->Cotizacion_folio . "</td>";
-        //     $html .= "<td>" . $historico->Empresa . "</td>";
-        //     $html .= "<td>" . $historico->Servicio . "</td>";
-        //     $html .= "<td>" . $historico->Fecha_cotizacion . "</td>";
-        //     $html .= "<td>" . $historico->fecha . "</td>";
-        //     $html .= "<td>" . $historico->hora . "</td>";
-        //     $html .= "<td>" . $historico->autor . "</td>";
-        //     $html .=  "</tr>";
-        // }
-        $array = array(
-            'Nuevo' => $idCotizacion,
-            'Historicos' => $historicos
-          );
-          return response()->json($array);
+        #Consulta sobre Cotización Historico, para obtener todos los objetos que tiene
+        $historicos = CotizacionHistorico::where('Id_busquedad', $idCotizacion)->orderBy('created_at')->get();
+        foreach ($historicos as $historico) {
+            $html .= "<tr>";
+            $html .= "<td>" . $historico->Id_cotizacion_historico . "</td>";
+            $html .= "<td>" . $historico->Id_clientes. "</td>";
+            $html .= "<td>" . $historico->Folio_servicios . "</td>";
+            $html .= "<td>" . $historico->Cotizacion_folio . "</td>";
+            $html .= "<td>" . $historico->Empresa . "</td>";
+            $html .= "<td>" . $historico->Servicio . "</td>";
+            $html .= "<td>" . $historico->Fecha_cotizacion . "</td>";
+            $html .= "<td>" . $historico->Fecha_modificacion . "</td>";
+            $html .= "<td>" . $historico->Hora_modificacion . "</td>";
+            $html .= "<td>" . $historico->Autor. "</td>";
+            $html .=  "</tr>";
+        }
+        echo  $html;
     }
     /**
      * Metodo para Duplicar Cotización
