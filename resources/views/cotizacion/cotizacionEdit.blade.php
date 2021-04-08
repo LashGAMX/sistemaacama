@@ -332,7 +332,7 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label for="textEmail">Correo</label>
-                                                        <input type="text" class="form-control" id="textEmail"  value="{{ $getCotizacion->Correo }} disabled>
+                                                        <input type="text" class="form-control" id="textEmail"  value="{{ $getCotizacion->Correo }}" disabled>
                                                     </div>
                                                 </div>
                                             </div>
