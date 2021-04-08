@@ -88,10 +88,15 @@ class Cotizacion2Controller extends Controller
         $idIntermediario = $_POST['intermediario'];
         $idSub = $_POST['idSub'];
         $idParametros = $_POST['idParametros'];
+        $idServicio = $_POST['idServicio'];
+        $idDescarga = $_POST['idDescarga'];
+
         $parametroExtra = array();
 
         $intermediarios = DB::table('ViewIntermediarios')->where('Id_cliente',$idIntermediario)->first();
         $subnorma = DB::table('sub_normas')->where('Id_subnorma',$idSub)->first();
+        $servicio = DB::table('tipo_servicios')->where('Id_tipo',$idServicio)->first();
+        $descarga = DB::table('tipo_descargas')->where('Id_tipo',$idDescarga)->first();
 
         $contExtra = 0;
         for ($i=0; $i < sizeof($idParametros) ; $i++) {
@@ -117,7 +122,7 @@ class Cotizacion2Controller extends Controller
 
         if(sizeof($parametroExtra) > 0)
         {
-            for ($i=0; $i < sizeof($parametroExtra); $i++) {
+            for ($i=0; $i < sizeof($parametroExtra); $i++) { 
                 # code...
                 $precioModel = DB::table('ViewPrecioCatInter')->where('Id_intermediario',$idIntermediario)->where('Id_catalogo',$parametroExtra[$i])->first();
                 if($precioModel != null)
@@ -136,6 +141,8 @@ class Cotizacion2Controller extends Controller
             'subnorma' => $subnorma,
             'idParametros' => $idParametros,
             'precioTotal' => $precioTotal,
+            'servicio' => $servicio,
+            'descarga' => $descarga
         );
         return response()->json($data);
     }
@@ -191,10 +198,15 @@ class Cotizacion2Controller extends Controller
     }
     public function fecha()
     {
-        $fecha = Carbon::now();
-        var_dump($fecha->format('yday'));
-        $hoy = getdate();
-print_r($hoy['weekday']);
+        $anio = date("y");
+        $mes = date("m");
+        $diaAnio = date("z") + 1;
+        $fechaHoy = Carbon::now()->format('Y-m-d');
+        // $cotizacionesPorDia = Cotizacion::whereDate('created_at', '=', $fechaHoy)->count();
+        $cotizacionesPorDia = 1;
+        // $identificadorCodigo = $diaAnio . "/" . $cotizacionesPorDia . "/" . $anio . "-" . $cotizacionesPorDia;
+        $identificadorCodigo = $diaAnio . "-" . $cotizacionesPorDia . "/" . $anio;
+        var_dump($identificadorCodigo);
     }
 
 }

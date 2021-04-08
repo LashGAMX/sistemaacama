@@ -197,6 +197,7 @@
               <div class="col-md-12">
                 <label for="puntoMuestro">Punto de muestreo</label>
                 <button id="addRow" type="button" class="btn btn-sm btn-success"><i class="voyager-list-add"></i> Agregar</button>
+                <button id="delRow" type="button" class="btn btn-sm btn-danger"><i class="voyager-trash"></i> Eliminar</button>
                 <table id="puntoMuestro" class="display" style="width:100%">
                     <thead>
                         <tr>
@@ -204,6 +205,7 @@
                             <th style="width: 90%">Descripción</th>
                         </tr>
                     </thead>
+                    
                 </table>
               </div>
 
@@ -324,53 +326,60 @@
                 <label for="">Muestreo:</label>
                 <input type="text" class="form-control" disabled id="textMuestreo">
                 <label for="">Numero de Tomas:</label>
-                <input type="text" class="form-control"  id="TextTomas" disabled>
+                <input type="text" class="form-control" disabled id="textTomas" >
                 <label for="">Fecha de Muestreo:</label>
                 <input type="date" class="form-control" disabled id="fechaMuestreo">
             </div>
-            <div class="col-md-12">
-                <hr>
-            </div>
+           
             <!-- Tomas de Muestra-->
-            <div class="col-md-3">
-                <label for=""># tomas Muestreo:</label>
-                <input type="text" class="form-control" id="tomasMuestreo" disabled>
+            <div class="col-md-12" id="divMuestreo">
+              <div class="row">
+                <div class="col-md-12">
+                  <h6>Datos muestreo</h6>
+                  <hr>
+              </div>
+                <div class="col-md-3">
+                  <label for=""># tomas Muestreo:</label>
+                  <input type="text" class="form-control" id="tomasMuestreo" disabled>
+              </div>
+              <!-- Viaticos -->
+              <div class="col-md-3">
+                  <label for="">Viaticos:</label>
+                  <input type="text" class="form-control" id="viaticos">
+              </div>
+              <!-- Gastos de Paqueteria -->
+              <div class="col-md-3">
+                  <label for="">Gastos Paqueteria:</label>
+                  <input type="text" class="form-control" id="paqueteria">
+              </div>
+              <!-- Gasto Adicional -->
+              <div class="col-md-3">
+                  <label for="">Gasto Adicional:</label>
+                  <input type="text" class="form-control" id="gastosExtras">
+              </div>
+              <!-- Numero de Servicio-->
+              <div class="col-md-3">
+                  <label for="">N Servicio:</label>
+                  <input type="text" class="form-control" id="numeroServicio">
+              </div>
+              <!-- Km Extra-->
+              <div class="col-md-3">
+                  <label for="">Km Extra:</label>
+                  <input type="text" class="form-control" id="kmExtra">
+              </div>
+              <!-- Precio Km-->
+              <div class="col-md-3">
+                  <label for="">Precio Km:</label>
+                  <input type="text" class="form-control" id="precioKm"> 
+              </div>
+              <!-- Tomas de Muestra-->
+              <div class="col-md-3">
+                  <label for="">Precio Km Extra:</label>
+                  <input type="text" class="form-control" id="precioKmExtra">
+              </div>
+              </div>
             </div>
-            <!-- Viaticos -->
-            <div class="col-md-3">
-                <label for="">Viaticos:</label>
-                <input type="text" class="form-control" id="viaticos">
-            </div>
-            <!-- Gastos de Paqueteria -->
-            <div class="col-md-3">
-                <label for="">Gastos Paqueteria:</label>
-                <input type="text" class="form-control" id="paqueteria">
-            </div>
-            <!-- Gasto Adicional -->
-            <div class="col-md-3">
-                <label for="">Gasto Adicional:</label>
-                <input type="text" class="form-control" id="gastosExtras">
-            </div>
-            <!-- Numero de Servicio-->
-            <div class="col-md-3">
-                <label for="">N Servicio:</label>
-                <input type="text" class="form-control" id="numeroServicio">
-            </div>
-            <!-- Km Extra-->
-            <div class="col-md-3">
-                <label for="">Km Extra:</label>
-                <input type="text" class="form-control" id="kmExtra">
-            </div>
-            <!-- Precio Km-->
-            <div class="col-md-3">
-                <label for="">Precio Km:</label>
-                <input type="text" class="form-control" id="precioKm">
-            </div>
-            <!-- Tomas de Muestra-->
-            <div class="col-md-3">
-                <label for="">Precio Km Extra:</label>
-                <input type="text" class="form-control" id="precioKmExtra">
-            </div>
+
             <!-- Observación Interna -->
             <div class="col-md-12 mt-1">
                 <label for="">Observación interna:</label>
@@ -402,16 +411,23 @@
             </div>
             <div class="col-md-12">
                 <h6>Puntos de Muestreo</h6>
-                <div id="inputsPuntoMuestrodiv">
+                <div id="puntoMuestreo3">
 
                 </div>
             </div>
+            <div class="col-md-12">
+              <h6>Parametros</h6>
+              <div id="parametros3">
+
+              </div>
+          </div>
             <div class="col-md-12">
               <div class="form-group">
                 <label for="precio">Costo cotizacion</label>
                 <input type="text" class="form-control" id="precio" disabled>
               </div>
           </div>
+        
 
           <button type="submit" class="btn btn-primary">Crear cotización</button>
             </div>

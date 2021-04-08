@@ -37,13 +37,15 @@ class Cotizacion extends Model
         'Supervicion',
         'Folio_servicio',
         'Cotizacion_folio',
-        'Fecha_cotizacion'
+        'Fecha_cotizacion',
+        'Precio_km_extra',
+        'Precio_km',
+        'Gastos_extras',
+        'Paqueteria',
+        'Viaticos',
+        'Km_extra',
+        'Estado_cotizacion',
     ];
-
-    // public function TipoServicioCotizacion()
-    // {
-    //    return $this->hasOne('App\TipoServicios','Id_tipo','Tipo_servicio');
-    // }
 
 }
 

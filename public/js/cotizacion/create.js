@@ -45,19 +45,32 @@ function getDatos1()
       }
   });
 }
+var counterPunto = 0;
 function addColPunto()
 {
   var t = $('#puntoMuestro').DataTable();
-  var counterPunto = 1;
-
+  counterPunto = 0;
   $('#addRow').on( 'click', function () {
       t.row.add( [
-        counterPunto,
+        counterPunto + 1,
         inputText('Punto de muestreo','punto'+counterPunto,'punto','',''),
       ] ).draw( false );
 
       counterPunto++;
   } );
+  $('#puntoMuestro tbody').on( 'click', 'tr', function () {
+    if ( $(this).hasClass('selected') ) {
+        $(this).removeClass('selected');
+    }
+    else {
+        t.$('tr.selected').removeClass('selected');
+        $(this).addClass('selected');
+    }
+} );
+
+$('#delRow').click( function () {
+    t.row('.selected').remove().draw( false );
+} );
 
 }
 function getDatos2()
@@ -69,6 +82,8 @@ function getDatos2()
             intermediario: $('#intermediario').val(),
             idSub:$('#subnorma').val(),
             idParametros:normaParametro,
+            idServicio:$('#tipoServicio').val(),
+            idDescarga:$('#tipoDescarga').val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: 'json',
@@ -77,8 +92,8 @@ function getDatos2()
             console.log(response)
             $('#textInter').val(response.intermediarios.Nombres +' '+response.intermediarios.A_paterno);
             $('#textEstado').val("Cotización");
-            $('#textServicio').val($('#tipoServicio').val());
-            $('#textDescarga').val($('#tipoDescarga').val());
+            $('#textServicio').val(response.servicio.Servicio);
+            $('#textDescarga').val(response.descarga.Descarga);
 
             $('#textCliente').val($('#nombreCliente').val());
             $('#textAtencion').val($('#atencion').val());
@@ -88,15 +103,84 @@ function getDatos2()
 
             $('#textNorma').val(response.subnorma.Clave);
             $('#textMuestreo').val($('#tipoMuestra').val());
-            $('#TextTomas').val($('#tomas').val());
+            $('#textTomas').val($('#tomas').val());
             $('#tomasMuestreo').val($('#tomas').val());
             $('#fechaMuestreo').val($('#fecha').val());
 
+            if($("#tipoServicio").val() == 1 || $("#tipoServicio").val() == 2)
+            {
+              $("#divMuestreo").css("display", "block");
+            }else{
+              $("#divMuestreo").css("display", "none");
+            }
+
+            getDataMuestreo();
+            getDataParametros();
             $('#precio').val(response.precioTotal);
 
         }
     });
 }
+function getDataMuestreo()
+{
+  let puntos = document.getElementById('puntoMuestro');
+  let table = document.getElementById('puntoMuestreo3');
+  let tab = '';
+
+  tab += '<table id="tablaPuntoMuestreo3" class="table table-sm  table-striped table-bordered">';
+  tab += '    <thead class="thead-dark">';
+  tab += '        <tr>';
+  tab += '            <th style="width: 5%;">#</th>';
+  tab += '            <th style="width: 30%;">Descripción</th>';
+  tab += '        </tr>'; 
+  tab += '    </thead>';
+  tab += '    <tbody>';
+  for (let i = 1; i < puntos.rows.length; i++) {
+      tab += '<tr>';
+      tab += '<td>'+i+'</td>';
+      tab += '<td>'+$("#"+puntos.rows[i].cells[1].children[1].id).val()+'</td>';
+      tab += '</tr>';
+  }
+  tab += '    </tbody>';
+  tab += '</table>';
+  table.innerHTML = tab;
+}
+function getDataParametros()
+{
+  let table = document.getElementById('parametros3');
+
+  let tab = '';
+  let param = document.getElementById('parametros');
+  normaParametro = new Array();
+
+  tab += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
+  tab += '    <thead class="thead-dark">';
+  tab += '        <tr>';
+  tab += '            <th style="width: 5%;">Id</th>';
+  tab += '            <th style="width: 30%;">Parametro</th>';
+  tab += '            <th>Matriz</th>';
+  tab += '        </tr>'; 
+  tab += '    </thead>';
+  tab += '    <tbody>';
+  for (let i = 0; i < param.length; i++) {
+    if(param[i].selected == true)
+    {
+      normaParametro.push(param[i].value);
+      tab += '<tr>';
+      tab += '<td>'+parametroId[i]+'</td>';
+      tab += '<td>'+parametro[i]+'<sup> ('+simbologia[i]+')</sup></td>';
+      tab += '<td>'+matriz[i]+'</td>';
+      tab += '</tr>';
+    }
+  }
+  tab += '    </tbody>';
+  tab += '</table>';
+  table.innerHTML = tab;
+
+  $('#listaParametros').modal('hide');
+}
+
+
 function dataCliente() {
 
     $.ajax({
