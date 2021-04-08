@@ -233,7 +233,7 @@ class CotizacionController extends Controller
         foreach ($historicos as $historico) {
             $html .= "<tr>";
             $html .= "<td>" . $historico->Id_cotizacion_historico . "</td>";
-            $html .= "<td>" . $historico->Id_clientes. "</td>";
+            $html .= "<td>" . $historico->Id_clientes . "</td>";
             $html .= "<td>" . $historico->Folio_servicios . "</td>";
             $html .= "<td>" . $historico->Cotizacion_folio . "</td>";
             $html .= "<td>" . $historico->Empresa . "</td>";
@@ -241,11 +241,12 @@ class CotizacionController extends Controller
             $html .= "<td>" . $historico->Fecha_cotizacion . "</td>";
             $html .= "<td>" . $historico->Fecha_modificacion . "</td>";
             $html .= "<td>" . $historico->Hora_modificacion . "</td>";
-            $html .= "<td>" . $historico->Autor. "</td>";
+            $html .= "<td>" . $historico->Autor . "</td>";
             $html .=  "</tr>";
         }
         echo  $html;
     }
+
     /**
      * Metodo para Duplicar Cotización
      */
@@ -291,7 +292,7 @@ class CotizacionController extends Controller
         $diaAnio = date("z") + 1;
         $fechaHoy = Carbon::now()->format('Y-m-d');
         $cotizacionesPorDia = Cotizacion::whereDate('created_at', '=', $fechaHoy)->count();
-        $identificadorCodigo = $diaAnio."/".$mes."/".$anio."-".$cotizacionesPorDia;
+        $identificadorCodigo = $diaAnio . "/" . $mes . "/" . $anio . "-" . $cotizacionesPorDia;
 
         #Generamos una cotización apartir de otra
         $cotizacionCopia = new Cotizacion;
@@ -324,7 +325,7 @@ class CotizacionController extends Controller
         $cotizacionCopia->save();
         $array = array(
             'Nuevo' => $cotizacionCopia->Id_cotizacion
-          );
+        );
         //Guardar Historico de la Nueva Cotización
         $cotizacionHistorico =  new CotizacionHistorico;
         $cotizacionHistorico->Id_busquedad = $cotizacionCopia->Id_cotizacion;
@@ -357,7 +358,6 @@ class CotizacionController extends Controller
         $cotizacionHistorico->save();
 
         return response()->json($array);
-
     }
     public function saveCotizacionCopia()
     {
@@ -384,95 +384,21 @@ class CotizacionController extends Controller
             'Costo_total' => 1,
         ]);
     }
+
+    /** Funcion para traer todos los valores de editar */
+    public function edit($id)
+    {
+        //Cambio A
+        #Información para Rellenar un Select
+        $intermediarios = IntermediariosView::All();
+        $cliente = Clientes::All();
+        $norma = Norma::All();
+        $clasificacion = DetallesTipoCuerpo::All();
+        $subNormas = SubNorma::All();
+
+        #Se obtiene el id de la columna a editar
+        $getCotizacion = Cotizacion::where('Id_cotizacion', $id)->first();
+
+        return view('cotizacion.cotizacionEdit', compact('getCotizacion', 'intermediarios', 'cliente', 'norma', 'subNormas'));
+    }
 }
- //Guardar Duplicado
-        // $this->saveCotizacionCopia();
-        # code...
-        //    $idCotizacion = $request->id;
-        // $cotizacionCopia = DB::table('cotizacion')
-        //     ->where('Id_cotizacion', $idCotizacion)
-        //     ->first();
-        // Request $request
-        // $user = Auth::user();
-        // $user = $user->name;
-        // $now = Carbon::now();
-        // $now->year;
-        // $now->month;
-        // $cotizacion = Cotizaciones::withTrashed()->get();
-        // $num = count($cotizacion);
-        // $num++;
-        // $newCotizacionCopia =  [
-        //     'Cliente' =>  $cotizacionCopia->clienteManual,
-        //     'Folio_servicio' => '21-92/' . $num.'-2',
-        //     'Cotizacion_folio' => '21-92/' . $num.'-2',
-        //     'Empresa' => $cotizacionCopia->atencionA,
-        //     'Servicio' => $cotizacionCopia->tipoServicio,
-        //     'Fecha_cotizacion' => $cotizacionCopia->fechaCotizacion,
-        //     'Supervicion' => 'por Asignar',
-        //     'deleted_at' => NULL,
-        //     'created_by' =>  'David Barrita',
-        //     'Telefono' => $cotizacionCopia->telefono,
-        //     'Correo' => $cotizacionCopia->correo,
-        //     'Tipo_descarga' => $cotizacionCopia->tipoDescarga,
-        //     'Tipo_servicio' => $cotizacionCopia->tipoServicio,
-        //     'Estado_cotizacion' => $cotizacionCopia->estadoCotizacion,
-        //     'Puntos_muestreo' => $cotizacionCopia->puntosMuestreo,
-        //     'Promedio' =>  $cotizacionCopia->promedio,
-        //     'Tipo_muestra' => $cotizacionCopia->tipoMuestra,
-        //     'frecuencia' => $cotizacionCopia->frecuencia,
-        //     'Norma_formulario_uno' => $cotizacionCopia->normaFormularioUno,
-        //     'clasificacion_norma' => $cotizacionCopia->clasifacionNorma,
-        //     'Reporte' => $cotizacionCopia->reporte,
-        //     'condicciones_venta' =>  $cotizacionCopia->codiccionesVenta,
-        //     'Viaticos' =>  $cotizacionCopia->viaticos,
-        //     'Paqueteria' => $cotizacionCopia->paqueteria,
-        //     'Gastos_extras' => $cotizacionCopia->gastosExtras,
-        //     'Numero_servicio' => $cotizacionCopia->numeroServicio,
-        //     'Km_extra' => $cotizacionCopia->kmExtra,
-        //     'observacionInterna' => $cotizacionCopia->observacionInterna,
-        //     'observacionCotizacion' => $cotizacionCopia->observacionCotizacion,
-        //     'tarjeta' => $cotizacionCopia->tarjeta,
-        //     'tiempoEntrega' => NULL,
-        //     'precioKmExtra' => $cotizacionCopia->precioKmExtra
-        // ];
-
-        // $newCotizacionHistorico = CotizacionHistorico::create([
-        //     'Cliente' => $cotizacionCopia->clienteManual,
-        //     'Id_busquedad' => $newCotizacionCopia->Id_cotizacion,
-        //     'Folio_servicio' => '21-92/' . $num,
-        //     'Cotizacion_folio' => '21-92/' . $num,
-        //     'Empresa' => $cotizacionCopia->atencionA,
-        //     'Servicio' => $cotizacionCopia->tipoServicio,
-        //     'Fecha_cotizacion' => $cotizacionCopia->fechaCotizacion,
-        //     'Supervicion' => 'por Asignar',
-        //     'deleted_at' => NULL,
-        //     'created_by' =>  'David Barrita',
-        //     'Telefono' => $cotizacionCopia->telefono,
-        //     'Correo' => $cotizacionCopia->correo,
-        //     'Tipo_descarga' => $cotizacionCopia->tipoDescarga,
-        //     'Tipo_servicio' => $cotizacionCopia->tipoServicio,
-        //     'Estado_cotizacion' => $cotizacionCopia->estadoCotizacion,
-        //     'Puntos_muestreo' => $cotizacionCopia->puntosMuestreo,
-        //     'Promedio' =>  $cotizacionCopia->promedio,
-        //     'Tipo_muestra' => $cotizacionCopia->tipoMuestra,
-        //     'frecuencia' => $cotizacionCopia->frecuencia,
-        //     'Norma_formulario_uno' => $cotizacionCopia->normaFormularioUno,
-        //     'clasificacion_norma' => $cotizacionCopia->clasifacionNorma,
-        //     'Reporte' => $cotizacionCopia->reporte,
-        //     'condicciones_venta' =>  $cotizacionCopia->codiccionesVenta,
-        //     'Viaticos' =>  $cotizacionCopia->viaticos,
-        //     'Paqueteria' => $cotizacionCopia->paqueteria,
-        //     'Gastos_extras' => $cotizacionCopia->gastosExtras,
-        //     'Numero_servicio' => $cotizacionCopia->numeroServicio,
-        //     'Km_extra' => $cotizacionCopia->kmExtra,
-        //     'observacionInterna' => $cotizacionCopia->observacionInterna,
-        //     'observacionCotizacion' => $cotizacionCopia->observacionCotizacion,
-        //     'tarjeta' => $cotizacionCopia->tarjeta,
-        //     'tiempoEntrega' => NULL,
-        //     'precioKmExtra' => $cotizacionCopia->precioKmExtra,
-        //     'fecha' => date("Y/m/d"),
-        //     'hora' => date("h:i:sa"),
-        //     'autor' =>  $user
-        // ]);
-
-        //Retornar la Respuesta
