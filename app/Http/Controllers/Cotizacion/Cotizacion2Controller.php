@@ -154,46 +154,41 @@ class Cotizacion2Controller extends Controller
     }
     public function setCotizacion(Request $request){
 
-        $now = Carbon::now();
-        $year = $now->format('y');
+        $year = date("y");
+        $month = date("m");
+        $dayYear = date("z") + 1;
+        $today = Carbon::now()->format('Y-m-d');
+        $cotizacionDay = DB::table('cotizacion')->where('created_at','LIKE',"%{$today}%")->count();
+        $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
 
-        // $cotizacion = Cotizaciones::withTrashed()->get();
-        // $num = count($cotizacion);
-        // $num++;
-        // // @$valoresParametros = @$request->valoresParametros;
+        // $cotizacion = Cotizacion::create([
+        //     'Id_intermedio' => $_POST['intermediario'],
+        //     'Id_cliente' => $_POST['clientes'],
+        //     'Nombre' => $_POST['nombreCliente'],
+        //     'Direccion' => $_POST['direccion'],
+        //     'Atencion' => $_POST['atencion'],
+        //     'Telefono' => $_POST['telefono'],
+        //     'Correo' => $_POST['correo'],
+        //     'Tipo_servicio' => $_POST['tipoServicio'],
+        //     'Tipo_descarga' => $_POST['tipoDescarga'],
+        //     'Id_norma' => $_POST['norma'],
+        //     'Id_subnorma' => $_POST['subnorma'],
+        //     'Frecuencia_muestreo' => $_POST['frecuencia'],
+        //     'Tipo_muestra' => $_POST['tipoMuestra'],
+        //     'Promedio' => $_POST['promedio'],
+        //     // 'Numero_puntos' => ,
+        //     'Tipo_reporte' => $_POST['tipoReporte'],
+        //     // 'Condicion_venta' => ,
+        //     'Metodo_pago' => $_POST['metodoPago'],
+        //     'Tiempo_entrega' => $_POST['tiempoEntrega'],
+        //     'Costo_total' => $_POST['precio'],
+        //     // 'Supervicion' => ,
+        //     'Folio' => $folio,
+        //     // 'Fecha_cotizacion' => $_POST['fecha'],
+        //     'Estado_cotizacion' => 1, 
+        // ]);
 
-        $newCotizacion =  Cotizaciones::create([
-            'Cliente' => $request->nombreCliente,
-            // 'Folio_servicio' => '21-92/' . $year,
-            'Cotizacion_folio' => '21-92/' . $year,
-            'Empresa' => $request->atencion,
-            'Servicio' => $request->tipoServicio,
-            'Fecha_cotizacion' => $request->fecha,
-            'Supervicion' => 'por Asignar',
-            'Telefono' => $request->telefono,
-            'Correo' => $request->correo,
-            'Tipo_descarga' => $request->tipoDescarga,
-            'Tipo_servicio' => $request->tipoServicio,
-            'Puntos_muestreo' => $request->puntosMuestreo,
-            'Promedio' =>  $request->promedio,
-            'Tipo_muestra' => $request->tipoMuestra,
-            'frecuencia' => $request->frecuencia,
-            // 'Norma_formulario_uno' => $normaFormularioUno,
-            'clasificacion_norma' => $request->norma,
-            'Reporte' => $request->tipoReporte,
-            'condicciones_venta' =>  $request->codiccionesVenta,
-            'Viaticos' =>  $request->viaticos,
-            'Paqueteria' => $request->paqueteria,
-            'Gastos_extras' => $request->gastosExtras,
-            'Numero_servicio' => $request->numeroServicio,
-            'Km_extra' => $request->kmExtra,
-            'observacionInterna' => $request->observacionInterna,
-            'observacionCotizacion' => $request->observacionCotizacion,
-            'tarjeta' => $request->tarjeta,
-            'tiempoEntrega' => NULL,
-            'precioKmExtra' => $request->precioKmExtra
-        ]);
-
+        
         return redirect()->to('admin/cotizacion');
     }
     public function fecha()
@@ -202,11 +197,11 @@ class Cotizacion2Controller extends Controller
         $mes = date("m");
         $diaAnio = date("z") + 1;
         $fechaHoy = Carbon::now()->format('Y-m-d');
-        // $cotizacionesPorDia = Cotizacion::whereDate('created_at', '=', $fechaHoy)->count();
-        $cotizacionesPorDia = 1;
+        $cotizacionesPorDia = DB::table('cotizacion')->where('created_at','LIKE',"%{$fechaHoy}%")->count();
+        
         // $identificadorCodigo = $diaAnio . "/" . $cotizacionesPorDia . "/" . $anio . "-" . $cotizacionesPorDia;
         $identificadorCodigo = $diaAnio . "-" . $cotizacionesPorDia . "/" . $anio;
-        var_dump($identificadorCodigo);
+        var_dump($cotizacionesPorDia + 1);
     }
 
 }
