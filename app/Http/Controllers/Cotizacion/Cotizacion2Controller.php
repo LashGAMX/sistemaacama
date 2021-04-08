@@ -50,8 +50,8 @@ class Cotizacion2Controller extends Controller
         );
         return view('cotizacion.create',$data);
     }
-    public function getCliente()  
-    { 
+    public function getCliente()
+    {
         $id = $_POST['cliente'];
         $model = DB::table('ViewGenerales')->where('Id_cliente',$id)->first();
         return response()->json($model);
@@ -83,8 +83,8 @@ class Cotizacion2Controller extends Controller
         );
         return response()->json($data);
     }
-    public function getDatos2() 
-    { 
+    public function getDatos2()
+    {
         $idIntermediario = $_POST['intermediario'];
         $idSub = $_POST['idSub'];
         $idParametros = $_POST['idParametros'];
@@ -92,9 +92,9 @@ class Cotizacion2Controller extends Controller
 
         $intermediarios = DB::table('ViewIntermediarios')->where('Id_cliente',$idIntermediario)->first();
         $subnorma = DB::table('sub_normas')->where('Id_subnorma',$idSub)->first();
-        
+
         $contExtra = 0;
-        for ($i=0; $i < sizeof($idParametros) ; $i++) { 
+        for ($i=0; $i < sizeof($idParametros) ; $i++) {
             $parPre = DB::table('norma_parametros')->where('Id_norma',$idSub)->where('Id_parametro',$idParametros[$i])->get();
             if($parPre->count())
             {}else{
@@ -117,7 +117,7 @@ class Cotizacion2Controller extends Controller
 
         if(sizeof($parametroExtra) > 0)
         {
-            for ($i=0; $i < sizeof($parametroExtra); $i++) { 
+            for ($i=0; $i < sizeof($parametroExtra); $i++) {
                 # code...
                 $precioModel = DB::table('ViewPrecioCatInter')->where('Id_intermediario',$idIntermediario)->where('Id_catalogo',$parametroExtra[$i])->first();
                 if($precioModel != null)
@@ -129,8 +129,8 @@ class Cotizacion2Controller extends Controller
                 }
             }
         }
-        
-        
+
+
         $data = array(
             'intermediarios' => $intermediarios,
             'subnorma' => $subnorma,
@@ -146,10 +146,10 @@ class Cotizacion2Controller extends Controller
         return response()->json($model);
     }
     public function setCotizacion(Request $request){
-        
+
         $now = Carbon::now();
         $year = $now->format('y');
- 
+
         // $cotizacion = Cotizaciones::withTrashed()->get();
         // $num = count($cotizacion);
         // $num++;
@@ -190,7 +190,7 @@ class Cotizacion2Controller extends Controller
         return redirect()->to('admin/cotizacion');
     }
     public function fecha()
-    { 
+    {
         $fecha = Carbon::now();
         var_dump($fecha->format('yday'));
         $hoy = getdate();
