@@ -37,7 +37,13 @@ class Cotizacion extends Model
         'Supervicion',
         'Folio_servicio',
         'Cotizacion_folio',
-        'Fecha_cotizacion'
+        'Fecha_cotizacion',
+        'Precio_km_extra',
+        'Precio_km',
+        'Km_extra',
+        'Gastos_extras',
+        'Paqueteria',
+        'Viaticos'
     ];
 
     // public function TipoServicioCotizacion()
