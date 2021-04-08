@@ -39,4 +39,11 @@ class Cotizacion extends Model
         'Cotizacion_folio',
         'Fecha_cotizacion'
     ];
+
+    // public function TipoServicioCotizacion()
+    // {
+    //    return $this->hasOne('App\TipoServicios','Id_tipo','Tipo_servicio');
+    // }
+
 }
+

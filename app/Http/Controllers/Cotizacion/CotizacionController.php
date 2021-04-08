@@ -395,6 +395,7 @@ class CotizacionController extends Controller
         $norma = Norma::All();
         $clasificacion = DetallesTipoCuerpo::All();
         $subNormas = SubNorma::All();
+        #Catalogos
 
         #Se obtiene el id de la columna a editar
         $getCotizacion = Cotizacion::where('Id_cotizacion', $id)->first();

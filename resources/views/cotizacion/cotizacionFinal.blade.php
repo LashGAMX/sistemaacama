@@ -51,7 +51,7 @@
                                 <td>{{ $item->Folio_servicio }}</td>
                                 <td>{{ $item->Cotizacion_folio }}</td>
                                 <td></td>
-                                <td>{{ $item->Tipo_servicio }}</td>
+                                <td>{{ $item->TipoServicioCotizacion}}</td>
                                 <td>{{ $item->Fecha_cotizacion }}</td>
                                 <td>{{ $item->Supervicion }}</td>
                                 <td>

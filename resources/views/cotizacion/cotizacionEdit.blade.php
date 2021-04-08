@@ -1,7 +1,7 @@
 @extends('voyager::master')
 
 @section('content')
-<!-- Cambio-->
+<!-- Cambio 0-->
 <div class="container-fluid">
   <div class="row">
       <div class="col-md-12">
@@ -45,7 +45,7 @@
                 <div class="form-group">
                   <label for="clientes">Clientes registrados</label>
                   <select name="clientes" id="clientes" class="form-control">
-                    <option value="0">Sin seleccionar</option>
+                    {{-- <option value="0">Sin seleccionar</option> --}}
                     {{-- @foreach ($generales as $item)
                         <option value="{{$item->Id_cliente}}">{{$item->Empresa}}</option>
                     @endforeach --}}
@@ -56,32 +56,32 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="nombreCliente">Nombre del cliente</label>
-                  <input type="text" class="form-control" placeholder="Nombre del cliente" id="nombreCliente" name="nombreCliente">
+                  <input type="text" class="form-control" placeholder="Nombre del cliente" id="nombreCliente" name="nombreCliente" value="{{$getCotizacion->Nombre}}">
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="direccion">Dirección</label>
-                  <input type="text" class="form-control" placeholder="Dirección" id="direccion" name="direccion">
+                  <input type="text" class="form-control" placeholder="Dirección" id="direccion" name="direccion"   value="{{$getCotizacion->Direccion}}">
                 </div>
               </div>
 
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="atencion">Con atención a</label>
-                  <input type="text" class="form-control" placeholder="Con atención a" id="atencion" name="atencion">
+                  <input type="text" class="form-control" placeholder="Con atención a" id="atencion" name="atencion" value="{{$getCotizacion->Atencion}}">
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="telefono">Teléfono</label>
-                  <input type="number" class="form-control" placeholder="Teléfono" id="telefono" name="telefono">
+                  <input type="number" class="form-control" placeholder="Teléfono" id="telefono" name="telefono" 	value="{{$getCotizacion->Telefono}}" >
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="correo">Correo</label>
-                  <input type="email" class="form-control" placeholder="Correo electronico" id="correo" name="correo">
+                  <input type="email" class="form-control" placeholder="Correo electronico" id="correo" name="correo" value="{{$getCotizacion->Correo}}">
                 </div>
               </div>
 
@@ -159,9 +159,11 @@
                 <div class="form-group">
                   <label for="tipoMuestra">Tipo de muestra</label>
                   <select name="tipoMuestra" id="tipoMuestra" class="form-control">
-                    <option>Sin seleccionar</option>
-                    <option>INSTANTANEA</option>
-                    <option>COMPUESTA</option>
+                      @if($getCotizacion->Tipo_muestra == "INSTANTANEA")
+                      <option>Sin seleccionar</option>
+                      <option selected>INSTANTANEA</option>
+                      <option>COMPUESTA</option>
+                      @endif()
                   </select>
                 </div>
               </div>
