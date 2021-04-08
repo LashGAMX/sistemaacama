@@ -385,7 +385,7 @@
                 <label for="">Observación interna:</label>
                 <textarea cols="30" rows="2" class="form-control" id="observacionInterna">
             </textarea>
-            </div>
+            </div> 
             <!-- Observación cotización  -->
             <div class="col-md-12 mt-1">
                 <label for="">Observación cotización:</label>
@@ -395,7 +395,7 @@
             <!-- Forma de pago-->
             <div class="col-md-6">
                 <label for="">Forma de Pago</label>
-                <select name="" class="form-control" id="tarjeta">
+                <select name="metodoPago" class="form-control" id="metodoPago">
                     @foreach ($metodoPago as $item)
                         <option value="{{$item->Id_metodo}}">{{$item->Metodo}}</option>
                     @endforeach
@@ -424,7 +424,7 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="precio">Costo cotizacion</label>
-                <input type="text" class="form-control" id="precio" disabled>
+                <input type="text" class="form-control" id="precio" name="precio" disabled>
               </div>
           </div>
         

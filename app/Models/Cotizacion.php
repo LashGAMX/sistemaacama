@@ -36,7 +36,7 @@ class Cotizacion extends Model
         'Costo_total',
         'Supervicion',
         'Folio_servicio',
-        'Cotizacion_folio',
+        'Folio',
         'Fecha_cotizacion',
         'Precio_km_extra',
         'Precio_km',
