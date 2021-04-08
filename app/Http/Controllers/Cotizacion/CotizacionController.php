@@ -403,8 +403,9 @@ class CotizacionController extends Controller
         #Se obtiene el id de la columna a editar
         $getCotizacion = Cotizacion::where('Id_cotizacion', $id)->first();
         $metodoPago = DB::table('metodo_pago')->get();
+        $generales = DB::table('clientes_general')->get();
 
         return view('cotizacion.cotizacionEdit', compact('tipoServicio','descargas',
-        'getCotizacion', 'intermediarios', 'cliente', 'norma', 'subNormas','metodoPago'));
+        'getCotizacion','generales', 'intermediarios', 'cliente', 'norma', 'subNormas','metodoPago'));
     }
 }

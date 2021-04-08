@@ -40,11 +40,12 @@ class Cotizacion extends Model
         'Fecha_cotizacion',
         'Precio_km_extra',
         'Precio_km',
+        'Km_extra',
         'Gastos_extras',
         'Paqueteria',
         'Viaticos',
         'Km_extra',
-        'Estado_cotizacion',
+        'Estado_cotizacion', 
     ];
 
 }
