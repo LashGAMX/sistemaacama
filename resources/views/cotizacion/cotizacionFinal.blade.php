@@ -57,7 +57,7 @@
                                 <td>
                                     <!-- Boton para Editar-->
                                     <button type="button" class="btn btn-sm btn-warning"
-                                        onclick="edit_columna('{{ $item->Id_cotizacion }}');" data-toggle="modal"  data-target="#modalCotizacionEditar">
+                                        onclick="edit_columna('{{ $item->Id_cotizacion }}');">
                                         <i class="voyager-edit"></i> <span hidden-sm hidden-xs>Editar</span> </button>
                                     <!-- Boton para ver Historico-->
                                     <button type="button" class="btn btn-sm btn-primary" data-toggle="modal"

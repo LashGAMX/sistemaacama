@@ -16,6 +16,8 @@ use App\Models\Intermediario;
 use App\Models\NormaParametroView;
 use App\Models\EvaluacionParametros;
 use App\Models\Usuarios;
+use App\Models\TipoServicios;
+use App\Models\TipoDescarga;
 use App\Models\CotizacionHistorico;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
@@ -396,10 +398,13 @@ class CotizacionController extends Controller
         $clasificacion = DetallesTipoCuerpo::All();
         $subNormas = SubNorma::All();
         #Catalogos
-
+        $tipoServicio = TipoServicios::All();
+        $descargas = TipoDescarga::All();
         #Se obtiene el id de la columna a editar
         $getCotizacion = Cotizacion::where('Id_cotizacion', $id)->first();
+        $metodoPago = DB::table('metodo_pago')->get();
 
-        return view('cotizacion.cotizacionEdit', compact('getCotizacion', 'intermediarios', 'cliente', 'norma', 'subNormas'));
+        return view('cotizacion.cotizacionEdit', compact('tipoServicio','descargas',
+        'getCotizacion', 'intermediarios', 'cliente', 'norma', 'subNormas','metodoPago'));
     }
 }

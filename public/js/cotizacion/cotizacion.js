@@ -443,7 +443,8 @@ $("#normaSelectFormularioDos").change(function () {
  */
 function edit_columna(id) {
     console.log(`Bienvenido a Editar${id}`);
-
+    let url = `https://dev.sistemaacama.com.mx/admin/cotizacion/edit/${id}`;
+    window.location.assign(url);
 
 }
 
