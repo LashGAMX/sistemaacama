@@ -30,7 +30,20 @@ var norma;
 function getDatos1()
 {
     let subnorma = document.getElementById('subnorma')
-    $('#normaPa').val(subnorma.textContent);
+    $.ajax({
+      url: base_url + '/admin/cotizacion/getSubNormaId', //archivo que recibe la peticion
+      type: 'POST', //método de envio
+      data: {
+        idSub: $('#subnorma').val(),
+          _token: $('input[name="_token"]').val(),
+      },
+      dataType: 'json',
+      async: false,
+      success: function (response) {
+          console.log(response)
+          $('#normaPa').val(response.model.Clave);
+      }
+  });
 }
 function addColPunto()
 {
@@ -55,6 +68,7 @@ function getDatos2()
         data: {
             intermediario: $('#intermediario').val(),
             idSub:$('#subnorma').val(),
+            idParametros:normaParametro,
             _token: $('input[name="_token"]').val(),
         },
         dataType: 'json',
@@ -74,10 +88,11 @@ function getDatos2()
 
             $('#textNorma').val(response.subnorma.Clave);
             $('#textMuestreo').val($('#tipoMuestra').val());
-            // $('#TextTomas').val($('#telefono').val());
-            $('#fechaCopy').val($('#fecha').val());
+            $('#TextTomas').val($('#tomas').val());
+            $('#tomasMuestreo').val($('#tomas').val());
+            $('#fechaMuestreo').val($('#fecha').val());
 
-            $('#precio').val(response.precio.Precio);
+            $('#precio').val(response.precioTotal);
 
         }
     });
@@ -164,6 +179,7 @@ function dataNorma()
     });
 }
 
+var normaParametro = new Array();
 function tablaParametros()
 {
   let table = document.getElementById('tabParametros');
@@ -181,6 +197,7 @@ function tablaParametros()
       async: false, 
       success: function (response) {
         console.log(response.model)
+        normaParametro = new Array();
         tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agreagar', 'voyager-list-add', 'success','agregarParametros('+idSub.value+')' , 'botton') + '</div><br>';
         tab += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
         tab += '    <thead class="thead-dark">';
@@ -192,9 +209,10 @@ function tablaParametros()
         tab += '    </thead>';
         tab += '    <tbody>';
         $.each(response.model, function (key, item) {
+          normaParametro.push(item.Id_parametro);
             tab += '<tr>';
           tab += '<td>'+item.Id_parametro+'</td>';
-          tab += '<td>'+item.Parametro+'</td>';
+          tab += '<td>'+item.Parametro+'<sup> ('+item.Simbologia+')</sup></td>';
           tab += '<td>'+item.Matriz+'</td>';
           tab += '</tr>';
         });
@@ -206,11 +224,53 @@ function tablaParametros()
   });
 }
 
+function updateNormaParametro()
+{
+  let table = document.getElementById('tabParametros');
+  let idSub = document.getElementById('subnorma');
+
+  let tab = '';
+  let param = document.getElementById('parametros');
+  normaParametro = new Array();
+
+  tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agreagar', 'voyager-list-add', 'success','agregarParametros('+idSub.value+')' , 'botton') + '</div><br>';
+  tab += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
+  tab += '    <thead class="thead-dark">';
+  tab += '        <tr>';
+  tab += '            <th style="width: 5%;">Id</th>';
+  tab += '            <th style="width: 30%;">Parametro</th>';
+  tab += '            <th>Matriz</th>';
+  tab += '        </tr>'; 
+  tab += '    </thead>';
+  tab += '    <tbody>';
+  for (let i = 0; i < param.length; i++) {
+    if(param[i].selected == true)
+    {
+      normaParametro.push(param[i].value);
+      tab += '<tr>';
+      tab += '<td>'+parametroId[i]+'</td>';
+      tab += '<td>'+parametro[i]+'<sup> ('+simbologia[i]+')</sup></td>';
+      tab += '<td>'+matriz[i]+'</td>';
+      tab += '</tr>';
+    }
+  }
+  tab += '    </tbody>';
+  tab += '</table>';
+  table.innerHTML = tab;
+
+  $('#listaParametros').modal('hide');
+
+}
+var parametro = new Array();
+var parametroId = new Array();
+var matriz = new Array();
+var simbologia = new Array();
 function agregarParametros(idSub)
 {
   let idNorma = document.getElementById('norma').value;
-  let parametro = new Array();
-  let parametroId = new Array();
+  parametro = new Array();
+  parametroId = new Array();
+  matriz = new Array();
   let normaId = new Array(); //Alacena parametros agregados de la sub-norma
   $.ajax({
     url: base_url + '/admin/analisisQ/detalle_normas/getParametroNorma', //archivo que recibe la peticion
@@ -223,20 +283,23 @@ function agregarParametros(idSub)
     dataType: 'json', 
     async: false,
     success: function (response) {
+      console.log(response);
       $.each(response.sqlParametro,function(key,item){
         parametro.push("Pa: "+item.Parametro + '/ Mat:' + item.Matriz);
         parametroId.push(item.Id_parametro);
+        matriz.push(item.Matriz);
+        simbologia.push(item.Simbologia);
       });
-      $.each(response.sqlNorma,function(key,item){
-        normaId.push(item.Id_parametro);
-      });
+      // $.each(normaParametro,function(key,item){
+      //   normaId.push(item.Id_parametro);
+      // });
     }
   });
   let element = [
-    inputMultiple('parametros','','Lista de parametros',parametro,parametroId,'Parametros',normaId,'duallistbox'),
+    inputMultiple('parametros','','Lista de parametros',parametro,parametroId,'Parametros',normaParametro,'duallistbox'),
   ];
   itemModal[0] = element;
-  newModal('divModal','listaParametros','Asignar parametros','lg',1,1,0,inputBtn('','','Guardar','save','success','createNormaParametro('+idSub+')'));
+  newModal('divModal','listaParametros','Asignar parametros','lg',1,1,0,inputBtn('','','Guardar','save','success','updateNormaParametro()'));
   $('.duallistbox').bootstrapDualListbox({
     nonSelectedListLabel: 'No seleccionado',
     selectedListLabel: 'Seleccionado',

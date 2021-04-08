@@ -40,10 +40,11 @@ class Catalogo extends Component
 
     public function render()
     {
-        $parametros = Parametro::all();
+        $parametros = Parametro::where('Id_laboratorio',$this->idSucursal)->get();
+
         $model = DB::table('ViewPrecioCat')
             ->where('Id_laboratorio', $this->idSucursal)
-            ->orWhere('Parametro', 'LIKE', "%{$this->search}%")
+            ->where('Parametro', 'LIKE', "%{$this->search}%")
             ->paginate($this->perPage);
         return view('livewire.precios.catalogo', compact('model', 'parametros'));
     }
