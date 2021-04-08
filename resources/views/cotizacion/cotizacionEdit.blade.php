@@ -61,11 +61,12 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
+                                    <!-- Clientes Registros -->
                                         <label for="clientes">Clientes registrados</label>
                                         <select name="clientes" id="clientes" class="form-control">
                                             <option value="0">Sin seleccionar</option>
                                             @foreach ($generales as $item)
-                                            <option value="{{$item->Id_cliente}}">{{$item->Empresa}}</option>
+                                                <option  value="{{$item->Id_cliente}}">{{$item->Empresa}}</option>
                                             @endforeach
                                         </select>
                                     </div>
