@@ -33,11 +33,27 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="intermediario">Intermediario</label>
-                                        <select name="intermediario" id="intermediario" class="form-control select2">
-                                            {{-- @foreach ($intermediarios as $item)
-                        <option value="{{$item->Id_cliente}}">{{$item->Nombres}} {{$item->A_paterno}}</option>
-                    @endforeach --}}
-                                        </select>
+                                        {{-- Opcion 1 --}}
+                                        @if ($getCotizacion->Id_intermedio > 0)
+                                            <select name="intermediario" id="intermediario" class="form-control select2">
+                                                @foreach ($intermediarios as $item)
+                                                    <option value="{{ $item->Id_cliente }}">{{ $item->Nombres }}
+                                                        {{ $item->A_paterno }}</option>
+                                                @endforeach
+                                            </select>
+                                        @endif()
+
+                                        {{-- Parte Dos --}}
+                                        @if ($getCotizacion->Id_intermedio == 0){
+                                            <select name="intermediario" id="intermediario" class="form-control select2">
+                                                @foreach ($intermediarios as $item)
+                                                    <option value="{{ $item->Id_cliente }}">{{ $item->Nombres }}
+                                                        {{ $item->A_paterno }}</option>
+                                                @endforeach
+                                            </select>
+                                            }
+                                        @endif()
+
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -107,7 +123,8 @@
                                                     <option selected='selected' value="{{ $item->Id_tipo }}">
                                                         {{ $item->Servicio }}</option>
                                                 @else
-                                                    <option value="{{ $item->Id_tipo }}">{{ $item->Servicio }}</option>
+                                                    <option value="{{ $item->Id_tipo }}">{{ $item->Servicio }}
+                                                    </option>
                                                 @endif
                                             @endforeach
 
@@ -311,14 +328,15 @@
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="textAtencion">Con atenció a</label>
-                                                <input type="text" class="form-control" id="textAtencion" value="{{ $getCotizacion->NombreCliente }}" disabled>
+                                                <input type="text" class="form-control" id="textAtencion"
+                                                    value="{{ $getCotizacion->NombreCliente }}" disabled>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label for="textDireccion">Dirección cotización</label>
-                                                <textarea name="textDireccion" class="form-control" id="textDireccion" value="{{ $getCotizacion->Direccion }}"
-                                                    disabled></textarea>
+                                                <textarea name="textDireccion" class="form-control" id="textDireccion"
+                                                    value="{{ $getCotizacion->Direccion }}" disabled></textarea>
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -326,13 +344,16 @@
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label for="textTelefono">Teléfono</label>
-                                                        <input type="text" class="form-control" id="textTelefono" value="{{ $getCotizacion->Telefono }}" disabled>
+                                                        <input type="text" class="form-control" id="textTelefono"
+                                                            value="{{ $getCotizacion->Telefono }}" disabled>
                                                     </div>
                                                 </div>
+                                                <!-- Correo Electronicof-->
                                                 <div class="col-md-12">
                                                     <div class="form-group">
                                                         <label for="textEmail">Correo</label>
-                                                        <input type="text" class="form-control" id="textEmail"  value="{{ $getCotizacion->Correo }}" disabled>
+                                                        <input type="text" class="form-control" id="textEmail"
+                                                            value="{{ $getCotizacion->Correo }}" disabled>
                                                     </div>
                                                 </div>
                                             </div>
@@ -414,33 +435,34 @@
                                     <label for="">Observación interna:</label>
                                     <textarea cols="30" rows="2" class="form-control" id="observacionInterna"
                                         value="{{ $getCotizacion->Numero_puntos }}">
-                        </textarea>
+                                            </textarea>
                                 </div>
                                 <!-- Observación cotización  -->
                                 <div class="col-md-12 mt-1">
                                     <label for="">Observación cotización:</label>
                                     <textarea cols="30" rows="2" class="form-control" id="observacionCotizacion"
                                         value="{{ $getCotizacion->Numero_puntos }}">
-                        </textarea>
+                                            </textarea>
                                 </div>
                                 <!-- Forma de pago-->
                                 <div class="col-md-6">
                                     <label for="">Forma de Pago</label>
                                     <select name="" class="form-control" id="tarjeta">
-                                        @foreach ($metodoPago as $item)
+                                        {{-- @foreach ($metodoPago as $item)
                                             @if ($item->Id_tipo == $getCotizacion->Metodo_pago)
                                                 <option selected='selected' value="{{ $item->Id_metodo }}">
                                                     {{ $item->Metodo }}</option>
                                             @else
                                                 <option value="{{ $item->Id_metodo }}">{{ $item->Metodo }}</option>
                                             @endif
-                                        @endforeach
+                                        @endforeach --}}
                                     </select>
                                 </div>
                                 <!-- Tiempo de Entrega -->
                                 <div class="col-md-6">
                                     <label for="">Tiempo de Entrega</label>
-                                    <input type="text" class="form-control" id="tiempoEntrega"  value="{{ $getCotizacion->Numero_puntos }}">
+                                    <input type="text" class="form-control" id="tiempoEntrega"
+                                        value="{{ $getCotizacion->Numero_puntos }}">
                                 </div>
                                 <div class="col-md-12">
                                     <hr>
@@ -454,7 +476,8 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="precio">Costo cotizacion</label>
-                                        <input type="text" class="form-control" id="precio" disabled  value="{{ $getCotizacion->Numero_puntos }}">
+                                        <input type="text" class="form-control" id="precio" disabled
+                                            value="{{ $getCotizacion->Numero_puntos }}">
                                     </div>
                                 </div>
 

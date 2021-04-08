@@ -404,6 +404,7 @@ class CotizacionController extends Controller
         $getCotizacion = Cotizacion::where('Id_cotizacion', $id)->first();
         $metodoPago = DB::table('metodo_pago')->get();
 
+
         return view('cotizacion.cotizacionEdit', compact('tipoServicio','descargas',
         'getCotizacion', 'intermediarios', 'cliente', 'norma', 'subNormas','metodoPago'));
     }
