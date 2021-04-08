@@ -33,7 +33,7 @@
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="intermediario">Intermediario</label>
-                                        {{-- Opcion 1 --}}
+                                        <!-- Opcion 1 -->
                                         @if ($getCotizacion->Id_intermedio > 0)
                                             <select name="intermediario" id="intermediario" class="form-control select2">
                                                 @foreach ($intermediarios as $item)
@@ -43,15 +43,14 @@
                                             </select>
                                         @endif()
 
-                                        {{-- Parte Dos --}}
-                                        @if ($getCotizacion->Id_intermedio == 0){
+                                         <!-- Opcion 2 -->
+                                        @if ($getCotizacion->Id_intermedio == 0)
                                             <select name="intermediario" id="intermediario" class="form-control select2">
                                                 @foreach ($intermediarios as $item)
                                                     <option value="{{ $item->Id_cliente }}">{{ $item->Nombres }}
                                                         {{ $item->A_paterno }}</option>
                                                 @endforeach
                                             </select>
-                                            }
                                         @endif()
 
                                     </div>
@@ -64,10 +63,10 @@
                                     <div class="form-group">
                                         <label for="clientes">Clientes registrados</label>
                                         <select name="clientes" id="clientes" class="form-control">
-                                            {{-- <option value="0">Sin seleccionar</option> --}}
-                                            {{-- @foreach ($generales as $item)
-                        <option value="{{$item->Id_cliente}}">{{$item->Empresa}}</option>
-                    @endforeach --}}
+                                            <option value="0">Sin seleccionar</option>
+                                            @foreach ($generales as $item)
+                                            <option value="{{$item->Id_cliente}}">{{$item->Empresa}}</option>
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
