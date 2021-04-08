@@ -2,7 +2,7 @@
 
 @section('content')
 
-<div class="container-fluid"> 
+<div class="container-fluid">
   <div class="row">
       <div class="col-md-12">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -17,7 +17,7 @@
           </li>
         </ul>
         <form action="{{url('admin/cotizacion/setCotizacion')}}" method="post">
-          @csrf 
+          @csrf
         {{-- Contenido de nav --}}
         <div class="tab-content" id="myTabContent">
           {{-- Inicio Datos --}}
@@ -41,7 +41,7 @@
                 <h6>Cliente</h6>
                 <hr>
             </div>
-              <div class="col-md-12"> 
+              <div class="col-md-12">
                 <div class="form-group">
                   <label for="clientes">Clientes registrados</label>
                   <select name="clientes" id="clientes" class="form-control">
@@ -115,7 +115,7 @@
                 <div class="form-group">
                   <label for="norma">Clasificaciòn de la norma</label>
                   <select name="norma" id="norma" class="form-control">
-                    
+
                   </select>
                 </div>
               </div>
@@ -132,7 +132,7 @@
                   <label for="fecha">Fecha de muestreo</label>
                   <input type="date" class="form-control" placeholder="Fecha" id="fecha" name="fecha">
                 </div>
-              </div> 
+              </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="frecuencia">Frecuencia muestreo</label>
@@ -154,7 +154,7 @@
                 <h6>Espesificaciones</h6>
                 <hr>
             </div>
- 
+
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="tipoMuestra">Tipo de muestra</label>
@@ -175,14 +175,14 @@
                 </select>
                 </div>
               </div>
-           
+
 
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="tipoReporte">Tipo de reporte</label>
                   <select name="tipoReporte" id="tipoReporte" class="form-control">
                     <option value="0">Sin seleccionar</option>
-                  
+
                   </select>
                 </div>
               </div>
@@ -207,14 +207,14 @@
                 </table>
               </div>
 
-            </div> 
+            </div>
           </div>
           {{-- Fin datos --}}
           {{-- Inicio parametros --}}
           <div class="tab-pane fade" id="parametro" role="tabpanel" aria-labelledby="parametro-tab">
 
             <div class="row">
- 
+
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="normaPa">Norma</label>
@@ -225,11 +225,11 @@
               <div class="col-md-6">
                 {{-- @livewire('analisis-q.norma-parametros', ['idUser' => Auth::user()->id,'idSub' => @$idSub]) --}}
                 <div id="tabParametros">
-      
+
                 </div>
               </div>
             </div>
- 
+
           </div>
           {{-- Fin parametros --}}
           {{-- Inicio datos Cotizacion --}}
@@ -421,7 +421,7 @@
         </div>
     </div>
 </div>
- 
+
 <div id="divModal">
 </div>
 

@@ -461,28 +461,28 @@ function ver_historico(idCotizacion) {
         url: 'cotizacion/obtenerHistorico',
         type: 'POST',
         success: function (resq) {
-            var resulquery = '';
-            resulquery += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
-            resulquery += '    <thead class="thead-dark">';
-            resulquery += '        <tr>';
-            resulquery += '            <th style="width: 5%;">Id</th>';
-            resulquery += '            <th>Cliente</th>';
-            resulquery += '            <th>Servicio Folio</th>';
-            resulquery += '            <th>Cotización Folio</th>';
-            resulquery += '            <th>Empresa</th>';
-            resulquery += '            <th>Servicio</th>';
-            resulquery += '            <th>Fecha Cotización</th>';
-            resulquery += '            <th>Fecha Control:</th>';
-            resulquery += '            <th>Hora Control:</th>';
-            resulquery += '            <th>Autor</th>';
-            resulquery += '        </tr>';
-            resulquery += '    </thead>';
-            resulquery += '    <tbody>';
-            resulquery += resq;
-            resulquery += '</tbody>';
-            resulquery += '</table>';
-            tablaHistorico.innerHTML = resulquery;
-            console.log(resulquery);
+            // var resulquery = '';
+            // resulquery += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
+            // resulquery += '    <thead class="thead-dark">';
+            // resulquery += '        <tr>';
+            // resulquery += '            <th style="width: 5%;">Id</th>';
+            // resulquery += '            <th>Cliente</th>';
+            // resulquery += '            <th>Servicio Folio</th>';
+            // resulquery += '            <th>Cotización Folio</th>';
+            // resulquery += '            <th>Empresa</th>';
+            // resulquery += '            <th>Servicio</th>';
+            // resulquery += '            <th>Fecha Cotización</th>';
+            // resulquery += '            <th>Fecha Control:</th>';
+            // resulquery += '            <th>Hora Control:</th>';
+            // resulquery += '            <th>Autor</th>';
+            // resulquery += '        </tr>';
+            // resulquery += '    </thead>';
+            // resulquery += '    <tbody>';
+            // resulquery += resq;
+            // resulquery += '</tbody>';
+            // resulquery += '</table>';
+            // tablaHistorico.innerHTML = resulquery;
+            console.log(resq);
         },
         error: function () {
             console.log("error");
@@ -509,16 +509,12 @@ function edit_duplicacion(id) {
                     data: {
                         id: id
                     },
-                    url: 'cotizacion/obtenerHistorico',
+                    url: 'cotizacion/duplicarCotizacion',
                     type: 'POST',
                     success: function (req) {
                         console.log('---------------');
                         console.log(req);
                         //location.reload('https://dev.sistemaacama.com.mx/admin/cotizacion');
-                    },
-                    error: function (req) {
-                        console.log('---------------');
-                        console.log(req);
                     }
                 });
                 // swal("Cotizacion! Generada Correctamente!", {
@@ -530,3 +526,24 @@ function edit_duplicacion(id) {
             }
         });
 }
+
+$(function(){
+    $("#fechaUno").change(function(){
+        var valor = $(this).val();
+        if(valor!=""){
+            $("#resultado").html(valor);
+        }else{
+            $("#resultado").html("Campo Vacío");
+        }
+    })
+})
+$(function(){
+    $("#fechaDos").change(function(){
+        var valor = $(this).val();
+        if(valor!=""){
+            $("#resultado").html(valor);
+        }else{
+            $("#resultado").html("Campo Vacío");
+        }
+    })
+})

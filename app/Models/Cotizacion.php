@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Cotizacion extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'cotizacion'; 
+    protected $table = 'cotizacion';
     protected $primaryKey = 'Id_cotizacion';
     public $timestamps = true;
 
@@ -34,5 +34,9 @@ class Cotizacion extends Model
         'Metodo_pago',
         'Tiempo_entrega',
         'Costo_total',
+        'Supervicion',
+        'Folio_servicio',
+        'Cotizacion_folio',
+        'Fecha_cotizacion'
     ];
 }
