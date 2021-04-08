@@ -124,9 +124,7 @@
 
                     <!-- Modal body -->
                     <div class="modal-body">
-                        Historico:
-                        <div id="historicoById">
-                        </div>
+
                     </div>
 
                     <!-- Modal footer -->
@@ -137,6 +135,10 @@
                 </div>
             </div>
         </div>
+         <!-- Modal Editar FIN-->
+        <!-- Modal Editar FIN -->
+        <!-- Modal Editar  FIN-->
+        <!-- Modal Editar FIN -->
 
 
         <!-- Modal -->

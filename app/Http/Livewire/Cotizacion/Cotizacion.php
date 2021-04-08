@@ -17,7 +17,6 @@ class Cotizacion extends Component
 {
     use WithPagination;
 
-<<<<<<< HEAD
     public $name;
     public $email;
     public $color;
@@ -96,17 +95,10 @@ class Cotizacion extends Component
     }
 
 
-=======
->>>>>>> c066c2306195a74a4f3ff72f5ce6b6c66af689e4
     public $testOne;
     public $testTwo;
     public $testThree;
 
-<<<<<<< HEAD
-=======
-
-
->>>>>>> c066c2306195a74a4f3ff72f5ce6b6c66af689e4
     public $test = 'y';
     public $idCotizacion = 0;
     #Atributos de Fecha
