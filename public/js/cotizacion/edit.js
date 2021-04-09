@@ -1,14 +1,7 @@
 var base_url = 'https://dev.sistemaacama.com.mx';
 var swParametros = 0;
-var sw = $("#sw").val();
 $(document).ready(function () {
     $('#datos-tab').click();
-
-    if(sw == 1)
-    {
-      update();
-      swParametros == 1;
-    }
 
     $('#parametro-tab').click(function () {
         getDatos1();
@@ -16,7 +9,7 @@ $(document).ready(function () {
         {
           tablaParametros();
         }
-    }); 
+    });
 
     $('#cotizacion-tab').click(function () {
         getDatos2();
@@ -37,25 +30,6 @@ $(document).ready(function () {
 
     addColPunto();
 });
-var modelCot;
-function update()
-{
-  $.ajax({
-    url: base_url + '/admin/cotizacion/getCotizacionId', //archivo que recibe la peticion
-    type: 'POST', //método de envio
-    data: {
-      idCotizacion: $('#idCotizacion').val(),
-        _token: $('input[name="_token"]').val(),
-    },
-    dataType: 'json',
-    async: false,
-    success: function (response) {
-        modelCot = response.model;
-        // console.log(modelCot);
-    }
-});
-dataNorma();
-}
 var norma;
 function getDatos1()
 {
@@ -80,10 +54,6 @@ function addColPunto()
 {
   var t = $('#puntoMuestro').DataTable();
   counterPunto = 0;
-  if(sw == 1)
-  {
-    counterPunto = parseInt($("#contPunto").val());
-  }
   $('#addRow').on( 'click', function () {
       t.row.add( [
         counterPunto + 1,
@@ -221,7 +191,6 @@ function getDataParametros()
 }
 
 
-
 function dataCliente() {
 
     $.ajax({
@@ -274,12 +243,7 @@ function dataSubnorma()
             console.log(response)
             model = response;
             $.each(response.model, function (key, item) {
-              if(modelCot.Id_subnorma == item.Id_paquete)
-              {
-                tab += '<option value="'+item.Id_paquete+'" selected>'+item.Clave+'</option>';
-              }else{
                 tab += '<option value="'+item.Id_paquete+'">'+item.Clave+'</option>';
-              }
             });
             sub.innerHTML = tab;
         }
@@ -302,20 +266,11 @@ function dataNorma()
             console.log(response)
             model = response;
             $.each(response.model, function (key, item) {
-              if(modelCot.Id_norma == item.Id_norma)
-              {
-                tab += '<option value="'+item.Id_norma+'" selected>'+item.Clave_norma+'</option>';
-              }else{
                 tab += '<option value="'+item.Id_norma+'">'+item.Clave_norma+'</option>';
-              }
             });
             sub.innerHTML = tab;
         }
     });
-    if(sw == 1)
-    {
-      dataSubnorma();
-    }
 }
 
 var normaParametro = new Array();
@@ -362,49 +317,7 @@ function tablaParametros()
       }
   });
 }
-function tablaParametrosCot()
-{
-  let table = document.getElementById('tabParametros');
-  let idSub = document.getElementById('subnorma');
 
-  let tab = '';
-  $.ajax({
-      url: base_url + '/admin/analisisQ/detalle_normas/getParametroCot', //archivo que recibe la peticion
-      type: 'POST', //método de envio
-      data: {
-        idCot:$('#idCotizacion').val(),
-        _token: $('input[name="_token"]').val(),
-      },
-      dataType: 'json', 
-      async: false, 
-      success: function (response) {
-        console.log(response.model)
-        normaParametro = new Array();
-        tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agreagar', 'voyager-list-add', 'success','agregarParametros('+idSub.value+')' , 'botton') + '</div><br>';
-        tab += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
-        tab += '    <thead class="thead-dark">';
-        tab += '        <tr>';
-        tab += '            <th style="width: 5%;">Id</th>';
-        tab += '            <th style="width: 30%;">Parametro</th>';
-        tab += '            <th>Matriz</th>';
-        tab += '        </tr>'; 
-        tab += '    </thead>';
-        tab += '    <tbody>';
-        $.each(response.model, function (key, item) {
-          normaParametro.push(item.Id_parametro);
-            tab += '<tr>';
-          tab += '<td>'+item.Id_parametro+'</td>';
-          tab += '<td>'+item.Parametro+'<sup> ('+item.Simbologia+')</sup></td>';
-          tab += '<td>'+item.Matriz+'</td>';
-          tab += '</tr>';
-        });
-        tab += '    </tbody>';
-        tab += '</table>';
-        table.innerHTML = tab;
-
-      }
-  });
-}
 function updateNormaParametro()
 {
   let table = document.getElementById('tabParametros');
@@ -450,7 +363,7 @@ function agregarParametros(idSub)
 {
   swParametros = 1;
   let idNorma = document.getElementById('norma').value;
-  parametro = new Array();
+  parametro = new Array(); 
   parametroId = new Array();
   matriz = new Array();
   let normaId = new Array(); //Alacena parametros agregados de la sub-norma

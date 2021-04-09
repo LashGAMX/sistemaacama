@@ -24,7 +24,7 @@ class Cotizacion2Controller extends Controller
     {
         //Vista Cotización
         $model = DB::table('ViewCotizacion')->get();
-        return view('cotizacion.cotizacion', compact('model'));
+        return view('cotizacion.cotizacion', compact('model')); 
     }
     public function create()
     {
@@ -46,6 +46,46 @@ class Cotizacion2Controller extends Controller
             'metodoPago' => $metodoPago,
         );
         return view('cotizacion.create',$data);
+    }
+    public function update($id)
+    {
+        $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at',null)->get();
+        $generales = DB::table('ViewGenerales')->where('deleted_at',null)->get();
+        $frecuencia = DB::table('frecuencia001')->get();
+        $subNormas = SubNorma::all();
+        $servicios = DB::table('tipo_servicios')->get();
+        $descargas = DB::table('tipo_descargas')->get();
+        $metodoPago = DB::table('metodo_pago')->get();
+
+        $model = DB::table('ViewCotizacion')->where('Id_cotizacion',$id)->first();
+        $cotizacionParametros = CotizacionParametros::where('Id_cotizacion',$id)->get();
+        $cotizacionPuntos = CotizacionPunto::where('Id_cotizacion',$id)->get();
+
+        $data = array(
+            'intermediarios' => $intermediarios,
+            'generales' => $generales,
+            'subNormas' => $subNormas,
+            'servicios' => $servicios,
+            'descargas' => $descargas,
+            'frecuencia' => $frecuencia,
+            'metodoPago' => $metodoPago,
+            'model' => $model,
+            'cotizacionParametros' => $cotizacionParametros,
+            'cotizacionPuntos' => $cotizacionPuntos,
+            'idCotizacion' => $id,
+            'sw' => 1,
+        );
+        return view('cotizacion.create',$data);
+    }
+    public function getParametroCot(Request $request)
+    {
+        $model = DB::table('ViewCotParam ')->where('Id_cotizacion',$request->idCot)->get();
+        return response()->json(compact('model'));
+    }
+    public function getCotizacionId(Request $request)
+    {
+        $model = DB::table('ViewCotizacion')->where('Id_cotizacion',$request->idCotizacion)->first();
+        return response()->json(compact('model'));
     }
     public function getCliente()
     {
