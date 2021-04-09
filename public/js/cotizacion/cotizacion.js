@@ -264,12 +264,7 @@
   * Obtener Parametros
   */
  function cargarParametros() {
-     console.log('David');
-     var select = document.getElementById('parametrosPorClasifiacion');
-     console.log(select.value);
-     $("#parametrosPorClasifiacion").change(function () {
-         var id_subnorma = $("#parametrosPorClasifiacion").val();
-         let select = document.getElementById('selectParametros');
+     var id_subnorma =  document.getElementById('norma');
          $.ajax({
              data: {
                  id_subnorma: id_subnorma
@@ -289,7 +284,6 @@
                  console.log("error");
              }
          });
-     })
  }
 
  let datos = [];
