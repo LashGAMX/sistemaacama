@@ -211,7 +211,8 @@ class CotizacionController extends Controller
         foreach ($parametros as $parametro) {
             $html .= "<option value='" . $parametro->Id_norma_param . "'>" . $parametro->Parametro . "</option>";
         }
-        echo $html;
+
+        return response()->json($html);
     }
     /**
      * Obtener La Subnorma

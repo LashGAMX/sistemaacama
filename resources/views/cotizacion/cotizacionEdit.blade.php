@@ -339,7 +339,7 @@
                                     @endforeach
                                 </div>
                                 <div class="col-md-6">
-                                    <div id="selectParametros">
+                                    <div id="select">
                                     </div>
                                 </div>
                             </div>
