@@ -3,12 +3,14 @@
 namespace App\Http\Controllers\Cotizacion;
 
 use App\Http\Controllers\Controller;
-use App\Http\Livewire\Cotizacion\Cotizacion;
 use App\Models\Clientes;
-use App\Models\Cotizaciones;
+use App\Models\Cotizacion;
+use App\Models\CotizacionParametros;
+use App\Models\CotizacionPunto;
 use App\Models\DetallesTipoCuerpo;
 use App\Models\IntermediariosView;
 use App\Models\Norma;
+use App\Models\NormaParametros;
 use App\Models\SubNorma;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -21,13 +23,8 @@ class Cotizacion2Controller extends Controller
     public function index()
     {
         //Vista Cotización
-        $model = Cotizacion::All();
-        $intermediarios = IntermediariosView::All();
-        $cliente = Clientes::All();
-        $norma = Norma::All();
-        $clasificacion = DetallesTipoCuerpo::All();
-        $subNormas = SubNorma::All();
-        return view('cotizacion.cotizacion', compact('model', 'intermediarios', 'cliente', 'norma', 'subNormas'));
+        $model = DB::table('ViewCotizacion')->get();
+        return view('cotizacion.cotizacion', compact('model'));
     }
     public function create()
     {
@@ -161,47 +158,89 @@ class Cotizacion2Controller extends Controller
         $cotizacionDay = DB::table('cotizacion')->where('created_at','LIKE',"%{$today}%")->count();
         $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
 
-        // $cotizacion = Cotizacion::create([
-        //     'Id_intermedio' => $_POST['intermediario'],
-        //     'Id_cliente' => $_POST['clientes'],
-        //     'Nombre' => $_POST['nombreCliente'],
-        //     'Direccion' => $_POST['direccion'],
-        //     'Atencion' => $_POST['atencion'],
-        //     'Telefono' => $_POST['telefono'],
-        //     'Correo' => $_POST['correo'],
-        //     'Tipo_servicio' => $_POST['tipoServicio'],
-        //     'Tipo_descarga' => $_POST['tipoDescarga'],
-        //     'Id_norma' => $_POST['norma'],
-        //     'Id_subnorma' => $_POST['subnorma'],
-        //     'Frecuencia_muestreo' => $_POST['frecuencia'],
-        //     'Tipo_muestra' => $_POST['tipoMuestra'],
-        //     'Promedio' => $_POST['promedio'],
-        //     // 'Numero_puntos' => ,
-        //     'Tipo_reporte' => $_POST['tipoReporte'],
-        //     // 'Condicion_venta' => ,
-        //     'Metodo_pago' => $_POST['metodoPago'],
-        //     'Tiempo_entrega' => $_POST['tiempoEntrega'],
-        //     'Costo_total' => $_POST['precio'],
-        //     // 'Supervicion' => ,
-        //     'Folio' => $folio,
-        //     // 'Fecha_cotizacion' => $_POST['fecha'],
-        //     'Estado_cotizacion' => 1, 
-        // ]);
+        $cotizacion = Cotizacion::create([
+            'Id_intermedio' => $request->intermediario,
+            'Id_cliente' => $request->clientes,
+            'Nombre' => $request->nombreCliente,
+            'Direccion' => $request->direccion,
+            'Atencion' => $request->atencion,
+            'Telefono' => $request->telefono,
+            'Correo' => $request->correo,
+            'Tipo_servicio' => $request->tipoServicio,
+            'Tipo_descarga' => $request->tipoDescarga,
+            'Id_norma' => $request->norma,
+            'Id_subnorma' => $request->subnorma,
+            'Fecha_muestreo' => $request->fecha,
+            'Frecuencia_muestreo' => $request->frecuencia,
+            'Tomas' => $request->tomas,
+            'Tipo_muestra' => $request->tipoMuestra,
+            'Promedio' => $request->promedio,
+            'Numero_puntos' => $request->promedio,
+            'Tipo_reporte' => $request->tipoReporte,
+            'Viaticos' => $request->viaticos,
+            'Paqueteria' => $request->paqueteria,
+            'Adicional' => $request->gastosExtras,
+            'Servicio' => $request->numeroServicio,
+            'Km_extra' => $request->kmExtra,
+            'Precio_km' => $request->precioKm,
+            'Precio_km_extra' => $request->precioKmExtra,
+            'Tiempo_entrega' => $request->tiempoEntrega,
+            'Observacion_interna' => $request->observacionInterna,
+            'Observacion_cotizacion' => $request->observacionCotizacion,
+            'Folio' => $folio,
+            'Metodo_pago' => $request->metodoPago,
+            'Costo_total' => $request->precio,
+            'Estado_cotizacion' => 1,
+            'Creado_por' => Auth::user()->id,
+            'Actualizado_por' => Auth::user()->id,
+        ]);
 
+        $parametro = $request->parametrosCotizacion;
+        $parametro = explode(',',$parametro);
+
+
+        foreach($parametro as $item)
+        {
+            $subnorma = NormaParametros::where('Id_norma',$request->subnorma)->where('Id_parametro',$item)->get();
+
+            $extra = 0;
+            if($subnorma->count() > 0)
+            {
+                $extra = 0;
+            }else{
+                $extra = 1;
+            }
+
+            CotizacionParametros::create([
+                'Id_cotizacion' => $cotizacion->Id_cotizacion,
+                'Id_subnorma' => $item,
+                'Extra' => $extra,
+            ]);
+            echo $item;
+        }
+
+        $puntoMuestreo = $request->puntosCotizacion;
+        $puntoMuestreo = explode(',',$puntoMuestreo);
+        foreach($puntoMuestreo as $item)
+        {
+            CotizacionPunto::create([
+                'Id_cotizacion' => $cotizacion->Id_cotizacion,
+                'Descripcion' => $item,
+            ]);
+        }
         
+
         return redirect()->to('admin/cotizacion');
     }
     public function fecha()
     {
-        $anio = date("y");
-        $mes = date("m");
-        $diaAnio = date("z") + 1;
-        $fechaHoy = Carbon::now()->format('Y-m-d');
-        $cotizacionesPorDia = DB::table('cotizacion')->where('created_at','LIKE',"%{$fechaHoy}%")->count();
-        
-        // $identificadorCodigo = $diaAnio . "/" . $cotizacionesPorDia . "/" . $anio . "-" . $cotizacionesPorDia;
-        $identificadorCodigo = $diaAnio . "-" . $cotizacionesPorDia . "/" . $anio;
-        var_dump($cotizacionesPorDia + 1);
+        $year = date("y");
+        $month = date("m");
+        $dayYear = date("z") + 1;
+        $today = Carbon::now()->format('Y-m-d');
+        $cotizacionDay = DB::table('cotizacion')->where('created_at','LIKE',"%{$today}%")->count();
+        $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
+        var_dump($folio);
     }
 
 }

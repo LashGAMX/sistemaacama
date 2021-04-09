@@ -114,19 +114,25 @@ function getDatos2()
               $("#divMuestreo").css("display", "none");
             }
 
-            getDataMuestreo();
             getDataParametros();
+            getDataMuestreo();
+
+            $("#parametrosCotizacion").val(normaParametro);
+            $("#puntosCotizacion").val(puntosMuestro);
+
             $('#precio').val(response.precioTotal);
 
         }
     });
 }
+var puntosMuestro = new Array();
 function getDataMuestreo()
 {
   let puntos = document.getElementById('puntoMuestro');
   let table = document.getElementById('puntoMuestreo3');
   let tab = '';
-
+  puntosMuestro = new Array();
+  
   tab += '<table id="tablaPuntoMuestreo3" class="table table-sm  table-striped table-bordered">';
   tab += '    <thead class="thead-dark">';
   tab += '        <tr>';
@@ -136,6 +142,7 @@ function getDataMuestreo()
   tab += '    </thead>';
   tab += '    <tbody>';
   for (let i = 1; i < puntos.rows.length; i++) {
+    puntosMuestro.push($("#"+puntos.rows[i].cells[1].children[1].id).val());
       tab += '<tr>';
       tab += '<td>'+i+'</td>';
       tab += '<td>'+$("#"+puntos.rows[i].cells[1].children[1].id).val()+'</td>';
@@ -150,10 +157,10 @@ function getDataParametros()
   let table = document.getElementById('parametros3');
 
   let tab = '';
-  let param = document.getElementById('parametros');
+  let param = document.getElementById('tablaParametro');
   normaParametro = new Array();
 
-  tab += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
+  tab += '<table id="tablaParametros" class="table table-sm  table-striped table-bordered">';
   tab += '    <thead class="thead-dark">';
   tab += '        <tr>';
   tab += '            <th style="width: 5%;">Id</th>';
@@ -162,16 +169,13 @@ function getDataParametros()
   tab += '        </tr>'; 
   tab += '    </thead>';
   tab += '    <tbody>';
-  for (let i = 0; i < param.length; i++) {
-    if(param[i].selected == true)
-    {
-      normaParametro.push(param[i].value);
+  for (let i = 1; i < param.rows.length; i++) {
+      normaParametro.push(param.rows[i].cells[0].textContent);
       tab += '<tr>';
-      tab += '<td>'+parametroId[i]+'</td>';
-      tab += '<td>'+parametro[i]+'<sup> ('+simbologia[i]+')</sup></td>';
-      tab += '<td>'+matriz[i]+'</td>';
+      tab += '<td>'+param.rows[i].cells[0].textContent+'</td>';
+      tab += '<td>'+param.rows[i].cells[1].textContent+'</sup></td>';
+      tab += '<td>'+param.rows[i].cells[2].textContent+'</td>';
       tab += '</tr>';
-    }
   }
   tab += '    </tbody>';
   tab += '</table>';

@@ -117,3 +117,25 @@ ON pre.Id_catalogo = cat.Id_parametro
 CREATE VIEW ViewPrecioPaqInter as SELECT pre.Id_precio,pre.Id_intermediario,pre.Tipo_precio,pre.Id_catalogo,sub.Id_norma,sub.Norma,sub.Clave,pre.Precio,pre.Original,pre.Descuento,pre.created_at,pre.updated_at,pre.deleted_at FROM precio_intermediario as pre
 INNER JOIN sub_normas as sub
 ON pre.Id_catalogo = sub.Id_subnorma
+
+/* Lista cotizacion */
+CREATE VIEW ViewCotizacion as SELECT 
+cot.Id_cotizacion,cot.Id_intermedio,cot.Id_cliente,cot.Nombre,cot.Direccion,
+cot.Atencion,cot.Telefono,cot.Correo,cot.Tipo_servicio,cot.Tipo_descarga,des.Descarga,
+cot.Id_norma,nor.Norma,nor.Clave_norma,cot.Id_subnorma,cot.Fecha_muestreo,cot.Frecuencia_muestreo,cot.Tomas,
+cot.Tipo_muestra,cot.Promedio,cot.Numero_puntos,cot.Tipo_reporte,cot.Viaticos,
+cot.Paqueteria,cot.Adicional,cot.Servicio,cot.Km_extra,cot.Precio_km,cot.Precio_km_extra,
+cot.Tiempo_entrega,cot.Observacion_interna,cot.Observacion_cotizacion,cot.Folio_servicio,
+cot.Folio,cot.Fecha_cotizacion,cot.Metodo_pago,cot.Costo_total,cot.Estado_cotizacion,est.Estado,est.Descripcion as Descripcion_estado,
+cot.Supervicion,cot.Creado_por,usr.name as NameC,cot.Actualizado_por,usr2.name as NameA,cot.created_at,cot.updated_at,cot.deleted_at
+FROM cotizacion as cot
+INNER JOIN normas as nor
+ON cot.Id_norma = nor.Id_norma
+INNER JOIN tipo_descargas as des
+ON cot.Tipo_descarga = des.Id_tipo
+INNER JOIN cotizacion_estado as est
+ON cot.Estado_cotizacion = est.Id_estado
+INNER JOIN users as usr
+ON cot.Creado_por = usr.id
+INNER JOIN users as usr2
+ON cot.Actualizado_por = usr2.id

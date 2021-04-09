@@ -345,37 +345,37 @@
               <!-- Viaticos -->
               <div class="col-md-3">
                   <label for="">Viaticos:</label>
-                  <input type="text" class="form-control" id="viaticos">
+                  <input type="text" class="form-control" name="viaticos" id="viaticos">
               </div>
               <!-- Gastos de Paqueteria -->
               <div class="col-md-3">
                   <label for="">Gastos Paqueteria:</label>
-                  <input type="text" class="form-control" id="paqueteria">
+                  <input type="text" class="form-control" name="paqueteria" id="paqueteria">
               </div>
               <!-- Gasto Adicional -->
               <div class="col-md-3">
                   <label for="">Gasto Adicional:</label>
-                  <input type="text" class="form-control" id="gastosExtras">
+                  <input type="text" class="form-control" namne="gastosExtras" id="gastosExtras">
               </div>
               <!-- Numero de Servicio-->
               <div class="col-md-3">
                   <label for="">N Servicio:</label>
-                  <input type="text" class="form-control" id="numeroServicio">
+                  <input type="text" class="form-control" name="numeroServicio" id="numeroServicio">
               </div>
               <!-- Km Extra-->
               <div class="col-md-3">
                   <label for="">Km Extra:</label>
-                  <input type="text" class="form-control" id="kmExtra">
+                  <input type="text" class="form-control" name="kmExtra" id="kmExtra">
               </div>
               <!-- Precio Km-->
               <div class="col-md-3">
                   <label for="">Precio Km:</label>
-                  <input type="text" class="form-control" id="precioKm"> 
+                  <input type="text" class="form-control" name="precioKm" id="precioKm"> 
               </div>
               <!-- Tomas de Muestra-->
               <div class="col-md-3">
                   <label for="">Precio Km Extra:</label>
-                  <input type="text" class="form-control" id="precioKmExtra">
+                  <input type="text" class="form-control" name="precioKmExtra" id="precioKmExtra">
               </div>
               </div>
             </div>
@@ -383,13 +383,13 @@
             <!-- Observación Interna -->
             <div class="col-md-12 mt-1">
                 <label for="">Observación interna:</label>
-                <textarea cols="30" rows="2" class="form-control" id="observacionInterna">
+                <textarea cols="30" rows="2" class="form-control" name="observacionInterna" id="observacionInterna">
             </textarea>
             </div> 
             <!-- Observación cotización  -->
             <div class="col-md-12 mt-1">
                 <label for="">Observación cotización:</label>
-                <textarea cols="30" rows="2" class="form-control" id="observacionCotizacion">
+                <textarea cols="30" rows="2" class="form-control" name="observacionCotizacion" id="observacionCotizacion">
             </textarea>
             </div>
             <!-- Forma de pago-->
@@ -404,7 +404,7 @@
             <!-- Tiempo de Entrega -->
             <div class="col-md-6">
                 <label for="">Tiempo de Entrega</label>
-                <input type="text" class="form-control" id="tiempoEntrega">
+                <input type="text" class="form-control" name="tiempoEntrega" id="tiempoEntrega">
             </div>
             <div class="col-md-12">
                 <hr>
@@ -427,6 +427,10 @@
                 <input type="text" class="form-control" id="precio" name="precio" disabled>
               </div>
           </div>
+          <div class="col-md-12" hidden>
+            <input type="text" class="form-control" hidden id="parametrosCotizacion" name="parametrosCotizacion" >
+            <input type="text" class="form-control" hidden id="puntosCotizacion" name="puntosCotizacion" >
+          </div> 
         
 
           <button type="submit" class="btn btn-primary">Crear cotización</button>
