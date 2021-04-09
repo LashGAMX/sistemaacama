@@ -211,7 +211,6 @@
                                         <select class="form-control" placeholder="Frecuencia" id="frecuencia"
                                             name="frecuencia">
                                             @foreach ($frecuencia as $itemFrecuencia)
-
                                                 @if ($itemFrecuencia->Id_frecuencia == $getCotizacion->Frecuencia_muestreo)
                                                     <option selected='selected'
                                                         value="{{ $itemFrecuencia->Id_frecuencia }}">
@@ -220,9 +219,8 @@
                                                     <option value="{{ $itemFrecuencia->Id_frecuencia }}">
                                                         {{ $itemFrecuencia->Descripcion }}
                                                     </option>
-                                                @endif() --}}
-
-                                            {{-- @endforeach
+                                                @endif()
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -527,14 +525,14 @@
                                     <label for="">Observación interna:</label>
                                     <textarea cols="30" rows="2" class="form-control" id="observacionInterna"
                                         value="{{ $getCotizacion->Condicion_venta }}">
-                                                                                            </textarea>
+                                                                                                </textarea>
                                 </div>
                                 <!-- Observación cotización  -->
                                 <div class="col-md-12 mt-1">
                                     <label for="">Observación cotización:</label>
                                     <textarea cols="30" rows="2" class="form-control" id="observacionCotizacion"
                                         value="{{ $getCotizacion->Condicion_venta }}">
-                                                                                            </textarea>
+                                                                                                </textarea>
                                 </div>
                                 <!-- Forma de pago :)-->
                                 <div class="col-md-6">
