@@ -207,11 +207,12 @@ class CotizacionController extends Controller
     {
         $html = "";
         $subNorma =  $request->id_subnorma;
-        $parametros =  DB::table('ViewNormaParametro')->where('Id_norma', $subNorma)->get();
+        $parametros =  DB::table('ViewNormaParametro')->where('Id_norma', 2)->get();
         foreach ($parametros as $parametro) {
             $html .= "<option value='" . $parametro->Id_norma_param . "'>" . $parametro->Parametro . "</option>";
         }
-        echo $html;
+
+        return response()->json($html);
     }
     /**
      * Obtener La Subnorma

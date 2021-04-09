@@ -266,11 +266,12 @@ $(document).ready(function () {
 function cargarParametros() {
     var id_subnorma = document.getElementById('norma').value;
     console.log(id_subnorma);
+    var select = document.getElementById('select');
     $.ajax({
         data: {
             id_subnorma: id_subnorma
         },
-        url: 'cotizacion/obtenerParametros',
+        url: 'https://dev.sistemaacama.com.mx/admin/cotizacion/obtenerParametros',
         type: 'POST',
         success: function (response) {
             var result = '';
@@ -278,10 +279,14 @@ function cargarParametros() {
             result += response;
             result += '</select>'
             select.innerHTML = result;
+            obtenerParametros()
+            console.log(response);
+            console.log("VALID")
         },
-        error: function () {
-            console.log(id_subnorma);
+        error: function (err) {
+            console.log(err);
             console.log("error");
+            console.log(url);
         }
     });
 }
