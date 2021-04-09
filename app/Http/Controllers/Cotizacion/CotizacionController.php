@@ -10,6 +10,7 @@ use App\Models\Cotizacion;
 use App\Models\IntermediariosView;
 use App\Models\Clientes;
 use App\Models\Norma;
+use App\Models\TipoMuestra;
 use App\Models\SubNorma;
 use App\Models\DetallesTipoCuerpo;
 use App\Models\Intermediario;
@@ -19,6 +20,8 @@ use App\Models\Usuarios;
 use App\Models\TipoServicios;
 use App\Models\TipoDescarga;
 use App\Models\CotizacionHistorico;
+use App\Models\Promedio;
+use App\Models\TipoReporte;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -29,6 +32,7 @@ class CotizacionController extends Controller
     /**
      * Retorna la Pagina Principal del Modulo de Cotización
      */
+
     public function index()
     {
         //Vista Cotización
@@ -38,7 +42,8 @@ class CotizacionController extends Controller
         $norma = Norma::All();
         $clasificacion = DetallesTipoCuerpo::All();
         $subNormas = SubNorma::All();
-        return view('cotizacion.cotizacionFinal', compact('model', 'intermediarios', 'cliente', 'norma', 'subNormas'));
+        $tipoServicio = TipoServicios::All();
+        return view('cotizacion.cotizacionFinal', compact('model', 'intermediarios', 'cliente', 'norma', 'subNormas','tipoServicio'));
     }
     /**
      * Crear
@@ -404,8 +409,101 @@ class CotizacionController extends Controller
         $getCotizacion = Cotizacion::where('Id_cotizacion', $id)->first();
         $metodoPago = DB::table('metodo_pago')->get();
         $generales = DB::table('clientes_general')->get();
+        $tipoMuestra = TipoMuestra::All();
+        $promedios = Promedio::All();
+        $reportes = TipoReporte::All();
+        $frecuencia = DB::table('frecuencia001')->get();
+        return view('cotizacion.cotizacionEdit', compact(
+            'tipoServicio',
+            'descargas',
+            'getCotizacion',
+            'generales',
+            'intermediarios',
+            'cliente',
+            'norma',
+            'subNormas',
+            'metodoPago',
+            'tipoMuestra',
+            'promedios',
+            'reportes',
+            'frecuencia'
+        ));
+    }
 
-        return view('cotizacion.cotizacionEdit', compact('tipoServicio','descargas',
-        'getCotizacion','generales', 'intermediarios', 'cliente', 'norma', 'subNormas','metodoPago'));
+
+    public function update(Request $request)
+    {
+        $id = $request->id;
+        $clientes = $request->clientes;
+        $nombreCliente = $request->nombreCliente;
+        $direccion = $request->direccion;
+        $atencion = $request->atencion;
+        $telefono = $request->telefono;
+        $correo = $request->correo;
+        $tipoServicio = $request->tipoServicio;
+        $tipoDescarga = $request->tipoDescarga;
+        $norma = $request->norma;
+        $subnorma = $request->subnormas;
+        $fecha = $request->fecha;
+        $frecuencia = $request->frecuencia;
+        $tomas = $request->tomas;
+        $tipoMuestra = $request->tipoMuestra;
+        $promedio = $request->promedio;
+        $tipoReporte = $request->tipoReporte;
+        $textMuestreo = $request->textMuestreo;
+        $fechaMuestreo = $request->fechaMuestreo;
+        $tomasMuestreo = $request->tomasMuestreo;
+        $viaticos = $request->viaticos;
+        $paqueteria = $request->paqueteria;
+        $gastosExtras = $request->gastosExtras;
+        $numeroServicio = $request->numeroServicio;
+        $kmExtra = $request->kmExtra;
+        $precioKm = $request->precioKm;
+        $precioKmExtra = $request->precioKmExtra;
+
+        //$flight = Flight::find(1);
+        //$flight->name = 'Paris to London';
+        //$flight->save();
+
+
+        $cotizacionEdit = Cotizacion::find($id);
+        $cotizacionEdit->Id_intermedio = 1;
+        $cotizacionEdit->Id_cliente = 1;
+        $cotizacionEdit->Nombre = $nombreCliente;
+        $cotizacionEdit->Direccion = $direccion;
+        $cotizacionEdit->Telefono = $telefono;
+        $cotizacionEdit->Correo = $correo;
+        $cotizacionEdit->Atencion = $atencion;
+
+        // $cotizacionEdit->Tipo_servicio = $tipoServicio;
+        // $cotizacionEdit->Tipo_descarga = $tipoDescarga;
+        // $cotizacionEdit->Id_norma = $norma;
+        // $cotizacionEdit->Id_subnorma = $subnorma;
+        // $cotizacionEdit->Frecuencia_muestreo = $frecuencia;
+        // $cotizacionEdit->Promedio = $promedio;
+        // $cotizacionEdit->Numero_puntos = $tomas;
+        // $cotizacionEdit->Tipo_reporte = $tipoReporte;
+        // $cotizacionEdit->Condicion_venta = NULL;
+        // $cotizacionEdit->Metodo_pago = 0;
+        // $cotizacionEdit->Tiempo_entrega  = NULL;
+        // $cotizacionEdit->Costo_total    = NULL;
+        // $cotizacionEdit->Supervicion = NULL;
+        // $cotizacionEdit->Folio_servicio =  NULL;
+        // $cotizacionEdit->Cotizacion_folio = NULL;
+        // $cotizacionEdit->Fecha_cotizacion = $fecha;
+
+        $cotizacionEdit->save();
+
+        $array = array(
+            'a' => 100,
+            'id' => $cotizacionEdit,
+            'e' => $direccion,
+            'u' => $telefono,
+            'o' => $correo,
+            '$cotizacionEdit->Tipo_servicio' => $tipoServicio,
+            '$cotizacionEdit->Tipo_descarga' => $tipoDescarga
+        );
+
+        return response()->json($array);
     }
 }

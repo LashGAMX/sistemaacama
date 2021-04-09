@@ -220,9 +220,9 @@
                                                     <option value="{{ $itemFrecuencia->Id_frecuencia }}">
                                                         {{ $itemFrecuencia->Descripcion }}
                                                     </option>
-                                                @endif()
+                                                @endif() --}}
 
-                                            @endforeach
+                                            {{-- @endforeach
                                         </select>
                                     </div>
                                 </div>
