@@ -12,7 +12,8 @@
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="parametro-tab" data-toggle="tab" href="#parametro" role="tab"
-                            aria-controls="parametro" aria-selected="false">2. Parametros</a>
+                            aria-controls="parametro" aria-selected="false"
+                            onclick="obtenerNormaEdit('{{ $getCotizacion->Id_cotizacion }}')">2. Parametros</a>
                     </li>
                     <li class="nav-item" role="presentation">
                         <a class="nav-link" id="cotizacion-tab" data-toggle="tab" href="#cotizacion" role="tab"
@@ -34,16 +35,20 @@
                                     <div class="form-group">
                                         <label for="intermediario">Intermediario</label>
                                         <!-- Opcion 1 -->
-                                            <select name="intermediario" id="intermediario" class="form-control select2">
-                                                @foreach ($intermediarios as $item)
+                                        <select name="intermediario" id="intermediario" class="form-control select2">
+                                            @foreach ($intermediarios as $item)
+                                                @if ($item->Id_intermediario == $getCotizacion->Id_intermedio)
+                                                    <option selected='selected' value="{{ $item->Id_cliente }}">
+                                                        {{ $item->Nombres }}
+                                                        {{ $item->A_paterno }}</option>
+                                                @else
                                                     <option value="{{ $item->Id_cliente }}">{{ $item->Nombres }}
                                                         {{ $item->A_paterno }}</option>
-                                                        {{-- @if($getCotizacion->Id_intermedio == 0){
-                                                            <option value="0" selected='selected'>Sin seleccionar</option>
-                                                        } --}}
-                                                        {{-- @endif() --}}
-                                                @endforeach
-                                            </select>
+                                                @endif
+
+
+                                            @endforeach
+                                        </select>
                                     </div>
                                 </div>
                                 <div class="col-md-12">
@@ -52,12 +57,12 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                    <!-- Clientes Registros -->
+                                        <!-- Clientes Registros -->
                                         <label for="clientes">Clientes registrados</label>
                                         <select name="clientes" id="clientes" class="form-control">
                                             @foreach ($generales as $item)
-                                                <option  value="{{$item->Id_cliente}}">{{$item->Empresa}}</option>
-                                                {{-- @if($getCotizacion->Id_cliente == 0){
+                                                <option value="{{ $item->Id_cliente }}">{{ $item->Empresa }}</option>
+                                                {{-- @if ($getCotizacion->Id_cliente == 0){
                                                     <option value="0" selected='selected'>Sin seleccionar</option>
                                                 } --}}
                                             @endforeach
@@ -141,20 +146,55 @@
                                         </select>
                                     </div>
                                 </div>
-
                                 <div class="col-md-6">
                                     <div class="form-group">
-                                        <label for="norma">Clasificaciòn de la norma</label>
-                                        <select name="norma" id="norma" class="form-control">
-
+                                        <label for="tipoDescarga">Estado Cotización</label>
+                                        <select name="tipoDescarga" id="tipoDescarga" class="form-control">
+                                            @foreach ($descargas as $itemDescarga)
+                                                @if ($itemDescarga->Id_tipo == $getCotizacion->Tipo_descarga)
+                                                    <option selected='selected' value="{{ $itemDescarga->Id_tipo }}">
+                                                        {{ $itemDescarga->Descarga }}</option>
+                                                @else
+                                                    <option value="{{ $itemDescarga->Id_tipo }}">
+                                                        {{ $itemDescarga->Descarga }}</option>
+                                                @endif
+                                            @endforeach
                                         </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="norma">Clasificación de la norma
+                                            {{ $getCotizacion->Id_subnorma }}</label>
+                                        <select name="norma" id="norma" class="form-control">
+                                            @foreach ($subNormas as $subNorma)
+                                                @if ($subNorma->Id_subnorma == $getCotizacion->Id_subnorma)
+                                                    <option selected='selected' value="{{ $subNorma->Id_subnorma }}">
+                                                        {{ $subNorma->Clave }}</option>
+                                                @else
+                                                    <option value="{{ $subNorma->Id_subnorma }}">
+                                                        {{ $subNorma->Clave }}</option>
+                                                @endif
+                                            @endforeach
+                                        </select>
+
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="subnorma">Norma</label>
                                         <select name="subnorma" id="subnorma" class="form-control">
+                                            @foreach ($norma as $norm)
+                                                @if ($norm->Id_norma == $getCotizacion->Tipo_descarga)
+                                                    <option selected='selected' value="{{ $norm->Clave_norma }}">
+                                                        {{ $norm->Id_norma }}</option>
+                                                @else
+                                                    <option value="{{ $norm->Id_norma }}">
+                                                        {{ $norm->Clave_norma }}</option>
+                                                @endif
+                                            @endforeach
                                         </select>
+
                                     </div>
                                 </div>
 
@@ -169,10 +209,20 @@
                                     <div class="form-group">
                                         <label for="frecuencia">Frecuencia muestreo</label>
                                         <select class="form-control" placeholder="Frecuencia" id="frecuencia"
-                                            name="frecuencia" value="{{ $getCotizacion->Frecuencia_muestreo }}">
-                                            {{-- @foreach ($frecuencia as $item)
-                        <option value="{{$item->Id_frecuencia}}">{{$item->Descripcion}}</option>
-                    @endforeach --}}
+                                            name="frecuencia">
+                                            @foreach ($frecuencia as $itemFrecuencia)
+
+                                                @if ($itemFrecuencia->Id_frecuencia == $getCotizacion->Frecuencia_muestreo)
+                                                    <option selected='selected'
+                                                        value="{{ $itemFrecuencia->Id_frecuencia }}">
+                                                        {{ $itemFrecuencia->Descripcion }}</option>
+                                                @else
+                                                    <option value="{{ $itemFrecuencia->Id_frecuencia }}">
+                                                        {{ $itemFrecuencia->Descripcion }}
+                                                    </option>
+                                                @endif()
+
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -193,11 +243,16 @@
                                     <div class="form-group">
                                         <label for="tipoMuestra">Tipo de muestra</label>
                                         <select name="tipoMuestra" id="tipoMuestra" class="form-control">
-                                            @if ($getCotizacion->Tipo_muestra == 'INSTANTANEA')
-                                                <option>Sin seleccionar</option>
-                                                <option selected>INSTANTANEA</option>
-                                                <option>COMPUESTA</option>
-                                            @endif()
+
+                                            @foreach ($tipoMuestra as $muestra)
+                                                @if ($muestra->Id_tipo_muestra == $getCotizacion->Tipo_muestra)
+                                                    <option selected='selected' value="{{ $muestra->Id_tipo_muestra }}">
+                                                        {{ $muestra->Descripcion }}</option>
+                                                @else
+                                                    <option value="{{ $muestra->Id_tipo_muestra }}">
+                                                        {{ $muestra->Descripcion }}</option>
+                                                @endif
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -205,9 +260,15 @@
                                     <div class="form-group">
                                         <label for="promedio">Promedio</label>
                                         <select name="promedio" class="form-control" id="promedio">
-                                            <option value="MUESTREO INSTANTANEO">MUESTREO INSTANTANEO</option>
-                                            <option value="MENSUAL">MENSUAL</option>
-                                            <option value="DIARIO">DIARIO</option>
+                                            @foreach ($promedios as $promedio)
+                                                @if ($promedio->Id_promedio == $getCotizacion->Promedio)
+                                                    <option selected='selected' value="{{ $promedio->Id_promedio }}">
+                                                        {{ $promedio->Descripcion }}</option>
+                                                @else
+                                                    <option value="{{ $promedio->Id_promedio }}">
+                                                        {{ $promedio->Descripcion }}</option>
+                                                @endif
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -217,8 +278,16 @@
                                     <div class="form-group">
                                         <label for="tipoReporte">Tipo de reporte</label>
                                         <select name="tipoReporte" id="tipoReporte" class="form-control">
-                                            <option value="0">Sin seleccionar</option>
 
+                                            @foreach ($reportes as $reporte)
+                                                @if ($reporte->Id_tipo_reporte == $getCotizacion->Tipo_reporte)
+                                                    <option selected='selected' value="{{ $reporte->Id_tipo_reporte }}">
+                                                        {{ $reporte->Descripcion }}</option>
+                                                @else
+                                                    <option value="{{ $reporte->Id_tipo_reporte }}">
+                                                        {{ $reporte->Descripcion }}</option>
+                                                @endif
+                                            @endforeach
                                         </select>
                                     </div>
                                 </div>
@@ -248,27 +317,38 @@
                         </div>
                         {{-- Fin datos --}}
                         {{-- Inicio parametros --}}
+                        {{-- Parametreo --}}
+                        {{-- Parametreo --}}
+                        {{-- Parametreo --}}
+                        {{-- Parametreo --}}
+                        {{-- Parametreo --}}
                         <div class="tab-pane fade" id="parametro" role="tabpanel" aria-labelledby="parametro-tab">
-
                             <div class="row">
-
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="normaPa">Norma</label>
-                                        <input type="text" class="form-control" placeholder="normaPa" id="normaPa"
-                                            name="normaPa" disabled>
-                                    </div>
+                                <div class="col-md-6" id="isSubNorma">
+                                    @foreach ($subNormas as $subNorma)
+                                        @if ($subNorma->Id_subnorma == $getCotizacion->Id_subnorma)
+                                            <input type="text" class="form-control" value="{{ $subNorma->Clave }}"
+                                                disabled>
+                                        @endif
+                                    @endforeach
                                 </div>
-
+                                <div class="col-md-6" id="idNorma">
+                                    @foreach ($norma as $norm)
+                                        @if ($norm->Id_norma == $getCotizacion->Id_norma)
+                                            <input type="text" class="form-control" value="{{ $norm->Clave_norma }}"
+                                                disabled>
+                                        @endif
+                                    @endforeach
+                                </div>
                                 <div class="col-md-6">
-                                    {{-- @livewire('analisis-q.norma-parametros', ['idUser' => Auth::user()->id,'idSub' => @$idSub]) --}}
                                     <div id="tabParametros">
-
                                     </div>
                                 </div>
                             </div>
-
                         </div>
+                        {{-- Fin Parametreo --}}
+                        {{-- Fin Parametreo --}}
+                        {{-- Fin Parametreo --}}
                         {{-- Fin parametros --}}
                         {{-- Inicio datos Cotizacion --}}
                         <div class="tab-pane fade" id="cotizacion" role="tabpanel" aria-labelledby="cotizacion-tab">
@@ -288,19 +368,37 @@
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="textEstado">Estado Cotización</label>
-                                                <input type="text" class="form-control" id="textEstado" disabled>
+                                                @foreach ($descargas as $itemDescarga)
+                                                    @if ($itemDescarga->Id_tipo == $getCotizacion->Tipo_descarga)
+                                                        <input type="text" class="form-control" id="textEstado"
+                                                            value="{{ $itemDescarga->Descarga }}" disabled>
+                                                    @endif
+                                                @endforeach
+
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="textServicio">Servicio</label>
-                                                <input type="text" class="form-control" id="textServicio" disabled>
+                                                @foreach ($tipoServicio as $item)
+                                                    @if ($item->Id_tipo == $getCotizacion->Tipo_servicio)
+                                                        <input type="text" class="form-control" id="textServicio"
+                                                            value="{{ $item->Servicio }}" disabled>
+                                                    @endif
+                                                @endforeach
+
                                             </div>
                                         </div>
                                         <div class="col-md-3">
                                             <div class="form-group">
                                                 <label for="textDescarga">Tipo descarga</label>
-                                                <input type="text" class="form-control" id="textDescarga" disabled>
+                                                @foreach ($descargas as $itemDescarga)
+                                                    @if ($itemDescarga->Id_tipo == $getCotizacion->Tipo_descarga)
+                                                        <input type="text" class="form-control" id="textDescarga"
+                                                            value="{{ $itemDescarga->Descarga }}" disabled>
+                                                    @endif()
+                                                @endforeach
+
                                             </div>
                                         </div>
                                     </div>
@@ -392,7 +490,7 @@
                                 <div class="col-md-3">
                                     <label for="">Gastos Paqueteria:</label>
                                     <input type="text" class="form-control" id="paqueteria"
-                                        value="{{ $getCotizacion->Numero_Paqueteria }}">
+                                        value="{{ $getCotizacion->Paqueteria }}">
                                 </div>
                                 <!-- Gasto Adicional -->
                                 <div class="col-md-3">
@@ -429,27 +527,28 @@
                                     <label for="">Observación interna:</label>
                                     <textarea cols="30" rows="2" class="form-control" id="observacionInterna"
                                         value="{{ $getCotizacion->Condicion_venta }}">
-                                            </textarea>
+                                                                                            </textarea>
                                 </div>
                                 <!-- Observación cotización  -->
                                 <div class="col-md-12 mt-1">
                                     <label for="">Observación cotización:</label>
                                     <textarea cols="30" rows="2" class="form-control" id="observacionCotizacion"
                                         value="{{ $getCotizacion->Condicion_venta }}">
-                                            </textarea>
+                                                                                            </textarea>
                                 </div>
-                                <!-- Forma de pago-->
+                                <!-- Forma de pago :)-->
                                 <div class="col-md-6">
                                     <label for="">Forma de Pago</label>
                                     <select name="" class="form-control" id="tarjeta">
-                                        {{-- @foreach ($metodoPago as $item)
-                                            @if ($item->Id_tipo == $getCotizacion->Metodo_pago)
-                                                <option selected='selected' value="{{ $item->Id_metodo }}">
-                                                    {{ $item->Metodo }}</option>
+                                        @foreach ($metodoPago as $itemPago)
+                                            @if ($itemPago->Id_metodo == $getCotizacion->Metodo_pago)
+                                                <option selected='selected' value="{{ $itemPago->Id_metodo }}">
+                                                    {{ $itemPago->Metodo }}</option>
                                             @else
-                                                <option value="{{ $item->Id_metodo }}">{{ $item->Metodo }}</option>
+                                                <option value="{{ $itemPago->Id_metodo }}">{{ $itemPago->Metodo }}
+                                                </option>
                                             @endif
-                                        @endforeach --}}
+                                        @endforeach
                                     </select>
                                 </div>
                                 <!-- Tiempo de Entrega -->
@@ -474,8 +573,10 @@
                                             value="{{ $getCotizacion->Costo_total }}">
                                     </div>
                                 </div>
-
-                                <button type="submit" class="btn btn-primary">Crear cotización</button>
+                                {{-- Boton para Actualizar Cotización --}}
+                                <button class="btn btn-primary"
+                                    onclick="actualizarCotizacion('{{ $getCotizacion->Id_cotizacion }}')">Actualizar
+                                    cotización</button>
                             </div>
                         </div>
                 </form>
@@ -491,100 +592,7 @@
 @section('javascript')
 
 
-    <script src="{{ asset('js/cotizacion/create.js') }}"></script>
+    <script src="{{ asset('js/cotizacion/cotizacion.js') }}"></script>
     <script src="{{ asset('js/libs/componentes.js') }}"></script>
     <script src="{{ asset('js/libs/tablas.js') }}"></script>
 @stop
-
-
-{{-- //Guardar Duplicado
-// $this->saveCotizacionCopia();
-# code...
-//    $idCotizacion = $request->id;
-// $cotizacionCopia = DB::table('cotizacion')
-//     ->where('Id_cotizacion', $idCotizacion)
-//     ->first();
-// Request $request
-// $user = Auth::user();
-// $user = $user->name;
-// $now = Carbon::now();
-// $now->year;
-// $now->month;
-// $cotizacion = Cotizaciones::withTrashed()->get();
-// $num = count($cotizacion);
-// $num++;
-// $newCotizacionCopia =  [
-//     'Cliente' =>  $cotizacionCopia->clienteManual,
-//     'Folio_servicio' => '21-92/' . $num.'-2',
-//     'Cotizacion_folio' => '21-92/' . $num.'-2',
-//     'Empresa' => $cotizacionCopia->atencionA,
-//     'Servicio' => $cotizacionCopia->tipoServicio,
-//     'Fecha_cotizacion' => $cotizacionCopia->fechaCotizacion,
-//     'Supervicion' => 'por Asignar',
-//     'deleted_at' => NULL,
-//     'created_by' =>  'David Barrita',
-//     'Telefono' => $cotizacionCopia->telefono,
-//     'Correo' => $cotizacionCopia->correo,
-//     'Tipo_descarga' => $cotizacionCopia->tipoDescarga,
-//     'Tipo_servicio' => $cotizacionCopia->tipoServicio,
-//     'Estado_cotizacion' => $cotizacionCopia->estadoCotizacion,
-//     'Puntos_muestreo' => $cotizacionCopia->puntosMuestreo,
-//     'Promedio' =>  $cotizacionCopia->promedio,
-//     'Tipo_muestra' => $cotizacionCopia->tipoMuestra,
-//     'frecuencia' => $cotizacionCopia->frecuencia,
-//     'Norma_formulario_uno' => $cotizacionCopia->normaFormularioUno,
-//     'clasificacion_norma' => $cotizacionCopia->clasifacionNorma,
-//     'Reporte' => $cotizacionCopia->reporte,
-//     'condicciones_venta' =>  $cotizacionCopia->codiccionesVenta,
-//     'Viaticos' =>  $cotizacionCopia->viaticos,
-//     'Paqueteria' => $cotizacionCopia->paqueteria,
-//     'Gastos_extras' => $cotizacionCopia->gastosExtras,
-//     'Numero_servicio' => $cotizacionCopia->numeroServicio,
-//     'Km_extra' => $cotizacionCopia->kmExtra,
-//     'observacionInterna' => $cotizacionCopia->observacionInterna,
-//     'observacionCotizacion' => $cotizacionCopia->observacionCotizacion,
-//     'tarjeta' => $cotizacionCopia->tarjeta,
-//     'tiempoEntrega' => NULL,
-//     'precioKmExtra' => $cotizacionCopia->precioKmExtra
-// ];
-
-// $newCotizacionHistorico = CotizacionHistorico::create([
-//     'Cliente' => $cotizacionCopia->clienteManual,
-//     'Id_busquedad' => $newCotizacionCopia->Id_cotizacion,
-//     'Folio_servicio' => '21-92/' . $num,
-//     'Cotizacion_folio' => '21-92/' . $num,
-//     'Empresa' => $cotizacionCopia->atencionA,
-//     'Servicio' => $cotizacionCopia->tipoServicio,
-//     'Fecha_cotizacion' => $cotizacionCopia->fechaCotizacion,
-//     'Supervicion' => 'por Asignar',
-//     'deleted_at' => NULL,
-//     'created_by' =>  'David Barrita',
-//     'Telefono' => $cotizacionCopia->telefono,
-//     'Correo' => $cotizacionCopia->correo,
-//     'Tipo_descarga' => $cotizacionCopia->tipoDescarga,
-//     'Tipo_servicio' => $cotizacionCopia->tipoServicio,
-//     'Estado_cotizacion' => $cotizacionCopia->estadoCotizacion,
-//     'Puntos_muestreo' => $cotizacionCopia->puntosMuestreo,
-//     'Promedio' =>  $cotizacionCopia->promedio,
-//     'Tipo_muestra' => $cotizacionCopia->tipoMuestra,
-//     'frecuencia' => $cotizacionCopia->frecuencia,
-//     'Norma_formulario_uno' => $cotizacionCopia->normaFormularioUno,
-//     'clasificacion_norma' => $cotizacionCopia->clasifacionNorma,
-//     'Reporte' => $cotizacionCopia->reporte,
-//     'condicciones_venta' =>  $cotizacionCopia->codiccionesVenta,
-//     'Viaticos' =>  $cotizacionCopia->viaticos,
-//     'Paqueteria' => $cotizacionCopia->paqueteria,
-//     'Gastos_extras' => $cotizacionCopia->gastosExtras,
-//     'Numero_servicio' => $cotizacionCopia->numeroServicio,
-//     'Km_extra' => $cotizacionCopia->kmExtra,
-//     'observacionInterna' => $cotizacionCopia->observacionInterna,
-//     'observacionCotizacion' => $cotizacionCopia->observacionCotizacion,
-//     'tarjeta' => $cotizacionCopia->tarjeta,
-//     'tiempoEntrega' => NULL,
-//     'precioKmExtra' => $cotizacionCopia->precioKmExtra,
-//     'fecha' => date("Y/m/d"),
-//     'hora' => date("h:i:sa"),
-//     'autor' =>  $user
-// ]);
-
-//Retornar la Respuesta --}}
