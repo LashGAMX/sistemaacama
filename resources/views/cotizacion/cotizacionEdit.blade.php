@@ -341,7 +341,7 @@
                                     @endforeach
                                 </div>
                                 <div class="col-md-6">
-                                    <div id="tabParametros">
+                                    <div id="selectParametros">
                                     </div>
                                 </div>
                             </div>
