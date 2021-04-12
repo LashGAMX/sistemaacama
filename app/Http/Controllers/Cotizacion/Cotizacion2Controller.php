@@ -201,7 +201,7 @@ class Cotizacion2Controller extends Controller
         $cotizacion = Cotizacion::create([
             'Id_intermedio' => $request->intermediario,
             'Id_cliente' => $request->clientes,
-            'Nombre' => $request->nombreCliente,
+            'Nombre' => $request->nombreCliente, 
             'Direccion' => $request->direccion,
             'Atencion' => $request->atencion,
             'Telefono' => $request->telefono,

@@ -15,7 +15,7 @@ Route::get('cotizacion', [Cotizacion2Controller::class, 'index']);
 Route::get('cotizacion/create', [Cotizacion2Controller::class, 'create']);
 Route::get('cotizacion/update/{id}', [Cotizacion2Controller::class, 'update']);
 Route::post('cotizacion/getSubNorma', [Cotizacion2Controller::class, 'getSubNorma']);
-Route::post('cotizacion/getSubNormaId', [Cotizacion2Controller::class, 'getSubNormaId']);
+Route::post('cotizacion/getSubNormaId', [Cotizacion2Controller::class, 'getSubNormaId']); 
 Route::post('cotizacion/getNorma', [Cotizacion2Controller::class, 'getNorma']);
 Route::post('cotizacion/getCliente', [Cotizacion2Controller::class, 'getCliente']);
 Route::post('cotizacion/getDatos2', [Cotizacion2Controller::class, 'getDatos2']);

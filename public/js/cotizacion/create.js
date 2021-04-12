@@ -26,7 +26,7 @@ $(document).ready(function () {
         dataCliente();
     });
     $('#tipoDescarga').click(function () {
-      dataNorma();
+      dataNorma(); 
     });
     $('#norma').click(function () {
       dataSubnorma();

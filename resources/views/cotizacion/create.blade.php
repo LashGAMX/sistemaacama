@@ -212,7 +212,7 @@
                   </select>
                 </div>
               </div>
-
+  
               {{-- <div class="col-md-12">
                 <div class="form-group">
                   <label for="condicionVenta">Condiciones de venta</label>
@@ -235,7 +235,7 @@
                       @php
                           $contPunto = 0;
                       @endphp
-                      @if ($sw == 1)
+                      @if (@$sw == 1)
                           @foreach ($cotizacionPuntos as $item)
                           @php
                               $contPunto++;
