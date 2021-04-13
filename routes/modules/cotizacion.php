@@ -27,3 +27,4 @@ Route::get('cotizacion/fecha', [Cotizacion2Controller::class, 'fecha']);
 
 Route::post('cotizacion/obtenerHistorico', [CotizacionController::class, 'obtenerHistorico'])->name('cotizacion.obtenerHistorico');
 Route::post('cotizacion/duplicarCotizacion', [CotizacionController::class, 'duplicarCotizacion'])->name('cotizacion.duplicarCotizacion');
+ 

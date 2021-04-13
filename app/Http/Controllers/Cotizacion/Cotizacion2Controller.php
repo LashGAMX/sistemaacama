@@ -74,7 +74,7 @@ class Cotizacion2Controller extends Controller
             'cotizacionPuntos' => $cotizacionPuntos,
             'idCotizacion' => $id,
             'sw' => 1,
-        );
+        ); 
         return view('cotizacion.create',$data);
     }
     public function getParametroCot(Request $request)
@@ -196,7 +196,19 @@ class Cotizacion2Controller extends Controller
         $dayYear = date("z") + 1;
         $today = Carbon::now()->format('Y-m-d');
         $cotizacionDay = DB::table('cotizacion')->where('created_at','LIKE',"%{$today}%")->count();
-        $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
+        
+        $numCot = DB::table('cotizacion')->where('created_at','LIKE',"%{$today}%")->where('Id_cliente',$request->clientes)->get();
+        $firtsFol = DB::table('cotizacion')->where('created_at','LIKE',"%{$today}%")->where('Id_cliente',$request->clientes)->first();
+        $cantCot = $numCot->count();
+        if($cantCot > 0)
+        {
+            
+            $folio = $firtsFol->Folio . '-' . ($cantCot + 1); 
+
+        }else{
+            $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
+        }
+
 
         $cotizacion = Cotizacion::create([
             'Id_intermedio' => $request->intermediario,
@@ -274,13 +286,15 @@ class Cotizacion2Controller extends Controller
     }
     public function fecha()
     {
-        $year = date("y");
-        $month = date("m");
-        $dayYear = date("z") + 1;
-        $today = Carbon::now()->format('Y-m-d');
-        $cotizacionDay = DB::table('cotizacion')->where('created_at','LIKE',"%{$today}%")->count();
-        $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
-        var_dump($folio);
-    }
+        // $year = date("y");
+        // $month = date("m");
+        // $dayYear = date("z") + 1;
+        // $today = Carbon::now()->format('Y-m-d');
+        // $cotizacionDay = DB::table('cotizacion')->where('created_at','LIKE',"%{$today}%")->count();
+        // $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
+        // var_dump($folio);
+        // $firtsFol = DB::table('cotizacion')->where('created_at','LIKE',"%{$today}%")->where('Id_cliente',$request->clientes)->first();
+        // var_dump($);
+    }//
 
 }

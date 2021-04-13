@@ -48,6 +48,9 @@
         .voyager .breadcrumb a{
             color:{{ config('voyager.primary_color','#22A7F0') }};
         }
+        /* input{
+            text-transform:uppercase
+        } */
     </style>
 
     @if(!empty(config('voyager.additional_css')))<!-- Additional CSS -->
@@ -56,6 +59,7 @@
     @livewireStyles
     @yield('head')
 </head>
+
 
 <body class="voyager @if(isset($dataType) && isset($dataType->slug)){{ $dataType->slug }}@endif">
 
@@ -121,7 +125,16 @@ if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Ill
 
 <!-- Javascript Libs -->
 @livewireScripts
-
+<script>
+$(document).ready( function () {
+ $(".UpperCase").on("keypress", function () {
+  $input=$(this);
+  setTimeout(function () {
+   $input.val($input.val().toUpperCase());
+  },50);
+ }) 
+})
+</script>
 <script type="text/javascript" src="{{ voyager_asset('js/app.js') }}"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

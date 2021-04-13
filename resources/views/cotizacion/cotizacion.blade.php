@@ -72,7 +72,7 @@
                                   <td>{{$item->created_at}}</td>
                                   <td>{{$item->NameA}}</td>
                                   <td>{{$item->updated_at}}</td>
-                                  <td>asd</td>
+                                  <td>Acción</td>
                               </tr>
                           @endforeach
                         </tbody>

@@ -12,7 +12,7 @@ $(document).ready(function () {
         }
     });
     $("#btnEdit").prop('disabled', true);
-    $('#tablaCotizacion tbody').on( 'click', 'tr', function () {
+    $('#tablaCotizacion tbody').on( 'click', 'tr', function () { 
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
             // console.log("no selecionado");
@@ -28,7 +28,7 @@ $(document).ready(function () {
         }
     } );
  
-    let idCot = 0;
+    let idCot = 0; 
     $('#tablaCotizacion tr').on('click', function(){
         let dato = $(this).find('td:first').html();
         idCot = dato;

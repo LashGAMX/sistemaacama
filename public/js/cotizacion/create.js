@@ -44,7 +44,7 @@ function update()
     url: base_url + '/admin/cotizacion/getCotizacionId', //archivo que recibe la peticion
     type: 'POST', //método de envio
     data: {
-      idCotizacion: $('#idCotizacion').val(),
+      idCotizacion: $('#idCotizacion').val(), 
         _token: $('input[name="_token"]').val(),
     },
     dataType: 'json',
@@ -241,7 +241,7 @@ function dataCliente() {
 }
 function dataTomas() {
 
-  $.ajax({
+  $.ajax({ 
       url: base_url + '/admin/cotizacion/getTomas', //archivo que recibe la peticion
       type: 'POST', //método de envio
       data: {
@@ -274,12 +274,18 @@ function dataSubnorma()
             console.log(response)
             model = response;
             $.each(response.model, function (key, item) {
-              if(modelCot.Id_subnorma == item.Id_paquete)
+              if(sw == 1)
               {
-                tab += '<option value="'+item.Id_paquete+'" selected>'+item.Clave+'</option>';
+                if(modelCot.Id_subnorma == item.Id_paquete)
+                {
+                  tab += '<option value="'+item.Id_paquete+'" selected>'+item.Clave+'</option>';
+                }else{
+                  tab += '<option value="'+item.Id_paquete+'">'+item.Clave+'</option>';
+                }
               }else{
-                tab += '<option value="'+item.Id_paquete+'">'+item.Clave+'</option>';
+                  tab += '<option value="'+item.Id_paquete+'">'+item.Clave+'</option>';
               }
+            
             });
             sub.innerHTML = tab;
         }
@@ -302,9 +308,14 @@ function dataNorma()
             console.log(response)
             model = response;
             $.each(response.model, function (key, item) {
-              if(modelCot.Id_norma == item.Id_norma)
+              if(sw == 1)
               {
-                tab += '<option value="'+item.Id_norma+'" selected>'+item.Clave_norma+'</option>';
+                if(modelCot.Id_norma == item.Id_norma)
+                {
+                  tab += '<option value="'+item.Id_norma+'" selected>'+item.Clave_norma+'</option>';
+                }else{
+                  tab += '<option value="'+item.Id_norma+'">'+item.Clave_norma+'</option>';
+                } 
               }else{
                 tab += '<option value="'+item.Id_norma+'">'+item.Clave_norma+'</option>';
               }

@@ -22,7 +22,7 @@ function tablaParametros()
       async: false, 
       success: function (response) {
         console.log(response.model)
-        tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agreagar', 'plus', 'success','agregarParametros('+idSub.value+')' , 'botton') + '</div><br>';
+        tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agregar', 'plus', 'success','agregarParametros('+idSub.value+')' , 'botton') + '</div><br>';
         tab += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
         tab += '    <thead class="thead-dark">';
         tab += '        <tr>';

@@ -9,7 +9,7 @@
   </h6>
   @stop
 
-  <ul class="nav nav-tabs" id="myTab" role="tablist"> 
+  <ul class="nav nav-tabs" id="config-tab" role="tablist"> 
     <li class="nav-item" role="menu">
       <a class="nav-link active" id="sucursal-tab" data-toggle="tab" href="#sucursal" role="tab" aria-controls="sucursal" aria-selected="true">Sucursal</a>
     </li>
@@ -31,4 +31,13 @@
       @livewire('config.table-unidad', ['idUser' => $idUser])
     </div>
   </div>
+
+
 @endsection  
+@section('javascript')
+<script>
+  $(document).ready(function () {
+    $('#sucursal-tab').click();
+});
+</script>
+@stop

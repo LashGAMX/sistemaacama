@@ -115,7 +115,7 @@
                     @endforeach
                   </select>
                 </div>
-              </div>
+              </div> 
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="tipoDescarga">Tipo descarga</label>
