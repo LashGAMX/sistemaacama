@@ -25,5 +25,4 @@ class ClienteController extends Controller
         $sucursal = SucursalCliente::where('Id_sucursal',$idSuc)->first();
         return view('clientes.cliente_detalle',compact('cliente','idSuc','sucursal'));
     }
-}
- 
+} 
