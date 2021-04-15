@@ -97,6 +97,7 @@ function actualizarGrupo() {
  */
 function configuracionUsuarios(id) {
     console.log(`${id}`);
+    $("#usuarios").modal();
 }
 
 

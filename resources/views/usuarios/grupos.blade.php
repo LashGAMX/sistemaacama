@@ -74,9 +74,11 @@
                                         <input id="comentarioGuardar" class="form-control">
                                     </div>
                                     <div class="col-md-12">
-                                        <button type="text" class="btn btn-sm btn-success" onclick="crearGrupo()" id="guardarGrupo">Guardar
+                                        <button type="text" class="btn btn-sm btn-success" onclick="crearGrupo()"
+                                            id="guardarGrupo">Guardar
                                         </button>
-                                        <button type="text" class="btn btn-sm btn-success" onclick="actualizarGrupo()" id="actualizarGrupo">Actualizar
+                                        <button type="text" class="btn btn-sm btn-success" onclick="actualizarGrupo()"
+                                            id="actualizarGrupo">Actualizar
                                         </button>
                                     </div>
                                 </div>
@@ -92,7 +94,78 @@
                 <!-- Fin Grupo -->
                 <!-- Fin Grupo -->
 
+                <!-- Usuario -->
+                <!-- Usuario -->
+                <!-- Usuario -->
+                <!-- Usuario -->
+                <!-- Usuario -->
+                <div class="modal fade" id="usuarios" role="dialog">
+                    <div class="modal-dialog">
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Configuración Usuarios</h4>
+                            </div>
+                            <div class="modal-body">
+                                <div class="row">
+                                    <input type="hidden" name="_token" id="_token" value="{{ Session::token() }}">
+                                    <div class="col-md-12">
+                                        <p>Bienvenido es Hora de Configurar el Grupo de Trabajo</p>
+                                    </div>
+                                    <div class="col-md-8">
+                                        <label>Seleccionar Usuario:</label>
+                                        <select class="select2" name="" id="">
+                                            <option value=""> One</option>
+                                            <option value=""> One</option>
+                                            <option value=""> One</option>
+                                            <option value=""> One</option>
+                                            <option value=""> One</option>
+                                            <option value=""> One</option>
+                                            <option value=""> One</option>
+                                            <option value=""> One</option>
+                                            <option value=""> One</option>
+                                        </select>
+                                    </div>
+                                    <div class="col-md-4">
+                                        <br>
+                                        <button class="btn btn-sm btn-success mt-2">Añadir</button>
+                                    </div>
+                                    <div class="col-md-12">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">#</th>
+                                                    <th scope="col">Integrante</th>
+                                                    <th scope="col">Acciónes</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">1</th>
+                                                    <td>Luis Alberto</td>
+                                                    <td>
+                                                        <button class="btn btn-sm btn-danger">X</button>
+                                                    </td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <div class="col-md-12">
 
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Cerrar</button>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Fin Usuario -->
+                <!-- Fin Usuario -->
+                <!-- Fin Usuario -->
             </div>
         </div>
     </div>
