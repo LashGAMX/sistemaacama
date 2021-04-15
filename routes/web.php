@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\Pruebas\PruebaController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
@@ -16,6 +17,8 @@ use Illuminate\Support\Facades\Route;
 | contains the "web" middleware group. Now create something great!
 |
 */
+
+Route::get('prueba', [PruebaController::class,'index']);
 
 Route::get('/home/{name}',[HomeController::class,'index']);
 Route::get('/home',[HomeController::class,'index']);
