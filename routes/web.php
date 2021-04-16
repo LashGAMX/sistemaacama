@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Home\HomeController;
+use App\Http\Controllers\Pruebas\PruebaController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Route;
 
@@ -16,7 +18,13 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
+Route::get('prueba', [PruebaController::class,'index']);
+
+Route::get('/home/{name}',[HomeController::class,'index']);
+Route::get('/home',[HomeController::class,'index']);
+Route::post('/home/create',[HomeController::class,'create']);
+
+Route::get('/', function () { 
  return redirect()->to('admin');
 });
 

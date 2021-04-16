@@ -99,7 +99,6 @@
         swal("Registro!", "Registro guardado correctamente!", "success");
         $('#modalSubNorma').modal('hide')
       </script>
-      
       @endif
     
   </div>
