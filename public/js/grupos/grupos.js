@@ -128,13 +128,13 @@ function agregarUsuario() {
                 case 200:
                     swal({
                         icon: "success",
-                        title: "El Usuario ya Estaba Registrado en Este Grupo",
+                        title: "El Usuario ya Estab Registrado en Otro Grupo y Ahora en Este",
                     });
                     break;
                 case 300:
                     swal({
                         icon: "success",
-                        title: "El Usuario ya Esta Registrado en Otro Grupo",
+                        title: "El Usuario ya Esta Registrado en Este Grupo",
                     });
                     break;
                 default:

@@ -73,10 +73,21 @@ class GruposController extends Controller
     public function agregarUsuario(Request $request)
     {
         try {
-            $grupoUsuario = new GrupoUsuario;
-            $grupoUsuario->Grupo = $request->grupo;
-            $grupoUsuario->Usuario = $request->usuario;
-
+            // Saber si ya esta registrado en otro grupo
+            $esRegistrado = DB::table('grupos_usuarios')->where('Usuario', $request->usuario)->first();
+            if ($esRegistrado) {
+                #Registrarlo a un que ya este en otro grupo
+                DB::insert('insert into grupos_usuarios (Grupo, Usuario) values (?, ?)', [$request->usuario, $request->grupo]);
+                return response()->json(200);
+            }
+            // Saber si esta regristrado en el mismo grupo
+            $esDuplicado =  DB::table('grupos_usuarios')->where('Grupo', $request->grupo)
+                ->where('Usuario', $request->usuario)->first();
+            if ($esDuplicado) {
+                return response()->json(300);
+            }
+            // Registrar usuario
+            DB::insert('insert into grupos_usuarios (Grupo, Usuario) values (?, ?)', [$request->usuario, $request->grupo]);
             return response()->json(100);
         } catch (\Throwable $th) {
             throw $th;
