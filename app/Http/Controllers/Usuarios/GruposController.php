@@ -74,18 +74,21 @@ class GruposController extends Controller
     {
         try {
             // Saber si ya esta registrado en otro grupo
-            $esRegistrado = DB::table('grupos_usuarios')->where('Usuario', $request->usuario)->first();
-            if ($esRegistrado) {
-                #Registrarlo a un que ya este en otro grupo
-                DB::insert('insert into grupos_usuarios (Grupo, Usuario) values (?, ?)', [$request->grupo, $request->usuario]);
-                return response()->json(200);
-            }
+
             // Saber si esta regristrado en el mismo grupo
             $esDuplicado =  DB::table('grupos_usuarios')->where('Grupo', $request->grupo)
                 ->where('Usuario', $request->usuario)->first();
             if ($esDuplicado) {
                 return response()->json(300);
             }
+
+            $esRegistrado = DB::table('grupos_usuarios')->where('Usuario', $request->usuario)->first();
+            if ($esRegistrado) {
+                #Registrarlo a un que ya este en otro grupo
+                DB::insert('insert into grupos_usuarios (Grupo, Usuario) values (?, ?)', [$request->grupo, $request->usuario]);
+                return response()->json(200);
+            }
+
             // Registrar usuario
             DB::insert('insert into grupos_usuarios (Grupo, Usuario) values (?, ?)', [$request->grupo, $request->usuario]);
             return response()->json(100);
@@ -115,12 +118,23 @@ class GruposController extends Controller
             $html .= '<th scope="row">' . $gruposUsuario->Id_grupos_usuarios . '</th>';
             $html .= '<td>' . $gruposUsuario->nombre . '</td>';
             $html .= '<td>';
-            $html .= '<button class="btn btn-sm btn-danger">X</button>';
+            $html .= '<button class="btn btn-sm btn-danger" onclick="eliminarUsuarioGrupo(' . $gruposUsuario->Usuario . ')">X</button>';
             $html .= '</td>';
             $html .= '</tr>';
         }
         $html .= '</tbody>';
         $html .= '</table>';
         return response()->json($html);
+    }
+    /**
+     * Metodo para eliminar Usuario.
+     */
+    public function eliminarUsuarioGrupo(Request $request)
+    {
+
+        $isTrue =  DB::table('grupos_usuarios')->where('Grupo', $request->id_grupo)
+            ->where('Usuario', $request->id_usuario)->delete();
+
+        return response()->json($isTrue);
     }
 }

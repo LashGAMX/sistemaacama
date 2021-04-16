@@ -157,6 +157,31 @@ function agregarUsuario() {
     });
 }
 
+
+/**
+ * Eliminar Usuario Grupo
+ */
+function eliminarUsuarioGrupo(id) {
+    let id_usuario = id;
+    let id_grupo = $('#id_grupo').val();
+    $.ajax({
+        url: "grupos/eliminarUsuarioGrupo",
+        type: "POST",
+        data: {
+            id_grupo: id_grupo,
+            id_usuario: id_usuario
+        },
+        success: function (response) {
+            console.log(response);
+            $('#usuarios').modal('hide')
+            swal({
+                icon: "success",
+                title: "Grupo Eliminado Correctamente!",
+            });
+        }
+    });
+}
+
 //****************************************************************************************/
 //***************************************************************************************/
 // FUNCIONES PARA VISTA  //

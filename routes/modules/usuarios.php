@@ -10,3 +10,4 @@ Route::post('usuarios/grupos/obtenerInformacionGrupo', [GruposController::class,
 Route::post('usuarios/grupos/actualizarInformacionGrupo', [GruposController::class, 'actualizar']);
 Route::post('usuarios/grupos/agregarUsuario', [GruposController::class, 'agregarUsuario']);
 Route::post('usuarios/grupos/obtenerTablaGruposUsuarios', [GruposController::class, 'obtenerTablaGruposUsuarios']);
+Route::post('usuarios/grupos/eliminarUsuarioGrupo', [GruposController::class, 'eliminarUsuarioGrupo']);
