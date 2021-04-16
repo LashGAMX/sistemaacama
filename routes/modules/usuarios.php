@@ -10,3 +10,4 @@ Route::post('usuarios/grupos/guardar',[GruposController::class,'guardar']);
 Route::post('usuarios/grupos/obtenerInformacionGrupo',[GruposController::class,'editar']);
 Route::post('usuarios/grupos/actualizarInformacionGrupo',[GruposController::class,'actualizar']);
 
+Route::post('usuarios/grupos/agregarUsuario',[GruposController::class,'agregarUsuario']);

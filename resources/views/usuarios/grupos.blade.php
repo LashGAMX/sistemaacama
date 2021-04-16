@@ -44,7 +44,7 @@
                         @endif
                     </tbody>
                 </table>
-
+                {{ $grupos->links() }}
                 <!-- Grupo -->
                 <!-- Grupo -->
                 <!-- Grupo -->
@@ -115,21 +115,17 @@
                                     </div>
                                     <div class="col-md-8">
                                         <label>Seleccionar Usuario:</label>
-                                        <select class="select2" name="" id="">
-                                            <option value=""> One</option>
-                                            <option value=""> One</option>
-                                            <option value=""> One</option>
-                                            <option value=""> One</option>
-                                            <option value=""> One</option>
-                                            <option value=""> One</option>
-                                            <option value=""> One</option>
-                                            <option value=""> One</option>
-                                            <option value=""> One</option>
+                                        <input class="form-control" id="id_grupo" type="hidden">
+                                        <select class="select2" id="lista_usuarios">
+                                            @foreach ($usuarios as $usuario)
+                                                <option value="{{ $usuario->id }}">{{ $usuario->name }}</option>
+                                            @endforeach()
                                         </select>
                                     </div>
                                     <div class="col-md-4">
                                         <br>
-                                        <button class="btn btn-sm btn-success mt-2">Añadir</button>
+                                        <button class="btn btn-sm btn-success mt-2"
+                                            onclick="agregarUsuario()">Añadir</button>
                                     </div>
                                     <div class="col-md-12">
                                         <table class="table table-hover">

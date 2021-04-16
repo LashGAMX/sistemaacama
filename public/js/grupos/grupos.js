@@ -97,13 +97,58 @@ function actualizarGrupo() {
  */
 function configuracionUsuarios(id) {
     console.log(`${id}`);
+    $('#id_grupo').val(id);
+    $('#lista_usuarios').val();
     $("#usuarios").modal();
 }
+/**
+ * Funcion para agregar un usuario al grupo
+ */
+function agregarUsuario() {
+    let usuario = $('#lista_usuarios').val();
+    let grupo = $('#lista_usuarios').val();
+    console.log(`${usuario}`);
+    $.ajax({
+        url: "grupos/agregarUsuario",
+        type: "POST",
+        data: {
+            usuario: usuario,
+            grupo: grupo
+        },
+        success: function (response) {
+            console.log(response);
+            $('#usuarios').modal('hide')
+            switch (response) {
+                case 100:
+                    swal({
+                        icon: "success",
+                        title: "Se Añadio el Usuario al Grupo",
+                    });
+                    break;
+                case 200:
+                    swal({
+                        icon: "success",
+                        title: "El Usuario ya Estaba Registrado en Este Grupo",
+                    });
+                    break;
+                case 300:
+                    swal({
+                        icon: "success",
+                        title: "El Usuario ya Esta Registrado en Otro Grupo",
+                    });
+                    break;
+                default:
+                    break;
+            }
 
+
+        }
+    });
+}
 
 //****************************************************************************************/
 //***************************************************************************************/
-                            // FUNCIONES PARA VISTA  //
+// FUNCIONES PARA VISTA  //
 //***************************************************************************************/
 /**
  * Ocultar Boton Guardar
