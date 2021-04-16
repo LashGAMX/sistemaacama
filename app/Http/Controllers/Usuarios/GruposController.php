@@ -77,7 +77,7 @@ class GruposController extends Controller
             $esRegistrado = DB::table('grupos_usuarios')->where('Usuario', $request->usuario)->first();
             if ($esRegistrado) {
                 #Registrarlo a un que ya este en otro grupo
-                DB::insert('insert into grupos_usuarios (Grupo, Usuario) values (?, ?)', [$request->usuario, $request->grupo]);
+                DB::insert('insert into grupos_usuarios (Grupo, Usuario) values (?, ?)', [$request->grupo, $request->usuario]);
                 return response()->json(200);
             }
             // Saber si esta regristrado en el mismo grupo
@@ -87,10 +87,40 @@ class GruposController extends Controller
                 return response()->json(300);
             }
             // Registrar usuario
-            DB::insert('insert into grupos_usuarios (Grupo, Usuario) values (?, ?)', [$request->usuario, $request->grupo]);
+            DB::insert('insert into grupos_usuarios (Grupo, Usuario) values (?, ?)', [$request->grupo, $request->usuario]);
             return response()->json(100);
         } catch (\Throwable $th) {
             throw $th;
         }
+    }
+    /**
+     * Metodo para la Tabla de Usuarios y GruposController
+     */
+    public function obtenerTablaGruposUsuarios(Request $request)
+    {
+        $html = '';
+        $gruposUsuarios =  DB::table('viewgrupos')->where('Grupo', $request->id_grupo)->get();
+
+        $html .= '<table class="table table-hover">';
+        $html .=  '<thead>';
+        $html .=   '<tr>';
+        $html .=    '<th scope="col">#</th>';
+        $html .=   '<th scope="col">Integrante</th>';
+        $html .=  '<th scope="col">Acciónes</th>';
+        $html .=  '</tr>';
+        $html .= '</thead>';
+        $html .= '<tbody>';
+        foreach ($gruposUsuarios as $gruposUsuario) {
+            $html .= '<tr>';
+            $html .= '<th scope="row">' . $gruposUsuario->Id_grupos_usuarios . '</th>';
+            $html .= '<td>' . $gruposUsuario->nombre . '</td>';
+            $html .= '<td>';
+            $html .= '<button class="btn btn-sm btn-danger">X</button>';
+            $html .= '</td>';
+            $html .= '</tr>';
+        }
+        $html .= '</tbody>';
+        $html .= '</table>';
+        return response()->json($html);
     }
 }

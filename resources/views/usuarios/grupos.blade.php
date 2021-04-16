@@ -128,24 +128,8 @@
                                             onclick="agregarUsuario()">Añadir</button>
                                     </div>
                                     <div class="col-md-12">
-                                        <table class="table table-hover">
-                                            <thead>
-                                                <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Integrante</th>
-                                                    <th scope="col">Acciónes</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>Luis Alberto</td>
-                                                    <td>
-                                                        <button class="btn btn-sm btn-danger">X</button>
-                                                    </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+                                        <div id="tabla-grupos">
+                                        </div>
                                     </div>
                                     <div class="col-md-12">
 

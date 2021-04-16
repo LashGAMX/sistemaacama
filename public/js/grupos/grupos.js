@@ -96,9 +96,20 @@ function actualizarGrupo() {
  * @param {*} id
  */
 function configuracionUsuarios(id) {
-    console.log(`${id}`);
+    let id_grupo = id;
     $('#id_grupo').val(id);
     $('#lista_usuarios').val();
+    $.ajax({
+        url: "grupos/obtenerTablaGruposUsuarios",
+        type: "POST",
+        data: {
+            id_grupo: id_grupo,
+        },
+        success: function (response) {
+            console.log(response);
+            $("#tabla-grupos").html(response);
+        }
+    });
     $("#usuarios").modal();
 }
 /**
@@ -106,7 +117,7 @@ function configuracionUsuarios(id) {
  */
 function agregarUsuario() {
     let usuario = $('#lista_usuarios').val();
-    let grupo = $('#lista_usuarios').val();
+    let grupo = $('#id_grupo').val();
     console.log(`${usuario}`);
     $.ajax({
         url: "grupos/agregarUsuario",
