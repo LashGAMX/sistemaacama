@@ -17,5 +17,9 @@ class Usuario extends Model
         'name',
         'email',
         'avatar',
+        'email_verified_at',
+        'password',
+        'remember_token',
+        'settings'
     ];
 }
