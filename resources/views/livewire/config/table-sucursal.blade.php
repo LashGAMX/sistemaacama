@@ -73,6 +73,12 @@
         <input type="text" wire:model='name' class="form-control" placeholder="Sucursal">
         @error('name') <span class="text-danger">{{ $message  }}</span> @enderror
       </div>
+      <div class="modal-body">
+        <input type="text" wire:model="nota" hidden>
+        <label for="">Nota</label>
+        <input type="text" wire:model='nota' class="form-control" placeholder="Nota"> 
+        @error('nota') <span class="text-danger">{{ $message  }}</span> @enderror
+      </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         <button type="submit" class="btn btn-primary">Guardar cambios</button>

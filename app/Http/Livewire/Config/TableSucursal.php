@@ -21,12 +21,16 @@ class TableSucursal extends Component
     public $idSuc;
     public $alert = false;
 
+    public $nota;
+
 
     protected $rules = [
         'name' => 'required|min:6',
+        'nota' => 'required',
     ];
     protected $messages = [
         'name.required' => 'El nombre es un dato requerido',
+        'nota.required' => 'Coloca una nota de modificación',
     ];
  
     public function render() //Loop
@@ -62,6 +66,12 @@ class TableSucursal extends Component
         $this->idSuc = $id;
         $this->name = $name;
         $this->alert = false;
+    }
+    Public function historial()
+    {
+        $this->validate();
+        
+        
     }
 
     public function setBtn()

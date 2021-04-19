@@ -51,7 +51,7 @@
           <td>{{$item->created_at}}</td>
           <td>{{$item->updated_at}}</td>
           <td>
-            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_simbologia}}','{{$item->Simbologia}}','{{$item->Descripcion}}')"  data-toggle="modal" data-target="#modalSimbologia"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button type="button" class="btn btn-primary" wire:click="setData2('{{$item->Id_simbologia}}','{{$item->Simbologia}}','{{$item->Descripcion}}')"  data-toggle="modal" data-target="#modalSimbologia"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
           {{-- </form>  --}}
         </tr>
@@ -69,7 +69,7 @@
       <div class="modal-content">
         <form wire:submit.prevent="store">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Modificar sucursal</h5>
+          <h5 class="modal-title" id="exampleModalLabel">Modificar simbología</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -87,6 +87,11 @@
                     <input type="text" wire:model='description' class="form-control" placeholder="Descripción">
                     @error('description') <span class="text-danger">{{ $message  }}</span> @enderror
                 </div>
+                <div class="col-md-12">
+                  <label for="">Nota</label>
+                  <input type="text" wire:model='nota' class="form-control" placeholder="Nota" required>
+                  @error('nota') <span class="text-danger">{{ $message  }}</span> @enderror
+              </div>
             </div>
         </div>
         <div class="modal-footer">
