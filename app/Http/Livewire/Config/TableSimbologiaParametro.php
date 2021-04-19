@@ -8,7 +8,7 @@ use Livewire\WithPagination;
 
 class TableSimbologiaParametro extends Component 
 {
-    use WithPagination;
+    use WithPagination; 
 
     public $idUser;
     public $search = '';
@@ -52,7 +52,7 @@ class TableSimbologiaParametro extends Component
         $this->validate();
         $model = SimbologiaParametros::find($this->idSim);
         $model->Simbologia = $this->simbologia;
-        $model->Descripcion = $this->description;
+        $model->Descripcion = $this->description; 
         $model->save();
         $this->alert = true;
     }
@@ -63,7 +63,8 @@ class TableSimbologiaParametro extends Component
         $this->description = $description;
         $this->alert = false;
     }
-    
+
+
     public function setBtn()
     {
         $this->clean();

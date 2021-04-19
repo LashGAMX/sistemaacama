@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class ProcedimientoAnalisis extends Model
 {
-    use HasFactory;
+    use HasFactory,SoftDeletes;
     protected $table = 'procedimiento_analisis';
     protected $primaryKey = 'Id_procedimiento';
     public $timestamps = true;
 
     protected $fillable = [
         'Procedimiento',
+        'Descripcion',
     ];
 }
