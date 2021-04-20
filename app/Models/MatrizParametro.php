@@ -14,8 +14,8 @@ class MatrizParametro extends Model
 
     protected $fillable = [
         'Matriz',
-        'Status'
-        // 'Id_user_c',
-        // 'Id_user_m',
+        'Status',
+        'Id_user_c',
+        'Id_user_m',
     ];
 }

@@ -2,7 +2,10 @@
  
 namespace App\Http\Livewire\Config;
 
+use App\Models\HistorialSucursal;
+use App\Models\HistorialUnidad;
 use App\Models\Unidad;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -23,6 +26,7 @@ class TableUnidad extends Component
     public $name;
     public $description;
     public $idUni;
+    public $nota;
 
     protected $rules = [
         'name' => 'required',
@@ -44,10 +48,15 @@ class TableUnidad extends Component
     public function create()
     {
         $this->validate();
-        Unidad::create([
+        $model = Unidad::create([
             'Unidad' => $this->name,
             'Descripcion' => $this->description,
+            'Id_user_c' => $this->idUser,
+            'Id_user_m' => $this->idUser,
         ]);
+        $this->idUni = $model->Id_unidad;
+        $this->nota = "Creación del registro";
+        $this->historial();
         $this->alert = true;
     }
     public function store()
@@ -57,6 +66,7 @@ class TableUnidad extends Component
         $model->Unidad = $this->name;
         $model->Descripcion = $this->description;
         $model->save();
+        $this->historial();
         $this->alert = true;
     }
     public function setData($id,$name,$description)
@@ -65,6 +75,22 @@ class TableUnidad extends Component
         $this->idUni = $id;
         $this->name = $name;
         $this->description = $description;
+    }
+    Public function historial()
+    {
+        $model = DB::table('unidades')->where('Id_unidad',$this->idUni)->first();
+        HistorialUnidad::create([
+            'Id_unidad' => $this->idUni,
+            'Unidad' => $model->Unidad,
+            'Descripcion' => $model->Descripcion,
+            'Nota' => $this->nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $model->Id_user_m,
+        ]);
+        
+        
     }
     
     public function setBtn()

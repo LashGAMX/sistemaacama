@@ -15,7 +15,7 @@ class Unidad extends Model
     protected $fillable = [
         'Unidad',
         'Descripcion',
-        // 'Id_user_c',
-        // 'Id_user_m',
+        'Id_user_c',
+        'Id_user_m',
     ];
 }

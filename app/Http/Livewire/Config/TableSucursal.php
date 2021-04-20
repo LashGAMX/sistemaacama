@@ -2,10 +2,12 @@
 
 namespace App\Http\Livewire\Config;
 
+use App\Models\HistorialSucursal;
 use App\Models\Sucursal;
 use Livewire\Component;
 use Livewire\WithPagination;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class TableSucursal extends Component
 {
@@ -24,13 +26,11 @@ class TableSucursal extends Component
     public $nota;
 
 
-    protected $rules = [
+    protected $rules = [ 
         'name' => 'required|min:6',
-        'nota' => 'required',
     ];
     protected $messages = [
         'name.required' => 'El nombre es un dato requerido',
-        'nota.required' => 'Coloca una nota de modificación',
     ];
  
     public function render() //Loop
@@ -44,11 +44,14 @@ class TableSucursal extends Component
     public function setSucursal()
     {
       $this->validate();
-      Sucursal::create([
+      $model = Sucursal::create([
           'Sucursal' => $this->name,
           'Id_user_c' => $this->idUser, 
           'Id_user_m' => $this->idUser, 
       ]);
+      $this->idSuc = $model->Id_sucursal;
+      $this->nota = "Creación de registro";
+      $this->historial();
       $this->alert = true;
     }
     public function store()
@@ -58,6 +61,7 @@ class TableSucursal extends Component
         $sucursal->Sucursal = $this->name;
         $sucursal->Id_user_m = $this->idUser;
         $sucursal->save();
+        $this->historial();
         $this->alert = true;
     }
     public function setData($id,$name)
@@ -69,9 +73,16 @@ class TableSucursal extends Component
     }
     Public function historial()
     {
-        $this->validate();
-        
-        
+        $model = DB::table('sucursales')->where('Id_sucursal',$this->idSuc)->first();
+        HistorialSucursal::create([
+            'Id_sucursal' => $this->idSuc,
+            'Sucursal' => $model->Sucursal,
+            'Nota' => $this->nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $model->Id_user_m,
+        ]);
     }
 
     public function setBtn()
@@ -96,6 +107,7 @@ class TableSucursal extends Component
     {
         $this->name ='';
         $this->idSuc = '';
+        $this->nota = '';
     }
     
 

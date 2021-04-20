@@ -14,8 +14,8 @@ class Rama extends Model
 
     protected $fillable = [
         'Rama',
-        'Status'
-        // 'Id_user_c',
-        // 'Id_user_m',
+        'Status',
+        'Id_user_c',
+        'Id_user_m',
     ];
 }

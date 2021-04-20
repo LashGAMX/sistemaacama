@@ -15,7 +15,7 @@ class Tecnica extends Model
     protected $fillable = [
         'Tecnica',
         'Status',
-        // 'Id_user_c',
-        // 'Id_user_m',
+        'Id_user_c',
+        'Id_user_m',
     ];
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Config;
 
+use App\Models\HistorialRama;
 use App\Models\Rama;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class TableRama extends Component
@@ -16,6 +18,7 @@ class TableRama extends Component
 
     public $rama;
     public $idRama;
+    public $nota;
 
     protected $rules = [
         'rama' => 'required',
@@ -34,9 +37,14 @@ class TableRama extends Component
     public function create()
     {
         $this->validate();
-        Rama::create([
+        $model = Rama::create([
             'Rama' => $this->rama,
+            'Id_user_c' => $this->idUser, 
+            'Id_user_m' => $this->idUser, 
         ]);
+        $this->idRama = $model->Id_rama;
+        $this->nota = "Creación de registro";
+        $this->historial();
         $this->alert = true;
     }
     public function store()
@@ -45,6 +53,7 @@ class TableRama extends Component
         $model = Rama::find($this->idRama);
         $model->Rama = $this->rama;
         $model->save();
+        $this->historial();
         $this->alert = true;
     }
     public function setData($id,$rama)
@@ -54,7 +63,19 @@ class TableRama extends Component
         $this->idRama = $id;
         $this->rama = $rama;
     }
-    
+    Public function historial()
+    {
+        $model = DB::table('ramas')->where('Id_rama',$this->idRama)->first();
+        HistorialRama::create([
+            'Id_rama' => $this->idRama,
+            'Rama' => $model->Rama,
+            'Nota' => $this->nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $model->Id_user_m,
+        ]);
+    }
     public function setBtn()
     {
         $this->alert = false;

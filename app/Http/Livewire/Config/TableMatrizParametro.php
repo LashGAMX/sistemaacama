@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Config;
 
+use App\Models\HistorialMatriz;
 use App\Models\MatrizParametro;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
 class TableMatrizParametro extends Component
@@ -17,6 +19,7 @@ class TableMatrizParametro extends Component
 
     public $matriz;
     public $idMatriz;
+    public $nota;
 
     protected $rules = [
         'matriz' => 'required',
@@ -35,9 +38,14 @@ class TableMatrizParametro extends Component
     public function create()
     {
         $this->validate();
-        MatrizParametro::create([
+        $model = MatrizParametro::create([
             'Matriz' => $this->matriz,
+            'Id_user_c' => $this->idUser, 
+            'Id_user_m' => $this->idUser, 
         ]);
+        $this->idMatriz = $model->Id_matriz_parametro;
+        $this->nota = "Creación de registro";
+        $this->historial();
         $this->alert = true;
     }
     public function store()
@@ -46,6 +54,7 @@ class TableMatrizParametro extends Component
         $model = MatrizParametro::find($this->idMatriz);
         $model->Matriz = $this->matriz;
         $model->save();
+        $this->historial();
         $this->alert = true;
     }
     public function setData($id,$matriz)
@@ -55,6 +64,21 @@ class TableMatrizParametro extends Component
         $this->idMatriz = $id;
         $this->matriz = $matriz;
         $this->alert = false;
+    }
+    Public function historial()
+    {
+        $model = DB::table('matriz_parametros')->where('Id_matriz_parametro',$this->idMatriz)->first();
+        HistorialMatriz::create([
+            'Id_matriz_parametro' => $this->idMatriz,
+            'Matriz' => $model->Matriz,
+            'Nota' => $this->nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $model->Id_user_m,
+        ]);
+        
+        
     }
     
     public function setBtn()
@@ -82,5 +106,6 @@ class TableMatrizParametro extends Component
     {
         $this->matriz = '';
         $this->idMatriz = '';
+        $this->nota = '';
     }
 }

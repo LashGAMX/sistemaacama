@@ -74,6 +74,12 @@
                     <input type="text" wire:model='rama' class="form-control" placeholder="Rama">
                     @error('rama') <span class="text-danger">{{ $message  }}</span> @enderror
                 </div>
+                <div class="col-md-12">
+                  <input type="text" wire:model="nota" hidden>
+                  <label for="">Nota</label>
+                  <input type="text" wire:model='nota' class="form-control" placeholder="Nota" required> 
+                  @error('nota') <span class="text-danger">{{ $message  }}</span> @enderror
+                </div>
             </div>
         </div>
         <div class="modal-footer">

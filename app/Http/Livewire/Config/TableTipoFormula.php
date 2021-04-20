@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Config;
 
+use App\Models\HistorialTipoFormula;
 use App\Models\TipoFormula;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -20,6 +22,7 @@ class TableTipoFormula extends Component
 
     public $tipo;
     public $idTipo;
+    public $nota;
 
     protected $rules = [
         'tipo' => 'required',
@@ -38,9 +41,14 @@ class TableTipoFormula extends Component
     public function create()
     {
         $this->validate();
-        TipoFormula::create([
-            'Tipo_formula' => $this->tipo,
+        $model = TipoFormula::create([
+          'Tipo_formula' => $this->tipo,
+          'Id_user_c' => $this->idUser,
+          'Id_user_m' => $this->idUser, 
         ]);
+        $this->idTipo = $model->Id_tipo_formula;
+        $this->nota = "Creación de registro";
+        $this->historial();
         $this->alert = true;
     }
     public function store()
@@ -49,6 +57,7 @@ class TableTipoFormula extends Component
         $model = TipoFormula::find($this->idTipo);
         $model->Tipo_formula = $this->tipo;
         $model->save();
+        $this->historial();
         $this->alert = true;
     }
     public function setData($id,$tipo)
@@ -58,6 +67,21 @@ class TableTipoFormula extends Component
         $this->resetValidation();
         $this->idTipo = $id;
         $this->tipo = $tipo;
+    }
+    Public function historial()
+    {
+        $model = DB::table('tipo_formulas')->where('Id_tipo_formula',$this->idTipo)->first();
+        HistorialTipoFormula::create([
+            'Id_sucursal' => $this->idTipo,
+            'Tipo_formula' => $model->Tipo_formula,
+            'Nota' => $this->nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $model->Id_user_m,
+        ]);
+        
+        
     }
     
     public function setBtn()
@@ -85,5 +109,6 @@ class TableTipoFormula extends Component
     {
         $this->idTipo = '';
         $this->tipo = '';
+        $this->nota = '';
     }
 }
