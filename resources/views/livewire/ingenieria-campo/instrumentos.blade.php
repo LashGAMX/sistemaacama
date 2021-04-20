@@ -1,3 +1,3 @@
-<div>
-    {{-- The best athlete wants his opponent at his best. --}}
-</div>
+@foreach ($Instrumentos as $instrumento)
+    {{ $instrumento }}
+@endforeach()

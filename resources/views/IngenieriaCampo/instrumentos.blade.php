@@ -6,7 +6,7 @@
 
   <div class="row">
     <div class="col-md-12">
-        @livewire('ingenieriaCampo.ingenieria-campo-instrumentos', ['idUser' => Auth::user()->id])
+        @livewire('ingenieria-campo.instrumentos', ['idUser' => Auth::user()->id])
     </div>
   </div>
   @stop
