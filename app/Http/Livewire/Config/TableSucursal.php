@@ -22,7 +22,7 @@ class TableSucursal extends Component
     public $alert = false;
 
 
-    protected $rules = [
+    protected $rules = [ 
         'name' => 'required|min:6',
     ];
     protected $messages = [

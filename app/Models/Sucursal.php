@@ -19,4 +19,3 @@ class Sucursal extends Model
         'Id_user_m',
     ];
 }
- 
