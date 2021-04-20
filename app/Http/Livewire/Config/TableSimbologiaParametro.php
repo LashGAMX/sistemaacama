@@ -20,10 +20,12 @@ class TableSimbologiaParametro extends Component
     public $simbologia;
     public $description;
     public $idSim; 
+    public $nota;
 
     protected $rules = [
         'simbologia' => 'required', 
         'description' => 'required',
+        'nota' => 'required',
     ];
     protected $messages = [
         'simbologia.required' => 'El nombre es un dato requerido',
@@ -56,12 +58,13 @@ class TableSimbologiaParametro extends Component
         $model->save();
         $this->alert = true;
     }
-    public function setData($id,$name,$description)
+    public function setData2($id,$name,$description)
     { 
-        $this->idSim = $id;
-        $this->simbologia = $name;
-        $this->description = $description;
-        $this->alert = false;
+        // $this->idSim = $id;
+        // $this->simbologia = $name;
+        // $this->description = $description;
+        // $this->alert = false;
+        // $this->nota = "";
     }
 
 
