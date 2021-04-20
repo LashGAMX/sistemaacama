@@ -7,7 +7,7 @@
         <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">
       </div>
     </div>
-    @if ($show != false)  
+    @if ($show != false)   
     <div class="row">
       <form wire:submit.prevent="create">
       <div class="col-md-2">
@@ -51,7 +51,7 @@
           <td>{{$item->created_at}}</td>
           <td>{{$item->updated_at}}</td>
           <td>
-            <button type="button" class="btn btn-primary" wire:click="setData2('{{$item->Id_simbologia}}','{{$item->Simbologia}}','{{$item->Descripcion}}')"  data-toggle="modal" data-target="#modalSimbologia"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button type="button" class="btn btn-primary" wire:click='setData('{{$item->Id_simbologia}}','{{$item->Simbologia}}','{{$item->Descripcion}}')'  data-toggle="modal" data-target="#modalSimbologiaAnalisis"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
           {{-- </form>  --}}
         </tr>
@@ -64,7 +64,7 @@
   
   
     
-    <div wire:ignore.self class="modal fade" id="modalSimbologia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="modalSimbologiaAnalisis" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <form wire:submit.prevent="store">

@@ -12,7 +12,7 @@ class IngenieriaCampoController extends Controller
     //MODULO DE CONTROL DE INSTRUMENTOS//
     public function controlInstrumentos()
     {
-        echo "INSTRUMENTOS";
+        return view('IngenieriaCampo.instrumentos');
     }
 
 }
