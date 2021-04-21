@@ -14,8 +14,8 @@ class AreaAnalisis extends Model
 
     protected $fillable = [
         'Area_analisis',
-        'Status'
-        // 'Id_user_c',
-        // 'Id_user_m',
+        'Status',
+        'Id_user_c',
+        'Id_user_m',
     ];
 }

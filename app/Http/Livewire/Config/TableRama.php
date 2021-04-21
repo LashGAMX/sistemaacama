@@ -52,8 +52,9 @@ class TableRama extends Component
         $this->validate();
         $model = Rama::find($this->idRama);
         $model->Rama = $this->rama;
-        $model->save();
         $this->historial();
+        $model->save();
+        
         $this->alert = true;
     }
     public function setData($id,$rama)
@@ -101,5 +102,6 @@ class TableRama extends Component
     {
         $this->idRama = '';
         $this->rama = '';
+        $this->nota = '';
     }
 }

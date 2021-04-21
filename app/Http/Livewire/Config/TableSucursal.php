@@ -60,8 +60,9 @@ class TableSucursal extends Component
         $sucursal = Sucursal::find($this->idSuc);
         $sucursal->Sucursal = $this->name;
         $sucursal->Id_user_m = $this->idUser;
-        $sucursal->save();
         $this->historial();
+        $sucursal->save();
+        
         $this->alert = true;
     }
     public function setData($id,$name)

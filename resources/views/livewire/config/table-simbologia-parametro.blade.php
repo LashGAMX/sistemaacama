@@ -51,7 +51,7 @@
           <td>{{$item->created_at}}</td>
           <td>{{$item->updated_at}}</td>
           <td>
-            <button type="button" class="btn btn-primary" wire:click='setData('{{$item->Id_simbologia}}','{{$item->Simbologia}}','{{$item->Descripcion}}')'  data-toggle="modal" data-target="#modalSimbologiaAnalisis"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_simbologia}}','{{$item->Simbologia}}','{{$item->Descripcion}}')"  data-toggle="modal" data-target="#modalSimbologiaAnalisis"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
           {{-- </form>  --}}
         </tr>
@@ -92,6 +92,7 @@
                   <input type="text" wire:model='nota' class="form-control" placeholder="Nota" required>
                   @error('nota') <span class="text-danger">{{ $message  }}</span> @enderror
               </div>
+              
             </div>
         </div>
         <div class="modal-footer">
@@ -107,7 +108,7 @@
   @if ($alert == true)
   <script>
     swal("Registro!", "Registro guardado correctamente!", "success");
-    $('#modalSimbologia').modal('hide')
+    $('#modalSimbologiaAnalisis').modal('hide')
   </script>
   @endif
   

@@ -53,8 +53,9 @@ class TableMatrizParametro extends Component
         $this->validate();
         $model = MatrizParametro::find($this->idMatriz);
         $model->Matriz = $this->matriz;
-        $model->save();
         $this->historial();
+        $model->save();
+        
         $this->alert = true;
     }
     public function setData($id,$matriz)
