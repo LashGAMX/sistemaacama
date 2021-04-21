@@ -24,10 +24,11 @@
                 <tr class="bg-danger text-white">
             @else
                 <tr>
-            @endif --}}
+            @endif--}}
+
           <td>{{$instrumento->Id_instrumentos_laboratorios}}</td>
           <td>{{$instrumento->Codigo_instrumento}}</td>
-          <td>{{$instrumento->Descripción}}</td>
+          <td>{{$instrumento->Descripcion}}</td>
            <td>
              <button type="button" class="btn btn-warning"
              data-toggle="modal" data-target="#modalCliente">
