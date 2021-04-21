@@ -19,12 +19,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('prueba', [PruebaController::class,'index']);
-
 Route::get('/home/{name}',[HomeController::class,'index']);
 Route::get('/home',[HomeController::class,'index']);
 Route::post('/home/create',[HomeController::class,'create']);
 
-Route::get('/', function () { 
+Route::get('/', function () {
  return redirect()->to('admin');
 });
 
