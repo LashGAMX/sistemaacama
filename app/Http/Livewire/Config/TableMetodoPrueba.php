@@ -2,7 +2,9 @@
 
 namespace App\Http\Livewire\Config;
 
+use App\Models\HistorialMetodoPrueba;
 use App\Models\MetodoPrueba;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -19,6 +21,7 @@ class TableMetodoPrueba extends Component
     public $metodo;
     public $clave;
     public $idMetodo;
+    Public $nota;
 
     protected $rules = [ 
         'metodo' => 'required',
@@ -40,10 +43,16 @@ class TableMetodoPrueba extends Component
     public function create()
     {
         $this->validate();
-        MetodoPrueba::create([
+        $model = MetodoPrueba::create([
             'Metodo_prueba' => $this->metodo,
             'Clave_metodo' => $this->clave,
+            'Id_user_c' => $this->idUser, 
+            'Id_user_m' => $this->idUser,
         ]);
+        $this->idMetodo = $model->Id_metodo;
+        $this->clave = $model->Clave_metodo;
+        $this->nota = "Creación de registro";
+        $this->historial();
         $this->alert = true;
     }
     public function store()
@@ -52,7 +61,9 @@ class TableMetodoPrueba extends Component
         $model = MetodoPrueba::find($this->idMetodo);
         $model->Metodo_prueba = $this->metodo;
         $model->Clave_metodo = $this->clave;
+        $this->historial();
         $model->save();
+        
         $this->alert = true;
     }
     public function setData($id,$metodo,$clave)
@@ -62,6 +73,21 @@ class TableMetodoPrueba extends Component
         $this->metodo = $metodo;
         $this->clave = $clave;
         $this->alert = false;
+    }
+
+    Public function historial()
+    {
+        $model = DB::table('metodo_prueba')->where('Id_metodo',$this->idMetodo)->first();
+        HistorialMetodoPrueba::create([
+            'Id_metodo' => $this->idMetodo,
+            'Metodo_prueba' => $model->Metodo_prueba,
+            'Clave_metodo' => $model->Clave_metodo,
+            'Nota' => $this->nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $model->Id_user_m,
+        ]);
     }
     
     public function setBtn()
@@ -89,5 +115,6 @@ class TableMetodoPrueba extends Component
     {
         $this->idTipo = '';
         $this->tipo = '';
+        $this->nota = '';
     }
 }

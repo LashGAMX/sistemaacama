@@ -65,8 +65,9 @@ class TableUnidad extends Component
         $model = Unidad::find($this->idUni);
         $model->Unidad = $this->name;
         $model->Descripcion = $this->description;
-        $model->save();
         $this->historial();
+        $model->save();
+        
         $this->alert = true;
     }
     public function setData($id,$name,$description)
@@ -115,6 +116,7 @@ class TableUnidad extends Component
         $this->idUni = '';
         $this->name = '';
         $this->description = '';
+        $this->nota = '';
     }
     public function resetAlert()
     {

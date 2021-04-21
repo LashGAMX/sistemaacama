@@ -16,8 +16,8 @@ class Simbologia extends Model
     protected $fillable = [
         'Simbologia',
         'Descripcion',
-        // 'Id_user_c',
-        // 'Id_user_m',
+        'Id_user_c',
+        'Id_user_m',
     ];
 }
  

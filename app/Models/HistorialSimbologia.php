@@ -6,17 +6,22 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class SimbologiaParametros extends Model
+class HistorialSimbologia extends Model
 {
-    use HasFactory,SoftDeletes;
-    protected $table = 'simbologia_parametros';
-    protected $primaryKey = 'Id_simbologia';
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'hist_analisisSim';
+    protected $primaryKey = 'Id_hist';
     public $timestamps = true;
 
     protected $fillable = [
+        'Id_simbologia',
         'Simbologia',
         'Descripcion',
+        'Nota',
+        'F_creacion',
         'Id_user_c',
+        'F_modificacion',
         'Id_user_m',
     ];
 }

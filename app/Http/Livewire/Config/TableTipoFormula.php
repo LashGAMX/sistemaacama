@@ -56,8 +56,9 @@ class TableTipoFormula extends Component
         $this->validate();
         $model = TipoFormula::find($this->idTipo);
         $model->Tipo_formula = $this->tipo;
-        $model->save();
         $this->historial();
+        $model->save();
+        
         $this->alert = true;
     }
     public function setData($id,$tipo)

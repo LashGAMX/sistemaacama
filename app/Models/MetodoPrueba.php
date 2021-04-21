@@ -15,8 +15,8 @@ class MetodoPrueba extends Model
     protected $fillable = [
         'Metodo_prueba',
         'Clave_metodo',
-        'Status',
-        // 'Id_user_c',
-        // 'Id_user_m',
+        //'Status',
+        'Id_user_c',
+        'Id_user_m',
     ];
 }

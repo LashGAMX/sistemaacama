@@ -54,8 +54,9 @@ class TableTecnica extends Component
         $this->validate();
         $model = Tecnica::find($this->idTecnica);
         $model->Tecnica = $this->tecnica;
-        $model->save();
         $this->historial();
+        $model->save();
+        
         $this->alert = true;
     }
     public function setData($id,$tecnica)
@@ -105,6 +106,6 @@ class TableTecnica extends Component
     {
         $this->idTecnica = '';
         $this->tecnica = '';
-        $this->nota='';
+        $this->nota = '';
     }
 }
