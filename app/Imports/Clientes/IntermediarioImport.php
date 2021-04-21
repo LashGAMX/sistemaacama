@@ -5,7 +5,7 @@ namespace App\Imports\Clientes;
 use App\Models\Cliente;
 use Maatwebsite\Excel\Concerns\ToModel;
 
-class IntermediarioImport implements ToModel
+class IntermediarioImport implements ToModel 
 {
     /**
     * @param array $row

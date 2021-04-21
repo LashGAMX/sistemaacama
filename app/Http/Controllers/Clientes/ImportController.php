@@ -19,8 +19,14 @@ class ImportController extends Controller
     }
     public function create(Request $request)
     {
-        $file = $request->file('file');
-        var_dump($file);
-        // Excel::import(new IntermediarioImport, $file);
+        switch ($request->categoria) {
+            case '1':
+                # code...
+                // Excel::import(new IntermediarioImport, $request->file('file'));
+                break;   
+            default:
+                # code...
+                break;
+        }
     }
 }

@@ -74,7 +74,7 @@
                         @if ($sw != true)
                             <div class="custom-control custom-switch">
                                 <input wire:model='status' type="checkbox" class="custom-control-input" id="customSwitch1">
-                                <label class="custom-control-label" for="customSwitch1">Status</label>
+                                <label class="custom-control-label" for="customSwitch1">Activo</label>
                             </div>
                         @else
                             <input type="text" wire:model="idCliente" hidden>
