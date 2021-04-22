@@ -3,17 +3,22 @@
 namespace App\Imports\Clientes;
 
 use App\Models\Cliente;
+use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Illuminate\Support\Collection;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
 
-class IntermediarioImport implements ToModel 
+class IntermediarioImport implements ToCollection
 {
-    /**
-    * @param array $row
-    *
-    * @return \Illuminate\Database\Eloquent\Model|null
-    */
-    public function model(array $row)
+    public function collection(Collection $rows)
     {
-        var_dump($row);
+        $cont = 0;
+        foreach ($rows as $row) 
+        {
+            echo 'Us:'.$cont.':'.$row[0];
+            echo 'PA:'.$cont.':'.$row[1];
+            echo 'PA:'.$cont.':'.$row[2]; 
+            echo '<br>';
+        }
     }
 }

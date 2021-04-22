@@ -22,7 +22,7 @@ class ImportController extends Controller
         switch ($request->categoria) {
             case '1':
                 # code...
-                // Excel::import(new IntermediarioImport, $request->file('file'));
+                Excel::import(new IntermediarioImport, $request->file('file'));
                 break;   
             default:
                 # code...

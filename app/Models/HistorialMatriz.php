@@ -15,7 +15,7 @@ class HistorialMatriz extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Id_matriz,parametro',
+        'Id_matriz',
         'Matriz',
         'Nota',
         'F_creacion',
