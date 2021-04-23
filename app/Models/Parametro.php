@@ -27,6 +27,8 @@ class Parametro extends Model
         'Id_simbologia',
         'F_inicio_vigencia',
         'F_fin_vigencia',
-        'Precio'
+        'Precio',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

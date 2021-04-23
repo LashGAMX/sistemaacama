@@ -24,7 +24,7 @@
         <tbody>
         @if ($model->count())
         @foreach ($model as $item)
-            @if ($item->deleted_at != 'null')
+            @if ($item->deleted_at != NULL)
                 <tr class="bg-danger text-white">
             @else
                 <tr>

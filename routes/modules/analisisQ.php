@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AnalisisQ\ImportarController;
 use App\Http\Controllers\AnalisisQ\LimitesController;
 use App\Http\Controllers\AnalisisQ\NormaController;
 use App\Http\Controllers\AnalisisQ\ParametroController;
@@ -18,3 +19,6 @@ Route::post('analisisQ/detalle_normas/getParametroNorma', [NormaController::clas
 Route::get('analisisQ/limites', [LimitesController::class,'index']);
 Route::get('analisisQ/limites/{idNorma}', [LimitesController::class,'show']); 
 Route::get('analisisQ/limites/{idNorma}/{idParametro}', [LimitesController::class,'details']); 
+
+Route::get('analisisQ/importar', [ImportarController::class,'index']);
+Route::post('analisisQ/importar/create', [ImportarController::class,'create']); 

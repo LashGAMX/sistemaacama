@@ -15,7 +15,7 @@
       </ul>
       <div class="tab-content" id="myTabContent">
 
-        <div class="tab-pane fade" id="rios" role="tabpanel" aria-labelledby="rios-tab">
+        <div class="tab-pane fade" id="rios" role="tabpanel" aria-labelledby="rios-tab"> 
             <div class="accordion" id="accordionExample">
                 <table class="table table-hover table-striped">
                     <thead class="thead-dark">

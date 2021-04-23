@@ -10,12 +10,12 @@ class Grupo extends Model
 {
     use HasFactory,SoftDeletes;
     protected $table = 'grupos';
-    protected $primaryKey = 'Id_grupos';
+    protected $primaryKey = 'Id_grupo';
     public $timestamps = true;
 
     protected $fillable = [
-        'Titulo',
+        'Grupo',
         'Comentario',
-        'Status'
     ];
 }
+ 

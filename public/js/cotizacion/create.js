@@ -34,7 +34,7 @@ $(document).ready(function () {
     $('#frecuencia').click(function () {
       dataTomas();
     });
-
+    $('')
     addColPunto();
 });
 var modelCot;

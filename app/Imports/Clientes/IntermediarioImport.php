@@ -13,6 +13,7 @@ class IntermediarioImport implements ToCollection
     public function collection(Collection $rows)
     {
         $cont = 0;
+        var_dump($rows);
         foreach ($rows as $row) 
         {
             echo 'Us:'.$cont.':'.$row[0];

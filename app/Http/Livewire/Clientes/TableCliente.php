@@ -123,10 +123,7 @@ class TableCliente extends Component
     public function btnCreate()
     {
         $this->alert = false;
-        if($this->sw == true)
-        {
-            $this->clean();
-        }
+        $this->clean();
     }
     public function detalle($id)
     {
@@ -137,14 +134,14 @@ class TableCliente extends Component
         $this->alert = false;
     }
     public function clean()
-    {
+    { 
         $this->resetValidation();
         $this->idCliente = '';
         $this->cliente = '';
         $this->rfc = '';
         $this->idInter = '';
         $this->inter = '';
-        $this->status = '';
+        $this->status = 1;
         $this->sw = false;
     }
 }
