@@ -16,21 +16,67 @@ class Config extends Component
 
     public $idHist;
     public $idSuc;
-    Public $sucursal;
+    public $sucursal;
+    public $unidad;
+    // public $res;
+    //public $model;
 
     public function render()
     {
-        $sucursal = $this->sucursal;
-        return view('livewire.historial.config',compact('sucursal'));
+        
+        // $sucursal=;
+        // if($this->subModulo == 1){
+        //     if($this->categoria == 1){
+        //         $this->config();
+        //     $this->res = "config";
+        //     }elseif($this->categoria == 2){
+        //         $this->res = "unidad";
+        //     }
+        // }
+        
+        return view('livewire.historial.config');
     } 
 
     public function config()
     {
         $this->sw = 1;
-        $this->sucursal = HistorialSucursal::all();
+       
+
+    }
+
+    public function getConfig()
+    {
         
-        
-        
+        // $model='';
+      
+        // //  if($this->subModulo == 1)
+        // //  {
+        // //     if($this->categoria == 1){
+        // //         $model = DB::table('hist_laboratorioSuc')->get();
+        // //     $this->res = "config";
+        // //     }elseif($this->categoria == 2){
+        // //         $this->res = "unidad";
+        // //     }
+        // // }
+
+        // switch ($this->subModulo) {
+        //     case 1:
+        //         switch ($this->categoria) {
+        //             case 1:
+        //                 $model = DB::table('hist_laboratorioSuc')->get();
+        //                 break;
+        //             case 2:
+        //                 $model = DB::table('hist_laboratorioUni')->get();
+        //                 break;
+        //         }
+        //         break;
+        //     case 2:
+        //         echo "i es igual a 2";
+        //         break;
+        // }
+
+        // $this->sucursal = $model;
+        // $this->unidad = $model;
     }
     public function clientes()
     {

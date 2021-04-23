@@ -23,4 +23,4 @@ class HistorialSucursal extends Model
         'F_modificacion',
         'Id_user_m',
     ];
-}
+} 
