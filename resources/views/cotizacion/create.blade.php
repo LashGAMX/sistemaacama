@@ -16,7 +16,7 @@
             <a class="nav-link" id="parametro-tab" data-toggle="tab" href="#parametro" role="tab" aria-controls="parametro" aria-selected="false">2. Parametros</a>
           </li>
           <li class="nav-item" role="presentation">
-            <a class="nav-link" id="cotizacion-tab" data-toggle="tab" href="#cotizacion" role="tab" aria-controls="cotizacion" aria-selected="false">3. Cotización</a>
+            <a class="nav-link" id="cotizacion-tab" data-toggle="tab" href="#cotizacion"  role="tab" aria-controls="cotizacion" aria-selected="false">3. Cotización</a>
           </li>
         </ul>
         <form action="{{url('admin/cotizacion/setCotizacion')}}" method="post">
@@ -51,7 +51,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="clientes">Clientes registrados</label>
-                  <select name="clientes" id="clientes" class="form-control">
+                  <select name="clientes" id="clientes" class="form-control select2" >
                     <option value="0">Sin seleccionar</option>
                     @foreach ($generales as $item)
                         @if (@$model->Id_cliente == $item->Id_cliente)

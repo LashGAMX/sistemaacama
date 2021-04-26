@@ -3,7 +3,7 @@
 namespace App\Http\Livewire\AnalisisQ;
 
 use App\Models\Limite001;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB; 
 use Livewire\Component; 
  
 class LimiteParametros001 extends Component
@@ -21,7 +21,7 @@ class LimiteParametros001 extends Component
     {
         $model = DB::table('ViewLimite001')->get();
         return view('livewire.analisis-q.limite-parametros001',compact('model'));
-    }
+    } 
     public function store()
     {
         $model = Limite001::find($this->idLimite);
