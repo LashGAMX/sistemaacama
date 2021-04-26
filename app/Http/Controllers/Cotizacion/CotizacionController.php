@@ -35,6 +35,7 @@ class CotizacionController extends Controller
      $servicios = DB::table('tipo_servicios')->get();
      $descargas = DB::table('tipo_descargas')->get();
      $metodoPago = DB::table('metodo_pago')->get();
+    $estados = DB::table('estados')->get();
 
      $data = array(
          'intermediarios' => $intermediarios,
@@ -43,6 +44,7 @@ class CotizacionController extends Controller
          'servicios' => $servicios,
          'descargas' => $descargas,
          'frecuencia' => $frecuencia,
+         'estados' => $estados,
          'metodoPago' => $metodoPago,
      );
      return view('cotizacion.create',$data);
@@ -111,11 +113,46 @@ class CotizacionController extends Controller
      );
      return response()->json($data);
  }
+ public function getLocalidad()
+ {
+     $id = $_POST['idLocalidad'];
+     $model = DB::table('localidades')->where('Id_municipio',$id)->get();
+     $data = array(
+         'model' => $model,
+     );
+     return response()->json($data);
+ }
  public function getNorma()
  {
      $diDescarga = $_POST['idDescarga'];
      $model = Norma::where('Id_descarga',$diDescarga)->get();
      $data = array(
+         'model' => $model,
+     );
+     return response()->json($data);
+ }
+ public function cantidadGasolina(Request $request)
+ {
+    $model = DB::table('costo_muestreo')->where('deleted',NULL)->first();
+    // $kmTotal = ($request->km + $request->kmExtra);
+    // $descaste = $kmTotal * $model->Desgaste_km;
+    // $gasolinaTeorico = ($kmTotal / $model->Rendimiento);
+    $data = array(
+        'total' => $model,
+    );
+     return response()->json($data);
+ }
+ public function precioMuestreo(Request $request)
+ {
+    $model = DB::table('costo_muestreo')->where('deleted',NULL)->first();
+    $kmTotal = ($request->km + $request->kmExtra);
+    $descaste = $kmTotal * $model->Desgaste_km;
+    $gasolinaTeorico = ($kmTotal / $model->Rendimiento);
+    $costoViaticos = ($request->hospedaje * $request->diasHospedaje) + $request->casetas + ($model->Comida * $request->diasMuestreo * $request->numMuestreador) + ($model->Gasolina * $request->gasolinaSolicitada);
+    $costoSuma = $costoViaticos + ($model->Pago_muestreador * $request->diasMuestreo * $request->numMuestreador) + $descaste + $model->Insumo;
+    $costoTotal = ($model->Ganancia * (1 + $costoSuma));
+     $data = array(
+         'total' => $costoTotal,
          'model' => $model,
      );
      return response()->json($data);
@@ -166,14 +203,14 @@ class CotizacionController extends Controller
              {
                  $precioTotal += $precioModel->Precio;
              }else{
-                 $precioModel = DB::table('ViewPrecioCat')->where('Id_laboratorio',1)->where('Id_parametro',$parametroExtra[$i])->first();
+                 $precioModel = DB::table('ViewPrecioCat')->where('Id_parametro',$parametroExtra[$i])->first();
                  $precioTotal += $precioModel->Precio;
              }
          }
      }
 
 
-     $data = array(
+     $data = array( 
          'intermediarios' => $intermediarios,
          'subnorma' => $subnorma,
          'idParametros' => $idParametros,

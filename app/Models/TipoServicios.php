@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class TipoServicios extends Model
 {
@@ -14,6 +15,17 @@ class TipoServicios extends Model
 
     protected $fillable = [
         'Servicio',
-        'Descripcion'
+        'Descripcion',
+        'creo',
+        'modifico',
     ];
+
+    public function getCreoAddAttribute()
+    {
+        return $this->creo ?? Auth::user()->id; 
+    }
+    public function getModificoAddAttribute()
+    {
+        return $this->modifico ?? Auth::user()->id;
+    }
 }

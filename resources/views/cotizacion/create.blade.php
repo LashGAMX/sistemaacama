@@ -51,7 +51,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="clientes">Clientes registrados</label>
-                  <select name="clientes" id="clientes" class="form-control select2" >
+                  <select name="clientes" id="clientes" class="form-control select2">
                     <option value="0">Sin seleccionar</option>
                     @foreach ($generales as $item)
                         @if (@$model->Id_cliente == $item->Id_cliente)
@@ -266,7 +266,7 @@
                 </div>
               </div>
 
-              <div class="col-md-6">
+              <div class="col-md-12">
                 {{-- @livewire('analisis-q.norma-parametros', ['idUser' => Auth::user()->id,'idSub' => @$idSub]) --}}
                 <div id="tabParametros">
 
@@ -382,42 +382,87 @@
               </div>
                 <div class="col-md-3">
                   <label for=""># tomas Muestreo:</label>
-                  <input type="text" class="form-control" id="tomasMuestreo" disabled>
+                  <input type="number" class="form-control" id="tomasMuestreo" disabled>
               </div>
               <!-- Viaticos -->
               <div class="col-md-3">
-                  <label for="">Viaticos:</label>
-                  <input type="text" class="form-control" name="viaticos" id="viaticos">
+                  <label for="">Gasto muestreo:</label>
+                  <input type="number" class="form-control" name="viaticos" id="viaticos">
               </div>
               <!-- Gastos de Paqueteria -->
               <div class="col-md-3">
                   <label for="">Gastos Paqueteria:</label>
-                  <input type="text" class="form-control" name="paqueteria" id="paqueteria">
+                  <input type="number" class="form-control" name="paqueteria" id="paqueteria">
               </div>
               <!-- Gasto Adicional -->
               <div class="col-md-3">
                   <label for="">Gasto Adicional:</label>
-                  <input type="text" class="form-control" namne="gastosExtras" id="gastosExtras">
+                  <input type="number" class="form-control" name="gastosExtras" id="gastosExtras">
               </div>
               <!-- Numero de Servicio-->
               <div class="col-md-3">
                   <label for="">N Servicio:</label>
-                  <input type="text" class="form-control" name="numeroServicio" id="numeroServicio">
+                  <input type="number" class="form-control" name="numeroServicio" id="numeroServicio">
               </div>
               <!-- Km Extra-->
+              <div class="col-md-3"> 
+                <label for="">Km:</label>
+                <input type="number" class="form-control" name="Km" id="Km" onkeydown="cantidadGasolina()">
+              </div>
               <div class="col-md-3">
                   <label for="">Km Extra:</label>
-                  <input type="text" class="form-control" name="kmExtra" id="kmExtra">
+                  <input type="number" class="form-control" name="kmExtra" id="kmExtra" onkeydown="cantidadGasolina()">
               </div>
+              <div class="col-md-3">
+                <label for="">Cantidad Gasolina:</label>
+                <input type="number" class="form-control" name="cantdidadGasolina" id="cantdidadGasolina">
+            </div>
+              <div class="col-md-3">
+                <label for="">Hospedaje:</label>
+                <input type="number" class="form-control" name="hospedaje" id="hospedaje">
+            </div>
+            <div class="col-md-3">
+              <label for="">Casetas:</label>
+              <input type="number" class="form-control" name="casetas" id="casetas">
+          </div>
+          <div class="col-md-3">
+            <label for="">Dias muestreo:</label>
+            <input type="number" class="form-control" name="diasMuestreo" id="diasMuestreo">
+        </div>
+        <div class="col-md-3">
+          <label for="">Numero Muestreador:</label>
+          <input type="number" class="form-control" name="numMuestreador" id="numMuestreador">
+      </div>
+      <div class="col-md-3">
+        <label for="">Gasolina solicitada:</label>
+        <input type="number" class="form-control" name="gasolinaSolicitada" id="gasolinaSolicitada">
+    </div>
+    <div class="col-md-3">
+      <button type="button" onclick="precioMuestreo()" class="btn btn-success"><i class="fa fa-calc"></i> Calcular</button>
+  </div>
+  <div class="col-md-3">
+    <label for="">Sub total:</label>
+    <input type="number" class="form-control" name="subTotal" id="subTotal">
+</div>
               <!-- Precio Km-->
               <div class="col-md-3">
-                  <label for="">Precio Km:</label>
-                  <input type="text" class="form-control" name="precioKm" id="precioKm"> 
+                  <label for="">Estado:</label>
+                  <select  class="form-control" placeholder="Estado" id="estado" name="estado">
+                    @foreach ($estados as $item)
+                      <option value="{{$item->Clave}}" selected>{{$item->Nombre}}</option>
+                    @endforeach
+                  </select>
               </div>
               <!-- Tomas de Muestra-->
               <div class="col-md-3">
-                  <label for="">Precio Km Extra:</label>
-                  <input type="text" class="form-control" name="precioKmExtra" id="precioKmExtra">
+                <label for="">Localidad:</label>
+                <select  class="form-control select2" placeholder="Localidad" id="localidad" name="localidad">
+                  
+                </select>
+              </div>
+              <div class="col-md-12">
+                <label for="">$ Total muestreo:</label>
+                <input type="number" class="form-control" name="totalMuestreo" id="totalMuestreo" disabled>
               </div>
               </div>
             </div>

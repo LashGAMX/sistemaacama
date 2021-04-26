@@ -2,6 +2,7 @@ var base_url = 'https://dev.sistemaacama.com.mx';
 var swParametros = 0;
 var sw = $("#sw").val();
 $(document).ready(function () {
+
     $('#datos-tab').click();
 
     if(sw == 1)
@@ -25,8 +26,12 @@ $(document).ready(function () {
     $('#clientes').click(function () {
         dataCliente();
     });
+    
     $('#tipoDescarga').click(function () {
       dataNorma(); 
+    });
+    $('#estado').click(function () {
+      getLocalidad(); 
     });
     $('#norma').click(function () {
       dataSubnorma();
@@ -34,9 +39,102 @@ $(document).ready(function () {
     $('#frecuencia').click(function () {
       dataTomas();
     });
-    $('')
-    addColPunto();
+    $('#tipoMuestra').click(function ()
+    {
+      if($('#tipoMuestra').val() == "INSTANTANEA")
+      {
+        $("#frecuencia option[value=1]").attr("selected",true);
+        $('#tomas').val("1");
+      } 
+    });
+    // $('')
+    addColPunto(); 
+
 });
+function cantidadGasolina()
+{
+  $.ajax({
+    url: base_url + '/admin/cotizacion/cantidadGasolina', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      kmExtra: $('#kmExtra').val(),
+      km: $('#km').val(),
+        _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json',
+    async: false,
+    success: function (response) {
+        console.log(response)
+        // $("#cantdidadGasolina").val(response.total);
+    }
+});
+}
+function precioMuestreo()
+{
+  $.ajax({
+    url: base_url + '/admin/cotizacion/precioMuestreo', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      tomasMuestreo: $('#tomasMuestreo').val(),
+      viaticos: $('#viaticos').val(),
+      paqueteria: $('#paqueteria').val(),
+      gastosExtras: $('#gastosExtras').val(),
+      numeroServicio: $('#numeroServicio').val(),
+      kmExtra: $('#kmExtra').val(),
+      km: $('#km').val(),
+      hospedaje: $('#hospedaje').val(),
+      casetas: $('#casetas').val(),
+      diasMuestreo: $('#diasMuestreo').val(),
+      numMuestreador: $('#numMuestreador').val(),
+      gasolinaSolicitada: $('#gasolinaSolicitada').val(),
+
+        _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json',
+    async: false,
+    success: function (response) {
+        console.log(response)
+        $("#subTotal").val(response.total);
+    }
+});
+}
+function getLocalidad()
+{
+    let sub = document.getElementById('localidad');
+    let tab = '';
+    $.ajax({
+        url: base_url + '/admin/cotizacion/getLocalidad', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          idLocalidad: $('#estado').val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            // console.log(response)
+            // model = response;
+            $.each(response.model, function (key, item) {
+              if(sw == 1)
+              {
+                // if(modelCot.Id_norma == item.Id_norma)
+                // {
+                //   tab += '<option value="'+item.Id_norma+'" selected>'+item.Clave_norma+'</option>';
+                // }else{
+                //   tab += '<option value="'+item.Id_norma+'">'+item.Clave_norma+'</option>';
+                // } 
+              }else{
+                tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>';
+              }
+            });
+            sub.innerHTML = tab;
+        }
+    });
+    if(sw == 1)
+    {
+      dataSubnorma();
+    }
+}
 var modelCot;
 function update()
 {
@@ -223,7 +321,6 @@ function getDataParametros()
 
 
 function dataCliente() {
-
     $.ajax({
         url: base_url + '/admin/cotizacion/getCliente', //archivo que recibe la peticion
         type: 'POST', //método de envio
@@ -233,7 +330,7 @@ function dataCliente() {
         },
         dataType: 'json',
         async: false,
-        success: function (response) {
+        success: function (response) { 
             console.log(response)
             $('#nombreCliente').val(response.Empresa);
         }
