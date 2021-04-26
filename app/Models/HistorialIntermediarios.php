@@ -6,25 +6,27 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Intermediario extends Model
+class HistorialIntermediarios extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
-    protected $table = 'intermediarios';
-    protected $primaryKey = 'Id_intermediario';
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'hist_clientesInter';
+    protected $primaryKey = 'Id_hist';
     public $timestamps = true;
 
-    protected $fillable = [
-        'Id_intermediario',
+    protected $fillable = [   
         'Id_cliente',
+        'Id_intermediario',
         'Laboratorio',
         'Correo',
         'Direccion',
         'Tel_oficina',
         'Extension',
         'Celular1',
-        'Detalle',
+        'Nota',
+        'F_creacion',
         'Id_user_c',
+        'F_modificacion',
         'Id_user_m',
     ];
 }

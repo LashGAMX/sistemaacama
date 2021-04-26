@@ -28,7 +28,7 @@
     </div><div class="col-md-3"><div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx/admin/voyager-assets?path=images%2Fwidget-backgrounds%2F01.jpg');">
     <div class="dimmer"></div>
     <div class="panel-content">
-        <i class="voyager-people"></i>        <h4>Clientes</h4>
+        <i class="fa fa-users"></i>        <h4>Clientes</h4>
         
         <a href="https://dev.sistemaacama.com.mx/admin/historial/config" class="btn btn-primary">Ver Historial</a>
     </div>
@@ -77,24 +77,7 @@
         </div>
         </div>
         </div>
-        <div class="col-md-3"><div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx/admin/voyager-assets?path=images%2Fwidget-backgrounds%2F01.jpg');">
-            <div class="dimmer"></div>
-            <div class="panel-content">
-                <i class="voyager-documentation"></i>        <h4>Cotizaciones</h4>
-                
-                <a href="https://dev.sistemaacama.com.mx/admin/users" class="btn btn-primary">Ver Historial</a>
-            </div>
-            </div>
-            </div>
-            <div class="col-md-3"><div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx/admin/voyager-assets?path=images%2Fwidget-backgrounds%2F01.jpg');">
-                <div class="dimmer"></div>
-                <div class="panel-content">
-                    <i class="voyager-documentation"></i>        <h4>Cotizaciones</h4>
-                    
-                    <a href="https://dev.sistemaacama.com.mx/admin/users" class="btn btn-primary">Ver Historial</a>
-                </div>
-                </div>
-                </div>
+        
     </div>
   {{-- <livewire:historial.config/> --}}
     

@@ -159,6 +159,16 @@
                         <input type="number" class="form-control" wire:model='cel' name="cel" id="cel" placeholder="Celular">
                     </div>
                 </div>
+                @if ($sw == true)               
+                <div class="col-md-12">
+                <div class="form-group">
+                    <input type="text" wire:model="nota" hidden>
+                    <label for="">Nota</label>
+                    <input type="text" wire:model='nota' class="form-control" placeholder="Nota"> 
+                    @error('nota') <span class="text-danger">{{ $message  }}</span> @enderror
+                  </div>
+                </div>
+                @endif
             </div>
         </div>
         <div class="modal-footer">

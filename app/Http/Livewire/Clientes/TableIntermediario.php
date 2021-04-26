@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\Clientes;
 
 use App\Models\Clientes;
+use App\Models\HistorialIntermediarios;
 use App\Models\Intermediario;
 use App\Models\Sucursal;
 use Illuminate\Support\Facades\DB;
@@ -32,6 +33,7 @@ class TableIntermediario extends Component
     public $status = 1;
     public $ext;
     public $cel;
+    public $nota;
 
     protected $rules = [ 
         'nombre' => 'required',
@@ -79,14 +81,20 @@ class TableIntermediario extends Component
         ]);
 
         Intermediario::create([
-            'Id_cliente' => $model->Id_cliente,
+            'Id_cliente' => $this->idCliente,
             'Laboratorio' => $this->lab,
             'Correo' => $this->correo,
             'Direccion' => $this->dir,
             'Tel_oficina' => $this->tel,
             'Extension' => $this->ext,
+            'Id_user_c' => $this->idUser,
+            'Id_user_m' => $this->idUser,
             'Celular1' => $this->cel,
-        ]);      
+            
+        ]);
+        $model->Id_cliente = $this->idCliente; 
+        $this->nota = "Creación de registro";
+        $this->historial();
         $this->alert = true;
     }
     public function store()
@@ -118,6 +126,7 @@ class TableIntermediario extends Component
             $model->A_paterno = $this->paterno;
             $model->A_materno = $this->materno;
             $model->RFC = $this->rfc;
+            $this->historial();
             $model->save();
         }
 
@@ -157,6 +166,26 @@ class TableIntermediario extends Component
         $this->cel = $cel;
         $this->alert = false;
     }
+
+    Public function historial()
+    {
+        $model = DB::table('intermediarios')->where('Id_cliente',$this->idCliente)->first();
+        HistorialIntermediarios::create([
+            'Id_cliente' => $model->Id_cliente,
+            'Id_intermediario' => $model->Id_intermediario,
+            'Laboratorio' => $model->Laboratorio,
+            'Correo' => $this->correo,
+            'Direccion' => $this->dir,
+            'tel_oficina' => $this->tel,
+            'Extension' => $this->ext,
+            'Celular1' => $this->cel,
+            'Nota' => $this->nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $model->Id_user_m,
+        ]);
+    }
     
     public function btnCreate()
     {
@@ -186,5 +215,6 @@ class TableIntermediario extends Component
         $this->ext = '';
         $this->cel = '';
         $this->sw = false;
+        $this->nota = '';
     }
 }
