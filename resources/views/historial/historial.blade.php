@@ -30,7 +30,7 @@
     <div class="panel-content">
         <i class="fa fa-users"></i>        <h4>Clientes</h4>
         
-        <a href="https://dev.sistemaacama.com.mx/admin/historial/config" class="btn btn-primary">Ver Historial</a>
+        <a href="https://dev.sistemaacama.com.mx/admin/historial/clientes" class="btn btn-primary">Ver Historial</a>
     </div>
     </div>
     </div>

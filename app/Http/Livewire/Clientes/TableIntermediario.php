@@ -77,24 +77,29 @@ class TableIntermediario extends Component
             'Nombres' => $this->nombre,
             'A_paterno' => $this->paterno,
             'A_materno' => $this->materno,
+            'Id_user_c' => $this->idUser,
+            'Id_user_m' => $this->idUser,
             'RFC' => $this->rfc,
         ]);
 
         Intermediario::create([
-            'Id_cliente' => $this->idCliente,
+            'Id_cliente' => $model->Id_cliente,
             'Laboratorio' => $this->lab,
             'Correo' => $this->correo,
             'Direccion' => $this->dir,
             'Tel_oficina' => $this->tel,
             'Extension' => $this->ext,
-            'Id_user_c' => $this->idUser,
-            'Id_user_m' => $this->idUser,
+            // 'Id_user_c' => $this->idUser,
+            // 'Id_user_m' => $this->idUser,
             'Celular1' => $this->cel,
             
         ]);
-        $model->Id_cliente = $this->idCliente; 
+        // $this->nombre = $model->Nombres;
+        // $this->paterno = $model->A_paterno;
+        // $this->materno = $model->A_materno;
+        // $this->rfc = $model->RFC;
         $this->nota = "Creación de registro";
-        $this->historial();
+        $this->historial($model->Id_cliente);
         $this->alert = true;
     }
     public function store()
@@ -117,6 +122,7 @@ class TableIntermediario extends Component
                 $model->A_paterno = $this->paterno;
                 $model->A_materno = $this->materno;
                 $model->RFC = $this->rfc;
+                $this->historial($this->idCliente);
                 $model->save();
             Clientes::find($this->idCliente)->delete();
         }else{
@@ -126,7 +132,7 @@ class TableIntermediario extends Component
             $model->A_paterno = $this->paterno;
             $model->A_materno = $this->materno;
             $model->RFC = $this->rfc;
-            $this->historial();
+            $this->historial($this->idCliente);
             $model->save();
         }
 
@@ -167,23 +173,27 @@ class TableIntermediario extends Component
         $this->alert = false;
     }
 
-    Public function historial()
+    Public function historial($idCliente)
     {
-        $model = DB::table('intermediarios')->where('Id_cliente',$this->idCliente)->first();
+        $model = DB::table('ViewIntermediarios')->where('Id_cliente',$idCliente,'Nombre', $nombre)->first();
         HistorialIntermediarios::create([
-            'Id_cliente' => $model->Id_cliente,
             'Id_intermediario' => $model->Id_intermediario,
-            'Laboratorio' => $model->Laboratorio,
-            'Correo' => $this->correo,
-            'Direccion' => $this->dir,
-            'tel_oficina' => $this->tel,
-            'Extension' => $this->ext,
-            'Celular1' => $this->cel,
+            'Id_cliente' => $model->Id_cliente,
+            'Nombres' => $model->Nombres,
+            'A_paterno'=> $model->A_paterno,
+            'A_materno' => $model->A_materno,
+            'RFC' => $model->RFC,
+            'Laboratorio' => $model->Sucursal,
+            'Correo' => $model->Correo,
+            'Direccion' => $model->Direccion,
+            'Tel_oficina' => $model->Tel_oficina,
+            'Extension' => $model->Extension,
+            'Celular1' => $model->Celular1,
             'Nota' => $this->nota,
             'F_creacion' => $model->created_at,
             'Id_user_c' => $model->Id_user_c,
             'F_modificacion' => $model->updated_at,
-            'Id_user_m' => $model->Id_user_m,
+            'Id_user_m' => $this->idUser,
         ]);
     }
     

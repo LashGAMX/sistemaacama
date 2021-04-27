@@ -17,6 +17,10 @@ class Intermediario extends Model
     protected $fillable = [
         'Id_intermediario',
         'Id_cliente',
+        'Nombres',
+        'A_paterno',
+        'A_materno',
+        'RFC',
         'Laboratorio',
         'Correo',
         'Direccion',
@@ -27,4 +31,4 @@ class Intermediario extends Model
         'Id_user_c',
         'Id_user_m',
     ];
-}
+} 

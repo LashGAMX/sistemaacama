@@ -23,6 +23,33 @@ INNER JOIN clientes as cli
 ON inter.Id_cliente = cli.Id_cliente
 INNER JOIN sucursales as suc
 ON inter.Laboratorio = suc.Id_sucursal
+--nueva vista intermediarios con id_user_c y m
+CREATE VIEW ViewIntermediarios as SELECT
+	inter.Id_intermediario,
+	inter.Id_cliente,
+	cli.Nombres,
+    cli.A_paterno,
+    cli.A_materno,
+    cli.RFC,
+    cli.Id_tipo_cliente,
+    cli.Id_user_c,
+    cli.Id_user_m,
+    inter.Laboratorio as Id_laboratorio,
+    suc.Sucursal,
+    inter.Correo,
+    inter.Direccion,
+    inter.Tel_oficina,
+    inter.Extension,
+    inter.Celular1,
+    inter.Detalle,
+    inter.created_at,
+    inter.updated_at,
+    cli.deleted_at
+FROM intermediarios as inter
+INNER JOIN clientes as cli
+ON inter.Id_cliente = cli.Id_cliente
+INNER JOIN sucursales as suc
+ON inter.Laboratorio = suc.Id_sucursal
 
 /* Vista Lista clientes generales*/
 

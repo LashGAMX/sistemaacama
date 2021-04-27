@@ -19,7 +19,8 @@ class Clientes extends Model
         'A_materno',
         'RFC',
         'Id_tipo_cliente',
-        'deleted_at'
-        // 'Id_user_m',
+        'deleted_at',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

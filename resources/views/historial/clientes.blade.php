@@ -6,9 +6,9 @@
 
   <h6 class="page-title"> 
       <i class="fa fa-history"></i>
-      Historial Configuraciones
+      Historial Clientes
   </h6>
-    <livewire:historial.config/>
+   <livewire:historial.clientes/>
   @stop
- 
+
 @endsection   
