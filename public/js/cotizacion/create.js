@@ -8,6 +8,7 @@ $(document).ready(function () {
     if(sw == 1)
     {
       update();
+      precioCampo();
       swParametros == 1;
     }
 
@@ -51,9 +52,13 @@ $(document).ready(function () {
     addColPunto(); 
 
 });
-function cantidadGasolina()
+function cantGasolinaTeorico() 
 {
-  $.ajax({
+  let km = document.getElementById('km')
+  // console.log(km.value);
+ if(km.value != '' && $('#kmExtra').val() != '')
+ {
+   $.ajax({
     url: base_url + '/admin/cotizacion/cantidadGasolina', //archivo que recibe la peticion
     type: 'POST', //método de envio
     data: {
@@ -65,36 +70,42 @@ function cantidadGasolina()
     async: false,
     success: function (response) {
         console.log(response)
-        // $("#cantdidadGasolina").val(response.total);
+        $("#gasolinaTeorico").val(response.total);
     }
-});
+  });
+ }
 }
-function precioMuestreo()
+var totalMuestreo = 0;
+function precioCampo()
 {
   $.ajax({
     url: base_url + '/admin/cotizacion/precioMuestreo', //archivo que recibe la peticion
     type: 'POST', //método de envio
     data: {
       tomasMuestreo: $('#tomasMuestreo').val(),
-      viaticos: $('#viaticos').val(),
+      diasHospedaje: $('#diasHospedaje').val(),
+      hospedaje: $('#hospedaje').val(),
+      diasMuestreo: $('#diasMuestreo').val(),
+      numeroMuestreo: $('#numeroMuestreo').val(),
+      caseta: $('#caseta').val(),
+      kmExtra: $('#kmExtra').val(),
+      km: $('#km').val(),
+      cantidadGasolina: $('#cantidadGasolina').val(),
       paqueteria: $('#paqueteria').val(),
       gastosExtras: $('#gastosExtras').val(),
       numeroServicio: $('#numeroServicio').val(),
-      kmExtra: $('#kmExtra').val(),
-      km: $('#km').val(),
-      hospedaje: $('#hospedaje').val(),
-      casetas: $('#casetas').val(),
-      diasMuestreo: $('#diasMuestreo').val(),
       numMuestreador: $('#numMuestreador').val(),
-      gasolinaSolicitada: $('#gasolinaSolicitada').val(),
-
+      
         _token: $('input[name="_token"]').val(),
     },
     dataType: 'json',
     async: false,
     success: function (response) {
         console.log(response)
-        $("#subTotal").val(response.total);
+        $("#totalMuestreo").val(response.total);
+        totalMuestreo = response.total;
+        $("#precioMuestra").val(totalMuestreo);
+        $('#precioTotal').val(precioTotal + totalMuestreo);
     }
 });
 }
@@ -205,6 +216,7 @@ $('#delRow').click( function () {
 } );
 
 }
+var precioTotal = 0;
 function getDatos2()
 {
     $.ajax({
@@ -254,7 +266,10 @@ function getDatos2()
             $("#parametrosCotizacion").val(normaParametro);
             $("#puntosCotizacion").val(puntosMuestro);
 
-            $('#precio').val(response.precioTotal);
+            $("#precioAnalisis").val(response.precioTotal);
+
+            precioTotal = response.precioTotal;
+            $('#precioTotal').val(response.precioTotal + totalMuestreo);
 
         }
     });
@@ -276,11 +291,22 @@ function getDataMuestreo()
   tab += '    </thead>';
   tab += '    <tbody>';
   for (let i = 1; i < puntos.rows.length; i++) {
+    if(sw == 1)
+    {
+      
+    puntosMuestro.push($("#"+puntos.rows[i].cells[1].children[0].id).val());
+    tab += '<tr>';
+    tab += '<td>'+i+'</td>';
+    tab += '<td>'+$("#"+puntos.rows[i].cells[1].children[0].id).val()+'</td>';
+    tab += '</tr>';
+
+    }else{
     puntosMuestro.push($("#"+puntos.rows[i].cells[1].children[1].id).val());
-      tab += '<tr>';
-      tab += '<td>'+i+'</td>';
-      tab += '<td>'+$("#"+puntos.rows[i].cells[1].children[1].id).val()+'</td>';
-      tab += '</tr>';
+    tab += '<tr>';
+    tab += '<td>'+i+'</td>';
+    tab += '<td>'+$("#"+puntos.rows[i].cells[1].children[1].id).val()+'</td>';
+    tab += '</tr>';
+    }
   }
   tab += '    </tbody>';
   tab += '</table>';
@@ -598,4 +624,9 @@ function agregarParametros(idSub)
     infoText:'Mostrar todo {0}',
     filterPlaceHolder:'Filtro'
   });
+}
+
+function habilitarInput()
+{
+  $("#precioAnalisis").prop('disabled', false);
 }
