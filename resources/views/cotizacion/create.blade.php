@@ -19,7 +19,12 @@
             <a class="nav-link" id="cotizacion-tab" data-toggle="tab" href="#cotizacion"  role="tab" aria-controls="cotizacion" aria-selected="false">3. Cotización</a>
           </li>
         </ul>
-        <form action="{{url('admin/cotizacion/setCotizacion')}}" method="post">
+        @if (@$sw != 1)
+        <form action="{{url('admin/cotizacion/setCotizacion')}}" method="post" onsubmit="return habilitarInput()">
+        @else
+        <form action="{{url('admin/cotizacion/updateCotizacion')}}" method="post" onsubmit="return habilitarInput()">
+        @endif
+        
           @csrf
         {{-- Contenido de nav --}}
         <div class="tab-content" id="myTabContent">
@@ -242,7 +247,7 @@
                           @endphp
                           <tr>
                             <td>{{$contPunto}}</td>
-                            <td><input class="form-control" id="punto{{$contPunto}}" value="{{$item->Descripcion}}"></td>
+                            <td><input class="form-control" id="punto{{$contPunto - 1}}" value="{{$item->Descripcion}}"></td>
                           </tr>  
                           @endforeach
                       @endif
@@ -377,106 +382,109 @@
             <div class="col-md-12" id="divMuestreo">
               <div class="row">
                 <div class="col-md-12">
-                  <h6>Datos muestreo</h6>
+                  <h6>Datos muestreo<code>Si algún dato de esta sección no es utilizable marcar la casilla en 0</code></h6>
                   <hr>
               </div>
-                <div class="col-md-3">
+                <div class="col-md-12">
                   <label for=""># tomas Muestreo:</label>
                   <input type="number" class="form-control" id="tomasMuestreo" disabled>
-              </div>
-              <!-- Viaticos -->
-              <div class="col-md-3">
-                  <label for="">Gasto muestreo:</label>
-                  <input type="number" class="form-control" name="viaticos" id="viaticos">
-              </div>
-              <!-- Gastos de Paqueteria -->
-              <div class="col-md-3">
-                  <label for="">Gastos Paqueteria:</label>
-                  <input type="number" class="form-control" name="paqueteria" id="paqueteria">
-              </div>
-              <!-- Gasto Adicional -->
-              <div class="col-md-3">
-                  <label for="">Gasto Adicional:</label>
-                  <input type="number" class="form-control" name="gastosExtras" id="gastosExtras">
-              </div>
-              <!-- Numero de Servicio-->
-              <div class="col-md-3">
-                  <label for="">N Servicio:</label>
-                  <input type="number" class="form-control" name="numeroServicio" id="numeroServicio">
-              </div>
-              <!-- Km Extra-->
-              <div class="col-md-3"> 
-                <label for="">Km:</label>
-                <input type="number" class="form-control" name="Km" id="Km" onkeydown="cantidadGasolina()">
+                  <small id="emailHelp" class="form-text text-muted">Sección viaticos</small>
               </div>
               <div class="col-md-3">
-                  <label for="">Km Extra:</label>
-                  <input type="number" class="form-control" name="kmExtra" id="kmExtra" onkeydown="cantidadGasolina()">
+                  <label for="">Dias hospedaje:</label>
+                  <input type="number" class="form-control" name="diasHospedaje" id="diasHospedaje" value="{{@$muestreo->Dias_hospedaje}}">
               </div>
               <div class="col-md-3">
-                <label for="">Cantidad Gasolina:</label>
-                <input type="number" class="form-control" name="cantdidadGasolina" id="cantdidadGasolina">
-            </div>
-              <div class="col-md-3">
-                <label for="">Hospedaje:</label>
-                <input type="number" class="form-control" name="hospedaje" id="hospedaje">
-            </div>
-            <div class="col-md-3">
-              <label for="">Casetas:</label>
-              <input type="number" class="form-control" name="casetas" id="casetas">
-          </div>
-          <div class="col-md-3">
-            <label for="">Dias muestreo:</label>
-            <input type="number" class="form-control" name="diasMuestreo" id="diasMuestreo">
-        </div>
-        <div class="col-md-3">
-          <label for="">Numero Muestreador:</label>
-          <input type="number" class="form-control" name="numMuestreador" id="numMuestreador">
-      </div>
-      <div class="col-md-3">
-        <label for="">Gasolina solicitada:</label>
-        <input type="number" class="form-control" name="gasolinaSolicitada" id="gasolinaSolicitada">
-    </div>
-    <div class="col-md-3">
-      <button type="button" onclick="precioMuestreo()" class="btn btn-success"><i class="fa fa-calc"></i> Calcular</button>
-  </div>
-  <div class="col-md-3">
-    <label for="">Sub total:</label>
-    <input type="number" class="form-control" name="subTotal" id="subTotal">
-</div>
-              <!-- Precio Km-->
-              <div class="col-md-3">
-                  <label for="">Estado:</label>
-                  <select  class="form-control" placeholder="Estado" id="estado" name="estado">
-                    @foreach ($estados as $item)
-                      <option value="{{$item->Clave}}" selected>{{$item->Nombre}}</option>
-                    @endforeach
-                  </select>
+                <label for="">Hospedaje $:</label>
+                <input type="number" class="form-control" name="hospedaje" id="hospedaje" value="{{@$muestreo->Hospedaje}}">
               </div>
-              <!-- Tomas de Muestra-->
-              <div class="col-md-3">
-                <label for="">Localidad:</label>
-                <select  class="form-control select2" placeholder="Localidad" id="localidad" name="localidad">
-                  
-                </select>
+              <div class="col-md-2">
+                <label for="">Dias muestreo:</label>
+                <input type="number" class="form-control" name="diasMuestreo" id="diasMuestreo" value="{{@$muestreo->Dias_muestreo}}">
+              </div>
+              <div class="col-md-2">
+                <label for=""># de muestreo:</label>
+                <input type="number" class="form-control" name="numeroMuestreo" id="numeroMuestreo" value="{{@$muestreo->Num_muestreo}}">
+              </div>
+              <div class="col-md-2">
+                <label for="">Caseta $:</label>
+                <input type="number" class="form-control" name="caseta" id="caseta" value="{{@$muestreo->Caseta}}">
+              </div>
+              <div class="col-md-2">
+                <label for="">Kilometros:</label>
+                <input type="number" class="form-control" name="km" id="km" onkeyup="cantGasolinaTeorico();" value="{{@$muestreo->Km}}">
+              </div>
+              <div class="col-md-2">
+                <label for="">Kilometros Extra:</label>
+                <input type="number" class="form-control" name="kmExtra" id="kmExtra" onkeyup="cantGasolinaTeorico();" value="{{@$muestreo->Km_extra}}">
+              </div>
+              <div class="col-md-2">
+                <label for="">Gasolina Teorico:</label>
+                <input type="number" class="form-control" name="gasolinaTeorico" id="gasolinaTeorico" value="{{@$muestreo->Gasolina_teorico}}">
+              </div>
+              <div class="col-md-2">
+                <label for="">Cantidad gasolina:</label>
+                <input type="number" class="form-control" name="cantidadGasolina" id="cantidadGasolina" value="{{@$muestreo->Cantidad_gasolina}}">
               </div>
               <div class="col-md-12">
-                <label for="">$ Total muestreo:</label>
-                <input type="number" class="form-control" name="totalMuestreo" id="totalMuestreo" disabled>
+                <small id="emailHelp" class="form-text text-muted">Gasto Extra</small>
               </div>
+              <div class="col-md-3">
+                  <label for="">Gasto de paqueteria $ :</label>
+                  <input type="number" class="form-control" name="paqueteria" id="paqueteria" value="{{@$muestreo->Paqueteria}}">
               </div>
+              <div class="col-md-3">
+                <label for="">Gasto Adicional $:</label>
+                <input type="number" class="form-control" name="gastosExtras" id="gastosExtras" value="{{@$muestreo->Adicional}}">
             </div>
+            <div class="col-md-3">
+              <label for=""># de Servicios:</label>
+              <input type="number" class="form-control" name="numeroServicio" id="numeroServicio" value="{{@$muestreo->Num_servicio}}">
+          </div>
+          <div class="col-md-3">
+            <label for="">Numero Muestreador:</label>
+            <input type="number" class="form-control" name="numMuestreador" id="numMuestreador" value="{{@$muestreo->Num_muestreador}}">
+        </div>
+        <div class="col-md-3">
+          <label for="">Estado:</label>
+          <select  class="form-control" placeholder="Estado" id="estado" name="estado">
+            @foreach ($estados as $item)
+              @if (@$muestreo->Estado == $item->Clave)
+              <option value="{{$item->Clave}}" selected>{{$item->Nombre}}</option>
+              @else
+              <option value="{{$item->Clave}}">{{$item->Nombre}}</option>
+              @endif
+            @endforeach
+          </select>
+      </div>
+      <!-- Tomas de Muestra-->
+      <div class="col-md-3">
+        <label for="">Localidad:</label>
+        <select  class="form-control select2" placeholder="Localidad" id="localidad" name="localidad">
+          
+        </select>
+      </div>
+      <div class="col-md-3">
+        <button class="btn btn-sm btn-success" id="btnCalcularMuestreo" type="button" onclick="precioCampo()">Calcular</button>
+      </div>
+      <div class="col-md-12">
+        <label for="">$ Total muestreo:</label>
+        <input type="number" class="form-control" name="totalMuestreo" id="totalMuestreo" value="{{@$muestreo->Total}}">
+      </div>
+      </div>
+         
 
+            </div>
             <!-- Observación Interna -->
             <div class="col-md-12 mt-1">
                 <label for="">Observación interna:</label>
-                <textarea cols="30" rows="2" class="form-control" name="observacionInterna" id="observacionInterna">
+                <textarea cols="30" rows="2" class="form-control" name="observacionInterna" id="observacionInterna" value="{{@$model->Observacion_interna}}">
             </textarea>
             </div> 
             <!-- Observación cotización  -->
             <div class="col-md-12 mt-1">
                 <label for="">Observación cotización:</label>
-                <textarea cols="30" rows="2" class="form-control" name="observacionCotizacion" id="observacionCotizacion">
+                <textarea cols="30" rows="2" class="form-control" name="observacionCotizacion" id="observacionCotizacion" value="{{@$model->Observacion_cotizacion}}">
             </textarea>
             </div>
             <!-- Forma de pago-->
@@ -484,21 +492,25 @@
                 <label for="">Forma de Pago</label>
                 <select name="metodoPago" class="form-control" id="metodoPago">
                     @foreach ($metodoPago as $item)
-                        <option value="{{$item->Id_metodo}}">{{$item->Metodo}}</option>
+                    @if (@$model->Metodo_pago == $item->Id_metodo)
+                    <option value="{{$item->Id_metodo}}" selected>{{$item->Metodo}}</option>
+                    @else
+                    <option value="{{$item->Id_metodo}}">{{$item->Metodo}}</option>
+                    @endif
                     @endforeach
                 </select>
             </div>
             <!-- Tiempo de Entrega -->
             <div class="col-md-6">
                 <label for="">Tiempo de Entrega</label>
-                <input type="text" class="form-control" name="tiempoEntrega" id="tiempoEntrega">
+                <input type="text" class="form-control" name="tiempoEntrega" id="tiempoEntrega"value="{{@$model->Tiempo_entrega}}">
             </div>
             <div class="col-md-12">
                 <hr>
             </div>
             <div class="col-md-12" id="divMuestreo2">
                 <h6>Puntos de Muestreo</h6>
-                <div id="puntoMuestreo3">
+                <div id="puntoMuestreo3"> 
 
                 </div>
             </div>
@@ -508,19 +520,43 @@
 
               </div>
           </div>
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="precio">Costo cotizacion</label>
-                <input type="text" class="form-control" id="precio" name="precio" disabled>
-              </div>
-          </div>
+          <div class="col-md-12">
+            <table class="table">
+              <thead>
+                <tr>
+                  <th scope="col">Servicio</th>
+                  <th scope="col">Sub total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Analisis</td>
+                  <td><input type="text" class="form-control" id="precioAnalisis" name="precioAnalisis" placeholder="Precio análsis" ></td>
+                </tr>
+                <tr>
+                  <td>Muestreo</td>
+                  <td><input type="text" class="form-control" id="precioMuestra" name="precioMuestra" placeholder="Precio muestreo" ></td>
+                </tr>
+                <tr>
+                  <td>Total</td>
+                  <td><input type="text" class="form-control" id="precioTotal" name="precioTotal" placeholder="Precio total" ></td>
+                </tr>
+              </tbody>
+            </table>
+            
+           
+        </div>
           <div class="col-md-12" hidden>
             <input type="text" class="form-control" hidden id="parametrosCotizacion" name="parametrosCotizacion" >
             <input type="text" class="form-control" hidden id="puntosCotizacion" name="puntosCotizacion" >
           </div> 
         
 
-          <button type="submit" class="btn btn-primary">Crear cotización</button>
+          @if (@$sw != 1)
+          <button type="submit" class="btn btn-primary" >Crear cotización</button>
+          @else
+          <button type="submit" class="btn btn-primary" >Actualizar cotización</button>
+          @endif
             </div>
           </div>
         </form>

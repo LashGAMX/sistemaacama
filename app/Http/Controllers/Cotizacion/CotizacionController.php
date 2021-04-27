@@ -4,15 +4,15 @@ namespace App\Http\Controllers\Cotizacion;
 
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
-use App\Http\Livewire\AnalisisQ\NormaParametros;
 use Illuminate\Http\Request;
 
 use App\Models\Cotizacion;
-
+use App\Models\CotizacionMuestreo;
 use App\Models\Norma;
 use App\Models\SubNorma;
 use App\Models\CotizacionParametros;
 use App\Models\CotizacionPunto;
+use App\Models\NormaParametros;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
@@ -58,10 +58,13 @@ class CotizacionController extends Controller
      $servicios = DB::table('tipo_servicios')->get();
      $descargas = DB::table('tipo_descargas')->get();
      $metodoPago = DB::table('metodo_pago')->get();
+     $estados = DB::table('estados')->get();
+
 
      $model = DB::table('ViewCotizacion')->where('Id_cotizacion',$id)->first();
      $cotizacionParametros = CotizacionParametros::where('Id_cotizacion',$id)->get();
      $cotizacionPuntos = CotizacionPunto::where('Id_cotizacion',$id)->get();
+     $cotizacionMuestreo = DB::table('cotizacion_muestreos')->where('Id_cotizacion',$id)->first();
 
      $data = array(
          'intermediarios' => $intermediarios,
@@ -72,8 +75,10 @@ class CotizacionController extends Controller
          'frecuencia' => $frecuencia,
          'metodoPago' => $metodoPago,
          'model' => $model,
+         'estados' => $estados,
          'cotizacionParametros' => $cotizacionParametros,
          'cotizacionPuntos' => $cotizacionPuntos,
+         'muestreo' => $cotizacionMuestreo,
          'idCotizacion' => $id,
          'sw' => 1,
      ); 
@@ -133,24 +138,24 @@ class CotizacionController extends Controller
  }
  public function cantidadGasolina(Request $request)
  {
-    $model = DB::table('costo_muestreo')->where('deleted',NULL)->first();
-    // $kmTotal = ($request->km + $request->kmExtra);
-    // $descaste = $kmTotal * $model->Desgaste_km;
-    // $gasolinaTeorico = ($kmTotal / $model->Rendimiento);
+    $model = DB::table('costo_muestreo')->first();
+    $kmTotal = ($request->km + $request->kmExtra);
+    $descaste = $kmTotal * $model->Desgaste_km;
+    $gasolinaTeorico = ($kmTotal / $model->Rendimiento);
     $data = array(
-        'total' => $model,
+        'total' => $gasolinaTeorico,
     );
      return response()->json($data);
  }
  public function precioMuestreo(Request $request)
  {
-    $model = DB::table('costo_muestreo')->where('deleted',NULL)->first();
+    $model = DB::table('costo_muestreo')->first();
     $kmTotal = ($request->km + $request->kmExtra);
-    $descaste = $kmTotal * $model->Desgaste_km;
+    $desgaste = $kmTotal * $model->Desgaste_km;
     $gasolinaTeorico = ($kmTotal / $model->Rendimiento);
-    $costoViaticos = ($request->hospedaje * $request->diasHospedaje) + $request->casetas + ($model->Comida * $request->diasMuestreo * $request->numMuestreador) + ($model->Gasolina * $request->gasolinaSolicitada);
-    $costoSuma = $costoViaticos + ($model->Pago_muestreador * $request->diasMuestreo * $request->numMuestreador) + $descaste + $model->Insumo;
-    $costoTotal = ($model->Ganancia * (1 + $costoSuma));
+    $costoViaticos = ($request->hospedaje * $request->diasHospedaje) + $request->casetas + ($model->Comida * $request->diasMuestreo * $request->numMuestreador) + ($model->Gasolina * $request->cantidadGasolina);
+    $costoSuma = $costoViaticos + ($model->Pago_muestreador * $request->diasMuestreo * $request->numMuestreador) + $desgaste + $model->Insumo;
+    $costoTotal = ($costoSuma * (1 + $model->Ganancia));
      $data = array(
          'total' => $costoTotal,
          'model' => $model,
@@ -247,6 +252,8 @@ class CotizacionController extends Controller
      }
 
 
+    //  var_dump($request->precioAnalisis); 
+
      $cotizacion = Cotizacion::create([
          'Id_intermedio' => $request->intermediario,
          'Id_cliente' => $request->clientes,
@@ -266,22 +273,35 @@ class CotizacionController extends Controller
          'Promedio' => $request->promedio,
          'Numero_puntos' => $request->promedio,
          'Tipo_reporte' => $request->tipoReporte,
-         'Viaticos' => $request->viaticos,
-         'Paqueteria' => $request->paqueteria,
-         'Adicional' => $request->gastosExtras,
-         'Servicio' => $request->numeroServicio,
-         'Km_extra' => $request->kmExtra,
-         'Precio_km' => $request->precioKm,
-         'Precio_km_extra' => $request->precioKmExtra,
          'Tiempo_entrega' => $request->tiempoEntrega,
          'Observacion_interna' => $request->observacionInterna,
          'Observacion_cotizacion' => $request->observacionCotizacion,
          'Folio' => $folio,
          'Metodo_pago' => $request->metodoPago,
-         'Costo_total' => $request->precio,
+         'Costo_total' => $request->precioTotal,
          'Estado_cotizacion' => 1,
          'Creado_por' => Auth::user()->id,
          'Actualizado_por' => Auth::user()->id,
+     ]);
+
+     CotizacionMuestreo::create([
+        'Id_cotizacion' => $cotizacion->Id_cotizacion, 
+        'Dias_hospedaje' => $request->diasHospedaje,
+         'Hospedaje' => $request->hospedaje,
+        'Dias_muestreo' => $request->diasMuestreo,
+        'Num_muestreo' => $request->numeroMuestreo,
+        'Caseta' => $request->caseta,
+        'Km' => $request->km,
+        'Km_extra' => $request->kmExtra,
+        'Gasolina_teorico' => $request->gasolinaTeorico,
+        'Cantidad_gasolina' => $request->cantidadGasolina,
+        'Paqueteria' => $request->paqueteria,
+        'Adicional' => $request->gastosExtras,
+        'Num_servicio' => $request->numeroServicio,
+        'Num_muestreador' => $request->numMuestreador,
+        'Estado' => $request->estado,
+        'Localidad' => $request->localidad,
+        'Total' => $request->totalMuestreo
      ]);
 
      $parametro = $request->parametrosCotizacion;
