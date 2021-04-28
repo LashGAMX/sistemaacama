@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Clientes;
 
 use App\Models\ClienteGeneral;
 use App\Models\Clientes;
+use App\Models\HistorialClientes;
 use App\Models\Intermediario;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
@@ -25,6 +26,7 @@ class TableCliente extends Component
     public $idInter = 0;
     public $inter;
     public $status = 1;
+    public $nota;
 
     protected $rules = [ 
         'cliente' => 'required',
@@ -62,6 +64,8 @@ class TableCliente extends Component
             'Nombres' => $this->cliente,
             'RFC' => $this->rfc,
             'Id_tipo_liente' => 2,
+            'Id_user_c' => $this->idUser,
+            'Id_user_m' => $this->idUser
         ]);
         ClienteGeneral::create([
             'Id_cliente' => $model->Id_cliente,
@@ -72,6 +76,8 @@ class TableCliente extends Component
         {
             Clientes::find($model->Id_cliente)->delete();
         }
+        $this->nota = "Creación de registro";
+        $this->historial();
         $this->alert = true;
     }
     public function store()
@@ -86,6 +92,8 @@ class TableCliente extends Component
                 $model = Clientes::find($this->idCliente);
                 $model->Nombres = $this->cliente;
                 $model->RFC = $this->rfc;
+                $model->Id_user_m = $this->id;
+                $this->historial();
                 $model->save();
             Clientes::find($this->idCliente)->delete();
         }else{
@@ -93,6 +101,8 @@ class TableCliente extends Component
             $model = Clientes::find($this->idCliente);
                 $model->Nombres = $this->cliente;
                 $model->RFC = $this->rfc;
+                $model->Id_user_m = $this->id;
+                $this->historial();
                 $model->save();
         }
         DB::table('clientes_general')
@@ -119,6 +129,23 @@ class TableCliente extends Component
             $this->status = 1;
         }
     }
+
+    Public function historial()
+    {
+        $model = DB::table('ViewGenerales')->where('Id_cliente',$this->idCliente)->first();
+        HistorialClientes::create([
+            'Id_cliente' => $this->idCliente,
+            'Nombres' => $model->Nombres,
+            'A_paterno' => $model->A_paterno,
+            'A_materno' => $model->A_materno,
+            'RFC' => $model->RFC,
+            'Nota' => $this->nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $model->Id_user_m,
+        ]);
+    }
     
     public function btnCreate()
     {
@@ -143,5 +170,6 @@ class TableCliente extends Component
         $this->inter = '';
         $this->status = 1;
         $this->sw = false;
+        $this->nota = '';
     }
 }

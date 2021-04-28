@@ -122,6 +122,7 @@ class TableIntermediario extends Component
                 $model->A_paterno = $this->paterno;
                 $model->A_materno = $this->materno;
                 $model->RFC = $this->rfc;
+                $model->Id_user_m = $this->idUser;
                 $this->historial($this->idCliente);
                 $model->save();
             Clientes::find($this->idCliente)->delete();
@@ -132,6 +133,7 @@ class TableIntermediario extends Component
             $model->A_paterno = $this->paterno;
             $model->A_materno = $this->materno;
             $model->RFC = $this->rfc;
+            $model->Id_user_m = $this->idUser;
             $this->historial($this->idCliente);
             $model->save();
         }
@@ -157,6 +159,7 @@ class TableIntermediario extends Component
         $this->nombre = $nombre;
         $this->paterno = $paterno;
         $this->materno = $materno;
+        $this->nota = '';
         $this->rfc = $rfc;
         if($status != null)
         {
@@ -175,7 +178,7 @@ class TableIntermediario extends Component
 
     Public function historial($idCliente)
     {
-        $model = DB::table('ViewIntermediarios')->where('Id_cliente',$idCliente,'Nombre', $nombre)->first();
+        $model = DB::table('ViewIntermediarios')->where('Id_cliente',$idCliente)->first();
         HistorialIntermediarios::create([
             'Id_intermediario' => $model->Id_intermediario,
             'Id_cliente' => $model->Id_cliente,

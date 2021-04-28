@@ -54,7 +54,8 @@ ON inter.Laboratorio = suc.Id_sucursal
 /* Vista Lista clientes generales*/
 
 CREATE VIEW ViewGenerales as SELECT
-	gen.Id_cliente_general,gen.Id_cliente,cli.created_at,cli.updated_at,cli.deleted_at,gen.Empresa,gen.Alias,
+	gen.Id_cliente_general,gen.Id_cliente,cli.Id_user_c,
+    cli.Id_user_m,cli.created_at,cli.updated_at,cli.deleted_at,gen.Empresa,gen.Alias,
     gen.Id_intermediario,cli2.Nombres,cli2.A_paterno,cli2.A_materno,cli2.RFC
 FROM clientes_general as gen
 INNER JOIN clientes as cli
