@@ -408,15 +408,35 @@ function actualizarCotizacion() {
     console.log('update');
     let url = window.location.href;
     let id = url.substring(56);
+    let intermediario = $("#intermediario").val();
+    let clientes = $("#clientes").val();
+    let nombreCliente = $("#nombreCliente").val();
+    let direccion = $("#direccion").val();
+    let atencion = $("#atencion").val();
+    let telefono = $("#telefono").val();
+    let correo = $("#correo").val();
     $.ajax({
         url: base_url + '/admin/cotizacion/updateCotizacion', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
             id: id,
-            _token: $('input[name="_token"]').val(),
+            intermediario: intermediario,
+            clientes: clientes,
+            nombreCliente: nombreCliente,
+            direccion: direccion,
+            atencion: atencion,
+            telefono: telefono,
+            correo: correo,
+            _token: $('input[name="_token"]').val()
         },
         success: function (response) {
             console.log(response);
         }
     });
+}
+/**
+ * Funcion para obtener datos
+ */
+function getDatosActualizar() {
+
 }

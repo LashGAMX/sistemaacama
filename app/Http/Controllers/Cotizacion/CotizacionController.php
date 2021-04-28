@@ -353,10 +353,38 @@ class CotizacionController extends Controller
      */
     public function updateCotizacion(Request $request)
     {
-        $id = $request->id;
-        $cotizacionObj = Cotizacion::where('Id_cotizacion',$id)->get();
+        // $id = $request->id;
+        // CotizacionMuestreo::find($id);
+        // $cotizacionObj = Cotizacion::where('Id_cotizacion', $id)->get();
+        // $cotizacionObj->Id_intermedio = $request->intermediario;
+        // $cotizacionObj->Id_cliente = $request->clientes;
+        // $cotizacionObj->Nombre = $request->nombreCliente;
+        // $cotizacionObj->Direccion = $request->direccion;
+        // $cotizacionObj->Atencion = $request->atencion;
+        // $cotizacionObj->Telefono = $request->telefono;
+        // $cotizacionObj->Correo = $request->correo;
 
-        return response()->json($cotizacionObj);
-
+        // $cotizacionObj->save();
+        //     'Tipo_servicio' => $request->tipoServicio,
+        //     'Tipo_descarga' => $request->tipoDescarga,
+        //     'Id_norma' => $request->norma,
+        //     'Id_subnorma' => $request->subnorma,
+        //     'Fecha_muestreo' => $request->fecha,
+        //     'Frecuencia_muestreo' => $request->frecuencia,
+        //     'Tomas' => $request->tomas,
+        //     'Tipo_muestra' => $request->tipoMuestra,
+        //     'Promedio' => $request->promedio,
+        //     'Numero_puntos' => $request->promedio,
+        //     'Tipo_reporte' => $request->tipoReporte,
+        //     'Tiempo_entrega' => $request->tiempoEntrega,
+        //     'Observacion_interna' => $request->observacionInterna,
+        //     'Observacion_cotizacion' => $request->observacionCotizacion,
+        //     'Folio' => $folio,
+        //     'Metodo_pago' => $request->metodoPago,
+        //     'Costo_total' => $request->precioTotal,
+        //     'Estado_cotizacion' => 1,
+        //     'Creado_por' => Auth::user()->id,
+        //     'Actualizado_por' => Auth::user()->id,
+        return response()->json(100);
     }
 }
