@@ -476,6 +476,7 @@ function actualizarCotizacion() {
             observacionCotizacion: observacionCotizacion,
             metodoPago: metodoPago,
             precioTotal: precioTotal,
+            //Cotización Muestreo
             diasHospedaje: diasHospedaje,
             hospedaje: hospedaje,
             diasMuestreo: diasMuestreo,

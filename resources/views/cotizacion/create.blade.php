@@ -138,7 +138,7 @@
 
               <div class="col-md-6">
                 <div class="form-group">
-                  <label for="norma">Clasificaciòn de la norma</label>
+                  <label for="norma">Clasificación de la norma</label>
 
                   <select name="norma" id="norma" class="form-control">
 
@@ -555,7 +555,7 @@
           @if (@$sw != 1)
           <button type="submit" class="btn btn-primary" >Crear cotización</button>
           @else
-          <button type="submit" class="btn btn-primary"  onclick="actualizarCotizacion()">Actualizar cotización</button>
+          <button type="submit" class="btn btn-primary">Actualizar cotización</button>
           @endif
             </div>
           </div>
