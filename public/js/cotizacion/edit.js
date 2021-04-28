@@ -432,7 +432,22 @@ function actualizarCotizacion() {
     let metodoPago = $("#metodoPago").val();
     let precioTotal = $("#precioTotal").val();
     //Datos Cotización
-
+    diasHospedaje
+    hospedaje
+    diasMuestreo
+    numeroMuestreo
+    caseta
+    km
+    kmExtra
+    gasolinaTeorico
+    cantidadGasolina
+    paqueteria
+    gastosExtras
+    numeroServicio
+    numMuestreador
+    estado
+    localidad
+    totalMuestreo
     //Datos Cotización
     $.ajax({
         url: base_url + '/admin/cotizacion/updateCotizacion', //archivo que recibe la peticion
@@ -446,21 +461,37 @@ function actualizarCotizacion() {
             atencion: atencion,
             telefono: telefono,
             correo: correo,
-            tipoServicio:tipoServicio,
-            tipoDescarga:tipoDescarga,
-            norma:norma,
-            subnorma:subnorma,
-            fecha:fecha,
-            frecuencia:frecuencia,
-            tomas:tomas,
-            tipoMuestra:tipoMuestra,
-            promedio:promedio,
+            tipoServicio: tipoServicio,
+            tipoDescarga: tipoDescarga,
+            norma: norma,
+            subnorma: subnorma,
+            fecha: fecha,
+            frecuencia: frecuencia,
+            tomas: tomas,
+            tipoMuestra: tipoMuestra,
+            promedio: promedio,
             tipoReporte: tipoReporte,
-            tiempoEntrega:tiempoEntrega,
-            observacionInterna:observacionInterna,
+            tiempoEntrega: tiempoEntrega,
+            observacionInterna: observacionInterna,
             observacionCotizacion: observacionCotizacion,
             metodoPago: metodoPago,
-            precioTotal: precioTotal
+            precioTotal: precioTotal,
+            diasHospedaje: diasHospedaje,
+            hospedaje: hospedaje,
+            diasMuestreo: diasMuestreo,
+            numeroMuestreo: numeroMuestreo,
+            caseta: caseta,
+            km: km,
+            kmExtra: kmExtra,
+            gasolinaTeorico: gasolinaTeorico,
+            cantidadGasolina: cantidadGasolina,
+            paqueteria: paqueteria,
+            gastosExtras: gastosExtras,
+            numeroServicio: numeroServicio,
+            numMuestreador: numMuestreador,
+            estado: estado,
+            localidad: localidad,
+            totalMuestreo: totalMuestreo,
             _token: $('input[name="_token"]').val()
         },
         success: function (response) {

@@ -402,6 +402,27 @@ class CotizacionController extends Controller
             'Actualizado_por' => Auth::user()->id,
         ]);
 
+        CotizacionMuestreo::where('Id_cotizacion', $id)
+        ->update([
+            'Id_cotizacion' => $id,
+            'Dias_hospedaje' => $request->diasHospedaje,
+            'Hospedaje' => $request->hospedaje,
+            'Dias_muestreo' => $request->diasMuestreo,
+            'Num_muestreo' => $request->numeroMuestreo,
+            'Caseta' => $request->caseta,
+            'Km' => $request->km,
+            'Km_extra' => $request->kmExtra,
+            'Gasolina_teorico' => $request->gasolinaTeorico,
+            'Cantidad_gasolina' => $request->cantidadGasolina,
+            'Paqueteria' => $request->paqueteria,
+            'Adicional' => $request->gastosExtras,
+            'Num_servicio' => $request->numeroServicio,
+            'Num_muestreador' => $request->numMuestreador,
+            'Estado' => $request->estado,
+            'Localidad' => $request->localidad,
+            'Total' => $request->totalMuestreo
+        ]);
+
         return response()->json(100);
     }
 }
