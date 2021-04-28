@@ -102,8 +102,8 @@ function precioCampo()
     async: false,
     success: function (response) {
         console.log(response)
-        $("#totalMuestreo").val(response.total);
         totalMuestreo = response.total;
+        $("#totalMuestreo").val(response.total);
         $("#precioMuestra").val(totalMuestreo);
         $('#precioTotal').val(precioTotal + totalMuestreo);
     }
@@ -179,7 +179,7 @@ function getDatos1()
       dataType: 'json',
       async: false,
       success: function (response) {
-          console.log(response)
+          console.log(response) 
           $('#normaPa').val(response.model.Clave);
       }
   });
@@ -626,7 +626,3 @@ function agregarParametros(idSub)
   });
 }
 
-function habilitarInput()
-{
-  $("#precioAnalisis").prop('disabled', false);
-}

@@ -28,5 +28,6 @@ Route::post('cotizacion/getLocalidad', [CotizacionController::class,'getLocalida
 Route::post('cotizacion/precioMuestreo', [CotizacionController::class,'precioMuestreo']);
 Route::post('cotizacion/cantidadGasolina', [CotizacionController::class,'cantidadGasolina']);
 Route::post('cotizacion/updateCotizacion', [CotizacionController::class,'updateCotizacion']);
+Route::get('cotizacion/duplicar', [CotizacionController::class, 'duplicar']);
 // Route::post('cotizacion/obtenerHistorico', [CotizacionController::class, 'obtenerHistorico'])->name('cotizacion.obtenerHistorico');
 // Route::post('cotizacion/duplicarCotizacion', [CotizacionController::class, 'duplicarCotizacion'])->name('cotizacion.duplicarCotizacion');

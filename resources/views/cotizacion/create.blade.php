@@ -20,9 +20,10 @@
           </li>
         </ul>
         @if (@$sw != 1)
-        <form action="{{url('admin/cotizacion/setCotizacion')}}" method="post" onsubmit="return habilitarInput()">
+        <form action="{{url('admin/cotizacion/setCotizacion')}}" method="post" >
         @else
-        <form action="{{url('admin/cotizacion/updateCotizacion')}}" method="post" onsubmit="return habilitarInput()">
+        <form action="{{url('admin/cotizacion/updateCotizacion')}}" method="post" >
+          <input type="text" class="" name="idCotizacion" id="idCotizacion" value="{{$idCotizacion}}" hidden>
         @endif
 
           @csrf
@@ -420,11 +421,11 @@
               </div>
               <div class="col-md-2">
                 <label for="">Gasolina Teorico:</label>
-                <input type="number" class="form-control" name="gasolinaTeorico" id="gasolinaTeorico" value="{{@$muestreo->Gasolina_teorico}}">
+                <input type="text" class="form-control" name="gasolinaTeorico" id="gasolinaTeorico"  value="{{@$muestreo->Gasolina_teorico}}">
               </div>
               <div class="col-md-2">
                 <label for="">Cantidad gasolina:</label>
-                <input type="number" class="form-control" name="cantidadGasolina" id="cantidadGasolina" value="{{@$muestreo->Cantidad_gasolina}}">
+                <input type="number" class="form-control" name="cantidadGasolina" id="cantidadGasolina" value="{{@$muestreo->Cantidad_gasolina}}"> 
               </div>
               <div class="col-md-12">
                 <small id="emailHelp" class="form-text text-muted">Gasto Extra</small>
@@ -469,7 +470,7 @@
       </div>
       <div class="col-md-12">
         <label for="">$ Total muestreo:</label>
-        <input type="number" class="form-control" name="totalMuestreo" id="totalMuestreo" value="{{@$muestreo->Total}}">
+        <input type="text" class="form-control" name="totalMuestreo" id="totalMuestreo" value="{{@$muestreo->Total}}">
       </div>
       </div>
 
@@ -572,7 +573,7 @@
 @section('javascript')
 
 <script src="{{asset('js/cotizacion/create.js')}}"></script>
-<script src="{{asset('js/cotizacion/edit.js')}}"></script>
+{{-- <script src="{{asset('js/cotizacion/edit.js')}}"></script> --}}
 <script src="{{asset('js/libs/componentes.js')}}"></script>
 <script src="{{asset('js/libs/tablas.js')}}"></script>
 @stop

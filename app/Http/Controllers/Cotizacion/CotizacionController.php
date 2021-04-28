@@ -153,10 +153,13 @@ class CotizacionController extends Controller
         $kmTotal = ($request->km + $request->kmExtra);
         $desgaste = $kmTotal * $model->Desgaste_km;
         $gasolinaTeorico = ($kmTotal / $model->Rendimiento);
-        $costoViaticos = ($request->hospedaje * $request->diasHospedaje) + $request->casetas + ($model->Comida * $request->diasMuestreo * $request->numMuestreador) + ($model->Gasolina * $request->cantidadGasolina);
-        $costoSuma = $costoViaticos + ($model->Pago_muestreador * $request->diasMuestreo * $request->numMuestreador) + $desgaste + $model->Insumo;
+        $costoViaticos = (($request->hospedaje * $request->diasHospedaje) + ($request->caseta) + ($model->Comida * $request->diasMuestreo * $request->numMuestreador) + ($model->Gasolina * $request->cantidadGasolina));
+        $costoSuma = ($costoViaticos + ($model->Pago_muestreador * $request->diasMuestreo * $request->numMuestreador) + $desgaste + $model->Insumo);
         $costoTotal = ($costoSuma * (1 + $model->Ganancia));
+        $costoTotal += ($request->paqueteria + $request->gastosExtras);
         $data = array(
+            'viaticos' => $costoViaticos,
+            'costoSuma' => $costoSuma,
             'total' => $costoTotal,
             'model' => $model,
         );
@@ -353,22 +356,9 @@ class CotizacionController extends Controller
      */
     public function updateCotizacion(Request $request)
     {
-        $id = $request->id;
+        $id = $request->idCotizacion;
 
-        $month = date("m");
-        $dayYear = date("z") + 1;
-        $today = Carbon::now()->format('Y-m-d');
-        $cotizacionDay = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->count();
-
-        $numCot = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $request->clientes)->get();
-        $firtsFol = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $request->clientes)->first();
-        $cantCot = $numCot->count();
-        if ($cantCot > 0) {
-
-            $folio = $firtsFol->Folio . '-' . ($cantCot + 1);
-        } else {
-            $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
-        }
+        // var_dump($id);
 
         Cotizacion::where('Id_cotizacion', $id)
         ->update([
@@ -394,35 +384,68 @@ class CotizacionController extends Controller
             'Tiempo_entrega' => $request->tiempoEntrega,
             'Observacion_interna' => $request->observacionInterna,
             'Observacion_cotizacion' => $request->observacionCotizacion,
-            'Folio' => $folio,
             'Metodo_pago' => $request->metodoPago,
             'Costo_total' => $request->precioTotal,
             'Estado_cotizacion' => 1,
-            'Creado_por' => Auth::user()->id,
             'Actualizado_por' => Auth::user()->id,
         ]);
 
-        // CotizacionMuestreo::where('Id_cotizacion', $id)
-        // ->update([
-        //     'Id_cotizacion' => $id,
-        //     'Dias_hospedaje' => $request->diasHospedaje,
-        //     'Hospedaje' => $request->hospedaje,
-        //     'Dias_muestreo' => $request->diasMuestreo,
-        //     'Num_muestreo' => $request->numeroMuestreo,
-        //     'Caseta' => $request->caseta,
-        //     'Km' => $request->km,
-        //     'Km_extra' => $request->kmExtra,
-        //     'Gasolina_teorico' => $request->gasolinaTeorico,
-        //     'Cantidad_gasolina' => $request->cantidadGasolina,
-        //     'Paqueteria' => $request->paqueteria,
-        //     'Adicional' => $request->gastosExtras,
-        //     'Num_servicio' => $request->numeroServicio,
-        //     'Num_muestreador' => $request->numMuestreador,
-        //     'Estado' => $request->estado,
-        //     'Localidad' => $request->localidad,
-        //     'Total' => $request->totalMuestreo
-        // ]);
+        CotizacionMuestreo::where('Id_cotizacion',$id)
+        ->update([
+            'Dias_hospedaje' => $request->diasHospedaje,
+            'Hospedaje' => $request->hospedaje,
+            'Dias_muestreo' => $request->diasMuestreo,
+            'Num_muestreo' => $request->numeroMuestreo,
+            'Caseta' => $request->caseta,
+            'Km' => $request->km,
+            'Km_extra' => $request->kmExtra,
+            'Gasolina_teorico' => $request->gasolinaTeorico,
+            'Cantidad_gasolina' => $request->cantidadGasolina,
+            'Paqueteria' => $request->paqueteria,
+            'Adicional' => $request->gastosExtras,
+            'Num_servicio' => $request->numeroServicio,
+            'Num_muestreador' => $request->numMuestreador,
+            'Estado' => $request->estado,
+            'Localidad' => $request->localidad,
+            'Total' => $request->totalMuestreo
+        ]);
 
-        return response()->json(100);
+
+        DB::table('cotizacion_parametros')->where('Id_cotizacion',$id)->delete();
+        DB::table('cotizacion_puntos')->where('Id_cotizacion',$id)->delete();
+
+        $parametro = $request->parametrosCotizacion;
+        $parametro = explode(',', $parametro);
+
+
+        foreach ($parametro as $item) {
+            $subnorma = NormaParametros::where('Id_norma', $request->subnorma)->where('Id_parametro', $item)->get();
+
+            $extra = 0;
+            if ($subnorma->count() > 0) {
+                $extra = 0;
+            } else {
+                $extra = 1;
+            } 
+
+            CotizacionParametros::create([
+                'Id_cotizacion' => $id,
+                'Id_subnorma' => $item,
+                'Extra' => $extra,
+            ]);
+            // echo $item;
+        }
+
+        $puntoMuestreo = $request->puntosCotizacion;
+        $puntoMuestreo = explode(',', $puntoMuestreo);
+        foreach ($puntoMuestreo as $item) {
+            CotizacionPunto::create([
+                'Id_cotizacion' => $id,
+                'Descripcion' => $item,
+            ]);
+        }
+
+
+        return redirect('admin/cotizacion');
     }
 }
