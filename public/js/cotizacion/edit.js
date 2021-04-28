@@ -408,6 +408,7 @@ function actualizarCotizacion() {
     console.log('update');
     let url = window.location.href;
     let id = url.substring(56);
+    //Datos Cotización
     let intermediario = $("#intermediario").val();
     let clientes = $("#clientes").val();
     let nombreCliente = $("#nombreCliente").val();
@@ -415,6 +416,24 @@ function actualizarCotizacion() {
     let atencion = $("#atencion").val();
     let telefono = $("#telefono").val();
     let correo = $("#correo").val();
+    let tipoServicio = $("#tipoServicio").val();
+    let tipoDescarga = $("#tipoDescarga").val();
+    let norma = $("#norma").val();
+    let subnorma = $("#subnorma").val();
+    let fecha = $("#fecha").val();
+    let frecuencia = $("#frecuencia").val();
+    let tomas = $("#tomas").val();
+    let tipoMuestra = $("#tipoMuestra").val();
+    let promedio = $("#promedio").val();
+    let tipoReporte = $("#tipoReporte").val();
+    let tiempoEntrega = $("#tiempoEntrega").val();
+    let observacionInterna = $("#observacionInterna").val();
+    let observacionCotizacion = $("#observacionCotizacion").val();
+    let metodoPago = $("#metodoPago").val();
+    let precioTotal = $("#precioTotal").val();
+    //Datos Cotización
+
+    //Datos Cotización
     $.ajax({
         url: base_url + '/admin/cotizacion/updateCotizacion', //archivo que recibe la peticion
         type: 'POST', //método de envio
@@ -427,16 +446,25 @@ function actualizarCotizacion() {
             atencion: atencion,
             telefono: telefono,
             correo: correo,
+            tipoServicio:tipoServicio,
+            tipoDescarga:tipoDescarga,
+            norma:norma,
+            subnorma:subnorma,
+            fecha:fecha,
+            frecuencia:frecuencia,
+            tomas:tomas,
+            tipoMuestra:tipoMuestra,
+            promedio:promedio,
+            tipoReporte: tipoReporte,
+            tiempoEntrega:tiempoEntrega,
+            observacionInterna:observacionInterna,
+            observacionCotizacion: observacionCotizacion,
+            metodoPago: metodoPago,
+            precioTotal: precioTotal
             _token: $('input[name="_token"]').val()
         },
         success: function (response) {
             console.log(response);
         }
     });
-}
-/**
- * Funcion para obtener datos
- */
-function getDatosActualizar() {
-
 }

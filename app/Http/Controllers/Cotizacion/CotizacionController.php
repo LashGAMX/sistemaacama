@@ -353,38 +353,55 @@ class CotizacionController extends Controller
      */
     public function updateCotizacion(Request $request)
     {
-        // $id = $request->id;
-        // CotizacionMuestreo::find($id);
-        // $cotizacionObj = Cotizacion::where('Id_cotizacion', $id)->get();
-        // $cotizacionObj->Id_intermedio = $request->intermediario;
-        // $cotizacionObj->Id_cliente = $request->clientes;
-        // $cotizacionObj->Nombre = $request->nombreCliente;
-        // $cotizacionObj->Direccion = $request->direccion;
-        // $cotizacionObj->Atencion = $request->atencion;
-        // $cotizacionObj->Telefono = $request->telefono;
-        // $cotizacionObj->Correo = $request->correo;
+        $id = $request->id;
 
-        // $cotizacionObj->save();
-        //     'Tipo_servicio' => $request->tipoServicio,
-        //     'Tipo_descarga' => $request->tipoDescarga,
-        //     'Id_norma' => $request->norma,
-        //     'Id_subnorma' => $request->subnorma,
-        //     'Fecha_muestreo' => $request->fecha,
-        //     'Frecuencia_muestreo' => $request->frecuencia,
-        //     'Tomas' => $request->tomas,
-        //     'Tipo_muestra' => $request->tipoMuestra,
-        //     'Promedio' => $request->promedio,
-        //     'Numero_puntos' => $request->promedio,
-        //     'Tipo_reporte' => $request->tipoReporte,
-        //     'Tiempo_entrega' => $request->tiempoEntrega,
-        //     'Observacion_interna' => $request->observacionInterna,
-        //     'Observacion_cotizacion' => $request->observacionCotizacion,
-        //     'Folio' => $folio,
-        //     'Metodo_pago' => $request->metodoPago,
-        //     'Costo_total' => $request->precioTotal,
-        //     'Estado_cotizacion' => 1,
-        //     'Creado_por' => Auth::user()->id,
-        //     'Actualizado_por' => Auth::user()->id,
+        $month = date("m");
+        $dayYear = date("z") + 1;
+        $today = Carbon::now()->format('Y-m-d');
+        $cotizacionDay = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->count();
+
+        $numCot = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $request->clientes)->get();
+        $firtsFol = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $request->clientes)->first();
+        $cantCot = $numCot->count();
+        if ($cantCot > 0) {
+
+            $folio = $firtsFol->Folio . '-' . ($cantCot + 1);
+        } else {
+            $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
+        }
+
+        Cotizacion::where('Id_cotizacion', $id)
+        ->update([
+            'Id_intermedio' => $request->intermediario,
+            'Id_cliente' => $request->clientes,
+            'Nombre' => $request->nombreCliente,
+            'Direccion' => $request->direccion,
+            'Atencion' => $request->atencion,
+            'Telefono' => $request->telefono,
+            'Correo' => $request->correo,
+            'Correo' => $request->correo,
+            'Tipo_servicio' => $request->tipoServicio,
+            'Tipo_descarga' => $request->tipoDescarga,
+            'Id_norma' => $request->norma,
+            'Id_subnorma' => $request->subnorma,
+            'Fecha_muestreo' => $request->fecha,
+            'Frecuencia_muestreo' => $request->frecuencia,
+            'Tomas' => $request->tomas,
+            'Tipo_muestra' => $request->tipoMuestra,
+            'Promedio' => $request->promedio,
+            'Numero_puntos' => $request->promedio,
+            'Tipo_reporte' => $request->tipoReporte,
+            'Tiempo_entrega' => $request->tiempoEntrega,
+            'Observacion_interna' => $request->observacionInterna,
+            'Observacion_cotizacion' => $request->observacionCotizacion,
+            'Folio' => $folio,
+            'Metodo_pago' => $request->metodoPago,
+            'Costo_total' => $request->precioTotal,
+            'Estado_cotizacion' => 1,
+            'Creado_por' => Auth::user()->id,
+            'Actualizado_por' => Auth::user()->id,
+        ]);
+
         return response()->json(100);
     }
 }
