@@ -3,9 +3,9 @@
 @section('content')
 
 <div class="container-fluid">
-  <input type="text" value="{{@$sw}}" id="sw" hidden> 
-  <input type="text" value="{{@$idCotizacion}}" id="idCotizacion" hidden> 
-  
+  <input type="text" value="{{@$sw}}" id="sw" hidden>
+  <input type="text" value="{{@$idCotizacion}}" id="idCotizacion" hidden>
+
   <div class="row">
       <div class="col-md-12">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -24,7 +24,7 @@
         @else
         <form action="{{url('admin/cotizacion/updateCotizacion')}}" method="post" onsubmit="return habilitarInput()">
         @endif
-        
+
           @csrf
         {{-- Contenido de nav --}}
         <div class="tab-content" id="myTabContent">
@@ -97,7 +97,7 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="correo">Correo</label>
-                  <input type="email" class="form-control" placeholder="Correo electronico" id="correo" name="correo" value="{{@$model->Correo}}"> 
+                  <input type="email" class="form-control" placeholder="Correo electronico" id="correo" name="correo" value="{{@$model->Correo}}">
                 </div>
               </div>
 
@@ -111,16 +111,16 @@
                   <label for="tipoServicio">Tipo de servicio</label>
                   <select name="tipoServicio" id="tipoServicio" class="form-control">
                     @foreach ($servicios as $item)
-                    
+
                     @if (@$model->Tipo_servicio == $item)
-                    <option value="{{$item->Id_tipo}}" selected>{{$item->Servicio}}</option>    
+                    <option value="{{$item->Id_tipo}}" selected>{{$item->Servicio}}</option>
                     @else
                     <option value="{{$item->Id_tipo}}">{{$item->Servicio}}</option>
                     @endif
                     @endforeach
                   </select>
                 </div>
-              </div> 
+              </div>
               <div class="col-md-6">
                 <div class="form-group">
                   <label for="tipoDescarga">Tipo descarga</label>
@@ -217,7 +217,7 @@
                   </select>
                 </div>
               </div>
-  
+
               {{-- <div class="col-md-12">
                 <div class="form-group">
                   <label for="condicionVenta">Condiciones de venta</label>
@@ -248,11 +248,11 @@
                           <tr>
                             <td>{{$contPunto}}</td>
                             <td><input class="form-control" id="punto{{$contPunto - 1}}" value="{{$item->Descripcion}}"></td>
-                          </tr>  
+                          </tr>
                           @endforeach
                       @endif
                     </tbody>
-                    
+
                 </table>
               </div>
               <input type="text" id="contPunto" value="{{$contPunto}}" hidden>
@@ -377,7 +377,7 @@
                 <label for="">Fecha de Muestreo:</label>
                 <input type="date" class="form-control" disabled id="fechaMuestreo">
             </div>
-           
+
             <!-- Tomas de Muestra-->
             <div class="col-md-12" id="divMuestreo">
               <div class="row">
@@ -461,7 +461,7 @@
       <div class="col-md-3">
         <label for="">Localidad:</label>
         <select  class="form-control select2" placeholder="Localidad" id="localidad" name="localidad">
-          
+
         </select>
       </div>
       <div class="col-md-3">
@@ -472,7 +472,7 @@
         <input type="number" class="form-control" name="totalMuestreo" id="totalMuestreo" value="{{@$muestreo->Total}}">
       </div>
       </div>
-         
+
 
             </div>
             <!-- Observación Interna -->
@@ -480,7 +480,7 @@
                 <label for="">Observación interna:</label>
                 <textarea cols="30" rows="2" class="form-control" name="observacionInterna" id="observacionInterna" value="{{@$model->Observacion_interna}}">
             </textarea>
-            </div> 
+            </div>
             <!-- Observación cotización  -->
             <div class="col-md-12 mt-1">
                 <label for="">Observación cotización:</label>
@@ -510,7 +510,7 @@
             </div>
             <div class="col-md-12" id="divMuestreo2">
                 <h6>Puntos de Muestreo</h6>
-                <div id="puntoMuestreo3"> 
+                <div id="puntoMuestreo3">
 
                 </div>
             </div>
@@ -543,19 +543,19 @@
                 </tr>
               </tbody>
             </table>
-            
-           
+
+
         </div>
           <div class="col-md-12" hidden>
             <input type="text" class="form-control" hidden id="parametrosCotizacion" name="parametrosCotizacion" >
             <input type="text" class="form-control" hidden id="puntosCotizacion" name="puntosCotizacion" >
-          </div> 
-        
+          </div>
+
 
           @if (@$sw != 1)
           <button type="submit" class="btn btn-primary" >Crear cotización</button>
           @else
-          <button type="submit" class="btn btn-primary" >Actualizar cotización</button>
+          <button type="submit" class="btn btn-primary"  >Actualizar cotización</button>
           @endif
             </div>
           </div>

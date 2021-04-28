@@ -24,7 +24,7 @@ class Cotizacion2Controller extends Controller
     {
         //Vista Cotización
         $model = DB::table('ViewCotizacion')->get();
-        return view('cotizacion.cotizacion', compact('model')); 
+        return view('cotizacion.cotizacion', compact('model'));
     }
     public function create()
     {
@@ -74,7 +74,7 @@ class Cotizacion2Controller extends Controller
             'cotizacionPuntos' => $cotizacionPuntos,
             'idCotizacion' => $id,
             'sw' => 1,
-        ); 
+        );
         return view('cotizacion.create',$data);
     }
     public function getParametroCot(Request $request)
@@ -159,7 +159,7 @@ class Cotizacion2Controller extends Controller
 
         if(sizeof($parametroExtra) > 0)
         {
-            for ($i=0; $i < sizeof($parametroExtra); $i++) { 
+            for ($i=0; $i < sizeof($parametroExtra); $i++) {
                 # code...
                 $precioModel = DB::table('ViewPrecioCatInter')->where('Id_intermediario',$idIntermediario)->where('Id_catalogo',$parametroExtra[$i])->first();
                 if($precioModel != null)
@@ -196,14 +196,14 @@ class Cotizacion2Controller extends Controller
         $dayYear = date("z") + 1;
         $today = Carbon::now()->format('Y-m-d');
         $cotizacionDay = DB::table('cotizacion')->where('created_at','LIKE',"%{$today}%")->count();
-        
+
         $numCot = DB::table('cotizacion')->where('created_at','LIKE',"%{$today}%")->where('Id_cliente',$request->clientes)->get();
         $firtsFol = DB::table('cotizacion')->where('created_at','LIKE',"%{$today}%")->where('Id_cliente',$request->clientes)->first();
         $cantCot = $numCot->count();
         if($cantCot > 0)
         {
-            
-            $folio = $firtsFol->Folio . '-' . ($cantCot + 1); 
+
+            $folio = $firtsFol->Folio . '-' . ($cantCot + 1);
 
         }else{
             $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
@@ -213,7 +213,7 @@ class Cotizacion2Controller extends Controller
         $cotizacion = Cotizacion::create([
             'Id_intermedio' => $request->intermediario,
             'Id_cliente' => $request->clientes,
-            'Nombre' => $request->nombreCliente, 
+            'Nombre' => $request->nombreCliente,
             'Direccion' => $request->direccion,
             'Atencion' => $request->atencion,
             'Telefono' => $request->telefono,
@@ -280,10 +280,15 @@ class Cotizacion2Controller extends Controller
                 'Descripcion' => $item,
             ]);
         }
-        
+
 
         return redirect()->to('admin/cotizacion');
     }
+
+    public function updateCotizacion(Request $request){
+
+    }
+
     public function fecha()
     {
         // $year = date("y");
