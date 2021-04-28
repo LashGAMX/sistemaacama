@@ -15,9 +15,9 @@ Route::get('cotizacion', [CotizacionController::class, 'index']);
 Route::get('cotizacion/create', [CotizacionController::class, 'create']);
 Route::get('cotizacion/update/{id}', [CotizacionController::class, 'update']);
 Route::post('cotizacion/getSubNorma', [CotizacionController::class, 'getSubNorma']);
-Route::post('cotizacion/getSubNormaId', [CotizacionController::class, 'getSubNormaId']); 
+Route::post('cotizacion/getSubNormaId', [CotizacionController::class, 'getSubNormaId']);
 Route::post('cotizacion/getNorma', [CotizacionController::class, 'getNorma']);
-Route::post('cotizacion/getCliente', [CotizacionController::class, 'getCliente']); 
+Route::post('cotizacion/getCliente', [CotizacionController::class, 'getCliente']);
 Route::post('cotizacion/getDatos2', [CotizacionController::class, 'getDatos2']);
 Route::post('cotizacion/setCotizacion', [CotizacionController::class, 'setCotizacion']);
 Route::post('cotizacion/getTomas', [CotizacionController::class, 'getTomas']);
@@ -27,7 +27,6 @@ Route::get('cotizacion/fecha', [CotizacionController::class, 'fecha']);
 Route::post('cotizacion/getLocalidad', [CotizacionController::class,'getLocalidad']);
 Route::post('cotizacion/precioMuestreo', [CotizacionController::class,'precioMuestreo']);
 Route::post('cotizacion/cantidadGasolina', [CotizacionController::class,'cantidadGasolina']);
-
+Route::post('cotizacion/updateCotizacion', [CotizacionController::class,'updateCotizacion']);
 // Route::post('cotizacion/obtenerHistorico', [CotizacionController::class, 'obtenerHistorico'])->name('cotizacion.obtenerHistorico');
 // Route::post('cotizacion/duplicarCotizacion', [CotizacionController::class, 'duplicarCotizacion'])->name('cotizacion.duplicarCotizacion');
- 

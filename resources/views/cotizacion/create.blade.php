@@ -555,7 +555,7 @@
           @if (@$sw != 1)
           <button type="submit" class="btn btn-primary" >Crear cotización</button>
           @else
-          <button type="submit" class="btn btn-primary"  >Actualizar cotización</button>
+          <button type="submit" class="btn btn-primary"  onclick="actualizarCotizacion()">Actualizar cotización</button>
           @endif
             </div>
           </div>
@@ -572,6 +572,7 @@
 @section('javascript')
 
 <script src="{{asset('js/cotizacion/create.js')}}"></script>
+<script src="{{asset('js/cotizacion/edit.js')}}"></script>
 <script src="{{asset('js/libs/componentes.js')}}"></script>
 <script src="{{asset('js/libs/tablas.js')}}"></script>
 @stop
