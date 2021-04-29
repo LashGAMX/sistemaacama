@@ -9,7 +9,7 @@
     <div class="panel-content">
         <i class="fa fa-user-friends"></i>        <h4>Intermediarios</h4>
         
-        <a href="{{route("voyager.hist-laboratoriosuc.index")}}" class="btn btn-primary">Ver Historial</a>
+        <a href="{{route("voyager.hist-clientesinter.index")}}" class="btn btn-primary">Ver Historial</a>
     </div>
     </div>
     </div><div class="col-md-3"><div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx/admin/voyager-assets?path=images%2Fwidget-backgrounds%2F01.jpg');">
@@ -17,7 +17,7 @@
     <div class="panel-content">
         <i class="fa fa-user"></i>        <h4>Clientes</h4>
         
-        <a href="{{route("voyager.hist-laboratoriouni.index")}}" class="btn btn-primary">Ver Historial</a>
+        <a href="{{route("voyager.hist-clientes.index")}}" class="btn btn-primary">Ver Historial</a>
     </div>
     </div>
     </div>

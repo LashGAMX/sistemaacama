@@ -76,6 +76,7 @@ class TableCliente extends Component
         {
             Clientes::find($model->Id_cliente)->delete();
         }
+        $this->idCliente = $model->Id_cliente;
         $this->nota = "Creación de registro";
         $this->historial();
         $this->alert = true;
@@ -92,7 +93,7 @@ class TableCliente extends Component
                 $model = Clientes::find($this->idCliente);
                 $model->Nombres = $this->cliente;
                 $model->RFC = $this->rfc;
-                $model->Id_user_m = $this->id;
+                $model->Id_user_m = $this->idCliente;
                 $this->historial();
                 $model->save();
             Clientes::find($this->idCliente)->delete();
@@ -101,7 +102,7 @@ class TableCliente extends Component
             $model = Clientes::find($this->idCliente);
                 $model->Nombres = $this->cliente;
                 $model->RFC = $this->rfc;
-                $model->Id_user_m = $this->id;
+                $model->Id_user_m = $this->idCliente;
                 $this->historial();
                 $model->save();
         }
@@ -143,7 +144,7 @@ class TableCliente extends Component
             'F_creacion' => $model->created_at,
             'Id_user_c' => $model->Id_user_c,
             'F_modificacion' => $model->updated_at,
-            'Id_user_m' => $model->Id_user_m,
+            'Id_user_m' => $this->idUser,
         ]);
     }
     
