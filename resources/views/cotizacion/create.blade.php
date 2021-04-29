@@ -522,10 +522,13 @@
               </div>
           </div>
           <div class="col-md-12">
+            <div class="col-md-1">
+              <button class="btn btn-success" onclick="btnDescuento()" type="button"><i class="voyager-tag"></i> Descuento</button>
+            </div>
             <table class="table">
               <thead>
                 <tr>
-                  <th scope="col">Servicio</th>
+                  <th scope="col" style="width: 40%">Servicio</th>
                   <th scope="col">Sub total</th>
                 </tr>
               </thead>
@@ -535,8 +538,27 @@
                   <td><input type="text" class="form-control" id="precioAnalisis" name="precioAnalisis" placeholder="Precio análsis" ></td>
                 </tr>
                 <tr>
+                  <td><code>Nota: El descuento solo aplica directamente al análisis</code></td>
+                  <td></td>
+                </tr>
+                <tr id="activarDescuento">
+                  <td>Descuento</td>
+                  <td>
+                    <input type="text" class="form-control" id="descuento" name="descuento" placeholder="Descuento" value="0">
+                    <button type="button" class="btn btn-info" onclick="aplicarTotal()">Aplicar</button>
+                  </td>
+                </tr>
+                <tr>
                   <td>Muestreo</td>
                   <td><input type="text" class="form-control" id="precioMuestra" name="precioMuestra" placeholder="Precio muestreo" ></td>
+                </tr>
+                <tr>
+                  <td>Iva</td>
+                  <td><input type="text" class="form-control" id="precioMuestra" name="precioMuestra" placeholder="Iva" disabled value="16"></td>
+                </tr>
+                <tr>
+                  <td>SubTotal</td>
+                  <td><input type="text" class="form-control" id="subTotal" name="subTotal" placeholder="Sub total" ></td>
                 </tr>
                 <tr>
                   <td>Total</td>

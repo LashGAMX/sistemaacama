@@ -46,14 +46,12 @@
                                 <th>Fecha cotización</th>
                                 <th>Nombre cliente</th>
                                 <th>Norma</th>
-                                <th>NumTomas</th>
                                 <th>Tipo descarga</th>
                                 <th>Estado cotización</th>
                                 <th>Creado por</th>
                                 <th>Fecha creación</th>
                                 <th>Actualizado por</th>
                                 <th>Fecha actualización</th>
-                                <th>Acciónes</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -65,14 +63,12 @@
                                   <td>{{$item->created_at}}</td>
                                   <td>{{$item->Nombre}}</td>
                                   <td>{{$item->Clave_norma}}</td>
-                                  <td>{{$item->Tomas}}</td>
                                   <td>{{$item->Descarga}}</td>
                                   <td>{{$item->Estado}}</td>
                                   <td>{{$item->NameA}}</td>
                                   <td>{{$item->created_at}}</td>
                                   <td>{{$item->NameA}}</td>
                                   <td>{{$item->updated_at}}</td>
-                                  <td>Acción</td>
                               </tr>
                           @endforeach
                         </tbody>
@@ -86,7 +82,7 @@
     </div>
 @endsection
     @section('javascript')
-        <script src="{{ asset('js/cotizacion/cotizacion2.js') }}"></script>
+        <script src="{{ asset('js/cotizacion/cotizacion.js') }}"></script>
         <script src="{{ asset('js/libs/componentes.js') }}"></script>
         <script src="{{ asset('js/libs/tablas.js') }}"></script>
     @stop

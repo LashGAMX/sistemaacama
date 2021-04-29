@@ -127,7 +127,7 @@
               <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
               <button type="submit" class="btn btn-primary">Guardar cambios</button>
             </div>
-          </form>
+          </form> 
           </div>
         </div>
       </div>

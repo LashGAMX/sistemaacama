@@ -34,8 +34,8 @@
           <td>{{$item->RFC}}</td>
           <td>{{$item->Id_intermediario}}</td>
           <td>{{$item->Nombres}} {{$item->A_paterno}}</td>
-          <td>{{$item->created_at}}</td>
-          <td>{{$item->updated_at}}</td>
+          <td>{{$item->created_at}}</td> 
+          <td>{{$item->updated_at}}</td> 
           <td>
             <button type="button" class="btn btn-warning"
             wire:click="setData('{{$item->Id_cliente}}','{{$item->Empresa}}','{{$item->RFC}}','{{$item->Id_intermediario}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalCliente">

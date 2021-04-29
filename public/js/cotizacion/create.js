@@ -8,7 +8,7 @@ $(document).ready(function () {
     if(sw == 1)
     {
       update();
-      precioCampo();
+      // precioCampo();
       swParametros == 1;
     }
 
@@ -78,6 +78,8 @@ function cantGasolinaTeorico()
 var totalMuestreo = 0;
 function precioCampo()
 {
+
+  let suma = 0;
   $.ajax({
     url: base_url + '/admin/cotizacion/precioMuestreo', //archivo que recibe la peticion
     type: 'POST', //método de envio
@@ -103,11 +105,43 @@ function precioCampo()
     success: function (response) {
         console.log(response)
         totalMuestreo = response.total;
-        $("#totalMuestreo").val(response.total);
-        $("#precioMuestra").val(totalMuestreo);
-        $('#precioTotal').val(precioTotal + totalMuestreo);
+
+        $("#totalMuestreo").val(totalMuestreo.toFixed());
+        $("#precioMuestra").val(totalMuestreo.toFixed());
+        suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed());
+        $('#precioTotal').val(suma);
     }
 });
+}
+var swDescuento = 0;
+$("#activarDescuento").css("display", "none");
+function btnDescuento()
+{
+  if(swDescuento != 0)
+  {
+    $("#activarDescuento").css("display", "none");
+    swDescuento = 0;
+  }else{
+    $("#activarDescuento").css("display", "");
+    $("#descuento").val(0);
+    swDescuento = 1;
+  }
+}
+function aplicarTotal()
+{
+  // console.log("Funcion: aplicar total");
+  let total = 0;
+  let descuento =  0;
+  let analisis = $("#precioAnalisis").val();
+
+  descuento = (analisis * $("#descuento").val()) / 100;
+  descuentoAnalisis = (analisis - descuento);
+  total = $("#precioMuestra").val() + descuentoAnalisis;
+  iva = (total * 16) / 100;
+
+  $("#subTotal").val(descuentoAnalisis);
+
+  $("#precioTotal").val(total + iva)
 }
 function getLocalidad()
 {
@@ -219,6 +253,7 @@ $('#delRow').click( function () {
 var precioTotal = 0;
 function getDatos2()
 {
+  let suma = 0;
     $.ajax({
         url: base_url + '/admin/cotizacion/getDatos2', //archivo que recibe la peticion
         type: 'POST', //método de envio
@@ -265,11 +300,12 @@ function getDatos2()
 
             $("#parametrosCotizacion").val(normaParametro);
             $("#puntosCotizacion").val(puntosMuestro);
+            precioAnalisis = response.precioTotal;
 
-            $("#precioAnalisis").val(response.precioTotal);
+            $("#precioAnalisis").val(precioAnalisis.toFixed());
 
-            precioTotal = response.precioTotal;
-            $('#precioTotal').val(response.precioTotal + totalMuestreo);
+            suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed());
+            $('#precioTotal').val(suma);
 
         }
     });
