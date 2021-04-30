@@ -9,6 +9,11 @@ $(document).ready(function () {
     {
       update();
       // precioCampo();
+      if($('#descuento').val() != 0)
+      {
+        swDescuento = 1;
+        $("#activarDescuento").css("display", "");
+      }
       swParametros == 1;
     }
 
@@ -44,7 +49,7 @@ $(document).ready(function () {
     {
       if($('#tipoMuestra').val() == "INSTANTANEA")
       {
-        $("#frecuencia option[value=1]").attr("selected",true);
+        $("#frecuencia option[value=6]").attr("selected",true);
         $('#tomas').val("1");
       } 
     });
@@ -80,6 +85,8 @@ function precioCampo()
 {
 
   let suma = 0;
+  let sumatotal = 0;
+  let iva = 0;
   $.ajax({
     url: base_url + '/admin/cotizacion/precioMuestreo', //archivo que recibe la peticion
     type: 'POST', //método de envio
@@ -109,12 +116,14 @@ function precioCampo()
         $("#totalMuestreo").val(totalMuestreo.toFixed());
         $("#precioMuestra").val(totalMuestreo.toFixed());
         suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed());
-        $('#precioTotal').val(suma);
+        iva = (suma * 16) / 100;
+        $('#subTotal').val(suma);
+        sumatotal = suma + iva;
+        $('#precioTotal').val(suma.toFixed());
     }
 });
 }
 var swDescuento = 0;
-$("#activarDescuento").css("display", "none");
 function btnDescuento()
 {
   if(swDescuento != 0)
@@ -127,21 +136,30 @@ function btnDescuento()
     swDescuento = 1;
   }
 }
+var swAplicarDescuento = 0;
 function aplicarTotal()
 {
-  // console.log("Funcion: aplicar total");
+  if(swAplicarDescuento == 0)
+  {
+    // console.log("Funcion: aplicar total");
   let total = 0;
   let descuento =  0;
-  let analisis = $("#precioAnalisis").val();
+  let iva = 0;
+  let sumaTotal = 0;
+  let analisis = parseFloat($("#precioAnalisis").val());
 
-  descuento = (analisis * $("#descuento").val()) / 100;
+  descuento = (analisis * parseFloat($("#descuento").val())) / 100;
   descuentoAnalisis = (analisis - descuento);
-  total = $("#precioMuestra").val() + descuentoAnalisis;
+  total = parseFloat($("#precioMuestra").val()) + descuentoAnalisis;
   iva = (total * 16) / 100;
+  sumaTotal = (total + iva);
 
-  $("#subTotal").val(descuentoAnalisis);
-
-  $("#precioTotal").val(total + iva)
+  $("#precioAnalisis").val(descuentoAnalisis.toFixed());
+  $("#subTotal").val(total.toFixed());
+  $("#precioTotal").val(sumaTotal.toFixed());
+  }else{
+    alert("Solo se puede aplicar una vez el descuento");
+  }
 }
 function getLocalidad()
 {
@@ -251,9 +269,12 @@ $('#delRow').click( function () {
 
 }
 var precioTotal = 0;
+var swUpdateParam = 0;
 function getDatos2()
 {
   let suma = 0;
+  let iva = 0;
+  let sumaTotal = 0;
     $.ajax({
         url: base_url + '/admin/cotizacion/getDatos2', //archivo que recibe la peticion
         type: 'POST', //método de envio
@@ -301,11 +322,25 @@ function getDatos2()
             $("#parametrosCotizacion").val(normaParametro);
             $("#puntosCotizacion").val(puntosMuestro);
             precioAnalisis = response.precioTotal;
-
-            $("#precioAnalisis").val(precioAnalisis.toFixed());
-
-            suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed());
-            $('#precioTotal').val(suma);
+            if(sw != 1)
+            {
+              $("#precioAnalisis").val(precioAnalisis.toFixed());
+              suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed());
+              iva = (suma * 16) / 100;
+              sumaTotal = (suma + iva);
+              $('#subTotal').val(suma);
+              $('#precioTotal').val(sumaTotal.toFixed());
+            }
+            if(swUpdateParam == 1)
+            {
+              $("#precioAnalisis").val(precioAnalisis.toFixed());
+              suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed());
+              iva = (suma * 16) / 100;
+              sumaTotal = (suma + iva);
+              $('#subTotal').val(suma);
+              $('#precioTotal').val(sumaTotal.toFixed());
+              $('#descuento').val(0);
+            }
 
         }
     });
@@ -609,6 +644,7 @@ function updateNormaParametro()
   tab += '</table>';
   table.innerHTML = tab;
 
+  swUpdateParam = 1;
   $('#listaParametros').modal('hide');
 
 }
