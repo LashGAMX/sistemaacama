@@ -153,7 +153,8 @@ cot.Atencion,cot.Telefono,cot.Correo,cot.Tipo_servicio,cot.Tipo_descarga,des.Des
 cot.Id_norma,nor.Norma,nor.Clave_norma,cot.Id_subnorma,cot.Fecha_muestreo,cot.Frecuencia_muestreo,cot.Tomas,
 cot.Tipo_muestra,cot.Promedio,cot.Numero_puntos,cot.Tipo_reporte,
 cot.Tiempo_entrega,cot.Observacion_interna,cot.Observacion_cotizacion,cot.Folio_servicio,
-cot.Folio,cot.Fecha_cotizacion,cot.Metodo_pago,cot.Costo_total,cot.Estado_cotizacion,est.Estado,est.Descripcion as Descripcion_estado,
+cot.Folio,cot.Fecha_cotizacion,cot.Metodo_pago,cot.Precio_analisis,cot.Descuento,cot.Precio_muestreo,cot.Sub_total,
+cot.Costo_total,cot.Estado_cotizacion,est.Estado,est.Descripcion as Descripcion_estado,
 cot.Supervicion,cot.Creado_por,usr.name as NameC,cot.Actualizado_por,usr2.name as NameA,cot.created_at,cot.updated_at,cot.deleted_at
 FROM cotizacion as cot
 INNER JOIN normas as nor

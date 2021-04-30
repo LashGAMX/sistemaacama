@@ -4,7 +4,7 @@
 
 <div class="container-fluid">
   <input type="text" value="{{@$sw}}" id="sw" hidden>
-  <input type="text" value="{{@$idCotizacion}}" id="idCotizacion" hidden>
+  {{-- <input type="text" value="{{@$idCotizacion}}" id="idCotizacion" hidden> --}}
 
   <div class="row">
       <div class="col-md-12">
@@ -23,7 +23,7 @@
         <form action="{{url('admin/cotizacion/setCotizacion')}}" method="post" >
         @else
         <form action="{{url('admin/cotizacion/updateCotizacion')}}" method="post" >
-          <input type="text" class="" name="idCotizacion" id="idCotizacion" value="{{$idCotizacion}}" hidden>
+          <input type="text" class="" name="idCotizacion" id="idCotizacion" value="{{$idCotizacion}}" hidden> 
         @endif
 
           @csrf
@@ -503,8 +503,8 @@
             </div>
             <!-- Tiempo de Entrega -->
             <div class="col-md-6">
-                <label for="">Tiempo de Entrega</label>
-                <input type="text" class="form-control" name="tiempoEntrega" id="tiempoEntrega"value="{{@$model->Tiempo_entrega}}">
+                <label for="">Tiempo de Entrega (Dias)</label>
+                <input type="number" class="form-control" name="tiempoEntrega" id="tiempoEntrega"value="{{@$model->Tiempo_entrega}}">
             </div>
             <div class="col-md-12">
                 <hr>
@@ -535,7 +535,7 @@
               <tbody>
                 <tr>
                   <td>Analisis</td>
-                  <td><input type="text" class="form-control" id="precioAnalisis" name="precioAnalisis" placeholder="Precio análsis" ></td>
+                  <td><input type="text" class="form-control" id="precioAnalisis" name="precioAnalisis" placeholder="Precio análsis" value="{{@$model->Precio_analisis}}"></td>
                 </tr>
                 <tr>
                   <td><code>Nota: El descuento solo aplica directamente al análisis</code></td>
@@ -544,25 +544,25 @@
                 <tr id="activarDescuento">
                   <td>Descuento</td>
                   <td>
-                    <input type="text" class="form-control" id="descuento" name="descuento" placeholder="Descuento" value="0">
+                    <input type="text" class="form-control" id="descuento" name="descuento" placeholder="Descuento" value="{{@$model->Descuento}}">
                     <button type="button" class="btn btn-info" onclick="aplicarTotal()">Aplicar</button>
                   </td>
                 </tr>
                 <tr>
                   <td>Muestreo</td>
-                  <td><input type="text" class="form-control" id="precioMuestra" name="precioMuestra" placeholder="Precio muestreo" ></td>
+                  <td><input type="text" class="form-control" id="precioMuestra" name="precioMuestra" placeholder="Precio muestreo" value="{{@$model->Precio_muestreo}}"></td>
                 </tr>
                 <tr>
                   <td>Iva</td>
-                  <td><input type="text" class="form-control" id="precioMuestra" name="precioMuestra" placeholder="Iva" disabled value="16"></td>
+                  <td><input type="text" class="form-control" id="iva" name="iva" placeholder="Iva" disabled value="16"></td>
                 </tr>
                 <tr>
                   <td>SubTotal</td>
-                  <td><input type="text" class="form-control" id="subTotal" name="subTotal" placeholder="Sub total" ></td>
+                  <td><input type="text" class="form-control" id="subTotal" name="subTotal" placeholder="Sub total" value="{{@$model->Sub_total}}"></td>
                 </tr>
                 <tr>
                   <td>Total</td>
-                  <td><input type="text" class="form-control" id="precioTotal" name="precioTotal" placeholder="Precio total" ></td>
+                  <td><input type="text" class="form-control" id="precioTotal" name="precioTotal" placeholder="Precio total" value="{{@$model->Costo_total}}"></td>
                 </tr>
               </tbody>
             </table>
