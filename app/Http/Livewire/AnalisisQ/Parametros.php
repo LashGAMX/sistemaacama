@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\AnalisisQ;
 
 use App\Models\DetallesTipoCuerpo;
+use App\Models\HistorialParametros;
 use App\Models\Limite001;
 use App\Models\MatrizParametro;
 use App\Models\MetodoPrueba;
@@ -41,6 +42,7 @@ class Parametros extends Component
     public $procedimiento;
     public $simbologia;
     public $status;
+    public $nota;
  
 
     protected $rules = [ 
@@ -93,6 +95,8 @@ class Parametros extends Component
             'Id_procedimiento' => $this->procedimiento,
             'Id_matriz' => $this->matriz,
             'Id_simbologia' => $this->simbologia,
+            'Id_user_c' => $this->idUser,
+            'Id_user_m' => $this->idUser,
         ]);
 
         switch($this->norma)
@@ -114,6 +118,9 @@ class Parametros extends Component
         {
             Parametro::find($parametro->Id_parametro)->delete();   
         }
+        $this->idParametro = $parametro->Id_parametro;
+        $this->nota = "Creación de registro";
+        $this->historial();
         $this->alert = true;
     }
     public function store()
@@ -132,6 +139,8 @@ class Parametros extends Component
         $model->Id_procedimiento = $this->procedimiento;
         $model->Id_matriz = $this->matriz;
         $model->Id_simbologia = $this->simbologia;
+        $model->Id_user_m = $this->idUser;
+        $this->historial();
         $model->save();
         if($this->status != 1) 
         {
@@ -163,6 +172,33 @@ class Parametros extends Component
         }
         $this->alert = false;
     }
+
+    Public function historial()
+    {
+        $model = DB::table('ViewParametros')->where('Id_parametro',$this->idParametro)->first();
+        HistorialParametros::create([
+            'Id_parametro' => $model->Id_parametro,
+            'Id_laboratorio' => $model->Id_laboratorio,
+            'Id_tipo_formula' => $model->Id_tipo_formula,
+            'Id_rama' => $model->Id_rama,
+            'Parametro' => $model->Parametro,
+            'Id_unidad' => $model->Id_unidad,
+            'Id_metodo' => $model->Id_metodo,
+            'Id_norma' => $model->Id_norma,
+            'Limite' => $model->Limite,
+            'Id_procedimiento' => $model->Id_procedimiento,
+            'Id_matriz'=> $model->Id_matriz,
+            'Id_simbologia' => $model->Id_simbologia,
+            'F_inicio_vigencia' => $model->F_inicio_vigencia,
+            'F_fin_vigencia' => $model->F_fin_vigencia,
+            'Precio' => $model->Precio,
+            'Nota' => $this->nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,            
+            'Id_user_m' => $this->idUser
+        ]);
+    }
     public function clean()
     {
         $this->idParametro = '';
@@ -178,6 +214,7 @@ class Parametros extends Component
         $this->metodo = 1;
         $this->procedimiento = 1;
         $this->status = 1;
+        $this->nota='';
     }
     public function btnCreate()
     {
