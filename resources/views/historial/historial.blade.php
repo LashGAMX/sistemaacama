@@ -41,7 +41,7 @@
         <div class="panel-content">
             <i class="voyager-lab"></i>        <h4>Análisis Q</h4>
             
-            <a href="https://dev.sistemaacama.com.mx/admin/users" class="btn btn-primary">Ver Historial</a>
+            <a href="https://dev.sistemaacama.com.mx/admin/historial/analisisQ" class="btn btn-primary">Ver Historial</a>
         </div>
         </div>
         </div>

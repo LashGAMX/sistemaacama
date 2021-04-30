@@ -24,6 +24,6 @@ class HistorialClientes extends Model
         'F_creacion',
         'Id_user_c',
         'F_modificacion',
-        'Id_user_m', 
+        'Id_user_m',  
     ];
 }
