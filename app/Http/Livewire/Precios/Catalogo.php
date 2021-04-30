@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Precios;
 
+use App\Models\Historial\HistorialPrecioCatalogo;
 use App\Models\HistorialPrecioCat;
 use App\Models\Parametro;
 use App\Models\PrecioCatalogo;
@@ -60,6 +61,8 @@ class Catalogo extends Component
                 'Id_parametro' => $this->parametro,
                 'Id_laboratorio' => $this->idSucursal,
                 'Precio' => $this->precio,
+                'Id_user_c' => $this->idUser,
+                'Id_user_m' => $this->idUser
             ]);
             if ($this->status != 1) {
                 PrecioCatalogo::find($model->Id_precio)->delete();
@@ -96,6 +99,24 @@ class Catalogo extends Component
             $this->status = 1;
         }
     }
+    Public function historial()
+    {
+        $model = DB::table('ViewPrecioCat')->where('Id_precio',$this->idPrecio)->first();
+        HistorialPrecioCatalogo::create([
+            'Id_precio',
+            'Id_parametro',
+            'Parametro',
+            'Id_laboratorio',
+            'Sucursal',
+            'Precio',
+            'Nota',
+            'F_creacion',
+            'Id_user_c',
+            'F_modificacion',
+            'Id_user_m'
+        ]);
+    }
+
     public function createPrecio()
     {
         $date = Carbon::now();
