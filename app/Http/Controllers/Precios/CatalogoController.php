@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Precios;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CatalogoController extends Controller
 {
@@ -14,6 +15,7 @@ class CatalogoController extends Controller
     }
     public function details($idSucursal)
     {
-        return view('precios.catalogo',compact('idSucursal'));
+        $idUser = Auth::user()->id;
+        return view('precios.catalogo',compact('idSucursal', 'idUser'));
     }
 }

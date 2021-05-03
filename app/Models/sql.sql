@@ -110,7 +110,7 @@ INNER JOIN parametros as pa
 ON lim.Id_parametro = pa.Id_parametro
 
 /*Vista   Lista precio catalgo*/
-CREATE VIEW ViewPrecioCat as SELECT cat.Id_precio,cat.Id_parametro,cat.Id_user_C,cat.Id_user_m,par.Parametro,par.Tipo_formula,par.Rama,par.Unidad,
+CREATE VIEW ViewPrecioCat as SELECT cat.Id_precio,cat.Id_parametro,cat.Id_user_c,cat.Id_user_m,par.Parametro,par.Tipo_formula,par.Rama,par.Unidad,
 par.Descripcion,par.Limite,par.Procedimiento,par.Matriz,par.Metodo_prueba,cat.Id_laboratorio,lab.Sucursal,cat.Precio,
 cat.created_at,cat.updated_at,cat.deleted_at
 FROM precio_catalogo as cat

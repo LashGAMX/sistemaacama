@@ -102,6 +102,15 @@
                         <input type="number" wire:model='precio' class="form-control" placeholder="Precio" required>
                         @error('precio') <span class="text-danger">{{ $message  }}</span> @enderror
                 </div>
+                @if ($sw == true)
+                <div class="col-md-12">
+                  <input type="text" wire:model="nota" hidden>
+                  <label for="">Nota</label>
+                  <input type="text" wire:model='nota' class="form-control" placeholder="Nota" required> 
+                  @error('nota') <span class="text-danger">{{ $message  }}</span> @enderror
+                </div>
+                @endif
+              
             </div>
         </div>
         <div class="modal-footer">

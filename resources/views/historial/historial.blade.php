@@ -52,7 +52,7 @@
     <div class="panel-content">
         <i class="voyager-dollar"></i>        <h4>Precios</h4>
         
-        <a href="https://dev.sistemaacama.com.mx/admin/users" class="btn btn-primary">Ver Historial</a>
+        <a href="https://dev.sistemaacama.com.mx/admin/historial/precios" class="btn btn-primary">Ver Historial</a>
     </div>
     </div>
     </div>

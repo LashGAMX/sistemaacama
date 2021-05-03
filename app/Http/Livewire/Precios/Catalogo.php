@@ -2,8 +2,8 @@
 
 namespace App\Http\Livewire\Precios;
 
-use App\Models\Historial\HistorialPrecioCatalogo;
-use App\Models\HistorialPrecioCat;
+use App\Models\HistorialPrecioCatalogo;
+
 use App\Models\Parametro;
 use App\Models\PrecioCatalogo;
 use Carbon\Carbon;
@@ -15,6 +15,7 @@ class Catalogo extends Component
 {
     use WithPagination;
     public $idSucursal;
+    public $idUser;
 
     public $search = '';
     protected $queryString = ['search' => ['except' => '']];
@@ -29,6 +30,7 @@ class Catalogo extends Component
     public $precio;
     public $status = 1;
     public $parametro;
+    public $nota;
 
     protected $rules = [
         'precio' => 'required',
@@ -69,6 +71,9 @@ class Catalogo extends Component
             }
             $this->error = false;
         }
+        $this->idPrecio = $model->Id_precio;
+        $this->nota = "Creación del registro";
+        $this->historial();
         $this->alert = true;
     }
   
@@ -79,6 +84,7 @@ class Catalogo extends Component
         PrecioCatalogo::withTrashed()->find($this->idPrecio)->restore();
         $model = PrecioCatalogo::find($this->idPrecio);
         $model->Precio = $this->precio;
+        $this->historial();
         $model->save();
 
         if ($this->status != 1) {
@@ -99,61 +105,63 @@ class Catalogo extends Component
             $this->status = 1;
         }
     }
+
     Public function historial()
     {
         $model = DB::table('ViewPrecioCat')->where('Id_precio',$this->idPrecio)->first();
+        
         HistorialPrecioCatalogo::create([
-            'Id_precio',
-            'Id_parametro',
-            'Parametro',
-            'Id_laboratorio',
-            'Sucursal',
-            'Precio',
-            'Nota',
-            'F_creacion',
-            'Id_user_c',
-            'F_modificacion',
-            'Id_user_m'
+            'Id_precio' => $model->Id_precio,
+            'Id_parametro' => $model->Id_parametro,
+            'Parametro' => $model->Parametro,
+            'Id_laboratorio' => $model->Id_laboratorio,
+            'Sucursal' => $model->Sucursal,
+            'Precio' => $model->Precio,
+            'Nota' => $this->nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $this->idUser
         ]);
     }
 
-    public function createPrecio()
-    {
-        $date = Carbon::now();
-        $date = $date->format('y-m-d');
+    // public function createPrecio()
+    // {
+    //     $date = Carbon::now();
+    //     $date = $date->format('y-m-d');
 
-        $model = PrecioCatalogo::withTrashed()
-        ->where('Id_laboratorio',$this->idSucursal)->get();
-        $desc = 0;
-        foreach($model as $item)
-        {
-            HistorialPrecioCat::create([
-                'Id_parametro' => $item->Id_parametro,
-                'Precio' => $item->Precio,
-                'Porcentaje' => $this->porcentaje,
-                'Anio' => $date,
-                'Id_laboratorio' => $item->Id_laboratorio,
-                'F_creacion' => $item->created_at,
-                'F_actualizacion' => $item->updated_at
-            ]);
-        }
-        foreach($model as $item)
-        {
-            $desc = 0;
-            $desc = ($item->Precio * $this->porcentaje) / 100;
+    //     $model = PrecioCatalogo::withTrashed()
+    //     ->where('Id_laboratorio',$this->idSucursal)->get();
+    //     $desc = 0;
+    //     foreach($model as $item)
+    //     {
+    //         HistorialPrecioCat::create([
+    //             'Id_parametro' => $item->Id_parametro,
+    //             'Precio' => $item->Precio,
+    //             'Porcentaje' => $this->porcentaje,
+    //             'Anio' => $date,
+    //             'Id_laboratorio' => $item->Id_laboratorio,
+    //             'F_creacion' => $item->created_at,
+    //             'F_actualizacion' => $item->updated_at
+    //         ]);
+    //     }
+    //     foreach($model as $item)
+    //     {
+    //         $desc = 0;
+    //         $desc = ($item->Precio * $this->porcentaje) / 100;
             
-            PrecioCatalogo::withTrashed()->find($item->Id_precio)->restore();
-            $precioModel = PrecioCatalogo::find($item->Id_precio);
-            $precioModel->Precio = $item->Precio + $desc;
-            $precioModel->save();
-            if($item->deleted_at != null)
-            {
-                PrecioCatalogo::find($item->Id_precio)->delete();
-            }
-        }
-        $this->alert = true;
-        $this->error = false;
-    }
+    //         PrecioCatalogo::withTrashed()->find($item->Id_precio)->restore();
+    //         $precioModel = PrecioCatalogo::find($item->Id_precio);
+    //         $precioModel->Precio = $item->Precio + $desc;
+    //         $precioModel->save();
+    //         if($item->deleted_at != null)
+    //         {
+    //             PrecioCatalogo::find($item->Id_precio)->delete();
+    //         }
+    //     }
+    //     $this->alert = true;
+    //     $this->error = false;
+    // }
     public function btnPrice()
     {
         $this->clean();
@@ -176,6 +184,7 @@ class Catalogo extends Component
         $this->status = 1;
         $this->parametro = '';
         $this->porcentaje = '';
+        $this->nota = '';
     }
     public function resetAlert()
     {
