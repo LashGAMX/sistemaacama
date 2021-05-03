@@ -22,6 +22,9 @@ Route::get('prueba', [PruebaController::class,'index']);
 Route::get('/home/{name}',[HomeController::class,'index']);
 Route::get('/home',[HomeController::class,'index']);
 Route::post('/home/create',[HomeController::class,'create']);
+Route::get('home', [ProductController::class, 'getProducts']);
+
+Route::get('/products/create-pdf', [ProductController::class, 'exportPDF']);
 
 Route::get('/', function () {
  return redirect()->to('admin');
