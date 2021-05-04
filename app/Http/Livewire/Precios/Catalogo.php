@@ -13,9 +13,9 @@ use Livewire\WithPagination;
 
 class Catalogo extends Component
 {
-    use WithPagination;
-    public $idSucursal;
     public $idUser;
+    use WithPagination;
+    public $idSucursal; 
 
     public $search = '';
     protected $queryString = ['search' => ['except' => '']];
@@ -64,7 +64,7 @@ class Catalogo extends Component
                 'Id_laboratorio' => $this->idSucursal,
                 'Precio' => $this->precio,
                 'Id_user_c' => $this->idUser,
-                'Id_user_m' => $this->idUser
+                'Id_user_m' => $this->idUser, 
             ]);
             if ($this->status != 1) {
                 PrecioCatalogo::find($model->Id_precio)->delete();
@@ -121,7 +121,7 @@ class Catalogo extends Component
             'F_creacion' => $model->created_at,
             'Id_user_c' => $model->Id_user_c,
             'F_modificacion' => $model->updated_at,
-            'Id_user_m' => $this->idUser
+            'Id_user_m' => intval($this->idUser)
         ]);
     }
 

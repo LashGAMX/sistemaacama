@@ -7,10 +7,11 @@
         <button class="btn btn-dark btn-sm" onclick="confirmar()" ><i class="voyager-list-add"></i> Anual</button>
       </div>
       <div class="col-md-4">
+        <input type="text" wire:model='idUser' hidden>
         <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">
       </div>
     </div>
-
+   
     <table class="table ">
       <thead class="thead-dark">
             <tr>

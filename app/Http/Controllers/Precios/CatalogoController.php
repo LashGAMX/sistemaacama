@@ -11,11 +11,12 @@ class CatalogoController extends Controller
     //
     public function index()
     {
+        // $idUser = Auth::user()->id;
         return view('precios.catalogo');
     }
     public function details($idSucursal)
     {
         $idUser = Auth::user()->id;
-        return view('precios.catalogo',compact('idSucursal', 'idUser'));
+        return view('precios.catalogo',compact('idSucursal', 'idUser')); 
     }
 }
