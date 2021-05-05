@@ -14,7 +14,7 @@ class IsaacController extends Controller
 
     public function index()
     {
-        return view('isaac.isaac');
+        return view('livewire.isaac.isaac');
     }
     
     public function agregar(Request $request)

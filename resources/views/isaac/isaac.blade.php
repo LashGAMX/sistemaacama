@@ -7,7 +7,9 @@
   <h6 class="page-title"> 
       <i class="voyager-folder"></i>
       Descomponer formula
-  </h6>
+  </h6> 
+
+   <livewire:isaac.isaac />
 
   {{-- <form name="index" method="post" action="{{url('admin/isaac/formula')}}">
     
