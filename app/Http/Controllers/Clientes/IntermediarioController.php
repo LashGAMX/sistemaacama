@@ -13,4 +13,3 @@ class IntermediarioController extends Controller
         return view('clientes.intermediario');
     }
 }
-  

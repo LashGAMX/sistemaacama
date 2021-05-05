@@ -92,10 +92,18 @@ class RouteServiceProvider extends ServiceProvider
                     ->namespace($this->namespace)
                     ->prefix('admin') 
                     ->group(base_path('routes/modules/librerias.php'));
+                Route::middleware('web', 'auth')
+                    ->namespace($this->namespace)
+                    ->prefix('admin') 
+                    ->group(base_path('routes/modules/beto.php')); 
                     Route::middleware('web', 'auth')
                     ->namespace($this->namespace)
                     ->prefix('admin') 
-                    ->group(base_path('routes/modules/beto.php'));
+                    ->group(base_path('routes/modules/isaac.php'));
+                    Route::middleware('web', 'auth')
+                    ->namespace($this->namespace)
+                    ->prefix('admin') 
+                    ->group(base_path('routes/modules/katerin.php'));
         });
     }
 
