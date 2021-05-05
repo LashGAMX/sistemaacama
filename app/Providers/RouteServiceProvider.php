@@ -96,7 +96,6 @@ class RouteServiceProvider extends ServiceProvider
                     ->namespace($this->namespace)
                     ->prefix('admin') 
                     ->group(base_path('routes/modules/beto.php')); 
-<<<<<<< HEAD
                     Route::middleware('web', 'auth')
                     ->namespace($this->namespace)
                     ->prefix('admin') 
@@ -105,12 +104,6 @@ class RouteServiceProvider extends ServiceProvider
                     ->namespace($this->namespace)
                     ->prefix('admin') 
                     ->group(base_path('routes/modules/katerin.php'));
-=======
-                    Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin') 
-                    ->group(base_path('routes/modules/isaac.php'));
->>>>>>> cb5eb40ef348195e058633cc6e5e91384e761d04
         });
     }
 
