@@ -35,7 +35,7 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->configureRateLimiting();
+        $this->configureRateLimiting(); 
 
         $this->routes(function () {
             Route::prefix('api')
@@ -51,7 +51,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
-
+ 
                 Route::middleware('web', 'auth')
                     ->namespace($this->namespace)
                     ->prefix('admin')
@@ -82,7 +82,7 @@ class RouteServiceProvider extends ServiceProvider
                     ->group(base_path('routes/modules/usuarios.php'));
                 Route::middleware('web', 'auth')
                     ->namespace($this->namespace)
-                    ->prefix('admin')
+                    ->prefix('admin') 
                     ->group(base_path('routes/modules/ingenieria-campo.php'));
                 Route::middleware('web', 'auth')
                     ->namespace($this->namespace)
@@ -96,21 +96,21 @@ class RouteServiceProvider extends ServiceProvider
                     ->namespace($this->namespace)
                     ->prefix('admin') 
                     ->group(base_path('routes/modules/beto.php')); 
-                    Route::middleware('web', 'auth')
+                Route::middleware('web', 'auth')
                     ->namespace($this->namespace)
                     ->prefix('admin') 
                     ->group(base_path('routes/modules/isaac.php'));
-                    Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
+                Route::middleware('web', 'auth')
+                    ->namespace($this->namespace) 
                     ->prefix('admin') 
                     ->group(base_path('routes/modules/katerin.php'));
-        });
+        }); 
     }
 
-    /**
+    /** 
      * Configure the rate limiters for the application.
      *
-     * @return void
+     * @return void 
      */
     protected function configureRateLimiting()
     {
