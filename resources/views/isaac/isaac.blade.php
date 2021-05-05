@@ -8,7 +8,16 @@
       <i class="voyager-folder"></i>
       Descomponer formula
   </h6>
-   
+
+  {{-- <form name="index" method="post" action="{{url('admin/isaac/formula')}}">
+    
+    @csrf
+    Formula: <input type="text" name="formula" >
+    
+    <input type="submit" value="agregar" />
+    
+    </form> --}}
+
   @stop
 
 @endsection   
