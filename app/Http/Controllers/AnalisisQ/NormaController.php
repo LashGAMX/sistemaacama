@@ -72,4 +72,6 @@ class NormaController extends Controller
         $data = array('sqlNorma' => $normaModel,'sqlParametro' => $parametroModel);
         return response()->json($data);
     }
+   
+    
 }
