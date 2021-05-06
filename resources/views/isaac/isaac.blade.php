@@ -9,7 +9,7 @@
       Descomponer formula
   </h6> 
 
-   <livewire:isaac.isaac />
+   @livewire('isaac.isaac')
 
   {{-- <form name="index" method="post" action="{{url('admin/isaac/formula')}}">
     

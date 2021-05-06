@@ -4,7 +4,7 @@
 
 @section('page_header')
 <div class="col-md-8">
-  <button class="btn btn-success btn-sm" wire:click="setBtn" data-toggle="modal" data-target="#modalDireccionSiralab"><i class="voyager-plus"></i> Crear</button>
+   <a href="{{url('admin/katerin2')}}"><button class="btn btn-success btn-sm" wire:click="setBtn" ><i class="voyager-plus"></i> Crear</button> </a>
 </div>
 <div class="col-md-4">
                 <input type="search" class="form-control" placeholder="Buscar">
@@ -35,9 +35,6 @@
                 </tr>
                 </tbody>
 </table>
-
-
-
 @stop
 
 @endsection

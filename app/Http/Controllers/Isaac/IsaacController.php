@@ -10,11 +10,11 @@ use PhpOffice\PhpSpreadsheet\Writer\Ods\Formula;
 
 class IsaacController extends Controller
 {
-   
+   public $formula = "mx+b";
 
     public function index()
     {
-        return view('livewire.isaac.isaac');
+        return view('isaac.isaac');
     }
     
     public function agregar(Request $request)
