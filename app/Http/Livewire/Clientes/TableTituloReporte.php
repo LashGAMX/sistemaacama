@@ -19,6 +19,7 @@ class TableTituloReporte extends Component
 
     public $titulo;
     public $idTitulo;
+    public $status = 1;
 
     protected $rules = [ 
         'titulo' => 'required',
@@ -29,7 +30,7 @@ class TableTituloReporte extends Component
 
     public function render()
     {
-        $model = TituloConsecion::where('Id_sucursal',$this->idSuc)->get();
+        $model = TituloConsecion::withTrashed()->where('Id_sucursal',$this->idSuc)->get();
             
         return view('livewire.clientes.table-titulo-reporte',compact('model'));
     }
@@ -41,14 +42,25 @@ class TableTituloReporte extends Component
             'Titulo' => $this->titulo,
             'Id_sucursal' => $this->idSuc,
         ]);
+
         $this->alert = true;
     }
     public function store()
     {
         $this->validate();
-        $model = TituloConsecion::find($this->idTitulo);
-        $model->Titulo = $this->titulo;
-        $model->save();
+        if($this->status != 1)
+        {
+            TituloConsecion::withTrashed()->find($this->idTitulo)->restore();
+            $model = TituloConsecion::withTrashed()->find($this->idTitulo);
+            $model->Titulo = $this->titulo;
+            $model->save();
+            TituloConsecion::find($this->idTitulo)->delete();
+        }else{
+            TituloConsecion::withTrashed()->find($this->idTitulo)->restore();
+            $model = TituloConsecion::withTrashed()->find($this->idTitulo);
+            $model->Titulo = $this->titulo;
+            $model->save();
+        }
         $this->alert = true;
     }
     public function setData($id,$titulo)

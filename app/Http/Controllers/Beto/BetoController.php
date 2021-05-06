@@ -12,21 +12,61 @@ use FormulaParser\FormulaParser;
 class BetoController extends Controller
 {
     //
+    public function readFormula() 
+    {
+        //Formula a resolver
+         // $formula = "(a+cb)/2";
+        // $formula ="(10/D1)*NMP";
+        // $formula = "(((ABS-CA)-CB)/CM)*D";
+        $formula = "((A)/(D*H)*I+(B)/(E*H)*I+(C)/(G*H)*I)/3";
+        echo "<br>".$formula."<br>"; 
+        //Obtener variables de la formula
+        $exploded = $this->multiexplode(array("(",")","+","/","*","-"),$formula);
+        echo "<br>Variables obtenidas: ";
+        var_dump($exploded);
+        echo '<br>';
+        $arr = array();
+        //Limpiar varibles optenidos de vacio y alamcenar en arr
+        $cont = 0;
+        for ($i=0; $i < sizeof($exploded) -1; $i++) { 
+            # code...
+            if($exploded[$i] != '')
+            {
+                $arr[$cont] = $exploded[$i];
+                $cont++;
+            }
+        }
+        echo "<br>Varibles sin cadena vacia:";
+        var_dump($arr);
+        $exploded2 = $this->multiexplode($arr,$formula);
+        var_dump($exploded2);
+        echo '<br> ';
+        for ($i=1; $i < sizeof($exploded); $i++) { 
+            # code...
+            // $arr[$i-1] = $exploded[$i];
+            
+            if($exploded[$i] != '')
+            {
+                $aux = $formula; // asigno formula
+                $sus = str_replace($exploded[$i],$i,$aux); // Reemplazo formula
+                $formula = $sus; // Re asigno formula
+            }
+            // echo "<br>".$sus."<br>";
+        }
+        echo $sus;
+        echo "<br>";
+        $var = eval("return (".$sus.");");
+        echo "Resultado:".$var;
+    }
     public function formula()
     {
 
-        $formula = "(a+cb)";
+        // $formula = "(a+cb)/2";
+        // $formula ="(10/D1)*NMP";
+        $formula = "(((ABS-CA)-CB)/CM)*D";
+        echo "<br>".$formula."<br>";
         // $arr = str_split();
 
-        $string = '
-        <ul>
-            <li>Name: John</li>
-            <li>Surname- Doe</li>
-            <li>Phone* 555 0456789</li>
-            <li>Zip code= ZP5689</li>
-        </ul>
-        ';
-        
         // $chunks = preg_split('/(:|-|\*|=)/', $string,-1, PREG_SPLIT_NO_EMPTY);
         // var_dump($chunks);}
         // $data = preg_split('/(:|-|\+*|=|()|)/', $formula,-1, PREG_SPLIT_NO_EMPTY);
@@ -34,14 +74,50 @@ class BetoController extends Controller
         // $text = "here is a sample: this text, and this will be exploded. this also | this one too :)";
         // $exploded = $this->multiexplode(array(",",".","|",":"),$text);
 
-        $exploded = $this->multiexplode(array("(",")","+"),$formula);
+    
+        $exploded = $this->multiexplode(array("(",")","+","/","*","-"),$formula);
         var_dump($exploded);
+        echo '<br> ';
+        $arr = array();
+        for ($i=0; $i < sizeof($exploded) -1; $i++) { 
+            # code...
+            if($exploded[$i] != '')
+            {
+                $arr[$i-1] = $exploded[$i];
+            }
+        }
+        var_dump($arr);
+        $exploded2 = $this->multiexplode($arr,$formula);
+        var_dump($exploded2);
+        echo '<br> ';
+        for ($i=1; $i < sizeof($exploded); $i++) { 
+            # code...
+            // $arr[$i-1] = $exploded[$i];
+            
+            if($exploded[$i] != '')
+            {
+                $aux = $formula; // asigno formula
+                $sus = str_replace($exploded[$i],$i,$aux); // Reemplazo formula
+                $formula = $sus; // Re asigno formula
+            }
+            // echo "<br>".$sus."<br>";
+        }
+        echo $sus;
+        echo "<br>";
+        $var = eval("return ".$sus.";");
+        echo "Resultado:".$var;
+               //Leer cadena y convertirlo a función
+        // $a = 6;
+        // $formula2 = "/2";
+        // $formula = "".$a."+4*6".$formula2;
+        // $var = eval("return ".$formula.";");
+        // echo $var;
 
 // This is just a simple way to debug stuff ;-)
 // echo '<pre>';
 // print_r($chunks);
 // echo '</pre>';
-
+echo "<br>";
 //        $formula = '3*x^2 - 4*p + 3/y';
 // $precision = 2; // Number of digits after the decimal point 
 //         $parser = new FormulaParser($formula, $precision);

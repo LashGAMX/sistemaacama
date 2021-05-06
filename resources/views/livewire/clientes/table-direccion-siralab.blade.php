@@ -9,7 +9,7 @@
     </div>
     <table class="table">
         <thead class="thead-dark">
-            <tr> 
+            <tr>
                 <th>Titulo</th>
                 <th>Calle</th>
                 <th>Num Ext</th>
@@ -24,37 +24,37 @@
             </tr>
         </thead>
         <tbody>
-        @if ($model->count())  
-        @foreach ($model as $item) 
-        <tr>  
+        @if ($model->count())
+        @foreach ($model as $item)
+        <tr>
           {{-- <form wire:submit.prevent="update"> --}}
           <td>{{$item->Titulo_concesion}}</td>
-          <td>{{$item->Calle}}</td>          
-          <td>{{$item->Num_exterior}}</td>          
-          <td>{{$item->Num_interior}}</td>          
+          <td>{{$item->Calle}}</td>
+          <td>{{$item->Num_exterior}}</td>
+          <td>{{$item->Num_interior}}</td>
           <td>{{$item->Estado}}</td>
           <td>{{$item->Municipio}}</td>
-          <td>{{$item->Colonia}}</td>          
+          <td>{{$item->Colonia}}</td>
           <td>{{$item->CP}}</td>
           <td>{{$item->Ciudad}}</td>
           <td>{{$item->Localidad}}</td>
-          
+
           <td>
-            <button type="button" class="btn btn-primary" 
-            wire:click="setData('{{$item->Id_cliente_siralab}}','{{$item->Titulo_concesion}}','{{$item->Calle}}','{{$item->Num_exterior}}','{{$item->Num_interior}}','{{$item->Estado}}','{{$item->Municipio}}','{{$item->Colonia}}','{{$item->CP}}','{{$item->Localidad}}','{{$item->Ciudad}}')" 
+            <button type="button" class="btn btn-primary"
+            wire:click="setData('{{$item->Id_cliente_siralab}}','{{$item->Titulo_concesion}}','{{$item->Calle}}','{{$item->Num_exterior}}','{{$item->Num_interior}}','{{$item->Estado}}','{{$item->Municipio}}','{{$item->Colonia}}','{{$item->CP}}','{{$item->Localidad}}','{{$item->Ciudad}}')"
             data-toggle="modal" data-target="#modalDireccionSiralab"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
-          {{-- </form>  --}} 
+          {{-- </form>  --}}
         </tr>
-    @endforeach 
+    @endforeach
         @else
             <h6>No hay resultados para la búsqueda "{{$search}}"</h6>
         @endif
         </tbody>
     </table>
-   
-  
-   
+
+
+
     <div wire:ignore.self class="modal fade" id="modalDireccionSiralab" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
           <div class="modal-content">
@@ -142,21 +142,21 @@
               </div>
               <div class="col-md-4">
                 <div class="form-group">
-                    <label for="cp">C.P</label>  
+                    <label for="cp">C.P</label>
                    <input type="text" wire:model='cp' class="form-control" placeholder="Codigo Postal">
                    @error('cp') <span class="text-danger">{{ $message  }}</span> @enderror
                   </div>
             </div>
             <div class="col-md-4">
               <div class="form-group">
-                  <label for="localidad">Localidad</label> 
+                  <label for="localidad">Localidad</label>
                  <input type="text" wire:model='localidad' class="form-control" placeholder="Localidad">
                  @error('localidad') <span class="text-danger">{{ $message  }}</span> @enderror
                 </div>
           </div>
           <div class="col-md-4">
             <div class="form-group">
-                <label for="ciudad">Ciudad</label> 
+                <label for="ciudad">Ciudad</label>
                <input type="text" wire:model='ciudad' class="form-control" placeholder="Ciudad">
                @error('ciudad') <span class="text-danger">{{ $message  }}</span> @enderror
               </div>
@@ -177,8 +177,8 @@
     swal("Registro!", "Registro guardado correctamente!", "success");
     $('#modalDireccionSiralab').modal('hide')
   </script>
-  
+
   @endif
-    
+
   </div>
-   
+

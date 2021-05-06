@@ -10,7 +10,12 @@
     @if ($show != false)  
     <div class="row">
       <form wire:submit.prevent="create">
-      <div class="col-md-7">
+        <div class="col-md-2">
+          <label for="">Activo</label>
+            <input type="checkbox" wire:model='status'>
+            @error('status') <span class="text-danger">{{ $message  }}</span> @enderror
+        </div>
+      <div class="col-md-5">
         <input type="text" wire:model='idUser' hidden>
         <label for="">Titulo</label>
           <input type="text" wire:model='titulo' class="form-control" placeholder="Titulo reporte">
@@ -23,9 +28,8 @@
     </form>
     </div>  
   @endif
-    <table class="table table-hover table-striped">
+    <table class="table table-hover">
         <thead class="thead-dark">
-            <tr> 
                 <th>Id</th>
                 <th>Titulo</th>
                 <th>Creación</th>
@@ -36,7 +40,11 @@
         <tbody>
         @if ($model->count())  
         @foreach ($model as $item) 
-        <tr>  
+        @if ($item->deleted_at != null)
+        <tr class="bg-danger text-white">  
+      @else
+          <tr>
+      @endif
           {{-- <form wire:submit.prevent="update"> --}}
           <td>{{$item->Id_titulo}}</td>
           <td>{{$item->Titulo}}</td>          
@@ -68,6 +76,11 @@
         </div>
         <div class="modal-body">
             <div class="row">
+              <div class="col-md-12">
+                <label for="">Activo</label>
+                  <input type="checkbox" wire:model='status'>
+                  @error('status') <span class="text-danger">{{ $message  }}</span> @enderror
+              </div>
                 <div class="col-md-12">
                     <input type="text" wire:model="idTitulo" hidden>
                     <label for="">Titulo</label>
