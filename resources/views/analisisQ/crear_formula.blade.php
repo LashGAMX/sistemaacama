@@ -57,6 +57,11 @@
                   <button type="submit" class="btn btn-danger">Asignar</button>
                 </div>
               </div>
+              <div class="col-md-12">
+                <div id="tablaVariables">
+
+                </div>
+              </div>
             </div>
           </div>
         </div>
