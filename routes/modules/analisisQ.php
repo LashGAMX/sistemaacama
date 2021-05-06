@@ -4,6 +4,7 @@ use App\Http\Controllers\AnalisisQ\ImportarController;
 use App\Http\Controllers\AnalisisQ\LimitesController;
 use App\Http\Controllers\AnalisisQ\NormaController;
 use App\Http\Controllers\AnalisisQ\ParametroController;
+use App\Http\Controllers\AnalisisQ\FormulasController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('analisisQ/parametros', [ParametroController::class,'index']); 
@@ -22,3 +23,6 @@ Route::get('analisisQ/limites/{idNorma}/{idParametro}', [LimitesController::clas
 
 Route::get('analisisQ/importar', [ImportarController::class,'index']);
 Route::post('analisisQ/importar/create', [ImportarController::class,'create']); 
+
+Route::get('analisisQ/formulas',[FormulasController::class, 'index']);
+Route::get('analisisQ/formulas/crear_formula',[FormulasController::class, 'crearFormula']);

@@ -12,32 +12,52 @@ use FormulaParser\FormulaParser;
 class BetoController extends Controller
 {
     //
+<<<<<<< HEAD
     public function readFormula() 
+=======
+    public function readFormula()
+>>>>>>> 63563302587b40a422efaa51e6034a28e39898ef
     {
         //Formula a resolver
          // $formula = "(a+cb)/2";
         // $formula ="(10/D1)*NMP";
+<<<<<<< HEAD
         // $formula = "(((ABS-CA)-CB)/CM)*D";
         $formula = "((A)/(D*H)*I+(B)/(E*H)*I+(C)/(G*H)*I)/3";
         echo "<br>".$formula."<br>"; 
         //Obtener variables de la formula
         $exploded = $this->multiexplode(array("(",")","+","/","*","-"),$formula);
         echo "<br>Variables obtenidas: ";
+=======
+        $formula = "(((ABS-CA)-CB)/CM)*D";
+        echo "<br>".$formula."<br>";
+        //Obtener variables de la formula
+        $exploded = $this->multiexplode(array("(",")","+","/","*","-"),$formula);
+        echo "<br>Variables optenidas: ";
+>>>>>>> 63563302587b40a422efaa51e6034a28e39898ef
         var_dump($exploded);
         echo '<br>';
         $arr = array();
         //Limpiar varibles optenidos de vacio y alamcenar en arr
+<<<<<<< HEAD
         $cont = 0;
+=======
+>>>>>>> 63563302587b40a422efaa51e6034a28e39898ef
         for ($i=0; $i < sizeof($exploded) -1; $i++) { 
             # code...
             if($exploded[$i] != '')
             {
+<<<<<<< HEAD
                 $arr[$cont] = $exploded[$i];
                 $cont++;
+=======
+                $arr[$i-1] = $exploded[$i];
+>>>>>>> 63563302587b40a422efaa51e6034a28e39898ef
             }
         }
         echo "<br>Varibles sin cadena vacia:";
         var_dump($arr);
+<<<<<<< HEAD
         $exploded2 = $this->multiexplode($arr,$formula);
         var_dump($exploded2);
         echo '<br> ';
@@ -57,6 +77,8 @@ class BetoController extends Controller
         echo "<br>";
         $var = eval("return (".$sus.");");
         echo "Resultado:".$var;
+=======
+>>>>>>> 63563302587b40a422efaa51e6034a28e39898ef
     }
     public function formula()
     {
