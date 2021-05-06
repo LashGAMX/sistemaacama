@@ -20,6 +20,7 @@ class TableDireccionReporte extends Component
 
     public $dir;
     public $idDir;
+    public $status = 1;
 
     protected $rules = [ 
         'dir' => 'required',
@@ -30,7 +31,7 @@ class TableDireccionReporte extends Component
 
     public function render()
     {
-        $model = DireccionReporte::where('Id_sucursal',$this->idSuc)
+        $model = DireccionReporte::withTrashed()->where('Id_sucursal',$this->idSuc)
         ->orWhere('Direccion','LIKE',"%{$this->search}%")
         ->get();
         return view('livewire.clientes.table-direccion-reporte',compact('model'));
@@ -48,9 +49,20 @@ class TableDireccionReporte extends Component
     public function store()
     {
         $this->validate();
-        $model = DireccionReporte::find($this->idDir);
-        $model->Direccion = $this->dir;
-        $model->save();
+        if($this->status != 1)
+        {
+            DireccionReporte::withTrashed()->find($this->idDir)->restore();
+            $model = DireccionReporte::withTrashed()->find($this->idDir);
+            $model->Direccion = $this->dir;
+            $model->save();
+            DireccionReporte::find($this->idDir)->delete();
+        }else{
+            DireccionReporte::withTrashed()->find($this->idDir)->restore();
+            $model = DireccionReporte::withTrashed()->find($this->idDir);
+            $model->Direccion = $this->dir;
+            $model->save();
+        }
+
         $this->alert = true;
     }
     public function setData($id,$dir)

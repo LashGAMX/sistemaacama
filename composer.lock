@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "06c0fdf2e2fe2f366011390a5fdd4544",
+    "content-hash": "509d3408312820a3a07966abefd257c7",
     "packages": [
         {
             "name": "arrilot/laravel-widgets",
@@ -718,6 +718,55 @@
             "time": "2021-03-25T17:01:18+00:00"
         },
         {
+            "name": "denissimon/formula-parser",
+            "version": "v2.7.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/denissimon/formula-parser.git",
+                "reference": "d6d19374f75f9a353fbbdb0945eb9dbbb602f8b2"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/denissimon/formula-parser/zipball/d6d19374f75f9a353fbbdb0945eb9dbbb602f8b2",
+                "reference": "d6d19374f75f9a353fbbdb0945eb9dbbb602f8b2",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FormulaParser\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Denis Simon",
+                    "email": "denis.v.simon@gmail.com",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Parsing and evaluating mathematical formulas given as strings.",
+            "keywords": [
+                "Evaluation",
+                "expression",
+                "formula",
+                "math",
+                "parser",
+                "parsing"
+            ],
+            "support": {
+                "issues": "https://github.com/denissimon/formula-parser/issues",
+                "source": "https://github.com/denissimon/formula-parser/tree/v2.7.1"
+            },
+            "time": "2019-11-05T10:48:08+00:00"
+        },
+        {
             "name": "doctrine/cache",
             "version": "1.11.0",
             "source": {
@@ -972,7 +1021,7 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/doctrine/event-manager.git",
-                "reference": "41370af6a30faa9dc0368c4a6814d596e81aba7f"
+                "reference": "41370af6a30faa9dc0368c4a6814d596e81aba7f" 
             },
             "dist": {
                 "type": "zip",

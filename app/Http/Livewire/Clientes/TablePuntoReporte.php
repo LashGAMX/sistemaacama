@@ -19,6 +19,7 @@ class TablePuntoReporte extends Component
 
     public $punto;
     public $idPunto;
+    public $status = 1;
 
     protected $rules = [ 
         'punto' => 'required',
@@ -29,7 +30,7 @@ class TablePuntoReporte extends Component
 
     public function render()
     {
-        $model = PuntoMuestreoGen::where('Id_sucursal',$this->idSuc)->get();
+        $model = PuntoMuestreoGen::withTrashed()->where('Id_sucursal',$this->idSuc)->get();
         return view('livewire.clientes.table-punto-reporte',compact('model'));
     }
 
@@ -45,9 +46,20 @@ class TablePuntoReporte extends Component
     public function store()
     {
         $this->validate();
-        $model = PuntoMuestreoGen::find($this->idPunto);
-        $model->Punto_muestreo = $this->punto;
-        $model->save();
+        if($this->status != 1)
+        {
+            PuntoMuestreoGen::withTrashed()->find($this->idPunto)->restore();
+            $model = PuntoMuestreoGen::withTrashed()->find($this->idPunto);
+            $model->Punto_muestreo = $this->punto;
+            $model->save();
+            PuntoMuestreoGen::find($this->idPunto)->delete();
+        }else{
+            PuntoMuestreoGen::withTrashed()->find($this->idPunto)->restore();
+            $model = PuntoMuestreoGen::withTrashed()->find($this->idPunto);
+            $model->Punto_muestreo = $this->punto;
+            $model->save();
+        }
+
         $this->alert = true;
     }
     public function setData($id,$punto)
