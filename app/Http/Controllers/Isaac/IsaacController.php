@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Isaac;
 use App\Http\Controllers\Controller;
 use App\Models\Signo;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth; 
 use PhpOffice\PhpSpreadsheet\Writer\Ods\Formula;
 
 class IsaacController extends Controller
@@ -41,7 +41,7 @@ class IsaacController extends Controller
     //             if ($item->Signo == $formula_div[$i]){
     //                 echo "signo"."<br>";
     //             }
-    //             else
+    //             else 
     //             {
     //                 echo "letra"."<br>";
     //             }
