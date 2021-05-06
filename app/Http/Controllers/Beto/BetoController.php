@@ -12,10 +12,36 @@ use FormulaParser\FormulaParser;
 class BetoController extends Controller
 {
     //
+    public function readFormula()
+    {
+        //Formula a resolver
+         // $formula = "(a+cb)/2";
+        // $formula ="(10/D1)*NMP";
+        $formula = "(((ABS-CA)-CB)/CM)*D";
+        echo "<br>".$formula."<br>";
+        //Obtener variables de la formula
+        $exploded = $this->multiexplode(array("(",")","+","/","*","-"),$formula);
+        echo "<br>Variables optenidas: ";
+        var_dump($exploded);
+        echo '<br>';
+        $arr = array();
+        //Limpiar varibles optenidos de vacio y alamcenar en arr
+        for ($i=0; $i < sizeof($exploded) -1; $i++) { 
+            # code...
+            if($exploded[$i] != '')
+            {
+                $arr[$i-1] = $exploded[$i];
+            }
+        }
+        echo "<br>Varibles sin cadena vacia:";
+        var_dump($arr);
+    }
     public function formula()
     {
 
-        $formula = "(a+cb)/2";
+        // $formula = "(a+cb)/2";
+        // $formula ="(10/D1)*NMP";
+        $formula = "(((ABS-CA)-CB)/CM)*D";
         echo "<br>".$formula."<br>";
         // $arr = str_split();
 
@@ -26,24 +52,32 @@ class BetoController extends Controller
         // $text = "here is a sample: this text, and this will be exploded. this also | this one too :)";
         // $exploded = $this->multiexplode(array(",",".","|",":"),$text);
 
-        $exploded = $this->multiexplode(array("(",")","+","/"),$formula);
+    
+        $exploded = $this->multiexplode(array("(",")","+","/","*","-"),$formula);
         var_dump($exploded);
         echo '<br> ';
         $arr = array();
-        for ($i=1; $i < sizeof($exploded) -1; $i++) { 
+        for ($i=0; $i < sizeof($exploded) -1; $i++) { 
             # code...
-            $arr[$i-1] = $exploded[$i];
+            if($exploded[$i] != '')
+            {
+                $arr[$i-1] = $exploded[$i];
+            }
         }
         var_dump($arr);
         $exploded2 = $this->multiexplode($arr,$formula);
         var_dump($exploded2);
         echo '<br> ';
-        for ($i=1; $i < sizeof($exploded) -1; $i++) { 
+        for ($i=1; $i < sizeof($exploded); $i++) { 
             # code...
             // $arr[$i-1] = $exploded[$i];
-            $aux = $formula; // asigno formula
-            $sus = str_replace($exploded[$i],$i,$aux); // Reemplazo formula
-            $formula = $sus; // Re asigno formula
+            
+            if($exploded[$i] != '')
+            {
+                $aux = $formula; // asigno formula
+                $sus = str_replace($exploded[$i],$i,$aux); // Reemplazo formula
+                $formula = $sus; // Re asigno formula
+            }
             // echo "<br>".$sus."<br>";
         }
         echo $sus;

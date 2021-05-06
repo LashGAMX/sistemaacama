@@ -271,7 +271,7 @@ class CotizacionController extends Controller
             'Tomas' => $request->tomas,
             'Tipo_muestra' => $request->tipoMuestra,
             'Promedio' => $request->promedio,
-            'Numero_puntos' => $request->promedio,
+            'Numero_puntos' => $request->contPunto,
             'Tipo_reporte' => $request->tipoReporte,
             'Tiempo_entrega' => $request->tiempoEntrega,
             'Observacion_interna' => $request->observacionInterna,
