@@ -27,12 +27,14 @@
         <thead class="thead-dark">
                 <tr>
                     <th>Id </th>
-                    <th>Parametro</th>
-                    <th>Tecnica</th>
-                    <th>Area de análisis</th>
-                    <th>Tipo de foprmula</th>
                     <th>Formula</th>
-                                       </tr>
+                    <th>Nivel</th>
+                    <th>Expresión</th>
+                    <th>Variables</th>
+                    <th>Valor</th>
+                    <th>Decimal</th>
+                    <th>Descripción</th>
+                </tr>
             </thead>
             <tbody>
               <td>1</td>
