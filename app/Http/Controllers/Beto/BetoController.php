@@ -14,6 +14,13 @@ class BetoController extends Controller
     //
 <<<<<<< HEAD
     public function readFormula() 
+    {
+        //Formula a resolver
+        //  $formula = "(a+cb)/2";
+        // $formula ="(10/D1)*NMP"; 
+=======
+<<<<<<< HEAD
+    public function readFormula() 
 =======
     public function readFormula()
 >>>>>>> 63563302587b40a422efaa51e6034a28e39898ef
@@ -29,12 +36,18 @@ class BetoController extends Controller
         $exploded = $this->multiexplode(array("(",")","+","/","*","-"),$formula);
         echo "<br>Variables obtenidas: ";
 =======
+>>>>>>> 08afae1f418be48064eb76dcccb0a179c2de58d4
         $formula = "(((ABS-CA)-CB)/CM)*D";
-        echo "<br>".$formula."<br>";
+        // $formula = "((A)/(D*H)*I+(B)/(E*H)*I+(C)/(G*H)*I)/3";
+        echo "<br>".$formula."<br>"; 
         //Obtener variables de la formula
         $exploded = $this->multiexplode(array("(",")","+","/","*","-"),$formula);
+<<<<<<< HEAD
+        echo "<br>Variables obtenidas: ";
+=======
         echo "<br>Variables optenidas: ";
 >>>>>>> 63563302587b40a422efaa51e6034a28e39898ef
+>>>>>>> 08afae1f418be48064eb76dcccb0a179c2de58d4
         var_dump($exploded);
         echo '<br>';
         $arr = array();
@@ -42,7 +55,11 @@ class BetoController extends Controller
 <<<<<<< HEAD
         $cont = 0;
 =======
+<<<<<<< HEAD
+        $cont = 0;
+=======
 >>>>>>> 63563302587b40a422efaa51e6034a28e39898ef
+>>>>>>> 08afae1f418be48064eb76dcccb0a179c2de58d4
         for ($i=0; $i < sizeof($exploded) -1; $i++) { 
             # code...
             if($exploded[$i] != '')
@@ -51,13 +68,21 @@ class BetoController extends Controller
                 $arr[$cont] = $exploded[$i];
                 $cont++;
 =======
+<<<<<<< HEAD
+                $arr[$cont] = $exploded[$i];
+                $cont++;
+=======
                 $arr[$i-1] = $exploded[$i];
 >>>>>>> 63563302587b40a422efaa51e6034a28e39898ef
+>>>>>>> 08afae1f418be48064eb76dcccb0a179c2de58d4
             }
         }
         echo "<br>Varibles sin cadena vacia:";
         var_dump($arr);
 <<<<<<< HEAD
+=======
+<<<<<<< HEAD
+>>>>>>> 08afae1f418be48064eb76dcccb0a179c2de58d4
         $exploded2 = $this->multiexplode($arr,$formula);
         var_dump($exploded2);
         echo '<br> ';
@@ -77,8 +102,11 @@ class BetoController extends Controller
         echo "<br>";
         $var = eval("return (".$sus.");");
         echo "Resultado:".$var;
+<<<<<<< HEAD
+=======
 =======
 >>>>>>> 63563302587b40a422efaa51e6034a28e39898ef
+>>>>>>> 08afae1f418be48064eb76dcccb0a179c2de58d4
     }
     public function formula()
     {

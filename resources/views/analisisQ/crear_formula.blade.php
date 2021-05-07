@@ -91,4 +91,8 @@
 @section('javascript')
 
 <script src="{{asset('js/analisisQ/craer_formula.js')}}"></script>
+<<<<<<< HEAD
 @stop
+=======
+@stop
+>>>>>>> 08afae1f418be48064eb76dcccb0a179c2de58d4
