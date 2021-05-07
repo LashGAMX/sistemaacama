@@ -24,5 +24,9 @@ Route::get('analisisQ/limites/{idNorma}/{idParametro}', [LimitesController::clas
 Route::get('analisisQ/importar', [ImportarController::class,'index']);
 Route::post('analisisQ/importar/create', [ImportarController::class,'create']); 
 
-Route::get('analisisQ/formulas',[FormulasController::class, 'index']);
-Route::get('analisisQ/formulas/crear_formula',[FormulasController::class, 'crearFormula']);
+Route::group(['prefix' => 'analisisQ'], function () {
+    Route::get('formulas',[FormulasController::class, 'index']);
+    Route::get('formulas/crear_formula',[FormulasController::class, 'crearFormula']);
+    Route::post('formulas/getVariables',[FormulasController::class,'getVariables']);
+});
+ 
