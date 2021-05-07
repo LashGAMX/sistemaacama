@@ -4,7 +4,7 @@
 
   @section('page_header')
   <h6 class="page-title"> 
-    <i class="fa fa-square-root-alt"></i>
+    <i class="fa fa-square-root-alt"></i> 
     Formulas
   </h6>
 
@@ -24,31 +24,17 @@
       <div class="col-md-4">
         <div class="row">
           <div class="col-md-12">
-            <div class="form-group">
-              <label for="">Parámetro</label>
-              <select class="form-control">
-                  @foreach ($parametro as $item)
-                      <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
-                  @endforeach
-                </select>
-            </div>
-          </div>
-          <div class="col-md-12">
           <div class="form-group">
-            <label for="">Área</label>
-            <select class="form-control">
-                @foreach ($area as $item)
-                    <option value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
-                @endforeach
-              </select>
+            <label for="">Nombre de la formula</label>
+            <input type="text" class="form-control" placeholder="Nombre de la formula">
           </div>
         </div>
         <div class="col-md-12">
             <div class="form-group">
-              <label for="">Técnica</label>
+              <label for="">Nivel</label>
               <select class="form-control">
-                @foreach ($tecnica as $item)
-                <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
+                @foreach ($nivel as $item)
+                <option value="{{$item->Id_nivel}}">{{$item->Nivel}}</option>
                 @endforeach
                 </select>
             </div>
@@ -94,7 +80,7 @@
                   </div>
                 </div>
               </div>
-          </div>
+          </div> 
         </div>
       </div>
     </div>
@@ -127,7 +113,7 @@
             <input type="text" class="form-control" id="resultadoCal" placeholder="Resultado">
           </div>
         </div>
-      </div>
+      </div> 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
         {{-- <button type="button" class="btn btn-primary"></button> --}}
@@ -139,7 +125,7 @@
 @endsection  
  
 @section('javascript')
-<script src="{{asset('js/analisisQ/crear_formula.js')}}"></script>
+<script src="{{asset('js/analisisQ/crear_nivel_formula.js')}}"></script>
 <script src="{{asset('js/libs/componentes.js')}}"></script>
 <script src="{{asset('js/libs/tablas.js')}}"></script>
 @stop

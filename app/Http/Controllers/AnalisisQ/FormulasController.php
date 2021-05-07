@@ -5,6 +5,8 @@ namespace App\Http\Controllers\AnalisisQ;
 use App\Http\Controllers\Controller;
 use App\Models\AreaAnalisis;
 use App\Models\Constante;
+use App\Models\NivelFormula;
+use App\Models\Parametro;
 use App\Models\Regla;
 use App\Models\Tecnica;
 use Illuminate\Http\Request;
@@ -12,26 +14,34 @@ use Illuminate\Http\Request;
 class FormulasController extends Controller
 {
     public function index()
-    {
+    { 
         return view('analisisQ.formulas');
     }
  
     public function crearFormula()
     {
+        $parametro = Parametro::all();
         $area = AreaAnalisis::all();
         $tecnica = Tecnica::all();
         $reglas = Regla::all();
-        return view('analisisQ.crear_formula',compact('area','tecnica','reglas'));
+        return view('analisisQ.crear_formula',compact('area','tecnica','reglas','parametro'));
     }
+    
     public function nivel()
     {
         // $area = AreaAnalisis::all();
         // $tecnica = Tecnica::all();
         // $reglas = Regla::all();
-        // return view('analisisQ');
+        return view('analisisQ.nivel_formula');
+    }
+    public function crear_nivel()
+    {
+        $nivel = NivelFormula::all();
+        $reglas = Regla::all();
+        return view('analisisQ.crear_nivel_formula',compact('nivel','reglas')); 
     }
     public function probarFormula(Request $request)
-    {
+    { 
            /* Variables formula */
         //Obtener variables de la formula
         $formula = $request->formula;
