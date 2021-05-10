@@ -138,7 +138,3 @@ function probarFormula()
     }); 
 }
 
-function guardar()
-{
-    
-}

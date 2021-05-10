@@ -17,7 +17,7 @@
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-4">
-            <button type="button" class="btn btn-success">Guardar</button>
+            <button type="button" class="btn btn-success" onclick="create()">Guardar</button>
           </div>
           <div class="col-md-4" id="divProbar">
             <button type="button" id="btnProbar" data-toggle="modal" data-target="#modalProbar" class="btn btn-info">Probar</button>
@@ -65,13 +65,13 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="">Formula</label>
-                  <input type="text" class="form-control" id="formula" placeholder="Formula">
+                  <input type="text" class="form-control" id="formula" name="formula" placeholder="Formula">
                 </div>
               </div>
               <div class="col-md-12"> 
                 <div class="form-group">
                   <label for="">Formula sistema</label>
-                  <input type="text" class="form-control" id="formulaSis" placeholder="Formula sistema">  
+                  <input type="text" class="form-control" id="formulaSis" name="formula_sistema" placeholder="Formula sistema">  
                   <button type="button" id="btnAsignar" onclick="tablaVariables()" class="btn btn-danger">Asignar</button>
                 </div>
               </div>

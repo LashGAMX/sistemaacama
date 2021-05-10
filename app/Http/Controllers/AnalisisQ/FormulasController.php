@@ -12,8 +12,19 @@ use App\Models\Regla;
 use App\Models\Tecnica;
 use Illuminate\Http\Request;
 
+
+
 class FormulasController extends Controller
 {
+    //public $formula = $_POST['formula'];
+    //public $formula_sistema = $_POST['formula_sistema'];
+
+    public $parametro;
+    public $area;
+    public $tecnica;
+    public $reglas;
+    public $formula;
+    Public $formula_sistema;
     public function index()
     { 
         return view('analisisQ.formulas');
@@ -29,13 +40,25 @@ class FormulasController extends Controller
     }
     public function create()
     {
+       
         $model = Formulas::create([
-            'Id_area',
-            'Id_parametro',
-            'Id_tecnica',
-            'Formula',
-            'Formula_sistema',
+            'Id_area' => $this->area,
+            'Id_parametro' => $this->parametro,
+            'Id_tecnica' => $this->tecnica,
+            'Formula' => $this->formula,
+            'Formula_sistema' => $this->formula_sistema,
         ]);
+    
+        // $varFormula = VariablesFormula::create([
+        //     'Id_formula',
+        //     'Id_parametro',
+        //     'Variable',
+        //     'Id_tipo',
+        //     'Valor',
+        //     'Drcimal'
+        // ]);
+
+
     }
     public function nivel()
     {
