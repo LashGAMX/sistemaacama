@@ -6,7 +6,7 @@ use App\Http\Controllers\AnalisisQ\NormaController;
 use App\Http\Controllers\AnalisisQ\ParametroController;
 use App\Http\Controllers\AnalisisQ\FormulasController;
 use Illuminate\Support\Facades\Route;
-
+ 
 
 
 Route::group(['prefix' => 'analisisQ'], function () {
@@ -27,7 +27,7 @@ Route::group(['prefix' => 'analisisQ'], function () {
 
     Route::get('importar', [ImportarController::class,'index']);
     Route::post('importar/create', [ImportarController::class,'create']); 
-
+ 
     Route::get('formulas',[FormulasController::class, 'index']);
     Route::get('formulas/crear',[FormulasController::class, 'crearFormula']);
     Route::post('formulas/getVariables',[FormulasController::class,'getVariables']);
@@ -36,4 +36,4 @@ Route::group(['prefix' => 'analisisQ'], function () {
     Route::get('formulas/crear_nivel',[FormulasController::class,'crear_nivel']);
     
 });
- ;
+ 

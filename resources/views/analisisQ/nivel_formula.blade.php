@@ -8,7 +8,7 @@
     Nivel formulas
   </h6>
   @stop
-
+ 
  <div class="container-fluid">
   <div class="row">
     <div class="col-md-4">

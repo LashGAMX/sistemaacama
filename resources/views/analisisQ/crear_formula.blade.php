@@ -1,7 +1,7 @@
 @extends('voyager::master')
 
 @section('content')
-
+ 
   @section('page_header')
   <h6 class="page-title"> 
     <i class="fa fa-square-root-alt"></i>
@@ -11,6 +11,9 @@
   @stop
   <div class="container">
     <div class="row">
+
+
+
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-4">

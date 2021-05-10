@@ -48,7 +48,7 @@ class BetoController extends Controller
                 $arr[$cont] = $exploded[$i];
                 $cont++;
             }
-        }
+        } 
         echo "<br>Varibles sin cadena vacia:";
         var_dump($arr);
         $exploded2 = $this->multiexplode($arr,$formula);
