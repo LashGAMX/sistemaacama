@@ -19,7 +19,7 @@ class FormulasController extends Controller
     }
  
     public function crearFormula()
-    {
+    { 
         $parametro = Parametro::all();
         $area = AreaAnalisis::all();
         $tecnica = Tecnica::all();

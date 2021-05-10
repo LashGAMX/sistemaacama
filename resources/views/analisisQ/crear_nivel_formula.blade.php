@@ -1,6 +1,6 @@
 @extends('voyager::master')
 
-@section('content')
+@section('content') 
 
   @section('page_header')
   <h6 class="page-title"> 

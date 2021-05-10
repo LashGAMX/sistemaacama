@@ -9,7 +9,7 @@
   </h6>
   @stop
 
- <div class="container-fluid">
+ <div class="container-fluid"> 
   <div class="row">
     <div class="col-md-4">
       <a href="{{url('/admin/analisisQ/formulas/crear')}}" class="btn btn-success"><i class="voyager-plus"></i> Crear</a>
