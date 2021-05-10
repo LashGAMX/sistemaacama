@@ -20,7 +20,7 @@ class FormulasController extends Controller
     }
  
     public function crearFormula()
-    {
+    { 
         $parametro = Parametro::all();
         $area = AreaAnalisis::all();
         $tecnica = Tecnica::all();
@@ -81,56 +81,6 @@ class FormulasController extends Controller
             'formulaVal' => $formula,
             'formula' => $request->formula,
         ); 
-        return response()->json($data);
-    }
-    public function nivel()
-    {
-        // $area = AreaAnalisis::all();
-        // $tecnica = Tecnica::all();
-        // $reglas = Regla::all();
-        return view('analisisQ.nivel_formula');
-    }
-    public function probarFormula(Request $request)
-    {
-        $reglas = Regla::all();
-        $constantes = Constante::all();
-
-        /* Variables formula */
-        //Obtener variables de la formula
-        $formula = $this->multiexplode(array("(",")","+","/","*","-"),$request->formula);
-        $arrFormula = array();
-        //Limpiar varibles optenidos de vacio y alamcenar en arr
-        $cont = 0;
-        for ($i=0; $i < sizeof($formula); $i++) { 
-            # code...
-            if($formula[$i] != '')
-            {
-                $arrFormula[$cont] = $formula[$i];
-                $cont++;
-            }
-        }
-        /* Variables formula sistema*/
-        $formulaSis = $this->multiexplode(array("(",")","+","/","*","-"),$request->formulaSis);
-        $arrSis = array();
-        //Limpiar varibles optenidos de vacio y alamcenar en arr
-        $cont = 0;
-        for ($i=0; $i < sizeof($formulaSis); $i++) { 
-            # code...
-            if($formulaSis[$i] != '')
-            {
-                $arrSis[$cont] = $formulaSis[$i];
-                $cont++;
-            }
-        }
-        $data = array(
-            'formula' => $request->formula,
-            'variables' => $arrFormula,
-            'formulaSis'  => $request->formulaSis,
-            'variableSis' => $arrSis,
-            'reglas' => $reglas,
-            'constantes' => $constantes,
-        );
-        
         return response()->json($data);
     }
     function multiexplode ($delimiters,$string) {

@@ -125,7 +125,7 @@ class BetoController extends Controller
         // $formula = "".$a."+4*6".$formula2;
         // $var = eval("return ".$formula.";");
         // echo $var;
-s
+
 // This is just a simple way to debug stuff ;-)
 // echo '<pre>';
 // print_r($chunks);
