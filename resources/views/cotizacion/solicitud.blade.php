@@ -2,7 +2,7 @@
 @section('page_header')
     @stop
 @section('content')
-
+ 
 
     <div class="container-fluid">
         <p>Solicitud</p>
@@ -15,11 +15,11 @@
                     </div>
 
                     <div class="col-md-4 mt-2">
-                        <input type="date" placeholder="Fecha inicio" class="form-control" value="">
+                        <input type="date" placeholder="Fecha inicio" class="form-control" value=""> 
                     </div>
                     <div class="col-md-4 mt-2">
                         <input type="date" placeholder="Fecha inicio" class="form-control" value="">
-                    </div>
+                    </div> 
 
                     <div class="col-md-2 mt-2">
                         <input type="search" class="form-control" placeholder="Buscar">
@@ -32,26 +32,22 @@
                     <table id="tablaCotizacion" class="table">
                         <div class="row">
                             <div class="col-md-1">
-                                <a href="{{url('admin/cotizacion/create')}}" class="btn btn-success btn-sm"><i class="voyager-plus"></i> Crear</a>
+                                <a href="{{url('admin/cotizacion/solicitud/create')}}" class="btn btn-success btn-sm"><i class="voyager-plus"></i> Crear</a>
                             </div>
                             <div class="col-md-1">
                                 <button id="btnEdit" class="btn btn-warning" ><i class="voyager-edit"></i> Editar</button>
                             </div>
                         </div>
                         <thead class="">
-                            <tr>
-                                <th>Id</th>
+                            <tr> 
+                                <th>Estado</th>
+                                <th>Folio cotizacion</th>
                                 <th>Folio servicio</th>
-                                <th>Folio cotización</th>
-                                <th>Fecha cotización</th>
-                                <th>Nombre cliente</th>
                                 <th>Norma</th>
-                                <th>Tipo descarga</th>
-                                <th>Estado cotización</th>
-                                <th>Creado por</th>
-                                <th>Fecha creación</th>
-                                <th>Actualizado por</th>
-                                <th>Fecha actualización</th>
+                                <th>Servicio</th>
+                                <th>Cliente</th>
+                                <th>Fecha muestreo</th>
+                                <th>Intermediario</th>
                             </tr>
                         </thead>
                         <tbody>
