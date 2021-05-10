@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Livewire\AnalisisQ\Parametros;
 use App\Models\AreaAnalisis;
 use App\Models\Constante;
+use App\Models\NivelFormula;
 use App\Models\Parametro;
 use App\Models\Regla;
 use App\Models\Tecnica;
@@ -14,18 +15,19 @@ use Illuminate\Http\Request;
 class FormulasController extends Controller
 {
     public function index()
-    {
+    { 
         return view('analisisQ.formulas');
     }
  
     public function crearFormula()
     {
-        $parametro = Parametro::all(); 
+        $parametro = Parametro::all();
         $area = AreaAnalisis::all();
         $tecnica = Tecnica::all();
         $reglas = Regla::all();
-        return view('analisisQ.crear_formula',compact('parametro','area','tecnica','reglas'));
+        return view('analisisQ.crear_formula',compact('area','tecnica','reglas','parametro'));
     }
+    
     public function nivel()
     {
         // $area = AreaAnalisis::all();
@@ -33,8 +35,14 @@ class FormulasController extends Controller
         // $reglas = Regla::all();
         return view('analisisQ.nivel_formula');
     }
-    public function probarFormula(Request $request)
+    public function crear_nivel()
     {
+        $nivel = NivelFormula::all();
+        $reglas = Regla::all();
+        return view('analisisQ.crear_nivel_formula',compact('nivel','reglas')); 
+    }
+    public function probarFormula(Request $request)
+    { 
            /* Variables formula */
         //Obtener variables de la formula
         $formula = $request->formula;
@@ -75,8 +83,15 @@ class FormulasController extends Controller
         ); 
         return response()->json($data);
     }
-    public function getVariables(Request $request)
-    { 
+    public function nivel()
+    {
+        // $area = AreaAnalisis::all();
+        // $tecnica = Tecnica::all();
+        // $reglas = Regla::all();
+        return view('analisisQ.nivel_formula');
+    }
+    public function probarFormula(Request $request)
+    {
         $reglas = Regla::all();
         $constantes = Constante::all();
 
