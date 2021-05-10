@@ -34,7 +34,7 @@ class FormulasController extends Controller
         // $tecnica = Tecnica::all();
         // $reglas = Regla::all();
         return view('analisisQ.nivel_formula');
-    }
+    } 
     public function crear_nivel()
     {
         $nivel = NivelFormula::all();
@@ -88,6 +88,49 @@ class FormulasController extends Controller
         $ready = str_replace($delimiters, $delimiters[0], $string);
         $launch = explode($delimiters[0], $ready);
         return  $launch;
+    }
+    public function getVariables(Request $request)
+    {
+        $reglas = Regla::all();
+        $constantes = Constante::all();
+
+        /* Variables formula */
+        //Obtener variables de la formula
+        $formula = $this->multiexplode(array("(",")","+","/","*","-"),$request->formula);
+        $arrFormula = array();
+        //Limpiar varibles optenidos de vacio y alamcenar en arr
+        $cont = 0;
+        for ($i=0; $i < sizeof($formula); $i++) { 
+            # code...
+            if($formula[$i] != '')
+            {
+                $arrFormula[$cont] = $formula[$i];
+                $cont++;
+            }
+        }
+        /* Variables formula sistema*/
+        $formulaSis = $this->multiexplode(array("(",")","+","/","*","-"),$request->formulaSis);
+        $arrSis = array();
+        //Limpiar varibles optenidos de vacio y alamcenar en arr
+        $cont = 0;
+        for ($i=0; $i < sizeof($formulaSis); $i++) { 
+            # code...
+            if($formulaSis[$i] != '')
+            {
+                $arrSis[$cont] = $formulaSis[$i];
+                $cont++;
+            }
+        }
+        $data = array(
+            'formula' => $request->formula,
+            'variables' => $arrFormula,
+            'formulaSis'  => $request->formulaSis,
+            'variableSis' => $arrSis,
+            'reglas' => $reglas,
+            'constantes' => $constantes,
+        );
+        
+        return response()->json($data);
     }
     
 }
