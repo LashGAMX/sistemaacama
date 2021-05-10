@@ -27,7 +27,16 @@ class FormulasController extends Controller
         $reglas = Regla::all();
         return view('analisisQ.crear_formula',compact('area','tecnica','reglas','parametro'));
     }
-    
+    public function create()
+    {
+        $model = Formulas::create([
+            'Id_area',
+            'Id_parametro',
+            'Id_tecnica',
+            'Formula',
+            'Formula_sistema',
+        ]);
+    }
     public function nivel()
     {
         // $area = AreaAnalisis::all();
@@ -56,7 +65,7 @@ class FormulasController extends Controller
             {
                 $arrFormula[$cont] = $exploded[$i];
                 $cont++;
-            }
+            } 
         }
         // Reemplazar datos formula por valores
         $contVal = 0;

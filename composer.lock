@@ -2573,16 +2573,16 @@
         },
         {
             "name": "league/commonmark",
-            "version": "1.6.0",
+            "version": "1.6.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/thephpleague/commonmark.git",
-                "reference": "19a9673b833cc37770439097b381d86cd125bfe8"
+                "reference": "2651c497f005de305c7ba3f232cbd87b8c00ee8c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/19a9673b833cc37770439097b381d86cd125bfe8",
-                "reference": "19a9673b833cc37770439097b381d86cd125bfe8",
+                "url": "https://api.github.com/repos/thephpleague/commonmark/zipball/2651c497f005de305c7ba3f232cbd87b8c00ee8c",
+                "reference": "2651c497f005de305c7ba3f232cbd87b8c00ee8c",
                 "shasum": ""
             },
             "require": {
@@ -2670,7 +2670,7 @@
                     "type": "tidelift"
                 }
             ],
-            "time": "2021-05-01T19:00:49+00:00"
+            "time": "2021-05-08T16:08:00+00:00"
         },
         {
             "name": "league/flysystem",
@@ -7075,12 +7075,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/the-control-group/voyager.git",
-                "reference": "e9160b7c102862797dbfe0c69cce3c1335ae3c9b"
+                "reference": "84e17f6a454b41203a99194b40fc830654ec28b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/the-control-group/voyager/zipball/e9160b7c102862797dbfe0c69cce3c1335ae3c9b",
-                "reference": "e9160b7c102862797dbfe0c69cce3c1335ae3c9b",
+                "url": "https://api.github.com/repos/the-control-group/voyager/zipball/84e17f6a454b41203a99194b40fc830654ec28b6",
+                "reference": "84e17f6a454b41203a99194b40fc830654ec28b6",
                 "shasum": ""
             },
             "require": {
@@ -7162,7 +7162,7 @@
                     "type": "github"
                 }
             ],
-            "time": "2020-12-29T18:05:16+00:00"
+            "time": "2021-05-03T11:46:48+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",
