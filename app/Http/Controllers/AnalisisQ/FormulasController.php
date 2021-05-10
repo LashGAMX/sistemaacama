@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\AnalisisQ;
 
 use App\Http\Controllers\Controller;
+use App\Http\Livewire\AnalisisQ\Parametros;
 use App\Models\AreaAnalisis;
 use App\Models\Constante;
 use App\Models\NivelFormula;
@@ -82,7 +83,14 @@ class FormulasController extends Controller
         ); 
         return response()->json($data);
     }
-    public function getVariables(Request $request)
+    public function nivel()
+    {
+        // $area = AreaAnalisis::all();
+        // $tecnica = Tecnica::all();
+        // $reglas = Regla::all();
+        return view('analisisQ.nivel_formula');
+    }
+    public function probarFormula(Request $request)
     {
         $reglas = Regla::all();
         $constantes = Constante::all();

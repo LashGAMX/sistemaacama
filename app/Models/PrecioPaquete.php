@@ -16,5 +16,7 @@ class PrecioPaquete extends Model
     protected $fillable = [
         'Id_paquete',
         'Precio',
+        'Id_user_c',
+        'Id_user_m',
     ];
 }

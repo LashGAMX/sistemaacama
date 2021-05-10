@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Precios;
 
+use App\Models\HistorialPrecioPaquete;
 use App\Models\PrecioPaquete;
 use App\Models\SubNorma;
 use Illuminate\Support\Facades\DB;
@@ -12,6 +13,7 @@ class Paquete extends Component
 {
     use WithPagination;
 
+    public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']];
     public $sw = false;
@@ -87,6 +89,26 @@ class Paquete extends Component
             $this->status = 1;
         }
         $this->resetAlert();
+    }
+
+    Public function historial()
+    {
+        $model = DB::table('ViewPrecioPaq')->where('Id_precio',$this->idPrecio)->first();
+        
+        HistorialPrecioPaquete::create([
+            'Id_precio' => $model->Id_precio,
+            'Id_paquete' => $model->Id_paquete,
+            'Id_norma' => $model->Id_norma,
+            'Norma' => $model->Norma,
+            'Clave' => $model->Clave,
+            'Precio' => $model->Precio,
+            'Id_tipo' => $model->Id_tipo,
+            'Nota' => $this->Nota,
+            'F_creacion' => $model->F_creacion,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->F_modificacion,
+            'Id_user_m' => $this->idUser,
+        ]);
     }
 
     public function btnCreate()

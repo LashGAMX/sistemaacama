@@ -10,7 +10,7 @@
         <div class="col-md-12">
             <div class="card">
                 <div class="card-body">
-                    {{-- @livewire('precios.filter-catalogo',['idSucursal' => @$idSucursal]) --}}
+                    {{-- @livewire('precios.paquete',['idUser' => @$idUser]) --}}
                 </div>
               </div>
         </div>
