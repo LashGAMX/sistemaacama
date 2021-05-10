@@ -34,7 +34,7 @@ function tablaVariables()
           _token: $('input[name="_token"]').val(),
         },
         dataType: 'json', 
-        async: false, 
+        async: false,  
         success: function (response) {
           console.log(response);
           datosFormula = response;

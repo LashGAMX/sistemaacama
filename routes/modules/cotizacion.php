@@ -2,7 +2,6 @@
 
 // use App\Http\Controllers\Cotizacion\Cotizacion2Controller;
 use App\Http\Controllers\Cotizacion\CotizacionController;
-use App\Http\Controllers\Cotizacion\CotizacionConfigController;
 use App\Http\Controllers\Cotizacion\SolicitudController;
 use Illuminate\Support\Facades\Route;
 
@@ -12,12 +11,12 @@ use Illuminate\Support\Facades\Route;
 // Route::post('cotizacion/obtenerClasificacion', [CotizacionController::class, 'obtenerClasificacion'])->name('cotizacion.obtenerClasificacion');
 // Route::get('cotizacion/edit/{id}', [CotizacionController::class, 'edit']);
 
-
+ 
 Route::group(['prefix' => 'cotizacion'], function () {
     Route::get('', [CotizacionController::class, 'index']);
     Route::get('create', [CotizacionController::class, 'create']);
     Route::get('update/{id}', [CotizacionController::class, 'update']);
-    Route::post('getSubNorma', [CotizacionController::class, 'getSubNorma']);
+    Route::post('getSubNorma', [CotizacionController::class, 'getSubNorma']); 
     Route::post('getSubNormaId', [CotizacionController::class, 'getSubNormaId']);
     Route::post('getNorma', [CotizacionController::class, 'getNorma']);
     Route::post('getCliente', [CotizacionController::class, 'getCliente']);
@@ -34,7 +33,7 @@ Route::group(['prefix' => 'cotizacion'], function () {
     Route::get('duplicar', [CotizacionController::class, 'duplicar']); 
 });
 
-Route::group(['prefix' => 'solicitud'], function () {
+Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::get('',[SolicitudController::class,'index']);
 });
 // Route::post('cotizacion/obtenerHistorico', [CotizacionController::class, 'obtenerHistorico'])->name('cotizacion.obtenerHistorico');
