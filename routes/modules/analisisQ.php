@@ -36,4 +36,4 @@ Route::group(['prefix' => 'analisisQ'], function () {
     Route::get('formulas/crear_nivel',[FormulasController::class,'crear_nivel']);
     
 });
- ;
+ 
