@@ -1,9 +1,9 @@
 @extends('voyager::master')
 @section('page_header')
     @stop
-@section('content')
+@section('content') 
  
-
+ 
     <div class="container-fluid">
         <p>Solicitud</p>
         <div class="row">

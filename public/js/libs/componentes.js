@@ -109,7 +109,7 @@ var newModal = (function(idDiv = '',idModal = '',titulo = "Modal",sizeModal = 'x
                                for (let y = 0; y < rowX; y++) {
                                    if((countInput) < itemModal[arr].length)
                                    {
-                                    com += '<div class="col-'+resX+'">';
+                                    com += '<div class="col-md-'+resX+'">';
                                     com += '<div class="form-group">';
                                     com += ''+itemModal[arr][countInput];
                                     com += '</div>';

@@ -29,7 +29,7 @@ return [
 
     'view_path' => resource_path('views/livewire'),
 
-    /* 
+    /*
     |--------------------------------------------------------------------------
     | Layout
     |--------------------------------------------------------------------------
@@ -38,8 +38,9 @@ return [
     | the view returned by SomeComponent will be wrapped in "layouts.app"
     |
     */
-    
+
     'layout' => 'layouts.app',
+
     /*
     |--------------------------------------------------------------------------
     | Livewire Assets URL
@@ -58,7 +59,7 @@ return [
     /*
     |--------------------------------------------------------------------------
     | Livewire Endpoint Middleware Group
-    |-------------------------------------------------------------------------- 
+    |--------------------------------------------------------------------------
     |
     | This value sets the middleware group that will be applied to the main
     | Livewire "message" endpoint (the endpoint that gets hit everytime
@@ -66,9 +67,9 @@ return [
     |
     */
 
-    'middleware_group' => 'web', 
+    'middleware_group' => 'web',
 
-    /* 
+    /*
     |--------------------------------------------------------------------------
     | Livewire Temporary File Uploads Endpoint Configuration
     |--------------------------------------------------------------------------
@@ -110,4 +111,3 @@ return [
     'manifest_path' => null,
 
 ];
-   
