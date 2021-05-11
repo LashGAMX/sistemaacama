@@ -19,12 +19,7 @@ class FormulasController extends Controller
     //public $formula = $_POST['formula'];
     //public $formula_sistema = $_POST['formula_sistema'];
 
-    public $parametro;
-    public $area;
-    public $tecnica;
-    public $reglas;
-    public $formula;
-    Public $formula_sistema;
+   
     public function index()
     { 
         return view('analisisQ.formulas');
@@ -38,15 +33,15 @@ class FormulasController extends Controller
         $reglas = Regla::all();
         return view('analisisQ.crear_formula',compact('area','tecnica','reglas','parametro'));
     }
-    public function create()
+    public function create(Request $request)
     {
-       
+
         $model = Formulas::create([
-            'Id_area' => $this->area,
-            'Id_parametro' => $this->parametro,
-            'Id_tecnica' => $this->tecnica,
-            'Formula' => $this->formula,
-            'Formula_sistema' => $this->formula_sistema,
+            'Id_area' => $request->area,
+            'Id_parametro' => $request->parametro,
+            'Id_tecnica' => $request->tecnica,
+            'Formula' => $request->formula,
+            'Formula_sistema' => $request->formulaSis,
         ]);
     
         // $varFormula = VariablesFormula::create([
@@ -57,8 +52,10 @@ class FormulasController extends Controller
         //     'Valor',
         //     'Drcimal'
         // ]);
-
-
+        $data = array(
+            'sw' => 1,
+        );
+        return response()->json($data);
     }
     public function nivel()
     {
@@ -164,5 +161,4 @@ class FormulasController extends Controller
         
         return response()->json($data);
     }
-    
 }

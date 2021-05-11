@@ -11,13 +11,13 @@
   @stop
   <div class="container">
     <div class="row">
-
+ 
 
 
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-4">
-            <button type="button" class="btn btn-success" onclick="create()">Guardar</button>
+            <button type="button" onclick="create()" class="btn btn-success" id="btnGuardar" >Guardar</button>
           </div>
           <div class="col-md-4" id="divProbar">
             <button type="button" id="btnProbar" data-toggle="modal" data-target="#modalProbar" class="btn btn-info">Probar</button>
@@ -29,7 +29,7 @@
           <div class="col-md-12">
             <div class="form-group">
               <label for="">Parámetro</label>
-              <select class="form-control">
+              <select class="form-control" id="parametro">
                   @foreach ($parametro as $item)
                       <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
                   @endforeach
@@ -39,7 +39,7 @@
           <div class="col-md-12">
           <div class="form-group">
             <label for="">Área</label>
-            <select class="form-control">
+            <select class="form-control" id="area">
                 @foreach ($area as $item)
                     <option value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
                 @endforeach
@@ -49,7 +49,7 @@
         <div class="col-md-12">
             <div class="form-group">
               <label for="">Técnica</label>
-              <select class="form-control">
+              <select class="form-control" id="tecnica">
                 @foreach ($tecnica as $item)
                 <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
                 @endforeach

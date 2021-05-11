@@ -15,6 +15,10 @@ $(document).ready(function() {
     {
         probarFormula();
     });
+    $('#btnGuardar').click(function()
+    {
+        create();
+    });
 });
 
 var datosFormula = new Array();
@@ -68,6 +72,7 @@ function tablaVariables()
                         case 2: // Variable
                           // code block
                           tab += '<td><input id="'+item+'Valor" placeholder="Valor"></td>';
+
                           break;
                         case 3: // Formula Nivel1
                             break;
@@ -136,5 +141,40 @@ function probarFormula()
             $("#resultadoCal").val(response.resultado);
         }
     }); 
+}
+function create()
+{
+
+    let campos = new Array();
+
+    for (let i = 0; i < contVar-1; i++ )
+    {
+        let valor = datosFormula[i];
+        let campo  = $('#'+valor+'Valor');
+        campos.push(campo);
+        
+    }
+
+    $.ajax({
+        url: base_url + '/admin/analisisQ/formulas/create', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            // campos:campos,
+            // variable:datosFormula.variables,
+            area:$("#area").val(),
+            parametro:$("#parametro").val(),
+            tecnica:$("#tecnica").val(), 
+            formula:$("#formula").val(),
+            formulaSis:$("#formulaSis").val(),
+            _token: $('input[name="_token"]').val(),
+          },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {
+          console.log(response);
+           
+        }
+    }); 
+
 }
 
