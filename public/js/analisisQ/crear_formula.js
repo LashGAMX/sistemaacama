@@ -3,13 +3,29 @@ var base_url = "https://dev.sistemaacama.com.mx";
 
 $(document).ready(function() {
     $("#divProbar").css("display", "none");
+    $("#divDecimales").css("display", "none");
+
     $("#btnAsignar").click(function()
     {
         $("#divProbar").css("display", "");
+        $("#divDecimales").css("display", "");
     });
     $("#btnProbar").click(function()
     {
-        getProbarFormula();
+        if($("#decimales").val()!="")
+        {
+            getProbarFormula();
+        }
+        else{
+             alert("FALTA DEFINIR LAS DECIMALES");
+            // $("#modalProbar").modal('hide');
+            // Swal.fire({
+            //     icon: 'error',
+            //     title: 'Oops...',
+            //     text: 'Falta definir las decimales!',
+            //   });
+              
+        }
     });
     $("#btnCalcular").click(function()
     {
@@ -48,7 +64,7 @@ function tablaVariables()
           tab += '            <th style="width: 5%;">Formula</th>';
           tab += '            <th style="width: 30%;">Tipo</th>';
           tab += '            <th>Valor</th>';
-          tab += '            <th>Decimal</th>';
+        //   tab += '            <th>Decimal</th>';
           tab += '        </tr>';
           tab += '    </thead>';
           tab += '    <tbody>';
@@ -89,7 +105,7 @@ function tablaVariables()
             {
                 tab += '<td><input id="'+item+'Valor" placeholder="Valor"></td>';
             }
-            tab += '<td><input id="'+item+'Decimal" placeholder="Decimales"></td>';
+            // tab += '<td><input id="'+item+'Decimal" placeholder="Decimales"></td>';
             tab += '</tr>';
             i++;
             op1 = false;
@@ -102,69 +118,87 @@ function tablaVariables()
 }
 
 var contVar = 0;
-function getProbarFormula()
+function getProbarFormula() //botón probar
 {
-    contVar = 0;
+    let campos = new Array();
+    let valor;
+    let campo;
+    let cont = 0;
     let inputVar = document.getElementById('inputVar');
     let tab = '';
+
+    for (let i = 0; i < datosFormula.variables.length; i++ )
+    {
+        valor = datosFormula.variables[i];
+        campo  = $('#'+valor+'Valor').val();
+        campos.push(campo);
+    }
+    contVar = 0;
     $("#formulaGen").val($("#formula").val());
     tab += '<div class="row">';
     $.each(datosFormula.variables, function (key, item) {
         tab += '<div class="col-md-4">';
-        tab += inputText(item+'?','dato'+contVar,'',item,'');
+        tab += inputText(item+'?','dato'+cont,'',item,campos[cont]);
         tab += '</div>';    
+        cont++;
         contVar++;
+        console.log(campos[cont]);
     });
     tab += '</div>';
     inputVar.innerHTML = tab;
 }
-function probarFormula()
-{
-    let valores = new Array();
-
-    for (let index = 0; index < contVar; index++) {
-        valores.push($("#dato"+index).val());
-    }
-    console.log(valores);
-    $.ajax({
-        url: base_url + '/admin/analisisQ/formulas/probarFormula', //archivo que recibe la peticion
-        type: 'POST', //método de envio
-        data: {
-          formula:$("#formulaGen").val(),
-          valores:valores,
-          _token: $('input[name="_token"]').val(),
-        },
-        dataType: 'json', 
-        async: false, 
-        success: function (response) {
-          console.log(response);
-            $("#resultadoCal").val(response.resultado);
+function probarFormula() //operacion en modal
+{  
+        let valores = new Array();
+        let fix; //resultado con las decimas solicitadas
+        let decimales = $('#decimales').val();
+    
+        for (let index = 0; index < datosFormula.variables.length; index++) {
+            valores.push($("#dato"+index).val());
         }
-    }); 
+        console.log(valores);
+        $.ajax({
+            url: base_url + '/admin/analisisQ/formulas/probarFormula', //archivo que recibe la peticion
+            type: 'POST', //método de envio
+            data: {
+              formula:$("#formulaGen").val(),
+              valores:valores,
+              _token: $('input[name="_token"]').val(),
+            },
+            dataType: 'json', 
+            async: false, 
+            success: function (response) {
+              console.log(response);
+              fix = response.resultado.toFixed(decimales);
+                $("#resultadoCal").val(fix);
+            }
+        });         
+    
 }
 function create()
 {
-
+    let campo;
     let campos = new Array();
+    let valor;
+    // let limite =  datosFormula.variables.length;
 
-    for (let i = 0; i < contVar-1; i++ )
-    {
-        let valor = datosFormula[i];
-        let campo  = $('#'+valor+'Valor');
-        campos.push(campo);
-        
-    }
+    // for (let i = 0; i < limite; i++ )
+    // {
+    //     valor = datosFormula.variables[i];
+    //     campo  = $('#'+valor+'Valor').val();
+    //     campos.push(campo);
+    // }
+    
+
 
     $.ajax({
         url: base_url + '/admin/analisisQ/formulas/create', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
-            // campos:campos,
-            // variable:datosFormula.variables,
             area:$("#area").val(),
             parametro:$("#parametro").val(),
             tecnica:$("#tecnica").val(), 
-            formula:$("#formula").val(),
+            formula:$("#formula").val(), 
             formulaSis:$("#formulaSis").val(),
             _token: $('input[name="_token"]').val(),
           },
@@ -172,7 +206,6 @@ function create()
         async: false, 
         success: function (response) {
           console.log(response);
-           
         }
     }); 
 

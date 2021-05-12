@@ -26,27 +26,27 @@
       <table class="table table-hover table-striped">
         <thead class="thead-dark">
                 <tr>
-                    <th>Id </th>
+                  @foreach ($formulas as $item) 
                     <th>Parametro</th>
-                    <th>Tecnica</th>
+                    <th>Técnica</th>
                     <th>Area de análisis</th>
-                    <th>Tipo de foprmula</th>
                     <th>Formula</th>
+                    <th>Formula Sistema</th>
                                        </tr>
             </thead>
             <tbody>
-              <td>1</td>
-              <td>Arsenico</td>
-              <td>Espectrofotométrico</td>
-              <td>Absorcion atomica</td>
-              <td>Básico</td>
-              <td>y=mx+b</td>
+              <td>{{$item->Id_parametro}}</td>
+              <td>{{$item->Id_tecnica}}</td>
+              <td>{{$item->Id_area}}</td>
+              <td>{{$item->formula}}</td>
+              <td>{{$item->formula_sistema}}</td>
               <td>
                 <button type="button" class="btn btn-warning">
                 <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
                 <button type="button" class="btn btn-primary"><i class="voyager-external"></i> <span hidden-sm hidden-xs>ver</span> </button>
               </td>
             </tr>
+            @endforeach
             </tbody>
         </table>
     </div>

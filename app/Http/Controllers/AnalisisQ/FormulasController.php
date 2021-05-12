@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Livewire\AnalisisQ\Parametros;
 use App\Models\AreaAnalisis;
 use App\Models\Constante;
+use App\Models\Formulas;
 use App\Models\NivelFormula;
 use App\Models\Parametro;
 use App\Models\Regla;
@@ -16,13 +17,11 @@ use Illuminate\Http\Request;
 
 class FormulasController extends Controller
 {
-    //public $formula = $_POST['formula'];
-    //public $formula_sistema = $_POST['formula_sistema'];
 
-   
     public function index()
     { 
-        return view('analisisQ.formulas');
+        $formulas = Formulas::all();
+        return view('analisisQ.formulas', compact('formulas'));
     }
  
     public function crearFormula()
@@ -35,8 +34,9 @@ class FormulasController extends Controller
     }
     public function create(Request $request)
     {
+        
 
-        $model = Formulas::create([
+        Formulas::create([
             'Id_area' => $request->area,
             'Id_parametro' => $request->parametro,
             'Id_tecnica' => $request->tecnica,
@@ -54,7 +54,8 @@ class FormulasController extends Controller
         // ]);
         $data = array(
             'sw' => 1,
-        );
+            'formula' => $request->formula,
+        ); 
         return response()->json($data);
     }
     public function nivel()

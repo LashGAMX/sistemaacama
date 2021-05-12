@@ -17,7 +17,7 @@
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-4">
-            <button type="button" onclick="create()" class="btn btn-success" id="btnGuardar" >Guardar</button>
+            <button type="button" class="btn btn-success" id="btnGuardar" >Guardar</button>
           </div>
           <div class="col-md-4" id="divProbar">
             <button type="button" id="btnProbar" data-toggle="modal" data-target="#modalProbar" class="btn btn-info">Probar</button>
@@ -75,9 +75,14 @@
                   <button type="button" id="btnAsignar" onclick="tablaVariables()" class="btn btn-danger">Asignar</button>
                 </div>
               </div>
+              <div class="col-md-8"> 
+              <div class="form-group" id=divDecimales>
+                <label for="">Decimales</label>
+                <input type="text" class="form-control" id="decimales" name="decimales" placeholder="Decimales a considerar">  
+              </div>
               <div class="col-md-12">
                 <div id="tablaVariables">
-
+                </div>
                 </div>
               </div>
             </div>
@@ -145,4 +150,5 @@
 <script src="{{asset('js/analisisQ/crear_formula.js')}}"></script>
 <script src="{{asset('js/libs/componentes.js')}}"></script>
 <script src="{{asset('js/libs/tablas.js')}}"></script>
+<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>  {{-- alerta--}}
 @stop
