@@ -7,9 +7,9 @@
         <li class="nav-item" role="presentation">
           <a class="nav-link active" id="datos-tab" data-toggle="tab" href="#datos" role="tab" aria-controls="datos" aria-selected="true">1. Datos</a>
         </li>
-        {{-- <li class="nav-item" role="presentation">
+        <li class="nav-item" role="presentation">
           <a class="nav-link" id="parametro-tab" data-toggle="tab" href="#parametro" role="tab" aria-controls="parametro" aria-selected="false">2. Parametros</a>
-        </li> --}}
+        </li>
       </ul>
          {{-- Contenido de nav --}}
          <div class="tab-content" id="myTabContent">
@@ -93,7 +93,7 @@
                     <div class="col-md-4">
                       <div class="form-group">
                         <label for="contacto">Contacto cliente</label>
-                        <select name="contacto" id="contacto" class="form-control">
+                        <select name="contacto" id="contacto" class="form-control" onchange="getDataContacto()">
                         </select>
                         <small id="" class="form-text text-muted">
                           <button onclick="setContacto()" style="border:none;background:none;"><i class="fa fa-user-plus text-success hover" > Nuevo contacto</i></button>
@@ -131,7 +131,7 @@
 
             <div class="col-md-12">
               <label for="atencion">Con atención a reporte</label>
-              <input type="text" class="form-control" id="atencion">
+              <input type="text" class="form-control" id="atencion" placeholder="Nombre con atención a...">
             </div>
             <div class="col-md-12">
               <label for="observacion">Observación</label>
@@ -149,13 +149,19 @@
                 
                 <div class="col-md-4">
                   <label for="servicio">Servicio</label>
-                  <select name="servicio" id="servicio" class="form-control">
+                  <select name="tipoServicio" id="tipoServicio" class="form-control">
+                    @foreach ($servicios as $item)
+                      <option value="{{$item->Id_tipo}}">{{$item->Servicio}}</option>
+                    @endforeach
                   </select>
                 </div>
                 <div class="col-md-4">
                   <label for="tipoDescarga">Tipo descarga</label>
                   <select name="tipoDescarga" id="tipoDescarga" class="form-control">
-                  </select>
+                    @foreach ($descargas as $item)
+                        <option value="{{$item->Id_tipo}}">{{$item->Descarga}}</option>
+                    @endforeach
+                   </select>
                 </div>
                 <div class="col-md-4">
                   <label for="norma">Norma</label>
@@ -163,17 +169,20 @@
                   </select>
                 </div>
                 <div class="col-md-4">
-                  <label for="clasificacion">Clasificación</label>
-                  <select name="clasificacion" id="clasificacion" class="form-control">
+                  <label for="subnorma">Clasificación</label>
+                  <select name="subnorma" id="subnorma" class="form-control">
                   </select>
                 </div>
                 <div class="col-md-4">
-                  <label for="fechaMuestreo">Fecha muestreo</label>
+                  <label for="fechaMuestreo">Fecha muestreo</label> 
                   <input type="date" id="fechaMuestreo" class="form-control">
                 </div>
                 <div class="col-md-4">
-                  <label for="muestreo">Muestreo</label>
-                  <select name="muestreo" id="muestreo" class="form-control">
+                  <label for="frecuencia">Muestreo</label>
+                  <select  class="form-control" placeholder="Frecuencia" id="frecuencia" name="frecuencia">
+                    @foreach ($frecuencia as $item)
+                      <option value="{{$item->Id_frecuencia}}">{{$item->Descripcion}}</option>
+                    @endforeach
                   </select>
                 </div>
                 <div class="col-md-4">
@@ -183,7 +192,7 @@
 
               </div>
             </div>
-
+  
             <div class="col-md-12">
               <h6>Espesificaciones</h6>
               <hr>
@@ -241,7 +250,31 @@
 
 
          </div>
+
+              
     </div>
+         {{-- Inicio parametros --}}
+         <div class="tab-pane fade" id="parametro" role="tabpanel" aria-labelledby="parametro-tab">
+
+          <div class="row">
+
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="normaPa">Norma</label>
+                <input type="text" class="form-control" placeholder="normaPa" id="normaPa" name="normaPa" disabled>
+              </div>
+            </div>
+
+            <div class="col-md-12">
+              {{-- @livewire('analisis-q.norma-parametros', ['idUser' => Auth::user()->id,'idSub' => @$idSub]) --}}
+              <div id="tabParametros">
+
+              </div>
+            </div>
+          </div>
+
+        </div>
+        {{-- Fin parametros --}}
   </div>
  
 </div>
