@@ -17,6 +17,7 @@ $(document).ready(function () {
     $('#addRow').click(function () {
        getPuntoMuestro();
     });
+    addColPunto();
 });
 // Get datos intermedario
 function getDatoIntermediario() {
@@ -374,21 +375,32 @@ function getPuntoMuestro()
         inputSelect('puntoMuestreo','','Punto de muestreo',punto,puntoId),
     ];
     itemModal[1] = element;
-    newModal('divModal', 'setPuntoMuestro', 'Agregar punto muestreo', 'lg', 1, 1, 1, inputBtn('', '', 'Guardar', 'save', 'success', 'createContacto()'));
+    newModal('divModal', 'setPuntoMuestro', 'Agregar punto muestreo', 'lg', 1, 1, 1, inputBtn('btnAddPunto','btnAddPunto', 'Guardar', 'save', 'success', 'btnAddPunto()'));    
+}
+function btnAddPunto()
+{
+    var t = $('#puntoMuestro').DataTable();
+    //   counterPunto = 0;
+
+          t.row.add( [
+            $("#puntoMuestreo").val(),
+            $("#puntoMuestreo").text(),
+          ] ).draw( false );
+
 }
 function addColPunto()
 {
   var t = $('#puntoMuestro').DataTable();
-  counterPunto = 0;
+//   counterPunto = 0;
 
-  $('#addRow').on( 'click', function () {
-      t.row.add( [
-        counterPunto + 1,
-        inputText('Punto de muestreo','punto'+counterPunto,'punto','',''),
-      ] ).draw( false );
+//   $('#btnAddPunto').on( 'click', function () {
+//       t.row.add( [
+//         // counterPunto + 1,
+//         $("#puntoMuestreo").val(),
+//       ] ).draw( false );
 
-      counterPunto++;
-  } );
+//     //   counterPunto++;
+//   } );
   $('#puntoMuestro tbody').on( 'click', 'tr', function () {
     if ( $(this).hasClass('selected') ) {
         $(this).removeClass('selected');

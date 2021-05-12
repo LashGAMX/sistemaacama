@@ -39,6 +39,10 @@ class SolicitudController extends Controller
             'frecuencia',
         ));
     }
+    public function setSolicitud()
+    {
+        
+    }
     public function getSucursal(Request $request)
     {
         $contacto = ContactoCliente::where('Id_cliente',$request->cliente)->get();

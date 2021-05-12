@@ -43,6 +43,7 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::post('setContacto',[SolicitudController::class,'setContacto']);
     Route::post('getDataContacto',[SolicitudController::class,'getDataContacto']);
     Route::post('getPuntoMuestro',[SolicitudController::class,'getPuntoMuestro']);
+    Route::post('setSolicitud',[SolicitudController::class,'setSolicitud']);
 });
 // Route::post('cotizacion/obtenerHistorico', [CotizacionController::class, 'obtenerHistorico'])->name('cotizacion.obtenerHistorico');
 // Route::post('cotizacion/duplicarCotizacion', [CotizacionController::class, 'duplicarCotizacion'])->name('cotizacion.duplicarCotizacion');

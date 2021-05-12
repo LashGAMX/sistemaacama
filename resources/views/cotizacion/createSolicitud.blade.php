@@ -237,7 +237,7 @@
               <table id="puntoMuestro" class="display" style="width:100%">
                   <thead>
                       <tr>
-                          <th>#</th>
+                          <th>Id</th>
                           <th style="width: 90%">Punto muestreo</th>
                       </tr>
                   </thead>
