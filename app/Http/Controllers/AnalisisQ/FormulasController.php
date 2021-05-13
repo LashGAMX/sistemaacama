@@ -8,6 +8,7 @@ use App\Models\AreaAnalisis;
 use App\Models\Constante;
 use App\Models\Formulas;
 use App\Models\NivelFormula;
+use App\Models\FormulaNivel;
 use App\Models\Parametro;
 use App\Models\Regla;
 use App\Models\Tecnica;
@@ -17,6 +18,8 @@ use Illuminate\Http\Request;
 
 class FormulasController extends Controller
 {
+
+    public $sus;
 
     public function index()
     { 
@@ -30,13 +33,30 @@ class FormulasController extends Controller
         $area = AreaAnalisis::all();
         $tecnica = Tecnica::all();
         $reglas = Regla::all();
-        return view('analisisQ.crear_formula',compact('area','tecnica','reglas','parametro'));
+        $niveles = NivelFormula::all();
+        return view('analisisQ.crear_formula',compact('area','tecnica','reglas','parametro','niveles'));
     }
-    public function create(Request $request)
+    public function createNiveles(Request $request) //  Creacion de nivel formula
+    {
+        FormulaNivel::create([
+            'Nombre' => $request->nombre,
+            'Nivel' => $request->nivel,
+            // 'Descripcion' => $request->descripcion,
+            'Resultado' => $request->resultado,
+
+        ]);
+        $data = array(
+            'Nombre' => $request->nombre,
+            'Nivel' => $request->nivel,
+            'Resultado' => $request->resultado,
+        ); 
+        return response()->json($data);
+    }
+    public function create(Request $request)  // Creacion de formula
     {
         
 
-        Formulas::create([
+       $model = Formulas::create([
             'Id_area' => $request->area,
             'Id_parametro' => $request->parametro,
             'Id_tecnica' => $request->tecnica,
@@ -44,9 +64,9 @@ class FormulasController extends Controller
             'Formula_sistema' => $request->formulaSis,
         ]);
     
-        // $varFormula = VariablesFormula::create([
-        //     'Id_formula',
-        //     'Id_parametro',
+        // VariablesFormula::create([
+        //     'Id_formula' => $model->Id_formula,
+        //     'Id_parametro' => $request->parametro,
         //     'Variable',
         //     'Id_tipo',
         //     'Valor',

@@ -15,6 +15,10 @@ $(document).ready(function() {
     {
         probarFormula();
     });
+    $("#btnGuardar").click(function()
+    {
+        createNivel();
+    });
 });
 
 var datosFormula = new Array();
@@ -113,27 +117,54 @@ function getProbarFormula()
     tab += '</div>';
     inputVar.innerHTML = tab;
 }
-function probarFormula()
+function probarFormula() //operacion en modal
+{  
+        let valores = new Array();
+        let fix; //resultado con las decimas solicitadas
+        let decimales = $('#decimales').val();
+    
+        for (let index = 0; index < datosFormula.variables.length; index++) {
+            valores.push($("#dato"+index).val());
+        }
+        console.log(valores);
+        $.ajax({
+            url: base_url + '/admin/analisisQ/formulas/probarFormula', //archivo que recibe la peticion
+            type: 'POST', //método de envio
+            data: {
+              formula:$("#formulaGen").val(),
+              valores:valores,
+              _token: $('input[name="_token"]').val(),
+            },
+            dataType: 'json', 
+            async: false, 
+            success: function (response) {
+              console.log(response);
+              fix = response.resultado.toFixed(decimales);
+                $("#resultadoCal").val(fix);
+            }
+        });         
+    
+}
+function createNivel()
 {
-    let valores = new Array();
+    
 
-    for (let index = 0; index < contVar; index++) {
-        valores.push($("#dato"+index).val());
-    }
-    console.log(valores);
     $.ajax({
-        url: base_url + '/admin/analisisQ/formulas/probarFormula', //archivo que recibe la peticion
+        url: base_url + '/admin/analisisQ/formulas/createNiveles', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
-          formula:$("#formulaGen").val(),
-          valores:valores,
-          _token: $('input[name="_token"]').val(),
-        },
+            nombre:$("#nombre").val(),
+            nivel:$("#nivel").val(),
+            formula:$("#formula").val(), 
+            formulaSis:$("#formulaSis").val(),
+            resultado:$("#resultadoCal").val(),
+            _token: $('input[name="_token"]').val(),
+          },
         dataType: 'json', 
         async: false, 
         success: function (response) {
           console.log(response);
-            $("#resultadoCal").val(response.resultado);
         }
     }); 
+
 }

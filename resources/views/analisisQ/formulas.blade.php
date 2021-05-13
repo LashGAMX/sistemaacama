@@ -38,8 +38,8 @@
               <td>{{$item->Id_parametro}}</td>
               <td>{{$item->Id_tecnica}}</td>
               <td>{{$item->Id_area}}</td>
-              <td>{{$item->formula}}</td>
-              <td>{{$item->formula_sistema}}</td>
+              <td>{{$item->Formula}}</td>
+              <td>{{$item->Formula_sistema}}</td>
               <td>
                 <button type="button" class="btn btn-warning">
                 <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>

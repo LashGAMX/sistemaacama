@@ -35,6 +35,7 @@ Route::group(['prefix' => 'analisisQ'], function () {
     Route::get('formulas/nivel',[FormulasController::class,'nivel']);
     Route::get('formulas/crear_nivel',[FormulasController::class,'crear_nivel']); 
     Route::post('formulas/create',[FormulasController::class,'create']); 
+    Route::post('formulas/createNiveles',[FormulasController::class,'createNiveles']); 
     
 });
  

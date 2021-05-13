@@ -5,7 +5,7 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="fa fa-square-root-alt"></i> 
-    Formulas
+    Formulas Nivel
   </h6>
 
   @stop
@@ -14,7 +14,7 @@
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-4">
-            <button type="button" class="btn btn-success">Guardar</button>
+            <button type="button" class="btn btn-success" id="btnGuardar">Guardar</button>
           </div>
           <div class="col-md-4" id="divProbar">
             <button type="button" id="btnProbar" data-toggle="modal" data-target="#modalProbar" class="btn btn-info">Probar</button>
@@ -26,13 +26,13 @@
           <div class="col-md-12">
           <div class="form-group">
             <label for="">Nombre de la formula</label>
-            <input type="text" class="form-control" placeholder="Nombre de la formula">
+            <input type="text" id="nombre" class="form-control" placeholder="Nombre de la formula">
           </div>
         </div>
         <div class="col-md-12">
             <div class="form-group">
               <label for="">Nivel</label>
-              <select class="form-control">
+              <select class="form-control" id="nivel">
                 @foreach ($nivel as $item)
                 <option value="{{$item->Id_nivel}}">{{$item->Nivel}}</option>
                 @endforeach

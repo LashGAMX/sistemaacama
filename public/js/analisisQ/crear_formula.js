@@ -91,6 +91,7 @@ function tablaVariables()
 
                           break;
                         case 3: // Formula Nivel1
+                            tab += '<td><Select id="'+item+'Valor" placeholder="Valor"></select></td>';
                             break;
                         case 4: // Formula Nivel 2
                             break;
@@ -120,7 +121,7 @@ function tablaVariables()
 var contVar = 0;
 function getProbarFormula() //botón probar
 {
-    let campos = new Array();
+    var campos = new Array();
     let valor;
     let campo;
     let cont = 0;
@@ -177,9 +178,7 @@ function probarFormula() //operacion en modal
 }
 function create()
 {
-    let campo;
-    let campos = new Array();
-    let valor;
+    
     // let limite =  datosFormula.variables.length;
 
     // for (let i = 0; i < limite; i++ )
@@ -200,6 +199,7 @@ function create()
             tecnica:$("#tecnica").val(), 
             formula:$("#formula").val(), 
             formulaSis:$("#formulaSis").val(),
+            campos:campos,
             _token: $('input[name="_token"]').val(),
           },
         dataType: 'json', 
