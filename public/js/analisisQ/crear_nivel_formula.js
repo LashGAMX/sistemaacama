@@ -3,13 +3,29 @@ var base_url = "https://dev.sistemaacama.com.mx";
 
 $(document).ready(function() {
     $("#divProbar").css("display", "none");
+    $("#divDecimales").css("display", "none");
+
     $("#btnAsignar").click(function()
     {
         $("#divProbar").css("display", "");
+        $("#divDecimales").css("display", "");
     });
     $("#btnProbar").click(function()
     {
-        getProbarFormula();
+        if($("#decimales").val()!="")
+        {
+            getProbarFormula();
+        }
+        else{
+             alert("FALTA DEFINIR LAS DECIMALES");
+            // $("#modalProbar").modal('hide');
+            // Swal.fire({
+            //     icon: 'error',
+            //     title: 'Oops...',
+            //     text: 'Falta definir las decimales!',
+            //   });
+              
+        }
     });
     $("#btnCalcular").click(function()
     {
@@ -48,7 +64,6 @@ function tablaVariables()
           tab += '            <th style="width: 5%;">Formula</th>';
           tab += '            <th style="width: 30%;">Tipo</th>';
           tab += '            <th>Valor</th>';
-          tab += '            <th>Decimal</th>';
           tab += '        </tr>';
           tab += '    </thead>';
           tab += '    <tbody>';
@@ -88,7 +103,6 @@ function tablaVariables()
             {
                 tab += '<td><input id="'+item+'Valor" placeholder="Valor"></td>';
             }
-            tab += '<td><input id="'+item+'Decimal" placeholder="Decimales"></td>';
             tab += '</tr>';
             i++;
             op1 = false;

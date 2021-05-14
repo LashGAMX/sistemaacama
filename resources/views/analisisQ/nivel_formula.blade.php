@@ -25,18 +25,26 @@
       <table class="table table-hover table-striped">
         <thead class="thead-dark">
                 <tr>
+                  
                     <th>Id </th>
-                    <th>Formula</th>
+                    <th>Nombre</th>
                     <th>Nivel</th>
-                    <th>Expresión</th>
-                    <th>Variables</th>
-                    <th>Valor</th>
-                    <th>Decimal</th>
-                    <th>Descripción</th>
+                    <th>Resultado</th>
                 </tr>
             </thead>
             <tbody>
-            
+              @foreach ($nivel as $item) 
+              <td>{{$item->Id_formulaNivel}}</td>
+              <td>{{$item->Nombre}}</td>
+              <td>{{$item->Nivel}}</td>
+              <td>{{$item->Resultado}}</td>
+              <td>
+                <button type="button" class="btn btn-warning">
+                <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+                <button type="button" class="btn btn-primary"><i class="voyager-external"></i> <span hidden-sm hidden-xs>ver</span> </button>
+              </td>
+            </tr>
+            @endforeach
             </tbody>
         </table>
     </div>

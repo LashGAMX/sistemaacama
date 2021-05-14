@@ -91,9 +91,16 @@ function tablaVariables()
 
                           break;
                         case 3: // Formula Nivel1
-                            tab += '<td><Select id="'+item+'Valor" placeholder="Valor"></select></td>';
+                            tab += '<td> <select class="form-control">';
+                          $.each(response.niveles, function (key, nivel) {
+                            tab +='<option value="'+nivel.Id_formulaNivel+'">'+nivel.Nombre+'</option>';
+                        });
                             break;
                         case 4: // Formula Nivel 2
+                        tab += '<td> <select class="form-control">';
+                        $.each(response.niveles, function (key, nivel) {
+                          tab +='<option value="'+nivel.Id_formulaNivel+'">'+nivel.Nombre+'</option>';
+                        });
                             break;
                         default:
                             tab += '<td><input id="'+item+'Valor" placeholder="Valor"></td>';
@@ -119,21 +126,37 @@ function tablaVariables()
 }
 
 var contVar = 0;
+var campos = new Array();
 function getProbarFormula() //botón probar
 {
-    var campos = new Array();
+    
     let valor;
     let campo;
     let cont = 0;
     let inputVar = document.getElementById('inputVar');
     let tab = '';
+    let variable;
+    let resCont = 0;
+    
 
-    for (let i = 0; i < datosFormula.variables.length; i++ )
+    for (let i = 0; i < datosFormula.variables.length; i++ ) // obtener los valores de las variables
     {
-        valor = datosFormula.variables[i];
+        variable = datosFormula.variableSis[i];
+        if (variable == "fg")
+        {
+            campos.push(datosFormula.niveles[resCont].Resultado);
+            resCont++;
+        }
+        else{
+            valor = datosFormula.variables[i];
         campo  = $('#'+valor+'Valor').val();
         campos.push(campo);
+
+        }
+
+        
     }
+
     contVar = 0;
     $("#formulaGen").val($("#formula").val());
     tab += '<div class="row">';
@@ -148,7 +171,7 @@ function getProbarFormula() //botón probar
     tab += '</div>';
     inputVar.innerHTML = tab;
 }
-function probarFormula() //operacion en modal
+function probarFormula() //operacion dentro de la modal
 {  
         let valores = new Array();
         let fix; //resultado con las decimas solicitadas
@@ -179,16 +202,6 @@ function probarFormula() //operacion en modal
 function create()
 {
     
-    // let limite =  datosFormula.variables.length;
-
-    // for (let i = 0; i < limite; i++ )
-    // {
-    //     valor = datosFormula.variables[i];
-    //     campo  = $('#'+valor+'Valor').val();
-    //     campos.push(campo);
-    // }
-    
-
 
     $.ajax({
         url: base_url + '/admin/analisisQ/formulas/create', //archivo que recibe la peticion
@@ -199,7 +212,6 @@ function create()
             tecnica:$("#tecnica").val(), 
             formula:$("#formula").val(), 
             formulaSis:$("#formulaSis").val(),
-            campos:campos,
             _token: $('input[name="_token"]').val(),
           },
         dataType: 'json', 

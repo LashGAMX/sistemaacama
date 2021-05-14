@@ -58,9 +58,14 @@
                   <button type="button" id="btnAsignar" onclick="tablaVariables()" class="btn btn-danger">Asignar</button>
                 </div>
               </div>
+              <div class="col-md-8"> 
+                <div class="form-group" id=divDecimales>
+                  <label for="">Decimales</label>
+                  <input type="text" class="form-control" id="decimales" name="decimales" placeholder="Decimales a considerar">  
+                </div>
               <div class="col-md-12">
                 <div id="tablaVariables">
-
+                </div>
                 </div>
               </div>
             </div>

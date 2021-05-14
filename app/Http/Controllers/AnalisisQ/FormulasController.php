@@ -83,7 +83,8 @@ class FormulasController extends Controller
         // $area = AreaAnalisis::all();
         // $tecnica = Tecnica::all();
         // $reglas = Regla::all();
-        return view('analisisQ.nivel_formula');
+        $nivel = FormulaNivel::all();
+        return view('analisisQ.nivel_formula', compact('nivel'));
     } 
     public function crear_nivel()
     {
@@ -91,7 +92,7 @@ class FormulasController extends Controller
         $reglas = Regla::all();
         return view('analisisQ.crear_nivel_formula',compact('nivel','reglas')); 
     }
-    public function probarFormula(Request $request)
+    public function probarFormula(Request $request) //Modal probar formula
     { 
            /* Variables formula */
         //Obtener variables de la formula
@@ -143,6 +144,7 @@ class FormulasController extends Controller
     {
         $reglas = Regla::all();
         $constantes = Constante::all();
+        $niveles = FormulaNivel::all();
 
         /* Variables formula */
         //Obtener variables de la formula
@@ -178,6 +180,7 @@ class FormulasController extends Controller
             'variableSis' => $arrSis,
             'reglas' => $reglas,
             'constantes' => $constantes,
+            'niveles'  => $niveles,
         );
         
         return response()->json($data);

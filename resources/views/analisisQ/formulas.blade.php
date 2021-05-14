@@ -26,15 +26,16 @@
       <table class="table table-hover table-striped">
         <thead class="thead-dark">
                 <tr>
-                  @foreach ($formulas as $item) 
+                 
                     <th>Parametro</th>
                     <th>Técnica</th>
                     <th>Area de análisis</th>
                     <th>Formula</th>
                     <th>Formula Sistema</th>
-                                       </tr>
+                  </tr>
             </thead>
             <tbody>
+              @foreach ($formulas as $item) 
               <td>{{$item->Id_parametro}}</td>
               <td>{{$item->Id_tecnica}}</td>
               <td>{{$item->Id_area}}</td>

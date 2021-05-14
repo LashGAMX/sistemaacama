@@ -11,9 +11,6 @@
   @stop
   <div class="container">
     <div class="row">
- 
-
-
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-4">
@@ -150,5 +147,4 @@
 <script src="{{asset('js/analisisQ/crear_formula.js')}}"></script>
 <script src="{{asset('js/libs/componentes.js')}}"></script>
 <script src="{{asset('js/libs/tablas.js')}}"></script>
-<script src="//cdn.jsdelivr.net/npm/sweetalert2@10"></script>  {{-- alerta--}}
 @stop
