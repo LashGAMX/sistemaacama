@@ -176,3 +176,30 @@ p.Parametro,p.Matriz,p.Simbologia
 FROM cotizacion_parametros as param
 INNER JOIN ViewParametros as p
 ON param.Id_subnorma = p.Id_parametro
+
+/* Lista solicitudes */
+CREATE VIEW ViewSolicitud as SELECT 
+sol.Folio,sol.Id_solicitud,sol.Id_intermediario,inter.Nombres,inter.A_paterno,
+sol.Id_cliente,gen.Empresa,sol.Id_sucursal,suc.Empresa as Empresa_suc,suc.Estado,sol.Id_direccion,dir.Direccion,
+sol.Id_contacto,con.Nombres as Nom_con,con.A_paterno as Nom_pat,sol.Atencion,sol.Observacion,sol.Id_servicio,ser.Servicio,ser.Descripcion,
+sol.Id_descarga,des.Descarga,sol.Id_norma,nor.Norma,nor.Clave_norma,sol.Id_subnorma,sub.Norma as Nor_sub,sub.Clave,sol.Fecha_muestreo,
+sol.Id_muestreo,sol.Num_tomas,sol.Id_muestra,sol.Id_promedio,sol.Id_reporte,sol.created_at,sol.updated_at,sol.deleted_at
+FROM solicitudes  as sol
+INNER JOIN ViewIntermediarios as inter
+ON inter.Id_cliente = sol.Id_intermediario
+INNER JOIN ViewGenerales as gen
+ON gen.Id_cliente = sol.Id_cliente
+INNER JOIN sucursales_cliente as suc
+ON suc.Id_sucursal = sol.Id_sucursal
+INNER JOIN direccion_reporte as dir
+ON dir.Id_direccion = sol.Id_direccion
+INNER JOIN contactos_cliente as con
+ON con.Id_contacto = sol.Id_contacto
+INNER JOIN tipo_servicios as ser
+ON sol.Id_servicio = ser.Id_tipo
+INNER JOIN tipo_descargas as des
+ON des.Id_tipo = sol.Id_descarga
+INNER JOIN normas as nor
+ON nor.Id_norma = sol.Id_norma
+INNER JOIN sub_normas as sub
+ON sub.Id_subnorma = sol.Id_subnorma

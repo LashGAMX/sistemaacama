@@ -260,6 +260,7 @@ function tablaParametros()
 
       }
   });
+  $("#parametrosSolicitud").val(normaParametro);
 }
 var parametro = new Array();
 var parametroId = new Array();
@@ -347,10 +348,10 @@ function updateNormaParametro()
 
   swUpdateParam = 1;
   $('#listaParametros').modal('hide');
-
+  $("#parametrosSolicitud").val(normaParametro);
 }
 
-function getPuntoMuestro()
+function getPuntoMuestro() 
 {
     let punto = new Array();
     let puntoId = new Array();
@@ -377,6 +378,16 @@ function getPuntoMuestro()
     itemModal[1] = element;
     newModal('divModal', 'setPuntoMuestro', 'Agregar punto muestreo', 'lg', 1, 1, 1, inputBtn('btnAddPunto','btnAddPunto', 'Guardar', 'save', 'success', 'btnAddPunto()'));    
 }
+var puntos = new Array();
+function setPuntoMuestro()
+{
+    puntos = new Array();
+    let puntosMuestreo = document.getElementById('puntoMuestro');
+    for (let i = 1; i < puntosMuestreo.rows.length; i++) {
+        puntos.push(puntosMuestreo.rows[i].cells[0].textContent);
+    }
+    $("#puntosSolicitud").val(puntos);
+}
 function btnAddPunto()
 {
     var t = $('#puntoMuestro').DataTable();
@@ -386,7 +397,7 @@ function btnAddPunto()
             $("#puntoMuestreo").val(),
             $("#puntoMuestreo").text(),
           ] ).draw( false );
-
+          setPuntoMuestro();
 }
 function addColPunto()
 {
@@ -413,6 +424,7 @@ function addColPunto()
 
 $('#delRow').click( function () {
     t.row('.selected').remove().draw( false );
+    setPuntoMuestro()
 } );
 
 }
