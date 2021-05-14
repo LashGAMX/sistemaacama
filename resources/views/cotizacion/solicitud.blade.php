@@ -29,7 +29,7 @@
                     <!--Tabla -->
                   <div class="col-md-12">
                    <div class="table-responsive">
-                    <table id="tablaCotizacion" class="table">
+                    <table id="tablaSolicitud" class="table">
                         <div class="row">
                             <div class="col-md-1">
                                 <a href="{{url('admin/cotizacion/solicitud/create')}}" class="btn btn-success btn-sm"><i class="voyager-plus"></i> Crear</a>
@@ -37,11 +37,14 @@
                             <div class="col-md-1">
                                 <button id="btnEdit" class="btn btn-warning" ><i class="voyager-edit"></i> Editar</button>
                             </div>
+                            <div class="col-md-1">
+                                <button id="btnImprimir" class="btn btn-info" ><i class="voyager-documentation"></i> Imprimir</button>
+                            </div>
                         </div>
                         <thead class="">
                             <tr> 
                                 <th>Estado</th>
-                                <th>Folio cotizacion</th>
+                                {{-- <th>Folio cotizacion</th> --}}
                                 <th>Folio servicio</th>
                                 <th>Norma</th>
                                 <th>Servicio</th>
@@ -51,7 +54,17 @@
                             </tr>
                         </thead>
                         <tbody>
-                    
+                            @foreach ($model as $item)
+                                <tr>
+                                    <td>Solicitud</td>
+                                    <td>{{$item->Folio}}</td>
+                                    <td>{{$item->Clave}}</td>
+                                    <td>{{$item->Servicio}}</td>
+                                    <td>{{$item->Empresa}}</td>
+                                    <td>{{$item->Fecha_muestreo}}</td>
+                                    <td>{{$item->Nombres}} {{$item->A_paterno}}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                    </div>
@@ -63,7 +76,7 @@
     </div>
 @endsection
     @section('javascript')
-        {{-- <script src="{{ asset('js/cotizacion/cotizacion.js') }}"></script> --}}
+        <script src="{{ asset('js/cotizacion/solicitud.js') }}"></script>
         <script src="{{ asset('js/libs/componentes.js') }}"></script>
         <script src="{{ asset('js/libs/tablas.js') }}"></script>
     @stop

@@ -7,10 +7,15 @@ use App\Http\Livewire\AnalisisQ\LimiteParametros001;
 use App\Models\ContactoCliente;
 use App\Models\DireccionReporte;
 use App\Models\Intermediario;
+use App\Models\NormaParametros;
 use App\Models\PuntoMuestreoGen;
+use App\Models\Solicitud;
+use App\Models\SolicitudParametro;
+use App\Models\SolicitudPuntos;
 use App\Models\SucursalCliente;
 use App\Models\TipoDescarga;
 use App\Models\TipoServicios;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -19,7 +24,8 @@ class SolicitudController extends Controller
     // 
     public function index()
     {
-        return view('cotizacion.solicitud');
+        $model = DB::table('ViewSolicitud')->get();
+        return view('cotizacion.solicitud',compact('model'));
     } 
     public function create()
     {
@@ -28,7 +34,6 @@ class SolicitudController extends Controller
         $servicios = TipoServicios::all();
         $descargas = TipoDescarga::all();
         $frecuencia = DB::table('frecuencia001')->get();
-        
 
         return view('cotizacion.createSolicitud',
         compact(
@@ -39,9 +44,72 @@ class SolicitudController extends Controller
             'frecuencia',
         ));
     }
-    public function setSolicitud()
+    public function setSolicitud(Request $request)
     {
-        
+        $year = date("y");
+        $month = date("m");
+        $dayYear = date("z") + 1;
+        $today = Carbon::now()->format('Y-m-d');
+        $solicitudDay = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->count();
+
+        $numCot = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $request->clientes)->get();
+        $firtsFol = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $request->clientes)->first();
+        $cantCot = $numCot->count();
+        if ($cantCot > 0) {
+
+            $folio = $firtsFol->Folio . '-' . ($cantCot + 1);
+        } else {
+            $folio = $dayYear . "-" . ($solicitudDay + 1) . "/" . $year;
+        }
+        // var_dump($folio);
+        // Convertir cadena a array de datos
+        $puntos = explode(",", $request->puntosSolicitud);
+        $parametros = explode(",", $request->parametrosSolicitud);
+        $model = Solicitud::create([
+            'Folio' => $folio,
+            'Id_intermediario' => $request->intermediario,
+            'Id_cliente' => $request->clientes,
+            'Id_sucursal' => $request->sucursal,
+            'Id_direccion' => $request->direccionReporte,
+            'Id_contacto' => $request->contacto,
+            'Atencion' => $request->atencion,
+            'Observacion' => $request->observacion,
+            'Id_servicio' => $request->tipoServicio,
+            'Id_descarga' => $request->tipoDescarga,
+            'Id_norma' => $request->norma,
+            'Id_subnorma' => $request->subnorma,
+            'Fecha_muestreo' => $request->fechaMuestreo,
+            'Id_muestreo' => $request->frecuencia,
+            'Num_tomas' => $request->numTomas,
+            'Id_muestra' => $request->tipoMuestra,
+            'Id_promedio' => $request->promedio,
+        ]);
+
+        // var_dump($model->Id_solicitud);
+        foreach($puntos as $p)
+        {
+            $puntoModel = SolicitudPuntos::create([
+                'Id_solicitud' => $model->Id_solicitud,
+                'Id_muestreo' => $p
+            ]);
+        }
+        foreach ($parametros as $item) {
+            $subnorma = NormaParametros::where('Id_norma', $request->subnorma)->where('Id_parametro', $item)->get();
+
+            $extra = 0;
+            if ($subnorma->count() > 0) {
+                $extra = 0;
+            } else {
+                $extra = 1;
+            }
+
+            SolicitudParametro::create([
+                'Id_solicitud' => $model->Id_solicitud,
+                'Id_subnorma' => $item,
+                'Extra' => $extra,
+            ]);
+        }
+        return redirect()->to('admin/cotizacion/solicitud');
     }
     public function getSucursal(Request $request)
     {
