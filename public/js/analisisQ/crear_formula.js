@@ -143,8 +143,10 @@ function getProbarFormula() //botón probar
     for (let i = 0; i < datosFormula.variables.length; i++ ) // obtener los valores de las variables
     {
         variable = datosFormula.variableSis[i];
-        if (variable == "fg")
+        if (variable == "n1")
         {
+            
+            
             campos.push(datosFormula.niveles[resCont].Resultado);
             resCont++;
         }
