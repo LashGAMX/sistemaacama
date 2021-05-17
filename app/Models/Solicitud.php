@@ -15,7 +15,9 @@ class Solicitud extends Model
     public $timestamps = true;
 
     protected $fillable = [
+      'Id_cotizacion',
       'Folio',
+      'Folio_servicio',
       'Id_intermediario',
       'Id_cliente',
       'Id_sucursal',

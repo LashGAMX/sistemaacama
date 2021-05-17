@@ -36,7 +36,7 @@ Route::group(['prefix' => 'cotizacion'], function () {
 Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     
     Route::get('',[SolicitudController::class,'index']);
-    Route::get('create',[SolicitudController::class,'create']);
+    Route::get('create/{idCot}',[SolicitudController::class,'create']);
     Route::post('getSucursal',[SolicitudController::class,'getSucursal']);
     Route::post('getDatoIntermediario',[SolicitudController::class,'getDatoIntermediario']);
     Route::post('getDireccionReporte',[SolicitudController::class,'getDireccionReporte']);
@@ -44,6 +44,10 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::post('getDataContacto',[SolicitudController::class,'getDataContacto']);
     Route::post('getPuntoMuestro',[SolicitudController::class,'getPuntoMuestro']);
     Route::post('setSolicitud',[SolicitudController::class,'setSolicitud']);
+    Route::get('update/{idCot}',[SolicitudController::class,'update']);
+    Route::post('getDataSolicitud',[SolicitudController::class,'getDataSolicitud']);
+
+    Route::get('exportPdfOrden/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
 });
 // Route::post('cotizacion/obtenerHistorico', [CotizacionController::class, 'obtenerHistorico'])->name('cotizacion.obtenerHistorico');
 // Route::post('cotizacion/duplicarCotizacion', [CotizacionController::class, 'duplicarCotizacion'])->name('cotizacion.duplicarCotizacion');

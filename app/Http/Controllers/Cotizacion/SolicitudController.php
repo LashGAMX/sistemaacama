@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Cotizacion;
 use App\Http\Controllers\Controller;
 use App\Http\Livewire\AnalisisQ\LimiteParametros001;
 use App\Models\ContactoCliente;
+use App\Models\Cotizacion;
 use App\Models\DireccionReporte;
 use App\Models\Intermediario;
 use App\Models\NormaParametros;
@@ -19,30 +20,72 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
+use PDF;
+
 class SolicitudController extends Controller
 {
     // 
     public function index()
     {
-        $model = DB::table('ViewSolicitud')->get();
+        // $model = DB::table('ViewSolicitud')->get();
+        $model = DB::table('ViewCotizacion')->get();
         return view('cotizacion.solicitud',compact('model'));
     } 
-    public function create()
+    public function create($idCot)
     {
         $intermediario = DB::table('ViewIntermediarios')->get();
         $cliente = DB::table('ViewGenerales')->get();
         $servicios = TipoServicios::all();
         $descargas = TipoDescarga::all();
         $frecuencia = DB::table('frecuencia001')->get();
-
+        $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion',$idCot)->get();
+        $sw = false;
         return view('cotizacion.createSolicitud',
         compact(
-            'intermediario',
+            'sw',
+            'cotizacion',
+            'idCot',
+            'intermediario', 
             'cliente',
             'servicios',
             'descargas',
             'frecuencia',
         ));
+    }
+    public function update($idCot)
+    {
+        $intermediario = DB::table('ViewIntermediarios')->get();
+        $cliente = DB::table('ViewGenerales')->get();
+        $servicios = TipoServicios::all();
+        $descargas = TipoDescarga::all();
+        $frecuencia = DB::table('frecuencia001')->get();
+        $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion',$idCot)->get();
+        $sw = true;
+        // $model = DB::table('solicitudes')->where('Id_cotizacion',$idCot)->first();
+        $model = Solicitud::where('Id_cotizacion',$idCot)->first();
+        $puntos = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$model->Id_solicitud)->get();
+        // var_dump($puntos);
+        return view('cotizacion.createSolicitud',
+        compact(
+            'puntos',
+            'sw',
+            'model',
+            'cotizacion',
+            'idCot',
+            'intermediario', 
+            'cliente',
+            'servicios',
+            'descargas',
+            'frecuencia',
+        ));
+    }
+    public function getDataSolicitud(Request $request)
+    {
+        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$request->idSol)->first();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
     }
     public function setSolicitud(Request $request)
     {
@@ -57,58 +100,74 @@ class SolicitudController extends Controller
         $cantCot = $numCot->count();
         if ($cantCot > 0) {
 
-            $folio = $firtsFol->Folio . '-' . ($cantCot + 1);
+            $folio = $firtsFol->Folio_servicio . '-' . ($cantCot + 1);
         } else {
             $folio = $dayYear . "-" . ($solicitudDay + 1) . "/" . $year;
         }
         // var_dump($folio);
         // Convertir cadena a array de datos
-        $puntos = explode(",", $request->puntosSolicitud);
-        $parametros = explode(",", $request->parametrosSolicitud);
-        $model = Solicitud::create([
-            'Folio' => $folio,
-            'Id_intermediario' => $request->intermediario,
-            'Id_cliente' => $request->clientes,
-            'Id_sucursal' => $request->sucursal,
-            'Id_direccion' => $request->direccionReporte,
-            'Id_contacto' => $request->contacto,
-            'Atencion' => $request->atencion,
-            'Observacion' => $request->observacion,
-            'Id_servicio' => $request->tipoServicio,
-            'Id_descarga' => $request->tipoDescarga,
-            'Id_norma' => $request->norma,
-            'Id_subnorma' => $request->subnorma,
-            'Fecha_muestreo' => $request->fechaMuestreo,
-            'Id_muestreo' => $request->frecuencia,
-            'Num_tomas' => $request->numTomas,
-            'Id_muestra' => $request->tipoMuestra,
-            'Id_promedio' => $request->promedio,
-        ]);
 
-        // var_dump($model->Id_solicitud);
-        foreach($puntos as $p)
+        if($request->idCotizacion > 0)
         {
-            $puntoModel = SolicitudPuntos::create([
-                'Id_solicitud' => $model->Id_solicitud,
-                'Id_muestreo' => $p
+            $puntos = explode(",", $request->puntosSolicitud);
+            $parametros = explode(",", $request->parametrosSolicitud);
+            $model = Solicitud::create([
+                'Id_cotizacion' => $request->idCotizacion,
+                'Folio_servicio' => $folio,
+                'Id_intermediario' => $request->intermediario,
+                'Id_cliente' => $request->clientes,
+                'Id_sucursal' => $request->sucursal,
+                'Id_direccion' => $request->direccionReporte,
+                'Id_contacto' => $request->contacto,
+                'Atencion' => $request->atencion,
+                'Observacion' => $request->observacion,
+                'Id_servicio' => $request->tipoServicio,
+                'Id_descarga' => $request->tipoDescarga,
+                'Id_norma' => $request->norma,
+                'Id_subnorma' => $request->subnorma,
+                'Fecha_muestreo' => $request->fechaMuestreo,
+                'Id_muestreo' => $request->frecuencia,
+                'Num_tomas' => $request->numTomas,
+                'Id_muestra' => $request->tipoMuestra,
+                'Id_promedio' => $request->promedio,
             ]);
-        }
-        foreach ($parametros as $item) {
-            $subnorma = NormaParametros::where('Id_norma', $request->subnorma)->where('Id_parametro', $item)->get();
-
-            $extra = 0;
-            if ($subnorma->count() > 0) {
-                $extra = 0;
-            } else {
-                $extra = 1;
+    
+            // var_dump($model->Id_solicitud);
+            foreach($puntos as $p)
+            {
+                $puntoModel = SolicitudPuntos::create([
+                    'Id_solicitud' => $model->Id_solicitud,
+                    'Id_muestreo' => $p
+                ]);
             }
+            foreach ($parametros as $item) {
+                $subnorma = NormaParametros::where('Id_norma', $request->subnorma)->where('Id_parametro', $item)->get();
 
-            SolicitudParametro::create([
-                'Id_solicitud' => $model->Id_solicitud,
-                'Id_subnorma' => $item,
-                'Extra' => $extra,
-            ]);
+                $extra = 0;
+                if ($subnorma->count() > 0) {
+                    $extra = 0;
+                } else {
+                    $extra = 1;
+                }
+    
+                SolicitudParametro::create([
+                    'Id_solicitud' => $model->Id_solicitud,
+                    'Id_subnorma' => $item,
+                    'Extra' => $extra,
+                ]);
+            }
+    
+            //Actualiza la cotización de estado
+            $cotModel = Cotizacion::find($request->idCotizacion);
+            $cotModel->Folio_servicio = $model->Folio_servicio;
+            $cotModel->Estado_cotizacion = 2;
+            $cotModel->save();
+        }else{
+
         }
+
+        
+        
         return redirect()->to('admin/cotizacion/solicitud');
     }
     public function getSucursal(Request $request)
@@ -174,6 +233,15 @@ class SolicitudController extends Controller
             'model' => $model,
         );
         return response()->json($data);
+    }
+    public function exportPdfOrden($idOrden)
+    {
+        $model = DB::table('ViewSolicitud')->where('Id_cotizacion',$idOrden)->first();
+        $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$model->Id_solicitud)->get();
+        $pdf = PDF::loadView('exports.cotizacion.ordenServicio',compact('model','parametros'));
+        // Definimos el tamaño y orientación del papel que queremos.
+        // Renderizamos el documento PDF.
+        return $pdf->stream('prueba.pdf');
     }
 }
   

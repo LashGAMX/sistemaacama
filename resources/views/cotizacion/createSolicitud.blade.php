@@ -14,6 +14,8 @@
       {{-- Contenido de nav --}}
       <form action="{{url('admin/cotizacion/solicitud/setSolicitud')}}" method="POST">
         @csrf
+        <input type="text" class="" id="sw"  hidden value="{{@$sw}}">
+        <input type="text" class="" id="idSol" hidden value="{{@$model->Id_solicitud}}">
        <div class="tab-content" id="myTabContent">
         {{-- Inicio Datos --}}
         <div class="tab-pane fade" id="datos" role="tabpanel" aria-labelledby="datos-tab">
@@ -24,7 +26,11 @@
                 <select name="intermediario" id="intermediario" class="form-control select2" onchange="getDatoIntermediario()">
                   <option value="0">Sin seleccionar</option>
                   @foreach ($intermediario as $item)
-                  <option value="{{$item->Id_cliente}}">{{$item->Nombres}} {{$item->A_paterno}}</option>
+                    @if (@$model->Id_intermediario == $item->Id_cliente)
+                      <option value="{{$item->Id_cliente}}" selected>{{$item->Nombres}} {{$item->A_paterno}}</option>
+                    @else
+                      <option value="{{$item->Id_cliente}}">{{$item->Nombres}} {{$item->A_paterno}}</option>
+                    @endif
                   @endforeach
                 </select>
               </div>
@@ -67,7 +73,11 @@
                 <select name="clientes" id="clientes" class="form-control select2" onchange="getSucursal()">
                  <option value="0">Sin seleccionar</option>
                  @foreach ($cliente as $item)
-                 <option value="{{$item->Id_cliente}}">{{$item->Empresa}}</option>
+                  @if (@$model->Id_cliente == $item->Id_cliente)
+                    <option value="{{$item->Id_cliente}}" selected>{{$item->Empresa}}</option>
+                  @else
+                    <option value="{{$item->Id_cliente}}">{{$item->Empresa}}</option>
+                  @endif
                  @endforeach
                </select>
              </div>
@@ -133,12 +143,12 @@
 
           <div class="col-md-12">
             <label for="atencion">Con atención a reporte</label>
-            <input type="text" class="form-control" id="atencion" name="atencion" placeholder="Nombre con atención a...">
+            <input type="text" class="form-control" id="atencion" name="atencion" placeholder="Nombre con atención a..." value="{{@$model->Atencion}}">
           </div>
           <div class="col-md-12">
             <label for="observacion">Observación</label>
             {{-- <input type="text" class="form-control" id="observacion"> --}}
-            <textarea class="form-control" id="observacion" name="observacion" placeholder="Escribir..."></textarea>
+            <textarea class="form-control" id="observacion" name="observacion" placeholder="Escribir..." value="{{@$model->Observacion}}"></textarea>
           </div>
 
           <div class="col-md-12">
@@ -153,7 +163,11 @@
                 <label for="servicio">Servicio</label>
                 <select name="tipoServicio" id="tipoServicio" class="form-control">
                   @foreach ($servicios as $item)
+                  @if (@$model->Id_servicio == $item->Id_tipo)
+                  <option value="{{$item->Id_tipo}}" selected>{{$item->Servicio}}</option>
+                  @else
                   <option value="{{$item->Id_tipo}}">{{$item->Servicio}}</option>
+                  @endif
                   @endforeach
                 </select>
               </div>
@@ -161,7 +175,11 @@
                 <label for="tipoDescarga">Tipo descarga</label>
                 <select name="tipoDescarga" id="tipoDescarga" class="form-control">
                   @foreach ($descargas as $item)
-                  <option value="{{$item->Id_tipo}}">{{$item->Descarga}}</option>
+                    @if (@$model->Id_descarga == $item->Id_tipo)
+                      <option value="{{$item->Id_tipo}}" selected>{{$item->Descarga}}</option>
+                    @else
+                      <option value="{{$item->Id_tipo}}">{{$item->Descarga}}</option>
+                    @endif
                   @endforeach
                 </select>
               </div>
@@ -243,7 +261,14 @@
                 </tr>
               </thead>
               <tbody>
-               
+                @if (@$sw === true)
+                  @foreach ($puntos as $item)
+                    <tr>
+                        <td>{{$item->Id_punto}}</td>
+                        <td>{{$item->Punto_muestreo}}</td>
+                    </tr>
+                  @endforeach
+                @endif
               </tbody>
 
             </table>
@@ -279,6 +304,7 @@
         </div>
       </div>
       <div class="col-md-12" hidden>
+        <input type="text" class="form-control" hidden id="idCotizacion" name="idCotizacion" value="{{$idCot}}">
         <input type="text" class="form-control" hidden id="parametrosSolicitud" name="parametrosSolicitud" >
         <input type="text" class="form-control" hidden id="puntosSolicitud" name="puntosSolicitud" >
       </div>

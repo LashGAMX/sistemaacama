@@ -32,7 +32,8 @@
                     <table id="tablaSolicitud" class="table">
                         <div class="row">
                             <div class="col-md-1">
-                                <a href="{{url('admin/cotizacion/solicitud/create')}}" class="btn btn-success btn-sm"><i class="voyager-plus"></i> Crear</a>
+                                {{-- <a href="{{url('admin/cotizacion/solicitud/create')}}" class="btn btn-success btn-sm"><i class="voyager-plus"></i> Crear</a> --}}
+                                <button id="btnCreate" class="btn btn-success" ><i class="voyager-plus"></i> Crear</button>
                             </div>
                             <div class="col-md-1">
                                 <button id="btnEdit" class="btn btn-warning" ><i class="voyager-edit"></i> Editar</button>
@@ -43,8 +44,9 @@
                         </div>
                         <thead class="">
                             <tr> 
+                                <th>#</th>
                                 <th>Estado</th>
-                                {{-- <th>Folio cotizacion</th> --}}
+                                <th>Folio cotizacion</th>
                                 <th>Folio servicio</th>
                                 <th>Norma</th>
                                 <th>Servicio</th>
@@ -56,13 +58,15 @@
                         <tbody>
                             @foreach ($model as $item)
                                 <tr>
-                                    <td>Solicitud</td>
+                                    <td>{{$item->Id_cotizacion}}</td>
+                                    <td>{{$item->Estado}}</td>
                                     <td>{{$item->Folio}}</td>
-                                    <td>{{$item->Clave}}</td>
+                                    <td>{{$item->Folio_servicio}}</td>
+                                    <td>{{$item->Clave_norma}}</td>
                                     <td>{{$item->Servicio}}</td>
-                                    <td>{{$item->Empresa}}</td>
+                                    <td>{{$item->Nombre}}</td>
                                     <td>{{$item->Fecha_muestreo}}</td>
-                                    <td>{{$item->Nombres}} {{$item->A_paterno}}</td>
+                                    <td>{{$item->NomInter}} {{$item->ApeInter}}</td>
                                 </tr>
                             @endforeach
                         </tbody>

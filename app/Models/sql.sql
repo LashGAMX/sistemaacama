@@ -148,8 +148,8 @@ ON pre.Id_catalogo = sub.Id_subnorma
 
 /* Lista cotizacion */
 CREATE VIEW ViewCotizacion as SELECT 
-cot.Id_cotizacion,cot.Id_intermedio,cot.Id_cliente,cot.Nombre,cot.Direccion,
-cot.Atencion,cot.Telefono,cot.Correo,cot.Tipo_servicio,cot.Tipo_descarga,des.Descarga,
+cot.Id_cotizacion,cot.Id_intermedio,inter.Nombres as NomInter,inter.A_paterno as ApeInter,cot.Id_cliente,cot.Nombre,cot.Direccion,
+cot.Atencion,cot.Telefono,cot.Correo,cot.Tipo_servicio,ser.Servicio,cot.Tipo_descarga,des.Descarga,
 cot.Id_norma,nor.Norma,nor.Clave_norma,cot.Id_subnorma,cot.Fecha_muestreo,cot.Frecuencia_muestreo,cot.Tomas,
 cot.Tipo_muestra,cot.Promedio,cot.Numero_puntos,cot.Tipo_reporte,
 cot.Tiempo_entrega,cot.Observacion_interna,cot.Observacion_cotizacion,cot.Folio_servicio,
@@ -159,6 +159,10 @@ cot.Supervicion,cot.Creado_por,usr.name as NameC,cot.Actualizado_por,usr2.name a
 FROM cotizacion as cot
 INNER JOIN normas as nor
 ON cot.Id_norma = nor.Id_norma
+INNER JOIN ViewIntermediarios as inter
+ON cot.Id_intermedio = inter.Id_cliente
+INNER JOIN tipo_servicios as ser
+ON cot.Tipo_servicio = ser.Id_tipo
 INNER JOIN tipo_descargas as des
 ON cot.Tipo_descarga = des.Id_tipo
 INNER JOIN cotizacion_estado as est
@@ -179,7 +183,7 @@ ON param.Id_subnorma = p.Id_parametro
 
 /* Lista solicitudes */
 CREATE VIEW ViewSolicitud as SELECT 
-sol.Folio,sol.Id_solicitud,sol.Id_intermediario,inter.Nombres,inter.A_paterno,
+sol.Id_cotizacion,sol.Folio,sol.Folio_servicio,sol.Id_solicitud,sol.Id_intermediario,inter.Nombres,inter.A_paterno,
 sol.Id_cliente,gen.Empresa,sol.Id_sucursal,suc.Empresa as Empresa_suc,suc.Estado,sol.Id_direccion,dir.Direccion,
 sol.Id_contacto,con.Nombres as Nom_con,con.A_paterno as Nom_pat,sol.Atencion,sol.Observacion,sol.Id_servicio,ser.Servicio,ser.Descripcion,
 sol.Id_descarga,des.Descarga,sol.Id_norma,nor.Norma,nor.Clave_norma,sol.Id_subnorma,sub.Norma as Nor_sub,sub.Clave,sol.Fecha_muestreo,
@@ -203,3 +207,13 @@ INNER JOIN normas as nor
 ON nor.Id_norma = sol.Id_norma
 INNER JOIN sub_normas as sub
 ON sub.Id_subnorma = sol.Id_subnorma
+
+/* Lista Solicitud parametros */
+CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro FROM solicitud_parametros as sol
+INNER JOIN ViewParametros as pa
+ON sol.Id_subnorma = pa.Id_parametro
+
+/* Lista Puntos Solicitud Generales */
+CREATE VIEW ViewPuntoGenSol as SELECT sol.Id_punto,sol.Id_solicitud,sol.Id_muestreo,puntos.Id_sucursal,puntos.Punto_muestreo FROM solicitud_puntos as sol
+INNER JOIN puntos_muestreogen as puntos
+ON sol.Id_muestreo = puntos.Id_punto

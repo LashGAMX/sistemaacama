@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 class ReporteadorController extends Controller
 {
     public function index()
+    {
         return view('reporteador.reporteador');
     }
 }

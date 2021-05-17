@@ -1,5 +1,11 @@
 var base_url = 'https://dev.sistemaacama.com.mx';
+var model; 
+var swSol = $("#sw").val();;
 $(document).ready(function () {
+    if($("#sw").val() == true)
+    {
+        update();
+    }
     $('#datos-tab').click();
     $('#tipoDescarga').click(function () {
         dataNorma();
@@ -19,6 +25,34 @@ $(document).ready(function () {
     });
     addColPunto();
 });
+function update()
+{
+    console.log("Actualizacion sw"+swSol);
+    getDataSolicitud();
+    getDatoIntermediario();
+    getSucursal();
+    getDireccionReporte();
+    getDataContacto();
+    dataNorma();
+    dataSubnorma();
+}
+function getDataSolicitud()
+{
+    $.ajax({
+        url: base_url + '/admin/cotizacion/solicitud/getDataSolicitud', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            idSol: $('#idSol').val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            console.log(response);
+            model = response.model;
+        }
+    });
+}
 // Get datos intermedario
 function getDatoIntermediario() {
     $.ajax({
@@ -29,7 +63,7 @@ function getDatoIntermediario() {
             _token: $('input[name="_token"]').val(),
         },
         dataType: 'json',
-        // async: false,
+        async: false,
         success: function (response) {
             console.log(response);
             $("#nombreInter").val(response.intermediario.Nombres + "" + response.intermediario.A_paterno);
@@ -55,12 +89,30 @@ function getSucursal() {
         async: false,
         success: function (response) {
             console.log(response)
+            // console.log("Id Contacto"+model.Id_contacto);
             $.each(response.sucursal, function (key, item) {
-                tab += '<option value="' + item.Id_sucursal + '">' + item.Empresa + '</option>';
+                if (swSol == true) {
+                    if (model.Id_sucursal == item.Id_sucursal) {
+                        tab += '<option value="' + item.Id_sucursal + '" selected>' + item.Empresa + '</option>';
+                    } else {
+                        tab += '<option value="' + item.Id_sucursal + '">' + item.Empresa + '</option>';
+                    }
+                } else {
+                    tab += '<option value="' + item.Id_sucursal + '">' + item.Empresa + '</option>';   
+                }
             });
             tab2 += '<option value="0">Sin seleccionar</option>';
             $.each(response.contacto, function (key, item) {
-                tab2 += '<option value="' + item.Id_contacto + '">' + item.Nombres + '</option>';
+                if (swSol == true) {
+                    if (model.Id_contacto == item.Id_contacto) {
+                        console.log("Id Contacto"+model.Id_contacto);
+                        tab2 += '<option value="' + item.Id_contacto + '" selected>' + item.Nombres + '</option>';
+                    } else {
+                        tab2 += '<option value="' + item.Id_contacto + '">' + item.Nombres + '</option>';
+                    }
+                } else {
+                    tab2 += '<option value="' + item.Id_contacto + '">' + item.Nombres + '</option>';
+                }
             });
             sucursal.innerHTML = tab;
             contacto.innerHTML = tab2;
@@ -83,7 +135,16 @@ function getDireccionReporte() {
             console.log(response);
             tab += '<option value="0">Sin seleccionar</option>';
             $.each(response.direccion, function (key, item) {
-                tab += '<option value="' + item.Id_direccion + '">' + item.Direccion + '</option>';
+                if (swSol == true) {
+                    if (model.Id_reporte == item.Id_direccion) {
+                        tab += '<option value="' + item.Id_direccion + '" selected>' + item.Direccion + '</option>';
+                    } else {
+                        tab += '<option value="' + item.Id_direccion + '">' + item.Direccion + '</option>';
+                    }
+                } else {
+                    tab += '<option value="' + item.Id_direccion + '">' + item.Direccion + '</option>';
+                }
+               
             });
             direccion.innerHTML = tab;
         }
@@ -192,7 +253,15 @@ function dataSubnorma() {
             console.log(response)
             model = response;
             $.each(response.model, function (key, item) {
-                tab += '<option value="' + item.Id_paquete + '">' + item.Clave + '</option>';
+                if (swSol == true) {
+                    if (model.Id_subnorma == item.Id_paquete) {
+                        tab += '<option value="' + item.Id_paquete + '">' + item.Clave + '</option>';
+                    } else {
+                        tab += '<option value="' + item.Id_paquete + '">' + item.Clave + '</option>';
+                    }
+                } else {
+                    tab += '<option value="' + item.Id_paquete + '">' + item.Clave + '</option>';
+                }
 
             });
             sub.innerHTML = tab;
