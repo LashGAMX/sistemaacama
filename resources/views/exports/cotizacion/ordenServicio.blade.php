@@ -12,17 +12,17 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
-                <img src="https://dev.sistemaacama.com.mx//storage/Logo_sin_fondo2.png" style="width: 100;">
+                <img src="https://dev.sistemaacama.com.mx//storage/Logo_sin_fondo.png" style="width: 100;">
             </div>
             <div class="col-md-12">
                 <center><p class="">Solicitud de servicio de análisis</p></center>
             </div>
             <div class="col-md-12">
-                <table class="table">
+                <table class="table table-sm" style="font-size: 12px">
                     <tr>
                         <td style="width: 30%">Nombre de la empresa</td>
                         <td>
-                            <div class="border">
+                            <div class="border" style="height: 50px;">
                                 {{$model->Empresa}}
                             </div>
                         </td>
@@ -30,7 +30,7 @@
                     <tr>
                         <td style="width: 30%">Dirección</td>
                         <td>
-                            <div class="border">
+                            <div class="border" style="height: 50px;">
                                 {{$model->Direccion}}
                             </div>
                         </td>
@@ -38,7 +38,7 @@
                     <tr>
                         <td style="width: 30%">Contacto</td>
                         <td>
-                            <div class="border">
+                            <div class="border" style="height: 50px;">
                                 {{$model->Nom_con}} {{$model->Nom_pat}}
                             </div>
                         </td>
@@ -46,15 +46,15 @@
                     <tr>
                         <td style="width: 30%">Teléfono</td>
                         <td>
-                            <div class="border">
+                            <div class="border" style="height: 40px;">
                                 
                             </div>
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 30%">Servicio</td>
+                        <td style="width: 30%" style="height: 50px;">Servicio</td>
                         <td>
-                            <div class="border">
+                            <div class="border" style="height: 50px;">
                                 {{$model->Servicio}}
                             </div>
                         </td>
@@ -62,7 +62,7 @@
                     <tr>
                         <td style="width: 30%">Norma</td>
                         <td>
-                            <div class="border">
+                            <div class="border" style="height: 50px;">
                                 {{$model->Clave_norma}}
                             </div>
                         </td>
@@ -70,7 +70,7 @@
                     <tr>
                         <td style="width: 30%">Parametros</td>
                         <td>
-                            <div class="border">
+                            <div class="border" style="height: 150px;">
                                 @foreach ($parametros as $item)
                                     {{$item->Parametro}}
                                 @endforeach
@@ -80,7 +80,7 @@
                     <tr>
                         <td style="width: 30%">Parametros especiales</td>
                         <td>
-                            <div class="border">
+                            <div class="border" style="height: 100px;">
                                 @php
                                     $cont = 0;
                                 @endphp
@@ -103,11 +103,32 @@
                     <tr>
                         <td style="width: 30%">Folio de muestreo</td>
                         <td>
-                            <div class="border">
+                            <div class="border" style="height: 50px;">
+                                
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 30%">Observaciones</td>
+                        <td>
+                            <div class="border" style="height: 50px;">
                                 {{$model->Observacion}}
                             </div>
                         </td>
                     </tr>
+                </table>
+            </div>
+            <div class="col-md-12">  <div class="dropdown-divider"></div></div>
+            <div class="col-12">
+                <table>
+                    <tr>
+                        <td style="font-size: 10px;">LAB-ACAMA, S.A DE C.V 10 Sur No. 7301, Col. Loma Linda, Puebla</td>
+                        <td style="font-size: 10px;">REV 4 No. de Procedimiento: RE-11-004 Válido desde: 1-Septiembre</td>
+                    </tr>
+                    <tr>
+                        <td style="font-size: 10px;">Tel: (222) 245 6972 / 755 50 14/ 637 94 04</td>
+                        <td style="font-size: 10px;">Fecha de Última Revisión: 30-Nov.2015</td>
+                    </tr>                    
                 </table>
             </div>
         </div>
