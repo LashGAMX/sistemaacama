@@ -22,8 +22,10 @@ Route::get('/', function () {
  return redirect()->to('admin');
 });
 
+Route::get('/editorTexto', function(){
+    return view('editor.editor');
+});
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
- 
