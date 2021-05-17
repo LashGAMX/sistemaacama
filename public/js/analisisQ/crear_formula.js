@@ -17,8 +17,8 @@ $(document).ready(function() {
             getProbarFormula();
         }
         else{
+            $("#modalProbar").modal('hide');
              alert("FALTA DEFINIR LAS DECIMALES");
-            // $("#modalProbar").modal('hide');
             // Swal.fire({
             //     icon: 'error',
             //     title: 'Oops...',
@@ -34,6 +34,7 @@ $(document).ready(function() {
     $('#btnGuardar').click(function()
     {
         create();
+        alert("Registro guardado con exito");
     });
 });
 
