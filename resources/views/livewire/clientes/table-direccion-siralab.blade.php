@@ -26,7 +26,11 @@
         <tbody>
         @if ($model->count())
         @foreach ($model as $item)
-        <tr>
+        @if ($item->deleted_at != NULL)
+        <tr class="bg-danger text-white">  
+        @else
+            <tr>
+        @endif
           {{-- <form wire:submit.prevent="update"> --}}
           <td>{{$item->Titulo_concesion}}</td>
           <td>{{$item->Calle}}</td>
@@ -41,7 +45,7 @@
 
           <td>
             <button type="button" class="btn btn-primary"
-            wire:click="setData('{{$item->Id_cliente_siralab}}','{{$item->Titulo_concesion}}','{{$item->Calle}}','{{$item->Num_exterior}}','{{$item->Num_interior}}','{{$item->Estado}}','{{$item->Municipio}}','{{$item->Colonia}}','{{$item->CP}}','{{$item->Localidad}}','{{$item->Ciudad}}')"
+            wire:click="setData('{{$item->Id_cliente_siralab}}','{{$item->Titulo_concesion}}','{{$item->Calle}}','{{$item->Num_exterior}}','{{$item->Num_interior}}','{{$item->Estado}}','{{$item->Municipio}}','{{$item->Colonia}}','{{$item->CP}}','{{$item->Localidad}}','{{$item->Ciudad}}','{{$item->deleted_at}}')"
             data-toggle="modal" data-target="#modalDireccionSiralab"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
           {{-- </form>  --}}
@@ -75,6 +79,14 @@
             </div>
             <div class="modal-body">
                 <div class="row">
+                  <div class="col-md-12">
+                    <div class="form-group">
+                      <div class="form-group">
+                        <label for="">Activo</label>
+                        <input type="checkbox" wire:model='status'>
+                      </div>  
+                    </div>
+                  </div>
                     <div class="col-md-6">
                         <div class="form-group">
                           <input type="text" wire:model='idDireccion' hidden>

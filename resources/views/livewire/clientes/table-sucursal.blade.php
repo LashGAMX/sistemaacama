@@ -8,7 +8,7 @@
       </div>
     </div>
     
-    <table class="table table-hover table-striped">
+    <table class="table table-hover">
       <thead class="thead-dark">
             <tr> 
                 <th>Id</th>
@@ -21,8 +21,11 @@
         <tbody>
         @if ($model->count()) 
         @foreach ($model as $item) 
-        <tr>  
-
+        @if ($item->deleted_at != null)
+          <tr class="bg-danger text-white">  
+        @else
+            <tr>
+        @endif
           <td>{{$item->Id_sucursal}}</td>
           <td>{{$item->Empresa}}</td>          
           <td>{{$item->Estado}}</td>

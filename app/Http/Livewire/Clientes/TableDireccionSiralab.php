@@ -25,6 +25,7 @@ class TableDireccionSiralab extends Component
     public $idEstado;
 
     //Variables modelos
+    public $status = 1;
     public $idDireccion;
     public $titulo;
     public $calle;
@@ -59,7 +60,7 @@ class TableDireccionSiralab extends Component
     {
         $titulos = TituloConsecionSir::where('Id_sucursal',$this->idSuc)->get();
         $estados = DB::table('estados')->get();
-        $model = ClienteSiralab::where('Id_sucursal',$this->idSuc)->get();
+        $model = ClienteSiralab::withTrashed()->where('Id_sucursal',$this->idSuc)->get();
         $municipios = DB::table('localidades')->where('Id_municipio',$this->estado)->get();
         return view('livewire.clientes.table-direccion-siralab',compact('model','titulos','estados','municipios'));
 
@@ -68,7 +69,7 @@ class TableDireccionSiralab extends Component
     public function create()
     {
         $this->validate();
-        ClienteSiralab::create([
+        $model = ClienteSiralab::create([
             'Id_sucursal' => $this->idSuc,
             'Titulo_concesion' => $this->titulo,
             'Calle' => $this->calle,
@@ -80,12 +81,19 @@ class TableDireccionSiralab extends Component
             'Localidad' => $this->localidad,
             'Municipio' => $this->municipio,
             'Estado' => $this->estado,
+            'Id_user_c' => $this->idUser,
+            'Id_user_m' => $this->idUser,
         ]);
+        if($this->status != 1)
+        {
+            ClienteSiralab::find($model->Id_cliente_siralab)->delete();
+        }
         $this->alert = true;
     }
     public function store()
     {
         $this->validate();
+        ClienteSiralab::withTrashed()->find($this->idDireccion)->restore();
         $model = ClienteSiralab::find($this->idDireccion);
         $model->Id_sucursal = $this->idSuc;
         $model->Titulo_concesion = $this->titulo;
@@ -98,14 +106,19 @@ class TableDireccionSiralab extends Component
         $model->Localidad = $this->localidad;
         $model->Municipio = $this->municipio;
         $model->Estado = $this->estado;
+        $model->Id_user_m = $this->idUser;
         $model->save();
+        if($this->status != 1)
+        {
+            ClienteSiralab::find($this->idDireccion)->delete();
+        }
         $this->alert = true;
     }
     public function setMunicipio()
     {
         $this->municipios = DB::table('localidades')->where('Id_municipio',$this->estado)->get();
     }
-    public function setData($idDireccion,$titulo,$calle,$ext,$int,$estado,$municipio,$colonia,$cp,$localidad,$ciudad)
+    public function setData($idDireccion,$titulo,$calle,$ext,$int,$estado,$municipio,$colonia,$cp,$localidad,$ciudad,$status)
     {
         $this->alert = false;
         $this->sw = true;
@@ -126,6 +139,12 @@ class TableDireccionSiralab extends Component
         $this->cp = $cp;
         $this->localidad = $localidad;
         $this->ciudad = $ciudad;
+        if($status != null)
+        {
+            $this->status = 0;
+        }else{
+            $this->status = 1;
+        }
     }
     public function setBtn()
     {
@@ -150,6 +169,7 @@ class TableDireccionSiralab extends Component
         $this->colonia = '';
         $this->cp = '';
         $this->localidad = '';
+        $this->status = 1;
     }
 
     public function resetAlert()

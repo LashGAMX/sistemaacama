@@ -39,7 +39,7 @@ class TableSucursal extends Component
 
     public function render()
     {
-        $model = SucursalCliente::where('Id_cliente',$this->idCliente)
+        $model = SucursalCliente::withTrashed()->where('Id_cliente',$this->idCliente)
         ->where('Empresa','LIKE',"%{$this->search}%")
         ->where('Estado','LIKE',"%{$this->search}%")
         ->orderBy('Id_sucursal','desc')
@@ -62,6 +62,8 @@ class TableSucursal extends Component
             'Empresa' => $this->empresa,
             'Estado' => $this->estado,
             'Id_siralab' => $this->tipo,
+            'Id_user_c' => $this->idUser,
+            'Id_user_m' => $this->idUser,
         ]);
         $this->alert = true;
     }
@@ -79,22 +81,16 @@ class TableSucursal extends Component
     public function store()
     {
         $this->validate();
+        SucursalCliente::withTrashed()->where('Id_sucursal',$this->idSuc)->restore();
+        $model = SucursalCliente::find($this->idSuc);
+        $model->Empresa = $this->empresa;
+        $model->Estado = $this->estado;
+        $model->Id_siralab = $this->tipo;
+        $model->Id_user_m = $this->idUser;
+        $model->save();
         if($this->status != 1)
         {
-            SucursalCliente::withTrashed()->where('Id_sucursal',$this->idSuc)->restore();
-            $model = SucursalCliente::find($this->idSuc);
-            $model->Empresa = $this->empresa;
-            $model->Estado = $this->estado;
-            $model->Id_siralab = $this->tipo;
-            $model->save();
             SucursalCliente::find($this->idSuc)->delete();
-        }else{
-            SucursalCliente::withTrashed()->where('Id_sucursal',$this->idSuc)->restore();
-            $model = SucursalCliente::find($this->idSuc);
-            $model->Empresa = $this->empresa;
-            $model->Estado = $this->estado;
-            $model->Id_siralab = $this->tipo;
-            $model->save();
         }
         $this->alert = true;
         
@@ -108,11 +104,11 @@ class TableSucursal extends Component
         $this->empresa = $empresa;
         $this->estado = $estado;
         $this->tipo = $tipo;
-        if($status != 'null')
+        if($status != NULL)
         {
-            $this->status = 1;
-        }else{
             $this->status = 0;
+        }else{
+            $this->status = 1;
         }
     }
     public function btnDetails($idSuc)

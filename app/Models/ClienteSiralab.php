@@ -24,6 +24,8 @@ class ClienteSiralab extends Model
         'Ciudad',
         'Localidad',
         'Municipio',
-        'Estado'
+        'Estado',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

@@ -19,7 +19,7 @@ class SucursalCliente extends Model
         'Empresa',
         'Estado',
         'Id_siralab',
-        //  'Id_user_c',
-        // 'Id_user_m',
+        'Id_user_c',
+        'Id_user_m',
     ];
 }

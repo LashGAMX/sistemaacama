@@ -28,6 +28,8 @@ class PuntoMuestreoSir extends Model
         'Segundo',
         'Observacion',
         'F_inicio',
-        'F_termino'
+        'F_termino',
+        'Id_user_c',
+        'Id_user_m',
     ];
 }

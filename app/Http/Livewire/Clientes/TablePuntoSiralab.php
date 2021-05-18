@@ -18,6 +18,7 @@ class TablePuntoSiralab extends Component
     public $sw = false;
     public $alert = false;
 
+    public $status = 1;
     public $idPunto;
     public $punto;
     public $titulo;
@@ -41,14 +42,14 @@ class TablePuntoSiralab extends Component
     public function render()
     {
         $titulos = TituloConsecionSir::where('Id_sucursal',$this->idSuc)->get();
-        $model = PuntoMuestreoSir::where('Id_sucursal',$this->idSuc)->get();
+        $model = PuntoMuestreoSir::withTrashed()->where('Id_sucursal',$this->idSuc)->get();
         return view('livewire.clientes.table-punto-siralab',compact('model','titulos'));
     }
 
     public function create()
     {
         // $this->validate();
-        PuntoMuestreoSir::create([
+        $model = PuntoMuestreoSir::create([
             'Id_sucursal' => $this->idSuc,
             'Titulo_consecion' => $this->titulo,
             'Punto' => $this->punto,
@@ -61,14 +62,20 @@ class TablePuntoSiralab extends Component
             'Hora' => $this->hora,
             'F_inicio' => $this->inicio,
             'F_termino' => $this->termino,
+            'Id_user_c' => $this->idUser,
+            'Id_user_m' => $this->idUser,
         ]);
+        if($this->status != 1)
+        {
+            PuntoMuestreoSir::find($model->Id_punto)->delete();
+        }
         $this->alert = true;
     }
     public function store()
     {
         // $this->validate();
+        PuntoMuestreoSir::withTrashed()->find($this->idPunto)->restore();
         $model = PuntoMuestreoSir::find($this->idPunto);
-    
         $model->Titulo_consecion = $this->titulo;
         $model->Punto = $this->punto;
         $model->Anexo = $this->anexo;
@@ -80,10 +87,15 @@ class TablePuntoSiralab extends Component
         $model->Hora = $this->hora;
         $model->F_inicio = $this->inicio;
         $model->F_termino = $this->termino;
+        $model->Id_user_m = $this->idUser;
         $model->save();
+        if($this->status != 1)
+        {
+            PuntoMuestreoSir::find($model->Id_punto)->delete();
+        }
         $this->alert = true;
     }
-    public function setData($idPunto,$punto,$titulo,$anexo,$siralab,$pozos,$cuerpo,$latitud,$longitud,$hora,$inicio,$termino)
+    public function setData($idPunto,$punto,$titulo,$anexo,$siralab,$pozos,$cuerpo,$latitud,$longitud,$hora,$inicio,$termino,$status)
     {
         $this->sw = true;
         // $this->resetValidation();
@@ -101,6 +113,12 @@ class TablePuntoSiralab extends Component
         $this->hora = $hora;
         $this->inicio = $inicio;
         $this->termino = $termino;
+        if($status != null)
+        {
+            $this->status = 0;
+        }else{
+            $this->status = 1;
+        }
     }
     
     public function setBtn()
@@ -125,6 +143,7 @@ class TablePuntoSiralab extends Component
         $this->hora = '';
         $this->inicio = '';
         $this->termino = '';
+        $this->status = 1;
     }
     public function resetAlert()
     {

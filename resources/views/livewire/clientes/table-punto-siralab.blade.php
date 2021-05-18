@@ -7,7 +7,7 @@
         <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">
       </div>
     </div>
-    <table class="table table-hover table-striped">
+    <table class="table table-hover">
         <thead class="thead-dark">
             <tr> 
                 <th>Titulo</th>
@@ -25,9 +25,13 @@
             </tr>
         </thead>
         <tbody>
-        @if ($model->count())  
+        @if ($model->count())   
         @foreach ($model as $item) 
-        <tr>  
+        @if ($item->deleted_at != NULL)
+        <tr class="bg-danger text-white">  
+        @else
+            <tr>
+        @endif
           {{-- <form wire:submit.prevent="update"> --}}
           <td>{{$item->Titulo_consecion}}</td>
           <td>{{$item->Punto}}</td>          
@@ -41,7 +45,7 @@
           <td>{{$item->F_inicio}}</td>
           <td>{{$item->F_termino}}</td>
           <td>
-            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_punto}}','{{$item->Punto}}','{{$item->Titulo_consecion}}','{{$item->Anexo}}','{{$item->Siralab}}','{{$item->Pozos}}','{{$item->Cuerpo_receptor}}','{{$item->Latitud}}','{{$item->Longitud}}','{{$item->Hora}}','{{$item->F_inicio}}','{{$item->F_termino}}')" data-toggle="modal" data-target="#modalPuntoSiralab"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_punto}}','{{$item->Punto}}','{{$item->Titulo_consecion}}','{{$item->Anexo}}','{{$item->Siralab}}','{{$item->Pozos}}','{{$item->Cuerpo_receptor}}','{{$item->Latitud}}','{{$item->Longitud}}','{{$item->Hora}}','{{$item->F_inicio}}','{{$item->F_termino}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalPuntoSiralab"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
           {{-- </form>  --}}
         </tr>
@@ -74,6 +78,12 @@
         </div>
         <div class="modal-body">
             <input type="text" wire:model="idPunto" hidden>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">Activo</label>
+                    <input type="checkbox" wire:model='status'>
+                </div>
+            </div>
             <div class="row">
                 <div class="col-md-4">
                     <div class="form-group">
