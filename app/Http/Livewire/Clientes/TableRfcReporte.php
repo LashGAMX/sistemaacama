@@ -60,7 +60,9 @@ class TableRfcReporte extends Component
             $model->RFC = $this->rfc;
             $model->save();
             RfcSucursal::find($this->idRfc)->delete();
-        }else{
+        }
+        else
+        {
             RfcSucursal::withTrashed()->find($this->idRfc)->restore();
             $model = RfcSucursal::withTrashed()->find($this->idRfc);
             $model->RFC = $this->rfc;

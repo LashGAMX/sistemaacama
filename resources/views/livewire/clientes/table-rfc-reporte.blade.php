@@ -44,7 +44,7 @@
         @if ($item->deleted_at != null)
           <tr class="bg-danger text-white">  
         @else
-            <tr>
+          <tr>
         @endif
           {{-- <form wire:submit.prevent="update"> --}}
           <td>{{$item->Id_rfc}}</td>

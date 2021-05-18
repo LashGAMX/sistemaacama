@@ -16,7 +16,9 @@
                 <th>Id inter</th>
                 <th>Intermediario</th>
                 <th>Creación</th>
+                <th>Creó</th>
                 <th>Modificación</th>
+                <th>Modificó</th>
                 <th>Acción</th>
             </tr>
         </thead>
@@ -33,7 +35,9 @@
           <td>{{$item->Id_intermediario}}</td>
           <td>{{$item->Nombres}} {{$item->A_paterno}}</td>
           <td>{{$item->created_at}}</td> 
+          <td>{{$item->Id_user_c}}</td>
           <td>{{$item->updated_at}}</td> 
+          <td>{{$item->Id_user_m}}</td>
           <td>
             <button type="button" class="btn btn-warning"
             wire:click="setData('{{$item->Id_cliente}}','{{$item->Empresa}}','{{$item->RFC}}','{{$item->Id_intermediario}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalCliente">

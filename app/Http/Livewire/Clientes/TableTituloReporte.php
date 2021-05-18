@@ -48,18 +48,13 @@ class TableTituloReporte extends Component
     public function store()
     {
         $this->validate();
+        TituloConsecion::withTrashed()->find($this->idTitulo)->restore();
+            $model = TituloConsecion::withTrashed()->find($this->idTitulo);
+            $model->Titulo = $this->titulo;
+            $model->save();
         if($this->status != 1)
         {
-            TituloConsecion::withTrashed()->find($this->idTitulo)->restore();
-            $model = TituloConsecion::withTrashed()->find($this->idTitulo);
-            $model->Titulo = $this->titulo;
-            $model->save();
             TituloConsecion::find($this->idTitulo)->delete();
-        }else{
-            TituloConsecion::withTrashed()->find($this->idTitulo)->restore();
-            $model = TituloConsecion::withTrashed()->find($this->idTitulo);
-            $model->Titulo = $this->titulo;
-            $model->save();
         }
         $this->alert = true;
     }
