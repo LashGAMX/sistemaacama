@@ -19,6 +19,7 @@ class TableRfcSiralab extends Component
 
     public $rfc;
     public $idRfc;
+    public $status = 1;
 
     protected $rules = [ 
         'rfc' => 'required|max:13|min:12|unique:rfc_sucursal',
@@ -32,7 +33,8 @@ class TableRfcSiralab extends Component
     {
         // $model = AreaAnalisis::where('Area_analisis','LIKE',"%{$this->search}%")
         // ->paginate($this->perPage);
-        $model = RfcSiralab::where('Id_sucursal',$this->idSuc)->get();
+        
+        $model = RfcSiralab::withTrashed()->where('Id_sucursal',$this->idSuc)->get();
         return view('livewire.clientes.table-rfc-siralab',compact('model'));
     }
 
@@ -50,9 +52,16 @@ class TableRfcSiralab extends Component
         $this->validate([
             'rfc' => 'required|max:13|min:12',
         ]);
-        $model = RfcSiralab::find($this->idRfc);
+
+        RfcSiralab::withTrashed()->find($this->idRfc)->restore();
+        $model = RfcSiralab::withTrashed()->find($this->idRfc);
         $model->RFC = $this->rfc;
         $model->save();
+
+        if($this->status != 1)
+        {
+            RfcSiralab::find($this->idRfc)->delete();
+        }
         $this->alert = true;
     }
     public function setData($id,$rfc)

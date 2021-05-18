@@ -19,6 +19,7 @@ class TableTituloSiralab extends Component
 
     public $titulo;
     public $idTitulo;
+    public $status = 1;
 
     protected $rules = [ 
         'titulo' => 'required',
@@ -29,7 +30,7 @@ class TableTituloSiralab extends Component
 
     public function render()
     {
-        $model = TituloConsecionSir::where('Id_sucursal',$this->idSuc)->get();
+        $model = TituloConsecionSir::withTrashed()->where('Id_sucursal',$this->idSuc)->get();
             
         return view('livewire.clientes.table-titulo-siralab',compact('model'));
     }
@@ -46,9 +47,14 @@ class TableTituloSiralab extends Component
     public function store()
     {
         $this->validate();
-        $model = TituloConsecionSir::find($this->idTitulo);
+        TituloConsecionSir::withTrashed()->find($this->idTitulo)->restore();
+        $model = TituloConsecionSir::withTrashed()->find($this->idTitulo);
         $model->Titulo = $this->titulo;
         $model->save();
+        if($this->status != 1)
+        {
+            TituloConsecionSir::find($this->idTitulo)->delete();
+        }
         $this->alert = true;
     }
     public function setData($id,$titulo)
@@ -58,6 +64,7 @@ class TableTituloSiralab extends Component
         $this->idTitulo = $id;
         $this->titulo = $titulo;
     }
+    
     
     public function setBtn()
     {

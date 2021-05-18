@@ -146,7 +146,7 @@ function getProbarFormula() //botón probar
         if (variable == "n1")
         {
             
-            
+        
             
             campos.push(datosFormula.niveles[resCont].Resultado);
             resCont++;
