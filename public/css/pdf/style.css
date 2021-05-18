@@ -1,0 +1,12 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    font-family: "Times New Roman";
+    background-image: url("https://dev.sistemaacama.com.mx//storage/icon.png");
+    background-size: 500px;
+    background-position: right;
+    background-position: 150%;
+    background-repeat: no-repeat;
+}

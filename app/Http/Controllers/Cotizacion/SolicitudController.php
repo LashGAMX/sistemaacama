@@ -239,7 +239,9 @@ class SolicitudController extends Controller
         $model = DB::table('ViewSolicitud')->where('Id_cotizacion',$idOrden)->first();
         $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$model->Id_solicitud)->get();
         $pdf = PDF::loadView('exports.cotizacion.ordenServicio',compact('model','parametros'))->setPaper('letter','portrait');
-        // Definimos el tamaño y orientación del papel que queremos.
+        
+        $canvas $pdf->getCanvas();
+
         // Renderizamos el documento PDF.
         return $pdf->stream('prueba.pdf');
     }

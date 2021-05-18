@@ -20,3 +20,4 @@ class IntermediarioController extends Controller
         return view('precios.precioIntermediario',compact('idCliente','model')); 
     }
 }
+ 

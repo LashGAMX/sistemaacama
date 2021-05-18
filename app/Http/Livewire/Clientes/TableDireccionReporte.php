@@ -32,7 +32,7 @@ class TableDireccionReporte extends Component
     public function render()
     {
         $model = DireccionReporte::withTrashed()->where('Id_sucursal',$this->idSuc)
-        ->orWhere('Direccion','LIKE',"%{$this->search}%")
+        ->where('Direccion','LIKE',"%{$this->search}%")
         ->get();
         return view('livewire.clientes.table-direccion-reporte',compact('model'));
     }

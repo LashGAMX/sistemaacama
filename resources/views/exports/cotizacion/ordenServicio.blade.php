@@ -5,10 +5,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link href="{{asset('css/bootstrap.css')}}" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
+    <link rel="stylesheet" href="{{asset('css/pdf/style.css')}}">
     <title>Document</title>
 </head>
 <body>
-
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
@@ -70,17 +70,17 @@
                     <tr>
                         <td style="width: 30%">Parametros</td>
                         <td>
-                            <div class="border" style="height: 150px;">
+                            <div class="border" style="height: 150px;"> 
                                 @foreach ($parametros as $item)
                                     {{$item->Parametro}}
-                                @endforeach
+                                @endforeach 
                             </div>
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 30%">Parametros especiales</td>
                         <td>
-                            <div class="border" style="height: 100px;">
+                            <div class="border" style="height: 100px;color:red">
                                 @php
                                     $cont = 0;
                                 @endphp
@@ -101,7 +101,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 30%">Folio de muestreo</td>
+                        <td style="width: 30%">Fecha de muestreo</td>
                         <td>
                             <div class="border" style="height: 50px;">
                                 

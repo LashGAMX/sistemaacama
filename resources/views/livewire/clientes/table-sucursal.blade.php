@@ -10,7 +10,7 @@
     
     <table class="table table-hover table-striped">
       <thead class="thead-dark">
-            <tr>
+            <tr> 
                 <th>Id</th>
                 <th>Nombre</th>
                 <th>Estado</th>

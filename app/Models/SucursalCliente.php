@@ -11,7 +11,7 @@ class SucursalCliente extends Model
     use HasFactory,SoftDeletes;
         
     protected $table = 'sucursales_cliente';
-    protected $primaryKey = 'Id_sucursal';
+    protected $primaryKey = 'Id_sucursal'; 
     public $timestamps = true;
 
     protected $fillable = [
@@ -19,7 +19,7 @@ class SucursalCliente extends Model
         'Empresa',
         'Estado',
         'Id_siralab',
-         'Id_user_c',
-        'Id_user_m',
+        //  'Id_user_c',
+        // 'Id_user_m',
     ];
 }

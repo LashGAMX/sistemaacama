@@ -74,7 +74,7 @@
                                 </div>
                               </div>
                             </div>
-                            <div class="card">
+                            {{-- <div class="card">
                               <div class="card-header" id="reporteConsesion1">
                                 <h2 class="mb-0">
                                   <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#reporteConsesion" aria-expanded="false" aria-controls="reporteConsesion">
@@ -87,7 +87,7 @@
                                     @livewire('clientes.table-titulo-reporte', ['idUser' => Auth::user()->id ,'idSuc' => @$idSuc]) 
                                 </div>
                               </div>
-                            </div>
+                            </div> --}}
                             <div class="card">
                               <div class="card-header" id="direccionReporte1">
                                 <h2 class="mb-0">

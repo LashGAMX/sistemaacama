@@ -12,7 +12,7 @@
       <form wire:submit.prevent="create">
       <div class="col-md-7">
         <input type="text" wire:model='idUser' hidden>
-        <label for="">RCF</label>
+        <label for="">RFC</label>
           <input type="text" wire:model='rfc' class="form-control" placeholder="RFC siralab">
           @error('rfc') <span class="text-danger">{{ $message  }}</span> @enderror
       </div>

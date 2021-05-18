@@ -28,7 +28,7 @@ class TableSucursal extends Component
     public $tipo = '';
     public $status = 1;
 
-    protected $rules = [ 
+    protected $rules = [  
         'empresa' => 'required', 
         'estado' => 'required',
         'tipo' => 'required',
@@ -39,13 +39,17 @@ class TableSucursal extends Component
 
     public function render()
     {
-        // $model = AreaAnalisis::where('Area_analisis','LIKE',"%{$this->search}%")
-        // ->paginate($this->perPage);
         $model = SucursalCliente::where('Id_cliente',$this->idCliente)
         ->where('Empresa','LIKE',"%{$this->search}%")
-        ->orWhere('Estado','LIKE',"%{$this->search}%")
+        ->where('Estado','LIKE',"%{$this->search}%")
         ->orderBy('Id_sucursal','desc')
         ->paginate($this->perPage);
+        // ->get();
+        // $model = SucursalCliente::where('Id_cliente',$this->idCliente)
+        // ->orWhere('Empresa','LIKE',"%{$this->search}%")
+        // ->orWhere('Estado','LIKE',"%{$this->search}%")
+        // ->orderBy('Id_sucursal','desc')
+        // ->paginate($this->perPage);
         $estados = DB::table('estados')->get();
         return view('livewire.clientes.table-sucursal',compact('model','estados'));
     }
