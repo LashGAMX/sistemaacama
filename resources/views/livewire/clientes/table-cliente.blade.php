@@ -13,7 +13,6 @@
             <tr>
                 <th>Id</th>
                 <th>Cliente</th>
-                <th>RFC</th>
                 <th>Id inter</th>
                 <th>Intermediario</th>
                 <th>Creación</th>
@@ -31,7 +30,6 @@
             @endif
           <td>{{$item->Id_cliente}}</td>
           <td>{{$item->Empresa}}</td>
-          <td>{{$item->RFC}}</td>
           <td>{{$item->Id_intermediario}}</td>
           <td>{{$item->Nombres}} {{$item->A_paterno}}</td>
           <td>{{$item->created_at}}</td> 
@@ -91,13 +89,13 @@
                            @error('cliente') <span class="text-danger">{{ $message  }}</span> @enderror
                           </div>
                     </div>
-                    <div class="col-md-12">
+                    {{-- <div class="col-md-12">
                         <div class="form-group">
                             <label for="rfc">RFC</label>
                            <input type="text" wire:model='rfc' class="form-control" placeholder="RFC">
                            @error('rfc') <span class="text-danger">{{ $message  }}</span> @enderror
                           </div>
-                    </div>
+                    </div> --}}
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="">Intermediario</label>

@@ -58,11 +58,11 @@ class TableCliente extends Component
 
     public function create()
     {
-        $this->validate();
+       // $this->validate();
 
         $model = Clientes::create([
             'Nombres' => $this->cliente,
-            'RFC' => $this->rfc,
+            // 'RFC' => $this->rfc,
             'Id_tipo_liente' => 2,
             'Id_user_c' => $this->idUser,
             'Id_user_m' => $this->idUser
@@ -92,7 +92,7 @@ class TableCliente extends Component
             Clientes::withTrashed()->where('Id_cliente',$this->idCliente)->restore();
                 $model = Clientes::find($this->idCliente);
                 $model->Nombres = $this->cliente;
-                $model->RFC = $this->rfc;
+                // $model->RFC = $this->rfc;
                 $model->Id_user_m = $this->idCliente;
                 $this->historial();
                 $model->save();
@@ -101,7 +101,7 @@ class TableCliente extends Component
             Clientes::withTrashed()->where('Id_cliente',$this->idCliente)->restore();
             $model = Clientes::find($this->idCliente);
                 $model->Nombres = $this->cliente;
-                $model->RFC = $this->rfc;
+                // $model->RFC = $this->rfc;
                 $model->Id_user_m = $this->idCliente;
                 $this->historial();
                 $model->save();
