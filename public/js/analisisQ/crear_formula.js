@@ -138,20 +138,21 @@ function getProbarFormula() //botón probar
     let tab = '';
     let variable;
     let resCont = 0;
-    
+    let niveles;
+    let nombre;
 
     for (let i = 0; i < datosFormula.variables.length; i++ ) // obtener los valores de las variables
     {
         variable = datosFormula.variableSis[i];
         if (variable == "n1")
         {
-            
-        
-            
-            campos.push(datosFormula.niveles[resCont].Resultado);
+            niveles = datosFormula.niveles;
+            niveles.find(nombre => nombre);
+           // campos.push(datosFormula.niveles[resCont].Resultado);
             resCont++;
         }
-        else{
+        else
+        {
             valor = datosFormula.variables[i];
         campo  = $('#'+valor+'Valor').val();
         campos.push(campo);
