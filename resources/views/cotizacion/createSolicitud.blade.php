@@ -110,11 +110,11 @@
                   <small id="" class="form-text text-muted">
                     <button onclick="setContacto()" style="border:none;background:none;" type="button"><i class="fa fa-user-plus text-success hover" > Nuevo contacto</i></button>
                     
-                    <button onclick="setContacto()" style="border:none;background:none;" type="button"><i class="fa fa-user-edit text-warning"> Editar</i></button>
+                    <button onclick="editContacto()" style="border:none;background:none;" type="button"><i class="fa fa-user-edit text-warning"> Editar</i></button>
                   </small>
                 </div>
               </div>
-              <div class="col-md-8">
+              <div class="col-md-8"> 
                 <table class="table">
                   <tr>
                     <td>Id: </td>

@@ -31,6 +31,8 @@ Route::group(['prefix' => 'cotizacion'], function () {
     Route::post('cantidadGasolina', [CotizacionController::class,'cantidadGasolina']);
     Route::post('updateCotizacion', [CotizacionController::class,'updateCotizacion']);
     Route::get('duplicar', [CotizacionController::class, 'duplicar']); 
+
+    Route::get('exportPdfOrden/{idCot}',[CotizacionController::class,'exportPdfOrden']);
 });
 
 Route::group(['prefix' => 'cotizacion/solicitud'], function () {
@@ -41,6 +43,7 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::post('getDatoIntermediario',[SolicitudController::class,'getDatoIntermediario']);
     Route::post('getDireccionReporte',[SolicitudController::class,'getDireccionReporte']);
     Route::post('setContacto',[SolicitudController::class,'setContacto']);
+    Route::post('storeContacto',[SolicitudController::class,'storeContacto']);
     Route::post('getDataContacto',[SolicitudController::class,'getDataContacto']);
     Route::post('getPuntoMuestro',[SolicitudController::class,'getPuntoMuestro']);
     Route::post('setSolicitud',[SolicitudController::class,'setSolicitud']);

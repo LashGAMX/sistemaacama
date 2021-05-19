@@ -218,6 +218,25 @@ class SolicitudController extends Controller
 
         return response()->json($data);
     }
+    public function storeContacto(Request $request)
+    {
+        $model = ContactoCliente::find($request->idContacto);
+        $model->Nombres = $request->nombre;
+        $model->A_paterno = $request->paterno;
+        $model->A_materno = $request->materno;
+        $model->Celular = $request->celular;
+        $model->Telefono = $request->telefono;
+        $model->Email = $request->correo;
+        $model->save();
+
+        $model = ContactoCliente::Where('Id_cliente',$request->idCliente)->get();
+
+        $data = array(
+            'model' => $model,
+        );
+
+        return response()->json($data);
+    }
     public function getDataContacto(Request $request)
     {
         $model = ContactoCliente::where('Id_contacto',$request->idContacto)->first();
@@ -234,13 +253,13 @@ class SolicitudController extends Controller
         );
         return response()->json($data);
     }
-    public function exportPdfOrden($idOrden)
+    public function exportPdfOrden($idOrden) 
     {
         $model = DB::table('ViewSolicitud')->where('Id_cotizacion',$idOrden)->first();
         $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$model->Id_solicitud)->get();
         $pdf = PDF::loadView('exports.cotizacion.ordenServicio',compact('model','parametros'))->setPaper('letter','portrait');
         
-        $canvas $pdf->getCanvas();
+        // $canvas $pdf->getCanvas();
 
         // Renderizamos el documento PDF.
         return $pdf->stream('prueba.pdf');

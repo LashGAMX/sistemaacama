@@ -9,10 +9,11 @@
     <title>Document</title>
 </head>
 <body>
-    <div class="container-fluid">
+    <div class="container">
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12" style="display: flex;">
                 <img src="https://dev.sistemaacama.com.mx//storage/Logo_sin_fondo.png" style="width: 100;">
+                <center><div style="font-size: 11px" class="verdeClaro">LABORATORIO DE ANÁLISIS DE CALIDAD <br> DEL AGUA Y MEDIOS AMBIENTALES S.A DE C.V</div></center>
             </div>
             <div class="col-md-12">
                 <center><p class="">Solicitud de servicio de análisis</p></center>
