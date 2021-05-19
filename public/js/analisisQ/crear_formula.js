@@ -59,7 +59,7 @@ function tablaVariables()
         success: function (response) {
           console.log(response);
           datosFormula = response;
-          tab += '<table id="tablaVaribales" class="table table-striped table-bordered">';
+          tab += '<table id="tablaVariable" class="table table-striped table-bordered">';
           tab += '    <thead class="thead-dark">';
           tab += '        <tr>';
           tab += '            <th style="width: 5%;">Formula</th>';
@@ -93,13 +93,19 @@ function tablaVariables()
                           break;
                         case 3: // Formula Nivel1
                             tab += '<td> <select class="form-control">';
-                          $.each(response.niveles, function (key, nivel) {
+                          $.each(response.nivel1, function (key, nivel) {
                             tab +='<option value="'+nivel.Id_formulaNivel+'">'+nivel.Nombre+'</option>';
                         });
                             break;
                         case 4: // Formula Nivel 2
                         tab += '<td> <select class="form-control">';
-                        $.each(response.niveles, function (key, nivel) {
+                        $.each(response.nivel2, function (key, nivel) {
+                          tab +='<option value="'+nivel.Id_formulaNivel+'">'+nivel.Nombre+'</option>';
+                        });
+                            break;
+                            case 4: // Formula Nivel 3
+                        tab += '<td> <select class="form-control">';
+                        $.each(response.nivel3, function (key, nivel) {
                           tab +='<option value="'+nivel.Id_formulaNivel+'">'+nivel.Nombre+'</option>';
                         });
                             break;
@@ -126,48 +132,23 @@ function tablaVariables()
     }); 
 }
 
-var contVar = 0;
-var campos = new Array();
 function getProbarFormula() //botón probar
 {
     
-    let valor;
-    let campo;
     let cont = 0;
     let inputVar = document.getElementById('inputVar');
     let tab = '';
-    let variable;
-    let resCont = 0;
-    let niveles;
-    let nombre;
+    let t = document.getElementById("TablaVariable");
+    let resultados = new Array();
+    let elemento;
 
-    for (let i = 0; i < datosFormula.variables.length; i++ ) // obtener los valores de las variables
-    {
-        variable = datosFormula.variableSis[i];
-        if (variable == "n1")
-        {
-            niveles = datosFormula.niveles;
-            niveles.find(nombre => nombre);
-           // campos.push(datosFormula.niveles[resCont].Resultado);
-            resCont++;
-        }
-        else
-        {
-            valor = datosFormula.variables[i];
-        campo  = $('#'+valor+'Valor').val();
-        campos.push(campo);
-
-        }
-
-        
-    }
 
     contVar = 0;
     $("#formulaGen").val($("#formula").val());
     tab += '<div class="row">';
     $.each(datosFormula.variables, function (key, item) {
         tab += '<div class="col-md-4">';
-        tab += inputText(item+'?','dato'+cont,'',item,campos[cont]);
+        tab += inputText(item+'?','dato'+cont,'',item,resultados);
         tab += '</div>';    
         cont++;
         contVar++;

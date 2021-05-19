@@ -145,6 +145,9 @@ class FormulasController extends Controller
         $reglas = Regla::all();
         $constantes = Constante::all();
         $niveles = FormulaNivel::all();
+        $nivel1 = FormulaNivel::where('Nivel',"1")->get();
+        $nivel2 = FormulaNivel::where('Nivel',"2")->get();
+        $nivel3 = FormulaNivel::where('Nivel',"3")->get();
 
         /* Variables formula */
         //Obtener variables de la formula
@@ -181,6 +184,9 @@ class FormulasController extends Controller
             'reglas' => $reglas,
             'constantes' => $constantes,
             'niveles'  => $niveles,
+            'nivel2' => $nivel2,
+            'nivel1' => $nivel1,
+            'nivel3' => $nivel3,
         );
         
         return response()->json($data);
