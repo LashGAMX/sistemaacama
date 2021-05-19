@@ -16,6 +16,7 @@ use App\Models\NormaParametros;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
+use PDF;
 
 class CotizacionController extends Controller
 {
@@ -455,5 +456,14 @@ class CotizacionController extends Controller
 
 
         return redirect('admin/cotizacion');
+    }
+    public function exportPdfOrden($idCot) 
+    {
+        $model = DB::table('ViewCotizacion')->where('Id_cotizacion',$idCot)->first();
+        // $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$model->Id_solicitud)->get();
+        $pdf = PDF::loadView('exports.cotizacion.cotizacion',compact('model'))->setPaper('letter','portrait');
+        
+        // Renderizamos el documento PDF.
+        return $pdf->stream('cotizacion.pdf');
     }
 }

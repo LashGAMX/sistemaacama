@@ -163,6 +163,34 @@ function setContacto() {
     itemModal[0] = element;
     newModal('divModal', 'setContacto', 'Crear contacto cliente', 'lg', 3, 2, 0, inputBtn('', '', 'Guardar', 'save', 'success', 'createContacto()'));
 }
+function editContacto()
+{
+    let element;
+    $.ajax({
+        url: base_url + '/admin/cotizacion/solicitud/getDataContacto', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            idContacto: $("#contacto").val(),
+            _token: $('input[name="_token"]').val(),
+        }, 
+        dataType: 'json',
+        async: false,
+        success: function (response) { 
+            console.log(response);
+            element = [
+                inputText('Nombre', 'nombreContacto', 'nombreContacto', 'Nombre',response.model.Nombres),
+                inputText('Apellido paterno', 'paternoContacto', 'paternoContacto', 'Paterno',response.model.A_paterno),
+                inputText('Apellido materno', 'maternoContacto', 'maternoContacto', 'Materno',response.model.A_materno),
+                inputText('Celular', 'celularContacto', 'celularContacto', 'Celular',response.model.Celular),
+                inputText('Telefono', 'telefonoContacto', 'telefonoContacto', 'Telefono',response.model.Telefono),
+                inputText('Correo', 'correoContacto', 'correoContacto', 'Correo',response.model.Email),
+            ];
+            itemModal[1] = element;
+            newModal('divModal', 'editContacto', 'Editar contacto cliente', 'lg', 3, 2, 1, inputBtn('', '', 'Guardar', 'save', 'success', 'storeContacto('+response.model.Id_contacto+','+response.model.Id_cliente+')'));
+        }
+    });
+
+}
 function createContacto() {
     let contacto = document.getElementById('contacto');
     let tab = '';
@@ -171,6 +199,37 @@ function createContacto() {
         type: 'POST', //método de envio
         data: {
             idCliente: $("#clientes").val(),
+            nombre: $("#nombreContacto").val(),
+            paterno: $("#paternoContacto").val(),
+            materno: $("#maternoContacto").val(),
+            celular: $("#celularContacto").val(),
+            telefono: $("#telefonoContacto").val(),
+            correo: $("#correoContacto").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            console.log(response);
+            tab += '<option value="0">Sin seleccionar</option>';
+            $.each(response.model, function (key, item) {
+                tab += '<option value="' + item.Id_contacto + '">' + item.Nombres + '</option>';
+            });
+            contacto.innerHTML = tab;
+            swal("Registro!", "Registro guardado correctamente!", "success");
+            $('#setContacto').modal('hide')
+        }
+    });
+}
+function storeContacto(idContacto,idCliente)
+{
+    let tab = '';
+    $.ajax({
+        url: base_url + '/admin/cotizacion/solicitud/storeContacto', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            idCliente: idCliente,
+            idContacto:idContacto,
             nombre: $("#nombreContacto").val(),
             paterno: $("#paternoContacto").val(),
             materno: $("#maternoContacto").val(),

@@ -37,6 +37,9 @@
                             <div class="col-md-1">
                                 <button id="btnEdit" class="btn btn-warning" ><i class="voyager-edit"></i> Editar</button>
                             </div>
+                            <div class="col-md-1">
+                                <button id="btnPrint" class="btn btn-info" ><i class="voyager-edit"></i> Imprimir</button>
+                            </div>
                         </div>
                         <thead class="">
                             <tr>

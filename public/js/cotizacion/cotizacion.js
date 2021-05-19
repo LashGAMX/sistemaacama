@@ -36,4 +36,7 @@ $(document).ready(function () {
     $('#btnEdit').click( function () {
         window.location = base_url+"/admin/cotizacion/update/"+idCot;
     } );
+    $('#btnPrint').click( function () {
+        window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idCot;
+    } );
 });

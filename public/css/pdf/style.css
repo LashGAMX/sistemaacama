@@ -1,6 +1,7 @@
 *{
     margin: 0;
     padding: 0;
+    line-height: 15px;
 }
 body{
     font-family: "Times New Roman";
@@ -9,4 +10,12 @@ body{
     background-position: right;
     background-position: 150%;
     background-repeat: no-repeat;
+
+    font-size: 11px;;
+}
+.verdeClaro{
+    color: #00a987; 
+}
+p{
+    font-size: 11px;;
 }
