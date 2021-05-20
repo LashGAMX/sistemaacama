@@ -100,13 +100,13 @@ function tablaVariables()
                         case 4: // Formula Nivel 2
                         tab += '<td> <select class="form-control">';
                         $.each(response.nivel2, function (key, nivel) {
-                          tab +='<option value="'+nivel.Id_formulaNivel+'">'+nivel.Nombre+'</option>';
+                          tab +='<option value="'+nivel.Resultado+'">'+nivel.Nombre+'</option>';
                         });
                             break;
                             case 4: // Formula Nivel 3
                         tab += '<td> <select class="form-control">';
                         $.each(response.nivel3, function (key, nivel) {
-                          tab +='<option value="'+nivel.Id_formulaNivel+'">'+nivel.Nombre+'</option>';
+                          tab +='<option value="'+nivel.Resultado+'">'+nivel.Nombre+'</option>';
                         });
                             break;
                         default:
@@ -131,7 +131,7 @@ function tablaVariables()
         }
     }); 
 }
-
+var campos = new Array();
 function getProbarFormula() //botón probar
 {
     
@@ -139,20 +139,36 @@ function getProbarFormula() //botón probar
     let inputVar = document.getElementById('inputVar');
     let tab = '';
     let t = document.getElementById("TablaVariable");
-    let resultados = new Array();
-    let elemento;
+    let campo;
+    let variable;
 
+     for(let i = 0; i > datosFormula.variables.length; i++)
+     {
+        variable = datosFormula.variableSis[i];
 
+       if (variable == "n2") 
+       {
+         campo = t.rows[i+1].cells[2].children[0].value;
+         campos.push(campo);
+       }
+       else
+       {
+        valor = datosFormula.variables[i];
+        campo  = $('#'+valor+'Valor').val();
+        campos.push(campo);
+       }
+     }
+    
     contVar = 0;
     $("#formulaGen").val($("#formula").val());
     tab += '<div class="row">';
     $.each(datosFormula.variables, function (key, item) {
         tab += '<div class="col-md-4">';
-        tab += inputText(item+'?','dato'+cont,'',item,resultados);
+        tab += inputText(item+'?','dato'+cont,'',item,campos[cont]);
         tab += '</div>';    
         cont++;
         contVar++;
-        console.log(campos[cont]);
+        console.log(campos[cont]);    
     });
     tab += '</div>';
     inputVar.innerHTML = tab;
