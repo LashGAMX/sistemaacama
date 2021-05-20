@@ -4,18 +4,25 @@
     line-height: 15px;
 }
 body{
+    margin-top: 30px;
     font-family: "Times New Roman";
     background-image: url("https://dev.sistemaacama.com.mx//storage/icon.png");
     background-size: 500px;
     background-position: right;
     background-position: 150%;
     background-repeat: no-repeat;
-
-    font-size: 11px;;
+    font-size: 11px; 
 }
 .verdeClaro{
     color: #00a987; 
 }
 p{
     font-size: 11px;;
+} 
+.bordeTabla{
+    padding: 5px;
+    margin-top: 5px;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
 }
