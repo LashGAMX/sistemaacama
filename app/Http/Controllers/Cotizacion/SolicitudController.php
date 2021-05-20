@@ -262,6 +262,7 @@ class SolicitudController extends Controller
         // $canvas $pdf->getCanvas();
 
         // Renderizamos el documento PDF.
+        // return view('exports.cotizacion.ordenServicio',compact('model','parametros'));
         return $pdf->stream('prueba.pdf');
     }
 }
