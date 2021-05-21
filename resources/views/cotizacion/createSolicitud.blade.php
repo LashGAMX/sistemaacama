@@ -84,7 +84,7 @@
              <div class="col-md-6">
               <div class="form-group">
                 <label for="sucursal">Sucursal cliente</label>
-                <select name="sucursal" id="sucursal" class="form-control" onclick="getDireccionReporte()">
+                <select name="sucursal" id="sucursal" class="form-control" onclick="getDireccionReporteSir()">
                 </select>
               </div>
             </div>
@@ -93,6 +93,12 @@
                 <label for="direccionReporte">Dirección reporte</label>
                 <select name="direccionReporte" id="direccionReporte" class="form-control">
                 </select>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group form-check">
+                <input type="checkbox" class="form-check-input" name="siralab" id="siralab" onclick="getDireccionReporteSir()">
+                <label class="form-check-label" for="siralab">Siralab</label>
               </div>
             </div>
           </div>

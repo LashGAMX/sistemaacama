@@ -20,6 +20,7 @@ class Solicitud extends Model
       'Folio_servicio',
       'Id_intermediario',
       'Id_cliente',
+      'Siralab',
       'Id_sucursal',
       'Id_direccion',
       'Id_contacto',

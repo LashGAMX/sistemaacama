@@ -4,12 +4,14 @@ namespace App\Http\Controllers\Cotizacion;
 
 use App\Http\Controllers\Controller;
 use App\Http\Livewire\AnalisisQ\LimiteParametros001;
+use App\Models\ClienteSiralab;
 use App\Models\ContactoCliente;
 use App\Models\Cotizacion;
 use App\Models\DireccionReporte;
 use App\Models\Intermediario;
 use App\Models\NormaParametros;
 use App\Models\PuntoMuestreoGen;
+use App\Models\PuntoMuestreoSir;
 use App\Models\Solicitud;
 use App\Models\SolicitudParametro;
 use App\Models\SolicitudPuntos;
@@ -111,11 +113,20 @@ class SolicitudController extends Controller
         {
             $puntos = explode(",", $request->puntosSolicitud);
             $parametros = explode(",", $request->parametrosSolicitud);
+
+            if($request->siralab != NULL)
+            {
+                $siralab = 1;
+            }else{
+                $siralab = 0;
+            }
+
             $model = Solicitud::create([
                 'Id_cotizacion' => $request->idCotizacion,
                 'Folio_servicio' => $folio,
                 'Id_intermediario' => $request->intermediario,
                 'Id_cliente' => $request->clientes,
+                'Siralab' => $siralab,
                 'Id_sucursal' => $request->sucursal,
                 'Id_direccion' => $request->direccionReporte,
                 'Id_contacto' => $request->contacto,
@@ -247,9 +258,29 @@ class SolicitudController extends Controller
     }
     public function getPuntoMuestro(Request $request)
     {
-        $model = PuntoMuestreoGen::where('Id_sucursal',$request->idSuc)->get();
+        if($request->siralab != 'true')
+        {
+            $model = PuntoMuestreoGen::where('Id_sucursal',$request->idSuc)->get();
+        }else{
+            $model = PuntoMuestreoSir::where('Id_sucursal',$request->idSuc)->get();
+        }
         $data = array(
             'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function getReporteSir(Request $request)
+    {
+        if($request->siralab != "true")
+        {
+            $direccion = DireccionReporte::where('Id_sucursal',$request->idSucursal)->get();
+        }else{
+            $direccion = ClienteSiralab::where('Id_sucursal',$request->idSucursal)->get();
+        }
+        
+        $data = array(
+            'direccion' => $direccion,
+            'siralab' => $request->siralab,
         );
         return response()->json($data);
     }
@@ -263,7 +294,7 @@ class SolicitudController extends Controller
 
         // Renderizamos el documento PDF.
         // return view('exports.cotizacion.ordenServicio',compact('model','parametros'));
-        return $pdf->stream('prueba.pdf');
+        return $pdf->stream('prueba.pdf', [ "Attachment" => true]);
     }
 }
   
