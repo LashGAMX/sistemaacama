@@ -131,18 +131,19 @@ function tablaVariables()
         }
     }); 
 }
-var campos = new Array();
+
 function getProbarFormula() //botón probar
 {
     
     let cont = 0;
     let inputVar = document.getElementById('inputVar');
     let tab = '';
-    let t = document.getElementById("TablaVariable");
+    let t = document.getElementById("tablaVariable");
     let campo;
     let variable;
+    var campos = new Array();
 
-     for(let i = 0; i > datosFormula.variables.length; i++)
+    for (let i = 0; i < datosFormula.variables.length; i++ )
      {
         variable = datosFormula.variableSis[i];
 
@@ -158,6 +159,15 @@ function getProbarFormula() //botón probar
         campos.push(campo);
        }
      }
+
+    //  for (let i = 0; i < datosFormula.variables.length; i++ )
+    // {
+    //     valor = datosFormula.variables[i];
+    //     campo  = $('#'+valor+'Valor').val();
+    //     campos.push(campo);
+    // }
+
+        
     
     contVar = 0;
     $("#formulaGen").val($("#formula").val());
@@ -168,10 +178,10 @@ function getProbarFormula() //botón probar
         tab += '</div>';    
         cont++;
         contVar++;
-        console.log(campos[cont]);    
     });
     tab += '</div>';
     inputVar.innerHTML = tab;
+    console.log(campos); 
 }
 function probarFormula() //operacion dentro de la modal
 {  
