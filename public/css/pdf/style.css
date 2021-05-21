@@ -1,17 +1,22 @@
 *{
     margin: 0;
     padding: 0;
-    line-height: 15px;
 }
 body{
-    margin-top: 30px;
+    /* margin-top: 30px; */
     font-family: "Times New Roman";
-    background-image: url("https://dev.sistemaacama.com.mx//storage/icon.png");
-    background-size: 500px;
-    background-position: right;
-    background-position: 150%;
-    background-repeat: no-repeat;
+    
     font-size: 11px; 
+}
+#pag{
+    background-image: url("https://dev.sistemaacama.com.mx//storage/HojaMembretada.png");
+    background-size: 200%;
+    background-position: 50px;
+    z-index: -1000;
+    /* background-position: right;
+    background-position: 150%; */
+    /* background-position: right; */
+    background-repeat: no-repeat;
 }
 .verdeClaro{
     color: #00a987; 
@@ -26,3 +31,7 @@ p{
     border-width: 1px;
     border-style: solid;
 }
+html {
+	margin: 50pt 15pt;
+}
+/* @page{margin: 0.2in 0.5in 0.2in 0.5in;} */

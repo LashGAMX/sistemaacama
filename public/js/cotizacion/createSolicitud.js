@@ -483,10 +483,13 @@ function getPuntoMuestro()
 {
     let punto = new Array();
     let puntoId = new Array();
+    let tab = '';
+    let siralab = document.getElementById('siralab');
     $.ajax({
         url: base_url + '/admin/cotizacion/solicitud/getPuntoMuestro', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
+          siralab:siralab.checked,
           idSuc:$("#sucursal").val(),
           _token: $('input[name="_token"]').val(),
         },
@@ -494,10 +497,20 @@ function getPuntoMuestro()
         async: false,
         success: function (response) {
           console.log(response);
-          $.each(response.model,function(key,item){
-            punto.push(item.Punto_muestreo);
-            puntoId.push(item.Id_punto);
-          });
+          if(siralab.checked == false)
+          {
+            $.each(response.model,function(key,item){
+                punto.push(item.Punto_muestreo);
+                puntoId.push(item.Id_punto);
+              });
+          }else{
+            $.each(response.model,function(key,item){
+                tab = item.Punto + ' '+ item.Anexo+ ' '+ item.Cuerpo_receptor; 
+                punto.push(tab);
+                puntoId.push(item.Id_punto);
+                tab = '';
+              });
+          }
         }
       });
     let element = [
@@ -555,4 +568,53 @@ $('#delRow').click( function () {
     setPuntoMuestro()
 } );
 
+}
+function getDireccionReporteSir()
+{   
+    let siralab = document.getElementById("siralab");
+    let direccion = document.getElementById('direccionReporte');
+    let tab = '';
+    $.ajax({
+        url: base_url + '/admin/cotizacion/solicitud/getReporteSir', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            siralab: siralab.checked,
+            idSucursal: $('#sucursal').val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            console.log(response);
+            tab += '<option value="0">Sin seleccionar</option>';
+            $.each(response.direccion, function (key, item) {
+                if(siralab.checked == false)
+                {
+                    if (swSol == true) {
+                        if (model.Id_reporte == item.Id_direccion) {
+                            tab += '<option value="' + item.Id_direccion + '" selected>' + item.Direccion + '</option>';
+                        } else {
+                            tab += '<option value="' + item.Id_direccion + '">' + item.Direccion + '</option>';
+                        }
+                    } else {
+                        tab += '<option value="' + item.Id_direccion + '">' + item.Direccion + '</option>';
+                    }
+                }else if(siralab.checked == true){
+                    if (swSol == true) {
+                        if (model.Id_reporte == item.Id_cliente_siralab) {
+                            tab += '<option value="' + item.Id_cliente_siralab + '">' + item.Calle + ' '+item.Num_exterior+' '+item.Num_interior+' '+item.Colonia+' '+item.CP+' '+item.Ciudad+' '+item.Localidad+' '+item.Estado+'</option>';
+                        } else {
+                            tab += '<option value="' + item.Id_cliente_siralab + '">' + item.Calle + ' '+item.Num_exterior+' '+item.Num_interior+' '+item.Colonia+' '+item.CP+' '+item.Ciudad+' '+item.Localidad+' '+item.Estado+'</option>';
+                        }
+                    } else {
+                        tab += '<option value="' + item.Id_cliente_siralab + '">' + item.Calle + ' '+item.Num_exterior+' '+item.Num_interior+' '+item.Colonia+' '+item.CP+' '+item.Ciudad+' '+item.Localidad+' '+item.Estado+'</option>';
+                    }
+                }
+            
+              
+               
+            });
+            direccion.innerHTML = tab;
+        }
+    });
 }

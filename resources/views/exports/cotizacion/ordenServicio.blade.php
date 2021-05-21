@@ -7,16 +7,17 @@
     <link href="{{asset('css/bootstrap.min.css')}}" rel="stylesheet">
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> --}}
     <link rel="stylesheet" href="{{asset('css/pdf/style.css')}}">
+ 
     <title>Solicitud {{$model->Folio_servicio}}</title>
 </head>
 <body>
-    <div class="container">
-        <div class="row">
+    <div class="container" id="pag">
+        {{-- <div class="row">
             <div class="col-12" style="display: flex">
                 <img src="https://dev.sistemaacama.com.mx//storage/Logo_sin_fondo.png" style="width: 100;">
                 <center><div style="font-size: 11px" class="verdeClaro">LABORATORIO DE ANÁLISIS DE CALIDAD <br> DEL AGUA Y MEDIOS AMBIENTALES S.A DE C.V</div></center>
             </div>
-        </div>
+        </div> --}}
         <table>
             <tr>
                 <td style="width: 30%">Nombre de la empresa</td>
@@ -124,14 +125,19 @@
                 </td>
             </tr>
         </table>
-        <div class="col-md-12">
+        <table>
+            <tr>
+                <td>{!! DNS2D::getBarcodeHTML($model->Folio_servicio, 'QRCODE') !!}</td>
+            </tr>
+        </table>
+        {{-- <div class="col-md-12">
             <div style="width: 100px;height: 100px;">
                 {!! DNS2D::getBarcodeHTML($model->Folio_servicio, 'QRCODE') !!}
             </div>
             <div style="width: 100px;height: 100px;">
                 <div>{!! DNS1D::getBarcodeHTML($model->Folio_servicio, 'C39') !!}</div></br>
             </div>
-        </div>
+        </div> --}}
     </div>
 </body>
 </html> 

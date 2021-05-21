@@ -49,8 +49,10 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::post('setSolicitud',[SolicitudController::class,'setSolicitud']);
     Route::get('update/{idCot}',[SolicitudController::class,'update']);
     Route::post('getDataSolicitud',[SolicitudController::class,'getDataSolicitud']);
+    Route::post('getReporteSir',[SolicitudController::class,'getReporteSir']);
 
     Route::get('exportPdfOrden/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
 });
 // Route::post('cotizacion/obtenerHistorico', [CotizacionController::class, 'obtenerHistorico'])->name('cotizacion.obtenerHistorico');
 // Route::post('cotizacion/duplicarCotizacion', [CotizacionController::class, 'duplicarCotizacion'])->name('cotizacion.duplicarCotizacion');
+
