@@ -32,6 +32,7 @@
                     <th>Area de análisis</th>
                     <th>Formula</th>
                     <th>Formula Sistema</th>
+                    <th>Resultado</th>
                   </tr>
             </thead>
             <tbody>
@@ -41,6 +42,7 @@
               <td>{{$item->Id_area}}</td>
               <td>{{$item->Formula}}</td>
               <td>{{$item->Formula_sistema}}</td>
+              <td>{{$item->Resultado}}</td>
               <td>
                 <button type="button" class="btn btn-warning">
                 <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>

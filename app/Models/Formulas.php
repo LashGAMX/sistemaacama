@@ -19,6 +19,7 @@ class Formulas extends Model
         'Id_parametro',
         'Id_tecnica',
         'Formula',
-        'Formula_sistema'
+        'Formula_sistema',
+        'Resultado'
     ];
 }

@@ -62,6 +62,7 @@ class FormulasController extends Controller
             'Id_tecnica' => $request->tecnica,
             'Formula' => $request->formula,
             'Formula_sistema' => $request->formulaSis,
+            'Resultado' => $request->resultadoCal,
         ]);
     
         // VariablesFormula::create([
