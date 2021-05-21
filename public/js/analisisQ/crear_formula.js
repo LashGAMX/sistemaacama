@@ -94,7 +94,7 @@ function tablaVariables()
                         case 3: // Formula Nivel1
                             tab += '<td> <select class="form-control">';
                           $.each(response.nivel1, function (key, nivel) {
-                            tab +='<option value="'+nivel.Id_formulaNivel+'">'+nivel.Nombre+'</option>';
+                            tab +='<option value="'+nivel.Resultado+'">'+nivel.Nombre+'</option>';
                         });
                             break;
                         case 4: // Formula Nivel 2
@@ -147,10 +147,20 @@ function getProbarFormula() //botón probar
      {
         variable = datosFormula.variableSis[i];
 
-       if (variable == "n2") 
+       if (variable == "n1") 
        {
          campo = t.rows[i+1].cells[2].children[0].value;
          campos.push(campo);
+       } 
+       else if (variable == "n2")
+       {
+        campo = t.rows[i+1].cells[2].children[0].value;
+        campos.push(campo);
+       }
+       else if (variable == "n3")
+       {
+        campo = t.rows[i+1].cells[2].children[0].value;
+        campos.push(campo);
        }
        else
        {
@@ -166,9 +176,6 @@ function getProbarFormula() //botón probar
     //     campo  = $('#'+valor+'Valor').val();
     //     campos.push(campo);
     // }
-
-        
-    
     contVar = 0;
     $("#formulaGen").val($("#formula").val());
     tab += '<div class="row">';
