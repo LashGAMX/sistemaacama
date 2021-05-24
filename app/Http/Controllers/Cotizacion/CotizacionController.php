@@ -17,6 +17,7 @@ use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 use PDF;
+use Mpdf\Mpdf;
 
 class CotizacionController extends Controller
 {
@@ -366,62 +367,62 @@ class CotizacionController extends Controller
         // var_dump($id);
 
         Cotizacion::where('Id_cotizacion', $id)
-        ->update([
-            'Id_intermedio' => $request->intermediario,
-            'Id_cliente' => $request->clientes,
-            'Nombre' => $request->nombreCliente,
-            'Direccion' => $request->direccion,
-            'Atencion' => $request->atencion,
-            'Telefono' => $request->telefono,
-            'Correo' => $request->correo,
-            'Correo' => $request->correo,
-            'Tipo_servicio' => $request->tipoServicio,
-            'Tipo_descarga' => $request->tipoDescarga,
-            'Id_norma' => $request->norma,
-            'Id_subnorma' => $request->subnorma,
-            'Fecha_muestreo' => $request->fecha,
-            'Frecuencia_muestreo' => $request->frecuencia,
-            'Tomas' => $request->tomas,
-            'Tipo_muestra' => $request->tipoMuestra,
-            'Promedio' => $request->promedio,
-            'Numero_puntos' => $request->promedio,
-            'Tipo_reporte' => $request->tipoReporte,
-            'Tiempo_entrega' => $request->tiempoEntrega,
-            'Observacion_interna' => $request->observacionInterna,
-            'Observacion_cotizacion' => $request->observacionCotizacion,
-            'Metodo_pago' => $request->metodoPago,
-            'Precio_analisis' => $request->precioAnalisis,
-            'Descuento' => $request->descuento,
-            'Precio_muestreo' => $request->precioMuestra,
-            'Sub_total' => $request->subTotal,
-            'Costo_total' => $request->precioTotal,
-            'Estado_cotizacion' => 1,
-            'Actualizado_por' => Auth::user()->id,
-        ]);
+            ->update([
+                'Id_intermedio' => $request->intermediario,
+                'Id_cliente' => $request->clientes,
+                'Nombre' => $request->nombreCliente,
+                'Direccion' => $request->direccion,
+                'Atencion' => $request->atencion,
+                'Telefono' => $request->telefono,
+                'Correo' => $request->correo,
+                'Correo' => $request->correo,
+                'Tipo_servicio' => $request->tipoServicio,
+                'Tipo_descarga' => $request->tipoDescarga,
+                'Id_norma' => $request->norma,
+                'Id_subnorma' => $request->subnorma,
+                'Fecha_muestreo' => $request->fecha,
+                'Frecuencia_muestreo' => $request->frecuencia,
+                'Tomas' => $request->tomas,
+                'Tipo_muestra' => $request->tipoMuestra,
+                'Promedio' => $request->promedio,
+                'Numero_puntos' => $request->promedio,
+                'Tipo_reporte' => $request->tipoReporte,
+                'Tiempo_entrega' => $request->tiempoEntrega,
+                'Observacion_interna' => $request->observacionInterna,
+                'Observacion_cotizacion' => $request->observacionCotizacion,
+                'Metodo_pago' => $request->metodoPago,
+                'Precio_analisis' => $request->precioAnalisis,
+                'Descuento' => $request->descuento,
+                'Precio_muestreo' => $request->precioMuestra,
+                'Sub_total' => $request->subTotal,
+                'Costo_total' => $request->precioTotal,
+                'Estado_cotizacion' => 1,
+                'Actualizado_por' => Auth::user()->id,
+            ]);
 
-        CotizacionMuestreo::where('Id_cotizacion',$id)
-        ->update([
-            'Dias_hospedaje' => $request->diasHospedaje,
-            'Hospedaje' => $request->hospedaje,
-            'Dias_muestreo' => $request->diasMuestreo,
-            'Num_muestreo' => $request->numeroMuestreo,
-            'Caseta' => $request->caseta,
-            'Km' => $request->km,
-            'Km_extra' => $request->kmExtra,
-            'Gasolina_teorico' => $request->gasolinaTeorico,
-            'Cantidad_gasolina' => $request->cantidadGasolina,
-            'Paqueteria' => $request->paqueteria,
-            'Adicional' => $request->gastosExtras,
-            'Num_servicio' => $request->numeroServicio,
-            'Num_muestreador' => $request->numMuestreador,
-            'Estado' => $request->estado,
-            'Localidad' => $request->localidad,
-            'Total' => $request->totalMuestreo
-        ]);
+        CotizacionMuestreo::where('Id_cotizacion', $id)
+            ->update([
+                'Dias_hospedaje' => $request->diasHospedaje,
+                'Hospedaje' => $request->hospedaje,
+                'Dias_muestreo' => $request->diasMuestreo,
+                'Num_muestreo' => $request->numeroMuestreo,
+                'Caseta' => $request->caseta,
+                'Km' => $request->km,
+                'Km_extra' => $request->kmExtra,
+                'Gasolina_teorico' => $request->gasolinaTeorico,
+                'Cantidad_gasolina' => $request->cantidadGasolina,
+                'Paqueteria' => $request->paqueteria,
+                'Adicional' => $request->gastosExtras,
+                'Num_servicio' => $request->numeroServicio,
+                'Num_muestreador' => $request->numMuestreador,
+                'Estado' => $request->estado,
+                'Localidad' => $request->localidad,
+                'Total' => $request->totalMuestreo
+            ]);
 
 
-        DB::table('cotizacion_parametros')->where('Id_cotizacion',$id)->delete();
-        DB::table('cotizacion_puntos')->where('Id_cotizacion',$id)->delete();
+        DB::table('cotizacion_parametros')->where('Id_cotizacion', $id)->delete();
+        DB::table('cotizacion_puntos')->where('Id_cotizacion', $id)->delete();
 
         $parametro = $request->parametrosCotizacion;
         $parametro = explode(',', $parametro);
@@ -435,7 +436,7 @@ class CotizacionController extends Controller
                 $extra = 0;
             } else {
                 $extra = 1;
-            } 
+            }
 
             CotizacionParametros::create([
                 'Id_cotizacion' => $id,
@@ -457,13 +458,39 @@ class CotizacionController extends Controller
 
         return redirect('admin/cotizacion');
     }
-    public function exportPdfOrden($idCot) 
+    public function exportPdfOrden($idCot)
     {
-        $model = DB::table('ViewCotizacion')->where('Id_cotizacion',$idCot)->first();
-        // $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$model->Id_solicitud)->get();
-        $pdf = PDF::loadView('exports.cotizacion.cotizacion',compact('model'))->setPaper('letter','portrait');
-        
-        // Renderizamos el documento PDF.
-        return $pdf->stream('cotizacion.pdf');
+        $parametros = DB::table('ViewCotParam')->where('Id_cotizacion', $idCot)->get();
+        $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
+
+        // $mpdf = new \Mpdf\Mpdf([
+        //     'format' => 'letter',
+        //     'margin_left' => 0, 
+        //     'margin_right' => 0,
+        //     'margin_top' => 0,
+        //     'margin_bottom' => 0,
+        //     'margin_header' => 0,
+        //     'margin_footer' => 0, 
+        // ]); 
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => 'letter',
+            'margin_left' => 20,
+            'margin_right' => 20,
+            'margin_top' => 30,
+            'margin_bottom' => 18
+        ]);
+        // var_dump(storage_path('public/HojaMembretada.png'));
+        // $mpdf->SetWatermarkImage();https://dev.sistemaacama.com.mx//storage/HojaMembretada.png
+        $mpdf->SetWatermarkImage(
+            asset('storage/HojaMembretada.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+        $mpdf->showWatermarkImage = true;
+        $html = view('exports.cotizacion.cotizacion', compact('model'));
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
     }
 }

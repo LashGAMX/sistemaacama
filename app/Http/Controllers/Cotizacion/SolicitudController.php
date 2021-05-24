@@ -288,13 +288,26 @@ class SolicitudController extends Controller
     {
         $model = DB::table('ViewSolicitud')->where('Id_cotizacion',$idOrden)->first();
         $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$model->Id_solicitud)->get();
-        $pdf = PDF::loadView('exports.cotizacion.ordenServicio',compact('model','parametros'))->setPaper('letter','portrait');
-        
-        // $canvas $pdf->getCanvas();
 
-        // Renderizamos el documento PDF.
-        // return view('exports.cotizacion.ordenServicio',compact('model','parametros'));
-        return $pdf->stream('prueba.pdf', [ "Attachment" => true]);
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => 'letter',
+            'margin_left' => 20,
+            'margin_right' => 20,
+            'margin_top' => 30,
+            'margin_bottom' => 18
+        ]);
+        
+        $mpdf->SetWatermarkImage(
+            asset('storage/HojaMembretada.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+        $mpdf->showWatermarkImage = true;
+        $html = view('exports.cotizacion.ordenServicio', compact('model','parametros'));
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
     }
 }
   

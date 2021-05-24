@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Controller;
+use App\Http\Controllers\Cotizacion\SolicitudController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Pruebas\PruebaController;
 use App\Http\Middleware\Authenticate;
@@ -28,4 +29,8 @@ Route::get('/editorTexto', function(){
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
+});
+
+Route::group(['prefix' => 'clientes'], function () {
+    Route::get('orden_servicio/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
 });
