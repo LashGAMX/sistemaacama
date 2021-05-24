@@ -170,18 +170,12 @@ function getProbarFormula() //botón probar
        }
      }
 
-    //  for (let i = 0; i < datosFormula.variables.length; i++ )
-    // {
-    //     valor = datosFormula.variables[i];
-    //     campo  = $('#'+valor+'Valor').val();
-    //     campos.push(campo);
-    // }
     contVar = 0;
     $("#formulaGen").val($("#formula").val());
     tab += '<div class="row">';
     $.each(datosFormula.variables, function (key, item) {
         tab += '<div class="col-md-4">';
-        tab += inputText(item+'?','dato'+cont,'',item,campos[cont]);
+        tab += inputText(item+'?','dato'+cont,'',item,campos[cont],'disabled');
         tab += '</div>';    
         cont++;
         contVar++;
@@ -216,12 +210,9 @@ function probarFormula() //operacion dentro de la modal
                 $("#resultadoCal").val(fix);
             }
         });         
-    
 }
 function create()
 {
-    
-
     $.ajax({
         url: base_url + '/admin/analisisQ/formulas/create', //archivo que recibe la peticion
         type: 'POST', //método de envio
@@ -240,6 +231,4 @@ function create()
           console.log(response);
         }
     }); 
-
 }
-

@@ -12,6 +12,7 @@ use App\Models\FormulaNivel;
 use App\Models\Parametro;
 use App\Models\Regla;
 use App\Models\Tecnica;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 
@@ -35,6 +36,26 @@ class FormulasController extends Controller
         $reglas = Regla::all();
         $niveles = NivelFormula::all();
         return view('analisisQ.crear_formula',compact('area','tecnica','reglas','parametro','niveles'));
+    }
+    public function constantes()
+    {
+        // $model = DB::table('ViewNormaParametro'); Esto no va aqui
+        $constantes = Constante::all();
+        return view('analisisQ.constantes', compact('constantes'));
+    }
+    public function constante_create(Request $request) //creación de constantes
+    {
+        Constante::create([
+            'Constante' => $request->constante,
+            'Valor' => $request->valor,
+            'Descripcion' => $request->descripcion,
+        ]);
+        $data = array([
+            'Constante' => $request->constante,
+            'Valor' => $request->valor,
+            'Descripcion' => $request->descripcion,
+        ]);
+        return response()->json($data);
     }
     public function createNiveles(Request $request) //  Creacion de nivel formula
     {

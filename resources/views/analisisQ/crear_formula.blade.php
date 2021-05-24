@@ -118,7 +118,7 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
-            <input type="text" class="form-control" id="formulaGen" placeholder="Formula a calcular">
+            <input type="text" class="form-control" id="formulaGen" placeholder="Formula a calcular" disabled>
           </div>
           <div class="col-md-12">
             <div id="inputVar">
@@ -129,7 +129,7 @@
             <button class="btn btn-success" id="btnCalcular">Calcular</button>
           </div>
           <div class="col-md-12">
-            <input type="text" class="form-control" id="resultadoCal" placeholder="Resultado">
+            <input type="text" class="form-control" id="resultadoCal" placeholder="Resultado" disabled>
           </div>
         </div>
       </div>

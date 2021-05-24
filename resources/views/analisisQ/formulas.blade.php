@@ -14,6 +14,7 @@
     <div class="col-md-4">
       <a href="{{url('/admin/analisisQ/formulas/crear')}}" class="btn btn-success"><i class="voyager-plus"></i> Crear</a>
       <a href="{{url('/admin/analisisQ/formulas/nivel')}}" class="btn btn-primary"><i class="fa fa-level-up-alt"></i> Nivel formula</a>
+      <a href="{{url('/admin/analisisQ/formulas/constantes')}}" class="btn btn-warning"><i class="fab fa-cuttlefish"></i> Constante</a>
     </div>
     <div class="col-md-4">
 

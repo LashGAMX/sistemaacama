@@ -37,5 +37,7 @@ Route::group(['prefix' => 'analisisQ'], function () {
     Route::post('formulas/create',[FormulasController::class,'create']); 
     Route::post('formulas/createNiveles',[FormulasController::class,'createNiveles']); 
     
+    Route::get('formulas/constantes',[FormulasController::class,'constantes']); 
+    Route::post('formulas/constante_create',[FormulasController::class,'constante_create']); 
 });
  
