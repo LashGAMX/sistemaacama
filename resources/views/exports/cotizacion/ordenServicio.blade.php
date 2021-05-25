@@ -91,7 +91,7 @@
                     </tr>
                     <tr>
                         <td style="width: 30%">Observaciones</td>
-                        <td class="border">
+                        <td class="border"> 
                                 {{$model->Observacion}}
                         </td>
                     </tr>
