@@ -103,7 +103,7 @@ function tablaVariables()
                           tab +='<option value="'+nivel.Resultado+'">'+nivel.Nombre+'</option>';
                         });
                             break;
-                            case 4: // Formula Nivel 3
+                            case 5: // Formula Nivel 3
                         tab += '<td> <select class="form-control">';
                         $.each(response.nivel3, function (key, nivel) {
                           tab +='<option value="'+nivel.Resultado+'">'+nivel.Nombre+'</option>';

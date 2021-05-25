@@ -48,13 +48,13 @@ class FormulasController extends Controller
         Constante::create([
             'Constante' => $request->constante,
             'Valor' => $request->valor,
-            'Descripcion' => $request->descripcion,
+            'Descripcion' => $request->Descripcion,
         ]);
-        $data = array([
+        $data = array(
             'Constante' => $request->constante,
             'Valor' => $request->valor,
-            'Descripcion' => $request->descripcion,
-        ]);
+            'Descripcion' => $request->Descripcion,
+        );
         return response()->json($data);
     }
     public function createNiveles(Request $request) //  Creacion de nivel formula

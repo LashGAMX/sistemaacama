@@ -61,7 +61,7 @@ function tablaVariables()
         success: function (response) {
           console.log(response);
           datosFormula = response;
-          tab += '<table id="tablaVaribales" class="table table-striped table-bordered">';
+          tab += '<table id="tablaVariables" class="table table-striped table-bordered">';
           tab += '    <thead class="thead-dark">';
           tab += '        <tr>';
           tab += '            <th style="width: 5%;">Formula</th>';
@@ -92,8 +92,22 @@ function tablaVariables()
                           tab += '<td><input id="'+item+'Valor" placeholder="Valor"></td>';
                           break;
                         case 3: // Formula Nivel1
+                        tab += '<td> <select class="form-control">';
+                          $.each(response.nivel1, function (key, nivel) {
+                            tab +='<option value="'+nivel.Resultado+'">'+nivel.Nombre+'</option>';
+                        });
                             break;
                         case 4: // Formula Nivel 2
+                        tab += '<td> <select class="form-control">';
+                          $.each(response.nivel2, function (key, nivel) {
+                            tab +='<option value="'+nivel.Resultado+'">'+nivel.Nombre+'</option>';
+                        })
+                            break;
+                        case 5: // Formula Nivel 3
+                        tab += '<td> <select class="form-control">';
+                        $.each(response.nivel3, function (key, nivel) {
+                          tab +='<option value="'+nivel.Resultado+'">'+nivel.Nombre+'</option>';
+                        });
                             break;
                         default:
                             tab += '<td><input id="'+item+'Valor" placeholder="Valor"></td>';
@@ -117,22 +131,57 @@ function tablaVariables()
     }); 
 }
 
-var contVar = 0;
+
 function getProbarFormula()
 {
-    contVar = 0;
+    let cont = 0;
     let inputVar = document.getElementById('inputVar');
     let tab = '';
+    let t = document.getElementById("tablaVariables");
+    let campo;
+    let variable;
+    var campos = new Array();
+
+    for (let i = 0; i < datosFormula.variables.length; i++ )
+     {
+        variable = datosFormula.variableSis[i];
+
+       if (variable == "n1") 
+       {
+         campo = t.rows[i+1].cells[2].children[0].value;
+         campos.push(campo);
+       } 
+       else if (variable == "n2")
+       {
+        campo = t.rows[i+1].cells[2].children[0].value;
+        campos.push(campo);
+       }
+       else if (variable == "n3")
+       {
+        campo = t.rows[i+1].cells[2].children[0].value;
+        campos.push(campo);
+       }
+       else
+       {
+        valor = datosFormula.variables[i];
+        campo  = $('#'+valor+'Valor').val();
+        campos.push(campo);
+       }
+     }
+
+    contVar = 0;
     $("#formulaGen").val($("#formula").val());
     tab += '<div class="row">';
     $.each(datosFormula.variables, function (key, item) {
         tab += '<div class="col-md-4">';
-        tab += inputText(item+'?','dato'+contVar,'',item,'');
+        tab += inputText(item+'?','dato'+cont,'',item,campos[cont],'disabled');
         tab += '</div>';    
+        cont++;
         contVar++;
     });
     tab += '</div>';
     inputVar.innerHTML = tab;
+    console.log(campos); 
 }
 function probarFormula() //operacion en modal
 {  
