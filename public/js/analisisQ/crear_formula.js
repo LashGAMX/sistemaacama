@@ -200,6 +200,7 @@ function probarFormula() //operacion dentro de la modal
             data: {
               formula:$("#formulaGen").val(),
               valores:valores,
+              idParametro:$("#parametro").val(),
               _token: $('input[name="_token"]').val(),
             },
             dataType: 'json', 

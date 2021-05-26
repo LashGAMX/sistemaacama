@@ -147,12 +147,14 @@ class FormulasController extends Controller
             // echo "<br>".$sus."<br>";
         }
         $resultado = eval("return (".$sus.");");
+        
 
         $data = array(
             'resultado' => $resultado,
             'valores' => $request->valores,
             'formulaVal' => $formula,
             'formula' => $request->formula,
+            'idParametro' => $request->idParametro,
         ); 
         return response()->json($data);
     }
@@ -214,3 +216,4 @@ class FormulasController extends Controller
         return response()->json($data);
     }
 }
+

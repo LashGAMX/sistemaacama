@@ -128,14 +128,17 @@
           <div class="col-md-12">
             <button class="btn btn-success" id="btnCalcular">Calcular</button>
           </div>
-          <div class="col-md-12">
+          <div class="col-md-6">
             <input type="text" class="form-control" id="resultadoCal" placeholder="Resultado" disabled>
+          </div>
+          <div class="col-md-4">
+            <input type="text" class="form-control" id="unidad" placeholder="Unidad" disabled>
           </div>
         </div>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="button" class="btn btn-primary" id="btnGuardar">Guardar</button>
+      
       </div>
     </div>
   </div>

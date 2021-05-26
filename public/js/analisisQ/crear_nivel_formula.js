@@ -57,16 +57,17 @@ function tablaVariables()
           _token: $('input[name="_token"]').val(),
         },
         dataType: 'json', 
-        async: false, 
+        async: false,  
         success: function (response) {
           console.log(response);
           datosFormula = response;
-          tab += '<table id="tablaVariables" class="table table-striped table-bordered">';
+          tab += '<table id="tablaVariable" class="table table-striped table-bordered">';
           tab += '    <thead class="thead-dark">';
           tab += '        <tr>';
           tab += '            <th style="width: 5%;">Formula</th>';
           tab += '            <th style="width: 30%;">Tipo</th>';
           tab += '            <th>Valor</th>';
+        //   tab += '            <th>Decimal</th>';
           tab += '        </tr>';
           tab += '    </thead>';
           tab += '    <tbody>';
@@ -90,20 +91,21 @@ function tablaVariables()
                         case 2: // Variable
                           // code block
                           tab += '<td><input id="'+item+'Valor" placeholder="Valor"></td>';
+
                           break;
                         case 3: // Formula Nivel1
-                        tab += '<td> <select class="form-control">';
+                            tab += '<td> <select class="form-control">';
                           $.each(response.nivel1, function (key, nivel) {
                             tab +='<option value="'+nivel.Resultado+'">'+nivel.Nombre+'</option>';
                         });
                             break;
                         case 4: // Formula Nivel 2
                         tab += '<td> <select class="form-control">';
-                          $.each(response.nivel2, function (key, nivel) {
-                            tab +='<option value="'+nivel.Resultado+'">'+nivel.Nombre+'</option>';
-                        })
+                        $.each(response.nivel2, function (key, nivel) {
+                          tab +='<option value="'+nivel.Resultado+'">'+nivel.Nombre+'</option>';
+                        });
                             break;
-                        case 5: // Formula Nivel 3
+                            case 5: // Formula Nivel 3
                         tab += '<td> <select class="form-control">';
                         $.each(response.nivel3, function (key, nivel) {
                           tab +='<option value="'+nivel.Resultado+'">'+nivel.Nombre+'</option>';
@@ -120,6 +122,7 @@ function tablaVariables()
             {
                 tab += '<td><input id="'+item+'Valor" placeholder="Valor"></td>';
             }
+            // tab += '<td><input id="'+item+'Decimal" placeholder="Decimales"></td>';
             tab += '</tr>';
             i++;
             op1 = false;
@@ -137,7 +140,7 @@ function getProbarFormula()
     let cont = 0;
     let inputVar = document.getElementById('inputVar');
     let tab = '';
-    let t = document.getElementById("tablaVariables");
+    let t = document.getElementById("tablaVariable");
     let campo;
     let variable;
     var campos = new Array();
