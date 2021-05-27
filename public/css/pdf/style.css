@@ -21,5 +21,8 @@ p{
     border-width: 1px;
     border-style: solid;
 }
+.negrita{
+    font-weight: bold;
+}
 
 /* @page{margin: 0.2in 0.5in 0.2in 0.5in;} */

@@ -470,7 +470,7 @@ class CotizacionController extends Controller
         //     'margin_top' => 0,
         //     'margin_bottom' => 0,
         //     'margin_header' => 0,
-        //     'margin_footer' => 0, 
+        //     'margin_footer' => 0,  
         // ]); 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
@@ -488,7 +488,7 @@ class CotizacionController extends Controller
             array(0, 0),
         );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.cotizacion.cotizacion', compact('model'));
+        $html = view('exports.cotizacion.cotizacion', compact('model','parametros'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output();

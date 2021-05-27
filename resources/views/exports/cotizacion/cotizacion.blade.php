@@ -22,15 +22,15 @@
             </div>
         </div><br>
         <div class="row" style="display: block">
-            <div class="col-12">
+            <div class="col-12 negrita">
                 {{$model->Nombre}}
             </div>
-            <div class="col-12">
+            <div class="col-12 negrita">
                 {{$model->Direccion}}
             </div>
         </div><br>
         <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-12 negrita">
                 {{$model->Telefono}}<br>
                 {{$model->Correo}}<br>
                 {{$model->Atencion}}<br>
@@ -42,30 +42,30 @@
                 <table class="table table-borderless" style="border:none">
                     <tr>
                         <td>SERVICIO: </td>
-                        <td>{{$model->Servicio}}</td>
+                        <td class="negrita">{{$model->Servicio}}</td>
                         <td>NÚM NORMAS:</td>
-                        <td>1</td>
+                        <td class="negrita">1</td>
                         <td>PUNTOS MUESTREO:</td>
-                        <td>1</td>
+                        <td class="negrita">1</td>
                         <td>SERVICIOS:</td>
-                        <td>1</td>
+                        <td class="negrita">1</td>
                     </tr>
                 </table>
                 <table class="table table-borderless" style="border:none">
                 <tr>
                     <td>TIPO MUESTRA: </td>
-                    <td>{{$model->Tipo_muestra}}</td>
+                    <td class="negrita">{{$model->Tipo_muestra}}</td>
                     <td>NORMA:</td>
-                    <td>{{$model->Clave_norma}}</td>
+                    <td class="negrita">{{$model->Clave_norma}}</td>
                 </tr>
             </table>
             </div><br>
-            <div class="col-md-12">
+            <div class="col-md-12 negrita">
                 <strong><p>PRODUCTOS Y SERVICIOS. AGUA Y HIELO PARA CONSUMO HUMANO, ENVASADOS A GRANEL. ESPESIFICACIONES SANITARIAS</p></strong>
             </div>
         </div>
         
-        <table class="table">
+        <table class="table table-bordered table-sm">
             <thead>
                 <tr>
                     <th>PARAMETRO</th>
@@ -74,7 +74,16 @@
                     <th>UNIDAD</th>
                 </tr>
             </thead>
-            <tbody></tbody>
+            <tbody>
+                @foreach ($parametros as $item)
+                <tr>
+                    <td>{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
+                    <td>{{$item->Metodo_prueba}}</td>
+                    <td>{{$item->Limite}}</td>
+                    <td>{{$item->Unidad}}</td>
+                </tr>
+                @endforeach
+            </tbody>
         </table>
         <table class="table">
             <tr>
@@ -95,7 +104,7 @@
                 <tr>
                 <td>SUBTOTAL</td>
                 <td>{{$model->Sub_total}}</td>
-            </tr>
+                </tr>
             <tr>
                 <td>IVA</td>
                 <td></td>
