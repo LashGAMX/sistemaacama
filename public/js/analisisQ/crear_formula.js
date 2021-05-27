@@ -184,12 +184,13 @@ function getProbarFormula() //botón probar
     inputVar.innerHTML = tab;
     console.log(campos); 
 }
+var unidad = new Array();
 function probarFormula() //operacion dentro de la modal
 {  
         let valores = new Array();
         let fix; //resultado con las decimas solicitadas
         let decimales = $('#decimales').val();
-    
+        unidad = new Array();
         for (let index = 0; index < datosFormula.variables.length; index++) {
             valores.push($("#dato"+index).val());
         }
@@ -207,8 +208,11 @@ function probarFormula() //operacion dentro de la modal
             async: false, 
             success: function (response) {
               console.log(response);
+              unidad = response;
               fix = response.resultado.toFixed(decimales);
                 $("#resultadoCal").val(fix);
+                let u = unidad.unidad[0].Unidad;
+                $("#unidad").val(u);
             }
         });         
 }

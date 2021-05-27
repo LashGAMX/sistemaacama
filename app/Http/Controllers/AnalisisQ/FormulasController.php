@@ -147,14 +147,17 @@ class FormulasController extends Controller
             // echo "<br>".$sus."<br>";
         }
         $resultado = eval("return (".$sus.");");
-        
+
+        $parametro = $request->idParametro;
+        $unidad = DB::table('ViewParametros')->where('Id_parametro',$parametro)->get();
 
         $data = array(
             'resultado' => $resultado,
             'valores' => $request->valores,
             'formulaVal' => $formula,
             'formula' => $request->formula,
-            'idParametro' => $request->idParametro,
+            'parametro' => $parametro,
+            'unidad' => $unidad,  
         ); 
         return response()->json($data);
     }
@@ -172,6 +175,8 @@ class FormulasController extends Controller
         $nivel1 = FormulaNivel::where('Nivel',"1")->get();
         $nivel2 = FormulaNivel::where('Nivel',"2")->get();
         $nivel3 = FormulaNivel::where('Nivel',"3")->get();
+       
+        
 
         /* Variables formula */
         //Obtener variables de la formula
@@ -211,6 +216,7 @@ class FormulasController extends Controller
             'nivel2' => $nivel2,
             'nivel1' => $nivel1,
             'nivel3' => $nivel3,
+            
         );
         
         return response()->json($data);
