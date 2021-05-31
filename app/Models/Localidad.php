@@ -19,4 +19,4 @@ class Localidad extends Model
 
     ];
 }
- 
+  
