@@ -60,8 +60,9 @@ class TableDireccionSiralab extends Component
     {
         $titulos = TituloConsecionSir::where('Id_sucursal',$this->idSuc)->get();
         $estados = DB::table('estados')->get();
-        $model = ClienteSiralab::withTrashed()->where('Id_sucursal',$this->idSuc)->get();
-        $municipios = DB::table('localidades')->where('Id_municipio',$this->estado)->get();
+        // $model = ClienteSiralab::withTrashed()->where('Id_sucursal',$this->idSuc)->get();
+        $model = DB::table('ViewDireccionSir')->where('Id_sucursal',$this->idSuc)->get();
+        $municipios = DB::table('ViewLocalidades')->where('Id_estado',$this->estado)->get();
         return view('livewire.clientes.table-direccion-siralab',compact('model','titulos','estados','municipios'));
 
     }
@@ -125,7 +126,7 @@ class TableDireccionSiralab extends Component
         $this->resetValidation();
 
         $this->municipios = DB::table('localidades')
-        ->where('Id_municipio',$estado) 
+        ->where('Id_localidad',$estado) 
         ->get();
 
         $this->idDireccion = $idDireccion;

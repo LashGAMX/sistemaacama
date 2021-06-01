@@ -217,3 +217,14 @@ ON sol.Id_subnorma = pa.Id_parametro
 CREATE VIEW ViewPuntoGenSol as SELECT sol.Id_punto,sol.Id_solicitud,sol.Id_muestreo,puntos.Id_sucursal,puntos.Punto_muestreo FROM solicitud_puntos as sol
 INNER JOIN puntos_muestreogen as puntos
 ON sol.Id_muestreo = puntos.Id_punto
+
+/*  Lista Localidades*/
+CREATE VIEW ViewLocalidades as SELECT loc.Id_localidad,loc.Id_estado,es.Nombre as estado,loc.Nombre,loc.created_at,loc.updated_at,loc.deleted_at FROM localidades as loc
+INNER JOIN estados as es
+ON loc.Id_estado = es.Id_estado
+/* Lista ViewDireccionSir */
+CREATE VIEW ViewDireccionSir as SELECT cl.*, es.Nombre as NomEstado,loc.Nombre as NomMunicipio FROM clientes_siralab as cl
+INNER JOIN estados as es
+ON cl.Estado = es.Id_estado
+INNER JOIN localidades as loc
+ON cl.Municipio = loc.Id_localidad

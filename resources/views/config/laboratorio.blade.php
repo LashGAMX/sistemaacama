@@ -19,6 +19,9 @@
     <li class="nav-item" role="menu">
       <a class="nav-link" id="unidad-tab" data-toggle="tab" href="#unidad" role="tab" aria-controls="unidad" aria-selected="false">Unidad</a>
     </li>
+    <li class="nav-item" role="menu">
+      <a class="nav-link" id="localidad-tab" data-toggle="tab" href="#localidad" role="tab" aria-controls="localidad" aria-selected="false">Localidad</a>
+    </li>
   </ul>
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade  active" id="sucursal" role="tabpanel" aria-labelledby="sucursal-tab">  
@@ -29,6 +32,9 @@
     </div> --}}
     <div class="tab-pane fade" id="unidad" role="tabpanel" aria-labelledby="unidad-tab">
       @livewire('config.table-unidad', ['idUser' => $idUser])
+    </div>
+    <div class="tab-pane fade" id="localidad" role="tabpanel" aria-labelledby="localidad-tab">
+      @livewire('config.localidad', ['idUser' => $idUser])
     </div>
   </div>
 

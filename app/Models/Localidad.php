@@ -13,10 +13,8 @@ class Localidad extends Model
     protected $primaryKey = 'Id_localidad';
     public $timestamps = true;
     protected $fillable = [
-        'Id_municipio',
-        'Clave',
+        'Id_estado',
         'Nombre',
-
     ];
 }
   

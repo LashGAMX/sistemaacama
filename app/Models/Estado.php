@@ -12,7 +12,6 @@ class Estado extends Model
     protected $primaryKey = 'Id_estado';
     public $timestamps = true;
     protected $fillable = [
-        'Clave',
         'Nombre'
     ]; 
 }

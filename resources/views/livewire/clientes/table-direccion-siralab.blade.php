@@ -36,8 +36,8 @@
           <td>{{$item->Calle}}</td>
           <td>{{$item->Num_exterior}}</td>
           <td>{{$item->Num_interior}}</td>
-          <td>{{$item->Estado}}</td>
-          <td>{{$item->Municipio}}</td>
+          <td>{{$item->NomEstado}}</td>
+          <td>{{$item->NomMunicipio}}</td>
           <td>{{$item->Colonia}}</td>
           <td>{{$item->CP}}</td>
           <td>{{$item->Ciudad}}</td>
@@ -137,7 +137,7 @@
                     <div class="form-group">
                         <label for="">Municipio</label>
                             <select class="form-control"   wire:model='municipio' >
-                            <option value="0">Sin seleccionar</option>
+                            <option value="0">Sin seleccionar</option> 
                             @foreach ($municipios as $item)
                                 <option value="{{$item->Id_localidad}}">{{$item->Nombre}}</option>
                             @endforeach

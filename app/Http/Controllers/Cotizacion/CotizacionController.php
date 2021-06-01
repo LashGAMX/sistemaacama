@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Auth;
 use PDF;
 use Mpdf\Mpdf;
 
+
 class CotizacionController extends Controller
 {
     //
@@ -460,6 +461,7 @@ class CotizacionController extends Controller
     }
     public function exportPdfOrden($idCot)
     {
+        
         $parametros = DB::table('ViewCotParam')->where('Id_cotizacion', $idCot)->get();
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
 

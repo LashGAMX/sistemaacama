@@ -141,7 +141,7 @@
                           <div class="card-header" id="siralabTitulo1">
                             <h2 class="mb-0">
                               <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#siralabTitulo" aria-expanded="false" aria-controls="siralabTitulo">
-                                Titulo de conseción
+                                Titulo de concesión
                               </button>
                             </h2>
                           </div>

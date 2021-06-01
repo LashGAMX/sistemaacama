@@ -17,20 +17,9 @@ use TCG\Voyager\Events\BreadDataUpdated;
 use TCG\Voyager\Events\BreadImagesDeleted;
 use TCG\Voyager\Http\Controllers\Traits\BreadRelationshipParser;
 
-class UsersController extends Controller 
-{
+class LocalidadController extends Controller 
+{ 
     use BreadRelationshipParser;
- 
-    public function getSlug(Request $request)
-    {
-        if (isset($this->slug)) {
-            $slug = $this->slug;
-        } else {
-            $slug = explode('.', $request->route()->getName())[1];
-        }
-
-        return $slug;
-    }
 
     //***************************************
     //               ____
@@ -61,16 +50,9 @@ class UsersController extends Controller
 
         $searchNames = [];
         if ($dataType->server_side) {
-            $searchable = SchemaManager::describeTable(app($dataType->model_name)->getTable())->pluck('name')->toArray();
-            $dataRow = Voyager::model('DataRow')->whereDataTypeId($dataType->id)->get();
-            foreach ($searchable as $key => $value) {
-                $field = $dataRow->where('field', $value)->first();
-                $displayName = ucwords(str_replace('_', ' ', $value));
-                if ($field !== null) {
-                    $displayName = $field->getTranslatedAttribute('display_name');
-                }
-                $searchNames[$value] = $displayName;
-            }
+            $searchNames = $dataType->browseRows->mapWithKeys(function ($row) {
+                return [$row['field'] => $row->getTranslatedAttribute('display_name')];
+            });
         }
 
         $orderBy = $request->get('order_by', $dataType->order_column);
@@ -82,10 +64,10 @@ class UsersController extends Controller
         if (strlen($dataType->model_name) != 0) {
             $model = app($dataType->model_name);
 
+            $query = $model::select($dataType->name.'.*');
+
             if ($dataType->scope && $dataType->scope != '' && method_exists($model, 'scope'.ucfirst($dataType->scope))) {
-                $query = $model->{$dataType->scope}();
-            } else {
-                $query = $model::select('*');
+                $query->{$dataType->scope}();
             }
 
             // Use withTrashed() if model uses SoftDeletes and if toggle is selected
@@ -104,11 +86,34 @@ class UsersController extends Controller
             if ($search->value != '' && $search->key && $search->filter) {
                 $search_filter = ($search->filter == 'equals') ? '=' : 'LIKE';
                 $search_value = ($search->filter == 'equals') ? $search->value : '%'.$search->value.'%';
-                $query->where($search->key, $search_filter, $search_value);
+
+                $searchField = $dataType->name.'.'.$search->key;
+                if ($row = $this->findSearchableRelationshipRow($dataType->rows->where('type', 'relationship'), $search->key)) {
+                    $query->whereIn(
+                        $searchField,
+                        $row->details->model::where($row->details->label, $search_filter, $search_value)->pluck('id')->toArray()
+                    );
+                } else {
+                    if ($dataType->browseRows->pluck('field')->contains($search->key)) {
+                        $query->where($searchField, $search_filter, $search_value);
+                    }
+                }
             }
 
-            if ($orderBy && in_array($orderBy, $dataType->fields())) {
+            $row = $dataType->rows->where('field', $orderBy)->firstWhere('type', 'relationship');
+            if ($orderBy && (in_array($orderBy, $dataType->fields()) || !empty($row))) {
                 $querySortOrder = (!empty($sortOrder)) ? $sortOrder : 'desc';
+                if (!empty($row)) {
+                    $query->select([
+                        $dataType->name.'.*',
+                        'joined.'.$row->details->label.' as '.$orderBy,
+                    ])->leftJoin(
+                        $row->details->table.' as joined',
+                        $dataType->name.'.'.$row->details->column,
+                        'joined.'.$row->details->key,
+                    );
+                }
+
                 $dataTypeContent = call_user_func([
                     $query->orderBy($orderBy, $querySortOrder),
                     $getter,
@@ -170,6 +175,9 @@ class UsersController extends Controller
             $orderColumn = [[$index, $sortOrder ?? 'desc']];
         }
 
+        // Define list of columns that can be sorted server side
+        $sortableColumns = $this->getSortableColumns($dataType->browseRows);
+
         $view = 'voyager::bread.browse';
 
         if (view()->exists("voyager::$slug.browse")) {
@@ -184,6 +192,7 @@ class UsersController extends Controller
             'search',
             'orderBy',
             'orderColumn',
+            'sortableColumns',
             'sortOrder',
             'searchNames',
             'isServerSide',
@@ -195,4 +204,3 @@ class UsersController extends Controller
     }
 
 }
- 
