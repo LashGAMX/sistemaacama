@@ -23,6 +23,8 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
 use PDF;
+use \Milon\Barcode\DNS1D;
+use \Milon\Barcode\DNS2D;
 
 class SolicitudController extends Controller
 {
@@ -286,6 +288,7 @@ class SolicitudController extends Controller
     }
     public function exportPdfOrden($idOrden) 
     {
+        $qr = new DNS2D();
         $model = DB::table('ViewSolicitud')->where('Id_cotizacion',$idOrden)->first();
         $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$model->Id_solicitud)->get();
 
@@ -304,7 +307,7 @@ class SolicitudController extends Controller
             array(0, 0),
         );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.cotizacion.ordenServicio', compact('model','parametros'));
+        $html = view('exports.cotizacion.ordenServicio', compact('model','parametros','qr'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output();

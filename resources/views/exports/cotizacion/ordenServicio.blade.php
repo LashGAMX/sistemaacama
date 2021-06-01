@@ -13,58 +13,58 @@
     <div class="container" id="pag">
         <div class="row">
             <div class="col align-self-end">
-                <P align="right">FOLIO COTIZACIÓN: {{$model->Folio_servicio}}<p>
+                <P align="right">No DE SERVICIO: {{$model->Folio_servicio}}<p>
             </div>
         </div>
         <div class="row">
             <div class="col-md-12">
-                <table class="table">
+                <table class="table table-borderless">
                     <tr>
-                        <td style="width: 30%" class="">Nombre de la empresa</td>
-                        <td class="border">
-                                {{$model->Empresa}}
+                        <td style="width: 25%" class="">Nombre de la empresa</td>
+                        <td class="" style="height: 50px;border: 1px solid;">
+                            {{$model->Empresa}}
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 30%">Dirección</td>
-                        <td style="width: 70%" class="border">
+                        <td style="width: 25%">Dirección</td>
+                        <td style="height: 50px;border: 1px solid;" class="border">
                             {{$model->Direccion}}
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 30%">Contacto</td>
-                        <td class="border">
+                        <td style="width: 25%">Contacto</td>
+                        <td style="height: 50px;border: 1px solid;" class="border">
                             {{$model->Nom_con}} {{$model->Nom_pat}}
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 30%">Teléfono</td>
-                        <td class="border">
+                        <td style="width: 25%">Teléfono</td>
+                        <td style="height: 50px;border: 1px solid;" class="border">
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 30%" style="height: 50px;">Servicio</td>
-                        <td class="border">
+                        <td style="width: 25%" style="height: 50px;">Servicio</td>
+                        <td style="height: 50px;border: 1px solid;" class="border">
                             {{$model->Servicio}}
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 30%">Norma</td>
-                        <td class="border">
+                        <td style="width: 25%">Norma</td>
+                        <td style="height: 50px;border: 1px solid;" class="border">
                             {{$model->Clave_norma}}
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 30%">Parametros</td>
-                        <td class="border">
+                        <td style="width: 25%">Parametros</td>
+                        <td style="height: 200px;border: 1px solid;" class="border">
                             @foreach ($parametros as $item)
                                     {{$item->Parametro}}
                                 @endforeach 
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 30%">Parametros especiales</td>
-                        <td class="border" style="color:red">
+                        <td style="width: 25%">Parametros especiales</td>
+                            <td style="height: 200px;border: 1px solid; color:red" class="border">
                                 @php
                                     $cont = 0;
                                 @endphp
@@ -84,32 +84,25 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 30%">Fecha de muestreo</td>
-                        <td class="border">
+                        <td style="width: 25%">Fecha de muestreo</td>
+                        <td style="height: 50px;border: 1px solid;" class="border">
                             {{$model->Fecha_muestreo}}
                         </td>
                     </tr>
                     <tr>
-                        <td style="width: 30%">Observaciones</td>
-                        <td class="border"> 
+                        <td style="width: 25%">Observaciones</td>
+                        <td style="height: 80px;border: 1px solid;" class="border">
                                 {{$model->Observacion}}
                         </td>
                     </tr>
                 </table>
+                
+            </div>
+            <div class="col-md-12">
+                
             </div>
         </div>
-            <tr>
-                <td>{!! DNS2D::getBarcodeHTML(url('clientes/orden_servicio/'.$model->Id_cotizacion), 'QRCODE') !!}</td>
-            </tr>
-        </table>
-        {{-- <div class="col-md-12">
-            <div style="width: 100px;height: 100px;">
-                {!! DNS2D::getBarcodeHTML($model->Folio_servicio, 'QRCODE') !!}
-            </div>
-            <div style="width: 100px;height: 100px;">
-                <div>{!! DNS1D::getBarcodeHTML($model->Folio_servicio, 'C39') !!}</div></br>
-            </div>
-        </div> --}}
+        
     </div>
 </body>
 </html> 

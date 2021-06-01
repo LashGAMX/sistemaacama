@@ -34,7 +34,7 @@ class Cotizacion extends Model
         'Tipo_reporte',
         'Tiempo_entrega',
         'Observacion_interna',
-        'Observaion_cotizacion',
+        'Observacion_cotizacion',
         'Folio_servicio',
         'Folio',
         'Fecha_cotizacion',
