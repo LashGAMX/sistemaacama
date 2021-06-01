@@ -124,31 +124,31 @@
                 <div class="col-md-4">
                     <div class="form-group">
                     <label for="">Latitud</label>
-                    <input type="text" wire:model='latitud' class="form-control" placeholder="Latitud" required>
+                    <input type="text" wire:model='latitud' class="form-control" placeholder="Latitud" >
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                     <label for="">Longitud</label>
-                    <input type="text" wire:model='longitud' class="form-control" placeholder="Longitud" required>
+                    <input type="text" wire:model='longitud' class="form-control" placeholder="Longitud" >
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                     <label for="">Hora</label>
-                    <input type="time" wire:model='hora' step="1" class="form-control" required>
+                    <input type="time" wire:model='hora' step="1" class="form-control" >
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                     <label for="">Fecha inicio</label>
-                    <input type="date" wire:model='inicio' class="form-control" required>
+                    <input type="date" wire:model='inicio' class="form-control" >
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                     <label for="">Fecha termino</label>
-                    <input type="date" wire:model='termino' class="form-control" required>
+                    <input type="date" wire:model='termino' class="form-control" >
                     </div>
                 </div>
                 <div class="col-md-4">

@@ -39,18 +39,7 @@ class TableDireccionSiralab extends Component
     public $ciudad;
 
     // Reglas de validación
-    protected $rules = [ 
-        'titulo' => 'required',
-        'calle' => 'required',
-        'ext' => 'required',
-        'int' => 'required',
-        'estado' => 'required',
-        'municipio' => 'required',
-        'colonia' => 'required',
-        'cp' => 'required',
-        'ciudad' => 'required',
-        'localidad' => 'required',
-    ];
+   
     // protected $messages = [
     //     'dir.required' => 'La direccion es un dato requerido',
     // ];
@@ -69,7 +58,7 @@ class TableDireccionSiralab extends Component
 
     public function create()
     {
-        $this->validate();
+        // $this->validate();
         $model = ClienteSiralab::create([
             'Id_sucursal' => $this->idSuc,
             'Titulo_concesion' => $this->titulo,
@@ -93,7 +82,7 @@ class TableDireccionSiralab extends Component
     }
     public function store()
     {
-        $this->validate();
+        // $this->validate();
         ClienteSiralab::withTrashed()->find($this->idDireccion)->restore();
         $model = ClienteSiralab::find($this->idDireccion);
         $model->Id_sucursal = $this->idSuc;
@@ -107,7 +96,7 @@ class TableDireccionSiralab extends Component
         $model->Localidad = $this->localidad;
         $model->Municipio = $this->municipio;
         $model->Estado = $this->estado;
-        $model->Id_user_m = $this->idUser;
+        $model->Id_user_m = $this->idUser; 
         $model->save();
         if($this->status != 1)
         {
@@ -123,7 +112,7 @@ class TableDireccionSiralab extends Component
     {
         $this->alert = false;
         $this->sw = true;
-        $this->resetValidation();
+        // $this->resetValidation();
 
         $this->municipios = DB::table('localidades')
         ->where('Id_localidad',$estado) 
@@ -152,7 +141,7 @@ class TableDireccionSiralab extends Component
         $this->alert = false;
         $this->clean();
         $this->sw = false;
-        $this->resetValidation();
+        // $this->resetValidation();
     }
     public function deleteBtn()
     {
