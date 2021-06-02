@@ -16,5 +16,8 @@ class CampoController extends Controller
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at',NULL)->get();
         return view('campo.asignarMuestreo',compact('model','intermediarios'));
     }
-    public function
+    public function listaMuestreo()
+    {
+        return view('campo.listaMuestreo');
+    }
 }
