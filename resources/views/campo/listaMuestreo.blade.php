@@ -2,33 +2,48 @@
 
 @section('content')
 
-  @section('page_header')
-  @stop
+
+@section('page_header')
+<h6 class="page-title"> 
+  <i class="voyager-treasure"></i>
+  Lista muestreo
+</h6>
+@stop
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-2">
                         <div class="form-group">
-                            <label for="">Cliente</label>
                             <input type="text" placeholder="Nombre cliente" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-1">
                         <div class="form-group">
-                            <label for="">Folio servicio</label>
                             <input type="text" placeholder="Folio" class="form-control">
                         </div>
                     </div>
                     <div class="col-md-1">
                         <div class="form-group">
-                            <label for="">Mes</label>
-                            <input type="month" placeholder="Mes" class="form-control">
+                            <select type="Mes" class="form-control" placeholder="">
+                                <option>mes</option>
+                                <option>Enero</option>
+                                <option>Febrero</option>
+                                <option>Marzo</option>
+                                <option>Abril</option>
+                                <option>Mayo</option>
+                                <option>Junio</option>
+                                <option>Julio</option>
+                                <option>Agosto</option>
+                                <option>Septiembre</option>
+                                <option>Octubre</option>
+                                <option>Noviembre</option>
+                                <option>Diciembre</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col-md-1">
                         <div class="form-group">
-                            <label for="">Año</label>
                             <input type="text" placeholder="Año" class="form-control">
                         </div>
                     </div>
