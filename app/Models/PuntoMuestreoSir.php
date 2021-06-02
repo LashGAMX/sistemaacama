@@ -21,6 +21,7 @@ class PuntoMuestreoSir extends Model
         'Siralab',
         'Pozos',
         'Cuerpo_receptor',
+        'Uso_agua',
         'Latitud',
         'Longitud',
         'Hora',

@@ -228,3 +228,12 @@ INNER JOIN estados as es
 ON cl.Estado = es.Id_estado
 INNER JOIN localidades as loc
 ON cl.Municipio = loc.Id_localidad
+
+/* Lista ViewPuntoMuestreoSir*/
+CREATE VIEW ViewPuntoMuestreoSir as SELECT p.*,ti.Titulo,t.Cuerpo,d.Detalle as Agua FROM puntos_muestreo as p
+INNER JOIN titulo_concesion_sir as ti
+ON p.Titulo_consecion = ti.Id_titulo
+INNER JOIN tipo_cuerpo as t
+ON p.Cuerpo_receptor = t.Id_tipo
+INNER JOIN detalle_tipoCuerpos as d
+ON p.Uso_agua = d.Id_detalle

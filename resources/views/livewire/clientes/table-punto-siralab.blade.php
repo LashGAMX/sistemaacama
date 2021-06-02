@@ -15,7 +15,8 @@
                 <th>Anexo</th>
                 <th>Siralab</th>
                 <th>Pozos</th>
-                <th>Cuerpo</th>
+                <th>Cuerpo receptor</th>
+                <th>Uso agua</th>
                 <th>Latitud</th>
                 <th>Longitud</th>
                 <th>Hora</th>
@@ -33,19 +34,20 @@
             <tr>
         @endif
           {{-- <form wire:submit.prevent="update"> --}}
-          <td>{{$item->Titulo_consecion}}</td>
+          <td>{{$item->Titulo}}</td>
           <td>{{$item->Punto}}</td>          
           <td>{{$item->Anexo}}</td>
           <td>{{$item->Siralab}}</td>
           <td>{{$item->Pozos}}</td>
-          <td>{{$item->Cuerpo_receptor}}</td>
+          <td>{{$item->Cuerpo}}</td>
+          <td>{{$item->Agua}}</td>
           <td>{{$item->Latitud}}</td>
           <td>{{$item->Longitud}}</td>
           <td>{{$item->Hora}}</td>
           <td>{{$item->F_inicio}}</td>
           <td>{{$item->F_termino}}</td>
           <td>
-            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_punto}}','{{$item->Punto}}','{{$item->Titulo_consecion}}','{{$item->Anexo}}','{{$item->Siralab}}','{{$item->Pozos}}','{{$item->Cuerpo_receptor}}','{{$item->Latitud}}','{{$item->Longitud}}','{{$item->Hora}}','{{$item->F_inicio}}','{{$item->F_termino}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalPuntoSiralab"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_punto}}','{{$item->Punto}}','{{$item->Titulo_consecion}}','{{$item->Anexo}}','{{$item->Siralab}}','{{$item->Pozos}}','{{$item->Cuerpo_receptor}}','{{$item->Uso_agua}}','{{$item->Latitud}}','{{$item->Longitud}}','{{$item->Hora}}','{{$item->Observacion}}','{{$item->F_inicio}}','{{$item->F_termino}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalPuntoSiralab"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
           {{-- </form>  --}}
         </tr>
@@ -112,12 +114,22 @@
                 <div class="col-md-4">
                     <div class="form-group">
                         <label for="">Cuerpo</label>
-                            <select class="form-control" wire:model='cuerpo' >
+                            <select class="form-control" wire:model='cuerpo' wire:click>
                             <option value="0">Sin seleccionar</option>
-                            <option value="1">Rios</option>
-                            <option value="2">Embalses naturales artificiales</option>
-                            <option value="3">Aguas costeras</option>
-                            <option value="4">Suelo</option>
+                            @foreach ($cuerpos as $item)
+                                <option value="{{$item->Id_tipo}}">{{$item->Cuerpo}}</option>    
+                            @endforeach
+                          </select>
+                      </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="">Uso de agua</label>
+                            <select class="form-control" wire:model='agua' >
+                            <option value="0">Sin seleccionar</option>
+                            @foreach ($uso as $item)
+                                <option value="{{$item->Id_detalle}}">{{$item->Detalle}}</option>    
+                            @endforeach
                           </select>
                       </div>
                 </div>
@@ -163,7 +175,12 @@
                     <input type="checkbox" wire:model='pozos' class="">
                     </div>
                 </div>
-                
+                <div class="col-md-12">
+                    <div class="form-group">
+                    <label for="">Observación </label>
+                    <input type="text" wire:model='observacion' class="form-control">
+                    </div>
+                </div>
        
             </div>
         </div>

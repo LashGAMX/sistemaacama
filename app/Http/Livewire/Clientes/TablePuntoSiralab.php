@@ -4,6 +4,7 @@ namespace App\Http\Livewire\Clientes;
 
 use App\Models\PuntoMuestreoSir;
 use App\Models\TituloConsecionSir;
+use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -25,12 +26,14 @@ class TablePuntoSiralab extends Component
     public $anexo;
     public $siralab = 1;
     public $pozos = 1;
-    public $cuerpo;
+    public $cuerpo = 0;
+    public $agua = 0;
     public $latitud;
     public $longitud;
     public $hora;
     public $inicio;
     public $termino;
+    public $observacion;
 
     // protected $rules = [ 
     //     'punto' => 'required',
@@ -41,9 +44,11 @@ class TablePuntoSiralab extends Component
 
     public function render()
     {
+        $cuerpos = DB::table('tipo_cuerpo')->get();
+        $uso = DB::table('detalle_tipoCuerpos')->where('Id_tipo',$this->cuerpo)->get();
         $titulos = TituloConsecionSir::where('Id_sucursal',$this->idSuc)->get();
-        $model = PuntoMuestreoSir::withTrashed()->where('Id_sucursal',$this->idSuc)->get();
-        return view('livewire.clientes.table-punto-siralab',compact('model','titulos'));
+        $model = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal',$this->idSuc)->get();
+        return view('livewire.clientes.table-punto-siralab',compact('model','titulos','cuerpos','uso'));
     }
 
     public function create()
@@ -57,6 +62,7 @@ class TablePuntoSiralab extends Component
             'Siralab' => $this->siralab,
             'Pozos' => $this->pozos,
             'Cuerpo_receptor' => $this->cuerpo,
+            'Uso_agua' => $this->agua,
             'Latitud' => $this->latitud,
             'Longitud' => $this->longitud,
             'Hora' => $this->hora,
@@ -64,6 +70,7 @@ class TablePuntoSiralab extends Component
             'F_termino' => $this->termino,
             'Id_user_c' => $this->idUser,
             'Id_user_m' => $this->idUser,
+            'Observacion' => $this->observacion,
         ]);
         if($this->status != 1)
         {
@@ -82,12 +89,14 @@ class TablePuntoSiralab extends Component
         $model->Siralab = $this->siralab;
         $model->Pozos = $this->pozos;
         $model->Cuerpo_receptor = $this->cuerpo;
+        $model->Uso_agua = $this->agua;
         $model->Latitud = $this->latitud;
         $model->Longitud = $this->longitud;
         $model->Hora = $this->hora;
         $model->F_inicio = $this->inicio;
         $model->F_termino = $this->termino;
         $model->Id_user_m = $this->idUser;
+        $model->Observacion = $this->observacion;
         $model->save();
         if($this->status != 1)
         {
@@ -95,7 +104,7 @@ class TablePuntoSiralab extends Component
         }
         $this->alert = true;
     }
-    public function setData($idPunto,$punto,$titulo,$anexo,$siralab,$pozos,$cuerpo,$latitud,$longitud,$hora,$inicio,$termino,$status)
+    public function setData($idPunto,$punto,$titulo,$anexo,$siralab,$pozos,$cuerpo,$agua,$latitud,$longitud,$hora,$observacion,$inicio,$termino,$status)
     {
         $this->sw = true;
         // $this->resetValidation();
@@ -108,9 +117,11 @@ class TablePuntoSiralab extends Component
         $this->siralab = $siralab;
         $this->pozos = $pozos;
         $this->cuerpo = $cuerpo;
+        $this->agua = $agua;
         $this->latitud = $latitud;
         $this->longitud = $longitud;
         $this->hora = $hora;
+        $this->observacion = $observacion;
         $this->inicio = $inicio;
         $this->termino = $termino;
         if($status != null)
@@ -137,13 +148,15 @@ class TablePuntoSiralab extends Component
         $this->anexo = '';
         $this->siralab = 1;
         $this->pozos = 1;
-        $this->cuerpo = '';
+        $this->cuerpo = 0;
+        $this->agua = 0;
         $this->latitud = '';
         $this->longitud = '';
         $this->hora = '';
         $this->inicio = '';
         $this->termino = '';
         $this->status = 1;
+        $this->observacion = '';
     }
     public function resetAlert()
     {

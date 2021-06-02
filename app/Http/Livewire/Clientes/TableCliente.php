@@ -46,7 +46,9 @@ class TableCliente extends Component
         // $model = MetodoPrueba::where('Metodo_prueba','LIKE',"%{$this->search}%")
         // ->orWhere('Clave_metodo','LIKE',"%{$this->search}%")
         // ->paginate($this->perPage);
-        $intermediario = DB::table('ViewIntermediarios')->get();
+        $intermediario = DB::table('ViewIntermediarios')
+        ->orderBy('Nombres','asc')
+        ->get();
         $model = DB::table('ViewGenerales')
         ->where('Empresa','LIKE',"%{$this->search}%")
         ->orWhere('RFC','LIKE',"%{$this->search}%")
