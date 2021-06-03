@@ -20,4 +20,8 @@ class CampoController extends Controller
     {
         return view('campo.listaMuestreo');
     }
+    public function captura()
+    {
+        return view('campo.captura');
+    }
 }

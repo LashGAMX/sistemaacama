@@ -16,14 +16,14 @@ var table;
                 $(this).removeClass('selected');
                 // console.log("no selecionado");
                 // selectedRow = false;
-                $("#btnEdit").prop('disabled', true);
+                // $("#btnEdit").prop('disabled', true);
             }
             else {
                 table.$('tr.selected').removeClass('selected');
                 $(this).addClass('selected');
                 // console.log("Seleccionado");
                 // selectedRow = true;
-                $("#btnEdit").prop('disabled', false);
+                // $("#btnEdit").prop('disabled', false);
             }
     });
         let idSolicitud = 0; 
@@ -32,7 +32,7 @@ var table;
             idSolicitud = dato;
         });
         $('#btnImprimir').click( function () {
-            alert("Imprimir");
+            alert("Imprimir"+" Id: "+idSolicitud);
             // window.location = base_url+"/admin/cotizacion/update/"+idSolicitud;
         } );
         $('#btnGenerar').click( function () {

@@ -5,7 +5,7 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="fa fa-check"></i>
-    Asignar Muestreo
+    Captura
   </h6>
   @stop
 
@@ -56,52 +56,6 @@
       </div>
       </div>
     </div>
-  
-    <div class="row">
-        <div class="col-md-12">
-          <table class="table table-sm" id="listaAsignar">
-            <thead>
-              <tr>
-                <th>id Solicitud</th>
-                <th>Folio Servicio</th>
-                <th>Nombre Cliente</th>
-                <th>Ap. Paterno</th>
-                <th>Ap. Materno</th>
-                <th>Nombre</th>
-                <th>Servicio</th>
-                <th>Tipo Descarga</th>
-                <th>Fecha muestreo</th>
-                <th>Observaciones</th>
-                <th>Creado por</th>
-                <th>Fecha Creacción</th>
-                <th>Actualizado por</th>
-                <th>Fecha Actualización</th>
-              </tr>
-            </thead>
-            <tbody>
-                @foreach ($model as $item) 
-                <tr>
-                <td>{{$item->Id_solicitud}}</td>
-                <td>{{$item->Folio_servicio}}</td>
-                <td>{{$item->Nombres}}</td>
-                <td>{{$item->A_paterno}}</td>
-                <td>{{$item->Nom_pat}}</td>
-                <td>{{$item->Nom_con}}</td>
-                <td>{{$item->Servicio}}</td>
-                <td>{{$item->Descarga}}</td>
-                <td>{{$item->Fecha_muestreo}}</td>
-                <td>{{$item->Observacion}}</td>
-                <td></td>
-                <td></td>
-                <td></td>
-                <td></td>
-              </tr>
-              @endforeach
-            </tbody>
-          </table>
-        </div>
-    </div>
-  </div>
 
 @endsection  
 

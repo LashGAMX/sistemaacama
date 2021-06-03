@@ -5,3 +5,4 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('campo/asignar', [CampoController::class,'asignar']);
 Route::get('campo/capturar', [CampoController::class,'listaMuestreo']);
+Route::get('campo/captura', [CampoController::class,'captura']);
