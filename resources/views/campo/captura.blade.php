@@ -4,56 +4,30 @@
 
   @section('page_header')
   <h6 class="page-title"> 
-    <i class="fa fa-check"></i>
+    <i class="fa fa-edit"></i>
     Captura
   </h6>
   @stop
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-md-12">
-        <div class="col-md-2">
-          <input type="Nombre" class="form-control" placeholder="nombre">
+        <div class="col-md-12">
+            <ul class="nav nav-tabs" id="myTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link active" id="datosGenerales-tab" data-toggle="tab" href="#datosGenerales" role="tab" aria-controls="datosGenerales" aria-selected="true">1. Datos Generales</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                  <a class="nav-link" id="datosMuestreo-tab" data-toggle="tab" href="#datosMuestreo" role="tab" aria-controls="datosMuestreo" aria-selected="false">2. Datos muestreo</a>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="datosCompuestos-tab" data-toggle="tab" href="#datosCompuestos" role="tab" aria-controls="datosCompuestos" aria-selected="false">3. Datos Compuestos</a>
+                  </li>
+                  <li class="nav-item" role="presentation">
+                    <a class="nav-link" id="evidencia-tab" data-toggle="tab" href="#evidencia" role="tab" aria-controls="evidencia" aria-selected="false">4. Evidencia</a>
+                  </li>
+              </ul>
         </div>
-        <div class="col-md-2">
-          <input type="Folio" class="form-control" placeholder="folio">
-        </div>
-        <div class="col-md-2"> 
-          <select type="Mes" class="form-control" placeholder="">
-            <option>mes</option>
-            <option>Enero</option>
-            <option>Febrero</option>
-            <option>Marzo</option>
-            <option>Abril</option>
-            <option>Mayo</option>
-            <option>Junio</option>
-            <option>Julio</option>
-            <option>Agosto</option>
-            <option>Septiembre</option>
-            <option>Octubre</option>
-            <option>Noviembre</option>
-            <option>Diciembre</option>
-        </select>
-        </div>
-        <div class="col-md-2">
-          <input type="Año" class="form-control" placeholder="Año">
-        </div> 
-        <div class="col-md-2">
-          <button type="button" class="btn btn-success"><i class="fa fa-search"></i> Buscar</button>
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-12">
-      <div class="col-md-1">
-        <button type="button" id="btnImprimir" class="btn btn-basic"><i class="fa fa-print"></i> Imprimir</button>
-      </div>
-      <div class="col-md-1">
-        <button type="button" id="btnGenerar" class="btn btn-success"><i class="fa fa-plus"></i> Generar</button>
-      </div>
-      <div class="col-md-1">
-        <button type="button" id="btnPlanMuestreo" class="btn btn-primary"><i class="fa fa-tools" ></i> Plan de muestreo</button>
-      </div>
+      
       </div>
     </div>
 
