@@ -125,7 +125,7 @@
                       <div class="form-group">
                           <label for="">Estado</label>
                               <select class="form-control" wire:model='estado' >
-                              <option value="0">Sin seleccionar</option>
+                              {{-- <option value="0">Sin seleccionar</option> --}}
                               @foreach ($estados as $item)
                                   <option value="{{$item->Id_estado}}">{{$item->Nombre}}</option>
                               @endforeach
@@ -137,7 +137,7 @@
                     <div class="form-group">
                         <label for="">Municipio</label>
                             <select class="form-control"   wire:model='municipio' >
-                            <option value="0">Sin seleccionar</option> 
+                            <option value="1">Sin seleccionar</option> 
                             @foreach ($municipios as $item)
                                 <option value="{{$item->Id_localidad}}">{{$item->Nombre}}</option>
                             @endforeach
