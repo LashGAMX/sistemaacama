@@ -3,10 +3,10 @@
 @section('content')
 
   @section('page_header')
-  <h6 class="page-title"> 
+  {{-- <h6 class="page-title"> 
     <i class="fa fa-edit"></i>
     Captura
-  </h6>
+  </h6> --}}
   @stop
 
   <div class="container-fluid">
