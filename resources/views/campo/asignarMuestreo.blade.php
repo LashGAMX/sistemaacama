@@ -98,20 +98,21 @@
         </tbody>
       </table>
     </div>
-    <br>
+    
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-12">
           <div class="col-md-1">
-            <button type="button" id="btnAsignar" class="btn btn-success "><i class="voyager-list-add"></i> Asignar</button>
+            <button type="button" id="btnAsignar" data-target="#asignar" class="btn btn-success "><i class="voyager-list-add"></i> Asignar</button>
           </div>
         </div>
       </div>
      </div>
     <div class="col-md-12">
-      <table class="table table-sm" id="muestreadorAsignado">
+      <table class="table table-sm" id="solicitudGenerada">
         <thead>
           <tr>
+            <th>#</th>
             <th>Punto de muestreo</th>
             <th>Captura</th>
             <th>Id muestreador</th>
@@ -121,11 +122,58 @@
           </tr>
         </thead>
         <tbody>
-           
+          @foreach ($generadas as $item) 
+          <tr>
+          <td>{{$item->Id_solicitudGen}}</td>
+          <td>{{$item->Punto_muestreo}}</td>
+          <td>{{$item->Captura}}</td>
+          <td>{{$item->Id_muestreador}}</td>
+          <td>{{$item->A_paterno}}</td>
+          <td>{{$item->A_materno}}</td>
+          <td>{{$item->Nombres}}</td>
+        </tr>
+        @endforeach
         </tbody>
       </table>
     </div>
   </div>
+
+  <!-- Modal -->
+<div class="modal fade" id="asignar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <form wire:submit.prevent="store">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Asignar muestreador</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body"> 
+            <div class="row">
+                <div class="col-md-6">
+                    
+                    <label for="">Constante</label>
+                    <input type="text" id='constante' class="form-control" placeholder="constante">
+                </div>
+                <div class="col-md-6">
+                    <label for="">Valor</label>
+                    <input type="text" id='valor' class="form-control" placeholder="Valor">
+                </div>
+                <div class="col-md-6">
+                    <label for="">Descripción</label>
+                    <input type="text" id='descripcion' class="form-control" placeholder="Descripción">
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="button" id="guardar" class="btn btn-primary">Guardar</button>
+        </div>
+      </form>
+      </div>
+    </div>
+</div>
 
 @endsection  
 

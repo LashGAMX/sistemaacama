@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\SolicitudesGeneradas;
 
 class CampoController extends Controller
 {
@@ -14,14 +15,21 @@ class CampoController extends Controller
     {
         $model = DB::table('ViewSolicitud')->where('Id_servicio',1)->orWhere('Id_servicio',3)->get();
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at',NULL)->get();
-        return view('campo.asignarMuestreo',compact('model','intermediarios'));
+        $generadas = SolicitudesGeneradas::all();
+        return view('campo.asignarMuestreo',compact('model','intermediarios','generadas'));
     }
-    public function listaMuestreo()
+    public function listaMuestreo() 
     {
         return view('campo.listaMuestreo');
     }
     public function captura()
     {
         return view('campo.captura');
+    }
+    public function generar(Request $request) //Generar solicitud
+    {
+        SolicitudesGeneradas::create([
+            'Id_solicitud' => $request->idSolicitud,
+        ]);
     }
 }
