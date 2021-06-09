@@ -115,7 +115,7 @@
                     <div class="form-group">
                         <label for="">Cuerpo</label>
                             <select class="form-control" wire:model='cuerpo' wire:click>
-                            <option value="0">Sin seleccionar</option>
+                            <option value="5">Sin seleccionar</option>
                             @foreach ($cuerpos as $item)
                                 <option value="{{$item->Id_tipo}}">{{$item->Cuerpo}}</option>    
                             @endforeach
@@ -126,7 +126,7 @@
                     <div class="form-group">
                         <label for="">Uso de agua</label>
                             <select class="form-control" wire:model='agua' >
-                            <option value="0">Sin seleccionar</option>
+                            <option value="11">Sin seleccionar</option>
                             @foreach ($uso as $item)
                                 <option value="{{$item->Id_detalle}}">{{$item->Detalle}}</option>    
                             @endforeach

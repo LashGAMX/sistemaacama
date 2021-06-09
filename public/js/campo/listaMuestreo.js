@@ -35,7 +35,7 @@ $(document).ready(function () {
       });
     $('#btnCapturar').click( function () {
         alert("Capturar");
-        // window.location = base_url+"/admin/cotizacion/update/"+idCot;
+        window.location = base_url+"/admin/campo/captura";
     } );
     $('#btnHojaCampo').click( function () {
         alert("Hoja de campo");

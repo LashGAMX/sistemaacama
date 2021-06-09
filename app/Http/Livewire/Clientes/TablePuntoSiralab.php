@@ -26,8 +26,8 @@ class TablePuntoSiralab extends Component
     public $anexo;
     public $siralab = 1;
     public $pozos = 1;
-    public $cuerpo = 0;
-    public $agua = 0;
+    public $cuerpo = 5;
+    public $agua = 11;
     public $latitud;
     public $longitud;
     public $hora;
@@ -148,8 +148,8 @@ class TablePuntoSiralab extends Component
         $this->anexo = '';
         $this->siralab = 1;
         $this->pozos = 1;
-        $this->cuerpo = 0;
-        $this->agua = 0;
+        $this->cuerpo = 5;
+        $this->agua = 11;
         $this->latitud = '';
         $this->longitud = '';
         $this->hora = '';

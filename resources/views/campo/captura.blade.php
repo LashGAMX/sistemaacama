@@ -14,7 +14,7 @@
         <div class="col-md-12">
             <ul class="nav nav-tabs" id="myTab" role="tablist">
                 <li class="nav-item" role="presentation">
-                  <a class="nav-link active" id="datosGenerales-tab" data-toggle="tab" href="#datosGenerales" role="tab" aria-controls="datosGenerales" aria-selected="true">1. Datos Generales</a>
+                  <a class="nav-link" id="datosGenerales-tab" data-toggle="tab" href="#datosGenerales" role="tab" aria-controls="datosGenerales" aria-selected="true">1. Datos Generales</a>
                 </li>
                 <li class="nav-item" role="presentation">
                   <a class="nav-link" id="datosMuestreo-tab" data-toggle="tab" href="#datosMuestreo" role="tab" aria-controls="datosMuestreo" aria-selected="false">2. Datos muestreo</a>
@@ -29,7 +29,7 @@
         </div>
         <div class="col-md-12">
           <div class="tab-content" id="myTabContent">
-            <div class="tab-pane fade active" id="datosGenerales" role="tabpanel" aria-labelledby="datosGenerales-tab">  
+            <div class="tab-pane fade" id="datosGenerales" role="tabpanel" aria-labelledby="datosGenerales-tab">  
               <form>
               <div class="row">
                 <div class="col-md-12">

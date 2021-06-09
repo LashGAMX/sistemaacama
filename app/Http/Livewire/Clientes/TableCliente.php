@@ -89,25 +89,18 @@ class TableCliente extends Component
             'cliente' => 'required',
             'rfc' => 'required|max:13|min:12',
         ]);
-        if($this->status != 1) 
-        {
-            Clientes::withTrashed()->where('Id_cliente',$this->idCliente)->restore();
+        Clientes::withTrashed()->where('Id_cliente',$this->idCliente)->restore();
                 $model = Clientes::find($this->idCliente);
                 $model->Nombres = $this->cliente;
                 // $model->RFC = $this->rfc;
                 $model->Id_user_m = $this->idCliente;
                 $this->historial();
                 $model->save();
+        if($this->status != 1) 
+        {
             Clientes::find($this->idCliente)->delete();
-        }else{
-            Clientes::withTrashed()->where('Id_cliente',$this->idCliente)->restore();
-            $model = Clientes::find($this->idCliente);
-                $model->Nombres = $this->cliente;
-                // $model->RFC = $this->rfc;
-                $model->Id_user_m = $this->idCliente;
-                $this->historial();
-                $model->save();
         }
+        
         DB::table('clientes_general')
         ->where('Id_cliente',$this->idCliente)
         ->update([
@@ -124,7 +117,7 @@ class TableCliente extends Component
         $this->idCliente = $id;
         $this->cliente = $cliente;
         $this->rfc = $rfc;
-        $this->idInter = $idInter;
+        $this->inter = $idInter;
         if($status != null)
         {
             $this->status = 0;
