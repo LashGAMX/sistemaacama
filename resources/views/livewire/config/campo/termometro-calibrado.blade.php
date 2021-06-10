@@ -8,8 +8,8 @@
         {{-- <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar"> --}}
       </div>
     </div>
+   <div class="col-md-12">
     <table class="table" id="tableEquipo">
-        {{$model}}
         <thead class="thead-dark">
             <tr>
                 <th>Id</th>
@@ -39,6 +39,9 @@
             <button type="button" class="btn btn-warning" data-toggle="modal"
             wire:click="setData('{{$item->Id_termometro}}')" data-target="#modalTermometro">
             <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button type="button" class="btn btn-info" data-toggle="modal"
+            wire:click="setData2('{{$item->Id_termometro}}')" data-target="#modalCalibracion">
+            <i class="voyager-list"></i> <span hidden-sm hidden-xs> Calibración</span> </button>
           </td>
         </tr>
     @endforeach
@@ -47,7 +50,7 @@
         @endif
         </tbody>
     </table>
-
+   </div>
     <div wire:ignore.self class="modal fade" id="modalTermometro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -122,6 +125,77 @@
         </div>
       </div>
 
+      <div wire:ignore.self class="modal fade" id="modalCalibracion" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+                
+            <div class="modal-header">
+                @if ($sw != true)
+                    <h5 class="modal-title" id="exampleModalLabel">Crear equipo</h5>
+                @else
+                    <h5 class="modal-title" id="exampleModalLabel">Editar equipo</h5>
+                @endif
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <div class="modal-body">
+                <form wire:submit.prevent="storeFactor">
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>De C°</th>
+                                    <th>A C°</th>
+                                    <th>Factor de corrección</th>
+                                    <th>Factor de corección aplicado</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @php
+                                    $cont = 1;
+                                @endphp
+                                @foreach ($factores as $item)
+                                    <tr>
+                                        <td>{{$cont}}</td>
+                                        <td>{{$item->De_c}}</td>
+                                        <td>{{$item->A_c}}</td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="number"  wire:model="fa{{$cont}}">
+                                                <input type="number" class="form-control" placeholder="Factor de correccion" wire:model="fa{{$cont}}">
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" placeholder="Factor de correccion aplicado" wire:model="apl{{$cont}}">
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    @php
+                                    $cont++;
+                                @endphp
+                                @endforeach
+                            </tbody>
+                        </table>
+                        <div class="col-md-12">
+                            {{$msg}}
+                        </div>
+                    </div>
+                </div>
+            
+            </div>
+            <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+              <button type="submit" class="btn btn-primary">Guardar cambios</button>
+            </form>
+            </div>
+          </div>
+        </div>
+      </div>
+
 @if ($alert == true)
 <script>
   swal("Registro!", "Registro guardado correctamente!", "success");
@@ -130,5 +204,4 @@
 @endif
 
 </div>
-
 
