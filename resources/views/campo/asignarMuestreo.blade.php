@@ -102,9 +102,20 @@
     <div class="col-md-12">
       <div class="row">
         <div class="col-md-12">
-          <div class="col-md-1">
-            <button type="button" id="btnAsignar" data-target="#asignar" class="btn btn-success "><i class="voyager-list-add"></i> Asignar</button>
+          <div class="col-md-2">
+            <button type="button" id="btnAsignar" data-toggle="modal" data-target="#asignar" class="btn btn-success "><i class="voyager-list-add"></i> Asignar</button>
           </div>
+          {{-- <div class="col-md-2">
+              <label>Folio: {{ $folio }}</label>
+          </div>
+          <div class="col-md-2">
+            <select class="form-control" id="idUsuarios">
+              <option>Selecciona un usuario</option>
+              @foreach ($usuarios as $item)
+              <option value="{{$item->id}}">{{$item->name}}</option>
+              @endforeach
+              </select>
+          </div> --}}
         </div>
       </div>
      </div>
@@ -112,7 +123,7 @@
       <table class="table table-sm" id="solicitudGenerada">
         <thead>
           <tr>
-            <th>#</th>
+            <th>Folio</th>
             <th>Punto de muestreo</th>
             <th>Captura</th>
             <th>Id muestreador</th>
@@ -124,7 +135,7 @@
         <tbody>
           @foreach ($generadas as $item) 
           <tr>
-          <td>{{$item->Id_solicitudGen}}</td>
+          <td>{{$item->Folio}}</td>
           <td>{{$item->Punto_muestreo}}</td>
           <td>{{$item->Captura}}</td>
           <td>{{$item->Id_muestreador}}</td>
@@ -139,41 +150,35 @@
   </div>
 
   <!-- Modal -->
-<div class="modal fade" id="asignar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog">
+  <div class="modal fade" id="asignar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
-        <form wire:submit.prevent="store">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLabel">Asignar muestreador</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
+          <h5 class="modal-title" id="exampleModalLabel">Asignar muestreador</h5>
         </div>
-        <div class="modal-body"> 
-            <div class="row">
-                <div class="col-md-6">
-                    
-                    <label for="">Constante</label>
-                    <input type="text" id='constante' class="form-control" placeholder="constante">
-                </div>
-                <div class="col-md-6">
-                    <label for="">Valor</label>
-                    <input type="text" id='valor' class="form-control" placeholder="Valor">
-                </div>
-                <div class="col-md-6">
-                    <label for="">Descripción</label>
-                    <input type="text" id='descripcion' class="form-control" placeholder="Descripción">
-                </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <select class="form-control" id="idUsuarios">
+                <option>Selecciona un usuario</option>
+                @foreach ($usuarios as $item)
+                <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+                </select>
             </div>
+          </div>
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <button type="button" id="guardar" class="btn btn-primary">Guardar</button>
+
+          <button class="btn btn-success" id="btnGuardar">Guardar</button>
         </div>
-      </form>
       </div>
     </div>
-</div>
+  </div>
 
 @endsection  
 

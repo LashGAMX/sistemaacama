@@ -52,10 +52,19 @@ function puntoOrden()
         } );
 
     let idSolicitud = 0; 
+    let folio;
     $('#listaAsignar tr').on('click', function(){
-        let dato = $(this).find('td:first').html();
+        let dato = $(this).find('td:eq(0)').html();
+        let dato2 =$(this).find('td:eq(1)').html();
+        folio = dato2;
         idSolicitud = dato;
     });
+    var folioAsignar;
+            $('#solicitudGenerada tr').on('click', function(){
+                let dato = $(this).find('td:eq(0)').html();
+                folioAsignar = dato;
+            });
+
     $('#btnImprimir').click( function () {
         alert("Imprimir"+" Id: "+idSolicitud);
         
@@ -64,12 +73,19 @@ function puntoOrden()
     } );
     $('#btnGenerar').click( function () {
         alert("Generar");
-        generar(idSolicitud);
+        generar(idSolicitud, folio);
         // window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idSolicitud;
     });
     $('#btnPlanMuestreo').click( function () {
         alert("Plan de muestreo")
         // window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idSolicitud;
+    });
+    $('#btnGuardar').click( function () {
+        
+        getFolio(folioAsignar);
+        alert("guardado");
+        $("#asignar").hide();
+        // window.location = base_url+"/admin/campo/asignar";
     });
  }
  function solicitudGenerada()
@@ -85,8 +101,9 @@ function puntoOrden()
         scrollY:        '30vh',
         scrollCollapse: true,
         paging:         false
-    });
-    
+    });    
+
+            
         $("#btnEdit").prop('disabled', true);
         $('#solicitudGenerada tbody').on( 'click', 'tr', function () { 
             if ( $(this).hasClass('selected') ) {
@@ -102,22 +119,43 @@ function puntoOrden()
                 // selectedRow = true;
                 $("#btnEdit").prop('disabled', false);
             }
-        } );
+        } );  
  }
 
- function generar(idSolicitud)
+ function generar(idSolicitud, folio)
 {
+    // let table = document.getElementById('div_tabla');
+    // let tab = '';
     $.ajax({
         url: base_url + '/admin/campo/asignar/generar', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
             idSolicitud:idSolicitud,
+            folio:folio,
             _token: $('input[name="_token"]').val(),
           },
         dataType: 'json', 
         async: false, 
         success: function (response) {
-          console.log(response);
+          console.log(response)
         }
     }); 
+}
+function getFolio(folioAsignar)
+{
+    $.ajax({
+        url: base_url + '/admin/campo/asignar/getFolio', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            folioAsignar:folioAsignar,
+            idUser:$("#idUsuarios").val(),
+            _token: $('input[name="_token"]').val(),
+          },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {
+          console.log(response)
+        }
+    }); 
+
 }

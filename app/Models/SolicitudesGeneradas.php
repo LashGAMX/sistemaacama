@@ -15,6 +15,7 @@ class SolicitudesGeneradas extends Model
 
     protected $fillable = [
       'Id_solicitudGen',
+      'Folio',
       'Id_solicitud',
       'Punto_muestreo',
       'Captura',
