@@ -27,7 +27,7 @@ class CampoController extends Controller
     }
     public function captura()
     {
-        return view('campo.captura');
+        return view('campo.captura'); 
     }
     public function generar(Request $request) //Generar solicitud
     {
@@ -39,7 +39,7 @@ class CampoController extends Controller
             compact('generadas')
         );
     }
-    // public function generarUpdate()
+    // public function generarUpdate() 
     // {
         
     // } 

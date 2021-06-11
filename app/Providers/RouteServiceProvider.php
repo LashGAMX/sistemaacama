@@ -48,6 +48,11 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/encuesta.php'));
 
+                Route::prefix('api')
+                ->middleware('api')
+                ->namespace($this->namespace)
+                ->group(base_path('routes/api/campoApp.php'));
+
             Route::middleware('web')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
@@ -68,10 +73,7 @@ class RouteServiceProvider extends ServiceProvider
                     ->namespace($this->namespace)
                     ->prefix('admin')
                     ->group(base_path('routes/modules/cotizacion.php'));
-                Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin')
-                    ->group(base_path('routes/modules/cotizacionConfig.php'));
+   
                 Route::middleware('web', 'auth')
                     ->namespace($this->namespace)
                     ->prefix('admin')
@@ -80,10 +82,7 @@ class RouteServiceProvider extends ServiceProvider
                     ->namespace($this->namespace)
                     ->prefix('admin')
                     ->group(base_path('routes/modules/usuarios.php'));
-                Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin')
-                    ->group(base_path('routes/modules/ingenieria-campo.php'));
+        
                 Route::middleware('web', 'auth')
                     ->namespace($this->namespace)
                     ->prefix('admin')
@@ -100,10 +99,7 @@ class RouteServiceProvider extends ServiceProvider
                     ->namespace($this->namespace)
                     ->prefix('admin')
                     ->group(base_path('routes/modules/isaac.php'));
-                Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin')
-                    ->group(base_path('routes/modules/reporteador.php'));
+
                     Route::middleware('web', 'auth')
                     ->namespace($this->namespace)
                     ->prefix('admin')

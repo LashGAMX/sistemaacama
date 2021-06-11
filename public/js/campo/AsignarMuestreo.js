@@ -36,22 +36,19 @@ var folioAsignar;
         scrollCollapse: true,
         paging:         false
     });
+
         $("#btnEdit").prop('disabled', true);
-        $('#listaAsignar tbody').on( 'click', 'tr', function () { 
-            if ( $(this).hasClass('selected') ) {
-                $(this).removeClass('selected');
-                // console.log("no selecionado");
-                // selectedRow = false;
-                $("#btnEdit").prop('disabled', true);
-            }
-            else {
-                table.$('tr.selected').removeClass('selected');
-                $(this).addClass('selected');
-                // console.log("Seleccionado");
-                // selectedRow = true;
-                $("#btnEdit").prop('disabled', false);
-            }
-        } );
+
+
+       $('#listaAsignar tbody').on( 'click', 'tr', function () {
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    } );
 
     let idSolicitud = 0; 
     let folio;

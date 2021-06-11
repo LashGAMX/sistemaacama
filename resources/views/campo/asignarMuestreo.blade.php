@@ -78,22 +78,24 @@
         </thead>
         <tbody>
             @foreach ($model as $item) 
-            <tr>
-            <td>{{$item->Id_solicitud}}</td>
-            <td>{{$item->Folio_servicio}}</td>
-            <td>{{$item->Nombres}}</td>
-            <td>{{$item->A_paterno}}</td>
-            <td>{{$item->Nom_pat}}</td>
-            <td>{{$item->Nom_con}}</td>
-            <td>{{$item->Servicio}}</td>
-            <td>{{$item->Descarga}}</td>
-            <td>{{$item->Fecha_muestreo}}</td>
-            <td>{{$item->Observacion}}</td>
-            <td></td>
-            <td></td>
-            <td></td>
-            <td></td>
-          </tr>
+              @if ($item->Folio_servicio != NULL)
+                <tr>
+                  <td>{{$item->Id_solicitud}}</td>
+                  <td>{{$item->Folio_servicio}}</td>
+                  <td>{{$item->Nombres}}</td>
+                  <td>{{$item->A_paterno}}</td>
+                  <td>{{$item->Nom_pat}}</td>
+                  <td>{{$item->Nom_con}}</td>
+                  <td>{{$item->Servicio}}</td>
+                  <td>{{$item->Descarga}}</td>
+                  <td>{{$item->Fecha_muestreo}}</td>
+                  <td>{{$item->Observacion}}</td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                </tr>
+              @endif
           @endforeach
         </tbody>
       </table>

@@ -46,7 +46,7 @@
         </tr>
     @endforeach
         @else
-            <h4>No hay resultados para la búsqueda "{{$search}}"</h4>
+            {{-- <h4>No hay resultados para la búsqueda "{{$search}}"</h4> --}}
         @endif
         </tbody>
     </table>
@@ -155,33 +155,29 @@
                             </thead>
                             <tbody>
                                 @php
-                                    $cont = 1;
+                                    $contF = 0;
                                 @endphp
                                 @foreach ($factores as $item)
                                     <tr>
-                                        <td>{{$cont}}</td>
+                                        <td>{{$contF = $contF + 1}}</td>
                                         <td>{{$item->De_c}}</td>
                                         <td>{{$item->A_c}}</td>
-                                        <td>
+                                        <td> 
                                             <div class="form-group">
-                                                <input type="number"  wire:model="fa{{$cont}}">
-                                                <input type="number" class="form-control" placeholder="Factor de correccion" wire:model="fa{{$cont}}">
+                                                <input type="number" class="form-control" placeholder="Factor de correccion" wire:model="fa{{$contF}}" value="{{$item->Factor}}">
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="number" class="form-control" placeholder="Factor de correccion aplicado" wire:model="apl{{$cont}}">
+                                                <input type="number" class="form-control" placeholder="Factor de correccion aplicado" wire:model="apl{{$contF}}" value="{{$item->Factor_aplicado}}">
                                             </div>
                                         </td>
                                     </tr>
-                                    @php
-                                    $cont++;
-                                @endphp
                                 @endforeach
                             </tbody>
+                            
                         </table>
                         <div class="col-md-12">
-                            {{$msg}}
                         </div>
                     </div>
                 </div>
@@ -199,7 +195,8 @@
 @if ($alert == true)
 <script>
   swal("Registro!", "Registro guardado correctamente!", "success");
-  $('#modalTermometro').modal('hide')
+  $('#modalTermometro').modal('hide');
+  $('#modalCalibracion').modal('hide');
 </script>
 @endif
 
