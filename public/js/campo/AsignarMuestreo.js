@@ -5,6 +5,7 @@ var table;
     solicitudGenerada();
     puntoOrden();
  });
+ 
 function puntoOrden()
 {
     table = $("#muestreadorAsignado").DataTable ({
@@ -20,6 +21,7 @@ function puntoOrden()
         paging:         false
     });
 }
+var folioAsignar;
  function listaSolicitudes()
  {
     table = $("#listaAsignar").DataTable ({
@@ -59,7 +61,7 @@ function puntoOrden()
         folio = dato2;
         idSolicitud = dato;
     });
-    var folioAsignar;
+    
             $('#solicitudGenerada tr').on('click', function(){
                 let dato = $(this).find('td:eq(0)').html();
                 folioAsignar = dato;
@@ -74,6 +76,7 @@ function puntoOrden()
     $('#btnGenerar').click( function () {
         alert("Generar");
         generar(idSolicitud, folio);
+        window.location = base_url+"/admin/campo/asignar";
         // window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idSolicitud;
     });
     $('#btnPlanMuestreo').click( function () {
@@ -85,7 +88,7 @@ function puntoOrden()
         getFolio(folioAsignar);
         alert("guardado");
         $("#asignar").hide();
-        // window.location = base_url+"/admin/campo/asignar";
+        window.location = base_url+"/admin/campo/asignar";
     });
  }
  function solicitudGenerada()
@@ -122,7 +125,7 @@ function puntoOrden()
         } );  
  }
 
- function generar(idSolicitud, folio)
+ function generar(idSolicitud, folio) 
 {
     // let table = document.getElementById('div_tabla');
     // let tab = '';
@@ -139,10 +142,11 @@ function puntoOrden()
         success: function (response) {
           console.log(response)
         }
-    }); 
+    });  
 }
 function getFolio(folioAsignar)
 {
+    console.log(folioAsignar); 
     $.ajax({
         url: base_url + '/admin/campo/asignar/getFolio', //archivo que recibe la peticion
         type: 'POST', //método de envio

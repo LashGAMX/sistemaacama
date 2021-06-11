@@ -41,22 +41,23 @@ class CampoController extends Controller
     }
     // public function generarUpdate()
     // {
-
-
+        
     // } 
     public function getFolio(Request $request)
     {
-        $inge = Usuario::where('id', $request->idUser)->all();
-        // $update = DB::table('solicitudes_generadas')
-        // ->where('Folio', $request->folioAsignar)
-        // ->update([
-        //     'Id_muestreador' => $inge->id,
-        //     'Nombres' => $inge->name,
-        // ]);
-        $update = SolicitudesGeneradas::find('Folio', $request->folioAsignar);
-        $update->Nombres = $request->name;
-        $update->Id_muestreador = $request->id;
-        $update->save();
+        $idUser = $request->idUser;
+        $inge = Usuario::where('id', $idUser)->first();
+      
+        $folio = $request->folioAsignar;
+        $nombres = $inge->name;
+        $muestreador = $inge->id;
+
+        $update = SolicitudesGeneradas::where('Folio', $folio)
+        ->update([
+            'Nombres' => $nombres,
+            'Id_muestreador' => $muestreador,
+        ]);
+
         return response()->json(
             compact('update'),
         );
