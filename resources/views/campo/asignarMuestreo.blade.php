@@ -107,6 +107,9 @@
           <div class="col-md-2">
             <button type="button" id="btnAsignar" data-toggle="modal" data-target="#asignar" class="btn btn-success "><i class="voyager-list-add"></i> Asignar</button>
           </div>
+          <div class="col-md-2">
+            <button type="button" id="btnEliminar" class="btn btn-danger "><i class="fa fa-times"></i> Eliminar</button>
+          </div>
           {{-- <div class="col-md-2">
               <label>Folio: {{ $folio }}</label>
           </div>
@@ -175,7 +178,6 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-
           <button class="btn btn-success" id="btnGuardar">Guardar</button>
         </div>
       </div>
