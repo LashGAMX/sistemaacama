@@ -24,7 +24,7 @@ function puntoOrden()
 var folioAsignar;
  function listaSolicitudes()
  {
-    table = $("#listaAsignar").DataTable ({
+    tableGenerar = $("#listaAsignar").DataTable ({
         "ordering": false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
@@ -40,15 +40,15 @@ var folioAsignar;
         $("#btnEdit").prop('disabled', true);
 
 
-       $('#listaAsignar tbody').on( 'click', 'tr', function () {
-        if ( $(this).hasClass('selected') ) {
-            $(this).removeClass('selected');
-        }
-        else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-        }
-    } );
+        $('#listaAsignar tbody').on( 'click', 'tr', function () {
+            if ( $(this).hasClass('selected') ) {
+                $(this).removeClass('selected');
+            }
+            else {
+                tableGenerar.$('tr.selected').removeClass('selected');
+                $(this).addClass('selected');
+            }
+        } );
 
     let idSolicitud = 0; 
     let folio;
@@ -90,7 +90,7 @@ var folioAsignar;
  }
  function solicitudGenerada()
  {
-    table = $("#solicitudGenerada").DataTable ({
+    tableAsignar = $("#solicitudGenerada").DataTable ({
         "ordering": false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
@@ -113,7 +113,7 @@ var folioAsignar;
                 $("#btnEdit").prop('disabled', true);
             }
             else {
-                table.$('tr.selected').removeClass('selected');
+                tableAsignar.$('tr.selected').removeClass('selected');
                 $(this).addClass('selected');
                 // console.log("Seleccionado");
                 // selectedRow = true;
