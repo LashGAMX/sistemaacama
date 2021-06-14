@@ -237,3 +237,8 @@ INNER JOIN tipo_cuerpo as t
 ON p.Cuerpo_receptor = t.Id_tipo
 INNER JOIN detalle_tipoCuerpos as d
 ON p.Uso_agua = d.Id_detalle
+
+/* Lista ViewSolicitudGenerada */
+CREATE VIEW ViewSolicitudGenerada as SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador FROM solicitudes_generadas as gen
+INNER JOIN ViewSolicitud as sol
+ON gen.Id_solicitud = sol.Id_solicitud

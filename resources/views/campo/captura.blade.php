@@ -417,7 +417,7 @@
 
 
 @section('javascript')
-    <script src="{{asset('js/campo/AsignarMuestreo.js')}}"></script>
+    <script src="{{asset('js/campo/captura.js')}}"></script>
     <script src="{{asset('js/libs/componentes.js')}}"></script>
     <script src="{{asset('js/libs/tablas.js')}}"></script>
 @stop

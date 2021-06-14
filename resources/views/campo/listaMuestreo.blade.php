@@ -76,7 +76,6 @@
                             <th>PM</th>
                             <th>Fecha muestreo</th>
                             <th>Estado</th>
-                            <th>Muestreador</th>
                             <th>Captura</th>
                             <th>Equipo</th>
                             <th>Marca</th>
@@ -89,24 +88,25 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>12</td>
-                            <td>127-12/21</td>
-                            <td>Luis</td>
-                            <td>PUNTO DE MUESTREO FINAL</td>
-                            <td>02/06/2021</td>
-                            <td>Puebla</td>
-                            <td>Ing Muestreo</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
+                     @foreach ($model as $item)
+                     <tr>
+                        <td>{{$item->Id_solicitud}}</td>
+                        <td>{{$item->Folio_servicio}}</td>
+                        <td>{{$item->Empresa}}</td>
+                        <td>{{$item->Direccion}}</td>
+                        <td>{{$item->Fecha_muestreo}}</td>
+                        <td>{{$item->Captura}}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                     @endforeach
                     </tbody>
                 </table>
             </div>

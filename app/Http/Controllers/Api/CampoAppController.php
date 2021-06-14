@@ -10,9 +10,9 @@ use Illuminate\Http\Request;
 class CampoAppController extends Controller
 {
     //
-    public function login(Request $request)
+    public function login($user,$pass)
     { 
-        $model = UsuarioApp::where('User',$request->user)->where('UserPass',$request->userPass)->first();
+        $model = UsuarioApp::where('User',$user)->where('UserPass',$pass)->first();
         $response = false;
         if($model->count())
         {

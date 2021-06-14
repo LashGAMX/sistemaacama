@@ -7,11 +7,13 @@ use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\SolicitudesGeneradas;
+use App\Models\TermometroCampo;
 use App\Models\Usuario;
+use Illuminate\Support\Facades\Auth;
 
 class CampoController extends Controller
 {
-    //
+    // 
     
     public function asignar()
     {
@@ -23,13 +25,16 @@ class CampoController extends Controller
     }
     public function listaMuestreo() 
     {
-        return view('campo.listaMuestreo');
+        $model = DB::table('ViewSolicitudGenerada')->where('Id_muestreador',Auth::user()->id)->get();
+        return view('campo.listaMuestreo',compact('model'));
     }
-    public function captura()
+    public function captura($id)
     {
-        return view('campo.captura'); 
+        $termometros = TermometroCampo::   
+        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
+        return view('campo.captura',compact('model'));  
     }
-    public function generar(Request $request) //Generar solicitud
+    public function generar(Request $request) //Generar solicitud 
     {
         $generadas = SolicitudesGeneradas::create([
             'Id_solicitud' => $request->idSolicitud,
