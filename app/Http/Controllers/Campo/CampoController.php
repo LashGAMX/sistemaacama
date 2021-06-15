@@ -30,7 +30,7 @@ class CampoController extends Controller
     }
     public function captura($id)
     {
-        $termometros = TermometroCampo::   
+        
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
         return view('campo.captura',compact('model'));  
     }

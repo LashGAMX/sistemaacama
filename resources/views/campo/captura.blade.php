@@ -238,12 +238,27 @@
                           <th>Olor</th>
                           <th>Color</th>
                           <th>PH 1</th>
-                          <th>PH 2</th>
+                          <th>PH 2</th> 
                           <th>PH 3</th>
                           <th>PH Promedio</th>
                           <th>Fecha muestreo</th>
                         </tr>
                       </thead>
+                      <tbody>
+                        @for ($i = 0; $i < $model->Num_tomas; $i++)
+                            <tr>
+                              <td>{{$i + 1}}</td>
+                              <td>Materia</td>
+                              <td>Olor</td>
+                              <td>Color</td>
+                              <td></td>
+                              <td></td>
+                              <td></td> 
+                              <td></td>
+                              <td>Fecha</td>
+                            </tr>
+                        @endfor
+                      </tbody>
                     </table>
                   </div>
                   <div class="col-md-12">
@@ -258,6 +273,17 @@
                           <th>Promedio</th>
                         </tr>
                       </thead>
+                      <tbody>
+                        @for ($i = 0; $i < $model->Num_tomas; $i++)
+                        <tr>
+                          <td>{{$i + 1}}</td>
+                          <td></td>
+                          <td></td>
+                          <td></td> 
+                          <td>Promedio</td>
+                        </tr>
+                        @endfor
+                      </tbody>
                     </table>
                   </div>
                   <div class="col-md-12">
@@ -272,6 +298,17 @@
                           <th>Conductividad Promedio</th>
                         </tr>
                       </thead>
+                      <tbody>
+                        @for ($i = 0; $i < $model->Num_tomas; $i++)
+                        <tr>
+                          <td>{{$i + 1}}</td>
+                          <td></td>
+                          <td></td>
+                          <td></td> 
+                          <td>Promedio</td>
+                        </tr>
+                        @endfor
+                      </tbody>
                     </table>
                   </div>
                   <div class="col-md-12">
@@ -286,6 +323,17 @@
                           <th>Gasto Promedio</th>
                         </tr>
                       </thead>
+                      <tbody>
+                        @for ($i = 0; $i < $model->Num_tomas; $i++)
+                        <tr>
+                          <td>{{$i + 1}}</td>
+                          <td></td>
+                          <td></td>
+                          <td></td> 
+                          <td>Promedio</td>
+                        </tr>
+                        @endfor
+                      </tbody>
                     </table>
                   </div>
                 </div>
