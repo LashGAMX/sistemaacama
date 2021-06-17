@@ -454,6 +454,17 @@
             </div> 
             <div class="tab-pane fade" id="evidencia" role="tabpanel" aria-labelledby="evidencia-tab">  
               Datos Evidencia
+              <hr> 
+            
+              <div class="col-md-4">
+                  <input type="file" name="foto" id="imgEvidencia1" accept="image/png, image/jpeg"/>
+              </div>
+              <div class="col-md-4">
+                <input type="file" name="foto" id="imgEvidencia2" accept="image/png, image/jpeg"/>
+            </div>
+              <div  class="col-md-4">
+                <button type="submit" class="btn btn-success">Subir Imagen</button>
+              </div>
             </div> 
           </div>
         </div>
