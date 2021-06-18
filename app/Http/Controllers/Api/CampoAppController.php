@@ -12,7 +12,7 @@ class CampoAppController extends Controller
     //
     public function login($user,$pass)
     { 
-        $model = UsuarioApp::where('User',$user)->where('UserPass',$pass)->first();
+        $model = UsuarioApp::where('User',$user)->where('UserPass',$pass)->first(); 
         $response = false;
         if($model->count())
         {
@@ -25,5 +25,14 @@ class CampoAppController extends Controller
  
         return response()->json($data);
         
+    }
+    public function getUser()
+    {
+        $model = UsuarioApp::all();
+        $data = array(
+            'response' => true,
+            'data' => $model,
+        );
+        return response()->json($data);
     }
 }
