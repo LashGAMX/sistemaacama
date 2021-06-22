@@ -6,13 +6,13 @@
 
   <h6 class="page-title"> 
       <i class="voyager-exclamation"></i>
-      Analisis
+      Análisis
   </h6>
   @stop
 
   <ul class="nav nav-tabs" id="myTab" role="tablist"> 
     <li class="nav-item" role="menu">
-      <a class="nav-link active" id="Tipo-tab" data-toggle="tab" href="#Tipo" role="tab" aria-controls="Tipo" aria-selected="true">Tipo formula </a>
+      <a class="nav-link active" id="Tipo-tab" data-toggle="tab" href="#Tipo" role="tab" aria-controls="Tipo" aria-selected="true">Tipo fórmula </a>
     </li>
     <li class="nav-item" role="menu">
       <a class="nav-link" id="matriz-tab" data-toggle="tab" href="#matriz" role="tab" aria-controls="matriz" aria-selected="false">Matriz</a>
@@ -21,13 +21,13 @@
       <a class="nav-link" id="rama-tab" data-toggle="tab" href="#rama" role="tab" aria-controls="rama" aria-selected="false">Rama</a>
     </li>
     <li class="nav-item" role="menu">
-      <a class="nav-link" id="tecnica-tab" data-toggle="tab" href="#tecnica" role="tab" aria-controls="tecnica" aria-selected="false">Tecnica</a>
+      <a class="nav-link" id="tecnica-tab" data-toggle="tab" href="#tecnica" role="tab" aria-controls="tecnica" aria-selected="false">Técnica</a>
     </li>
     <li class="nav-item" role="menu">
       <a class="nav-link" id="area-tab" data-toggle="tab" href="#area" role="tab" aria-controls="area" aria-selected="false">Área de análisis</a>
     </li>
     <li class="nav-item" role="menu">
-      <a class="nav-link" id="metodo-tab" data-toggle="tab" href="#metodo" role="tab" aria-controls="metodo" aria-selected="false">Metodo prueba</a>
+      <a class="nav-link" id="metodo-tab" data-toggle="tab" href="#metodo" role="tab" aria-controls="metodo" aria-selected="false">Método prueba</a>
     </li>
     <li class="nav-item" role="menu">
       <a class="nav-link" id="simbologia-tab" data-toggle="tab" href="#simbologia" role="tab" aria-controls="simbologia" aria-selected="false">Simbología</a>

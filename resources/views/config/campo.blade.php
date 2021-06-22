@@ -11,7 +11,7 @@
 
   <ul class="nav nav-tabs" id="config-tab" role="tablist"> 
     <li class="nav-item" role="menu">
-      <a class="nav-link active" id="termometro-tab" data-toggle="tab" href="#termometro" role="tab" aria-controls="termometro" aria-selected="true">Termometro</a>
+      <a class="nav-link active" id="termometro-tab" data-toggle="tab" href="#termometro" role="tab" aria-controls="termometro" aria-selected="true">Termómetro</a>
     </li>
  
   </ul>
