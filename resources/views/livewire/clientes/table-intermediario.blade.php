@@ -16,7 +16,7 @@
                 <th>RFC</th>
                 <th>Correo</th>
                 <th>Dirección</th>
-                <th>Telefono</th>
+                <th>Teléfono</th>
                 <th>Creación</th>
                 <th>Modificación</th>
                 <th>Acción</th> 
