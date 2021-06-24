@@ -43,12 +43,12 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api.php'));
 
-                Route::prefix('api')
+            Route::prefix('api')
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/encuesta.php'));
 
-                Route::prefix('api')
+            Route::prefix('api')
                 ->middleware('api')
                 ->namespace($this->namespace)
                 ->group(base_path('routes/api/campoApp.php'));
@@ -57,53 +57,58 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->group(base_path('routes/web.php'));
 
-                Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin')
-                    ->group(base_path('routes/modules/config.php'));
-                Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin')
-                    ->group(base_path('routes/modules/clientes.php'));
-                Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin')
-                    ->group(base_path('routes/modules/analisisQ.php'));
-                Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin')
-                    ->group(base_path('routes/modules/cotizacion.php'));
-   
-                Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin')
-                    ->group(base_path('routes/modules/precios.php'));
-                Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin')
-                    ->group(base_path('routes/modules/usuarios.php'));
-        
-                Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin')
-                    ->group(base_path('routes/modules/historial.php'));
-                Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin')
-                    ->group(base_path('routes/modules/librerias.php'));
-                Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin')
-                    ->group(base_path('routes/modules/beto.php'));
-                Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin')
-                    ->group(base_path('routes/modules/isaac.php'));
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/config.php'));
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/clientes.php'));
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/analisisQ.php'));
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/cotizacion.php'));
 
-                    Route::middleware('web', 'auth')
-                    ->namespace($this->namespace)
-                    ->prefix('admin')
-                    ->group(base_path('routes/modules/campo.php'));
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/precios.php'));
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/usuarios.php'));
+
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/historial.php'));
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/librerias.php'));
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/beto.php'));
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/isaac.php'));
+
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/campo.php'));
+
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/christian.php'));
         });
     }
 
