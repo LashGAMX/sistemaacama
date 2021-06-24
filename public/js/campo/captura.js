@@ -4,6 +4,7 @@ var base_url = 'https://dev.sistemaacama.com.mx';
 $(document).ready(function () {
     $("#datosGenerales-tab").click();
     datosGenerales();
+    datosMuestreo();
 });
 
 function datosGenerales()
@@ -31,15 +32,82 @@ function datosGenerales()
     $("#conTrazable").click(function(){setConTrazable($("#conTrazable").val(),"conNombre","conMarca","conLote")});
     $("#conCalidad").click(function(){setConCalidad($("#conCalidad").val(),"conCNombre","conCMarca","conCLote")});
 }
-function valPhTrazable()
+function datosMuestreo()
 {
-  if($("#phTrazable1").val() > 0)
-  {
-    if($("#phTrazable1").val() == $("#phTrazable1").val())
-      {
-        alert("No se puede usar la misma seleccion en Ph Trazable");
-      }
+  let tablePhMuestra = $("#phMuestra").DataTable ({
+    "ordering": false,
+    "language": {
+        "lengthMenu": "# _MENU_ por pagina",
+        "zeroRecords": "No hay datos encontrados",
+        "info": "Pagina _PAGE_ de _PAGES_",
+        "infoEmpty": "No hay datos encontrados",   
+    },
+    scrollY:        '15vh',
+    scrollCollapse: true,
+    paging:         false
+});
+$('#phMuestra tbody').on( 'click', 'tr', function () {
+  if ( $(this).hasClass('selected') ) {
+      $(this).removeClass('selected');
   }
+  else {
+    tablePhMuestra.$('tr.selected').removeClass('selected');
+      $(this).addClass('selected');
+  }
+} );
+
+$('#btnCancelarMuestra').click( function () {
+  // table.row('.selected').remove().draw( false );
+  alert("Muesta cancelada");
+} );
+}
+function valPhTrazableEst(lec1,lec2,lec3,estado)
+{
+  let sw = false;
+  let std = document.getElementById(estado);
+  let l1 = parseFloat(document.getElementById(lec1).value);
+  let l2 = parseFloat(document.getElementById(lec2).value);
+  let l3 = document.getElementById(lec3).value;
+
+  console.log("Entro con l1"+l1)
+  if((l1 - l2) < 3 || (l1 - l2) > 3)
+  {
+    console.log("Estado Aceptado")
+  }else{
+    console.log("Estado Rechazado")
+  }
+}
+function valPhCalidadEst(lec1,lec2,lec3,estado,prom)
+{
+  let sw = false;
+  let std = document.getElementById(estado);
+  let p = document.getElementById(prom);
+  let l1 = parseFloat(document.getElementById(lec1).value);
+  let l2 = parseFloat(document.getElementById(lec2).value);
+  let l3 = parseFloat(document.getElementById(lec3).value);
+
+  p.value = (l1 + l2 + l3 ) / 3
+}
+function valConCalidad(lec1,lec2,lec3,estado,prom)
+{
+  let sw = false;
+  let std = document.getElementById(estado);
+  let p = document.getElementById(prom);
+  let l1 = parseFloat(document.getElementById(lec1).value);
+  let l2 = parseFloat(document.getElementById(lec2).value);
+  let l3 = parseFloat(document.getElementById(lec3).value);
+
+  p.value = (l1 + l2 + l3 ) / 3
+}
+function valPhTrazable() 
+{
+  // if($("#phTrazable1").val() > 0)
+  // {
+  //   if($("#phTrazable1").val() == $("#phTrazable1").val())
+  //     {
+  //       alert("No se puede usar la misma seleccion en Ph Trazable");
+  //     }
+  // }
 } 
 function promedioPh(ph1,ph2,ph3,res)
 {
@@ -48,16 +116,25 @@ function promedioPh(ph1,ph2,ph3,res)
   let p3 = document.getElementById(ph3).value;
   let r = document.getElementById(res);
   let prom = ((parseFloat(p1) + parseFloat(p2) + parseFloat(p3)) / 3);
-  r.value = prom.toFixed(2)
+  r.value = prom.toFixed(0)
 }
-function calPromedios(ph1,ph2,ph3,res)
+function calPromedios(ph1,ph2,ph3,res,dec)
 {
   let p1 = document.getElementById(ph1).value;
   let p2 = document.getElementById(ph2).value;
   let p3 = document.getElementById(ph3).value;
   let r = document.getElementById(res);
   let prom = ((parseFloat(p1) + parseFloat(p2) + parseFloat(p3)) / 3);
-  r.value = prom.toFixed(2)
+  r.value = prom.toFixed(dec)
+}
+function calPromedioGasto(ph1,ph2,ph3,res)
+{
+  let p1 = document.getElementById(ph1).value;
+  let p2 = document.getElementById(ph2).value;
+  let p3 = document.getElementById(ph3).value;
+  let r = document.getElementById(res);
+  let prom = ((parseFloat(p1) + parseFloat(p2) + parseFloat(p3)) / 3);
+  r.value = (prom / 0.012)
 }
 function getFactorCorreccion()
 {
@@ -119,7 +196,7 @@ function setPhTrazable(idPh,nombre,marca,lote)
           lot.innerText = response.model.Lote;
         }
     });
-    valPhTrazable()
+    // valPhTrazable()
 }
 function setPhCalidad(idPh,nombre,marca,lote)
 {
@@ -142,7 +219,7 @@ function setPhCalidad(idPh,nombre,marca,lote)
           lot.innerText = response.model.Lote;
         }
     });
-    valPhTrazable()
+    // valPhTrazable()
 }
 function setConTrazable(idCon,nombre,marca,lote)
 {
