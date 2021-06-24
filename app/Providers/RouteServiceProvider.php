@@ -83,48 +83,18 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('admin')
                 ->group(base_path('routes/modules/usuarios.php'));
 
-<<<<<<< HEAD
-                    Route::middleware('web', 'auth')
+            Route::middleware('web', 'auth')
                     ->namespace($this->namespace)
                     ->prefix('admin')
                     ->group(base_path('routes/modules/campo.php'));
-
-                Route::middleware('web', 'auth')
+            Route::middleware('web', 'auth')
                     ->namespace($this->namespace)
                     ->prefix('admin')
                     ->group(base_path('routes/modules/capacitacion.php'));
-                    Route::middleware('web', 'auth')
+            Route::middleware('web', 'auth')
                     ->namespace($this->namespace)
                     ->prefix('admin')
                     ->group(base_path('routes/modules/christian.php'));
-=======
-            Route::middleware('web', 'auth')
-                ->namespace($this->namespace)
-                ->prefix('admin')
-                ->group(base_path('routes/modules/historial.php'));
-            Route::middleware('web', 'auth')
-                ->namespace($this->namespace)
-                ->prefix('admin')
-                ->group(base_path('routes/modules/librerias.php'));
-            Route::middleware('web', 'auth')
-                ->namespace($this->namespace)
-                ->prefix('admin')
-                ->group(base_path('routes/modules/beto.php'));
-            Route::middleware('web', 'auth')
-                ->namespace($this->namespace)
-                ->prefix('admin')
-                ->group(base_path('routes/modules/isaac.php'));
-
-            Route::middleware('web', 'auth')
-                ->namespace($this->namespace)
-                ->prefix('admin')
-                ->group(base_path('routes/modules/campo.php'));
-
-            Route::middleware('web', 'auth')
-                ->namespace($this->namespace)
-                ->prefix('admin')
-                ->group(base_path('routes/modules/christian.php'));
->>>>>>> bb047ea22772dbd3bc42f12e1b48eb51e5fbd65d
         });
     }
 
