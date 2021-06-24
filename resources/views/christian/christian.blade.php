@@ -10,4 +10,10 @@
   </h6>
   @stop
 
+  <div class="row"></div>
+  <div class="col-md-12">
+    @livewire('capacitacion.capacitacion');
+
+  </div>
+
 @endsection   
