@@ -3,11 +3,19 @@
 namespace App\Http\Controllers\Campo;
 
 use App\Http\Controllers\Controller;
+use App\Models\ConductividadCalidad;
+use App\Models\ConductividadTrazable;
+use App\Models\ConTratamiento;
+use App\Models\MetodoAforo;
+use App\Models\PHCalidad;
+use App\Models\PHTrazable;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\SolicitudesGeneradas;
+use App\Models\TermFactorCorreccionTemp;
 use App\Models\TermometroCampo;
+use App\Models\TipoTratamiento;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
 
@@ -30,9 +38,29 @@ class CampoController extends Controller
     }
     public function captura($id)
     {
-        // $termometros = TermometroCampo::where()
+        $phTrazable = PHTrazable::all();
+        $phCalidad = PHCalidad::all();
+        $termometros = TermometroCampo::all();
+        $conTrazable = ConductividadTrazable::all();
+        $conCalidad = ConductividadCalidad::all();
+        $aforo = MetodoAforo::all();
+        $conTratamiento = ConTratamiento::all();
+        $tipo = TipoTratamiento::all();
+        
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
-        return view('campo.captura',compact('model'));  
+        // $frecuencia = DB::table('frecuencia001')->where('')
+        $data = array(
+            'model' => $model,
+            'termometros' => $termometros,
+            'phTrazable' => $phTrazable,
+            'phCalidad' => $phCalidad,
+            'conTrazable' => $conTrazable,
+            'conCalidad' => $conCalidad,
+            'aforo' => $aforo,
+            'conTratamiento' => $conTratamiento,
+            'tipo' => $tipo,
+        );
+        return view('campo.captura',$data);  
     }
     public function generar(Request $request) //Generar solicitud 
     {
@@ -44,10 +72,6 @@ class CampoController extends Controller
             compact('generadas')
         );
     }
-    // public function generarUpdate() 
-    // {
-        
-    // } 
     public function getFolio(Request $request)
     {
         $idUser = $request->idUser;
@@ -55,7 +79,7 @@ class CampoController extends Controller
       
         $folio = $request->folioAsignar;
         $nombres = $inge->name;
-        $muestreador = $inge->id;
+        $muestreador = $inge->id; 
 
         $update = SolicitudesGeneradas::where('Folio', $folio)
         ->update([
@@ -66,5 +90,30 @@ class CampoController extends Controller
         return response()->json(
             compact('update'),
         );
+    }
+    public function getFactorCorreccion(Request $request)
+    {
+        $model = TermFactorCorreccionTemp::where('Id_termometro',$request->idFactor)->get();
+        return response()->json(compact('model'));
+    }
+    public function getPhTrazable(Request $request)
+    {
+        $model = PHTrazable::where('Id_ph',$request->idPh)->first();
+        return response()->json(compact('model'));
+    }
+    public function getPhCalidad(Request $request)
+    {
+        $model = PHCalidad::where('Id_ph',$request->idPh)->first();
+        return response()->json(compact('model'));
+    }
+    public function getConTrazable(Request $request)
+    {
+        $model = ConductividadTrazable::where('Id_conductividad',$request->idCon)->first();
+        return response()->json(compact('model'));
+    }
+    public function getConCalidad(Request $request)
+    {
+        $model = ConductividadCalidad::where('Id_conductividad',$request->idCon)->first();
+        return response()->json(compact('model'));
     }
 }

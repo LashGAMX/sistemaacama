@@ -14,10 +14,8 @@ class PHCalidad extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Ph',
         'Ph_calidad',
         'Marca',
         'Lote',
-
     ];
 }

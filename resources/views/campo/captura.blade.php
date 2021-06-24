@@ -60,8 +60,11 @@
               <div class="col-md-5">
                 <div class="form-group">
                   <label for="">Equipo serie</label>
-                  <select name="" id="" class="form-control">
-                    <option>MEDIDOR DE PH TEMEPRATURA Y CONDUCTIVIDAD</option>
+                  <select name="termometro" id="termometro" class="form-control">
+                    <option>Sin seleccionar</option>
+                    @foreach ($termometros as $item)
+                        <option value="{{$item->Id_termometro}}">{{$item->Equipo}} / {{$item->Marca}} / {{$item->Modelo}} / {{$item->Serie}}</option>
+                    @endforeach
                   </select>
                 </div>
               </div>
@@ -92,7 +95,7 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="">Punto de muestreo</label>
-                  <input type="text" class="form-control" placeholder="Punto de muestreo">
+                  <input type="text" class="form-control" placeholder="Punto de muestreo" value="{{$model->Direccion}}" disabled>
                 </div>
               </div>
               <div class="col-md-4">
@@ -123,7 +126,7 @@
               <div class="col-md-4">
                 <p>Tipo de descarga: Residual</p>
               </div>
-              <div class="col-md-12">
+              <div class="col-md-12"> 
                 <p>Norma / Material usado muestreo</p>
                 <table class="table" id="materialUsado">
                   <thead>
@@ -141,7 +144,8 @@
               </div>
               <div class="col-md-12">
                 <p>Factor de conversión de temperatura</p>
-                <table class="table" id="factorDeConversion">
+                <div class="" id="factorDeConversion">
+                <table class="table" id="">
                   <thead>
                     <tr>
                       <th>De °C</th>
@@ -151,6 +155,7 @@
                     </tr>
                   </thead>
                 </table>
+                </div>
               </div>
               <div class="col-md-12">
                 <p>PH trazable</p>
@@ -165,8 +170,56 @@
                       <th>Lectura 2</th>
                       <th>Lectura 3</th>
                       <th>Estado</th>
-                    </tr>
+                    </tr> 
                   </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <select id="phTrazable1">
+                          <option value="0">Sin seleccionar</option>
+                          @foreach ($phTrazable as $item)
+                            <option value="{{$item->Id_ph}}">{{$item->Ph}}</option>    
+                          @endforeach
+                        </select>  
+                      </td>
+                      <td><p id="phTNombre1"></p></td>
+                      <td><p id="phTMarca1"></p></td>
+                      <td><p id="phTLote1"></p></td>
+                      <td>
+                        <input type="text" class="" value="L1">
+                      </td>
+                      <td>
+                        <input type="text" class="" value="L2">
+                      </td>
+                      <td>
+                        <input type="text" class="" value="L3">
+                      </td>
+                      <td><input type="text" id="phTEstado1"></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <select id="phTrazable2">
+                          <option value="0">Sin seleccionar</option>
+                          @foreach ($phTrazable as $item)
+                            <option value="{{$item->Id_ph}}">{{$item->Ph}}</option>    
+                          @endforeach
+                        </select>  
+                      </td>
+                      <td><p id="phTNombre2"></p></td>
+                      <td><p id="phTMarca2"></p></td>
+                      <td><p id="phTLote2"></p></td>
+                      <td>
+                        <input type="text" class="" value="L1">
+                      </td>
+                      <td>
+                        <input type="text" class="" value="L2">
+                      </td>
+                      <td>
+                        <input type="text" class="" value="L3">
+                      </td>
+                      <td><input type="text" id="phTEstado2"></td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
               <div class="col-md-12">
@@ -185,6 +238,56 @@
                       <th>Promedio</th>
                     </tr>
                   </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <select id="phCalidad1">
+                          <option value="0">Sin seleccionar</option>
+                          @foreach ($phCalidad as $item)
+                            <option value="{{$item->Id_ph}}">{{$item->Ph_calidad}}</option>    
+                          @endforeach
+                        </select>  
+                      </td>
+                      <td><p id="phCNombre1"></p></td>
+                      <td><p id="phCMarca1"></p></td>
+                      <td><p id="phCLote1"></p></td>
+                      <td>
+                        <input type="text" class="" value="L1">
+                      </td>
+                      <td>
+                        <input type="text" class="" value="L2">
+                      </td>
+                      <td>
+                        <input type="text" class="" value="L3">
+                      </td>
+                      <td><input type="text" id="phCEstado1"></td>
+                      <td><input type="text" id="phCPromedio1"></td>
+                    </tr>
+                    <tr>
+                      <td>
+                        <select id="phCalidad2">
+                          <option value="0">Sin seleccionar</option>
+                          @foreach ($phCalidad as $item)
+                            <option value="{{$item->Id_ph}}">{{$item->Ph_calidad}}</option>    
+                          @endforeach
+                        </select>  
+                      </td>
+                      <td><p id="phCNombre2"></p></td>
+                      <td><p id="phCMarca2"></p></td>
+                      <td><p id="phCLote2"></p></td>
+                      <td>
+                        <input type="text" class="" value="L1">
+                      </td>
+                      <td>
+                        <input type="text" class="" value="L2">
+                      </td>
+                      <td>
+                        <input type="text" class="" value="L3">
+                      </td>
+                      <td><input type="text" id="phCEstado2"></td>
+                      <td><input type="text" id="phCPromedio2"></td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
               <div class="col-md-12">
@@ -202,6 +305,31 @@
                       <th>Estado</th>
                     </tr>
                   </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <select id="conTrazable">
+                          <option value="0">Sin seleccionar</option>
+                          @foreach ($conTrazable as $item)
+                            <option value="{{$item->Id_conductividad}}">{{$item->Conductividad}}</option>    
+                          @endforeach
+                        </select>  
+                      </td>
+                      <td><p id="conNombre"></p></td>
+                      <td><p id="conMarca"></p></td>
+                      <td><p id="conLote"></p></td>
+                      <td>
+                        <input type="text" class="" value="L1">
+                      </td>
+                      <td>
+                        <input type="text" class="" value="L2">
+                      </td>
+                      <td>
+                        <input type="text" class="" value="L3">
+                      </td>
+                      <td><input type="text" id="conEstado"></td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
               <div class="col-md-12">
@@ -220,6 +348,32 @@
                       <th>Promedio</th>
                     </tr>
                   </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                        <select id="conCalidad">
+                          <option value="0">Sin seleccionar</option>
+                          @foreach ($conCalidad as $item)
+                            <option value="{{$item->Id_conductividad}}">{{$item->Conductividad}}</option>    
+                          @endforeach
+                        </select>  
+                      </td>
+                      <td><p id="conCNombre"></p></td>
+                      <td><p id="conCMarca"></p></td>
+                      <td><p id="conCLote"></p></td>
+                      <td>
+                        <input type="text" class="" value="L1">
+                      </td>
+                      <td>
+                        <input type="text" class="" value="L2">
+                      </td>
+                      <td>
+                        <input type="text" class="" value="L3">
+                      </td>
+                      <td><input type="text" id="conCEstado"></td>
+                      <td><input type="text" id="conCPromedio"></td>
+                    </tr>
+                  </tbody>
                 </table>
               </div>
               <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
@@ -248,14 +402,32 @@
                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                             <tr>
                               <td>{{$i + 1}}</td>
-                              <td>Materia</td>
-                              <td>Olor</td>
-                              <td>Color</td>
-                              <td></td>
-                              <td></td>
-                              <td></td> 
-                              <td></td>
-                              <td>Fecha</td>
+                              <td>
+                                <select>
+                                    <option value="0">Sin seleccionar</option>
+                                    <option value="1">Presente</option>
+                                    <option value="2">Ausente</option>
+                                </select>
+                              </td>
+                              <td>
+                                <select>
+                                  <option value="0">Sin seleccionar</option>
+                                  <option value="1">Si</option>
+                                  <option value="2">No</option>
+                              </select>
+                              </td>
+                              <td>
+                                <select>
+                                  <option value="0">Sin seleccionar</option>
+                                  <option value="1">Rojo</option>
+                                  <option value="2">Verde</option>
+                              </select>
+                              </td> 
+                              <td><input type="number" id="phl1{{$i}}"></td>
+                              <td><input type="number" id="phl2{{$i}}"></td>
+                              <td><input type="number" id="phl3{{$i}}" onkeypress='promedioPh("phl1{{$i}}","phl2{{$i}}","phl3{{$i}}","phprom{{$i}}");'></td>
+                              <td><input type="text" id="phprom{{$i}}"></td>
+                              <td><input type="date" id="phf{{$i}}"></td>
                             </tr>
                         @endfor
                       </tbody>
@@ -277,10 +449,10 @@
                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                         <tr>
                           <td>{{$i + 1}}</td>
-                          <td></td>
-                          <td></td>
-                          <td></td> 
-                          <td>Promedio</td>
+                          <td><input type="text" id="temp1{{$i}}"></td>
+                          <td><input type="text" id="temp2{{$i}}"></td>
+                          <td><input type="text" id="temp3{{$i}}" onkeypress='calPromedios("temp1{{$i}}","temp2{{$i}}","temp3{{$i}}","tempprom{{$i}}");'></td>
+                          <td><input type="text" id="tempprom{{$i}}"></td>
                         </tr>
                         @endfor
                       </tbody>
@@ -302,10 +474,10 @@
                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                         <tr>
                           <td>{{$i + 1}}</td>
-                          <td></td>
-                          <td></td>
-                          <td></td> 
-                          <td>Promedio</td>
+                          <td><input type="text" id="con1{{$i}}"></td>
+                          <td><input type="text" id="con2{{$i}}"></td>
+                          <td><input type="text" id="con3{{$i}}" onkeypress='calPromedios("con1{{$i}}","con2{{$i}}","con3{{$i}}","conprom{{$i}}");'></td>
+                          <td><input type="text" id="conprom{{$i}}"></td>
                         </tr>
                         @endfor
                       </tbody>
@@ -327,10 +499,10 @@
                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                         <tr>
                           <td>{{$i + 1}}</td>
-                          <td></td>
-                          <td></td>
-                          <td></td> 
-                          <td>Promedio</td>
+                          <td><input type="text" id="gas1{{$i}}"></td>
+                          <td><input type="text" id="gas2{{$i}}"></td>
+                          <td><input type="text" id="gas3{{$i}}" onkeypress='calPromedios("gas1{{$i}}","gas2{{$i}}","gas3{{$i}}","gasprom{{$i}}");'></td>
+                          <td><input type="text" id="gasprom{{$i}}"></td>
                         </tr>
                         @endfor
                       </tbody>
@@ -361,7 +533,10 @@
                     <div class="form-group">
                       <label for="">Metodo aforo</label>
                       <select name="" id="" class="form-control">
-                        <option>Metodo 1</option>
+                        <option>Sin seleccionar</option>
+                        @foreach ($aforo as $item)
+                            <option value="{{$item->Id_aforo}}">{{$item->Aforo}}</option>
+                        @endforeach
                       </select>
                     </div>
                   </div>
@@ -369,7 +544,10 @@
                     <div class="form-group">
                       <label for="">Con tratamiento</label>
                       <select name="" id="" class="form-control">
-                        <option>Tratamiento 1</option>
+                        <option>Sin seleccionar</option>
+                        @foreach ($conTratamiento as $item)
+                            <option value="{{$item->Id_tratamiento}}">{{$item->Tratamiento}}</option>
+                        @endforeach
                       </select>
                     </div>
                   </div>
@@ -377,7 +555,10 @@
                     <div class="form-group">
                       <label for="">Tipo tratamiento</label>
                       <select name="" id="" class="form-control">
-                        <option>Tipo 1</option>
+                        <option>Sin seleccionar</option>
+                        @foreach ($tipo as $item)
+                            <option value="{{$item->Id_tratamiento}}">{{$item->Tratamiento}}</option>
+                        @endforeach
                       </select>
                     </div>
                   </div>
@@ -444,7 +625,7 @@
                     </div>
                   </div>
                   <div class="col-md-12">
-                    <p>Empleado: ABUNDIS RODRIGUEZ FRANCISCO JAVIER</p>
+                    <p>Colaborador: {{Auth::user()->id}}</p>
                   </div>
                   <div class="col-md-12">
                     <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
