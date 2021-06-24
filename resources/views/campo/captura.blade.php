@@ -311,7 +311,7 @@
                         <select id="conTrazable">
                           <option value="0">Sin seleccionar</option>
                           @foreach ($conTrazable as $item)
-                            <option value="{{$item->Id_ph}}">{{$item->Conductividad}}</option>    
+                            <option value="{{$item->Id_conductividad}}">{{$item->Conductividad}}</option>    
                           @endforeach
                         </select>  
                       </td>
@@ -353,8 +353,8 @@
                       <td>
                         <select id="conCalidad">
                           <option value="0">Sin seleccionar</option>
-                          @foreach ($phCalidad as $item)
-                            <option value="{{$item->Id_ph}}">{{$item->Conductividad}}</option>    
+                          @foreach ($conCalidad as $item)
+                            <option value="{{$item->Id_conductividad}}">{{$item->Conductividad}}</option>    
                           @endforeach
                         </select>  
                       </td>
@@ -402,14 +402,32 @@
                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                             <tr>
                               <td>{{$i + 1}}</td>
-                              <td>Materia</td>
-                              <td>Olor</td>
-                              <td>Color</td>
-                              <td></td>
-                              <td></td>
-                              <td></td> 
-                              <td></td>
-                              <td>Fecha</td>
+                              <td>
+                                <select>
+                                    <option value="0">Sin seleccionar</option>
+                                    <option value="1">Presente</option>
+                                    <option value="2">Ausente</option>
+                                </select>
+                              </td>
+                              <td>
+                                <select>
+                                  <option value="0">Sin seleccionar</option>
+                                  <option value="1">Si</option>
+                                  <option value="2">No</option>
+                              </select>
+                              </td>
+                              <td>
+                                <select>
+                                  <option value="0">Sin seleccionar</option>
+                                  <option value="1">Rojo</option>
+                                  <option value="2">Verde</option>
+                              </select>
+                              </td> 
+                              <td><input type="number" id="phl1{{$i}}"></td>
+                              <td><input type="number" id="phl2{{$i}}"></td>
+                              <td><input type="number" id="phl3{{$i}}" onkeypress='promedioPh("phl1{{$i}}","phl2{{$i}}","phl3{{$i}}","phprom{{$i}}");'></td>
+                              <td><input type="text" id="phprom{{$i}}"></td>
+                              <td><input type="date" id="phf{{$i}}"></td>
                             </tr>
                         @endfor
                       </tbody>
@@ -431,10 +449,10 @@
                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                         <tr>
                           <td>{{$i + 1}}</td>
-                          <td></td>
-                          <td></td>
-                          <td></td> 
-                          <td>Promedio</td>
+                          <td><input type="text" id="temp1{{$i}}"></td>
+                          <td><input type="text" id="temp2{{$i}}"></td>
+                          <td><input type="text" id="temp3{{$i}}" onkeypress='calPromedios("temp1{{$i}}","temp2{{$i}}","temp3{{$i}}","tempprom{{$i}}");'></td>
+                          <td><input type="text" id="tempprom{{$i}}"></td>
                         </tr>
                         @endfor
                       </tbody>
@@ -456,10 +474,10 @@
                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                         <tr>
                           <td>{{$i + 1}}</td>
-                          <td></td>
-                          <td></td>
-                          <td></td> 
-                          <td>Promedio</td>
+                          <td><input type="text" id="con1{{$i}}"></td>
+                          <td><input type="text" id="con2{{$i}}"></td>
+                          <td><input type="text" id="con3{{$i}}" onkeypress='calPromedios("con1{{$i}}","con2{{$i}}","con3{{$i}}","conprom{{$i}}");'></td>
+                          <td><input type="text" id="conprom{{$i}}"></td>
                         </tr>
                         @endfor
                       </tbody>
@@ -481,10 +499,10 @@
                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                         <tr>
                           <td>{{$i + 1}}</td>
-                          <td></td>
-                          <td></td>
-                          <td></td> 
-                          <td>Promedio</td>
+                          <td><input type="text" id="gas1{{$i}}"></td>
+                          <td><input type="text" id="gas2{{$i}}"></td>
+                          <td><input type="text" id="gas3{{$i}}" onkeypress='calPromedios("gas1{{$i}}","gas2{{$i}}","gas3{{$i}}","gasprom{{$i}}");'></td>
+                          <td><input type="text" id="gasprom{{$i}}"></td>
                         </tr>
                         @endfor
                       </tbody>
@@ -515,7 +533,10 @@
                     <div class="form-group">
                       <label for="">Metodo aforo</label>
                       <select name="" id="" class="form-control">
-                        <option>Metodo 1</option>
+                        <option>Sin seleccionar</option>
+                        @foreach ($aforo as $item)
+                            <option value="{{$item->Id_aforo}}">{{$item->Aforo}}</option>
+                        @endforeach
                       </select>
                     </div>
                   </div>
@@ -523,7 +544,10 @@
                     <div class="form-group">
                       <label for="">Con tratamiento</label>
                       <select name="" id="" class="form-control">
-                        <option>Tratamiento 1</option>
+                        <option>Sin seleccionar</option>
+                        @foreach ($conTratamiento as $item)
+                            <option value="{{$item->Id_tratamiento}}">{{$item->Tratamiento}}</option>
+                        @endforeach
                       </select>
                     </div>
                   </div>
@@ -531,7 +555,10 @@
                     <div class="form-group">
                       <label for="">Tipo tratamiento</label>
                       <select name="" id="" class="form-control">
-                        <option>Tipo 1</option>
+                        <option>Sin seleccionar</option>
+                        @foreach ($tipo as $item)
+                            <option value="{{$item->Id_tratamiento}}">{{$item->Tratamiento}}</option>
+                        @endforeach
                       </select>
                     </div>
                   </div>
@@ -598,7 +625,7 @@
                     </div>
                   </div>
                   <div class="col-md-12">
-                    <p>Empleado: ABUNDIS RODRIGUEZ FRANCISCO JAVIER</p>
+                    <p>Colaborador: {{Auth::user()->id}}</p>
                   </div>
                   <div class="col-md-12">
                     <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>

@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Campo;
 use App\Http\Controllers\Controller;
 use App\Models\ConductividadCalidad;
 use App\Models\ConductividadTrazable;
+use App\Models\ConTratamiento;
+use App\Models\MetodoAforo;
 use App\Models\PHCalidad;
 use App\Models\PHTrazable;
 use Facade\FlareClient\View;
@@ -13,6 +15,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\SolicitudesGeneradas;
 use App\Models\TermFactorCorreccionTemp;
 use App\Models\TermometroCampo;
+use App\Models\TipoTratamiento;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
 
@@ -40,6 +43,10 @@ class CampoController extends Controller
         $termometros = TermometroCampo::all();
         $conTrazable = ConductividadTrazable::all();
         $conCalidad = ConductividadCalidad::all();
+        $aforo = MetodoAforo::all();
+        $conTratamiento = ConTratamiento::all();
+        $tipo = TipoTratamiento::all();
+        
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
         // $frecuencia = DB::table('frecuencia001')->where('')
         $data = array(
@@ -49,6 +56,9 @@ class CampoController extends Controller
             'phCalidad' => $phCalidad,
             'conTrazable' => $conTrazable,
             'conCalidad' => $conCalidad,
+            'aforo' => $aforo,
+            'conTratamiento' => $conTratamiento,
+            'tipo' => $tipo,
         );
         return view('campo.captura',$data);  
     }

@@ -30,9 +30,35 @@ function datosGenerales()
 
     $("#conTrazable").click(function(){setConTrazable($("#conTrazable").val(),"conNombre","conMarca","conLote")});
     $("#conCalidad").click(function(){setConCalidad($("#conCalidad").val(),"conCNombre","conCMarca","conCLote")});
-
 }
-
+function valPhTrazable()
+{
+  if($("#phTrazable1").val() > 0)
+  {
+    if($("#phTrazable1").val() == $("#phTrazable1").val())
+      {
+        alert("No se puede usar la misma seleccion en Ph Trazable");
+      }
+  }
+} 
+function promedioPh(ph1,ph2,ph3,res)
+{
+  let p1 = document.getElementById(ph1).value;
+  let p2 = document.getElementById(ph2).value;
+  let p3 = document.getElementById(ph3).value;
+  let r = document.getElementById(res);
+  let prom = ((parseFloat(p1) + parseFloat(p2) + parseFloat(p3)) / 3);
+  r.value = prom.toFixed(2)
+}
+function calPromedios(ph1,ph2,ph3,res)
+{
+  let p1 = document.getElementById(ph1).value;
+  let p2 = document.getElementById(ph2).value;
+  let p3 = document.getElementById(ph3).value;
+  let r = document.getElementById(res);
+  let prom = ((parseFloat(p1) + parseFloat(p2) + parseFloat(p3)) / 3);
+  r.value = prom.toFixed(2)
+}
 function getFactorCorreccion()
 {
     let table = document.getElementById('factorDeConversion');
@@ -93,6 +119,7 @@ function setPhTrazable(idPh,nombre,marca,lote)
           lot.innerText = response.model.Lote;
         }
     });
+    valPhTrazable()
 }
 function setPhCalidad(idPh,nombre,marca,lote)
 {
@@ -115,6 +142,7 @@ function setPhCalidad(idPh,nombre,marca,lote)
           lot.innerText = response.model.Lote;
         }
     });
+    valPhTrazable()
 }
 function setConTrazable(idCon,nombre,marca,lote)
 {
