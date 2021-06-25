@@ -156,7 +156,7 @@
                   </thead>
                 </table>
                 </div>
-              </div>
+              </div> 
               <div class="col-md-12">
                 <p>PH trazable</p>
                 <table class="table" id="phTrazable">
@@ -186,13 +186,13 @@
                       <td><p id="phTMarca1"></p></td>
                       <td><p id="phTLote1"></p></td>
                       <td>
-                        <input type="text" class="" placeholder="L1" id="l11">
+                        <input type="text" class="" placeholder="L1" id="phTl11" onkeypress="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L2" id="l21">
-                      </td>
+                        <input type="text" class="" placeholder="L2" id="phT21" onkeypress="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
+                      </td> 
                       <td>
-                        <input type="text" class="" placeholder="L1" id="l31" onkeypress="valPhTrazableEst('l11','l21','l31','phTEstado1')">
+                        <input type="text" class="" placeholder="L1" id="phTl31" onkeypress="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
                       </td>
                       <td><input type="text" id="phTEstado1"></td>
                     </tr>
@@ -252,13 +252,13 @@
                       <td><p id="phCMarca1"></p></td>
                       <td><p id="phCLote1"></p></td>
                       <td>
-                        <input type="text" class="" placeholder="L1" id="phCl11">
+                        <input type="text" class="" placeholder="L1" id="phCl11" onkeypress="valPhTrazable('phCl11','phCl21','phCl21','phCEstado1','phCPromedio1')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L2" id="phCl21">
+                        <input type="text" class="" placeholder="L2" id="phCl21" onkeypress="valPhTrazable('phCl11','phCl21','phCl21','phCEstado1','phCPromedio1')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L3" ph="phCl21" onkeypress="valPhCalidadEst('phCl11','phCl21','phCl21','phCEstado1','phCPromedio1')">
+                        <input type="text" class="" placeholder="L3" ph="phCl21" onkeypress="valPhTrazable('phCl11','phCl21','phCl21','phCEstado1','phCPromedio1')">
                       </td>
                       <td><input type="text" id="phCEstado1"></td>
                       <td><input type="text" id="phCPromedio1"></td>

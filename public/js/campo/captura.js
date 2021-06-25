@@ -61,36 +61,46 @@ $('#btnCancelarMuestra').click( function () {
   alert("Muesta cancelada");
 } );
 }
-function valPhTrazableEst(lec1,lec2,lec3,estado)
+function valPhTrazable(lec1,lec2,lec3,estado)
 {
   let sw = false;
   let std = document.getElementById(estado);
-  let l1 = parseFloat(document.getElementById(lec1).value);
-  let l2 = parseFloat(document.getElementById(lec2).value);
+  let l1 = document.getElementById(lec1).value;
+  let l2 = document.getElementById(lec2).value;
   let l3 = document.getElementById(lec3).value;
 
-  console.log("Entro con l1"+l1)
-  if((l1 - l2) < 3 || (l1 - l2) > 3)
+  console.log("Res: "+ (l1 - l2))
+  if((l1 - l2) < -0.03 || (l1 - l2) > 0.03)
   {
-    console.log("Estado Aceptado")
-  }else{
     console.log("Estado Rechazado")
+    std.value ="Rechazado"
+    sw = false
+  }else{
+    if((l1 - l3) < -0.03 || (l1 - l3) > 0.03)
+    {
+      console.log("Estado Rechazado")
+      std.value ="Rechazado"
+      sw = false
+    }else{
+      console.log("Estado Aceptado")
+      std.value ="Aprobado"
+      sw = true;
+    }
   }
 }
-function valPhCalidadEst(lec1,lec2,lec3,estado,prom)
-{
-  let sw = false;
-  let std = document.getElementById(estado);
-  let p = document.getElementById(prom);
-  let l1 = parseFloat(document.getElementById(lec1).value);
-  let l2 = parseFloat(document.getElementById(lec2).value);
-  let l3 = parseFloat(document.getElementById(lec3).value);
+// function valPhCalidadEst(lec1,lec2,lec3,estado,prom)
+// { 
+//   let std = document.getElementById(estado);
+//   let p = document.getElementById(prom);
+//   let l1 = parseFloat(document.getElementById(lec1).value);
+//   let l2 = parseFloat(document.getElementById(lec2).value);
+//   let l3 = parseFloat(document.getElementById(lec3).value);
 
-  p.value = (l1 + l2 + l3 ) / 3
-}
+//   p.value = (l1 + l2 + l3 ) / 3
+// }
 function valConCalidad(lec1,lec2,lec3,estado,prom)
 {
-  let sw = false;
+  let sw = false; 
   let std = document.getElementById(estado);
   let p = document.getElementById(prom);
   let l1 = parseFloat(document.getElementById(lec1).value);
@@ -99,16 +109,7 @@ function valConCalidad(lec1,lec2,lec3,estado,prom)
 
   p.value = (l1 + l2 + l3 ) / 3
 }
-function valPhTrazable() 
-{
-  // if($("#phTrazable1").val() > 0)
-  // {
-  //   if($("#phTrazable1").val() == $("#phTrazable1").val())
-  //     {
-  //       alert("No se puede usar la misma seleccion en Ph Trazable");
-  //     }
-  // }
-} 
+
 function promedioPh(ph1,ph2,ph3,res)
 {
   let p1 = document.getElementById(ph1).value;
