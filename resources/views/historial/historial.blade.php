@@ -32,7 +32,7 @@
             <div class="col-md-3">
                 <a href="https://dev.sistemaacama.com.mx/admin/historial/clientes">
                 <div class="panel widget center bgimage"
-                    style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx/admin/voyager-assets?path=images%2Fwidget-backgrounds%2F01.jpg');">
+                    style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/clients.png');">
                     <div class="dimmer"></div>
                     <div class="panel-content">
                         <i class="fa fa-users"></i>
@@ -45,7 +45,7 @@
             <div class="col-md-3">
                 <a href="https://dev.sistemaacama.com.mx/admin/historial/analisisQ">
                 <div class="panel widget center bgimage"
-                    style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx/admin/voyager-assets?path=images%2Fwidget-backgrounds%2F01.jpg');">
+                    style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/qAnalysis.jpg');">
                     <div class="dimmer"></div>
                     <div class="panel-content">
                         <i class="voyager-lab"></i>
@@ -57,7 +57,7 @@
             <div class="col-md-3">
                 <a href="https://dev.sistemaacama.com.mx/admin/historial/precios">
                 <div class="panel widget center bgimage"
-                    style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx/admin/voyager-assets?path=images%2Fwidget-backgrounds%2F01.jpg');">
+                    style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/prices.jpg');">
                     <div class="dimmer"></div>
                     <div class="panel-content">
                         <i class="voyager-dollar"></i>
@@ -69,7 +69,7 @@
             <div class="col-md-3">
                 <a href="https://dev.sistemaacama.com.mx/admin/posts">
                 <div class="panel widget center bgimage"
-                    style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx/admin/voyager-assets?path=images%2Fwidget-backgrounds%2F02.jpg');">
+                    style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/quiz.png');">
                     <div class="dimmer"></div>
                     <div class="panel-content">
                         <i class="voyager-bar-chart"></i>
@@ -81,7 +81,7 @@
             <div class="col-md-3">
                 <a href="https://dev.sistemaacama.com.mx/admin/users">
                 <div class="panel widget center bgimage"
-                    style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx/admin/voyager-assets?path=images%2Fwidget-backgrounds%2F01.jpg');">
+                    style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/quotes.jpg');">
                     <div class="dimmer"></div>
                     <div class="panel-content">
                         <i class="voyager-documentation"></i>

@@ -11,3 +11,4 @@ Route::get('config/config', [ConfiguracionesController::class, 'index']);
 Route::get('config/laboratorio', [LaboratorioController::class,'index']);
 Route::get('config/analisis', [AnalisisController::class,'index']);
 Route::get('config/campo', [CampoController::class,'index']);
+Route::get('config/termometros', [CampoController::class,'termometros']);
