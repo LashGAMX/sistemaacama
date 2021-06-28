@@ -34,70 +34,184 @@ function datosGenerales()
 }
 function datosMuestreo()
 {
-  let tablePhMuestra = $("#phMuestra").DataTable ({
-    "ordering": false,
-    "language": {
-        "lengthMenu": "# _MENU_ por pagina",
-        "zeroRecords": "No hay datos encontrados",
-        "info": "Pagina _PAGE_ de _PAGES_",
-        "infoEmpty": "No hay datos encontrados",   
-    },
-    scrollY:        '15vh',
-    scrollCollapse: true,
-    paging:         false
-});
-$('#phMuestra tbody').on( 'click', 'tr', function () {
-  if ( $(this).hasClass('selected') ) {
-      $(this).removeClass('selected');
-  }
-  else {
-    tablePhMuestra.$('tr.selected').removeClass('selected');
-      $(this).addClass('selected');
-  }
-} );
 
-$('#btnCancelarMuestra').click( function () {
-  // table.row('.selected').remove().draw( false );
-  alert("Muesta cancelada");
-} );
 }
 function valPhTrazable(lec1,lec2,lec3,estado)
 {
   let sw = false;
   let std = document.getElementById(estado);
-  let l1 = document.getElementById(lec1).value;
-  let l2 = document.getElementById(lec2).value;
-  let l3 = document.getElementById(lec3).value;
+  let l1 = parseFloat(document.getElementById(lec1).value);
+  let l2 = parseFloat(document.getElementById(lec2).value);
+  let l3 = parseFloat(document.getElementById(lec3).value);
 
-  console.log("Res: "+ (l1 - l2))
-  if((l1 - l2) < -0.03 || (l1 - l2) > 0.03)
+  // Val if rango 4 - 9
+
+  if(l1 > 4 && l1 < 9)
   {
-    console.log("Estado Rechazado")
-    std.value ="Rechazado"
-    sw = false
+    sw = true;
+  }else if(l2 > 4 && l2 < 9){
+    sw = true;
+  }else if(l1 > 4 && l1 < 9){
+    sw = true;
   }else{
-    if((l1 - l3) < -0.03 || (l1 - l3) > 0.03)
+    sw = false;
+  }
+
+  // val if 0.003
+
+  r1 = (l1 - l2);
+  r2 = (l1 - l3);
+ 
+  r3 = (l2 - l1);
+  r4 = (l2 - l3);
+
+  r5 = (l3 - l1);
+  r6 = (l3 - l2);
+
+
+
+  if(r1 <= -0.03 || r1 >= 0.03)
+  {
+    sw = false;
+  }else{
+    sw = true;
+  }
+
+  if(r2 <= -0.03 || r2 >= 0.03)
     {
-      console.log("Estado Rechazado")
-      std.value ="Rechazado"
-      sw = false
+      sw = false;
     }else{
-      console.log("Estado Aceptado")
-      std.value ="Aprobado"
       sw = true;
     }
-  }
-}
-// function valPhCalidadEst(lec1,lec2,lec3,estado,prom)
-// { 
-//   let std = document.getElementById(estado);
-//   let p = document.getElementById(prom);
-//   let l1 = parseFloat(document.getElementById(lec1).value);
-//   let l2 = parseFloat(document.getElementById(lec2).value);
-//   let l3 = parseFloat(document.getElementById(lec3).value);
 
-//   p.value = (l1 + l2 + l3 ) / 3
-// }
+    if(r3 <= -0.03 || r3 >= 0.03)
+    {
+      sw = false;
+    }else{
+      sw = true;
+    }
+
+    if(r4 <= -0.03 || r4 >= 0.03)
+    {
+      sw = false;
+    }else{
+      sw = true;
+    }
+    if(r5 <= -0.03 || r5 >= 0.03)
+    {
+      sw = false;
+    }else{
+      sw = true;
+    }
+
+    if(r6 <= -0.03 || r6 >= 0.03)
+    {
+      sw = false;
+    }else{
+      sw = true;
+    }
+
+  if(sw == true)
+  {
+    std.value = "Aprobado";
+  }else{
+    std.value = "Rechazado";
+  }
+
+  return sw;
+}
+
+function valPhCalidad(lec1,lec2,lec3,estado,prom)
+{
+
+  let sw = false;
+  let p = document.getElementById(prom);
+  let std = document.getElementById(estado);
+  let l1 = parseFloat(document.getElementById(lec1).value);
+  let l2 = parseFloat(document.getElementById(lec2).value);
+  let l3 = parseFloat(document.getElementById(lec3).value);
+
+
+  if(l1 > 4 && l1 < 9)
+  {
+    sw = true;
+  }else if(l2 > 4 && l2 < 9){
+    sw = true;
+  }else if(l1 > 4 && l1 < 9){
+    sw = true;
+  }else{
+    sw = false;
+  }
+
+  // val if 0.003
+
+  r1 = (l1 - l2);
+  r2 = (l1 - l3);
+ 
+  r3 = (l2 - l1);
+  r4 = (l2 - l3);
+
+  r5 = (l3 - l1);
+  r6 = (l3 - l2);
+
+
+
+  if(r1 <= -0.03 || r1 >= 0.03)
+  {
+    sw = false;
+  }else{
+    sw = true;
+  }
+
+  if(r2 <= -0.03 || r2 >= 0.03)
+    {
+      sw = false;
+    }else{
+      sw = true;
+    }
+
+    if(r3 <= -0.03 || r3 >= 0.03)
+    {
+      sw = false;
+    }else{
+      sw = true;
+    }
+
+    if(r4 <= -0.03 || r4 >= 0.03)
+    {
+      sw = false;
+    }else{
+      sw = true;
+    }
+    if(r5 <= -0.03 || r5 >= 0.03)
+    {
+      sw = false;
+    }else{
+      sw = true;
+    }
+
+    if(r6 <= -0.03 || r6 >= 0.03)
+    {
+      sw = false;
+    }else{
+      sw = true;
+    }
+
+  if(sw == true)
+  {
+    std.value = "Aprobado";
+  }else{
+    std.value = "Rechazado";
+  }
+
+  p.value = (l1 + l2 + l3) / 3;
+}
+
+function valConTrazable(lec1,lec2,lec3,estado)
+{
+
+}
+
 function valConCalidad(lec1,lec2,lec3,estado,prom)
 {
   let sw = false; 
@@ -110,6 +224,171 @@ function valConCalidad(lec1,lec2,lec3,estado,prom)
   p.value = (l1 + l2 + l3 ) / 3
 }
 
+function valPhMuestra(lec1,lec2,lec3,prom)
+{
+  let sw = false;
+  let p = document.getElementById(prom);
+  let l1 = parseFloat(document.getElementById(lec1).value);
+  let l2 = parseFloat(document.getElementById(lec2).value);
+  let l3 = parseFloat(document.getElementById(lec3).value);
+
+  // Val if rango 4 - 9
+
+  if(l1 > 4 && l1 < 9)
+  {
+    sw = true;
+  }else if(l2 > 4 && l2 < 9){
+    sw = true;
+  }else if(l1 > 4 && l1 < 9){
+    sw = true;
+  }else{
+    sw = false;
+  }
+
+  // val if 0.003
+
+  r1 = (l1 - l2);
+  r2 = (l1 - l3);
+ 
+  r3 = (l2 - l1);
+  r4 = (l2 - l3);
+
+  r5 = (l3 - l1);
+  r6 = (l3 - l2);
+
+
+
+  if(r1 <= -0.03 || r1 >= 0.03)
+  {
+    sw = false;
+  }else{
+    sw = true;
+  }
+
+  if(r2 <= -0.03 || r2 >= 0.03)
+    {
+      sw = false;
+    }else{
+      sw = true;
+    }
+
+    if(r3 <= -0.03 || r3 >= 0.03)
+    {
+      sw = false;
+    }else{
+      sw = true;
+    }
+
+    if(r4 <= -0.03 || r4 >= 0.03)
+    {
+      sw = false;
+    }else{
+      sw = true;
+    }
+    if(r5 <= -0.03 || r5 >= 0.03)
+    {
+      sw = false;
+    }else{
+      sw = true;
+    }
+
+    if(r6 <= -0.03 || r6 >= 0.03)
+    {
+      sw = false;
+    }else{
+      sw = true;
+    }
+
+  if(sw == true)
+  {
+    // std.value = "Aprobado";
+  }else{
+    // std.value = "Rechazado";
+  }
+
+  p.value = (l1 + l2 +l3) / 3;
+
+  return sw;
+}
+
+function valTempMuestra(lec1,lec2,lec3,prom)
+{
+  let sw = true;
+  let p = document.getElementById(prom);
+  let l1 = parseFloat(document.getElementById(lec1).value);
+  let l2 = parseFloat(document.getElementById(lec2).value);
+  let l3 = parseFloat(document.getElementById(lec3).value);
+
+  if(l1 < 1 && l1 > 40)
+  {
+    sw = false;
+  }
+  if(l2 < 1 && l2 > 40){
+    sw = false;
+  }
+  if(l3 < 1 && l3 > 40){
+    sw = false;
+  }
+
+  if((l1 - l2) > 1 || (l1 - l2) < -1){
+    sw = false;
+  }
+  if((l1 - l3) > 1 || (l1 - l3) < -1){
+    sw = false;
+  }
+  if((l2 - l1) > 1 || (l2 - l1) < -1){
+    sw = false;
+  }
+  if((l2 - l3) > 1 || (l2 - l3) < -1){
+    sw = false;
+  }
+  if((l3 - l1) > 1 || (l3 - l1) < -1){
+    sw = false;
+  }
+  if((l3 - l2) > 1 || (l3 - l2) < -1){
+    sw = false;
+  }
+
+  p.value = ((l1 + l2 +l3) / 3).toFixed();
+
+  if(sw == true)
+  {
+    console.log("Aceptado");
+  }else{
+    console.log("Rechazado");
+  }
+
+}
+function valConMuestra(lec1,lec2,lec3,prom)
+{
+  let sw = true;
+  let p = document.getElementById(prom);
+  let l1 = parseFloat(document.getElementById(lec1).value);
+  let l2 = parseFloat(document.getElementById(lec2).value);
+  let l3 = parseFloat(document.getElementById(lec3).value);
+
+ 
+  if((l1 - l2) > 5 || (l1 - l2) < -5){
+    sw = false;
+  }
+  if((l1 - l3) > 5 || (l1 - l3) < -5){
+    sw = false;
+  }
+  if((l2 - l1) > 5 || (l2 - l1) < -5){
+    sw = false;
+  }
+  if((l2 - l3) > 5 || (l2 - l3) < -5){
+    sw = false;
+  }
+  if((l3 - l1) > 5 || (l3 - l1) < -5){
+    sw = false;
+  }
+  if((l3 - l2) > 5 || (l3 - l2) < -5){
+    sw = false;
+  }
+
+  p.value = ((l1 +l2 +l3) / 3).toFixed(2);
+}
 function promedioPh(ph1,ph2,ph3,res)
 {
   let p1 = document.getElementById(ph1).value;
@@ -197,7 +476,7 @@ function setPhTrazable(idPh,nombre,marca,lote)
           lot.innerText = response.model.Lote;
         }
     });
-    // valPhTrazable()
+
 }
 function setPhCalidad(idPh,nombre,marca,lote)
 {
@@ -220,7 +499,7 @@ function setPhCalidad(idPh,nombre,marca,lote)
           lot.innerText = response.model.Lote;
         }
     });
-    // valPhTrazable()
+    
 }
 function setConTrazable(idCon,nombre,marca,lote)
 {

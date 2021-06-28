@@ -186,13 +186,13 @@
                       <td><p id="phTMarca1"></p></td>
                       <td><p id="phTLote1"></p></td>
                       <td>
-                        <input type="text" class="" placeholder="L1" id="phTl11" onkeypress="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
+                        <input type="text" class="" placeholder="L1" id="phTl11" onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L2" id="phT21" onkeypress="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
+                        <input type="text" class="" placeholder="L2" id="phT21" onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
                       </td> 
                       <td>
-                        <input type="text" class="" placeholder="L1" id="phTl31" onkeypress="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
+                        <input type="text" class="" placeholder="L1" id="phTl31" onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
                       </td>
                       <td><input type="text" id="phTEstado1"></td>
                     </tr>
@@ -209,13 +209,13 @@
                       <td><p id="phTMarca2"></p></td>
                       <td><p id="phTLote2"></p></td>
                       <td>
-                        <input type="text" class="" value="L12">
+                        <input type="text" class="" value="L1" id="phTl12" onkeyup="valPhTrazable('phTl12','phT22','phTl32','phTEstado2')">
                       </td>
                       <td>
-                        <input type="text" class="" value="L22">
+                        <input type="text" class="" value="L2" id="phT22" onkeyup="valPhTrazable('phTl12','phT22','phTl32','phTEstado2')">
                       </td>
                       <td>
-                        <input type="text" class="" value="L32">
+                        <input type="text" class="" value="L3" id="phTl32" onkeyup="valPhTrazable('phTl12','phT22','phTl32','phTEstado2')">
                       </td>
                       <td><input type="text" id="phTEstado2"></td>
                     </tr>
@@ -224,7 +224,7 @@
               </div>
               <div class="col-md-12">
                 <p>PH control calidad</p>
-                <table class="table" id="phTrazable">
+                <table class="table" id="phControlCalidad">
                   <thead>
                     <tr>
                       <th>PH calidad</th>
@@ -250,15 +250,15 @@
                       </td>
                       <td><p id="phCNombre1"></p></td>
                       <td><p id="phCMarca1"></p></td>
-                      <td><p id="phCLote1"></p></td>
+                      <td><p id="phCLote1"></p></td> 
                       <td>
-                        <input type="text" class="" placeholder="L1" id="phCl11" onkeypress="valPhTrazable('phCl11','phCl21','phCl21','phCEstado1','phCPromedio1')">
+                        <input type="text" class="" placeholder="L1" id="phC11" onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L2" id="phCl21" onkeypress="valPhTrazable('phCl11','phCl21','phCl21','phCEstado1','phCPromedio1')">
+                        <input type="text" class="" placeholder="L2" id="phC21" onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L3" ph="phCl21" onkeypress="valPhTrazable('phCl11','phCl21','phCl21','phCEstado1','phCPromedio1')">
+                        <input type="text" class="" placeholder="L3" id="phC31" onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
                       </td>
                       <td><input type="text" id="phCEstado1"></td>
                       <td><input type="text" id="phCPromedio1"></td>
@@ -276,13 +276,13 @@
                       <td><p id="phCMarca2"></p></td>
                       <td><p id="phCLote2"></p></td>
                       <td>
-                        <input type="text" class="" placeholder="L1" id="phCl12">
+                        <input type="text" class="" placeholder="L1" id="phC12" onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L2" id="phCl22">
+                        <input type="text" class="" placeholder="L2" id="phC22" onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L3" id="phCl22" onkeypress="valPhCalidadEst('phCl12','phCl22','phCl22','phCEstado1','phCPromedio1')">
+                        <input type="text" class="" placeholder="L3" id="phC23" onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
                       </td>
                       <td><input type="text" id="phCEstado2"></td>
                       <td><input type="text" id="phCPromedio2"></td>
@@ -430,7 +430,7 @@
                               <td><input type="number" id="phl2{{$i}}"></td>
                               <td><input type="number" id="phl3{{$i}}" onkeypress='calPromedios("phl1{{$i}}","phl2{{$i}}","phl3{{$i}}","phprom{{$i}}",1);'></td>
                               <td><input type="text" id="phprom{{$i}}"></td>
-                              <td><input type="date" id="phf{{$i}}"></td>
+                              <td><input type="datetime-local" id="phf{{$i}}"></td>
                             </tr>
                         @endfor
                       </tbody>
@@ -452,9 +452,9 @@
                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                         <tr>
                           <td>{{$i + 1}}</td>
-                          <td><input type="text" id="temp1{{$i}}"></td>
-                          <td><input type="text" id="temp2{{$i}}"></td>
-                          <td><input type="text" id="temp3{{$i}}" onkeypress='calPromedios("temp1{{$i}}","temp2{{$i}}","temp3{{$i}}","tempprom{{$i}}",0);'></td>
+                          <td><input type="text" id="temp1{{$i}}" onkeyup='valTempMuestra("temp1{{$i}}","temp2{{$i}}","temp3{{$i}}","tempprom{{$i}}");'></td>
+                          <td><input type="text" id="temp2{{$i}}" onkeyup='valTempMuestra("temp1{{$i}}","temp2{{$i}}","temp3{{$i}}","tempprom{{$i}}");'></td>
+                          <td><input type="text" id="temp3{{$i}}" onkeyup='valTempMuestra("temp1{{$i}}","temp2{{$i}}","temp3{{$i}}","tempprom{{$i}}");'></td>
                           <td><input type="text" id="tempprom{{$i}}"></td>
                         </tr>
                         @endfor
@@ -492,9 +492,9 @@
                       <thead>
                         <tr>
                           <th>Núm Muestra</th>
-                          <th>Gasto (ls/s) 1</th>
-                          <th>Gasto (ls/s) 2</th>
-                          <th>Gasto (ls/s) 3</th>
+                          <th>Gasto (L/s) 1</th>
+                          <th>Gasto (L/s) 2</th>
+                          <th>Gasto (L/s) 3</th>
                           <th>Gasto Promedio</th>
                         </tr>
                       </thead>
@@ -634,7 +634,7 @@
                     </div>
                   </div>
                   <div class="col-md-12">
-                    <p>Colaborador: {{Auth::user()->id}}</p>
+                    <p>Colaborador: {{Auth::user()->name}}</p>
                   </div>
                   <div class="col-md-12">
                     <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
