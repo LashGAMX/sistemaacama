@@ -104,7 +104,6 @@
                 </a>
             </div>
 
-
             <div class="col-md-3">
                 <a href="https://dev.sistemaacama.com.mx/admin/config/campo">
                     <div class="panel widget center bgimage"
@@ -116,7 +115,48 @@
                         </div>
                     </div>
                 </a>
-            </div>            
+            </div>  
+            
+            <div class="col-md-3">
+                <a href="https://dev.sistemaacama.com.mx/admin/areas-lab">
+                    <div class="panel widget center bgimage"
+                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/fieldEngineering.jpg');">
+                        <div class="dimmer"></div>
+                        <div class="panel-content">
+                            <i class="fa fa-truck-pickup"></i>
+                            <h4>Áreas Laboratorios</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-3">
+                <a href="https://dev.sistemaacama.com.mx/admin/areas-categoria">
+                    <div class="panel widget center bgimage"
+                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/fieldEngineering.jpg');">
+                        <div class="dimmer"></div>
+                        <div class="panel-content">
+                            <i class="fa fa-truck-pickup"></i>
+                            <h4>Áreas Categoría</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-3">
+                <a href="https://dev.sistemaacama.com.mx/admin/materiales-lab">
+                    <div class="panel widget center bgimage"
+                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/fieldEngineering.jpg');">
+                        <div class="dimmer"></div>
+                        <div class="panel-content">
+                            <i class="fa fa-truck-pickup"></i>
+                            <h4>Materiales Laboratorios</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+
 
         </div>
         {{-- <livewire:historial.config/> --}}
