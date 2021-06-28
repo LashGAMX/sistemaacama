@@ -5,7 +5,7 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-lab"></i>
-    Arcvhios excel
+    Archivos excel
   </h6>
 
   @stop
@@ -20,12 +20,12 @@
           <input type="file" class="form-control" id="file" name="file">
         </div> --}}
         <div class="form-group">
-          <label for="">Sub modulo</label>
+          <label for="">Sub módulo</label>
           <select name="submodulo" class="form-control">
             <option value="0">Sin seleccionar</option>
-            <option value="1">Parametros</option>
+            <option value="1">Parámetros</option>
             <option value="2">Normas</option>
-            <option value="3">Limites</option>
+            <option value="3">Límites</option>
           </select>
         </div>
         <div class="form-group">
