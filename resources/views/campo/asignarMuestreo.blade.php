@@ -105,7 +105,7 @@
       <div class="row">
         <div class="col-md-12">
           <div class="col-md-2">
-            <button type="button" id="btnAsignar" data-toggle="modal" data-target="#asignar" class="btn btn-success "><i class="voyager-list-add"></i> Asignar</button>
+            <button type="button" id="btnAsignar" data-toggle="modal" data-target="#modalAsignar" class="btn btn-success "><i class="voyager-list-add"></i> Asignar</button>
           </div>
           <div class="col-md-2">
             <button type="button" id="btnEliminar" class="btn btn-danger "><i class="fa fa-times"></i> Eliminar</button>
@@ -125,37 +125,24 @@
       </div>
      </div>
     <div class="col-md-12">
-      <table class="table table-sm" id="solicitudGenerada">
-        <thead>
-          <tr>
-            <th>Folio</th>
-            <th>Punto de muestreo</th>
-            <th>Captura</th>
-            <th>Id muestreador</th>
-            <th>Ap Paterno</th>
-            <th>Ap Materno</th>
-            <th>Nombre</th>
-          </tr>
-        </thead>
-        <tbody>
-          @foreach ($generadas as $item) 
-          <tr>
-          <td>{{$item->Folio}}</td>
-          <td>{{$item->Punto_muestreo}}</td>
-          <td>{{$item->Captura}}</td>
-          <td>{{$item->Id_muestreador}}</td>
-          <td>{{$item->A_paterno}}</td>
-          <td>{{$item->A_materno}}</td>
-          <td>{{$item->Nombres}}</td>
-        </tr>
-        @endforeach
-        </tbody>
-      </table>
+      <div id="divSolGenerada">
+        <table class="table table-sm" id="solicitudGenerada">
+          <thead>
+            <tr>
+              <th>Folio</th>
+              <th>Punto de muestreo</th>
+              <th>Captura</th>
+              <th>Id muestreador</th>
+              <th>Nombres</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
     </div>
   </div>
 
   <!-- Modal -->
-  <div class="modal fade" id="asignar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="modalAsignar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -178,7 +165,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <button class="btn btn-success" id="btnGuardar">Guardar</button>
+          <button type="button" class="btn btn-success" id="btnGuardar">Guardar</button>
         </div>
       </div>
     </div>

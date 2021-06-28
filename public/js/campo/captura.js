@@ -43,6 +43,7 @@ function valPhTrazable(lec1,lec2,lec3,estado)
   let l1 = parseFloat(document.getElementById(lec1).value);
   let l2 = parseFloat(document.getElementById(lec2).value);
   let l3 = parseFloat(document.getElementById(lec3).value);
+  let t = document.getElementById("phTrazable");
 
   // Val if rango 4 - 9
 
@@ -114,9 +115,23 @@ function valPhTrazable(lec1,lec2,lec3,estado)
   if(sw == true)
   {
     std.value = "Aprobado";
+    if(lec1 == "phTl11")
+    {
+      t.rows[1].setAttribute("class","bg-success");
+    }else{
+      t.rows[2].setAttribute("class","bg-success");
+    }
   }else{
     std.value = "Rechazado";
+    if(lec1 == "phTl11")
+    {
+      t.rows[1].setAttribute("class","bg-warning");
+    }else{
+      t.rows[2].setAttribute("class","bg-warning");
+    }
+    // if()
   }
+
 
   return sw;
 }
@@ -130,6 +145,7 @@ function valPhCalidad(lec1,lec2,lec3,estado,prom)
   let l1 = parseFloat(document.getElementById(lec1).value);
   let l2 = parseFloat(document.getElementById(lec2).value);
   let l3 = parseFloat(document.getElementById(lec3).value);
+  let t = document.getElementById('phControlCalidad');
 
 
   if(l1 > 4 && l1 < 9)
@@ -197,31 +213,123 @@ function valPhCalidad(lec1,lec2,lec3,estado,prom)
       sw = true;
     }
 
-  if(sw == true)
-  {
-    std.value = "Aprobado";
-  }else{
-    std.value = "Rechazado";
-  }
-
+    if(sw == true)
+    {
+      std.value = "Aprobado";
+      if(lec1 == "phC11")
+      {
+        t.rows[1].setAttribute("class","bg-success");
+      }else{
+        t.rows[2].setAttribute("class","bg-success");
+      }
+    }else{
+      std.value = "Rechazado";
+      if(lec1 == "phC11")
+      {
+        t.rows[1].setAttribute("class","bg-warning");
+      }else{
+        t.rows[2].setAttribute("class","bg-warning");
+      }
+    }
   p.value = (l1 + l2 + l3) / 3;
 }
 
 function valConTrazable(lec1,lec2,lec3,estado)
 {
+  let t = document.getElementById ('tableConTrazable');
+  let con = parseFloat($("#conTrazable option:selected").text());
+  let porcentaje = ((con * 5) / 100);
 
+  let sw = true; 
+  let std = document.getElementById(estado);
+  // let p = document.getElementById(prom);
+  let l1 = parseFloat(document.getElementById(lec1).value);
+  let l2 = parseFloat(document.getElementById(lec2).value);
+  let l3 = parseFloat(document.getElementById(lec3).value);
+
+  if((l1 - con) < (porcentaje * (-1)) || (l1 - con) > porcentaje)
+  {
+    sw = false;
+  }
+  if((l2 - con) < (porcentaje * (-1)) || (l2 - con) > porcentaje)
+  {
+    sw = false;
+  }
+  if((l3 - con) < (porcentaje * (-1)) || (l3 - con) > porcentaje)
+  {
+    sw = false;
+  }
+
+  
+  if(sw == true)
+  {
+    std.value = "Aceptado";
+    t.rows[1].setAttribute("class","bg-success");
+  }else{
+    std.value = "Rechazado";
+    t.rows[1].setAttribute("class","bg-warning");
+  }
 }
 
 function valConCalidad(lec1,lec2,lec3,estado,prom)
 {
-  let sw = false; 
+  let t = document.getElementById ('tableConCalidad');
+  let con = parseFloat($("#conCalidad option:selected").text());
+  let porcentaje = ((con * 5) / 100);
+
+  let sw = true; 
   let std = document.getElementById(estado);
   let p = document.getElementById(prom);
   let l1 = parseFloat(document.getElementById(lec1).value);
   let l2 = parseFloat(document.getElementById(lec2).value);
   let l3 = parseFloat(document.getElementById(lec3).value);
 
+  if((l1 - con) < (porcentaje * (-1)) || (l1 - con) > porcentaje)
+  {
+    sw = false;
+  }
+  if((l2 - con) < (porcentaje * (-1)) || (l2 - con) > porcentaje)
+  {
+    sw = false;
+  }
+  if((l3 - con) < (porcentaje * (-1)) || (l3 - con) > porcentaje)
+  {
+    sw = false;
+  }
+
+  
+  if(sw == true)
+  {
+    std.value = "Aceptado";
+    t.rows[1].setAttribute("class","bg-success");
+  }else{
+    std.value = "Rechazado";
+    t.rows[1].setAttribute("class","bg-warning");
+  }
+
   p.value = (l1 + l2 + l3 ) / 3
+}
+
+function valPendiente(valor,criterio)
+{
+  let sw = true;
+  let t = document.getElementById("tableCalPendiente");
+  let v = parseFloat(document.getElementById(valor).value);
+  let c = parseFloat(document.getElementById(criterio).value);
+
+  if(v < 95 || v > 105)
+  {
+    sw = false;
+  }
+
+  if(sw == true)
+  {
+    c.value = "Aceptado";
+    t.rows[1].setAttribute("class","bg-success");
+  }else{
+    c.value = "Rechazado";
+    t.rows[1].setAttribute("class","bg-warning");
+  }
 }
 
 function valPhMuestra(lec1,lec2,lec3,prom)
@@ -389,6 +497,38 @@ function valConMuestra(lec1,lec2,lec3,prom)
 
   p.value = ((l1 +l2 +l3) / 3).toFixed(2);
 }
+function valGastoMuestra(lec1,lec2,lec3,prom)
+{
+  let sw = true;
+  let p = document.getElementById(prom);
+  let l1 = parseFloat(document.getElementById(lec1).value);
+  let l2 = parseFloat(document.getElementById(lec2).value);
+  let l3 = parseFloat(document.getElementById(lec3).value);
+  let promTemp = 0;
+
+  if((l1 - l2) > 1 || (l1 - l2) < -1){
+    sw = false;
+  }
+  if((l1 - l3) > 1 || (l1 - l3) < -1){
+    sw = false;
+  }
+  if((l2 - l1) > 1 || (l2 - l1) < -1){
+    sw = false;
+  }
+  if((l2 - l3) > 1 || (l2 - l3) < -1){
+    sw = false;
+  }
+  if((l3 - l1) > 1 || (l3 - l1) < -1){
+    sw = false;
+  }
+  if((l3 - l2) > 1 || (l3 - l2) < -1){
+    sw = false;
+  }
+  
+  promTemp = (l1 + l2 + l3) / 3;
+  p.value= (promTemp/0.012);
+
+}
 function promedioPh(ph1,ph2,ph3,res)
 {
   let p1 = document.getElementById(ph1).value;
@@ -414,7 +554,7 @@ function calPromedioGasto(ph1,ph2,ph3,res)
   let p3 = document.getElementById(ph3).value;
   let r = document.getElementById(res);
   let prom = ((parseFloat(p1) + parseFloat(p2) + parseFloat(p3)) / 3);
-  r.value = (prom / 0.012)
+  r.value = (prom / 0.012);
 }
 function getFactorCorreccion()
 {
@@ -499,7 +639,7 @@ function setPhCalidad(idPh,nombre,marca,lote)
           lot.innerText = response.model.Lote;
         }
     });
-    
+     
 }
 function setConTrazable(idCon,nombre,marca,lote)
 {
@@ -532,7 +672,7 @@ function setConCalidad(idCon,nombre,marca,lote)
         url: base_url + '/admin/campo/captura/getConCalidad', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
-          idCon:idCon,
+          idCon:idCon,     
           _token: $('input[name="_token"]').val(), 
         },
         dataType: 'json', 
@@ -544,5 +684,4 @@ function setConCalidad(idCon,nombre,marca,lote)
           lot.innerText = response.model.Lote;
         }
     });
-}
-
+  }

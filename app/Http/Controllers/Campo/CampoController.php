@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Campo;
 
 use App\Http\Controllers\Controller;
+use App\Models\CampoGenerales;
 use App\Models\ConductividadCalidad;
 use App\Models\ConductividadTrazable;
 use App\Models\ConTratamiento;
@@ -63,13 +64,23 @@ class CampoController extends Controller
         return view('campo.captura',$data);  
     }
     public function generar(Request $request) //Generar solicitud 
-    {
-        $generadas = SolicitudesGeneradas::create([
-            'Id_solicitud' => $request->idSolicitud,
-            'Folio' => $request->folio,
-        ]);
+    { 
+        $sol = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->get();
+        if($sol->count())
+        {
+            $model = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->get();
+        }else{
+            $solGen = SolicitudesGeneradas::create([
+                'Id_solicitud' => $request->idSolicitud,
+                'Folio' => $request->folio,
+            ]);
+            CampoGenerales::create([
+                'Id_solicitud' => $request->idSolicitud,
+            ]);
+            $model = SolicitudesGeneradas::where('Id_solicitud',$solGen->Id_solicitud)->get();
+        }
         return response()->json(
-            compact('generadas')
+            compact('model')
         );
     }
     public function getFolio(Request $request)

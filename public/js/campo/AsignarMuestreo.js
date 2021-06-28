@@ -71,9 +71,9 @@ var folioAsignar;
         // window.location = base_url+"/admin/cotizacion/update/"+idSolicitud;
     } );
     $('#btnGenerar').click( function () {
-        alert("Generar");
+        // alert("Generar");
         generar(idSolicitud, folio);
-        window.location = base_url+"/admin/campo/asignar";
+        // window.location = base_url+"/admin/campo/asignar";
         // window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idSolicitud;
     });
     $('#btnPlanMuestreo').click( function () {
@@ -82,10 +82,11 @@ var folioAsignar;
     });
     $('#btnGuardar').click( function () {
         
-        getFolio(folioAsignar);
-        alert("guardado");
-        $("#asignar").hide();
-        window.location = base_url+"/admin/campo/asignar";
+        getFolio(folio);
+        // alert("guardado");
+        // $("#modalAsignar").hide();
+        generar(idSolicitud, folio);
+        // window.location = base_url+"/admin/campo/asignar";
     });
  }
  function solicitudGenerada()
@@ -124,8 +125,8 @@ var folioAsignar;
 
  function generar(idSolicitud, folio) 
 {
-    // let table = document.getElementById('div_tabla');
-    // let tab = '';
+    let tabla = document.getElementById('divSolGenerada');
+    let tab = '';
     $.ajax({
         url: base_url + '/admin/campo/asignar/generar', //archivo que recibe la peticion
         type: 'POST', //método de envio
@@ -137,7 +138,31 @@ var folioAsignar;
         dataType: 'json', 
         async: false, 
         success: function (response) {
-          console.log(response)
+          console.log(response);
+          tab += '<table id="solicitudGenerada" class="table table-sm">';
+          tab += '    <thead class="thead-dark">';
+          tab += '        <tr>';
+          tab += '            <th>Folio</th>';
+          tab += '            <th>Punto de muestreo</th>';
+          tab += '            <th>Captura</th>';
+          tab += '            <th>Id muestreador</th>';
+          tab += '            <th>Nombres</th>';
+          tab += '        </tr>';
+          tab += '    </thead>';
+          tab += '    <tbody>';
+          $.each(response.model, function (key, item) {
+              tab += '<tr>';
+            tab += '    <td>'+item.Folio+'</td>';
+            tab += '    <td>'+item.Punto_muestreo+'</td>';
+            tab += '    <td>'+item.Captura+'</td>';
+            tab += '    <td>'+item.Id_muestreador+'</td>';
+            tab += '    <td>'+item.Nombres+'</td>';
+            tab += '</tr>';
+          });
+          tab += '    </tbody>';
+          tab += '</table>';
+          tabla.innerHTML = tab;
+   
         }
     });  
 }

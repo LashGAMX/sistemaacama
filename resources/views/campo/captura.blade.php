@@ -37,13 +37,13 @@
                   <hr>
                 </div>
                 <div class="col-md-2">
-                  <p>Id Solucitud: 57235</p>
+                  <p>Id Solucitud: {{$model->Id_solicitud}}</p>
                 </div>
                 <div class="col-md-2">
-                  <p>Id Ing campo: 57235</p>
+                  <p>Id Ing campo: </p>
                 </div>
                 <div class="col-md-2">
-                  <p>Folio servicio: 14-25/22</p>
+                  <p>Folio servicio: {{$model->Folio_servicio}}</p>
                 </div>
                 <div class="col-md-2">
                   <p>Captura: sistema</p>
@@ -292,7 +292,7 @@
               </div>
               <div class="col-md-12">
                 <p>Conductividad trazable</p>
-                <table class="table" id="phTrazable">
+                <table class="table" id="tableConTrazable">
                   <thead>
                     <tr>
                       <th>Conductividad Trazable</th>
@@ -319,22 +319,22 @@
                       <td><p id="conMarca"></p></td>
                       <td><p id="conLote"></p></td>
                       <td>
-                        <input type="text" class="" placeholder="L1" id="conTl1">
+                        <input type="text" class="" placeholder="L1" id="conT1" onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L2" id="conTl2">
+                        <input type="text" class="" placeholder="L2" id="conT2" onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L3" id="conTl3">
+                        <input type="text" class="" placeholder="L3" id="conT3" onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')">
                       </td>
-                      <td><input type="text" id="conEstado"></td>
+                      <td><input type="text" id="conTEstado"></td>
                     </tr>
                   </tbody>
                 </table>
               </div>
               <div class="col-md-12">
                 <p>Conductividad control calidad</p>
-                <table class="table" id="phTrazable">
+                <table class="table" id="tableConCalidad">
                   <thead>
                     <tr>
                       <th>Conductividad calidad</th>
@@ -362,13 +362,13 @@
                       <td><p id="conCMarca"></p></td>
                       <td><p id="conCLote"></p></td>
                       <td>
-                        <input type="text" class="" placeholder="L1" id="conCl1">
+                        <input type="text" class="" placeholder="L1" id="conCl1" onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L2" id="conCl2">
+                        <input type="text" class="" placeholder="L2" id="conCl2" onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L3" id="conCl3" onkeypress="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')">
+                        <input type="text" class="" placeholder="L3" id="conCl3" onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')">
                       </td>
                       <td><input type="text" id="conCEstado"></td>
                       <td><input type="text" id="conCPromedio"></td>
@@ -376,6 +376,24 @@
                   </tbody>
                 </table>
               </div>
+              <div class="col-md-12">
+                <p class="">Calculo de la pendiente</p>
+                <table class="table" id="tableCalPendiente">
+                  <tbody>
+                    <tr>
+                      <th>Valor de la pendiente</th>
+                      <th>Criterio</th>
+                    </tr>
+                  </tbody>
+                  <tbody>
+                    <tr>
+                      <td><input type="text" id="pendiente" placeholder="% Valor" onkeyup="valPendiente('pendiente','criterioPendiente')"></td>
+                      <td><input type="text" id="criterioPendiente" placeholder="Criterio"></td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+
               <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
               </form>
             </div> 
@@ -426,9 +444,9 @@
                                   <option value="2">Verde</option>
                               </select>
                               </td> 
-                              <td><input type="number" id="phl1{{$i}}"></td>
-                              <td><input type="number" id="phl2{{$i}}"></td>
-                              <td><input type="number" id="phl3{{$i}}" onkeypress='calPromedios("phl1{{$i}}","phl2{{$i}}","phl3{{$i}}","phprom{{$i}}",1);'></td>
+                              <td><input type="number" id="phl1{{$i}}" onkeyup='valPhMuestra("phl1{{$i}}","phl2{{$i}}","phl3{{$i}}","phprom{{$i}}");'></td>
+                              <td><input type="number" id="phl2{{$i}}" onkeyup='valPhMuestra("phl1{{$i}}","phl2{{$i}}","phl3{{$i}}","phprom{{$i}}");'></td>
+                              <td><input type="number" id="phl3{{$i}}" onkeyup='valPhMuestra("phl1{{$i}}","phl2{{$i}}","phl3{{$i}}","phprom{{$i}}");'></td>
                               <td><input type="text" id="phprom{{$i}}"></td>
                               <td><input type="datetime-local" id="phf{{$i}}"></td>
                             </tr>
@@ -477,9 +495,9 @@
                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                         <tr>
                           <td>{{$i + 1}}</td>
-                          <td><input type="text" id="con1{{$i}}"></td>
-                          <td><input type="text" id="con2{{$i}}"></td>
-                          <td><input type="text" id="con3{{$i}}" onkeypress='calPromedios("con1{{$i}}","con2{{$i}}","con3{{$i}}","conprom{{$i}}",1);'></td>
+                          <td><input type="text" id="con1{{$i}}" onkeyup='valConMuestra("con1{{$i}}","con2{{$i}}","con3{{$i}}","conprom{{$i}}",1);'></td>
+                          <td><input type="text" id="con2{{$i}}" onkeyup='valConMuestra("con1{{$i}}","con2{{$i}}","con3{{$i}}","conprom{{$i}}",1);'></td>
+                          <td><input type="text" id="con3{{$i}}" onkeyup='valConMuestra("con1{{$i}}","con2{{$i}}","con3{{$i}}","conprom{{$i}}",1);'></td>
                           <td><input type="text" id="conprom{{$i}}"></td>
                         </tr>
                         @endfor
@@ -502,9 +520,9 @@
                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                         <tr>
                           <td>{{$i + 1}}</td>
-                          <td><input type="text" id="gas1{{$i}}"></td>
-                          <td><input type="text" id="gas2{{$i}}"></td>
-                          <td><input type="text" id="gas3{{$i}}" onkeypress='calPromedioGasto("gas1{{$i}}","gas2{{$i}}","gas3{{$i}}","gasprom{{$i}}");'></td>
+                          <td><input type="text" id="gas1{{$i}}" onkeyup='valGastoMuestra("gas1{{$i}}","gas2{{$i}}","gas3{{$i}}","gasprom{{$i}}");'></td>
+                          <td><input type="text" id="gas2{{$i}}" onkeyup='valGastoMuestra("gas1{{$i}}","gas2{{$i}}","gas3{{$i}}","gasprom{{$i}}");'></td>
+                          <td><input type="text" id="gas3{{$i}}" onkeyup='valGastoMuestra("gas1{{$i}}","gas2{{$i}}","gas3{{$i}}","gasprom{{$i}}");'></td>
                           <td><input type="text" id="gasprom{{$i}}"></td>
                         </tr>
                         @endfor
