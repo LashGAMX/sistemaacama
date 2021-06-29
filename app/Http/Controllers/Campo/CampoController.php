@@ -9,8 +9,10 @@ use App\Models\CampoGenerales;
 use App\Models\CampoPhCalidad;
 use App\Models\CampoPhTrazable;
 use App\Models\ConductividadCalidad;
+use App\Models\ConductividadMuestra;
 use App\Models\ConductividadTrazable;
 use App\Models\ConTratamiento;
+use App\Models\GastoMuestra;
 use App\Models\MetodoAforo;
 use App\Models\PHCalidad;
 use App\Models\PhMuestra;
@@ -19,6 +21,7 @@ use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\SolicitudesGeneradas;
+use App\Models\TemperaturaMuestra;
 use App\Models\TermFactorCorreccionTemp;
 use App\Models\TermometroCampo;
 use App\Models\TipoTratamiento;
@@ -201,30 +204,30 @@ class CampoController extends Controller
                    ]);
                }
 
-               $conCalidadModel = CampoConCalidad::where('Id_solicitud',$request->idSolicitud)->get();
-               if($conCalidadModel->count())
-               {
-                   $conCalidad = CampoConCalidad::find($conCalidadModel[0]->Id_conductividad);
-                   $conCalidad->Id_solicitud = $request->idSolicitud;
-                   $conCalidad->Id_conCalidad = $request->conCalidad;
-                   $conCalidad->Lectura1 = $request->conCl1;
-                   $conCalidad->Lectura2 = $request->conCl2;
-                   $conCalidad->Lectura3 = $request->conCl3;
-                   $conCalidad->Estado = $request->conCEstado;
-                   $conCalidad->Promedio = $request->conCPromedio;
-                   $conCalidad->save();
+            //    $conCalidadModel = CampoConCalidad::where('Id_solicitud',$request->idSolicitud)->get();
+            //    if($conCalidadModel->count())
+            //    {
+            //        $conCalidad = CampoConCalidad::find($conCalidadModel[0]->Id_conductividad);
+            //        $conCalidad->Id_solicitud = $request->idSolicitud;
+            //        $conCalidad->Id_conCalidad = $request->conCalidad;
+            //        $conCalidad->Lectura1 = $request->conCl1;
+            //        $conCalidad->Lectura2 = $request->conCl2;
+            //        $conCalidad->Lectura3 = $request->conCl3;
+            //        $conCalidad->Estado = $request->conCEstado;
+            //        $conCalidad->Promedio = $request->conCPromedio;
+            //        $conCalidad->save();
  
-               }else{
-                CampoConCalidad::create([
-                       'Id_solicitud' => $request->idSolicitud,
-                       'Id_conCalidad' => $request->conCalidad,
-                       'Lectura1' => $request->conCl1,
-                       'Lectura2' => $request->conCl2,
-                       'Lectura3' => $request->conCl3,
-                       'Estado' => $request->conCEstado,
-                       'Promedio' => $request->conCPromedio,
-                   ]);
-               }
+            //    }else{
+            //     CampoConCalidad::create([
+            //            'Id_solicitud' => $request->idSolicitud,
+            //            'Id_conCalidad' => $request->conCalidad,
+            //            'Lectura1' => $request->conCl1,
+            //            'Lectura2' => $request->conCl2,
+            //            'Lectura3' => $request->conCl3,
+            //            'Estado' => $request->conCEstado,
+            //            'Promedio' => $request->conCPromedio,
+            //        ]);
+            //    }
 
         $data = array('sw' => true,'model' => $model);
         return response()->json($data);
@@ -266,9 +269,90 @@ class CampoController extends Controller
                     'Fecha' => $request->ph[$i][7],
                 ]);
             }
-        }
+        }    
 
-    
+        
+        $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$request->idSolicitud)->get();
+
+        if($tempMuestra->count())
+        {
+            for ($i=0; $i < $request->numTomas; $i++) { 
+                # code...
+                $temp = TemperaturaMuestra::find($tempMuestra[0]->Id_ph);
+                $temp->Id_solicitud = $request->idSolicitud;
+                $temp->Temperatura1 = $request->temperatura[$i][0];
+                $temp->Temperatura2 = $request->temperatura[$i][1];
+                $temp->Temperatura3 = $request->temperatura[$i][2];
+                $temp->Promedio = $request->temperatura[$i][3];
+                $temp->save();
+            }
+        }else{
+            for ($i=0; $i < $request->numTomas; $i++) { 
+                # code...
+                TemperaturaMuestra::create([
+                    'Id_solicitud' => $request->idSolicitud,
+                    'Temperatura1' => $request->temperatura[$i][0],
+                    'Temperatura2' => $request->temperatura[$i][1],
+                    'Temperatura3' => $request->temperatura[$i][2],
+                    'Promedio' => $request->temperatura[$i][3],
+                ]);
+            }
+        }  
+
+             
+        $conModel = ConductividadMuestra::where('Id_solicitud',$request->idSolicitud)->get();
+
+        if($conModel->count())
+        {
+            for ($i=0; $i < $request->numTomas; $i++) { 
+                # code...
+                $conduc = ConductividadMuestra::find($conModel[0]->Id_ph);
+                $conduc->Id_solicitud = $request->idSolicitud;
+                $conduc->Conductividad1 = $request->conductividad[$i][0];
+                $conduc->Conductividad2 = $request->conductividad[$i][1];
+                $conduc->Conductividad3 = $request->conductividad[$i][2];
+                $conduc->Promedio = $request->conductividad[$i][3];
+                $conduc->save();
+            }
+        }else{
+            for ($i=0; $i < $request->numTomas; $i++) { 
+                # code...
+                ConductividadMuestra::create([
+                    'Id_solicitud' => $request->idSolicitud,
+                    'Conductividad1' => $request->conductividad[$i][0],
+                    'Conductividad2' => $request->conductividad[$i][1],
+                    'Conductividad3' => $request->conductividad[$i][2],
+                    'Promedio' => $request->conductividad[$i][3],
+                ]);
+            }
+        }  
+
+        $gastoModel = GastoMuestra::where('Id_solicitud',$request->idSolicitud)->get();
+
+        if($gastoModel->count())
+        {
+            for ($i=0; $i < $request->numTomas; $i++) { 
+                # code...
+                $gasto = GastoMuestra::find($gastoModel[0]->Id_ph);
+                $gasto->Id_solicitud = $request->idSolicitud;
+                $gasto->Gasto1 = $request->gasto[$i][0];
+                $gasto->Gasto2 = $request->gasto[$i][1];
+                $gasto->Gasto3 = $request->gasto[$i][2];
+                $gasto->Promedio = $request->gasto[$i][3];
+                $gasto->save();
+            }
+        }else{
+            for ($i=0; $i < $request->numTomas; $i++) { 
+                # code...
+                GastoMuestra::create([
+                    'Id_solicitud' => $request->idSolicitud,
+                    'Gasto1' => $request->gasto[$i][0],
+                    'Gasto2' => $request->gasto[$i][1],
+                    'Gasto3' => $request->gasto[$i][2],
+                    'Promedio' => $request->gasto[$i][3],
+                ]);
+            }
+        }  
 
         $data = array('sw' => true,'model' => $request);
         return response()->json($data);

@@ -314,7 +314,7 @@ function valConTrazable(lec1,lec2,lec3,estado)
     t.rows[1].setAttribute("class","bg-success");
   }else{
     std.value = "Rechazado";
-    t.rows[1].setAttribute("class","bg-warning");
+    t.rows[1].setAttribute("class","bg-danger");
   }
 }
 
@@ -877,7 +877,7 @@ function setConCalidad(idCon,nombre,marca,lote)
       type: 'POST', //método de envio
       data: {
         idSolicitud:$("#idSolicitud").val(),
-        numTomas:$("numTomas").val(),
+        numTomas:$("#numTomas").val(),
         ph:ph,     
         temperatura:temperatura,
         conductividad:conductividad,
