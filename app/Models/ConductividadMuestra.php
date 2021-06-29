@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class GastoMuestra extends Model
+class ConductividadMuestra extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'gasto_muestra';
-    protected $primaryKey = 'Id_Gasto';
+    protected $table = 'conductividad_muestra';
+    protected $primaryKey = 'Id_conductividad';
     public $timestamps = true;
 
     protected $fillable = [
         'Id_solicitud',
-        'Gasto1',
-        'Gasto2',
-        'Gasto3',
+        'Conductividad1',
+        'Conductividad2',
+        'Conductividad3',
         'Promedio',
         
     ];
