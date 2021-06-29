@@ -156,10 +156,10 @@
             <div class="col-md-3">
                 <a href="https://dev.sistemaacama.com.mx/admin/usuarios-app">
                     <div class="panel widget center bgimage"
-                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/treatmentTypes.jpg');">
+                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/users.png');">
                         <div class="dimmer"></div>
                         <div class="panel-content">
-                            <i class="fas fa-eye-dropper"></i>
+                            <i class="fas fa-user"></i>
                             <h4>Usuarios App</h4>
                         </div>
                     </div>
