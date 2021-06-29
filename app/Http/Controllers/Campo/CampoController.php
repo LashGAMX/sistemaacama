@@ -61,8 +61,8 @@ class CampoController extends Controller
         $frecuencia = DB::table('frecuencia001')->where('Id_frecuencia',$model->Id_muestreo)->first();
         $phCampoTrazable = CampoPhTrazable::where('Id_solicitud',$model->Id_solicitud)->get();
         $phCampoCalidad = CampoPhCalidad::where('Id_solicitud',$model->Id_solicitud)->get();
-        $conCampoTrazable = CampoConTrazable::where('Id_solicitud',$model->Id_solicitud)->first();
-        $conCampoCalidad = CampoConCalidad::where('Id_solicitud',$model->Id_solicitud)->first();
+        // $conCampoTrazable = CampoConTrazable::where('Id_solicitud',$model->Id_solicitud)->first();
+        // $conCampoCalidad = CampoConCalidad::where('Id_solicitud',$model->Id_solicitud)->first();
         // $frecuencia = DB::table('frecuencia001')->where('')
         $data = array(
             'model' => $model,

@@ -35,4 +35,19 @@ class CampoAppController extends Controller
         );
         return response()->json($data);
     }
+    public function user(Request $request)
+    {
+        $model = UsuarioApp::where('User',$request->user)->where('UserPass',$request->pass)->first(); 
+        $response = false;
+        if($model->count())
+        {
+           $response = true;
+        }
+        $data = array(
+            'response' => $response,
+            'data' => $model, 
+        );
+ 
+        return response()->json($data);
+    }
 }
