@@ -18,3 +18,4 @@ Route::post('campo/captura/getConCalidad',[CampoController::class,'getConCalidad
 
 // Guardar datos
 Route::post('campo/captura/setDataGeneral', [CampoController::class,'setDataGeneral']);
+Route::post('campo/captura/setDataMuestreo', [CampoController::class,'setDataMuestreo']);
