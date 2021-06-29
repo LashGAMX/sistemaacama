@@ -120,10 +120,10 @@
             <div class="col-md-3">
                 <a href="https://dev.sistemaacama.com.mx/admin/areas-lab">
                     <div class="panel widget center bgimage"
-                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/fieldEngineering.jpg');">
+                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/labArea.jpg');">
                         <div class="dimmer"></div>
                         <div class="panel-content">
-                            <i class="fa fa-truck-pickup"></i>
+                            <i class="fas fa-microscope"></i>
                             <h4>Áreas Laboratorios</h4>
                         </div>
                     </div>
@@ -133,10 +133,10 @@
             <div class="col-md-3">
                 <a href="https://dev.sistemaacama.com.mx/admin/areas-categoria">
                     <div class="panel widget center bgimage"
-                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/fieldEngineering.jpg');">
+                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/categoryLab.jpg');">
                         <div class="dimmer"></div>
                         <div class="panel-content">
-                            <i class="fa fa-truck-pickup"></i>
+                            <i class="fas fa-vial"></i>
                             <h4>Áreas Categoría</h4>
                         </div>
                     </div>
@@ -146,10 +146,10 @@
             <div class="col-md-3">
                 <a href="https://dev.sistemaacama.com.mx/admin/materiales-lab">
                     <div class="panel widget center bgimage"
-                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/fieldEngineering.jpg');">
+                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/testTube.jpg');">
                         <div class="dimmer"></div>
                         <div class="panel-content">
-                            <i class="fa fa-truck-pickup"></i>
+                            <i class="fas fa-thermometer"></i>
                             <h4>Materiales Laboratorios</h4>
                         </div>
                     </div>
