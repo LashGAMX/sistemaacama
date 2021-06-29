@@ -23,11 +23,46 @@ function datosGenerales()
     });
 
     $("#termometro").click(function(){getFactorCorreccion()});
-    $("#phTrazable1").click(function(){setPhTrazable($("#phTrazable1").val(),"phTNombre1","phTMarca1","phTLote1")});
-    $("#phTrazable2").click(function(){setPhTrazable($("#phTrazable2").val(),"phTNombre2","phTMarca2","phTLote2")});
+    $("#phTrazable1").click(function(){
+      setPhTrazable($("#phTrazable1").val(),"phTNombre1","phTMarca1","phTLote1");
+    });
+    $("#phTrazable2").click(function(){
+      setPhTrazable($("#phTrazable2").val(),"phTNombre2","phTMarca2","phTLote2")
+      if($("#phTrazable1").val() == $("#phTrazable2").val())
+      {
+        alert("Los valores de Ph trazable no pueden ser los mismos");
+        inputBorderColor("phTrazable2","rojo");
+      }else{
+        inputBorderColor("phTrazable2","verde");
+        inputBorderColor("phTrazable1","verde");
+      }
+    });
 
-    $("#phCalidad1").click(function(){setPhCalidad($("#phCalidad1").val(),"phCNombre1","phCMarca1","phCLote1")});
-    $("#phCalidad2").click(function(){setPhCalidad($("#phCalidad2").val(),"phCNombre2","phCMarca2","phCLote2")});
+    $("#phCalidad1").click(function(){
+      setPhCalidad($("#phCalidad1").val(),"phCNombre1","phCMarca1","phCLote1");
+      if($("#phCalidad1").val() == $("#phTrazable1").val() || $("#phCalidad1").val() == $("#phTrazable2").val()){
+        inputBorderColor("phCalidad1","verde");
+      }else{
+        inputBorderColor("phCalidad1","rojo");
+      }
+    });
+    $("#phCalidad2").click(function(){
+      setPhCalidad($("#phCalidad2").val(),"phCNombre2","phCMarca2","phCLote2");
+
+      if($("#phCalidad2").val() == $("#phTrazable1").val() || $("#phCalidad2").val() == $("#phTrazable2").val()){
+        if($("#phCalidad1").val() == $("#phCalidad2").val())
+        {
+          alert("Los valores de Ph trazable no pueden ser los mismos");
+          inputBorderColor("phCalidad2","rojo");
+        }else{
+          inputBorderColor("phCalidad2","verde");
+          inputBorderColor("phCalidad1","verde");
+        }
+      }else{
+        inputBorderColor("phCalidad2","rojo");
+      }
+
+    });
 
     $("#conTrazable").click(function(){setConTrazable($("#conTrazable").val(),"conNombre","conMarca","conLote")});
     $("#conCalidad").click(function(){setConCalidad($("#conCalidad").val(),"conCNombre","conCMarca","conCLote")});
@@ -35,6 +70,18 @@ function datosGenerales()
 function datosMuestreo()
 {
 
+}
+function valTempAmbiente()
+{
+  let temp1 = parseFloat($("#tempAmbiente").val());
+  let temp2 = parseFloat($("#tempBuffer").val());
+  if( (temp1 - temp2) > 5 || (temp1 - temp2) < -5){
+    inputBorderColor("tempAmbiente","rojo");
+    inputBorderColor("tempBuffer","rojo");
+  }else{
+    inputBorderColor("tempAmbiente","verde");
+    inputBorderColor("tempBuffer","verde");
+  }
 }
 function valPhTrazable(lec1,lec2,lec3,estado)
 {
@@ -684,4 +731,90 @@ function setConCalidad(idCon,nombre,marca,lote)
           lot.innerText = response.model.Lote;
         }
     });
+  }
+
+  function inputBorderColor(id,color)
+  {
+    let cont = document.getElementById(id);
+
+    switch (color) {
+      case "rojo":
+        cont.setAttribute("style","border-color:#dc3545")
+        break;
+      case "verde":
+      cont.setAttribute("style","border-color:#28a745")
+        break;
+      default:
+
+        break;
+    }
+  }
+
+  // Guardar datos generales
+
+  function setDataGeneral()
+  {
+    $.ajax({
+      url: base_url + '/admin/campo/captura/setDataGeneral', //archivo que recibe la peticion
+      type: 'POST', //método de envio
+      data: {
+        'idSolicitud':$("#idSolicitud").val(),
+        'Captura':"Sistema",
+        'equipo':$("#termometro").val(),
+        'temp1':$("#tempAmbiente").val(),
+        'temp2':$("#tempBuffer").val(),
+        'latitud':$("#latitud").val(),
+        'longitud':$("#longitud").val(),
+        'altitud':$("#altitud").val(),
+        'pendiente':$("#pendiente").val(),
+        'criterio':$("#criterioPendiente").val(),
+
+        'phTrazable1':$("#phTrazable1").val(),
+        'phTl11':$("#phTl11").val(),
+        'phT21':$("#phT21").val(),
+        'phTl31':$("#phTl31").val(),
+        'phTEstado1':$("#phTEstado1").val(),
+
+        'phTrazable2':$("#phTrazable2").val(),
+        'phTl12':$("#phTl12").val(),
+        'phT22':$("#phT22").val(),
+        'phTl32':$("#phTl32").val(),
+        'phTEstado2':$("#phTEstado2").val(),
+
+        'phCalidad1':$("#phCalidad1").val(),
+        'phC11':$("#phC11").val(),
+        'phC21':$("#phC21").val(),
+        'phC31':$("#phC31").val(),
+        'phCEstado1':$("#phCEstado1").val(),
+        'phCPromedio1':$("#phCPromedio1").val(),
+
+        'phCalidad2':$("#phCalidad2").val(),
+        'phC12':$("#phC12").val(),
+        'phC22':$("#phC22").val(),
+        'phC23':$("#phC23").val(),
+        'phCEstado2':$("#phCEstado2").val(),
+        'phCPromedio2':$("#phCPromedio2").val(),
+
+        'conTrazable':$("#conTrazable").val(),
+        'conT1':$("#conT1").val(),
+        'conT2':$("#conT2").val(),
+        'conT3':$("#conT3").val(),
+        'conTEstado':$("#conTEstado").val(),
+
+        'conCalidad':$("#conCalidad").val(),
+        'conCl1':$("#conCl1").val(),
+        'conCl2':$("#conCl2").val(),
+        'conCl3':$("#conCl3").val(),
+        'conCEstado':$("#conCEstado").val(),
+        'conCPromedio':$("#conCPromedio").val(),
+
+        _token: $('input[name="_token"]').val(), 
+      },
+      dataType: 'json', 
+      async: false, 
+      success: function (response) {
+          console.log(response);
+          swal("Registro!", "Registro guardado correctamente!", "success");
+      }
+  });
   }

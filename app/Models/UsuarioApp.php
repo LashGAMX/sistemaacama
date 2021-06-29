@@ -10,7 +10,7 @@ class UsuarioApp extends Model
 {
     use HasFactory,SoftDeletes; 
     protected $table = 'usuarios_app';
-    protected $primaryKey = 'Id_usuario';
+    protected $primaryKey = 'Id_user';
     public $timestamps = true;
 
     protected $fillable = [

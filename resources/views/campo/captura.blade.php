@@ -38,6 +38,7 @@
                 </div>
                 <div class="col-md-2">
                   <p>Id Solucitud: {{$model->Id_solicitud}}</p>
+                  <input type="text" id="idSolicitud" value="{{$model->Id_solicitud}}" hidden>
                 </div>
                 <div class="col-md-2">
                   <p>Id Ing campo: </p>
@@ -46,15 +47,15 @@
                   <p>Folio servicio: {{$model->Folio_servicio}}</p>
                 </div>
                 <div class="col-md-2">
-                  <p>Captura: sistema</p>
+                  <p>Captura: {{$general->Captura}}</p>
                 </div>
                 <div class="col-md-2">
-                  <p>Siralab: No</p>
+                  <p>Siralab: </p>
                 </div>
               </div>
 
               <div class="col-md-12">
-                <p>Punto de muestreo: DESCARGA FINAL</p>
+                <p>Punto de muestreo:</p>
               </div>
 
               <div class="col-md-5">
@@ -63,7 +64,11 @@
                   <select name="termometro" id="termometro" class="form-control">
                     <option>Sin seleccionar</option>
                     @foreach ($termometros as $item)
-                        <option value="{{$item->Id_termometro}}">{{$item->Equipo}} / {{$item->Marca}} / {{$item->Modelo}} / {{$item->Serie}}</option>
+                        @if ($general->Id_equipo == $item->Id_termometro)
+                          <option value="{{$item->Id_termometro}}" selected>{{$item->Equipo}} / {{$item->Marca}} / {{$item->Modelo}} / {{$item->Serie}}</option>
+                        @else
+                          <option value="{{$item->Id_termometro}}">{{$item->Equipo}} / {{$item->Marca}} / {{$item->Modelo}} / {{$item->Serie}}</option>
+                        @endif
                     @endforeach
                   </select>
                 </div>
@@ -71,13 +76,13 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="">Temperatura ambiente</label>
-                  <input type="number" class="form-control" placeholder="Temperatura">
+                  <input type="number" class="form-control" placeholder="Temperatura" id="tempAmbiente" onkeyup="valTempAmbiente()" value="{{$general->Temperatura_a}}" required>
                 </div>
               </div>
               <div class="col-md-3">
                 <div class="form-group">
                   <label for="">Temperatura buffer</label>
-                  <input type="number" class="form-control" placeholder="Temperatura">
+                  <input type="number" class="form-control" placeholder="Temperatura" id="tempBuffer" onkeyup="valTempAmbiente()" value="{{$general->Temperatura_b}}">
                 </div>
               </div>
 
@@ -86,7 +91,7 @@
                 <hr>
               </div>
               <div class="col-md-12">
-                <p>Cliente: LABORATORIO ACAMA PRUEBA</p>
+                <p>Cliente: {{$model->Empresa}}</p>
               </div>
               <div class="col-md-12">
                 <h6>Croquis punto de muestreo</h6>
@@ -101,30 +106,30 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="">Latitud</label>
-                  <input type="text" class="form-control" placeholder="Latitud">
+                  <input type="text" class="form-control" placeholder="Latitud" id="latitud" value="{{$general->Latitud}}">
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="">Longitud</label>
-                  <input type="text" class="form-control" placeholder="Longitud">
+                  <input type="text" class="form-control" placeholder="Longitud" id="longitud" value="{{$general->Longitud}}">
                 </div>
               </div>
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="">Altitud</label>
-                  <input type="text" class="form-control" placeholder="Altitud">
+                  <input type="text" class="form-control" placeholder="Altitud" id="altitud" value="{{$general->Altitud}}">
                 </div>
               </div>
 
               <div class="col-md-4">
-                <p>Muestreo: 12hrs</p>
+                <p>Muestreo: {{$frecuencia->Descripcion}}</p>
               </div>
               <div class="col-md-4">
-                <p>Numero de muestras: 4</p>
+                <p>Numero de muestras: {{$model->Num_tomas}}</p>
               </div>
               <div class="col-md-4">
-                <p>Tipo de descarga: Residual</p>
+                <p>Tipo de descarga: {{$model->Descarga}}}</p>
               </div>
               <div class="col-md-12"> 
                 <p>Norma / Material usado muestreo</p>
@@ -178,7 +183,11 @@
                         <select id="phTrazable1">
                           <option value="0">Sin seleccionar</option>
                           @foreach ($phTrazable as $item)
-                            <option value="{{$item->Id_ph}}">{{$item->Ph}}</option>    
+                          @if ($phCampoTrazable[0]->Id_phTrazable == $item->Id_ph)
+                          <option value="{{$item->Id_ph}}" selected>{{$item->Ph}}</option>
+                          @else
+                          <option value="{{$item->Id_ph}}">{{$item->Ph}}</option>
+                          @endif    
                           @endforeach
                         </select>  
                       </td>
@@ -186,22 +195,26 @@
                       <td><p id="phTMarca1"></p></td>
                       <td><p id="phTLote1"></p></td>
                       <td>
-                        <input type="text" class="" placeholder="L1" id="phTl11" onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
+                        <input type="text" class="" placeholder="L1" id="phTl11" value="{{$phCampoTrazable[0]->Lectura1}}" onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L2" id="phT21" onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
+                        <input type="text" class="" placeholder="L2" id="phT21" value="{{$phCampoTrazable[0]->Lectura2}}" onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
                       </td> 
                       <td>
-                        <input type="text" class="" placeholder="L1" id="phTl31" onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
+                        <input type="text" class="" placeholder="L1" id="phTl31" value="{{$phCampoTrazable[0]->Lectura3}}" onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
                       </td>
-                      <td><input type="text" id="phTEstado1"></td>
+                      <td><input type="text" id="phTEstado1" value="{{$phCampoTrazable[0]->Estado}}"></td>
                     </tr>
                     <tr>
                       <td>
                         <select id="phTrazable2">
                           <option value="0">Sin seleccionar</option>
                           @foreach ($phTrazable as $item)
-                            <option value="{{$item->Id_ph}}">{{$item->Ph}}</option>    
+                            @if ($phCampoTrazable[1]->Id_phTrazable == $item->Id_ph)
+                            <option value="{{$item->Id_ph}}" selected>{{$item->Ph}}</option>
+                            @else
+                            <option value="{{$item->Id_ph}}">{{$item->Ph}}</option>
+                            @endif    
                           @endforeach
                         </select>  
                       </td>
@@ -209,15 +222,15 @@
                       <td><p id="phTMarca2"></p></td>
                       <td><p id="phTLote2"></p></td>
                       <td>
-                        <input type="text" class="" value="L1" id="phTl12" onkeyup="valPhTrazable('phTl12','phT22','phTl32','phTEstado2')">
+                        <input type="text" class="" placeholder="L1" id="phTl12" value="{{$phCampoTrazable[1]->Lectura1}}" onkeyup="valPhTrazable('phTl12','phT22','phTl32','phTEstado2')">
                       </td>
                       <td>
-                        <input type="text" class="" value="L2" id="phT22" onkeyup="valPhTrazable('phTl12','phT22','phTl32','phTEstado2')">
+                        <input type="text" class="" placeholder="L2" id="phT22" value="{{$phCampoTrazable[1]->Lectura2}}" onkeyup="valPhTrazable('phTl12','phT22','phTl32','phTEstado2')">
                       </td>
                       <td>
-                        <input type="text" class="" value="L3" id="phTl32" onkeyup="valPhTrazable('phTl12','phT22','phTl32','phTEstado2')">
+                        <input type="text" class="" placeholder="L3" id="phTl32" value="{{$phCampoTrazable[1]->Lectura3}}" onkeyup="valPhTrazable('phTl12','phT22','phTl32','phTEstado2')">
                       </td>
-                      <td><input type="text" id="phTEstado2"></td>
+                      <td><input type="text" id="phTEstado2" value="{{$phCampoTrazable[1]->Estado}}"></td>
                     </tr>
                   </tbody>
                 </table>
@@ -244,7 +257,11 @@
                         <select id="phCalidad1">
                           <option value="0">Sin seleccionar</option>
                           @foreach ($phCalidad as $item)
+                            @if ($phCampoCalidad[0]->Id_phCalidad == $item->Id_ph)
+                            <option value="{{$item->Id_ph}}" selected>{{$item->Ph_calidad}}</option>    
+                            @else
                             <option value="{{$item->Id_ph}}">{{$item->Ph_calidad}}</option>    
+                            @endif    
                           @endforeach
                         </select>  
                       </td>
@@ -252,23 +269,27 @@
                       <td><p id="phCMarca1"></p></td>
                       <td><p id="phCLote1"></p></td> 
                       <td>
-                        <input type="text" class="" placeholder="L1" id="phC11" onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
+                        <input type="text" class="" placeholder="L1" id="phC11" value="{{$phCampoCalidad[0]->Lectura1}}" onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L2" id="phC21" onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
+                        <input type="text" class="" placeholder="L2" id="phC21" value="{{$phCampoCalidad[0]->Lectura2}}" onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L3" id="phC31" onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
+                        <input type="text" class="" placeholder="L3" id="phC31" value="{{$phCampoCalidad[0]->Lectura3}}" onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
                       </td>
-                      <td><input type="text" id="phCEstado1"></td>
-                      <td><input type="text" id="phCPromedio1"></td>
+                      <td><input type="text" id="phCEstado1"  value="{{$phCampoCalidad[0]->Estado}}"></td>
+                      <td><input type="text" id="phCPromedio1"  value="{{$phCampoCalidad[0]->Promedio}}"></td>
                     </tr>
                     <tr>
                       <td>
                         <select id="phCalidad2">
                           <option value="0">Sin seleccionar</option>
                           @foreach ($phCalidad as $item)
+                            @if ($phCampoCalidad[1]->Id_phCalidad == $item->Id_ph)
+                            <option value="{{$item->Id_ph}}" selected>{{$item->Ph_calidad}}</option>    
+                            @else
                             <option value="{{$item->Id_ph}}">{{$item->Ph_calidad}}</option>    
+                            @endif   
                           @endforeach
                         </select>  
                       </td>
@@ -276,16 +297,16 @@
                       <td><p id="phCMarca2"></p></td>
                       <td><p id="phCLote2"></p></td>
                       <td>
-                        <input type="text" class="" placeholder="L1" id="phC12" onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
+                        <input type="text" class="" placeholder="L1" id="phC12" value="{{$phCampoCalidad[1]->Lectura1}}" onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L2" id="phC22" onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
+                        <input type="text" class="" placeholder="L2" id="phC22" value="{{$phCampoCalidad[1]->Lectura2}}" onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
                       </td>
                       <td>
-                        <input type="text" class="" placeholder="L3" id="phC23" onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
+                        <input type="text" class="" placeholder="L3" id="phC23" value="{{$phCampoCalidad[1]->Lectura3}}" onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
                       </td>
-                      <td><input type="text" id="phCEstado2"></td>
-                      <td><input type="text" id="phCPromedio2"></td>
+                      <td><input type="text" id="phCEstado2"  value="{{$phCampoCalidad[1]->Estado}}"></td>
+                      <td><input type="text" id="phCPromedio2"  value="{{$phCampoCalidad[1]->Promedio}}"></td>
                     </tr>
                   </tbody>
                 </table>
@@ -387,14 +408,14 @@
                   </tbody>
                   <tbody>
                     <tr>
-                      <td><input type="text" id="pendiente" placeholder="% Valor" onkeyup="valPendiente('pendiente','criterioPendiente')"></td>
+                      <td><input type="text" id="pendiente" placeholder="% Valor" value="{{$general->Pendiente}}" onkeyup="valPendiente('pendiente','criterioPendiente')"></td>
                       <td><input type="text" id="criterioPendiente" placeholder="Criterio"></td>
                     </tr>
                   </tbody>
                 </table>
               </div>
 
-              <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
+              <button type="button" class="btn btn-success" onclick="setDataGeneral()"><i class="fa fa-save"></i> Guardar</button>
               </form>
             </div> 
             <div class="tab-pane fade" id="datosMuestreo" role="tabpanel" aria-labelledby="datosMuestreo-tab">  
