@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Model;
 class PhMuestra extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'ph_muestra';
+    protected $table = 'ph_muestra'; 
     protected $primaryKey = 'Id_ph';
     public $timestamps = true;
 

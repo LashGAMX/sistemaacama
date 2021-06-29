@@ -13,6 +13,7 @@ use App\Models\ConductividadTrazable;
 use App\Models\ConTratamiento;
 use App\Models\MetodoAforo;
 use App\Models\PHCalidad;
+use App\Models\PhMuestra;
 use App\Models\PHTrazable;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
@@ -228,6 +229,51 @@ class CampoController extends Controller
         $data = array('sw' => true,'model' => $model);
         return response()->json($data);
     }
+
+    public function setDataMuestreo(Request $request)
+    {
+
+        $phModel = PhMuestra::where('Id_solicitud',$request->idSolicitud)->get();
+
+        if($phModel->count())
+        {
+            for ($i=0; $i < $request->numTomas; $i++) { 
+                # code...
+                $ph = PhMuestra::find($phModel[0]->Id_ph);
+                $ph->Id_solicitud = $request->idSolicitud;
+                $ph->Materia = $request->ph[$i][0];
+                $ph->Olor = $request->ph[$i][1];
+                $ph->Color = $request->ph[$i][2];
+                $ph->Ph1 = $request->ph[$i][3];
+                $ph->Ph2 = $request->ph[$i][4];
+                $ph->Ph3 = $request->ph[$i][5];
+                $ph->Promedio = $request->ph[$i][6];
+                $ph->Fecha = $request->ph[$i][7];
+                $ph->save();
+            }
+        }else{
+            for ($i=0; $i < $request->numTomas; $i++) { 
+                # code...
+                PhMuestra::create([
+                    'Id_solicitud' => $request->idSolicitud,
+                    'Materia' => $request->ph[$i][0],
+                    'Olor' => $request->ph[$i][1],
+                    'Color' => $request->ph[$i][2],
+                    'Ph1' => $request->ph[$i][3],
+                    'Ph2' => $request->ph[$i][4],
+                    'Ph3' => $request->ph[$i][5],
+                    'Promedio' => $request->ph[$i][6],
+                    'Fecha' => $request->ph[$i][7],
+                ]);
+            }
+        }
+
+    
+
+        $data = array('sw' => true,'model' => $request);
+        return response()->json($data);
+    }
+
     public function generar(Request $request) //Generar solicitud 
     { 
         $sol = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->get();

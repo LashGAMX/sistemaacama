@@ -421,9 +421,10 @@
             <div class="tab-pane fade" id="datosMuestreo" role="tabpanel" aria-labelledby="datosMuestreo-tab">  
               <div class="row">
                 <div class="col-md-12">
-                  <button class="btn btn-danger" id="btnCancelarMuestra"><i class="voyager-x"></i> Cancelar Muestra</button>
+                  {{-- <button class="btn btn-danger" id="btnCancelarMuestra"><i class="voyager-x"></i> Cancelar Muestra</button> --}}
                 </div>
                   <form>
+                    <input type="text" class="" id="numTomas" value="{{$model->Num_tomas}}" hidden>
                   <div class="col-md-12">
                     <p>PH</p>
                     <table class="table" id="phMuestra">
@@ -445,21 +446,21 @@
                             <tr>
                               <td>{{$i + 1}}</td>
                               <td>
-                                <select>
+                                <select id="materia{{$i}}">
                                     <option value="0">Sin seleccionar</option>
                                     <option value="1">Presente</option>
                                     <option value="2">Ausente</option>
                                 </select>
                               </td>
                               <td>
-                                <select>
+                                <select id="olor{{$i}}">
                                   <option value="0">Sin seleccionar</option>
                                   <option value="1">Si</option>
                                   <option value="2">No</option>
                               </select>
                               </td>
                               <td>
-                                <select>
+                                <select id="color{{$i}}">
                                   <option value="0">Sin seleccionar</option>
                                   <option value="1">Rojo</option>
                                   <option value="2">Verde</option>
@@ -551,7 +552,7 @@
                     </table>
                   </div>
                 </div>
-                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
+                <button type="button" id="btnSaveMuestreo" onclick="setDataMuestreo()" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
               </form>
             </div> 
             <div class="tab-pane fade" id="datosCompuestos" role="tabpanel" aria-labelledby="datosCompuestos-tab">  

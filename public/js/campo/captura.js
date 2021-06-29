@@ -818,3 +818,78 @@ function setConCalidad(idCon,nombre,marca,lote)
       }
   });
   }
+
+  function setDataMuestreo()
+  {
+    let ph = new Array();
+    let temperatura = new Array();
+    let conductividad = new Array();
+    let gasto = new Array();
+    let row = new Array();
+
+    for (let i = 0; i < $("#numTomas").val(); i++) {
+      row = new Array();
+      row.push($("#materia"+ (i)).val());
+      row.push($("#olor"+ (i)).val());
+      row.push($("#color"+ (i)).val());
+      row.push($("#phl1"+ (i)).val());
+      row.push($("#phl2"+ (i)).val());
+      row.push($("#phl3"+ (i)).val());
+      row.push($("#phprom"+ (i)).val());
+      row.push($("#phf"+ (i)).val());
+      ph.push(row);
+    }
+
+    for (let i = 0; i < $("#numTomas").val(); i++) {
+      row = new Array();
+      row.push($("#temp1"+ (i)).val());
+      row.push($("#temp2"+ (i)).val());
+      row.push($("#temp3"+ (i)).val());
+      row.push($("#tempprom"+ (i)).val());
+    
+      temperatura.push(row);
+    }
+
+    for (let i = 0; i < $("#numTomas").val(); i++) {
+      row = new Array();
+      row.push($("#con1"+ (i)).val());
+      row.push($("#con2"+ (i)).val());
+      row.push($("#con3"+ (i)).val());
+      row.push($("#conprom"+ (i)).val());
+    
+      conductividad.push(row);
+    }
+
+    for (let i = 0; i < $("#numTomas").val(); i++) {
+      row = new Array();
+      row.push($("#gas1"+ (i)).val());
+      row.push($("#gas2"+ (i)).val());
+      row.push($("#gas3"+ (i)).val());
+      row.push($("#gasprom"+ (i)).val());
+    
+      gasto.push(row);
+    }
+
+    
+
+    $.ajax({
+      url: base_url + '/admin/campo/captura/setDataMuestreo', //archivo que recibe la peticion
+      type: 'POST', //método de envio
+      data: {
+        idSolicitud:$("#idSolicitud").val(),
+        numTomas:$("numTomas").val(),
+        ph:ph,     
+        temperatura:temperatura,
+        conductividad:conductividad,
+        gasto:gasto,
+        _token: $('input[name="_token"]').val(), 
+      },
+      dataType: 'json', 
+      async: false, 
+      success: function (response) {
+          console.log(response);
+      }
+  });
+
+    // return data;
+  }
