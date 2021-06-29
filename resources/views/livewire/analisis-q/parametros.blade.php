@@ -12,14 +12,14 @@
             <tr>
                 <th>Id</th>
                 <th>Laboratorio</th>
-                <th>Tipo formula</th>
+                <th>Tipo fórmula</th>
                 <th>Matriz</th>
                 <th>Rama</th>
-                <th>Parametro</th>
+                <th>Parámetro</th>
                 <th>Unidad</th>
-                <th>Metodo de prueba</th> 
+                <th>Método de prueba</th> 
                 <th>Norma</th>
-                <th>Limite C.</th>
+                <th>Límite C.</th>
                 {{-- <th>Creación</th>
                 <th>Modificación</th> --}}
                 <th>Acción</th> 
@@ -68,9 +68,9 @@
                 @endif
             <div class="modal-header">
                 @if ($sw != true)
-                    <h5 class="modal-title" id="exampleModalLabel">Crear parametro</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Crear parámetro</h5>
                 @else
-                    <h5 class="modal-title" id="exampleModalLabel">Editar parametro</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Editar parámetro</h5>
                 @endif
               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
@@ -123,7 +123,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="">Tipo formula</label>
+                            <label for="">Tipo fórmula</label>
                             <select class="form-control" wire:model='tipo' >
                             @foreach ($tipos as $item)
                                 <option value="{{$item->Id_tipo_formula}}">{{$item->Tipo_formula}}</option>
@@ -145,7 +145,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="limite">Limite Cuantificación</label>
+                            <label for="limite">Límite Cuantificación</label>
                            <input type="text" wire:model='limite' class="form-control" placeholder="Limite">
                            @error('limite') <span class="text-danger">{{ $message  }}</span> @enderror
                           </div>
@@ -174,7 +174,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="">Metodo</label>
+                            <label for="">Método</label>
                             <select class="form-control" wire:model='metodo' >
                             @foreach ($metodos as $item)
                                 <option value="{{$item->Id_metodo}}">{{$item->Metodo_prueba}}</option>
@@ -196,7 +196,7 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="">Simbologia</label>
+                            <label for="">Simbología</label>
                             <select class="form-control" wire:model='simbologia' >
                             @foreach ($simbologias as $item)
                                 <option value="{{$item->Id_simbologia}}">{{$item->Simbologia}}</option>

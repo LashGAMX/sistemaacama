@@ -362,7 +362,8 @@ function valPendiente(valor,criterio)
   let sw = true;
   let t = document.getElementById("tableCalPendiente");
   let v = parseFloat(document.getElementById(valor).value);
-  let c = parseFloat(document.getElementById(criterio).value);
+  let c = document.getElementById(criterio);  
+  //let c = parseFloat(document.getElementById(criterio).value);
 
   if(v < 95 || v > 105)
   {
@@ -370,16 +371,140 @@ function valPendiente(valor,criterio)
   }
 
   if(sw == true)
-  {
+  {    
     c.value = "Aceptado";
     t.rows[1].setAttribute("class","bg-success");
   }else{
     c.value = "Rechazado";
-    t.rows[1].setAttribute("class","bg-warning");
+    t.rows[1].setAttribute("class","bg-danger");
   }
+    
 }
 
 function valPhMuestra(lec1,lec2,lec3,prom)
+{
+  let sw = false;
+  let sw2 = false;
+  let sw3 = false;
+  let sw4 = false;
+  let sw5 = false;
+  let sw6 = false;
+  let sw7 = false;
+  let p = document.getElementById(prom);
+  let t = document.getElementById("phMuestra");
+  let l1 = parseFloat(document.getElementById(lec1).value);
+  let l2 = parseFloat(document.getElementById(lec2).value);
+  let l3 = parseFloat(document.getElementById(lec3).value);
+
+  // Val if rango 4 - 9
+
+  if(l1 > 4 && l1 < 9)
+  {    
+    sw = true;
+    //t.rows[1].setAttribute("class","bg-success");
+  }else{
+    //t.rows[1].setAttribute("class","bg-danger");    
+    sw = false;
+  }
+  
+  if(l2 > 4 && l2 < 9){    
+    sw = true;
+    //t.rows[1].setAttribute("class","bg-success");
+  }else{
+    //t.rows[1].setAttribute("class","bg-danger");    
+    sw = false;
+  }
+  
+  if(l3 > 4 && l3 < 9){    
+    sw = true;
+    //t.rows[1].setAttribute("class","bg-success");
+  }else{
+    //t.rows[1].setAttribute("class","bg-danger");    
+    sw = false;
+  }
+
+  // val if 0.03
+
+  r1 = (l1 - l2);
+  r2 = (l1 - l3);
+ 
+  r3 = (l2 - l1);
+  r4 = (l2 - l3);
+
+  r5 = (l3 - l1);
+  r6 = (l3 - l2);
+
+
+
+  if(r1 < -0.03 || r1 > 0.03)
+  {
+    sw2 = false;    
+    //t.rows[1].setAttribute("class","bg-danger");
+  }else{
+    sw2 = true;    
+    //t.rows[1].setAttribute("class","bg-success");
+  }
+
+  if(r2 < -0.03 || r2 > 0.03)
+    {
+      sw3 = false;      
+      //t.rows[1].setAttribute("class","bg-danger");
+    }else{
+      sw3 = true;            
+      //t.rows[1].setAttribute("class","bg-success");
+    }
+
+    if(r3 < -0.03 || r3 > 0.03)
+    {
+      sw4 = false;      
+      //t.rows[1].setAttribute("class","bg-danger");
+    }else{
+      sw4 = true;      
+      //t.rows[1].setAttribute("class","bg-success");
+    }
+
+    if(r4 < -0.03 || r4 > 0.03)
+    {
+      sw5 = false;      
+      //t.rows[1].setAttribute("class","bg-danger");
+    }else{
+      sw5 = true;      
+      //t.rows[1].setAttribute("class","bg-success");
+    }
+    
+    if(r5 < -0.03 || r5 > 0.03)
+    {
+      sw6 = false;      
+      //t.rows[1].setAttribute("class","bg-danger");
+    }else{
+      sw6 = true;      
+      //t.rows[1].setAttribute("class","bg-success");
+    }
+
+    if(r6 < -0.03 || r6 > 0.03)
+    {
+      sw7 = false;
+      //t.rows[1].setAttribute("class","bg-danger");
+    }else{
+      sw7 = true;
+      //t.rows[1].setAttribute("class","bg-success");
+    }
+
+  if(sw == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true && sw6 == true && sw7 == true)
+  {
+    t.rows[1].setAttribute("class","bg-success");
+    // std.value = "Aprobado";
+  }else{
+    t.rows[1].setAttribute("class","bg-danger");
+    // std.value = "Rechazado";
+  }
+
+  p.value = (l1 + l2 +l3) / 3;
+
+  return sw;
+}
+
+/*function valPhMuestra(lec1,lec2,lec3,prom)
 {
   let sw = false;
   let p = document.getElementById(prom);
@@ -394,13 +519,13 @@ function valPhMuestra(lec1,lec2,lec3,prom)
     sw = true;
   }else if(l2 > 4 && l2 < 9){
     sw = true;
-  }else if(l1 > 4 && l1 < 9){
+  }else if(l3 > 4 && l3 < 9){
     sw = true;
   }else{
     sw = false;
   }
 
-  // val if 0.003
+  // val if 0.03
 
   r1 = (l1 - l2);
   r2 = (l1 - l3);
@@ -464,7 +589,7 @@ function valPhMuestra(lec1,lec2,lec3,prom)
   p.value = (l1 + l2 +l3) / 3;
 
   return sw;
-}
+}*/
 
 function valTempMuestra(lec1,lec2,lec3,prom)
 {

@@ -37,7 +37,7 @@
                   <hr>
                 </div>
                 <div class="col-md-2">
-                  <p>Id Solucitud: {{$model->Id_solicitud}}</p>
+                  <p>Id Solicitud: {{$model->Id_solicitud}}</p>
                   <input type="text" id="idSolicitud" value="{{$model->Id_solicitud}}" hidden>
                 </div>
                 <div class="col-md-2">
@@ -81,7 +81,7 @@
               </div>
               <div class="col-md-3">
                 <div class="form-group">
-                  <label for="">Temperatura buffer</label>
+                  <label for="">Temperatura búffer</label>
                   <input type="number" class="form-control" placeholder="Temperatura" id="tempBuffer" onkeyup="valTempAmbiente()" value="{{$general->Temperatura_b}}">
                 </div>
               </div>
@@ -126,10 +126,10 @@
                 <p>Muestreo: {{$frecuencia->Descripcion}}</p>
               </div>
               <div class="col-md-4">
-                <p>Numero de muestras: {{$model->Num_tomas}}</p>
+                <p>Número de muestras: {{$model->Num_tomas}}</p>
               </div>
               <div class="col-md-4">
-                <p>Tipo de descarga: {{$model->Descarga}}}</p>
+                <p>Tipo de descarga: {{$model->Descarga}}</p>
               </div>
               <div class="col-md-12"> 
                 <p>Norma / Material usado muestreo</p>
@@ -137,11 +137,11 @@
                   <thead>
                     <tr>
                       <th>Norma</th>
-                      <th>Formúla</th>
+                      <th>Fórmula</th>
                       <th>Análisis</th>
                       <th>Preservador</th>
                       <th>Recipiente</th>
-                      <th>Volumen</th>
+                      <th>Volúmen</th>
                       <th>Unidad</th>
                     </tr>
                   </thead>
@@ -155,8 +155,8 @@
                     <tr>
                       <th>De °C</th>
                       <th>a °C</th>
-                      <th>Factor corección</th>
-                      <th>Factor de corección aplicada</th>
+                      <th>Factor corrección</th>
+                      <th>Factor de corrección aplicada</th>
                     </tr>
                   </thead>
                 </table>
@@ -398,7 +398,7 @@
                 </table>
               </div>
               <div class="col-md-12">
-                <p class="">Calculo de la pendiente</p>
+                <p class="">Cálculo de la pendiente</p>
                 <table class="table" id="tableCalPendiente">
                   <tbody>
                     <tr>
@@ -434,10 +434,10 @@
                           <th>Materia flotante</th>
                           <th>Olor</th>
                           <th>Color</th>
-                          <th>PH 1</th>
-                          <th>PH 2</th> 
-                          <th>PH 3</th>
-                          <th>PH Promedio</th>
+                          <th>pH 1</th>
+                          <th>pH 2</th> 
+                          <th>pH 3</th>
+                          <th>pH Promedio</th>
                           <th>Fecha muestreo</th>
                         </tr>
                       </thead>
@@ -482,10 +482,10 @@
                       <thead>
                         <tr>
                           <th>Núm Muestra</th>
-                          <th>Temperatura °C 1</th>
-                          <th>Temperatura °C 2</th>
-                          <th>Temperatura °C 3</th>
-                          <th>Promedio</th>
+                          <th>Temperatura 1 (°C)</th>
+                          <th>Temperatura 2 (°C)</th>
+                          <th>Temperatura 3 (°C)</th>
+                          <th>Temperatura Promedio (°C)</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -507,10 +507,10 @@
                       <thead>
                         <tr>
                           <th>Núm Muestra</th>
-                          <th>Conductividad 1</th>
-                          <th>Conductividad 2</th>
-                          <th>Conductividad 3</th>
-                          <th>Conductividad Promedio</th>
+                          <th>Conductividad 1 (µS)</th>
+                          <th>Conductividad 2 (µS)</th>
+                          <th>Conductividad 3 (µS)</th>
+                          <th>Conductividad Promedio (µS)</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -532,10 +532,10 @@
                       <thead>
                         <tr>
                           <th>Núm Muestra</th>
-                          <th>Gasto (L/s) 1</th>
-                          <th>Gasto (L/s) 2</th>
-                          <th>Gasto (L/s) 3</th>
-                          <th>Gasto Promedio</th>
+                          <th>Gasto 1 (L/s)</th>
+                          <th>Gasto 2 (L/s)</th>
+                          <th>Gasto 3 (L/s)</th>
+                          <th>Gasto Promedio (L/s)</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -574,7 +574,7 @@
                   </div>
                   <div class="col-md-3">
                     <div class="form-group">
-                      <label for="">Metodo aforo</label>
+                      <label for="">Método aforo</label>
                       <select name="" id="" class="form-control">
                         <option>Sin seleccionar</option>
                         @foreach ($aforo as $item)
@@ -618,7 +618,7 @@
                   </div>
                   <div class="col-md-6">
                     <div class="form-group">
-                      <p>Observacion solicitud: ES UN PUNTO DE MUESTREO // SUPERVICION  DEL SERVICIO: ____________ </p>
+                      <p>Observación solicitud: ES UN PUNTO DE MUESTREO // SUPERVISIÓN  DEL SERVICIO: ____________ </p>
                     </div>
                   </div>
                   <div class="col-md-12">
@@ -626,12 +626,12 @@
                     <hr>
                   </div>
                   <div class="col-md-12">
-                    <p>Calculo de muestreo</p>
+                    <p>Cálculo de muestreo</p>
                     <table class="table" id="phTrazable">
                       <thead>
                         <tr>
                           <th>Norma</th>
-                          <th>Volumen calculado</th>
+                          <th>Volúmen calculado</th>
                         </tr>
                       </thead>
                       <tbody>
