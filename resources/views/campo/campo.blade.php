@@ -26,7 +26,7 @@
             <div class="col-md-3">
                 <a href="https://dev.sistemaacama.com.mx/admin/config/termometros">
                     <div class="panel widget center bgimage"
-                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/thermometer.jpg');">
+                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/thermometer_1.jpg');">
                         <div class="dimmer"></div>
                         <div class="panel-content">
                             <i class="fas fa-fill"></i>
