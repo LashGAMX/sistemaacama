@@ -555,7 +555,7 @@ function valPhMuestra(lec1,lec2,lec3,prom)
       }
     }
 
-  p.value = (l1 + l2 +l3) / 3;
+  p.value = ((l1 + l2 +l3) / 3).toFixed(3);
 
   return sw;
 }
@@ -661,7 +661,7 @@ function valTempMuestra(lec1,lec2,lec3,prom)
       }
     }
 
-  p.value = (l1 + l2 +l3) / 3;
+  p.value = ((l1 + l2 +l3) / 3).toFixed(3);
 
   return sw;
 }
@@ -673,6 +673,7 @@ function valConMuestra(lec1,lec2,lec3,prom)
   let l1 = parseFloat(document.getElementById(lec1).value);
   let l2 = parseFloat(document.getElementById(lec2).value);
   let l3 = parseFloat(document.getElementById(lec3).value);
+  let t = document.getElementById('conductividad'); 
 
  
   if((l1 - l2) > 5 || (l1 - l2) < -5){
@@ -694,8 +695,48 @@ function valConMuestra(lec1,lec2,lec3,prom)
     sw = false;
   }
 
-  p.value = ((l1 +l2 +l3) / 3).toFixed(2);
+  if(sw == true)
+    {    
+        //Aceptado
+        if(lec1 == "con10")
+        {
+          t.rows[1].setAttribute("class","bg-success");          
+        }else if(lec1 == "con11"){
+          t.rows[2].setAttribute("class","bg-success");          
+        }else if(lec1 == "con12"){
+          t.rows[3].setAttribute("class", "bg-success");          
+        }else if(lec1 == "con13"){
+          t.rows[4].setAttribute("class", "bg-success");          
+        }else{
+        //Rechazado
+        if(lec1 == "con10")
+        {          
+          t.rows[1].setAttribute("class","bg-danger");                    
+        }else if(lec1 == "con11"){          
+          t.rows[2].setAttribute("class","bg-danger");          
+        }else if(lec1 == "con12"){          
+          t.rows[3].setAttribute("class", "bg-danger");          
+        }else if(lec1 == "con13"){          
+          t.rows[4].setAttribute("class", "bg-danger");          
+        }
+      }
+    }else{
+      //Rechazado
+      if(lec1 == "con10")
+      {                
+        t.rows[1].setAttribute("class","bg-danger");        
+      }else if(lec1 == "con11"){        
+        t.rows[2].setAttribute("class","bg-danger");        
+      }else if(lec1 == "con12"){        
+        t.rows[3].setAttribute("class", "bg-danger");        
+      }else if(lec1 == "con13"){                        
+        t.rows[4].setAttribute("class", "bg-danger");        
+      }
+    }
+
+  p.value = ((l1 +l2 +l3) / 3).toFixed(3);
 }
+
 function valGastoMuestra(lec1,lec2,lec3,prom)
 {
   let sw = true;
@@ -704,6 +745,7 @@ function valGastoMuestra(lec1,lec2,lec3,prom)
   let l2 = parseFloat(document.getElementById(lec2).value);
   let l3 = parseFloat(document.getElementById(lec3).value);
   let promTemp = 0;
+  let t = document.getElementById('gasto');
 
   if((l1 - l2) > 1 || (l1 - l2) < -1){
     sw = false;
@@ -723,11 +765,51 @@ function valGastoMuestra(lec1,lec2,lec3,prom)
   if((l3 - l2) > 1 || (l3 - l2) < -1){
     sw = false;
   }
+
+  if(sw == true)
+    {    
+        //Aceptado
+        if(lec1 == "gas10")
+        {
+          t.rows[1].setAttribute("class","bg-success");          
+        }else if(lec1 == "gas11"){
+          t.rows[2].setAttribute("class","bg-success");          
+        }else if(lec1 == "gas12"){
+          t.rows[3].setAttribute("class", "bg-success");          
+        }else if(lec1 == "gas13"){
+          t.rows[4].setAttribute("class", "bg-success");          
+        }else{
+        //Rechazado
+        if(lec1 == "gas10")
+        {          
+          t.rows[1].setAttribute("class","bg-danger");                    
+        }else if(lec1 == "gas11"){          
+          t.rows[2].setAttribute("class","bg-danger");          
+        }else if(lec1 == "gas12"){          
+          t.rows[3].setAttribute("class", "bg-danger");          
+        }else if(lec1 == "gas13"){          
+          t.rows[4].setAttribute("class", "bg-danger");          
+        }
+      }
+    }else{
+      //Rechazado
+      if(lec1 == "gas10")
+      {                
+        t.rows[1].setAttribute("class","bg-danger");        
+      }else if(lec1 == "gas11"){        
+        t.rows[2].setAttribute("class","bg-danger");        
+      }else if(lec1 == "gas12"){        
+        t.rows[3].setAttribute("class", "bg-danger");        
+      }else if(lec1 == "gas13"){                        
+        t.rows[4].setAttribute("class", "bg-danger");        
+      }
+    }
   
   promTemp = (l1 + l2 + l3) / 3;
-  p.value= (promTemp/0.012);
+  p.value= (promTemp/0.012).toFixed(3);
 
 }
+
 function promedioPh(ph1,ph2,ph3,res)
 {
   let p1 = document.getElementById(ph1).value;

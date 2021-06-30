@@ -507,7 +507,7 @@
 
                   <div class="col-md-12">
                     <p>Conductividad</p>
-                    <table class="table" id="phTrazable">
+                    <table class="table" id="conductividad">
                       <thead>
                         <tr>
                           <th>Núm Muestra</th>
@@ -530,10 +530,10 @@
                       </tbody>
                     </table>
                   </div>
-                  
+
                   <div class="col-md-12">
                     <p>Gasto</p>
-                    <table class="table" id="phTrazable">
+                    <table class="table" id="gasto">
                       <thead>
                         <tr>
                           <th>Núm Muestra</th>
@@ -556,6 +556,7 @@
                       </tbody>
                     </table>
                   </div>
+
                 </div>
                 <button type="button" id="btnSaveMuestreo" onclick="setDataMuestreo()" class="btn btn-success"><i class="fa fa-save"></i> Guardar</button>
               </form>
