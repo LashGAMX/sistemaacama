@@ -393,11 +393,8 @@ function valPhMuestra(lec1,lec2,lec3,prom)
   let sw6 = false;  
   let p = document.getElementById(prom);
   let l1 = parseFloat(document.getElementById(lec1).value);
-  console.log(l1);
   let l2 = parseFloat(document.getElementById(lec2).value);
-  console.log(l2);
   let l3 = parseFloat(document.getElementById(lec3).value);
-  console.log(l3);
   let t = document.getElementById('phMuestra');
 
   // Val if rango 4 - 9
@@ -435,8 +432,6 @@ function valPhMuestra(lec1,lec2,lec3,prom)
   r3 = (l2 - l1);
   r4 = (l2 - l3);
 
-  console.log(r4);
-
   r5 = (l3 - l1);
   r6 = (l3 - l2);
 
@@ -446,8 +441,12 @@ function valPhMuestra(lec1,lec2,lec3,prom)
     sw1 = false;    
     //t.rows[1].setAttribute("class","bg-danger");
   }else{
-    sw1 = true;    
+    if(r1 === 0.03 || r1 === -0.03 || r1 === 0.02999999999999936 || r1 === -0.02999999999999936){
+      sw1 = false;
+    }else{
+      sw1 = true;      
     //t.rows[1].setAttribute("class","bg-success");
+    }
   }
 
   if(r2 < -0.03 || r2 > 0.03)
@@ -455,8 +454,12 @@ function valPhMuestra(lec1,lec2,lec3,prom)
       sw2 = false;      
       //t.rows[1].setAttribute("class","bg-danger");
     }else{
-      sw2 = true;            
+      if(r2 === 0.03 || r2 === -0.03 || r2 === 0.02999999999999936 || r2 === -0.02999999999999936){
+        sw2 = false;
+      }else{
+        sw2 = true;      
       //t.rows[1].setAttribute("class","bg-success");
+      }
     }
 
     if(r3 < -0.03 || r3 > 0.03)
@@ -464,8 +467,12 @@ function valPhMuestra(lec1,lec2,lec3,prom)
       sw3 = false;      
       //t.rows[1].setAttribute("class","bg-danger");
     }else{
-      sw3 = true;      
+      if(r3 === 0.03 || r3 === -0.03 || r3 === 0.02999999999999936 || r3 === -0.02999999999999936){
+        sw3 = false;
+      }else{
+        sw3 = true;      
       //t.rows[1].setAttribute("class","bg-success");
+      }
     }
 
     if(r4 < -0.03 || r4 > 0.03)
@@ -486,8 +493,12 @@ function valPhMuestra(lec1,lec2,lec3,prom)
       sw5 = false;      
       //t.rows[1].setAttribute("class","bg-danger");
     }else{
-      sw5 = true;      
+      if(r5 === 0.03 || r5 === -0.03 || r5 === 0.02999999999999936 || r5 === -0.02999999999999936){
+        sw5 = false;
+      }else{
+        sw5 = true;      
       //t.rows[1].setAttribute("class","bg-success");
+      }
     }
 
     if(r6 < -0.03 || r6 > 0.03)
@@ -495,8 +506,12 @@ function valPhMuestra(lec1,lec2,lec3,prom)
       sw6 = false;
       //t.rows[1].setAttribute("class","bg-danger");
     }else{
-      sw6 = true;
+      if(r6 === 0.03 || r6 === -0.03 || r6 === 0.02999999999999936 || r6 === -0.02999999999999936){
+        sw6 = false;
+      }else{
+        sw6 = true;      
       //t.rows[1].setAttribute("class","bg-success");
+      }
     }
 
     if(sw == true)
@@ -545,54 +560,112 @@ function valPhMuestra(lec1,lec2,lec3,prom)
   return sw;
 }
 
+
 function valTempMuestra(lec1,lec2,lec3,prom)
 {
-  let sw = true;
+  let sw = true;   
   let p = document.getElementById(prom);
   let l1 = parseFloat(document.getElementById(lec1).value);
   let l2 = parseFloat(document.getElementById(lec2).value);
   let l3 = parseFloat(document.getElementById(lec3).value);
+  let t = document.getElementById('tempAgua');  
 
+  r1 = (l1 - l2);
+  r2 = (l1 - l3);
+  r3 = (l2 - l1);
+  r4 = (l2 - l3);
+  r5 = (l3 - l1);
+  r6 = (l3 - l2)
+
+  // Val if rango 1 - 40
   if(l1 < 1 && l1 > 40)
-  {
-    sw = false;
+  {        
+    sw = false;    
   }
-  if(l2 < 1 && l2 > 40){
-    sw = false;
+  
+  if(l2 < 1 && l2 > 40){        
+    sw = false;    
   }
-  if(l3 < 1 && l3 > 40){
+  
+  if(l3 < 1 && l3 > 40){        
+    sw = false;    
+  }    
+
+  //Comprueba que la diferencia entre valores no sea mayor que 1 unidad
+  if(r1 > 1.0 || r1 < -1.0)
+  {        
+    sw = false; 
+  }
+
+  if(r2 > 1.0 || r2 < -1.0)
+  {    
+    sw = false;
+  }    
+    
+  if(r3 > 1.0 || r3 < -1.0)
+  {        
     sw = false;
   }
 
-  if((l1 - l2) > 1 || (l1 - l2) < -1){
-    sw = false;
-  }
-  if((l1 - l3) > 1 || (l1 - l3) < -1){
-    sw = false;
-  }
-  if((l2 - l1) > 1 || (l2 - l1) < -1){
-    sw = false;
-  }
-  if((l2 - l3) > 1 || (l2 - l3) < -1){
-    sw = false;
-  }
-  if((l3 - l1) > 1 || (l3 - l1) < -1){
-    sw = false;
-  }
-  if((l3 - l2) > 1 || (l3 - l2) < -1){
+  if(r4 > 1.0 || r4 < -1.0)
+  {        
     sw = false;
   }
 
-  p.value = ((l1 + l2 +l3) / 3).toFixed();
-
-  if(sw == true)
-  {
-    console.log("Aceptado");
-  }else{
-    console.log("Rechazado");
+  if(r5 > 1 || r5 < -1)
+  {        
+    sw = false;
   }
 
+  if(r6 > 1 || r6 < -1)
+  {            
+    sw = false;
+  }
+
+    if(sw == true)
+    {    
+        //Aceptado
+        if(lec1 == "temp10")
+        {
+          t.rows[1].setAttribute("class","bg-success");          
+        }else if(lec1 == "temp11"){
+          t.rows[2].setAttribute("class","bg-success");          
+        }else if(lec1 == "temp12"){
+          t.rows[3].setAttribute("class", "bg-success");          
+        }else if(lec1 == "temp13"){
+          t.rows[4].setAttribute("class", "bg-success");          
+        }else{
+        //Rechazado
+        if(lec1 == "temp10")
+        {          
+          t.rows[1].setAttribute("class","bg-danger");                    
+        }else if(lec1 == "temp11"){          
+          t.rows[2].setAttribute("class","bg-danger");          
+        }else if(lec1 == "temp12"){          
+          t.rows[3].setAttribute("class", "bg-danger");          
+        }else if(lec1 == "temp13"){          
+          t.rows[4].setAttribute("class", "bg-danger");          
+        }
+      }
+    }else{
+      //Rechazado
+      if(lec1 == "temp10")
+      {                
+        t.rows[1].setAttribute("class","bg-danger");        
+      }else if(lec1 == "temp11"){        
+        t.rows[2].setAttribute("class","bg-danger");        
+      }else if(lec1 == "temp12"){        
+        t.rows[3].setAttribute("class", "bg-danger");        
+      }else if(lec1 == "temp13"){                        
+        t.rows[4].setAttribute("class", "bg-danger");        
+      }
+    }
+
+  p.value = (l1 + l2 +l3) / 3;
+
+  return sw;
 }
+
 function valConMuestra(lec1,lec2,lec3,prom)
 {
   let sw = true;

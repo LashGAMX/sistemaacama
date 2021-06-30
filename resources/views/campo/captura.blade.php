@@ -478,9 +478,10 @@
                       </tbody>
                     </table>
                   </div>
+
                   <div class="col-md-12">
                     <p>Temperatura del agua</p>
-                    <table class="table" id="phTrazable">
+                    <table class="table" id="tempAgua">
                       <thead>
                         <tr>
                           <th>Núm Muestra</th>
@@ -503,6 +504,7 @@
                       </tbody>
                     </table>
                   </div>
+
                   <div class="col-md-12">
                     <p>Conductividad</p>
                     <table class="table" id="phTrazable">
@@ -528,6 +530,7 @@
                       </tbody>
                     </table>
                   </div>
+                  
                   <div class="col-md-12">
                     <p>Gasto</p>
                     <table class="table" id="phTrazable">
