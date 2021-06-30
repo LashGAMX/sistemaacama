@@ -381,20 +381,24 @@ function valPendiente(valor,criterio)
     
 }
 
+
 function valPhMuestra(lec1,lec2,lec3,prom)
 {
   let sw = false;
+  let sw1 = false;
   let sw2 = false;
   let sw3 = false;
   let sw4 = false;
   let sw5 = false;
-  let sw6 = false;
-  let sw7 = false;
+  let sw6 = false;  
   let p = document.getElementById(prom);
-  let t = document.getElementById("phMuestra");
   let l1 = parseFloat(document.getElementById(lec1).value);
+  console.log(l1);
   let l2 = parseFloat(document.getElementById(lec2).value);
+  console.log(l2);
   let l3 = parseFloat(document.getElementById(lec3).value);
+  console.log(l3);
+  let t = document.getElementById('phMuestra');
 
   // Val if rango 4 - 9
 
@@ -423,7 +427,7 @@ function valPhMuestra(lec1,lec2,lec3,prom)
     sw = false;
   }
 
-  // val if 0.03
+  // val if 0.003
 
   r1 = (l1 - l2);
   r2 = (l1 - l3);
@@ -431,39 +435,53 @@ function valPhMuestra(lec1,lec2,lec3,prom)
   r3 = (l2 - l1);
   r4 = (l2 - l3);
 
+  console.log(r4);
+
   r5 = (l3 - l1);
   r6 = (l3 - l2);
 
 
-
   if(r1 < -0.03 || r1 > 0.03)
   {
-    sw2 = false;    
+    sw1 = false;    
     //t.rows[1].setAttribute("class","bg-danger");
   }else{
-    sw2 = true;    
+    sw1 = true;    
     //t.rows[1].setAttribute("class","bg-success");
   }
 
   if(r2 < -0.03 || r2 > 0.03)
     {
-      sw3 = false;      
+      sw2 = false;      
       //t.rows[1].setAttribute("class","bg-danger");
     }else{
-      sw3 = true;            
+      sw2 = true;            
       //t.rows[1].setAttribute("class","bg-success");
     }
 
     if(r3 < -0.03 || r3 > 0.03)
     {
-      sw4 = false;      
+      sw3 = false;      
       //t.rows[1].setAttribute("class","bg-danger");
     }else{
-      sw4 = true;      
+      sw3 = true;      
       //t.rows[1].setAttribute("class","bg-success");
     }
 
     if(r4 < -0.03 || r4 > 0.03)
+    {
+      sw4 = false;      
+      //t.rows[1].setAttribute("class","bg-danger");
+    }else{
+      if(r4 === 0.03 || r4 === -0.03 || r4 === 0.02999999999999936 || r4 === -0.02999999999999936){
+        sw4 = false;
+      }else{
+        sw4 = true;      
+      //t.rows[1].setAttribute("class","bg-success");
+      }
+    }
+    
+    if(r5 < -0.03 || r5 > 0.03)
     {
       sw5 = false;      
       //t.rows[1].setAttribute("class","bg-danger");
@@ -471,125 +489,61 @@ function valPhMuestra(lec1,lec2,lec3,prom)
       sw5 = true;      
       //t.rows[1].setAttribute("class","bg-success");
     }
-    
-    if(r5 < -0.03 || r5 > 0.03)
-    {
-      sw6 = false;      
-      //t.rows[1].setAttribute("class","bg-danger");
-    }else{
-      sw6 = true;      
-      //t.rows[1].setAttribute("class","bg-success");
-    }
 
     if(r6 < -0.03 || r6 > 0.03)
     {
-      sw7 = false;
+      sw6 = false;
       //t.rows[1].setAttribute("class","bg-danger");
     }else{
-      sw7 = true;
+      sw6 = true;
       //t.rows[1].setAttribute("class","bg-success");
     }
 
-  if(sw == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true && sw6 == true && sw7 == true)
-  {
-    t.rows[1].setAttribute("class","bg-success");
-    // std.value = "Aprobado";
-  }else{
-    t.rows[1].setAttribute("class","bg-danger");
-    // std.value = "Rechazado";
-  }
+    if(sw == true)
+    {
+      if(sw1 == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true && sw6 == true){
+        //Aceptado
+        if(lec1 == "phl10")
+        {
+          t.rows[1].setAttribute("class","bg-success");
+        }else if(lec1 == "phl11"){
+          t.rows[2].setAttribute("class","bg-success");
+        }else if(lec1 == "phl12"){
+          t.rows[3].setAttribute("class", "bg-success");
+        }else if(lec1 == "phl13"){
+          t.rows[4].setAttribute("class", "bg-success");
+        }
+      }else{
+        //Rechazado
+        if(lec1 == "phl10")
+        {
+          t.rows[1].setAttribute("class","bg-danger");
+        }else if(lec1 == "phl11"){
+          t.rows[2].setAttribute("class","bg-danger");
+        }else if(lec1 == "phl12"){
+          t.rows[3].setAttribute("class", "bg-danger");
+        }else if(lec1 == "phl13"){
+          t.rows[4].setAttribute("class", "bg-danger");
+        }
+      }
+    }else{
+      //Rechazado
+      if(lec1 == "phl10")
+      {
+        t.rows[1].setAttribute("class","bg-danger");
+      }else if(lec1 == "phl11"){
+        t.rows[2].setAttribute("class","bg-danger");
+      }else if(lec1 == "phl12"){
+        t.rows[3].setAttribute("class", "bg-danger");
+      }else if(lec1 == "phl13"){
+        t.rows[4].setAttribute("class", "bg-danger");
+      }
+    }
 
   p.value = (l1 + l2 +l3) / 3;
 
   return sw;
 }
-
-/*function valPhMuestra(lec1,lec2,lec3,prom)
-{
-  let sw = false;
-  let p = document.getElementById(prom);
-  let l1 = parseFloat(document.getElementById(lec1).value);
-  let l2 = parseFloat(document.getElementById(lec2).value);
-  let l3 = parseFloat(document.getElementById(lec3).value);
-
-  // Val if rango 4 - 9
-
-  if(l1 > 4 && l1 < 9)
-  {
-    sw = true;
-  }else if(l2 > 4 && l2 < 9){
-    sw = true;
-  }else if(l3 > 4 && l3 < 9){
-    sw = true;
-  }else{
-    sw = false;
-  }
-
-  // val if 0.03
-
-  r1 = (l1 - l2);
-  r2 = (l1 - l3);
- 
-  r3 = (l2 - l1);
-  r4 = (l2 - l3);
-
-  r5 = (l3 - l1);
-  r6 = (l3 - l2);
-
-
-
-  if(r1 <= -0.03 || r1 >= 0.03)
-  {
-    sw = false;
-  }else{
-    sw = true;
-  }
-
-  if(r2 <= -0.03 || r2 >= 0.03)
-    {
-      sw = false;
-    }else{
-      sw = true;
-    }
-
-    if(r3 <= -0.03 || r3 >= 0.03)
-    {
-      sw = false;
-    }else{
-      sw = true;
-    }
-
-    if(r4 <= -0.03 || r4 >= 0.03)
-    {
-      sw = false;
-    }else{
-      sw = true;
-    }
-    if(r5 <= -0.03 || r5 >= 0.03)
-    {
-      sw = false;
-    }else{
-      sw = true;
-    }
-
-    if(r6 <= -0.03 || r6 >= 0.03)
-    {
-      sw = false;
-    }else{
-      sw = true;
-    }
-
-  if(sw == true)
-  {
-    // std.value = "Aprobado";
-  }else{
-    // std.value = "Rechazado";
-  }
-
-  p.value = (l1 + l2 +l3) / 3;
-
-  return sw;
-}*/
 
 function valTempMuestra(lec1,lec2,lec3,prom)
 {
@@ -1016,5 +970,4 @@ function setConCalidad(idCon,nombre,marca,lote)
       }
   });
 
-    // return data;
-  }
+  }  // return data;

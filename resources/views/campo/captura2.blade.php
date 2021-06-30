@@ -472,8 +472,6 @@
                               <td><input type="text" id="phprom{{$i}}"></td>
                               <td><input type="datetime-local" id="phf{{$i}}"></td>
                             </tr>
-
-
                         @endfor
                       </tbody>
                     </table>
