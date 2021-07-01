@@ -234,8 +234,7 @@ class CampoController extends Controller
     }
 
     public function setDataMuestreo(Request $request)
-    {
-
+    {        
         $phModel = PhMuestra::where('Id_solicitud',$request->idSolicitud)->get();
 
         if($phModel->count())
@@ -272,7 +271,7 @@ class CampoController extends Controller
         }    
 
         
-        $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$request->idSolicitud)->get();
+        $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$request->idSolicitud)->get();        
 
         if($tempMuestra->count())
         {
