@@ -172,9 +172,9 @@ function valPhTrazable(lec1,lec2,lec3,estado)
     std.value = "Rechazado";
     if(lec1 == "phTl11")
     {
-      t.rows[1].setAttribute("class","bg-warning");
+      t.rows[1].setAttribute("class","bg-danger");
     }else{
-      t.rows[2].setAttribute("class","bg-warning");
+      t.rows[2].setAttribute("class","bg-danger");
     }
     // if()
   }
@@ -273,12 +273,12 @@ function valPhCalidad(lec1,lec2,lec3,estado,prom)
       std.value = "Rechazado";
       if(lec1 == "phC11")
       {
-        t.rows[1].setAttribute("class","bg-warning");
+        t.rows[1].setAttribute("class","bg-danger");
       }else{
-        t.rows[2].setAttribute("class","bg-warning");
+        t.rows[2].setAttribute("class","bg-danger");
       }
     }
-  p.value = (l1 + l2 + l3) / 3;
+  p.value = ((l1 + l2 + l3) / 3).toFixed(3);
 }
 
 function valConTrazable(lec1,lec2,lec3,estado)
@@ -351,10 +351,10 @@ function valConCalidad(lec1,lec2,lec3,estado,prom)
     t.rows[1].setAttribute("class","bg-success");
   }else{
     std.value = "Rechazado";
-    t.rows[1].setAttribute("class","bg-warning");
+    t.rows[1].setAttribute("class","bg-danger");
   }
 
-  p.value = (l1 + l2 + l3 ) / 3
+  p.value = ((l1 + l2 + l3 ) / 3).toFixed(3);
 }
 
 function valPendiente(valor,criterio)
@@ -401,116 +401,95 @@ function valPhMuestra(lec1,lec2,lec3,prom)
 
   if(l1 > 4 && l1 < 9)
   {    
-    sw = true;
-    //t.rows[1].setAttribute("class","bg-success");
-  }else{
-    //t.rows[1].setAttribute("class","bg-danger");    
+    sw = true;    
+  }else{    
     sw = false;
   }
   
   if(l2 > 4 && l2 < 9){    
-    sw = true;
-    //t.rows[1].setAttribute("class","bg-success");
-  }else{
-    //t.rows[1].setAttribute("class","bg-danger");    
+    sw = true;    
+  }else{    
     sw = false;
   }
   
   if(l3 > 4 && l3 < 9){    
-    sw = true;
-    //t.rows[1].setAttribute("class","bg-success");
-  }else{
-    //t.rows[1].setAttribute("class","bg-danger");    
+    sw = true;    
+  }else{    
     sw = false;
   }
 
   // val if 0.003
 
-  r1 = (l1 - l2);
-  r2 = (l1 - l3);
- 
-  r3 = (l2 - l1);
-  r4 = (l2 - l3);
-
-  r5 = (l3 - l1);
-  r6 = (l3 - l2);
-
+  r1 = (l1 - l2).toFixed(3);  
+  r2 = (l1 - l3).toFixed(3);  
+  r3 = (l2 - l1).toFixed(3);    
+  r4 = (l2 - l3).toFixed(3);  
+  r5 = (l3 - l1).toFixed(3);  
+  r6 = (l3 - l2).toFixed(3);  
 
   if(r1 < -0.03 || r1 > 0.03)
   {
-    sw1 = false;    
-    //t.rows[1].setAttribute("class","bg-danger");
+    sw1 = false;        
   }else{
     if(r1 === 0.03 || r1 === -0.03 || r1 === 0.02999999999999936 || r1 === -0.02999999999999936){
       sw1 = false;
     }else{
-      sw1 = true;      
-    //t.rows[1].setAttribute("class","bg-success");
+      sw1 = true;          
     }
   }
 
   if(r2 < -0.03 || r2 > 0.03)
     {
-      sw2 = false;      
-      //t.rows[1].setAttribute("class","bg-danger");
+      sw2 = false;            
     }else{
       if(r2 === 0.03 || r2 === -0.03 || r2 === 0.02999999999999936 || r2 === -0.02999999999999936){
         sw2 = false;
       }else{
-        sw2 = true;      
-      //t.rows[1].setAttribute("class","bg-success");
+        sw2 = true;            
       }
     }
 
     if(r3 < -0.03 || r3 > 0.03)
     {
-      sw3 = false;      
-      //t.rows[1].setAttribute("class","bg-danger");
+      sw3 = false;            
     }else{
       if(r3 === 0.03 || r3 === -0.03 || r3 === 0.02999999999999936 || r3 === -0.02999999999999936){
         sw3 = false;
       }else{
-        sw3 = true;      
-      //t.rows[1].setAttribute("class","bg-success");
+        sw3 = true;            
       }
     }
 
     if(r4 < -0.03 || r4 > 0.03)
     {
-      sw4 = false;      
-      //t.rows[1].setAttribute("class","bg-danger");
+      sw4 = false;            
     }else{
       if(r4 === 0.03 || r4 === -0.03 || r4 === 0.02999999999999936 || r4 === -0.02999999999999936){
         sw4 = false;
       }else{
-        sw4 = true;      
-      //t.rows[1].setAttribute("class","bg-success");
+        sw4 = true;            
       }
     }
     
     if(r5 < -0.03 || r5 > 0.03)
     {
-      sw5 = false;      
-      //t.rows[1].setAttribute("class","bg-danger");
+      sw5 = false;            
     }else{
       if(r5 === 0.03 || r5 === -0.03 || r5 === 0.02999999999999936 || r5 === -0.02999999999999936){
         sw5 = false;
       }else{
-        sw5 = true;      
-      //t.rows[1].setAttribute("class","bg-success");
+        sw5 = true;            
       }
     }
 
     if(r6 < -0.03 || r6 > 0.03)
     {
-      sw6 = false;
-      //t.rows[1].setAttribute("class","bg-danger");
+      sw6 = false;      
     }else{
       if(r6 === 0.03 || r6 === -0.03 || r6 === 0.02999999999999936 || r6 === -0.02999999999999936){
         sw6 = false;
       }else{
-        sw6 = true;      
-      //t.rows[1].setAttribute("class","bg-success");
+        sw6 = true;            
       }
     }
 
@@ -533,6 +512,10 @@ function valPhMuestra(lec1,lec2,lec3,prom)
         if(lec1 == "phl10")
         {
           t.rows[1].setAttribute("class","bg-danger");
+          console.log(r1);
+          console.log(r2);
+          console.log(r3);
+          console.log(r5);
         }else if(lec1 == "phl11"){
           t.rows[2].setAttribute("class","bg-danger");
         }else if(lec1 == "phl12"){
@@ -561,64 +544,77 @@ function valPhMuestra(lec1,lec2,lec3,prom)
 }
 
 
-function valTempMuestra(lec1,lec2,lec3,prom)
+function valTempMuestra(lec1,lec2,lec3,f1,f2,f3,prom)
 {
+  Number.prototype.toFixedDown = function(digits) {
+    var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
+        m = this.toString().match(re);
+    return m ? parseFloat(m[1]) : this.valueOf();
+  };
+
+  let fac1 = document.getElementById(f1);
+  let fac2 = document.getElementById(f2);
+  let fac3 = document.getElementById(f3);  
   let sw = true;   
   let p = document.getElementById(prom);
-  let l1 = parseFloat(document.getElementById(lec1).value);
+  let l1 = parseFloat(document.getElementById(lec1).value);  
   let l2 = parseFloat(document.getElementById(lec2).value);
   let l3 = parseFloat(document.getElementById(lec3).value);
-  let t = document.getElementById('tempAgua');  
+  let t = document.getElementById('tempAgua');
 
-  r1 = (l1 - l2);
-  r2 = (l1 - l3);
-  r3 = (l2 - l1);
-  r4 = (l2 - l3);
-  r5 = (l3 - l1);
-  r6 = (l3 - l2)
+
+  r1 = (l1 - l2).toFixedDown(2);
+  r2 = (l1 - l3).toFixedDown(2);
+  r3 = (l2 - l1).toFixedDown(2);
+  r4 = (l2 - l3).toFixedDown(2);
+  r5 = (l3 - l1).toFixedDown(2);
+  r6 = (l3 - l2).toFixedDown(2);
 
   // Val if rango 1 - 40
-  if(l1 < 1 && l1 > 40)
-  {        
+  if((l1 < 1 && l1 > 40))
+  { 
+    fac1.innerHTML = "";
     sw = false;    
   }
   
-  if(l2 < 1 && l2 > 40){        
-    sw = false;    
+  if((l2 < 1 && l2 > 40)){
+    fac2.innerHTML = ""; 
+    sw = false;
   }
   
-  if(l3 < 1 && l3 > 40){        
+  if(l3 < 1 && l3 > 40){
+    fac3.innerHTML = ""; 
     sw = false;    
   }    
 
   //Comprueba que la diferencia entre valores no sea mayor que 1 unidad
-  if(r1 > 1.0 || r1 < -1.0)
-  {        
-    sw = false; 
+  if(r1 > 1 || r1 < -1)
+  {     
+    sw = false;
   }
 
   if(r2 > 1.0 || r2 < -1.0)
-  {    
+  {          
     sw = false;
   }    
     
   if(r3 > 1.0 || r3 < -1.0)
-  {        
+  {                
     sw = false;
   }
 
   if(r4 > 1.0 || r4 < -1.0)
+  {               
+    sw = false;
+  }
+
+  if(r5 > 1.0 || r5 < -1)
   {        
     sw = false;
   }
 
-  if(r5 > 1 || r5 < -1)
-  {        
-    sw = false;
-  }
-
-  if(r6 > 1 || r6 < -1)
-  {            
+  if(r6 > 1.0 || r6 < -1)
+  {              
     sw = false;
   }
 
@@ -626,37 +622,157 @@ function valTempMuestra(lec1,lec2,lec3,prom)
     {    
         //Aceptado
         if(lec1 == "temp10")
-        {
+        {           
+          if(l1 >= 0 && l1 <= 5){            
+            fac1.innerHTML = (l1 - 1).toFixed(3);          
+          }else if(l1 >= 16 && l1 < 20){
+            fac1.innerHTML = (l1 + 1).toFixed(3);
+          }else{
+            fac1.innerHTML = (l1).toFixed(3);
+          }
+
+          if(l2 >= 0 && l2 <= 5){
+            fac2.innerHTML = (l2 - 1).toFixed(3);          
+          }else if(l2 >= 16 && l2 <= 20){
+            fac2.innerHTML = (l2 + 1).toFixed(3);
+          }else{
+            fac2.innerHTML = (l2).toFixed(3);
+          }          
+
+          if(l3 >= 0 && l3 <= 5){
+            fac3.innerHTML = (l3 - 1).toFixed(3);          
+          }else if(l1 >= 16 && l1 <= 20){
+            fac3.innerHTML = (l3 + 1).toFixed(3);
+          }else{
+            fac3.innerHTML = (l3).toFixed(3);
+          }
+          
           t.rows[1].setAttribute("class","bg-success");          
         }else if(lec1 == "temp11"){
+          if(l1 >= 0 && l1 <= 5){            
+            fac1.innerHTML = (l1 - 1).toFixed(3);          
+          }else if(l1 >= 16 && l1 < 20){
+            fac1.innerHTML = (l1 + 1).toFixed(3);
+          }else{
+            fac1.innerHTML = (l1).toFixed(3);
+          }
+
+          if(l2 >= 0 && l2 <= 5){
+            fac2.innerHTML = (l2 - 1).toFixed(3);          
+          }else if(l2 >= 16 && l2 <= 20){
+            fac2.innerHTML = (l2 + 1).toFixed(3);
+          }else{
+            fac2.innerHTML = (l2).toFixed(3);
+          }          
+
+          if(l3 >= 0 && l3 <= 5){
+            fac3.innerHTML = (l3 - 1).toFixed(3);          
+          }else if(l1 >= 16 && l1 <= 20){
+            fac3.innerHTML = (l3 + 1).toFixed(3);
+          }else{
+            fac3.innerHTML = (l3).toFixed(3);
+          }
+
           t.rows[2].setAttribute("class","bg-success");          
         }else if(lec1 == "temp12"){
+          if(l1 >= 0 && l1 <= 5){            
+            fac1.innerHTML = (l1 - 1).toFixed(3);          
+          }else if(l1 >= 16 && l1 < 20){
+            fac1.innerHTML = (l1 + 1).toFixed(3);
+          }else{
+            fac1.innerHTML = (l1).toFixed(3);
+          }
+
+          if(l2 >= 0 && l2 <= 5){
+            fac2.innerHTML = (l2 - 1).toFixed(3);          
+          }else if(l2 >= 16 && l2 <= 20){
+            fac2.innerHTML = (l2 + 1).toFixed(3);
+          }else{
+            fac2.innerHTML = (l2).toFixed(3);
+          }          
+
+          if(l3 >= 0 && l3 <= 5){
+            fac3.innerHTML = (l3 - 1).toFixed(3);          
+          }else if(l1 >= 16 && l1 <= 20){
+            fac3.innerHTML = (l3 + 1).toFixed(3);
+          }else{
+            fac3.innerHTML = (l3).toFixed(3);
+          }
+          
           t.rows[3].setAttribute("class", "bg-success");          
         }else if(lec1 == "temp13"){
+          if(l1 >= 0 && l1 <= 5){            
+            fac1.innerHTML = (l1 - 1).toFixed(3);          
+          }else if(l1 >= 16 && l1 < 20){
+            fac1.innerHTML = (l1 + 1).toFixed(3);
+          }else{
+            fac1.innerHTML = (l1).toFixed(3);
+          }
+
+          if(l2 >= 0 && l2 <= 5){
+            fac2.innerHTML = (l2 - 1).toFixed(3);          
+          }else if(l2 >= 16 && l2 <= 20){
+            fac2.innerHTML = (l2 + 1).toFixed(3);
+          }else{
+            fac2.innerHTML = (l2).toFixed(3);
+          }          
+
+          if(l3 >= 0 && l3 <= 5){
+            fac3.innerHTML = (l3 - 1).toFixed(3);          
+          }else if(l1 >= 16 && l1 <= 20){
+            fac3.innerHTML = (l3 + 1).toFixed(3);
+          }else{
+            fac3.innerHTML = (l3).toFixed(3);
+          }
+          
           t.rows[4].setAttribute("class", "bg-success");          
         }else{
         //Rechazado
         if(lec1 == "temp10")
-        {          
+        {  
+          fac1.innerHTML = "";
+          fac2.innerHTML = "";
+          fac3.innerHTML = "";                      
           t.rows[1].setAttribute("class","bg-danger");                    
         }else if(lec1 == "temp11"){          
+          fac1.innerHTML = "";
+          fac2.innerHTML = "";
+          fac3.innerHTML = "";
           t.rows[2].setAttribute("class","bg-danger");          
         }else if(lec1 == "temp12"){          
+          fac1.innerHTML = "";
+          fac2.innerHTML = "";
+          fac3.innerHTML = "";
           t.rows[3].setAttribute("class", "bg-danger");          
         }else if(lec1 == "temp13"){          
+          fac1.innerHTML = "";
+          fac2.innerHTML = "";
+          fac3.innerHTML = "";
           t.rows[4].setAttribute("class", "bg-danger");          
         }
       }
     }else{
       //Rechazado
       if(lec1 == "temp10")
-      {                
+      {    
+        fac1.innerHTML = "";
+        fac2.innerHTML = "";
+        fac3.innerHTML = "";            
         t.rows[1].setAttribute("class","bg-danger");        
       }else if(lec1 == "temp11"){        
+        fac1.innerHTML = "";
+        fac2.innerHTML = "";
+        fac3.innerHTML = "";
         t.rows[2].setAttribute("class","bg-danger");        
       }else if(lec1 == "temp12"){        
+        fac1.innerHTML = "";
+        fac2.innerHTML = "";
+        fac3.innerHTML = "";
         t.rows[3].setAttribute("class", "bg-danger");        
       }else if(lec1 == "temp13"){                        
+        fac1.innerHTML = "";
+        fac2.innerHTML = "";
+        fac3.innerHTML = "";
         t.rows[4].setAttribute("class", "bg-danger");        
       }
     }

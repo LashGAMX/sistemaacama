@@ -466,7 +466,7 @@
                                   <option value="2">Verde</option>
                               </select>
                               </td> 
-                              <td><input type="number" id="phl1{{$i}}" onkeyup='valPhMuestra("phl1{{$i}}","phl2{{$i}}","phl3{{$i}}","phprom{{$i}}");'></td>
+                              <td><input type="number" id="phl1{{$i}}" onkeyup='valPhMuestra("phl1{{$i}}","phl2{{$i}}","phl3{{$i}}","phprom{{$i}}");'></td>                              
                               <td><input type="number" id="phl2{{$i}}" onkeyup='valPhMuestra("phl1{{$i}}","phl2{{$i}}","phl3{{$i}}","phprom{{$i}}");'></td>
                               <td><input type="number" id="phl3{{$i}}" onkeyup='valPhMuestra("phl1{{$i}}","phl2{{$i}}","phl3{{$i}}","phprom{{$i}}");'></td>
                               <td><input type="text" id="phprom{{$i}}"></td>
@@ -486,8 +486,11 @@
                         <tr>
                           <th>Núm Muestra</th>
                           <th>Temperatura 1 (°C)</th>
+                          <th>Factor de corrección aplicado</th>
                           <th>Temperatura 2 (°C)</th>
+                          <th>Factor de corrección aplicado</th>
                           <th>Temperatura 3 (°C)</th>
+                          <th>Factor de corrección aplicado</th>
                           <th>Temperatura Promedio (°C)</th>
                         </tr>
                       </thead>
@@ -495,9 +498,12 @@
                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                         <tr>
                           <td>{{$i + 1}}</td>
-                          <td><input type="text" id="temp1{{$i}}" onkeyup='valTempMuestra("temp1{{$i}}","temp2{{$i}}","temp3{{$i}}","tempprom{{$i}}");'></td>
-                          <td><input type="text" id="temp2{{$i}}" onkeyup='valTempMuestra("temp1{{$i}}","temp2{{$i}}","temp3{{$i}}","tempprom{{$i}}");'></td>
-                          <td><input type="text" id="temp3{{$i}}" onkeyup='valTempMuestra("temp1{{$i}}","temp2{{$i}}","temp3{{$i}}","tempprom{{$i}}");'></td>
+                          <td><input type="text" id="temp1{{$i}}" onkeyup='valTempMuestra("temp1{{$i}}","temp2{{$i}}","temp3{{$i}}","factorTemp1{{$i}}","factorTemp2{{$i}}","factorTemp3{{$i}}","tempprom{{$i}}");'></td>
+                          <td><p id="factorTemp1{{$i}}"></p></td>
+                          <td><input type="text" id="temp2{{$i}}" onkeyup='valTempMuestra("temp1{{$i}}","temp2{{$i}}","temp3{{$i}}","factorTemp1{{$i}}","factorTemp2{{$i}}","factorTemp3{{$i}}","tempprom{{$i}}");'></td>
+                          <td><p id="factorTemp2{{$i}}"></p></td>
+                          <td><input type="text" id="temp3{{$i}}" onkeyup='valTempMuestra("temp1{{$i}}","temp2{{$i}}","temp3{{$i}}","factorTemp1{{$i}}","factorTemp2{{$i}}","factorTemp3{{$i}}","tempprom{{$i}}");'></td>
+                          <td><p id="factorTemp3{{$i}}"></p></td>
                           <td><input type="text" id="tempprom{{$i}}"></td>
                         </tr>
                         @endfor
