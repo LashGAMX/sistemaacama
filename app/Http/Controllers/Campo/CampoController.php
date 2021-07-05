@@ -240,7 +240,7 @@ class CampoController extends Controller
         if($phModel->count())
         {
             for ($i=0; $i < $request->numTomas; $i++) { 
-                # code...
+                # code...//Find devuelve un array con las propiedades del objeto
                 $ph = PhMuestra::find($phModel[0]->Id_ph);
                 $ph->Id_solicitud = $request->idSolicitud;
                 $ph->Materia = $request->ph[$i][0];
@@ -277,7 +277,7 @@ class CampoController extends Controller
         {
             for ($i=0; $i < $request->numTomas; $i++) { 
                 # code...
-                $temp = TemperaturaMuestra::find($tempMuestra[0]->Id_ph);
+                $temp = TemperaturaMuestra::find($tempMuestra[0]->Id_temperatura);
                 $temp->Id_solicitud = $request->idSolicitud;
                 $temp->Temperatura1 = $request->temperatura[$i][0];
                 $temp->Temperatura2 = $request->temperatura[$i][1];
@@ -305,7 +305,7 @@ class CampoController extends Controller
         {
             for ($i=0; $i < $request->numTomas; $i++) { 
                 # code...
-                $conduc = ConductividadMuestra::find($conModel[0]->Id_ph);
+                $conduc = ConductividadMuestra::find($conModel[0]->Id_conductividad);
                 $conduc->Id_solicitud = $request->idSolicitud;
                 $conduc->Conductividad1 = $request->conductividad[$i][0];
                 $conduc->Conductividad2 = $request->conductividad[$i][1];
@@ -332,7 +332,7 @@ class CampoController extends Controller
         {
             for ($i=0; $i < $request->numTomas; $i++) { 
                 # code...
-                $gasto = GastoMuestra::find($gastoModel[0]->Id_ph);
+                $gasto = GastoMuestra::find($gastoModel[0]->Id_gasto);
                 $gasto->Id_solicitud = $request->idSolicitud;
                 $gasto->Gasto1 = $request->gasto[$i][0];
                 $gasto->Gasto2 = $request->gasto[$i][1];

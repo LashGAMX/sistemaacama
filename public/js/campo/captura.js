@@ -543,111 +543,6 @@ function valPhMuestra(lec1,lec2,lec3,prom)
   return sw;
 }
 
-/*function valTempMuestra(lec1,lec2,lec3,prom)
-{
-  let sw = true;   
-  let p = document.getElementById(prom);
-  let l1 = parseFloat(document.getElementById(lec1).value);
-  let l2 = parseFloat(document.getElementById(lec2).value);
-  let l3 = parseFloat(document.getElementById(lec3).value);
-  let t = document.getElementById('tempAgua');  
-
-  r1 = (l1 - l2);
-  r2 = (l1 - l3);
-  r3 = (l2 - l1);
-  r4 = (l2 - l3);
-  r5 = (l3 - l1);
-  r6 = (l3 - l2)
-
-  // Val if rango 1 - 40
-  if(l1 < 1 && l1 > 40)
-  {        
-    sw = false;    
-  }
-  
-  if(l2 < 1 && l2 > 40){        
-    sw = false;    
-  }
-  
-  if(l3 < 1 && l3 > 40){        
-    sw = false;    
-  }    
-
-  //Comprueba que la diferencia entre valores no sea mayor que 1 unidad
-  if(r1 > 1.0 || r1 < -1.0)
-  {        
-    sw = false; 
-  }
-
-  if(r2 > 1.0 || r2 < -1.0)
-  {    
-    sw = false;
-  }    
-    
-  if(r3 > 1.0 || r3 < -1.0)
-  {        
-    sw = false;
-  }
-
-  if(r4 > 1.0 || r4 < -1.0)
-  {        
-    sw = false;
-  }
-
-  if(r5 > 1 || r5 < -1)
-  {        
-    sw = false;
-  }
-
-  if(r6 > 1 || r6 < -1)
-  {            
-    sw = false;
-  }
-
-    if(sw == true)
-    {    
-        //Aceptado
-        if(lec1 == "temp10")
-        {
-          t.rows[1].setAttribute("class","bg-success");          
-        }else if(lec1 == "temp11"){
-          t.rows[2].setAttribute("class","bg-success");          
-        }else if(lec1 == "temp12"){
-          t.rows[3].setAttribute("class", "bg-success");          
-        }else if(lec1 == "temp13"){
-          t.rows[4].setAttribute("class", "bg-success");          
-        }else{
-        //Rechazado
-        if(lec1 == "temp10")
-        {          
-          t.rows[1].setAttribute("class","bg-danger");                    
-        }else if(lec1 == "temp11"){          
-          t.rows[2].setAttribute("class","bg-danger");          
-        }else if(lec1 == "temp12"){          
-          t.rows[3].setAttribute("class", "bg-danger");          
-        }else if(lec1 == "temp13"){          
-          t.rows[4].setAttribute("class", "bg-danger");          
-        }
-      }
-    }else{
-      //Rechazado
-      if(lec1 == "temp10")
-      {                
-        t.rows[1].setAttribute("class","bg-danger");        
-      }else if(lec1 == "temp11"){        
-        t.rows[2].setAttribute("class","bg-danger");        
-      }else if(lec1 == "temp12"){        
-        t.rows[3].setAttribute("class", "bg-danger");        
-      }else if(lec1 == "temp13"){                        
-        t.rows[4].setAttribute("class", "bg-danger");        
-      }
-    }
-
-  p.value = ((l1 + l2 +l3) / 3).toFixed(3);
-
-  return sw;
-}*/
-
 function valTempMuestra(lec1,lec2,lec3,prom,f1,f2,f3)
 {
   Number.prototype.toFixedDown = function(digits) {
@@ -1326,8 +1221,6 @@ function setConCalidad(idCon,nombre,marca,lote)
     
       gasto.push(row);
     }
-
-    
 
     $.ajax({
       url: base_url + '/admin/campo/captura/setDataMuestreo', //archivo que recibe la peticion
