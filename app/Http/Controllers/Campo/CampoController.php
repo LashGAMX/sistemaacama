@@ -31,19 +31,19 @@ use Illuminate\Support\Facades\Auth;
 class CampoController extends Controller
 {
     // 
-    
+
     public function asignar()
     {
-        $model = DB::table('ViewSolicitud')->where('Id_servicio',1)->orWhere('Id_servicio',3)->get();
-        $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at',NULL)->get();
+        $model = DB::table('ViewSolicitud')->where('Id_servicio', 1)->orWhere('Id_servicio', 3)->get();
+        $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', NULL)->get();
         $generadas = SolicitudesGeneradas::all();
         $usuarios = Usuario::all();
-        return view('campo.asignarMuestreo',compact('model','intermediarios','generadas','usuarios'));
+        return view('campo.asignarMuestreo', compact('model', 'intermediarios', 'generadas', 'usuarios'));
     }
-    public function listaMuestreo() 
+    public function listaMuestreo()
     {
-        $model = DB::table('ViewSolicitudGenerada')->where('Id_muestreador',Auth::user()->id)->get();
-        return view('campo.listaMuestreo',compact('model'));
+        $model = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', Auth::user()->id)->get();
+        return view('campo.listaMuestreo', compact('model'));
     }
     public function captura($id)
     {
@@ -55,12 +55,12 @@ class CampoController extends Controller
         $aforo = MetodoAforo::all();
         $conTratamiento = ConTratamiento::all();
         $tipo = TipoTratamiento::all();
-        
-        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
-        $general = CampoGenerales::where('Id_solicitud',$model->Id_solicitud)->first();
-        $frecuencia = DB::table('frecuencia001')->where('Id_frecuencia',$model->Id_muestreo)->first();
-        $phCampoTrazable = CampoPhTrazable::where('Id_solicitud',$model->Id_solicitud)->get();
-        $phCampoCalidad = CampoPhCalidad::where('Id_solicitud',$model->Id_solicitud)->get();
+
+        $model = DB::table('ViewSolicitud')->where('Id_solicitud', $id)->first();
+        $general = CampoGenerales::where('Id_solicitud', $model->Id_solicitud)->first();
+        $frecuencia = DB::table('frecuencia001')->where('Id_frecuencia', $model->Id_muestreo)->first();
+        $phCampoTrazable = CampoPhTrazable::where('Id_solicitud', $model->Id_solicitud)->get();
+        $phCampoCalidad = CampoPhCalidad::where('Id_solicitud', $model->Id_solicitud)->get();
         // $conCampoTrazable = CampoConTrazable::where('Id_solicitud',$model->Id_solicitud)->first();
         // $conCampoCalidad = CampoConCalidad::where('Id_solicitud',$model->Id_solicitud)->first();
         // $frecuencia = DB::table('frecuencia001')->where('')
@@ -79,12 +79,12 @@ class CampoController extends Controller
             'phCampoTrazable' => $phCampoTrazable,
             'phCampoCalidad' => $phCampoCalidad,
         );
-        return view('campo.captura',$data);  
+        return view('campo.captura', $data);
     }
     public function setDataGeneral(Request $request)
     {
-        $model = CampoGenerales::where('Id_solicitud',$request->idSolicitud)->first();
-    
+        $model = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->first();
+
         $model->Captura = "Sistema";
         $model->Id_equipo = $request->equipo;
         $model->Temperatura_a = $request->temp1;
@@ -97,9 +97,8 @@ class CampoController extends Controller
         $model->save();
 
         //Ph trazable
-        $phTrazableModel = CampoPhTrazable::where('Id_solicitud',$request->idSolicitud)->get();
-        if($phTrazableModel->count())
-        {
+        $phTrazableModel = CampoPhTrazable::where('Id_solicitud', $request->idSolicitud)->get();
+        if ($phTrazableModel->count()) {
             $phTrazable = CampoPhTrazable::find($phTrazableModel[0]->Id_ph);
             $phTrazable->Id_solicitud = $request->idSolicitud;
             $phTrazable->Id_phTrazable = $request->phTrazable1;
@@ -117,7 +116,7 @@ class CampoController extends Controller
             $phTrazable->Lectura3 = $request->phTl32;
             $phTrazable->Estado = $request->phTEstado2;
             $phTrazable->save();
-        }else{
+        } else {
             CampoPhTrazable::create([
                 'Id_solicitud' => $request->idSolicitud,
                 'Id_phTrazable' => $request->phTrazable1,
@@ -136,112 +135,108 @@ class CampoController extends Controller
             ]);
         }
         //PhCalidad
-               
-               $phCalidadMode = CampoPhCalidad::where('Id_solicitud',$request->idSolicitud)->get();
-               if($phCalidadMode->count())
-               {
-                   $phCalidad = CampoPhCalidad::find($phCalidadMode[0]->Id_ph);
-                   $phCalidad->Id_solicitud = $request->idSolicitud;
-                   $phCalidad->Id_phCalidad = $request->phTrazable1;
-                   $phCalidad->Lectura1 = $request->phTl11;
-                   $phCalidad->Lectura2 = $request->phT21;
-                   $phCalidad->Lectura3 = $request->phTl31;
-                   $phCalidad->Estado = $request->phTEstado1;
-                   $phCalidad->Promedio = $request->phCPromedio1;
-                   $phCalidad->save();
-       
-                   $phCalidad = CampoPhCalidad::find($phCalidadMode[1]->Id_ph);
-                   $phCalidad->Id_solicitud = $request->idSolicitud;
-                   $phCalidad->Id_phCalidad = $request->phTrazable2;
-                   $phCalidad->Lectura1 = $request->phTl12;
-                   $phCalidad->Lectura2 = $request->phT22;
-                   $phCalidad->Lectura3 = $request->phTl32;
-                   $phCalidad->Estado = $request->phTEstado2;
-                   $phCalidad->Promedio = $request->phCPromedio2;
-                   $phCalidad->save();
-               }else{
-                CampoPhCalidad::create([
-                       'Id_solicitud' => $request->idSolicitud,
-                       'Id_phCalidad' => $request->phTrazable1,
-                       'Lectura1' => $request->phTl11,
-                       'Lectura2' => $request->phT21,
-                       'Lectura3' => $request->phTl31,
-                       'Estado' => $request->phTEstado1,
-                       'Promedio' => $request->phCPromedio1,
-                   ]);
-                   CampoPhCalidad::create([
-                       'Id_solicitud' => $request->idSolicitud,
-                       'Id_phCalidad' => $request->phTrazable2,
-                       'Lectura1' => $request->phTl12,
-                       'Lectura2' => $request->phT22,
-                       'Lectura3' => $request->phTl32,
-                       'Estado' => $request->phTEstado2,
-                       'Promedio' => $request->phCPromedio2,
-                   ]);
-               }
 
-               //ConTrazable
-               $conTrazableModel = CampoConTrazable::where('Id_solicitud',$request->idSolicitud)->get();
-               if($conTrazableModel->count())
-               {
-                   $conTrazable = CampoConTrazable::find($conTrazableModel[0]->Id_conductividad);
-                   $conTrazable->Id_solicitud = $request->idSolicitud;
-                   $conTrazable->Id_conTrazable = $request->conTrazable;
-                   $conTrazable->Lectura1 = $request->conT1;
-                   $conTrazable->Lectura2 = $request->conT2;
-                   $conTrazable->Lectura3 = $request->conT3;
-                   $conTrazable->Estado = $request->conTEstado;
-                   $conTrazable->save();
- 
-               }else{
-                CampoConTrazable::create([
-                       'Id_solicitud' => $request->idSolicitud,
-                       'Id_conTrazable' => $request->conTrazable,
-                       'Lectura1' => $request->conT1,
-                       'Lectura2' => $request->conT2,
-                       'Lectura3' => $request->conT3,
-                       'Estado' => $request->conTEstado,
-                   ]);
-               }
+        $phCalidadMode = CampoPhCalidad::where('Id_solicitud', $request->idSolicitud)->get();
+        if ($phCalidadMode->count()) {
+            $phCalidad = CampoPhCalidad::find($phCalidadMode[0]->Id_ph);
+            $phCalidad->Id_solicitud = $request->idSolicitud;
+            $phCalidad->Id_phCalidad = $request->phTrazable1;
+            $phCalidad->Lectura1 = $request->phTl11;
+            $phCalidad->Lectura2 = $request->phT21;
+            $phCalidad->Lectura3 = $request->phTl31;
+            $phCalidad->Estado = $request->phTEstado1;
+            $phCalidad->Promedio = $request->phCPromedio1;
+            $phCalidad->save();
 
-            //    $conCalidadModel = CampoConCalidad::where('Id_solicitud',$request->idSolicitud)->get();
-            //    if($conCalidadModel->count())
-            //    {
-            //        $conCalidad = CampoConCalidad::find($conCalidadModel[0]->Id_conductividad);
-            //        $conCalidad->Id_solicitud = $request->idSolicitud;
-            //        $conCalidad->Id_conCalidad = $request->conCalidad;
-            //        $conCalidad->Lectura1 = $request->conCl1;
-            //        $conCalidad->Lectura2 = $request->conCl2;
-            //        $conCalidad->Lectura3 = $request->conCl3;
-            //        $conCalidad->Estado = $request->conCEstado;
-            //        $conCalidad->Promedio = $request->conCPromedio;
-            //        $conCalidad->save();
- 
-            //    }else{
-            //     CampoConCalidad::create([
-            //            'Id_solicitud' => $request->idSolicitud,
-            //            'Id_conCalidad' => $request->conCalidad,
-            //            'Lectura1' => $request->conCl1,
-            //            'Lectura2' => $request->conCl2,
-            //            'Lectura3' => $request->conCl3,
-            //            'Estado' => $request->conCEstado,
-            //            'Promedio' => $request->conCPromedio,
-            //        ]);
-            //    }
+            $phCalidad = CampoPhCalidad::find($phCalidadMode[1]->Id_ph);
+            $phCalidad->Id_solicitud = $request->idSolicitud;
+            $phCalidad->Id_phCalidad = $request->phTrazable2;
+            $phCalidad->Lectura1 = $request->phTl12;
+            $phCalidad->Lectura2 = $request->phT22;
+            $phCalidad->Lectura3 = $request->phTl32;
+            $phCalidad->Estado = $request->phTEstado2;
+            $phCalidad->Promedio = $request->phCPromedio2;
+            $phCalidad->save();
+        } else {
+            CampoPhCalidad::create([
+                'Id_solicitud' => $request->idSolicitud,
+                'Id_phCalidad' => $request->phTrazable1,
+                'Lectura1' => $request->phTl11,
+                'Lectura2' => $request->phT21,
+                'Lectura3' => $request->phTl31,
+                'Estado' => $request->phTEstado1,
+                'Promedio' => $request->phCPromedio1,
+            ]);
+            CampoPhCalidad::create([
+                'Id_solicitud' => $request->idSolicitud,
+                'Id_phCalidad' => $request->phTrazable2,
+                'Lectura1' => $request->phTl12,
+                'Lectura2' => $request->phT22,
+                'Lectura3' => $request->phTl32,
+                'Estado' => $request->phTEstado2,
+                'Promedio' => $request->phCPromedio2,
+            ]);
+        }
 
-        $data = array('sw' => true,'model' => $model);
+        //ConTrazable
+        $conTrazableModel = CampoConTrazable::where('Id_solicitud', $request->idSolicitud)->get();
+        if ($conTrazableModel->count()) {
+            $conTrazable = CampoConTrazable::find($conTrazableModel[0]->Id_conductividad);
+            $conTrazable->Id_solicitud = $request->idSolicitud;
+            $conTrazable->Id_conTrazable = $request->conTrazable;
+            $conTrazable->Lectura1 = $request->conT1;
+            $conTrazable->Lectura2 = $request->conT2;
+            $conTrazable->Lectura3 = $request->conT3;
+            $conTrazable->Estado = $request->conTEstado;
+            $conTrazable->save();
+        } else {
+            CampoConTrazable::create([
+                'Id_solicitud' => $request->idSolicitud,
+                'Id_conTrazable' => $request->conTrazable,
+                'Lectura1' => $request->conT1,
+                'Lectura2' => $request->conT2,
+                'Lectura3' => $request->conT3,
+                'Estado' => $request->conTEstado,
+            ]);
+        }
+
+        //    $conCalidadModel = CampoConCalidad::where('Id_solicitud',$request->idSolicitud)->get();
+        //    if($conCalidadModel->count())
+        //    {
+        //        $conCalidad = CampoConCalidad::find($conCalidadModel[0]->Id_conductividad);
+        //        $conCalidad->Id_solicitud = $request->idSolicitud;
+        //        $conCalidad->Id_conCalidad = $request->conCalidad;
+        //        $conCalidad->Lectura1 = $request->conCl1;
+        //        $conCalidad->Lectura2 = $request->conCl2;
+        //        $conCalidad->Lectura3 = $request->conCl3;
+        //        $conCalidad->Estado = $request->conCEstado;
+        //        $conCalidad->Promedio = $request->conCPromedio;
+        //        $conCalidad->save();
+
+        //    }else{
+        //     CampoConCalidad::create([
+        //            'Id_solicitud' => $request->idSolicitud,
+        //            'Id_conCalidad' => $request->conCalidad,
+        //            'Lectura1' => $request->conCl1,
+        //            'Lectura2' => $request->conCl2,
+        //            'Lectura3' => $request->conCl3,
+        //            'Estado' => $request->conCEstado,
+        //            'Promedio' => $request->conCPromedio,
+        //        ]);
+        //    }
+
+        $data = array('sw' => true, 'model' => $model);
         return response()->json($data);
     }
 
     public function setDataMuestreo(Request $request)
-    {        
-        $phModel = PhMuestra::where('Id_solicitud',$request->idSolicitud)->get();
+    {
+        $phModel = PhMuestra::where('Id_solicitud', $request->idSolicitud)->get();
 
-        if($phModel->count())
-        {
-            for ($i=0; $i < $request->numTomas; $i++) { 
+        if ($phModel->count()) {
+            for ($i = 0; $i < $request->numTomas; $i++) {
                 # code...//Find devuelve un array con las propiedades del objeto
-                $ph = PhMuestra::find($phModel[0]->Id_ph);
+                $ph = PhMuestra::find($phModel[$i]->Id_ph);
                 $ph->Id_solicitud = $request->idSolicitud;
                 $ph->Materia = $request->ph[$i][0];
                 $ph->Olor = $request->ph[$i][1];
@@ -253,8 +248,8 @@ class CampoController extends Controller
                 $ph->Fecha = $request->ph[$i][7];
                 $ph->save();
             }
-        }else{
-            for ($i=0; $i < $request->numTomas; $i++) { 
+        } else {
+            for ($i = 0; $i < $request->numTomas; $i++) {
                 # code...
                 PhMuestra::create([
                     'Id_solicitud' => $request->idSolicitud,
@@ -268,16 +263,15 @@ class CampoController extends Controller
                     'Fecha' => $request->ph[$i][7],
                 ]);
             }
-        }    
+        }
 
-        
-        $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$request->idSolicitud)->get();        
 
-        if($tempMuestra->count())
-        {
-            for ($i=0; $i < $request->numTomas; $i++) { 
+        $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $request->idSolicitud)->get();
+
+        if ($tempMuestra->count()) {
+            for ($i = 0; $i < $request->numTomas; $i++) {
                 # code...
-                $temp = TemperaturaMuestra::find($tempMuestra[0]->Id_temperatura);
+                $temp = TemperaturaMuestra::find($tempMuestra[$i]->Id_temperatura);
                 $temp->Id_solicitud = $request->idSolicitud;
                 $temp->Temperatura1 = $request->temperatura[$i][0];
                 $temp->Temperatura2 = $request->temperatura[$i][1];
@@ -285,8 +279,8 @@ class CampoController extends Controller
                 $temp->Promedio = $request->temperatura[$i][3];
                 $temp->save();
             }
-        }else{
-            for ($i=0; $i < $request->numTomas; $i++) { 
+        } else {
+            for ($i = 0; $i < $request->numTomas; $i++) {
                 # code...
                 TemperaturaMuestra::create([
                     'Id_solicitud' => $request->idSolicitud,
@@ -296,16 +290,15 @@ class CampoController extends Controller
                     'Promedio' => $request->temperatura[$i][3],
                 ]);
             }
-        }  
+        }
 
-             
-        $conModel = ConductividadMuestra::where('Id_solicitud',$request->idSolicitud)->get();
 
-        if($conModel->count())
-        {
-            for ($i=0; $i < $request->numTomas; $i++) { 
+        $conModel = ConductividadMuestra::where('Id_solicitud', $request->idSolicitud)->get();
+
+        if ($conModel->count()) {
+            for ($i = 0; $i < $request->numTomas; $i++) {
                 # code...
-                $conduc = ConductividadMuestra::find($conModel[0]->Id_conductividad);
+                $conduc = ConductividadMuestra::find($conModel[$i]->Id_conductividad);
                 $conduc->Id_solicitud = $request->idSolicitud;
                 $conduc->Conductividad1 = $request->conductividad[$i][0];
                 $conduc->Conductividad2 = $request->conductividad[$i][1];
@@ -313,8 +306,8 @@ class CampoController extends Controller
                 $conduc->Promedio = $request->conductividad[$i][3];
                 $conduc->save();
             }
-        }else{
-            for ($i=0; $i < $request->numTomas; $i++) { 
+        } else {
+            for ($i = 0; $i < $request->numTomas; $i++) {
                 # code...
                 ConductividadMuestra::create([
                     'Id_solicitud' => $request->idSolicitud,
@@ -324,15 +317,14 @@ class CampoController extends Controller
                     'Promedio' => $request->conductividad[$i][3],
                 ]);
             }
-        }  
+        }
 
-        $gastoModel = GastoMuestra::where('Id_solicitud',$request->idSolicitud)->get();
+        $gastoModel = GastoMuestra::where('Id_solicitud', $request->idSolicitud)->get();
 
-        if($gastoModel->count())
-        {
-            for ($i=0; $i < $request->numTomas; $i++) { 
+        if ($gastoModel->count()) {
+            for ($i = 0; $i < $request->numTomas; $i++) {
                 # code...
-                $gasto = GastoMuestra::find($gastoModel[0]->Id_gasto);
+                $gasto = GastoMuestra::find($gastoModel[$i]->Id_gasto);
                 $gasto->Id_solicitud = $request->idSolicitud;
                 $gasto->Gasto1 = $request->gasto[$i][0];
                 $gasto->Gasto2 = $request->gasto[$i][1];
@@ -340,8 +332,8 @@ class CampoController extends Controller
                 $gasto->Promedio = $request->gasto[$i][3];
                 $gasto->save();
             }
-        }else{
-            for ($i=0; $i < $request->numTomas; $i++) { 
+        } else {
+            for ($i = 0; $i < $request->numTomas; $i++) {
                 # code...
                 GastoMuestra::create([
                     'Id_solicitud' => $request->idSolicitud,
@@ -351,19 +343,18 @@ class CampoController extends Controller
                     'Promedio' => $request->gasto[$i][3],
                 ]);
             }
-        }  
+        }
 
-        $data = array('sw' => true,'model' => $request);
+        $data = array('sw' => true, 'model' => $request);
         return response()->json($data);
     }
 
     public function generar(Request $request) //Generar solicitud 
-    { 
-        $sol = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->get();
-        if($sol->count())
-        {
-            $model = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->get();
-        }else{
+    {
+        $sol = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->get();
+        if ($sol->count()) {
+            $model = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->get();
+        } else {
             $solGen = SolicitudesGeneradas::create([
                 'Id_solicitud' => $request->idSolicitud,
                 'Folio' => $request->folio,
@@ -371,7 +362,7 @@ class CampoController extends Controller
             CampoGenerales::create([
                 'Id_solicitud' => $request->idSolicitud,
             ]);
-            $model = SolicitudesGeneradas::where('Id_solicitud',$solGen->Id_solicitud)->get();
+            $model = SolicitudesGeneradas::where('Id_solicitud', $solGen->Id_solicitud)->get();
         }
         return response()->json(
             compact('model')
@@ -381,16 +372,16 @@ class CampoController extends Controller
     {
         $idUser = $request->idUser;
         $inge = Usuario::where('id', $idUser)->first();
-      
+
         $folio = $request->folioAsignar;
         $nombres = $inge->name;
-        $muestreador = $inge->id; 
+        $muestreador = $inge->id;
 
         $update = SolicitudesGeneradas::where('Folio', $folio)
-        ->update([
-            'Nombres' => $nombres,
-            'Id_muestreador' => $muestreador,
-        ]);
+            ->update([
+                'Nombres' => $nombres,
+                'Id_muestreador' => $muestreador,
+            ]);
 
         return response()->json(
             compact('update'),
@@ -398,27 +389,27 @@ class CampoController extends Controller
     }
     public function getFactorCorreccion(Request $request)
     {
-        $model = TermFactorCorreccionTemp::where('Id_termometro',$request->idFactor)->get();
+        $model = TermFactorCorreccionTemp::where('Id_termometro', $request->idFactor)->get();
         return response()->json(compact('model'));
     }
     public function getPhTrazable(Request $request)
     {
-        $model = PHTrazable::where('Id_ph',$request->idPh)->first();
+        $model = PHTrazable::where('Id_ph', $request->idPh)->first();
         return response()->json(compact('model'));
     }
     public function getPhCalidad(Request $request)
     {
-        $model = PHCalidad::where('Id_ph',$request->idPh)->first();
+        $model = PHCalidad::where('Id_ph', $request->idPh)->first();
         return response()->json(compact('model'));
     }
     public function getConTrazable(Request $request)
     {
-        $model = ConductividadTrazable::where('Id_conductividad',$request->idCon)->first();
+        $model = ConductividadTrazable::where('Id_conductividad', $request->idCon)->first();
         return response()->json(compact('model'));
     }
     public function getConCalidad(Request $request)
     {
-        $model = ConductividadCalidad::where('Id_conductividad',$request->idCon)->first();
+        $model = ConductividadCalidad::where('Id_conductividad', $request->idCon)->first();
         return response()->json(compact('model'));
     }
 }
