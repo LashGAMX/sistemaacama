@@ -21,5 +21,5 @@ class Usuario extends Model
         'password',
         'remember_token',
         'settings'
-    ];
+    ]; 
 }

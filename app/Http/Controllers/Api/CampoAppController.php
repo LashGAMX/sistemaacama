@@ -50,4 +50,9 @@ class CampoAppController extends Controller
  
         return response()->json($data);
     }
+    public function getListaMuestre(Request $request)
+    {
+        $model = DB::table('ViewSolicitudGenerada')->where('Id_muestreador',)->get();
+        return view('campo.listaMuestreo',compact('model'));
+    }
 }
