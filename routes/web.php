@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Beto\BetoController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Cotizacion\SolicitudController;
 use App\Http\Controllers\Home\HomeController;
@@ -34,3 +35,5 @@ Route::group(['prefix' => 'admin'], function () {
 Route::group(['prefix' => 'clientes'], function () {
     Route::get('orden_servicio/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
 });
+
+Route::get('animacion', [BetoController::class,'animacion']);
