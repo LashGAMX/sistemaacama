@@ -17,5 +17,7 @@ class PHCalidad extends Model
         'Ph_calidad',
         'Marca',
         'Lote',
+        'Inicio_caducidad',
+        'Fin_caducidad'
     ];
 }

@@ -17,6 +17,7 @@ class PHTrazable extends Model
         'Ph',
         'Marca',
         'Lote',
- 
+        'Inicio_caducidad',
+        'Fin_caducidad'
     ];
 }

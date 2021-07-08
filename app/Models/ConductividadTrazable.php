@@ -16,6 +16,8 @@ class ConductividadTrazable extends Model
     protected $fillable = [
         'Conductividad',
         'Marca',
-        'Lote'
+        'Lote',
+        'Inicio_caducidad',
+        'Fin_caducidad'
     ];
 }

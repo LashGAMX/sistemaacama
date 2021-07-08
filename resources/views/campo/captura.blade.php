@@ -297,7 +297,7 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>
+                                        <td>                                            
                                             <select id="phCalidad1">
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach ($phCalidad as $item)
