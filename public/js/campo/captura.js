@@ -51,7 +51,7 @@ function datosGenerales() {
             setPhCalidad($("#phCalidad1").val(), "phCNombre1", "phCMarca1", "phCLote1");
 
             if ($("#phTrazable1").val() != "0" && $("#phTrazable2").val() != "0" && $("#phTrazable1").val() == $("#phTrazable2").val()) {
-                alert("Los valores de Ph trazable no pueden ser los mismos");
+                //alert("Los valores de Ph trazable no pueden ser los mismos");
                 inputBorderColor("phTrazable1", "rojo");
                 inputBorderColor("phTrazable2", "rojo");
             } else if ($("#phTrazable1").val() == "0" || $("#phTrazable2").val() == "0") {                        
@@ -93,7 +93,7 @@ function datosGenerales() {
             setPhCalidad($("#phCalidad2").val(), "phCNombre2", "phCMarca2", "phCLote2");
 
         if ($("#phTrazable1").val() != "0" && $("#phTrazable2").val() != "0" && $("#phTrazable1").val() == $("#phTrazable2").val()) {
-            alert("Los valores de Ph trazable no pueden ser los mismos");
+            //alert("Los valores de Ph trazable no pueden ser los mismos");
             inputBorderColor("phTrazable1", "rojo");
             inputBorderColor("phTrazable2", "rojo");
         } else if ($("#phTrazable1").val() == "0" || $("#phTrazable2").val() == "0") {                        
@@ -142,7 +142,7 @@ function datosGenerales() {
             $("#phCalidad2").val() == $("#phTrazable2").val()
         ) {
             if ($("#phCalidad1").val() == $("#phCalidad2").val()) {
-                alert("Los valores de Ph calidad no pueden ser los mismos");
+               // alert("Los valores de Ph calidad no pueden ser los mismos");
                 inputBorderColor("phCalidad2", "rojo");
             } else {
                 inputBorderColor("phCalidad2", "verde");
