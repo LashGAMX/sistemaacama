@@ -12,7 +12,6 @@ use App\Models\ConductividadCalidad;
 use App\Models\ConductividadMuestra;
 use App\Models\ConductividadTrazable;
 use App\Models\ConTratamiento;
-use App\Models\Evidencia;
 use App\Models\GastoMuestra;
 use App\Models\MetodoAforo;
 use App\Models\PHCalidad;
@@ -349,23 +348,6 @@ class CampoController extends Controller
         $data = array('sw' => true, 'model' => $request);
         return response()->json($data);
     }
-
-    /*public function setEvidencia(Request $request){
-        $img1 = $_FILES["imgEvidencia1"];
-        $img2 = $_FILES["imgEvidencia2"];
-
-
-        $evModel = Evidencia::where('Id_solicitud', $request->idSolicitud)->get();
-
-        Evidencia::create([
-            'Id_solicitud' => $request->idSolicitud
-            //'Imagen_1' => $request->,
-            //'Imagen_2' => $request->,            
-        ]);        
-
-        $data = array('sw' => true, 'model' => $request);
-        return response()->json($data);
-    }*/
 
     public function generar(Request $request) //Generar solicitud 
     {

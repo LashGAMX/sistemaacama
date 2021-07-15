@@ -441,16 +441,15 @@ function valPendiente(valor, criterio) {
     }
 }
 
-function valPhMuestra(lec1, lec2, lec3, prom, prom1) {
+function valPhMuestra(lec1, lec2, lec3, prom) {
     let sw = false;
     let sw1 = false;
     let sw2 = false;
     let sw3 = false;
     let sw4 = false;
     let sw5 = false;
-    let sw6 = false;        
-    let p = document.getElementById(prom);    
-    let p1 = document.getElementById(prom1);
+    let sw6 = false;
+    let p = document.getElementById(prom);
     let l1 = parseFloat(document.getElementById(lec1).value);
     let l2 = parseFloat(document.getElementById(lec2).value);
     let l3 = parseFloat(document.getElementById(lec3).value);
@@ -461,7 +460,7 @@ function valPhMuestra(lec1, lec2, lec3, prom, prom1) {
     if (l1 > 4 && l1 < 9) {
         sw = true;
     } else {
-        sw = false;        
+        sw = false;
     }
 
     if (l2 > 4 && l2 < 9) {
@@ -484,73 +483,73 @@ function valPhMuestra(lec1, lec2, lec3, prom, prom1) {
     r4 = (l2 - l3).toFixed(3);
     r5 = (l3 - l1).toFixed(3);
     r6 = (l3 - l2).toFixed(3);
-    
+
     if (r1 < -0.03 || r1 > 0.03) {
-        sw1 = false;        
+        sw1 = false;
     } else {
         if (r1 === 0.03 || r1 === -0.03 || r1 === 0.02999999999999936 || r1 === -0.02999999999999936) {
-            sw1 = false;            
+            sw1 = false;
         } else {
             sw1 = true;
         }
     }
 
     if (r2 < -0.03 || r2 > 0.03) {
-        sw2 = false;          
+        sw2 = false;
     } else {
         if (r2 === 0.03 || r2 === -0.03 || r2 === 0.02999999999999936 || r2 === -0.02999999999999936) {
-            sw2 = false;            
+            sw2 = false;
         } else {
             sw2 = true;
         }
     }
 
     if (r3 < -0.03 || r3 > 0.03) {
-        sw3 = false;        
+        sw3 = false;
     } else {
         if (r3 === 0.03 || r3 === -0.03 || r3 === 0.02999999999999936 || r3 === -0.02999999999999936) {
-            sw3 = false;            
+            sw3 = false;
         } else {
             sw3 = true;
         }
     }
 
     if (r4 < -0.03 || r4 > 0.03) {
-        sw4 = false;        
+        sw4 = false;
     } else {
         if (r4 === 0.03 || r4 === -0.03 || r4 === 0.02999999999999936 || r4 === -0.02999999999999936) {
-            sw4 = false;            
+            sw4 = false;
         } else {
             sw4 = true;
         }
     }
 
     if (r5 < -0.03 || r5 > 0.03) {
-        sw5 = false;        
+        sw5 = false;
     } else {
         if (r5 === 0.03 || r5 === -0.03 || r5 === 0.02999999999999936 || r5 === -0.02999999999999936) {
-            sw5 = false;            
+            sw5 = false;
         } else {
             sw5 = true;
         }
     }
 
     if (r6 < -0.03 || r6 > 0.03) {
-        sw6 = false;        
+        sw6 = false;
     } else {
         if (r6 === 0.03 || r6 === -0.03 || r6 === 0.02999999999999936 || r6 === -0.02999999999999936) {
-            sw6 = false;            
+            sw6 = false;
         } else {
             sw6 = true;
         }
-    }    
+    }
 
     if (sw == true) {
-        if (sw1 == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true && sw6 == true) {
+        if (sw1 == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true &&sw6 == true) {
             //Aceptado
             if (lec1 == "phl10") {
                 if((isNaN(l1)|| isNaN(l2) || isNaN(l3))){
-                    t.rows[1].setAttribute("class", "bg-danger");
+                    t.rows[1].setAttribute("class", "bg-danger");                    
                 }else{
                     t.rows[1].setAttribute("class", "bg-success");
                 }                
@@ -598,21 +597,16 @@ function valPhMuestra(lec1, lec2, lec3, prom, prom1) {
         }
     }
 
-    if(sw == true && sw1 == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true && sw6 == true){                
+    if(sw == true && sw1 == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true && sw6 == true){        
         p.value = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
-        p1.innerHTML = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
-    }else{                
-        if(!isNaN(l1) && !isNaN(l2) && !isNaN(l3)){            
-            p1.innerHTML = "Error lecturas";
-        }else{
-            p1.innerHTML = "";
-        }        
+    }else{        
+        p.value = "";
     }
 
     return sw;
 }
 
-function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
+function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3) {
     Number.prototype.toFixedDown = function (digits) {
         var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
             m = this.toString().match(re);
@@ -627,11 +621,11 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
     let sw2 = false;
     let sw3 = false;
     let p = document.getElementById(prom);
-    let p1 = document.getElementById(prom1);
     let t = document.getElementById("tempAgua");
 
     //Lectura 1------------------------------------------------
-    let l1 = parseFloat(document.getElementById(lec1).value);    
+    let l1 = parseFloat(document.getElementById(lec1).value);           
+
     
         if(lec1 == "temp10"){            
             if ((l1 < 1 || l1 > 40) || isNaN(l1)) {
@@ -670,7 +664,7 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
         }                               
 
     //Lectura 2-----------------------------------------------
-    let l2 = parseFloat(document.getElementById(lec2).value);        
+    let l2 = parseFloat(document.getElementById(lec2).value);    
     
         if(lec2 == "temp20"){
             if ((l2 < 1 || l2 > 40) || isNaN(l2)) {
@@ -709,7 +703,7 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
         }           
 
     //Lectura 3-----------------------------------------------
-    let l3 = parseFloat(document.getElementById(lec3).value);                
+    let l3 = parseFloat(document.getElementById(lec3).value);            
         
         if(lec3 == "temp30"){
             if ((l3 < 1 || l3 > 40) || isNaN(l3)) {
@@ -786,27 +780,27 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
         if (lec1 == "temp10") {            
 
             if (l1 >= 0 && l1 <= 5) {                
-                fac1.innerHTML = (l1 - 1).toFixed(0);
+                fac1.innerHTML = (l1 - 1).toFixed(3);
             } else if (l1 >= 16 && l1 < 20) {
-                fac1.innerHTML = (l1 + 1).toFixed(0);
+                fac1.innerHTML = (l1 + 1).toFixed(3);
             } else {
-                fac1.innerHTML = l1.toFixed(0);
+                fac1.innerHTML = l1.toFixed(3);
             }
 
             if (l2 >= 0 && l2 <= 5) {
-                fac2.innerHTML = (l2 - 1).toFixed(0);
+                fac2.innerHTML = (l2 - 1).toFixed(3);
             } else if (l2 >= 16 && l2 < 20) {
-                fac2.innerHTML = (l2 + 1).toFixed(0);
+                fac2.innerHTML = (l2 + 1).toFixed(3);
             } else {
-                fac2.innerHTML = l2.toFixed(0);
+                fac2.innerHTML = l2.toFixed(3);
             }
 
             if (l3 >= 0 && l3 <= 5) {
-                fac3.innerHTML = (l3 - 1).toFixed(0);
+                fac3.innerHTML = (l3 - 1).toFixed(3);
             } else if (l1 >= 16 && l1 < 20) {
-                fac3.innerHTML = (l3 + 1).toFixed(0);
+                fac3.innerHTML = (l3 + 1).toFixed(3);
             } else {
-                fac3.innerHTML = l3.toFixed(0);
+                fac3.innerHTML = l3.toFixed(3);
             }
 
             if((isNaN(l2) || isNaN(l3)) || (sw1 == false || sw2 == false || sw3 == false)){
@@ -820,27 +814,27 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
 
         } else if (lec1 == "temp11") {
             if (l1 >= 0 && l1 <= 5) {
-                fac1.innerHTML = (l1 - 1).toFixed(0);
+                fac1.innerHTML = (l1 - 1).toFixed(3);
             } else if (l1 >= 16 && l1 < 20) {
-                fac1.innerHTML = (l1 + 1).toFixed(0);
+                fac1.innerHTML = (l1 + 1).toFixed(3);
             } else {
-                fac1.innerHTML = l1.toFixed(0);
+                fac1.innerHTML = l1.toFixed(3);
             }
 
             if (l2 >= 0 && l2 <= 5) {
-                fac2.innerHTML = (l2 - 1).toFixed(0);
+                fac2.innerHTML = (l2 - 1).toFixed(3);
             } else if (l2 >= 16 && l2 < 20) {
-                fac2.innerHTML = (l2 + 1).toFixed(0);
+                fac2.innerHTML = (l2 + 1).toFixed(3);
             } else {
-                fac2.innerHTML = l2.toFixed(0);
+                fac2.innerHTML = l2.toFixed(3);
             }
 
             if (l3 >= 0 && l3 <= 5) {
-                fac3.innerHTML = (l3 - 1).toFixed(0);
+                fac3.innerHTML = (l3 - 1).toFixed(3);
             } else if (l1 >= 16 && l1 < 20) {
-                fac3.innerHTML = (l3 + 1).toFixed(0);
+                fac3.innerHTML = (l3 + 1).toFixed(3);
             } else {
-                fac3.innerHTML = l3.toFixed(0);
+                fac3.innerHTML = l3.toFixed(3);
             }
 
             if((isNaN(l2) || isNaN(l3)) || (sw1 == false || sw2 == false || sw3 == false)){
@@ -854,27 +848,27 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
 
         } else if (lec1 == "temp12") {
             if (l1 >= 0 && l1 <= 5) {
-                fac1.innerHTML = (l1 - 1).toFixed(0);
+                fac1.innerHTML = (l1 - 1).toFixed(3);
             } else if (l1 >= 16 && l1 < 20) {
-                fac1.innerHTML = (l1 + 1).toFixed(0);
+                fac1.innerHTML = (l1 + 1).toFixed(3);
             } else {
-                fac1.innerHTML = l1.toFixed(0);
+                fac1.innerHTML = l1.toFixed(3);
             }
 
             if (l2 >= 0 && l2 <= 5) {
-                fac2.innerHTML = (l2 - 1).toFixed(0);
+                fac2.innerHTML = (l2 - 1).toFixed(3);
             } else if (l2 >= 16 && l2 < 20) {
-                fac2.innerHTML = (l2 + 1).toFixed(0);
+                fac2.innerHTML = (l2 + 1).toFixed(3);
             } else {
-                fac2.innerHTML = l2.toFixed(0);
+                fac2.innerHTML = l2.toFixed(3);
             }
 
             if (l3 >= 0 && l3 <= 5) {
-                fac3.innerHTML = (l3 - 1).toFixed(0);
+                fac3.innerHTML = (l3 - 1).toFixed(3);
             } else if (l1 >= 16 && l1 < 20) {
-                fac3.innerHTML = (l3 + 1).toFixed(0);
+                fac3.innerHTML = (l3 + 1).toFixed(3);
             } else {
-                fac3.innerHTML = l3.toFixed(0);
+                fac3.innerHTML = l3.toFixed(3);
             }
 
             if((isNaN(l2) || isNaN(l3)) || (sw1 == false || sw2 == false || sw3 == false)){
@@ -888,27 +882,27 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
             
         } else if (lec1 == "temp13") {
             if (l1 >= 0 && l1 <= 5) {
-                fac1.innerHTML = (l1 - 1).toFixed(0);
+                fac1.innerHTML = (l1 - 1).toFixed(3);
             } else if (l1 >= 16 && l1 < 20) {
-                fac1.innerHTML = (l1 + 1).toFixed(0);
+                fac1.innerHTML = (l1 + 1).toFixed(3);
             } else {
-                fac1.innerHTML = l1.toFixed(0);
+                fac1.innerHTML = l1.toFixed(3);
             }
 
             if (l2 >= 0 && l2 <= 5) {
-                fac2.innerHTML = (l2 - 1).toFixed(0);
+                fac2.innerHTML = (l2 - 1).toFixed(3);
             } else if (l2 >= 16 && l2 < 20) {
-                fac2.innerHTML = (l2 + 1).toFixed(0);
+                fac2.innerHTML = (l2 + 1).toFixed(3);
             } else {
-                fac2.innerHTML = l2.toFixed(0);
+                fac2.innerHTML = l2.toFixed(3);
             }
 
             if (l3 >= 0 && l3 <= 5) {
-                fac3.innerHTML = (l3 - 1).toFixed(0);
+                fac3.innerHTML = (l3 - 1).toFixed(3);
             } else if (l1 >= 16 && l1 < 20) {
-                fac3.innerHTML = (l3 + 1).toFixed(0);
+                fac3.innerHTML = (l3 + 1).toFixed(3);
             } else {
-                fac3.innerHTML = l3.toFixed(0);
+                fac3.innerHTML = l3.toFixed(3);
             }
 
             if((isNaN(l2) || isNaN(l3)) || (sw1 == false || sw2 == false || sw3 == false)){
@@ -947,22 +941,16 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
     
     if(sw == true && sw1 == true && sw2 == true && sw3 == true){        
         p.value = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
-        p1.innerHTML = parseFloat(((l1 + l2 + l3) / 3)).toFixed(0);
     }else{        
-        if(!isNaN(l1) && !isNaN(l2) && !isNaN(l3)){            
-            p1.innerHTML = "Error lecturas";
-        }else{
-            p1.innerHTML = "";
-        }   
+        p.value = "";
     }
 
     return sw;
 }
 
-function valConMuestra(lec1, lec2, lec3, prom, prom1) {
+function valConMuestra(lec1, lec2, lec3, prom) {
     let sw = true;
     let p = document.getElementById(prom);
-    let p1 = document.getElementById(prom1);
     let l1 = parseFloat(document.getElementById(lec1).value);
     let l2 = parseFloat(document.getElementById(lec2).value);
     let l3 = parseFloat(document.getElementById(lec3).value);
@@ -1030,22 +1018,16 @@ function valConMuestra(lec1, lec2, lec3, prom, prom1) {
 
     if((sw == true) && (!isNaN(l1) && !isNaN(l2) && !isNaN(l3))){        
         p.value = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
-        p1.innerHTML = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
     }else{        
-        if(!isNaN(l1) && !isNaN(l2) && !isNaN(l3)){            
-            p1.innerHTML = "Error lecturas";
-        }else{
-            p1.innerHTML = "";
-        }
+        p.value = "";
     }
 
     return sw;
 }
 
-function valGastoMuestra(lec1, lec2, lec3, prom, prom1) {
+function valGastoMuestra(lec1, lec2, lec3, prom) {
     let sw = true;
     let p = document.getElementById(prom);
-    let p1 = document.getElementById(prom1);
     let l1 = parseFloat(document.getElementById(lec1).value);
     let l2 = parseFloat(document.getElementById(lec2).value);
     let l3 = parseFloat(document.getElementById(lec3).value);    
@@ -1112,46 +1094,11 @@ function valGastoMuestra(lec1, lec2, lec3, prom, prom1) {
 
     if((sw == true) && (!isNaN(l1) && !isNaN(l2) && !isNaN(l3))){        
         p.value = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
-        p1.innerHTML = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
     }else{        
-        if(!isNaN(l1) && !isNaN(l2) && !isNaN(l3)){            
-            p1.innerHTML = "Error lecturas";
-        }else{
-            p1.innerHTML = "";
-        }
+        p.value = "";
     }
 
     return sw;
-}
-
-/*Como extraer el ite.Factor para compararlo con la temperatura muestra ingresada*/
-
-//FUNCIÓN EN PROCESO
-function valTempCompuesto(temp1){
-    let t = parseInt(document.getElementById(temp1).value);
-    console.log("Valor de temperatura compuesta: " + t);
-    
-    $.ajax({
-        url: base_url + "/admin/campo/captura/getFactorCorreccion", //archivo que recibe la peticion
-        type: "POST", //método de envio
-        data: {
-            idFactor: $("#termometro").val(),
-            _token: $('input[name="_token"]').val(),
-        },
-        dataType: "json",
-        async: false,
-        success: function (response) {                        
-            console.log(response.model);
-            
-            $.each(response.model, function (key, item) {
-                
-                console.log("Valor de factor: " + item.Factor);
-                console.log("Valor de factor aplicado: " + item.Factor_aplicado);
-                
-            });
-            
-        },
-    });
 }
 
 function promedioPh(ph1, ph2, ph3, res) {
@@ -1190,17 +1137,16 @@ function getFactorCorreccion() {
         },
         dataType: "json",
         async: false,
-        success: function (response) {            
-            myArray = response.model;
-            console.log(myArray);
+        success: function (response) {
+            console.log(response.model);
             tab +=
                 '<table id="tablaFactorCorreccion" class="table table-sm  table-striped table-bordered">';
             tab += '    <thead class="thead-dark">';
             tab += "        <tr>";
             tab += "              <th>De °C</th>";
             tab += "              <th>a °C</th>";
-            tab += "              <th>Factor corrección</th>";
-            tab += "              <th>Factor de corrección aplicada</th>";
+            tab += "              <th>Factor corección</th>";
+            tab += "              <th>Factor de corección aplicada</th>";
             tab += "        </tr>";
             tab += "    </thead>";
             tab += "    <tbody>";
@@ -1353,7 +1299,7 @@ function setConCalidad(idCon, nombre, marca, lote) {
 function inputBorderColor(id, color) {
     let cont = document.getElementById(id);
 
-    switch (color) {        
+    switch (color) {
         case "rojo":
             cont.setAttribute("style", "border-color:#dc3545");
             break;
@@ -1503,28 +1449,6 @@ function setDataMuestreo() {
         },
     });
 } // return data;
-
-/*function setEvidencia(){        
-    var parametros = new FormData($("#formulario-envia")[0]);
-
-    $.ajax({
-        url: base_url + "/admin/campo/captura/setDataMuestreo",
-        type: "POST", //método de envio
-        contentType: false,
-        processData: false,        
-        data: {
-            idSolicitud: $("#idSolicitud").val(),            
-            _token: $('input[name="_token"]').val(),
-            parametros
-        },
-        beforeSend: function(){
-
-        },
-        success: function(response){
-            alert(response);
-        }
-    });
-}*/
 
 function selectedOption() {
     //Obtiene el valor de la opción seleccionada
