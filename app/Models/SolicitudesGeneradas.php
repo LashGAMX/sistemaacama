@@ -23,5 +23,6 @@ class SolicitudesGeneradas extends Model
       'A_paterno',
       'A_materno',
       'Nombres',
+      'Estado',
     ];
 }
