@@ -10,7 +10,7 @@ class GastoMuestra extends Model
 {
     use HasFactory,SoftDeletes;
     protected $table = 'gasto_muestra';
-    protected $primaryKey = 'Id_Gasto';
+    protected $primaryKey = 'Id_gasto';
     public $timestamps = true;
 
     protected $fillable = [
