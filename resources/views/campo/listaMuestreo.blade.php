@@ -83,7 +83,7 @@
                             <th>Serie</th>
                             <th>Creao</th>
                             <th>Fecha creación</th>
-                            <th>Modifico</th>
+                            <th>Modificó</th>
                             <th>Fecha modificación</th>
                         </tr>
                     </thead>

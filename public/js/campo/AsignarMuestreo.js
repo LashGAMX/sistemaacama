@@ -59,10 +59,10 @@ var folioAsignar;
         idSolicitud = dato;
     });
     
-            $('#solicitudGenerada tr').on('click', function(){
-                let dato = $(this).find('td:eq(0)').html();
-                folioAsignar = dato;
-            });
+    $('#solicitudGenerada tr').on('click', function(){
+        let dato = $(this).find('td:eq(0)').html();
+        folioAsignar = dato;
+    });
 
     $('#btnImprimir').click( function () {
         alert("Imprimir"+" Id: "+idSolicitud);

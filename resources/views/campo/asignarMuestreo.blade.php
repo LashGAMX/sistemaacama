@@ -71,7 +71,7 @@
             <th>Fecha muestreo</th>
             <th>Observaciones</th>
             <th>Creado por</th>
-            <th>Fecha Creacción</th>
+            <th>Fecha Creación</th>
             <th>Actualizado por</th>
             <th>Fecha Actualización</th>
           </tr>
@@ -123,7 +123,7 @@
           </div> --}}
         </div>
       </div>
-     </div>
+    </div>
     <div class="col-md-12">
       <div id="divSolGenerada">
         <table class="table table-sm" id="solicitudGenerada">

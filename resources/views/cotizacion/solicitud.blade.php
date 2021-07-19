@@ -41,12 +41,15 @@
                             <div class="col-md-1">
                                 <button id="btnImprimir" class="btn btn-info" ><i class="voyager-documentation"></i> Imprimir</button>
                             </div>
+                            <div class="col-md-1">
+                                <button id="btnGenFolio" class="btn btn-success" ><i class="voyager-file-text"></i> Generar Folio</button>
+                            </div>
                         </div>
                         <thead class="">
                             <tr> 
                                 <th>#</th>
                                 <th>Estado</th>
-                                <th>Folio cotizacion</th>
+                                <th>Folio cotización</th>
                                 <th>Folio servicio</th>
                                 <th>Norma</th>
                                 <th>Servicio</th>
