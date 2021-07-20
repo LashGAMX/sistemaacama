@@ -45,6 +45,17 @@ class CampoAppController extends Controller
         );
         return response()->json($data);
     } 
+    public function enviarDatos(Request $request)
+    {
+        $jsonGeneral = json_decode($request->campoGenerales,true);
+
+        $data = array(
+            'response' => true,
+            'general' => $jsonGeneral,
+            
+        );
+        return response()->json($data);
+    }
 
 }
 
