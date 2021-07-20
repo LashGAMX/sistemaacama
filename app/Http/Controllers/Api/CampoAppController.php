@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\CampoGenerales;
 use App\Models\SolicitudesGeneradas;
 use App\Models\UsuarioApp;
 use Illuminate\Http\Request;
@@ -45,6 +46,26 @@ class CampoAppController extends Controller
         );
         return response()->json($data);
     } 
+    public function enviarDatos(Request $request)
+    {
+        $jsonGeneral = json_decode($request->campoGenerales,true);
+
+        $solModel = SolicitudesGeneradas::where('Folio',$request->folio);
+        $solModel->Estado = 3;
+        $solModel->save();
+
+        $solModel = SolicitudesGeneradas::where('Folio',$request->folio)->first();
+
+        //$campoGenModel = CampoGenerales::where('Folio',$solModel->Id)
+
+
+        $data = array(
+            'response' => true,
+            'general' => $jsonGeneral,
+            'dato' => $jsonGeneral[0]["Id_solicitud"]  
+        );
+        return response()->json($data);
+    }
 
 }
 
