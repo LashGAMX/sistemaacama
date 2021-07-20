@@ -13,7 +13,7 @@ use App\Models\NormaParametros;
 use App\Models\PuntoMuestreoGen;
 use App\Models\PuntoMuestreoSir;
 use App\Models\Solicitud;
-use App\Models\SolicitudParametro;
+use App\Models\SolicitudParametro; 
 use App\Models\SolicitudPuntos;
 use App\Models\SucursalCliente;
 use App\Models\TipoDescarga;
