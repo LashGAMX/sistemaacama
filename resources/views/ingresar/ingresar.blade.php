@@ -103,6 +103,8 @@
         </div>
     </div>
 
+    <p class="text-center" style="font-size: 160%">Solicitudes</p>    
+
 </div>
 {{-- <livewire:historial.config/> --}}
 @endsection

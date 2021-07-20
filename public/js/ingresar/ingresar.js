@@ -20,7 +20,7 @@ $(document).ready(function (){
         
         if ( $(this).hasClass('selected') ) {
             //console.log("Dentro de selected1");
-            $(this).removeClass('selected');    
+            $(this).removeClass('selected');
         }
         else {            
             //console.log("Dentro de selected1 else");
@@ -38,7 +38,7 @@ $(document).ready(function (){
         
         //console.log("Valor de idSolicitud: " + idSolicitud);
         //console.log("Valor de folio: " + folio);        
-        generar(idSolicitud, folio);
+        generarDatos(idSolicitud, folio);
     } );
  
     let idCot = 0; 
@@ -48,7 +48,7 @@ $(document).ready(function (){
     });
 });  
 
-function solicitudGenerada()
+function mostrarDatos()
  {
     tableAsignar = $("#tablaDatos").DataTable ({
         "ordering": false,
@@ -74,7 +74,7 @@ function solicitudGenerada()
         } );  
 }
 
-function generar(idSolicitud, folio) 
+function generarDatos(idSolicitud, folio) 
 {
     //console.log("Dentro de Generar");
     let tabla = document.getElementById('divTablaDatos');
