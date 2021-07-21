@@ -808,12 +808,7 @@
                                     </thead>
 
                                     <tbody>
-                                        @for ($i = 0; $i < $model->Num_tomas; $i++)
-                                            <tr>
-                                                <td>{{ $i + 1 }}</td>
-                                                <td></td>
-                                            </tr>
-                                        @endfor
+                                        
                                     </tbody>
                                 </table>
                             </div>                            

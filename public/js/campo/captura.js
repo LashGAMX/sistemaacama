@@ -1256,9 +1256,20 @@ function valConMuestra(lec1, lec2, lec3, prom, prom1) {
     return sw;
 }
 
+let gasprom0 = null;
+let gasprom1 = null;
+let gasprom2 = null;
+let gasprom3 = null;
+let gasprom4 = null;
+let gasprom5 = null;
+
+let temp1;
+let temp2;
+
 function valGastoMuestra(lec1, lec2, lec3, prom, prom1) {
     let sw = true;
-    let p = document.getElementById(prom);
+    let p = document.getElementById(prom);    
+    //console.log("Valor de prom: " + prom);
     let p1 = document.getElementById(prom1);
     let l1 = parseFloat(document.getElementById(lec1).value);
     let l2 = parseFloat(document.getElementById(lec2).value);
@@ -1325,8 +1336,8 @@ function valGastoMuestra(lec1, lec2, lec3, prom, prom1) {
     }
 
     if((sw == true) && (!isNaN(l1) && !isNaN(l2) && !isNaN(l3))){        
-        p.value = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
-        p1.innerHTML = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
+        p.value = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);        
+        p1.innerHTML = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);        
     }else{        
         if(!isNaN(l1) && !isNaN(l2) && !isNaN(l3)){            
             p1.innerHTML = "Error lecturas";
@@ -1335,8 +1346,37 @@ function valGastoMuestra(lec1, lec2, lec3, prom, prom1) {
         }
     }
 
+    if(prom === 'gasprom0'){        
+        gasprom0 = parseFloat(p.value);
+        //console.log("Valor de gasprom0: " + gasprom0);
+    }else if(prom === 'gasprom1'){
+        gasprom1 = parseFloat(p.value);
+        //console.log("Valor de gasprom1: " + gasprom1);
+    }else if(prom === 'gasprom2'){
+        gasprom2 = parseFloat(p.value);
+        //console.log("Valor de gasprom2: " + gasprom2);
+    }else if(prom === 'gasprom3'){
+        gasprom3 = parseFloat(p.value);
+        //console.log("Valor de gasprom3: " + gasprom3);
+    }else if(prom === 'gasprom4'){
+        gasprom4 = parseFloat(p.value);
+        //console.log("Valor de gasprom4: " + gasprom4);
+        
+        if(!gasprom4 === null){                        
+            temp1 = gasprom4;                           
+        }                  
+    }else if(prom === 'gasprom5'){
+        gasprom5 = parseFloat(p.value);
+        //console.log("Valor de gasprom5: " + gasprom5);
+        
+        if(!gasprom5 === null){                        
+            temp1 = gasprom5;                           
+        }        
+    }
+
     return sw;
 }
+
 
 /*Como extraer el ite.Factor para compararlo con la temperatura muestra ingresada*/
 
@@ -1954,13 +1994,32 @@ function selectedOption() {
     return selectedOption;
 }
 
-
-//--------------FUNCIÓN EN PROCESO-----------------
+//Función para generar la tabla Qi, Qt, Qi/Qt, Vmc, Vmsi
 function btnGenerar() 
 {
-    //console.log("Dentro de Generar");
+    Number.prototype.toFixedDown = function (digits) {
+        var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
+            m = this.toString().match(re);
+        return m ? parseFloat(m[1]) : this.valueOf();
+    };  
+    
     let tabla = document.getElementById('muestrasQi');
-    let tab = '';
+    let tab = '';        
+    let qt;    
+    let qi_qt1;
+    let qi_qt2;
+    let qi_qt3;
+    let qi_qt4;
+    let qi_qt5;
+    let qi_qt6;
+    let vmsi1;
+    let vmsi2;
+    let vmsi3;
+    let vmsi4;
+    let vmsi5;
+    let vmsi6;
+    let volCalculado = parseFloat(document.getElementById('volCalculado').value);
+    //console.log("Valor de volCalculado: " + volCalculado);
 
     tab += '<table class="table" id="muestrasQi">';
           tab += '    <thead class="thead-dark">';
@@ -1974,53 +2033,97 @@ function btnGenerar()
           tab += '        </tr>';
           tab += '    </thead>';
           tab += '    <tbody>';
-          
-          tab += '<tr>';
-          tab += '    <td>'+item.Folio+'</td>';
-          tab += '    <td>'+item.Descarga+'</td>';
-          tab += '    <td>'+item.NomInter+'</td>';
-          tab += '    <td>'+item.Nombre+'</td>';            
-          tab += '</tr>';
 
-        tab += '    </tbody>';
-        tab += '</table>';
-        tabla.innerHTML = tab;
+    qt = gasprom0 + gasprom1 + gasprom2 + gasprom3 + gasprom4 + gasprom5;
+
+    if(!isNaN(gasprom0) && !isNaN(gasprom1) && !isNaN(gasprom2) && !isNaN(gasprom3)){
+        
+        qi_qt1 = gasprom0 / qt;
+        vmsi1 = qi_qt1 * volCalculado;
+
+        qi_qt2 = gasprom1 / qt;
+        qi_qt3 = gasprom2 / qt;
+        qi_qt4 = gasprom3 / qt;
+
+        vmsi2 = qi_qt2 * volCalculado;
+        vmsi3 = qi_qt3 * volCalculado;
+        vmsi4 = qi_qt4 * volCalculado;
+            
+        //FILA 1
+        tab += '<tr>';
+        tab += '    <td>'+1+'</td>';
+        tab += '    <td>'+gasprom0+'</td>';
+        tab += '    <td>'+qt.toFixedDown(3)+'</td>';
+        tab += '    <td>'+qi_qt1.toFixedDown(3)+'</td>';
+        tab += '    <td>'+volCalculado+'</td>';  
+        tab += '    <td>'+vmsi1.toFixedDown(3)+'</td>';            
+        tab += '</tr>';
+
+        //FILA 2        
+        tab += '<tr>';
+        tab += '    <td>'+2+'</td>';
+        tab += '    <td>'+gasprom1+'</td>';
+        tab += '    <td>'+qt.toFixedDown(3)+'</td>';
+        tab += '    <td>'+qi_qt2.toFixedDown(3)+'</td>';
+        tab += '    <td>'+volCalculado+'</td>';  
+        tab += '    <td>'+vmsi2.toFixedDown(3)+'</td>';            
+        tab += '</tr>';
+
+        //FILA 3
+        tab += '<tr>';
+        tab += '    <td>'+3+'</td>';
+        tab += '    <td>'+gasprom2+'</td>';
+        tab += '    <td>'+qt.toFixedDown(3)+'</td>';
+        tab += '    <td>'+qi_qt3.toFixedDown(3)+'</td>';
+        tab += '    <td>'+volCalculado+'</td>';
+        tab += '    <td>'+vmsi3.toFixedDown(3)+'</td>';  
+        tab += '</tr>';
+
+        //FILA 4
+        tab += '<tr>';
+        tab += '    <td>'+4+'</td>';
+        tab += '    <td>'+gasprom3+'</td>';
+        tab += '    <td>'+qt.toFixedDown(3)+'</td>';
+        tab += '    <td>'+qi_qt4.toFixedDown(3)+'</td>';
+        tab += '    <td>'+volCalculado+'</td>';
+        tab += '    <td>'+vmsi4.toFixedDown(3)+'</td>';  
+        tab += '</tr>';
+    }
+
+    //console.log("valor de gasprom4: " + gasprom4);
+    //console.log("valor de gasprom5: " + gasprom5);
     
-    /*$.ajax({
-        url: base_url + '/admin/campo/captura',
-        type: 'POST',
-        data: {
-            idSolicitud:idSolicitud,
-            folio:folio,
-            _token: $('input[name="_token"]').val(),
-        },
-        dataType: 'json', 
-        async: false, 
-        success: function (response) {          
-          console.log(response);
-          tab += '<table class="table" id="phTrazable">';
-          tab += '    <thead class="thead-dark">';
-          tab += '        <tr>';
-          tab += '            <th>Núm muestra</th>';
-          tab += '            <th>Qi</th>';
-          tab += '            <th>Qt</th>';
-          tab += '            <th>Qi/Qt</th>';
-          tab += '            <th>Vmc</th>';
-          tab += '            <th>Vmsi</th>';
-          tab += '        </tr>';
-          tab += '    </thead>';
-          tab += '    <tbody>';
-          $.each(response.model, function (key, item) {
-            tab += '<tr>';
-            tab += '    <td>'+item.Folio+'</td>';
-            tab += '    <td>'+item.Descarga+'</td>';
-            tab += '    <td>'+item.NomInter+'</td>';
-            tab += '    <td>'+item.Nombre+'</td>';            
-            tab += '</tr>';
-          });
-          tab += '    </tbody>';
-          tab += '</table>';
-          tabla.innerHTML = tab;
-        }
-    });*/ 
+    //FILA 5
+    if(temp1 >= 0){
+        qi_qt5 = gasprom4 / qt;
+        vmsi5 = qi_qt5 * volCalculado;
+        
+        tab += '<tr>';
+        tab += '    <td>'+5+'</td>';
+        tab += '    <td>'+gasprom4+'</td>';
+        tab += '    <td>'+qt.toFixedDown(3)+'</td>';
+        tab += '    <td>'+qi_qt5.toFixedDown(3)+'</td>';
+        tab += '    <td>'+volCalculado+'</td>';
+        tab += '    <td>'+vmsi5.toFixedDown(3)+'</td>';  
+        tab += '</tr>';
+    }
+
+    //FILA 6
+    if(temp2 >=0){
+        qi_qt6 = gasprom5 / qt;
+        vmsi6 = qi_qt6 * volCalculado;
+        
+        tab += '<tr>';
+        tab += '    <td>'+6+'</td>';
+        tab += '    <td>'+gasprom5+'</td>';
+        tab += '    <td>'+qt.toFixedDown(3)+'</td>';
+        tab += '    <td>'+qi_qt6.toFixedDown(3)+'</td>';
+        tab += '    <td>'+volCalculado+'</td>';
+        tab += '    <td>'+vmsi6.toFixedDown(3)+'</td>';  
+        tab += '</tr>';
+    }
+
+    tab += '    </tbody>';
+    tab += '</table>';
+    tabla.innerHTML = tab;        
 }

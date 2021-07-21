@@ -51,7 +51,7 @@ function datosGenerales() {
             setPhCalidad($("#phCalidad1").val(), "phCNombre1", "phCMarca1", "phCLote1");
 
             if ($("#phTrazable1").val() != "0" && $("#phTrazable2").val() != "0" && $("#phTrazable1").val() == $("#phTrazable2").val()) {
-                alert("Los valores de Ph trazable no pueden ser los mismos");
+                //alert("Los valores de Ph trazable no pueden ser los mismos");
                 inputBorderColor("phTrazable1", "rojo");
                 inputBorderColor("phTrazable2", "rojo");
             } else if ($("#phTrazable1").val() == "0" || $("#phTrazable2").val() == "0") {                        
@@ -93,7 +93,7 @@ function datosGenerales() {
             setPhCalidad($("#phCalidad2").val(), "phCNombre2", "phCMarca2", "phCLote2");
 
         if ($("#phTrazable1").val() != "0" && $("#phTrazable2").val() != "0" && $("#phTrazable1").val() == $("#phTrazable2").val()) {
-            alert("Los valores de Ph trazable no pueden ser los mismos");
+            //alert("Los valores de Ph trazable no pueden ser los mismos");
             inputBorderColor("phTrazable1", "rojo");
             inputBorderColor("phTrazable2", "rojo");
         } else if ($("#phTrazable1").val() == "0" || $("#phTrazable2").val() == "0") {                        
@@ -142,7 +142,7 @@ function datosGenerales() {
             $("#phCalidad2").val() == $("#phTrazable2").val()
         ) {
             if ($("#phCalidad1").val() == $("#phCalidad2").val()) {
-                alert("Los valores de Ph calidad no pueden ser los mismos");
+               // alert("Los valores de Ph calidad no pueden ser los mismos");
                 inputBorderColor("phCalidad2", "rojo");
             } else {
                 inputBorderColor("phCalidad2", "verde");
@@ -188,13 +188,22 @@ function valTempAmbiente() {
     }
 }
 
-function valPhTrazable(lec1, lec2, lec3, estado) {
+function valPhTrazable(lec1, lec2, lec3, estado, phTrazable) {
+    var select = document.getElementById(phTrazable);  
+    //var value = select.value;
+    var text = select.options[select.selectedIndex].innerText;
+    text = parseFloat(text);
+    console.log("Valor de phT: " + text);
+        
     let sw = false;
+    let sw1 = true;
+    let sw2 = true;
+    let sw3 = true;
     let std = document.getElementById(estado);
     let l1 = parseFloat(document.getElementById(lec1).value);
     let l2 = parseFloat(document.getElementById(lec2).value);
     let l3 = parseFloat(document.getElementById(lec3).value);
-    let t = document.getElementById("phTrazable");
+    let t = document.getElementById("phTrazable");        
 
     // Val if rango 4 - 9
 
@@ -252,6 +261,211 @@ function valPhTrazable(lec1, lec2, lec3, estado) {
         sw = false;
     } else {
         sw = true;
+    }
+
+    v1 = text - l1;
+    console.log("Valor de v1: " + v1);
+    v2 = l1 - text;
+    console.log("Valor de v2: " + v2);
+    v3 = text - l2;
+    console.log("Valor de v3: " + v3);
+    v4 = l2 - text;
+    console.log("Valor de v4: " + v4);
+    v5 = text - l3;
+    console.log("Valor de v5: " + v5);
+    v6 = l3 - text;
+    console.log("Valor de v6: " + v6);
+
+    if(v1 < -0.5 || v1 > 0.5){
+        sw1 = false;
+    }else{
+        sw1 = true;
+    }
+
+    if(v2 < -0.5 || v2 > 0.5){
+        sw1 = false;
+    }else{
+        sw1 = true;
+    }
+
+    if(v3 < -0.5 || v3 > 0.5){
+        sw2 = false;
+    }else{
+        sw2 = true;
+    }
+
+    if(v4 < -0.5 || v4 > 0.5){
+        sw2 = false;
+    }else{
+        sw2 = true;
+    }
+
+    if(v5 < -0.5 || v5 > 0.5){
+        sw3 = false;
+    }else{
+        sw3 = true;
+    }
+
+    if(v6 < -0.5 || v6 > 0.5){
+        sw3 = false;
+    }else{
+        sw3 = true;
+    }
+
+    if(sw1 == true && sw2 == true && sw3 == true){
+        sw = true;
+    }else{
+        sw = false;
+    }
+
+    if (sw == true) {
+        std.value = "Aprobado";
+        if (lec1 == "phTl11") {
+            t.rows[1].setAttribute("class", "bg-success");
+        } else {
+            t.rows[2].setAttribute("class", "bg-success");
+        }
+    } else {
+        std.value = "Rechazado";
+        if (lec1 == "phTl11") {
+            t.rows[1].setAttribute("class", "bg-danger");
+        } else {
+            t.rows[2].setAttribute("class", "bg-danger");
+        }
+        // if()
+    }
+
+    return sw;
+}
+
+function valPhTrazable2(lec1, lec2, lec3, estado, phTrazable) {
+    var select = document.getElementById(phTrazable);  
+    //var value = select.value;
+    var text = select.options[select.selectedIndex].innerText;
+    text = parseFloat(text);
+    console.log("Valor de phT: " + text);
+        
+    let sw = false;
+    let sw1 = true;
+    let sw2 = true;
+    let sw3 = true;
+    let std = document.getElementById(estado);
+    let l1 = parseFloat(document.getElementById(lec1).value);
+    let l2 = parseFloat(document.getElementById(lec2).value);
+    let l3 = parseFloat(document.getElementById(lec3).value);
+    let t = document.getElementById("phTrazable");        
+
+    // Val if rango 4 - 9
+
+    if (l1 > 4 && l1 < 9) {
+        sw = true;
+    } else if (l2 > 4 && l2 < 9) {
+        sw = true;
+    } else if (l1 > 4 && l1 < 9) {
+        sw = true;
+    } else {
+        sw = false;
+    }
+
+    // val if 0.003
+
+    r1 = l1 - l2;
+    r2 = l1 - l3;
+
+    r3 = l2 - l1;
+    r4 = l2 - l3;
+
+    r5 = l3 - l1;
+    r6 = l3 - l2;
+
+    if (r1 <= -0.03 || r1 >= 0.03) {
+        sw = false;
+    } else {
+        sw = true;
+    }
+
+    if (r2 <= -0.03 || r2 >= 0.03) {
+        sw = false;
+    } else {
+        sw = true;
+    }
+
+    if (r3 <= -0.03 || r3 >= 0.03) {
+        sw = false;
+    } else {
+        sw = true;
+    }
+
+    if (r4 <= -0.03 || r4 >= 0.03) {
+        sw = false;
+    } else {
+        sw = true;
+    }
+    if (r5 <= -0.03 || r5 >= 0.03) {
+        sw = false;
+    } else {
+        sw = true;
+    }
+
+    if (r6 <= -0.03 || r6 >= 0.03) {
+        sw = false;
+    } else {
+        sw = true;
+    }
+
+    v1 = text - l1;
+    console.log("Valor de v1: " + v1);
+    v2 = l1 - text;
+    console.log("Valor de v2: " + v2);
+    v3 = text - l2;
+    console.log("Valor de v3: " + v3);
+    v4 = l2 - text;
+    console.log("Valor de v4: " + v4);
+    v5 = text - l3;
+    console.log("Valor de v5: " + v5);
+    v6 = l3 - text;
+    console.log("Valor de v6: " + v6);
+
+    if(v1 < -0.5 || v1 > 0.5){
+        sw1 = false;
+    }else{
+        sw1 = true;
+    }
+
+    if(v2 < -0.5 || v2 > 0.5){
+        sw1 = false;
+    }else{
+        sw1 = true;
+    }
+
+    if(v3 < -0.5 || v3 > 0.5){
+        sw2 = false;
+    }else{
+        sw2 = true;
+    }
+
+    if(v4 < -0.5 || v4 > 0.5){
+        sw2 = false;
+    }else{
+        sw2 = true;
+    }
+
+    if(v5 < -0.5 || v5 > 0.5){
+        sw3 = false;
+    }else{
+        sw3 = true;
+    }
+
+    if(v6 < -0.5 || v6 > 0.5){
+        sw3 = false;
+    }else{
+        sw3 = true;
+    }
+
+    if(sw1 == true && sw2 == true && sw3 == true){
+        sw = true;
+    }else{
+        sw = false;
     }
 
     if (sw == true) {
@@ -441,15 +655,16 @@ function valPendiente(valor, criterio) {
     }
 }
 
-function valPhMuestra(lec1, lec2, lec3, prom) {
+function valPhMuestra(lec1, lec2, lec3, prom, prom1) {
     let sw = false;
     let sw1 = false;
     let sw2 = false;
     let sw3 = false;
     let sw4 = false;
     let sw5 = false;
-    let sw6 = false;
-    let p = document.getElementById(prom);
+    let sw6 = false;        
+    let p = document.getElementById(prom);    
+    let p1 = document.getElementById(prom1);
     let l1 = parseFloat(document.getElementById(lec1).value);
     let l2 = parseFloat(document.getElementById(lec2).value);
     let l3 = parseFloat(document.getElementById(lec3).value);
@@ -460,7 +675,7 @@ function valPhMuestra(lec1, lec2, lec3, prom) {
     if (l1 > 4 && l1 < 9) {
         sw = true;
     } else {
-        sw = false;
+        sw = false;        
     }
 
     if (l2 > 4 && l2 < 9) {
@@ -483,73 +698,73 @@ function valPhMuestra(lec1, lec2, lec3, prom) {
     r4 = (l2 - l3).toFixed(3);
     r5 = (l3 - l1).toFixed(3);
     r6 = (l3 - l2).toFixed(3);
-
+    
     if (r1 < -0.03 || r1 > 0.03) {
-        sw1 = false;
+        sw1 = false;        
     } else {
         if (r1 === 0.03 || r1 === -0.03 || r1 === 0.02999999999999936 || r1 === -0.02999999999999936) {
-            sw1 = false;
+            sw1 = false;            
         } else {
             sw1 = true;
         }
     }
 
     if (r2 < -0.03 || r2 > 0.03) {
-        sw2 = false;
+        sw2 = false;          
     } else {
         if (r2 === 0.03 || r2 === -0.03 || r2 === 0.02999999999999936 || r2 === -0.02999999999999936) {
-            sw2 = false;
+            sw2 = false;            
         } else {
             sw2 = true;
         }
     }
 
     if (r3 < -0.03 || r3 > 0.03) {
-        sw3 = false;
+        sw3 = false;        
     } else {
         if (r3 === 0.03 || r3 === -0.03 || r3 === 0.02999999999999936 || r3 === -0.02999999999999936) {
-            sw3 = false;
+            sw3 = false;            
         } else {
             sw3 = true;
         }
     }
 
     if (r4 < -0.03 || r4 > 0.03) {
-        sw4 = false;
+        sw4 = false;        
     } else {
         if (r4 === 0.03 || r4 === -0.03 || r4 === 0.02999999999999936 || r4 === -0.02999999999999936) {
-            sw4 = false;
+            sw4 = false;            
         } else {
             sw4 = true;
         }
     }
 
     if (r5 < -0.03 || r5 > 0.03) {
-        sw5 = false;
+        sw5 = false;        
     } else {
         if (r5 === 0.03 || r5 === -0.03 || r5 === 0.02999999999999936 || r5 === -0.02999999999999936) {
-            sw5 = false;
+            sw5 = false;            
         } else {
             sw5 = true;
         }
     }
 
     if (r6 < -0.03 || r6 > 0.03) {
-        sw6 = false;
+        sw6 = false;        
     } else {
         if (r6 === 0.03 || r6 === -0.03 || r6 === 0.02999999999999936 || r6 === -0.02999999999999936) {
-            sw6 = false;
+            sw6 = false;            
         } else {
             sw6 = true;
         }
-    }
+    }    
 
     if (sw == true) {
-        if (sw1 == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true &&sw6 == true) {
+        if (sw1 == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true && sw6 == true) {
             //Aceptado
             if (lec1 == "phl10") {
                 if((isNaN(l1)|| isNaN(l2) || isNaN(l3))){
-                    t.rows[1].setAttribute("class", "bg-danger");                    
+                    t.rows[1].setAttribute("class", "bg-danger");
                 }else{
                     t.rows[1].setAttribute("class", "bg-success");
                 }                
@@ -597,16 +812,21 @@ function valPhMuestra(lec1, lec2, lec3, prom) {
         }
     }
 
-    if(sw == true && sw1 == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true && sw6 == true){        
+    if(sw == true && sw1 == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true && sw6 == true){                
         p.value = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
-    }else{        
-        p.value = "";
+        p1.innerHTML = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
+    }else{                
+        if(!isNaN(l1) && !isNaN(l2) && !isNaN(l3)){            
+            p1.innerHTML = "Error lecturas";
+        }else{
+            p1.innerHTML = "";
+        }        
     }
 
     return sw;
 }
 
-function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3) {
+function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
     Number.prototype.toFixedDown = function (digits) {
         var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
             m = this.toString().match(re);
@@ -621,11 +841,11 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3) {
     let sw2 = false;
     let sw3 = false;
     let p = document.getElementById(prom);
+    let p1 = document.getElementById(prom1);
     let t = document.getElementById("tempAgua");
 
     //Lectura 1------------------------------------------------
-    let l1 = parseFloat(document.getElementById(lec1).value);           
-
+    let l1 = parseFloat(document.getElementById(lec1).value);    
     
         if(lec1 == "temp10"){            
             if ((l1 < 1 || l1 > 40) || isNaN(l1)) {
@@ -664,7 +884,7 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3) {
         }                               
 
     //Lectura 2-----------------------------------------------
-    let l2 = parseFloat(document.getElementById(lec2).value);    
+    let l2 = parseFloat(document.getElementById(lec2).value);        
     
         if(lec2 == "temp20"){
             if ((l2 < 1 || l2 > 40) || isNaN(l2)) {
@@ -703,7 +923,7 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3) {
         }           
 
     //Lectura 3-----------------------------------------------
-    let l3 = parseFloat(document.getElementById(lec3).value);            
+    let l3 = parseFloat(document.getElementById(lec3).value);                
         
         if(lec3 == "temp30"){
             if ((l3 < 1 || l3 > 40) || isNaN(l3)) {
@@ -780,27 +1000,27 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3) {
         if (lec1 == "temp10") {            
 
             if (l1 >= 0 && l1 <= 5) {                
-                fac1.innerHTML = (l1 - 1).toFixed(3);
+                fac1.innerHTML = (l1 - 1).toFixed(0);
             } else if (l1 >= 16 && l1 < 20) {
-                fac1.innerHTML = (l1 + 1).toFixed(3);
+                fac1.innerHTML = (l1 + 1).toFixed(0);
             } else {
-                fac1.innerHTML = l1.toFixed(3);
+                fac1.innerHTML = l1.toFixed(0);
             }
 
             if (l2 >= 0 && l2 <= 5) {
-                fac2.innerHTML = (l2 - 1).toFixed(3);
+                fac2.innerHTML = (l2 - 1).toFixed(0);
             } else if (l2 >= 16 && l2 < 20) {
-                fac2.innerHTML = (l2 + 1).toFixed(3);
+                fac2.innerHTML = (l2 + 1).toFixed(0);
             } else {
-                fac2.innerHTML = l2.toFixed(3);
+                fac2.innerHTML = l2.toFixed(0);
             }
 
             if (l3 >= 0 && l3 <= 5) {
-                fac3.innerHTML = (l3 - 1).toFixed(3);
+                fac3.innerHTML = (l3 - 1).toFixed(0);
             } else if (l1 >= 16 && l1 < 20) {
-                fac3.innerHTML = (l3 + 1).toFixed(3);
+                fac3.innerHTML = (l3 + 1).toFixed(0);
             } else {
-                fac3.innerHTML = l3.toFixed(3);
+                fac3.innerHTML = l3.toFixed(0);
             }
 
             if((isNaN(l2) || isNaN(l3)) || (sw1 == false || sw2 == false || sw3 == false)){
@@ -814,27 +1034,27 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3) {
 
         } else if (lec1 == "temp11") {
             if (l1 >= 0 && l1 <= 5) {
-                fac1.innerHTML = (l1 - 1).toFixed(3);
+                fac1.innerHTML = (l1 - 1).toFixed(0);
             } else if (l1 >= 16 && l1 < 20) {
-                fac1.innerHTML = (l1 + 1).toFixed(3);
+                fac1.innerHTML = (l1 + 1).toFixed(0);
             } else {
-                fac1.innerHTML = l1.toFixed(3);
+                fac1.innerHTML = l1.toFixed(0);
             }
 
             if (l2 >= 0 && l2 <= 5) {
-                fac2.innerHTML = (l2 - 1).toFixed(3);
+                fac2.innerHTML = (l2 - 1).toFixed(0);
             } else if (l2 >= 16 && l2 < 20) {
-                fac2.innerHTML = (l2 + 1).toFixed(3);
+                fac2.innerHTML = (l2 + 1).toFixed(0);
             } else {
-                fac2.innerHTML = l2.toFixed(3);
+                fac2.innerHTML = l2.toFixed(0);
             }
 
             if (l3 >= 0 && l3 <= 5) {
-                fac3.innerHTML = (l3 - 1).toFixed(3);
+                fac3.innerHTML = (l3 - 1).toFixed(0);
             } else if (l1 >= 16 && l1 < 20) {
-                fac3.innerHTML = (l3 + 1).toFixed(3);
+                fac3.innerHTML = (l3 + 1).toFixed(0);
             } else {
-                fac3.innerHTML = l3.toFixed(3);
+                fac3.innerHTML = l3.toFixed(0);
             }
 
             if((isNaN(l2) || isNaN(l3)) || (sw1 == false || sw2 == false || sw3 == false)){
@@ -848,27 +1068,27 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3) {
 
         } else if (lec1 == "temp12") {
             if (l1 >= 0 && l1 <= 5) {
-                fac1.innerHTML = (l1 - 1).toFixed(3);
+                fac1.innerHTML = (l1 - 1).toFixed(0);
             } else if (l1 >= 16 && l1 < 20) {
-                fac1.innerHTML = (l1 + 1).toFixed(3);
+                fac1.innerHTML = (l1 + 1).toFixed(0);
             } else {
-                fac1.innerHTML = l1.toFixed(3);
+                fac1.innerHTML = l1.toFixed(0);
             }
 
             if (l2 >= 0 && l2 <= 5) {
-                fac2.innerHTML = (l2 - 1).toFixed(3);
+                fac2.innerHTML = (l2 - 1).toFixed(0);
             } else if (l2 >= 16 && l2 < 20) {
-                fac2.innerHTML = (l2 + 1).toFixed(3);
+                fac2.innerHTML = (l2 + 1).toFixed(0);
             } else {
-                fac2.innerHTML = l2.toFixed(3);
+                fac2.innerHTML = l2.toFixed(0);
             }
 
             if (l3 >= 0 && l3 <= 5) {
-                fac3.innerHTML = (l3 - 1).toFixed(3);
+                fac3.innerHTML = (l3 - 1).toFixed(0);
             } else if (l1 >= 16 && l1 < 20) {
-                fac3.innerHTML = (l3 + 1).toFixed(3);
+                fac3.innerHTML = (l3 + 1).toFixed(0);
             } else {
-                fac3.innerHTML = l3.toFixed(3);
+                fac3.innerHTML = l3.toFixed(0);
             }
 
             if((isNaN(l2) || isNaN(l3)) || (sw1 == false || sw2 == false || sw3 == false)){
@@ -882,27 +1102,27 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3) {
             
         } else if (lec1 == "temp13") {
             if (l1 >= 0 && l1 <= 5) {
-                fac1.innerHTML = (l1 - 1).toFixed(3);
+                fac1.innerHTML = (l1 - 1).toFixed(0);
             } else if (l1 >= 16 && l1 < 20) {
-                fac1.innerHTML = (l1 + 1).toFixed(3);
+                fac1.innerHTML = (l1 + 1).toFixed(0);
             } else {
-                fac1.innerHTML = l1.toFixed(3);
+                fac1.innerHTML = l1.toFixed(0);
             }
 
             if (l2 >= 0 && l2 <= 5) {
-                fac2.innerHTML = (l2 - 1).toFixed(3);
+                fac2.innerHTML = (l2 - 1).toFixed(0);
             } else if (l2 >= 16 && l2 < 20) {
-                fac2.innerHTML = (l2 + 1).toFixed(3);
+                fac2.innerHTML = (l2 + 1).toFixed(0);
             } else {
-                fac2.innerHTML = l2.toFixed(3);
+                fac2.innerHTML = l2.toFixed(0);
             }
 
             if (l3 >= 0 && l3 <= 5) {
-                fac3.innerHTML = (l3 - 1).toFixed(3);
+                fac3.innerHTML = (l3 - 1).toFixed(0);
             } else if (l1 >= 16 && l1 < 20) {
-                fac3.innerHTML = (l3 + 1).toFixed(3);
+                fac3.innerHTML = (l3 + 1).toFixed(0);
             } else {
-                fac3.innerHTML = l3.toFixed(3);
+                fac3.innerHTML = l3.toFixed(0);
             }
 
             if((isNaN(l2) || isNaN(l3)) || (sw1 == false || sw2 == false || sw3 == false)){
@@ -941,16 +1161,22 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3) {
     
     if(sw == true && sw1 == true && sw2 == true && sw3 == true){        
         p.value = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
+        p1.innerHTML = parseFloat(((l1 + l2 + l3) / 3)).toFixed(0);
     }else{        
-        p.value = "";
+        if(!isNaN(l1) && !isNaN(l2) && !isNaN(l3)){            
+            p1.innerHTML = "Error lecturas";
+        }else{
+            p1.innerHTML = "";
+        }   
     }
 
     return sw;
 }
 
-function valConMuestra(lec1, lec2, lec3, prom) {
+function valConMuestra(lec1, lec2, lec3, prom, prom1) {
     let sw = true;
     let p = document.getElementById(prom);
+    let p1 = document.getElementById(prom1);
     let l1 = parseFloat(document.getElementById(lec1).value);
     let l2 = parseFloat(document.getElementById(lec2).value);
     let l3 = parseFloat(document.getElementById(lec3).value);
@@ -1018,16 +1244,22 @@ function valConMuestra(lec1, lec2, lec3, prom) {
 
     if((sw == true) && (!isNaN(l1) && !isNaN(l2) && !isNaN(l3))){        
         p.value = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
+        p1.innerHTML = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
     }else{        
-        p.value = "";
+        if(!isNaN(l1) && !isNaN(l2) && !isNaN(l3)){            
+            p1.innerHTML = "Error lecturas";
+        }else{
+            p1.innerHTML = "";
+        }
     }
 
     return sw;
 }
 
-function valGastoMuestra(lec1, lec2, lec3, prom) {
+function valGastoMuestra(lec1, lec2, lec3, prom, prom1) {
     let sw = true;
     let p = document.getElementById(prom);
+    let p1 = document.getElementById(prom1);
     let l1 = parseFloat(document.getElementById(lec1).value);
     let l2 = parseFloat(document.getElementById(lec2).value);
     let l3 = parseFloat(document.getElementById(lec3).value);    
@@ -1094,11 +1326,253 @@ function valGastoMuestra(lec1, lec2, lec3, prom) {
 
     if((sw == true) && (!isNaN(l1) && !isNaN(l2) && !isNaN(l3))){        
         p.value = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
+        p1.innerHTML = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
     }else{        
-        p.value = "";
+        if(!isNaN(l1) && !isNaN(l2) && !isNaN(l3)){            
+            p1.innerHTML = "Error lecturas";
+        }else{
+            p1.innerHTML = "";
+        }
     }
 
     return sw;
+}
+
+/*Como extraer el ite.Factor para compararlo con la temperatura muestra ingresada*/
+
+//var $model = TermFactorCorreccionTemp::where;
+
+let t;
+//FUNCIÓN EN PROCESO
+function valTempCompuesto(temp1, factTempAplicado){
+    //Almacena el ID del Input
+    t = parseInt(document.getElementById(temp1).value);
+    let factAplicado = document.getElementById(factTempAplicado);
+    //console.log("Valor de temperatura compuesta: " + t);
+    
+    $.ajax({
+        url: base_url + "/admin/campo/captura/getFactorCorreccion", //archivo que recibe la peticion
+        type: "POST", //método de envio
+        data: {
+            idFactor: $("#termometro").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {                                                                      
+            let sw1;
+            let sw2;
+            let sw3;
+            let sw4;
+            let sw5;
+            let sw6;
+            let sw7;
+            let sw8;
+            let sw9;
+            let cont = 1;
+            
+            console.log(response.model);               
+
+            $.each(response.model, function (key, item) {                                
+                item.Factor = parseInt(item.Factor);
+                item.Factor_aplicado= parseInt(item.Factor_aplicado);   
+
+                /*console.log("Valor de Id_termometro: " + item.Id_termometro);
+                console.log("Valor De_c: " + item.De_c);
+                console.log("Valor A_c: " + item.A_c);
+                console.log("Valor de factor de corrección: " + item.Factor);
+                console.log("Valor de factor de corrección aplicado: " + item.Factor_aplicado);
+                console.log('\n');
+                console.log('---------------------------');*/
+                
+                if(t >= 0 && t < 5){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                        
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + item.Factor_aplicado;
+                        //console.log("Temp 0-5");
+                        //console.log("Valor final: " + t);
+                        sw1 = true;
+                        sw2 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw8 = false;
+                        sw9 = false;
+                    }
+                }else if(t >= 5 && t < 10){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + factorAplicado;
+                        //console.log("Temp 5-10");
+                        //console.log("Valor final: " + t);
+                        sw2 = true;
+                        sw1 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw8 = false;
+                        sw9 = false;
+                    }
+                }else if(t >= 10 && t < 15){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + item.Factor_aplicado;
+                        //console.log("Temp 10-15");
+                        //console.log("Valor final: " + t);
+                        sw3 = true;
+                        sw2 = false;
+                        sw1 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw8 = false;
+                        sw9 = false;                        
+                    }
+                }else if(t >= 15 && t < 20){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + item.Factor_aplicado;
+                        //console.log("Temp 15-20");
+                        //console.log("Valor final: " + t);
+                        sw4 = true;
+                        sw2 = false;
+                        sw3 = false;
+                        sw1 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw8 = false;
+                        sw9 = false;
+                    }
+                }else if(t >= 20 && t < 25){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + item.Factor_aplicado;
+                        //console.log("Temp 20-25");
+                        //console.log("Valor final: " + t);                        
+                        sw5 = true;
+                        sw2 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw1 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw8 = false;
+                        sw9 = false
+                    }
+                }else if(t >= 25 && t < 30){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + item.Factor_aplicado;
+                        //console.log("Temp 25-30");
+                        //console.log("Valor final: " + t);
+                        sw6 = true;
+                        sw2 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw1 = false;
+                        sw7 = false;
+                        sw8 = false;
+                        sw9 = false;
+                    }
+                }else if(t >= 30 && t < 35){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + item.Factor_aplicado;
+                        //console.log("Temp 30-35");
+                        //console.log("Valor final: " + t);                        
+                        sw7 = true;
+                        sw2 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw1 = false;
+                        sw8 = false;
+                        sw9 = false;
+                    }
+                }else if(t >= 35 && t < 40){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + item.Factor_aplicado;
+                        //console.log("Temp 35-40");
+                        //console.log("Valor final: " + t);                        
+                        sw8 = true;
+                        sw2 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw1 = false;
+                        sw9 = false;
+                    }
+                }else{
+                        sw9 = true;
+                        sw1 = false;
+                        sw2 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw8 = false;
+                }
+
+                if(sw1 == true && cont == 1){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw2 == true && cont == 2){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw3 == true && cont == 3){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw4 == true && cont == 4){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw5 == true && cont == 5){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw6 == true && cont == 6){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw7 == true && cont == 7){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw8 == true && cont == 8){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw9 == true){
+                    factAplicado.innerHTML = t;
+                    cont--;
+                    return false;                    
+                }
+
+                
+
+                cont++;
+            }); 
+            
+            if(isNaN(t)){
+                factAplicado.innerHTML = "Temperatura muestra vacía";
+            }
+        },
+    });
 }
 
 function promedioPh(ph1, ph2, ph3, res) {
@@ -1137,16 +1611,17 @@ function getFactorCorreccion() {
         },
         dataType: "json",
         async: false,
-        success: function (response) {
-            console.log(response.model);
+        success: function (response) {            
+            myArray = response.model;
+            console.log(myArray);
             tab +=
                 '<table id="tablaFactorCorreccion" class="table table-sm  table-striped table-bordered">';
             tab += '    <thead class="thead-dark">';
             tab += "        <tr>";
             tab += "              <th>De °C</th>";
             tab += "              <th>a °C</th>";
-            tab += "              <th>Factor corección</th>";
-            tab += "              <th>Factor de corección aplicada</th>";
+            tab += "              <th>Factor corrección</th>";
+            tab += "              <th>Factor de corrección aplicada</th>";
             tab += "        </tr>";
             tab += "    </thead>";
             tab += "    <tbody>";
@@ -1299,7 +1774,7 @@ function setConCalidad(idCon, nombre, marca, lote) {
 function inputBorderColor(id, color) {
     let cont = document.getElementById(id);
 
-    switch (color) {
+    switch (color) {        
         case "rojo":
             cont.setAttribute("style", "border-color:#dc3545");
             break;
@@ -1450,9 +1925,102 @@ function setDataMuestreo() {
     });
 } // return data;
 
+/*function setEvidencia(){        
+    var parametros = new FormData($("#formulario-envia")[0]);
+
+    $.ajax({
+        url: base_url + "/admin/campo/captura/setDataMuestreo",
+        type: "POST", //método de envio
+        contentType: false,
+        processData: false,        
+        data: {
+            idSolicitud: $("#idSolicitud").val(),            
+            _token: $('input[name="_token"]').val(),
+            parametros
+        },
+        beforeSend: function(){
+
+        },
+        success: function(response){
+            alert(response);
+        }
+    });
+}*/
+
 function selectedOption() {
     //Obtiene el valor de la opción seleccionada
     let selectedOption = document.getElementById("phTrazable1").value;
 
     return selectedOption;
+}
+
+
+//--------------FUNCIÓN EN PROCESO-----------------
+function btnGenerar() 
+{
+    //console.log("Dentro de Generar");
+    let tabla = document.getElementById('muestrasQi');
+    let tab = '';
+
+    tab += '<table class="table" id="muestrasQi">';
+          tab += '    <thead class="thead-dark">';
+          tab += '        <tr>';
+          tab += '            <th>Núm muestra</th>';
+          tab += '            <th>Qi</th>';
+          tab += '            <th>Qt</th>';
+          tab += '            <th>Qi/Qt</th>';
+          tab += '            <th>Vmc</th>';
+          tab += '            <th>Vmsi</th>';
+          tab += '        </tr>';
+          tab += '    </thead>';
+          tab += '    <tbody>';
+          
+          tab += '<tr>';
+          tab += '    <td>'+'Hola1'+'</td>';
+          tab += '    <td>'+'Hola2'+'</td>';
+          tab += '    <td>'+'Hola3'+'</td>';
+          tab += '    <td>'+'Hola4'+'</td>';            
+          tab += '</tr>';
+
+        tab += '    </tbody>';
+        tab += '</table>';
+        tabla.innerHTML = tab;
+    
+    /*$.ajax({
+        url: base_url + '/admin/campo/captura',
+        type: 'POST',
+        data: {
+            idSolicitud:idSolicitud,
+            folio:folio,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {          
+          console.log(response);
+          tab += '<table class="table" id="phTrazable">';
+          tab += '    <thead class="thead-dark">';
+          tab += '        <tr>';
+          tab += '            <th>Núm muestra</th>';
+          tab += '            <th>Qi</th>';
+          tab += '            <th>Qt</th>';
+          tab += '            <th>Qi/Qt</th>';
+          tab += '            <th>Vmc</th>';
+          tab += '            <th>Vmsi</th>';
+          tab += '        </tr>';
+          tab += '    </thead>';
+          tab += '    <tbody>';
+          $.each(response.model, function (key, item) {
+            tab += '<tr>';
+            tab += '    <td>'+item.Folio+'</td>';
+            tab += '    <td>'+item.Descarga+'</td>';
+            tab += '    <td>'+item.NomInter+'</td>';
+            tab += '    <td>'+item.Nombre+'</td>';            
+            tab += '</tr>';
+          });
+          tab += '    </tbody>';
+          tab += '</table>';
+          tabla.innerHTML = tab;
+        }
+    });*/ 
 }

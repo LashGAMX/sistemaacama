@@ -42,7 +42,7 @@
                                 <button id="btnImprimir" class="btn btn-info" ><i class="voyager-documentation"></i> Imprimir</button>
                             </div>
                             <div class="col-md-1">
-                                <button id="btnGenFolio" class="btn btn-success" ><i class="voyager-file-text"></i> Generar Folio</button>
+                                <button id="btnGenFolio" class="btn btn-success" ><i class="voyager-file-text"></i> Generar Código</button>
                             </div>
                         </div>
                         <thead class="">

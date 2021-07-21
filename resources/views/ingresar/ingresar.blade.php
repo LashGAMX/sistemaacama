@@ -25,7 +25,7 @@
 <div>
     {{-- Be like water. --}}
 
-    <p class="text-center" style="font-size: 160%">Datos Generales</p>
+    <p class="text-center" style="font-size: 200%">Datos Generales</p>
 
     <!--Tabla -->
     <div class="col-md-12">
@@ -103,7 +103,7 @@
         </div>
     </div>
 
-    <p class="text-center" style="font-size: 160%">Solicitudes</p>    
+    <p class="text-center" style="font-size: 200%">Solicitudes</p>    
 
 </div>
 {{-- <livewire:historial.config/> --}}
