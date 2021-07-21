@@ -188,13 +188,22 @@ function valTempAmbiente() {
     }
 }
 
-function valPhTrazable(lec1, lec2, lec3, estado) {
+function valPhTrazable(lec1, lec2, lec3, estado, phTrazable) {
+    var select = document.getElementById(phTrazable);  
+    //var value = select.value;
+    var text = select.options[select.selectedIndex].innerText;
+    text = parseFloat(text);
+    console.log("Valor de phT: " + text);
+        
     let sw = false;
+    let sw1 = true;
+    let sw2 = true;
+    let sw3 = true;
     let std = document.getElementById(estado);
     let l1 = parseFloat(document.getElementById(lec1).value);
     let l2 = parseFloat(document.getElementById(lec2).value);
     let l3 = parseFloat(document.getElementById(lec3).value);
-    let t = document.getElementById("phTrazable");
+    let t = document.getElementById("phTrazable");        
 
     // Val if rango 4 - 9
 
@@ -252,6 +261,211 @@ function valPhTrazable(lec1, lec2, lec3, estado) {
         sw = false;
     } else {
         sw = true;
+    }
+
+    v1 = text - l1;
+    console.log("Valor de v1: " + v1);
+    v2 = l1 - text;
+    console.log("Valor de v2: " + v2);
+    v3 = text - l2;
+    console.log("Valor de v3: " + v3);
+    v4 = l2 - text;
+    console.log("Valor de v4: " + v4);
+    v5 = text - l3;
+    console.log("Valor de v5: " + v5);
+    v6 = l3 - text;
+    console.log("Valor de v6: " + v6);
+
+    if(v1 < -0.5 || v1 > 0.5){
+        sw1 = false;
+    }else{
+        sw1 = true;
+    }
+
+    if(v2 < -0.5 || v2 > 0.5){
+        sw1 = false;
+    }else{
+        sw1 = true;
+    }
+
+    if(v3 < -0.5 || v3 > 0.5){
+        sw2 = false;
+    }else{
+        sw2 = true;
+    }
+
+    if(v4 < -0.5 || v4 > 0.5){
+        sw2 = false;
+    }else{
+        sw2 = true;
+    }
+
+    if(v5 < -0.5 || v5 > 0.5){
+        sw3 = false;
+    }else{
+        sw3 = true;
+    }
+
+    if(v6 < -0.5 || v6 > 0.5){
+        sw3 = false;
+    }else{
+        sw3 = true;
+    }
+
+    if(sw1 == true && sw2 == true && sw3 == true){
+        sw = true;
+    }else{
+        sw = false;
+    }
+
+    if (sw == true) {
+        std.value = "Aprobado";
+        if (lec1 == "phTl11") {
+            t.rows[1].setAttribute("class", "bg-success");
+        } else {
+            t.rows[2].setAttribute("class", "bg-success");
+        }
+    } else {
+        std.value = "Rechazado";
+        if (lec1 == "phTl11") {
+            t.rows[1].setAttribute("class", "bg-danger");
+        } else {
+            t.rows[2].setAttribute("class", "bg-danger");
+        }
+        // if()
+    }
+
+    return sw;
+}
+
+function valPhTrazable2(lec1, lec2, lec3, estado, phTrazable) {
+    var select = document.getElementById(phTrazable);  
+    //var value = select.value;
+    var text = select.options[select.selectedIndex].innerText;
+    text = parseFloat(text);
+    console.log("Valor de phT: " + text);
+        
+    let sw = false;
+    let sw1 = true;
+    let sw2 = true;
+    let sw3 = true;
+    let std = document.getElementById(estado);
+    let l1 = parseFloat(document.getElementById(lec1).value);
+    let l2 = parseFloat(document.getElementById(lec2).value);
+    let l3 = parseFloat(document.getElementById(lec3).value);
+    let t = document.getElementById("phTrazable");        
+
+    // Val if rango 4 - 9
+
+    if (l1 > 4 && l1 < 9) {
+        sw = true;
+    } else if (l2 > 4 && l2 < 9) {
+        sw = true;
+    } else if (l1 > 4 && l1 < 9) {
+        sw = true;
+    } else {
+        sw = false;
+    }
+
+    // val if 0.003
+
+    r1 = l1 - l2;
+    r2 = l1 - l3;
+
+    r3 = l2 - l1;
+    r4 = l2 - l3;
+
+    r5 = l3 - l1;
+    r6 = l3 - l2;
+
+    if (r1 <= -0.03 || r1 >= 0.03) {
+        sw = false;
+    } else {
+        sw = true;
+    }
+
+    if (r2 <= -0.03 || r2 >= 0.03) {
+        sw = false;
+    } else {
+        sw = true;
+    }
+
+    if (r3 <= -0.03 || r3 >= 0.03) {
+        sw = false;
+    } else {
+        sw = true;
+    }
+
+    if (r4 <= -0.03 || r4 >= 0.03) {
+        sw = false;
+    } else {
+        sw = true;
+    }
+    if (r5 <= -0.03 || r5 >= 0.03) {
+        sw = false;
+    } else {
+        sw = true;
+    }
+
+    if (r6 <= -0.03 || r6 >= 0.03) {
+        sw = false;
+    } else {
+        sw = true;
+    }
+
+    v1 = text - l1;
+    console.log("Valor de v1: " + v1);
+    v2 = l1 - text;
+    console.log("Valor de v2: " + v2);
+    v3 = text - l2;
+    console.log("Valor de v3: " + v3);
+    v4 = l2 - text;
+    console.log("Valor de v4: " + v4);
+    v5 = text - l3;
+    console.log("Valor de v5: " + v5);
+    v6 = l3 - text;
+    console.log("Valor de v6: " + v6);
+
+    if(v1 < -0.5 || v1 > 0.5){
+        sw1 = false;
+    }else{
+        sw1 = true;
+    }
+
+    if(v2 < -0.5 || v2 > 0.5){
+        sw1 = false;
+    }else{
+        sw1 = true;
+    }
+
+    if(v3 < -0.5 || v3 > 0.5){
+        sw2 = false;
+    }else{
+        sw2 = true;
+    }
+
+    if(v4 < -0.5 || v4 > 0.5){
+        sw2 = false;
+    }else{
+        sw2 = true;
+    }
+
+    if(v5 < -0.5 || v5 > 0.5){
+        sw3 = false;
+    }else{
+        sw3 = true;
+    }
+
+    if(v6 < -0.5 || v6 > 0.5){
+        sw3 = false;
+    }else{
+        sw3 = true;
+    }
+
+    if(sw1 == true && sw2 == true && sw3 == true){
+        sw = true;
+    }else{
+        sw = false;
     }
 
     if (sw == true) {
@@ -1126,10 +1340,15 @@ function valGastoMuestra(lec1, lec2, lec3, prom, prom1) {
 
 /*Como extraer el ite.Factor para compararlo con la temperatura muestra ingresada*/
 
+//var $model = TermFactorCorreccionTemp::where;
+
+let t;
 //FUNCIÓN EN PROCESO
-function valTempCompuesto(temp1){
-    let t = parseInt(document.getElementById(temp1).value);
-    console.log("Valor de temperatura compuesta: " + t);
+function valTempCompuesto(temp1, factTempAplicado){
+    //Almacena el ID del Input
+    t = parseInt(document.getElementById(temp1).value);
+    let factAplicado = document.getElementById(factTempAplicado);
+    //console.log("Valor de temperatura compuesta: " + t);
     
     $.ajax({
         url: base_url + "/admin/campo/captura/getFactorCorreccion", //archivo que recibe la peticion
@@ -1140,16 +1359,218 @@ function valTempCompuesto(temp1){
         },
         dataType: "json",
         async: false,
-        success: function (response) {                        
-            console.log(response.model);
+        success: function (response) {                                                                      
+            let sw1;
+            let sw2;
+            let sw3;
+            let sw4;
+            let sw5;
+            let sw6;
+            let sw7;
+            let sw8;
+            let sw9;
+            let cont = 1;
             
-            $.each(response.model, function (key, item) {
+            console.log(response.model);               
+
+            $.each(response.model, function (key, item) {                                
+                item.Factor = parseInt(item.Factor);
+                item.Factor_aplicado= parseInt(item.Factor_aplicado);   
+
+                /*console.log("Valor de Id_termometro: " + item.Id_termometro);
+                console.log("Valor De_c: " + item.De_c);
+                console.log("Valor A_c: " + item.A_c);
+                console.log("Valor de factor de corrección: " + item.Factor);
+                console.log("Valor de factor de corrección aplicado: " + item.Factor_aplicado);
+                console.log('\n');
+                console.log('---------------------------');*/
                 
-                console.log("Valor de factor: " + item.Factor);
-                console.log("Valor de factor aplicado: " + item.Factor_aplicado);
+                if(t >= 0 && t < 5){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                        
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + item.Factor_aplicado;
+                        //console.log("Temp 0-5");
+                        //console.log("Valor final: " + t);
+                        sw1 = true;
+                        sw2 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw8 = false;
+                        sw9 = false;
+                    }
+                }else if(t >= 5 && t < 10){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + factorAplicado;
+                        //console.log("Temp 5-10");
+                        //console.log("Valor final: " + t);
+                        sw2 = true;
+                        sw1 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw8 = false;
+                        sw9 = false;
+                    }
+                }else if(t >= 10 && t < 15){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + item.Factor_aplicado;
+                        //console.log("Temp 10-15");
+                        //console.log("Valor final: " + t);
+                        sw3 = true;
+                        sw2 = false;
+                        sw1 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw8 = false;
+                        sw9 = false;                        
+                    }
+                }else if(t >= 15 && t < 20){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + item.Factor_aplicado;
+                        //console.log("Temp 15-20");
+                        //console.log("Valor final: " + t);
+                        sw4 = true;
+                        sw2 = false;
+                        sw3 = false;
+                        sw1 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw8 = false;
+                        sw9 = false;
+                    }
+                }else if(t >= 20 && t < 25){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + item.Factor_aplicado;
+                        //console.log("Temp 20-25");
+                        //console.log("Valor final: " + t);                        
+                        sw5 = true;
+                        sw2 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw1 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw8 = false;
+                        sw9 = false
+                    }
+                }else if(t >= 25 && t < 30){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + item.Factor_aplicado;
+                        //console.log("Temp 25-30");
+                        //console.log("Valor final: " + t);
+                        sw6 = true;
+                        sw2 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw1 = false;
+                        sw7 = false;
+                        sw8 = false;
+                        sw9 = false;
+                    }
+                }else if(t >= 30 && t < 35){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + item.Factor_aplicado;
+                        //console.log("Temp 30-35");
+                        //console.log("Valor final: " + t);                        
+                        sw7 = true;
+                        sw2 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw1 = false;
+                        sw8 = false;
+                        sw9 = false;
+                    }
+                }else if(t >= 35 && t < 40){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                        //factAplicado.innerHTML = t + item.Factor_aplicado;
+                        //t = t + item.Factor_aplicado;
+                        //console.log("Temp 35-40");
+                        //console.log("Valor final: " + t);                        
+                        sw8 = true;
+                        sw2 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw1 = false;
+                        sw9 = false;
+                    }
+                }else{
+                        sw9 = true;
+                        sw1 = false;
+                        sw2 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw8 = false;
+                }
+
+                if(sw1 == true && cont == 1){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw2 == true && cont == 2){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw3 == true && cont == 3){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw4 == true && cont == 4){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw5 == true && cont == 5){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw6 == true && cont == 6){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw7 == true && cont == 7){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw8 == true && cont == 8){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw9 == true){
+                    factAplicado.innerHTML = t;
+                    cont--;
+                    return false;                    
+                }
+
                 
-            });
+
+                cont++;
+            }); 
             
+            if(isNaN(t)){
+                factAplicado.innerHTML = "Temperatura muestra vacía";
+            }
         },
     });
 }
@@ -1531,4 +1952,75 @@ function selectedOption() {
     let selectedOption = document.getElementById("phTrazable1").value;
 
     return selectedOption;
+}
+
+
+//--------------FUNCIÓN EN PROCESO-----------------
+function btnGenerar() 
+{
+    //console.log("Dentro de Generar");
+    let tabla = document.getElementById('muestrasQi');
+    let tab = '';
+
+    tab += '<table class="table" id="muestrasQi">';
+          tab += '    <thead class="thead-dark">';
+          tab += '        <tr>';
+          tab += '            <th>Núm muestra</th>';
+          tab += '            <th>Qi</th>';
+          tab += '            <th>Qt</th>';
+          tab += '            <th>Qi/Qt</th>';
+          tab += '            <th>Vmc</th>';
+          tab += '            <th>Vmsi</th>';
+          tab += '        </tr>';
+          tab += '    </thead>';
+          tab += '    <tbody>';
+          
+          tab += '<tr>';
+          tab += '    <td>'+item.Folio+'</td>';
+          tab += '    <td>'+item.Descarga+'</td>';
+          tab += '    <td>'+item.NomInter+'</td>';
+          tab += '    <td>'+item.Nombre+'</td>';            
+          tab += '</tr>';
+
+        tab += '    </tbody>';
+        tab += '</table>';
+        tabla.innerHTML = tab;
+    
+    /*$.ajax({
+        url: base_url + '/admin/campo/captura',
+        type: 'POST',
+        data: {
+            idSolicitud:idSolicitud,
+            folio:folio,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {          
+          console.log(response);
+          tab += '<table class="table" id="phTrazable">';
+          tab += '    <thead class="thead-dark">';
+          tab += '        <tr>';
+          tab += '            <th>Núm muestra</th>';
+          tab += '            <th>Qi</th>';
+          tab += '            <th>Qt</th>';
+          tab += '            <th>Qi/Qt</th>';
+          tab += '            <th>Vmc</th>';
+          tab += '            <th>Vmsi</th>';
+          tab += '        </tr>';
+          tab += '    </thead>';
+          tab += '    <tbody>';
+          $.each(response.model, function (key, item) {
+            tab += '<tr>';
+            tab += '    <td>'+item.Folio+'</td>';
+            tab += '    <td>'+item.Descarga+'</td>';
+            tab += '    <td>'+item.NomInter+'</td>';
+            tab += '    <td>'+item.Nombre+'</td>';            
+            tab += '</tr>';
+          });
+          tab += '    </tbody>';
+          tab += '</table>';
+          tabla.innerHTML = tab;
+        }
+    });*/ 
 }
