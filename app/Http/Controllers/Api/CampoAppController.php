@@ -50,19 +50,29 @@ class CampoAppController extends Controller
     {
         $jsonGeneral = json_decode($request->campoGenerales,true);
 
-        $solModel = SolicitudesGeneradas::where('Folio',$request->folio);
+        $solModel = SolicitudesGeneradas::where('Folio',$request->folio)->first();
         $solModel->Estado = 3;
         $solModel->save();
 
-        $solModel = SolicitudesGeneradas::where('Folio',$request->folio)->first();
+        //$solModel = SolicitudesGeneradas::where('Folio',$request->folio)->first();
 
-        //$campoGenModel = CampoGenerales::where('Folio',$solModel->Id)
+        $campoGenModel = CampoGenerales::where('Id_solicitud',$solModel->Id_solicitud)->first();
+        $campoGenModel->Captura = "Mobil";
+        $campoGenModel->Id_equipo = $jsonGeneral[0]["Id_equipo"];
+        $campoGenModel->Temperatura_a = $jsonGeneral[0]["Temperatura_a"];
+        $campoGenModel->Temperatura_b = $jsonGeneral[0]["Temperatura_b"];
+        $campoGenModel->Latitud = $jsonGeneral[0]["Latitud"];
+        $campoGenModel->Longitud = $jsonGeneral[0]["Longitud"];
+        $campoGenModel->Altitud = $jsonGeneral[0]["Altitud"];
+        $campoGenModel->Pendiente = $jsonGeneral[0]["Pendiente"];
+        $campoGenModel->Criterio = $jsonGeneral[0]["Criterio"];
+        $campoGenModel->save();
 
 
         $data = array(
             'response' => true,
             'general' => $jsonGeneral,
-            'dato' => $jsonGeneral[0]["Id_solicitud"]  
+            'dato' => $jsonGeneral[0]["Temperatura_a"],
         );
         return response()->json($data);
     }
