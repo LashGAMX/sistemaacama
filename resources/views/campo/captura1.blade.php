@@ -149,9 +149,7 @@
                             <table class="table" id="materialUsado">
                                 <thead>
                                     <tr>
-                                        <th>Norma</th>
-                                        <th>Fórmula</th>
-                                        <th>Análisis</th>
+                                        <th>Norma</th>                                        
                                         <th>Preservador</th>
                                         <th>Recipiente</th>
                                         <th>Volúmen</th>
@@ -161,7 +159,7 @@
                             </table>
                         </div>
                         <div class="col-md-12">
-                            <p>Factor de conversión de temperatura</p>
+                            <p>Factor de corrección de temperatura</p>
                             <div class="" id="factorDeConversion">
                                 <table class="table" id="">
                                     <thead>
@@ -198,8 +196,8 @@
                                                 @foreach ($phTrazable as $item)                                                                                                
                                                     @if ($phCampoTrazable[0]->Id_phTrazable == $item->Id_ph)
                                                         <option value="{{ $item->Id_ph }}" selected>
-                                                            {{ $item->Ph }}</option>
-                                                    @else
+                                                            {{ $item->Ph }}</option>                                                            
+                                                    @else                                                        
                                                         <option value="{{ $item->Id_ph }}">{{ $item->Ph }}
                                                         </option>
                                                     @endif
@@ -218,17 +216,17 @@
                                         <td>
                                             <input type="text" class="" placeholder="L1" id="phTl11"
                                                 value="{{ $phCampoTrazable[0]->Lectura1 }}"
-                                                onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
+                                                onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')">
                                         </td>
                                         <td>
                                             <input type="text" class="" placeholder="L2" id="phT21"
                                                 value="{{ $phCampoTrazable[0]->Lectura2 }}"
-                                                onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
+                                                onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')">
                                         </td>
                                         <td>
                                             <input type="text" class="" placeholder="L3" id="phTl31"
                                                 value="{{ $phCampoTrazable[0]->Lectura3 }}"
-                                                onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1')">
+                                                onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')">
                                         </td>
                                         <td><input type="text" id="phTEstado1"
                                                 value="{{ $phCampoTrazable[0]->Estado }}"></td>
@@ -261,17 +259,17 @@
                                         <td>
                                             <input type="text" class="" placeholder="L1" id="phTl12"
                                                 value="{{ $phCampoTrazable[1]->Lectura1 }}"
-                                                onkeyup="valPhTrazable('phTl12','phT22','phTl32','phTEstado2')">
+                                                onkeyup="valPhTrazable2('phTl12','phT22','phTl32','phTEstado2', 'phTrazable2')">
                                         </td>
                                         <td>
                                             <input type="text" class="" placeholder="L2" id="phT22"
                                                 value="{{ $phCampoTrazable[1]->Lectura2 }}"
-                                                onkeyup="valPhTrazable('phTl12','phT22','phTl32','phTEstado2')">
+                                                onkeyup="valPhTrazable2('phTl12','phT22','phTl32','phTEstado2', 'phTrazable2')">
                                         </td>
                                         <td>
                                             <input type="text" class="" placeholder="L3" id="phTl32"
                                                 value="{{ $phCampoTrazable[1]->Lectura3 }}"
-                                                onkeyup="valPhTrazable('phTl12','phT22','phTl32','phTEstado2')">
+                                                onkeyup="valPhTrazable2('phTl12','phT22','phTl32','phTEstado2', 'phTrazable2')">
                                         </td>
                                         <td><input type="text" id="phTEstado2"
                                                 value="{{ $phCampoTrazable[1]->Estado }}"></td>
@@ -566,16 +564,17 @@
                                                     </select>
                                                 </td>
                                                 <td><input type="number" id="phl1{{ $i }}"
-                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}");'>
+                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");'>
                                                 </td>
                                                 <td><input type="number" id="phl2{{ $i }}"
-                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}");'>
+                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");'>
                                                 </td>
                                                 <td><input type="number" id="phl3{{ $i }}"
-                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}");'>
-                                                </td>
-                                                <td><input type="text" id="phprom{{ $i }}"></td>
+                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");'>
+                                                </td>                                                
+                                                <td><p id="phprom1{{ $i }}"></p></td>
                                                 <td><input type="datetime-local" id="phf{{ $i }}"></td>
+                                                <td><input type="text" id="phprom{{ $i }}" hidden></td>
                                             </tr>
 
 
@@ -604,24 +603,25 @@
                                             <tr>
                                                 <td>{{ $i + 1 }}</td>
                                                 <td><input type="text" id="temp1{{ $i }}"
-                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}");'>
+                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");'>
                                                 </td>
                                                 <td>
                                                     <p id="factorTemp1{{ $i }}"></p>
                                                 </td>
                                                 <td><input type="text" id="temp2{{ $i }}"
-                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}");'>
+                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");'>
                                                 </td>
                                                 <td>
                                                     <p id="factorTemp2{{ $i }}"></p>
                                                 </td>
                                                 <td><input type="text" id="temp3{{ $i }}"
-                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}");'>
+                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");'>
                                                 </td>
                                                 <td>
                                                     <p id="factorTemp3{{ $i }}"></p>
                                                 </td>
-                                                <td><input type="text" id="tempprom{{ $i }}"></td>
+                                                <td><p id="tempprom1{{ $i }}"></p></td>
+                                                <td><input type="text" id="tempprom{{ $i }}" hidden></td>
                                             </tr>
                                         @endfor
                                     </tbody>
@@ -645,15 +645,16 @@
                                             <tr>
                                                 <td>{{ $i + 1 }}</td>
                                                 <td><input type="text" id="con1{{ $i }}"
-                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}",1);'>
+                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");'>
                                                 </td>
                                                 <td><input type="text" id="con2{{ $i }}"
-                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}",1);'>
+                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");'>
                                                 </td>
                                                 <td><input type="text" id="con3{{ $i }}"
-                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}",1);'>
+                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");'>
                                                 </td>
-                                                <td><input type="text" id="conprom{{ $i }}"></td>
+                                                <td><p id="conprom1{{ $i }}"></p></td>
+                                                <td><input type="text" id="conprom{{ $i }}" hidden></td>
                                             </tr>
                                         @endfor
                                     </tbody>
@@ -677,15 +678,16 @@
                                             <tr>
                                                 <td>{{ $i + 1 }}</td>
                                                 <td><input type="text" id="gas1{{ $i }}"
-                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}");'>
+                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");'>
                                                 </td>
                                                 <td><input type="text" id="gas2{{ $i }}"
-                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}");'>
+                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");'>
                                                 </td>
                                                 <td><input type="text" id="gas3{{ $i }}"
-                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}");'>
+                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");'>
                                                 </td>
-                                                <td><input type="text" id="gasprom{{ $i }}"></td>
+                                                <td><p id="gasprom1{{ $i }}"></p></td>
+                                                <td><input type="text" id="gasprom{{ $i }}" hidden></td>
                                             </tr>
                                         @endfor
                                     </tbody>
@@ -784,13 +786,16 @@
                                     <tbody>
                                         <tr>
                                             <td>{{ $model->Clave_norma }}</td>
-                                            <td><input type="text" class="" placeholder="Volumen"></td>
+                                            <td><input type="text" class="" id="volCalculado" placeholder="Volumen"></td>
                                         </tr>
                                     </tbody>
                                 </table>
-                            </div>
+                            </div>                            
+
                             <div class="col-md-12">
-                                <table class="table" id="phTrazable">
+                                <button class="btn btn-success" onclick="btnGenerar(); return false">Generar</button>
+                                
+                                <table class="table" id="muestrasQi">
                                     <thead>
                                         <tr>
                                             <th>Núm muestra</th>
@@ -801,8 +806,13 @@
                                             <th>Vmsi</th>
                                         </tr>
                                     </thead>
+
+                                    <tbody>
+                                        
+                                    </tbody>
                                 </table>
-                            </div>
+                            </div>                            
+
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">PH Muestra compuesta</label>
@@ -812,7 +822,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Temperatura muestra</label>
-                                    <input type="number" class="form-control" placeholder="Temperatura muestra">
+                                    <input type="number" class="form-control" id="valTemp" placeholder="Temperatura muestra" onkeyup='valTempCompuesto("valTemp", "facTempApl");'>                                    
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <p>Factor de corrección aplicado: </p>
+                                    <p id="facTempApl"></p>
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -821,7 +837,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <p>Colaborador: {{ Auth::user()->name }}</p>
+                                <p>Signatario: {{ Auth::user()->name }}</p>
                             </div>
                             <div class="col-md-12">
                                 <button type="submit" class="btn btn-success" onclick="setDataMuestreo()"><i
@@ -830,9 +846,7 @@
                         </div>
                     </form>
                 </div>
-                <div class="tab-pane fade" id="evidencia" role="tabpanel" aria-labelledby="evidencia-tab">
-                    Datos Evidencia
-                    <hr>
+                <div class="tab-pane fade" id="evidencia" role="tabpanel" aria-labelledby="evidencia-tab">                                        
 
                     <div class="col-md-4">
                         <input type="file" name="foto" id="imgEvidencia1" accept="image/png, image/jpeg" />
@@ -840,9 +854,25 @@
                     <div class="col-md-4">
                         <input type="file" name="foto" id="imgEvidencia2" accept="image/png, image/jpeg" />
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4">                        
                         <button type="submit" class="btn btn-success">Subir Imagen</button>
                     </div>
+                    
+                    <!--<form method="post" id="formulario-imagen" action="/public/js/campo/captura.js" enctype="multipart/form-data">
+                        
+                        Datos Evidencia
+                        <hr>                        
+                        <div class="col-md-4">
+                            <input type="file" name="foto" id="imgEvidencia1" accept="image/png, image/jpeg" />
+                        </div>
+                        <div class="col-md-4">
+                            <input type="file" name="foto" id="imgEvidencia2" accept="image/png, image/jpeg" />
+                        </div>
+                        <div class="col-md-4">
+                            <button type="submit" class="btn btn-success" onclick="setEvidencia()">Subir Imagen</button>
+                        </div>
+                    </form>-->
+
                 </div>
             </div>
         </div>

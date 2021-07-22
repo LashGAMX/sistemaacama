@@ -1,13 +1,15 @@
 var base_url = "https://dev.sistemaacama.com.mx";
-
 // var selectedRow = false;
-$(document).ready(function () {
+$(document).ready(function () {    
     $("#datosGenerales-tab").click();
     datosGenerales();
     datosMuestreo();
+
+    //Llamada a función añadida
+    valoresPhTrazables();
 });
 
-function datosGenerales() {
+function datosGenerales() {            
     table = $("#materialUsado").DataTable({
         ordering: false,
         language: {
@@ -171,7 +173,7 @@ function datosGenerales() {
             "conCMarca",
             "conCLote"
         );
-    });
+    });    
 }
 
 function datosMuestreo() {}
@@ -193,7 +195,7 @@ function valPhTrazable(lec1, lec2, lec3, estado, phTrazable) {
     //var value = select.value;
     var text = select.options[select.selectedIndex].innerText;
     text = parseFloat(text);
-    console.log("Valor de phT: " + text);
+    //console.log("Valor de phT: " + text);
         
     let sw = false;
     let sw1 = true;
@@ -264,17 +266,17 @@ function valPhTrazable(lec1, lec2, lec3, estado, phTrazable) {
     }
 
     v1 = text - l1;
-    console.log("Valor de v1: " + v1);
+    //console.log("Valor de v1: " + v1);
     v2 = l1 - text;
-    console.log("Valor de v2: " + v2);
+    //console.log("Valor de v2: " + v2);
     v3 = text - l2;
-    console.log("Valor de v3: " + v3);
+    //console.log("Valor de v3: " + v3);
     v4 = l2 - text;
-    console.log("Valor de v4: " + v4);
+    //console.log("Valor de v4: " + v4);
     v5 = text - l3;
-    console.log("Valor de v5: " + v5);
+    //console.log("Valor de v5: " + v5);
     v6 = l3 - text;
-    console.log("Valor de v6: " + v6);
+    //console.log("Valor de v6: " + v6);
 
     if(v1 < -0.5 || v1 > 0.5){
         sw1 = false;
@@ -343,7 +345,7 @@ function valPhTrazable2(lec1, lec2, lec3, estado, phTrazable) {
     //var value = select.value;
     var text = select.options[select.selectedIndex].innerText;
     text = parseFloat(text);
-    console.log("Valor de phT: " + text);
+    //console.log("Valor de phT: " + text);
         
     let sw = false;
     let sw1 = true;
@@ -414,17 +416,17 @@ function valPhTrazable2(lec1, lec2, lec3, estado, phTrazable) {
     }
 
     v1 = text - l1;
-    console.log("Valor de v1: " + v1);
+    //console.log("Valor de v1: " + v1);
     v2 = l1 - text;
-    console.log("Valor de v2: " + v2);
+    //console.log("Valor de v2: " + v2);
     v3 = text - l2;
-    console.log("Valor de v3: " + v3);
+    //console.log("Valor de v3: " + v3);
     v4 = l2 - text;
-    console.log("Valor de v4: " + v4);
+    //console.log("Valor de v4: " + v4);
     v5 = text - l3;
-    console.log("Valor de v5: " + v5);
+    //console.log("Valor de v5: " + v5);
     v6 = l3 - text;
-    console.log("Valor de v6: " + v6);
+    //console.log("Valor de v6: " + v6);
 
     if(v1 < -0.5 || v1 > 0.5){
         sw1 = false;
@@ -1681,6 +1683,8 @@ function getFactorCorreccion() {
 }
 
 function setPhTrazable(idPh, nombre, marca, lote) {
+    //let valor = $("#phTrazable1").val();
+    
     let nom = document.getElementById(nombre);
     let mar = document.getElementById(marca);
     let lot = document.getElementById(lote);
@@ -1694,7 +1698,8 @@ function setPhTrazable(idPh, nombre, marca, lote) {
         dataType: "json",
         async: false,
         success: function (response) {
-            console.log(response);
+            console.log(response);  
+            //console.log("HOLAA")            
             nom.innerText = response.model.Ph;
             mar.innerText = response.model.Marca;
             lot.innerText = response.model.Lote;
@@ -1717,6 +1722,7 @@ function setPhTrazable2(idPh, nombre, marca, lote) {
         async: false,
         success: function (response) {
             console.log(response);
+            //console.log("holaaa");
             nom.innerText = "";
             mar.innerText = "";
             lot.innerText = "";
@@ -1738,7 +1744,7 @@ function setPhCalidad(idPh, nombre, marca, lote) {
         dataType: "json",
         async: false,
         success: function (response) {            
-            console.log(response);
+            console.log(response);            
             nom.innerText = response.model.Ph_calidad;
             mar.innerText = response.model.Marca;
             lot.innerText = response.model.Lote;                                   
@@ -2126,4 +2132,14 @@ function btnGenerar()
     tab += '    </tbody>';
     tab += '</table>';
     tabla.innerHTML = tab;        
+}
+
+function valoresPhTrazables(){    
+    
+    console.log("Estás dentro de valoresPhTrazables");
+    var ddl = document.getElementById("phTrazable1");    
+    var selectedValue = ddl.options[ddl.selectedIndex].value;    
+    console.log("Valor seleccionado: " + selectedValue);
+    var texto = selectedValue.text;
+    console.log("Valor texto: " + texto);
 }
