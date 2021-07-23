@@ -190,16 +190,15 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>                                                                                                                                  
-                                            <select id="phTrazable1">
+                                        <td>
+                                            <select id="phTrazable1" focus>
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach ($phTrazable as $item)                                                                                                
                                                     @if ($phCampoTrazable[0]->Id_phTrazable == $item->Id_ph)
                                                         <option value="{{ $item->Id_ph }}" selected>
-                                                            {{ $item->Ph }}</option>                                                            
-                                                    @else                                                        
-                                                        <option value="{{ $item->Id_ph }}">{{ $item->Ph }}
-                                                        </option>
+                                                            {{ $item->Ph }}</option>
+                                                    @else
+                                                        <option value="{{ $item->Id_ph }}">{{ $item->Ph }}</option>
                                                     @endif
                                                 @endforeach
                                             </select>

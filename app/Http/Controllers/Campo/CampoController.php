@@ -416,7 +416,7 @@ class CampoController extends Controller
         return response()->json(compact('model'));
     }
     public function getPhCalidad(Request $request)
-    {
+    {                
         $model = PHCalidad::where('Id_ph', $request->idPh)->first();
         return response()->json(compact('model'));
     }
