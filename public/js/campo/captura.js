@@ -788,6 +788,18 @@ function valPhMuestra(lec1, lec2, lec3, prom, prom1) {
                 }else{
                     t.rows[4].setAttribute("class", "bg-success");
                 }                
+            } else if (lec1 == "phl14") {
+                if((isNaN(l1)|| isNaN(l2) || isNaN(l3))){
+                    t.rows[5].setAttribute("class", "bg-danger");                    
+                }else{
+                    t.rows[5].setAttribute("class", "bg-success");
+                }                
+            } else if (lec1 == "phl15") {
+                if((isNaN(l1)|| isNaN(l2) || isNaN(l3))){
+                    t.rows[6].setAttribute("class", "bg-danger");                    
+                }else{
+                    t.rows[6].setAttribute("class", "bg-success");
+                }                
             }
         } else {
             //Rechazado
@@ -799,6 +811,10 @@ function valPhMuestra(lec1, lec2, lec3, prom, prom1) {
                 t.rows[3].setAttribute("class", "bg-danger");
             } else if (lec1 == "phl13") {
                 t.rows[4].setAttribute("class", "bg-danger");
+            } else if (lec1 == "phl14") {
+                t.rows[5].setAttribute("class", "bg-danger");
+            } else if (lec1 == "phl15") {
+                t.rows[6].setAttribute("class", "bg-danger");
             }
         }
     } else {
@@ -811,6 +827,10 @@ function valPhMuestra(lec1, lec2, lec3, prom, prom1) {
             t.rows[3].setAttribute("class", "bg-danger");
         } else if (lec1 == "phl13") {
             t.rows[4].setAttribute("class", "bg-danger");
+        } else if (lec1 == "phl14") {
+            t.rows[5].setAttribute("class", "bg-danger");
+        } else if (lec1 == "phl15") {
+            t.rows[6].setAttribute("class", "bg-danger");
         }
     }
 
@@ -883,7 +903,25 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
             }else{
                 sw1 = true;                
             }
-        }                               
+        }
+
+        if(lec1 == "temp14"){
+            if ((l1 < 1 || l1 > 40) || isNaN(l1)) {
+                fac1.innerHTML = "";
+                sw1 = false;                
+            }else{
+                sw1 = true;                
+            }
+        }
+
+        if(lec1 == "temp15"){
+            if ((l1 < 1 || l1 > 40) || isNaN(l1)) {
+                fac1.innerHTML = "";
+                sw1 = false;                
+            }else{
+                sw1 = true;                
+            }
+        }
 
     //Lectura 2-----------------------------------------------
     let l2 = parseFloat(document.getElementById(lec2).value);        
@@ -922,7 +960,25 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
             }else{
                 sw2 = true;
             }
-        }           
+        }  
+        
+        if(lec2 == "temp24"){
+            if ((l2 < 1 || l2 > 40) || isNaN(l2)) {
+                fac2.innerHTML = "";
+                sw2 = false;                
+            }else{
+                sw2 = true;
+            }
+        }
+
+        if(lec2 == "temp25"){
+            if ((l2 < 1 || l2 > 40) || isNaN(l2)) {
+                fac2.innerHTML = "";
+                sw2 = false;                
+            }else{
+                sw2 = true;
+            }
+        }
 
     //Lectura 3-----------------------------------------------
     let l3 = parseFloat(document.getElementById(lec3).value);                
@@ -961,7 +1017,25 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
             }else{
                 sw3 = true;
             }
-        }                                     
+        }  
+        
+        if(lec3 == "temp34"){
+            if ((l3 < 1 || l3 > 40) || isNaN(l3)) {
+                fac3.innerHTML = "";
+                sw3 = false;  
+            }else{
+                sw3 = true;
+            }          
+        }
+
+        if(lec3 == "temp35"){
+            if ((l3 < 1 || l3 > 40) || isNaN(l3)) {
+                fac3.innerHTML = "";
+                sw3 = false;  
+            }else{
+                sw3 = true;
+            }          
+        }
 
     //Comprueba que la diferencia entre valores no sea mayor que 1 unidad------------------------------
     r1 = (l1 - l2).toFixedDown(2);
@@ -999,146 +1073,52 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
 
     if (sw == true) {
         //Aceptado
-        if (lec1 == "temp10") {            
-
-            if (l1 >= 0 && l1 <= 5) {                
-                fac1.innerHTML = (l1 - 1).toFixed(0);
-            } else if (l1 >= 16 && l1 < 20) {
-                fac1.innerHTML = (l1 + 1).toFixed(0);
-            } else {
-                fac1.innerHTML = l1.toFixed(0);
-            }
-
-            if (l2 >= 0 && l2 <= 5) {
-                fac2.innerHTML = (l2 - 1).toFixed(0);
-            } else if (l2 >= 16 && l2 < 20) {
-                fac2.innerHTML = (l2 + 1).toFixed(0);
-            } else {
-                fac2.innerHTML = l2.toFixed(0);
-            }
-
-            if (l3 >= 0 && l3 <= 5) {
-                fac3.innerHTML = (l3 - 1).toFixed(0);
-            } else if (l1 >= 16 && l1 < 20) {
-                fac3.innerHTML = (l3 + 1).toFixed(0);
-            } else {
-                fac3.innerHTML = l3.toFixed(0);
-            }
-
+        if (lec1 == "temp10") {                        
             if((isNaN(l2) || isNaN(l3)) || (sw1 == false || sw2 == false || sw3 == false)){
-                t.rows[1].setAttribute("class", "bg-danger");
-                fac1.innerHTML = "";
-                fac2.innerHTML = "";
-                fac3.innerHTML = "";
+                t.rows[1].setAttribute("class", "bg-danger");                
             }else{
                 t.rows[1].setAttribute("class", "bg-success");
             }         
 
-        } else if (lec1 == "temp11") {
-            if (l1 >= 0 && l1 <= 5) {
-                fac1.innerHTML = (l1 - 1).toFixed(0);
-            } else if (l1 >= 16 && l1 < 20) {
-                fac1.innerHTML = (l1 + 1).toFixed(0);
-            } else {
-                fac1.innerHTML = l1.toFixed(0);
-            }
-
-            if (l2 >= 0 && l2 <= 5) {
-                fac2.innerHTML = (l2 - 1).toFixed(0);
-            } else if (l2 >= 16 && l2 < 20) {
-                fac2.innerHTML = (l2 + 1).toFixed(0);
-            } else {
-                fac2.innerHTML = l2.toFixed(0);
-            }
-
-            if (l3 >= 0 && l3 <= 5) {
-                fac3.innerHTML = (l3 - 1).toFixed(0);
-            } else if (l1 >= 16 && l1 < 20) {
-                fac3.innerHTML = (l3 + 1).toFixed(0);
-            } else {
-                fac3.innerHTML = l3.toFixed(0);
-            }
-
+        } else if (lec1 == "temp11") {            
             if((isNaN(l2) || isNaN(l3)) || (sw1 == false || sw2 == false || sw3 == false)){
-                t.rows[2].setAttribute("class", "bg-danger");
-                fac1.innerHTML = "";
-                fac2.innerHTML = "";
-                fac3.innerHTML = "";
+                t.rows[2].setAttribute("class", "bg-danger");                
             }else{
                 t.rows[2].setAttribute("class", "bg-success");
             }            
 
         } else if (lec1 == "temp12") {
-            if (l1 >= 0 && l1 <= 5) {
-                fac1.innerHTML = (l1 - 1).toFixed(0);
-            } else if (l1 >= 16 && l1 < 20) {
-                fac1.innerHTML = (l1 + 1).toFixed(0);
-            } else {
-                fac1.innerHTML = l1.toFixed(0);
-            }
-
-            if (l2 >= 0 && l2 <= 5) {
-                fac2.innerHTML = (l2 - 1).toFixed(0);
-            } else if (l2 >= 16 && l2 < 20) {
-                fac2.innerHTML = (l2 + 1).toFixed(0);
-            } else {
-                fac2.innerHTML = l2.toFixed(0);
-            }
-
-            if (l3 >= 0 && l3 <= 5) {
-                fac3.innerHTML = (l3 - 1).toFixed(0);
-            } else if (l1 >= 16 && l1 < 20) {
-                fac3.innerHTML = (l3 + 1).toFixed(0);
-            } else {
-                fac3.innerHTML = l3.toFixed(0);
-            }
-
             if((isNaN(l2) || isNaN(l3)) || (sw1 == false || sw2 == false || sw3 == false)){
-                t.rows[3].setAttribute("class", "bg-danger");
-                fac1.innerHTML = "";
-                fac2.innerHTML = "";
-                fac3.innerHTML = "";
+                t.rows[3].setAttribute("class", "bg-danger");                
             }else{
                 t.rows[3].setAttribute("class", "bg-success");
             }
             
-        } else if (lec1 == "temp13") {
-            if (l1 >= 0 && l1 <= 5) {
-                fac1.innerHTML = (l1 - 1).toFixed(0);
-            } else if (l1 >= 16 && l1 < 20) {
-                fac1.innerHTML = (l1 + 1).toFixed(0);
-            } else {
-                fac1.innerHTML = l1.toFixed(0);
-            }
-
-            if (l2 >= 0 && l2 <= 5) {
-                fac2.innerHTML = (l2 - 1).toFixed(0);
-            } else if (l2 >= 16 && l2 < 20) {
-                fac2.innerHTML = (l2 + 1).toFixed(0);
-            } else {
-                fac2.innerHTML = l2.toFixed(0);
-            }
-
-            if (l3 >= 0 && l3 <= 5) {
-                fac3.innerHTML = (l3 - 1).toFixed(0);
-            } else if (l1 >= 16 && l1 < 20) {
-                fac3.innerHTML = (l3 + 1).toFixed(0);
-            } else {
-                fac3.innerHTML = l3.toFixed(0);
-            }
-
+        } else if (lec1 == "temp13") {            
             if((isNaN(l2) || isNaN(l3)) || (sw1 == false || sw2 == false || sw3 == false)){
-                t.rows[4].setAttribute("class", "bg-danger");
-                fac1.innerHTML = "";
-                fac2.innerHTML = "";
-                fac3.innerHTML = "";
+                t.rows[4].setAttribute("class", "bg-danger");                
             }else{
                 t.rows[4].setAttribute("class", "bg-success");
             } 
+
+        } else if (lec1 == "temp14") {            
+            if((isNaN(l2) || isNaN(l3)) || (sw1 == false || sw2 == false || sw3 == false)){
+                t.rows[5].setAttribute("class", "bg-danger");                
+            }else{
+                t.rows[5].setAttribute("class", "bg-success");
+            } 
+
+        } else if (lec1 == "temp15") {            
+            if((isNaN(l2) || isNaN(l3)) || (sw1 == false || sw2 == false || sw3 == false)){
+                t.rows[6].setAttribute("class", "bg-danger");                
+            }else{
+                t.rows[6].setAttribute("class", "bg-success");
+            }
+
         }
     } else {
         //Rechazado
-        if (lec1 == "temp10") {
+        if (lec1 == "temp10") {            
             fac1.innerHTML = "";
             fac2.innerHTML = "";
             fac3.innerHTML = "";
@@ -1158,10 +1138,176 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
             fac2.innerHTML = "";
             fac3.innerHTML = "";
             t.rows[4].setAttribute("class", "bg-danger");
+        } else if (lec1 == "temp14") {
+            fac1.innerHTML = "";
+            fac2.innerHTML = "";
+            fac3.innerHTML = "";
+            t.rows[5].setAttribute("class", "bg-danger");
+        } else if (lec1 == "temp15") {
+            fac1.innerHTML = "";
+            fac2.innerHTML = "";
+            fac3.innerHTML = "";
+            t.rows[6].setAttribute("class", "bg-danger");
         }
-    }               
+    }
     
     if(sw == true && sw1 == true && sw2 == true && sw3 == true){        
+        
+        $.ajax({
+                url: base_url + "/admin/campo/captura/getFactorAplicado",
+                type: "POST",
+                data: {
+                    idFactor: $("#termometro").val(),
+                    _token: $('input[name="_token"]').val(),
+                },
+                dataType: "json",
+                async: false,
+                success: function (response) {                                                                                          
+                    let factores = new Array(8);
+                    let i = 0;                    
+
+                    //console.log(response.model);
+                    
+                    $.each(response.model, function (key, item) { 
+                        factores[i] = parseInt(item.Factor_aplicado);
+                        i++;
+                    });                                        
+    
+                    $.each(response.model, function (key, item) {
+                        item.Factor = parseInt(item.Factor);                        
+                                                    
+                            //LECTURA 1-----------------------------------------------
+                            if((l1 >= 0 && l1 < 5)){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
+                                    fac1.innerHTML = parseFloat((l1 + factores[0])).toFixed(3);
+                                    l1 = parseFloat(l1 + factores[0]);                                    
+                                }
+                            }else if(l1 >= 5 && l1 < 10){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){
+                                    fac1.innerHTML = parseFloat((l1 + factores[1])).toFixed(3);
+                                    l1 = parseFloat(l1 + factores[1]);                                                                                                            
+                                }
+                            }else if((l1 >= 10 && l1 < 15)){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                    fac1.innerHTML = parseFloat((l1 + factores[2])).toFixed(3);
+                                    l1 = parseFloat(l1 + factores[2]);
+                                }
+                            }else if(l1 >= 15 && l1 < 20){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                                    fac1.innerHTML = parseFloat((l1 + factores[3])).toFixed(3);
+                                    l1 = parseFloat(l1 + factores[3]);
+                                }
+                            }else if(l1 >= 20 && l1 < 25){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
+                                    fac1.innerHTML = parseFloat((l1 + factores[4])).toFixed(3);
+                                    l1 = parseFloat(l1 + factores[4]);
+                                }
+                            }else if(l1 >= 25 && l1 < 30){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                    fac1.innerHTML = parseFloat((l1 + factores[5])).toFixed(3);
+                                    l1 = parseFloat(l1 + factores[5]);
+                                }
+                            }else if(l1 >= 30 && l1 < 35){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
+                                    fac1.innerHTML = parseFloat((l1 + factores[6])).toFixed(3);
+                                    l1 = parseFloat(l1 + factores[6]);
+                                }
+                            }else if(l1 >= 35 && l1 < 40){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                    fac1.innerHTML = parseFloat((l1 + factores[7])).toFixed(3);
+                                    l1 = parseFloat(l1 + factores[7]);
+                                }
+                            }                                                    
+                            
+                            //LECTURA 2---------------------------------------------
+                            if((l2 >= 0 && l2 < 5)){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
+                                    fac2.innerHTML = parseFloat((l2 + factores[0])).toFixed(3);
+                                    l2 = parseFloat(l2 + factores[0]);
+                                }
+                            }else if(l2 >= 5 && l2 < 10){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){
+                                    fac2.innerHTML = parseFloat((l2 + factores[1])).toFixed(3);
+                                    l2 = parseFloat(l2 + factores[1]);
+                                }
+                            }else if((l2 >= 10 && l2 < 15)){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                    fac2.innerHTML = parseFloat((l2 + factores[2])).toFixed(3);
+                                    l2 = parseFloat(l2 + factores[2]);
+                                }
+                            }else if(l2 >= 15 && l2 < 20){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                                    fac2.innerHTML = parseFloat((l2 + factores[3])).toFixed(3);
+                                    l2 = parseFloat(l2 + factores[3]);
+                                }
+                            }else if(l2 >= 20 && l2 < 25){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
+                                    fac2.innerHTML = parseFloat((l2 + factores[4])).toFixed(3);
+                                    l2 = parseFloat(l2 + factores[4]);
+                                }
+                            }else if(l2 >= 25 && l2 < 30){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                    fac2.innerHTML = parseFloat((l2 + factores[5])).toFixed(3);
+                                    l2 = parseFloat(l2 + factores[5]);
+                                }
+                            }else if(l2 >= 30 && l2 < 35){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
+                                    fac2.innerHTML = parseFloat((l2 + factores[6])).toFixed(3);
+                                    l2 = parseFloat(l2 + factores[6]);
+                                }
+                            }else if(l2 >= 35 && l2 < 40){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                    fac2.innerHTML = parseFloat((l2 + factores[7])).toFixed(3);
+                                    l2 = parseFloat(l2 + factores[7]);
+                                }
+                            }                                                    
+                            
+                            //LECTURA 3---------------------------------------------    
+                            if((l3 >= 0 && l3 < 5)){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
+                                    fac3.innerHTML = parseFloat((l3 + factores[0])).toFixed(3);
+                                    l3 = parseFloat(l3 + factores[0]);                                    
+                                }
+                            }else if(l3 >= 5 && l3 < 10){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){
+                                    fac3.innerHTML = parseFloat((l3 + factores[1])).toFixed(3);
+                                    l3 = parseFloat(l3 + factores[1]);
+                                }
+                            }else if((l3 >= 10 && l3 < 15)){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                    fac3.innerHTML = parseFloat((l3 + factores[2])).toFixed(3);
+                                    l3 = parseFloat(l3 + factores[2]);                        
+                                }
+                            }else if(l3 >= 15 && l3 < 20){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                                    fac3.innerHTML = parseFloat((l3 + factores[3])).toFixed(3);
+                                    l3 = parseFloat(l3 + factores[3]);
+                                }
+                            }else if(l3 >= 20 && l3 < 25){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
+                                    fac3.innerHTML = parseFloat((l3 + factores[4])).toFixed(3);
+                                    l3 = parseFloat(l3 + factores[4]);
+                                }
+                            }else if(l3 >= 25 && l3 < 30){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                    fac3.innerHTML = parseFloat((l3 + factores[5])).toFixed(3);
+                                    l3 = parseFloat(l3 + factores[5]);
+                                }
+                            }else if(l3 >= 30 && l3 < 35){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
+                                    fac3.innerHTML = parseFloat((l3 + factores[6])).toFixed(3);
+                                    l3 = parseFloat(l3 + factores[6]);
+                                }
+                            }else if(l3 >= 35 && l3 < 40){
+                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                    fac3.innerHTML = parseFloat((l3 + factores[7])).toFixed(3);
+                                    l3 = parseFloat(l3 + factores[7]);
+                                }
+                            }                        
+                    });
+                },
+            });                                    
+        
         p.value = parseFloat(((l1 + l2 + l3) / 3)).toFixed(3);
         p1.innerHTML = parseFloat(((l1 + l2 + l3) / 3)).toFixed(0);
     }else{        
@@ -1171,6 +1317,55 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
             p1.innerHTML = "";
         }   
     }
+
+    return sw;
+}
+
+function valTempCalMuestra(lec1) {
+    let sw = true;    
+    let l1 = parseFloat(document.getElementById(lec1).value);
+    let t = document.getElementById("tempCalidad");    
+
+    if (sw == true) {
+        //Aceptado
+        if (lec1 == "tempCalidad10") {
+            if(isNaN(l1)){
+                t.rows[1].setAttribute("class", "bg-danger");                
+            }else{
+                t.rows[1].setAttribute("class", "bg-success");
+            }                               
+        } else if (lec1 == "tempCalidad11") {
+            if(isNaN(l1)){
+                t.rows[2].setAttribute("class", "bg-danger");                
+            }else{
+                t.rows[2].setAttribute("class", "bg-success");
+            }                               
+        } else if (lec1 == "tempCalidad12") {
+            if(isNaN(l1)){
+                t.rows[3].setAttribute("class", "bg-danger");                
+            }else{
+                t.rows[3].setAttribute("class", "bg-success");
+            }                   
+        } else if (lec1 == "tempCalidad13") {
+            if(isNaN(l1)){
+                t.rows[4].setAttribute("class", "bg-danger");                
+            }else{
+                t.rows[4].setAttribute("class", "bg-success");
+            }                               
+        } else if (lec1 == "tempCalidad14") {
+            if(isNaN(l1)){
+                t.rows[5].setAttribute("class", "bg-danger");                
+            }else{
+                t.rows[5].setAttribute("class", "bg-success");
+            }                               
+        } else if (lec1 == "tempCalidad15") {
+            if(isNaN(l1)){
+                t.rows[6].setAttribute("class", "bg-danger");                
+            }else{
+                t.rows[6].setAttribute("class", "bg-success");
+            }                               
+        }
+    }   
 
     return sw;
 }
@@ -1230,6 +1425,18 @@ function valConMuestra(lec1, lec2, lec3, prom, prom1) {
             }else{
                 t.rows[4].setAttribute("class", "bg-success");
             }                               
+        } else if (lec1 == "con14") {
+            if(isNaN(l1)|| isNaN(l2) || isNaN(l3)){
+                t.rows[5].setAttribute("class", "bg-danger");                
+            }else{
+                t.rows[5].setAttribute("class", "bg-success");
+            }                   
+        } else if (lec1 == "con15") {
+            if(isNaN(l1)|| isNaN(l2) || isNaN(l3)){
+                t.rows[6].setAttribute("class", "bg-danger");                
+            }else{
+                t.rows[6].setAttribute("class", "bg-success");
+            }                   
         }
     } else {
         //Rechazado
@@ -1241,6 +1448,10 @@ function valConMuestra(lec1, lec2, lec3, prom, prom1) {
             t.rows[3].setAttribute("class", "bg-danger");
         } else if (lec1 == "con13") {
             t.rows[4].setAttribute("class", "bg-danger");
+        } else if (lec1 == "con14") {
+            t.rows[5].setAttribute("class", "bg-danger");
+        } else if (lec1 == "con15") {
+            t.rows[6].setAttribute("class", "bg-danger");
         }
     }    
 
@@ -1323,6 +1534,18 @@ function valGastoMuestra(lec1, lec2, lec3, prom, prom1) {
             }else{
                 t.rows[4].setAttribute("class", "bg-success");
             }                               
+        } else if (lec1 == "gas14") {
+            if(isNaN(l1)|| isNaN(l2) || isNaN(l3)){
+                t.rows[5].setAttribute("class", "bg-danger");                
+            }else{
+                t.rows[5].setAttribute("class", "bg-success");
+            }                               
+        } else if (lec1 == "gas15") {
+            if(isNaN(l1)|| isNaN(l2) || isNaN(l3)){
+                t.rows[6].setAttribute("class", "bg-danger");                
+            }else{
+                t.rows[6].setAttribute("class", "bg-success");
+            }                               
         }
     } else {
         //Rechazado
@@ -1334,6 +1557,10 @@ function valGastoMuestra(lec1, lec2, lec3, prom, prom1) {
             t.rows[3].setAttribute("class", "bg-danger");
         } else if (lec1 == "gas13") {
             t.rows[4].setAttribute("class", "bg-danger");
+        } else if (lec1 == "gas14") {
+            t.rows[5].setAttribute("class", "bg-danger");
+        } else if (lec1 == "gas15") {
+            t.rows[6].setAttribute("class", "bg-danger");
         }
     }
 
@@ -1379,15 +1606,10 @@ function valGastoMuestra(lec1, lec2, lec3, prom, prom1) {
     return sw;
 }
 
-
-/*Como extraer el ite.Factor para compararlo con la temperatura muestra ingresada*/
-
-//var $model = TermFactorCorreccionTemp::where;
-
 let t;
 //FUNCIÓN EN PROCESO
 function valTempCompuesto(temp1, factTempAplicado){
-    //Almacena el ID del Input
+    //Almacena el valor del ID del Input
     t = parseInt(document.getElementById(temp1).value);
     let factAplicado = document.getElementById(factTempAplicado);
     //console.log("Valor de temperatura compuesta: " + t);
@@ -1852,6 +2074,7 @@ function setDataGeneral() {
             altitud: $("#altitud").val(),
             pendiente: $("#pendiente").val(),
             criterio: $("#criterioPendiente").val(),
+            supervisor: $("#nombreSupervisor").val(),
 
             phTrazable1: $("#phTrazable1").val(),
             phTl11: $("#phTl11").val(),
@@ -1906,6 +2129,7 @@ function setDataGeneral() {
 function setDataMuestreo() {
     let ph = new Array();
     let temperatura = new Array();
+    let temperaturaCalidad = new Array();
     let conductividad = new Array();
     let gasto = new Array();
     let row = new Array();
@@ -1934,6 +2158,12 @@ function setDataMuestreo() {
 
     for (let i = 0; i < $("#numTomas").val(); i++) {
         row = new Array();
+        row.push($("#tempCalidad1" + i).val());        
+        temperaturaCalidad.push(row);
+    }
+
+    for (let i = 0; i < $("#numTomas").val(); i++) {
+        row = new Array();
         row.push($("#con1" + i).val());
         row.push($("#con2" + i).val());
         row.push($("#con3" + i).val());
@@ -1958,6 +2188,7 @@ function setDataMuestreo() {
             numTomas: $("#numTomas").val(),
             ph: ph,
             temperatura: temperatura,
+            temperaturaCalidad: temperaturaCalidad,
             conductividad: conductividad,
             gasto: gasto,
             _token: $('input[name="_token"]').val(),
