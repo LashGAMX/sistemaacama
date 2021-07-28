@@ -4,7 +4,10 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\CampoGenerales;
+use App\Models\PHCalidad;
+use App\Models\PHTrazable;
 use App\Models\SolicitudesGeneradas;
+use App\Models\TermometroCampo;
 use App\Models\UsuarioApp;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -38,9 +41,15 @@ class CampoAppController extends Controller
         $json = json_decode($arr,true);
 
         $modelSolGen = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', $request->idMuestreador)->where("StdSol",1)->get();
+        $termometro = TermometroCampo::all();
+        $phCalidad = PHCalidad::all();
+        $phTrazable = PHTrazable::all(); 
 
         $data = array(
             'datos' => $request->solicitudesModel,
+            'termometro' => $termometro,
+            'phCalidad' => $phCalidad,
+            'phTrazable' => $phTrazable,
             'modelSolGen' => $modelSolGen, 
             'response' => true,
         );

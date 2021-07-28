@@ -95,7 +95,19 @@
                         <td>{{$item->Empresa}}</td>
                         <td>{{$item->Direccion}}</td>
                         <td>{{$item->Fecha_muestreo}}</td>
-                        <td>{{$item->Captura}}</td>
+                        @switch($item->StdSol)
+                            @case(1)
+                                <td>Asinado</td>
+                                @break
+                            @case(2)
+                                <td>Capturando</td>
+                                @break
+                            @case(3)
+                                <td>Cerrado</td>
+                                @break
+                            @default
+                                
+                        @endswitch
                         <td></td>
                         <td></td>
                         <td></td>

@@ -58,7 +58,7 @@ class CampoController extends Controller
         $conTratamiento = ConTratamiento::all();
         $tipo = TipoTratamiento::all();
 
-        $model = DB::table('ViewSolicitud')->where('Id_solicitud', $id)->first();
+        $model = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
         $general = CampoGenerales::where('Id_solicitud', $model->Id_solicitud)->first();
         $frecuencia = DB::table('frecuencia001')->where('Id_frecuencia', $model->Id_muestreo)->first();
         $phCampoTrazable = CampoPhTrazable::where('Id_solicitud', $model->Id_solicitud)->get();
