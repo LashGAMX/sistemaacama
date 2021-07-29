@@ -1,6 +1,6 @@
 var base_url = "https://dev.sistemaacama.com.mx";
 // var selectedRow = false;
-$(document).ready(function () {    
+$(document).ready(function () {        
     $("#datosGenerales-tab").click();
     datosGenerales();
     datosMuestreo();
@@ -178,12 +178,25 @@ function datosGenerales() {
 
 function datosMuestreo() {}
 
-function valTempAmbiente() {
+function valTempAmbiente(temperaturaAmbiente, temperaturaBuffer) {
     let temp1 = parseFloat($("#tempAmbiente").val());
     let temp2 = parseFloat($("#tempBuffer").val());
+
+    let temp01 = document.getElementById(temperaturaAmbiente).value;
+    let temp02 = document.getElementById(temperaturaBuffer).value;
+
+    if(temp01.length > 5){
+        alert("La temperatura ambiente no puede tener más de dos decimales");
+    }
+
+    /*if(temp02.length > 5){
+        alert("La temperatura búffer no puede tener más de dos decimales");
+    }*/
+
     if (temp1 - temp2 > 5 || temp1 - temp2 < -5) {
         inputBorderColor("tempAmbiente", "rojo");
         inputBorderColor("tempBuffer", "rojo");
+        alert("La diferencia de temperatura ambiente y temperatura búffer es mayor a 5 grados");
     } else {
         inputBorderColor("tempAmbiente", "verde");
         inputBorderColor("tempBuffer", "verde");
@@ -265,6 +278,12 @@ function valPhTrazable(lec1, lec2, lec3, estado, phTrazable) {
         sw = true;
     }
 
+    if(sw == true){
+        console.log("Aceptado")
+    }else{
+        console.log("Rechazado")
+    }
+
     v1 = text - l1;
     //console.log("Valor de v1: " + v1);
     v2 = l1 - text;
@@ -278,37 +297,37 @@ function valPhTrazable(lec1, lec2, lec3, estado, phTrazable) {
     v6 = l3 - text;
     //console.log("Valor de v6: " + v6);
 
-    if(v1 < -0.5 || v1 > 0.5){
+    if(v1 < -0.05 || v1 > 0.05){
         sw1 = false;
     }else{
         sw1 = true;
     }
 
-    if(v2 < -0.5 || v2 > 0.5){
+    if(v2 < -0.05 || v2 > 0.05){
         sw1 = false;
     }else{
         sw1 = true;
     }
 
-    if(v3 < -0.5 || v3 > 0.5){
+    if(v3 < -0.05 || v3 > 0.05){
         sw2 = false;
     }else{
         sw2 = true;
     }
 
-    if(v4 < -0.5 || v4 > 0.5){
+    if(v4 < -0.05 || v4 > 0.05){
         sw2 = false;
     }else{
         sw2 = true;
     }
 
-    if(v5 < -0.5 || v5 > 0.5){
+    if(v5 < -0.05 || v5 > 0.05){
         sw3 = false;
     }else{
         sw3 = true;
     }
 
-    if(v6 < -0.5 || v6 > 0.5){
+    if(v6 < -0.05 || v6 > 0.05){
         sw3 = false;
     }else{
         sw3 = true;
@@ -2365,12 +2384,107 @@ function btnGenerar()
     tabla.innerHTML = tab;        
 }
 
+//Arreglo que almacena únicamente las fechas de los inputs en PH Muestra
+let fechas = moment(new Array(6));
+
+//Arreglo que almacena únicamente las horas de los inputs en PH Muestra
+let horas = new Array(6);
+
+//FUNCIÓN EN PROCESO
+function validacionFechaMuestreo(fechaLec){
+    let t = document.getElementById("phMuestra");
+    
+    //Obtiene el valor del input de fecha
+    let fecha = document.getElementById(fechaLec).value;        
+
+    let fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm:ss');
+    //console.log("Objeto moment fechaIngresada: " + moment.isMoment(fechaIngresada));
+    //console.log("Valor de fechaIngresada: " + fechaIngresada);
+
+    //let fechaIngresada = moment(fecha).format('YYYY-MM-DDTHH:mm:ss');
+    let soloFecha = moment(fechaIngresada).format('YYYY-MM-DD');
+    let soloHora = moment(fechaIngresada).format('HH:mm:ss');
+    
+    console.log("Valor de fechaLec: " + fechaLec);
+
+    //Llena los arreglos fechas y horas con los valores introducidos en los inputs date-local    
+    if(fechaLec == "phf0"){
+        fechas[0] = soloFecha;
+        horas[0] = soloHora;
+
+    }else if(fechaLec == "phf1"){
+        //fechas[1] = soloFecha;
+        //horas[1] = soloHora;
+        
+        //let fecha1 = moment(fechas[0]);
+        //let fecha2 = moment(fechas[1]);
+
+        //console.log("Objeto moment: " + moment.isMoment(fechas[1]));
+
+        //console.log("Valor de arreglo fechas[0]: " + fecha1);
+        //console.log("Valor de arreglo fechas[1]: " + fechas[1]);
+
+        /*if(moment(fecha1).isBefore(fechas[1])){
+            console.log("Lo conseguiste");
+            t.rows[1].setAttribute("class", "bg-success");
+        }*/
+
+    }else if(fechaLec == "phf2"){
+        //fechas[2] = soloFecha;
+        //horas[2] = soloHora;
+
+    }else if(fechaLec == "phf3"){
+        //fechas[3] = soloFecha;
+        //horas[3] = soloHora;
+
+    }else if(fechaLec == "phf4"){
+        //fechas[4] = soloFecha;
+        //horas[4] = soloHora;
+
+    }else if(fechaLec == "phf5"){
+        //fechas[5] = soloFecha;
+        //horas[5] = soloHora;
+    }
+    //----------------------------------------------------------------------------------------------
+
+    //console.log(soloFecha);
+    //console.log(soloHora);
+    //t.rows[1].setAttribute("class", "bg-danger");    
+}
+
+//FUNCIÓN EN CONSTRUCCIÓN
 function valoresPhTrazables(){    
     
-    console.log("Estás dentro de valoresPhTrazables");
+    //console.log("Estás dentro de valoresPhTrazables");
     var ddl = document.getElementById("phTrazable1");    
     var selectedValue = ddl.options[ddl.selectedIndex].value;    
-    console.log("Valor seleccionado: " + selectedValue);
+    //console.log("Valor seleccionado: " + selectedValue);
     var texto = selectedValue.text;
-    console.log("Valor texto: " + texto);
+    //console.log("Valor texto: " + texto);
+}
+
+function validacionLatitud(latitudCaptura){
+    latitud = document.getElementById(latitudCaptura).value;    
+
+    if(latitud.length > 10){
+        alert("La latitud no puede tener más de 10 dígitos");
+    }
+}
+
+function validacionLongitud(longitudCaptura){
+    longitud = document.getElementById(longitudCaptura).value;    
+
+    if(longitud.length > 10){
+        alert("La longitud no puede tener más de 10 dígitos");
+    }
+}
+
+function validacionAltitud(altitudCaptura){
+    altitud = document.getElementById(altitudCaptura).value;
+
+    console.log("Tamaño de altitud: " + altitud.length);
+
+    if(altitud.length > 10){
+        alert("La altitud no puede tener más de 10 dígitos");
+    }
 }
