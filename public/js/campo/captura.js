@@ -585,13 +585,13 @@ function valConTrazable(lec1, lec2, lec3, estado) {
     let l2 = parseFloat(document.getElementById(lec2).value);
     let l3 = parseFloat(document.getElementById(lec3).value);
 
-    if (l1 - con < porcentaje * -1 || l1 - con > porcentaje) {
+    if (l1 - con <= porcentaje * -1 || l1 - con >= porcentaje) {
         sw = false;
     }
-    if (l2 - con < porcentaje * -1 || l2 - con > porcentaje) {
+    if (l2 - con <= porcentaje * -1 || l2 - con >= porcentaje) {
         sw = false;
     }
-    if (l3 - con < porcentaje * -1 || l3 - con > porcentaje) {
+    if (l3 - con <= porcentaje * -1 || l3 - con >= porcentaje) {
         sw = false;
     }
 
