@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\CampoGenerales;
+use App\Models\ConductividadCalidad;
+use App\Models\ConductividadTrazable;
 use App\Models\PHCalidad;
 use App\Models\PHTrazable;
 use App\Models\SolicitudesGeneradas;
@@ -44,12 +46,16 @@ class CampoAppController extends Controller
         $termometro = TermometroCampo::all();
         $phCalidad = PHCalidad::all();
         $phTrazable = PHTrazable::all(); 
+        $conTrazable = ConductividadTrazable::all();
+        $conCalidad = ConductividadCalidad::all();
 
         $data = array(
             'datos' => $request->solicitudesModel,
             'termometro' => $termometro,
             'phCalidad' => $phCalidad,
             'phTrazable' => $phTrazable,
+            'conTrazable' => $conTrazable,
+            'conCalidad' => $conCalidad,
             'modelSolGen' => $modelSolGen, 
             'response' => true,
         );
