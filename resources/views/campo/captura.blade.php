@@ -84,14 +84,14 @@
                             <div class="form-group">
                                 <label for="">Temperatura ambiente</label>
                                 <input type="number" class="form-control" placeholder="Temperatura" id="tempAmbiente"
-                                    onkeyup="valTempAmbiente()" value="{{ $general->Temperatura_a }}" required>
+                                    onkeyup='valTempAmbiente("tempAmbiente", "tempBuffer")' value="{{ $general->Temperatura_a }}" required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Temperatura búffer</label>
                                 <input type="number" class="form-control" placeholder="Temperatura" id="tempBuffer"
-                                    onkeyup="valTempAmbiente()" value="{{ $general->Temperatura_b }}">
+                                    onkeyup='valTempAmbiente("tempAmbiente", "tempBuffer")' value="{{ $general->Temperatura_b }}">
                             </div>
                         </div>
 
@@ -116,22 +116,22 @@
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Latitud</label>
-                                <input type="text" class="form-control" placeholder="Latitud" id="latitud"
-                                    value="{{ $general->Latitud }}">
+                            <input type="number" step="any" class="form-control" placeholder="Latitud" id="latitud"
+                                    value="{{ $general->Latitud }}" onkeyup='validacionLatitud("latitud");'>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Longitud</label>
-                                <input type="text" class="form-control" placeholder="Longitud" id="longitud"
-                                    value="{{ $general->Longitud }}">
+                                <input type="number" step="any" class="form-control" placeholder="Longitud" id="longitud"
+                                    value="{{ $general->Longitud }}" onkeyup='validacionLongitud("longitud");'>
                             </div>
                         </div>
                         <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Altitud</label>
-                                <input type="text" class="form-control" placeholder="Altitud" id="altitud"
-                                    value="{{ $general->Altitud }}">
+                                <input type="number" step="any" class="form-control" placeholder="Altitud" id="altitud"
+                                    value="{{ $general->Altitud }}" onkeyup='validacionAltitud("altitud");'>
                             </div>
                         </div>
 
@@ -213,22 +213,22 @@
                                             <p id="phTLote1"></p>
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L1" id="phTl11"
+                                            <input type="number" step="any" class="" placeholder="L1" id="phTl11"
                                                 value="{{ $phCampoTrazable[0]->Lectura1 }}"
                                                 onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')">
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L2" id="phT21"
+                                            <input type="number" step="any" class="" placeholder="L2" id="phT21"
                                                 value="{{ $phCampoTrazable[0]->Lectura2 }}"
                                                 onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')">
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L3" id="phTl31"
+                                            <input type="number" step="any" class="" placeholder="L3" id="phTl31"
                                                 value="{{ $phCampoTrazable[0]->Lectura3 }}"
                                                 onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')">
                                         </td>
                                         <td><input type="text" id="phTEstado1"
-                                                value="{{ $phCampoTrazable[0]->Estado }}"></td>
+                                                value="{{ $phCampoTrazable[0]->Estado }}" disabled></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -271,7 +271,7 @@
                                                 onkeyup="valPhTrazable2('phTl12','phT22','phTl32','phTEstado2', 'phTrazable2')">
                                         </td>
                                         <td><input type="text" id="phTEstado2"
-                                                value="{{ $phCampoTrazable[1]->Estado }}"></td>
+                                                value="{{ $phCampoTrazable[1]->Estado }}" disabled></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -318,24 +318,24 @@
                                             <p id="phCLote1"></p>
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L1" id="phC11"
+                                            <input type="number" step="any" class="" placeholder="L1" id="phC11"
                                                 value="{{ $phCampoCalidad[0]->Lectura1 }}"
                                                 onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L2" id="phC21"
+                                            <input type="number" step="any" class="" placeholder="L2" id="phC21"
                                                 value="{{ $phCampoCalidad[0]->Lectura2 }}"
                                                 onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L3" id="phC31"
+                                            <input type="number" step="any" class="" placeholder="L3" id="phC31"
                                                 value="{{ $phCampoCalidad[0]->Lectura3 }}"
                                                 onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
                                         </td>
                                         <td><input type="text" id="phCEstado1"
-                                                value="{{ $phCampoCalidad[0]->Estado }}"></td>
+                                                value="{{ $phCampoCalidad[0]->Estado }}" disabled></td>
                                         <td><input type="text" id="phCPromedio1"
-                                                value="{{ $phCampoCalidad[0]->Promedio }}"></td>
+                                                value="{{ $phCampoCalidad[0]->Promedio }}" disabled></td>
                                     </tr>
                                     <tr>
                                         <td>
@@ -362,24 +362,24 @@
                                             <p id="phCLote2"></p>
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L1" id="phC12"
+                                            <input type="number" step="any" class="" placeholder="L1" id="phC12"
                                                 value="{{ $phCampoCalidad[1]->Lectura1 }}"
                                                 onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L2" id="phC22"
+                                            <input type="number" step="any" class="" placeholder="L2" id="phC22"
                                                 value="{{ $phCampoCalidad[1]->Lectura2 }}"
                                                 onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L3" id="phC23"
+                                            <input type="number" step="any" class="" placeholder="L3" id="phC23"
                                                 value="{{ $phCampoCalidad[1]->Lectura3 }}"
                                                 onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
                                         </td>
                                         <td><input type="text" id="phCEstado2"
-                                                value="{{ $phCampoCalidad[1]->Estado }}"></td>
+                                                value="{{ $phCampoCalidad[1]->Estado }}" disabled></td>
                                         <td><input type="text" id="phCPromedio2"
-                                                value="{{ $phCampoCalidad[1]->Promedio }}"></td>
+                                                value="{{ $phCampoCalidad[1]->Promedio }}" disabled></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -420,18 +420,18 @@
                                             <p id="conLote"></p>
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L1" id="conT1"
+                                            <input type="number" step="any" class="" placeholder="L1" id="conT1"
                                                 onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')">
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L2" id="conT2"
+                                            <input type="number" step="any" class="" placeholder="L2" id="conT2"
                                                 onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')">
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L3" id="conT3"
+                                            <input type="number" step="any" class="" placeholder="L3" id="conT3"
                                                 onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')">
                                         </td>
-                                        <td><input type="text" id="conTEstado"></td>
+                                        <td><input type="text" id="conTEstado" disabled></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -473,19 +473,19 @@
                                             <p id="conCLote"></p>
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L1" id="conCl1"
+                                            <input type="number" step="any" class="" placeholder="L1" id="conCl1"
                                                 onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')">
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L2" id="conCl2"
+                                            <input type="number" step="any" class="" placeholder="L2" id="conCl2"
                                                 onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')">
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L3" id="conCl3"
+                                            <input type="number" step="any" class="" placeholder="L3" id="conCl3"
                                                 onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')">
                                         </td>
-                                        <td><input type="text" id="conCEstado"></td>
-                                        <td><input type="text" id="conCPromedio"></td>
+                                        <td><input type="text" id="conCEstado" disabled></td>
+                                        <td><input type="text" id="conCPromedio" disabled></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -501,17 +501,23 @@
                                 </tbody>
                                 <tbody>
                                     <tr>
-                                        <td><input type="text" id="pendiente" placeholder="% Valor"
+                                        <td><input type="number" step="any" id="pendiente" placeholder="% Valor"
                                                 value="{{ $general->Pendiente }}"
                                                 onkeyup="valPendiente('pendiente','criterioPendiente')"></td>
-                                        <td><input type="text" id="criterioPendiente" placeholder="Criterio"></td>
+                                        <td><input type="text" id="criterioPendiente" placeholder="Criterio" disabled></td>
                                     </tr>
                                 </tbody>
                             </table>
                         </div>
 
+                        <div class="col-md-12">
+                            <p class="">Supervisor</p>
+                            <input type="text" id="nombreSupervisor" placeholder="Nombre Supervisor"></td>
+                            <br><br>
+                        </div>
+                                                
                         <button type="button" class="btn btn-success" onclick="setDataGeneral()"><i
-                                class="fa fa-save"></i> Guardar</button>
+                        class="fa fa-save"></i> Guardar</button>
                     </form>
                 </div>
                 <div class="tab-pane fade" id="datosMuestreo" role="tabpanel" aria-labelledby="datosMuestreo-tab">
@@ -562,17 +568,17 @@
                                                         <option value="2">Verde</option>
                                                     </select>
                                                 </td>
-                                                <td><input type="number" id="phl1{{ $i }}"
+                                                <td><input type="number" step="any" id="phl1{{ $i }}"
                                                         onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");'>
                                                 </td>
-                                                <td><input type="number" id="phl2{{ $i }}"
+                                                <td><input type="number" step="any" id="phl2{{ $i }}"
                                                         onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");'>
                                                 </td>
-                                                <td><input type="number" id="phl3{{ $i }}"
+                                                <td><input type="number" step="any" id="phl3{{ $i }}"
                                                         onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");'>
                                                 </td>                                                
                                                 <td><p id="phprom1{{ $i }}"></p></td>
-                                                <td><input type="datetime-local" id="phf{{ $i }}"></td>
+                                                <td><input type="datetime-local" step="1" id="phf{{ $i }}" onchange='validacionFechaMuestreo("phf{{$i}}");'></td>
                                                 <td><input type="text" id="phprom{{ $i }}" hidden></td>
                                             </tr>
 
@@ -621,6 +627,29 @@
                                                 </td>
                                                 <td><p id="tempprom1{{ $i }}"></p></td>
                                                 <td><input type="text" id="tempprom{{ $i }}" hidden></td>
+                                            </tr>
+                                        @endfor
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-md-12">
+                                <p>Temperatura Calidad</p>
+                                <table class="table" id="tempCalidad">
+                                    <thead>
+                                        <tr>
+                                            <th>Núm Muestra</th>
+                                            <th>Temperatura</th>                                            
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @for ($i = 0; $i < $model->Num_tomas; $i++)
+                                            <tr>
+                                                <td>{{ $i + 1 }}</td>
+                                                <td><input type="text" id="tempCalidad1{{ $i }}"
+                                                    onkeyup='valTempCalMuestra("tempCalidad1{{ $i }}");'>
+                                                </td>                                                
                                             </tr>
                                         @endfor
                                     </tbody>
@@ -883,7 +912,8 @@
 
 
 @section('javascript')
-<script src="{{ asset('js/campo/captura.js') }}"></script>
-<script src="{{ asset('js/libs/componentes.js') }}"></script>
-<script src="{{ asset('js/libs/tablas.js') }}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <script src="{{ asset('js/campo/captura.js') }}"></script>
+    <script src="{{ asset('js/libs/componentes.js') }}"></script>
+    <script src="{{ asset('js/libs/tablas.js') }}"></script>
 @stop

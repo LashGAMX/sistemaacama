@@ -6,8 +6,11 @@ use App\Http\Controllers\Controller;
 use App\Models\CampoConCalidad;
 use App\Models\CampoConTrazable;
 use App\Models\CampoGenerales;
+<<<<<<< HEAD
 use App\Models\CampoPhCalidad;
 use App\Models\CampoPhTrazable;
+=======
+>>>>>>> ad8b337a66d3f9a1a9c49de47a80d10ec6b59b15
 use App\Models\ConductividadCalidad;
 use App\Models\ConductividadTrazable;
 use App\Models\PHCalidad;
@@ -49,7 +52,11 @@ class CampoAppController extends Controller
         $modelSolGen = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', $request->idMuestreador)->where("StdSol",1)->get();
         $termometro = TermometroCampo::all();
         $phCalidad = PHCalidad::all();
+<<<<<<< HEAD
         $phTrazable = PHTrazable::all();
+=======
+        $phTrazable = PHTrazable::all(); 
+>>>>>>> ad8b337a66d3f9a1a9c49de47a80d10ec6b59b15
         $conTrazable = ConductividadTrazable::all();
         $conCalidad = ConductividadCalidad::all();
 

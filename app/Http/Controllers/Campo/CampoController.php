@@ -8,6 +8,7 @@ use App\Models\CampoConTrazable;
 use App\Models\CampoGenerales;
 use App\Models\CampoPhCalidad;
 use App\Models\CampoPhTrazable;
+use App\Models\CampoTempCalidad;
 use App\Models\ConductividadCalidad;
 use App\Models\ConductividadMuestra;
 use App\Models\ConductividadTrazable;
@@ -95,6 +96,7 @@ class CampoController extends Controller
         $model->Altitud = $request->altitud;
         $model->Pendiente = $request->pendiente;
         $model->Criterio = $request->criterio;
+        $model->Supervisor = $request->supervisor;
         $model->save();
 
         //Ph trazable
@@ -294,6 +296,27 @@ class CampoController extends Controller
         }
 
 
+        $tempCalidadMuestra = CampoTempCalidad::where('Id_solicitud', $request->idSolicitud)->get();
+
+        if ($tempCalidadMuestra->count()) {
+            for ($i = 0; $i < $request->numTomas; $i++) {
+                # code...
+                $tempCalidad = CampoTempCalidad::find($tempCalidadMuestra[$i]->Id_tempCalidad);
+                $tempCalidad->Id_solicitud = $request->idSolicitud;
+                $tempCalidad->Temperatura = $request->temperaturaCalidad[$i][0];
+                $tempCalidad->save();
+            }
+        } else {
+            for ($i = 0; $i < $request->numTomas; $i++) {
+                # code...
+                CampoTempCalidad::create([
+                    'Id_solicitud' => $request->idSolicitud,
+                    'Temperatura' => $request->temperaturaCalidad[$i][0]
+                ]);
+            }
+        }
+
+
         $conModel = ConductividadMuestra::where('Id_solicitud', $request->idSolicitud)->get();
 
         if ($conModel->count()) {
@@ -410,6 +433,13 @@ class CampoController extends Controller
         $model = TermFactorCorreccionTemp::where('Id_termometro', $request->idFactor)->get();
         return response()->json(compact('model'));
     }
+
+    public function getFactorAplicado(Request $request)
+    {
+        $model = TermFactorCorreccionTemp::where('Id_termometro', $request->idFactor)->get();
+        return response()->json(compact('model'));
+    }
+
     public function getPhTrazable(Request $request)
     {
         $model = PHTrazable::where('Id_ph', $request->idPh)->first();

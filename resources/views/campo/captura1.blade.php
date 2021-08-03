@@ -190,16 +190,15 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>                                                                                                                                  
-                                            <select id="phTrazable1">
+                                        <td>
+                                            <select id="phTrazable1" focus>
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach ($phTrazable as $item)                                                                                                
                                                     @if ($phCampoTrazable[0]->Id_phTrazable == $item->Id_ph)
                                                         <option value="{{ $item->Id_ph }}" selected>
-                                                            {{ $item->Ph }}</option>                                                            
-                                                    @else                                                        
-                                                        <option value="{{ $item->Id_ph }}">{{ $item->Ph }}
-                                                        </option>
+                                                            {{ $item->Ph }}</option>
+                                                    @else
+                                                        <option value="{{ $item->Id_ph }}">{{ $item->Ph }}</option>
                                                     @endif
                                                 @endforeach
                                             </select>
@@ -511,8 +510,14 @@
                             </table>
                         </div>
 
+                        <div class="col-md-12">
+                            <p class="">Supervisor</p>
+                            <input type="text" id="nombreSupervisor" placeholder="Nombre Supervisor"></td>
+                            <br><br>
+                        </div>
+                                                
                         <button type="button" class="btn btn-success" onclick="setDataGeneral()"><i
-                                class="fa fa-save"></i> Guardar</button>
+                        class="fa fa-save"></i> Guardar</button>
                     </form>
                 </div>
                 <div class="tab-pane fade" id="datosMuestreo" role="tabpanel" aria-labelledby="datosMuestreo-tab">
@@ -622,6 +627,29 @@
                                                 </td>
                                                 <td><p id="tempprom1{{ $i }}"></p></td>
                                                 <td><input type="text" id="tempprom{{ $i }}" hidden></td>
+                                            </tr>
+                                        @endfor
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="col-md-12">
+                                <p>Temperatura Calidad</p>
+                                <table class="table" id="tempCalidad">
+                                    <thead>
+                                        <tr>
+                                            <th>Núm Muestra</th>
+                                            <th>Temperatura</th>                                            
+                                        </tr>
+                                    </thead>
+
+                                    <tbody>
+                                        @for ($i = 0; $i < $model->Num_tomas; $i++)
+                                            <tr>
+                                                <td>{{ $i + 1 }}</td>
+                                                <td><input type="text" id="tempCalidad1{{ $i }}"
+                                                    onkeyup='valTempCalMuestra("tempCalidad1{{ $i }}");'>
+                                                </td>                                                
                                             </tr>
                                         @endfor
                                     </tbody>
