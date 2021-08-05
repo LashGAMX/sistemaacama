@@ -84,14 +84,14 @@
                             <div class="form-group">
                                 <label for="">Temperatura ambiente</label>
                                 <input type="number" class="form-control" placeholder="Temperatura" id="tempAmbiente"
-                                    onkeyup='valTempAmbiente("tempAmbiente", "tempBuffer")' value="{{ $general->Temperatura_a }}" required>
+                                    onkeyup='valTempAmbiente("tempAmbiente", "tempBuffer")' value="{{ $general->Temperatura_a }}" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='diferenciaTemperaturas("tempAmbiente", "tempBuffer", "tempAmbiente")' required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Temperatura búffer</label>
                                 <input type="number" class="form-control" placeholder="Temperatura" id="tempBuffer"
-                                    onkeyup='valTempAmbiente("tempAmbiente", "tempBuffer")' value="{{ $general->Temperatura_b }}">
+                                    onkeyup='valTempAmbiente("tempAmbiente", "tempBuffer")' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{ $general->Temperatura_b }}" onblur='diferenciaTemperaturas("tempAmbiente", "tempBuffer", "tempBuffer")'>
                             </div>
                         </div>
 
@@ -215,17 +215,17 @@
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L1" id="phTl11"
                                                 value="{{ $phCampoTrazable[0]->Lectura1 }}"
-                                                onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')">
+                                                onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhTrazable1("phTl11", "phT21", "phTl31", "phTl11", "phTrazable1")'>
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L2" id="phT21"
                                                 value="{{ $phCampoTrazable[0]->Lectura2 }}"
-                                                onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')">
+                                                onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhTrazable1("phTl11", "phT21", "phTl31", "phT21", "phTrazable1")'>
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L3" id="phTl31"
                                                 value="{{ $phCampoTrazable[0]->Lectura3 }}"
-                                                onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')">
+                                                onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhTrazable1("phTl11", "phT21", "phTl31", "phTl31", "phTrazable1")'>
                                         </td>
                                         <td><input type="text" id="phTEstado1"
                                                 value="{{ $phCampoTrazable[0]->Estado }}" disabled></td>
@@ -256,19 +256,19 @@
                                             <p id="phTLote2"></p>
                                         </td>
                                         <td>
-                                            <input type="text" class="" placeholder="L1" id="phTl12"
+                                            <input type="text" min="1" class="" placeholder="L1" id="phTl12"
                                                 value="{{ $phCampoTrazable[1]->Lectura1 }}"
-                                                onkeyup="valPhTrazable2('phTl12','phT22','phTl32','phTEstado2', 'phTrazable2')">
+                                                onkeyup="valPhTrazable2('phTl12','phT22','phTl32','phTEstado2', 'phTrazable2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhTrazable2("phTl12", "phT22", "phTl32", "phTl12", "phTrazable2")'>
                                         </td>
                                         <td>
                                             <input type="text" class="" placeholder="L2" id="phT22"
                                                 value="{{ $phCampoTrazable[1]->Lectura2 }}"
-                                                onkeyup="valPhTrazable2('phTl12','phT22','phTl32','phTEstado2', 'phTrazable2')">
+                                                onkeyup="valPhTrazable2('phTl12','phT22','phTl32','phTEstado2', 'phTrazable2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhTrazable2("phTl12", "phT22", "phTl32", "phTl22", "phTrazable2")'>
                                         </td>
                                         <td>
                                             <input type="text" class="" placeholder="L3" id="phTl32"
                                                 value="{{ $phCampoTrazable[1]->Lectura3 }}"
-                                                onkeyup="valPhTrazable2('phTl12','phT22','phTl32','phTEstado2', 'phTrazable2')">
+                                                onkeyup="valPhTrazable2('phTl12','phT22','phTl32','phTEstado2', 'phTrazable2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhTrazable2("phTl12", "phT22", "phTl32", "phTl32", "phTrazable2")'>
                                         </td>
                                         <td><input type="text" id="phTEstado2"
                                                 value="{{ $phCampoTrazable[1]->Estado }}" disabled></td>
@@ -320,17 +320,17 @@
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L1" id="phC11"
                                                 value="{{ $phCampoCalidad[0]->Lectura1 }}"
-                                                onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
+                                                onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1', 'phCalidad1')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidad("phC11", "phC21", "phC31", "phC11", "phCalidad1")'>
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L2" id="phC21"
                                                 value="{{ $phCampoCalidad[0]->Lectura2 }}"
-                                                onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
+                                                onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1', 'phCalidad1')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidad("phC11", "phC21", "phC31", "phC21", "phCalidad1")'>
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L3" id="phC31"
                                                 value="{{ $phCampoCalidad[0]->Lectura3 }}"
-                                                onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1')">
+                                                onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1', 'phCalidad1')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidad("phC11", "phC21", "phC31", "phC31", "phCalidad1")'>
                                         </td>
                                         <td><input type="text" id="phCEstado1"
                                                 value="{{ $phCampoCalidad[0]->Estado }}" disabled></td>
@@ -364,17 +364,17 @@
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L1" id="phC12"
                                                 value="{{ $phCampoCalidad[1]->Lectura1 }}"
-                                                onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
+                                                onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L2" id="phC22"
                                                 value="{{ $phCampoCalidad[1]->Lectura2 }}"
-                                                onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
+                                                onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L3" id="phC23"
                                                 value="{{ $phCampoCalidad[1]->Lectura3 }}"
-                                                onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')">
+                                                onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                         </td>
                                         <td><input type="text" id="phCEstado2"
                                                 value="{{ $phCampoCalidad[1]->Estado }}" disabled></td>
@@ -421,15 +421,15 @@
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L1" id="conT1"
-                                                onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')">
+                                                onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')" onblur='validacionConTrazable("conT1", "conT2", "conT3", "conT1")'>
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L2" id="conT2"
-                                                onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')">
+                                                onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')" onblur='validacionConTrazable("conT1", "conT2", "conT3", "conT2")'>
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L3" id="conT3"
-                                                onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')">
+                                                onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')" onblur='validacionConTrazable("conT1", "conT2", "conT3", "conT3")'>
                                         </td>
                                         <td><input type="text" id="conTEstado" disabled></td>
                                     </tr>
@@ -441,8 +441,8 @@
                             <table class="table" id="tableConCalidad">
                                 <thead>
                                     <tr>
-                                        <th>Conductividad calidad</th>
-                                        <th>Conductividad calidad</th>
+                                        <th>Conductividad Calidad</th>
+                                        <th>Conductividad Calidad</th>
                                         <th>Marca</th>
                                         <th>No Lote</th>
                                         <th>Lectura 1</th>
@@ -474,15 +474,15 @@
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L1" id="conCl1"
-                                                onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')">
+                                                onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')" onblur='validacionConCalidad("conCl1", "conCl2", "conCl3", "conCl1")'>
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L2" id="conCl2"
-                                                onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')">
+                                                onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')" onblur='validacionConCalidad("conCl1", "conCl2", "conCl3", "conCl2")'>
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L3" id="conCl3"
-                                                onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')">
+                                                onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')" onblur='validacionConCalidad("conCl1", "conCl2", "conCl3", "conCl3")'>
                                         </td>
                                         <td><input type="text" id="conCEstado" disabled></td>
                                         <td><input type="text" id="conCPromedio" disabled></td>
@@ -503,8 +503,8 @@
                                     <tr>
                                         <td><input type="number" step="any" id="pendiente" placeholder="% Valor"
                                                 value="{{ $general->Pendiente }}"
-                                                onkeyup="valPendiente('pendiente','criterioPendiente')"></td>
-                                        <td><input type="text" id="criterioPendiente" placeholder="Criterio" disabled></td>
+                                                onkeyup="valPendiente('pendiente','criterioPendiente')" onblur='validacionValPendiente("pendiente")'></td>
+                                        <td><input type="text" id="criterioPendiente" disabled></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -569,19 +569,18 @@
                                                     </select>
                                                 </td>
                                                 <td><input type="number" step="any" id="phl1{{ $i }}"
-                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");'>
+                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td><input type="number" step="any" id="phl2{{ $i }}"
-                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");'>
+                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td><input type="number" step="any" id="phl3{{ $i }}"
-                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");'>
+                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>                                                
                                                 <td><p id="phprom1{{ $i }}"></p></td>
                                                 <td><input type="datetime-local" step="1" id="phf{{ $i }}" onchange='validacionFechaMuestreo("phf{{$i}}");'></td>
                                                 <td><input type="text" id="phprom{{ $i }}" hidden></td>
                                             </tr>
-
 
                                         @endfor
                                     </tbody>
@@ -607,20 +606,20 @@
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                                             <tr>
                                                 <td>{{ $i + 1 }}</td>
-                                                <td><input type="text" id="temp1{{ $i }}"
-                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");'>
+                                                <td><input type="number" id="temp1{{ $i }}"
+                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td>
                                                     <p id="factorTemp1{{ $i }}"></p>
                                                 </td>
-                                                <td><input type="text" id="temp2{{ $i }}"
-                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");'>
+                                                <td><input type="number" id="temp2{{ $i }}"
+                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td>
                                                     <p id="factorTemp2{{ $i }}"></p>
                                                 </td>
-                                                <td><input type="text" id="temp3{{ $i }}"
-                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");'>
+                                                <td><input type="number" id="temp3{{ $i }}"
+                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td>
                                                     <p id="factorTemp3{{ $i }}"></p>
@@ -647,8 +646,8 @@
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                                             <tr>
                                                 <td>{{ $i + 1 }}</td>
-                                                <td><input type="text" id="tempCalidad1{{ $i }}"
-                                                    onkeyup='valTempCalMuestra("tempCalidad1{{ $i }}");'>
+                                                <td><input type="number" id="tempCalidad1{{ $i }}"
+                                                    onkeyup='valTempCalMuestra("tempCalidad1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>                                                
                                             </tr>
                                         @endfor
@@ -673,13 +672,13 @@
                                             <tr>
                                                 <td>{{ $i + 1 }}</td>
                                                 <td><input type="text" id="con1{{ $i }}"
-                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");'>
+                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td><input type="text" id="con2{{ $i }}"
-                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");'>
+                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td><input type="text" id="con3{{ $i }}"
-                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");'>
+                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td><p id="conprom1{{ $i }}"></p></td>
                                                 <td><input type="text" id="conprom{{ $i }}" hidden></td>
@@ -706,13 +705,13 @@
                                             <tr>
                                                 <td>{{ $i + 1 }}</td>
                                                 <td><input type="text" id="gas1{{ $i }}"
-                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");'>
+                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td><input type="text" id="gas2{{ $i }}"
-                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");'>
+                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td><input type="text" id="gas3{{ $i }}"
-                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");'>
+                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td><p id="gasprom1{{ $i }}"></p></td>
                                                 <td><input type="text" id="gasprom{{ $i }}" hidden></td>

@@ -23,6 +23,7 @@ class CampoGenerales extends Model
         'Longitud',
         'Altitud',
         'Pendiente',
-        'Criterio'
+        'Criterio',
+        'Supervisor'
     ];
 }
