@@ -899,6 +899,7 @@ function valConTrazable(lec1, lec2, lec3, estado) {
     let l2 = parseFloat(document.getElementById(lec2).value);
     let l3 = parseFloat(document.getElementById(lec3).value);    
 
+<<<<<<< HEAD
     if (l1 - con < porcentaje2 * -1 || l1 - con > porcentaje2) {
         sw = false;
     }
@@ -910,11 +911,21 @@ function valConTrazable(lec1, lec2, lec3, estado) {
     }
 
     if($("#conTrazable option:selected").text() == "Sin seleccionar"){
+=======
+    if (l1 - con <= porcentaje * -1 || l1 - con >= porcentaje) {
+        sw = false;
+    }
+    if (l2 - con <= porcentaje * -1 || l2 - con >= porcentaje) {
+>>>>>>> d0fdff3088d2468ed9e11271f9cdb10a89aa31d6
         sw = false;
         alert("No se ha seleccionado una conductividad trazable");
     }
+<<<<<<< HEAD
 
     if(isNaN(l1) || isNaN(l2) || isNaN(l3)){
+=======
+    if (l3 - con <= porcentaje * -1 || l3 - con >= porcentaje) {
+>>>>>>> d0fdff3088d2468ed9e11271f9cdb10a89aa31d6
         sw = false;
     }
 
