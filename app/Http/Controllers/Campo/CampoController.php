@@ -66,6 +66,7 @@ class CampoController extends Controller
         // $conCampoTrazable = CampoConTrazable::where('Id_solicitud',$model->Id_solicitud)->first();
         // $conCampoCalidad = CampoConCalidad::where('Id_solicitud',$model->Id_solicitud)->first();
         // $frecuencia = DB::table('frecuencia001')->where('')
+        //var_dump($phCampoTrazable);
         $data = array(
             'model' => $model,
             'general' => $general,
