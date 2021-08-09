@@ -124,7 +124,7 @@ class CotizacionController extends Controller
     public function getLocalidad()
     {
         $id = $_POST['idLocalidad'];
-        $model = DB::table('localidades')->where('Id_municipio', $id)->get();
+        $model = DB::table('localidades')->where('Id_estado', $id)->get();
         $data = array(
             'model' => $model,
         );

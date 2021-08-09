@@ -213,7 +213,7 @@
               </div>
               <div class="col-md-4">
                 <label for="numTomas">Numero de tomas</label>
-                <input type="text" id="numTomas" name="numTomas" class="form-control" value="{{$model->Num_tomas}}">
+                {{-- <input type="text" id="numTomas" name="numTomas" class="form-control" value="{{$model->Num_tomas}}"> --}}
               </div>
 
             </div>

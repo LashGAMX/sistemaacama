@@ -74,8 +74,7 @@
                             @endforeach
                         </tbody>
                     </table>
-                   </div>
-                  </div>
+                   </div>                  </div>
                     <!-- Fin de la Tabla -->
                 </div>
             </div>

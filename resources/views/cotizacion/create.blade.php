@@ -450,10 +450,10 @@
           <label for="">Estado:</label>
           <select  class="form-control" placeholder="Estado" id="estado" name="estado">
             @foreach ($estados as $item)
-              @if (@$muestreo->Estado == $item->Clave)
-              <option value="{{$item->Clave}}" selected>{{$item->Nombre}}</option>
+              @if (@$muestreo->Estado == $item->Nombre)
+              <option value="{{$item->Id_estado}}" selected>{{$item->Nombre}}</option>
               @else
-              <option value="{{$item->Clave}}">{{$item->Nombre}}</option>
+              <option value="{{$item->Id_estado}}">{{$item->Nombre}}</option>
               @endif
             @endforeach
           </select>
