@@ -48,12 +48,12 @@ class FormulasController extends Controller
         Constante::create([
             'Constante' => $request->constante,
             'Valor' => $request->valor,
-            'Descripcion' => $request->Descripcion,
+            'Descripcion' => $request->descripcion,
         ]);
         $data = array(
             'Constante' => $request->constante,
             'Valor' => $request->valor,
-            'Descripcion' => $request->Descripcion,
+            'Descripcion' => $request->descripcion,
         );
         return response()->json($data);
     }
