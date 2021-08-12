@@ -194,9 +194,8 @@
                                             <select id="phTrazable1" focus>
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach ($phTrazable as $item)                                                                                                
-                                                    @if ($phCampoTrazable[0]->Id_phTrazable == $item->Id_ph)
-                                                        <option value="{{ $item->Id_ph }}" selected>
-                                                            {{ $item->Ph }}</option>
+                                                    @if (@$phCampoTrazable[0]->Id_phTrazable == $item->Id_ph)
+                                                        <option value="{{ $item->Id_ph }}" selected> {{ $item->Ph }}</option>
                                                     @else
                                                         <option value="{{ $item->Id_ph }}">{{ $item->Ph }}</option>
                                                     @endif
@@ -214,29 +213,29 @@
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L1" id="phTl11"
-                                                value="{{ $phCampoTrazable[0]->Lectura1 }}"
+                                                value="{{ @$phCampoTrazable[0]->Lectura1 }}"
                                                 onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhTrazable1("phTl11", "phT21", "phTl31", "phTl11", "phTrazable1")'>
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L2" id="phT21"
-                                                value="{{ $phCampoTrazable[0]->Lectura2 }}"
+                                                value="{{ @$phCampoTrazable[0]->Lectura2 }}"
                                                 onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhTrazable1("phTl11", "phT21", "phTl31", "phT21", "phTrazable1")'>
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L3" id="phTl31"
-                                                value="{{ $phCampoTrazable[0]->Lectura3 }}"
+                                                value="{{ @$phCampoTrazable[0]->Lectura3 }}"
                                                 onkeyup="valPhTrazable('phTl11','phT21','phTl31','phTEstado1', 'phTrazable1')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhTrazable1("phTl11", "phT21", "phTl31", "phTl31", "phTrazable1")'>
                                         </td>
                                         <td><input type="text" id="phTEstado1"
-                                                value="{{ $phCampoTrazable[0]->Estado }}" disabled></td>
+                                                value="{{ @$phCampoTrazable[0]->Estado }}" disabled></td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <select id="phTrazable2">
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach ($phTrazable as $item)
-                                                    <p>{{ $phCampoTrazable }}</p>
-                                                    @if ($phCampoTrazable[1]->Id_phTrazable == $item->Id_ph)
+                                                    <p>{{ @$phCampoTrazable }}</p>
+                                                    @if (@$phCampoTrazable[1]->Id_phTrazable == $item->Id_ph)
                                                         <option value="{{ $item->Id_ph }}" selected>
                                                             {{ $item->Ph }}</option>
                                                     @else
@@ -257,21 +256,21 @@
                                         </td>
                                         <td>
                                             <input type="text" min="1" class="" placeholder="L1" id="phTl12"
-                                                value="{{ $phCampoTrazable[1]->Lectura1 }}"
+                                                value="{{ @$phCampoTrazable[1]->Lectura1 }}"
                                                 onkeyup="valPhTrazable2('phTl12','phT22','phTl32','phTEstado2', 'phTrazable2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhTrazable2("phTl12", "phT22", "phTl32", "phTl12", "phTrazable2")'>
                                         </td>
                                         <td>
                                             <input type="text" class="" placeholder="L2" id="phT22"
-                                                value="{{ $phCampoTrazable[1]->Lectura2 }}"
+                                                value="{{ @$phCampoTrazable[1]->Lectura2 }}"
                                                 onkeyup="valPhTrazable2('phTl12','phT22','phTl32','phTEstado2', 'phTrazable2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhTrazable2("phTl12", "phT22", "phTl32", "phTl22", "phTrazable2")'>
                                         </td>
                                         <td>
                                             <input type="text" class="" placeholder="L3" id="phTl32"
-                                                value="{{ $phCampoTrazable[1]->Lectura3 }}"
+                                                value="{{ @$phCampoTrazable[1]->Lectura3 }}"
                                                 onkeyup="valPhTrazable2('phTl12','phT22','phTl32','phTEstado2', 'phTrazable2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhTrazable2("phTl12", "phT22", "phTl32", "phTl32", "phTrazable2")'>
                                         </td>
                                         <td><input type="text" id="phTEstado2"
-                                                value="{{ $phCampoTrazable[1]->Estado }}" disabled></td>
+                                                value="{{ @$phCampoTrazable[1]->Estado }}" disabled></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -298,7 +297,7 @@
                                             <select id="phCalidad1">
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach ($phCalidad as $item)
-                                                    @if ($phCampoCalidad[0]->Id_phCalidad == $item->Id_ph)
+                                                    @if (@$phCampoCalidad[0]->Id_phCalidad == $item->Id_ph)
                                                         <option value="{{ $item->Id_ph }}" selected>
                                                             {{ $item->Ph_calidad }}</option>
                                                     @else
@@ -319,30 +318,30 @@
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L1" id="phC11"
-                                                value="{{ $phCampoCalidad[0]->Lectura1 }}"
+                                                value="{{ @$phCampoCalidad[0]->Lectura1 }}"
                                                 onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1', 'phCalidad1')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidad("phC11", "phC21", "phC31", "phC11", "phCalidad1")'>
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L2" id="phC21"
-                                                value="{{ $phCampoCalidad[0]->Lectura2 }}"
+                                                value="{{ @$phCampoCalidad[0]->Lectura2 }}"
                                                 onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1', 'phCalidad1')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidad("phC11", "phC21", "phC31", "phC21", "phCalidad1")'>
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L3" id="phC31"
-                                                value="{{ $phCampoCalidad[0]->Lectura3 }}"
+                                                value="{{ @$phCampoCalidad[0]->Lectura3 }}"
                                                 onkeyup="valPhCalidad('phC11','phC21','phC31','phCEstado1','phCPromedio1', 'phCalidad1')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidad("phC11", "phC21", "phC31", "phC31", "phCalidad1")'>
                                         </td>
                                         <td><input type="text" id="phCEstado1"
-                                                value="{{ $phCampoCalidad[0]->Estado }}" disabled></td>
+                                                value="{{ @$phCampoCalidad[0]->Estado }}" disabled></td>
                                         <td><input type="text" id="phCPromedio1"
-                                                value="{{ $phCampoCalidad[0]->Promedio }}" disabled></td>
+                                                value="{{ @$phCampoCalidad[0]->Promedio }}" disabled></td>
                                     </tr>
                                     <tr>
                                         <td>
                                             <select id="phCalidad2">
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach ($phCalidad as $item)
-                                                    @if ($phCampoCalidad[1]->Id_phCalidad == $item->Id_ph)
+                                                    @if (@$phCampoCalidad[1]->Id_phCalidad == $item->Id_ph)
                                                         <option value="{{ $item->Id_ph }}" selected>
                                                             {{ $item->Ph_calidad }}</option>
                                                     @else
@@ -363,23 +362,23 @@
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L1" id="phC12"
-                                                value="{{ $phCampoCalidad[1]->Lectura1 }}"
+                                                value="{{ @$phCampoCalidad[1]->Lectura1 }}"
                                                 onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L2" id="phC22"
-                                                value="{{ $phCampoCalidad[1]->Lectura2 }}"
+                                                value="{{ @$phCampoCalidad[1]->Lectura2 }}"
                                                 onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L3" id="phC23"
-                                                value="{{ $phCampoCalidad[1]->Lectura3 }}"
+                                                value="{{ @$phCampoCalidad[1]->Lectura3 }}"
                                                 onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                         </td>
                                         <td><input type="text" id="phCEstado2"
-                                                value="{{ $phCampoCalidad[1]->Estado }}" disabled></td>
+                                                value="{{ @$phCampoCalidad[1]->Estado }}" disabled></td>
                                         <td><input type="text" id="phCPromedio2"
-                                                value="{{ $phCampoCalidad[1]->Promedio }}" disabled></td>
+                                                value="{{ @$phCampoCalidad[1]->Promedio }}" disabled></td>
                                     </tr>
                                 </tbody>
                             </table>

@@ -148,7 +148,7 @@ class CampoAppController extends Controller
             'Id_solicitud' => $solModel->Id_solicitud,
             'Id_conCalidad' => $catConCal->Id_conductividad,
             'Lectura1' => $jsonConCal[0]["Lectura1"],
-            'Lectura2' => $jsonConCal[0]["Lectura2"],
+            'Lectura2' => $jsonConCal[0]["Lectura2"], 
             'Lectura3' => $jsonConCal[0]["Lectura3"],
             'Estado' => $jsonConCal[0]["Estado"],
             'Promedio' => $jsonConCal[0]["Promedio"]

@@ -97,7 +97,7 @@
                         <td>{{$item->Fecha_muestreo}}</td>
                         @switch($item->StdSol)
                             @case(1)
-                                <td>Asinado</td>
+                                <td>Asignado</td>
                                 @break
                             @case(2)
                                 <td>Capturando</td>
@@ -106,6 +106,7 @@
                                 <td>Cerrado</td>
                                 @break
                             @default
+                                <td>Sin Asignar</td>
                                 
                         @endswitch
                         <td></td>
