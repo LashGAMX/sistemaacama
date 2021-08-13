@@ -58,7 +58,7 @@ class CampoAppController extends Controller
             'termometro' => $termometro,
             'phCalidad' => $phCalidad,
             'phTrazable' => $phTrazable,
-            'conTrazable' => $conTrazable,
+            'conTrazable' => $conTrazable,  
             'conCalidad' => $conCalidad,
             'modelSolGen' => $modelSolGen, 
             'response' => true,
