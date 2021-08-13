@@ -76,6 +76,7 @@ function mostrarDatos()
 
 function generarDatos(idSolicitud, folio) 
 {
+    //console.log("Valor de idSolicitud: " + idSolicitud);
     //console.log("Dentro de Generar");
     let tabla = document.getElementById('divTablaDatos');
     let tab = '';
@@ -91,8 +92,9 @@ function generarDatos(idSolicitud, folio)
         dataType: 'json', 
         async: false, 
         success: function (response) {
-          //console.log("Dentro de función Ajax");
-          console.log(response);
+          //console.log("Dentro de función Ajax"); 
+          console.log(response); 
+          console.log();
           tab += '<table id="tablaDatos" class="table">';
           tab += '    <thead class="thead-dark">';
           tab += '        <tr>';

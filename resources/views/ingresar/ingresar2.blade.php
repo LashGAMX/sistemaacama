@@ -71,31 +71,21 @@
             <table id="tablaSolicitud" class="table">
 
                 <thead class="">
-                    <tr>
-                        <th>#</th>
+                    <tr>                        
                         <th>Estado</th>
-                        <th>Folio cotización</th>
                         <th>Folio servicio</th>
                         <th>Norma</th>
                         <th>Servicio</th>
-                        <th>Cliente</th>
-                        <th>Fecha muestreo</th>
-                        <th>Intermediario</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     @foreach ($model as $item)
-                        <tr>
-                            <td>{{ $item->Id_cotizacion }}</td>
-                            <td>{{ $item->Estado }}</td>
-                            <td>{{ $item->Folio }}</td>
+                        <tr>                            
+                            <td>{{ $item->Estado }}</td>                            
                             <td>{{ $item->Folio_servicio }}</td>
                             <td>{{ $item->Clave_norma }}</td>
-                            <td>{{ $item->Servicio }}</td>
-                            <td>{{ $item->Nombre }}</td>
-                            <td>{{ $item->Fecha_muestreo }}</td>
-                            <td>{{ $item->NomInter }} {{ $item->ApeInter }}</td>
+                            <td>{{ $item->Servicio }}</td>                            
                         </tr>
                     @endforeach
                 </tbody>

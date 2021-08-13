@@ -1,0 +1,9 @@
+.icono-circulo {    
+    color: #DB47F3;
+}
+
+.icono-circulo:hover {color: green!important}
+
+td {
+    font-size: 35px;
+}
