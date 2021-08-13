@@ -211,8 +211,8 @@ function probarFormula() //operacion dentro de la modal
               unidad = response;
               fix = response.resultado.toFixed(decimales);
                 $("#resultadoCal").val(fix);
-                let u = unidad.unidad[0].Unidad;
-                $("#unidad").val(u);
+                let u = unidad.unidad[0]
+                $("#unidad").val(u.Unidad);
             }
         });         
 }

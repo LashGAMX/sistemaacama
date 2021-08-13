@@ -12,6 +12,7 @@ use App\Models\FormulaNivel;
 use App\Models\Parametro;
 use App\Models\Regla;
 use App\Models\Tecnica;
+use App\Models\Unidad;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
@@ -149,8 +150,8 @@ class FormulasController extends Controller
         $resultado = eval("return (".$sus.");");
 
         $parametro = $request->idParametro;
-        $unidad = DB::table('ViewParametros')->where('Id_parametro',$parametro)->get();
-
+       // $unidad = DB::table('ViewParametros')->where('Id_parametro',$parametro)->get();
+        $unidad = Unidad::where('Id_unidad',$parametro)->get();
         $data = array(
             'resultado' => $resultado,
             'valores' => $request->valores,
