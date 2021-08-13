@@ -1,0 +1,74 @@
+#parrafoDatos{
+    font-size: 250%;
+    text-indent: 25px;
+}
+
+#texto {
+    text-align: center;
+    font-weight: bold;    
+}
+
+#mensajeBusqueda {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#folio {
+    border: 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #38C81B;
+}
+
+#descarga {
+    border: 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #38C81B;
+}
+
+#cliente {
+    border: 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #38C81B;
+}
+
+#empresa {
+    border: 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #38C81B;
+}
+
+#hora_recepcion {
+    border: 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fb1e1e;
+}
+
+#hora_entrada {
+    border: 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fb1e1e;
+}
+
+label {    
+    font-size: 130%;
+}
+
+.datosGenerales {
+    text-indent: 60px;
+}
+
+.fechas {
+    text-indent: 10px;
+}
