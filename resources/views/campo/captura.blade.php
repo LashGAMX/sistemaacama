@@ -51,7 +51,7 @@
                                 <p>Folio servicio: {{ $model->Folio_servicio }}</p>
                             </div>
                             <div class="col-md-2">
-                                <p>Captura: {{ $general->Captura }}</p>
+                                {{-- <p>Captura: {{ $general->Captura }}</p> --}} 
                             </div>
                             <div class="col-md-2">
                                 <p>Siralab: </p>
