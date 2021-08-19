@@ -16,7 +16,7 @@ class Constante extends Model
     protected $fillable = [
         'Constante',
         'Valor',
-        'Descripcion'
+        'Descripcion',
     ];
 
 }

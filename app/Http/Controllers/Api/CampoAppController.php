@@ -58,7 +58,7 @@ class CampoAppController extends Controller
             'termometro' => $termometro,
             'phCalidad' => $phCalidad,
             'phTrazable' => $phTrazable,
-            'conTrazable' => $conTrazable,
+            'conTrazable' => $conTrazable,  
             'conCalidad' => $conCalidad,
             'modelSolGen' => $modelSolGen, 
             'response' => true,
@@ -78,6 +78,11 @@ class CampoAppController extends Controller
         $jsonPhCal = json_decode($request->phCalidad,true);
         $jsonConTra = json_decode($request->conTrazable,true);
         $jsonConCal = json_decode($request->conCalidad,true);
+        $jsonPhMuestra = json_decode($request->phMuestra,true);
+        $jsonTempMuestra = json_decode($request->tempMuestra,true);
+        $jsonConMuestra = json_decode($request->conMuestra,true);
+        $jsonGastoMuestra = json_decode($request->gastoMuestra,true);
+        $jsonDatosCompuestos = json_decode($request->datosCompuestos,true);
 
         $solModel = SolicitudesGeneradas::where('Folio',$request->folio)->first();
         $solModel->Estado = 3;
@@ -154,14 +159,11 @@ class CampoAppController extends Controller
             'Promedio' => $jsonConCal[0]["Promedio"]
         ]);
 
-
+        
 
         $data = array(
             'response' => true,
-            'catPhTra' => $catPhTra,
-            'JsonPhTra' => $jsonPhTra,
-            'solModel' => $solModel,
-            'idPhTra' => $jsonPhTra[0]["Id_phTrazable"],
+            //'jsonLong' => sizeof($jsonPhMuestra)
         );
         return response()->json($data);
     }

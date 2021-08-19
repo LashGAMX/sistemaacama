@@ -66,7 +66,7 @@
 <body class="voyager @if(isset($dataType) && isset($dataType->slug)){{ $dataType->slug }}@endif">
 
 <div id="voyager-loader">
-    <?php $admin_loader_img = Voyager::setting('admin.loader', ''); ?>
+    <?php $admin_loader_img = Voyager::setting('laboratorio.loader', ''); ?>
     @if($admin_loader_img == '')
         <img src="{{ voyager_asset('images/logo-icon.png') }}" alt="Voyager Loader">
     @else
