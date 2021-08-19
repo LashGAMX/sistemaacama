@@ -5,6 +5,7 @@ use App\Http\Controllers\AnalisisQ\LimitesController;
 use App\Http\Controllers\AnalisisQ\NormaController;
 use App\Http\Controllers\AnalisisQ\ParametroController;
 use App\Http\Controllers\AnalisisQ\FormulasController;
+use App\Http\Controllers\AnalisisQ\EnvasesController;
 use Illuminate\Support\Facades\Route;
  
 
@@ -36,6 +37,8 @@ Route::group(['prefix' => 'analisisQ'], function () {
     Route::get('formulas/crear_nivel',[FormulasController::class,'crear_nivel']); 
     Route::post('formulas/create',[FormulasController::class,'create']); 
     Route::post('formulas/createNiveles',[FormulasController::class,'createNiveles']); 
+
+    Route::get('envases',[EnvasesController::class, 'index']);
     
     Route::get('formulas/constantes',[FormulasController::class,'constantes']); 
     Route::post('formulas/constante_create',[FormulasController::class,'constante_create']); 
