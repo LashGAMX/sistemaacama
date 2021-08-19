@@ -37,6 +37,13 @@
     color: #38C81B;
 }
 
+#observaciones {
+    border: 0;    
+    font-size: 20px;
+    font-weight: bold;
+    color: #38C81B;    
+}
+
 #empresa {
     border: 0;
     text-align: center;
@@ -53,7 +60,23 @@
     color: #fb1e1e;
 }
 
+#hora_recepcion1 {
+    border: 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fb1e1e;
+}
+
 #hora_entrada {
+    border: 0;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color: #fb1e1e;
+}
+
+#hora_entrada1 {
     border: 0;
     text-align: center;
     font-size: 20px;
@@ -71,4 +94,8 @@ label {
 
 .fechas {
     text-indent: 10px;
+}
+
+.fechaHidden {
+    text-indent: 60px;
 }

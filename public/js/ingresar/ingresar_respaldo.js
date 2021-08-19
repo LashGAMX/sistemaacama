@@ -35,6 +35,9 @@ function setIngresar(){
     let horaEntrada = document.getElementById("hora_entrada");
 
     if(this.tmp === undefined){
+        console.log("Valor de tmp: " + tmp);
+        console.log("Dentro de if tmp");
+
         $.ajax({
             type: "POST",
             url: base_url + '/admin/ingresar/ingresar',
@@ -49,9 +52,15 @@ function setIngresar(){
             async: false,
             success: function (response) {            
                 console.log(response);
+                //horaRecepcion.disabled = true;
+                //horaEntrada.disabled = true;
+                btnIngresar.disabled = true;
             }
         });
     }else{
+        console.log("Valor de tmp: " + tmp);
+        console.log("Dentro de else tmp");
+
         $.ajax({
             type: "POST",
             url: base_url + '/admin/ingresar/ingresar',
@@ -66,10 +75,12 @@ function setIngresar(){
             async: false,
             success: function (response) {            
                 console.log(response);
+                //horaRecepcion.disabled = true;
+                //horaEntrada.disabled = true;
+                btnIngresar.disabled = true;
             }
         });
     }
-
     horaRecepcion.disabled = true;
     horaEntrada.disabled = true;
     btnIngresar.disabled = true;
@@ -98,7 +109,9 @@ window.addEventListener("load", function(){
 
     document.getElementById("texto").addEventListener("keyup", function(){
         texto = document.getElementById("texto").value;        
-        horaRecepcion.value = "";        
+        horaRecepcion.value = "";
+        
+        console.log("Tamaño de input texto: " + $("#texto").val().length);
 
         if($("#texto").val().length >= 8){        
             $.ajax({
@@ -115,7 +128,8 @@ window.addEventListener("load", function(){
                     console.log(response);                
 
                     if(texto.length != 0){
-                        if(response.solicitud !== null){
+                        if(response.solicitud !== null){                        
+                            //-----------------------------Establecimiento de campos-----------------------------
                             horaEntrada.disabled = false;
                             horaRecepcion1.disabled = false;
                             folio.value = response.solicitud.Folio_servicio;
@@ -124,23 +138,38 @@ window.addEventListener("load", function(){
                             observacion.value = response.solicitud.Observacion;
                             empresa.value = response.solicitud.Nombres;
 
-                            if(response.model.Hora_entrada !== null){
-                                console.log("La hora de entrada no está vacía");
+                            if(response.model.Hora_entrada === null){
+                                console.log("La hora de entrada está vacía");
+                            }else{
+                                console.log("La hora de entrada no está vacía");                            
                                 tmp = response.model.Hora_entrada;
+                                console.log("Valor de tmp en establecimiento de campos: " + tmp);              
                             }
 
                             if($("#hora_recepcion").val().length != 0){
                                 horaRecepcion.value = moment(response.model.created_at).format("DD/MM/YYYY hh:mm:ss a");
                             }else{
                                 horaRecepcion.value = moment(response.model.created_at).format("DD/MM/YYYY hh:mm:ss a");
-                            }                            
+                            }
+
+                            /*if($("#hora_entrada").val().length != 0){
+                                horaEntrada.value = moment(response.model.Hora_entrada, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DDTHH:mm:ss");                            
+                                horaEntrada.disabled = true;
+                            }else{
+                                horaEntrada.disabled = false;                            
+                                horaEntrada.value = moment(response.model.Hora_entrada, "YYYY-MM-DD HH:mm:ss").format("YYYY-MM-DDTHH:mm:ss");
+                            }*/
                             
                             now = moment();
                             //-----------------------------------------------------------------------------------
 
                             if($("#hora_entrada").val().length != 0){                            
-                                btnIngresar.disabled = true;
+                                btnIngresar.disabled = true;                            
+                                //horaEntrada.disabled = true;
+                                //horaRecepcion1.disabled = true;
                             }else{
+                                //horaEntrada.disabled = false;
+                                //horaRecepcion1.disabled = false;
                                 btnIngresar.disabled = true;
                             }
 
@@ -148,9 +177,8 @@ window.addEventListener("load", function(){
                                 alert("La hora y/o fecha de entrada no puede ser inferior o igual a la hora de recepción");
                                 btnIngresar.disabled = true;
                             }
-                            
-                            mensaje.innerHTML = "";
-                        
+                                                                        
+                            mensaje.innerHTML = "";                        
                         }else{                    
                             folio.value = "";
                             descarga.value = "";
@@ -166,18 +194,18 @@ window.addEventListener("load", function(){
                             btnIngresar.disabled = true;                      
                         }
                     }else{
-                        folio.value = "";
-                        descarga.value = "";
-                        cliente.value = "";
-                        observacion.value = "";
-                        empresa.value = "";
-                        horaRecepcion.value = "";
-                        horaRecepcion1.value = "";
-                        horaEntrada.value = "";                        
-                        mensaje.innerHTML = "";
-                        horaEntrada.disabled = true;
-                        horaRecepcion1.disabled = true;
-                        btnIngresar.disabled = true;
+                            folio.value = "";
+                            descarga.value = "";
+                            cliente.value = "";
+                            observacion.value = "";
+                            empresa.value = "";
+                            horaRecepcion.value = "";
+                            horaRecepcion1.value = "";
+                            horaEntrada.value = "";                        
+                            mensaje.innerHTML = "";
+                            horaEntrada.disabled = true;
+                            horaRecepcion1.disabled = true;
+                            btnIngresar.disabled = true;
                     }                
                 },
             });          

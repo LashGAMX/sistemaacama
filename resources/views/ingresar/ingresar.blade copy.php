@@ -11,7 +11,7 @@
     </div>    
 
     <div class="col-md-2">
-        <input type="text" class="form-control" placeholder="Buscar" id="texto" autofocus>
+        <input type="text" class="form-control" placeholder="Buscar" id="texto">
     </div>
 
     <span id="mensajeBusqueda"></span>
@@ -27,20 +27,16 @@
     <label class="datosGenerales">Descarga: <input type="text" id="descarga" disabled/></label> 
     <label class="datosGenerales">Cliente o Intermediario: <input type="text" size="60" id="cliente" disabled/></label>
     <br><br>
-    <label class="datosGenerales">Observaciones: <input type="text" size="130" id="observaciones" disabled/></label>
-    <br><br>
-    <label class="datosGenerales">Empresa: <input type="text" size="50" id="empresa" disabled/></label>
-    <label class="fechas">Hora recepción: <input type="datetime-local" step="1" id="hora_recepcion1" onchange='validacionFecha("hora_entrada", "hora_recepcion1", "btnIngresar")'/></label>
-    <label class="fechas">Hora entrada: <input type="datetime-local" step="1" id="hora_entrada" onchange='validacionFecha("hora_entrada", "hora_recepcion1", "btnIngresar")'/></label>
-    <br><br>
-    <label class="fechaHidden">Fecha recepción: <input type="text" id="hora_recepcion" disabled/></label>    
+    <label class="datosGenerales">Empresa: <input type="text" size="60" id="empresa" disabled/></label>
+    <label class="fechas">Hora recepción: <input type="text" id="hora_recepcion" disabled/></label>
+    <label class="fechas">Hora entrada: <input type="datetime-local" step="1" id="hora_entrada" onchange='validacionFecha("hora_entrada", "hora_recepcion", "btnIngresar")'/></label>
     <br><br><br>    
 
     <div class="col-md-1">
         <button id="btnIngresar" class="btn btn-info" onclick="setIngresar()"><i class="fas fa-arrow-right"></i> Ingresar</button>
     </div>
 
-    <br><br><br><br><br>    
+    <br><br><br><br><br>
 </div>
 {{-- <livewire:historial.config/> --}}
 @endsection

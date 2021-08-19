@@ -8,26 +8,35 @@
             <i class="fas fa-angle-double-right"></i>
             Solicitudes
         </h6>
+    </div>  
+    
+    <div class="col-md-3">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="search" style="height: 40px" class="form-control" placeholder="Buscar" autofocus>
+                        </th>
+                        <th>
+                            <button id="btnBuscar" style="height: 35px" class="btn btn-success"><i class="fas fa-search"></i> Buscar</button>
+                        </th>                                                
+                    </tr>                    
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
     </div>
-
-    <!--<div class="row">
-        <div class="col-md-2">
-            <input type="search" class="form-control" placeholder="Buscar">
-        </div>
-
-        <div class="col-md-1">
-            <button id="btnBuscar" class="btn btn-success"><i class="fas fa-search"></i> Buscar</button>
-        </div>
-    </div>-->
 @stop
 
 <div>
-    {{-- Be like water. --}}    
+    {{-- Be like water. --}}
 
     <!--Tabla -->
     <div class="col-md-12">
         <div class="table-responsive">
-            <table class="table table-borderless">
+            <table class="table">
 
                 <thead>
                     <tr>       
@@ -48,7 +57,7 @@
                 </tbody>
             </table>
         </div>
-    </div>
+    </div>     
 
 </div>
 {{-- <livewire:historial.config/> --}}

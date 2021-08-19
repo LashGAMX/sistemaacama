@@ -11,5 +11,5 @@ Route::group(['prefix' => 'ingresar'], function () {
     Route::get('buscador', [IngresarController::class, 'buscador']);
 
     Route::post('ingresar', [IngresarController::class, 'setIngresar']);
-    Route::post('listar', [IngresarController::class, 'generar']);
+    //Route::post('listar', [IngresarController::class, 'generar']);
 });
