@@ -46,16 +46,16 @@
            <div class="row">
                <div class="col-md-6">
                    
-                   <label for="">Constante</label>
-                   <input type="text" id='constante' class="form-control" placeholder="constante">
+                   <label for="">Nombre</label>
+                   <input type="text" id='nombre' class="form-control" placeholder="Nombre">
                </div>
                <div class="col-md-6">
-                   <label for="">Valor</label>
-                   <input type="text" id='valor' class="form-control" placeholder="Valor">
+                   <label for="">Volumen</label>
+                   <input type="text" id='volumen' class="form-control" placeholder="Volumen">
                </div>
                <div class="col-md-6">
-                   <label for="">Descripción</label>
-                   <input type="text" id='descripcion' class="form-control" placeholder="Descripción">
+                   <label for="">Unidad</label>
+                   <input type="text" id='unidad' class="form-control" placeholder="Unidad ">
                </div>
            </div>
        </div>

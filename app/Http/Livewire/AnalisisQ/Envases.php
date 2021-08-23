@@ -15,4 +15,11 @@ class Envases extends Component
         $model = Envase::all();
         return view('livewire.analisis-q.envases', compact('unidad','model'));
     }
+    public function create()
+    {   
+        $model = Envases::create([
+            
+        ]);
+
+    }
 }
