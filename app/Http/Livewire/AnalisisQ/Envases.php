@@ -9,6 +9,8 @@ use Livewire\Component;
 class Envases extends Component
 { 
 
+    public $alert = false;
+
     public function render()
     {
         $unidad = DB::table('unidades')->get();
@@ -17,9 +19,12 @@ class Envases extends Component
     }
     public function create()
     {   
-        $model = Envases::create([
-            
+        Envases::create([
+            'Nombre' => $model->nombre,
+            'Volumen' => $model->volumen,
+            'Unidad' => $model->unidad
         ]);
+        $this->alert = true;
 
     }
 }
