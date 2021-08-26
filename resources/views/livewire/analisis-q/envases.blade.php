@@ -1,46 +1,76 @@
 <div>
     <div class="row">
         <div class="col-md-8">
-          <button class="btn btn-success btn-sm" wire:click='btnCreate' data-toggle="modal" data-target="#modalNorma" ><i class="voyager-plus"></i> Crear</button>
+          <button class="btn btn-success btn-sm" wire:click='btnCreate'  data-toggle="modal" data-target="#modalCrear" ><i class="voyager-plus"></i> Crear</button>
+        <!--  <button class="btn btn-success btn-sm" wire:click='btnCreate' data-toggle="modal" data-target="#modalCrear" ><i class="voyager-plus"></i> Crear</button> -->
         </div>
 
-        <div class="tab-pane fade" id="rios" role="tabpanel" aria-labelledby="rios-tab"> 
-            <div class="accordion" id="accordionExample">
-                <table class="table">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Id</th>
-                            <th>Sub Norma</th>
-                            <th>Clave</th>
-                            <th>Acción</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @if ($model->count()) 
-                    @foreach ($model as $item) 
-                    @if ($item->deleted_at != null)
-                    <tr class="bg-danger text-white">  
-                      @else
-                          <tr>
-                      @endif
-                      {{-- <form wire:submit.prevent="update"> --}}
-                      <td>{{$item->Id_subnorma}}</td>
-                      <td>{{$item->Norma}}</td>           
-                      <td>{{$item->Clave}}</td>
-                      <td>
-                        <button type="button" class="btn btn-warning btn-sm" wire:click="setData('{{$item->Id_subnorma}}','{{$item->Norma}}','{{$item->Clave}}','{{$item->deleted_at}}')"  data-toggle="modal" data-target="#modalSubNorma"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
-                        <button class="btn btn-primary btn-sm" wire:click="showDetils('{{$item->Id_subnorma}}')"><i class="voyager-external"></i> Ver</button>
-                      </td>
-                      {{-- </form>  --}}
-                    </tr>
-                @endforeach
-                    @else
-                        <h6>No hay resultados para la búsqueda "{{$search}}"</h6>
-                    @endif
-                    </tbody>
-                </table>
-              </div>
+        <div class="col-md-12">
+          <table class="table table-hover table-striped">
+            <thead class="thead-dark">
+                <tr>
+                    <th>nombre</th>
+                    <th>volumen</th>
+                    <th>unidad</th>
+                </tr>
+            </thead>
+            <tbody>
+            @foreach ($model as $item) 
+            <tr>  
+              <td>{{$item->Nombre}}</td>
+              <td>{{$item->Volumen}}</td>          
+              <td>{{$item->Unidad}}</td>
+            </tr>
+        @endforeach
+            </tbody>
+        </table>
+        </div>
         </div>      
       </div>
-      
+</div>
+
+
+</div>
+<!-- Modal -->
+<div class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ <div class="modal-dialog">
+     <div class="modal-content">
+       <form wire:submit.prevent="store">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel">Nueva constante</h5>
+         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+           <span aria-hidden="true">&times;</span>
+         </button>
+       </div>
+       <div class="modal-body"> 
+           <div class="row">
+               <div class="col-md-6">
+                   
+                   <label for="">Nombre</label>
+                   <input type="text" id='nombre' wire:model ='nombre'  class="form-control" placeholder="Nombre">
+               </div>
+               <div class="col-md-6">
+                   <label for="">Volumen</label>
+                   <input type="text" id='volumen' wire:model = 'volumen' class="form-control" placeholder="Volumen">
+               </div>
+               <div class="col-md-6">
+                   <label for="">Unidad</label>
+                   <input type="text" id='unidad' wire:model = 'unidad' class="form-control" placeholder="Unidad ">
+               </div>
+           </div>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+         <button type="submint" id="guardar" class="btn btn-primary">Guardar</button>
+       </div>
+     </form>
+     </div>
+   </div>
+   @if ($alert == true)
+   <script>
+     swal("Registro!", "Registro guardado correctamente!", "success");
+     $('#modalNorma').modal('hide')
+   </script>
+   
+   @endif
 </div>
