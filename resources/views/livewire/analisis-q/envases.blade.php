@@ -1,7 +1,7 @@
 <div>
     <div class="row">
         <div class="col-md-8">
-          <button class="btn btn-success btn-sm" wire:click='btnCreate'  data-toggle="modal" data-target="#modalCrear" ><i class="voyager-plus"></i> Crear</button>
+          <button class="btn btn-success btn-sm" wire:click='message' data-toggle="modal" data-target="#modalCrear" ><i class="voyager-plus"></i> Crear</button>
         <!--  <button class="btn btn-success btn-sm" wire:click='btnCreate' data-toggle="modal" data-target="#modalCrear" ><i class="voyager-plus"></i> Crear</button> -->
         </div>
 
@@ -47,30 +47,31 @@
                <div class="col-md-6">
                    
                    <label for="">Nombre</label>
-                   <input type="text" id='nombre' wire:model ='nombre'  class="form-control" placeholder="Nombre">
+                   <input type="text" id='nombre' wire:model='nombre'  class="form-control" placeholder="Nombre">
                </div>
                <div class="col-md-6">
                    <label for="">Volumen</label>
-                   <input type="text" id='volumen' wire:model = 'volumen' class="form-control" placeholder="Volumen">
+                   <input type="text" id='volumen' wire:model='volumen' class="form-control" placeholder="Volumen">
                </div>
                <div class="col-md-6">
                    <label for="">Unidad</label>
-                   <input type="text" id='unidad' wire:model = 'unidad' class="form-control" placeholder="Unidad ">
+                   <input type="text" id='unidad' wire:model='unidad' class="form-control" placeholder="Unidad ">
                </div>
            </div>
        </div>
        <div class="modal-footer">
          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-         <button type="submint" id="guardar" class="btn btn-primary">Guardar</button>
+         <button type="button" wire:click='create' class="btn btn-primary">Guardar</button>
        </div>
      </form>
      </div>
    </div>
-   @if ($alert == true)
+   
+</div>
+@if ($alert == true)
    <script>
      swal("Registro!", "Registro guardado correctamente!", "success");
      $('#modalNorma').modal('hide')
    </script>
    
    @endif
-</div>

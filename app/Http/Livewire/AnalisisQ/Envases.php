@@ -10,6 +10,9 @@ class Envases extends Component
 { 
 
     public $alert = false;
+    public $nombre;
+    public $volumen;
+    public $unidad;
 
     public function render()
     {
@@ -19,12 +22,15 @@ class Envases extends Component
     }
     public function create()
     {   
-        Envases::create([
-            'Nombre' => $model->nombre,
-            'Volumen' => $model->volumen,
-            'Unidad' => $model->unidad
+        $model = Envase::create([
+            'Nombre' => $this->nombre,
+            'Volumen' => $this->volumen,
+            'Unidad' => $this->unidad,
         ]);
         $this->alert = true;
 
+    }
+    public function message(){
+        $this->alerta = true;
     }
 }
