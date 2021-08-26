@@ -32,7 +32,7 @@ function validacionFecha(horaE, horaR, btnI){
 function setIngresar(){          
     let btnIngresar = document.getElementById("btnIngresar");
     let horaRecepcion = document.getElementById("hora_recepcion1");
-    let horaEntrada = document.getElementById("hora_entrada");
+    let horaEntrada = document.getElementById("hora_entrada");    
 
     if(this.tmp === undefined){
         $.ajax({
@@ -43,6 +43,7 @@ function setIngresar(){
                 descarga: $("#descarga").val(),
                 cliente: $("#cliente").val(),
                 empresa: $("#empresa").val(),
+                ingreso: "Establecido",
                 horaEntrada: moment($("#hora_entrada").val()).format("YYYY-MM-DD HH:mm:ss")            
             },
             dataType: "json",
@@ -60,6 +61,7 @@ function setIngresar(){
                 descarga: $("#descarga").val(),
                 cliente: $("#cliente").val(),
                 empresa: $("#empresa").val(),
+                ingreso: "Establecido",
                 horaEntrada: tmp
             },
             dataType: "json",
@@ -86,6 +88,7 @@ window.addEventListener("load", function(){
     let horaRecepcion1 = document.getElementById("hora_recepcion1");
     let horaEntrada = document.getElementById("hora_entrada");    
     let mensaje = document.getElementById("mensajeBusqueda");
+    let fechaFin = this.document.getElementById("f_fin");
     let now;
     let btnIngresar = document.getElementById("btnIngresar");
     
@@ -123,6 +126,31 @@ window.addEventListener("load", function(){
                             cliente.value = response.solicitud.Empresa;
                             observacion.value = response.solicitud.Observacion;
                             empresa.value = response.solicitud.Nombres;
+
+                            if(response.solicitudes.Siralab == 0){
+                                console.log("Generales");
+                            }else{
+                                console.log("Es de siralab");
+                                //let sucursalId = response.solicitudes.Id_sucursal;
+                                
+                                $.ajax({
+                                    type: 'GET',
+                                    url: base_url + '/admin/ingresar/siralabFecha',
+                                    data: {
+                                        //siralab: response.solicitudes.Siralab,
+                                        sucursal: response.solicitudes.Id_sucursal
+                                    },
+                                    
+                                    dataType: "json",
+                                    async: false,
+                                    success: function (response) {
+                                        console.log("Response interno");
+                                        fechaFin.value = moment(response.siralab.F_termino).format("DD/MM/YYYY hh:mm:ss a");
+                                        //fechaFin.value = response.siralab.F_termino;
+                                        console.log(response);
+                                    }
+                                });
+                            }
 
                             if(response.model.Hora_entrada !== null){
                                 console.log("La hora de entrada no está vacía");

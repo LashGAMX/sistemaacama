@@ -18,6 +18,10 @@ class ProcesoAnalisis extends Model
         'Descarga',
         'Cliente',
         'Empresa',
+        'Ingreso',
+        'Proceso',
+        'Reporte',
+        'ClienteG',
         'Hora_recepcion',
         'Hora_entrada'        
     ];
