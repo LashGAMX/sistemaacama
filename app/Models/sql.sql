@@ -242,9 +242,3 @@ ON p.Uso_agua = d.Id_detalle
 CREATE VIEW ViewSolicitudGenerada as SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,gen.Estado as StdSol FROM solicitudes_generadas as gen
 INNER JOIN ViewSolicitud as sol
 ON gen.Id_solicitud = sol.Id_solicitud
-
-/* Lista ViewPuntoMuestreoGen */
-CREATE VIEW ViewPuntoMuestreoGen as SELECT p.F_termino as Fecha_Termino 
-FROM puntos_muestreo as p 
-INNER JOIN puntos_muestreogen as pGen 
-ON p.Id_sucursal = pGen.Id_sucursal;

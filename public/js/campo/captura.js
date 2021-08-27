@@ -2547,6 +2547,7 @@ function setDataMuestreo() {
     let gasto = new Array();
     let row = new Array();
 
+    //PH muestra
     for (let i = 0; i < $("#numTomas").val(); i++) {
         row = new Array();
         row.push($("#materia" + i).val());
@@ -2556,10 +2557,11 @@ function setDataMuestreo() {
         row.push($("#phl2" + i).val());
         row.push($("#phl3" + i).val());
         row.push($("#phprom" + i).val());
-        row.push($("#phf" + i).val());        
+        row.push($("#phf" + i).val());
         ph.push(row);
     }
 
+    //Temperatura muestra
     for (let i = 0; i < $("#numTomas").val(); i++) {
         row = new Array();
         row.push($("#temp1" + i).val());
@@ -2569,12 +2571,14 @@ function setDataMuestreo() {
         temperatura.push(row);
     }
 
+    //Temperatura calidad
     for (let i = 0; i < $("#numTomas").val(); i++) {
         row = new Array();
         row.push($("#tempCalidad1" + i).val());        
         temperaturaCalidad.push(row);
     }
 
+    //Conductividad muestra
     for (let i = 0; i < $("#numTomas").val(); i++) {
         row = new Array();
         row.push($("#con1" + i).val());
@@ -2584,6 +2588,7 @@ function setDataMuestreo() {
         conductividad.push(row);
     }
 
+    //Gasto muestra
     for (let i = 0; i < $("#numTomas").val(); i++) {
         row = new Array();
         row.push($("#gas1" + i).val());
