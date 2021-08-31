@@ -23,3 +23,4 @@ Route::post('campo/captura/setDataMuestreo', [CampoController::class,'setDataMue
 
 //pdf 
 Route::get('campo/hojaCampo/{id}', [CampoController::class,'hojaCampo']);
+Route::get('campo/bitacoraCampo/{id}', [CampoController::class,'bitacoraCampo']);

@@ -494,4 +494,40 @@ class CampoController extends Controller
         $mpdf->WriteHTML($html);
         $mpdf->Output();
     }  
+    public function bitacoraCampo($id)
+    {
+        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
+        $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$id)->first();
+        $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud',$id)->first();
+
+        $campoGen = DB::table('ViewCampoGenerales')->where('Id_solicitud',$id)->first();
+        $phMuestra = PhMuestra::where('Id_solicitud',$id)->get();
+        $gastoMuestra = GastoMuestra::where('Id_solicitud',$id)->get();
+        $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
+        $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
+        $muestreador = Usuario::where('id',$solGen->Id_muestreador)->first();
+
+        $phTrazable = CampoPhTrazable::where('Id_solicitud',$id)->get();
+        $campoConTrazable = CampoConTrazable::wherE('Id_solicitud',$id)->get();
+
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => 'letter',
+            'margin_left' => 20,
+            'margin_right' => 20,
+            'margin_top' => 30,
+            'margin_bottom' => 18
+        ]);
+        
+        $mpdf->SetWatermarkImage(
+            asset('storage/HojaMembretada.png'),
+            1,
+            array(215, 280),
+            array(0, 0), 
+        );
+        $mpdf->showWatermarkImage = true;
+        $html = view('exports.campo.bitacoraCampo',compact('model','punto','phMuestra','gastoMuestra','campoGen','tempMuestra','conMuestra','muestreador','phTrazable','campoConTrazable'));
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+    }
 }
