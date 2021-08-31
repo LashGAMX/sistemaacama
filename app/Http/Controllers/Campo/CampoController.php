@@ -461,4 +461,9 @@ class CampoController extends Controller
         $model = ConductividadCalidad::where('Id_conductividad', $request->idCon)->first();
         return response()->json(compact('model'));
     }
+    public function hojaCampo()
+    {
+        
+    }
+
 }
