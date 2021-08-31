@@ -6,17 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class Analisis extends Model
+class Preservacion extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'analisis';
-    protected $primaryKey = 'Id_analisis';
+    protected $table = 'preservacion';
+    protected $primaryKey = 'Id_preservacion';
     public $timestamps = true;
 
     protected $fillable = [
-        'Analisis',
-        'Id_parametro',
-        'Id_envase',
-        'Id_perservacion',
+        'Preservacion',
     ];
 }
