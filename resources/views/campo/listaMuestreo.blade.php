@@ -56,13 +56,13 @@
             </div>
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-1">
+                    <div class="col-md-2">
                         <button id="btnCapturar" class="btn btn-primary"><i class="fa fa-file-invoice"></i> Capturar</button>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-2">
                         <button id="btnHojaCampo" class="btn btn-secundary"><i class="fa fa-print"></i> Hoja campo</button>
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-2">
                         <button id="btnBitacora" class="btn btn-secundary"><i class="fa fa-print"></i> Bitacora</button>
                     </div>
                 </div>
