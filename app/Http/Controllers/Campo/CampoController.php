@@ -239,7 +239,7 @@ class CampoController extends Controller
 
         if ($phModel->count()) {
             for ($i = 0; $i < $request->numTomas; $i++) {
-                # code...//Find devuelve un array con las propiedades del objeto
+                
                 $ph = PhMuestra::find($phModel[$i]->Id_ph);
                 $ph->Id_solicitud = $request->idSolicitud;
                 $ph->Materia = $request->ph[$i][0];
@@ -254,7 +254,7 @@ class CampoController extends Controller
             }
         } else {
             for ($i = 0; $i < $request->numTomas; $i++) {
-                # code...
+             
                 PhMuestra::create([
                     'Id_solicitud' => $request->idSolicitud,
                     'Materia' => $request->ph[$i][0],
@@ -274,7 +274,7 @@ class CampoController extends Controller
 
         if ($tempMuestra->count()) {
             for ($i = 0; $i < $request->numTomas; $i++) {
-                # code...
+             
                 $temp = TemperaturaMuestra::find($tempMuestra[$i]->Id_temperatura);
                 $temp->Id_solicitud = $request->idSolicitud;
                 $temp->Temperatura1 = $request->temperatura[$i][0];
@@ -285,7 +285,7 @@ class CampoController extends Controller
             }
         } else {
             for ($i = 0; $i < $request->numTomas; $i++) {
-                # code...
+          
                 TemperaturaMuestra::create([
                     'Id_solicitud' => $request->idSolicitud,
                     'Temperatura1' => $request->temperatura[$i][0],
@@ -297,32 +297,32 @@ class CampoController extends Controller
         }
 
 
-        $tempCalidadMuestra = CampoTempCalidad::where('Id_solicitud', $request->idSolicitud)->get();
+        // $tempCalidadMuestra = CampoTempCalidad::where('Id_solicitud', $request->idSolicitud)->get();
 
-        if ($tempCalidadMuestra->count()) {
-            for ($i = 0; $i < $request->numTomas; $i++) {
-                # code...
-                $tempCalidad = CampoTempCalidad::find($tempCalidadMuestra[$i]->Id_tempCalidad);
-                $tempCalidad->Id_solicitud = $request->idSolicitud;
-                $tempCalidad->Temperatura = $request->temperaturaCalidad[$i][0];
-                $tempCalidad->save();
-            }
-        } else {
-            for ($i = 0; $i < $request->numTomas; $i++) {
-                # code...
-                CampoTempCalidad::create([
-                    'Id_solicitud' => $request->idSolicitud,
-                    'Temperatura' => $request->temperaturaCalidad[$i][0]
-                ]);
-            }
-        }
+        // if ($tempCalidadMuestra->count()) {
+        //     for ($i = 0; $i < $request->numTomas; $i++) {
+            
+        //         $tempCalidad = CampoTempCalidad::find($tempCalidadMuestra[$i]->Id_tempCalidad);
+        //         $tempCalidad->Id_solicitud = $request->idSolicitud;
+        //         $tempCalidad->Temperatura = $request->temperaturaCalidad[$i][0];
+        //         $tempCalidad->save();
+        //     }
+        // } else {
+        //     for ($i = 0; $i < $request->numTomas; $i++) {
+               
+        //         CampoTempCalidad::create([
+        //             'Id_solicitud' => $request->idSolicitud,
+        //             'Temperatura' => $request->temperaturaCalidad[$i][0]
+        //         ]);
+        //     }
+        // }
 
 
         $conModel = ConductividadMuestra::where('Id_solicitud', $request->idSolicitud)->get();
 
         if ($conModel->count()) {
             for ($i = 0; $i < $request->numTomas; $i++) {
-                # code...
+           
                 $conduc = ConductividadMuestra::find($conModel[$i]->Id_conductividad);
                 $conduc->Id_solicitud = $request->idSolicitud;
                 $conduc->Conductividad1 = $request->conductividad[$i][0];
@@ -333,7 +333,7 @@ class CampoController extends Controller
             }
         } else {
             for ($i = 0; $i < $request->numTomas; $i++) {
-                # code...
+               
                 ConductividadMuestra::create([
                     'Id_solicitud' => $request->idSolicitud,
                     'Conductividad1' => $request->conductividad[$i][0],
@@ -348,7 +348,7 @@ class CampoController extends Controller
 
         if ($gastoModel->count()) {
             for ($i = 0; $i < $request->numTomas; $i++) {
-                # code...
+                
                 $gasto = GastoMuestra::find($gastoModel[$i]->Id_gasto);
                 $gasto->Id_solicitud = $request->idSolicitud;
                 $gasto->Gasto1 = $request->gasto[$i][0];
@@ -359,7 +359,7 @@ class CampoController extends Controller
             }
         } else {
             for ($i = 0; $i < $request->numTomas; $i++) {
-                # code...
+                
                 GastoMuestra::create([
                     'Id_solicitud' => $request->idSolicitud,
                     'Gasto1' => $request->gasto[$i][0],
@@ -370,7 +370,7 @@ class CampoController extends Controller
             }
         }
 
-        $data = array('sw' => true, 'model' => $request);
+        $data = array('sw' => true);
         return response()->json($data);
     }
 
@@ -439,8 +439,8 @@ class CampoController extends Controller
     {
         $model = TermFactorCorreccionTemp::where('Id_termometro', $request->idFactor)->get();
         return response()->json(compact('model'));
-    }
-
+    } 
+ 
     public function getPhTrazable(Request $request)
     {
         $model = PHTrazable::where('Id_ph', $request->idPh)->first();
@@ -461,9 +461,37 @@ class CampoController extends Controller
         $model = ConductividadCalidad::where('Id_conductividad', $request->idCon)->first();
         return response()->json(compact('model'));
     }
-    public function hojaCampo()
-    {
-        
-    }
+    public function hojaCampo($id)
+    { 
+      
+        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
+        $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$id)->first();
+        $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud',$id)->first();
 
+        $phMuestra = PhMuestra::where('Id_solicitud',$id)->get();
+        $gastoMuestra = GastoMuestra::where('Id_solicitud',$id)->get();
+        $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
+        $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
+        $muestreador = Usuario::where('id',$solGen->Id_muestreador)->first();
+
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => 'letter',
+            'margin_left' => 20,
+            'margin_right' => 20,
+            'margin_top' => 30,
+            'margin_bottom' => 18
+        ]);
+        
+        $mpdf->SetWatermarkImage(
+            asset('storage/HojaMembretada.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+        $mpdf->showWatermarkImage = true;
+        $html = view('exports.campo.hojaCampo',compact('model','punto','phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador'));
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+    }  
 }

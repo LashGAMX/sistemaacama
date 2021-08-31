@@ -3,6 +3,7 @@
 namespace App\Http\Livewire\AnalisisQ;
 use Illuminate\Support\Facades\DB;
 use App\Models\Envase;
+use App\Models\Unidad;
 
 use Livewire\Component;
 
@@ -16,9 +17,9 @@ class Envases extends Component
 
     public function render()
     {
-        $unidad = DB::table('unidades')->get();
+        $unidades = Unidad::all();
         $model = Envase::all();
-        return view('livewire.analisis-q.envases', compact('unidad','model'));
+        return view('livewire.analisis-q.envases', compact('unidades','model'));
     }
     public function create()
     {   

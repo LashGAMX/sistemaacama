@@ -83,10 +83,9 @@ var folioAsignar;
     $('#btnGuardar').click( function () {
         
         getFolio(folio);
-        // alert("guardado");
-        // $("#modalAsignar").hide();
+        swal("Registro!", "Registro guardado correctamente!", "success");
+        $('#modalAsignar').modal('hide')
         generar(idSolicitud, folio);
-        // window.location = base_url+"/admin/campo/asignar";
     });
  }
  function solicitudGenerada()
