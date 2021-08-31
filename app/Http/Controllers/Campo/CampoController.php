@@ -439,7 +439,7 @@ class CampoController extends Controller
     {
         $model = TermFactorCorreccionTemp::where('Id_termometro', $request->idFactor)->get();
         return response()->json(compact('model'));
-    }
+    } 
  
     public function getPhTrazable(Request $request)
     {
@@ -462,7 +462,7 @@ class CampoController extends Controller
         return response()->json(compact('model'));
     }
     public function hojaCampo($id)
-    {
+    { 
       
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
         $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$id)->first();

@@ -26,7 +26,7 @@
                 <select name="intermediario" id="intermediario" class="form-control select2" onchange="getDatoIntermediario()">
                   <option value="0">Sin seleccionar</option>
                   @foreach ($intermediario as $item)
-                    @if (@$model->Id_intermediario == $item->Id_cliente)
+                    @if (@$model->Id_intermedio == $item->Id_cliente)
                       <option value="{{$item->Id_cliente}}" selected>{{$item->Nombres}} {{$item->A_paterno}}</option>
                     @else
                       <option value="{{$item->Id_cliente}}">{{$item->Nombres}} {{$item->A_paterno}}</option>
@@ -169,7 +169,7 @@
                 <label for="servicio">Servicio</label>
                 <select name="tipoServicio" id="tipoServicio" class="form-control">
                   @foreach ($servicios as $item)
-                  @if (@$model->Id_servicio == $item->Id_tipo)
+                  @if (@$model->Tipo_servicio == $item->Id_tipo)
                   <option value="{{$item->Id_tipo}}" selected>{{$item->Servicio}}</option>
                   @else
                   <option value="{{$item->Id_tipo}}">{{$item->Servicio}}</option>
@@ -181,7 +181,7 @@
                 <label for="tipoDescarga">Tipo descarga</label>
                 <select name="tipoDescarga" id="tipoDescarga" class="form-control">
                   @foreach ($descargas as $item)
-                    @if (@$model->Id_descarga == $item->Id_tipo)
+                    @if (@$model->Tipo_descarga == $item->Id_tipo)
                       <option value="{{$item->Id_tipo}}" selected>{{$item->Descarga}}</option>
                     @else
                       <option value="{{$item->Id_tipo}}">{{$item->Descarga}}</option>
@@ -190,7 +190,7 @@
                 </select>
               </div>
               <div class="col-md-4">
-                <label for="norma">Norma</label>
+                <label for="norma">Nworma</label>
                 <select name="norma" id="norma" class="form-control">
                 </select>
               </div>
