@@ -21,6 +21,8 @@
 
 <div>    
     {{-- Be like water. --}}    
+    <input type="text" id="numSol" hidden>
+
     <p id="parrafoDatos">Datos Generales</p>    
 
     <div class="container datos">

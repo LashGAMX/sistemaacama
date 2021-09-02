@@ -15,6 +15,12 @@ Route::group(['prefix' => 'ingresar'], function () {
     Route::post('ingresar', [IngresarController::class, 'setIngresar']);
     //Route::post('listar', [IngresarController::class, 'generar']);
 
+    //RUTA PARA OBTENER LA FECHA DE CONFORMACIÓN
+    Route::get('fechaConformacion', [IngresarController::class, 'fechaConformacion']);
+
+    //RUTA PARA OBTENER LA PROCEDENCIA CON PREVIA COTIZACIÓN
+    Route::get('procedencia', [IngresarController::class, 'procedencia']);
+
 
     //-------------------Módulo solicitudes---------------------
     Route::get('generar', [IngresarController::class, 'genera2']);

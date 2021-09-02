@@ -220,7 +220,7 @@
           </div>
           
           <div class="col-md-12">
-            <h6>Espesificaciones</h6>
+            <h6>Especificaciones</h6>
             <hr>
           </div>
 
