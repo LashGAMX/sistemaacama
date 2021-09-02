@@ -242,3 +242,9 @@ ON p.Uso_agua = d.Id_detalle
 CREATE VIEW ViewSolicitudGenerada as SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,gen.Estado as StdSol FROM solicitudes_generadas as gen
 INNER JOIN ViewSolicitud as sol
 ON gen.Id_solicitud = sol.Id_solicitud
+
+/* Campo generales */ 
+CREATE VIEW ViewCampoGenerales as SELECT c.Id_general,c.Id_solicitud,c.Captura,c.Id_equipo,t.Id_muestreador,t.Equipo,t.Marca,t.Modelo,t.Serie,c.Temperatura_a,c.Temperatura_b,c.Latitud,c.Longitud,c.Altitud,c.Pendiente,c.Criterio,c.Supervisor,c.created_at,c.updated_at,c.deleted_at 
+FROM campo_generales as c
+INNER JOIN termometro_campo as t
+ON c.Id_equipo = t.Id_termometro

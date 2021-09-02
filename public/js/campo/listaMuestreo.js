@@ -34,15 +34,14 @@ $(document).ready(function () {
         idCot = dato;
       });
     $('#btnCapturar').click( function () {
-        alert("Capturar");
+        //alert("Capturar");
         window.location = base_url+"/admin/campo/captura/"+idCot;
     } );
+
     $('#btnHojaCampo').click( function () {
-        alert("Hoja de campo");
-        // window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idCot;
+        window.location = base_url+"/admin/campo/hojaCampo/"+idCot;
     });
     $('#btnBitacora').click( function () {
-        alert("Bitacora")
-        // window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idCot;
+        window.location = base_url+"/admin/campo/bitacoraCampo/"+idCot;
     });
 });

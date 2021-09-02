@@ -20,3 +20,7 @@ Route::post('campo/captura/getFactorAplicado', [CampoController::class,'getFacto
 // Guardar datos
 Route::post('campo/captura/setDataGeneral', [CampoController::class,'setDataGeneral']);
 Route::post('campo/captura/setDataMuestreo', [CampoController::class,'setDataMuestreo']);
+
+//pdf 
+Route::get('campo/hojaCampo/{id}', [CampoController::class,'hojaCampo']);
+Route::get('campo/bitacoraCampo/{id}', [CampoController::class,'bitacoraCampo']);

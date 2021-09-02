@@ -43,13 +43,14 @@ class SolicitudController extends Controller
         $descargas = TipoDescarga::all();
         $frecuencia = DB::table('frecuencia001')->get();
         $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion',$idCot)->get();
-        //$model = DB::table('ViewCotizacion')->where('Id_cotizacion',$idCot)->get();
+        $model = DB::table('ViewCotizacion')->where('Id_cotizacion',$idCot)->first();
         //$model = Solicitud::where('Id_cotizacion',$idCot)->first();
         $sw = false;
         return view('cotizacion.createSolicitud',
         compact(
             'sw',
             'cotizacion',
+            'model',
             'idCot',
             'intermediario', 
             'cliente',
