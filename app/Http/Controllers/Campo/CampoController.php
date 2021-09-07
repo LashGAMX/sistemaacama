@@ -396,6 +396,7 @@ class CampoController extends Controller
         $sol = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->get();
         if ($sol->count()) {
             $model = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->get();
+            
         } else {
             $solGen = SolicitudesGeneradas::create([
                 'Id_solicitud' => $request->idSolicitud,
