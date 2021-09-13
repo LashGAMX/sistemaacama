@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 
 class LaboratorioController extends Controller
 {
-    function index(){
-        
+    function index(){ 
+        return view('laboratorio.laboratorio');
+    }
+    public function analisis(){
+        return view('laboratorio.analisis');
     }
 }
