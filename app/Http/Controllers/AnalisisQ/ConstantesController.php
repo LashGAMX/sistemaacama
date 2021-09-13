@@ -9,6 +9,6 @@ class ConstantesController extends Controller
 {
     public function index()
     {
-        return view('analisisQ.Constantes');
+        return view('analisisQ.constantes');
     }
 }
