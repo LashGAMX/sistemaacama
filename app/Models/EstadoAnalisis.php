@@ -17,7 +17,8 @@ class EstadoAnalisis extends Model
         'Id_solicitud',
         'Fecha_ingreso',
         'Fecha_ingreso2',
-        'Fecha_analisis'
+        'Fecha_analisis',
+        'Proceso'
     ];
 
 }
