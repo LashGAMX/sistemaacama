@@ -229,7 +229,7 @@ window.addEventListener("load", function(){
                             horaEntrada.value = "";
                             fechaFin.value = "";
                             fechaConformacion.value = "";
-                            procedencia.value = ""
+                            procedencia.value = "";
                             mensaje.innerHTML = "No se encontraron registros";
                             horaEntrada.disabled = true;
                             horaRecepcion1.disabled = true;
