@@ -6,4 +6,5 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'laboratorio'], function () {
     Route::get('analisis',[LaboratorioController::class,'analisis'] );
     Route::get('observacion',[LaboratorioController::class,'observacion']);
+    Route::get('tipoAnalisis',[LaboratorioController::class,'tipoAnalisis']);
 });

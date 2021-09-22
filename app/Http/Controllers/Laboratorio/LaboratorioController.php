@@ -18,4 +18,8 @@ class LaboratorioController extends Controller
     public function observacion(){
         return view('laboratorio.observacion');
     }
+    
+    public function tipoAnalisis(){ 
+        return view('laboratorio.tipoAnalisis');
+    }
 }
