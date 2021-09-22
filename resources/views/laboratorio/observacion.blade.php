@@ -82,23 +82,16 @@
             <table class="table" id="tableObservacion"> 
                 <thead>
                   <tr>
-                    <th scope="col">Folio</th>
-                    <th scope="col">First</th>
-                    <th scope="col">Last</th>
+                    <th scope="col">Folio servicio</th>
+                    <th scope="col">Nombre cliente</th>
+                    <th scope="col">Fecha recepción</th>
+                    <th scope="col">Punto muestreo</th>
+                    <th scope="col">Norma</th>
+                    <th scope="col">Parámetro</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td scope="row">1</td>
-                    <td>Mark</td>
-                    <td>Otto</td>
-                    
-                  </tr>
-                  <tr>
-                    <td scope="row">2</td>
-                    <td>Jacob</td>
-                    <td>Thornton</td>
-                  </tr>
+                  
                 </tbody>
               </table>
         </div>
