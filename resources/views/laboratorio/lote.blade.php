@@ -43,7 +43,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-3">
-                    <button class="btn btn-success">Crear lote</button>
+                    <button class="btn btn-success" data-toggle="modal" data-target="#modalProbar" class="btn btn-info">Crear lote</button>
                 </div>
             </div>
             <table class="table" id="tableObservacion"> 
@@ -64,6 +64,64 @@
         </div>
       </div>
 </div>
+
+ <!-- Modal -->
+ <div class="modal fade" id="modalProbar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">FLAMA</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <ul class="nav nav-tabs" id="myTab" role="tablist"> 
+              <li class="nav-item" role="menu">
+                <a class="nav-link active" id="formulaGlobal-tab" data-toggle="tab" href="#formulaGlobal" role="tab" aria-controls="formulaGlobal" aria-selected="true">Formulas Globales</a>
+              </li>
+              <li class="nav-item" role="menu">
+                <a class="nav-link" id="equipo-tab" data-toggle="tab" href="#equipo" role="tab" aria-controls="equipo" aria-selected="false">Equipo</a>
+              </li>
+              <li class="nav-item" role="menu">
+                <a class="nav-link" id="procedimiento-tab" data-toggle="tab" href="#procedimiento" role="tab" aria-controls="procedimiento" aria-selected="false">Procedimiento/Validación</a>
+              </li>
+            </ul>
+            <div class="tab-content" id="myTabContent">
+              <div class="tab-pane fade  active" id="formulaGlobal" role="tabpanel" aria-labelledby="formulaGlobal-tab">  
+              <h1>Formulas globales</h1>
+              </div> 
+               
+              <div class="tab-pane fade" id="equipo" role="tabpanel" aria-labelledby="equipo-tab">  
+              <h1>Equipo</h1>
+              </div> 
+            
+              <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">  
+              <h1>Procedimiento / Validación</h1>
+              </div> 
+            </div>
+
+
+          </div>
+          
+          <div class="col-md-12">
+            <div id="inputVar">
+
+            </div>
+          </div>
+         
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
+
   @stop
 
   @section('css')
