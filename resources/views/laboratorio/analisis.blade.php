@@ -7,6 +7,103 @@
     <i class="voyager-window-list"></i>
     Análisis (Solo visualización)
   </h6>
+
+  <style>
+
+    *{
+      margin:0;
+    }
+    
+    header{
+      height:170px;
+      color:#FFF;
+      font-size:20px;
+      font-family:Sans-serif;
+      background:#009688;
+      padding-top:30px;
+      padding-left:50px;
+    }
+    
+    .contenedor{
+      width:90px;
+      height:240px;
+      position:absolute;
+      right:0px;
+      bottom:0px;
+    }
+    
+    .botonF1{
+      padding: 0%;
+      width:60px;
+      height:60px;
+      border-radius:100%;
+      background:#F44336;
+      right:0;
+      bottom:0;
+      position:absolute;
+      margin-right:16px;
+      margin-bottom:16px;
+      border:none;
+      outline:none;
+      color:#FFF;
+      font-size:36px;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      transition:.3s;  
+    }
+    
+    span{
+      transition:.5s;  
+    }
+    
+    .botonF1:hover span{
+      transform:rotate(360deg);
+    }
+    
+    .botonF1:active{
+      transform:scale(1.1);
+    }
+
+    .btn{
+      padding: 0%;
+      width:40px;
+      height:40px;
+      border-radius:100%;
+      border:none;
+      color:#FFF;
+      box-shadow: 0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23);
+      font-size:28px;
+      outline:none;
+      position:absolute;
+      right:0;
+      bottom:0;
+      margin-right:26px;
+      transform:scale(0);
+    }
+    .botonF2{
+      background:#2196F3;
+      margin-bottom:85px;
+      transition:0.5s;
+    }
+    .botonF3{
+      background:#673AB7;
+      margin-bottom:130px;
+      transition:0.7s;
+    }
+    .botonF4{
+      background:#009688;
+      margin-bottom:175px;
+      transition:0.9s;
+    }
+    .botonF5{
+      background:#FF5722;
+      margin-bottom:220px;
+      transition:0.99s;
+    }
+    .animacionVer{
+      transform:scale(1);
+    }
+
+  </style>
  
 <div class="container-fluid">
     <div class="row">
@@ -40,11 +137,20 @@
                     <td>Punto final</td>
                     <td>NOM-SEMARNAT-001</td>
                     <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus temporibus rerum dignissimos atque odio maiores vitae ea quasi, deserunt molestiae id velit, animi necessitatibus. Voluptas non corporis voluptatum facilis aut ipsam, omnis dolorum sit est illum nemo natus iusto tempore maiores incidunt blanditiis eligendi consectetur iure praesentium. Ipsa, ipsum error.</td>
-                  </tr>
-                </tbody>
-              </table>
-        </div>
+                </tr>
+              </tbody>
+            </table>
       </div>
+    </div>
+
+    <div class="contenedor">
+      <button class="botonF1"><i class="voyager-move"></i></button>
+      <button class="btn botonF2"><i class="far fa-eye"></i></button>
+      <button class="btn botonF3"><i class="voyager-data"></i></button>
+      <button class="btn botonF4"><i class="voyager-list-add"></i></button>
+      <button class="btn botonF5"><i class="voyager-file-text"></i></button>
+    </div>
+
 </div>
   @stop
 
@@ -52,6 +158,16 @@
   <script src="{{asset('js/laboratorio/analisis.js')}}"></script>
   <script src="{{asset('js/libs/componentes.js')}}"></script>
   <script src="{{asset('js/libs/tablas.js')}}"></script>
+
+  <script>
+    $('.botonF1').hover(function(){
+      $('.btn').addClass('animacionVer');
+    })
+
+    $('.contenedor').mouseleave(function(){
+      $('.btn').removeClass('animacionVer');
+    })
+  </script>
   @stop
 
 @endsection  
