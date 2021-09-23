@@ -5,8 +5,6 @@
         </div>
         <div class="clearfix container-fluid row">
             
-            
-
             <div class="col-md-3">
                 <a href="{{route('voyager.hist-clientesinter.index')}}">
                     <div class="panel widget center bgimage"

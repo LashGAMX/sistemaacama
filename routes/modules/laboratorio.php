@@ -8,4 +8,6 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::get('observacion',[LaboratorioController::class,'observacion']);
     Route::get('tipoAnalisis',[LaboratorioController::class,'tipoAnalisis']);
     Route::get('captura',[LaboratorioController::class,'captura']);
+    Route::get('lote',[LaboratorioController::class,'lote']);
+    Route::get('asignar',[LaboratorioController::class,'asignar']);
 });
