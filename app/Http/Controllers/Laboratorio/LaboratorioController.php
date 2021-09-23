@@ -10,7 +10,7 @@ class LaboratorioController extends Controller
     function index(){ 
         return view('laboratorio.laboratorio');
     }
- 
+  
     public function analisis(){
         return view('laboratorio.analisis');
     } 
@@ -25,5 +25,13 @@ class LaboratorioController extends Controller
     public function captura()
     {
         return view('laboratorio.captura');
+    }
+    public function lote()
+    {
+        return view('laboratorio.lote');
+    }
+    public function asignar()
+    {
+        return view('laboratorio.asignar');
     }
 }

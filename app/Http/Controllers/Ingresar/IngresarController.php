@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Ingresar;
 
 use App\Http\Controllers\Controller;
 use App\Models\ProcesoAnalisis;
-use App\Models\Solicitud;
+use App\Models\Solicitud; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -17,6 +17,13 @@ class IngresarController extends Controller
         $model = DB::table('ViewSolicitud')->get();
         return view('ingresar.ingresar',compact('idUser', 'model'));        
     }    
+
+    public function recepcion(){
+        $idUser = Auth::user()->id;
+
+        $model = DB::table('ViewSolicitud')->get();
+        return view('ingresar.recepcion',compact('idUser', 'model'));    
+    }
 
     public function buscador(Request $request){
         $solicitud = DB::table('ViewSolicitud')->where('Folio_servicio', "like", $request->texto."%")->first();
