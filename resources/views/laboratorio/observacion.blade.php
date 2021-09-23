@@ -10,73 +10,78 @@
  
 <div class="container-fluid">
     <div class="row">
-        
-        <div class="col-md-12">
-            <table class="table"> 
-                <thead>
-                  <tr>
-                    <th scope="col" id="cabecera"><h4>Tipo fórmula</h4></th>                    
-                    <th scope="col" id="cabecera"></th>
-                    <th scope="col" id="cabecera"><h4>PH < 2</h4></th>
-                    <th scope="col" id="cabecera"><h4>Sólidos</h4></th>
-                    <th scope="col" id="cabecera"><h4>Olor</h4></th>
-                    <th scope="col" id="cabecera"><h4>Color</h4></th>
-                    <th scope="col" id="cabecera"><h4>Observación</h4></th>
-                    <th scope="col" id="cabecera"></th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td id="cabecera">
-                        <select class="form-select">
-                            <option value="0">Sin seleccionar</option>
-                            <option value="1">Asignado</option>
-                            <option value="2">Sin asignar</option>
-                        </select>
-                    </td>
-                    <td id="cabecera">
-                        <button type="button" class="btn btn-success">Buscar</button>
-                    </td>
-                    <td id="cabecera">
-                        <select class="form-select">
-                            <option value="0">Sin seleccionar</option>
-                            <option value="1">Asignado</option>
-                            <option value="2">Sin asignar</option>
-                        </select>
-                    </td>
-                    <td id="cabecera">
-                        <select class="form-select">
-                            <option value="0">Sin seleccionar</option>
-                            <option value="1">Asignado</option>
-                            <option value="2">Sin asignar</option>
-                        </select>
-                    </td>
-                    <td id="cabecera">
-                        <select class="form-select">
-                            <option value="0">Sin seleccionar</option>
-                            <option value="1">Asignado</option>
-                            <option value="2">Sin asignar</option>
-                        </select>
-                    </td>
-                    <td id="cabecera">
-                        <select class="form-select">
-                            <option value="0">Sin seleccionar</option>
-                            <option value="1">Asignado</option>
-                            <option value="2">Sin asignar</option>
-                        </select>
-                    </td>
-                    <td id="cabecera">
-                        <div class="form-floating">
-                            <textarea class="form-control" placeholder="Escribe la observación..." id="floatingTextarea"></textarea>                            
-                        </div>
-                    </td>
-                    <td id="cabecera">
-                        <button type="button" class="btn btn-success">Aplicar</button>
-                    </td>
-                  </tr>                  
-                </tbody>
-              </table>
-        </div>
+      <div class="col-md-12">
+          <div class="row">
+              
+            <div class="col-md-2">
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Tipo formula</label>
+                    <select class="form-control">
+                        <option value="0">Sin seleccionar</option>
+                        <option value="1">Asignado</option>
+                        <option value="2">Sin asignar</option>
+                      </select>
+                </div>
+              </div>
+
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">PH < 2</label>
+                    <select class="form-control">
+                        <option value="0">Sin seleccionar</option>
+                        <option value="1">SI</option>
+                        <option value="2">NO</option>
+                      </select>
+                </div>
+              </div>
+
+              <div class="col-md-1">
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Sólidos</label>
+                    <select class="form-control">
+                        <option value="0">Sin seleccionar</option>
+                        <option value="1">SI</option>
+                        <option value="2">NO</option>
+                      </select>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Olor</label>
+                    <select class="form-control">
+                        <option value="0">Sin seleccionar</option>
+                        <option value="1">SI</option>
+                        <option value="2">NO</option>
+                      </select>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="exampleFormControlSelect1">Color</label>
+                    <select class="form-control">
+                        <option value="0">Sin seleccionar</option>
+                        <option value="1">SI</option>
+                        <option value="2">NO</option>
+                      </select>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <div class="form-group">
+                  <label for="exampleFormControlTextarea1">Descripción</label>
+                  <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+                </div>
+              </div>
+
+              <div class="col-md-2">
+                <button class="btn btn-success">Aplicar</button>
+              </div>
+
+          </div>
+      </div>
+    
 
         <div class="col-md-12">
             <table class="table" id="tableObservacion"> 

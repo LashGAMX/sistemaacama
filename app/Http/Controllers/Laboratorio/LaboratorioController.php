@@ -10,16 +10,20 @@ class LaboratorioController extends Controller
     function index(){ 
         return view('laboratorio.laboratorio');
     }
-
+ 
     public function analisis(){
         return view('laboratorio.analisis');
-    }
-
+    } 
+ 
     public function observacion(){
         return view('laboratorio.observacion');
     }
     
     public function tipoAnalisis(){ 
         return view('laboratorio.tipoAnalisis');
+    }
+    public function captura()
+    {
+        return view('laboratorio.captura');
     }
 }
