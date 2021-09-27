@@ -13,18 +13,28 @@
       <div class="col-md-12">
           <div class="row">
               
-            <div class="col-md-2">
+            <div class="col-md-1">
                 <div class="form-group">
-                  <label for="exampleFormControlSelect1">Tipo formula</label>
+                  <label for="exampleFormControlSelect1">Tipo fórmula</label>
                     <select class="form-control">
                         <option value="0">Sin seleccionar</option>
-                        <option value="1">Asignado</option>
-                        <option value="2">Sin asignar</option>
-                      </select>
-                </div>
-              </div>
+                        <option value="1">Acreditados</option>
+                        <option value="2">Metales alimentos</option>
+                        <option value="3">Metales pesados en biosólidos</option>
+                        <option value="4">Metales potable</option>
+                        <option value="5">Metales purificadora</option>
+                        <option value="6">Metales residual</option>
+                        <option value="7">Miliequivalentes</option>
+                        <option value="8">No acreditados</option>
+                      </select>                    
+                </div>                
+              </div>                          
 
               <div class="col-md-1">
+                <button type="button" class="btn btn-success">Buscar</button>
+              </div>
+
+              <div class="col-md-2">                                
                 <div class="form-group">
                   <label for="exampleFormControlSelect1">PH < 2</label>
                     <select class="form-control">
@@ -46,7 +56,7 @@
                 </div>
               </div>
 
-              <div class="col-md-2">
+              <div class="col-md-1">
                 <div class="form-group">
                   <label for="exampleFormControlSelect1">Olor</label>
                     <select class="form-control">
@@ -57,7 +67,7 @@
                 </div>
               </div>
 
-              <div class="col-md-2">
+              <div class="col-md-1">
                 <div class="form-group">
                   <label for="exampleFormControlSelect1">Color</label>
                     <select class="form-control">
@@ -96,7 +106,30 @@
                   </tr>
                 </thead>
                 <tbody>
-                  
+                  <tr>
+                    <td>hola</td>
+                    <td>hola</td>
+                    <td>hola</td>
+                    <td>hola</td>
+                    <td>hola</td>
+                    <td>hola</td>
+                  </tr>
+                  <tr>
+                    <td>hola</td>
+                    <td>hola</td>
+                    <td>hola</td>
+                    <td>hola</td>
+                    <td>hola</td>
+                    <td>hola</td>                    
+                  </tr>
+                  <tr>
+                    <td>hola</td>
+                    <td>hola</td>
+                    <td>hola</td>
+                    <td>hola</td>
+                    <td>hola</td>
+                    <td>hola</td>
+                  </tr>
                 </tbody>
               </table>
         </div>

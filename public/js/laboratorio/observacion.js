@@ -9,3 +9,17 @@ $(document).ready(function () {
         }
     });
 });
+
+//Multiple selección
+$(document).ready(function() {
+    var table = $('#tableObservacion').DataTable(); 
+    $('#tableObservacion tbody').on( 'click', 'tr', function () { 
+        console.log("Seleccionaste la fila");
+        
+        $(this).toggleClass('selected'); } 
+    ); 
+    
+    $('#button').click( function () { 
+        alert( table.rows('.selected').data().length +' row(s) selected' ); } 
+    ); 
+});

@@ -44,8 +44,8 @@
                           <tr>
                             <th>Folio</th>
                             <th>Fecha lote</th>
-                            <th>Total asignado</th>
-                            <th>Total libre</th>
+                            <th>Total asignados</th>
+                            <th>Total liberados</th>
                             <th></th>
                             <th>Creado por</th>
                           </tr>
