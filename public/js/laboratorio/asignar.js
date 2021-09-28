@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    table = $('#tableObservacion').DataTable({        
+    table = $('#tableAsignar').DataTable({        
         "ordering": false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
@@ -12,12 +12,12 @@ $(document).ready(function () {
 
 //Múltiple selección
 $(document).ready(function() {
-    var table = $('#tableObservacion').DataTable(); 
-    $('#tableObservacion tbody').on( 'click', 'tr', function () {        
-        $(this).toggleClass('selected'); 
-    }); 
+    var table = $('#tableAsignar').DataTable(); 
+    $('#tableAsignar tbody').on( 'click', 'tr', function () {                 
+        $(this).toggleClass('selected'); } 
+    ); 
     
     $('#button').click( function () { 
         alert( table.rows('.selected').data().length +' row(s) selected' ); } 
-    ); 
+    );
 });

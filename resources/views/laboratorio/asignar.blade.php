@@ -15,11 +15,17 @@
               
             <div class="col-md-3">
                 <div class="form-group">
-                  <label for="exampleFormControSelect1">Tipo formula</label>
+                  <label for="exampleFormControSelect1">Tipo fórmula</label>
                     <select class="form-control">
                         <option value="0">Sin seleccionar</option>
-                        <option value="1">Asignado</option>
-                        <option value="2">Sin asignar</option>
+                        <option value="1">Acreditados</option>
+                        <option value="2">Metales alimentos</option>
+                        <option value="3">Metales pesados en biosolidos</option>
+                        <option value="4">Metales potable</option>
+                        <option value="5">Metales purificadora</option>
+                        <option value="6">Metales residual</option>
+                        <option value="7">Miliequivalentes</option>
+                        <option value="8">No acreditados</option>
                       </select>
                 </div>
               </div>
@@ -29,8 +35,10 @@
                     <label for="exampleFormControSelect1">Método</label>
                       <select class="form-control">
                           <option value="0">Sin seleccionar</option>
-                          <option value="1">Asignado</option>
-                          <option value="2">Sin asignar</option>
+                          <option value="1">Alimentos</option>
+                          <option value="2">Flama</option>
+                          <option value="3">Hidruros</option>
+                          <option value="4">Horno</option>
                         </select>
                   </div>
               </div>
@@ -63,19 +71,44 @@
                     <button class="btn btn-success"  data-toggle="modal" data-target="#exampleModal">Asignar</button>
                 </div>
             </div>
-            <table class="table" id="tableObservacion">  
+            <table class="table" id="tableAsignar">  
                 <thead>
                   <tr>
-                    <th scope="col">Cerrado</th>
-                    <th scope="col">RcpLoteAnalisis</th>
-                    <th scope="col">Formula</th>
-                    <th scope="col">TipoFormulaAnalisis</th>
-                    <th scope="col">FechaLote</th>
-                    <th scope="col">FechaHora</th>
+                    <th scope="col">ID Solicitud</th>
+                    <th scope="col">Núm. Muestra</th>
+                    <th scope="col">Fecha recepción</th>
+                    <th scope="col">Cliente</th>
+                    <th scope="col">Punto de muestreo</th>
+                    <th scope="col">Norma</th>
+                    <th scope="col">Fórmula</th>                    
+                    <th scope="col">ID Lote</th>
+                    <th scope="col">Fecha Lote</th>
                   </tr>
                 </thead>
                 <tbody>
-                   
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>                    
+                  </tr>
+                  
+                  <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>                    
+                    <td></td>
+                    <td></td>
+                  </tr>
                 </tbody>
               </table>
         </div>
@@ -110,7 +143,7 @@
   @endsection
 
   @section('javascript')
-  <script src="{{asset('js/laboratorio/observacion.js')}}"></script>
+  <script src="{{asset('js/laboratorio/asignar.js')}}"></script>
   <script src="{{asset('js/libs/componentes.js')}}"></script>
   <script src="{{asset('js/libs/tablas.js')}}"></script>
   @stop
