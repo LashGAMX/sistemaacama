@@ -12,7 +12,7 @@ class Constante extends Model
     protected $table = 'constantes';
     protected $primaryKey = 'Id_constante';
     public $timestamps = true;
-
+ 
     protected $fillable = [
         'Constante',
         'Valor',
