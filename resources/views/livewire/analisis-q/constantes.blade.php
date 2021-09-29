@@ -14,7 +14,7 @@
                     <th>Valor</th>
                     <th>Descripción</th>
                 </tr> 
-            </thead> 
+            </thead>  
             <tbody>
             @foreach ($constante as $item)  
             <tr>  

@@ -15,7 +15,7 @@ class Constantes extends Component
 
     public function render()
     { 
-        $constante = Constante::all();
+        $constante = Constante::all(); 
         return view('livewire.analisis-q.constantes', compact('constante'));
     }  
 }
