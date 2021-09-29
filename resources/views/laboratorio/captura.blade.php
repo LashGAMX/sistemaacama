@@ -12,24 +12,35 @@
     <div class="row">
         <div class="col-md-3">
             <div class="form-group">
-              <label for="exampleFormControlSelect1">Formula tipo</label>
+              <label for="exampleFormControlSelect1">Fórmula tipo</label>
                 <select class="form-control">
                     <option value="0">Sin seleccionar</option>
-                    <option value="1">Asignado</option>
-                    <option value="2">Sin asignar</option>
+                    <option value="1">ALUMINIO (Al) (Metales residual)</option>
+                    <option value="2">ARSENICO (As) (Metales residual)</option>
+                    <option value="3">ARSENICO (As) (Metales potable)</option>
+                    <option value="4">CADMIO (Cd) (Metales residual)</option>
+                    <option value="5">COBRE TOTAL (Cu) (Metales residual)</option>
+                    <option value="6">CROMO TOTAL (Cr) (Metales residual)</option>
+                    <option value="7">FIERRO (Fe) (Metales residual)</option>
+                    <option value="8">MERCURIO (Hg) (Metales residual)</option>
+                    <option value="9">MERCURIO (Hg) (Metales potable)</option>
+                    <option value="10">NIQUEL (Ni) (Metales residual)</option>
+                    <option value="11">PLOMO (Pb) (Metales residual)</option>
+                    <option value="12">SELENIO (Se) (Metales residual)</option>
+                    <option value="13">ZINC (Zn) (Metales residual)</option>
                   </select>
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
-                <label for="">Num. Tomas</label>
-                <input type="text" class="form-control" placeholder="Num Toma">
+                <label for="">Núm. muestra</label>
+                <input type="text" class="form-control">
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="">Fecha análisis</label>
-                <input type="date" class="form-control" placeholder="Num Toma">
+                <input type="date" class="form-control">
             </div>
         </div>
         <div class="col-md-3">
@@ -44,8 +55,8 @@
                           <tr>
                             <th>Folio</th>
                             <th>Fecha lote</th>
-                            <th>Total asignado</th>
-                            <th>Total libre</th>
+                            <th>Total asignados</th>
+                            <th>Total liberados</th>
                             <th></th>
                             <th>Creado por</th>
                           </tr>
