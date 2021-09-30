@@ -44,8 +44,9 @@ class CampoController extends Controller
     }
     public function listaMuestreo()
     {
+        $equipo = DB::table('ViewCampoGenerales')->get();
         $model = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', Auth::user()->id)->get();
-        return view('campo.listaMuestreo', compact('model'));
+        return view('campo.listaMuestreo', compact('model','equipo'));
     }
     public function captura($id)
     {

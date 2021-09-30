@@ -11,12 +11,10 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-         
+         @livewire('analisis-q.constantes')
         </div>
       </div>
-</div>
+</div>  
   @stop
-
- 
 
 @endsection  
