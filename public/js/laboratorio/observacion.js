@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    table = $('#tableObservacion').DataTable({        
+    table = $('.tableObservacion').DataTable({        
         "ordering": false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
@@ -12,12 +12,19 @@ $(document).ready(function () {
 
 //Múltiple selección
 $(document).ready(function() {
-    var table = $('#tableObservacion').DataTable(); 
-    $('#tableObservacion tbody').on( 'click', 'tr', function () {        
-        $(this).toggleClass('selected'); 
-    }); 
+    var table = $('#primeraTabla').DataTable();    
+
+    $('#primeraTabla tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+        $('#segundaTabla tbody tr').toggleClass('selected');                
+    });
+
+    $('#segundaTabla tbody').on( 'click', 'tr', function () {
+        $(this).toggleClass('selected');
+        $('#primeraTabla tbody tr').toggleClass('selected');
+    });
     
     $('#button').click( function () { 
-        alert( table.rows('.selected').data().length +' row(s) selected' ); } 
-    ); 
+        alert( table.rows('.selected').data().length +' row(s) selected');
+    });
 });

@@ -124,7 +124,7 @@
                             <th scope="col">Resultado</th>
                             <th scope="col">Núm.Decimales</th>
                             <th scope="col">FechaInicio</th>
-                            <th scope="col">PruebaDesplazamiento</th>                          
+                            <th scope="col">PruebaDesplazamiento</th>
                           </tr>
                         </thead>
                         <tbody>
