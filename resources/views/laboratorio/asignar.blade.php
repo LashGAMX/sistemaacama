@@ -5,7 +5,7 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="far fa-eye"></i>
-    Asignar
+    Asignación lote
   </h6>
  
 <div class="container-fluid">
