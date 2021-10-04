@@ -70,9 +70,9 @@
             <th>Tipo Descarga</th>
             <th>Fecha muestreo</th>
             <th>Observaciones</th>
-            <th>Creado por</th>
+            {{-- <th>Creado por</th> --}}
             <th>Fecha Creación</th>
-            <th>Actualizado por</th>
+            {{-- <th>Actualizado por</th> --}}
             <th>Fecha Actualización</th>
           </tr>
         </thead>
@@ -90,10 +90,10 @@
                   <td>{{$item->Descarga}}</td>
                   <td>{{$item->Fecha_muestreo}}</td>
                   <td>{{$item->Observacion}}</td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
-                  <td></td>
+                  <td>{{$item->created_at}}</td>
+                  <td>{{$item->updated_at}}</td>
+                  {{-- <td></td>
+                  <td></td> --}}
                 </tr>
               @endif
           @endforeach
