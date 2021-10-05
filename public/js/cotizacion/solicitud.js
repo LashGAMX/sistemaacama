@@ -45,4 +45,38 @@ $(document).ready(function () {
         // alert("Imprimir PDF");
         window.location = base_url+"/admin/cotizacion/solicitud/exportPdfOrden/"+idCot;
     } );
+    $('#btnGenFolio').click( function () {
+         //alert("Imprimir GenerarFolio");
+         let element = [];
+         $.ajax({
+            url: base_url + '/admin/cotizacion/solicitud/setGenFolio', //archivo que recibe la peticion
+            type: 'POST', //método de envio
+            data: {
+                idCot: idCot,
+                _token: $('input[name="_token"]').val(),
+            }, 
+            dataType: 'json',
+            async: false,
+            success: function (response) { 
+                console.log(response);
+                for (let i  = 0; i  < response.Num_tomas ; i ++) {
+                    element[i] = response.Folio_servicio + "-" + (i + 1);
+                }
+                // element = [
+                //     inputText('Nombre', 'nombreContacto', 'nombreContacto', 'Nombre',response.model.Nombres),
+                //     inputText('Apellido paterno', 'paternoContacto', 'paternoContacto', 'Paterno',response.model.A_paterno),
+                //     inputText('Apellido materno', 'maternoContacto', 'maternoContacto', 'Materno',response.model.A_materno),
+                //     inputText('Celular', 'celularContacto', 'celularContacto', 'Celular',response.model.Celular),
+                //     inputText('Telefono', 'telefonoContacto', 'telefonoContacto', 'Telefono',response.model.Telefono),
+                //     inputText('Correo', 'correoContacto', 'correoContacto', 'Correo',response.model.Email),
+                // ];
+                itemModal[0] = element;
+                newModal('divModal', 'editContacto', 'Generar folios', '', 1, 6, 0, inputBtn('', '', 'Guardar', 'save', 'success', ''));
+            }
+        });
+    
+    
+         //newModal('divModal', 'setCodigos', 'Codigo generado', '', 3, 2, 0, inputBtn('', '', 'Guardar', 'save', 'success', 'createContacto()'));
+        //window.location = base_url+"/admin/cotizacion/solicitud/exportPdfOrden/"+idCot;
+    });
 });
