@@ -12,6 +12,6 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::get('lote',[LaboratorioController::class,'lote']);
     Route::get('asignar',[LaboratorioController::class,'asignar']);
 
-    //---------------------------------Rutas Ajax----------------------------------
-    Route::get('analisis/datos', [LaboratorioController::class, 'analisisDatos']);
+    //------------------------------RUTAS AJAX-------------------------------------
+
 });
