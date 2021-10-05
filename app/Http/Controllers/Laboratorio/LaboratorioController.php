@@ -38,7 +38,8 @@ class LaboratorioController extends Controller
     }
     public function captura()
     {
-        return view('laboratorio.captura');
+        $parametro = Parametro::all();
+        return view('laboratorio.captura',compact('parametro'));
     }
     public function lote()
     {

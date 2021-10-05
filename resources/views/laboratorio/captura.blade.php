@@ -33,6 +33,16 @@
         </div>
         <div class="col-md-3">
             <div class="form-group">
+              <label for="exampleFormControlSelect1">Parametro</label>
+                <select class="form-control">
+                    @foreach ($parametro as $item)
+                    <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
+                @endforeach
+                  </select>
+            </div>
+        </div>
+        <div class="col-md-3">
+            <div class="form-group">
                 <label for="">Núm. muestra</label>
                 <input type="text" class="form-control">
             </div>

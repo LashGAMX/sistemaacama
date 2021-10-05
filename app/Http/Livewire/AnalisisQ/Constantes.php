@@ -13,9 +13,22 @@ class Constantes extends Component
     public $valor;
     public $descripcion;
 
-    public function render() 
+    public function render()
     { 
-        $constante = Constante::all(); 
-        return view('livewire.analisis-q.constantes', compact('constante'));
+        $constantes = Constante::all(); 
+        return view('livewire.analisis-q.constantes', compact('constantes'));
     }  
+    public function create()
+    {   
+        $model = Constante::create([
+            'Constante' => $this->constante,
+            'Valor' => $this->valor,
+            'Descripcion' => $this->descripcion,
+        ]);
+        $this->alert = true;
+
+    }
+    public function message(){
+        $this->alerta = true;
+    }
 }
