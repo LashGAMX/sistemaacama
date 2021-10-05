@@ -121,23 +121,27 @@
             <table class="table" id="tableAnalisis"> 
                 <thead>
                   <tr>
+                    <th>Id_solicitud</th>
                     <th>Folio</th>
                     <th>Cliente</th>
-                    <th>Fecha Recepción</th>
+                    <th>Fecha y Hora Recepción</th>
                     <th>Punto muestreo</th>
                     <th>Norma</th>
-                    <th style="width: 30%">Parametros</th>
+                    <th style="width: 30%">Parámetros</th>
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>127-5/1</td>
-                    <td>Cliente</td>
-                    <td>22/09/2021</td>
-                    <td>Punto final</td>
-                    <td>NOM-SEMARNAT-001</td>
-                    <td>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Accusamus temporibus rerum dignissimos atque odio maiores vitae ea quasi, deserunt molestiae id velit, animi necessitatibus. Voluptas non corporis voluptatum facilis aut ipsam, omnis dolorum sit est illum nemo natus iusto tempore maiores incidunt blanditiis eligendi consectetur iure praesentium. Ipsa, ipsum error.</td>
-                </tr>
+                  @for ($i = 0; $i < $elements; $i++)
+                    <tr>
+                      <td id="idSolicitud">{{$model[$i]->Id_solicitud}}</td>
+                      <td>{{$model[$i]->Folio}}</td>
+                      <td>{{$model[$i]->Cliente}}</td>
+                      <td>{{$model[$i]->Hora_entrada}}</td>
+                      <td>Descarga final</td>
+                      <td id="norma">NOM-001-SEMARNAT-1996</td>
+                      <td>Parámetros</td>
+                    </tr>
+                  @endfor
               </tbody>
             </table>
       </div>
