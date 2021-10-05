@@ -99,7 +99,7 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-1">
-                    <button class="btn btn-secondary">Ejecutar</button>
+                    <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCrear">Ejecutar</button>
                 </div>
                 <div class="col-md-1">
                     <button class="btn btn-secondary">Liberar</button>
@@ -160,6 +160,41 @@
             </table>
         </div>
       </div>
+        <!-- Modal -->
+        <div wire:ignore.self class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                 <form wire:submit.prevent="create">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Nueva constante</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                  </div>
+                  <div class="modal-body"> 
+                      <div class="row">
+                          <div class="col-md-6">
+                              
+                              <label for="">Nombre</label>
+                              <input type="text" id='nombre' wire:model='nombre'  class="form-control" placeholder="Nombre">
+                          </div>
+                          <div class="col-md-6">
+                              <label for="">Volumen</label>
+                              <input type="text" id='volumen' wire:model='volumen' class="form-control" placeholder="Volumen">
+                          </div>
+                          
+                      </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                  </div>
+                </form>
+                </div>
+              </div>
+              
+             </div>
+
 </div>
   @stop
 

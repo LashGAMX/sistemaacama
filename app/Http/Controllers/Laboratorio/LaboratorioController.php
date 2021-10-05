@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\Parametro; 
+use App\Models\Parametro;  
 
 class LaboratorioController extends Controller
 {
