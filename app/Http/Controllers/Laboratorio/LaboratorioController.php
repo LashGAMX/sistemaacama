@@ -15,12 +15,12 @@ class LaboratorioController extends Controller
   
     public function analisis(){        
         $model = DB::table('proceso_analisis')->get();
-        $elements = DB::table('proceso_analisis')->count();
+        $elementsLength = DB::table('proceso_analisis')->count();
 
         //Para buscar la Norma de la solicitud
         $solicitud = DB::table('ViewSolicitud')->get();
         
-        return view('laboratorio.analisis', compact('model', 'elements', 'solicitud'));
+        return view('laboratorio.analisis', compact('model', 'elementsLength', 'solicitud'));
     }
     
     public function analisisDatos(){

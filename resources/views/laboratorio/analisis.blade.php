@@ -131,7 +131,7 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for ($i = 0; $i < $elements; $i++)
+                  @for ($i = 0; $i < $elementsLength; $i++)
                     <tr>
                       <td id="idSolicitud">{{$model[$i]->Id_solicitud}}</td>
                       <td>{{$model[$i]->Folio}}</td>
