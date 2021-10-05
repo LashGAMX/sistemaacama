@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\ProcesoAnalisis;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class LaboratorioController extends Controller
 {
@@ -11,9 +13,21 @@ class LaboratorioController extends Controller
         return view('laboratorio.laboratorio');
     }
   
-    public function analisis(){
-        return view('laboratorio.analisis');
-    } 
+    public function analisis(){        
+        $model = DB::table('proceso_analisis')->get();
+        $elements = DB::table('proceso_analisis')->count();
+
+        //Para buscar la Norma de la solicitud
+        $solicitud = DB::table('ViewSolicitud')->get();
+        
+        return view('laboratorio.analisis', compact('model', 'elements', 'solicitud'));
+    }
+    
+    public function analisisDatos(){
+        $norma = DB::table('')->get();
+
+        return response()->json(compact('norma'));
+    }
  
     public function observacion(){
         return view('laboratorio.observacion');
