@@ -495,4 +495,5 @@ class CotizacionController extends Controller
         $mpdf->WriteHTML($html);
         $mpdf->Output();
     }
+ 
 }

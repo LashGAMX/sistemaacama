@@ -5,12 +5,12 @@ namespace App\Http\Controllers\Laboratorio;
 use App\Http\Controllers\Controller;
 use App\Models\ProcesoAnalisis;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use App\Models\Parametro;
 
 class LaboratorioController extends Controller
 {
     function index(){ 
-        return view('laboratorio.laboratorio');
+        return view('laboratorio.laboratorio');  
     }
   
     public function analisis(){        

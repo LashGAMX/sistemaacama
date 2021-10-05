@@ -84,6 +84,10 @@
             </div>
         </div>
     </div>
+
+    <div class="" id="divModal">
+
+    </div>
 @endsection
     @section('javascript')
         <script src="{{ asset('js/cotizacion/solicitud.js') }}"></script>

@@ -315,6 +315,11 @@ class SolicitudController extends Controller
         $mpdf->WriteHTML($html);
         $mpdf->Output();
     }
+    public function setGenFolio(Request $request){
+        //$model = DB::table('frecuencia001')->where('Id_frecuencia', $idFrecuencia)->first();
+        $model = DB::table('ViewSolicitud')->where('Id_cotizacion',$request->idCot)->first();
+        return response()->json($model);
+    }
 }
   
  

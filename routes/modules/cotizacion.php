@@ -21,7 +21,7 @@ Route::group(['prefix' => 'cotizacion'], function () {
     Route::post('getNorma', [CotizacionController::class, 'getNorma']);
     Route::post('getCliente', [CotizacionController::class, 'getCliente']);
     Route::post('getDatos2', [CotizacionController::class, 'getDatos2']);
-    Route::post('setCotizacion', [CotizacionController::class, 'setCotizacion']);
+    Route::post('setCotizacion', [CotizacionController::class, 'setCotizacion']); 
     Route::post('getTomas', [CotizacionController::class, 'getTomas']);
     Route::post('getCotizacionId', [CotizacionController::class, 'getCotizacionId']);
     Route::post('getParametroCot', [CotizacionController::class, 'getParametroCot']);
@@ -50,6 +50,7 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::get('update/{idCot}',[SolicitudController::class,'update']);
     Route::post('getDataSolicitud',[SolicitudController::class,'getDataSolicitud']);
     Route::post('getReporteSir',[SolicitudController::class,'getReporteSir']);
+    Route::post('setGenFolio',[SolicitudController::class,'setGenFolio']);
 
     Route::get('exportPdfOrden/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
 });
