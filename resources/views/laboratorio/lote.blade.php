@@ -17,15 +17,9 @@
           <div class="form-group">
             <label for="exampleFormControSelect1">Tipo fórmula</label>
             <select class="form-control">
-              <option value="0">Sin seleccionar</option>
-              <option value="1">Acreditados</option>
-              <option value="2">Metales alimentos</option>
-              <option value="3">Metales pesados en biosólidos</option>
-              <option value="4">Metales potable</option>
-              <option value="5">Metales purificadora</option>
-              <option value="6">Metales residual</option>
-              <option value="7">Miliequivalentes</option>
-              <option value="8">No acreditados</option>
+              @foreach($formulas as $formula)
+                <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
+              @endforeach
             </select>
           </div>
         </div>
@@ -84,7 +78,7 @@
         <h5 class="modal-title" id="exampleModalLabel">FLAMA</h5>
         
 
-        <label>ID Lote: <input type="text" id="idLote" size=10/></label>
+        <label>ID Lote: <input type="text" id="idLoteHeader" size=10/  onchange='busquedaPlantilla("idLoteHeader");'></label>
         <label>Fecha Lote: <input type="datetime-local" id="fechaLote"/></label>                
         <button type="button" class="btn btn-success">Guardar</button>
         <button type="button" class="btn btn-danger">Salir</button>
@@ -283,8 +277,15 @@
                 <label>Generador de Hidruros: <input type="text" id="genHidruros"></label>
               </div> 
             
-              <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">  
-              <h1>Procedimiento / Validación</h1>
+              <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">                                
+              
+                <div id="editor">
+                  <!--COLOCAR EL TEXTO ALMACENADO DE LA BD; PENDIENTE-->
+                  
+                  
+                </div>
+
+                <button type="button" class="btn btn-primary" onclick='guardarTexto("editor");'>Guardar</button>
               </div> 
             </div>
           </div>
@@ -309,12 +310,14 @@
 
   @section('css')
     <link rel="stylesheet" href="{{ asset('css/laboratorio/lote.css')}}">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
   @endsection
 
   @section('javascript')
   <script src="{{asset('js/laboratorio/lote.js')}}"></script>
   <script src="{{asset('js/libs/componentes.js')}}"></script>
   <script src="{{asset('js/libs/tablas.js')}}"></script>
+  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
   @stop
 
 @endsection

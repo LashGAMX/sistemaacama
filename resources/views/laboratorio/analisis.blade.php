@@ -131,15 +131,25 @@
                   </tr>
                 </thead>
                 <tbody>
-                  @for ($i = 0; $i < $elementsLength; $i++)
+                  @for ($i = 0; $i < $elements; $i++)
                     <tr>
                       <td id="idSolicitud">{{$model[$i]->Id_solicitud}}</td>
                       <td>{{$model[$i]->Folio}}</td>
                       <td>{{$model[$i]->Cliente}}</td>
                       <td>{{$model[$i]->Hora_entrada}}</td>
                       <td>Descarga final</td>
-                      <td id="norma">NOM-001-SEMARNAT-1996</td>
-                      <td>Parámetros</td>
+                      @if ($model[$i]->Id_solicitud == $solicitud[$i]->Id_solicitud)
+                        <td>{{$solicitud[$i]->Clave_norma}}</td>                      
+                      @endif
+                                    
+                      
+                        <td>
+                          @foreach ($parametros as $parametro)
+                            {{$parametro->Parametro}},
+                          @endforeach
+                        </td>
+                      
+                      
                     </tr>
                   @endfor
               </tbody>

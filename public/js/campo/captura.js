@@ -2620,28 +2620,6 @@ function setDataMuestreo() {
     });
 } // return data;
 
-/*function setEvidencia(){        
-    var parametros = new FormData($("#formulario-envia")[0]);
-
-    $.ajax({
-        url: base_url + "/admin/campo/captura/setDataMuestreo",
-        type: "POST", //método de envio
-        contentType: false,
-        processData: false,        
-        data: {
-            idSolicitud: $("#idSolicitud").val(),            
-            _token: $('input[name="_token"]').val(),
-            parametros
-        },
-        beforeSend: function(){
-
-        },
-        success: function(response){
-            alert(response);
-        }
-    });
-}*/
-
 function selectedOption() {
     //Obtiene el valor de la opción seleccionada
     let selectedOption = document.getElementById("phTrazable1").value;

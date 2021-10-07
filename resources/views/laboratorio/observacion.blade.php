@@ -15,18 +15,14 @@
               
             <div class="col-md-1">
               <div class="form-group">
-                <label>Tipo fórmula</label>
+                <label>Tipo fórmula</label>                
+
                 <select class="form-control">
-                  <option value="0">Sin seleccionar</option>
-                  <option value="1">Acreditados</option>
-                  <option value="2">Metales alimentos</option>
-                  <option value="3">Metales pesados en biosólidos</option>
-                  <option value="4">Metales potable</option>
-                  <option value="5">Metales purificadora</option>
-                  <option value="6">Metales residual</option>
-                  <option value="7">Miliequivalentes</option>
-                  <option value="8">No acreditados</option>
+                  @foreach($formulas as $formula)
+                    <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
+                  @endforeach
                 </select>                    
+
               </div>                
             </div>                          
 
