@@ -6,7 +6,10 @@ use App\Http\Controllers\Controller;
 use App\Models\ProcesoAnalisis;
 use Illuminate\Http\Request;
 use App\Models\Parametro;
+<<<<<<< HEAD
 use App\Models\Reportes;
+=======
+>>>>>>> d141851e2ade7567ee94cbd326f3effb54fe31ee
 use Illuminate\Support\Facades\DB;
 
 class LaboratorioController extends Controller
@@ -17,13 +20,20 @@ class LaboratorioController extends Controller
   
     public function analisis(){        
         $model = DB::table('proceso_analisis')->get();
+
+        //Devuelve el tamaño del arreglo model
         $elements = DB::table('proceso_analisis')->count();
 
         //Para buscar la Norma de la solicitud
         $solicitud = DB::table('ViewSolicitud')->get();
+<<<<<<< HEAD
 
         //Para buscar los parámetros de la solicitud
         $parametros = DB::table('parametros')->get();
+=======
+        
+        $parametros = DB::table('parametros')->get();        
+>>>>>>> d141851e2ade7567ee94cbd326f3effb54fe31ee
         
         return view('laboratorio.analisis', compact('model', 'elements', 'solicitud', 'parametros'));
     }

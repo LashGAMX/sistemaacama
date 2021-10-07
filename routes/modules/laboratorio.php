@@ -12,6 +12,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::get('lote',[LaboratorioController::class,'lote']);
     Route::get('asignar',[LaboratorioController::class,'asignar']);
 
+<<<<<<< HEAD
     //---------------------------------Rutas Ajax----------------------------------
     Route::get('analisis/datos', [LaboratorioController::class, 'analisisDatos']);
 
@@ -20,5 +21,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
     //Recupera el texto almacenado en el campo Texto de la tabla reportes
     Route::get('lote/procedimiento/busquedaPlantilla', [LaboratorioController::class, 'busquedaPlantilla']);
+=======
+    //------------------------------RUTAS AJAX-------------------------------------
+>>>>>>> d141851e2ade7567ee94cbd326f3effb54fe31ee
 
 });
