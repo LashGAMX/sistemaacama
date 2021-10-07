@@ -137,8 +137,14 @@
                       <td>{{$model[$i]->Folio}}</td>
                       <td>{{$model[$i]->Cliente}}</td>
                       <td>{{$model[$i]->Hora_entrada}}</td>
-                      <td>Descarga final</td>
-                      <td id="norma">NOM-001-SEMARNAT-1996</td>
+                      <td>Descarga final</td>                      
+                      
+                      @if($model[$i]->Id_solicitud == $solicitud[$i]->Id_solicitud)
+                        <td id="norma">{{$solicitud[$i]->Clave_norma}}</td>
+                      @else
+                        <td id="norma">Sin norma</td>
+                      @endif    
+
                       <td>Parámetros</td>
                     </tr>
                   @endfor
