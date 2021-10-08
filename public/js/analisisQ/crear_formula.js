@@ -82,7 +82,7 @@ function tablaVariables()
                           // code block
                           tab += '<td> <select class="form-control">';
                           $.each(response.constantes, function (key, con) {
-                            tab +='<option value="'+con.Id_constante+'">'+con.Constante+'</option>';
+                            tab +='<option value="'+con.Valor+'">'+con.Constante+'</option>';
                         });
                         tab +='</select></td>';
                           break;
