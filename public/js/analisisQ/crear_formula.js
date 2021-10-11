@@ -162,6 +162,11 @@ function getProbarFormula() //botón probar
         campo = t.rows[i+1].cells[2].children[0].value;
         campos.push(campo);
        }
+       else if (variable == "const")
+       {
+        campo = t.rows[i+1].cells[2].children[0].value;
+        campos.push(campo);
+       }
        else
        {
         valor = datosFormula.variables[i];
