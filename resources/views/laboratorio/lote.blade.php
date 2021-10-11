@@ -77,26 +77,26 @@
         </button>
         <h5 class="modal-title" id="exampleModalLabel">FLAMA</h5>
         
-
         <label>ID Lote: <input type="text" id="idLoteHeader" size=10/  onchange='busquedaPlantilla("idLoteHeader");'></label>
         <label>Fecha Lote: <input type="datetime-local" id="fechaLote"/></label>                
-        <button type="button" class="btn btn-success">Guardar</button>
-        <button type="button" class="btn btn-danger">Salir</button>
-        <div class="form-check">
+        <div class="form-check" id="cierreCaptura">
           <label class="form-check-label" for="flexCheckDefault">
             Cierre captura:
           </label>
           <input class="form-check-input" type="checkbox" id="cierreCaptura">        
         </div>
+        <button type="button" class="btn btn-success">Guardar</button>        
+        <button type="button" class="btn btn-danger">Salir</button>
+        <div id="btnRefresh"></div>        
         <ul class="nav nav-tabs" id="myTab" role="tablist"> 
           <li class="nav-item" role="menu">
-            <a class="nav-link active" id="formulaGlobal-tab" data-toggle="tab" href="#formulaGlobal" role="tab" aria-controls="formulaGlobal" aria-selected="true">Fórmulas Globales</a>
+            <a class="nav-link active" id="formulaGlobal-tab" data-toggle="tab" href="#formulaGlobal" role="tab" aria-controls="formulaGlobal" aria-selected="true" onclick='isSelectedProcedimiento("formulaGlobal-tab");'>Fórmulas Globales</a>
           </li>
           <li class="nav-item" role="menu">
-            <a class="nav-link" id="equipo-tab" data-toggle="tab" href="#equipo" role="tab" aria-controls="equipo" aria-selected="false">Equipo</a>
+            <a class="nav-link" id="equipo-tab" data-toggle="tab" href="#equipo" role="tab" aria-controls="equipo" aria-selected="false" onclick='isSelectedProcedimiento("equipo-tab");'>Equipo</a>
           </li>
           <li class="nav-item" role="menu">
-            <a class="nav-link" id="procedimiento-tab" data-toggle="tab" href="#procedimiento" role="tab" aria-controls="procedimiento" aria-selected="false">Procedimiento/Validación</a>
+            <a class="nav-link" id="procedimiento-tab" data-toggle="tab" href="#procedimiento" role="tab" aria-controls="procedimiento" aria-selected="false" onclick='isSelectedProcedimiento("procedimiento-tab");'>Procedimiento/Validación</a>
           </li>
         </ul>
       </div>
@@ -279,13 +279,15 @@
             
               <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">                                
               
-                <div id="editor">
-                  <!--COLOCAR EL TEXTO ALMACENADO DE LA BD; PENDIENTE-->
-                  
-                  
+                <div id="editor">                  
+                  @if (isset($textoRecuperado))
+                    <p>{{$textoRecuperado->Texto}}</p>
+                  @else
+                    <p></p>
+                  @endif                  
                 </div>
 
-                <button type="button" class="btn btn-primary" onclick='guardarTexto("editor");'>Guardar</button>
+                <button type="button" class="btn btn-primary" onclick='guardarTexto("editor", "idLoteHeader");'>Guardar</button>
               </div> 
             </div>
           </div>
@@ -299,7 +301,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick='limpiezaDatos();'>Cerrar</button>
       
       </div>
     </div>

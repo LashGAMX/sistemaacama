@@ -6,10 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\ProcesoAnalisis;
 use Illuminate\Http\Request;
 use App\Models\Parametro;
-<<<<<<< HEAD
 use App\Models\Reportes;
-=======
->>>>>>> d141851e2ade7567ee94cbd326f3effb54fe31ee
 use Illuminate\Support\Facades\DB;
 
 class LaboratorioController extends Controller
@@ -26,14 +23,9 @@ class LaboratorioController extends Controller
 
         //Para buscar la Norma de la solicitud
         $solicitud = DB::table('ViewSolicitud')->get();
-<<<<<<< HEAD
 
         //Para buscar los parámetros de la solicitud
         $parametros = DB::table('parametros')->get();
-=======
-        
-        $parametros = DB::table('parametros')->get();        
->>>>>>> d141851e2ade7567ee94cbd326f3effb54fe31ee
         
         return view('laboratorio.analisis', compact('model', 'elements', 'solicitud', 'parametros'));
     }
@@ -63,9 +55,20 @@ class LaboratorioController extends Controller
         return view('laboratorio.asignar');
     }
 
-    //Función LOTE > CREAR LOTE > PROCEDIMIENTO/VALIDACIÓN
-    public function guardarTexto(Request $request){
-        $texto = Reportes::create(['Texto' => $request->texto]);        
+    //Función LOTE > CREAR O MODIFICAR TEXTO DEL LOTE > PROCEDIMIENTO/VALIDACIÓN
+    public function guardarTexto(Request $request){        
+        $textoPeticion = $request->texto;
+        $idLote = $request->lote;
+
+        $lote = DB::table('reportes')->where('Id_reporte', $idLote)->get();
+        
+        if($lote->count()){
+            $texto = Reportes::find($idLote);
+            $texto->Texto = $textoPeticion;
+            $texto->save();
+        }else{
+            $texto = Reportes::create(['Texto' => $textoPeticion]);
+        }
 
         return response()->json(
             compact('texto')
@@ -75,10 +78,10 @@ class LaboratorioController extends Controller
     //Función para recuperar el texto almacenado en la tabla reportes; campo Texto
     public function busquedaPlantilla(Request $request){
         //Recibe el Id del lote para recuperar el texto almacenado en el campo Texto de la tabla reportes
-        $model = Reportes::where('Id_reporte', $request->lote)->first();
+        $textoRecuperado = Reportes::where('Id_reporte', $request->lote)->first();
         
         return response()->json(
-            compact('model')
+            compact('textoRecuperado')
         );
     }
 }
