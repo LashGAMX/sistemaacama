@@ -21,13 +21,19 @@ class LaboratorioController extends Controller
         //Devuelve el tamaño del arreglo model
         $elements = DB::table('proceso_analisis')->count();
 
+        //Para buscar el punto de muestreo
+        $puntoMuestreo = DB::table('cotizacion_puntos')->get();
+        $puntoMuestreoLength = DB::table('cotizacion_puntos')->count();
+        $solicitudPuntos = DB::table('solicitud_puntos')->get();
+        $solicitudPuntosLength = DB::table('solicitud_puntos')->count();
+
         //Para buscar la Norma de la solicitud
-        $solicitud = DB::table('ViewSolicitud')->get();
+        $solicitud = DB::table('ViewSolicitud')->get();        
 
         //Para buscar los parámetros de la solicitud
         $parametros = DB::table('parametros')->get();
         
-        return view('laboratorio.analisis', compact('model', 'elements', 'solicitud', 'parametros'));
+        return view('laboratorio.analisis', compact('model', 'elements', 'solicitud', 'solicitudPuntos', 'solicitudPuntosLength', 'parametros', 'puntoMuestreo', 'puntoMuestreoLength'));
     }
      
     public function observacion(){
