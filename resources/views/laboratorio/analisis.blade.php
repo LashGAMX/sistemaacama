@@ -137,21 +137,6 @@
                       <td>{{$model[$i]->Folio}}</td>
                       <td>{{$model[$i]->Cliente}}</td>
                       <td>{{$model[$i]->Hora_entrada}}</td>
-<<<<<<< HEAD
-                      <td>Descarga final</td>
-                      @if ($model[$i]->Id_solicitud == $solicitud[$i]->Id_solicitud)
-                        <td>{{$solicitud[$i]->Clave_norma}}</td>                      
-                      @endif
-                                    
-                      
-                        <td>
-                          @foreach ($parametros as $parametro)
-                            {{$parametro->Parametro}},
-                          @endforeach
-                        </td>
-                      
-                      
-=======
                       <td>Descarga final</td>                      
                       
                       @if($model[$i]->Id_solicitud == $solicitud[$i]->Id_solicitud)
@@ -161,7 +146,6 @@
                       @endif    
 
                       <td>Parámetros</td>
->>>>>>> d141851e2ade7567ee94cbd326f3effb54fe31ee
                     </tr>
                   @endfor
               </tbody>
