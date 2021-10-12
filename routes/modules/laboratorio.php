@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Laboratorio\LaboratorioController;
+use App\Http\Controllers\Laboratorio\CurvaController;
 use App\Models\Laboratorio;
 use Illuminate\Support\Facades\Route;
 
@@ -11,6 +12,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::get('captura',[LaboratorioController::class,'captura']);
     Route::get('lote',[LaboratorioController::class,'lote']);
     Route::get('asignar',[LaboratorioController::class,'asignar']);
+
+    Route::get('curva',[CurvaController::class,'index']);
 
     //---------------------------------Rutas Ajax----------------------------------
     Route::get('analisis/datos', [LaboratorioController::class, 'analisisDatos']);

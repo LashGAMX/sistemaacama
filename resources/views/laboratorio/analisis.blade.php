@@ -137,15 +137,50 @@
                       <td>{{$model[$i]->Folio}}</td>
                       <td>{{$model[$i]->Cliente}}</td>
                       <td>{{$model[$i]->Hora_entrada}}</td>
-                      <td>Descarga final</td>                      
                       
-                      @if($model[$i]->Id_solicitud == $solicitud[$i]->Id_solicitud)
-                        <td id="norma">{{$solicitud[$i]->Clave_norma}}</td>
-                      @else
-                        <td id="norma">Sin norma</td>
-                      @endif    
+                      @php
+                        $semaforo = true
+                      @endphp
 
-                      <td>Parámetros</td>
+                      @for ($x = 0; $x < $solicitudPuntosLength; $x++)
+                        @if ($model[$i]->Id_solicitud == $solicitudPuntos[$x]->Id_solicitud)
+                          @for ($j = 0; $j < $puntoMuestreoLength; $j++)
+                            @if ($solicitudPuntos[$x]->Id_punto == $puntoMuestreo[$j]->Id_punto)
+                              <td>{{$puntoMuestreo[$j]->Descripcion}}</td>
+                              @php
+                                  $semaforo = true
+                              @endphp
+                              @break                            
+                            @else
+                              @php
+                                  $semaforo = false
+                              @endphp
+                            @endif
+                          @endfor                          
+                          @if ($semaforo == true)
+                            @break
+                          @endif                        
+                        @else
+                          @php
+                            $semaforo = false
+                          @endphp
+                        @endif
+                      @endfor
+
+                      @if ($semaforo == false)
+                        <td>Sin resultados</td>
+                      @endif
+
+                      @if ($model[$i]->Id_solicitud == $solicitud[$i]->Id_solicitud)
+                        <td>{{$solicitud[$i]->Clave_norma}}</td>                      
+                      @endif
+                                                          
+                      <td>
+                        @foreach ($parametros as $parametro)
+                          {{$parametro->Parametro}},
+                        @endforeach
+                      </td>                      
+                      
                     </tr>
                   @endfor
               </tbody>
