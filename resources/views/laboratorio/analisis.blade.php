@@ -174,12 +174,31 @@
                       @if ($model[$i]->Id_solicitud == $solicitud[$i]->Id_solicitud)
                         <td>{{$solicitud[$i]->Clave_norma}}</td>                      
                       @endif
+                  
+                      @for ($j = 0; $j < $parametrosLength; $j++)
+                        @if ($solicitud[$i]->Id_norma == $parametros[$j]->Id_norma)
+                          <td>
+                            @for ($z = $j; $z < $parametrosLength; $z++)
+                              {{$parametros[$z]->Parametro, }}
+                            @endfor
+                          </td>
+                          @php
+                            $semaforo2 = true
+                          @endphp
+                          @break                            
+                        @else
+                          @php
+                          $semaforo2 = false
+                          @endphp
+                        @endif
+                      @endfor                          
+                      
+                      @if ($semaforo2 == false)
+                        <td>Sin resultados</td>
+                      @endif
+                      
                                                           
-                      <td>
-                        @foreach ($parametros as $parametro)
-                          {{$parametro->Parametro}},
-                        @endforeach
-                      </td>                      
+                                            
                       
                     </tr>
                   @endfor

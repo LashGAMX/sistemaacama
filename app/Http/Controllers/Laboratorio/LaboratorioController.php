@@ -28,12 +28,14 @@ class LaboratorioController extends Controller
         $solicitudPuntosLength = DB::table('solicitud_puntos')->count();
 
         //Para buscar la Norma de la solicitud
-        $solicitud = DB::table('ViewSolicitud')->get();        
+        $solicitud = DB::table('ViewSolicitud')->get(); 
+        $solicitudLength = DB::table('ViewSolicitud')->count(); 
 
         //Para buscar los parámetros de la solicitud
         $parametros = DB::table('parametros')->get();
+        $parametrosLength = DB::table('parametros')->count();
         
-        return view('laboratorio.analisis', compact('model', 'elements', 'solicitud', 'solicitudPuntos', 'solicitudPuntosLength', 'parametros', 'puntoMuestreo', 'puntoMuestreoLength'));
+        return view('laboratorio.analisis', compact('model', 'elements', 'solicitud', 'solicitudLength', 'solicitudPuntos', 'solicitudPuntosLength', 'parametros', 'parametrosLength', 'puntoMuestreo', 'puntoMuestreoLength'));
     }
      
     public function observacion(){
