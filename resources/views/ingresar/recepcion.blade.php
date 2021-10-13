@@ -23,26 +23,24 @@
     <div class="col-md-12">
         <p id="parrafoDatos">Datos Generales</p>    
     </div>
+    <div class="col-md-6">
+        <div class="row">
+            <label class="col col-sm-12 datosGenerales">Folio: <input type="text" id="folio" disabled/></label>            
+            <label class="datosGenerales">Descarga: <input type="text" id="descarga" disabled/></label> 
+            <label class="datosGenerales">Cliente o Intermediario: <input type="text" size="60" id="cliente" disabled/></label>
+            <label class="datosGenerales">Empresa: <input type="text" size="50" id="empresa" disabled/></label>
+            <label class="fechas">Hora recepción: <input type="datetime-local" step="1" id="hora_recepcion1" onchange='validacionFecha("hora_entrada", "hora_recepcion1", "btnIngresar")'/></label>
+            <label class="fechas">Hora entrada: <input type="datetime-local" step="1" id="hora_entrada" onchange='validacionFecha("hora_entrada", "hora_recepcion1", "btnIngresar")'/></label>            
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="tableRecepcion">
+
+        </div>
+    </div>
     <div class="col-md-12">
         <div class="row">
-            <div class="col-md-4">
-                <label class="col col-sm-12 datosGenerales">Folio: <input type="text" id="folio" disabled/></label>            
-            </div>
-            <div class="col-md-4">
-                <label class="datosGenerales">Descarga: <input type="text" id="descarga" disabled/></label> 
-            </div>
-            <div class="col-md-4">
-                <label class="datosGenerales">Cliente o Intermediario: <input type="text" size="60" id="cliente" disabled/></label>
-            </div>
-            <div class="col-md-4">
-                <label class="datosGenerales">Empresa: <input type="text" size="50" id="empresa" disabled/></label>
-            </div>
-            <div class="col-md-4">
-                <label class="fechas">Hora recepción: <input type="datetime-local" step="1" id="hora_recepcion1" onchange='validacionFecha("hora_entrada", "hora_recepcion1", "btnIngresar")'/></label>
-            </div>
-            <div class="col-md-4">
-                <label class="fechas">Hora entrada: <input type="datetime-local" step="1" id="hora_entrada" onchange='validacionFecha("hora_entrada", "hora_recepcion1", "btnIngresar")'/></label>
-            </div>
+       
         </div>
     </div>
 </div>
