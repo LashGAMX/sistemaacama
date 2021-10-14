@@ -58,22 +58,37 @@ function guardarTexto(editor, idLote){
 function busquedaPlantilla(idLote){
     let lote = document.getElementById(idLote).value;    
 
-    $.ajax({
-        type: "GET",
-        url: base_url + "/admin/laboratorio/lote/procedimiento/busquedaPlantilla",
-        data: {lote},
-        dataType: "json",
-        async: false,
-        success: function (response) {            
-            //Si encuentra texto almacenado en la BD entonces procede a mostrarlo en el editor de texto
-            if(response.textoRecuperado.Texto !== null){
-                quill.setText(response.textoRecuperado.Texto);                
-            }else{
-                //Si no encuentra texto almacenado en la BD entonces no muestra ningún texto en el editor de texto
-                quill.setText('');
+    if(lote.length == 0){
+        $.ajax({
+            type: "GET",
+            url: base_url + "/admin/laboratorio/lote/procedimiento/busquedaPlantilla",
+            data: {lote},
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                quill.setText(response.textoRecuperadoPredeterminado.Texto);
             }
-        }
-    });
+        });
+    }else if(lote > 0){
+        $.ajax({
+            type: "GET",
+            url: base_url + "/admin/laboratorio/lote/procedimiento/busquedaPlantilla",
+            data: {lote},
+            dataType: "json",
+            async: false,
+            success: function (response) {                            
+                //Si encuentra texto almacenado en la BD entonces procede a mostrarlo en el editor de texto
+                if(response.textoRecuperado.Texto !== null){
+                    quill.setText(response.textoRecuperado.Texto);                
+                }else{
+                    //Si no encuentra texto almacenado en la BD entonces no muestra ningún texto en el editor de texto
+                    quill.setText('');
+                }
+            }
+        });
+    }else if(lote <= 0){
+        quill.setText('');
+    }    
 }
 
 //Método que se activa al dar clic izq sobre el botón cerrar de la ventana modal
