@@ -36,15 +36,10 @@
           <div class="form-group">
             <label for="exampleFormControSelect1">Fórmula</label>
               <select class="form-control">
-                  <option value="0">Sin seleccionar</option>
-                  <option value="1">Acreditados</option>
-                  <option value="2">Metales alimentos</option>
-                  <option value="3">Metales pesados en biosolidos</option>
-                  <option value="4">Metales potable</option>
-                  <option value="5">Metales purificadora</option>
-                  <option value="6">Metales residual</option>
-                  <option value="7">Miliequivalentes</option>
-                  <option value="8">No acreditados</option>
+                @foreach ($formula as $item)
+                <option>Sin selecionar</option>
+                <option value="{{$item->Id_formula}}">{{$item->Formula}}</option>
+            @endforeach
                 </select>
           </div>
         </div>
@@ -105,8 +100,21 @@
                 </div>
                 <div class="modal-body"> 
                     <div class="row">
+                      <div class="col-md-6">
+                        <label for="">STD</label>
+                        <select class="form-control">
+                          <option value="0">Blanco</option>
+                          <option value="1">STD1</option>
+                          <option value="2">STD2</option>
+                          <option value="3">STD3</option>
+                          <option value="4">STD4</option>
+                          <option value="5">STD5</option>
+                          <option value="6">STD6</option>
+                          <option value="7">STD7</option>
+                          <option value="8">STD8</option>
+                        </select>
+                    </div>
                         <div class="col-md-6">
-                            
                             <label for="">Concentración</label>
                             <input type="text" id='concentracion' class="form-control" placeholder="Concentración">
                         </div>
@@ -126,6 +134,9 @@
                       <label for="">Promedio</label>
                       <input type="text" id='promedio' class="form-control" placeholder="Promedio">
                   </div>
+                  <div class="col-md-6">
+                    <button type="submit" class="btn btn-success">Calcular</button>
+                </div>
                         
                     </div>
                 </div>
