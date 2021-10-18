@@ -17,7 +17,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 
 
-
 class FormulasController extends Controller
 {
 
@@ -37,6 +36,15 @@ class FormulasController extends Controller
         $reglas = Regla::all();
         $niveles = NivelFormula::all();
         return view('analisisQ.crear_formula',compact('area','tecnica','reglas','parametro','niveles'));
+    }
+    public function editar_formula($idFormula){
+        $parametro = Parametro::all();
+        $area = AreaAnalisis::all();
+        $tecnica = Tecnica::all();
+        $reglas = Regla::all();
+        $niveles = NivelFormula::all();
+        $formulas = Formulas::where('Id_formula',$idFormula)->first();
+        return view('analisisQ.crear_formula',compact('area','tecnica','reglas','parametro','niveles','formulas'));
     }
     public function constantes()
     {
@@ -74,10 +82,22 @@ class FormulasController extends Controller
         ); 
         return response()->json($data);
     }
+    public function update(Request $request){
+        $model = Formulas::find($request->idFormula);
+        $model->Id_area=$request->area;
+        $model->Id_parametro=$request->parametro;
+        $model->Id_tecnica=$request->tecnica;
+        $model->Formula=$request->formula;
+        $model->Formula_sistema=$request->formulaSis;
+        $model->Resultado=$request->resultadoCal;
+        $model->save();
+        return response()->json($model);
+        // return redirect()->to('admin/analisisQ/formulas');
+        
+    }
     public function create(Request $request)  // Creacion de formula
     {
         
-
        $model = Formulas::create([
             'Id_area' => $request->area,
             'Id_parametro' => $request->parametro,

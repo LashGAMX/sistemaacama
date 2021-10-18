@@ -33,8 +33,13 @@ $(document).ready(function() {
     });
     $('#btnGuardar').click(function()
     {
+      if($('#idFormula').val()!=" "){
+        update();
+      }else{
         create();
-        alert("Registro guardado con exito");
+      }
+       // create();
+        //alert("Registro guardado con exito");
     });
 });
 
@@ -239,6 +244,29 @@ function create()
         async: false, 
         success: function (response) {
           console.log(response);
+        }
+    }); 
+}
+function update()
+{
+    $.ajax({
+        url: base_url + '/admin/analisisQ/formulas/update', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            idFormula:$("#idFormula").val(),
+            area:$("#area").val(),
+            parametro:$("#parametro").val(),
+            tecnica:$("#tecnica").val(), 
+            formula:$("#formula").val(), 
+            formulaSis:$("#formulaSis").val(),
+            resultadoCal:$("#resultadoCal").val(),
+            _token: $('input[name="_token"]').val(),
+          },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {
+          console.log(response);
+          window.location = base_url + "/admin/analisisQ/formulas";
         }
     }); 
 }

@@ -44,5 +44,8 @@ Route::group(['prefix' => 'analisisQ'], function () {
 
     Route::get('formulas/constantes',[FormulasController::class,'constantes']); 
     Route::post('formulas/constante_create',[FormulasController::class,'constante_create']); 
+
+    Route::get('formulas/crear/{idFormula}',[FormulasController::class, 'editar_formula']);
+    Route::post('formulas/update',[FormulasController::class, 'update']);
 });
  

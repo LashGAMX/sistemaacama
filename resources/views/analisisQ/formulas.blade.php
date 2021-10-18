@@ -45,8 +45,8 @@
               <td>{{$item->Formula_sistema}}</td>
               <td>{{$item->Resultado}}</td>
               <td>
-                <button type="button" class="btn btn-warning">
-                <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+                <a href="{{url('/admin/analisisQ/formulas/crear/'.$item->Id_formula)}}" type="button" class="btn btn-warning">
+                <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </a>
                 <button type="button" class="btn btn-primary"><i class="voyager-external"></i> <span hidden-sm hidden-xs>ver</span> </button>
               </td>
             </tr>

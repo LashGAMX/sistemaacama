@@ -135,7 +135,9 @@
                       <input type="text" id='promedio' class="form-control" placeholder="Promedio">
                   </div>
                   <div class="col-md-6">
-                    <button type="submit" class="btn btn-success">Calcular</button>
+                    <button type="submit" class="btn btn-success">Calcular
+                      
+                    </button>
                 </div>
                         
                     </div>
