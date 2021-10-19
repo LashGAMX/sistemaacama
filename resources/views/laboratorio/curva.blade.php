@@ -36,8 +36,8 @@
           <div class="form-group">
             <label for="exampleFormControSelect1">Fórmula</label>
               <select class="form-control">
-                @foreach ($formula as $item)
                 <option>Sin selecionar</option>
+                @foreach ($formula as $item)
                 <option value="{{$item->Id_formula}}">{{$item->Formula}}</option>
             @endforeach
                 </select>

@@ -21,7 +21,7 @@
           </div>
         </div>
       </div>
-      <input id='idFormula' type="text" value="{{@$formulas->Id_formula}}">
+      <input hidden id='idFormula' type="text" value="{{@$formulas->Id_formula}}">
       <div class="col-md-4">
         <div class="row">
           <div class="col-md-12">
