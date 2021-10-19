@@ -21,6 +21,7 @@
           </div>
         </div>
       </div>
+      <input id='idFormula' type="text" value="{{@$formulas->Id_formula}}">
       <div class="col-md-4">
         <div class="row">
           <div class="col-md-12">
@@ -28,7 +29,12 @@
               <label for="">Parámetro</label>
               <select class="form-control" id="parametro">
                   @foreach ($parametro as $item)
-                      <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
+                @if (@$formulas->Id_parametro==$item->Id_parametro)
+                <option selected value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
+                @else
+                <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
+                @endif
+                      
                   @endforeach
                 </select>
             </div>
@@ -38,7 +44,12 @@
             <label for="">Área</label>
             <select class="form-control" id="area">
                 @foreach ($area as $item)
-                    <option value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
+                @if (@$formulas->Id_area==$item->Id_area_analisis)
+                <option selected value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
+                @else
+                <option value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
+                @endif
+                   
                 @endforeach
               </select>
           </div>
@@ -48,7 +59,12 @@
               <label for="">Técnica</label>
               <select class="form-control" id="tecnica">
                 @foreach ($tecnica as $item)
+                @if (@$formulas->Id_tecnica==$item->Id_tecnica)
+                <option selected value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
+                @else
                 <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
+                @endif
+                
                 @endforeach
                 </select>
             </div>
@@ -62,13 +78,14 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label for="">Formula</label>
-                  <input type="text" class="form-control" id="formula" name="formula" placeholder="Formula">
+      
+                  <input value="{{@$formulas->Formula}}" type="text" class="form-control" id="formula" name="formula" placeholder="Formula">
                 </div>
               </div>
               <div class="col-md-12"> 
                 <div class="form-group">
                   <label for="">Formula sistema</label>
-                  <input type="text" class="form-control" id="formulaSis" name="formula_sistema" placeholder="Formula sistema">  
+                  <input value="{{@$formulas->Formula_sistema}}" type="text" class="form-control" id="formulaSis" name="formula_sistema" placeholder="Formula sistema">  
                   <button type="button" id="btnAsignar" onclick="tablaVariables()" class="btn btn-danger">Asignar</button>
                 </div>
               </div>

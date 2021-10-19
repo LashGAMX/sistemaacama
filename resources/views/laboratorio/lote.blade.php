@@ -283,7 +283,7 @@
                   @if (isset($textoRecuperado))
                     <p>{{$textoRecuperado->Texto}}</p>
                   @else
-                    <p></p>
+                    <p>{{$textoRecuperadoPredeterminado->Texto}}</p>
                   @endif                  
                 </div>
 

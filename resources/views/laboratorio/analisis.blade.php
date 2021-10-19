@@ -111,10 +111,10 @@
             <div class="form-group">
               <label for="exampleFormControlSelect1">Filtro</label>
                 <select class="form-control">
-                    <option value="0">Sin seleccionar</option>
-                    <option value="1">Asignado</option>
-                    <option value="2">Sin asignar</option>
-                  </select>
+                    @foreach ($tecnicas as $tecnica)
+                      <option value="{{$tecnica->Id_tecnica}}">{{$tecnica->Tecnica}}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
         <div class="col-md-12">
@@ -178,8 +178,8 @@
                       @for ($j = 0; $j < $parametrosLength; $j++)
                         @if ($solicitud[$i]->Id_norma == $parametros[$j]->Id_norma)
                           <td>
-                            @for ($z = $j; $z < $parametrosLength; $z++)
-                              {{$parametros[$z]->Parametro, }}
+                            @for ($z = $j; $z < $parametrosLength; $z++)                              
+                              {{$parametros[$z]->Parametro}},
                             @endfor
                           </td>
                           @php
@@ -195,11 +195,7 @@
                       
                       @if ($semaforo2 == false)
                         <td>Sin resultados</td>
-                      @endif
-                      
-                                                          
-                                            
-                      
+                      @endif                                                                                                                                                  
                     </tr>
                   @endfor
               </tbody>

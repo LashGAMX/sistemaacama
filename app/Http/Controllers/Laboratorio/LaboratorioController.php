@@ -27,6 +27,9 @@ class LaboratorioController extends Controller
         $solicitudPuntos = DB::table('solicitud_puntos')->get();
         $solicitudPuntosLength = DB::table('solicitud_puntos')->count();
 
+        //Para select Filtro de vista análisis
+        $tecnicas = DB::table('tecnicas')->get();
+
         //Para buscar la Norma de la solicitud
         $solicitud = DB::table('ViewSolicitud')->get(); 
         $solicitudLength = DB::table('ViewSolicitud')->count(); 
@@ -35,7 +38,7 @@ class LaboratorioController extends Controller
         $parametros = DB::table('parametros')->get();
         $parametrosLength = DB::table('parametros')->count();
         
-        return view('laboratorio.analisis', compact('model', 'elements', 'solicitud', 'solicitudLength', 'solicitudPuntos', 'solicitudPuntosLength', 'parametros', 'parametrosLength', 'puntoMuestreo', 'puntoMuestreoLength'));
+        return view('laboratorio.analisis', compact('model', 'elements', 'solicitud', 'solicitudLength', 'tecnicas', 'solicitudPuntos', 'solicitudPuntosLength', 'parametros', 'parametrosLength', 'puntoMuestreo', 'puntoMuestreoLength'));
     }
      
     public function observacion(){
@@ -56,7 +59,8 @@ class LaboratorioController extends Controller
     public function lote()
     {
         $formulas = DB::table('tipo_formulas')->get();
-        return view('laboratorio.lote', compact('formulas'));
+        $textoRecuperadoPredeterminado = Reportes::where('Id_reporte' , 0)->first();
+        return view('laboratorio.lote', compact('formulas', 'textoRecuperadoPredeterminado'));
     }
     public function asignar()
     {
@@ -87,9 +91,10 @@ class LaboratorioController extends Controller
     public function busquedaPlantilla(Request $request){
         //Recibe el Id del lote para recuperar el texto almacenado en el campo Texto de la tabla reportes
         $textoRecuperado = Reportes::where('Id_reporte', $request->lote)->first();
-        
+        $textoRecuperadoPredeterminado = Reportes::where('Id_reporte' , 0)->first();
+
         return response()->json(
-            compact('textoRecuperado')
+            compact('textoRecuperado', 'textoRecuperadoPredeterminado')
         );
     }
 }
