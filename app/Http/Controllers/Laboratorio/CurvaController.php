@@ -15,4 +15,8 @@ class CurvaController extends Controller
         $formula = Formulas::all();
         return view('laboratorio/curva',compact('model','formula'));
     }
+
+    public function promedio(){
+        
+    }
 }

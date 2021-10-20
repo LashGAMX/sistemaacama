@@ -135,16 +135,14 @@
                       <input type="text" id='promedio' class="form-control" placeholder="Promedio">
                   </div>
                   <div class="col-md-6">
-                    <button type="submit" class="btn btn-success">Calcular
-                      
-                    </button>
+                    <button type="button" id="calcular" class="btn btn-success">Calcular</button>
                 </div>
                         
                     </div>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                  <button type="submit" class="btn btn-primary">Guardar</button>
+                  <button type="button" class="btn btn-primary">Guardar</button>
                 </div>
               </form>
               </div>
@@ -155,7 +153,10 @@
 
     </div> 
   @stop
-
-  
 @endsection  
 
+@section('javascript')
+<script src="{{asset('js/laboratorio/curva.js')}}"></script>
+<script src="{{asset('js/libs/componentes.js')}}"></script>
+<script src="{{asset('js/libs/tablas.js')}}"></script>
+@stop
