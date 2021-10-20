@@ -51,7 +51,7 @@ class FormulasController extends Controller
         // $model = DB::table('ViewNormaParametro'); Esto no va aqui
         $constantes = Constante::all();
         return view('analisisQ.constantes', compact('constantes'));
-    }
+    } 
     public function constante_create(Request $request) //creación de constantes
     {
         Constante::create([
