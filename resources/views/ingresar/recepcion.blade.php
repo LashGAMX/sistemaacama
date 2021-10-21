@@ -9,13 +9,10 @@
             Ingresar
         </h6>
     </div>    
-
     <div class="col-md-2">
         <input type="text" class="form-control" placeholder="Buscar" id="texto" autofocus>
     </div>
-
     <span id="mensajeBusqueda"></span>
-
     <br><br><br>
 @stop
 
