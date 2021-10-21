@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class estandares extends Model
+class Estandares extends Model
 {
     use HasFactory,SoftDeletes;
     protected $table = 'estandares';
@@ -15,7 +15,7 @@ class estandares extends Model
 
     protected $fillable = [
         'Id_lote',
-        'Id_foprmula',
+        'Id_formula',
         'Id_tecnica',
         'STD',
         'Concentracion',
