@@ -13,13 +13,12 @@
     <div class="row">
       <div class="col-md-4">
         <button class="btn btn-success" data-toggle="modal" data-target="#modalCrear"><i class="voyager-plus"></i> Crear</button>
-        
+      </div>
+      <div class="col-md-1">
+        <label for="exampleFormControSelect1">Lote</label>
       </div>
       <div class="col-md-4">
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="exampleFormControSelect1">Lote</label>
-              <select class="form-control">
+              <select class="form-control" id="idLote">
                   <option value="0">Sin seleccionar</option>
                   <option value="1">Acreditados</option>
                   <option value="2">Metales alimentos</option>
@@ -30,22 +29,8 @@
                   <option value="7">Miliequivalentes</option>
                   <option value="8">No acreditados</option>
                 </select>
-          </div>
-        </div>
-        <div class="col-md-4">
-          <div class="form-group">
-            <label for="exampleFormControSelect1">Fórmula</label>
-              <select class="form-control">
-                <option>Sin selecionar</option>
-                @foreach ($formula as $item)
-                <option value="{{$item->Id_formula}}">{{$item->Formula}}</option>
-            @endforeach
-                </select>
-          </div>
-        </div>
-  
       </div>
-      <div class="col-md-4">
+      <div class="col-md-3">
         <input type="search" class="form-control" placeholder="Buscar">
       </div>
   
@@ -102,7 +87,7 @@
                     <div class="row">
                       <div class="col-md-6">
                         <label for="">STD</label>
-                        <select class="form-control">
+                        <select class="form-control" id="std">
                           <option value="0">Blanco</option>
                           <option value="1">STD1</option>
                           <option value="2">STD2</option>
@@ -124,11 +109,11 @@
                         </div>
                         <div class="col-md-6">
                           <label for="">ABS2</label>
-                          <input type="text" id='ABS1' class="form-control" placeholder="ABS1">
+                          <input type="text" id='ABS2' class="form-control" placeholder="ABS1">
                       </div>
                       <div class="col-md-6">
                         <label for="">ABS3</label>
-                        <input type="text" id='ABS1' class="form-control" placeholder="ABS1">
+                        <input type="text" id='ABS3' class="form-control" placeholder="ABS1">
                     </div>
                     <div class="col-md-6">
                       <label for="">Promedio</label>
@@ -142,7 +127,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                  <button type="button" class="btn btn-primary">Guardar</button>
+                  <button type="button" class="btn btn-primary" id="guardar">Guardar</button>
                 </div>
               </form>
               </div>

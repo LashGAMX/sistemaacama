@@ -15,6 +15,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
     Route::get('curva',[CurvaController::class,'index']);
     Route::post('promedio',[CurvaController::class, 'promedio']);
+    Route::post('guardar',[CurvaController::class, 'guardar']);
 
     //---------------------------------Rutas Ajax----------------------------------
     Route::get('analisis/datos', [LaboratorioController::class, 'analisisDatos']);
