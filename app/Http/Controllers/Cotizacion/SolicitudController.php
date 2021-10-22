@@ -12,6 +12,7 @@ use App\Models\Intermediario;
 use App\Models\NormaParametros;
 use App\Models\PuntoMuestreoGen;
 use App\Models\PuntoMuestreoSir;
+use App\Models\SeguimientoAnalisis;
 use App\Models\Solicitud;
 use App\Models\SolicitudParametro; 
 use App\Models\SolicitudPuntos;
@@ -171,14 +172,22 @@ class SolicitudController extends Controller
                     'Id_subnorma' => $item,
                     'Extra' => $extra,
                 ]);
-            }
+            } 
     
             //Actualiza la cotización de estado
             $cotModel = Cotizacion::find($request->idCotizacion);
             $cotModel->Folio_servicio = $model->Folio_servicio;
             $cotModel->Estado_cotizacion = 2;
             $cotModel->save();
-        }else{
+
+            
+            //todo Inicia seguimiento de analisis
+            SeguimientoAnalisis::create([
+                'Id_servicio' => $model->Id_solicitud,
+                'Obs_solicitud' => '',
+            ]);
+        
+        }else{ 
 
         }
 

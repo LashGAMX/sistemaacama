@@ -8,13 +8,16 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 
 class SeguimientoAnalisis extends Model
 {
-    use HasFactory;
     use HasFactory,SoftDeletes;
     protected $table = 'seguimiento_analisis';
     protected $primaryKey = 'Id_seguimiento';
     public $timestamps = true;
 
-    protected $fillable = [
+    protected $fillable = [ 
         'Id_servicio',
+        'Obs_solicitud',
+        'Muestreo',
+        'Obs_muestreo',
+        'Recepcion', 
     ];
 }

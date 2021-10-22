@@ -13,6 +13,7 @@ use App\Models\SubNorma;
 use App\Models\CotizacionParametros;
 use App\Models\CotizacionPunto;
 use App\Models\NormaParametros;
+use App\Models\SeguimientoAnalsis;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 

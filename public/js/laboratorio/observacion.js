@@ -12,19 +12,24 @@ $(document).ready(function () {
 
 //Múltiple selección
 $(document).ready(function() {
-    var table = $('#primeraTabla').DataTable();    
+    var table = $('#primeraTabla').DataTable();
+    var indiceFilaSelect;
 
     $('#primeraTabla tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected');
-        $('#segundaTabla tbody tr').toggleClass('selected');                
+        $(this).toggleClass('selected');                
+        
+        //indiceFilaSelect = this.rowIndex;
+        //console.log("Valor de indiceFila: " + indiceFilaSelect);
+
+        //$('#segundaTabla tbody tr').toggleClass('selected');        
     });
 
     $('#segundaTabla tbody').on( 'click', 'tr', function () {
         $(this).toggleClass('selected');
-        $('#primeraTabla tbody tr').toggleClass('selected');
+        //$('#primeraTabla tbody tr').toggleClass('selected');
     });
     
-    $('#button').click( function () { 
+    $('#button').click( function () {
         alert( table.rows('.selected').data().length +' row(s) selected');
     });
 });

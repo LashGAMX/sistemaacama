@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class IngresarController extends Controller
 {    
+
     public function index(){
         $idUser = Auth::user()->id;
 
