@@ -2,12 +2,26 @@ var base_url = "https://dev.sistemaacama.com.mx";
 
 $(document).ready(function (){
     //* Acciones para los botones
-
+    // table = $('#tableStd').DataTable({
+    //     "ordering": false,
+    //     "language": {
+    //         "lengthMenu": "# _MENU_ por pagina",
+    //         "zeroRecords": "No hay datos encontrados",
+    //         "info": "Pagina _PAGE_ de _PAGES_",
+    //         "infoEmpty": "No hay datos encontrados",   
+    //     }
+    // });
+    
     $('#calcular').click(function(){
         promedio();
     });
     $('#guardar').click(function(){
         guardar();
+    });
+
+    $("#editar").click(function(){
+        
+        
     });
 });
 

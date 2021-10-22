@@ -54,6 +54,7 @@ class CurvaController extends Controller
             'model' => $model
         );
         return response()->json($data);
+        //return view('laboratorio/curva');
     }
 
 }

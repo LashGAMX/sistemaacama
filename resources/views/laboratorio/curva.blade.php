@@ -13,6 +13,8 @@
     <div class="row">
       <div class="col-md-4">
         <button class="btn btn-success" data-toggle="modal" data-target="#modalCrear"><i class="voyager-plus"></i> Crear</button>
+        <button type="button" class="btn btn-warning" id="editar" data-toggle="modal" data-target="#modalCrear">
+          <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
       </div>
       <div class="col-md-1">
         <label for="exampleFormControSelect1">Lote</label>
@@ -35,10 +37,10 @@
       </div>
   
       <div class="col-md-12">
-        <table class="table table-hover table-striped">
+        <table class="table table-hover table-striped" id="tableStd">
           <thead class="thead-dark">
                   <tr>
-                   
+                    <th>Id</th>
                       <th>Lote</th>
                       <th>Formula</th>
                       <th>Técnica</th>
@@ -51,7 +53,8 @@
                     </tr>
               </thead>
               <tbody>
-                @foreach ($model as $item) 
+                @foreach ($model as $item)
+                <td>{{$item->Id_std}}</td> 
                 <td>{{$item->Id_lote}}</td>
                 <td>{{$item->Id_formula}}</td>
                 <td>{{$item->Id_tecnica}}</td>
@@ -62,9 +65,6 @@
                 <td>{{$item->ABS3}}</td>
                 <td>{{$item->Promedio}}</td>
                 <td>
-                  <button type="button" class="btn btn-warning">
-                  <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
-                  <button type="button" class="btn btn-primary"><i class="voyager-external"></i> <span hidden-sm hidden-xs>ver</span> </button>
                 </td>
               </tr>
               @endforeach
