@@ -6,7 +6,7 @@
 
 #folio {
     border: 0;    
-    font-size: 20px;
+    font-size: 10px;
     background-color: transparent;
     font-weight: bold;
     color: #38C81B;
@@ -14,7 +14,7 @@
 
 #descarga {
     border: 0;    
-    font-size: 20px;
+    font-size: 10px;
     background-color: transparent;
     font-weight: bold;
     color: #38C81B;
@@ -22,7 +22,7 @@
 
 #cliente {
     border: 0;    
-    font-size: 20px;
+    font-size: 10px;
     background-color: transparent;
     font-weight: bold;
     color: #38C81B;
@@ -30,7 +30,7 @@
 
 #observaciones {
     border: 0;    
-    font-size: 20px;
+    font-size: 10px;
     background-color: transparent;
     font-weight: bold;
     color: #38C81B;    
@@ -38,7 +38,7 @@
 
 #empresa {
     border: 0;    
-    font-size: 20px;
+    font-size: 10px;
     background-color: transparent;
     font-weight: bold;
     color: #38C81B;
@@ -46,7 +46,7 @@
 
 #hora_recepcion {
     border: 0;    
-    font-size: 20px;
+    font-size: 10px;
     background-color: transparent;
     font-weight: bold;
     color: #fb1e1e;
@@ -54,7 +54,7 @@
 
 #hora_recepcion1 {
     border: 0;    
-    font-size: 20px;
+    font-size: 10px;
     background-color: transparent;
     font-weight: bold;
     color: #fb1e1e;
@@ -62,7 +62,7 @@
 
 #hora_entrada {
     border: 0;    
-    font-size: 20px;
+    font-size: 10px;
     background-color: transparent;
     font-weight: bold;
     color: #fb1e1e;
@@ -101,7 +101,7 @@ label {
 
 #f_fin {
     border: 0;    
-    font-size: 20px;
+    font-size: 10px;
     background-color: transparent;
     font-weight: bold;
     color: #fb1e1e;
@@ -109,7 +109,7 @@ label {
 
 #f_con {
     border: 0;    
-    font-size: 20px;
+    font-size: 10px;
     background-color: transparent;
     font-weight: bold;
     color: #4F62FF ;
@@ -117,7 +117,7 @@ label {
 
 #procedencia {
     border: 0;    
-    font-size: 20px;
+    font-size: 10px;
     background-color: transparent;
     font-weight: bold;
     color: #4F62FF;

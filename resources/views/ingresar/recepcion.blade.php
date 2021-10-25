@@ -9,8 +9,10 @@
             Ingresar
         </h6>
     </div>    
-    <div class="col-md-2">
-        <input type="text" class="form-control" placeholder="Buscar" id="texto" autofocus>
+    <div class="col-md-4">
+        <div class="form-group">
+            <input type="text" class="form-control" onchange="buscarFolio();" placeholder="Buscar folio" id="folioSol" autofocus> 
+        </div>
     </div>
     <span id="mensajeBusqueda"></span>
     <br><br><br>
@@ -22,6 +24,7 @@
     </div>
     <div class="col-md-6">
         <div class="row">
+            <input type="text" id="idSol" hidden>
             <label class="col col-sm-12 datosGenerales">Folio: <input type="text" id="folio" disabled/></label>            
             <label class="datosGenerales">Descarga: <input type="text" id="descarga" disabled/></label> 
             <label class="datosGenerales">Cliente o Intermediario: <input type="text" size="60" id="cliente" disabled/></label>
