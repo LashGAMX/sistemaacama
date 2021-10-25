@@ -28,4 +28,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     //Recupera el texto almacenado en el campo Texto de la tabla reportes
     Route::get('lote/procedimiento/busquedaPlantilla', [LaboratorioController::class, 'busquedaPlantilla']);
 
+    //---------------------------------Ruta exportPDF------------------------------
+    Route::get('captura/exportPdfCaptura/{formulaTipo}', [LaboratorioController::class, 'exportPdfCaptura']);
+
 });

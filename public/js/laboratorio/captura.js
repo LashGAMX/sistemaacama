@@ -1,3 +1,5 @@
+var base_url = 'https://dev.sistemaacama.com.mx';
+
 $(document).ready(function () {
     table = $('#tableAnalisis').DataTable({        
         "ordering": false,
@@ -18,4 +20,13 @@ $(document).ready(function () {
         }
     });
 
-}); 
+    
+
+});
+
+$('#btnImprimir').click(function() {
+    console.log("dentro de jquery function");
+    let formulaTipo = $('select[name="lineas"] option:selected').text();
+
+    window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+formulaTipo;
+});
