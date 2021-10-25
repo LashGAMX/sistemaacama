@@ -19,6 +19,7 @@ use App\Models\MetodoAforo;
 use App\Models\PHCalidad;
 use App\Models\PhMuestra;
 use App\Models\PHTrazable;
+use App\Models\SeguimientoAnalisis;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -229,6 +230,9 @@ class CampoController extends Controller
         //            'Promedio' => $request->conCPromedio,
         //        ]);
         //    }
+        $seguimiento = SeguimientoAnalisis::where('Id_servicio',$request->idSolicitud)->first();
+        $seguimiento->Muestreo = 1;
+        $seguimiento->save();
 
         $data = array('sw' => true, 'model' => $model);
         return response()->json($data);

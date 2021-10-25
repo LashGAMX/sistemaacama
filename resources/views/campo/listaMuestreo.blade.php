@@ -73,14 +73,14 @@
                             <th>Id solicitud</th>
                             <th>Solicitud</th>
                             <th>Cliente</th>
-                            <th>PM</th>
+                            {{-- <th>PM</th> --}}
                             <th>Fecha muestreo</th>
                             <th>Estado</th>
                             <th>Captura</th>
                             <th>Equipo</th>
-                            <th>Marca</th>
-                            <th>Modelo</th>
-                            <th>Serie</th>
+                            {{-- <th>Marca</th>
+                            <th>Modelo</th> --}}
+                            {{-- <th>Serie</th> --}}
                             {{-- <th>Creao</th> --}}
                             <th>Fecha creación</th>
                             {{-- <th>Modificó</th> --}}
