@@ -2,12 +2,31 @@ var base_url = "https://dev.sistemaacama.com.mx";
 
 $(document).ready(function (){
     //* Acciones para los botones
-
+    // table = $('#tableStd').DataTable({
+    //     "ordering": false,
+    //     "language": {
+    //         "lengthMenu": "# _MENU_ por pagina",
+    //         "zeroRecords": "No hay datos encontrados",
+    //         "info": "Pagina _PAGE_ de _PAGES_",
+    //         "infoEmpty": "No hay datos encontrados",   
+    //     }
+    // });
+    $("#buscar").click(function(){
+        buscar();
+    })
     $('#calcular').click(function(){
         promedio();
     });
     $('#guardar').click(function(){
         guardar();
+    });
+
+    $("#editar").click(function(){
+        
+        
+    });
+    $("#formula").click(function(){
+        formula();
     });
 });
 
@@ -62,6 +81,42 @@ function guardar(){
         async: false, 
         success: function (response) {
          console.log(response);
+         window.location="https://dev.sistemaacama.com.mx/admin/laboratorio/curva";
         }
     });        
+}
+function formula(){
+
+
+    $.ajax({
+        url: base_url + '/admin/laboratorio/formula', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          idLote:$("#idLote").val(),
+        },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {
+         console.log(response);
+         $("#b").val(response.b);
+        
+        }
+    });        
+    
+}
+
+function buscar(){
+    // $.ajax({
+    //     url: base_url + '/admin/laboratorio/buscar', //archivo que recibe la peticion
+    //     type: 'POST', //método de envio
+    //     data: {
+    //       idLote:$("#idLote").val(),
+    //     },
+    //     dataType: 'json', 
+    //     async: false, 
+    //     success: function (response) {
+    //      console.log(response);
+    //     }
+    // });        
+    window.location = base_url + '/admin/laboratorio/buscar/' + $("#idLote").val();     
 }

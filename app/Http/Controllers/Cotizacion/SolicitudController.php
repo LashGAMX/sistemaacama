@@ -298,6 +298,7 @@ class SolicitudController extends Controller
         );
         return response()->json($data);
     }
+    
     public function exportPdfOrden($idOrden) 
     {
         $qr = new DNS2D();
@@ -324,6 +325,7 @@ class SolicitudController extends Controller
         $mpdf->WriteHTML($html);
         $mpdf->Output();
     }
+
     public function setGenFolio(Request $request){
         //$model = DB::table('frecuencia001')->where('Id_frecuencia', $idFrecuencia)->first();
         $model = DB::table('ViewSolicitud')->where('Id_cotizacion',$request->idCot)->first();

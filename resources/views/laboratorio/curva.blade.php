@@ -13,21 +13,23 @@
     <div class="row">
       <div class="col-md-4">
         <button class="btn btn-success" data-toggle="modal" data-target="#modalCrear"><i class="voyager-plus"></i> Crear</button>
+        <button type="button" class="btn btn-warning" id="editar" data-toggle="modal" data-target="#modalCrear">
+          <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+      </div> <div class="col-md-1">
+        <button class="btn btn-info" id="buscar"><i class="voyager-serch"></i> Buscar</button>
       </div>
-      <div class="col-md-1">
-        <label for="exampleFormControSelect1">Lote</label>
-      </div>
-      <div class="col-md-4">
+  
+      <div class="col-md-3">
               <select class="form-control" id="idLote">
-                  <option value="0">Sin seleccionar</option>
-                  <option value="1">Acreditados</option>
-                  <option value="2">Metales alimentos</option>
-                  <option value="3">Metales pesados en biosolidos</option>
-                  <option value="4">Metales potable</option>
-                  <option value="5">Metales purificadora</option>
-                  <option value="6">Metales residual</option>
-                  <option value="7">Miliequivalentes</option>
-                  <option value="8">No acreditados</option>
+                  <option value="0">Selecciona Lote</option>
+                  <option value="1">1</option>
+                  <option value="2">2</option>
+                  <option value="3">3</option>
+                  <option value="4">4</option>
+                  <option value="5">5</option>
+                  <option value="6">6</option>
+                  <option value="7">7</option>
+                  <option value="8">8</option>
                 </select>
       </div>
       <div class="col-md-3">
@@ -35,13 +37,11 @@
       </div>
   
       <div class="col-md-12">
-        <table class="table table-hover table-striped">
+        <table class="table table-hover table-striped" id="tableStd">
           <thead class="thead-dark">
                   <tr>
-                   
+                    <th>Id</th>
                       <th>Lote</th>
-                      <th>Formula</th>
-                      <th>Técnica</th>
                       <th>STD</th>
                       <th>Concentración</th>
                       <th>ABS1</th>
@@ -51,26 +51,41 @@
                     </tr>
               </thead>
               <tbody>
-                @foreach ($model as $item) 
-                <td>{{$item->Id_lote}}</td>
-                <td>{{$item->Id_formula}}</td>
-                <td>{{$item->Id_tecnica}}</td>
-                <td>{{$item->STD}}</td>
-                <td>{{$item->Concentracion}}</td>
-                <td>{{$item->ABS1}}</td>
-                <td>{{$item->ABS2}}</td>
-                <td>{{$item->ABS3}}</td>
-                <td>{{$item->Promedio}}</td>
-                <td>
-                  <button type="button" class="btn btn-warning">
-                  <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
-                  <button type="button" class="btn btn-primary"><i class="voyager-external"></i> <span hidden-sm hidden-xs>ver</span> </button>
-                </td>
-              </tr>
-              @endforeach
+              @if ($model == "")
+                  
+              @else
+              @foreach (@$model as $item)
+              <tr>
+              <td>{{$item->Id_std}}</td> 
+              <td>{{$item->Id_lote}}</td>
+              <td>{{$item->STD}}</td> 
+              <td>{{$item->Concentracion}}</td>
+              <td>{{$item->ABS1}}</td>
+              <td>{{$item->ABS2}}</td>
+              <td>{{$item->ABS3}}</td>
+              <td>{{$item->Promedio}}</td>
+              <td></td>
+          </tr>
+          @endforeach 
+              @endif
               </tbody>
           </table>
       </div>
+      <div class="col-md-3">
+        <button class="btn btn-success" id="formula" ><i class="voyager-plus"></i> Calcular</button>
+      </div>
+      <div class="col-md-3">
+        <label for="">B</label>
+        <input type="text" id='b' class="form-control" placeholder="B">
+    </div>
+    <div class="col-md-3">
+      <label for="">M</label>
+      <input type="text" id='b' class="form-control" placeholder="M">
+  </div>
+  <div class="col-md-3">
+    <label for="">R</label>
+    <input type="text" id='b' class="form-control" placeholder="R">
+</div>
     </div>
         <!-- Modal -->
         <div wire:ignore.self class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
