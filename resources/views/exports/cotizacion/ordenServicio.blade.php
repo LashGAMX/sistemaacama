@@ -13,7 +13,7 @@
     <div class="container" id="pag">
         <div class="row">
             <div class="col align-self-end">
-                <P align="right">No DE SERVICIO: {{$model->Folio_servicio}}<p>
+                <p align="right">No DE SERVICIO: {{$model->Folio_servicio}}<p>
             </div>
         </div>
         <div class="row">

@@ -13,7 +13,7 @@
         <div class="col-md-3">
             <div class="form-group">
               <label for="exampleFormControlSelect1">Fórmula tipo</label>
-                <select class="form-control">
+                <select class="form-control" name="lineas" id="selectFormulaTipo">
                     <option value="0">Sin seleccionar</option>
                     <option value="1">ALUMINIO (Al) (Metales residual)</option>
                     <option value="2">ARSENICO (As) (Metales residual)</option>
@@ -77,7 +77,7 @@
                             <td></td>
                             <td></td>
                             <td></td>
-                            <td></td>
+                            <td><button class="btn btn-success" id="btnImprimir"><i class="fas fa-file-download"></i></button></td>
                             <td></td>
                           </tr>
                         </tbody>

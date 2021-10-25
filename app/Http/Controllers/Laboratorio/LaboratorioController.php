@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\Parametro;
 use App\Models\Reportes;
 use Illuminate\Support\Facades\DB;
+use \Milon\Barcode\DNS2D;
 
 class LaboratorioController extends Controller
 {
@@ -96,5 +97,41 @@ class LaboratorioController extends Controller
         return response()->json(
             compact('textoRecuperado', 'textoRecuperadoPredeterminado')
         );
+    }
+
+    //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF EN VISTA CAPTURA
+    public function exportPdfCaptura($formulaTipo) 
+    {        
+        $formulaSelected = $formulaTipo;
+
+        //$qr = new DNS2D();
+        //$model = DB::table('ViewSolicitud')->where('Id_cotizacion')->first();
+        //$parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$model->Id_solicitud)->get();
+
+        $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'L',
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 20,
+            'margin_bottom' => 18
+        ]);
+        
+        $mpdf->SetWatermarkImage(
+            asset('storage/HojaMembretada.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+
+        $mpdf->showWatermarkImage = true;
+        $html = view('exports.laboratorio.captura', compact('formulaSelected'));
+        //$html = view('exports.cotizacion.ordenServicio', compact('model','parametros','qr'));
+        $mpdf->CSSselectMedia = 'mpdf';
+
+        $mpdf->setHeader('{PAGENO}');
+
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
     }
 }
