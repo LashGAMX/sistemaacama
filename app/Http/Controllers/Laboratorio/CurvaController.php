@@ -57,4 +57,14 @@ class CurvaController extends Controller
         //return view('laboratorio/curva');
     }
 
+    public function formula(Request $request){
+
+        $idLote = $request-> idLote;
+
+        $data = array(
+            'idLote' => $idLote
+        );
+        return response()->json($data);
+    }
+
 }

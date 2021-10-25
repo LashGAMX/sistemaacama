@@ -42,8 +42,6 @@
                   <tr>
                     <th>Id</th>
                       <th>Lote</th>
-                      <th>Formula</th>
-                      <th>Técnica</th>
                       <th>STD</th>
                       <th>Concentración</th>
                       <th>ABS1</th>
@@ -56,8 +54,6 @@
                 @foreach ($model as $item)
                 <td>{{$item->Id_std}}</td> 
                 <td>{{$item->Id_lote}}</td>
-                <td>{{$item->Id_formula}}</td>
-                <td>{{$item->Id_tecnica}}</td>
                 <td>{{$item->STD}}</td>
                 <td>{{$item->Concentracion}}</td>
                 <td>{{$item->ABS1}}</td>
@@ -71,6 +67,21 @@
               </tbody>
           </table>
       </div>
+      <div class="col-md-3">
+        <button class="btn btn-success" id="formula" ><i class="voyager-plus"></i> Calcular</button>
+      </div>
+      <div class="col-md-3">
+        <label for="">B</label>
+        <input type="text" id='b' class="form-control" placeholder="B">
+    </div>
+    <div class="col-md-3">
+      <label for="">M</label>
+      <input type="text" id='b' class="form-control" placeholder="M">
+  </div>
+  <div class="col-md-3">
+    <label for="">R</label>
+    <input type="text" id='b' class="form-control" placeholder="R">
+</div>
     </div>
         <!-- Modal -->
         <div wire:ignore.self class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
