@@ -23,6 +23,9 @@ $(document).ready(function (){
         
         
     });
+    $("#formula").click(function(){
+        formula();
+    });
 });
 
 function promedio(){
@@ -76,6 +79,25 @@ function guardar(){
         async: false, 
         success: function (response) {
          console.log(response);
+         window.location="https://dev.sistemaacama.com.mx/admin/laboratorio/curva";
         }
     });        
+}
+function formula(){
+
+
+    $.ajax({
+        url: base_url + '/admin/laboratorio/formula', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          idLote:$("#idLote").val(),
+        },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {
+         console.log(response);
+        
+        }
+    });        
+    
 }
