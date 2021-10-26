@@ -17,6 +17,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::post('promedio',[CurvaController::class, 'promedio']);
     Route::post('guardar',[CurvaController::class, 'guardar']);
     Route::post('formula',[CurvaController::class, 'formula']);
+    Route::get('buscar/{idLote}',[CurvaController::class, 'buscar']);
 
     //---------------------------------Rutas Ajax----------------------------------
     Route::get('analisis/datos', [LaboratorioController::class, 'analisisDatos']);
@@ -26,5 +27,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
     //Recupera el texto almacenado en el campo Texto de la tabla reportes
     Route::get('lote/procedimiento/busquedaPlantilla', [LaboratorioController::class, 'busquedaPlantilla']);
+
+    //---------------------------------Ruta exportPDF------------------------------
+    Route::get('captura/exportPdfCaptura/{formulaTipo}', [LaboratorioController::class, 'exportPdfCaptura']);
 
 });

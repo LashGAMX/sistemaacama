@@ -11,7 +11,9 @@ $(document).ready(function (){
     //         "infoEmpty": "No hay datos encontrados",   
     //     }
     // });
-    
+    $("#buscar").click(function(){
+        buscar();
+    })
     $('#calcular').click(function(){
         promedio();
     });
@@ -96,8 +98,25 @@ function formula(){
         async: false, 
         success: function (response) {
          console.log(response);
+         $("#b").val(response.b);
         
         }
     });        
     
+}
+
+function buscar(){
+    // $.ajax({
+    //     url: base_url + '/admin/laboratorio/buscar', //archivo que recibe la peticion
+    //     type: 'POST', //método de envio
+    //     data: {
+    //       idLote:$("#idLote").val(),
+    //     },
+    //     dataType: 'json', 
+    //     async: false, 
+    //     success: function (response) {
+    //      console.log(response);
+    //     }
+    // });        
+    window.location = base_url + '/admin/laboratorio/buscar/' + $("#idLote").val();     
 }
