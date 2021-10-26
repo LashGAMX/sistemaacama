@@ -67,6 +67,7 @@ class CurvaController extends Controller
         $c1 = 0;
         $b1 = 0;
         $bSuma = 0;
+        $cElevada = 0;
         $bc = 0;
         $a = 0;
 
@@ -76,25 +77,41 @@ class CurvaController extends Controller
             $bSuma = $bSuma + $item->Concentracion; //suma de concentración
             $b1 += ($item->Concentracion * $item->Concentracion); //suma de concentración elevada al cuadrado
             $bc = $bc + $item->Concentracion * $item->Promedio; //Producto de b y c
+            $cElevada = $cElevada + $item->Promedio * $item->Promedio; //Suma de c elevada a 2
 
-        }
+
+        } 
+        //todo:: b
         $s1 = $c1 * $b1;
         $s3 = $bc * $bSuma;
         $s5 = $a * $b1;
         $s6 = $bSuma * $bSuma; //elevacion al cuadrado
+        //todo:: m
+        $m1 = $a * $bc;
+        $m2 = $bSuma * $c1;
+        $m3 = $b1 * $a;
+        $m4 = $s6; // misma operación de s6
+        //todo:: r
+        $r2 = $c1 * $bSuma;
+        $r3 = $a * $b1; 
+        //r4 es igual a s6
+        $r5 = $a * $cElevada;
+        $r6 = $c1 * $c1;
+        $rFinal = ($r3 - $s6) * ($r5 - $r6);
 
-        $b = ($s1 -$s3)/($s5 - $s6);
-
-
+        //todo:: Formulas finales
+        $b = ($s1 - $s3)/($s5 - $s6);
+        $m = ($m1 - $m2)/($m3 - $m4);
+        $r = ($m1 - $r2)/sqrt($rFinal);
 
 
         $data = array(
             'idLote' => $idLote,
-            'S1' => $s1,
-            'S3' => $s3,
-            'S5' => $s5,
-            'S6' => $s6,
+            'm' => $m,
             'b' => $b,
+            'r' => $r,
+            'b1' => $b1,
+            'bSuma' => $bSuma,
 
         );
         return response()->json($data);
