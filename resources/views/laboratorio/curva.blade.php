@@ -20,7 +20,7 @@
       </div>
   
       <div class="col-md-3">
-              <select class="form-control" id="idLote">
+              <select class="form-control" id="idLote" selected value="{{@$idLote}}">
                   <option value="0">Selecciona Lote</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -72,7 +72,7 @@
           </table>
       </div>
       <div class="col-md-3">
-        <button class="btn btn-success" id="formula" ><i class="voyager-plus"></i> Calcular</button>
+        <button class="btn btn-danger" id="formula" ><i class="fas fa-calculator"></i> Calcular</button>
       </div>
       <div class="col-md-3">
         <label for="">B</label>
@@ -80,11 +80,14 @@
     </div>
     <div class="col-md-3">
       <label for="">M</label>
-      <input type="text" id='b' class="form-control" placeholder="M">
+      <input type="text" id='m' class="form-control" placeholder="M">
   </div>
   <div class="col-md-3">
     <label for="">R</label>
-    <input type="text" id='b' class="form-control" placeholder="R">
+    <input type="text" id='r' class="form-control" placeholder="R">
+</div>
+<div class="col-md-3">
+  <button class="btn btn-success" id="guardar_const" ><i class="far fa-save"></i> Guardar</button>
 </div>
     </div>
         <!-- Modal -->
