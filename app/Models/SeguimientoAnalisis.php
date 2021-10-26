@@ -19,5 +19,6 @@ class SeguimientoAnalisis extends Model
         'Muestreo',
         'Obs_muestreo',
         'Recepcion', 
+        'Obs_recepcion'
     ];
 }
