@@ -11,6 +11,7 @@ $(document).ready(function (){
     //         "infoEmpty": "No hay datos encontrados",   
     //     }
     // });
+
     $("#buscar").click(function(){
         buscar();
     })
@@ -98,7 +99,12 @@ function formula(){
         async: false, 
         success: function (response) {
          console.log(response);
-         $("#b").val(response.b);
+         let fixb = response.b.toFixed(5);
+         let fixm = response.m.toFixed(5);
+         let fixr = response.r.toFixed(5);
+         $("#b").val(fixb);
+         $("#m").val(fixm);
+         $("#r").val(fixr);
         
         }
     });        
