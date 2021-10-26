@@ -51,17 +51,17 @@
 
         <div class="row">
             <br>
-            <label class="fechas">Hora recepción: <input type="datetime-local" step="1" id="hora_recepcion1" onchange='validacionFecha("hora_entrada", "hora_recepcion1", "btnIngresar")'/></label>
+            <label class="fechas">Hora recepción: <input type="datetime-local" step="1" id="hora_recepcion1"/></label>
         </div>
 
         <div class="row">
             <br>
-            <label class="fechas">Hora entrada: <input type="datetime-local" step="1" id="hora_entrada" onchange='validacionFecha("hora_entrada", "hora_recepcion1", "btnIngresar")'/></label>
+            <label class="fechas">Hora entrada: <input type="datetime-local" step="1" id="hora_entrada" /></label>
         </div>
 
         <div class="row">
             <br>
-            <label class="fechaHidden">Fecha recepción: <input type="text" id="hora_recepcion" disabled/></label>    
+            <label class="fechaHidden">Fecha recepción: <input type="text" id="hora_recepcion" /></label>    
         </div>
     </div>    
 
@@ -92,12 +92,11 @@
 {{-- <livewire:historial.config/> --}}
 @endsection
 
-@section('css')
+@section('css') 
     <link rel="stylesheet" href="{{asset('css/ingresar/ingresar.css')}}">
 @endsection
 
 @section('javascript')
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="{{ asset('js/ingresar/ingresar.js') }}"></script>
     <script src="{{ asset('js/libs/componentes.js') }}"></script>
     <script src="{{ asset('js/libs/tablas.js') }}"></script>    

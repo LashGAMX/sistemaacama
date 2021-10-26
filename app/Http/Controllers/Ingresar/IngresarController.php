@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Ingresar;
 use App\Http\Controllers\Controller;
 use App\Models\ProcedimientoAnalisis;
 use App\Models\ProcesoAnalisis;
+use App\Models\SeguimientoAnalisis;
 use App\Models\Solicitud; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -27,15 +28,6 @@ class IngresarController extends Controller
         return view('ingresar.recepcion',compact('idUser', 'model'));    
     }
 
-    // public function buscador(Request $request){
-    //     $solicitud = DB::table('ViewSolicitud')->where('Folio_servicio', "like", $request->texto."%")->first();
-    //     $solicitudes = Solicitud::where('Folio_servicio', "like", $request->texto."%")->first();      
-    //     $model = ProcesoAnalisis::where('Folio', "like", $request->texto."%")->first();
-
-    //     return response()->json(compact('solicitud', 'model', 'solicitudes'));
-    // }
-
-
     public function buscarFolio(Request $request){
         $model = Db::table('ViewSolicitud')->where('Folio_servicio',$request->folioSol)->first();
         $array = array(
@@ -48,15 +40,20 @@ class IngresarController extends Controller
         $siralab = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal', $request->sucursal)->first();
         return response()->json(compact('siralab'));
     }
-
+ 
     public function setIngresar(Request $request){
         $model = ProcesoAnalisis::where('Id_solicitud',$request->idSol)->get();
+        $seguimiento = SeguimientoAnalisis::where('Id_servicio',$request->idSol)->first();
         if($model->count()){
 
         }else{
+            $seguimiento->Recepcion = 1;
+            $seguimiento->save();
+            
             ProcesoAnalisis::create([
                 'Id_solicitud' => $request->idSol,
                 'Folio' => $request->folio,
+                'Descarga' => $request->descarga,
                 'Cliente' => $request->cliente,
                 'Empresa' => $request->empresa,
                 'Hora_entrada' => $request->horaEntrada,
