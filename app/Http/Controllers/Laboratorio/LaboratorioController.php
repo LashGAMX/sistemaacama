@@ -101,7 +101,9 @@ class LaboratorioController extends Controller
 
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF EN VISTA CAPTURA
     public function exportPdfCaptura($formulaTipo) 
-    {        
+    {
+        //$headerMPDF = file_get_contents('/home/siste168/public_html/acamasys_dev/storage/framework/views/64c92ca226484687dcf7dbeeaa6287cc7a0e8ad6.php');
+
         $formulaSelected = $formulaTipo;
 
         //$qr = new DNS2D();
@@ -114,11 +116,11 @@ class LaboratorioController extends Controller
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 20,
-            'margin_bottom' => 18
+            'margin_bottom' => 30
         ]);
         
         $mpdf->SetWatermarkImage(
-            asset('storage/HojaMembretada.png'),
+            asset('storage/HojaMembretadaHorizontal.png'),
             1,
             array(215, 280),
             array(0, 0),
@@ -126,12 +128,47 @@ class LaboratorioController extends Controller
 
         $mpdf->showWatermarkImage = true;
         $html = view('exports.laboratorio.captura', compact('formulaSelected'));
+        //$html = view('exports.laboratorio.headerCaptura', compact('formulaSelected'));
         //$html = view('exports.cotizacion.ordenServicio', compact('model','parametros','qr'));
         $mpdf->CSSselectMedia = 'mpdf';
 
-        $mpdf->setHeader('{PAGENO}');
+        //$mpdf->setHeader('{PAGENO}');
+
+        //$mpdf->setHeader($headerMPDF, compact('formulaSelected'));
+        
+        //Establece el pie de página
+        $mpdf->SetHTMLFooter(
+            '
+            <footer>
+            <div id="pie1">
+                <div id="pie2">
+                    <table class="table table-borderless">
+                        <thead>
+                            <tr>
+                                <td id="analizo">ANALIZÓ</td>
+                                <td id="superviso">SUPERVISÓ</td>
+                            </tr>
+                        </thead>            
+        
+                        <tbody>
+                            <tr>
+                                <td>AQUÍ VA LA FIRMA</td>
+                                <td>AQUÍ VA LA FIRMA</td>
+                            </tr>
+                            <tr>
+                                <td id="nombreAnalizo">NOMBRE ANALIZÓ</td>
+                                <td id="nombreSuperviso">NOMBRE SUPERVISÓ</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>   
+            </footer>             
+        '
+        , 'O', 'E');        
 
         $mpdf->WriteHTML($html);
+        //$mpdf->AddPage('HOLA MUNDO');
         $mpdf->Output();
     }
 }

@@ -63,16 +63,44 @@
     font-size: 9;    
 }
 
+#contenedorTabla{    
+    max-height: 100px;    
+}
 
+#tablaDatos{      
+    height: 100%;
+}
 
-
-#prueba1{    
+#pie1{    
     padding: 0 1rem;
     margin: 1rem;
 }
 
-#prueba2{        
+#pie2{        
     width: 200px;
     margin-left: auto;
     margin-right: auto;
+}
+
+.contenedorPadre{    
+    width: 100%;
+    height: 30px;
+    text-align: center;    
+}
+
+.contenedorHijo1{        
+    width: 33.3%;
+    height: 30px;
+    float: left;   
+}
+
+.cabeceraStdMuestra{
+    font-family: Calibri;
+    font-size: 9;
+    font-weight: bold; 
+}
+
+.bodyStdMuestra{
+    font-family: Calibri;
+    font-size: 9;
 }
