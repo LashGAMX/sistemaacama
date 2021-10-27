@@ -8,27 +8,7 @@
     <title>Captura PDF</title>
 </head>
 <body>
-        
-    <p id="header1">NMX-AA-051-SCFI-2016 PROTOCOLO DE TRABAJO: PE-10-002-28 MEDICIÓN DE METALES POR ABSORCIÓN ATÓMICA EN AGUAS NATURALES, POTABLES, RESIDUALES Y RESIDUALES TRATADAS</p>    
-    
-    <p id="header2">
-        METALES TOTALES CON FLAMA 
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        ELEMENTO: {{$formulaSelected}}
-    </p>
-       
-    <p>
-        <span id="fecha">Fecha de análisis</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span>AQUÍ VA LA FECHA</span>
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-        <span id="hora">Hora</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span> AQUÍ VA LA HORA</span>
-    </p>
-        
-    <p id="resMuestras">Resultado de las muestras</p>    
-    
+
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos">
             <thead>
@@ -50,7 +30,7 @@
             </thead>
     
             <tbody>
-                @for ($i = 0; $i < 100; $i++)
+                @for ($i = 0; $i < 24; $i++)
                     <tr>
                         <td id="tableContent">PRUEBA</td>
                         <td id="tableContent">PRUEBA</td>

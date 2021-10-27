@@ -248,3 +248,8 @@ CREATE VIEW ViewCampoGenerales as SELECT c.Id_general,c.Id_solicitud,c.Captura,c
 FROM campo_generales as c
 INNER JOIN termometro_campo as t
 ON c.Id_equipo = t.Id_termometro
+
+/* Lista ViewObservacionMuestra */
+CREATE VIEW ViewObservacionMuestra as  SELECT obs.Id_observacion,obs.Id_analisis,obs.Id_area,obs.Ph,obs.Solido,obs.Olor,obs.Color,obs.Observaciones,pro.Folio,pro.Descarga,pro.Cliente,pro.Empresa,pro.Ingreso,pro.Proceso,pro.Reporte,pro.ClienteG,pro.Hora_entrada FROM observacion_muestra as obs
+INNER JOIN proceso_analisis as pro
+ON obs.Id_analisis = pro.Id_solicitud

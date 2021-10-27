@@ -13,11 +13,11 @@
       <div class="col-md-12">
           <div class="row">
               
-            <div class="col-md-1">
+            <div class="col-md-2">
               <div class="form-group">
                 <label>Tipo fórmula</label>                
 
-                <select class="form-control">
+                <select class="form-control" id="tipoFormula">
                   @foreach($formulas as $formula)
                     <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
                   @endforeach
@@ -27,7 +27,7 @@
             </div>                          
 
             <div class="col-md-1">
-              <button type="button" class="btn btn-success">Buscar</button>
+              <button type="button" id="btnBuscar" class="btn btn-success">Buscar</button>
             </div>
 
             <div class="col-md-2">                                
@@ -93,88 +93,27 @@
         <div id="contenedorGeneral">
             
           <div id="contenedorIzq">
-            <table class="table tableObservacion" id="primeraTabla"> 
+            <table class="table tableObservacion" id="tablaObservacion"> 
               <thead>
                 <tr>
-                  <th scope="col">Folio servicio</th>
-                  <th scope="col">Nombre cliente</th>
+                  <th>Folio servicio</th>
+                  <th>Nombre cliente</th>
                   <th scope="col">Fecha recepción</th>
-                  <th scope="col">FechaCreación</th>                  
+                  <th>FechaCreación</th>       
+                  <th>Punto de muestreo</th>
+                  <th>Norma</th>
+                  <th>Parámetros</th>
+                  <th>Observaciones</th>
+                  <th>Es pH < 2</th>
+                  <th>Sólidos</th>           
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>hola</td>
-                  <td>hola</td>
-                  <td>hola</td>
-                  <td>hola</td>
-                </tr>
-                <tr>
-                  <td>hola</td>
-                  <td>hola</td>
-                  <td>hola</td>
-                  <td>hola</td>                  
-                </tr>                
+                             
               </tbody>
             </table>
           </div>            
-
-          <div id="contenedorDer">
-            <table class="table tableObservacion" id="segundaTabla"> 
-              <thead>
-                <tr>
-                  <th scope="col">Punto de muestreo</th>
-                  <th scope="col">Norma</th>
-                  <th scope="col">Parámetros</th>
-                  <th scope="col">Observaciones</th>
-                  <th scope="col">Es pH < 2</th>
-                  <th scope="col">Sólidos</th>
-                </tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td>hola</td>
-                  <td>hola</td>
-                  <td>hola</td>
-                  <td contenteditable="true"><textarea class="form-control" id="observacionIndividual" rows="2"></textarea></td>
-                  <td>
-                    <select class="form-control">
-                      <option value="0">Sin seleccionar</option>
-                      <option value="1">SI</option>
-                      <option value="2">NO</option>                    
-                    </select>
-                  </td>
-                  <td>
-                    <select class="form-control">
-                      <option value="0">Sin seleccionar</option>
-                      <option value="1">SI</option>
-                      <option value="2">NO</option>                    
-                    </select>
-                  </td>
-                </tr>
-                <tr>
-                  <td>hola</td>
-                  <td>hola</td>
-                  <td>hola</td>
-                  <td contenteditable="true"><textarea class="form-control" id="observacionIndividual" rows="2"></textarea></td>
-                  <td>
-                    <select class="form-control">
-                      <option value="0">Sin seleccionar</option>
-                      <option value="1">SI</option>
-                      <option value="2">NO</option>                    
-                    </select>
-                  </td>
-                  <td>
-                    <select class="form-control">
-                      <option value="0">Sin seleccionar</option>
-                      <option value="1">SI</option>
-                      <option value="2">NO</option>                    
-                    </select>
-                  </td>
-                </tr>                
-              </tbody>
-            </table>
-          </div>            
+          
         </div>
       </div>
     </div>

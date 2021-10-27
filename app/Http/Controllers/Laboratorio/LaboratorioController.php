@@ -46,6 +46,16 @@ class LaboratorioController extends Controller
         $formulas = DB::table('tipo_formulas')->get();
         return view('laboratorio.observacion', compact('formulas'));
     }
+    public function getObservacionanalisis(Request $request)
+    {
+        $model = DB::table('ViewObservacionMuestra')->where('Id_area',$request->id)->get();
+        
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+
     
     public function tipoAnalisis(){ 
         return view('laboratorio.tipoAnalisis');
@@ -90,7 +100,7 @@ class LaboratorioController extends Controller
 
     //Función para recuperar el texto almacenado en la tabla reportes; campo Texto
     public function busquedaPlantilla(Request $request){
-        //Recibe el Id del lote para recuperar el texto almacenado en el campo Texto de la tabla reportes
+        //Recibe el Id del lote para recuperar el texto almacenado en el campo Texto de la tabla reportes 
         $textoRecuperado = Reportes::where('Id_reporte', $request->lote)->first();
         $textoRecuperadoPredeterminado = Reportes::where('Id_reporte' , 0)->first();
 
@@ -99,26 +109,30 @@ class LaboratorioController extends Controller
         );
     }
 
-    //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF EN VISTA CAPTURA
+    //*************************FUNCIÓN PARA GENERAR EL DOCUMENTO PDF EN VISTA CAPTURA****************************
     public function exportPdfCaptura($formulaTipo) 
-    {
-        //$headerMPDF = file_get_contents('/home/siste168/public_html/acamasys_dev/storage/framework/views/64c92ca226484687dcf7dbeeaa6287cc7a0e8ad6.php');
+    {                    
+        $formulaSelected = $formulaTipo;        
 
-        $formulaSelected = $formulaTipo;
+        //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
+        $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected'));
+        
+        //Hace referencia a la vista capturaPie
+        $htmlFooter = view('exports.laboratorio.capturaPie');    
 
-        //$qr = new DNS2D();
-        //$model = DB::table('ViewSolicitud')->where('Id_cotizacion')->first();
-        //$parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$model->Id_solicitud)->get();
-
+        //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'L',
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 20,
-            'margin_bottom' => 30
+            'margin_top' => 48,
+            'margin_bottom' => 30,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
         ]);
         
+        //Establece la marca de agua del documento PDF
         $mpdf->SetWatermarkImage(
             asset('storage/HojaMembretadaHorizontal.png'),
             1,
@@ -127,48 +141,21 @@ class LaboratorioController extends Controller
         );
 
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.laboratorio.captura', compact('formulaSelected'));
-        //$html = view('exports.laboratorio.headerCaptura', compact('formulaSelected'));
-        //$html = view('exports.cotizacion.ordenServicio', compact('model','parametros','qr'));
-        $mpdf->CSSselectMedia = 'mpdf';
-
-        //$mpdf->setHeader('{PAGENO}');
-
-        //$mpdf->setHeader($headerMPDF, compact('formulaSelected'));
         
-        //Establece el pie de página
-        $mpdf->SetHTMLFooter(
-            '
-            <footer>
-            <div id="pie1">
-                <div id="pie2">
-                    <table class="table table-borderless">
-                        <thead>
-                            <tr>
-                                <td id="analizo">ANALIZÓ</td>
-                                <td id="superviso">SUPERVISÓ</td>
-                            </tr>
-                        </thead>            
+        //Hace referencia a la vista captura, misma que es el body del documento PDF
+        $html = view('exports.laboratorio.captura');
+        $mpdf->CSSselectMedia = 'mpdf';  
         
-                        <tbody>
-                            <tr>
-                                <td>AQUÍ VA LA FIRMA</td>
-                                <td>AQUÍ VA LA FIRMA</td>
-                            </tr>
-                            <tr>
-                                <td id="nombreAnalizo">NOMBRE ANALIZÓ</td>
-                                <td id="nombreSuperviso">NOMBRE SUPERVISÓ</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>   
-            </footer>             
-        '
-        , 'O', 'E');        
-
+        //Establece el encabezado del documento PDF
+        $mpdf->setHeader("{PAGENO}<br><br>".$htmlHeader);
+        
+        //Establece el pie de página del PDF                
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        
+        //Escribe el contenido HTML de la var.html en el documento PDF
         $mpdf->WriteHTML($html);
-        //$mpdf->AddPage('HOLA MUNDO');
+
+        //Crea el documento PDF
         $mpdf->Output();
     }
 }
