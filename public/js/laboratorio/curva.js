@@ -11,6 +11,13 @@ $(document).ready(function (){
     //         "infoEmpty": "No hay datos encontrados",   
     //     }
     // });
+    $(document).ready(function() {
+        var table = $('#tableStd').DataTable(); 
+        $('#tableStd tbody').on( 'click', 'tr', function () {                 
+            $(this).toggleClass('selected'); } 
+        ); 
+        
+    });
 
     $("#buscar").click(function(){
         buscar();

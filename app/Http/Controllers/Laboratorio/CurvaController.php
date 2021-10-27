@@ -79,7 +79,6 @@ class CurvaController extends Controller
             $bc = $bc + $item->Concentracion * $item->Promedio; //Producto de b y c
             $cElevada = $cElevada + $item->Promedio * $item->Promedio; //Suma de c elevada a 2
 
-
         } 
         //todo:: b
         $s1 = $c1 * $b1;
@@ -110,8 +109,6 @@ class CurvaController extends Controller
             'm' => $m,
             'b' => $b,
             'r' => $r,
-            'b1' => $b1,
-            'bSuma' => $bSuma,
 
         );
         return response()->json($data);
