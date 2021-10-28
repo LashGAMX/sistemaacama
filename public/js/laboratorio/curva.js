@@ -123,7 +123,6 @@ function formula(){
 }
 function create(){
 
-
     $.ajax({
         url: base_url + '/admin/laboratorio/create', //archivo que recibe la peticion
         type: 'POST', //método de envio

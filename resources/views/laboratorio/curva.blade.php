@@ -20,7 +20,7 @@
       </div>
   
       <div class="col-md-3">
-              <select class="form-control">
+              <select class="form-control" id="idLote">
                   <option value="0">Selecciona Lote</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
