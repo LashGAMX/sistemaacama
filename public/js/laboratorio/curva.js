@@ -19,6 +19,10 @@ $(document).ready(function (){
         
     });
 
+    $("#create").click(function(){
+        create();
+    });
+
     $("#buscar").click(function(){
         buscar();
     })
@@ -116,6 +120,27 @@ function formula(){
         }
     });        
     
+}
+function create(){
+
+
+    $.ajax({
+        url: base_url + '/admin/laboratorio/create', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          idLote:$("#idLote").val(),
+          b:$("#b").val(),
+          m:$("#m").val(),
+          r:$("#r").val()
+        },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {
+         console.log(response);
+        
+        }
+    });        
+
 }
 
 function buscar(){

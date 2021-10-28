@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\estandares;
 use App\Models\Formulas;
+use App\Models\Constante;
 
 class CurvaController extends Controller
 {
@@ -29,6 +30,31 @@ class CurvaController extends Controller
             'resultado' => $promedio,
             'suma' => $suma,
             'resultado' => $resultado
+        );
+        return response()->json($data);
+    }
+    public function create(Request $request){
+        
+           $model1 = Constante::create([
+            'Constante' => 'b',
+            'Valor' => $request->b,
+            'Descripcion' => 'Curva cobre flama',
+            ]);
+            $model2 = Constante::create([
+                'Constante' => 'm',
+                'Valor' => $request->m,
+                'Descripcion' => 'Curva cobre flama',
+                ]);
+                $model3 = Constante::create([
+                    'Constante' => 'r',
+                    'Valor' => $request->r,
+                    'Descripcion' => 'Curva cobre flama',
+                    ]);
+
+         $data = array(
+            'model1' => $model1,
+            'model2' => $model2,
+            'model3' => $model3
         );
         return response()->json($data);
     }

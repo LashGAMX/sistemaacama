@@ -20,7 +20,7 @@
       </div>
   
       <div class="col-md-3">
-              <select class="form-control" id="idLote">
+              <select class="form-control">
                   <option value="0">Selecciona Lote</option>
                   <option value="1">1</option>
                   <option value="2">2</option>
@@ -87,7 +87,7 @@
     <input type="text" id='r' class="form-control" placeholder="R">
 </div>
 <div class="col-md-3">
-  <button class="btn btn-success" id="guardar_const" ><i class="far fa-save"></i> Guardar</button>
+  <button class="btn btn-success" id="create" ><i class="far fa-save"></i> Guardar</button>
 </div>
     </div>
         <!-- Modal -->
