@@ -33,7 +33,7 @@ class CurvaController extends Controller
         );
         return response()->json($data);
     }
-    public function create(Request $request){
+    public function create(Request $request){ 
         
            $model1 = Constante::create([
             'Constante' => 'b',
