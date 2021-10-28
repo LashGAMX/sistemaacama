@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
 use App\Models\LoteAnalisis;
+use App\Models\LoteDetalle;
 use App\Models\ProcesoAnalisis;
 use Illuminate\Http\Request;
 use App\Models\Parametro;
@@ -98,6 +99,11 @@ class LaboratorioController extends Controller
     public function asignar()
     {
         return view('laboratorio.asignar');
+    }
+    public function asgnarMuestraLote($id)
+    {
+        $lote = LoteDetalle::where('Id_lote',$id)->get();
+        return view('laboratorio.asignarMuestraLote',compact('lote'));
     }
 
     //Función LOTE > CREAR O MODIFICAR TEXTO DEL LOTE > PROCEDIMIENTO/VALIDACIÓN

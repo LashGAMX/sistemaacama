@@ -17,6 +17,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::get('lote',[LaboratorioController::class,'lote']);
     Route::post('createLote', [LaboratorioController::class,'createLote']);
     Route::post('buscarLote', [LaboratorioController::class,'buscarLote']);
+    Route::get('asgnarMuestraLote/{id}', [LaboratorioController::class,'asgnarMuestraLote']);
 
     Route::get('asignar',[LaboratorioController::class,'asignar']);
 
