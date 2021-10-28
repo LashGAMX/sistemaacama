@@ -13,7 +13,11 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
     Route::get('tipoAnalisis',[LaboratorioController::class,'tipoAnalisis']);
     Route::get('captura',[LaboratorioController::class,'captura']);
+    
     Route::get('lote',[LaboratorioController::class,'lote']);
+    Route::post('createLote', [LaboratorioController::class,'createLote']);
+    Route::post('buscarLote', [LaboratorioController::class,'buscarLote']);
+
     Route::get('asignar',[LaboratorioController::class,'asignar']);
 
     Route::get('curva',[CurvaController::class,'index']);

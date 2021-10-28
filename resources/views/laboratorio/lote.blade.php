@@ -16,7 +16,7 @@
         <div class="col-md-3">
           <div class="form-group">
             <label for="exampleFormControSelect1">Tipo fórmula</label>
-            <select class="form-control">
+            <select class="form-control" id="tipo">
               @foreach($formulas as $formula)
                 <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
               @endforeach
@@ -27,12 +27,12 @@
         <div class="col-md-3">
           <div class="form-group">
             <label for="">Fecha lote</label>
-            <input type="date" class="form-control" placeholder="Fecha lote">
+            <input type="date" id="fecha" class="form-control" placeholder="Fecha lote">
           </div>
         </div>
         
         <div class="col-md-2">
-          <button class="btn btn-success">Buscar</button>
+          <button class="btn btn-success" onclick="buscarLote()">Buscar</button>
         </div>        
       </div>
     </div>
@@ -46,10 +46,18 @@
           <button class="btn btn-success" data-toggle="modal" data-target="#modalProbar" class="btn btn-info">Datos lote</button>
         </div>
       </div>
-
+      <div class="" id="divTable">
+        
       <table class="table" id="tableObservacion"> 
         <thead>
           <tr>
+            <th>#</th>
+            <th>Tipo formula</th>
+            <th>Fecha lote</th>
+            <th>Fecha creacion</th>
+            <th>Opc</th>
+          </tr>
+          {{-- <tr>
             <th scope="col">Cerrado</th>
             <th scope="col">AnaFórmulaId</th>
             <th scope="col">RcpLoteAnálisisId</th>
@@ -59,12 +67,13 @@
             <th scope="col">FechaHora</th>
             <th scope="col">FechaNuevoLote</th>
             <th scope="col">HoraNuevoLote</th>
-          </tr>
+          </tr> --}}
         </thead>
         <tbody>
                   
         </tbody>
       </table>
+      </div>
     </div>
   </div>
 </div>
@@ -74,17 +83,32 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Modal title</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Crear lote</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
       <div class="modal-body">
-        ...
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="exampleFormControSelect1">Tipo fórmula</label>
+              <select class="form-control" id="tipoFormula">
+                @foreach($formulas as $formula)
+                  <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <input type="date" id="fechaLote" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+        <button type="button" id="btnCreateLote" onclick="createLote()" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>

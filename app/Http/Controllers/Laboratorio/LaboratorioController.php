@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\LoteAnalisis;
 use App\Models\ProcesoAnalisis;
 use Illuminate\Http\Request;
 use App\Models\Parametro;
@@ -72,6 +73,27 @@ class LaboratorioController extends Controller
         $formulas = DB::table('tipo_formulas')->get();
         $textoRecuperadoPredeterminado = Reportes::where('Id_reporte' , 0)->first();
         return view('laboratorio.lote', compact('formulas', 'textoRecuperadoPredeterminado'));
+    }
+    public function createLote(Request $request)
+    {
+        $model = LoteAnalisis::create([
+            'Id_tipo' => $request->tipo,
+            'Id_area' => 0,
+            'Fecha' => $request->fecha,
+        ]);
+        $data = array(
+            'model' => $model,
+        );
+
+        return response()->json($data);
+    }
+    public function buscarLote(Request $request)
+    {
+        $model = LoteAnalisis::where('Id_tipo',$request->tipo)->where('Fecha',$request->fecha)->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
     }
     public function asignar()
     {
