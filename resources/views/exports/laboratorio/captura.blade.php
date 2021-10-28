@@ -23,6 +23,7 @@
                     <td id="tableCabecera">&nbsp;Abs Muestra - Abs Blanco&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;[mg/L] Obtenida&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
+                    <td id="tableCabecera">&nbsp;Resultado c/factor aplicado&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;[mg/L] Reportada&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;Observaciones&nbsp;</td>
                     <td></td>
@@ -32,6 +33,7 @@
             <tbody>
                 @for ($i = 0; $i < 24; $i++)
                     <tr>
+                        <td id="tableContent">PRUEBA</td>
                         <td id="tableContent">PRUEBA</td>
                         <td id="tableContent">PRUEBA</td>
                         <td id="tableContent">PRUEBA</td>

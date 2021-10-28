@@ -133,7 +133,7 @@ class LaboratorioController extends Controller
 
     //*************************FUNCIÓN PARA GENERAR EL DOCUMENTO PDF EN VISTA CAPTURA****************************
     public function exportPdfCaptura($formulaTipo) 
-    {                    
+    {        
         $formulaSelected = $formulaTipo;        
 
         //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected

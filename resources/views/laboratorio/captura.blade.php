@@ -13,7 +13,7 @@
         <div class="col-md-3">
             <div class="form-group">
               <label for="exampleFormControlSelect1">Fórmula tipo</label>
-                <select class="form-control" name="lineas" id="selectFormulaTipo">
+                <select class="form-control" name="formulaTipo" id="selectFormulaTipo">
                     <option value="0">Sin seleccionar</option>
                     <option value="1">ALUMINIO (Al) (Metales residual)</option>
                     <option value="2">ARSENICO (As) (Metales residual)</option>
@@ -33,8 +33,8 @@
         </div>
         <div class="col-md-3">
             <div class="form-group">
-              <label for="exampleFormControlSelect1">Parametro</label>
-                <select class="form-control">
+              <label for="exampleFormControlSelect1">Parámetro</label>
+                <select class="form-control" name="parametros" id="selectParametro">
                     @foreach ($parametro as $item)
                     <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
                 @endforeach
@@ -44,17 +44,17 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label for="">Núm. muestra</label>
-                <input type="text" class="form-control">
+                <input type="text" class="form-control" id="numeroMuestra">
             </div>
         </div>
         <div class="col-md-3">
             <div class="form-group">
                 <label for="">Fecha análisis</label>
-                <input type="date" class="form-control">
+                <input type="date" class="form-control" id="fechaAnalisis">
             </div>
         </div>
         <div class="col-md-3">
-            <button class="btn btn-success">Buscar</button>
+            <button class="btn btn-success" id="btnBuscar">Buscar</button>
         </div>
 
         <div class="col-md-12">
