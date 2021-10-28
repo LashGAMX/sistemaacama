@@ -75,7 +75,7 @@ function buscarLote()
                 tab += '<td>'+item.Id_tipo+'</td>';
                 tab += '<td>'+item.Fecha+'</td>';
                 tab += '<td>'+item.created_at+'</td>';
-                tab += '<td>'+inputBtn('','','Asignar')+'</td>';
+                tab += '<td><button type="button" id="btnAsignar" onclick="setAsignar('+item.Id_lote+')"  class="btn btn-primary">Guardar</button></td>';
               tab += '</tr>';
             });
             tab += '    </tbody>';
@@ -83,6 +83,10 @@ function buscarLote()
             tabla.innerHTML = tab;
         }
     });
+}
+function setAsignar(id)
+{
+    window.location = base_url + "/admin/laboratorio/asgnarMuestraLote/"+id;
 }
 
 function isSelectedProcedimiento(procedimientoTab){
