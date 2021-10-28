@@ -20,7 +20,70 @@ $(document).ready(function () {
     });
 
     quill = new Quill('#editor', options);
+
 });
+
+function createLote()
+{
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/laboratorio/createLote",
+        data: {
+            tipo: $("#tipoFormula").val(),
+            fecha: $("#fechaLote").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {            
+            console.log(response);
+
+        }
+    });
+}
+
+function buscarLote()
+{
+    let tabla = document.getElementById('divTable');
+    let tab = '';
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/laboratorio/buscarLote",
+        data: {
+            tipo: $("#tipo").val(),
+            fecha: $("#fecha").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {            
+            console.log(response);
+            tab += '<table id="tablaLote" class="table table-sm">';
+            tab += '    <thead class="thead-dark">';
+            tab += '        <tr>';
+            tab += '          <th>#</th>';
+            tab += '          <th>Tipo formula</th>';
+            tab += '          <th>Fecha lote</th> ';
+            tab += '          <th>Fecha creacion</th> ';
+            tab += '          <th>Opc</th> ';
+            tab += '        </tr>';
+            tab += '    </thead>';
+            tab += '    <tbody>';
+            $.each(response.model, function (key, item) {
+                tab += '<tr>';
+                tab += '<td>'+item.Id_lote+'</td>';
+                tab += '<td>'+item.Id_tipo+'</td>';
+                tab += '<td>'+item.Fecha+'</td>';
+                tab += '<td>'+item.created_at+'</td>';
+                tab += '<td>'+inputBtn('','','Asignar')+'</td>';
+              tab += '</tr>';
+            });
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
+        }
+    });
+}
 
 function isSelectedProcedimiento(procedimientoTab){
     let valorProcedimientoTab = 'https://dev.sistemaacama.com.mx/admin/laboratorio/lote#procedimiento';
