@@ -99,6 +99,13 @@
       margin-bottom:220px;
       transition:0.99s;
     }
+
+    .botonF6{
+      background:#FF5722;
+      margin-bottom:220px;
+      transition:0.99s;
+    }
+
     .animacionVer{
       transform:scale(1);
     }
@@ -204,11 +211,11 @@
     </div>
 
     <div class="contenedor">
-      <button class="botonF1"><i class="voyager-move"></i></button>
-      <button class="btn botonF2"><i class="far fa-eye"></i></button>
-      <button class="btn botonF3"><i class="voyager-data"></i></button>
-      <button class="btn botonF4"><i class="voyager-list-add"></i></button>
-      <button class="btn botonF5"><i class="voyager-file-text"></i></button>
+      <button class="botonF1" onclick="location.href='analisis'"><i class="voyager-move"></i></button>
+      <button class="btn botonF2" onclick="location.href='observacion'"><i class="far fa-eye"></i></button>
+      <button class="btn botonF3" onclick="location.href='lote'"><i class="voyager-data"></i></button>
+      <button class="btn botonF4" onclick="location.href='asignar'"><i class="voyager-list-add"></i></button>
+      <button class="btn botonF5" onclick="location.href='captura'"><i class="voyager-file-text"></i></button>      
     </div>
 
 </div>
