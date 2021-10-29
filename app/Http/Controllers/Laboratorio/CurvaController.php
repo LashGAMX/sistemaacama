@@ -7,12 +7,14 @@ use Illuminate\Http\Request;
 use App\Models\estandares;
 use App\Models\Formulas;
 use App\Models\Constante;
+use App\Models\LoteAnalisis;
 
 class CurvaController extends Controller
 {
     public function index(){
+        $lote = LoteAnalisis::all();
         $model = "";
-        return view('laboratorio/curva', compact('model'));
+        return view('laboratorio/curva', compact('model','lote'));
     }
      public function buscar(Request $request){
         $id = $request->idLote;
