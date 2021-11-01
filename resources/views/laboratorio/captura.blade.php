@@ -15,19 +15,9 @@
               <label for="exampleFormControlSelect1">Fórmula tipo</label>
                 <select class="form-control" name="formulaTipo" id="selectFormulaTipo">
                     <option value="0">Sin seleccionar</option>
-                    <option value="1">ALUMINIO (Al) (Metales residual)</option>
-                    <option value="2">ARSENICO (As) (Metales residual)</option>
-                    <option value="3">ARSENICO (As) (Metales potable)</option>
-                    <option value="4">CADMIO (Cd) (Metales residual)</option>
-                    <option value="5">COBRE TOTAL (Cu) (Metales residual)</option>
-                    <option value="6">CROMO TOTAL (Cr) (Metales residual)</option>
-                    <option value="7">FIERRO (Fe) (Metales residual)</option>
-                    <option value="8">MERCURIO (Hg) (Metales residual)</option>
-                    <option value="9">MERCURIO (Hg) (Metales potable)</option>
-                    <option value="10">NIQUEL (Ni) (Metales residual)</option>
-                    <option value="11">PLOMO (Pb) (Metales residual)</option>
-                    <option value="12">SELENIO (Se) (Metales residual)</option>
-                    <option value="13">ZINC (Zn) (Metales residual)</option>
+                    @foreach ($parametro as $parametros)
+                        <option value= {{$parametros->Id_parametro}}>{{$parametros->Parametro}}</option>
+                    @endforeach
                   </select>
             </div>
         </div>

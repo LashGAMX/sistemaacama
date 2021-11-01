@@ -5,12 +5,13 @@ namespace App\Http\Controllers\Laboratorio;
 use App\Http\Controllers\Controller;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
+use App\Models\ObservacionMuestra;
 use App\Models\ProcesoAnalisis;
 use Illuminate\Http\Request;
 use App\Models\Parametro;
 use App\Models\Reportes;
+use App\Models\TipoFormula;
 use Illuminate\Support\Facades\DB;
-use \Milon\Barcode\DNS2D;
 
 class LaboratorioController extends Controller
 {
@@ -44,10 +45,13 @@ class LaboratorioController extends Controller
         return view('laboratorio.analisis', compact('model', 'elements', 'solicitud', 'solicitudLength', 'tecnicas', 'solicitudPuntos', 'solicitudPuntosLength', 'parametros', 'parametrosLength', 'puntoMuestreo', 'puntoMuestreoLength'));
     }
      
+    
+    //***********************************************OBSERVACIÓN********************************************** */
     public function observacion(){
         $formulas = DB::table('tipo_formulas')->get();
         return view('laboratorio.observacion', compact('formulas'));
     }
+
     public function getObservacionanalisis(Request $request)
     {
         $model = DB::table('ViewObservacionMuestra')->where('Id_area',$request->id)->get();
@@ -58,7 +62,23 @@ class LaboratorioController extends Controller
         return response()->json($data);
     }
 
-    
+    public function aplicarObservacion(Request $request){
+        $viewObservacion = DB::table('ViewObservacionMuestra')->where('Folio',$request->folioActual)->first();
+                
+            $observacion = ObservacionMuestra::find($viewObservacion->Id_observacion);
+            $observacion->Ph = $request->ph;
+            $observacion->Solido = $request->solidos;
+            $observacion->Olor = $request->olor;
+            $observacion->Color = $request->color;
+            $observacion->Observaciones = $request->observacionGeneral;
+            $observacion->save();                
+
+        return response()->json(
+            compact('observacion')
+        );
+    }
+
+    //*********************************************************************************************************** */
     public function tipoAnalisis(){ 
         return view('laboratorio.tipoAnalisis');
     }
@@ -98,7 +118,8 @@ class LaboratorioController extends Controller
     }
     public function asignar()
     {
-        return view('laboratorio.asignar');
+        $tipoFormula = TipoFormula::all();
+        return view('laboratorio.asignar', compact('tipoFormula'));
     }
     public function asgnarMuestraLote($id)
     {

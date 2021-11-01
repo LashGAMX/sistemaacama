@@ -36,14 +36,14 @@ $('#btnBuscar').click(function(){
     let formulaTipo = $('select[name="formulaTipo"] option:selected').text();
     let parametros = $('select[name="parametros"] option:selected').text();
     let numMuestra = $('#numeroMuestra').val();
-    let fechaAnalisis = $('#fechaAnalisis').val();
+    let fechaAnalisis = $('#fechaAnalisis').val();        
 
     //console.log("Valor de la variable fechaAnalisis: " + fechaAnalisis);
 
     //Función Ajax; Realiza la búsqueda en la BD usando los valores de las variables
-    $.ajax({
-        type: "GET",
-        url: "url",
+    /*$.ajax({
+        type: "POST",
+        url: base_url + '/admin/ingresar/buscarFolio',
         data: {
             formulaTipo: formulaTipo,
             parametros: parametros,
@@ -54,5 +54,5 @@ $('#btnBuscar').click(function(){
         success: function (response) {
             
         }
-    });
+    });*/
 });

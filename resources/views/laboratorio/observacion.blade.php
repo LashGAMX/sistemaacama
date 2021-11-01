@@ -33,7 +33,7 @@
             <div class="col-md-2">                                
               <div class="form-group">
                 <label for="exampleFormControlSelect1">PH < 2</label>
-                <select class="form-control">
+                <select class="form-control" name="condicionPh">
                   <option value="0">Sin seleccionar</option>
                   <option value="1">SI</option>
                   <option value="2">NO</option>
@@ -44,7 +44,7 @@
             <div class="col-md-1">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Sólidos</label>
-                <select class="form-control">
+                <select class="form-control" name="solidos">
                   <option value="0">Sin seleccionar</option>
                   <option value="1">SI</option>
                   <option value="2">NO</option>
@@ -55,7 +55,7 @@
             <div class="col-md-1">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Olor</label>
-                <select class="form-control">
+                <select class="form-control" name="olor">
                   <option value="0">Sin seleccionar</option>
                   <option value="1">SI</option>
                   <option value="2">NO</option>
@@ -66,7 +66,7 @@
             <div class="col-md-1">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Color</label>
-                <select class="form-control">
+                <select class="form-control" name="color">
                   <option value="0">Sin seleccionar</option>
                   <option value="1">SI</option>
                   <option value="2">NO</option>
@@ -82,7 +82,7 @@
             </div>
 
             <div class="col-md-2">
-              <button class="btn btn-success">Aplicar</button>
+              <button class="btn btn-success" id="btnAplicar" onclick="aplicar();">Aplicar</button>
             </div>
 
           </div>
@@ -93,7 +93,7 @@
         <div id="contenedorGeneral">
             
           <div id="contenedorIzq">
-            <table class="table tableObservacion" id="tablaObservacion"> 
+            <table class="table tableObservacion" id="solicitudGenerada"> 
               <thead>
                 <tr>
                   <th>Folio servicio</th>

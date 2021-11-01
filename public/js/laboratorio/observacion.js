@@ -1,6 +1,7 @@
 var base_url = 'https://dev.sistemaacama.com.mx';
+
 $(document).ready(function () {
-    table = $('.tablaObservacion').DataTable({        
+    table = $('#solicitudGenerada').DataTable({        
         "ordering": false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
@@ -9,30 +10,6 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos encontrados",
         }
     });
-});
-
-//Múltiple selección
-$(document).ready(function() {
-    var table = $('#primeraTabla').DataTable();
-    var indiceFilaSelect;
-
-    $('#primeraTabla tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected');                
-        
-        //indiceFilaSelect = this.rowIndex;
-        //console.log("Valor de indiceFila: " + indiceFilaSelect);
-
-        //$('#segundaTabla tbody tr').toggleClass('selected');        
-    });
-
-    $('#segundaTabla tbody').on( 'click', 'tr', function () {
-        $(this).toggleClass('selected');
-        //$('#primeraTabla tbody tr').toggleClass('selected');
-    });
-    
-    $('#button').click( function () {
-        alert( table.rows('.selected').data().length +' row(s) selected');
-    });
 
     $('#btnBuscar').click( function () {
         console.log($("#tipoFormula").val());
@@ -40,8 +17,8 @@ $(document).ready(function() {
     });
 });
 
-function getServicio(id){
-    let tabla = document.getElementById('tablaObservacion');
+function getServicio(id){    
+    let tabla = document.getElementById('solicitudGenerada');
     let tab = '';
     $.ajax({
         url: base_url + '/admin/laboratorio/getObservacionanalisis', //archivo que recibe la peticion
@@ -85,14 +62,67 @@ function getServicio(id){
               tab += '<td>'+item.Solido+'</td>';
               tab += '<td>'+item.olor+'</td>';
               tab += '<td>'+item.Color+'</td>';
-              tab += '<td>'+item.Observacion+'</td>';
-            tab += '</tr>';
+              tab += '<td contenteditable="true">'+item.Observacion+'</td>';
+              tab += '</tr>';
           });
           tab += '    </tbody>';
           tab += '</table>';
-          tabla.innerHTML = tab;
-   
-        }
-    });  
+          tabla.innerHTML = tab;          
+
+          var table = $('#solicitudGenerada').DataTable();    
+
+          $('#solicitudGenerada tbody').on( 'click', 'tr', function () {
+              $(this).toggleClass('selected');
+          });
+
+          $('#button').click( function () {
+            alert( table.rows('.selected').data().length +' row(s) selected');
+          });
+        }        
+    });
 }
 
+//Debe ir función AJAX
+function aplicar(){
+    let tabla = document.getElementById('solicitudGenerada');
+    let ph = $('select[name="condicionPh"] option:selected').text();
+    let solidos = $('select[name="solidos"] option:selected').text();
+    let olor = $('select[name="olor"] option:selected').text();
+    let color = $('select[name="color"] option:selected').text();
+    let observacionGeneral = $('#observacionesGenerales').val();    
+
+    //let celdaPh;
+    let folioActual;
+    let numeroFilas = ($('#solicitudGenerada tr').length)-1;    
+
+    for(let i = 0 ; i < numeroFilas; i++){
+        if($('#solicitudGenerada tbody tr').hasClass('selected')){
+            folioActual = $('#solicitudGenerada tbody tr:eq(' + i + ') td:eq(' + 0 + ')').text();;
+            
+            $.ajax({
+                type: "POST",
+                url: base_url + '/admin/laboratorio/aplicarObservacion',
+                data: {
+                    folioActual: folioActual,
+                    ph: ph,
+                    solidos: solidos,
+                    olor: olor,
+                    color: color,
+                    observacionGeneral: observacionGeneral
+                },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+                                                                                                                        
+            
+            //celdaPh = $('#solicitudGenerada tr:eq(' + i + ') td:eq(' + 7 + ')').text();
+            /*celdaPh = (document.getElementById("solicitudGenerada").rows[i].cells[0]).value;
+            //this.innerHTML = '<td>'+ celdaPh +'</td>';
+            console.log("Valor de celdaPh: " + celdaPh);*/
+            
+            console.log("La fila: " + (i) + " está seleccionada");
+        }
+    }    
+}
