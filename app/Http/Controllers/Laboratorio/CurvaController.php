@@ -18,8 +18,9 @@ class CurvaController extends Controller
     }
      public function buscar(Request $request){
         $id = $request->idLote;
+        $lote = LoteAnalisis::all();
         $model = estandares::where('Id_Lote', $id)->get();
-        return view('laboratorio/curva',compact('model'));
+        return view('laboratorio/curva',compact('model','lote'));
      }
 
     public function promedio(Request $request){

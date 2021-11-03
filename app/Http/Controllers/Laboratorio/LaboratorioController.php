@@ -91,7 +91,7 @@ class LaboratorioController extends Controller
 
     public function lote()
     {
-        $formulas = DB::table('tipo_formulas')->get();
+        $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         $textoRecuperadoPredeterminado = Reportes::where('Id_reporte' , 0)->first();
         return view('laboratorio.lote', compact('formulas', 'textoRecuperadoPredeterminado'));
     }
@@ -110,13 +110,14 @@ class LaboratorioController extends Controller
     }
     public function buscarLote(Request $request)
     {
-        $model = LoteAnalisis::where('Id_tipo',$request->tipo)->where('Fecha',$request->fecha)->get();
+        //$model = LoteAnalisis::where('Id_tipo',$request->tipo)->where('Fecha',$request->fecha)->get();
+        $model = DB::table('ViewLoteAnalisis')->where('Id_tipo',$request->tipo)->where('Fecha',$request->fecha)->get();
         $data = array(
             'model' => $model,
         );
         return response()->json($data);
     }
-    public function asignar()
+    public function asignar() 
     {
         $tipoFormula = TipoFormula::all();
         return view('laboratorio.asignar', compact('tipoFormula'));
@@ -136,7 +137,7 @@ class LaboratorioController extends Controller
         
         if($lote->count()){
             $texto = Reportes::find($idLote);
-            $texto->Texto = $textoPeticion;
+            $texto->Texto = $textoPeticion;            
             $texto->save();
         }else{
             $texto = Reportes::create(['Texto' => $textoPeticion]);
@@ -167,7 +168,7 @@ class LaboratorioController extends Controller
         $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected'));
         
         //Hace referencia a la vista capturaPie
-        $htmlFooter = view('exports.laboratorio.capturaPie');    
+        $htmlFooter = view('exports.laboratorio.capturaPie');
 
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
@@ -193,6 +194,7 @@ class LaboratorioController extends Controller
         
         //Hace referencia a la vista captura, misma que es el body del documento PDF
         $html = view('exports.laboratorio.captura');
+        
         $mpdf->CSSselectMedia = 'mpdf';  
         
         //Establece el encabezado del documento PDF
@@ -204,7 +206,29 @@ class LaboratorioController extends Controller
         //Escribe el contenido HTML de la var.html en el documento PDF
         $mpdf->WriteHTML($html);
 
-        //Crea el documento PDF
+
+        //*************************************************Segundo juego de documentos PDF***************************************************
+        $mpdf->AddPage('', '', '1', '', '', '', '', 50, '', '', '', '', '', '', '', -1, -1, -1, -1);
+
+        //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes
+        $textoProcedimiento = Reportes::where('Id_muestra' , '298-1/21')->first();
+        
+        //Hoja1
+        $htmlCurva = view('exports.laboratorio.curvaBody', compact('textoProcedimiento'));
+        $htmlCurvaHeader = view('exports.laboratorio.curvaHeader', compact('formulaSelected'));
+        $htmlCurvaFooter = view('exports.laboratorio.curvaFooter');
+        $mpdf->SetHTMLHeader('{PAGENO}<br><br>'.$htmlCurvaHeader, 'O', 'E');
+        $mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E');
+        $mpdf->WriteHTML($htmlCurva);
+
+        //Hoja2
+        $mpdf->AddPage('', '', '', '', '', '', '', 50, '', '', '', '', '', '', '', '', '', '', '');
+        $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento'));                
+        /*$mpdf->SetHTMLHeader($htmlCurvaHeader, 'O', 'E');
+        $mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E');*/
+        $mpdf->WriteHTML($htmlCurva2);
+
+        //Crea el documento PDF final
         $mpdf->Output();
     }
 }

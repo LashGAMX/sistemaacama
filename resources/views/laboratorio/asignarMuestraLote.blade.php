@@ -15,30 +15,52 @@
 
       </div>
     </div>
+    <div class="col-md-6">
+      <div class="" id="divTable">
+        <center><h5>Muestras sin asignar</h5></center>
+        <table class="table" id="tableObservacion"> 
+          <thead>
+            <tr>
+              <th>Folio</th>
+              <th>Parametros</th>
+            </tr>
+          </thead>
+          <tbody>
+              @foreach ($lote as $item)
+                  <tr>
+                      <td>{{$item->Id_lote}}</td>
+                      <td>{{$item->Id_analisis}}</td>
+                  </tr>
+              @endforeach   
+          </tbody>
+        </table>
+        </div>
+    </div>
+    <div class="col-md-6">
+      <div class="" id="divTable2s">
+        <center><h5>Muestras asignadas</h5></center>
+        <table class="table" id="tableObservacion"> 
+          <thead>
+            <tr>
+              <th>Folio</th>
+              <th>Parametros</th>
+            </tr>
+          </thead>
+          <tbody>
+              @foreach ($lote as $item)
+                  <tr>
+                      <td>{{$item->Id_lote}}</td>
+                      <td>{{$item->Id_analisis}}</td>
+                  </tr>
+              @endforeach   
+          </tbody>
+        </table>
+        </div>
+    </div>
     
     <div class="col-md-12">
     
-      <div class="" id="divTable">
-        
-      <table class="table" id="tableObservacion"> 
-        <thead>
-          <tr>
-            
-            <th>Id lote</th>
-            <th>Analisis</th>
-    
-          </tr>
-        </thead>
-        <tbody>
-            @foreach ($lote as $item)
-                <tr>
-                    <td>{{$item->Id_lote}}</td>
-                    <td>{{$item->Id_analisis}}</td>
-                </tr>
-            @endforeach   
-        </tbody>
-      </table>
-      </div>
+   
     </div>
   </div>
 </div>

@@ -45,3 +45,10 @@
 #btnRefresh{
     display: inline;
 }
+
+
+
+#editor{
+    word-break: break-all;
+    white-space: pre-line;
+}

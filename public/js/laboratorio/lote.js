@@ -72,10 +72,10 @@ function buscarLote()
             $.each(response.model, function (key, item) {
                 tab += '<tr>';
                 tab += '<td>'+item.Id_lote+'</td>';
-                tab += '<td>'+item.Id_tipo+'</td>';
+                tab += '<td>'+item.Tipo_formula+'</td>';
                 tab += '<td>'+item.Fecha+'</td>';
                 tab += '<td>'+item.created_at+'</td>';
-                tab += '<td><button type="button" id="btnAsignar" onclick="setAsignar('+item.Id_lote+')"  class="btn btn-primary">Guardar</button></td>';
+                tab += '<td><button type="button" id="btnAsignar" onclick="setAsignar('+item.Id_lote+')"  class="btn btn-primary">Agregar</button></td>';
               tab += '</tr>';
             });
             tab += '    </tbody>';

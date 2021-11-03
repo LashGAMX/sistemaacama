@@ -31,7 +31,7 @@
             </thead>
     
             <tbody>
-                @for ($i = 0; $i < 24; $i++)
+                @for ($i = 0; $i < 100; $i++)
                     <tr>
                         <td id="tableContent">PRUEBA</td>
                         <td id="tableContent">PRUEBA</td>
