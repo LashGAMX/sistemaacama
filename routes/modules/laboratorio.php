@@ -20,7 +20,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::post('createLote', [LaboratorioController::class,'createLote']);
     Route::post('buscarLote', [LaboratorioController::class,'buscarLote']);
     Route::get('asgnarMuestraLote/{id}', [LaboratorioController::class,'asgnarMuestraLote']);
-    Route::post('muestraSinAsignar', );
+    Route::post('muestraSinAsignar',[LaboratorioController::class,'muestraSinAsignar']);
 
     Route::get('asignar',[LaboratorioController::class,'asignar']);
 
