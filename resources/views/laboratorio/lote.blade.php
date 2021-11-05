@@ -4,7 +4,7 @@
 
   @section('page_header')
   <h6 class="page-title"> 
-    <i class="voyager-data"></i>
+    <i class="voyager-data"></i>    
     Lote
   </h6>
  
@@ -373,7 +373,7 @@
                   @endif                  
                 </div>
 
-                <button type="button" class="btn btn-primary" onclick='guardarTexto("editor", "idLoteHeader");'>Guardar</button>
+                <button type="button" class="btn btn-primary" onclick='guardarTexto("idLoteHeader");'>Guardar</button>
               </div> 
             </div>
           </div>

@@ -16,6 +16,7 @@ class LoteDetalle extends Model
     protected $fillable = [
         'Id_lote',
         'Id_analisis',
+        'Id_parametro',
         'Fecha',
     ];
 }

@@ -209,9 +209,11 @@ INNER JOIN sub_normas as sub
 ON sub.Id_subnorma = sol.Id_subnorma
 
 /* Lista Solicitud parametros */
-CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro FROM solicitud_parametros as sol
+CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_parametro as Id_solParam,sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro,sol.Asignado,s.Folio_servicio FROM solicitud_parametros as sol
 INNER JOIN ViewParametros as pa
 ON sol.Id_subnorma = pa.Id_parametro
+INNER JOIN solicitudes as s
+ON sol.Id_solicitud = s.Id_solicitud
 
 /* Lista Puntos Solicitud Generales */
 CREATE VIEW ViewPuntoGenSol as SELECT sol.Id_punto,sol.Id_solicitud,sol.Id_muestreo,puntos.Id_sucursal,puntos.Punto_muestreo FROM solicitud_puntos as sol
@@ -265,3 +267,10 @@ INNER JOIN area_analisis as a
 ON lo.Id_area = a.Id_area_analisis
 INNER JOIN tipo_formulas as ti
 ON lo.Id_tipo = ti.Id_tipo_formula
+
+/* Lista ViewDetalleLote */
+CREATE VIEW ViewLoteDetalle as SELECT lote.* ,sol.Folio_servicio,pa.Parametro FROM lote_detalle as lote
+INNER JOIN solicitudes as sol
+ON lote.Id_analisis = sol.Id_solicitud
+INNER JOIN parametros as pa
+ON lote.Id_parametro = pa.Id_parametro

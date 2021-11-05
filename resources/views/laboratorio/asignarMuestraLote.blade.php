@@ -5,7 +5,8 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-data"></i>
-    Asignar muestra
+    Asignar muestra / Lote: {{$idLote}}
+    <input type="text" id="idLote" value="{{$idLote}}" hidden>
   </h6>
  
 <div class="container-fluid">
@@ -16,30 +17,25 @@
       </div>
     </div>
     <div class="col-md-6">
+      <center><h5>Muestras sin asignar</h5></center>
       <div class="" id="divTable">
-        <center><h5>Muestras sin asignar</h5></center>
-        <table class="table" id="tableObservacion"> 
-          <thead>
-            <tr>
-              <th>Folio</th>
-              <th>Parametros</th>
-            </tr>
-          </thead>
-          <tbody>
-              @foreach ($lote as $item)
-                  <tr>
-                      <td>{{$item->Id_lote}}</td>
-                      <td>{{$item->Id_analisis}}</td>
-                  </tr>
-              @endforeach   
-          </tbody>
-        </table>
+          <table class="table" id=""> 
+            <thead>
+              <tr>
+                <th>Folio</th>
+                <th>Parametros</th>
+              </tr>
+            </thead>
+            <tbody>
+             
+            </tbody>
+          </table>
         </div>
     </div>
     <div class="col-md-6">
-      <div class="" id="divTable2s">
-        <center><h5>Muestras asignadas</h5></center>
-        <table class="table" id="tableObservacion"> 
+      <center><h5>Muestras asignadas</h5></center>
+      <div class="" id="divTable2">
+        <table class="table" id=""> 
           <thead>
             <tr>
               <th>Folio</th>
@@ -47,12 +43,7 @@
             </tr>
           </thead>
           <tbody>
-              @foreach ($lote as $item)
-                  <tr>
-                      <td>{{$item->Id_lote}}</td>
-                      <td>{{$item->Id_analisis}}</td>
-                  </tr>
-              @endforeach   
+     
           </tbody>
         </table>
         </div>
@@ -64,14 +55,14 @@
     </div>
   </div>
 </div>
-
+ 
 
   @stop
 
   @section('javascript')
+  <script src="{{asset('js/laboratorio/asignarMuestraLote.js')}}"></script>
   <script src="{{asset('js/libs/componentes.js')}}"></script>
   <script src="{{asset('js/libs/tablas.js')}}"></script>
-  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
   @stop
 
 @endsection

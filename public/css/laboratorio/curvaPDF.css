@@ -1,8 +1,7 @@
 #curvaHeader1{
     font-family: Calibri;
     font-size: 11;
-    text-align: center;  
-    background-color: aqua;  
+    text-align: center;      
 }
 
 #curvaHeader2{
@@ -26,12 +25,18 @@
     text-indent: 5em;
 }
 
+.subFechaHora{
+    font-family: Calibri;
+    font-size: 9;
+}
+
+
 #curvaProcedimiento{
     font-family: Calibri;
     font-size: 9;
-    font-weight: bold;    
+    font-weight: bold; 
+    margin: 0;   
 }
-
 
 #revisiones{
     font-size: 9;
@@ -40,5 +45,10 @@
 
 #contenidoCurva{
     font-family: Calibri;
-    font-size: 9;  
+    font-size: 8.5;
+    
+}
+
+#contenidoCurva p{
+    margin: 0;
 }

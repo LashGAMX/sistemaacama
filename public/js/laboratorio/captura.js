@@ -26,6 +26,21 @@ $('#btnImprimir').click(function() {
     console.log("dentro de jquery function");
     let formulaTipo = $('select[name="formulaTipo"] option:selected').text();
 
+    let nuMuestra = $('#numeroMuestra').val();
+
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/lote/procedimiento/busquedaFiltros",
+        data: {
+            numMuestra: numMuestra,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            
+        }
+    });
+
     window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+formulaTipo;
 });
 

@@ -20,7 +20,6 @@ $(document).ready(function () {
     });
 
     quill = new Quill('#editor', options);
-
 });
 
 function createLote()
@@ -41,6 +40,7 @@ function createLote()
         }
     });
 }
+function
 
 function buscarLote()
 {
@@ -106,47 +106,58 @@ function isSelectedProcedimiento(procedimientoTab){
 }
 
 //Método que guarda el texto ingresado en el editor de texto Quill en la BD
-function guardarTexto(editor, idLote){
-    let texto = document.getElementById(editor).textContent;
+function guardarTexto(idLote){    
     let lote = document.getElementById(idLote).value;
+    let texto = quill.container.firstChild.innerHTML;    
     
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/lote/procedimiento",
-        data: {texto, lote},
+        data: {
+            texto: texto, 
+            lote: lote
+        },
         dataType: "json",
         async: false,
         success: function (response) {            
+            console.log("REGISTRO EXITOSO");
             console.log(response);
         }
     });
 }
 
 function busquedaPlantilla(idLote){
-    let lote = document.getElementById(idLote).value;    
+    let lote = document.getElementById(idLote).value;     
 
+    //Si está vacío
     if(lote.length == 0){
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: base_url + "/admin/laboratorio/lote/procedimiento/busquedaPlantilla",
-            data: {lote},
+            data: {
+                lote: lote,
+                _token: $('input[name="_token"]').val()
+            },
             dataType: "json",
             async: false,
             success: function (response) {
-                quill.setText(response.textoRecuperadoPredeterminado.Texto);
+                quill.setText(response.textoDefault);                
             }
         });
-    }else if(lote > 0){
+    }else if(lote > 0){                
         $.ajax({
-            type: "GET",
+            type: "POST",
             url: base_url + "/admin/laboratorio/lote/procedimiento/busquedaPlantilla",
-            data: {lote},
+            data: {
+                lote: lote,
+                _token: $('input[name="_token"]').val()
+            },
             dataType: "json",
             async: false,
-            success: function (response) {                            
+            success: function (response) {                                            
                 //Si encuentra texto almacenado en la BD entonces procede a mostrarlo en el editor de texto
-                if(response.textoRecuperado.Texto !== null){
-                    quill.setText(response.textoRecuperado.Texto);                
+                if(response.textoRecuperado.Texto !== null){                    
+                    quill.setText(response.textoEncontrado);                    
                 }else{
                     //Si no encuentra texto almacenado en la BD entonces no muestra ningún texto en el editor de texto
                     quill.setText('');
