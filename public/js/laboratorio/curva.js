@@ -1,63 +1,41 @@
 var base_url = "https://dev.sistemaacama.com.mx";
-var table;
+
 $(document).ready(function (){
-    // var idLot = 0;
-    // tabla = $("#tableStd").DataTable({
-    //     "responsive": true,
-    //     "autoWidth": true,
-    //      stateSave: true,
-    //     "language": {
-    //       "lengthMenu": "Mostrar _MENU_ por pagina",
-    //       "zeroRecords": "Datos no encontrados",
-    //       "info": "Mostrando _PAGE_ de _PAGES_",
-    //       "infoEmpty": "No hay datos",
-    //       "infoFiltered": "(filtered from _MAX_ total records)",
-    //     }
-    //   });
-    // table = $('#tableStd').DataTable({
-    //     "ordering": false,
-    //     "language": {
-    //         "lengthMenu": "# _MENU_ por pagina",
-    //         "zeroRecords": "No hay datos encontrados",
-    //         "info": "Pagina _PAGE_ de _PAGES_",
-    //         "infoEmpty": "No hay datos encontrados",   
-    //     }
-    // });
-    $("#btnEdit").prop('disabled', true);
-    $('#tableStd tbody').on( 'click', 'tr', function () { 
-        if ( $(this).hasClass('selected') ) {
-            $(this).removeClass('selected');
-            // console.log("no selecionado");
-            // selectedRow = false;
-            $("#btnEdit").prop('disabled', true);
-            idLot = 0;
+    
+    tabla = $("#tableStd").DataTable({
+        "responsive": true,
+        "autoWidth": true,
+         stateSave: true,
+        "language": {
+          "lengthMenu": "Mostrar _MENU_ por pagina",
+          "zeroRecords": "Datos no encontrados",
+          "info": "Mostrando _PAGE_ de _PAGES_",
+          "infoEmpty": "No hay datos",
+          "infoFiltered": "(filtered from _MAX_ total records)",
         }
-        else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            // console.log("Seleccionado");
-            // selectedRow = true;
-            $("#btnEdit").prop('disabled', false);
-        }
-    });
+      });
+
+   
     //* Acciones para los botones
     $('#btnEdit tr').on('click', function(){
         let dato = $(this).find('td:first').html();
         idlot = dato;
       });
 
-    $("#create").click(function(){
-        create();
+
+  $("#CreateStd").click(function(){
+        createStd();
     });
 
     $("#buscar").click(function(){
         buscar();
-    })
+        
+    });
     $('#calcular').click(function(){
         promedio();
     });
     $('#guardar').click(function(){
-        guardar();
+      
     });
 
     $("#editar").click(function(){
@@ -68,6 +46,7 @@ $(document).ready(function (){
         formula();
     });
 });
+
 
 function promedio(){
     var suma = 0;
@@ -149,40 +128,109 @@ function formula(){
     });        
     
 }
-function create(){
+
+function createStd(){
+    let tabla = document.getElementById('divTablaStd');
+    let tab = '';
 
     $.ajax({
-        url: base_url + '/admin/laboratorio/create', //archivo que recibe la peticion
+        url: base_url + '/admin/laboratorio/createStd', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
           idLote:$("#idLote").val(),
-          b:$("#b").val(),
-          m:$("#m").val(),
-          r:$("#r").val(),
+          numEstandares:$("#numEstandares").val(),
           _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) { 
+         console.log(response);
+         if(response.sw == false){
+             alert("Este lote ya tiene estandare creados");
+         }else{
+            tab += '<table id="tablaLote" class="table table-sm">';
+            tab += '    <thead class="thead-dark">';
+            tab += '        <tr>';
+            tab += '          <th>Id</th>';
+            tab += '          <th>Id Lote</th> ';
+            tab += '          <th>STD</th> ';
+            tab += '          <th>Concentracion</th> ';
+            tab += '          <th>STD1</th> ';
+            tab += '          <th>STD2</th> ';
+            tab += '          <th>STD3</th> ';
+            tab += '          <th>Promedio</th> ';
+            tab += '        </tr>';
+            tab += '    </thead>';
+            tab += '    <tbody>';
+            $.each(response.stdModel, function (key, item) {
+                tab += '<tr>';
+                tab += '<td>'+item.Id_std+'</td>';
+                tab += '<td>'+item.Id_lote+'</td>';
+                tab += '<td>'+item.STD+'</td>';
+                tab += '<td><input value="'+item.Concentracion+'"></td>';
+                tab += '<td><input value="'+item.ABS1+'"></td>';
+                tab += '<td><input value="'+item.ABS2+'"></td>';
+                tab += '<td><input value="'+item.ABS3+'"></td>';
+                tab += '<td>'+item.Promedio+'</td>';
+              tab += '</tr>';
+            });
+        
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
+         }
+        }
+    });           
+}
+
+function buscar(){
+    let tabla = document.getElementById('divTablaStd');
+    let tab = '';
+    $.ajax({
+        url: base_url + '/admin/laboratorio/buscar', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          idLote:$("#idLote").val(),
+          _token: $('input[name="_token"]').val()
         },
         dataType: 'json', 
         async: false, 
         success: function (response) {
          console.log(response);
+         if(response.sw == false){
+             alert("Necesitas generar estandares para este lote")
+         }else{
+            tab += '<table id="tablaLote" class="table table-sm">';
+            tab += '    <thead class="thead-dark">';
+            tab += '        <tr>';
+            tab += '          <th>Id</th>';
+            tab += '          <th>Id Lote</th> ';
+            tab += '          <th>STD</th> ';
+            tab += '          <th>Concentracion</th> ';
+            tab += '          <th>STD1</th> ';
+            tab += '          <th>STD2</th> ';
+            tab += '          <th>STD3</th> ';
+            tab += '          <th>Promedio</th> ';
+            tab += '        </tr>';
+            tab += '    </thead>';
+            tab += '    <tbody>';
+            $.each(response.stdModel, function (key, item) {
+                tab += '<tr>';
+                tab += '<td>'+item.Id_std+'</td>';
+                tab += '<td>'+item.Id_lote+'</td>';
+                tab += '<td>'+item.STD+'</td>';
+                tab += '<td><input value="'+item.Concentracion+'"></td>';
+                tab += '<td><input value="'+item.ABS1+'"></td>';
+                tab += '<td><input value="'+item.ABS2+'"></td>';
+                tab += '<td><input value="'+item.ABS3+'"></td>';
+                tab += '<td>'+item.Promedio+'</td>';
+              tab += '</tr>';
+            });
         
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
+         }
         }
-    });        
-
-}
-
-function buscar(){
-    // $.ajax({
-    //     url: base_url + '/admin/laboratorio/buscar', //archivo que recibe la peticion
-    //     type: 'POST', //método de envio
-    //     data: {
-    //       idLote:$("#idLote").val(),
-    //     },
-    //     dataType: 'json', 
-    //     async: false, 
-    //     success: function (response) {
-    //      console.log(response);
-    //     }
-    // });        
-    window.location = base_url + '/admin/laboratorio/buscar/' + $("#idLote").val();     
+    });           
 }
