@@ -22,13 +22,13 @@ $(document).ready(function () {
 
 });
 
-$('#btnImprimir').click(function() {
+/* $('#btnImprimir').click(function() {
     console.log("dentro de jquery function");
-    let formulaTipo = $('select[name="formulaTipo"] option:selected').text();
+    let formulaTipo = $('select[name="formulaTipo"] option:selected').text(); */
 
-    let nuMuestra = $('#numeroMuestra').val();
+    //let nuMuestra = $('#numeroMuestra').val();
 
-    $.ajax({
+    /*$.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/lote/procedimiento/busquedaFiltros",
         data: {
@@ -39,14 +39,14 @@ $('#btnImprimir').click(function() {
         success: function (response) {
             
         }
-    });
+    });*/
 
-    window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+formulaTipo;
-});
+/*     window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+formulaTipo;
+}); */
 
 //Botón buscar; Realiza la búsqueda
 $('#btnBuscar').click(function(){
-    
+    console.log("Dentro de evento btnBuscar");
     //Obtiene los valores introducidos en Fórmula tipo, Parámetro, Núm. muestra, Fecha análisis
     let formulaTipo = $('select[name="formulaTipo"] option:selected').text();
     let parametros = $('select[name="parametros"] option:selected').text();
@@ -56,18 +56,32 @@ $('#btnBuscar').click(function(){
     //console.log("Valor de la variable fechaAnalisis: " + fechaAnalisis);
 
     //Función Ajax; Realiza la búsqueda en la BD usando los valores de las variables
-    /*$.ajax({
+    $.ajax({
         type: "POST",
-        url: base_url + '/admin/ingresar/buscarFolio',
+        url: base_url + "/admin/laboratorio/lote/procedimiento/busquedaFiltros",
         data: {
             formulaTipo: formulaTipo,
             parametros: parametros,
             numMuestra: numMuestra,
-            fechaAnalisis: fechaAnalisis
+            fechaAnalisis: fechaAnalisis,
+            _token: $('input[name="_token"]').val()
         },
         dataType: "json",
-        success: function (response) {
-            
+        success: function (response) {            
+            console.log(response.loteDetail);
+            /* console.log(response.tipoFormula);            
+            console.log(response.parameters);            
+            console.log(response.numeroMuestra); */
+
+            $('#btnImprimir').click(function() {
+                console.log("dentro de jquery function");                                                                                
+
+                //window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+response.loteDetail.Id_lote+'/'+response.tipoFormula+'/'+response.loteDetail.Parametro+'/'+response.loteDetail.Folio_servicio;
+
+                window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+response.tipoFormula+'/'+response.loteDetail.Folio_servicio+'/'+response.loteDetail.Parametro+'/'+response.loteDetail.Id_lote;
+
+                /* window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+response.tipoFormula+'/'+response.numeroMuestra+'/'+response.parameters; */
+            });
         }
-    });*/
+    });
 });
