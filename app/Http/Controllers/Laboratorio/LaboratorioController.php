@@ -192,7 +192,7 @@ class LaboratorioController extends Controller
 
 
     //NUEVA FUNCIÓN BUSQUEDA FILTROS > CAPTURA.JS
-    public function busquedaFiltros($numMuestra){
+    public function busquedaFiltros(Request $request){
 
     }
 
