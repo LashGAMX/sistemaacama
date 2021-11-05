@@ -1,16 +1,28 @@
 var base_url = "https://dev.sistemaacama.com.mx";
 var table;
 $(document).ready(function (){
-    var idLot = 0;
-    table = $('#tableStd').DataTable({
-        "ordering": false,
-        "language": {
-            "lengthMenu": "# _MENU_ por pagina",
-            "zeroRecords": "No hay datos encontrados",
-            "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",   
-        }
-    });
+    // var idLot = 0;
+    // tabla = $("#tableStd").DataTable({
+    //     "responsive": true,
+    //     "autoWidth": true,
+    //      stateSave: true,
+    //     "language": {
+    //       "lengthMenu": "Mostrar _MENU_ por pagina",
+    //       "zeroRecords": "Datos no encontrados",
+    //       "info": "Mostrando _PAGE_ de _PAGES_",
+    //       "infoEmpty": "No hay datos",
+    //       "infoFiltered": "(filtered from _MAX_ total records)",
+    //     }
+    //   });
+    // table = $('#tableStd').DataTable({
+    //     "ordering": false,
+    //     "language": {
+    //         "lengthMenu": "# _MENU_ por pagina",
+    //         "zeroRecords": "No hay datos encontrados",
+    //         "info": "Pagina _PAGE_ de _PAGES_",
+    //         "infoEmpty": "No hay datos encontrados",   
+    //     }
+    // });
     $("#btnEdit").prop('disabled', true);
     $('#tableStd tbody').on( 'click', 'tr', function () { 
         if ( $(this).hasClass('selected') ) {
@@ -27,7 +39,7 @@ $(document).ready(function (){
             // selectedRow = true;
             $("#btnEdit").prop('disabled', false);
         }
-    } );
+    });
     //* Acciones para los botones
     $('#btnEdit tr').on('click', function(){
         let dato = $(this).find('td:first').html();
