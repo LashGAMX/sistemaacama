@@ -8,6 +8,7 @@ use App\Models\estandares;
 use App\Models\Formulas;
 use App\Models\Constante;
 use App\Models\LoteAnalisis;
+use App\Models\CurvaConstantes;
 
 class CurvaController extends Controller
 {
@@ -18,9 +19,10 @@ class CurvaController extends Controller
     }
      public function buscar(Request $request){
         $id = $request->idLote;
+        $const = CurvaConstantes::where('Id_Lote', $id)->get();
         $lote = LoteAnalisis::all();
         $model = estandares::where('Id_Lote', $id)->get();
-        return view('laboratorio/curva',compact('model','lote'));
+        return view('laboratorio/curva',compact('model','lote','id', 'const'));
      }
 
     public function promedio(Request $request){
@@ -38,26 +40,33 @@ class CurvaController extends Controller
     }
     public function create(Request $request){ 
         
-           $model1 = Constante::create([
-            'Constante' => 'b',
-            'Valor' => $request->b,
-            'Descripcion' => 'Curva cobre flama',
-            ]);
-            $model2 = Constante::create([
-                'Constante' => 'm',
-                'Valor' => $request->m,
-                'Descripcion' => 'Curva cobre flama',
-                ]);
-                $model3 = Constante::create([
-                    'Constante' => 'r',
-                    'Valor' => $request->r,
-                    'Descripcion' => 'Curva cobre flama',
-                    ]);
-
+        //    $model1 = Constante::create([
+        //     'Constante' => 'b',
+        //     'Valor' => $request->b,
+        //     'Descripcion' => 'Curva cobre flama',
+        //     ]);
+        //     $model2 = Constante::create([
+        //         'Constante' => 'm',
+        //         'Valor' => $request->m,
+        //         'Descripcion' => 'Curva cobre flama',
+        //         ]);
+        //         $model3 = Constante::create([
+        //             'Constante' => 'r',
+        //             'Valor' => $request->r,
+        //             'Descripcion' => 'Curva cobre flama',
+        //             ]);
+        
+        $model = CurvaConstantes::create([
+            'Id_lote' => $request->idLote,
+            'B' => $request->b,
+            'M' => $request->m,
+            'R' => $request->r
+        ]);
          $data = array(
-            'model1' => $model1,
-            'model2' => $model2,
-            'model3' => $model3
+            // 'model1' => $model1,
+            // 'model2' => $model2,
+            // 'model3' => $model3
+            'model' => $model
         );
         return response()->json($data);
     }

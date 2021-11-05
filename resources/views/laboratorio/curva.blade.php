@@ -20,10 +20,15 @@
       </div>
       <div class="col-md-3">
               <select class="form-control" id="idLote">
-                  <option value="">Selecciona Lote</option>
-                  @foreach ($lote as $item)
-                  <option value="{{$item->Id_lote}}">{{$item->Fecha}}</option>
-                  @endforeach
+                <option value="">Selecciona Lote</option>
+                @foreach ($lote as $item)
+                @if (@$id==$item->Id_lote)
+                <option selected value="{{$item->Id_lote}}">{{$item->Fecha}}</option>
+                @else
+                <option value="{{$item->Id_lote}}">{{$item->Fecha}}</option>
+                @endif
+                @endforeach
+                
                 </select>
       </div>
       <div class="col-md-3">
@@ -32,7 +37,7 @@
   
       <div class="col-md-12">
         <table class="table table-hover table-striped" id="tableStd">
-          <thead class="thead-dark">
+          <thead class="">
                   <tr>
                     <th>Id</th>
                       <th>Lote</th>
@@ -70,7 +75,7 @@
       </div>
       <div class="col-md-3">
         <label for="">B</label>
-        <input type="text" id='b' class="form-control" placeholder="B">
+        <input  type="text" id='b' class="form-control" placeholder="B">
     </div>
     <div class="col-md-3">
       <label for="">M</label>
@@ -153,7 +158,7 @@
 @endsection  
 
 @section('javascript')
-<script src="{{asset('js/laboratorio/curva.js')}}"></script>
-<script src="{{asset('js/libs/componentes.js')}}"></script>
-<script src="{{asset('js/libs/tablas.js')}}"></script>
+    <script src="{{asset('js/laboratorio/curva.js')}}"></script>
+    <script src="{{ asset('js/libs/componentes.js')}}"></script>
+    <script src="{{ asset('js/libs/tablas.js') }}"></script>
 @stop

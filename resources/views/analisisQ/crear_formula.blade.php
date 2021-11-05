@@ -49,7 +49,7 @@
                 @else
                 <option value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
                 @endif
-                   
+          
                 @endforeach
               </select>
           </div>

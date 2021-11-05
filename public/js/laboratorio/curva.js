@@ -1,7 +1,39 @@
 var base_url = "https://dev.sistemaacama.com.mx";
-
+var table;
 $(document).ready(function (){
+    var idLot = 0;
+    table = $('#tableStd').DataTable({
+        "ordering": false,
+        "language": {
+            "lengthMenu": "# _MENU_ por pagina",
+            "zeroRecords": "No hay datos encontrados",
+            "info": "Pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay datos encontrados",   
+        }
+    });
+    $("#btnEdit").prop('disabled', true);
+    $('#tableStd tbody').on( 'click', 'tr', function () { 
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+            // console.log("no selecionado");
+            // selectedRow = false;
+            $("#btnEdit").prop('disabled', true);
+            idLot = 0;
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+            // console.log("Seleccionado");
+            // selectedRow = true;
+            $("#btnEdit").prop('disabled', false);
+        }
+    } );
     //* Acciones para los botones
+    $('#btnEdit tr').on('click', function(){
+        let dato = $(this).find('td:first').html();
+        idlot = dato;
+      });
+
     $("#create").click(function(){
         create();
     });
@@ -76,7 +108,8 @@ function guardar(){
         async: false, 
         success: function (response) {
          console.log(response);
-         window.location="https://dev.sistemaacama.com.mx/admin/laboratorio/curva";
+        // window.location="https://dev.sistemaacama.com.mx/admin/laboratorio/curva";
+         window.location = base_url + '/admin/laboratorio/buscar/' + $("#idLote").val();   
         }
     });        
 }
@@ -88,6 +121,7 @@ function formula(){
         type: 'POST', //método de envio
         data: {
           idLote:$("#idLote").val(),
+          _token: $('input[name="_token"]').val(),
         },
         dataType: 'json', 
         async: false, 
@@ -99,7 +133,6 @@ function formula(){
          $("#b").val(fixb);
          $("#m").val(fixm);
          $("#r").val(fixr);
-        
         }
     });        
     
@@ -113,7 +146,8 @@ function create(){
           idLote:$("#idLote").val(),
           b:$("#b").val(),
           m:$("#m").val(),
-          r:$("#r").val()
+          r:$("#r").val(),
+          _token: $('input[name="_token"]').val(),
         },
         dataType: 'json', 
         async: false, 
