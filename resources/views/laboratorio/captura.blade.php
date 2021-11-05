@@ -13,7 +13,7 @@
         <div class="col-md-3">
             <div class="form-group">
               <label for="exampleFormControlSelect1">Fórmula tipo</label>
-                <select class="form-control" name="formulaTipo" id="selectFormulaTipo">
+                <select class="form-control" name="formulaTipo" id="formulaTipo">
                     <option value="0">Sin seleccionar</option>
                     @foreach ($parametro as $parametros)
                         <option value= {{$parametros->Id_parametro}}>{{$parametros->Parametro}}</option>
@@ -21,16 +21,7 @@
                   </select>
             </div>
         </div>
-        <div class="col-md-3">
-            <div class="form-group">
-              <label for="exampleFormControlSelect1">Parámetro</label>
-                <select class="form-control" name="parametros" id="selectParametro">
-                    @foreach ($parametro as $item)
-                    <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
-                @endforeach
-                  </select>
-            </div>
-        </div>
+     
         <div class="col-md-3">
             <div class="form-group">
                 <label for="">Núm. muestra</label>
@@ -44,34 +35,26 @@
             </div>
         </div>
         <div class="col-md-3">
-            <button class="btn btn-success" id="btnBuscar">Buscar</button>
+            <button class="btn btn-success" onclick="getDataCaptura()" id="btnBuscar">Buscar</button>
         </div>
 
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-6">
-                    <table class="table" id="tableAnalisis"> 
-                        <thead>
-                          <tr>
-                            <th>Folio</th>
-                            <th>Fecha lote</th>
-                            <th>Total asignados</th>
-                            <th>Total liberados</th>
-                            <th></th>
-                            <th>Creado por</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td><button class="btn btn-success" id="btnImprimir"><i class="fas fa-file-download"></i></button></td>
-                            <td></td>
-                          </tr>
-                        </tbody>
-                      </table>
+                    <div id="divLote">
+                        <table class="table" id=""> 
+                            <thead>
+                              <tr>
+                                <th>Folio</th>
+                                <th>Fecha lote</th>
+                                <th>Total asignados</th>
+                                <th>Total liberados</th>
+                                <th>Opc</th>
+                              </tr>
+                            </thead>
+                            <button class="btn btn-success" id="btnImprimir"><i class="fas fa-file-download"></i></button>
+                          </table>
+                    </div>
                 </div>
                 <div class="col-md-6">
                     <div class="row">
@@ -89,10 +72,10 @@
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-1">
-                    <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCrear">Ejecutar</button>
+                    <button class="btn btn-secondary" id="ejecutar">Ejecutar</button>
                 </div>
                 <div class="col-md-1">
-                    <button class="btn btn-secondary">Liberar</button>
+                    <button class="btn btn-secondary" id="liberar">Liberar</button>
                 </div>
                 <div class="col-md-1">
                     <button class="btn btn-secondary">Liberar todo</button>
@@ -113,41 +96,30 @@
                     <button class="btn btn-secondary">Duplicar</button>
                 </div>
             </div>
-            <table class="table" id="tableDatos2">
-                <thead>
-                    <tr>
-                        <th>NumMuestra</th>
-                        <th>NomCliente</th>
-                        <th>PuntoMuestreo</th>
-                        <th>Vol. Muestra E</th>
-                        <th>X</th>
-                        <th>Y</th>
-                        <th>Z</th>
-                        <th>Absorción
-                            promedio
-                        </th>
-                        <th>Factor dilución D</th>
-                        <th>Factor conversion G</th>
-                        <th>Vol. disolución digerida v</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+        </div>
+        <div class="col-md-12">
+            <div class="divTablaControles">
+                <table class="table" id="tableDatos2">
+                    <thead>
+                        <tr>
+                            <th>NumMuestra</th>
+                            <th>NomCliente</th>
+                            <th>PuntoMuestreo</th>
+                            <th>Vol. Muestra E</th>
+                            <th>X</th>
+                            <th>Y</th>
+                            <th>Z</th>
+                            <th>Absorción
+                                promedio
+                            </th>
+                            <th>Factor dilución D</th>
+                            <th>Factor conversion G</th>
+                            <th>Vol. disolución digerida v</th>
+                        </tr>
+                    </thead>
+                   
+                </table>
+            </div>
         </div>
       </div>
         <!-- Modal -->
@@ -185,7 +157,6 @@
               
              </div>
              
-
 </div>
   @stop
 
