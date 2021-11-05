@@ -163,7 +163,7 @@
         </button>
         <h5 class="modal-title" id="exampleModalLabel">FLAMA</h5>
         
-        <label>ID Lote: <input type="text" id="idLoteHeader" size=10/  onchange='busquedaPlantilla("idLoteHeader");'></label>
+        <label>ID Lote: <input type="text" id="idLoteHeader" size=10/  onchange='busquedaPlantilla("idLoteHeader");'> <button class="btn btn-info" onclick="getDatalote()">Buscar</button></label>
         <label>Fecha Lote: <input type="datetime-local" id="fechaLote"/></label>                
         <div class="form-check" id="cierreCaptura">
           <label class="form-check-label" for="flexCheckDefault">
@@ -192,107 +192,34 @@
           <div class="col-md-12">            
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade  active" id="formulaGlobal" role="tabpanel" aria-labelledby="formulaGlobal-tab">    
-                <div class="col-md-12">                                    
-
-                  <div id="contenedorGeneral">
-                    <div id="contenedorIzq">
-                      <table class="table" id="tableFormulasGlobales"> 
-                        <thead>
-                          <tr>
-                            <th scope="col">Fórmula</th>
-                            <th scope="col">Fórmula</th>
-                            <th scope="col">Resultado</th>
-                            <th scope="col">Núm.Decimales</th>
-                            <th scope="col">FechaInicio</th>
-                            <th scope="col">PruebaDesplazamiento</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                            <td contenteditable="true"><input type="date-time" id="fechaInicio" size="17"></td>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                    
-                    <div id="contenedorDer">
-                      <table class="table" id="tableFormulasGlobalesValores"> 
-                        <thead>
-                          <tr>
-                            <th scope="col">Parámetro</th>
-                            <th scope="col">Descripción</th>
-                            <th scope="col">Valor</th>
-                            <th scope="col">Tipo</th>                          
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>                          
-                          </tr>
-
-                          <tr>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>                          
-                          </tr><tr>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>                          
-                          </tr><tr>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>                          
-                          </tr><tr>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>                          
-                          </tr><tr>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>                          
-                          </tr><tr>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>                          
-                          </tr><tr>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>                          
-                          </tr><tr>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>                          
-                          </tr><tr>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>                          
-                          </tr><tr>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>
-                            <td>Hola</td>                          
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
+                <div class="col-md-12">    
+                  <div id="divTableFormulaGlobal">
+                    <table class="table" id=""> 
+                      <thead>
+                        <tr>
+                          <th scope="col">Fórmula</th>
+                          {{-- <th scope="col">Fórmula</th> --}}
+                          <th scope="col">Resultado</th>
+                          <th scope="col">Núm.Decimales</th>
+                          {{-- <th scope="col">FechaInicio</th> --}}
+                          {{-- <th scope="col">PruebaDesplazamiento</th> --}}
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>Blanco Cobre</td>
+                          {{-- <td></td> --}}
+                          <td>0</td>
+                          <td>3</td>
+                          {{-- <td contenteditable="true"><input type="date-time" id="fechaInicio" size="17"></td> --}}
+                        </tr>
+                        
+                      </tbody>
+                    </table>
                   </div>
-                </div>
+             
+                </div>                                
+
               </div> 
                
               <div class="tab-pane fade" id="equipo" role="tabpanel" aria-labelledby="equipo-tab">  
@@ -353,14 +280,14 @@
                 <label>ABS 4: <input type="text" id="stdAbs4" size="10"></label> &nbsp;&nbsp;&nbsp;
                 <label>ABS 5: <input type="text" id="stdAbs5" size="10"></label><br><br>
 
-                <h4>Curva de calibración</h4>
+                {{-- <h4>Curva de calibración</h4>
                 <hr>
                 <label>Bitácora curva calibración: <input type="text" id="bitCurvaCal"></label> &nbsp;&nbsp;&nbsp;
                 <label>Folio curva de calibración: <input type="text" id="folioCurvaCal"></label><br><br>
 
                 <h4>Generador de Hidruros</h4>
                 <hr>
-                <label>Generador de Hidruros: <input type="text" id="genHidruros"></label>
+                <label>Generador de Hidruros: <input type="text" id="genHidruros"></label> --}}
               </div> 
             
               <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">                                

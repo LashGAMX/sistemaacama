@@ -19,6 +19,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::get('lote',[LaboratorioController::class,'lote']);
     Route::post('createLote', [LaboratorioController::class,'createLote']);
     Route::post('buscarLote', [LaboratorioController::class,'buscarLote']);
+    Route::post('getDatalote', [LaboratorioController::class,'getDatalote']);
     Route::get('asgnarMuestraLote/{id}', [LaboratorioController::class,'asgnarMuestraLote']);
     Route::post('muestraSinAsignar',[LaboratorioController::class,'muestraSinAsignar']);
     Route::post('asignarMuestraLote',[LaboratorioController::class,'asignarMuestraLote']);
@@ -48,6 +49,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::post('lote/procedimiento/busquedaPlantilla', [LaboratorioController::class, 'busquedaPlantilla']);
 
     //---------------------------------Ruta exportPDF------------------------------
-    Route::get('captura/exportPdfCaptura/{formulaTipo}', [LaboratorioController::class, 'exportPdfCaptura']);
-
+    Route::get('captura/exportPdfCaptura/{formulaTipo}/{numeroMuestra}/{parametro}/{idLote}', [LaboratorioController::class, 'exportPdfCaptura'])->where('numeroMuestra', '(.*)');
+    
+    /* Route::get('captura/exportPdfCaptura/{formulaTipo}/{numeroMuestra}/{parametro}', [LaboratorioController::class, 'exportPdfCaptura'])->where('numeroMuestra', '(.*)');    */        
 });

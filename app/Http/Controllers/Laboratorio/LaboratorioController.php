@@ -118,6 +118,14 @@ class LaboratorioController extends Controller
         );
         return response()->json($data);
     }
+    public function getDatalote(Request $request)
+    {
+        $constantes = DB::table('constantes')->get();
+        $data = array(
+            'constantes' => $constantes,
+        );
+        return response()->json($data);
+    }
     public function asignar() 
     {
         $tipoFormula = TipoFormula::all();
@@ -193,7 +201,24 @@ class LaboratorioController extends Controller
 
     //NUEVA FUNCIÓN BUSQUEDA FILTROS > CAPTURA.JS
     public function busquedaFiltros(Request $request){
+        //REALIZARÁ CONSULTA A LA BASE DE DATOS VIEWLOTEDETALLE PARA RECUPERAR LOS DATOS
+        
+        //ASIGNACIONES DE PRUEBA
+        $tipoFormula = $request->formulaTipo;
+        $parameters = $request->parametros;
+        $numeroMuestra = $request->numMuestra;
+        $analisisFecha = $request->fechaAnalisis;
 
+        $consultas = [
+            'Folio_servicio' => $numeroMuestra,
+            'Parametro' => $parameters
+        ];
+
+        $loteDetail = DB::table('ViewLoteDetalle')->where($consultas)->first();
+
+        return response()->json(
+            compact('tipoFormula', 'loteDetail')
+        );
     }
 
 
@@ -219,12 +244,16 @@ class LaboratorioController extends Controller
     }
 
     //*************************FUNCIÓN PARA GENERAR EL DOCUMENTO PDF EN VISTA CAPTURA****************************
-    public function exportPdfCaptura($formulaTipo) 
+    public function exportPdfCaptura($formulaTipo, $numeroMuestra,$parametro, $idLote) 
     {        
-        $formulaSelected = $formulaTipo;        
+        $id_lote = $idlote;
+        $formulaSelected = $formulaTipo;
+        $numMuestra = $numeroMuestra;
+        $param = $parametro;                    
 
         //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
         $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected'));
+        //$htmlHeader = view('exports.laboratorio.capturaHeader');
         
         //Hace referencia a la vista capturaPie
         $htmlFooter = view('exports.laboratorio.capturaPie');
@@ -270,11 +299,11 @@ class LaboratorioController extends Controller
         $mpdf->AddPage('', '', '1', '', '', '', '', 44, '', 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
         //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes
-        $textoProcedimiento = Reportes::where('Id_muestra' , '298-1/21')->first();
+        $textoProcedimiento = Reportes::where('Id_muestra' , $numMuestra)->first();                
         
         //Hoja1
         $htmlCurva = view('exports.laboratorio.curvaBody', compact('textoProcedimiento'));
-        $htmlCurvaHeader = view('exports.laboratorio.curvaHeader', compact('formulaSelected'));
+        $htmlCurvaHeader = view('exports.laboratorio.curvaHeader', compact('formulaSelected'));        
         $htmlCurvaFooter = view('exports.laboratorio.curvaFooter');
         $mpdf->SetHTMLHeader('{PAGENO}<br><br>'.$htmlCurvaHeader, 'O', 'E');
         $mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E');
@@ -282,7 +311,10 @@ class LaboratorioController extends Controller
 
         //Hoja2
         $mpdf->AddPage('', '', '', '', '', '', '', 50, '', '', '', '', '', '', '', '', '', '', '');
-        $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento'));                
+
+        $estandares = estandares::where('Id_lote', $id_lote)->first();
+
+        $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento', 'estandares'));
         /*$mpdf->SetHTMLHeader($htmlCurvaHeader, 'O', 'E');
         $mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E');*/
         $mpdf->WriteHTML($htmlCurva2);

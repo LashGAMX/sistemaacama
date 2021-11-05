@@ -40,7 +40,6 @@ function createLote()
         }
     });
 }
-function
 
 function buscarLote()
 {
@@ -89,6 +88,46 @@ function setAsignar(id)
     window.location = base_url + "/admin/laboratorio/asgnarMuestraLote/"+id;
 }
 
+
+function getDatalote()
+{
+    let tabla = document.getElementById('divTableFormulaGlobal');
+    let tab = '';
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/laboratorio/getDatalote",
+        data: {
+            
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {            
+            console.log(response);
+            tab += '<table id="tableFormulasGlobales" class="table table-sm">';
+            tab += '    <thead class="thead-dark">';
+            tab += '        <tr>';
+            tab += '          <th>Fórmula</th>';
+            tab += '          <th>Resultado</th> ';
+            tab += '          <th>Núm. Decimales</th> ';
+            tab += '        </tr>';
+            tab += '    </thead>';
+            tab += '    <tbody>';
+            $.each(response.constantes, function (key, item) {
+                tab += '<tr>';
+                tab += '<td>'+item.Constante+'</td>';
+                tab += '<td>'+item.Valor+'</td>';
+                tab += '<td>3</td>';
+            
+              tab += '</tr>';
+            }); 
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
+        }
+    });
+}
+
 function isSelectedProcedimiento(procedimientoTab){
     let valorProcedimientoTab = 'https://dev.sistemaacama.com.mx/admin/laboratorio/lote#procedimiento';
     let pestañaProcedimiento = document.getElementById(procedimientoTab);
@@ -127,6 +166,7 @@ function guardarTexto(idLote){
 }
 
 function busquedaPlantilla(idLote){
+    
     let lote = document.getElementById(idLote).value;     
 
     //Si está vacío
