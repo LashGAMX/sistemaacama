@@ -11,13 +11,13 @@
     ELEMENTO: {{$formulaSelected}}
 </p>
 
-<span id='curvaFecha'>Fecha de análisis</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span>AQUÍ VA LA FECHA</span>
+<span id='curvaFecha'>Fecha de análisis</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="subFechaHora">AQUÍ VA LA FECHA</span>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-<span id='curvaHora'>Hora</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span> AQUÍ VA LA HORA
+<span id='curvaHora'>Hora</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="subFechaHora"> AQUÍ VA LA HORA
 </span>
 
 <p id='curvaProcedimiento'>Procedimiento</p>

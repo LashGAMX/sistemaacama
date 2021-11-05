@@ -10,6 +10,7 @@ use App\Models\ProcesoAnalisis;
 use Illuminate\Http\Request;
 use App\Models\Parametro;
 use App\Models\Reportes;
+use App\Models\SolicitudParametro;
 use App\Models\TipoFormula;
 use Illuminate\Support\Facades\DB;
 
@@ -125,7 +126,46 @@ class LaboratorioController extends Controller
     public function asgnarMuestraLote($id)
     {
         $lote = LoteDetalle::where('Id_lote',$id)->get();
-        return view('laboratorio.asignarMuestraLote',compact('lote'));
+        $idLote = $id;
+        return view('laboratorio.asignarMuestraLote',compact('lote','idLote'));
+    }
+    //* Muestra los parametros sin asignar a lote
+    public function muestraSinAsignar(Request $request)
+    {
+        $model = DB::table('ViewSolicitudParametros')->where('Asignado','!=',1)->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    //* Muestra asigada a lote
+    public function getMuestraAsignada(Request $request)
+    {
+        $model = DB::table('ViewLoteDetalle')->where('Id_lote',$request->idLote)->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    //* Asignar parametro a lote
+    public function asignarMuestraLote(Request $request)
+    {
+        $model = LoteDetalle::create([
+            'Id_lote' => $request->idLote,
+            'Id_analisis' => $request->idAnalisis,
+            'Id_parametro' => $request->idParametro,
+        ]);
+
+        $solModel = SolicitudParametro::find($request->idSol);
+        $solModel->Asignado = 1;
+        $solModel->save();
+
+        $paraModel = DB::table('ViewLoteDetalle')::where('Id_lote',$request->idLote)->get();
+
+        $data = array(
+            'model' => $paraModel,
+        );
+        return response()->json($data);
     }
 
     //Función LOTE > CREAR O MODIFICAR TEXTO DEL LOTE > PROCEDIMIENTO/VALIDACIÓN
@@ -133,11 +173,13 @@ class LaboratorioController extends Controller
         $textoPeticion = $request->texto;
         $idLote = $request->lote;
 
-        $lote = DB::table('reportes')->where('Id_reporte', $idLote)->get();
+        //$lote = Reportes::where('Id_lote', $idLote)->first();
+
+        $lote = DB::table('reportes')->where('Id_lote', $idLote)->get();
         
         if($lote->count()){
-            $texto = Reportes::find($idLote);
-            $texto->Texto = $textoPeticion;            
+            $texto = Reportes::where('Id_lote', $idLote)->first();
+            $texto->Texto = $textoPeticion;
             $texto->save();
         }else{
             $texto = Reportes::create(['Texto' => $textoPeticion]);
@@ -148,14 +190,31 @@ class LaboratorioController extends Controller
         );
     }
 
+
+    //NUEVA FUNCIÓN BUSQUEDA FILTROS > CAPTURA.JS
+    public function busquedaFiltros($numMuestra){
+
+    }
+
+
+
     //Función para recuperar el texto almacenado en la tabla reportes; campo Texto
     public function busquedaPlantilla(Request $request){
-        //Recibe el Id del lote para recuperar el texto almacenado en el campo Texto de la tabla reportes 
-        $textoRecuperado = Reportes::where('Id_reporte', $request->lote)->first();
-        $textoRecuperadoPredeterminado = Reportes::where('Id_reporte' , 0)->first();
+        //Recibe el Id del lote para recuperar el texto almacenado en el campo Texto de la tabla reportes         
+        
+        $textoRecuperado = Reportes::where('Id_lote', $request->lote)->first();
+
+        $textoRecuperadoPredeterminado = Reportes::where('Id_lote' , 0)->first();
+
+        $textoEncontrado = html_entity_decode($textoRecuperado->Texto);
+        //$prueba = strip_tags($prueb);
+
+
+        $textoDefault = html_entity_decode($textoRecuperadoPredeterminado->Texto);
+        //$prueba2 = strip_tags($prueb1);
 
         return response()->json(
-            compact('textoRecuperado', 'textoRecuperadoPredeterminado')
+            compact('textoRecuperado', 'textoRecuperadoPredeterminado', 'textoEncontrado', 'textoDefault')
         );
     }
 
@@ -177,7 +236,7 @@ class LaboratorioController extends Controller
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 48,
-            'margin_bottom' => 30,
+            'margin_bottom' => 37,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
@@ -208,7 +267,7 @@ class LaboratorioController extends Controller
 
 
         //*************************************************Segundo juego de documentos PDF***************************************************
-        $mpdf->AddPage('', '', '1', '', '', '', '', 50, '', '', '', '', '', '', '', -1, -1, -1, -1);
+        $mpdf->AddPage('', '', '1', '', '', '', '', 44, '', 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
         //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes
         $textoProcedimiento = Reportes::where('Id_muestra' , '298-1/21')->first();

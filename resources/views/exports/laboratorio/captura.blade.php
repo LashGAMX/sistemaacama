@@ -31,7 +31,7 @@
             </thead>
     
             <tbody>
-                @for ($i = 0; $i < 100; $i++)
+                @for ($i = 0; $i < 22; $i++)
                     <tr>
                         <td id="tableContent">PRUEBA</td>
                         <td id="tableContent">PRUEBA</td>
@@ -73,10 +73,10 @@
 
         <div class="contenedorHijo1">
             <span class="cabeceraStdMuestra">MUESTRA ADICIONADA <br> </span>                    
-            <span class="bodyStdMuestra">Criterio de Aceptación para MA  85 - 115%. Fórmula: Recuperación n = (Cr*V1)/Ca*V 100%. Donde: V = Volúmen del
-                estándar usado para la muestra adicionada. Ca = Concentración del estándar. V1 = Volúmen de la muestra usada
-                para la muestra adicionada. Cr = Concentración de muestra probable. Concentración de la muestra adicionada. Recuperación
-                n: porcentaje adicionado que es medido.
+            <span class="bodyStdMuestra">Criterio de Aceptación para MA  85 - 115%. Fórmula: Recuperación n = [Cs(V+V1)-(Cr*V1)/Ca*V]100%. Donde: V = Volúmen del
+                estándar usado para la muestra adicionada. Ca = Concentración del estándar. V1 = Volúmen de la muestra problema usada 
+                para la muestra adicionada. Cr = Concentración de muestra problema. Cs = Concentración de la muestra adicionada. Recuperación
+                n: porcentaje del analito adicionado que es medido.
             </span>                   
         </div>
     </div>        

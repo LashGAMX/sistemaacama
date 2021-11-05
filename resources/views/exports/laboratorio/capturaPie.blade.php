@@ -22,4 +22,10 @@
             </table>
         </div>
     </div>
+
+    <div id="revisiones">
+        <span>RE-12-001-18</span><br>
+        <span>2017-04-07</span><br>
+        <span>REV.9</span>
+    </div>
 </footer>

@@ -14,6 +14,8 @@ class Reportes extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'Id_lote',
+        'Id_muestra',
         'Texto'
     ];
 }

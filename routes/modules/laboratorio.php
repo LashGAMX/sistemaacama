@@ -20,7 +20,9 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::post('createLote', [LaboratorioController::class,'createLote']);
     Route::post('buscarLote', [LaboratorioController::class,'buscarLote']);
     Route::get('asgnarMuestraLote/{id}', [LaboratorioController::class,'asgnarMuestraLote']);
-    Route::post('muestraSinAsignar', );
+    Route::post('muestraSinAsignar',[LaboratorioController::class,'muestraSinAsignar']);
+    Route::post('asignarMuestraLote',[LaboratorioController::class,'asignarMuestraLote']);
+    Route::post('getMuestraAsignada',[LaboratorioController::class,'getMuestraAsignada']);
 
     Route::get('asignar',[LaboratorioController::class,'asignar']);
 
@@ -34,11 +36,16 @@ Route::group(['prefix' => 'laboratorio'], function () {
     //---------------------------------Rutas Ajax----------------------------------
     Route::get('analisis/datos', [LaboratorioController::class, 'analisisDatos']);
 
+    //ARCHIVO CAPTURA.JS
+    Route::post('lote/procedimiento/busquedaFiltros', [LaboratorioController::class, 'busquedaFiltros']);
+
+    //-----------------------------------------------------------------------------
+
     //Almacena el texto en la table reportes, campo Texto, el texto introducido en el editor de texto > Procedimiento/Validación
     Route::post('lote/procedimiento', [LaboratorioController::class, 'guardarTexto']);
 
     //Recupera el texto almacenado en el campo Texto de la tabla reportes
-    Route::get('lote/procedimiento/busquedaPlantilla', [LaboratorioController::class, 'busquedaPlantilla']);
+    Route::post('lote/procedimiento/busquedaPlantilla', [LaboratorioController::class, 'busquedaPlantilla']);
 
     //---------------------------------Ruta exportPDF------------------------------
     Route::get('captura/exportPdfCaptura/{formulaTipo}', [LaboratorioController::class, 'exportPdfCaptura']);
