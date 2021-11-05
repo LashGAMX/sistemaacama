@@ -18,11 +18,48 @@ class CurvaController extends Controller
         return view('laboratorio/curva', compact('model','lote'));
     }
      public function buscar(Request $request){
-        $id = $request->idLote;
-        $const = CurvaConstantes::where('Id_Lote', $id)->get();
-        $lote = LoteAnalisis::all();
-        $model = estandares::where('Id_Lote', $id)->get();
-        return view('laboratorio/curva',compact('model','lote','id', 'const'));
+        $model = estandares::where('Id_Lote', $request->idLote)->get(); 
+
+        if($model->count()){
+            $sw = true;
+        }else{
+            $sw = false;
+        }
+        $data = array(
+            'stdModel' => $model,
+            'sw' => $sw,
+        );
+        return response()->json($data);
+     }
+     public function createStd(Request $request)
+     {
+        $model = estandares::where('Id_Lote', $request->idLote)->get(); 
+
+        if($model->count()){
+            $sw = false;
+            $stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
+        }else{
+            estandares::create([
+                'Id_lote' => $request->idLote,
+                'STD' => "Blanco",
+            ]);
+            for ($i=0; $i < $request->numEstandares ; $i++) { 
+                estandares::create([
+                    'Id_lote' => $request->idLote,
+                    'STD' => "STD".($i+1)."",
+                ]);
+            }  
+            $sw = true;
+            
+            $stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
+        }
+     
+
+        $data = array(
+            'sw' => $sw,
+            'stdModel' => $stdModel,
+        );
+        return response()->json($data);
      }
 
     public function promedio(Request $request){
@@ -95,7 +132,6 @@ class CurvaController extends Controller
             'model' => $model
         );
         return response()->json($data);
-        //return view('laboratorio/curva');
     }
 
     public function formula(Request $request){

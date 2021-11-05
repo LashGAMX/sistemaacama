@@ -15,6 +15,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
     Route::get('tipoAnalisis',[LaboratorioController::class,'tipoAnalisis']);
     Route::get('captura',[LaboratorioController::class,'captura']);
+    Route::post('getDataCaptura', [LaboratorioController::class,'getDataCaptura']);
     
     Route::get('lote',[LaboratorioController::class,'lote']);
     Route::post('createLote', [LaboratorioController::class,'createLote']);
@@ -31,11 +32,13 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::post('promedio',[CurvaController::class, 'promedio']);
     Route::post('guardar',[CurvaController::class, 'guardar']);
     Route::post('formula',[CurvaController::class, 'formula']);
-    Route::post('create',[CurvaController::class, 'create']);
-    Route::get('buscar/{idLote}',[CurvaController::class, 'buscar']);
+    Route::post('buscar',[CurvaController::class, 'buscar']);
+    Route::post('createStd',[CurvaController::class, 'createStd']);
 
     //---------------------------------Rutas Ajax----------------------------------
     Route::get('analisis/datos', [LaboratorioController::class, 'analisisDatos']);
+    Route::post('operacion', [LaboratorioController::class, 'operacion']); 
+ 
 
     //ARCHIVO CAPTURA.JS
     Route::post('lote/procedimiento/busquedaFiltros', [LaboratorioController::class, 'busquedaFiltros']);
@@ -49,7 +52,9 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::post('lote/procedimiento/busquedaPlantilla', [LaboratorioController::class, 'busquedaPlantilla']);
 
     //---------------------------------Ruta exportPDF------------------------------
-    Route::get('captura/exportPdfCaptura/{formulaTipo}/{numeroMuestra}/{parametro}/{idLote}', [LaboratorioController::class, 'exportPdfCaptura'])->where('numeroMuestra', '(.*)');
+    /* Route::get('captura/exportPdfCaptura/{formulaTipo}/{numeroMuestra}/{parametro}/{idLote}', [LaboratorioController::class, 'exportPdfCaptura'])->where('numeroMuestra', '(.*)'); */
     
-    /* Route::get('captura/exportPdfCaptura/{formulaTipo}/{numeroMuestra}/{parametro}', [LaboratorioController::class, 'exportPdfCaptura'])->where('numeroMuestra', '(.*)');    */        
+    Route::get('captura/exportPdfCaptura/{formulaTipo}/{numeroMuestra}', [LaboratorioController::class, 'exportPdfCaptura'])->where('numeroMuestra', '(.*)');
+
+    /* Route::get('captura/exportPdfCaptura/{formulaTipo}/{numeroMuestra}', [LaboratorioController::class, 'exportPdfCaptura'])->where('numeroMuestra', '(.*)'); */
 });

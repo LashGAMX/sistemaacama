@@ -40,6 +40,13 @@ function muestraSinAsignar()
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
+            $('#tablaParamSin').DataTable();
+            var table = $('#tablaParamSin').DataTable();
+ 
+            $('#tablaParamSin tbody').on( 'click', 'tr', function () {
+                $(this).toggleClass('selected');
+            } );
+         
         } 
     });
 }  

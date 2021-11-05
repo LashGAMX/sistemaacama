@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\Constante;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
 use App\Models\ObservacionMuestra;
@@ -12,6 +13,7 @@ use App\Models\Parametro;
 use App\Models\Reportes;
 use App\Models\SolicitudParametro;
 use App\Models\TipoFormula;
+use App\Models\CurvaConstantes;
 use Illuminate\Support\Facades\DB;
 
 class LaboratorioController extends Controller
@@ -79,7 +81,7 @@ class LaboratorioController extends Controller
         );
     }
 
-    //*********************************************************************************************************** */
+    //*****************************************CAPTURA****************************************************************** */
     public function tipoAnalisis(){ 
         return view('laboratorio.tipoAnalisis');
     }
@@ -88,6 +90,35 @@ class LaboratorioController extends Controller
     {
         $parametro = Parametro::all();
         return view('laboratorio.captura',compact('parametro'));
+    }
+    public function getDataCaptura(Request $request)
+    {
+        //$parametro = Parametro::where('Id_parametro',$request->formulaTipo)->first();
+        $lote = DB::table('ViewLoteAnalisis')->where('Fecha',$request->fechaAnalisis)->first();
+        $detalle = DB::table('ViewLoteDetalle')->where('Id_lote',$lote->Id_lote)->get();
+        $data = array(
+            'lote' => $lote,
+            'detalle' => $detalle,
+        );
+        return response()->json($data);
+    }
+    public function operacion(Request $request){
+        $curva = CurvaConstantes::where('Id_lote', $request->idlote)->first();
+        $x = $request->x;
+        $y = $request->y;
+        $z = $request->z;
+        $FD = $request->FD;
+        $suma = ($x+$y+$z);
+        $promedio = $suma/3; 
+        $resultado = (($promedio - 0.00646)/ 0.16929)* $FD;
+
+        $data = array(
+            'curva' => $curva,
+            'promedio' => $promedio,
+            'resultado' => $resultado
+        );
+    
+        return response()->json($data);
     }
 
     public function lote()
@@ -205,13 +236,13 @@ class LaboratorioController extends Controller
         
         //ASIGNACIONES DE PRUEBA
         $tipoFormula = $request->formulaTipo;
-        $parameters = $request->parametros;
+        //$parameters = $request->parametros;
         $numeroMuestra = $request->numMuestra;
         $analisisFecha = $request->fechaAnalisis;
 
         $consultas = [
             'Folio_servicio' => $numeroMuestra,
-            'Parametro' => $parameters
+            //'Parametro' => $parameters
         ];
 
         $loteDetail = DB::table('ViewLoteDetalle')->where($consultas)->first();
@@ -244,12 +275,12 @@ class LaboratorioController extends Controller
     }
 
     //*************************FUNCIÓN PARA GENERAR EL DOCUMENTO PDF EN VISTA CAPTURA****************************
-    public function exportPdfCaptura($formulaTipo, $numeroMuestra,$parametro, $idLote) 
+    public function exportPdfCaptura($formulaTipo, $numeroMuestra) 
     {        
-        $id_lote = $idlote;
+        //$id_lote = $idlote;
         $formulaSelected = $formulaTipo;
         $numMuestra = $numeroMuestra;
-        $param = $parametro;                    
+        //$param = $parametro;                    
 
         //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
         $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected'));
@@ -312,9 +343,9 @@ class LaboratorioController extends Controller
         //Hoja2
         $mpdf->AddPage('', '', '', '', '', '', '', 50, '', '', '', '', '', '', '', '', '', '', '');
 
-        $estandares = estandares::where('Id_lote', $id_lote)->first();
+        //$estandares = estandares::where('Id_lote', $id_lote)->first();
 
-        $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento', 'estandares'));
+        $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento'));
         /*$mpdf->SetHTMLHeader($htmlCurvaHeader, 'O', 'E');
         $mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E');*/
         $mpdf->WriteHTML($htmlCurva2);
