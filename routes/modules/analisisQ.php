@@ -7,6 +7,7 @@ use App\Http\Controllers\AnalisisQ\ParametroController;
 use App\Http\Controllers\AnalisisQ\FormulasController;
 use App\Http\Controllers\AnalisisQ\EnvasesController;
 use App\Http\Controllers\AnalisisQ\AnalisisController;
+use App\Http\Controllers\AnalisisQ\ConcentracionController;
 use Illuminate\Support\Facades\Route;
  
 
@@ -46,6 +47,11 @@ Route::group(['prefix' => 'analisisQ'], function () {
     Route::post('formulas/constante_create',[FormulasController::class,'constante_create']); 
 
     Route::get('formulas/crear/{idFormula}',[FormulasController::class, 'editar_formula']);
-    Route::post('formulas/update',[FormulasController::class, 'update']);
+    Route::post('formulas/update',[FormulasController::class, 'update']); 
+
+    Route::get('concentracion',[ConcentracionController::class,'index']); 
+    // Route::get('concentracion', function () {
+    //     echo 'Concentracion';
+    // });
 });
  
