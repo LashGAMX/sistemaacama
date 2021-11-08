@@ -50,8 +50,11 @@ Route::group(['prefix' => 'analisisQ'], function () {
     Route::post('formulas/update',[FormulasController::class, 'update']); 
 
     Route::get('concentracion',[ConcentracionController::class,'index']); 
+    Route::post('concentracion/getParametroNorma',[ConcentracionController::class,'getParametroNorma'] );
+    Route::post('concentracion/getConcentracionParametro',[ConcentracionController::class,'getConcentracionParametro'] );
+    Route::post('concentracion/setConcentracionParametro',[ConcentracionController::class,'setConcentracionParametro'] );
     // Route::get('concentracion', function () {
     //     echo 'Concentracion';
     // });
 });
- 
+  

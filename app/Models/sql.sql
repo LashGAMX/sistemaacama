@@ -257,7 +257,7 @@ INNER JOIN proceso_analisis as pro
 ON obs.Id_analisis = pro.Id_solicitud
 
 /* Liseta ViewTipoFormula  */ 
-CREATE VIEW ViewTipoFormula as SELECT t.Id_tipo_formula,t.Tipo_formula,t.Id_area,a.Area_analisis,t.Id_user_c,t.Id_user_m,t.created_at,t.updated_at,t.deleted_at FROM tipo_formulas as t 
+CREATE VIEW ViewTipoFormula as SELECT t.Id_tipo_formula,t.Tipo_formula,t.Concentracion,t.Id_area,a.Area_analisis,t.Id_user_c,t.Id_user_m,t.created_at,t.updated_at,t.deleted_at FROM tipo_formulas as t 
 INNER JOIN area_analisis as a
 ON t.Id_area = a.Id_area_analisis
 

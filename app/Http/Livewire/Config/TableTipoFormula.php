@@ -22,10 +22,12 @@ class TableTipoFormula extends Component
 
     public $tipo;
     public $idTipo;
+    public $std;
     public $nota;
 
     protected $rules = [
         'tipo' => 'required',
+        'std' => 'required',
     ];
     protected $messages = [
         'tipo.required' => 'El nombre es un dato requerido',
@@ -43,6 +45,7 @@ class TableTipoFormula extends Component
         $this->validate();
         $model = TipoFormula::create([
           'Tipo_formula' => $this->tipo,
+          'Concentracion' => $this->std,
           'Id_user_c' => $this->idUser,
           'Id_user_m' => $this->idUser, 
         ]);
@@ -56,18 +59,20 @@ class TableTipoFormula extends Component
         $this->validate();
         $model = TipoFormula::find($this->idTipo);
         $model->Tipo_formula = $this->tipo;
+        $model->Concentracion = $this->std;
         $this->historial();
         $model->save();
         
         $this->alert = true;
     }
-    public function setData($id,$tipo)
+    public function setData($id,$tipo,$std)
     {
         $this->clean();
         $this->alert = false;
         $this->resetValidation();
         $this->idTipo = $id;
         $this->tipo = $tipo;
+        $this->std = $std;
     }
     Public function historial()
     {

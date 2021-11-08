@@ -1,7 +1,7 @@
 @extends('voyager::master')
 
 @section('content')
-
+<link rel="stylesheet" href="{{asset('assets/summer/summernote.min.css')}}">
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-data"></i>    
@@ -292,14 +292,19 @@
             
               <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">                                
               
-                <div id="editor">                  
-                  @if (isset($textoRecuperado))
-                    <p>{{$textoRecuperado->Texto}}</p>
-                  @else
-                    <p>{{$textoRecuperadoPredeterminado->Texto}}</p>
-                  @endif                  
+                <div id="summernote">
+                      @if (isset($textoRecuperado))
+                        @php
+                            echo $textoRecuperado->Texto;
+                        @endphp
+                      @else
+                        @php
+                            echo $textoRecuperadoPredeterminado->Texto;
+                        @endphp
+                    @endif          
                 </div>
-
+             
+                
                 <button type="button" class="btn btn-primary" onclick='guardarTexto("idLoteHeader");'>Guardar</button>
               </div> 
             </div>
@@ -329,10 +334,15 @@
   @endsection
 
   @section('javascript')
+  <!-- include summernote css/js -->
+  <script src="{{asset('assets/summer/summernote.js')}}"></script>
+  
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
   <script src="{{asset('js/laboratorio/lote.js')}}"></script>
   <script src="{{asset('js/libs/componentes.js')}}"></script>
   <script src="{{asset('js/libs/tablas.js')}}"></script>
   <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
-  @stop
+  
 
 @endsection

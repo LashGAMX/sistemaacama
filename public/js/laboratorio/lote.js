@@ -8,7 +8,17 @@ var options = {
     theme: 'snow'
 };
 
+
+
 $(document).ready(function () {
+
+    $('#summernote').summernote({
+        placeholder: '',
+        tabsize: 2,
+        height: 100,
+
+      });
+
     table = $('#table').DataTable({        
         "ordering": false,
         "language": {
@@ -20,6 +30,8 @@ $(document).ready(function () {
     });
 
     quill = new Quill('#editor', options);
+
+   
 });
 
 function createLote()

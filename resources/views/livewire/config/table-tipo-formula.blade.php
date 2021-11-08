@@ -17,6 +17,12 @@
           @error('tipo') <span class="text-danger">{{ $message  }}</span> @enderror
       </div>
       <div class="col-md-4">
+        <input type="text" wire:model='idUser' hidden>
+        <label for="">Estandar</label>
+          <input type="text" wire:model='std' class="form-control" placeholder="Estandar">
+          @error('std') <span class="text-danger">{{ $message  }}</span> @enderror
+      </div>
+      <div class="col-md-4">
         <button class="btn btn-sm btn-success" type="submit" ><i class="voyager-check"></i> <span hidden-sm hidden-xs>Aceptar</span> </button>
         <button class="btn btn-sm btn-danger" type="button" wire:click="deleteBtn"><i class="voyager-x"></i> <span hidden-sm hidden-xs>Cancel</span> </button>
       </div>
@@ -29,6 +35,7 @@
                 <th>Id</th>
                 <th>Tipo formula</th>
                 <th>Area análisis</th>
+                <th>Std</th>
                 <th>Creación</th>
                 <th>Modificación</th>
                 <th>Acción</th>
@@ -42,10 +49,11 @@
           <td>{{$item->Id_tipo_formula}}</td>
           <td>{{$item->Tipo_formula}}</td>       
           <td>{{$item->Area_analisis}}</td>   
+          <td>{{$item->Concentracion}}</td>   
           <td>{{$item->created_at}}</td>
           <td>{{$item->updated_at}}</td>
           <td>
-            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_tipo_formula}}','{{$item->Tipo_formula}}')"  data-toggle="modal" data-target="#modaTipo"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_tipo_formula}}','{{$item->Tipo_formula}}','{{$item->Concentracion}}')"  data-toggle="modal" data-target="#modaTipo"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
           {{-- </form>  --}}
         </tr>
@@ -76,6 +84,12 @@
                     <input type="text" wire:model='tipo' class="form-control" placeholder="Tipo de formula">
                     @error('tipo') <span class="text-danger">{{ $message  }}</span> @enderror
                 </div>
+                <div class="col-md-12">
+                  <input type="text" wire:model="idTipo" hidden>
+                  <label for="">Estandar</label>
+                  <input type="text" wire:model='std' class="form-control" placeholder="Estandar">
+                  @error('std') <span class="text-danger">{{ $message  }}</span> @enderror
+              </div>
                 <div class="col-md-12">
                   <input type="text" wire:model="nota" hidden>
                   <label for="">Nota</label>
