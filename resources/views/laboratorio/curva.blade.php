@@ -11,29 +11,34 @@
   
   <div class="container-fluid"> 
     <div class="row">
-      <div class="col-md-4">
+      <div class="col-md-3">
         <button class="btn btn-success" id="CreateStd"><i class="voyager-plus"></i> Crear</button>
         <button type="button" class="btn btn-warning" id="editar" data-toggle="modal" data-target="#modalCrear">
           <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
-          <div class="col-md-4">
-        <input class="form-control" id="numEstandares" placeholder="No. Estandares">
-      </div>
-      </div> <div class="col-md-1">
+
+      </div> 
+      <div class="col-md-2">
+        <select class="form-control" id="idLote">
+          <option value="">Selecciona Lote</option>
+          @foreach ($lote as $item)
+          @if (@$id==$item->Id_lote)
+          <option selected value="{{$item->Id_lote}}">{{$item->Fecha}} / Id:{{$item->Id_lote}}</option>
+          @else
+          <option value="{{$item->Id_lote}}">{{$item->Fecha}} Id:{{$item->Id_lote}}</option>
+          @endif
+          @endforeach
+          
+          </select>
+</div>
+<div class="col-md-2">
+  <select class="form-control" id="idTecnica">
+    <option value="">Selecciona Técnica</option>
+  </select>
+</div>
+      <div class="col-md-1">
         <button class="btn btn-info" id="buscar"><i class="voyager-serch"></i> Buscar</button>
       </div>
-      <div class="col-md-3">
-              <select class="form-control" id="idLote">
-                <option value="">Selecciona Lote</option>
-                @foreach ($lote as $item)
-                @if (@$id==$item->Id_lote)
-                <option selected value="{{$item->Id_lote}}">{{$item->Fecha}} / Id:{{$item->Id_lote}}</option>
-                @else
-                <option value="{{$item->Id_lote}}">{{$item->Fecha}} /Id:{{$item->Id_lote}}</option>
-                @endif
-                @endforeach
-                
-                </select>
-      </div>
+      
       
   
       <div class="col-md-12">

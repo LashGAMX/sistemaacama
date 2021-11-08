@@ -219,10 +219,10 @@ function buscar(){
                 tab += '<td>'+item.Id_std+'</td>';
                 tab += '<td>'+item.Id_lote+'</td>';
                 tab += '<td>'+item.STD+'</td>';
-                tab += '<td><input value="'+item.Concentracion+'"></td>';
-                tab += '<td><input value="'+item.ABS1+'"></td>';
-                tab += '<td><input value="'+item.ABS2+'"></td>';
-                tab += '<td><input value="'+item.ABS3+'"></td>';
+                tab += '<td><input value=""'+item.Concentracion+'"></td>';
+                tab += '<td><input value=""'+item.ABS1+'"></td>';
+                tab += '<td><input value=""'+item.ABS2+'"></td>';
+                tab += '<td><input value=""'+item.ABS3+'"></td>';
                 tab += '<td>'+item.Promedio+'</td>';
               tab += '</tr>';
             });
