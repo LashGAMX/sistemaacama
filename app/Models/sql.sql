@@ -265,7 +265,7 @@ INNER JOIN area_analisis as a
 ON t.Id_area = a.Id_area_analisis
 
 /* Lista ViewLoteAnalisis */ 
-CREATE VIEW ViewLoteAnalisis as SELECT lo.Id_lote,lo.Id_tipo,ti.Tipo_formula,lo.Id_area,a.Area_analisis,lo.Fecha,lo.created_at,lo.updated_at,lo.deleted_at FROM lote_analisis as  lo 
+CREATE VIEW ViewLoteAnalisis as SELECT lo.Id_lote,lo.Id_tipo,ti.Tipo_formula,lo.Id_area,a.Area_analisis,lo.Asignado,lo.Liberado,lo.Fecha,lo.created_at,lo.updated_at,lo.deleted_at FROM lote_analisis as  lo 
 INNER JOIN area_analisis as a
 ON lo.Id_area = a.Id_area_analisis
 INNER JOIN tipo_formulas as ti

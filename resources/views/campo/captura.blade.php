@@ -632,7 +632,7 @@
                             </div>
 
                             <div class="col-md-12">
-                                <p>Temperatura Calidad</p>
+                                <p>Ph Calidad</p>
                                 <table class="table" id="tempCalidad">
                                     <thead>
                                         <tr>

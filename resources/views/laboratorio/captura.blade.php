@@ -60,9 +60,13 @@
                     <div class="row">
                         <div class="col-md-3">
                             <p class="">Información global</p>
+                            <div id="infoGlobal">
+
+                            </div>
                         </div>
                         <div class="col-md-9">
                             <p class="">Información</p>
+                            <div id="infoGen">
                         </div>
                     </div>
                 </div>
@@ -75,18 +79,18 @@
                     <button class="btn btn-secondary" id="ejecutar">Ejecutar</button>
                 </div>
                 <div class="col-md-1">
-                    <button class="btn btn-secondary" id="liberar">Liberar</button>
+                    <button class="btn btn-secondary" id="btnLiberar">Liberar</button>
                 </div>
                 <div class="col-md-1">
                     <button class="btn btn-secondary">Liberar todo</button>
                 </div>
                 <div class="col-md-1">
-                    <div class="form-check">
+                    {{-- <div class="form-check">
                         <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
                         <label class="form-check-label" for="defaultCheck1">
                           Blanco
                         </label>
-                      </div>
+                      </div> --}}
                 </div>
                 <div class="col-md-2">
                     <button class="btn btn-secondary" id="btnGenControl" onclick="generarControles();">Generar controles</button>
@@ -107,9 +111,9 @@
                             <th>NomCliente</th>
                             {{-- <th>PuntoMuestreo</th> --}}
                             <th>Vol. Muestra E</th>
-                            <th>X</th>
-                            <th>Y</th>
-                            <th>Z</th>
+                            <th>Abs1</th>
+                            <th>Abs2</th>
+                            <th>Abs3</th>
                             <th>Absorción
                                 promedio
                             </th>

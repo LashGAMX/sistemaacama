@@ -3,10 +3,10 @@ var base_url = "https://dev.sistemaacama.com.mx";
 //var quill;
 
 //Opciones del editor de texto Quill
-var options = {
+/*var options = {
     placeholder: 'Introduce procedimiento/validación',
     theme: 'snow'
-};
+};*/
 
 $(document).ready(function () {
 
@@ -190,64 +190,15 @@ function guardarTexto(idLote){
     });
 }
 
-function busquedaPlantilla(idLote){
-    
-    let lote = document.getElementById(idLote).value;     
+//Función que guarda todos los input de la vista Lote > Modal > Equipo
+$('#guardarTodo').click(function() {
+    console.log("Valor de IDLote: " + $('#idLoteHeader').val());
 
-    //Si está vacío
-    if(lote.length == 0){
-        $.ajax({
-            type: "POST",
-            url: base_url + "/admin/laboratorio/lote/procedimiento/busquedaPlantilla",
-            data: {
-                lote: lote,
-                _token: $('input[name="_token"]').val()
-            },
-            dataType: "json",
-            async: false,
-            success: function (response) {
-                quill.setText(response.textoDefault);                
-            }
-        });
-    }else if(lote > 0){                
-        $.ajax({
-            type: "POST",
-            url: base_url + "/admin/laboratorio/lote/procedimiento/busquedaPlantilla",
-            data: {
-                lote: lote,
-                _token: $('input[name="_token"]').val()
-            },
-            dataType: "json",
-            async: false,
-            success: function (response) {                                            
-                //Si encuentra texto almacenado en la BD entonces procede a mostrarlo en el editor de texto
-                if(response.textoRecuperado.Texto !== null){                    
-                    quill.setText(response.textoEncontrado);                    
-                }else{
-                    //Si no encuentra texto almacenado en la BD entonces no muestra ningún texto en el editor de texto
-                    quill.setText('');
-                }
-            }
-        });
-    }else if(lote <= 0){
-        quill.setText('');
-    }    
-}
-
-//Método que se activa al dar clic izq sobre el botón cerrar de la ventana modal
-function limpiezaDatos(){    
-    //Vacía el input del ID Lote de la ventana modal
-    $('#idLoteHeader').val('');
-
-    //Vacía el contenido del editor de texto Quill
-    quill.setText('');
-}
-
-$('#guardarTodo').click(function() {    
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/lote/equipo/guardarDatosGenerales",
         data: {
+            idLote: $('#idLoteHeader').val(),
             flama_loteId: $('#flama_loteId').val(),
             flama_fechaHoraDig: $('#flama_fechaHoraDig').val(),
             flama_longOnda: $('#flama_longOnda').val(),
@@ -275,15 +226,35 @@ $('#guardarTodo').click(function() {
 
             verif_stdCal: $('#verif_stdCal').val(),
             verif_absTeorica: $('#verif_absTeorica').val(),
-            verif_stdCal: $('#verif_concMgL').val(),
+            verif_concMgL: $('#verif_concMgL').val(),
+            verif_Abs1: $('#verif_Abs1').val(),
+            verif_Abs2: $('#verif_Abs2').val(),
+            verif_Abs3: $('#verif_Abs3').val(),
+            verif_Abs4: $('#verif_Abs4').val(),
+            verif_Abs5: $('#verif_Abs5').val(),
+            verif_AbsProm: $('#verif_AbsProm').val(),
+            verif_masaCarac: $('#verif_masaCarac').val(),
+            verif_conclusion: $('#verif_conclusion').val(),
+            verif_conclusionObtenida: $('#verif_conclusionObtenida').val(),
+            verif_rec: $('#verif_rec').val(),
+            verif_cumple: $('#verif_cumple').val(),
 
-            _token: $('input[name="_token"]').val(),
+            std_conc: $('#std_conc').val(),
+            std_desvStd: $('#std_desvStd').val(),
+            std_cumple: $('#std_cumple').val(),
+            std_abs1: $('#std_abs1').val(),
+            std_abs2: $('#std_abs2').val(),
+            std_abs3: $('#std_abs3').val(),
+            std_abs4: $('#std_abs4').val(),
+            std_abs5: $('#std_abs5').val(),
+
+            _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         async: false,
         success: function (response) {
             console.log(response);
-            swal("Registro!", "Datos guardados correctamente!", "success");
+            //swal("Registro!", "Datos guardados correctamente!", "success");
         }
     });
 });

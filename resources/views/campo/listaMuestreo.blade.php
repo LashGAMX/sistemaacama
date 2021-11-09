@@ -78,11 +78,11 @@
                             <th>Estado</th>
                             <th>Captura</th>
                             <th>Equipo</th>
-                            {{-- <th>Marca</th>
-                            <th>Modelo</th> --}}
-                            {{-- <th>Serie</th> --}}
-                            {{-- <th>Creao</th> --}}
+                            <th>Marca</th>
+                            <th>Modelo</th> 
+                            <th>Serie</th>
                             <th>Fecha creación</th>
+                            {{-- <th>Creao</th>
                             {{-- <th>Modificó</th> --}}
                             <th>Fecha modificación</th>
                         </tr>
@@ -93,7 +93,7 @@
                         <td>{{$item->Id_solicitud}}</td>
                         <td>{{$item->Folio_servicio}}</td>
                         <td>{{$item->Empresa}}</td>
-                        <td>{{$item->Direccion}}</td>
+                        {{-- <td>{{$item->Direccion}}</td> --}}
                         <td>{{$item->Fecha_muestreo}}</td>
                         @switch($item->StdSol)
                             @case(1)
@@ -107,7 +107,6 @@
                                 @break
                             @default
                                 <td>Sin Asignar</td>
-                                
                         @endswitch
                         <td>{{$item->Captura}}</td>
 

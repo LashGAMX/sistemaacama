@@ -16,6 +16,10 @@ use App\Models\SolicitudParametro;
 use App\Models\TipoFormula;
 use App\Models\CurvaConstantes;
 use App\Models\estandares;
+use App\Models\TecnicaLoteMetales;
+use App\Models\BlancoCurvaMetales;
+use App\Models\VerificacionMetales;
+use App\Models\EstandarVerificacionMet;
 use Illuminate\Support\Facades\DB;
 
 class LaboratorioController extends Controller
@@ -118,8 +122,10 @@ class LaboratorioController extends Controller
         //$parametro = Parametro::where('Id_parametro',$request->formulaTipo)->first();
         $lote = DB::table('ViewLoteAnalisis')->where('Fecha', $request->fechaAnalisis)->first();
         $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $lote->Id_lote)->get();
+        $curvaConst = CurvaConstantes::where('Id_lote',$lote->Id_lote)->first();
         $data = array(
             'lote' => $lote,
+            'curvaConst' => $curvaConst,
             'detalle' => $detalle,
         );
         return response()->json($data);
@@ -256,7 +262,19 @@ class LaboratorioController extends Controller
         $promedio = $suma / 3;
         $resultado = (($promedio - 0.00646) / 0.16929) * $FD;
 
+        $detalle = LoteDetalle::find($request->idDetalle);
+        $detalle->Vol_muestra = $request->volMuestra;
+        $detalle->Abs1 = $request->x;
+        $detalle->Abs2 = $request->y;
+        $detalle->Abs3 = $request->z;
+        $detalle->Abs_promedio = $promedio;
+        $detalle->Factor_dilucion = $request->FD;
+        $detalle->Factor_conversion = 0;
+        $detalle->Vol_disolucion = $resultado; 
+        $detalle->save();
+
         $data = array(
+            'idDeta' => $request->idDetalle,
             'curva' => $curva,
             'promedio' => $promedio,
             'resultado' => $resultado
@@ -310,7 +328,7 @@ class LaboratorioController extends Controller
     }
     public function asgnarMuestraLote($id)
     {
-        $lote = LoteDetalle::where('Id_lote', $id)->get();
+        $lote = LoteDetalle::where('Id_lote', $id)->get(); 
         $idLote = $id;
         return view('laboratorio.asignarMuestraLote', compact('lote', 'idLote'));
     }
@@ -327,8 +345,28 @@ class LaboratorioController extends Controller
     public function getMuestraAsignada(Request $request)
     {
         $model = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get();
+
+
         $data = array(
             'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function liberarMuestraMetal(Request $request)
+    {
+        
+        $detalle = LoteDetalle::find($request->idDetalle);
+        $detalle->Liberado = 1;
+        $detalle->save();
+
+        $detalleModel = LoteDetalle::where('Id_lote',$detalle->Id_lote)->where('Liberado',1)->get();
+        $loteModel = LoteAnalisis::where('Id_lote',$detalle->Id_lote)->first();
+
+
+        $data = array(
+            'detalleModel' => $detalleModel,
+            'liberado' => $detalleModel->count(),
+            'lote' => $loteModel,
         );
         return response()->json($data);
     }
@@ -348,9 +386,17 @@ class LaboratorioController extends Controller
         $solModel->Asignado = 1;
         $solModel->save();
 
+        $detModel = LoteDetalle::where('Id_lote',$request->idLote)->get();
+        
+        $loteModel = LoteAnalisis::find($request->idLote);
+        $loteModel->Asignado = $detModel->count();
+        $loteModel->Liberado = 0;
+        $loteModel->save();
+
         $paraModel = DB::table('ViewLoteDetalle')::where('Id_lote', $request->idLote)->get();
 
         $data = array(
+            // 'cant' => $cant,
             'model' => $paraModel,
         );
         return response()->json($data);
@@ -379,42 +425,159 @@ class LaboratorioController extends Controller
         );
     }
 
-
-
-    //Función para recuperar el texto almacenado en la tabla reportes; campo Texto
-    public function busquedaPlantilla(Request $request)
-    {
-        //Recibe el Id del lote para recuperar el texto almacenado en el campo Texto de la tabla reportes         
-
-        $textoRecuperado = Reportes::where('Id_lote', $request->lote)->first();
-
-        $textoRecuperadoPredeterminado = Reportes::where('Id_lote', 0)->first();
-
-        $textoEncontrado = html_entity_decode($textoRecuperado->Texto);
-        //$prueba = strip_tags($prueb);
-
-
-        $textoDefault = html_entity_decode($textoRecuperadoPredeterminado->Texto);
-        //$prueba2 = strip_tags($prueb1);
-
-        return response()->json(
-            compact('textoRecuperado', 'textoRecuperadoPredeterminado', 'textoEncontrado', 'textoDefault')
-        );
-    }
-
-
     //*************************************GUARDA LOS DATOS DE LA VENTANA MODAL EN MÓDULO LOTE, PESTAÑA EQUIPO************* */
     public function guardarDatosGenerales(Request $request){
+        //******************************************************Técnica Lote Metales**********************************************************
+        $tecLoteMet = TecnicaLoteMetales::where('Id_lote', $request->idLote)->get();
+        
+        if ($tecLoteMet->count()) {
+            $tecLote = TecnicaLoteMetales::where('Id_lote', $request->idLote)->first();
+            
+            $tecLote->Fecha_hora_dig = $request->flama_fechaHoraDig;
+            $tecLote->Longitud_onda = $request->flama_longOnda;
+            $tecLote->Flujo_gas = $request->flama_flujoGas;
+            $tecLote->Equipo = $request->flama_equipoForm;
+            $tecLote->Num_inventario = $request->flama_numInventario;
+            $tecLote->Num_invent_lamp = $request->flama_numInvLamp;
+            $tecLote->Slit = $request->flama_slit;
+            $tecLote->Corriente = $request->flama_corriente;
+            $tecLote->Energia = $request->flama_energia;
+            $tecLote->Conc_std = $request->flama_concStd;
+            $tecLote->Gas = $request->flama_gas;
+            $tecLote->Aire = $request->flama_aire;
+            $tecLote->Oxido_nitroso = $request->flama_oxidoN;
+            
+            $tecLote->save();            
+        } else {
+            TecnicaLoteMetales::create([
+                'Id_lote' => $request->flama_loteId,
+                'Fecha_hora_dig' => $request->flama_fechaHoraDig,
+                'Longitud_onda' => $request->flama_longOnda,
+                'Flujo_gas' => $request->flama_flujoGas,
+                'Equipo' => $request->flama_equipoForm,
+                'Num_inventario' => $request->flama_numInventario,
+                'Num_invent_lamp' => $request->flama_numInvLamp,
+                'Slit' => $request->flama_slit,
+                'Corriente' => $request->flama_corriente,
+                'Energia' => $request->flama_energia,
+                'Conc_std' => $request->flama_concStd,
+                'Gas' => $request->flama_gas,
+                'Aire' => $request->flama_aire,
+                'Oxido_nitroso' => $request->flama_oxidoN
+            ]);            
+        }
+        //*******************************************BLANCOCURVAMETALES******************************************/
+        $blancoCurvaMet = BlancoCurvaMetales::where('Id_lote', $request->idLote)->get();
+        
+        if ($blancoCurvaMet->count()) {
+            $blancoCurva = BlancoCurvaMetales::where('Id_lote', $request->idLote)->first();
+            
+            $blancoCurva->Verif_blanco = $request->blanco_verifBlanco;
+            $blancoCurva->ABS_teor_blanco = $request->blanco_absTeoBlanco;
+            $blancoCurva->ABS1 = $request->blanco_abs1;
+            $blancoCurva->ABS2 = $request->blanco_abs2;
+            $blancoCurva->ABS3 = $request->blanco_abs3;
+            $blancoCurva->ABS4 = $request->blanco_abs4;
+            $blancoCurva->ABS5 = $request->blanco_abs5;
+            $blancoCurva->ABS_prom = $request->blanco_absProm;
+            $blancoCurva->Concl_blanco = $request->blanco_concBlanco;            
+            
+            $blancoCurva->save();            
+        } else {
+            BlancoCurvaMetales::create([
+                    'Id_lote' => $request->idLote,
+                    'Verif_blanco' => $request->blanco_verifBlanco,
+                    'ABS_teor_blanco' => $request->blanco_absTeoBlanco,
+                    'ABS1' =>$request->blanco_abs1,
+                    'ABS2' => $request->blanco_abs2,
+                    'ABS3'  =>$request->blanco_abs3,
+                    'ABS4' => $request->blanco_abs4,
+                    'ABS5' => $request->blanco_abs5,
+                    'ABS_prom' => $request->blanco_absProm,
+                    'Concl_blanco' => $request->concBlanco
+            ]);            
+        }
 
-        $demo = $request->prueba;
+        //***********************************************VERIFICACIONMETALES***********************************
+        $verMet = VerificacionMetales::where('Id_lote', $request->idLote)->get();
+        
+        if ($verMet->count()) {
+            $verifMetales = VerificacionMetales::where('Id_lote', $request->idLote)->first();
+            
+            $verifMetales->STD_cal = $request->verif_stdCal;
+            $verifMetales->ABS_teorica = $request->verif_absTeorica;
+            $verifMetales->Conc_mgL = $request->verif_concMgL;
+            $verifMetales->ABS1 = $request->verif_Abs1;
+            $verifMetales->ABS2 = $request->verif_Abs2;
+            $verifMetales->ABS3 = $request->verif_Abs3;
+            $verifMetales->ABS4 = $request->verif_Abs4;
+            $verifMetales->ABS5 = $request->verif_Abs5;
+            $verifMetales->ABS_prom = $request->verif_AbsProm;
+            $verifMetales->Masa_caract = $request->verif_masaCarac;
+            $verifMetales->Conclusion = $request->verif_conclusion;
+            $verifMetales->Conc_obtenida = $request->verif_conclusionObtenida;
+            $verifMetales->Porc_rec = $request->verif_rec;
+            $verifMetales->Cumple = $request->verif_cumple;
+            
+            $verifMetales->save();            
+        } else {
+            VerificacionMetales::create([
+                    'Id_lote' => $request->idLote,
+                    'STD_cal' => $request->verif_stdCal,
+                    'ABS_teorica' => $request->verif_absTeorica,
+                    'Conc_mgL' => $request->verif_concMgL,
+                    'ABS1' =>$request->verif_Abs1,
+                    'ABS2' => $request->verif_Abs2,
+                    'ABS3'  =>$request->verif_Abs3,
+                    'ABS4' => $request->verif_Abs4,
+                    'ABS5' => $request->verif_Abs5,
+                    'ABS_prom' => $request->verif_AbsProm,
+                    'Masa_caract' => $request->verif_masaCarac,
+                    'Conclusion' => $request->verif_conclusion,
+                    'Conc_obtenida' => $request->verif_conclusionObtenida,
+                    'Porc_rec' => $request->verif_rec,
+                    'Cumple' => $request->verif_cumple
+            ]);            
+        }
 
+        //*************************************************ESTANDARVERIFICACIONMET****************************
+        $stdVerMet = EstandarVerificacionMet::where('Id_lote', $request->idLote)->get();
+        
+        if ($stdVerMet->count()) {
+            $stdVer = EstandarVerificacionMet::where('Id_lote', $request->idLote)->first();
+            
+            $stdVer->Conc_mgL = $request->std_conc;
+            $stdVer->DESV_std = $request->std_desvStd;
+            $stdVer->Cumple = $request->std_cumple;
+            $stdVer->ABS1 = $request->std_abs1;
+            $stdVer->ABS2 = $request->std_abs2;
+            $stdVer->ABS3 = $request->std_abs3;
+            $stdVer->ABS4 = $request->std_abs4;
+            $stdVer->ABS5 = $request->std_abs5;            
+            
+            $stdVer->save();            
+        } else {
+            EstandarVerificacionMet::create([
+                    'Id_lote' => $request->idLote,
+                    'Conc_mgL' => $request->std_conc,
+                    'DESV_std' => $request->std_desvStd,
+                    'Cumple' => $request->std_cumple,
+                    'ABS1' => $request->std_abs1,
+                    'ABS2' => $request->std_abs2,
+                    'ABS3' => $request->std_abs3,
+                    'ABS4' => $request->std_abs4,
+                    'ABS5' => $request->std_abs5                    
+            ]);            
+        }
+
+        //****************************************************************************************************
         return response()->json(
-            compact('demo')
+            compact('tecLoteMet', 'blancoCurvaMet','verMet', 'stdVerMet')
         );
     }
 
 
-    //********************************************************************************************************************* */
+    //*********************************************************************************************************************
 
     //*************************FUNCIÓN PARA GENERAR EL DOCUMENTO PDF EN VISTA CAPTURA****************************
     public function exportPdfCaptura($idLote)
@@ -460,8 +623,13 @@ class LaboratorioController extends Controller
 
         $mpdf->showWatermarkImage = true;
 
+        $datos = DB::table('ViewLoteDetalle')->where('Id_lote', $id_lote)->get();
+        $loteModel = DB::table('observacion_muestra')->where('Id_analisis', 1)->first();
+
+        $datosLength = sizeof($datos);
+
         //Hace referencia a la vista captura, misma que es el body del documento PDF
-        $html = view('exports.laboratorio.captura');
+        $html = view('exports.laboratorio.captura', compact('datos', 'datosLength', 'loteModel'));
 
         $mpdf->CSSselectMedia = 'mpdf';
 
@@ -494,10 +662,12 @@ class LaboratorioController extends Controller
 
         $limiteCuantificacion = DB::table('parametros')->where('Parametro', $formulaSelected)->first();
         $estandares = estandares::where('Id_lote', $id_lote)->get();
+        $bmr = CurvaConstantes::where('Id_lote', $id_lote)->first();
 
-        $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento', 'estandares', 'limiteCuantificacion'));
+        $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento', 'estandares', 'limiteCuantificacion', 'bmr'));
         $mpdf->WriteHTML($htmlCurva2);
 
+        
         //Crea el documento PDF final
         $mpdf->Output();
     }

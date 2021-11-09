@@ -163,7 +163,7 @@
         </button>
         <h5 class="modal-title" id="exampleModalLabel">FLAMA</h5>
         
-        <label>ID Lote: <input type="text" id="idLoteHeader" size=10/  onchange='busquedaPlantilla("idLoteHeader");'> <button class="btn btn-info" onclick="getDatalote()">Buscar</button></label>
+        <label>ID Lote: <input type="text" id="idLoteHeader" size=10 /> <button class="btn btn-info" onclick="getDatalote()">Buscar</button></label>
         <label>Fecha Lote: <input type="datetime-local" id="fechaLote"/></label>                
         <!-- <div class="form-check" id="cierreCaptura">
           <label class="form-check-label" for="flexCheckDefault">
@@ -278,7 +278,7 @@
                 <label>ABS 2: <input type="text" id="std_abs2" size="10"></label> &nbsp;&nbsp;&nbsp;
                 <label>ABS 3: <input type="text" id="std_abs3" size="10"></label> &nbsp;&nbsp;&nbsp;
                 <label>ABS 4: <input type="text" id="std_abs4" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 5: <input type="text" id="std_bs5" size="10"></label><br><br>
+                <label>ABS 5: <input type="text" id="std_abs5" size="10"></label><br><br>
 
                 {{-- <h4>Curva de calibración</h4> 
                 <hr>

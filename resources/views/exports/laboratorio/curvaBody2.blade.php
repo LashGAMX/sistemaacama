@@ -138,7 +138,7 @@
                         <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>
                         <th id="tableCabecera">&nbsp;STD5&nbsp;&nbsp;</th>
                         <th id="tableCabecera">&nbsp;<span class="bmrTabla">b = </span>&nbsp;&nbsp;</th>
-                        <th id="tableCabecera">&nbsp;Valor de b&nbsp;&nbsp;</th>
+                        <th id="tableContent">&nbsp;<span class="bTabla">{{$bmr->B}}</span>&nbsp;&nbsp;</th>
                     </tr>
                 </thead>
         
@@ -153,7 +153,7 @@
                         @endfor
                         
                         <td id="tableContent"><span class="bmrTabla">m = </span></td>
-                        <td id="tableContent">VAL</td>
+                        <td id="tableContent">{{$bmr->M}}</td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA 1</td>
@@ -165,7 +165,7 @@
                         @endfor                                                
                         
                         <td id="tableContent"><span class="bmrTabla">r = </span></td>
-                        <td id="tableContent">VAL</td>
+                        <td id="tableContent">{{$bmr->R}}</td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA 2</td>
@@ -177,7 +177,7 @@
                         @endfor
 
                         <td id="tableContent"><span class="bmrTabla">Fecha de preparación = </span></td>
-                        <td id="tableContent">FECHA</td>
+                        <td id="tableContent">27/10/2021</td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA 3</td>

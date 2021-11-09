@@ -137,6 +137,10 @@ function guardar(){
         }
     });        
 }
+function guardarSTd(){
+    table = document.getElementById("tablaLote");
+    
+}
 function formula(){
 
 

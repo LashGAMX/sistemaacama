@@ -27,5 +27,6 @@ class LoteDetalle extends Model
         'Factor_conversion',
         'Vol_disolucion',
         'Fecha',
+        'Liberado',
     ];
 }

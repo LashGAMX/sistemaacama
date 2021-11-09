@@ -77,14 +77,14 @@
 #pie1{    
     padding: 0 1rem;
     margin: 1rem;
-    background-color: aqua;
+    /*background-color: aqua;*/
 }
 
 #pie2{        
     width: 200px;
     margin-left: auto;
     margin-right: auto;
-    background-color: orange;
+    /*background-color: orange;*/
 }
 
 .contenedorPadre{    
@@ -133,15 +133,17 @@
     height: 30px;
     text-align: center;  
     
-    background-color: aqua;
+    /*background-color: aqua;*/
 }
 
 .contenedorHijo11{        
     width: 50%;
     height: 30px;
     float: left;
-    background-color: orange;  
+    /*background-color: orange;  */
 }
+
+
 
 
 
@@ -150,15 +152,15 @@
 
 .contenedorPadre12{    
     width: 100%;
-    height: 30px;
+    height: 100px;
     text-align: center;  
-    
+
     background-color: aqua;
 }
 
 .contenedorHijo12{        
     width: 50%;
-    height: 30px;
+    height: 100px;
     float: left;
-    background-color: orange;  
+    background-color: orange;
 }

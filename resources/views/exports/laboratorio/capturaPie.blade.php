@@ -1,29 +1,4 @@
 <footer>
-    
-    <!-- <div id="pie1">
-        <div id="pie2">
-            <table class="table table-borderless">
-                <thead>
-                    <tr>
-                        <td id="analizo">ANALIZÓ</td>
-                        <td id="superviso">SUPERVISÓ</td>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td rowspan="2"><img style="width: 60px; height: 40px;" src="https://dev.sistemaacama.com.mx//storage/users/May2021/ZApPzkPb5RId7WHFQHon.jpeg"></td>
-                        <td>AQUÍ VA LA FIRMA</td>
-                    </tr>
-                    <tr>
-                        <td id="nombreAnalizo">{{$usuario->name}}</td>
-                        <td id="nombreSuperviso">NOMBRE SUPERVISÓ</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div> -->
-
     <div class="contenedorPadre11">
         <div class="contenedorHijo11">            
             <span class="cabeceraStdMuestra"> ANALIZÓ <br> </span>

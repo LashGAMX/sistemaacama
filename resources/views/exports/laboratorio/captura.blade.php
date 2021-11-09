@@ -23,7 +23,7 @@
                     <td id="tableCabecera">&nbsp;Abs Muestra - Abs Blanco&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;[mg/L] Obtenida&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
-                    <td id="tableCabecera">&nbsp;Resultado c/factor aplicado&nbsp;&nbsp;</td>
+                    <!-- <td id="tableCabecera">&nbsp;Resultado c/factor aplicado&nbsp;&nbsp;</td> -->
                     <td id="tableCabecera">&nbsp;[mg/L] Reportada&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;Observaciones&nbsp;</td>
                     <td></td>
@@ -31,22 +31,22 @@
             </thead>
     
             <tbody>
-                @for ($i = 0; $i < 24; $i++)
+                @for ($i = 0; $i < $datosLength ; $i++)
                     <tr>
-                        <td id="tableContent">PRUEBA1</td>
-                        <td id="tableContent">PRUEBA</td>
-                        <td id="tableContent">PRUEBA</td>
-                        <td id="tableContent">PRUEBA</td>
-                        <td id="tableContent">PRUEBA</td>
-                        <td id="tableContent">PRUEBA</td>
-                        <td id="tableContent">PRUEBA</td>
-                        <td id="tableContent">PRUEBA</td>
-                        <td id="tableContent">PRUEBA</td>
-                        <td id="tableContent">PRUEBA</td>
-                        <td id="tableContent">PRUEBA</td>
-                        <td id="tableContent">PRUEBA</td>
-                        <td id="tableContent">PRUEBA</td>
-                        <td id="tableContent">PRUEBA</td>                
+                        <td id="tableContent">{{$datos[$i]->Folio_servicio}}</td>
+                        <td id="tableContent">{{$datos[$i]->Vol_muestra}}</td>
+                        <td id="tableContent">{{$loteModel->Ph}}</td>
+                        <td id="tableContent">{{$datos[$i]->Abs1}}</td>
+                        <td id="tableContent">{{$datos[$i]->Abs2}}</td>
+                        <td id="tableContent">{{$datos[$i]->Abs3}}</td>
+                        <td id="tableContent">{{$datos[$i]->Abs_promedio}}</td>
+                        <td id="tableContent">{{$datos[$i]->Abs_promedio}}</td>
+                        <td id="tableContent">{{$datos[$i]->Vol_disolucion}}</td>
+                        <td id="tableContent">{{$datos[$i]->Factor_dilucion}}</td>
+                        <!-- <td id="tableContent">PRUEBA</td> -->
+                        <td id="tableContent">0.476</td>
+                        <td id="tableContent">{{$loteModel->Observaciones}}</td>
+                        <td id="tableContent">{{$datos[$i]->Descripcion}}</td>                
                     </tr>                
                 @endfor                        
             </tbody>        
