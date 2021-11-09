@@ -17,6 +17,16 @@
           <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
 
       </div> 
+
+        <div class="col-md-2">
+             <select class="form-control" id="area">
+              <option value="">Selecciona Area</option>
+              @foreach ($area as $item)
+                <option value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
+              @endforeach
+            </select>
+      </div>
+
       <div class="col-md-2">
         <select class="form-control" id="idLote">
           <option value="">Selecciona Lote</option>
@@ -27,14 +37,13 @@
           <option value="{{$item->Id_lote}}">{{$item->Fecha}} Id:{{$item->Id_lote}}</option>
           @endif
           @endforeach
-          
           </select>
 </div>
-<div class="col-md-2">
-  <select class="form-control" id="idTecnica">
-    <option value="">Selecciona Técnica</option>
-  </select>
-</div>
+        <div class="col-md-2" id="divParametro">
+          <select class="form-control" id="parametro">
+            <option value="">Selecciona Parametro</option>
+          </select>
+        </div>
       <div class="col-md-1">
         <button class="btn btn-info" id="buscar"><i class="voyager-serch"></i> Buscar</button>
       </div>

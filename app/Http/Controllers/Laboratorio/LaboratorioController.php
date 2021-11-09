@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\AreaAnalisis;
 use App\Models\Constante;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
@@ -14,6 +15,7 @@ use App\Models\Reportes;
 use App\Models\SolicitudParametro;
 use App\Models\TipoFormula;
 use App\Models\CurvaConstantes;
+use App\Models\estandares;
 use Illuminate\Support\Facades\DB;
 
 class LaboratorioController extends Controller
@@ -88,7 +90,15 @@ class LaboratorioController extends Controller
     
     public function captura()
     {
-        $parametro = Parametro::all();
+        
+        $parametro = Parametro::where('Id_tipo_formula',20)
+            ->orWhere('Id_tipo_formula',21)
+            ->orWhere('Id_tipo_formula',22)
+            ->orWhere('Id_tipo_formula',23)
+            ->orWhere('Id_tipo_formula',24)
+            ->get();
+        // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get(); 
+        // var_dump($parametro);
         return view('laboratorio.captura',compact('parametro'));
     }
     public function getDataCaptura(Request $request)
@@ -99,6 +109,35 @@ class LaboratorioController extends Controller
         $data = array(
             'lote' => $lote,
             'detalle' => $detalle,
+        );
+        return response()->json($data);
+    }
+    public function setControlCalidad(Request $request)
+    {
+        $loteModel = LoteDetalle::where('Id_detalle',$request->numMuestra[$request->ranCon[0]])->first();
+        
+        // LoteDetalle::create([
+        //     'Id_lote' => $loteModel->Id_lote,
+        //     'Id_analisis' => $loteModel->Id_analisis,
+        //     'Id_parametro' => $loteModel->Id_parametro,
+        //     'Descripcion' => 'Blanco reactivo',
+        //     'Vol_muestra' => 50,
+        //     'Abs1' => '',
+        //     'Abs2' => '',
+        //     'Abs3' => '',
+        //     'AbsPromedio' => '',
+        //     'Factor_dilucion' => 1,
+        //     'Factor_conversion' => 0,
+        //     'Vol_disolucion' => '',
+        // ]);
+
+        $detalle = DB::table('ViewLoteDetalle')->where('Id_lote',$loteModel->Id_lote)->get();
+        
+
+        $data = array(
+            'detalle' => $detalle,
+            'model' => $loteModel,
+            'numAle' => $request->ramCon[1],
         );
         return response()->json($data);
     }
@@ -118,8 +157,8 @@ class LaboratorioController extends Controller
             'resultado' => $resultado
         );
     
-        return response()->json($data);
-    }
+        return response()->json($data); 
+    } 
 
     public function lote()
     {
@@ -193,6 +232,9 @@ class LaboratorioController extends Controller
             'Id_lote' => $request->idLote,
             'Id_analisis' => $request->idAnalisis,
             'Id_parametro' => $request->idParametro,
+            'Descripcion' => 'Resultado',
+            'Factor_dilucion' => 1,
+            'Factor_conversion' => 0,
         ]);
 
         $solModel = SolicitudParametro::find($request->idSol);
@@ -235,20 +277,19 @@ class LaboratorioController extends Controller
         //REALIZARÁ CONSULTA A LA BASE DE DATOS VIEWLOTEDETALLE PARA RECUPERAR LOS DATOS
         
         //ASIGNACIONES DE PRUEBA
-        $tipoFormula = $request->formulaTipo;
-        //$parameters = $request->parametros;
+        $tipoFormula = $request->formulaTipo;        
         $numeroMuestra = $request->numMuestra;
-        $analisisFecha = $request->fechaAnalisis;
+        //$analisisFecha = $request->fechaAnalisis;
 
         $consultas = [
             'Folio_servicio' => $numeroMuestra,
-            //'Parametro' => $parameters
+            'Parametro' => $tipoFormula
         ];
 
-        $loteDetail = DB::table('ViewLoteDetalle')->where($consultas)->first();
+        $loteDetail = DB::table('ViewLoteDetalle')->where($consultas)->first();        
 
         return response()->json(
-            compact('tipoFormula', 'loteDetail')
+            compact('loteDetail')
         );
     }
 
@@ -275,19 +316,25 @@ class LaboratorioController extends Controller
     }
 
     //*************************FUNCIÓN PARA GENERAR EL DOCUMENTO PDF EN VISTA CAPTURA****************************
-    public function exportPdfCaptura($formulaTipo, $numeroMuestra) 
+    public function exportPdfCaptura($formulaTipo, $numeroMuestra, $idLote) 
     {        
-        //$id_lote = $idlote;
+        $id_lote = $idLote;
         $formulaSelected = $formulaTipo;
-        $numMuestra = $numeroMuestra;
-        //$param = $parametro;                    
+        $numMuestra = $numeroMuestra;        
+
+        //Recupera el nombre de usuario y firma
+        $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
+        $firma = $usuario->firma;
+
+        //Formatea la fecha
+        $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
+        $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
 
         //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
-        $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected'));
-        //$htmlHeader = view('exports.laboratorio.capturaHeader');
+        $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected', 'fechaConFormato'));
         
         //Hace referencia a la vista capturaPie
-        $htmlFooter = view('exports.laboratorio.capturaPie');
+        $htmlFooter = view('exports.laboratorio.capturaPie', compact('usuario', 'firma'));
 
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
@@ -296,7 +343,7 @@ class LaboratorioController extends Controller
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 48,
-            'margin_bottom' => 37,
+            'margin_bottom' => 45,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
@@ -327,27 +374,26 @@ class LaboratorioController extends Controller
 
 
         //*************************************************Segundo juego de documentos PDF***************************************************
-        $mpdf->AddPage('', '', '1', '', '', '', '', 44, '', 6.5, '', '', '', '', '', -1, -1, -1, -1);
+        $mpdf->AddPage('', '', '1', '', '', '', '', 40, 35, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
         //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes
-        $textoProcedimiento = Reportes::where('Id_muestra' , $numMuestra)->first();                
+        $textoProcedimiento = Reportes::where('Id_muestra' , $numMuestra)->first();
         
         //Hoja1
         $htmlCurva = view('exports.laboratorio.curvaBody', compact('textoProcedimiento'));
-        $htmlCurvaHeader = view('exports.laboratorio.curvaHeader', compact('formulaSelected'));        
-        $htmlCurvaFooter = view('exports.laboratorio.curvaFooter');
+        $htmlCurvaHeader = view('exports.laboratorio.curvaHeader', compact('formulaSelected', 'fechaConFormato'));        
+        $htmlCurvaFooter = view('exports.laboratorio.curvaFooter', compact('usuario'));
         $mpdf->SetHTMLHeader('{PAGENO}<br><br>'.$htmlCurvaHeader, 'O', 'E');
         $mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E');
         $mpdf->WriteHTML($htmlCurva);
 
         //Hoja2
-        $mpdf->AddPage('', '', '', '', '', '', '', 50, '', '', '', '', '', '', '', '', '', '', '');
+        $mpdf->AddPage('', '', '', '', '', '', '', 40, '', '', '', '', '', '', '', '', '', '', '');
 
-        //$estandares = estandares::where('Id_lote', $id_lote)->first();
+        $limiteCuantificacion = DB::table('parametros')->where('Parametro', $formulaSelected)->first();
+        $estandares = estandares::where('Id_lote', $id_lote)->get();        
 
-        $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento'));
-        /*$mpdf->SetHTMLHeader($htmlCurvaHeader, 'O', 'E');
-        $mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E');*/
+        $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento', 'estandares', 'limiteCuantificacion'));
         $mpdf->WriteHTML($htmlCurva2);
 
         //Crea el documento PDF final

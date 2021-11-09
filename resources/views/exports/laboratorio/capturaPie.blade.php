@@ -1,5 +1,6 @@
 <footer>
-    <div id="pie1">
+    
+    <!-- <div id="pie1">
         <div id="pie2">
             <table class="table table-borderless">
                 <thead>
@@ -11,16 +12,30 @@
 
                 <tbody>
                     <tr>
-                        <td>AQUÍ VA LA FIRMA</td>
+                        <td rowspan="2"><img style="width: 60px; height: 40px;" src="https://dev.sistemaacama.com.mx//storage/users/May2021/ZApPzkPb5RId7WHFQHon.jpeg"></td>
                         <td>AQUÍ VA LA FIRMA</td>
                     </tr>
                     <tr>
-                        <td id="nombreAnalizo">NOMBRE ANALIZÓ</td>
+                        <td id="nombreAnalizo">{{$usuario->name}}</td>
                         <td id="nombreSuperviso">NOMBRE SUPERVISÓ</td>
                     </tr>
                 </tbody>
             </table>
         </div>
+    </div> -->
+
+    <div class="contenedorPadre11">
+        <div class="contenedorHijo11">            
+            <span class="cabeceraStdMuestra"> ANALIZÓ <br> </span>
+            <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://dev.sistemaacama.com.mx//storage/users/May2021/ZApPzkPb5RId7WHFQHon.jpeg"> <br></span>
+            <span class="bodyStdMuestra"> {{$usuario->name}} </span>
+        </div>
+
+        <div class="contenedorHijo11">
+            <span class="cabeceraStdMuestra">SUPERVISÓ <br> </span>                                    
+            <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://dev.sistemaacama.com.mx//storage/users/May2021/ZApPzkPb5RId7WHFQHon.jpeg"> <br></span>
+            <span class="bodyStdMuestra"> {{$usuario->name}} </span>
+        </div>        
     </div>
 
     <div id="revisiones">

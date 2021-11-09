@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{asset('css/laboratorio/capturaPDF.css')}}">
     <title>Captura PDF</title>
 </head>
-<body>
+<body>    
 
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos">
@@ -31,9 +31,9 @@
             </thead>
     
             <tbody>
-                @for ($i = 0; $i < 22; $i++)
+                @for ($i = 0; $i < 24; $i++)
                     <tr>
-                        <td id="tableContent">PRUEBA</td>
+                        <td id="tableContent">PRUEBA1</td>
                         <td id="tableContent">PRUEBA</td>
                         <td id="tableContent">PRUEBA</td>
                         <td id="tableContent">PRUEBA</td>

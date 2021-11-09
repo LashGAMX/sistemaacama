@@ -89,7 +89,7 @@
                       </div>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-secondary">Generar controles</button>
+                    <button class="btn btn-secondary" id="btnGenControl" onclick="generarControles();">Generar controles</button>
                 </div>
 
                 <div class="col-md-1">
@@ -98,13 +98,13 @@
             </div>
         </div>
         <div class="col-md-12">
-            <div class="divTablaControles">
-                <table class="table" id="tableDatos2">
+            <div id="divTablaControles">
+                <table class="table" id="tablaControles">
                     <thead>
                         <tr>
                             <th>NumMuestra</th>
                             <th>NomCliente</th>
-                            <th>PuntoMuestreo</th>
+                            {{-- <th>PuntoMuestreo</th> --}}
                             <th>Vol. Muestra E</th>
                             <th>X</th>
                             <th>Y</th>
@@ -117,7 +117,6 @@
                             <th>Vol. disolución digerida v</th>
                         </tr>
                     </thead>
-                   
                 </table>
             </div>
         </div>

@@ -15,7 +15,7 @@
                         <td>AQUÍ VA LA FIRMA</td>
                     </tr>
                     <tr>
-                        <td id="nombreAnalizo">NOMBRE ANALIZÓ</td>
+                        <td id="nombreAnalizo">{{$usuario->name}}</td>
                         <td id="nombreSuperviso">NOMBRE SUPERVISÓ</td>
                     </tr>
                 </tbody>

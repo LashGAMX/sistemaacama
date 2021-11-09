@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\estandares;
 use App\Models\Formulas;
+use App\Models\Parametro;
 use App\Models\Constante;
+use App\Models\AreaAnalisis;
 use App\Models\LoteAnalisis;
 use App\Models\CurvaConstantes;
 
@@ -14,9 +16,24 @@ class CurvaController extends Controller
 {
     public function index(){
         $lote = LoteAnalisis::all();
+        $area = AreaAnalisis::all();
         $model = "";
-        return view('laboratorio/curva', compact('model','lote'));
+        return view('laboratorio/curva', compact('model','lote','area'));
     }
+
+    public function getParametro(Request $request){
+        $idLote = $request->idLote;
+        $model = LoteAnalisis::where('Id_lote', $idLote)->first();
+        $idTipo = $model->Id_tipo;
+        $parametro = Parametro::where('Id_tipo_formula', $idTipo)->get();
+     
+        $data = array(
+            
+            'model'=> $parametro,
+        );
+        return response()->json($data);
+    }
+
      public function buscar(Request $request){
         $model = estandares::where('Id_Lote', $request->idLote)->get(); 
 

@@ -7,18 +7,7 @@
     <link rel="stylesheet" href="{{asset('css/laboratorio/curvaPDF2.css')}}">
     <title>Captura</title>
 </head>
-<body>
-    <div id="procedimientoBody2">
-        <span>DPR = ((|C1-C2|)/((C1+C2)/2))*100</span>
-        <br>
-        <span>Dónde:</span>
-        <br>
-        <span>•C1 = Concentración de la muestra</span>
-        <br>
-        <span>•C2 = Concentración de la muestra duplicada</span>
-        <br>
-        <span>Criterio < 20%</span>        
-    </div>    
+<body>        
 
     <div class="contenedorPrincipal">                                        
         <div class="subContenedor">                        
@@ -142,6 +131,7 @@
                 <thead>
                     <tr>
                         <th id="tableCabecera">&nbsp;</th>
+                        <th id="tableCabecera">&nbsp;Blanco&nbsp;&nbsp;</th>
                         <th id="tableCabecera">&nbsp;STD1&nbsp;&nbsp;</th>
                         <th id="tableCabecera">&nbsp;STD2&nbsp;&nbsp;</th>
                         <th id="tableCabecera">&nbsp;STD3&nbsp;&nbsp;</th>
@@ -155,51 +145,61 @@
                 <tbody>
                     <tr>
                         <td id="tableContent">CONCENTRACIÓN EN mg/L</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
+
+                        <td id="tableContent"></td>
+                        
+                        @for ($i = 1; ($i < 6); $i++)                            
+                            <td id="tableContent">{{$estandares[$i]->Concentracion}}</td>
+                        @endfor
+                        
                         <td id="tableContent"><span class="bmrTabla">m = </span></td>
                         <td id="tableContent">VAL</td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA 1</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
+                        
+                        <td id="tableContent">{{$estandares[0]->ABS1}}</td>
+
+                        @for ($i = 1; ($i < 6); $i++)
+                            <td id="tableContent">{{$estandares[$i]->ABS1}}</td>
+                        @endfor                                                
+                        
                         <td id="tableContent"><span class="bmrTabla">r = </span></td>
                         <td id="tableContent">VAL</td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA 2</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
+
+                        <td id="tableContent">{{$estandares[0]->ABS2}}</td>
+                        
+                        @for ($i = 1; ($i < 6); $i++)
+                            <td id="tableContent">{{$estandares[$i]->ABS2}}</td>
+                        @endfor
+
                         <td id="tableContent"><span class="bmrTabla">Fecha de preparación = </span></td>
                         <td id="tableContent">FECHA</td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA 3</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
+
+                        <td id="tableContent">{{$estandares[0]->ABS3}}</td>
+                        
+                        @for ($i = 1; ($i < 6); $i++)
+                            <td id="tableContent">{{$estandares[$i]->ABS3}}</td>
+                        @endfor
+
                         <td id="tableContent"><span class="bmrTabla">Límite de cuantificación = </span></td>
-                        <td id="tableContent">LÍM</td>
+                        <td id="tableContent">{{$limiteCuantificacion->Limite}}</td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA PROM.</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
-                        <td id="tableContent">VAL</td>
+
+                        <td id="tableContent">{{$estandares[0]->Promedio}}</td>
+                        
+                        @for ($i = 1; ($i < 6); $i++)
+                            <td id="tableContent">{{$estandares[$i]->Promedio}}</td>
+                        @endfor
+
                         <td id="tableContent"></td>
                         <td id="tableContent"></td>
                     </tr>
@@ -216,10 +216,10 @@
     </div>
 
     <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: 0</span> <br>
-        <span>Absorbancia B2: 0</span> <br>
-        <span>Absorbancia B3: 0</span> <br>
-        <span>RESULTADO BLANCO: 0</span>
+        <span><br> Absorbancia B1: {{$estandares[0]->ABS1}}</span> <br>
+        <span>Absorbancia B2: {{$estandares[0]->ABS2}}</span> <br>
+        <span>Absorbancia B3: {{$estandares[0]->ABS3}}</span> <br>
+        <span>RESULTADO BLANCO: {{$estandares[0]->Promedio}}</span>
     </div>
 </body>
 </html>

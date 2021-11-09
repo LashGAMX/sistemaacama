@@ -11,7 +11,7 @@
     ELEMENTO: {{$formulaSelected}}
 </p>
 
-<span id='fecha'>Fecha de análisis</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span>AQUÍ VA LA FECHA</span>
+<span id='fecha'>Fecha de análisis</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span>{{$fechaConFormato}}</span>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

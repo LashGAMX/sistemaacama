@@ -269,8 +269,8 @@ INNER JOIN tipo_formulas as ti
 ON lo.Id_tipo = ti.Id_tipo_formula
 
 /* Lista ViewDetalleLote */
-CREATE VIEW ViewLoteDetalle as SELECT lote.* ,sol.Folio_servicio,pa.Parametro FROM lote_detalle as lote
-INNER JOIN solicitudes as sol
+CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro FROM lote_detalle as lote
+INNER JOIN ViewSolicitud as sol
 ON lote.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as pa
 ON lote.Id_parametro = pa.Id_parametro

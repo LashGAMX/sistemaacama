@@ -39,14 +39,47 @@ $(document).ready(function (){
     });
 
     $("#editar").click(function(){
-        
-        
+
     });
     $("#formula").click(function(){
         formula();
     });
+    // $("#idLote").addEventListener('change', (event)=> {
+    //     getParametro();
+    // });
+    $("#idLote").on("click",function(){
+        getParametro();
+    });
+
 });
 
+function getParametro(){
+
+    let div = document.getElementById("divParametro");
+    let tab = "";
+
+    $.ajax({
+        url: base_url + '/admin/laboratorio/getParametro', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          idLote:$("#idLote").val(),
+          _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {
+         console.log(response);
+            tab+= '<select class="form-control" id="parametro">';
+            tab+= '<option value="">Selecciona Parametro</option>';
+            $.each(response.model, function (key, item) {
+                tab+= '<option value="'+item.Id_parametro+'">'+item.Parametro+'</option>';
+            });
+            tab+= '</select>';
+            div.innerHTML = tab;
+
+        }
+    });        
+}
 
 function promedio(){
     var suma = 0;

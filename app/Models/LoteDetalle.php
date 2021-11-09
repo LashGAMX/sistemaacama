@@ -17,6 +17,15 @@ class LoteDetalle extends Model
         'Id_lote',
         'Id_analisis',
         'Id_parametro',
+        'Descripcion',
+        'Vol_muestra',
+        'Abs1',
+        'Abs2',
+        'Abs3',
+        'Abs_promedio',
+        'Factor_dilucion',
+        'Factor_conversion',
+        'Vol_disolucion',
         'Fecha',
     ];
 }
