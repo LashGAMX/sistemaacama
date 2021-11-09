@@ -33,10 +33,10 @@
             <div class="col-md-2">                                
               <div class="form-group">
                 <label for="exampleFormControlSelect1">PH < 2</label>
-                <select class="form-control" name="condicionPh">
-                  <option value="0">Sin seleccionar</option>
-                  <option value="1">SI</option>
-                  <option value="2">NO</option>
+                <select class="form-control" id="condicionPh">
+                  <option value="Sin seleccionar">Sin seleccionar</option>
+                  <option value="SI">SI</option>
+                  <option value="NO">NO</option>
                 </select>
               </div>
             </div>
@@ -44,10 +44,10 @@
             <div class="col-md-1">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Sólidos</label>
-                <select class="form-control" name="solidos">
-                  <option value="0">Sin seleccionar</option>
-                  <option value="1">SI</option>
-                  <option value="2">NO</option>
+                <select class="form-control" id="solidos">
+                  <option value="Sin seleccionar">Sin seleccionar</option>
+                  <option value="SI">SI</option>
+                  <option value="NO">NO</option>
                 </select>
               </div>
             </div>
@@ -55,10 +55,10 @@
             <div class="col-md-1">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Olor</label>
-                <select class="form-control" name="olor">
-                  <option value="0">Sin seleccionar</option>
-                  <option value="1">SI</option>
-                  <option value="2">NO</option>
+                <select class="form-control" id="olor">
+                  <option value="Sin seleccionar">Sin seleccionar</option>
+                  <option value="SI">SI</option>
+                  <option value="NO">NO</option>
                 </select>
               </div>
             </div>
@@ -66,10 +66,10 @@
             <div class="col-md-1">
               <div class="form-group">
                 <label for="exampleFormControlSelect1">Color</label>
-                <select class="form-control" name="color">
-                  <option value="0">Sin seleccionar</option>
-                  <option value="1">SI</option>
-                  <option value="2">NO</option>
+                <select class="form-control" id="color">
+                  <option value="Sin seleccionar">Sin seleccionar</option>
+                  <option value="SI">SI</option>
+                  <option value="NO">NO</option>
                 </select>
               </div>
             </div>
@@ -82,7 +82,7 @@
             </div>
 
             <div class="col-md-2">
-              <button class="btn btn-success" id="btnAplicar" onclick="aplicar();">Aplicar</button>
+              <button class="btn btn-success" id="btnAplicar" onclick="aplicar();">Aplicar</button> 
             </div>
 
           </div>

@@ -252,9 +252,12 @@ INNER JOIN termometro_campo as t
 ON c.Id_equipo = t.Id_termometro
 
 /* Lista ViewObservacionMuestra */
-CREATE VIEW ViewObservacionMuestra as  SELECT obs.Id_observacion,obs.Id_analisis,obs.Id_area,obs.Ph,obs.Solido,obs.Olor,obs.Color,obs.Observaciones,pro.Folio,pro.Descarga,pro.Cliente,pro.Empresa,pro.Ingreso,pro.Proceso,pro.Reporte,pro.ClienteG,pro.Hora_entrada FROM observacion_muestra as obs
+CREATE VIEW ViewObservacionMuestra as  SELECT obs.Id_observacion,obs.Id_analisis,obs.Id_area,obs.Ph,obs.Solido,obs.Olor,obs.Color,obs.Observaciones,pro.Folio,pro.Descarga,pro.Cliente,pro.Empresa,
+pro.Ingreso,pro.Proceso,pro.Reporte,pro.ClienteG,pro.Hora_entrada,sol.Clave_norma,sol.created_at FROM observacion_muestra as obs
 INNER JOIN proceso_analisis as pro
 ON obs.Id_analisis = pro.Id_solicitud
+INNER JOIN ViewSolicitud as sol
+ON obs.Id_analisis = sol.Id_solicitud
 
 /* Liseta ViewTipoFormula  */ 
 CREATE VIEW ViewTipoFormula as SELECT t.Id_tipo_formula,t.Tipo_formula,t.Concentracion,t.Id_area,a.Area_analisis,t.Id_user_c,t.Id_user_m,t.created_at,t.updated_at,t.deleted_at FROM tipo_formulas as t 

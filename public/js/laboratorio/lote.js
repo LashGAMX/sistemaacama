@@ -1,14 +1,12 @@
 var base_url = "https://dev.sistemaacama.com.mx";
 
-var quill;
+//var quill;
 
 //Opciones del editor de texto Quill
 var options = {
     placeholder: 'Introduce procedimiento/validación',
     theme: 'snow'
 };
-
-
 
 $(document).ready(function () {
 
@@ -29,9 +27,8 @@ $(document).ready(function () {
         }
     });
 
-    quill = new Quill('#editor', options);
+    //quill = new Quill('#editor', options);
 
-   
 });
 
 function createLote()
@@ -95,21 +92,22 @@ function buscarLote()
         }
     });
 }
+
 function setAsignar(id)
 {
     window.location = base_url + "/admin/laboratorio/asgnarMuestraLote/"+id;
 }
 
-
 function getDatalote()
 {
     let tabla = document.getElementById('divTableFormulaGlobal');
     let tab = '';
+    let summer = document.getElementById("divSummer");
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/getDatalote",
         data: {
-            
+            idLote:$("#idLoteHeader").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -136,6 +134,15 @@ function getDatalote()
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
+
+            summer.innerHTML = '<div id="summernote">'+response.reporte.Texto+'</div>';
+            $('#summernote').summernote({
+                placeholder: '',
+                tabsize: 2,
+                height: 100,
+        
+              });
+        
         }
     });
 }
@@ -158,21 +165,27 @@ function isSelectedProcedimiento(procedimientoTab){
 
 //Método que guarda el texto ingresado en el editor de texto Quill en la BD
 function guardarTexto(idLote){    
-    let lote = document.getElementById(idLote).value;
-    let texto = quill.container.firstChild.innerHTML;    
-    
+    let texto = document.getElementById("summernote");    
+    let summer = document.getElementById("divSummer");
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/lote/procedimiento",
         data: {
-            texto: texto, 
-            lote: lote
+            texto: texto.textContent, 
+            lote: $("#"+idLote).val(),
         },
         dataType: "json",
         async: false,
         success: function (response) {            
             console.log("REGISTRO EXITOSO");
             console.log(response);
+            summer.innerHTML = '<div id="summernote">'+response.texto.Texto+'</div>';
+            $('#summernote').summernote({
+                placeholder: '',
+                tabsize: 2,
+                height: 100,
+        
+              });
         }
     });
 }
@@ -229,3 +242,48 @@ function limpiezaDatos(){
     //Vacía el contenido del editor de texto Quill
     quill.setText('');
 }
+
+$('#guardarTodo').click(function() {    
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/lote/equipo/guardarDatosGenerales",
+        data: {
+            flama_loteId: $('#flama_loteId').val(),
+            flama_fechaHoraDig: $('#flama_fechaHoraDig').val(),
+            flama_longOnda: $('#flama_longOnda').val(),
+            flama_flujoGas: $('#flama_flujoGas').val(),
+            flama_equipoForm: $('#flama_equipoForm').val(),
+            flama_numInventario: $('#flama_numInventario').val(),
+            flama_numInvLamp: $('#flama_numInvLamp').val(),
+            flama_slit: $('#flama_slit').val(),
+            flama_corriente: $('#flama_corriente').val(),
+            flama_energia: $('#flama_energia').val(),
+            flama_concStd: $('#flama_concStd').val(),
+            flama_gas: $('#flama_gas').val(),
+            flama_aire: $('#flama_aire').val(),
+            flama_oxidoN: $('#flama_oxidoN').val(),
+
+            blanco_verifBlanco: $('#blanco_verifBlanco').val(),
+            blanco_absTeoBlanco: $('#blanco_absTeoBlanco').val(),
+            blanco_abs1: $('#blanco_abs1').val(),
+            blanco_abs2: $('#blanco_abs2').val(),
+            blanco_abs3: $('#blanco_abs3').val(),
+            blanco_abs4: $('#blanco_abs4').val(),
+            blanco_abs5: $('#blanco_abs5').val(),
+            blanco_absProm: $('#blanco_absProm').val(),
+            blanco_concBlanco: $('#blanco_concBlanco').val(),
+
+            verif_stdCal: $('#verif_stdCal').val(),
+            verif_absTeorica: $('#verif_absTeorica').val(),
+            verif_stdCal: $('#verif_concMgL').val(),
+
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+            swal("Registro!", "Datos guardados correctamente!", "success");
+        }
+    });
+});

@@ -165,14 +165,14 @@
         
         <label>ID Lote: <input type="text" id="idLoteHeader" size=10/  onchange='busquedaPlantilla("idLoteHeader");'> <button class="btn btn-info" onclick="getDatalote()">Buscar</button></label>
         <label>Fecha Lote: <input type="datetime-local" id="fechaLote"/></label>                
-        <div class="form-check" id="cierreCaptura">
+        <!-- <div class="form-check" id="cierreCaptura">
           <label class="form-check-label" for="flexCheckDefault">
             Cierre captura:
           </label>
           <input class="form-check-input" type="checkbox" id="cierreCaptura">        
-        </div>
-        <button type="button" class="btn btn-success">Guardar</button>        
-        <button type="button" class="btn btn-danger">Salir</button>
+        </div> -->
+        <button type="button" class="btn btn-success" id="guardarTodo">Guardar</button>        
+        <!-- <button type="button" class="btn btn-danger">Salir</button> -->
         <div id="btnRefresh"></div>        
         <ul class="nav nav-tabs" id="myTab" role="tablist"> 
           <li class="nav-item" role="menu">
@@ -225,62 +225,62 @@
               <div class="tab-pane fade" id="equipo" role="tabpanel" aria-labelledby="equipo-tab">  
                 <h4>Flama / Generador de hidruros / Horno de grafito / Alimentos</h4>
                 <hr>
-                <label>Lote ID: <input type="text" id="loteId"></label> &nbsp;&nbsp;&nbsp; 
-                <label>Fecha / Hora digestión: <input type="datetime-local" id="fechaHoraDig"></label><br>
-                <label>Longitud de onda: <input type="text" id="longOnda"></label> &nbsp;&nbsp;&nbsp; 
-                <label>Flujos de gas: <input type="text" id="flujoGas"></label> &nbsp;&nbsp;&nbsp;
-                <label>Equipo: <input type="text" id="equipoForm"></label><br>
-                <label>No. de inventario: <input type="text" id="numInventario"></label> &nbsp;&nbsp;&nbsp;
-                <label>No. de inv. de lámpara: <input type="text" id="numInvLamp"></label> &nbsp;&nbsp;&nbsp;
-                <label>Slit: <input type="text" id="slit" size="17"></label><br>
-                <label>Corriente: <input type="text" id="corriente"></label> &nbsp;&nbsp;&nbsp;
-                <label>Energía: <input type="text" id="energia"></label> &nbsp;&nbsp;&nbsp;
-                <label>Conc. Std: <input type="text" id="concStd"></label><br>
-                <label>Gas: <input type="text" id="gas"></label> &nbsp;&nbsp;&nbsp;
-                <label>Aire: <input type="text" id="aire"></label> &nbsp;&nbsp;&nbsp;
-                <label>Óxido nitroso: <input type="text" id="oxidoN"></label><br><br>
+                <label>Lote ID: <input type="text" id="flama_loteId"></label> &nbsp;&nbsp;&nbsp; 
+                <label>Fecha / Hora digestión: <input type="datetime-local" id="flama_fechaHoraDig"></label><br>
+                <label>Longitud de onda: <input type="text" id="flama_longOnda"></label> &nbsp;&nbsp;&nbsp; 
+                <label>Flujos de gas: <input type="text" id="flama_flujoGas"></label> &nbsp;&nbsp;&nbsp;
+                <label>Equipo: <input type="text" id="flama_equipoForm"></label><br>
+                <label>No. de inventario: <input type="text" id="flama_numInventario"></label> &nbsp;&nbsp;&nbsp;
+                <label>No. de inv. de lámpara: <input type="text" id="flama_numInvLamp"></label> &nbsp;&nbsp;&nbsp;
+                <label>Slit: <input type="text" id="flama_slit" size="17"></label><br>
+                <label>Corriente: <input type="text" id="flama_corriente"></label> &nbsp;&nbsp;&nbsp;
+                <label>Energía: <input type="text" id="flama_energia"></label> &nbsp;&nbsp;&nbsp;
+                <label>Conc. Std: <input type="text" id="flama_concStd"></label><br>
+                <label>Gas: <input type="text" id="flama_gas"></label> &nbsp;&nbsp;&nbsp;
+                <label>Aire: <input type="text" id="flama_aire"></label> &nbsp;&nbsp;&nbsp;
+                <label>Óxido nitroso: <input type="text" id="flama_oxidoN"></label><br><br>
                 
                 <h4>Blanco de curva</h4>
                 <hr>
-                <label>Verificación de blanco: <input type="text" id="verifBlanco"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS. Teórica blanco: <input type="text" id="absTeoBlanco"></label><br>
-                <label>ABS 1: <input type="text" id="abs1" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 2: <input type="text" id="abs2" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 3: <input type="text" id="abs3" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 4: <input type="text" id="abs4" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 5: <input type="text" id="abs5" size="10"></label><br>
-                <label>ABS promedio: <input type="text" id="absProm"></label> &nbsp;&nbsp;&nbsp;
-                <label>Conclusión blanco: <input type="text" id="concBlanco"></label><br><br>
+                <label>Verificación de blanco: <input type="text" id="blanco_verifBlanco"></label> &nbsp;&nbsp;&nbsp;
+                <label>ABS. Teórica blanco: <input type="text" id="blanco_absTeoBlanco"></label><br>
+                <label>ABS 1: <input type="text" id="blanco_abs1" size="10"></label> &nbsp;&nbsp;&nbsp;
+                <label>ABS 2: <input type="text" id="blanco_abs2" size="10"></label> &nbsp;&nbsp;&nbsp;
+                <label>ABS 3: <input type="text" id="blanco_abs3" size="10"></label> &nbsp;&nbsp;&nbsp;
+                <label>ABS 4: <input type="text" id="blanco_abs4" size="10"></label> &nbsp;&nbsp;&nbsp;
+                <label>ABS 5: <input type="text" id="blanco_abs5" size="10"></label><br>
+                <label>ABS promedio: <input type="text" id="blanco_absProm"></label> &nbsp;&nbsp;&nbsp;
+                <label>Conclusión blanco: <input type="text" id="blanco_concBlanco"></label><br><br>
                 
                 <h4>Verificación del espectómetro</h4>
                 <hr>
-                <label>STD. Cal: <input type="text" id="stdCal"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS. Teórica: <input type="text" id="absTeorica"></label> &nbsp;&nbsp;&nbsp;
-                <label>Conc. (mg/L): <input type="text" id="concMgL"></label><br>
-                <label>ABS 1: <input type="text" id="verifAbs1" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 2: <input type="text" id="verifAbs2" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 3: <input type="text" id="verifAbs3" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 4: <input type="text" id="verifAbs4" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 5: <input type="text" id="verifAbs5" size="10"></label><br>
-                <label>ABS promedio: <input type="text" id="verifAbsProm" size="7"></label> &nbsp;&nbsp;&nbsp;
-                <label>Masa característica (pg/0.0044 A-s): <input type="text" id="masaCarac" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>Conclusión: <input type="text" id="conclusion"></label><br>
-                <label>Conc. Obtenida: <input type="text" id="conclusionObtenida"></label> &nbsp;&nbsp;&nbsp;
-                <label>% Rec: <input type="text" id="rec"></label> &nbsp;&nbsp;&nbsp;
-                <label>Cumple: <input type="text" id="cumple"></label><br><br>
+                <label>STD. Cal: <input type="text" id="verif_stdCal"></label> &nbsp;&nbsp;&nbsp;
+                <label>ABS. Teórica: <input type="text" id="verif_absTeorica"></label> &nbsp;&nbsp;&nbsp;
+                <label>Conc. (mg/L): <input type="text" id="verif_concMgL"></label><br>
+                <label>ABS 1: <input type="text" id="verif_Abs1" size="10"></label> &nbsp;&nbsp;&nbsp;
+                <label>ABS 2: <input type="text" id="verif_Abs2" size="10"></label> &nbsp;&nbsp;&nbsp;
+                <label>ABS 3: <input type="text" id="verif_Abs3" size="10"></label> &nbsp;&nbsp;&nbsp;
+                <label>ABS 4: <input type="text" id="verif_Abs4" size="10"></label> &nbsp;&nbsp;&nbsp;
+                <label>ABS 5: <input type="text" id="verif_Abs5" size="10"></label><br>
+                <label>ABS promedio: <input type="text" id="verif_AbsProm" size="7"></label> &nbsp;&nbsp;&nbsp;
+                <label>Masa característica (pg/0.0044 A-s): <input type="text" id="verif_masaCarac" size="10"></label> &nbsp;&nbsp;&nbsp;
+                <label>Conclusión: <input type="text" id="verif_conclusion"></label><br>
+                <label>Conc. Obtenida: <input type="text" id="verif_conclusionObtenida"></label> &nbsp;&nbsp;&nbsp;
+                <label>% Rec: <input type="text" id="verif_rec"></label> &nbsp;&nbsp;&nbsp;
+                <label>Cumple: <input type="text" id="verif_cumple"></label><br><br>
 
                 <h4>Estándar de verificación del instrumento</h4>
                 <hr>
-                <label>Conc. (mg/L): <input type="text" id="stdConc"></label> &nbsp;&nbsp;&nbsp;
-                <label>DESV. STD.: <input type="text" id="desvStd"></label> &nbsp;&nbsp;&nbsp;
-                <label>Cumple: <input type="text" id="stdCumple"></label><br>
-                <label>ABS 1: <input type="text" id="stdAbs1" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 2: <input type="text" id="stdAbs2" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 3: <input type="text" id="stdAbs3" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 4: <input type="text" id="stdAbs4" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 5: <input type="text" id="stdAbs5" size="10"></label><br><br>
+                <label>Conc. (mg/L): <input type="text" id="std_conc"></label> &nbsp;&nbsp;&nbsp;
+                <label>DESV. STD.: <input type="text" id="std_desvStd"></label> &nbsp;&nbsp;&nbsp;
+                <label>Cumple: <input type="text" id="std_cumple"></label><br>
+                <label>ABS 1: <input type="text" id="std_abs1" size="10"></label> &nbsp;&nbsp;&nbsp;
+                <label>ABS 2: <input type="text" id="std_abs2" size="10"></label> &nbsp;&nbsp;&nbsp;
+                <label>ABS 3: <input type="text" id="std_abs3" size="10"></label> &nbsp;&nbsp;&nbsp;
+                <label>ABS 4: <input type="text" id="std_abs4" size="10"></label> &nbsp;&nbsp;&nbsp;
+                <label>ABS 5: <input type="text" id="std_bs5" size="10"></label><br><br>
 
-                {{-- <h4>Curva de calibración</h4>
+                {{-- <h4>Curva de calibración</h4> 
                 <hr>
                 <label>Bitácora curva calibración: <input type="text" id="bitCurvaCal"></label> &nbsp;&nbsp;&nbsp;
                 <label>Folio curva de calibración: <input type="text" id="folioCurvaCal"></label><br><br>
@@ -292,16 +292,19 @@
             
               <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">                                
               
-                <div id="summernote">
-                      @if (isset($textoRecuperado))
-                        @php
-                            echo $textoRecuperado->Texto;
-                        @endphp
-                      @else
-                        @php
-                            echo $textoRecuperadoPredeterminado->Texto;
-                        @endphp
-                    @endif          
+                
+                <div id="divSummer">
+                  <div id="summernote">
+                    @if (isset($textoRecuperado))
+                    @php
+                        echo $textoRecuperado->Texto;
+                    @endphp
+                  @else
+                    @php
+                        echo $textoRecuperadoPredeterminado->Texto;
+                    @endphp
+                @endif       
+            </div>
                 </div>
              
                 
@@ -330,7 +333,7 @@
 
   @section('css')
     <link rel="stylesheet" href="{{ asset('css/laboratorio/lote.css')}}">
-    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <!-- <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet"> -->
   @endsection
 
   @section('javascript')
@@ -342,7 +345,7 @@
   <script src="{{asset('js/laboratorio/lote.js')}}"></script>
   <script src="{{asset('js/libs/componentes.js')}}"></script>
   <script src="{{asset('js/libs/tablas.js')}}"></script>
-  <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script>
+  <!-- <script src="https://cdn.quilljs.com/1.3.6/quill.js"></script> -->
   
 
 @endsection

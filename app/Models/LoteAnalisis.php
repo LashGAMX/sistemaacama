@@ -17,6 +17,8 @@ class LoteAnalisis extends Model
     protected $fillable = [
         'Id_tipo',
         'Id_area',
+        'Asignado',
+        'Liberado',
         'Fecha',
     ];
 }

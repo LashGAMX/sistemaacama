@@ -27,8 +27,65 @@ $('#ejecutar').click(function(){
     operacion();
 });
 
+/* $('#btnImprimir').click(function() {
+    console.log("dentro de jquery function");
+    let formulaTipo = $('select[name="formulaTipo"] option:selected').text(); */
+
+    //let nuMuestra = $('#numeroMuestra').val();
+
+    /*$.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/lote/procedimiento/busquedaFiltros",
+        data: {
+            numMuestra: numMuestra,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            
+        }
+    });*/
+
+/*     window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+formulaTipo;
+}); */
+
+//Botón buscar; Realiza la búsqueda
+$('#btnBuscar').click(function(){
+    console.log("Dentro de evento btnBuscar");
+
+    //Obtiene los valores introducidos en Fórmula tipo, Núm. muestra, Fecha análisis
+    let formulaTipo = $('select[name="formulaTipo"] option:selected').text();    
+    let numMuestra = $('#numeroMuestra').val();
+    //let fechaAnalisis = $('#fechaAnalisis').val();
+
+    console.log("Valor de la variable formulaTipo: " + formulaTipo);
+    //console.log("Valor de la variable fechaAnalisis: " + fechaAnalisis);
+
+    //Función Ajax; Realiza la búsqueda en la BD usando los valores de las variables
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/lote/procedimiento/busquedaFiltros",
+        data: {
+            formulaTipo: formulaTipo,            
+            numMuestra: numMuestra,
+            //fechaAnalisis: fechaAnalisis,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {            
+            console.log(response.loteDetail);            
+
+            $('#btnImprimir').click(function() {
+                console.log("dentro de jquery function");                                                                                                
+
+                window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+response.loteDetail.Parametro+'/'
+                +response.loteDetail.Folio_servicio+'/'+response.loteDetail.Id_lote;
+            });
+        }
+    });
+});
+
 var numMuestras = new Array();
-var idMuestra = 0; 
 function getDataCaptura()
 {
     numMuestras = new Array();
@@ -37,7 +94,6 @@ function getDataCaptura()
 
     let tabla2 = document.getElementById('divTablaControles');
     let tab2 = '';
-    let cont = 1;
 
         $.ajax({
             type: "POST",
@@ -76,7 +132,6 @@ function getDataCaptura()
                 tab2 += '<table id="tablaControles" class="table table-sm">';
                 tab2 += '    <thead class="">';
                 tab2 += '        <tr>';
-                tab2 += '          <th>#</th>';
                 tab2 += '          <th>NumMuestra</th>';
                 tab2 += '          <th>NomCliente</th>';
                 //tab2 += '          <th>PuntoMuestreo</th>';
@@ -93,85 +148,25 @@ function getDataCaptura()
                 tab2 += '    <tbody>';
                 $.each(response.detalle, function (key, item) {
                     tab2 += '<tr>';
-                    tab2 += '<td>'+cont+'</td>';
                     tab2 += '<td>'+item.Folio_servicio+'</td>';
-                    if(item.Descripcion != 'Resultado')
-                    {
-                        tab2 += '<td>'+item.Empresa+' <br> <small class="text-danger">'+item.Descripcion+'</small></td>';
-                    }else{
-                        tab2 += '<td>'+item.Empresa+' <br> <small class="text-info">'+item.Descripcion+'</small></td>';
-                    }
-                    tab2 += '<td><input style="width: 80px" id="volMuestra'+cont+'" value="50"></td>';
-                    tab2 += '<td><input style="width: 80px" id="abs1'+cont+'" value="'+item.Abs1+'"></td>';
-                    tab2 += '<td><input style="width: 80px" id="abs2'+cont+'" value="'+item.Abs2+'"></td>';
-                    tab2 += '<td><input style="width: 80px" id="abs3'+cont+'" value="'+item.Abs3+'"></td>';
-                    tab2 += '<td><input style="width: 80px" id="absPromedio'+cont+'" value="'+item.Abs_promedio+'"></td>';
-                    tab2 += '<td><input style="width: 80px" id="factorDilucion'+cont+'" value="'+item.Factor_dilucion+'"></td>';
-                    tab2 += '<td><input style="width: 80px" id="factorConversion'+cont+'" value="'+item.Factor_conversion+'"></td>';
-                    tab2 += '<td><input style="width: 80px" id="VolDisolucion'+cont+'" value="'+item.Vol_disolucion+'"></td>';
+                    tab2 += '<td>'+item.Empresa+' <br> <small>'+item.Descripcion+'</small></td>';
+                    tab2 += '<td><input id="volMuestra" value="50"></td>';
+                    tab2 += '<td><input id="x" value="'+item.Abs1+'"></td>';
+                    tab2 += '<td><input id="y" value="'+item.Abs2+'"></td>';
+                    tab2 += '<td><input id="z" value="'+item.Abs3+'"></td>';
+                    tab2 += '<td><input id="absPromedio" value="'+item.Abs_promedio+'"></td>';
+                    tab2 += '<td><input id="factorDilucion" value="'+item.Factor_dilucion+'"></td>';
+                    tab2 += '<td><input id="factorConversion" value="'+item.Factor_conversion+'"></td>';
+                    tab2 += '<td><input id="VolDisolucion" value="'+item.Vol_disolucion+'"></td>';
                     tab2 += '</tr>';
                     numMuestras.push(item.Id_detalle);
-                    cont++;
                 });
                 tab2 += '    </tbody>';
                 tab2 += '</table>'; 
-                tabla2.innerHTML = tab2;    
+                tabla2.innerHTML = tab2;
 
-                var t = $('#tablaControles').DataTable({        
-                    "ordering": false, 
-                    "language": {
-                        "lengthMenu": "# _MENU_ por pagina",
-                        "zeroRecords": "No hay datos encontrados",
-                        "info": "Pagina _PAGE_ de _PAGES_",
-                        "infoEmpty": "No hay datos encontrados",
-                    }
-                });
-
-
-                $('#tablaControles tbody').on( 'click', 'tr', function () {
-                    if ( $(this).hasClass('selected') ) {
-                        $(this).removeClass('selected');
-                    }
-                    else {
-                        table.$('tr.selected').removeClass('selected');
-                        $(this).addClass('selected');
-                    }
-                } ); 
-                $('#tablaControles tr').on('click', function(){
-                    let dato = $(this).find('td:first').html();
-                    idMuestra = dato;
-                  });
-          
-                imprimir(response.lote.Id_lote);                
             }
         });
-}
-
-//Función imprimir PDF
-function imprimir(idLote){
-    console.log("Dentro de evento btnBuscar");
-    $('#btnImprimir').click(function() {
-        window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote;                
-    });
-    // $.ajax({
-    //     type: "POST",
-    //     url: base_url + "/admin/laboratorio/lote/procedimiento/busquedaFiltros",
-    //     data: {
-    //         id_Lote : id_Lote,
-    //         //fechaAnalisis: fechaAnalisis,
-    //         _token: $('input[name="_token"]').val()
-    //     },
-    //     dataType: "json",
-    //     success: function (response) {            
-    //         console.log(response.loteDetail);            
-
-    //         $('#btnImprimir').click(function() {
-    //             console.log("dentro de jquery function");
-
-    //             window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+response.loteDetail.Id_lote;
-    //         });
-    //     }
-    // });
 }
 
 function operacion()
@@ -181,18 +176,18 @@ function operacion()
         url: base_url + "/admin/laboratorio/operacion",
         data: {
             idlote:1,
-             x:$("#abs1"+idMuestra).val(),
-             y:$("#abs2"+idMuestra).val(),
-             z:$("#abs3"+idMuestra).val(),
-             FD:$("#factorDilucion"+idMuestra).val(),
+             x:$("#x").val(),
+             y:$("#y").val(),
+             z:$("#z").val(),
+             FD:$("#factorDilucion").val(),
             _token: $('input[name="_token"]').val()
         }, 
         dataType: "json",
         success: function (response) {            
             console.log(response);
             let fix = response.resultado.toFixed(3); 
-            $("#absPromedio"+idMuestra).val(response.promedio);
-            $("#VolDisolucion"+idMuestra).val(fix);
+            $("#absPromedio").val(response.promedio);
+            $("#VolDisolucion").val(fix);
         }
     });
 }
@@ -243,35 +238,21 @@ function generarControles()
             $.each(response.detalle, function (key, item) {
                 tab2 += '<tr>';
                 tab2 += '<td>'+item.Folio_servicio+'</td>';
-                if(item.Descripcion != 'Resultado')
-                    {
-                        tab2 += '<td>'+item.Empresa+' <br> <small class="text-danger">'+item.Descripcion+'</small></td>';
-                    }else{
-                        tab2 += '<td>'+item.Empresa+' <br> <small class="text-info">'+item.Descripcion+'</small></td>';
-                    }
-                tab2 += '<td><input style="width: 80px" id="volMuestra" value="50"></td>';
-                tab2 += '<td><input style="width: 80px" id="x" value="'+item.Abs1+'"></td>';
-                tab2 += '<td><input style="width: 80px" id="y" value="'+item.Abs2+'"></td>';
-                tab2 += '<td><input style="width: 80px" id="z" value="'+item.Abs3+'"></td>';
-                tab2 += '<td><input style="width: 80px" id="absPromedio" value="'+item.Abs_promedio+'"></td>';
-                tab2 += '<td><input style="width: 80px" id="factorDilucion" value="'+item.Factor_dilucion+'"></td>';
-                tab2 += '<td><input style="width: 80px" id="factorConversion" value="'+item.Factor_conversion+'"></td>';
-                tab2 += '<td><input style="width: 80px" id="VolDisolucion" value="'+item.Vol_disolucion+'"></td>';
+                tab2 += '<td>'+item.Empresa+' <br> '+item.Descripcion+'</td>';
+                tab2 += '<td><input id="volMuestra" value="50"></td>';
+                tab2 += '<td><input id="x" value="'+item.Abs1+'"></td>';
+                tab2 += '<td><input id="y" value="'+item.Abs2+'"></td>';
+                tab2 += '<td><input id="z" value="'+item.Abs3+'"></td>';
+                tab2 += '<td><input id="absPromedio" value="'+item.Abs_promedio+'"></td>';
+                tab2 += '<td><input id="factorDilucion" value="'+item.Factor_dilucion+'"></td>';
+                tab2 += '<td><input id="factorConversion" value="'+item.Factor_conversion+'"></td>';
+                tab2 += '<td><input id="VolDisolucion" value="'+item.Vol_disolucion+'"></td>';
                 tab2 += '</tr>';
                 numMuestras.push(item.Id_detalle);
             });
             tab2 += '    </tbody>';
             tab2 += '</table>'; 
             tabla2.innerHTML = tab2;
-            $('#tablaControles').DataTable({        
-                "ordering": false,
-                "language": {
-                    "lengthMenu": "# _MENU_ por pagina",
-                    "zeroRecords": "No hay datos encontrados",
-                    "info": "Pagina _PAGE_ de _PAGES_",
-                    "infoEmpty": "No hay datos encontrados",
-                }
-            });
         }
     });
 }

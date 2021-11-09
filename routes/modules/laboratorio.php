@@ -41,7 +41,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     //---------------------------------Rutas Ajax----------------------------------
     Route::get('analisis/datos', [LaboratorioController::class, 'analisisDatos']);
     Route::post('operacion', [LaboratorioController::class, 'operacion']); 
- 
+    Route::post('lote/equipo/guardarDatosGenerales', [LaboratorioController::class, 'guardarDatosGenerales']);
 
     //ARCHIVO CAPTURA.JS
     Route::post('lote/procedimiento/busquedaFiltros', [LaboratorioController::class, 'busquedaFiltros']);
@@ -55,5 +55,6 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::post('lote/procedimiento/busquedaPlantilla', [LaboratorioController::class, 'busquedaPlantilla']);
 
     //---------------------------------Ruta exportPDF------------------------------
-    Route::get('captura/exportPdfCaptura/{formulaTipo}/{numeroMuestra}/{idLote}', [LaboratorioController::class, 'exportPdfCaptura'])->where('numeroMuestra', '(.*)');    
+    Route::get('captura/exportPdfCaptura/{idLote}', [LaboratorioController::class, 'exportPdfCaptura']);
+    /*Route::get('captura/exportPdfCaptura/{formulaTipo}/{numeroMuestra}/{idLote}', [LaboratorioController::class, 'exportPdfCaptura'])->where('numeroMuestra', '(.*)');*/
 });

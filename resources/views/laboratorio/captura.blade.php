@@ -25,7 +25,7 @@
         <div class="col-md-3">
             <div class="form-group">
                 <label for="">Núm. muestra</label>
-                <input type="text" class="form-control" id="numeroMuestra">
+                <input type="text" style="width: " class="form-control" id="numeroMuestra">
             </div>
         </div>
         <div class="col-md-3">
@@ -52,7 +52,7 @@
                                 <th>Opc</th>
                               </tr>
                             </thead>
-                            <button class="btn btn-success" id="btnImprimir"><i class="fas fa-file-download"></i></button>
+                            <!-- <button class="btn btn-success" id="btnImprimir"><i class="fas fa-file-download"></i></button> -->
                           </table>
                     </div>
                 </div>
@@ -102,6 +102,7 @@
                 <table class="table" id="tablaControles">
                     <thead>
                         <tr>
+                            <th>#</th>
                             <th>NumMuestra</th>
                             <th>NomCliente</th>
                             {{-- <th>PuntoMuestreo</th> --}}
