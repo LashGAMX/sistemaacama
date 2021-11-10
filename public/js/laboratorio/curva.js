@@ -208,8 +208,8 @@ function createStd(){
                 tab += '<td><input value="'+item.ABS1+'"></td>';
                 tab += '<td><input value="'+item.ABS2+'"></td>';
                 tab += '<td><input value="'+item.ABS3+'"></td>';
-                tab += '<td>'+item.Promedio+'</td>';
-              tab += '</tr>';
+                tab += '<td><input value="'+item.Promedio+'"></td>'; 
+              tab += '</tr>'; 
             });
         
             tab += '    </tbody>';

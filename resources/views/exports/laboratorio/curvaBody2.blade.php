@@ -12,7 +12,7 @@
     <div class="contenedorPrincipal">                                        
         <div class="subContenedor">                        
             <span class="cabeceraStdMuestra">FECHA DE ANÁLISIS: </span>
-            <span class="bodyStdMuestra">FECHA DE ANÁLISIS</span>
+            <span class="bodyStdMuestra">{{$fechaConFormato}}</span>
         </div>
 
         <div class="subContenedor">
@@ -22,53 +22,53 @@
 
         <div class="subContenedor">
             <span class="cabeceraStdMuestra">FECHA DE DIGESTIÓN: </span>                    
-            <span class="bodyStdMuestra">FECHA DE DIGESTIÓN</span>
+            <span class="bodyStdMuestra">{{$soloFechaFormateada}}</span>
         </div>
 
         <div class="subContenedor">
             <span class="cabeceraStdMuestra">HORA DE DIGESTIÓN: </span>
-            <span class="bodyStdMuestra">HORA DE DIGESTIÓN</span>
+            <span class="bodyStdMuestra">{{$soloHoraFormateada}}</span>
         </div>
     </div>
 
     <div class="contenedorSecundario">                        
         <div class="subContenedor2">            
             <span class="elementos"> ESPECTROFOTÓMETRO DE ABSORCIÓN ATÓMICA <span><br></span> PERKIN ELMER MODELO: </span>
-            <span class="subElementos">AANALYST 200 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="subElementos">{{$tecnicaMetales->Equipo}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;
             </span>
         </div>
 
         <div class="subContenedor2">
             <span class="elementos">CORRIENTE DE LA LÁMPARA: </span>
-            <span class="subElementos">12.0 mA</span>
+            <span class="subElementos">{{$tecnicaMetales->Corriente}}</span>
         </div>
 
         <div class="subContenedor2">
             <span class="elementos">No. DE INV. LÁMPARA: </span>                    
-            <span class="subElementos">INVLAB 46</span>
+            <span class="subElementos">{{$tecnicaMetales->Num_invent_lamp}}</span>
         </div>
 
         <div class="subContenedor2">
             <span class="elementos">ENERGÍA DE LÁMPARA: </span>
-            <span class="subElementos">72</span>
+            <span class="subElementos">{{$tecnicaMetales->Energia}}</span>
         </div>
     </div>
 
     <div class="contenedorTerciario">                        
         <div class="subContenedor3">            
             <span class="elementos"> No. DE INVENTARIO: </span>
-            <span class="subElementos">INVLAB-88-1</span>
+            <span class="subElementos">{{$tecnicaMetales->Num_inventario}}</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">LONGITUD DE ONDA: </span>
-            <span class="subElementos">324.75 nm</span>
+            <span class="subElementos">{{$tecnicaMetales->Longitud_onda}}</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">SLIT: </span>                    
-            <span class="subElementos">2.7/0.80 mm</span>
+            <span class="subElementos">{{$tecnicaMetales->Slit}}</span>
         </div>
 
         <div class="subContenedor3">
@@ -78,12 +78,12 @@
 
         <div class="subContenedor3">
             <span class="elementos">AIRE: </span>
-            <span class="subElementos">10.00 L/min</span>
+            <span class="subElementos">{{$tecnicaMetales->Aire}}</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">ÓXIDO NITROSO: </span>
-            <span class="subElementos">NA</span>
+            <span class="subElementos">{{$tecnicaMetales->Oxido_nitroso}}</span>
         </div>
     </div>
 
@@ -93,31 +93,31 @@
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">STD.CAL.2 </span>            
+            <span class="elementos">STD.CAL. {{$verificacionMetales->STD_cal}} </span>            
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS. TEÓRICA: .352</span>
+            <span class="elementos">ABS. TEÓRICA: {{$verificacionMetales->ABS_teorica}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 1: .342</span>            
+            <span class="elementos">ABS 1: {{$verificacionMetales->ABS1}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 2: .342</span>            
+            <span class="elementos">ABS 2: {{$verificacionMetales->ABS2}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 3: .34 </span>            
+            <span class="elementos">ABS 3: {{$verificacionMetales->ABS3}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 4: N.A. </span>            
+            <span class="elementos">ABS 4: {{$verificacionMetales->ABS4}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 5: N.A. </span>            
+            <span class="elementos">ABS 5: {{$verificacionMetales->ABS5}}</span>
         </div>
     </div>
 

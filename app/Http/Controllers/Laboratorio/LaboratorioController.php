@@ -21,6 +21,7 @@ use App\Models\BlancoCurvaMetales;
 use App\Models\VerificacionMetales;
 use App\Models\EstandarVerificacionMet;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class LaboratorioController extends Controller
 {
@@ -314,14 +315,39 @@ class LaboratorioController extends Controller
 
     //RECUPERAR DATOS PARA ENVIARLOS A LA VENTANA MODAL > EQUIPO PARA RELLENAR LOS DATOS ALMACENADOS EN LA BD
     public function getDatalote(Request $request)
-    {
+    {                        
         $reporte = Reportes::where('Id_lote',$request->idLote)->first();
         $constantes = DB::table('constantes')->get();
-        $data = array(
-            'reporte' => $reporte,
-            'constantes' => $constantes,
-        );
-        return response()->json($data);
+
+        $tecnicaLoteMet = DB::table('tecnica_lote_metales')->where('Id_lote', $request->idLote)->get();
+        $blancoCurvaMet = DB::table('blanco_curva_metales')->where('Id_lote', $request->idLote)->get();
+        $estandarVerificacionMet = DB::table('estandar_verificacion_met')->where('Id_lote', $request->idLote)->get();
+        $verificacionMet = DB::table('verificacion_metales')->where('Id_lote', $request->idLote)->get();
+
+        if($tecnicaLoteMet->count() && $blancoCurvaMet->count() && $estandarVerificacionMet->count() && $verificacionMet->count()){
+            $tecLotMet = TecnicaLoteMetales::where('Id_lote',$request->idLote)->first();
+            $blancCurvaMet = BlancoCurvaMetales::where('Id_lote',$request->idLote)->first();
+            $stdVerMet = EstandarVerificacionMet::where('Id_lote',$request->idLote)->first();
+            $verMet = VerificacionMetales::where('Id_lote',$request->idLote)->first();
+
+            $data = array(
+                'reporte' => $reporte,
+                'constantes' => $constantes,
+                'tecLotMet' => $tecLotMet,
+                'blancCurvaMet' => $blancCurvaMet,
+                'stdVerMet' => $stdVerMet,
+                'verMet' => $verMet
+            );
+            
+            return response()->json($data);
+        }else{
+            $data = array(
+                'reporte' => $reporte,
+                'constantes' => $constantes,
+            );
+
+            return response()->json($data);
+        }        
     }
 
     public function asignar()
@@ -579,9 +605,6 @@ class LaboratorioController extends Controller
         );
     }
 
-
-    //*********************************************************************************************************************
-
     //*************************FUNCIÓN PARA GENERAR EL DOCUMENTO PDF EN VISTA CAPTURA****************************
     public function exportPdfCaptura($idLote)
     {
@@ -662,12 +685,29 @@ class LaboratorioController extends Controller
 
         //Hoja2
         $mpdf->AddPage('', '', '', '', '', '', '', 40, '', '', '', '', '', '', '', '', '', '', '');
-
+        
         $limiteCuantificacion = DB::table('parametros')->where('Parametro', $formulaSelected)->first();
         $estandares = estandares::where('Id_lote', $id_lote)->get();
         $bmr = CurvaConstantes::where('Id_lote', $id_lote)->first();
+        $tecnicaMetales = TecnicaLoteMetales::where('Id_lote', $id_lote)->first();
 
-        $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento', 'estandares', 'limiteCuantificacion', 'bmr'));
+        //Instancia Carbon
+        $fechaHora = Carbon::parse($tecnicaMetales->Fecha_hora_dig);        
+
+        //Separa de la hora la fecha y aplica un formato DD/MM/AAAA
+        $soloFecha = $fechaHora->toDateString();
+        $soloFechaFormateada = date("d/m/Y", strtotime($soloFecha));
+
+        //Separa la hora de la fecha dando un formato de HH:mm:ss
+        $soloHoraFormateada = $fechaHora->toTimeString();
+
+        $blancoMetales = BlancoCurvaMetales::where('Id_lote', $id_lote)->first();
+        $estandarMetales = EstandarVerificacionMet::where('Id_lote', $id_lote)->first();
+        $verificacionMetales = VerificacionMetales::where('Id_lote', $id_lote)->first();
+
+        $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento', 'estandares', 'limiteCuantificacion', 'bmr', 
+        'tecnicaMetales', 'blancoMetales', 'estandarMetales', 'verificacionMetales', 'fechaConFormato', 'soloFechaFormateada', 
+        'soloHoraFormateada'));
         $mpdf->WriteHTML($htmlCurva2);
 
         
