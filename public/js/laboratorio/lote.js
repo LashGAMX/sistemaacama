@@ -98,6 +98,7 @@ function setAsignar(id)
     window.location = base_url + "/admin/laboratorio/asgnarMuestraLote/"+id;
 }
 
+//PENDIENTE, IDENTIFICAR LOS INPUTS DE LA VENTANA MODAL > EQUIPO PARA RELLENAR LOS DATOS ALMACENADOS EN LA BD
 function getDatalote()
 {
     let tabla = document.getElementById('divTableFormulaGlobal');
