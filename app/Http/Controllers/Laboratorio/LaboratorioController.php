@@ -311,6 +311,8 @@ class LaboratorioController extends Controller
         );
         return response()->json($data);
     }
+
+    //RECUPERAR DATOS PARA ENVIARLOS A LA VENTANA MODAL > EQUIPO PARA RELLENAR LOS DATOS ALMACENADOS EN LA BD
     public function getDatalote(Request $request)
     {
         $reporte = Reportes::where('Id_lote',$request->idLote)->first();
@@ -321,6 +323,7 @@ class LaboratorioController extends Controller
         );
         return response()->json($data);
     }
+
     public function asignar()
     {
         $tipoFormula = TipoFormula::all();
