@@ -238,7 +238,8 @@
                 <label>Conc. Std: <input type="text" id="flama_concStd"></label><br>
                 <label>Gas: <input type="text" id="flama_gas"></label> &nbsp;&nbsp;&nbsp;
                 <label>Aire: <input type="text" id="flama_aire"></label> &nbsp;&nbsp;&nbsp;
-                <label>Óxido nitroso: <input type="text" id="flama_oxidoN"></label><br><br>
+                <label>Óxido nitroso: <input type="text" id="flama_oxidoN"></label><br>
+                <label>Fecha de preparación: <input type="date" id="flama_fechaPrep"></label><br><br>
                 
                 <h4>Blanco de curva</h4>
                 <hr>

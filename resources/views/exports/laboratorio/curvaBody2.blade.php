@@ -73,7 +73,7 @@
 
         <div class="subContenedor3">
             <span class="elementos">ACETILENO: </span>
-            <span class="subElementos">2.50 L/min</span>
+            <span class="subElementos">{{$tecnicaMetales->Gas}}</span>
         </div>
 
         <div class="subContenedor3">
@@ -177,7 +177,7 @@
                         @endfor
 
                         <td id="tableContent"><span class="bmrTabla">Fecha de preparación = </span></td>
-                        <td id="tableContent">27/10/2021</td>
+                        <td id="tableContent">{{$fechaPreparacion}}</td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA 3</td>

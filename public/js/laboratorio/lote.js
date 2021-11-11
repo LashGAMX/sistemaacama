@@ -114,7 +114,7 @@ function getDatalote()
         async: false,
         success: function (response) {
             
-            //console.log(response);            
+            console.log(response);            
 
             if((response.tecLotMet) && (response.blancCurvaMet) && (response.stdVerMet) && (response.verMet)){
                 //Formatea la fecha a un formato admitido por el input datetime
@@ -136,6 +136,7 @@ function getDatalote()
                 $("#flama_gas").val(response.tecLotMet.Gas);
                 $("#flama_aire").val(response.tecLotMet.Aire);
                 $("#flama_oxidoN").val(response.tecLotMet.Oxido_nitroso);
+                $("#flama_fechaPrep").val(response.tecLotMet.Fecha_preparacion);
 
                 $('#blanco_verifBlanco').val(response.blancCurvaMet.Verif_blanco);
                 $('#blanco_absTeoBlanco').val(response.blancCurvaMet.ABS_teor_blanco);
@@ -185,6 +186,7 @@ function getDatalote()
                 $("#flama_gas").val('');
                 $("#flama_aire").val('');
                 $("#flama_oxidoN").val('');
+                $("#flama_fechaPrep").val('');
 
                 $('#blanco_verifBlanco').val('');
                 $('#blanco_absTeoBlanco').val('');
@@ -320,6 +322,7 @@ $('#guardarTodo').click(function() {
             flama_gas: $('#flama_gas').val(),
             flama_aire: $('#flama_aire').val(),
             flama_oxidoN: $('#flama_oxidoN').val(),
+            flama_fechaPrep: $('#flama_fechaPrep').val(),
 
             blanco_verifBlanco: $('#blanco_verifBlanco').val(),
             blanco_absTeoBlanco: $('#blanco_absTeoBlanco').val(),

@@ -475,6 +475,7 @@ class LaboratorioController extends Controller
             $tecLote->Gas = $request->flama_gas;
             $tecLote->Aire = $request->flama_aire;
             $tecLote->Oxido_nitroso = $request->flama_oxidoN;
+            $tecLote->Fecha_preparacion = $request->flama_fechaPrep;
             
             $tecLote->save();            
         } else {
@@ -492,7 +493,8 @@ class LaboratorioController extends Controller
                 'Conc_std' => $request->flama_concStd,
                 'Gas' => $request->flama_gas,
                 'Aire' => $request->flama_aire,
-                'Oxido_nitroso' => $request->flama_oxidoN
+                'Oxido_nitroso' => $request->flama_oxidoN,
+                'Fecha_preparacion' => $request->flama_fechaPrep
             ]);            
         }
         //*******************************************BLANCOCURVAMETALES******************************************/
@@ -691,6 +693,9 @@ class LaboratorioController extends Controller
         $bmr = CurvaConstantes::where('Id_lote', $id_lote)->first();
         $tecnicaMetales = TecnicaLoteMetales::where('Id_lote', $id_lote)->first();
 
+        //Recupera la fecha de preparación y le da un formato d/m/Y        
+        $fechaPreparacion = date("d/m/Y", strtotime($tecnicaMetales->Fecha_preparacion));
+
         //Instancia Carbon
         $fechaHora = Carbon::parse($tecnicaMetales->Fecha_hora_dig);        
 
@@ -701,13 +706,14 @@ class LaboratorioController extends Controller
         //Separa la hora de la fecha dando un formato de HH:mm:ss
         $soloHoraFormateada = $fechaHora->toTimeString();
 
+        //Recupera los datos de las tablas filtrándolas por Id del lote
         $blancoMetales = BlancoCurvaMetales::where('Id_lote', $id_lote)->first();
         $estandarMetales = EstandarVerificacionMet::where('Id_lote', $id_lote)->first();
         $verificacionMetales = VerificacionMetales::where('Id_lote', $id_lote)->first();
 
         $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento', 'estandares', 'limiteCuantificacion', 'bmr', 
         'tecnicaMetales', 'blancoMetales', 'estandarMetales', 'verificacionMetales', 'fechaConFormato', 'soloFechaFormateada', 
-        'soloHoraFormateada'));
+        'soloHoraFormateada', 'fechaPreparacion'));
         $mpdf->WriteHTML($htmlCurva2);
 
         
