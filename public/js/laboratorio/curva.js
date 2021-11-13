@@ -32,27 +32,29 @@ $(document).ready(function (){
         
     });
     $('#calcular').click(function(){
-        promedio();
+        // promedio();
+        // setCalcular();
     });
     $('#guardar').click(function(){
       
     });
 
     $("#editar").click(function(){
-
+ 
     });
     $("#formula").click(function(){
-        formula();
+        // formula();
+        setCalcular();
     });
     // $("#idLote").addEventListener('change', (event)=> {
     //     getParametro();
     // });
-    $("#idLote").on("click",function(){
+    $("#idLote").on("change",function(){ 
         getParametro();
     });
 
 });
-
+ 
 function getParametro(){
 
     let div = document.getElementById("divParametro");
@@ -79,6 +81,63 @@ function getParametro(){
 
         }
     });        
+}
+
+function setCalcular()
+{
+    getMatriz();
+    let tabla = document.getElementById('divTablaStd');
+    let tab = '';
+    $.ajax({
+        url: base_url + '/admin/laboratorio/setCalcular', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          idLote:idLote,
+          conArr:cont,
+          arrCon:arrCon,
+          _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {
+         console.log(response);
+         tab += '<table id="tablaLote" class="table table-sm">';
+         tab += '    <thead class="thead-dark">';
+         tab += '        <tr>';
+         tab += '          <th>Id</th>';
+         tab += '          <th>Id Lote</th> ';
+         tab += '          <th>STD</th> ';
+         tab += '          <th>Concentracion</th> ';
+         tab += '          <th>STD1</th> ';
+         tab += '          <th>STD2</th> ';
+         tab += '          <th>STD3</th> ';
+         tab += '          <th>Promedio</th> '; 
+         tab += '        </tr>';
+         tab += '    </thead>';
+         tab += '    <tbody>';
+         $.each(response.stdModel, function (key, item) {
+             tab += '<tr>';
+             tab += '<td>'+item.Id_std+'</td>';
+             tab += '<td>'+item.Id_lote+'</td>';
+             tab += '<td>'+item.STD+'</td>';
+                 tab += '<td><input value="'+item.Concentracion+'"></td>';
+            
+             tab += '<td><input value="'+item.ABS1+'"></td>';
+             tab += '<td><input value="'+item.ABS2+'"></td>';
+             tab += '<td><input value="'+item.ABS3+'"></td>'; 
+             tab += '<td><input value="'+item.Promedio+'"></td>'; 
+           tab += '</tr>'; 
+         });
+     
+         tab += '    </tbody>';
+         tab += '</table>';
+         tabla.innerHTML = tab;
+
+         $("#b").val(response.b.toFixed(5));
+         $("#m").val(response.m.toFixed(5));
+         $("#r").val(response.r.toFixed(5));
+        }
+    });   
 }
 
 function promedio(){
@@ -166,6 +225,7 @@ function formula(){
     
 }
 
+
 function createStd(){
     let tabla = document.getElementById('divTablaStd');
     let tab = '';
@@ -182,6 +242,7 @@ function createStd(){
         async: false, 
         success: function (response) { 
          console.log(response);
+         let i = 0;
          if(response.sw == false){
              alert("Este lote ya tiene estandare creados");
          }else{
@@ -195,7 +256,7 @@ function createStd(){
             tab += '          <th>STD1</th> ';
             tab += '          <th>STD2</th> ';
             tab += '          <th>STD3</th> ';
-            tab += '          <th>Promedio</th> ';
+            tab += '          <th>Promedio</th> '; 
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
@@ -204,12 +265,17 @@ function createStd(){
                 tab += '<td>'+item.Id_std+'</td>';
                 tab += '<td>'+item.Id_lote+'</td>';
                 tab += '<td>'+item.STD+'</td>';
-                tab += '<td><input value="'+item.Concentracion+'"></td>';
+                if(item.concentracion != ''){
+                    tab += '<td><input value="'+response.concentracion[i].Concentracion+'"></td>';
+                }else{
+                    tab += '<td><input value="'+item.Concentracion+'"></td>';
+                }
                 tab += '<td><input value="'+item.ABS1+'"></td>';
                 tab += '<td><input value="'+item.ABS2+'"></td>';
-                tab += '<td><input value="'+item.ABS3+'"></td>';
+                tab += '<td><input value="'+item.ABS3+'"></td>'; 
                 tab += '<td><input value="'+item.Promedio+'"></td>'; 
               tab += '</tr>'; 
+              i++;
             });
         
             tab += '    </tbody>';
@@ -219,7 +285,9 @@ function createStd(){
         }
     });           
 }
-
+var res = new Array();
+var cont = 0;
+var idLote = 0;
 function buscar(){
     let tabla = document.getElementById('divTablaStd');
     let tab = '';
@@ -233,41 +301,102 @@ function buscar(){
         dataType: 'json', 
         async: false, 
         success: function (response) {
-         console.log(response);
-         if(response.sw == false){
-             alert("Necesitas generar estandares para este lote")
-         }else{
-            tab += '<table id="tablaLote" class="table table-sm">';
-            tab += '    <thead class="thead-dark">';
-            tab += '        <tr>';
-            tab += '          <th>Id</th>';
-            tab += '          <th>Id Lote</th> ';
-            tab += '          <th>STD</th> ';
-            tab += '          <th>Concentracion</th> ';
-            tab += '          <th>STD1</th> ';
-            tab += '          <th>STD2</th> ';
-            tab += '          <th>STD3</th> ';
-            tab += '          <th>Promedio</th> ';
-            tab += '        </tr>';
-            tab += '    </thead>';
-            tab += '    <tbody>';
-            $.each(response.stdModel, function (key, item) {
-                tab += '<tr>';
-                tab += '<td>'+item.Id_std+'</td>';
-                tab += '<td>'+item.Id_lote+'</td>';
-                tab += '<td>'+item.STD+'</td>';
-                tab += '<td><input value=""'+item.Concentracion+'"></td>';
-                tab += '<td><input value=""'+item.ABS1+'"></td>';
-                tab += '<td><input value=""'+item.ABS2+'"></td>';
-                tab += '<td><input value=""'+item.ABS3+'"></td>';
-                tab += '<td>'+item.Promedio+'</td>';
-              tab += '</tr>';
-            });
-        
-            tab += '    </tbody>';
-            tab += '</table>';
-            tabla.innerHTML = tab;
+            console.log(response);
+            res = response.concentracion;   
+            cont = 0;
+            if(response.sw == false){
+                alert("Necesitas generar estandares para este lote")
+            }else{
+                tab += '<table id="tablaLote" class="table table-sm">';
+                tab += '    <thead class="thead-dark">';
+                tab += '        <tr>';
+                tab += '          <th>Id</th>';
+                tab += '          <th>Id Lote</th> ';
+                tab += '          <th>STD</th> ';
+                tab += '          <th>Concentracion</th> ';
+                tab += '          <th>STD1</th> ';
+                tab += '          <th>STD2</th> ';
+                tab += '          <th>STD3</th> ';
+                tab += '          <th>Promedio</th> ';
+                tab += '        </tr>';
+                tab += '    </thead>';
+                tab += '    <tbody>'; 
+
+                $.each(response.stdModel, function (key, item) {
+                    idLote = item.Id_lote;
+                  if(cont == 0)
+                  {
+                    tab += '<tr>';
+                    tab += '<td>'+item.Id_std+'</td>';
+                    tab += '<td>'+item.Id_lote+'</td>';
+                    tab += '<td>'+item.STD+'</td>';
+                    tab += '<td><input id="curCon'+cont+'" value="0"></td>';
+                    tab += '<td><input id="curStd1'+cont+'" value="0.0"></td>'; 
+                    tab += '<td><input id="curStd2'+cont+'" value="0.0"></td>';
+                    tab += '<td><input id="curStd3'+cont+'" value="0.0"></td>';
+                    tab += '<td><input id="curProm'+cont+'" value="0.0" readonly></td>';
+                    tab += '</tr>';
+                    cont++;
+                  }else{
+                    tab += '<tr>';
+                    tab += '<td>'+item.Id_std+'</td>';
+                    tab += '<td>'+item.Id_lote+'</td>';
+                    tab += '<td>'+item.STD+'</td>';
+                    tab += '<td><input  id="curCon'+cont+'" value="'+response.concentracion[cont-1].Concentracion+'"></td>';
+                    tab += '<td><input id="curStd1'+cont+'" value="'+item.ABS1+'"></td>'; 
+                    tab += '<td><input id="curStd2'+cont+'" value="'+item.ABS2+'"></td>';
+                    tab += '<td><input id="curStd3'+cont+'" value="'+item.ABS3+'"></td>';
+                    tab += '<td><input id="curProm'+cont+'" value="'+item.Promedio+'" readonly></td>';
+                    tab += '</tr>';
+                    cont++;
+                  }
+                });
+            
+                tab += '    </tbody>';
+                tab += '</table>';
+                tabla.innerHTML = tab;
          }
+         if ($respons.brm != '') {
+             $("#B").val($response.bmr.B);
+             $("#M").val($response.bmr.M);
+             $("#R").val($response.bmr.R);
+         } else {
+             
+         }
+
         }
     });           
+}
+
+var arrCon = new Array();
+
+var conArrCon = new Array();
+var conArrStd1 = new Array();
+var conArrStd2 = new Array();
+var conArrStd3 = new Array();
+var conArrStdProm = new Array();
+
+function getMatriz()
+{   
+    arrCon = new Array();
+
+    conArrCon = new Array();
+    conArrStd1 = new Array();
+    conArrStd2 = new Array();
+    conArrStd3 = new Array();
+    conArrStdProm = new Array();
+    
+    for (let i = 0; i < cont; i++) {
+        conArrCon.push($("#curCon"+i).val());
+        conArrStd1.push($("#curStd1"+i).val());
+        conArrStd2.push($("#curStd2"+i).val());
+        conArrStd3.push($("#curStd3"+i).val());
+        conArrStdProm.push($("#curProm"+i).val());
+    }
+
+    arrCon.push(conArrCon);
+    arrCon.push(conArrStd1);
+    arrCon.push(conArrStd2);
+    arrCon.push(conArrStd3);
+    arrCon.push(conArrStdProm);
 }
