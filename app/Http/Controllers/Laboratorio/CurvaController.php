@@ -9,8 +9,10 @@ use App\Models\Formulas;
 use App\Models\Parametro;
 use App\Models\Constante;
 use App\Models\AreaAnalisis;
+use App\Models\ConcentracionParametro;
 use App\Models\LoteAnalisis;
 use App\Models\CurvaConstantes;
+use App\Models\LoteDetalle;
 
 class CurvaController extends Controller
 {
@@ -28,7 +30,6 @@ class CurvaController extends Controller
         $parametro = Parametro::where('Id_tipo_formula', $idTipo)->get();
      
         $data = array(
-            
             'model'=> $parametro,
         );
         return response()->json($data);
@@ -36,6 +37,9 @@ class CurvaController extends Controller
 
      public function buscar(Request $request){
         $model = estandares::where('Id_Lote', $request->idLote)->get(); 
+        $loteDetalle = LoteDetalle::where('Id_lote',$request->idLote)->first();
+        $concent = ConcentracionParametro::where('Id_parametro',$loteDetalle->Id_parametro)->get();
+        $bmr = CurvaConstantes::where('Id_lote', $request->idLote)->first();
 
         if($model->count()){
             $sw = true;
@@ -44,16 +48,20 @@ class CurvaController extends Controller
         }
         $data = array(
             'stdModel' => $model,
+            'concentracion' => $concent,
+            'mbr' => $bmr,
             'sw' => $sw,
         );
         return response()->json($data);
      }
      public function createStd(Request $request)
      {
+
         $model = estandares::where('Id_Lote', $request->idLote)->get(); 
+        $loteDetalle = LoteDetalle::where('Id_lote',$request->idLote)->first();
 
         if($model->count()){
-            $sw = false;
+            $sw = false; 
             $stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
         }else{
             estandares::create([
@@ -70,10 +78,12 @@ class CurvaController extends Controller
             
             $stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
         }
-     
+        
+        $concent = ConcentracionParametro::where('Id_parametro',$loteDetalle->Id_parametro)->get();
 
         $data = array(
-            'sw' => $sw,
+            'sw' => $sw, 
+            'concentracion' => $concent,
             'stdModel' => $stdModel,
         );
         return response()->json($data);
@@ -204,5 +214,79 @@ class CurvaController extends Controller
         );
         return response()->json($data);
     }
+    public function setCalcular(Request $request)
+    {
+        $idLote = $request->idLote;
+
+        $stdModel = estandares::where('Id_lote',$request->idLote)->get();
+      
+        for ($i=0; $i < $request->conArr; $i++) { 
+            $prom = ($request->arrCon[1][$i] + $request->arrCon[2][$i] + $request->arrCon[3][$i]) / 3;
+
+            $stdM = estandares::find($stdModel[$i]->Id_std);
+            $stdM->Concentracion = $request->arrCon[0][$i];
+            $stdM->ABS1 = $request->arrCon[1][$i];
+            $stdM->ABS2 = $request->arrCon[2][$i];
+            $stdM->ABS3 = $request->arrCon[3][$i];
+            $stdM->Promedio = $prom;
+            $stdM->save();
+        }
+    
+
+        $model = estandares::where('Id_lote', $idLote)->get();
+        $c1 = 0;
+        $b1 = 0;
+        $bSuma = 0;
+        $cElevada = 0;
+        $bc = 0;
+        $a = 0;
+
+        foreach ($model as $item){
+            $a = $a + 1; //numero de estandares
+            $c1 = $c1 + $item->Promedio; // suma de los promedios
+            $bSuma = $bSuma + $item->Concentracion; //suma de concentración
+            $b1 += ($item->Concentracion * $item->Concentracion); //suma de concentración elevada al cuadrado
+            $bc = $bc + $item->Concentracion * $item->Promedio; //Producto de b y c
+            $cElevada = $cElevada + $item->Promedio * $item->Promedio; //Suma de c elevada a 2
+
+        } 
+        //todo:: b
+        $s1 = $c1 * $b1;
+        $s3 = $bc * $bSuma;
+        $s5 = $a * $b1;
+        $s6 = $bSuma * $bSuma; //elevacion al cuadrado
+        //todo:: m
+        $m1 = $a * $bc;
+        $m2 = $bSuma * $c1;
+        $m3 = $b1 * $a;
+        $m4 = $s6; // misma operación de s6
+        //todo:: r
+        $r2 = $c1 * $bSuma;
+        $r3 = $a * $b1; 
+        //r4 es igual a s6
+        $r5 = $a * $cElevada;
+        $r6 = $c1 * $c1;
+        $rFinal = ($r3 - $s6) * ($r5 - $r6);
+
+        //todo:: Formulas finales
+        $b = ($s1 - $s3)/($s5 - $s6);
+        $m = ($m1 - $m2)/($m3 - $m4);
+        $r = ($m1 - $r2)/sqrt($rFinal);
+
+        $stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
+        
+
+
+        $data = array(
+            'stdModel' => $stdModel,
+            'idLote' => $idLote,
+            'm' => $m,
+            'b' => $b,
+            'r' => $r,
+
+        );
+        return response()->json($data);
+    }
 
 }
+ 
