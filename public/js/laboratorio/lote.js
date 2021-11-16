@@ -116,7 +116,7 @@ function getDatalote()
             
             console.log(response);            
 
-            if((response.tecLotMet) && (response.blancCurvaMet) && (response.stdVerMet) && (response.verMet)){
+            if((response.tecLotMet) && (response.blancCurvaMet) && (response.stdVerMet) && (response.verMet) && (response.curMet) && (response.genMet)){
                 //Formatea la fecha a un formato admitido por el input datetime
                 let fecha = response.tecLotMet.Fecha_hora_dig;
                 let fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm:ss');
@@ -171,6 +171,11 @@ function getDatalote()
                 $('#std_abs3').val(response.stdVerMet.ABS3);
                 $('#std_abs4').val(response.stdVerMet.ABS4);
                 $('#std_abs5').val(response.stdVerMet.ABS5);
+
+                $('#curva_bitCurvaCal').val(response.curMet.Bitacora_curCal),
+                $('#curva_folioCurvaCal').val(response.curMet.Folio_curCal),
+
+                $('#gen_genHidruros').val(response.genMet.Generador_hidruros)
             }else{                
                 $("#flama_loteId").val('');
                 $("#flama_fechaHoraDig").val('');
@@ -221,6 +226,11 @@ function getDatalote()
                 $('#std_abs3').val('');
                 $('#std_abs4').val('');
                 $('#std_abs5').val('');
+
+                $('#curva_bitCurvaCal').val('');
+                $('#curva_folioCurvaCal').val('');
+
+                $('#gen_genHidruros').val('');
             }
 
             tab += '<table id="tableFormulasGlobales" class="table table-sm">';
@@ -301,7 +311,7 @@ function guardarTexto(idLote){
 
 //Función que guarda todos los input de la vista Lote > Modal > Equipo
 $('#guardarTodo').click(function() {
-    console.log("Valor de IDLote: " + $('#idLoteHeader').val());
+    //console.log("Valor de IDLote: " + $('#idLoteHeader').val());
 
     $.ajax({
         type: "POST",
@@ -357,6 +367,11 @@ $('#guardarTodo').click(function() {
             std_abs3: $('#std_abs3').val(),
             std_abs4: $('#std_abs4').val(),
             std_abs5: $('#std_abs5').val(),
+
+            curva_bitCurvaCal: $('#curva_bitCurvaCal').val(),
+            curva_folioCurvaCal: $('#curva_folioCurvaCal').val(),
+
+            gen_genHidruros: $('#gen_genHidruros').val(),
 
             _token: $('input[name="_token"]').val()
         },

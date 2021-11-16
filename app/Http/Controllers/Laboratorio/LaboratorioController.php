@@ -18,8 +18,10 @@ use App\Models\CurvaConstantes;
 use App\Models\estandares;
 use App\Models\TecnicaLoteMetales;
 use App\Models\BlancoCurvaMetales;
+use App\Models\CurvaCalibracionMet;
 use App\Models\VerificacionMetales;
 use App\Models\EstandarVerificacionMet;
+use App\Models\GeneradorHidrurosMet;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -323,12 +325,16 @@ class LaboratorioController extends Controller
         $blancoCurvaMet = DB::table('blanco_curva_metales')->where('Id_lote', $request->idLote)->get();
         $estandarVerificacionMet = DB::table('estandar_verificacion_met')->where('Id_lote', $request->idLote)->get();
         $verificacionMet = DB::table('verificacion_metales')->where('Id_lote', $request->idLote)->get();
+        $curvaCalibracionMet = DB::table('curva_calibracion_met')->where('Id_lote', $request->idLote)->get();
+        $generadorHidrurosMet = DB::table('generador_hidruros_met')->where('Id_lote', $request->idLote)->get();
 
-        if($tecnicaLoteMet->count() && $blancoCurvaMet->count() && $estandarVerificacionMet->count() && $verificacionMet->count()){
+        if($tecnicaLoteMet->count() && $blancoCurvaMet->count() && $estandarVerificacionMet->count() && $verificacionMet->count() && $curvaCalibracionMet->count() && $generadorHidrurosMet->count()){
             $tecLotMet = TecnicaLoteMetales::where('Id_lote',$request->idLote)->first();
             $blancCurvaMet = BlancoCurvaMetales::where('Id_lote',$request->idLote)->first();
             $stdVerMet = EstandarVerificacionMet::where('Id_lote',$request->idLote)->first();
             $verMet = VerificacionMetales::where('Id_lote',$request->idLote)->first();
+            $curMet = CurvaCalibracionMet::where('Id_lote',$request->idLote)->first();
+            $genMet = GeneradorHidrurosMet::where('Id_lote',$request->idLote)->first();
 
             $data = array(
                 'reporte' => $reporte,
@@ -336,7 +342,9 @@ class LaboratorioController extends Controller
                 'tecLotMet' => $tecLotMet,
                 'blancCurvaMet' => $blancCurvaMet,
                 'stdVerMet' => $stdVerMet,
-                'verMet' => $verMet
+                'verMet' => $verMet,
+                'curMet' => $curMet,
+                'genMet' => $genMet
             );
             
             return response()->json($data);
@@ -601,9 +609,44 @@ class LaboratorioController extends Controller
             ]);            
         }
 
-        //****************************************************************************************************
+        //*******************************************CURVACALIBRACIONMET*****************************************
+        $curValMet = CurvaCalibracionMet::where('Id_lote', $request->idLote)->get();
+
+        if($curValMet->count()){
+            $curVal = CurvaCalibracionMet::where('Id_lote', $request->idLote)->first();            
+            
+            $curVal->Bitacora_curCal = $request->curva_bitCurvaCal;
+            $curVal->Folio_curCal = $request->curva_folioCurvaCal;
+
+            $curVal->save();
+        }else{
+            CurvaCalibracionMet::create([
+                'Id_lote' => $request->idLote,
+                'Bitacora_curCal' => $request->curva_bitCurvaCal,
+                'Folio_curCal' => $request->curva_folioCurvaCal
+            ]);  
+        }
+
+        //*******************************************GENERADORHIDRUROSMET****************************************
+        $genHidMet = GeneradorHidrurosMet::where('Id_lote', $request->idLote)->get();
+
+        if($genHidMet->count()){
+            $genHid = GeneradorHidrurosMet::where('Id_lote', $request->idLote)->first();            
+            
+            $genHid->Generador_hidruros = $request->gen_genHidruros;
+
+            $genHid->save();
+        }else{
+            GeneradorHidrurosMet::create([
+                'Id_lote' => $request->idLote,
+                'Generador_hidruros' => $request->gen_genHidruros                
+            ]);  
+        }
+
+
+        //*******************************************************************************************************
         return response()->json(
-            compact('tecLoteMet', 'blancoCurvaMet','verMet', 'stdVerMet')
+            compact('tecLoteMet', 'blancoCurvaMet','verMet', 'stdVerMet', 'curValMet', 'genHidMet')
         );
     }
 

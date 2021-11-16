@@ -281,14 +281,14 @@
                 <label>ABS 4: <input type="text" id="std_abs4" size="10"></label> &nbsp;&nbsp;&nbsp;
                 <label>ABS 5: <input type="text" id="std_abs5" size="10"></label><br><br>
 
-                {{-- <h4>Curva de calibración</h4> 
+                <h4>Curva de calibración</h4> 
                 <hr>
-                <label>Bitácora curva calibración: <input type="text" id="bitCurvaCal"></label> &nbsp;&nbsp;&nbsp;
-                <label>Folio curva de calibración: <input type="text" id="folioCurvaCal"></label><br><br>
+                <label>Bitácora curva calibración: <input type="text" id="curva_bitCurvaCal"></label> &nbsp;&nbsp;&nbsp;
+                <label>Folio curva de calibración: <input type="text" id="curva_folioCurvaCal"></label><br><br>
 
                 <h4>Generador de Hidruros</h4>
                 <hr>
-                <label>Generador de Hidruros: <input type="text" id="genHidruros"></label> --}}
+                <label>Generador de Hidruros: <input type="text" id="gen_genHidruros"></label>
               </div> 
             
               <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">                                
