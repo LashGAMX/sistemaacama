@@ -294,9 +294,12 @@ class LaboratorioController extends Controller
     }
     public function createLote(Request $request)
     {
+        $tipoModel = TipoFormula::where('Id_tipo_formula',$request->tipo)->first();
         $model = LoteAnalisis::create([
             'Id_tipo' => $request->tipo,
-            'Id_area' => 0,
+            'Id_area' => $tipoModel->Id_area,
+            'Asignado' => 0,
+            'Liberado' => 0,
             'Fecha' => $request->fecha,
         ]);
         $data = array(
@@ -317,7 +320,55 @@ class LaboratorioController extends Controller
 
     //RECUPERAR DATOS PARA ENVIARLOS A LA VENTANA MODAL > EQUIPO PARA RELLENAR LOS DATOS ALMACENADOS EN LA BD
     public function getDatalote(Request $request)
-    {                        
+    {            
+        $data = array();
+        
+        $idLoteIf = $request->idLote;            
+        $reporte = Reportes::where('Id_lote',$request->idLote)->first();
+
+        $constantesModel = DB::table('curva_constantes')->where('Id_lote', $request->idLote)->get();
+
+        if($constantesModel->count()){
+            $constantes = CurvaConstantes::where('Id_lote', $request->idLote)->first();
+
+            array_push($data, $constantes);
+        }
+
+        $tecnicaLoteMet = DB::table('tecnica_lote_metales')->where('Id_lote', $request->idLote)->get();
+        $blancoCurvaMet = DB::table('blanco_curva_metales')->where('Id_lote', $request->idLote)->get();
+        $estandarVerificacionMet = DB::table('estandar_verificacion_met')->where('Id_lote', $request->idLote)->get();
+        $verificacionMet = DB::table('verificacion_metales')->where('Id_lote', $request->idLote)->get();
+        $curvaCalibracionMet = DB::table('curva_calibracion_met')->where('Id_lote', $request->idLote)->get();
+        $generadorHidrurosMet = DB::table('generador_hidruros_met')->where('Id_lote', $request->idLote)->get();
+
+        if($tecnicaLoteMet->count() && $blancoCurvaMet->count() && $estandarVerificacionMet->count() && $verificacionMet->count() && $curvaCalibracionMet->count() && $generadorHidrurosMet->count()){
+            $tecLotMet = TecnicaLoteMetales::where('Id_lote',$request->idLote)->first();
+            $blancCurvaMet = BlancoCurvaMetales::where('Id_lote',$request->idLote)->first();
+            $stdVerMet = EstandarVerificacionMet::where('Id_lote',$request->idLote)->first();
+            $verMet = VerificacionMetales::where('Id_lote',$request->idLote)->first();
+            $curMet = CurvaCalibracionMet::where('Id_lote',$request->idLote)->first();
+            $genMet = GeneradorHidrurosMet::where('Id_lote',$request->idLote)->first();
+
+            array_push(                                
+                $data,
+                $tecLotMet,
+                $blancCurvaMet,
+                $stdVerMet,
+                $verMet,
+                $curMet,
+                $genMet,                
+            );
+                        
+        }
+        
+        array_push($data, $reporte, $idLoteIf);
+        return response()->json($data);
+    }
+
+
+    /* public function getDatalote(Request $request)
+    {            
+        $idLoteIf = $request->idLote;            
         $reporte = Reportes::where('Id_lote',$request->idLote)->first();
         $constantes = DB::table('constantes')->get();
 
@@ -344,7 +395,8 @@ class LaboratorioController extends Controller
                 'stdVerMet' => $stdVerMet,
                 'verMet' => $verMet,
                 'curMet' => $curMet,
-                'genMet' => $genMet
+                'genMet' => $genMet,
+                'idLote' => $idLoteIf
             );
             
             return response()->json($data);
@@ -352,11 +404,12 @@ class LaboratorioController extends Controller
             $data = array(
                 'reporte' => $reporte,
                 'constantes' => $constantes,
+                'idLote' => $idLoteIf
             );
 
             return response()->json($data);
         }        
-    }
+    } */
 
     public function asignar()
     {
@@ -383,11 +436,33 @@ class LaboratorioController extends Controller
     {
         $model = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get();
 
-
         $data = array(
             'model' => $model,
         );
         return response()->json($data);
+    }
+    //! Eliminar parametro muestra
+    public function delMuestraLote(Request $request)
+    {
+        $detModel = DB::table('lote_detalle')->where('Id_detalle',$request->idDetalle)->delete();
+
+        $detModel = LoteDetalle::where('Id_lote',$request->idLote)->get();
+        $loteModel = LoteAnalisis::find($request->idLote);
+        $loteModel->Asignado = $detModel->count();
+        $loteModel->Liberado = 0;
+        $loteModel->save();
+
+        
+        $solModel = SolicitudParametro::where('Id_solicitud',$request->idSol)->where('Id_subnorma',$request->idParametro)->first();
+        $solModel->Asignado = 0;
+        $solModel->save(); 
+        $solModel = SolicitudParametro::find($request->idSol);
+
+        $model = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json();
     }
     public function liberarMuestraMetal(Request $request)
     {
@@ -410,30 +485,62 @@ class LaboratorioController extends Controller
     //* Asignar parametro a lote
     public function asignarMuestraLote(Request $request)
     {
-        $model = LoteDetalle::create([
-            'Id_lote' => $request->idLote,
-            'Id_analisis' => $request->idAnalisis,
-            'Id_parametro' => $request->idParametro,
-            'Descripcion' => 'Resultado',
-            'Factor_dilucion' => 1,
-            'Factor_conversion' => 0,
-        ]);
-
-        $solModel = SolicitudParametro::find($request->idSol);
-        $solModel->Asignado = 1;
-        $solModel->save();
-
+        $sw = false;
         $detModel = LoteDetalle::where('Id_lote',$request->idLote)->get();
-        
-        $loteModel = LoteAnalisis::find($request->idLote);
-        $loteModel->Asignado = $detModel->count();
-        $loteModel->Liberado = 0;
-        $loteModel->save();
+        if($detModel->count())
+        {
+           if($detModel[0]->Id_parametro == $request->idParametro)
+           {
+            $model = LoteDetalle::create([
+                'Id_lote' => $request->idLote,
+                'Id_analisis' => $request->idAnalisis,
+                'Id_parametro' => $request->idParametro,
+                'Descripcion' => 'Resultado',
+                'Factor_dilucion' => 1,
+                'Factor_conversion' => 0,
+            ]);
+    
+            $solModel = SolicitudParametro::find($request->idSol);
+            $solModel->Asignado = 1;
+            $solModel->save();
+    
+            $detModel = LoteDetalle::where('Id_lote',$request->idLote)->get();
+            
+            $loteModel = LoteAnalisis::find($request->idLote);
+            $loteModel->Asignado = $detModel->count();
+            $loteModel->Liberado = 0;
+            $loteModel->save();
+            
+            $sw = true;
+           }
+        }else{
+            $model = LoteDetalle::create([
+                'Id_lote' => $request->idLote,
+                'Id_analisis' => $request->idAnalisis,
+                'Id_parametro' => $request->idParametro,
+                'Descripcion' => 'Resultado',
+                'Factor_dilucion' => 1,
+                'Factor_conversion' => 0,
+            ]);
+    
+            $solModel = SolicitudParametro::find($request->idSol);
+            $solModel->Asignado = 1;
+            $solModel->save();
+    
+            $detModel = LoteDetalle::where('Id_lote',$request->idLote)->get();
+            
+            $loteModel = LoteAnalisis::find($request->idLote);
+            $loteModel->Asignado = $detModel->count();
+            $loteModel->Liberado = 0;
+            $loteModel->save();
+            
+            $sw = true;
+        }
 
-        $paraModel = DB::table('ViewLoteDetalle')::where('Id_lote', $request->idLote)->get();
+        $paraModel = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get();
 
         $data = array(
-            // 'cant' => $cant,
+            'sw' => $sw,
             'model' => $paraModel,
         );
         return response()->json($data);
@@ -453,8 +560,11 @@ class LaboratorioController extends Controller
             $texto = Reportes::where('Id_lote', $idLote)->first();
             $texto->Texto = $textoPeticion;
             $texto->save();
-        } else {
-            $texto = Reportes::create(['Texto' => $textoPeticion]);
+        } else {            
+            $texto = Reportes::create([
+                'Id_lote' => $idLote,
+                'Texto' => $textoPeticion
+            ]);
         }
         
         return response()->json(
@@ -642,7 +752,6 @@ class LaboratorioController extends Controller
                 'Generador_hidruros' => $request->gen_genHidruros                
             ]);  
         }
-
 
         //*******************************************************************************************************
         return response()->json(

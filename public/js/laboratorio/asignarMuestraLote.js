@@ -79,7 +79,7 @@ function getMuestraAsignada()
                 tab += '<tr>';
                 tab += '<td>'+item.Folio_servicio+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
-                tab += '<td><button type="button" id="btnAsignar" onclick="asignarMuestraLote('+idLote+','+item.Id_solicitud+','+item.Id_parametro+','+item.Id_solParam+')"  class="btn btn-primary">Agregar</button></td>';
+                tab += '<td><button type="button" id="btnAsignar" onclick="delMuestraLote('+item.Id_lote+','+item.Id_detalle+','+item.Id_analisis+','+item.Id_parametro+')"  class="btn btn-danger">Eliminar</button></td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';
@@ -120,6 +120,52 @@ function asignarMuestraLote(idLote,idAnalisis,idParametro,idSol)
                 tab += '<tr>';
                 tab += '<td>'+item.Folio_servicio+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
+                tab += '<td><button type="button" id="btnAsignar" onclick="delMuestraLote('+item.Id_lote+','+item.Id_detalle+','+item.Id_analisis+','+item.Id_parametro+')"  class="btn btn-danger">Eliminar</button></td>';
+              tab += '</tr>';
+            });
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
+            muestraSinAsignar()
+
+            if(response.sw == false)
+            {
+                swal("Registro!", "Esta muestra no puede ser asignada!", "error");
+            }
+        } 
+    });
+} 
+
+function delMuestraLote(idLote,idDetalle,idSol,idParam){
+    let tabla = document.getElementById('divTable2');
+    let tab = '';
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/laboratorio/delMuestraLote",
+        data: {
+            idLote:idLote,
+            idSol:idSol,
+            idDetalle:idDetalle,
+            idParametro:idParam,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {            
+            console.log(response);
+            tab += '<table id="tablaParamSin" class="table table-sm">';
+            tab += '    <thead class="thead-dark">';
+            tab += '        <tr>';
+            tab += '          <th>Folio</th>';
+            tab += '          <th>Parametros</th>';
+            tab += '          <th>Opc</th> ';
+            tab += '        </tr>';
+            tab += '    </thead>';
+            tab += '    <tbody>';
+            $.each(response.model, function (key, item) {
+                tab += '<tr>';
+                tab += '<td>'+item.Folio_servicio+'</td>';
+                tab += '<td>'+item.Parametro+'</td>';
                 tab += '<td></td>';
               tab += '</tr>';
             });
@@ -127,6 +173,7 @@ function asignarMuestraLote(idLote,idAnalisis,idParametro,idSol)
             tab += '</table>';
             tabla.innerHTML = tab;
             muestraSinAsignar()
+
         } 
     });
-} 
+}

@@ -355,7 +355,7 @@ function buscar(){
                 tab += '</table>';
                 tabla.innerHTML = tab;
          }
-        //  if ($response.brm == '' || $response.bmr == null) {
+        //   if ($response.brm == '' || $response.bmr == null) {
         //     $("#B").val("");
         //     $("#M").val("");
         //     $("#R").val("");
@@ -366,7 +366,7 @@ function buscar(){
             
         //  }
 
-        }  
+        }   
 
     });           
 }

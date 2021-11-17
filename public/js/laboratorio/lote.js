@@ -45,7 +45,8 @@ function createLote()
         async: false,
         success: function (response) {            
             console.log(response);
-
+            swal("Registro!", "Lote creado correctamente!", "success");
+            $('#modalCrearLote').modal('hide')
         }
     });
 }
@@ -114,7 +115,7 @@ function getDatalote()
         async: false,
         success: function (response) {
             
-            console.log(response);            
+            console.log(response);                        
 
             if((response.tecLotMet) && (response.blancCurvaMet) && (response.stdVerMet) && (response.verMet) && (response.curMet) && (response.genMet)){
                 //Formatea la fecha a un formato admitido por el input datetime
@@ -233,27 +234,47 @@ function getDatalote()
                 $('#gen_genHidruros').val('');
             }
 
-            tab += '<table id="tableFormulasGlobales" class="table table-sm">';
-            tab += '    <thead class="thead-dark">';
-            tab += '        <tr>';
-            tab += '          <th>Fórmula</th>';
-            tab += '          <th>Resultado</th> ';
-            tab += '          <th>Núm. Decimales</th> ';
-            tab += '        </tr>';
-            tab += '    </thead>';
-            tab += '    <tbody>';
-            $.each(response.constantes, function (key, item) {
-                tab += '<tr>';
-                tab += '<td>'+item.Constante+'</td>';
-                tab += '<td>'+item.Valor+'</td>';
-                tab += '<td>3</td>';
+            console.log("Valor de idLote: " + response.idLote);
+            if(response.idLote == 0 || response.idLote < 0 || !response.idLote){
+                tab += '<table id="tableFormulasGlobales" class="table table-sm">';
+                tab += '<thead>'
+                tab +=      '<tr>'
+                tab +=          '<th scope="col">Fórmula</th>'
+                tab +=          '<th scope="col">Resultado</th>'
+                tab +=          '<th scope="col">Núm.Decimales</th>'
+                tab +=      '</tr>'
+                tab += '</thead>'
+                tab += '<tbody>'
+                tab +=      '<tr>'
+                //tab +=          '<td></td>'
+                //tab +=          '<td></td>'
+                //tab +=          '<td></td>'
+                tab +=      '</tr>'
+                tab += '</tbody>'
+                tab += '</table>';
+                tabla.innerHTML = tab;
+            }else if(response.idLote > 0){
+                tab += '<table id="tableFormulasGlobales" class="table table-sm">';
+                tab += '    <thead class="thead-dark">';
+                tab += '        <tr>';
+                tab += '          <th>Fórmula</th>';
+                tab += '          <th>Resultado</th> ';
+                tab += '          <th>Núm. Decimales</th> ';
+                tab += '        </tr>';
+                tab += '    </thead>';
+                tab += '    <tbody>';
+                $.each(response.constantes, function (key, item) {
+                    tab += '<tr>';
+                    tab +=      '<td>'+item.Constante+'</td>';
+                    tab +=      '<td>'+item.Valor+'</td>';
+                    tab +=      '<td>3</td>';                
+                    tab += '</tr>';
+                }); 
+                tab += '    </tbody>';
+                tab += '</table>';
+                tabla.innerHTML = tab;
+            }                
             
-              tab += '</tr>';
-            }); 
-            tab += '    </tbody>';
-            tab += '</table>';
-            tabla.innerHTML = tab;
-
             summer.innerHTML = '<div id="summernote">'+response.reporte.Texto+'</div>';
             $('#summernote').summernote({
                 placeholder: '',
@@ -265,6 +286,194 @@ function getDatalote()
         }
     });
 }
+
+/* function getDatalote()
+{
+    let tabla = document.getElementById('divTableFormulaGlobal');
+    let tab = '';
+    let summer = document.getElementById("divSummer");
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/laboratorio/getDatalote",
+        data: {
+            idLote:$("#idLoteHeader").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            
+            console.log(response);                        
+
+            if((response.tecLotMet) && (response.blancCurvaMet) && (response.stdVerMet) && (response.verMet) && (response.curMet) && (response.genMet)){
+                //Formatea la fecha a un formato admitido por el input datetime
+                let fecha = response.tecLotMet.Fecha_hora_dig;
+                let fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm:ss');
+                let fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDThh:mm');                                
+
+                $("#flama_loteId").val(response.tecLotMet.Id_lote);
+                $("#flama_fechaHoraDig").val(fechaFormateada);                
+                $("#flama_longOnda").val(response.tecLotMet.Longitud_onda);
+                $("#flama_flujoGas").val(response.tecLotMet.Flujo_gas);
+                $("#flama_equipoForm").val(response.tecLotMet.Equipo);
+                $("#flama_numInventario").val(response.tecLotMet.Num_inventario);
+                $("#flama_numInvLamp").val(response.tecLotMet.Num_invent_lamp);
+                $("#flama_slit").val(response.tecLotMet.Slit);
+                $("#flama_corriente").val(response.tecLotMet.Corriente);
+                $("#flama_energia").val(response.tecLotMet.Energia);
+                $("#flama_concStd").val(response.tecLotMet.Conc_std);
+                $("#flama_gas").val(response.tecLotMet.Gas);
+                $("#flama_aire").val(response.tecLotMet.Aire);
+                $("#flama_oxidoN").val(response.tecLotMet.Oxido_nitroso);
+                $("#flama_fechaPrep").val(response.tecLotMet.Fecha_preparacion);
+
+                $('#blanco_verifBlanco').val(response.blancCurvaMet.Verif_blanco);
+                $('#blanco_absTeoBlanco').val(response.blancCurvaMet.ABS_teor_blanco);
+                $('#blanco_abs1').val(response.blancCurvaMet.ABS1);
+                $('#blanco_abs2').val(response.blancCurvaMet.ABS2);
+                $('#blanco_abs3').val(response.blancCurvaMet.ABS3);
+                $('#blanco_abs4').val(response.blancCurvaMet.ABS4);
+                $('#blanco_abs5').val(response.blancCurvaMet.ABS5);
+                $('#blanco_absProm').val(response.blancCurvaMet.ABS_prom);
+                $('#blanco_concBlanco').val(response.blancCurvaMet.Concl_blanco);
+
+                $('#verif_stdCal').val(response.verMet.STD_cal);
+                $('#verif_absTeorica').val(response.verMet.ABS_teorica);
+                $('#verif_concMgL').val(response.verMet.Conc_mgL);
+                $('#verif_Abs1').val(response.verMet.ABS1);
+                $('#verif_Abs2').val(response.verMet.ABS2);
+                $('#verif_Abs3').val(response.verMet.ABS3);
+                $('#verif_Abs4').val(response.verMet.ABS4);
+                $('#verif_Abs5').val(response.verMet.ABS5);
+                $('#verif_AbsProm').val(response.verMet.ABS_prom);
+                $('#verif_masaCarac').val(response.verMet.Masa_caract);
+                $('#verif_conclusion').val(response.verMet.Conclusion);
+                $('#verif_conclusionObtenida').val(response.verMet.Conc_obtenida);
+                $('#verif_rec').val(response.verMet.Porc_rec);
+                $('#verif_cumple').val(response.verMet.Cumple);
+
+                $('#std_conc').val(response.stdVerMet.Conc_mgL);
+                $('#std_desvStd').val(response.stdVerMet.DESV_std);
+                $('#std_cumple').val(response.stdVerMet.Cumple);
+                $('#std_abs1').val(response.stdVerMet.ABS1);
+                $('#std_abs2').val(response.stdVerMet.ABS2);
+                $('#std_abs3').val(response.stdVerMet.ABS3);
+                $('#std_abs4').val(response.stdVerMet.ABS4);
+                $('#std_abs5').val(response.stdVerMet.ABS5);
+
+                $('#curva_bitCurvaCal').val(response.curMet.Bitacora_curCal),
+                $('#curva_folioCurvaCal').val(response.curMet.Folio_curCal),
+
+                $('#gen_genHidruros').val(response.genMet.Generador_hidruros)
+            }else{                
+                $("#flama_loteId").val('');
+                $("#flama_fechaHoraDig").val('');
+                $("#flama_longOnda").val('');
+                $("#flama_flujoGas").val('');
+                $("#flama_equipoForm").val('');
+                $("#flama_numInventario").val('');
+                $("#flama_numInvLamp").val('');
+                $("#flama_slit").val('');
+                $("#flama_corriente").val('');
+                $("#flama_energia").val('');
+                $("#flama_concStd").val('');
+                $("#flama_gas").val('');
+                $("#flama_aire").val('');
+                $("#flama_oxidoN").val('');
+                $("#flama_fechaPrep").val('');
+
+                $('#blanco_verifBlanco').val('');
+                $('#blanco_absTeoBlanco').val('');
+                $('#blanco_abs1').val('');
+                $('#blanco_abs2').val('');
+                $('#blanco_abs3').val('');
+                $('#blanco_abs4').val('');
+                $('#blanco_abs5').val('');
+                $('#blanco_absProm').val('');
+                $('#blanco_concBlanco').val('');
+
+                $('#verif_stdCal').val('');
+                $('#verif_absTeorica').val('');
+                $('#verif_concMgL').val('');
+                $('#verif_Abs1').val('');
+                $('#verif_Abs2').val('');
+                $('#verif_Abs3').val('');
+                $('#verif_Abs4').val('');
+                $('#verif_Abs5').val('');
+                $('#verif_AbsProm').val('');
+                $('#verif_masaCarac').val('');
+                $('#verif_conclusion').val('');
+                $('#verif_conclusionObtenida').val('');
+                $('#verif_rec').val('');
+                $('#verif_cumple').val('');
+
+                $('#std_conc').val('');
+                $('#std_desvStd').val('');
+                $('#std_cumple').val('');
+                $('#std_abs1').val('');
+                $('#std_abs2').val('');
+                $('#std_abs3').val('');
+                $('#std_abs4').val('');
+                $('#std_abs5').val('');
+
+                $('#curva_bitCurvaCal').val('');
+                $('#curva_folioCurvaCal').val('');
+
+                $('#gen_genHidruros').val('');
+            }
+
+            console.log("Valor de idLote: " + response.idLote);
+            if(response.idLote == 0 || response.idLote < 0 || !response.idLote){
+                tab += '<table id="tableFormulasGlobales" class="table table-sm">';
+                tab += '<thead>'
+                tab +=      '<tr>'
+                tab +=          '<th scope="col">Fórmula</th>'
+                tab +=          '<th scope="col">Resultado</th>'
+                tab +=          '<th scope="col">Núm.Decimales</th>'
+                tab +=      '</tr>'
+                tab += '</thead>'
+                tab += '<tbody>'
+                tab +=      '<tr>'
+                //tab +=          '<td></td>'
+                //tab +=          '<td></td>'
+                //tab +=          '<td></td>'
+                tab +=      '</tr>'
+                tab += '</tbody>'
+                tab += '</table>';
+                tabla.innerHTML = tab;
+            }else if(response.idLote > 0){
+                tab += '<table id="tableFormulasGlobales" class="table table-sm">';
+                tab += '    <thead class="thead-dark">';
+                tab += '        <tr>';
+                tab += '          <th>Fórmula</th>';
+                tab += '          <th>Resultado</th> ';
+                tab += '          <th>Núm. Decimales</th> ';
+                tab += '        </tr>';
+                tab += '    </thead>';
+                tab += '    <tbody>';
+                $.each(response.constantes, function (key, item) {
+                    tab += '<tr>';
+                    tab +=      '<td>'+item.Constante+'</td>';
+                    tab +=      '<td>'+item.Valor+'</td>';
+                    tab +=      '<td>3</td>';                
+                    tab += '</tr>';
+                }); 
+                tab += '    </tbody>';
+                tab += '</table>';
+                tabla.innerHTML = tab;
+            }                
+            
+            summer.innerHTML = '<div id="summernote">'+response.reporte.Texto+'</div>';
+            $('#summernote').summernote({
+                placeholder: '',
+                tabsize: 2,
+                height: 100,
+        
+              });
+        
+        }
+    });
+} */
 
 function isSelectedProcedimiento(procedimientoTab){
     let valorProcedimientoTab = 'https://dev.sistemaacama.com.mx/admin/laboratorio/lote#procedimiento';
@@ -283,28 +492,31 @@ function isSelectedProcedimiento(procedimientoTab){
 }
 
 //Método que guarda el texto ingresado en el editor de texto Quill en la BD
-function guardarTexto(idLote){    
+function guardarTexto(idLote){  
+    let lote = document.getElementById(idLote).value;
     let texto = document.getElementById("summernote");    
-    let summer = document.getElementById("divSummer");
+    let summer = document.getElementById("divSummer");        
+
+    console.log("Antes de ajax");
+    
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/lote/procedimiento",
-        data: {
-            texto: texto.textContent, 
-            lote: $("#"+idLote).val(),
+        data: {            
+            texto: $("#summernote").summernote('code'), 
+            lote: lote
         },
         dataType: "json",
         async: false,
         success: function (response) {            
-            console.log("REGISTRO EXITOSO");
-            console.log(response);
+            console.log("REGISTRO EXITOSO");            
+            //console.log(response);
             summer.innerHTML = '<div id="summernote">'+response.texto.Texto+'</div>';
             $('#summernote').summernote({
                 placeholder: '',
                 tabsize: 2,
-                height: 100,
-        
-              });
+                height: 100,            
+            });
         }
     });
 }

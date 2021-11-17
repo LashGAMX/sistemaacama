@@ -29,6 +29,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::post('muestraSinAsignar',[LaboratorioController::class,'muestraSinAsignar']);
     Route::post('asignarMuestraLote',[LaboratorioController::class,'asignarMuestraLote']);
     Route::post('getMuestraAsignada',[LaboratorioController::class,'getMuestraAsignada']);
+    Route::post('delMuestraLote',[LaboratorioController::class,'delMuestraLote']);
 
     
 
