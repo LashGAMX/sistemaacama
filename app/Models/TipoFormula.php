@@ -15,6 +15,7 @@ class TipoFormula extends Model
 
     protected $fillable = [
         'Tipo_formula',
+        'Concentracion',
         'Id_user_c',
         'Id_user_m',
     ];

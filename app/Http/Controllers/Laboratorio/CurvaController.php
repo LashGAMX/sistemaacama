@@ -13,6 +13,7 @@ use App\Models\ConcentracionParametro;
 use App\Models\LoteAnalisis;
 use App\Models\CurvaConstantes;
 use App\Models\LoteDetalle;
+use App\Models\TipoFormula;
 
 class CurvaController extends Controller
 {
@@ -58,17 +59,19 @@ class CurvaController extends Controller
      {
 
         $model = estandares::where('Id_Lote', $request->idLote)->get(); 
-        $loteDetalle = LoteDetalle::where('Id_lote',$request->idLote)->first();
+        $loteAnalisis = LoteAnalisis::where('Id_lote',$request->idLote)->first();
+        $numEstandares = TipoFormula::where('Id_tipo_formula', $loteAnalisis->Id_tipo)->first();
 
-        if($model->count()){
-            $sw = false; 
-            $stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
-        }else{
+        $num = $numEstandares->Concentracion;
+         if($model->count()){
+             $sw = false; 
+             $stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
+         }else{
             estandares::create([
                 'Id_lote' => $request->idLote,
                 'STD' => "Blanco",
             ]);
-            for ($i=0; $i < $request->numEstandares ; $i++) { 
+            for ($i=0; $i < $num ; $i++) { 
                 estandares::create([
                     'Id_lote' => $request->idLote,
                     'STD' => "STD".($i+1)."",
@@ -78,10 +81,11 @@ class CurvaController extends Controller
             
             $stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
         }
-        
+        $loteDetalle = LoteDetalle::where('Id_lote', $request->idLote)->first();
         $concent = ConcentracionParametro::where('Id_parametro',$loteDetalle->Id_parametro)->get();
 
         $data = array(
+            'num' => $num,
             'sw' => $sw, 
             'concentracion' => $concent,
             'stdModel' => $stdModel,
