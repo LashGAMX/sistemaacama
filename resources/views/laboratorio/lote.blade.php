@@ -207,10 +207,10 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <td>Blanco Cobre</td>
+                          <!-- <td>Blanco Cobre</td> -->
                           {{-- <td></td> --}}
-                          <td>0</td>
-                          <td>3</td>
+                          <!-- <td>0</td> -->
+                          <!-- <td>3</td> -->
                           {{-- <td contenteditable="true"><input type="date-time" id="fechaInicio" size="17"></td> --}}
                         </tr>
                         

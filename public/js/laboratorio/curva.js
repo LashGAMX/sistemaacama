@@ -356,7 +356,7 @@ function buscar(){
                 tab += '</table>';
                 tabla.innerHTML = tab;
          }
-         if ($respons.brm != '') {
+         if ($response.brm != '') {
              $("#B").val($response.bmr.B);
              $("#M").val($response.bmr.M);
              $("#R").val($response.bmr.R);
