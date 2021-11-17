@@ -326,12 +326,14 @@ class LaboratorioController extends Controller
         $idLoteIf = $request->idLote;            
         $reporte = Reportes::where('Id_lote',$request->idLote)->first();
 
-        $constantesModel = DB::table('curva_constantes')->where('Id_lote', $request->idLote)->get();
+        $constantesModel = CurvaConstantes::where('Id_lote', $request->idLote)->get();
 
         if($constantesModel->count()){
             $constantes = CurvaConstantes::where('Id_lote', $request->idLote)->first();
 
             array_push($data, $constantes);
+        }else{
+            array_push($data, null);
         }
 
         $tecnicaLoteMet = DB::table('tecnica_lote_metales')->where('Id_lote', $request->idLote)->get();
@@ -359,6 +361,10 @@ class LaboratorioController extends Controller
                 $genMet,                
             );
                         
+        }else{
+            array_push(
+                $data, null, null, null, null, null, null
+            );
         }
         
         array_push($data, $reporte, $idLoteIf);

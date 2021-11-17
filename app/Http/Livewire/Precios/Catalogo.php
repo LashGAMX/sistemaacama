@@ -58,6 +58,7 @@ class Catalogo extends Component
             ->where('Id_laboratorio', $this->idSucursal);
         if ($model->count()) {
             $this->error = true;
+            
         } else {
             $model = PrecioCatalogo::create([
                 'Id_parametro' => $this->parametro,

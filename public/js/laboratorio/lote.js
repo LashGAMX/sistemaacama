@@ -115,29 +115,70 @@ function getDatalote()
         async: false,
         success: function (response) {
             
-            console.log(response);                        
+            console.log(response);  
+            
+            console.log("Valor de idLote: " + response[8]);
+            if(response[8] == 0 || response[8] < 0 || !response[8]){
+                tab += '<table id="tableFormulasGlobales" class="table table-sm">';
+                tab += '<thead>'
+                tab +=      '<tr>'
+                tab +=          '<th scope="col">Fórmula</th>'
+                tab +=          '<th scope="col">Resultado</th>'
+                tab +=          '<th scope="col">Núm.Decimales</th>'
+                tab +=      '</tr>'
+                tab += '</thead>'
+                tab += '<tbody>'
+                tab +=      '<tr>'
+                //tab +=          '<td></td>'
+                //tab +=          '<td></td>'
+                //tab +=          '<td></td>'
+                tab +=      '</tr>'
+                tab += '</tbody>'
+                tab += '</table>';
+                tabla.innerHTML = tab;
+            }else if(response[8] > 0){
+                tab += '<table id="tableFormulasGlobales" class="table table-sm">';
+                tab += '    <thead class="thead-dark">';
+                tab += '        <tr>';
+                tab += '          <th>Fórmula</th>';
+                tab += '          <th>Resultado</th> ';
+                tab += '          <th>Núm. Decimales</th> ';
+                tab += '        </tr>';
+                tab += '    </thead>';
+                tab += '    <tbody>';
+                $.each(response[0], function (key, item) {
+                    tab += '<tr>';
+                    tab +=      '<td>'+item.Constante+'</td>';
+                    tab +=      '<td>'+item.Valor+'</td>';
+                    tab +=      '<td>3</td>';                
+                    tab += '</tr>';
+                }); 
+                tab += '    </tbody>';
+                tab += '</table>';
+                tabla.innerHTML = tab;
+            }
 
-            if((response.tecLotMet) && (response.blancCurvaMet) && (response.stdVerMet) && (response.verMet) && (response.curMet) && (response.genMet)){
+            if((response[1]) && (response[2]) && (response[3]) && (response[4]) && (response[5]) && (response[6])){
                 //Formatea la fecha a un formato admitido por el input datetime
-                let fecha = response.tecLotMet.Fecha_hora_dig;
+                let fecha = response[1].Fecha_hora_dig;
                 let fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm:ss');
                 let fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDThh:mm');                                
 
-                $("#flama_loteId").val(response.tecLotMet.Id_lote);
+                $("#flama_loteId").val(response[1].Id_lote);
                 $("#flama_fechaHoraDig").val(fechaFormateada);                
-                $("#flama_longOnda").val(response.tecLotMet.Longitud_onda);
-                $("#flama_flujoGas").val(response.tecLotMet.Flujo_gas);
-                $("#flama_equipoForm").val(response.tecLotMet.Equipo);
-                $("#flama_numInventario").val(response.tecLotMet.Num_inventario);
-                $("#flama_numInvLamp").val(response.tecLotMet.Num_invent_lamp);
-                $("#flama_slit").val(response.tecLotMet.Slit);
-                $("#flama_corriente").val(response.tecLotMet.Corriente);
-                $("#flama_energia").val(response.tecLotMet.Energia);
-                $("#flama_concStd").val(response.tecLotMet.Conc_std);
-                $("#flama_gas").val(response.tecLotMet.Gas);
-                $("#flama_aire").val(response.tecLotMet.Aire);
-                $("#flama_oxidoN").val(response.tecLotMet.Oxido_nitroso);
-                $("#flama_fechaPrep").val(response.tecLotMet.Fecha_preparacion);
+                $("#flama_longOnda").val(response[1].Longitud_onda);
+                $("#flama_flujoGas").val(response[1].Flujo_gas);
+                $("#flama_equipoForm").val(response[1].Equipo);
+                $("#flama_numInventario").val(response[1].Num_inventario);
+                $("#flama_numInvLamp").val(response[1].Num_invent_lamp);
+                $("#flama_slit").val(response[1].Slit);
+                $("#flama_corriente").val(response[1].Corriente);
+                $("#flama_energia").val(response[1].Energia);
+                $("#flama_concStd").val(response[1].Conc_std);
+                $("#flama_gas").val(response[1].Gas);
+                $("#flama_aire").val(response[1].Aire);
+                $("#flama_oxidoN").val(response[1].Oxido_nitroso);
+                $("#flama_fechaPrep").val(response[1].Fecha_preparacion);
 
                 $('#blanco_verifBlanco').val(response.blancCurvaMet.Verif_blanco);
                 $('#blanco_absTeoBlanco').val(response.blancCurvaMet.ABS_teor_blanco);
@@ -232,48 +273,7 @@ function getDatalote()
                 $('#curva_folioCurvaCal').val('');
 
                 $('#gen_genHidruros').val('');
-            }
-
-            console.log("Valor de idLote: " + response.idLote);
-            if(response.idLote == 0 || response.idLote < 0 || !response.idLote){
-                tab += '<table id="tableFormulasGlobales" class="table table-sm">';
-                tab += '<thead>'
-                tab +=      '<tr>'
-                tab +=          '<th scope="col">Fórmula</th>'
-                tab +=          '<th scope="col">Resultado</th>'
-                tab +=          '<th scope="col">Núm.Decimales</th>'
-                tab +=      '</tr>'
-                tab += '</thead>'
-                tab += '<tbody>'
-                tab +=      '<tr>'
-                //tab +=          '<td></td>'
-                //tab +=          '<td></td>'
-                //tab +=          '<td></td>'
-                tab +=      '</tr>'
-                tab += '</tbody>'
-                tab += '</table>';
-                tabla.innerHTML = tab;
-            }else if(response.idLote > 0){
-                tab += '<table id="tableFormulasGlobales" class="table table-sm">';
-                tab += '    <thead class="thead-dark">';
-                tab += '        <tr>';
-                tab += '          <th>Fórmula</th>';
-                tab += '          <th>Resultado</th> ';
-                tab += '          <th>Núm. Decimales</th> ';
-                tab += '        </tr>';
-                tab += '    </thead>';
-                tab += '    <tbody>';
-                $.each(response.constantes, function (key, item) {
-                    tab += '<tr>';
-                    tab +=      '<td>'+item.Constante+'</td>';
-                    tab +=      '<td>'+item.Valor+'</td>';
-                    tab +=      '<td>3</td>';                
-                    tab += '</tr>';
-                }); 
-                tab += '    </tbody>';
-                tab += '</table>';
-                tabla.innerHTML = tab;
-            }                
+            }                            
             
             summer.innerHTML = '<div id="summernote">'+response.reporte.Texto+'</div>';
             $('#summernote').summernote({
