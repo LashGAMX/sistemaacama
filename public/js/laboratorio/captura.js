@@ -284,13 +284,14 @@ function generarControles()
     let tabla2 = document.getElementById('divTablaControles');
     let tab2 = '';
 
+    let cont = 1;
+
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/setControlCalidad",
         data: {
             ranCon:ranCon,
-            numMuestra:numMuestras,
-            idDetalle:1,
+            numMuestra:numMuestras, 
             _token: $('input[name="_token"]').val()
         }, 
         dataType: "json",
@@ -345,12 +346,13 @@ function generarControles()
                     }
                 tab2 += '</tr>';
                 numMuestras.push(item.Id_detalle);
+                cont++;
             });
             tab2 += '    </tbody>';
             tab2 += '</table>'; 
             tabla2.innerHTML = tab2;
-            $('#tablaControles').DataTable({        
-                "ordering": false,
+            var t = $('#tablaControles').DataTable({        
+                "ordering": false, 
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",
                     "zeroRecords": "No hay datos encontrados",
@@ -358,6 +360,21 @@ function generarControles()
                     "infoEmpty": "No hay datos encontrados",
                 }
             });
+
+
+            $('#tablaControles tbody').on( 'click', 'tr', function () {
+                if ( $(this).hasClass('selected') ) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            } ); 
+            $('#tablaControles tr').on('click', function(){
+                let dato = $(this).find('td:first').html();
+                idMuestra = dato;
+              });
         }
     });
 }

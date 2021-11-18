@@ -117,7 +117,8 @@ function getDatalote()
             
             console.log(response);  
             
-            console.log("Valor de idLote: " + response[8]);
+            //console.log("Valor de idLote: " + response[8]);
+            
             if(response[8] == 0 || response[8] < 0 || !response[8]){
                 tab += '<table id="tableFormulasGlobales" class="table table-sm">';
                 tab += '<thead>'
@@ -146,19 +147,41 @@ function getDatalote()
                 tab += '        </tr>';
                 tab += '    </thead>';
                 tab += '    <tbody>';
-                $.each(response[0], function (key, item) {
+                
+                if(response[0] !== null){
+                    tab +=          '<tr>';
+                    tab +=              '<td>B</td>';
+                    tab +=              '<td>'+response[0].B+'</td>';
+                    tab +=              '<td>3</td>';
+                    tab +=          '</tr>';
+
+                    tab +=          '<tr>';
+                    tab +=              '<td>M</td>';
+                    tab +=              '<td>'+response[0].M+'</td>';
+                    tab +=              '<td>3</td>';
+                    tab +=          '</tr>';
+
+                    tab +=          '<tr>';
+                    tab +=              '<td>R</td>';
+                    tab +=              '<td>'+response[0].R+'</td>';
+                    tab +=              '<td>3</td>';
+                    tab +=          '</tr>';
+                }
+                
+                /* $.each(response[0], function (key, item) {
                     tab += '<tr>';
                     tab +=      '<td>'+item.Constante+'</td>';
                     tab +=      '<td>'+item.Valor+'</td>';
                     tab +=      '<td>3</td>';                
                     tab += '</tr>';
-                }); 
+                }); */ 
+
                 tab += '    </tbody>';
                 tab += '</table>';
                 tabla.innerHTML = tab;
             }
 
-            if((response[1]) && (response[2]) && (response[3]) && (response[4]) && (response[5]) && (response[6])){
+            if((response[1] !== null) && (response[2] !== null) && (response[3] !== null) && (response[4] !== null) && (response[5] !== null) && (response[6] !== null)){
                 //Formatea la fecha a un formato admitido por el input datetime
                 let fecha = response[1].Fecha_hora_dig;
                 let fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm:ss');
@@ -180,44 +203,44 @@ function getDatalote()
                 $("#flama_oxidoN").val(response[1].Oxido_nitroso);
                 $("#flama_fechaPrep").val(response[1].Fecha_preparacion);
 
-                $('#blanco_verifBlanco').val(response.blancCurvaMet.Verif_blanco);
-                $('#blanco_absTeoBlanco').val(response.blancCurvaMet.ABS_teor_blanco);
-                $('#blanco_abs1').val(response.blancCurvaMet.ABS1);
-                $('#blanco_abs2').val(response.blancCurvaMet.ABS2);
-                $('#blanco_abs3').val(response.blancCurvaMet.ABS3);
-                $('#blanco_abs4').val(response.blancCurvaMet.ABS4);
-                $('#blanco_abs5').val(response.blancCurvaMet.ABS5);
-                $('#blanco_absProm').val(response.blancCurvaMet.ABS_prom);
-                $('#blanco_concBlanco').val(response.blancCurvaMet.Concl_blanco);
+                $('#blanco_verifBlanco').val(response[2].Verif_blanco);
+                $('#blanco_absTeoBlanco').val(response[2].ABS_teor_blanco);
+                $('#blanco_abs1').val(response[2].ABS1);
+                $('#blanco_abs2').val(response[2].ABS2);
+                $('#blanco_abs3').val(response[2].ABS3);
+                $('#blanco_abs4').val(response[2].ABS4);
+                $('#blanco_abs5').val(response[2].ABS5);
+                $('#blanco_absProm').val(response[2].ABS_prom);
+                $('#blanco_concBlanco').val(response[2].Concl_blanco);
 
-                $('#verif_stdCal').val(response.verMet.STD_cal);
-                $('#verif_absTeorica').val(response.verMet.ABS_teorica);
-                $('#verif_concMgL').val(response.verMet.Conc_mgL);
-                $('#verif_Abs1').val(response.verMet.ABS1);
-                $('#verif_Abs2').val(response.verMet.ABS2);
-                $('#verif_Abs3').val(response.verMet.ABS3);
-                $('#verif_Abs4').val(response.verMet.ABS4);
-                $('#verif_Abs5').val(response.verMet.ABS5);
-                $('#verif_AbsProm').val(response.verMet.ABS_prom);
-                $('#verif_masaCarac').val(response.verMet.Masa_caract);
-                $('#verif_conclusion').val(response.verMet.Conclusion);
-                $('#verif_conclusionObtenida').val(response.verMet.Conc_obtenida);
-                $('#verif_rec').val(response.verMet.Porc_rec);
-                $('#verif_cumple').val(response.verMet.Cumple);
+                $('#verif_stdCal').val(response[4].STD_cal);
+                $('#verif_absTeorica').val(response[4].ABS_teorica);
+                $('#verif_concMgL').val(response[4].Conc_mgL);
+                $('#verif_Abs1').val(response[4].ABS1);
+                $('#verif_Abs2').val(response[4].ABS2);
+                $('#verif_Abs3').val(response[4].ABS3);
+                $('#verif_Abs4').val(response[4].ABS4);
+                $('#verif_Abs5').val(response[4].ABS5);
+                $('#verif_AbsProm').val(response[4].ABS_prom);
+                $('#verif_masaCarac').val(response[4].Masa_caract);
+                $('#verif_conclusion').val(response[4].Conclusion);
+                $('#verif_conclusionObtenida').val(response[4].Conc_obtenida);
+                $('#verif_rec').val(response[4].Porc_rec);
+                $('#verif_cumple').val(response[4].Cumple);
 
-                $('#std_conc').val(response.stdVerMet.Conc_mgL);
-                $('#std_desvStd').val(response.stdVerMet.DESV_std);
-                $('#std_cumple').val(response.stdVerMet.Cumple);
-                $('#std_abs1').val(response.stdVerMet.ABS1);
-                $('#std_abs2').val(response.stdVerMet.ABS2);
-                $('#std_abs3').val(response.stdVerMet.ABS3);
-                $('#std_abs4').val(response.stdVerMet.ABS4);
-                $('#std_abs5').val(response.stdVerMet.ABS5);
+                $('#std_conc').val(response[3].Conc_mgL);
+                $('#std_desvStd').val(response[3].DESV_std);
+                $('#std_cumple').val(response[3].Cumple);
+                $('#std_abs1').val(response[3].ABS1);
+                $('#std_abs2').val(response[3].ABS2);
+                $('#std_abs3').val(response[3].ABS3);
+                $('#std_abs4').val(response[3].ABS4);
+                $('#std_abs5').val(response[3].ABS5);
 
-                $('#curva_bitCurvaCal').val(response.curMet.Bitacora_curCal),
-                $('#curva_folioCurvaCal').val(response.curMet.Folio_curCal),
+                $('#curva_bitCurvaCal').val(response[5].Bitacora_curCal),
+                $('#curva_folioCurvaCal').val(response[5].Folio_curCal),
 
-                $('#gen_genHidruros').val(response.genMet.Generador_hidruros)
+                $('#gen_genHidruros').val(response[6].Generador_hidruros)
             }else{                
                 $("#flama_loteId").val('');
                 $("#flama_fechaHoraDig").val('');
@@ -273,16 +296,38 @@ function getDatalote()
                 $('#curva_folioCurvaCal').val('');
 
                 $('#gen_genHidruros').val('');
-            }                            
+            }                                                    
+
+            if(response[7] !== null){
+                summer.innerHTML = '<div id="summernote">'+response[7].Texto+'</div>';
+                $('#summernote').summernote({
+                    placeholder: '',
+                    tabsize: 2,
+                    height: 100,
             
-            summer.innerHTML = '<div id="summernote">'+response.reporte.Texto+'</div>';
-            $('#summernote').summernote({
-                placeholder: '',
-                tabsize: 2,
-                height: 100,
-        
-              });
-        
+                });
+            }else{
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "/admin/laboratorio/getDataLote/plantillaPredeterminada",
+                    data: {
+                        idLote: 0,
+                        _token: $('input[name="_token"]').val(),
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function (response) {
+                        //console.log(response);                        
+                        summer.innerHTML = '<div id="summernote">'+response.Texto+'</div>';
+                        $('#summernote').summernote({
+                            placeholder: '',
+                            tabsize: 2,
+                            height: 100,
+                    
+                        });
+                    }
+                });
+            }
         }
     });
 }

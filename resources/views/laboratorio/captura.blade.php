@@ -22,12 +22,12 @@
             </div>
         </div>
      
-        <div class="col-md-3">
+        {{-- <div class="col-md-3">
             <div class="form-group">
                 <label for="">Núm. muestra</label>
                 <input type="text" style="width: " class="form-control" id="numeroMuestra">
             </div>
-        </div>
+        </div> --}}
         <div class="col-md-3">
             <div class="form-group">
                 <label for="">Fecha análisis</label>

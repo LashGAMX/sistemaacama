@@ -47,6 +47,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::get('analisis/datos', [LaboratorioController::class, 'analisisDatos']);
     Route::post('operacion', [LaboratorioController::class, 'operacion']); 
     Route::post('lote/equipo/guardarDatosGenerales', [LaboratorioController::class, 'guardarDatosGenerales']);
+    Route::post('getDataLote/plantillaPredeterminada', [LaboratorioController::class, 'getPlantillaPred']);
 
     //ARCHIVO CAPTURA.JS
     Route::post('lote/procedimiento/busquedaFiltros', [LaboratorioController::class, 'busquedaFiltros']);

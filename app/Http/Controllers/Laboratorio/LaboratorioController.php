@@ -123,11 +123,22 @@ class LaboratorioController extends Controller
     public function getDataCaptura(Request $request)
     {
         //$parametro = Parametro::where('Id_parametro',$request->formulaTipo)->first();
-        $lote = DB::table('ViewLoteAnalisis')->where('Fecha', $request->fechaAnalisis)->first();
-        $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $lote->Id_lote)->get();
-        $curvaConst = CurvaConstantes::where('Id_lote',$lote->Id_lote)->first();
+        $lote = DB::table('ViewLoteAnalisis')->where('Fecha', $request->fechaAnalisis)->get();
+        $idLote = 0;
+        foreach($lote as $item)
+        {
+            $detalleModel = DB::table('ViewLoteDetalle')->where('Id_lote', $item->Id_lote)->first();    
+            if($detalleModel->Id_parametro == $request->formulaTipo)
+            {
+                $idLote = $item->Id_lote;
+            }
+        }
+        // $detalleModel = DB::table('ViewLoteDetalle')->where('Id_lote', $lote->Id_lote)->get();
+        $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $idLote)->get();
+        $loteModel = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
+        $curvaConst = CurvaConstantes::where('Id_lote',$idLote)->first();
         $data = array(
-            'lote' => $lote,
+            'lote' => $loteModel,
             'curvaConst' => $curvaConst,
             'detalle' => $detalle,
         );
@@ -181,6 +192,7 @@ class LaboratorioController extends Controller
             'Factor_dilucion' => 1,
             'Factor_conversion' => 0,
             'Vol_disolucion' => 0,
+            'Liberado' => 0,
         ]);
         //! Estandar de verificacion
         $loteModel = LoteDetalle::where('Id_detalle', $request->numMuestra[$request->ranCon[0]])->first();
@@ -197,6 +209,7 @@ class LaboratorioController extends Controller
             'Factor_dilucion' => 1,
             'Factor_conversion' => 0,
             'Vol_disolucion' => 0,
+            'Liberado' => 0,
         ]);
         //! Muestra duplicada
         $loteModel = LoteDetalle::where('Id_detalle', $request->numMuestra[$request->ranCon[0]])->first();
@@ -213,6 +226,7 @@ class LaboratorioController extends Controller
             'Factor_dilucion' => 1,
             'Factor_conversion' => 0,
             'Vol_disolucion' => 0,
+            'Liberado' => 0,
         ]);
         //! Muestra adicionada
         $loteModel = LoteDetalle::where('Id_detalle', $request->numMuestra[$request->ranCon[0]])->first();
@@ -229,6 +243,7 @@ class LaboratorioController extends Controller
             'Factor_dilucion' => 1,
             'Factor_conversion' => 0,
             'Vol_disolucion' => 0,
+            'Liberado' => 0,
         ]);
         //! Estandar
         $loteModel = LoteDetalle::where('Id_detalle', $request->numMuestra[$request->ranCon[0]])->first();
@@ -245,10 +260,17 @@ class LaboratorioController extends Controller
             'Factor_dilucion' => 1,
             'Factor_conversion' => 0,
             'Vol_disolucion' => 0,
+            'Liberado' => 0,
         ]);
 
-
+        $detalleModel = LoteDetalle::where('Id_lote',$loteModel->Id_lote)->get();
+        $lote = LoteAnalisis::find($loteModel->Id_lote);
+        $lote->Asignado = $detalleModel->count();
+        $lote->save();
+        
         $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $loteModel->Id_lote)->get();
+
+        
         $data = array(
             'detalle' => $detalle
         );
@@ -369,6 +391,12 @@ class LaboratorioController extends Controller
         
         array_push($data, $reporte, $idLoteIf);
         return response()->json($data);
+    }
+
+    public function getPlantillaPred(Request $request){
+        $plantillaPredeterminada = Reportes::where('Id_lote', $request->idLote)->first();
+
+        return response()->json($plantillaPredeterminada);
     }
 
 
@@ -504,6 +532,7 @@ class LaboratorioController extends Controller
                 'Descripcion' => 'Resultado',
                 'Factor_dilucion' => 1,
                 'Factor_conversion' => 0,
+                'Liberado' => 0,
             ]);
     
             $solModel = SolicitudParametro::find($request->idSol);
@@ -527,6 +556,7 @@ class LaboratorioController extends Controller
                 'Descripcion' => 'Resultado',
                 'Factor_dilucion' => 1,
                 'Factor_conversion' => 0,
+                'Liberado' => 0,
             ]);
     
             $solModel = SolicitudParametro::find($request->idSol);

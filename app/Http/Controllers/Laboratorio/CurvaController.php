@@ -155,7 +155,7 @@ class CurvaController extends Controller
         'Concentracion' => $concentracion,
         'ABS1' => $abs1,
         'ABS2'=> $abs2,
-        'ABS3' => $abs2,
+        'ABS3' => $abs3,
         'Promedio' => $promedio
         ]);
 
