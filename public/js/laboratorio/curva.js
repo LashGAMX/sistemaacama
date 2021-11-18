@@ -235,7 +235,6 @@ function createStd(){
         type: 'POST', //método de envio
         data: {
           idLote:$("#idLote").val(),
-          numEstandares:$("#numEstandares").val(),
           _token: $('input[name="_token"]').val(),
         },
         dataType: 'json', 
@@ -265,7 +264,7 @@ function createStd(){
                 tab += '<td>'+item.Id_std+'</td>';
                 tab += '<td>'+item.Id_lote+'</td>';
                 tab += '<td>'+item.STD+'</td>';
-                if(item.concentracion != ''){
+                if(item.Concentracion != ''){
                     tab += '<td><input value="'+response.concentracion[i].Concentracion+'"></td>';
                 }else{
                     tab += '<td><input value="'+item.Concentracion+'"></td>';
@@ -324,7 +323,7 @@ function buscar(){
 
                 $.each(response.stdModel, function (key, item) {
                     idLote = item.Id_lote;
-                  if(cont == 0)
+                  if(cont == 0) 
                   {
                     tab += '<tr>';
                     tab += '<td>'+item.Id_std+'</td>';
@@ -356,15 +355,19 @@ function buscar(){
                 tab += '</table>';
                 tabla.innerHTML = tab;
          }
-         if ($response.brm != '') {
-             $("#B").val($response.bmr.B);
-             $("#M").val($response.bmr.M);
-             $("#R").val($response.bmr.R);
-         } else {
-             
-         }
+        //   if ($response.brm == '' || $response.bmr == null) {
+        //     $("#B").val("");
+        //     $("#M").val("");
+        //     $("#R").val("");
+        //  } else {
+        //      $("#B").val($response.bmr.B);
+        //      $("#M").val($response.bmr.M);
+        //      $("#R").val($response.bmr.R); 
+            
+        //  }
 
-        }
+        }   
+
     });           
 }
 
