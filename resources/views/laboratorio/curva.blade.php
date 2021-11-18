@@ -86,7 +86,7 @@
     <input type="text" id='r' class="form-control" placeholder="R">
 </div>
 <div class="col-md-3">
-  <button class="btn btn-success" id="guardar" ><i class="far fa-save"></i> Guardar</button> 
+  <button class="btn btn-success" id="setConstantes" ><i class="far fa-save"></i> Guardar</button> 
 </div>
     </div>
         

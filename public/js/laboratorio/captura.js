@@ -39,7 +39,7 @@ function getDataCaptura()
     let tabla = document.getElementById('divLote');
     let tab = '';
 
-    let tabla2 = document.getElementById('divTablaControles');
+    let tabla2 = document.getElementById('divTa     blaControles');
     let tab2 = '';
     let cont = 1;
 
@@ -48,17 +48,19 @@ function getDataCaptura()
     let conte2 = document.getElementById('infoGen');
     let tab4 = '';
 
-        $.ajax({
+        $.ajax({ 
             type: "POST",
             url: base_url + "/admin/laboratorio/getDataCaptura",
             data: {
-                formulaTipo: $("#formulaTipo").val(),
+                formulaTipo: $("#formulaTipo").val(), 
                 fechaAnalisis: $("#fechaAnalisis").val(),
                 _token: $('input[name="_token"]').val()
             },
             dataType: "json",
             success: function (response) {            
                 console.log(response);
+
+                $("#idLote").val(response.lote.Id_lote);
 
                 tab3 += '<p>B: '+response.curvaConst.B+'</p>';
                 tab3 += '<p>M: '+response.curvaConst.M+'</p>';
@@ -143,7 +145,7 @@ function getDataCaptura()
                     tab2 += '</tr>';
                     numMuestras.push(item.Id_detalle);
                     cont++; 
-                });
+                }); 
                 tab2 += '    </tbody>';
                 tab2 += '</table>'; 
                 tabla2.innerHTML = tab2;    
@@ -184,35 +186,16 @@ function imprimir(idLote){
     $('#btnImprimir').click(function() {
         window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote;                
     });
-    // $.ajax({
-    //     type: "POST",
-    //     url: base_url + "/admin/laboratorio/lote/procedimiento/busquedaFiltros",
-    //     data: {
-    //         id_Lote : id_Lote,
-    //         //fechaAnalisis: fechaAnalisis,
-    //         _token: $('input[name="_token"]').val()
-    //     },
-    //     dataType: "json",
-    //     success: function (response) {            
-    //         console.log(response.loteDetail);            
-
-    //         $('#btnImprimir').click(function() {
-    //             console.log("dentro de jquery function");
-
-    //             window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+response.loteDetail.Id_lote;
-    //         });
-    //     }
-    // });
 }
 
 function operacion()
-{
+{ 
 
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/operacion",
         data: {
-            idlote:1,
+            idlote:$("#idLote").val(),
             idDetalle:$("#idDetalle"+idMuestra).val(),
             volMuestra:$("#volMuestra"+idMuestra).val(),
              x:$("#abs1"+idMuestra).val(),

@@ -127,17 +127,20 @@ class LaboratorioController extends Controller
         $idLote = 0;
         foreach($lote as $item)
         {
-            $detalleModel = DB::table('ViewLoteDetalle')->where('Id_lote', $item->Id_lote)->first();    
-            if($detalleModel->Id_parametro == $request->formulaTipo)
+            $detModel = DB::table('ViewLoteDetalle')->where('Id_lote', $item->Id_lote)->first();    
+            if($detModel->Id_parametro == $request->formulaTipo)
             {
-                $idLote = $item->Id_lote;
+                $idLote = $detModel->Id_lote; 
             }
         }
-        // $detalleModel = DB::table('ViewLoteDetalle')->where('Id_lote', $lote->Id_lote)->get();
+
+        // $detalleModel = DB::tables'ViewLoteDetalle')->where('Id_lote', $lote->Id_lote)->get();
         $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $idLote)->get();
         $loteModel = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
         $curvaConst = CurvaConstantes::where('Id_lote',$idLote)->first();
         $data = array(
+            'idL' => $idLote,
+            'de' => $detModel,
             'lote' => $loteModel,
             'curvaConst' => $curvaConst,
             'detalle' => $detalle,
@@ -275,9 +278,14 @@ class LaboratorioController extends Controller
             'detalle' => $detalle
         );
         return response()->json($data);
-    }
+    } 
     public function operacion(Request $request)
     {
+
+        $detalleModel = LoteDetalle::where('Id_detalle',$request->idDetalle)->first();
+        $parametroModel = Parametro::where('Id_matriz',7)->where('Id_parametro',$detalleModel->Id_parametro)->get();
+        $curvaConstantes = CurvaConstantes::where('Id_lote', $request->idlote)->first();
+
         $curva = CurvaConstantes::where('Id_lote', $request->idlote)->first();
         $x = $request->x;
         $y = $request->y;
@@ -285,7 +293,15 @@ class LaboratorioController extends Controller
         $FD = $request->FD;
         $suma = ($x + $y + $z);
         $promedio = $suma / 3;
-        $resultado = (($promedio - 0.00646) / 0.16929) * $FD;
+        
+        if($parametroModel->count())
+        {
+            $resultado = ((($promedio - $curvaConstantes->B) /$curvaConstantes->M ) * $FD) / 1000;
+        }else{
+            $resultado = (($promedio - $curvaConstantes->B) /$curvaConstantes->M ) * $FD;
+        }
+
+       
 
         $detalle = LoteDetalle::find($request->idDetalle);
         $detalle->Vol_muestra = $request->volMuestra;

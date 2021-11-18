@@ -11,7 +11,7 @@ var base_url = "https://dev.sistemaacama.com.mx";
 $(document).ready(function () {
 
     $('#summernote').summernote({
-        placeholder: '',
+        placeholder: '', 
         tabsize: 2,
         height: 100,
 
@@ -298,6 +298,7 @@ function getDatalote()
                 $('#gen_genHidruros').val('');
             }                                                    
 
+            console.log("actualizado");
             if(response[7] !== null){
                 summer.innerHTML = '<div id="summernote">'+response[7].Texto+'</div>';
                 $('#summernote').summernote({

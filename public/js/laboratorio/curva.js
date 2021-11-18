@@ -35,8 +35,8 @@ $(document).ready(function (){
         // promedio();
         // setCalcular();
     });
-    $('#guardar').click(function(){
-      
+    $('#setConstantes').click(function(){
+        setConstantes();
     });
 
     $("#editar").click(function(){
@@ -54,6 +54,30 @@ $(document).ready(function (){
     });
 
 });
+
+function setConstantes()
+{
+    
+    $.ajax({
+        url: base_url + '/admin/laboratorio/setConstantes', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          idLote:$("#idLote").val(),
+          b:$("#b").val(),
+          m:$("#m").val(),
+          r:$("#r").val(),
+          _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {
+         console.log(response);
+        if (response.sw == true) {
+            alert("Constantes guardadas");
+        }
+        }
+    });   
+}
  
 function getParametro(){
 
@@ -170,32 +194,7 @@ function promedio(){
     });        
 }
 
-function guardar(){
 
-    let stdSelected = document.getElementById("std");
-
-    $.ajax({
-        url: base_url + '/admin/laboratorio/guardar', //archivo que recibe la peticion
-        type: 'POST', //método de envio
-        data: {
-          idLote:$("#idLote").val(),
-          std:stdSelected.options[stdSelected.selectedIndex].text,
-          concentracion:$("#concentracion").val(),
-          abs1:$("#ABS1").val(),
-          abs2:$("#ABS2").val(),
-          abs3:$("#ABS3").val(),
-          promedio:$("#promedio").val(),
-          _token: $('input[name="_token"]').val(),
-        },
-        dataType: 'json', 
-        async: false, 
-        success: function (response) {
-         console.log(response);
-        // window.location="https://dev.sistemaacama.com.mx/admin/laboratorio/curva";
-         window.location = base_url + '/admin/laboratorio/buscar/' + $("#idLote").val();   
-        }
-    });        
-}
 function guardarSTd(){
     table = document.getElementById("tablaLote");
     

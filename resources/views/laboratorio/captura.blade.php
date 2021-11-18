@@ -21,7 +21,6 @@
                   </select>
             </div>
         </div>
-     
         {{-- <div class="col-md-3">
             <div class="form-group">
                 <label for="">Núm. muestra</label>
@@ -37,7 +36,9 @@
         <div class="col-md-3">
             <button class="btn btn-success" onclick="getDataCaptura()" id="btnBuscar">Buscar</button>
         </div>
-
+        <div class="col-md-3">
+    <input  id="idLote" hidden>   
+</div>
         <div class="col-md-12">
             <div class="row">
                 <div class="col-md-6">
@@ -82,7 +83,7 @@
                     <button class="btn btn-secondary" id="btnLiberar">Liberar</button>
                 </div>
                 <div class="col-md-1">
-                    <button class="btn btn-secondary">Liberar todo</button>
+                    {{-- <button class="btn btn-secondary">Liberar todo</button> --}}
                 </div>
                 <div class="col-md-1">
                     {{-- <div class="form-check">
@@ -97,7 +98,7 @@
                 </div>
 
                 <div class="col-md-1">
-                    <button class="btn btn-secondary">Duplicar</button>
+                    {{-- <button class="btn btn-secondary">Duplicar</button> --}}
                 </div>
             </div>
         </div>
