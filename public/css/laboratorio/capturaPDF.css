@@ -117,17 +117,6 @@
     text-align: right;
 }
 
-
-
-
-
-
-
-
-
-
-
-
 .contenedorPadre11{    
     width: 100%;
     height: 30px;
@@ -141,26 +130,4 @@
     height: 30px;
     float: left;
     /*background-color: orange;  */
-}
-
-
-
-
-
-
-
-
-.contenedorPadre12{    
-    width: 100%;
-    height: 100px;
-    text-align: center;  
-
-    background-color: aqua;
-}
-
-.contenedorHijo12{        
-    width: 50%;
-    height: 100px;
-    float: left;
-    background-color: orange;
 }

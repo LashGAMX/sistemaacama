@@ -1,26 +1,16 @@
 <footer>
-    <div id="pie1">
-        <div id="pie2">
-            <table class="table table-borderless">
-                <thead>
-                    <tr>
-                        <td id="analizo">ANALIZÓ</td>
-                        <td id="superviso">SUPERVISÓ</td>
-                    </tr>
-                </thead>
-
-                <tbody>
-                    <tr>
-                        <td>AQUÍ VA LA FIRMA</td>
-                        <td>AQUÍ VA LA FIRMA</td>
-                    </tr>
-                    <tr>
-                        <td id="nombreAnalizo">{{$usuario->name}}</td>
-                        <td id="nombreSuperviso">{{$usuario->name}}</td>
-                    </tr>
-                </tbody>
-            </table>
+    <div class="contenedorPadre12">
+        <div class="contenedorHijo12">            
+            <span class="cabeceraStdMuestra"> ANALIZÓ <br> </span>
+            <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://dev.sistemaacama.com.mx//storage/users/May2021/ZApPzkPb5RId7WHFQHon.jpeg"> <br></span>
+            <span class="bodyStdMuestra"> {{$usuario->name}} </span>
         </div>
+
+        <div class="contenedorHijo12">
+            <span class="cabeceraStdMuestra">SUPERVISÓ <br> </span>                                    
+            <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://dev.sistemaacama.com.mx//storage/users/May2021/ZApPzkPb5RId7WHFQHon.jpeg"> <br></span>
+            <span class="bodyStdMuestra"> {{$usuario->name}} </span>
+        </div>        
     </div>
 
     <div id="revisiones">
