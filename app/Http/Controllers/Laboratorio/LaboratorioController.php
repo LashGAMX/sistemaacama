@@ -1048,7 +1048,9 @@ class LaboratorioController extends Controller
             $textoProcedimiento = Reportes::where('Id_lote', 0)->first();
             $htmlCurva = view('exports.laboratorio.curvaBody', compact('textoProcedimiento'));
 
-            echo '<script type="text/javascript"> alert("Valores predeterminados para el reporte. Rellena este campo."); </script>';
+            $mpdf->SetJS('print("Valores predeterminados para el reporte. Rellena este campo.");');
+
+            //echo '<script type= alert("Valores predeterminados para el reporte. Rellena este campo."); </script>';
         }
 
         //if(!is_null($formula) && !is_null($fechaAnalisis)){
