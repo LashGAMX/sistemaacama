@@ -633,11 +633,11 @@
 
                             <div class="col-md-12">
                                 <p>Ph Calidad</p>
-                                <table class="table" id="tempCalidad">
+                                <table class="table" id="phCalidad">
                                     <thead>
                                         <tr>
                                             <th>Núm Muestra</th>
-                                            <th>Temperatura</th>                                            
+                                            <th>PH Calidad</th>                                            
                                         </tr>
                                     </thead>
 
@@ -645,8 +645,8 @@
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                                             <tr>
                                                 <td>{{ $i + 1 }}</td>
-                                                <td><input type="number" id="tempCalidad1{{ $i }}"
-                                                    onkeyup='valTempCalMuestra("tempCalidad1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+                                                <td><input type="number" id="phCalidad1{{ $i }}"
+                                                    onkeyup='valPhCalMuestra("phCalidad1{{ $i }}", {{$model->Num_tomas}});' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>                                                
                                             </tr>
                                         @endfor

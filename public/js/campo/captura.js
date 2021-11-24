@@ -1727,50 +1727,53 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
     return sw;
 }
 
-function valTempCalMuestra(lec1) {
+function valPhCalMuestra(lec1, numTomas) {
+
+    
     let sw = true;    
     let sw1 = true;
     let l1 = parseFloat(document.getElementById(lec1).value);
-    let t = document.getElementById("tempCalidad");
+    let t = document.getElementById("phCalidad");
+        
+    
 
-
-    if(l1 < - 15 || l1 > 80){
+    if(l1 < 0 || l1 > 14){
         sw1 = false;
     }
 
     if (sw == true) {
         //Aceptado
-        if (lec1 == "tempCalidad10") {            
+        if (lec1 == "phCalidad10") {            
             if(isNaN(l1) || sw1 == false){
                 t.rows[1].setAttribute("class", "bg-danger");                
             }else{
                 t.rows[1].setAttribute("class", "bg-success");
             }                               
-        } else if (lec1 == "tempCalidad11") {
+        } else if (lec1 == "phCalidad11") {
             if(isNaN(l1) || sw1 == false){
                 t.rows[2].setAttribute("class", "bg-danger");                
             }else{
                 t.rows[2].setAttribute("class", "bg-success");
             }                               
-        } else if (lec1 == "tempCalidad12") {
+        } else if (lec1 == "phCalidad12") {
             if(isNaN(l1) || sw1 == false){
                 t.rows[3].setAttribute("class", "bg-danger");                
             }else{
                 t.rows[3].setAttribute("class", "bg-success");
             }                   
-        } else if (lec1 == "tempCalidad13") {
+        } else if (lec1 == "phCalidad13") {
             if(isNaN(l1) || sw1 == false){
                 t.rows[4].setAttribute("class", "bg-danger");                
             }else{
                 t.rows[4].setAttribute("class", "bg-success");
             }                               
-        } else if (lec1 == "tempCalidad14") {
+        } else if (lec1 == "phCalidad14") {
             if(isNaN(l1) || sw1 == false){
                 t.rows[5].setAttribute("class", "bg-danger");                
             }else{
                 t.rows[5].setAttribute("class", "bg-success");
             }                               
-        } else if (lec1 == "tempCalidad15") {
+        } else if (lec1 == "phCalidad15") {
             if(isNaN(l1) || sw1 == false){
                 t.rows[6].setAttribute("class", "bg-danger");                
             }else{
@@ -2542,7 +2545,7 @@ function setDataGeneral() {
 function setDataMuestreo() {
     let ph = new Array();
     let temperatura = new Array();
-    let temperaturaCalidad = new Array();
+    let phCalidad = new Array();
     let conductividad = new Array();
     let gasto = new Array();
     let row = new Array();
@@ -2571,11 +2574,11 @@ function setDataMuestreo() {
         temperatura.push(row);
     }
 
-    //Temperatura calidad
+    //Ph calidad
     for (let i = 0; i < $("#numTomas").val(); i++) {
         row = new Array();
-        row.push($("#tempCalidad1" + i).val());        
-        temperaturaCalidad.push(row);
+        row.push($("#phCalidad1" + i).val());        
+        phCalidad.push(row);
     }
 
     //Conductividad muestra
@@ -2606,7 +2609,7 @@ function setDataMuestreo() {
             numTomas: $("#numTomas").val(),
             ph: ph,
             temperatura: temperatura,
-            temperaturaCalidad: temperaturaCalidad,
+            phCalidad: phCalidad,
             conductividad: conductividad,
             gasto: gasto,
             _token: $('input[name="_token"]').val(),

@@ -2,6 +2,8 @@
 
 namespace App\Http\Livewire\Precios;
 
+use App\Http\Livewire\AnalisisQ\Normas;
+use App\Models\Norma;
 use App\Models\Sucursal;
 use Livewire\Component;
 
@@ -12,7 +14,8 @@ class FilterCatalogo extends Component
     public function render()
     {
         $model = Sucursal::all();
-        return view('livewire.precios.filter-catalogo',compact('model'));
+        $normas = Norma::all();
+        return view('livewire.precios.filter-catalogo',compact('model', 'normas'));
     }
     public function show()
     {
