@@ -1,8 +1,12 @@
 <div>
+<<<<<<< HEAD
+=======
+  {{-- {{$idUser}} --}}
+>>>>>>> 0f3ec6e1dd1d8bdc6c567878cd6b968b8cdaaedb
     <div class="row">
-      <div class="col-md-4">
+      {{-- <div class="col-md-4">
         <button class="btn btn-success btn-sm" wire:click="btnCreate" data-toggle="modal" data-target="#modalPrecioCatalgo" ><i class="voyager-plus"></i> Crear</button>
-      </div>
+      </div> --}}
       <div class="col-md-4">
         <button class="btn btn-dark btn-sm" onclick="confirmar()" ><i class="voyager-list-add"></i> Anual</button>
       </div>

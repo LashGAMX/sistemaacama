@@ -17,6 +17,7 @@ use App\Models\Evidencia;
 use App\Models\GastoMuestra;
 use App\Models\MetodoAforo;
 use App\Models\PHCalidad;
+use App\Models\PhCalidadCampo;
 use App\Models\PhMuestra;
 use App\Models\PHTrazable;
 use App\Models\SeguimientoAnalisis;
@@ -302,25 +303,24 @@ class CampoController extends Controller
         }
 
 
-        // $tempCalidadMuestra = CampoTempCalidad::where('Id_solicitud', $request->idSolicitud)->get();
+        $phCalidadMuestra = PhCalidadCampo::where('Id_solicitud', $request->idSolicitud)->get();
 
-        // if ($tempCalidadMuestra->count()) {
-        //     for ($i = 0; $i < $request->numTomas; $i++) {
-            
-        //         $tempCalidad = CampoTempCalidad::find($tempCalidadMuestra[$i]->Id_tempCalidad);
-        //         $tempCalidad->Id_solicitud = $request->idSolicitud;
-        //         $tempCalidad->Temperatura = $request->temperaturaCalidad[$i][0];
-        //         $tempCalidad->save();
-        //     }
-        // } else {
-        //     for ($i = 0; $i < $request->numTomas; $i++) {
+        if ($phCalidadMuestra->count()) {
+            for ($i = 0; $i < $request->numTomas; $i++) {            
+                $phCalidad = PhCalidadCampo::find($phCalidadMuestra[$i]->Id_phCalidad);
+                $phCalidad->Id_solicitud = $request->idSolicitud;
+                $phCalidad->Ph_calidad = $request->phCalidad[$i][0];
+                $phCalidad->save();
+            }
+        } else {
+            for ($i = 0; $i < $request->numTomas; $i++) {
                
-        //         CampoTempCalidad::create([
-        //             'Id_solicitud' => $request->idSolicitud,
-        //             'Temperatura' => $request->temperaturaCalidad[$i][0]
-        //         ]);
-        //     }
-        // }
+                PhCalidadCampo::create([
+                    'Id_solicitud' => $request->idSolicitud,
+                    'Ph_calidad' => $request->phCalidad[$i][0]
+                ]);
+            }
+        }
 
 
         $conModel = ConductividadMuestra::where('Id_solicitud', $request->idSolicitud)->get();

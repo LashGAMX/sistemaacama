@@ -283,8 +283,9 @@ class LaboratorioController extends Controller
     {
 
         $detalleModel = LoteDetalle::where('Id_detalle',$request->idDetalle)->first();
-        $parametroModel = Parametro::where('Id_matriz',7)->where('Id_parametro',$detalleModel->Id_parametro)->get();
+        $parametroModel = Parametro::where('Id_matriz',12)->where('Id_parametro',$detalleModel->Id_parametro)->get();
         $curvaConstantes = CurvaConstantes::where('Id_lote', $request->idlote)->first();
+        $parametroPurificada = Parametro::where('Id_matriz',9)->where('Id_parametro',$detalleModel->Id_parametro)->get();
 
         $curva = CurvaConstantes::where('Id_lote', $request->idlote)->first();
         $x = $request->x;
@@ -294,6 +295,11 @@ class LaboratorioController extends Controller
         $suma = ($x + $y + $z);
         $promedio = $suma / 3;
         
+        if($parametroPurificada->count()){    //todo:: Verificar filtro con la norma!!!
+            $paso1 = (($promedio - $curvaConstantes->B) /$curvaConstantes->M ) * $FD;
+            $resultado = ($paso1 * 1)/1000;
+        }else{
+
         if($parametroModel->count())
         {
             if($detalleModel->Descripcion != "Resultado"){
@@ -305,8 +311,8 @@ class LaboratorioController extends Controller
             $resultado = (($promedio - $curvaConstantes->B) /$curvaConstantes->M ) * $FD;
         }
 
-       
-
+        }
+ 
         $detalle = LoteDetalle::find($request->idDetalle);
         $detalle->Vol_muestra = $request->volMuestra;
         $detalle->Abs1 = $request->x;

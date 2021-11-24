@@ -6,16 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class DetallesTipoCuerpo extends Model
+class PhCalidadCampo extends Model
 {
     use HasFactory;
-    protected $table = 'detalle_tipoCuerpos';
-    protected $primaryKey = 'Id_detalle';
-    
+    use SoftDeletes;
+
+    protected $table = 'ph_calidadCampo';
+    protected $primaryKey = 'Id_phCalidad';
+    public $timestamps = true;
 
     protected $fillable = [
-        'Id_detalle',
-        'Id_cuerpo',
-        'Categoria'
+        'Id_solicitud',
+        'Ph_calidad'
     ];
 }

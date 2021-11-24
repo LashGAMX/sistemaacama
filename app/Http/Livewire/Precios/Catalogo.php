@@ -62,7 +62,7 @@ class Catalogo extends Component
         } else {
             $model = PrecioCatalogo::create([
                 'Id_parametro' => $this->parametro,
-                'Id_laboratorio' => $this->idSucursal,
+                'Id_laboratorio' => $this->idSucursal,                
                 'Precio' => $this->precio,
                 'Id_user_c' => $this->idUser,
                 'Id_user_m' => $this->idUser, 

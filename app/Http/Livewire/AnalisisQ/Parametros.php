@@ -9,6 +9,7 @@ use App\Models\MatrizParametro;
 use App\Models\MetodoPrueba;
 use App\Models\Norma;
 use App\Models\Parametro;
+use App\Models\PrecioCatalogo;
 use App\Models\ProcedimientoAnalisis;
 use App\Models\Rama;
 use App\Models\SimbologiaParametros;
@@ -25,7 +26,7 @@ class Parametros extends Component
     use WithPagination;
     public $idUser;
     public $alert = false;
-    protected $queryString = ['search' => ['except' => '']]; 
+    protected $queryString = ['search' => ['except' => '']];
     public $search;
     public $sw = false;
 
@@ -43,9 +44,9 @@ class Parametros extends Component
     public $simbologia;
     public $status;
     public $nota;
- 
 
-    protected $rules = [ 
+
+    protected $rules = [
         'parametro' => 'required',
         'laboratorio' => 'required',
         'tipo' => 'required',
@@ -65,20 +66,22 @@ class Parametros extends Component
     public function render()
     {
         $model = DB::table('ViewParametros')
-        ->where('Parametro','LIKE',"%{$this->search}%")
-        ->get();
+            ->where('Parametro', 'LIKE', "%{$this->search}%")
+            ->get();
         $laboratorios = Sucursal::all();
         $unidades = Unidad::all();
         $tipos = TipoFormula::all();
-        $normas = Norma::all();   
+        $normas = Norma::all();
         $metrices = MatrizParametro::all();
         $ramas = Rama::all();
         $metodos = MetodoPrueba::all();
         $procedimientos = ProcedimientoAnalisis::all();
         $simbologias = SimbologiaParametros::all();
 
-        return view('livewire.analisis-q.parametros', 
-        compact('model','laboratorios','unidades','tipos','normas','metrices','ramas','metodos','procedimientos','simbologias'));
+        return view(
+            'livewire.analisis-q.parametros',
+            compact('model', 'laboratorios', 'unidades', 'tipos', 'normas', 'metrices', 'ramas', 'metodos', 'procedimientos', 'simbologias')
+        );
     }
     public function create()
     {
@@ -99,24 +102,29 @@ class Parametros extends Component
             'Id_user_m' => $this->idUser,
         ]);
 
-        switch($this->norma)
-        {
+        $precioCatalogo = PrecioCatalogo::create([
+            'Id_parametro' => $parametro->Id_parametro,
+            'Id_laboratorio' => $this->laboratorio,
+            'Precio' => 0,
+            'Id_user_c' => $this->idUser,
+            'Id_user_m' => $this->idUser,
+        ]);
+
+        switch ($this->norma) {
             case 1:
                 $detalle = DetallesTipoCuerpo::all();
-                foreach($detalle as $item)
-                {
+                foreach ($detalle as $item) {
                     Limite001::create([
                         'Id_tipo' => $item->Id_detalle,
                         'Id_parametro' => $parametro->Id_parametro,
                     ]);
                 }
-                break; 
+                break;
             default:
-            break;
+                break;
         }
-        if($this->status != 1) 
-        {
-            Parametro::find($parametro->Id_parametro)->delete();   
+        if ($this->status != 1) {
+            Parametro::find($parametro->Id_parametro)->delete();
         }
         $this->idParametro = $parametro->Id_parametro;
         $this->nota = "Creación de registro";
@@ -132,7 +140,7 @@ class Parametros extends Component
         $model->Id_tipo_formula = $this->tipo;
         $model->Id_rama = $this->rama;
         $model->Parametro = $this->parametro;
-        $model->Id_unidad= $this->unidad;
+        $model->Id_unidad = $this->unidad;
         $model->Id_metodo = $this->metodo;
         $model->Id_norma = $this->norma;
         $model->Limite = $this->limite;
@@ -142,13 +150,12 @@ class Parametros extends Component
         $model->Id_user_m = $this->idUser;
         $this->historial();
         $model->save();
-        if($this->status != 1) 
-        {
-            Parametro::find($this->idParametro)->delete();   
+        if ($this->status != 1) {
+            Parametro::find($this->idParametro)->delete();
         }
         $this->alert = true;
     }
-    public function setData($id,$laboratorio,$parametro,$unidad,$tipo,$norma,$limite,$matriz,$simbologia,$rama,$metodo,$procedimiento,$status)
+    public function setData($id, $laboratorio, $parametro, $unidad, $tipo, $norma, $limite, $matriz, $simbologia, $rama, $metodo, $procedimiento, $status)
     {
         $this->sw = true;
         $this->resetValidation();
@@ -164,18 +171,17 @@ class Parametros extends Component
         $this->rama = $rama;
         $this->metodo = $metodo;
         $this->procedimiento = $procedimiento;
-        if($status != null)
-        {
+        if ($status != null) {
             $this->status = 0;
-        }else{
+        } else {
             $this->status = 1;
         }
         $this->alert = false;
     }
 
-    Public function historial()
+    public function historial()
     {
-        $model = DB::table('ViewParametros')->where('Id_parametro',$this->idParametro)->first();
+        $model = DB::table('ViewParametros')->where('Id_parametro', $this->idParametro)->first();
         HistorialParametros::create([
             'Id_parametro' => $model->Id_parametro,
             'Laboratorio' => $model->Sucursal,
@@ -187,7 +193,7 @@ class Parametros extends Component
             'Norma' => $model->Norma,
             'Limite' => $model->Limite,
             'Procedimiento' => $model->Procedimiento,
-            'Matriz'=> $model->Matriz,
+            'Matriz' => $model->Matriz,
             'Simbologia' => $model->Simbologia,
             'F_inicio_vigencia' => $model->F_inicio_vigencia,
             'F_fin_vigencia' => $model->F_fin_vigencia,
@@ -195,7 +201,7 @@ class Parametros extends Component
             'Nota' => $this->nota,
             'F_creacion' => $model->created_at,
             'Id_user_c' => $model->Id_user_c,
-            'F_modificacion' => $model->updated_at,            
+            'F_modificacion' => $model->updated_at,
             'Id_user_m' => $this->idUser
         ]);
     }
@@ -214,18 +220,17 @@ class Parametros extends Component
         $this->metodo = 1;
         $this->procedimiento = 1;
         $this->status = 1;
-        $this->nota='';
+        $this->nota = '';
     }
     public function btnCreate()
     {
         $this->alert = false;
-            $this->clean();
-            $this->resetValidation();
-            $this->sw = false;
+        $this->clean();
+        $this->resetValidation();
+        $this->sw = false;
     }
     public function resetAlert()
     {
         $this->alert = false;
     }
 }
- 
