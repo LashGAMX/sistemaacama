@@ -9,6 +9,15 @@
                         <option value="{{$item->Id_sucursal}}">{{$item->Sucursal}}</option>
                     @endforeach
                 </select>
+
+                <br>
+
+                <select class="form-control" wire:model='idSucursal'> 
+                   
+                    @foreach ($normas as $item)
+                        <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
+                    @endforeach
+                </select>
             </div> 
             <div class="col-md-2">
                 <button type="submit" class="btn btn-sm btn-primary"><i class="voyager-search"></i> Buscar</button>
