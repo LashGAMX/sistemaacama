@@ -105,7 +105,7 @@ class TableCliente extends Component
         ->where('Id_cliente',$this->idCliente)
         ->update([
             'Empresa' => $this->cliente,
-            'Id_intermediario' => $this->idInter,
+            'Id_intermediario' => $this->inter,
         ]);
         $this->alert = true;
     }
