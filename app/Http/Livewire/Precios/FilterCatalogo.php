@@ -10,6 +10,7 @@ use Livewire\Component;
 class FilterCatalogo extends Component
 { 
     public $idSucursal;
+    public $idNorma;
     public $sucursal;
     public function render()
     {
@@ -19,6 +20,6 @@ class FilterCatalogo extends Component
     }
     public function show()
     {
-        return redirect()->to('admin/precios/catalogo/'.$this->idSucursal);
+        return redirect()->to('admin/precios/catalogo/'.$this->idSucursal.'/'.$this->idNorma);
     }
 }

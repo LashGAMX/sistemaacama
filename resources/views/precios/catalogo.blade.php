@@ -19,7 +19,7 @@
           <div class="card">
             <div class="card-body">
               {{-- @livewire('precios.catalogo', ['idSucursal' => @$idSucursal]) --}}
-              @livewire('precios.catalogo', ['idSucursal' => @$idSucursal,'idUser' => @$idUser])
+              @livewire('precios.catalogo', ['idSucursal' => @$idSucursal,'idUser' => @$idUser, 'idNorma' => @$idNorma])
               {{-- @livewire('precios.catalogo', ['idUser' => @idUser]) --}}
             </div>
           </div>
