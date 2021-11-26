@@ -17,6 +17,6 @@ class CatalogoController extends Controller
     public function details($idSucursal, $idNorma)
     {
         $idUser = Auth::user()->id;
-        return view('precios.catalogo',compact('idSucursal', 'idUser')); 
+        return view('precios.catalogo',compact('idSucursal', 'idNorma')); 
     }
 }

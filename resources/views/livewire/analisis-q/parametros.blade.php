@@ -1,7 +1,16 @@
 <div>
     <div class="row">
-      <div class="col-md-8">
+      <div class="col-md-4">
         <button class="btn btn-success btn-sm" wire:click='btnCreate' data-toggle="modal" data-target="#modalParametro" ><i class="voyager-plus"></i> Crear</button>
+      </div>
+      <div class="col-md-4">
+        <select class="form-control" wire:click='setNorma()' wire:model='idNorma'> 
+            <label>Normas</label>
+            <option value="0">Todas las normas</option>
+            @foreach ($normas as $item)
+                <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
+            @endforeach
+        </select>
       </div>
       <div class="col-md-4">
         <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">

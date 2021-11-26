@@ -14,7 +14,7 @@ class FilterCatalogo extends Component
     public $sucursal;
     public function render()
     {
-        $model = Sucursal::all();
+        $model = Sucursal::all(); 
         $normas = Norma::all();
         return view('livewire.precios.filter-catalogo',compact('model', 'normas'));
     }

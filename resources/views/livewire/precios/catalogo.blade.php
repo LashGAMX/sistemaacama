@@ -1,5 +1,5 @@
+
 <div>
-  {{-- {{$idUser}} --}}
     <div class="row">
       {{-- <div class="col-md-4">
         <button class="btn btn-success btn-sm" wire:click="btnCreate" data-toggle="modal" data-target="#modalPrecioCatalgo" ><i class="voyager-plus"></i> Crear</button>
