@@ -886,6 +886,217 @@ function validacionPhCalidad(lec1, lec2, lec3, activador, phControlCalidad){
     }
 }
 
+function valPhCalidad2(lec1, lec2, lec3, estado, prom, phCalidad) {
+    let sw = false;
+    let p = document.getElementById(prom);
+    let std = document.getElementById(estado);
+    let inLec1 = document.getElementById(lec1);
+    let inLec2 = document.getElementById(lec2);
+    let inLec3 = document.getElementById(lec3);
+    let l1 = parseFloat(document.getElementById(lec1).value);
+    let l2 = parseFloat(document.getElementById(lec2).value);
+    let l3 = parseFloat(document.getElementById(lec3).value);
+    let t = document.getElementById("phControlCalidad");
+    var select = document.getElementById(phCalidad);      
+    var text = select.options[select.selectedIndex].innerText;
+    text = parseFloat(text);
+
+    //nuevas variables
+    let sw1;
+    let sw2;
+    let sw3;
+    let sw4;
+    let sw5;
+    let sw6;
+    let sw7 = true;
+    let sw8 = true;
+    let sw9 = true;
+    let cal;
+    
+    if(lec1 == "phC11"){
+        cal = parseFloat($("#phCalidad1 option:selected").text());
+    }else{
+        cal = parseFloat($("#phCalidad2 option:selected").text());
+    }
+
+    let porcentaje = (cal * 2) / 100;
+    let porcentaje2 = parseFloat(porcentaje.toFixed(2));    
+    
+    if (l1 > 4 && l1 < 9) {
+        sw = true;
+    } else if (l2 > 4 && l2 < 9) {
+        sw = true;
+    } else if (l1 > 4 && l1 < 9) {
+        sw = true;
+    } else {
+        sw = false;
+    }
+
+    // val if 0.03
+
+    r1 = parseFloat((l1 - l2).toFixed(2));
+    r2 = parseFloat((l1 - l3).toFixed(2));
+
+    r3 = parseFloat((l2 - l1).toFixed(2));
+    r4 = parseFloat((l2 - l3).toFixed(2));
+
+    r5 = parseFloat((l3 - l1).toFixed(2));
+    r6 = parseFloat((l3 - l2).toFixed(2));
+
+    if (r1 < -0.03 || r1 > 0.03) {
+        sw1 = false;
+    } else {
+        sw1 = true;
+    }
+
+    if (r2 < -0.03 || r2 > 0.03) {
+        sw2 = false;
+    } else {
+        sw2 = true;
+    }
+
+    if (r3 < -0.03 || r3 > 0.03) {
+        sw3 = false;
+    } else {
+        sw3 = true;
+    }
+
+    if (r4 < -0.03 || r4 > 0.03) {
+        sw4 = false;
+    } else {
+        sw4 = true;
+    }
+
+    if (r5 < -0.03 || r5 > 0.03) {
+        sw5 = false;
+    } else {
+        sw5 = true;
+    }
+
+    if (r6 < -0.03 || r6 > 0.03) {
+        sw6 = false;
+    } else {
+        sw6 = true;
+    }
+
+    //COMPROBACIÓN DE +/- 2%-----------------------------------------------------------------------------------------
+    if (parseFloat((l1 - cal).toFixed(2)) < porcentaje2 * -1 || parseFloat((l1 - cal).toFixed(2)) > porcentaje2) {
+        sw7 = false;
+    }    
+
+    if (parseFloat((l2 - cal).toFixed(2)) < porcentaje2 * -1 || parseFloat((l2 - cal).toFixed(2)) > porcentaje2) {
+        sw8 = false;
+    }    
+
+    if (parseFloat((l3 - cal).toFixed(2)) < porcentaje2 * -1 || parseFloat((l3 - cal).toFixed(2)) > porcentaje2) {
+        sw9 = false;
+    }
+    //----------------------------------------------------------------------------------------------------------------    
+
+    if(sw1 == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true && sw6 == true && sw7 == true && sw8 == true && sw9 == true){
+        sw = true;
+    }else{
+        sw = false;
+    }        
+
+    if(isNaN(l1)){
+        inLec1.setAttribute("placeholder", "Lectura Vacía");
+        sw = false;
+    }
+    
+    if(isNaN(l2)){
+        inLec2.setAttribute("placeholder", "Lectura Vacía");
+        sw = false;
+    }
+    
+    if(isNaN(l3)){
+        inLec3.setAttribute("placeholder", "Lectura Vacía");
+        sw = false;
+    }
+
+    if(isNaN(text)){
+        sw = false;
+        alert("No se ha seleccionado un PH Calidad");
+    }
+
+    if (sw == true) {
+        std.value = "Aprobado";
+        if (lec1 == "phC12") {
+            t.rows[2].setAttribute("class", "bg-success");
+        }
+    } else {
+        std.value = "Rechazado";
+        if (lec1 == "phC12") {
+            t.rows[2].setAttribute("class", "bg-danger");
+        }
+    }
+    p.value = ((l1 + l2 + l3) / 3).toFixed(2);
+}
+
+function validacionPhCalidad2(lec1, lec2, lec3, activador, phControlCalidad){    
+    let l1 = parseFloat(document.getElementById(lec1).value);        
+    let l2 = parseFloat(document.getElementById(lec2).value);
+    let l3 = parseFloat(document.getElementById(lec3).value);    
+    var select = document.getElementById(phControlCalidad);
+    var text = select.options[select.selectedIndex].innerText;    
+    let cal = parseFloat($("#phCalidad2 option:selected").text());
+    let porcentaje = (cal * 2) / 100;
+    let porcentaje2 = parseFloat(porcentaje.toFixed(2));  
+    
+    let sw1;
+    let sw2;
+    let sw3;    
+
+    text = parseFloat(text);
+    //console.log("Valor de phT: " + text);
+
+    r1 = parseFloat((l1 - l2).toFixed(2));
+    r2 = parseFloat((l1 - l3).toFixed(2));
+
+    r3 = parseFloat((l2 - l1).toFixed(2));
+    r4 = parseFloat((l2 - l3).toFixed(2));
+
+    r5 = parseFloat((l3 - l1).toFixed(2));
+    r6 = parseFloat((l3 - l2).toFixed(2));    
+
+    if((r1 < -0.03 || r1 > 0.03) || (r3 < -0.03 || r3 > 0.03)){
+        sw1 = true;
+    }else{
+        sw1 = false;
+    }
+
+    if((r2 < -0.03 || r2 > 0.03) || (r5 < -0.03 || r5 > 0.03)){
+        sw2 = true;
+    }else{
+        sw2 = false;
+    }
+
+    if((r4 < -0.03 || r4 > 0.03) || (r6 < -0.03 || r6 > 0.03)){
+        sw3 = true;
+    }else{
+        sw3 = false;
+    }
+
+    //VERIFICAR BLOQUEO DE ALERTS
+    if(sw1 == true || sw2 == true || sw3 == true){
+        alert("Diferencia (+/-) 0.03 unidades entre las lecturas");
+    }
+
+    if(activador == "phC12"){
+        if (parseFloat((l1 - cal).toFixed(2)) < porcentaje2 * -1 || parseFloat((l1 - cal).toFixed(2)) > porcentaje2) {
+            alert("Diferencia (+/-) 2% de lectura 1 contra el valor de PH Calidad");
+        }
+    }else if(activador == "phC22"){
+        if (parseFloat((l2 - cal).toFixed(2)) < porcentaje2 * -1 || parseFloat((l2 - cal).toFixed(2)) > porcentaje2) {
+            alert("Diferencia (+/-) 2% de lectura 2 contra el valor de PH Calidad");
+        }
+    }else if(activador == "phC23"){
+        if (parseFloat((l3 - cal).toFixed(2)) < porcentaje2 * -1 || parseFloat((l3 - cal).toFixed(2)) > porcentaje2) {
+            alert("Diferencia (+/-) 2% de lectura 3 contra el valor de PH Calidad");
+        }        
+    }
+}
+
 function valConTrazable(lec1, lec2, lec3, estado) {
     let t = document.getElementById("tableConTrazable");
     let con = parseFloat($("#conTrazable option:selected").text());
@@ -1727,62 +1938,265 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
     return sw;
 }
 
-function valPhCalMuestra(lec1, numTomas) {
 
-    
-    let sw = true;    
-    let sw1 = true;
+
+
+
+function valPhCalidadMuestra(lec1, lec2, lec3, estado, prom, phCalidadMuestra) {
+    let sw = false;
+    let p = document.getElementById(prom);
+    let std = document.getElementById(estado);
+    let inLec1 = document.getElementById(lec1);
+    let inLec2 = document.getElementById(lec2);
+    let inLec3 = document.getElementById(lec3);
     let l1 = parseFloat(document.getElementById(lec1).value);
-    let t = document.getElementById("phCalidad");
-        
-    
+    let l2 = parseFloat(document.getElementById(lec2).value);
+    let l3 = parseFloat(document.getElementById(lec3).value);
+    let t = document.getElementById("phControlCalidadMuestra");
+    var select = document.getElementById(phCalidadMuestra);      
+    var text = select.options[select.selectedIndex].innerText;
+    text = parseFloat(text);
 
-    if(l1 < 0 || l1 > 14){
+    //nuevas variables
+    let sw1;
+    let sw2;
+    let sw3;
+    let sw4;
+    let sw5;
+    let sw6;
+    let sw7 = true;
+    let sw8 = true;
+    let sw9 = true;
+    let cal;
+    
+    if(lec1 == "phCM11"){
+        cal = parseFloat($("#phControlCalidadMuestra1 option:selected").text());
+    }else if(lec1 == "phCM12"){
+        cal = parseFloat($("#phControlCalidadMuestra2 option:selected").text());
+    }else if(lec1 == "phCM13"){
+        cal = parseFloat($("#phControlCalidadMuestra3 option:selected").text());
+    }else if(lec1 == "phCM14"){
+        cal = parseFloat($("#phControlCalidadMuestra4 option:selected").text());
+    }else if(lec1 == "phCM15"){
+        cal = parseFloat($("#phControlCalidadMuestra5 option:selected").text());
+    }else if(lec1 == "phCM16"){
+        cal = parseFloat($("#phControlCalidadMuestra6 option:selected").text());
+    }    
+
+    let porcentaje = (cal * 2) / 100;
+    let porcentaje2 = parseFloat(porcentaje.toFixed(2));    
+    
+    if (l1 > 4 && l1 < 9) {
+        sw = true;
+    } else if (l2 > 4 && l2 < 9) {
+        sw = true;
+    } else if (l3 > 4 && l3 < 9) {
+        sw = true;
+    } else {
+        sw = false;
+    }
+
+    // val if 0.03
+
+    r1 = parseFloat((l1 - l2).toFixed(2));
+    r2 = parseFloat((l1 - l3).toFixed(2));
+
+    r3 = parseFloat((l2 - l1).toFixed(2));
+    r4 = parseFloat((l2 - l3).toFixed(2));
+
+    r5 = parseFloat((l3 - l1).toFixed(2));
+    r6 = parseFloat((l3 - l2).toFixed(2));
+
+    if (r1 < -0.03 || r1 > 0.03) {
         sw1 = false;
+    } else {
+        sw1 = true;
+    }
+
+    if (r2 < -0.03 || r2 > 0.03) {
+        sw2 = false;
+    } else {
+        sw2 = true;
+    }
+
+    if (r3 < -0.03 || r3 > 0.03) {
+        sw3 = false;
+    } else {
+        sw3 = true;
+    }
+
+    if (r4 < -0.03 || r4 > 0.03) {
+        sw4 = false;
+    } else {
+        sw4 = true;
+    }
+
+    if (r5 < -0.03 || r5 > 0.03) {
+        sw5 = false;
+    } else {
+        sw5 = true;
+    }
+
+    if (r6 < -0.03 || r6 > 0.03) {
+        sw6 = false;
+    } else {
+        sw6 = true;
+    }
+
+    //COMPROBACIÓN DE +/- 2%-----------------------------------------------------------------------------------------
+    if (parseFloat((l1 - cal).toFixed(2)) < porcentaje2 * -1 || parseFloat((l1 - cal).toFixed(2)) > porcentaje2) {
+        sw7 = false;
+    }    
+
+    if (parseFloat((l2 - cal).toFixed(2)) < porcentaje2 * -1 || parseFloat((l2 - cal).toFixed(2)) > porcentaje2) {
+        sw8 = false;
+    }    
+
+    if (parseFloat((l3 - cal).toFixed(2)) < porcentaje2 * -1 || parseFloat((l3 - cal).toFixed(2)) > porcentaje2) {
+        sw9 = false;
+    }
+    //----------------------------------------------------------------------------------------------------------------    
+
+    if(sw1 == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true && sw6 == true && sw7 == true && sw8 == true && sw9 == true){
+        sw = true;
+    }else{
+        sw = false;
+    }        
+
+    if(isNaN(l1)){
+        inLec1.setAttribute("placeholder", "Lectura Vacía");
+        sw = false;
+    }
+    
+    if(isNaN(l2)){
+        inLec2.setAttribute("placeholder", "Lectura Vacía");
+        sw = false;
+    }
+    
+    if(isNaN(l3)){
+        inLec3.setAttribute("placeholder", "Lectura Vacía");
+        sw = false;
+    }
+
+    if(isNaN(text)){
+        sw = false;
+        alert("No se ha seleccionado un PH Calidad");
     }
 
     if (sw == true) {
-        //Aceptado
-        if (lec1 == "phCalidad10") {            
-            if(isNaN(l1) || sw1 == false){
-                t.rows[1].setAttribute("class", "bg-danger");                
-            }else{
-                t.rows[1].setAttribute("class", "bg-success");
-            }                               
-        } else if (lec1 == "phCalidad11") {
-            if(isNaN(l1) || sw1 == false){
-                t.rows[2].setAttribute("class", "bg-danger");                
-            }else{
-                t.rows[2].setAttribute("class", "bg-success");
-            }                               
-        } else if (lec1 == "phCalidad12") {
-            if(isNaN(l1) || sw1 == false){
-                t.rows[3].setAttribute("class", "bg-danger");                
-            }else{
-                t.rows[3].setAttribute("class", "bg-success");
-            }                   
-        } else if (lec1 == "phCalidad13") {
-            if(isNaN(l1) || sw1 == false){
-                t.rows[4].setAttribute("class", "bg-danger");                
-            }else{
-                t.rows[4].setAttribute("class", "bg-success");
-            }                               
-        } else if (lec1 == "phCalidad14") {
-            if(isNaN(l1) || sw1 == false){
-                t.rows[5].setAttribute("class", "bg-danger");                
-            }else{
-                t.rows[5].setAttribute("class", "bg-success");
-            }                               
-        } else if (lec1 == "phCalidad15") {
-            if(isNaN(l1) || sw1 == false){
-                t.rows[6].setAttribute("class", "bg-danger");                
-            }else{
-                t.rows[6].setAttribute("class", "bg-success");
-            }                               
+        std.value = "Aprobado";
+        if(lec1 == "phCM11") {
+            t.rows[1].setAttribute("class", "bg-success");
+        }else if(lec1 == "phCM12"){
+            t.rows[2].setAttribute("class", "bg-success");
+        }else if(lec1 == "phCM13"){
+            t.rows[3].setAttribute("class", "bg-success");
+        }else if(lec1 == "phCM14"){
+            t.rows[4].setAttribute("class", "bg-success");
+        }else if(lec1 == "phCM15"){
+            t.rows[5].setAttribute("class", "bg-success");
+        }else if(lec1 == "phCM16"){
+            t.rows[6].setAttribute("class", "bg-success");
         }
-    }   
+        p.value = ((l1 + l2 + l3) / 3).toFixed(2);
+    } else {
+        std.value = "Rechazado";
+        if(lec1 == "phCM11"){
+            t.rows[1].setAttribute("class", "bg-danger");
+        }else if(lec1 == "phCM12"){
+            t.rows[2].setAttribute("class", "bg-danger");
+        }else if(lec1 == "phCM13"){
+            t.rows[3].setAttribute("class", "bg-danger");
+        }else if(lec1 == "phCM14"){
+            t.rows[4].setAttribute("class", "bg-danger");
+        }else if(lec1 == "phCM15"){
+            t.rows[5].setAttribute("class", "bg-danger");
+        }else if(lec1 == "phCM16"){
+            t.rows[6].setAttribute("class", "bg-danger");
+        }
 
-    return sw;
+        p.value = null;
+    }
+    
+    //p.value = ((l1 + l2 + l3) / 3).toFixed(2);
+}
+
+function validacionPhCalidadMuestra(lec1, lec2, lec3, activador, phControlCalidadMuestra){
+    let l1 = parseFloat(document.getElementById(lec1).value);        
+    let l2 = parseFloat(document.getElementById(lec2).value);
+    let l3 = parseFloat(document.getElementById(lec3).value);
+    var select = document.getElementById(phControlCalidadMuestra);
+    var text = select.options[select.selectedIndex].innerText;
+    
+    if(lec1 == "phCM11"){
+        cal = parseFloat($("#phControlCalidadMuestra1 option:selected").text());
+    }else if(lec1 == "phCM12"){
+        cal = parseFloat($("#phControlCalidadMuestra2 option:selected").text());
+    }else if(lec1 == "phCM13"){
+        cal = parseFloat($("#phControlCalidadMuestra3 option:selected").text());
+    }else if(lec1 == "phCM14"){
+        cal = parseFloat($("#phControlCalidadMuestra4 option:selected").text());
+    }else if(lec1 == "phCM15"){
+        cal = parseFloat($("#phControlCalidadMuestra5 option:selected").text());
+    }else if(lec1 == "phCM16"){
+        cal = parseFloat($("#phControlCalidadMuestra6 option:selected").text());
+    }
+
+    let porcentaje = (cal * 2) / 100;
+    let porcentaje2 = parseFloat(porcentaje.toFixed(2));      
+    
+    let sw1;
+    let sw2;
+    let sw3;    
+
+    text = parseFloat(text);
+    //console.log("Valor de phT: " + text);
+
+    r1 = parseFloat((l1 - l2).toFixed(2));
+    r2 = parseFloat((l1 - l3).toFixed(2));
+
+    r3 = parseFloat((l2 - l1).toFixed(2));
+    r4 = parseFloat((l2 - l3).toFixed(2));
+
+    r5 = parseFloat((l3 - l1).toFixed(2));
+    r6 = parseFloat((l3 - l2).toFixed(2));    
+
+    if((r1 < -0.03 || r1 > 0.03) || (r3 < -0.03 || r3 > 0.03)){
+        sw1 = true;
+    }else{
+        sw1 = false;
+    }
+
+    if((r2 < -0.03 || r2 > 0.03) || (r5 < -0.03 || r5 > 0.03)){
+        sw2 = true;
+    }else{
+        sw2 = false;
+    }
+
+    if((r4 < -0.03 || r4 > 0.03) || (r6 < -0.03 || r6 > 0.03)){
+        sw3 = true;
+    }else{
+        sw3 = false;
+    }
+
+    //VERIFICAR BLOQUEO DE ALERTS
+    if(sw1 == true || sw2 == true || sw3 == true){
+        alert("Diferencia (+/-) 0.03 unidades entre las lecturas");
+    }
+
+    if(activador == "phCM11" || activador == "phCM12" || activador == "phCM13" || activador == "phCM14" || activador == "phCM15" || activador == "phCM16"){
+        if (parseFloat((l1 - cal).toFixed(2)) < porcentaje2 * -1 || parseFloat((l1 - cal).toFixed(2)) > porcentaje2) {
+            alert("Diferencia (+/-) 2% de lectura 1 contra el valor de PH Calidad");
+        }
+    }else if(activador == "phCM21" || activador == "phCM22" ||activador == "phCM23" ||activador == "phCM24" ||activador == "phCM25" ||activador == "phCM26"){
+        if (parseFloat((l2 - cal).toFixed(2)) < porcentaje2 * -1 || parseFloat((l2 - cal).toFixed(2)) > porcentaje2) {
+            alert("Diferencia (+/-) 2% de lectura 2 contra el valor de PH Calidad");
+        }
+    }else if(activador == "phCM31" || activador == "phCM32" || activador == "phCM33" || activador == "phCM34" || activador == "phCM35" || activador == "phCM36"){
+        if (parseFloat((l3 - cal).toFixed(2)) < porcentaje2 * -1 || parseFloat((l3 - cal).toFixed(2)) > porcentaje2) {
+            alert("Diferencia (+/-) 2% de lectura 3 contra el valor de PH Calidad");
+        }        
+    }
 }
 
 function valConMuestra(lec1, lec2, lec3, prom, prom1) {
@@ -2574,12 +2988,24 @@ function setDataMuestreo() {
         temperatura.push(row);
     }
 
-    //Ph calidad
+    //Ph calidad muestra
     for (let i = 0; i < $("#numTomas").val(); i++) {
+        row = new Array();
+        row.push($("#phControlCalidadMuestra"+(i+1)+" option:selected").text());
+        row.push($("#phCM1" + (i+1)).val());
+        row.push($("#phCM2" + (i+1)).val());
+        row.push($("#phCM3" + (i+1)).val());
+        row.push($("#phCMEstado1" + (i+1)).val());
+        row.push($("#phCMPromedio1" + (i+1)).val());
+        phCalidad.push(row);
+    }
+
+    //Ph calidad
+    /* for (let i = 0; i < $("#numTomas").val(); i++) {
         row = new Array();
         row.push($("#phCalidad1" + i).val());        
         phCalidad.push(row);
-    }
+    } */
 
     //Conductividad muestra
     for (let i = 0; i < $("#numTomas").val(); i++) {

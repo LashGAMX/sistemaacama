@@ -363,17 +363,17 @@
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L1" id="phC12"
                                                 value="{{ @$phCampoCalidad[1]->Lectura1 }}"
-                                                onkeyup="valPhCalidad2('phC12','phC22','phC23','phCEstado2','phCPromedio2', 'phCalidad2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidad2("phC12", "phC22", "phC23", "phC12", "phCalidad2")'>
+                                                onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L2" id="phC22"
                                                 value="{{ @$phCampoCalidad[1]->Lectura2 }}"
-                                                onkeyup="valPhCalidad2('phC12','phC22','phC23','phCEstado2','phCPromedio2', 'phCalidad2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidad2("phC12", "phC22", "phC23", "phC22", "phCalidad2")'>
+                                                onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                         </td>
                                         <td>
                                             <input type="number" step="any" class="" placeholder="L3" id="phC23"
                                                 value="{{ @$phCampoCalidad[1]->Lectura3 }}"
-                                                onkeyup="valPhCalidad2('phC12','phC22','phC23','phCEstado2','phCPromedio2', 'phCalidad2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidad2("phC12", "phC22", "phC23", "phC23", "phCalidad2")'>
+                                                onkeyup="valPhCalidad('phC12','phC22','phC23','phCEstado2','phCPromedio2')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                         </td>
                                         <td><input type="text" id="phCEstado2"
                                                 value="{{ @$phCampoCalidad[1]->Estado }}" disabled></td>
@@ -629,61 +629,30 @@
                                         @endfor
                                     </tbody>
                                 </table>
-                            </div>       
-                            
+                            </div>
+
                             <div class="col-md-12">
-                                <p>PH control calidad</p>
-                                <table class="table" id="phControlCalidadMuestra">
+                                <p>Ph Calidad</p>
+                                <table class="table" id="phCalidad">
                                     <thead>
                                         <tr>
                                             <th>Núm Muestra</th>
-                                            <th>PH calidad</th>                                            
-                                            <th>Lectura 1</th>
-                                            <th>Lectura 2</th>
-                                            <th>Lectura 3</th>
-                                            <th>Estado</th>
-                                            <th>Promedio</th>
+                                            <th>PH Calidad</th>                                            
                                         </tr>
                                     </thead>
+
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                                             <tr>
-                                                <td>
-                                                    {{$i + 1}}
-                                                </td>
-
-                                                <td>                                            
-                                                    <select id="phControlCalidadMuestra{{$i + 1}}">
-                                                        <option value="0">Sin seleccionar</option>
-                                                        <option value="7">{{$phControlCalidad->Ph_calidad}}</option>                                                        
-                                                    </select>
-                                                </td>
-                                            
-                                                <td>
-                                                    <input type="number" step="any" class="" placeholder="L1" id="phCM1{{$i+1}}"                                                        
-                                                        onkeyup="valPhCalidadMuestra('phCM1{{$i+1}}','phCM2{{$i+1}}','phCM3{{$i+1}}','phCMEstado1{{$i + 1}}','phCMPromedio1{{$i + 1}}', 'phControlCalidadMuestra{{$i + 1}}')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidadMuestra("phCM1{{$i+1}}", "phCM2{{$i+1}}", "phCM3{{$i+1}}", "phCM1{{$i+1}}", "phControlCalidadMuestra{{$i + 1}}")'>
-                                                </td>
-
-                                                <td>
-                                                    <input type="number" step="any" class="" placeholder="L2" id="phCM2{{$i+1}}"
-                                                        onkeyup="valPhCalidadMuestra('phCM1{{$i+1}}','phCM2{{$i+1}}','phCM3{{$i+1}}','phCMEstado1{{$i + 1}}','phCMPromedio1{{$i + 1}}', 'phControlCalidadMuestra{{$i + 1}}')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidadMuestra("phCM1{{$i+1}}", "phCM2{{$i+1}}", "phCM3{{$i+1}}", "phCM2{{$i+1}}", "phControlCalidadMuestra{{$i + 1}}")'>
-                                                </td>
-
-                                                <td>
-                                                    <input type="number" step="any" class="" placeholder="L3" id="phCM3{{$i+1}}"
-                                                        onkeyup="valPhCalidadMuestra('phCM1{{$i+1}}','phCM2{{$i+1}}','phCM3{{$i+1}}','phCMEstado1{{$i + 1}}','phCMPromedio1{{$i + 1}}', 'phControlCalidadMuestra{{$i + 1}}')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidadMuestra("phCM1{{$i+1}}", "phCM2{{$i+1}}", "phCM3{{$i+1}}", "phCM3{{$i+1}}", "phControlCalidadMuestra{{$i + 1}}")'>
-                                                </td>
-
-                                                <td>
-                                                    <input type="text" id="phCMEstado1{{$i + 1}}" disabled>
-                                                </td>
-                                                <td><input type="text" id="phCMPromedio1{{$i + 1}}" disabled>
-                                                </td>
+                                                <td>{{ $i + 1 }}</td>
+                                                <td><input type="number" id="phCalidad1{{ $i }}"
+                                                    onkeyup='valPhCalMuestra("phCalidad1{{ $i }}", {{$model->Num_tomas}});' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+                                                </td>                                                
                                             </tr>
                                         @endfor
                                     </tbody>
                                 </table>
-                            </div>                            
+                            </div>
 
                             <div class="col-md-12">
                                 <p>Conductividad</p>

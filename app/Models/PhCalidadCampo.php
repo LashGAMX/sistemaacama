@@ -17,6 +17,11 @@ class PhCalidadCampo extends Model
 
     protected $fillable = [
         'Id_solicitud',
-        'Ph_calidad'
+        'Ph_calidad',
+        'Lectura1',
+        'Lectura2',
+        'Lectura3',
+        'Estado',
+        'Promedio'
     ];
 }

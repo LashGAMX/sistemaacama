@@ -51,7 +51,9 @@ class CampoController extends Controller
         return view('campo.listaMuestreo', compact('model','equipo'));
     }
     public function captura($id)
-    {
+    {        
+        $phControlCalidad = PHCalidad::where('Ph_calidad', 7)->first();
+
         $phTrazable = PHTrazable::all();
         $phCalidad = PHCalidad::all();
         $termometros = TermometroCampo::all();
@@ -66,6 +68,9 @@ class CampoController extends Controller
         $frecuencia = DB::table('frecuencia001')->where('Id_frecuencia', $model->Id_muestreo)->first();
         $phCampoTrazable = CampoPhTrazable::where('Id_solicitud', $model->Id_solicitud)->get();
         $phCampoCalidad = CampoPhCalidad::where('Id_solicitud', $model->Id_solicitud)->get();
+
+
+        //$phCampoCalidadMuestra = CampoPhCalidad::where('Id_solicitud', $model->Id_solicitud)->where('Id_phCalidad', $phControlCalidad->Id_ph)->first();
         // $conCampoTrazable = CampoConTrazable::where('Id_solicitud',$model->Id_solicitud)->first();
         // $conCampoCalidad = CampoConCalidad::where('Id_solicitud',$model->Id_solicitud)->first();
         // $frecuencia = DB::table('frecuencia001')->where('')
@@ -84,6 +89,8 @@ class CampoController extends Controller
             'tipo' => $tipo,
             'phCampoTrazable' => $phCampoTrazable,
             'phCampoCalidad' => $phCampoCalidad,
+            'phControlCalidad' => $phControlCalidad,
+            //'phCampoCalidadMuestra' => $phCampoCalidadMuestra
         );
         return view('campo.captura', $data);
     }
@@ -310,6 +317,11 @@ class CampoController extends Controller
                 $phCalidad = PhCalidadCampo::find($phCalidadMuestra[$i]->Id_phCalidad);
                 $phCalidad->Id_solicitud = $request->idSolicitud;
                 $phCalidad->Ph_calidad = $request->phCalidad[$i][0];
+                $phCalidad->Lectura1 = $request->phCalidad[$i][1];
+                $phCalidad->Lectura2 = $request->phCalidad[$i][2];
+                $phCalidad->Lectura3 = $request->phCalidad[$i][3];
+                $phCalidad->Estado = $request->phCalidad[$i][4];
+                $phCalidad->Promedio = $request->phCalidad[$i][5];
                 $phCalidad->save();
             }
         } else {
@@ -317,7 +329,12 @@ class CampoController extends Controller
                
                 PhCalidadCampo::create([
                     'Id_solicitud' => $request->idSolicitud,
-                    'Ph_calidad' => $request->phCalidad[$i][0]
+                    'Ph_calidad' => $request->phCalidad[$i][0],
+                    'Lectura1' => $request->phCalidad[$i][1],
+                    'Lectura2' => $request->phCalidad[$i][2],
+                    'Lectura3' => $request->phCalidad[$i][3],
+                    'Estado' => $request->phCalidad[$i][4],
+                    'Promedio' => $request->phCalidad[$i][5]
                 ]);
             }
         }
