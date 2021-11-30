@@ -35,7 +35,7 @@ function createLote()
 {
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/createLote",
+        url: base_url + "/admin/laboratorio/metales/createLote",
         data: {
             tipo: $("#tipoFormula").val(),
             fecha: $("#fechaLote").val(),
@@ -57,7 +57,7 @@ function buscarLote()
     let tab = '';
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/buscarLote",
+        url: base_url + "/admin/laboratorio/metales/buscarLote",
         data: {
             tipo: $("#tipo").val(),
             fecha: $("#fecha").val(),
@@ -96,7 +96,7 @@ function buscarLote()
 
 function setAsignar(id)
 {
-    window.location = base_url + "/admin/laboratorio/asgnarMuestraLote/"+id;
+    window.location = base_url + "/admin/laboratorio/metales/asgnarMuestraLote/"+id;
 }
 
 function getDatalote()
@@ -106,7 +106,7 @@ function getDatalote()
     let summer = document.getElementById("divSummer");
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/getDatalote",
+        url: base_url + "/admin/laboratorio/metales/getDatalote",
         data: {
             idLote:$("#idLoteHeader").val(),
             _token: $('input[name="_token"]').val(),
@@ -310,7 +310,7 @@ function getDatalote()
             }else{
                 $.ajax({
                     type: "POST",
-                    url: base_url + "/admin/laboratorio/getDataLote/plantillaPredeterminada",
+                    url: base_url + "/admin/laboratorio/metales/getDataLote/plantillaPredeterminada",
                     data: {
                         idLote: 0,
                         _token: $('input[name="_token"]').val(),
@@ -547,7 +547,7 @@ function guardarTexto(idLote){
     
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/lote/procedimiento",
+        url: base_url + "/admin/laboratorio/metales/lote/procedimiento",
         data: {            
             texto: $("#summernote").summernote('code'), 
             lote: lote
@@ -573,7 +573,7 @@ $('#guardarTodo').click(function() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/lote/equipo/guardarDatosGenerales",
+        url: base_url + "/admin/laboratorio/metales/lote/equipo/guardarDatosGenerales",
         data: {
             idLote: $('#idLoteHeader').val(),
             flama_loteId: $('#flama_loteId').val(),

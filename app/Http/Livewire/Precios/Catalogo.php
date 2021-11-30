@@ -50,7 +50,7 @@ class Catalogo extends Component
             ->where('Id_laboratorio', $this->idSucursal)
             ->where('Id_norma',$this->idNorma)
             ->where('Parametro', 'LIKE', "%{$this->search}%")
-            ->paginate($this->perPage);
+            ->get();
         return view('livewire.precios.catalogo', compact('model', 'parametros'));
     }
     public function create()

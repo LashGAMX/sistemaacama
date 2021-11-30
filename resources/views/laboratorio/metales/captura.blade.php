@@ -166,7 +166,7 @@
   @stop
 
   @section('javascript')
-  <script src="{{asset('js/laboratorio/captura.js')}}"></script>
+  <script src="{{asset('js/laboratorio/metales/captura.js')}}"></script>
   <script src="{{asset('js/libs/componentes.js')}}"></script>
   <script src="{{asset('js/libs/tablas.js')}}"></script>
   @stop

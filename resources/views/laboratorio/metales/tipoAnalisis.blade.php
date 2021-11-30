@@ -15,7 +15,7 @@
       <div class="clearfix container-fluid row">
           
           <div class="col-md-3">
-              <a href="https://dev.sistemaacama.com.mx/admin/laboratorio/captura">
+              <a href="https://dev.sistemaacama.com.mx/admin/laboratorio/metales/captura">
                   <div class="panel widget center bgimage">
                       <div class="dimmer"></div>
                       <div class="panel-content">
@@ -69,7 +69,7 @@
   @stop
 
   @section('javascript')
-  <script src="{{asset('js/laboratorio/TipoAnalisis.js')}}"></script>
+  <script src="{{asset('js/laboratorio/metales/TipoAnalisis.js')}}"></script>
   <script src="{{asset('js/libs/componentes.js')}}"></script>
   <script src="{{asset('js/libs/tablas.js')}}"></script>
   @stop
