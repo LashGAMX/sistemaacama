@@ -16,7 +16,7 @@ class Usuario extends Model
         'role_id',
         'name',
         'email',
-        'avatar',
+        'avatar',        
         'email_verified_at',
         'password',
         'remember_token',
