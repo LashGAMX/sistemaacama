@@ -119,11 +119,11 @@ if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Ill
                 @yield('page_header')
                 <div id="voyager-notifications"></div>
                 @yield('content')
-            </div>
+            </div> 
         </div>
     </div>
 </div>
-@include('voyager::partials.app-footer')
+@include('voyager::partials.app-footer') 
 
 <!-- Javascript Libs -->
 @livewireScripts

@@ -31,7 +31,7 @@ class UsersController extends Controller
 
         return $slug;
     }
-
+ 
     //***************************************
     //               ____
     //              |  _ \

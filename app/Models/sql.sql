@@ -209,7 +209,7 @@ INNER JOIN sub_normas as sub
 ON sub.Id_subnorma = sol.Id_subnorma
 
 /* Lista Solicitud parametros */
-CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_parametro as Id_solParam,sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro,sol.Asignado,s.Folio_servicio FROM solicitud_parametros as sol
+CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_parametro as Id_solParam,sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro,pa.Id_tipo_formula,sol.Asignado,s.Folio_servicio FROM solicitud_parametros as sol
 INNER JOIN ViewParametros as pa
 ON sol.Id_subnorma = pa.Id_parametro
 INNER JOIN solicitudes as s
