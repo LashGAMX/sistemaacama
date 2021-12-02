@@ -136,8 +136,8 @@ var folioAsignar;
           },
         dataType: 'json', 
         async: false, 
-        success: function (response) {
-          console.log(response);
+        success: function (response) {            
+            console.log(response);
           tab += '<table id="solicitudGenerada" class="table table-sm">';
           tab += '    <thead class="thead-dark">';
           tab += '        <tr>';
@@ -150,7 +150,7 @@ var folioAsignar;
           tab += '    </thead>';
           tab += '    <tbody>';
           $.each(response.model, function (key, item) {
-              tab += '<tr>';
+            tab += '<tr>';
             tab += '    <td>'+item.Folio+'</td>';
             tab += '    <td>'+item.Punto_muestreo+'</td>';
             tab += '    <td>'+item.Captura+'</td>';

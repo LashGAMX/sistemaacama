@@ -24,5 +24,7 @@ class SolicitudesGeneradas extends Model
       'A_materno',
       'Nombres',
       'Estado',
+      'Id_user_c',
+      'Id_user_m'
     ];
 }
