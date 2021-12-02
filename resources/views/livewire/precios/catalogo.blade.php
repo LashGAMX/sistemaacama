@@ -17,6 +17,7 @@
       <thead class="thead-dark">
             <tr>
                 <th>Id</th>
+                <td>Id Parametro</td>
                 <th>Parametro</th>
                 <th>Tipo fórmula</th>
                 <th>Matriz</th>
@@ -35,6 +36,7 @@
             <tr>
         @endif
           <td>{{$item->Id_precio}}</td>
+          <td>{{$item->Id_parametro}}</td>
           <td>{{$item->Parametro}}</td>
           <td>{{$item->Tipo_formula}}</td>
           <td>{{$item->Matriz}}</td>

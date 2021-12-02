@@ -19,7 +19,8 @@ function muestraSinAsignar()
         },
         dataType: "json",
         async: false,
-        success: function (response) {            
+        success: function (response) {      
+            console.log("Muestra sin asignar")      ;
             console.log(response);
             tab += '<table id="tablaParamSin" class="table table-sm">';
             tab += '    <thead class="thead-dark">';

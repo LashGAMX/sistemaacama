@@ -483,7 +483,14 @@ class MetalesController extends Controller
     //* Muestra los parametros sin asignar a lote
     public function muestraSinAsignar(Request $request)
     {
-        $model = DB::table('ViewSolicitudParametros')->where('Asignado', '!=', 1)->get();
+        $model = DB::table('ViewSolicitudParametros')
+        ->orWhere('Id_tipo_formula',20)
+        ->orWhere('Id_tipo_formula',21)
+        ->orWhere('Id_tipo_formula',22)
+        ->orWhere('Id_tipo_formula',23)
+        ->orWhere('Id_tipo_formula',24)
+        ->where('Asignado', '!=', 1)
+        ->get();
         $data = array(
             'model' => $model,
         );

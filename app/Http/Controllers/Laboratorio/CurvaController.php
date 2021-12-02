@@ -115,8 +115,10 @@ class CurvaController extends Controller
             'M' => $request->m,
             'R' => $request->r
         ]);
+        $sw = true;
          $data = array(
-            'model' => $model
+            'model' => $model,
+            'sw' => $sw,
         );
         return response()->json($data);
     }

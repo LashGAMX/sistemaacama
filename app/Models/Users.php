@@ -12,7 +12,7 @@ use TCG\Voyager\Traits\VoyagerUser;
 class Users extends Model
 {
     use VoyagerUser;
-
+ 
     protected $guarded = [];
 
     public $additional_attributes = ['locale'];
