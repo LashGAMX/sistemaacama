@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Laboratorio\LaboratorioController;
 use App\Http\Controllers\Laboratorio\CurvaController;
+use App\Http\Controllers\Laboratorio\FqController;
 use App\Http\Controllers\Laboratorio\MetalesController;
 use App\Models\Laboratorio;
 use Illuminate\Support\Facades\Route;
@@ -33,23 +34,29 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('muestraSinAsignar', [MetalesController::class, 'muestraSinAsignar']);
         Route::post('asignarMuestraLote', [MetalesController::class, 'asignarMuestraLote']);
         Route::post('getMuestraAsignada', [MetalesController::class, 'getMuestraAsignada']);
-        Route::post('delMuestraLote', [MetalesController::class, 'getMuestraAsignada']); 
-        
+        Route::post('delMuestraLote', [MetalesController::class, 'getMuestraAsignada']);
+
         //Route::get('analisis/datos', [MetalesController::class, 'analisisDatos']);
         Route::post('operacion', [MetalesController::class, 'operacion']);
         Route::post('lote/equipo/guardarDatosGenerales', [MetalesController::class, 'guardarDatosGenerales']);
         Route::post('getDataLote/plantillaPredeterminada', [MetalesController::class, 'getPlantillaPred']);
-        Route::post('lote/procedimiento/busquedaFiltros', [MetalesController::class, 'busquedaFiltros']);  
+        Route::post('lote/procedimiento/busquedaFiltros', [MetalesController::class, 'busquedaFiltros']);
         //Almacena el texto en la table reportes, campo Texto, el texto introducido en el editor de texto > Procedimiento/Validación
         Route::post('lote/procedimiento', [MetalesController::class, 'guardarTexto']);
     });
 
     Route::group(['prefix' => 'fq'], function () {
-        
+        //? Modulo Analisis -  Solo visualizar analisis pendientes
+        Route::get('analisis', [FqController::class, 'analisis']);
+
+        //? Modulo Observacion - Agregar observaciones a analisis
+        Route::get('observacion', [FqController::class, 'observacion']);
+        Route::post('getObservacionanalisis', [MetalesController::class, 'getObservacionanalisis']);
+        Route::post('aplicarObservacion', [MetalesController::class, 'aplicarObservacion']);
     });
 
     //? Módulo curva - Creación de curva
-    Route::get('asignar', [MetalesController::class, 'asignar']); 
+    Route::get('asignar', [MetalesController::class, 'asignar']);
     Route::get('curva', [CurvaController::class, 'index']);
     Route::post('promedio', [CurvaController::class, 'promedio']);
     Route::post('guardar', [CurvaController::class, 'guardar']);
