@@ -13,13 +13,14 @@ function muestraSinAsignar()
     let idLote = $("#idLote").val();
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/muestraSinAsignar",
+        url: base_url + "/admin/laboratorio/metales/muestraSinAsignar",
         data: {
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         async: false,
-        success: function (response) {            
+        success: function (response) {      
+            console.log("Muestra sin asignar")      ;
             console.log(response);
             tab += '<table id="tablaParamSin" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
@@ -57,7 +58,7 @@ function getMuestraAsignada()
     let idLote = $("#idLote").val();
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/getMuestraAsignada",
+        url: base_url + "/admin/laboratorio/metales/getMuestraAsignada",
         data: {
             idLote:$("#idLote").val(),
             _token: $('input[name="_token"]').val(),
@@ -95,7 +96,7 @@ function asignarMuestraLote(idLote,idAnalisis,idParametro,idSol)
     let tab = '';
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/asignarMuestraLote",
+        url: base_url + "/admin/laboratorio/metales/asignarMuestraLote",
         data: {
             idLote:idLote,
             idAnalisis:idAnalisis,
@@ -141,7 +142,7 @@ function delMuestraLote(idLote,idDetalle,idSol,idParam){
     let tab = '';
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/delMuestraLote",
+        url: base_url + "/admin/laboratorio/metales/delMuestraLote",
         data: {
             idLote:idLote,
             idSol:idSol,

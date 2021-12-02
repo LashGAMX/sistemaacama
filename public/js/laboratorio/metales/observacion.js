@@ -22,7 +22,7 @@ function getServicio(id) {
     let tabla = document.getElementById('solicitudGenerada');
     let tab = '';
     $.ajax({
-        url: base_url + '/admin/laboratorio/getObservacionanalisis', //archivo que recibe la peticion
+        url: base_url + '/admin/laboratorio/metales/getObservacionanalisis', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
             id: id,
@@ -63,7 +63,7 @@ function getServicio(id) {
                 tab += '<td>' + item.Solido + '</td>';
                 tab += '<td>' + item.Olor + '</td>';
                 tab += '<td>' + item.Color + '</td>';
-                tab += '<td contenteditable="true">' + item.Observacion + '</td>';
+                tab += '<td contenteditable="true">' + item.Observaciones + '</td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';
@@ -97,7 +97,7 @@ function aplicar() {
 
     $.ajax({
         type: "POST",
-        url: base_url + '/admin/laboratorio/aplicarObservacion',
+        url: base_url + '/admin/laboratorio/metales/aplicarObservacion',
         data: {
             idTipo: $("#tipoFormula").val(),
             folioActual: folioSel,

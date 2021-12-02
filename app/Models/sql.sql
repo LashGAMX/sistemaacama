@@ -110,7 +110,7 @@ INNER JOIN parametros as pa
 ON lim.Id_parametro = pa.Id_parametro
 
 /*Vista   Lista precio catalgo*/
-CREATE VIEW ViewPrecioCat as SELECT cat.Id_precio,cat.Id_parametro,cat.Id_user_c,cat.Id_user_m,par.Parametro,par.Tipo_formula,par.Rama,par.Unidad,
+CREATE VIEW ViewPrecioCat as SELECT cat.Id_precio,cat.Id_parametro,cat.Id_user_c,cat.Id_user_m,par.Parametro, par.Id_norma, par.Tipo_formula,par.Rama,par.Unidad,
 par.Descripcion,par.Limite,par.Procedimiento,par.Matriz,par.Metodo_prueba,cat.Id_laboratorio,lab.Sucursal,cat.Precio,
 cat.created_at,cat.updated_at,cat.deleted_at
 FROM precio_catalogo as cat
@@ -209,7 +209,7 @@ INNER JOIN sub_normas as sub
 ON sub.Id_subnorma = sol.Id_subnorma
 
 /* Lista Solicitud parametros */
-CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_parametro as Id_solParam,sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro,sol.Asignado,s.Folio_servicio FROM solicitud_parametros as sol
+CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_parametro as Id_solParam,sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro,pa.Id_tipo_formula,sol.Asignado,s.Folio_servicio FROM solicitud_parametros as sol
 INNER JOIN ViewParametros as pa
 ON sol.Id_subnorma = pa.Id_parametro
 INNER JOIN solicitudes as s

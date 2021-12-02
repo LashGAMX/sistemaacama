@@ -29,6 +29,7 @@ class Parametros extends Component
     protected $queryString = ['search' => ['except' => '']];
     public $search;
     public $sw = false;
+    public $idNorma = 0;
 
     public $parametro;
     public $idParametro;
@@ -65,9 +66,18 @@ class Parametros extends Component
 
     public function render()
     {
-        $model = DB::table('ViewParametros')
+        if($this->idNorma != 0)
+        {
+            $model = DB::table('ViewParametros')
+            ->where('Id_norma',$this->idNorma)
             ->where('Parametro', 'LIKE', "%{$this->search}%")
             ->get();
+        }else{
+            $model = DB::table('ViewParametros')
+            ->where('Parametro', 'LIKE', "%{$this->search}%")
+            ->get();
+        }
+        
         $laboratorios = Sucursal::all();
         $unidades = Unidad::all();
         $tipos = TipoFormula::all();
@@ -82,6 +92,10 @@ class Parametros extends Component
             'livewire.analisis-q.parametros',
             compact('model', 'laboratorios', 'unidades', 'tipos', 'normas', 'metrices', 'ramas', 'metodos', 'procedimientos', 'simbologias')
         );
+    }
+    public function setNorma()
+    {
+        
     }
     public function create()
     {

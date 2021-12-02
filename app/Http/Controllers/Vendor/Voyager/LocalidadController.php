@@ -27,7 +27,7 @@ class LocalidadController extends Controller
     //              | |_) |
     //              |  _ <
     //              | |_) |
-    //              |____/
+    //              |____/ 
     //
     //      Browse our Data Type (B)READ
     //

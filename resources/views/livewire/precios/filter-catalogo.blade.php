@@ -8,12 +8,12 @@
                     @foreach ($model as $item)
                         <option value="{{$item->Id_sucursal}}">{{$item->Sucursal}}</option>
                     @endforeach
-                </select>
+                </select> 
 
                 <br>
 
-                <select class="form-control" wire:model='idSucursal'> 
-                   
+                <select class="form-control" wire:model='idNorma'> 
+                    <option value="0">Sin seleccionar</option>
                     @foreach ($normas as $item)
                         <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
                     @endforeach

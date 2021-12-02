@@ -94,7 +94,7 @@
                           </div>
                     </div>
                     {{-- <div class="col-md-12">
-                        <div class="form-group">
+                        <div class="form-group"> 
                             <label for="rfc">RFC</label>
                            <input type="text" wire:model='rfc' class="form-control" placeholder="RFC">
                            @error('rfc') <span class="text-danger">{{ $message  }}</span> @enderror

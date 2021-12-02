@@ -60,7 +60,7 @@
   @stop
 
   @section('javascript')
-  <script src="{{asset('js/laboratorio/asignarMuestraLote.js')}}"></script>
+  <script src="{{asset('js/laboratorio/metales/asignarMuestraLote.js')}}"></script>
   <script src="{{asset('js/libs/componentes.js')}}"></script>
   <script src="{{asset('js/libs/tablas.js')}}"></script>
   @stop

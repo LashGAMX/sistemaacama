@@ -50,7 +50,7 @@ function getDataCaptura()
 
         $.ajax({ 
             type: "POST",
-            url: base_url + "/admin/laboratorio/getDataCaptura",
+            url: base_url + "/admin/laboratorio/metales/getDataCaptura",
             data: {
                 formulaTipo: $("#formulaTipo").val(), 
                 fechaAnalisis: $("#fechaAnalisis").val(),
@@ -193,7 +193,7 @@ function operacion()
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/operacion",
+        url: base_url + "/admin/laboratorio/metales/operacion",
         data: {
             idlote:$("#idLote").val(),
             idDetalle:$("#idDetalle"+idMuestra).val(),
@@ -225,7 +225,7 @@ function liberarMuestraMetal()
     
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/liberarMuestraMetal",
+        url: base_url + "/admin/laboratorio/metales/liberarMuestraMetal",
         data: {
             idDetalle:$("#idDetalle"+idMuestra).val(),
             _token: $('input[name="_token"]').val()
@@ -357,7 +357,7 @@ function generarControles()
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/setControlCalidad",
+        url: base_url + "/admin/laboratorio/metales/setControlCalidad",
         data: {
             ranCon:ranCon,
             numMuestra:numMuestras, 

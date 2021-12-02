@@ -12,14 +12,14 @@ class User extends \TCG\Voyager\Models\User
     use HasFactory, Notifiable;
 
     /**
-     * The attributes that are mass assignable.
+     * The attributes that are mass assignable. 
      *
      * @var array
      */
     protected $fillable = [
         'name',
         'email',
-        'password',
+        'password',        
     ];
 
     /**
