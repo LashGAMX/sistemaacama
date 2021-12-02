@@ -73,7 +73,7 @@ function setConstantes()
         success: function (response) {
          console.log(response);
         if (response.sw == true) {
-            alert("Constantes guardadas");
+            swal("Good job!", "Guardado!", "success");
         }
         }
     });   
@@ -240,6 +240,7 @@ function createStd(){
         async: false, 
         success: function (response) { 
          console.log(response);
+         swal("Registro!", "Se crearon los estandares!", "success")
          let i = 0;
          if(response.sw == false){
              alert("Este lote ya tiene estandare creados");
