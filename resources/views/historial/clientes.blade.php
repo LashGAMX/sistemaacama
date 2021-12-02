@@ -8,7 +8,9 @@
       <i class="fa fa-history"></i>
       Historial Clientes
   </h6>
-   <livewire:historial.clientes/>
+   
   @stop
+
+  <livewire:historial.clientes/>
 
 @endsection   
