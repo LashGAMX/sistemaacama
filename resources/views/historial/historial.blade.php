@@ -86,10 +86,10 @@
             <div class="col-md-3">
                 <a href="https://dev.sistemaacama.com.mx/admin/historial/ingCampo">
                 <div class="panel widget center bgimage"
-                    style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/quotes.jpg');">
+                style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/fieldEngineering.jpg');">
                     <div class="dimmer"></div>
                     <div class="panel-content">
-                        <i class="voyager-documentation"></i>
+                        <i class="fa fa-truck-pickup"></i>
                         <h4>Ingeniería de Campo</h4>                        
                     </div>
                 </div>
