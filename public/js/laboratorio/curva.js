@@ -301,6 +301,9 @@ function buscar(){
         async: false, 
         success: function (response) {
             console.log(response);
+            $("#b").val(response.bmr.B);
+            $("#m").val(response.bmr.M);
+            $("#r").val(response.bmr.R); 
             res = response.concentracion;   
             cont = 0;
             if(response.sw == false){
@@ -355,18 +358,12 @@ function buscar(){
                 tab += '</table>';
                 tabla.innerHTML = tab;
          }
-        //   if ($response.brm == '' || $response.bmr == null) {
-        //     $("#B").val("");
-        //     $("#M").val("");
-        //     $("#R").val("");
-        //  } else {
-        //      $("#B").val($response.bmr.B);
-        //      $("#M").val($response.bmr.M);
-        //      $("#R").val($response.bmr.R); 
+          
+           
             
-        //  }
+         
 
-        }   
+        }    
 
     });           
 }

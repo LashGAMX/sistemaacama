@@ -47,10 +47,16 @@ class CurvaController extends Controller
         }else{
             $sw = false;
         }
+        if(empty($bmr) ){
+            $valbmr = false;
+        }else{
+            $valbmr = true;
+        }
         $data = array(
             'stdModel' => $model,
             'concentracion' => $concent,
-            'mbr' => $bmr,
+            'valbmr' => $valbmr,
+            'bmr' => $bmr,
             'sw' => $sw,
         );
         return response()->json($data);
