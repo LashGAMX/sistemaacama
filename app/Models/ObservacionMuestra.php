@@ -16,6 +16,7 @@ class ObservacionMuestra extends Model
     protected $fillable = [
         'Id_analisis',
         'Id_area',
+        'Id_tipo',
         'Ph',
         'Solido',
         'Olor',

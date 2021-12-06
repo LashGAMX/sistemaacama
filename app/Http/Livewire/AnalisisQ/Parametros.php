@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\AnalisisQ;
 
+use App\Models\AreaAnalisis;
 use App\Models\DetallesTipoCuerpo;
 use App\Models\HistorialParametros;
 use App\Models\Limite001;
@@ -35,6 +36,7 @@ class Parametros extends Component
     public $idParametro;
     public $laboratorio;
     public $tipo;
+    public $area;
     public $unidad;
     public $norma;
     public $limite;
@@ -51,6 +53,7 @@ class Parametros extends Component
         'parametro' => 'required',
         'laboratorio' => 'required',
         'tipo' => 'required',
+        'area' => 'required',
         'unidad' => 'required',
         'norma' => 'required',
         'limite' => 'required',
@@ -81,6 +84,7 @@ class Parametros extends Component
         $laboratorios = Sucursal::all();
         $unidades = Unidad::all();
         $tipos = TipoFormula::all();
+        $areas = AreaAnalisis::all();
         $normas = Norma::all();
         $metrices = MatrizParametro::all();
         $ramas = Rama::all();
@@ -90,7 +94,7 @@ class Parametros extends Component
 
         return view(
             'livewire.analisis-q.parametros',
-            compact('model', 'laboratorios', 'unidades', 'tipos', 'normas', 'metrices', 'ramas', 'metodos', 'procedimientos', 'simbologias')
+            compact('model', 'laboratorios', 'unidades', 'tipos','areas','normas', 'metrices', 'ramas', 'metodos', 'procedimientos', 'simbologias')
         );
     }
     public function setNorma()
@@ -103,6 +107,7 @@ class Parametros extends Component
         $parametro = Parametro::create([
             'Id_laboratorio' => $this->laboratorio,
             'Id_tipo_formula' => $this->tipo,
+            'Id_area' => $this->area,
             'Id_rama' => $this->rama,
             'Parametro' => $this->parametro,
             'Id_unidad' => $this->unidad,
@@ -152,6 +157,7 @@ class Parametros extends Component
         $model = Parametro::find($this->idParametro);
         $model->Id_laboratorio = $this->laboratorio;
         $model->Id_tipo_formula = $this->tipo;
+        $model->Id_area = $this->area;
         $model->Id_rama = $this->rama;
         $model->Parametro = $this->parametro;
         $model->Id_unidad = $this->unidad;
@@ -169,7 +175,7 @@ class Parametros extends Component
         }
         $this->alert = true;
     }
-    public function setData($id, $laboratorio, $parametro, $unidad, $tipo, $norma, $limite, $matriz, $simbologia, $rama, $metodo, $procedimiento, $status)
+    public function setData($id, $laboratorio, $parametro, $unidad, $tipo,$area, $norma, $limite, $matriz, $simbologia, $rama, $metodo, $procedimiento, $status)
     {
         $this->sw = true;
         $this->resetValidation();
@@ -178,6 +184,7 @@ class Parametros extends Component
         $this->parametro = $parametro;
         $this->unidad = $unidad;
         $this->tipo = $tipo;
+        $this->area = $area;
         $this->norma = $norma;
         $this->limite = $limite;
         $this->matriz = $matriz;
@@ -226,6 +233,7 @@ class Parametros extends Component
         $this->parametro = '';
         $this->unidad = 1;
         $this->tipo = 1;
+        $this->area = 1;
         $this->norma = 1;
         $this->limite = '';
         $this->matriz = 1;
