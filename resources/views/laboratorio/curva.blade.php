@@ -74,16 +74,16 @@
         <button class="btn btn-danger" id="formula" ><i class="fas fa-calculator"></i> Calcular</button>
       </div>
       <div class="col-md-3">
-        <label for="">B</label>
-        <input  type="text" id='b' class="form-control" placeholder="B">
+        <label for="">b</label>
+        <input  type="text" id='b' class="form-control" placeholder="b" disabled>
     </div>
     <div class="col-md-3">
-      <label for="">M</label>
-      <input type="text" id='m' class="form-control" placeholder="M">
+      <label for="">m</label>
+      <input type="text" id='m' class="form-control" placeholder="m">
   </div>
   <div class="col-md-3">
-    <label for="">R</label>
-    <input type="text" id='r' class="form-control" placeholder="R">
+    <label for="">r</label>
+    <input type="text" id='r' class="form-control" placeholder="r">
 </div>
 <div class="col-md-3">
   <button class="btn btn-success" id="setConstantes" ><i class="far fa-save"></i> Guardar</button> 
