@@ -778,8 +778,8 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Método aforo</label>
-                                    <select name="" id="" class="form-control">
-                                        <option>Sin seleccionar</option>
+                                    <select name="" id="aforoCompuesto" class="form-control">
+                                        <option value="0">Sin seleccionar</option>
                                         @foreach ($aforo as $item)
                                             <option value="{{ $item->Id_aforo }}">{{ $item->Aforo }}</option>
                                         @endforeach
@@ -789,8 +789,8 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Con tratamiento</label>
-                                    <select name="" id="" class="form-control">
-                                        <option>Sin seleccionar</option>
+                                    <select name="" id="conTratamientoCompuesto" class="form-control">
+                                        <option value="0">Sin seleccionar</option>
                                         @foreach ($conTratamiento as $item)
                                             <option value="{{ $item->Id_tratamiento }}">{{ $item->Tratamiento }}
                                             </option>
@@ -801,8 +801,8 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Tipo tratamiento</label>
-                                    <select name="" id="" class="form-control">
-                                        <option>Sin seleccionar</option>
+                                    <select name="" id="tipoTratamientoCompuesto" class="form-control">
+                                        <option value="0">Sin seleccionar</option>
                                         @foreach ($tipo as $item)
                                             <option value="{{ $item->Id_tratamiento }}">{{ $item->Tratamiento }}
                                             </option>
@@ -813,12 +813,12 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label for="">Procedimiento de Muestreo PE-10-02-</label>
-                                    <input type="number" class="form-control" placeholder="Procedimiento">
+                                    <input type="number" id="procedimientoCompuesto" class="form-control" placeholder="Procedimiento">
                                 </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <textarea class="form-group" style="width: 100%;"></textarea>
+                                    <textarea id="observacionCompuesto" class="form-group" style="width: 100%;"></textarea>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -873,7 +873,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">PH Muestra compuesta</label>
-                                    <input type="number" class="form-control" placeholder="PH muestra">
+                                    <input type="number" id="phMuestraCompuesto" class="form-control" placeholder="PH muestra">
                                 </div>
                             </div>
                             <div class="col-md-4">
@@ -897,7 +897,7 @@
                                 <p>Signatario: {{ Auth::user()->name }}</p>
                             </div>
                             <div class="col-md-12">
-                                <button type="submit" class="btn btn-success" onclick="setDataMuestreo()"><i
+                                <button type="button" class="btn btn-success" onclick="setDataCompuesto()"><i
                                         class="fa fa-save"></i> Guardar</button>
                             </div>
                         </div>
