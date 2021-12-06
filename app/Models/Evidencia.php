@@ -16,6 +16,8 @@ class Evidencia extends Model
     protected $fillable = [
         'Id_solicitud',
         'Imagen_1',
-        'Imagen_2'
+        'Imagen_2',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

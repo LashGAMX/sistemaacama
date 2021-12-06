@@ -20,6 +20,8 @@ class Formulas extends Model
         'Id_tecnica',
         'Formula',
         'Formula_sistema',
-        'Resultado'
+        'Resultado',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

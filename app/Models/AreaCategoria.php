@@ -14,6 +14,8 @@ class AreaCategoria extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Categoria'
+        'Categoria',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

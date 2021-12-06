@@ -19,6 +19,7 @@ class ConductividadMuestra extends Model
         'Conductividad2',
         'Conductividad3',
         'Promedio',
-        
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

@@ -24,6 +24,8 @@ class CampoGenerales extends Model
         'Altitud',
         'Pendiente',
         'Criterio',
-        'Supervisor'
+        'Supervisor',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

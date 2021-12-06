@@ -23,8 +23,8 @@ class CampoCompuesto extends Model
         'Obser_solicitud',
         'Ph_muestraComp',
         'Temp_muestraComp',
-        'Volumen_calculado'
-
-        
+        'Volumen_calculado',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

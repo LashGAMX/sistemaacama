@@ -20,7 +20,7 @@
             </div>
                         
             <div class="col-md-3">
-                <a href="{{route('voyager.hist-clientes.index')}}">
+                <a href="https://dev.sistemaacama.com.mx/admin/historial/ingCampo/capturar">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/localities-min.jpg');">
                         <div class="dimmer"></div>

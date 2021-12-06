@@ -17,6 +17,8 @@ class FormulaNivel extends Model
         'Nombre',
         'Nivel',
         'Descripcion',
-        'Resultado'
+        'Resultado',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

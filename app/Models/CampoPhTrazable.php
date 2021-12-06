@@ -20,5 +20,7 @@ class CampoPhTrazable extends Model
         'Lectura2',
         'Lectura3',
         'Estado',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

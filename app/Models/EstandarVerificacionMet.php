@@ -22,6 +22,8 @@ class EstandarVerificacionMet extends Model
         'ABS2',
         'ABS3',
         'ABS4',
-        'ABS5',        
+        'ABS5',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

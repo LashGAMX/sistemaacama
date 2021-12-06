@@ -23,6 +23,8 @@ class BlancoCurvaMetales extends Model
         'ABS4',
         'ABS5',
         'ABS_prom',
-        'Concl_blanco'        
+        'Concl_blanco',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

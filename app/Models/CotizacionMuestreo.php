@@ -31,5 +31,7 @@ class CotizacionMuestreo extends Model
         'Estado',
         'Localidad',
         'Total',
+        'Id_user_c',
+        'Id_user_m'
     ]; 
 }

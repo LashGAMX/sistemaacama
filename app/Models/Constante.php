@@ -17,6 +17,8 @@ class Constante extends Model
         'Constante',
         'Valor',
         'Descripcion',
+        'Id_user_c',
+        'Id_user_m'
     ];
 
 }

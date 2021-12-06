@@ -20,6 +20,8 @@ class CampoConCalidad extends Model
         'Lectura2',
         'Lectura3',
         'Estado',
-        'Promedio'
+        'Promedio',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

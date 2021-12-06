@@ -16,5 +16,15 @@ Route::group(['prefix' => 'historial'], function(){
     Route::get('clientes',[ClientesController::class, 'index']);
     Route::get('analisisQ',[AnalisisQController::class, 'index']);
     Route::get('ingCampo', [CampoController::class, 'index']);
+    Route::group(['prefix' => 'ingCampo'], function(){
+        Route::get('capturar', [CampoController::class, 'capturar']);
+        
+        Route::group(['prefix' => 'capturar'], function(){
+            Route::get('generales', [CampoController::class, 'datosGenerales']);
+            Route::get('muestreo', [CampoController::class, 'datosMuestreo']);
+            Route::get('compuestos', [CampoController::class, 'datosCompuestos']);
+        });
+    });
+    
     Route::get('precios',[PreciosController::class, 'index']);
 });

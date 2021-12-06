@@ -16,5 +16,7 @@ class Encuesta extends Model
     protected $fillable = [
         'Url',
         'Descripcion',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

@@ -16,6 +16,8 @@ class GeneradorHidrurosMet extends Model
 
     protected $fillable = [
         'Id_lote',
-        'Generador_hidruros'
+        'Generador_hidruros',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

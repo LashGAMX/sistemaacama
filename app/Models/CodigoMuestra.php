@@ -16,7 +16,9 @@ class CodigoMuestra extends Model
     protected $fillable = [
         'Id_solicitud',
         'Codigo',
-        'Estado_codigo'
+        'Estado_codigo',
+        'Id_user_c',
+        'Id_user_m'
     ];
 
 }

@@ -17,6 +17,8 @@ class CurvaConstantes extends Model
         'Id_lote',
         'B',
         'M',
-        'R'
+        'R',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

@@ -18,6 +18,8 @@ class ConductividadCalidad extends Model
         'Marca',
         'Lote',
         'Inicio_caducidad',
-        'Fin_caducidad'
+        'Fin_caducidad',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }
