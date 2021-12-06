@@ -16,6 +16,7 @@ class Parametro extends Model
     protected $fillable = [
         'Id_laboratorio',
         'Id_tipo_formula',
+        'Id_area',
         'Id_rama',
         'Parametro',
         'Id_unidad',

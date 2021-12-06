@@ -66,7 +66,7 @@ INNER JOIN clientes as cli2
 ON inter.Id_cliente = cli2.Id_cliente
 
 /* Vista Lista parametros */
-CREATE VIEW ViewParametros as SELECT param.Id_parametro,param.Id_laboratorio,lab.Sucursal,param.Id_tipo_formula,tipo.Tipo_formula,param.Id_user_c,param.Id_user_m,param.Id_rama,ram.Rama,param.Parametro,
+CREATE VIEW ViewParametros as SELECT param.Id_parametro,param.Id_laboratorio,lab.Sucursal,param.Id_tipo_formula,tipo.Tipo_formula,param.Id_area,area.Area_analisis ,param.Id_user_c,param.Id_user_m,param.Id_rama,ram.Rama,param.Parametro,
 param.Id_unidad,uni.Unidad,uni.Descripcion,param.Id_metodo,param.Id_norma,param.Limite,param.Id_procedimiento,pro.Procedimiento,param.Id_matriz,mat.Matriz,param.Id_simbologia,
 sim.Simbologia,sim.Descripcion as Descripcion_sim
 ,nor.Norma,nor.Clave_norma,met.Metodo_prueba,met.Clave_metodo,param.Precio,param.F_inicio_vigencia,param.F_fin_vigencia,param.created_at,param.updated_at,
@@ -89,6 +89,8 @@ INNER JOIN matriz_parametros as mat
 ON param.Id_matriz = mat.Id_matriz_parametro
 INNER JOIN simbologia_parametros as sim
 ON param.Id_simbologia = sim.Id_simbologia
+INNER JOIN area_analisis as area
+ON param.Id_area = area.Id_area_analisis
 
 /* Vista Lista norma-parametros */
 CREATE VIEW ViewNormaParametro as SELECT n.Id_norma_param,n.Id_norma,nor.Norma,nor.Clave,n.Id_parametro,p.Parametro,p.Id_matriz,mat.Matriz,p.Id_simbologia,sim.Simbologia,sim.Descripcion 
@@ -252,7 +254,7 @@ INNER JOIN termometro_campo as t
 ON c.Id_equipo = t.Id_termometro
 
 /* Lista ViewObservacionMuestra */
-CREATE VIEW ViewObservacionMuestra as  SELECT obs.Id_observacion,obs.Id_analisis,obs.Id_area,obs.Ph,obs.Solido,obs.Olor,obs.Color,obs.Observaciones,pro.Folio,pro.Descarga,pro.Cliente,pro.Empresa,
+CREATE VIEW ViewObservacionMuestra as  SELECT obs.Id_observacion,obs.Id_analisis,obs.Id_area,obs.Id_tipo,obs.Ph,obs.Solido,obs.Olor,obs.Color,obs.Observaciones,pro.Folio,pro.Descarga,pro.Cliente,pro.Empresa,
 pro.Ingreso,pro.Proceso,pro.Reporte,pro.ClienteG,pro.Hora_entrada,sol.Clave_norma,sol.created_at FROM observacion_muestra as obs
 INNER JOIN proceso_analisis as pro
 ON obs.Id_analisis = pro.Id_solicitud

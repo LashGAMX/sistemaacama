@@ -22,6 +22,7 @@
                 <th>Id</th>
                 <th>Laboratorio</th>
                 <th>Tipo fórmula</th>
+                <th>Area</th>
                 <th>Matriz</th>
                 <th>Rama</th>
                 <th>Parámetro</th>
@@ -45,6 +46,7 @@
           <td>{{$item->Id_parametro}}</td>
           <td>{{$item->Sucursal}}</td>
           <td>{{$item->Tipo_formula}}</td>
+          <td>{{$item->Area_analisis}}</td>
           <td>{{$item->Matriz}}</td>
           <td>{{$item->Rama}}</td>
           <td>{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
@@ -56,7 +58,7 @@
           <td>{{$item->updated_at}}</td> --}}
           <td>
             <button type="button" class="btn btn-warning" 
-            wire:click="setData('{{$item->Id_parametro}}','{{$item->Id_laboratorio}}','{{$item->Parametro}}','{{$item->Id_unidad}}','{{$item->Id_tipo_formula}}','{{$item->Id_norma}}','{{$item->Limite}}','{{$item->Id_matriz}}','{{$item->Id_simbologia}}','{{$item->Id_rama}}','{{$item->Id_metodo}}','{{$item->Id_procedimiento}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalParametro">
+            wire:click="setData('{{$item->Id_parametro}}','{{$item->Id_laboratorio}}','{{$item->Parametro}}','{{$item->Id_unidad}}','{{$item->Id_tipo_formula}}','{{$item->Id_area}}','{{$item->Id_norma}}','{{$item->Limite}}','{{$item->Id_matriz}}','{{$item->Id_simbologia}}','{{$item->Id_rama}}','{{$item->Id_metodo}}','{{$item->Id_procedimiento}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalParametro">
             <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>  
         </tr>
@@ -139,6 +141,17 @@
                             @endforeach
                           </select>
                           @error('tipo') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Area</label>
+                            <select class="form-control" wire:model='area' >
+                            @foreach ($areas as $item)
+                                <option value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
+                            @endforeach
+                          </select>
+                          @error('area') <span class="text-danger">{{ $message  }}</span> @enderror
                           </div>
                     </div>
                     <div class="col-md-3">
