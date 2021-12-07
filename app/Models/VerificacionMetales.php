@@ -28,6 +28,8 @@ class VerificacionMetales extends Model
         'Conclusion',
         'Conc_obtenida',
         'Porc_rec',
-        'Cumple'
+        'Cumple',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

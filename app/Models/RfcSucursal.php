@@ -16,5 +16,7 @@ class RfcSucursal extends Model
     protected $fillable = [
         'Id_sucursal',
         'RFC',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

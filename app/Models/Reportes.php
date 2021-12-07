@@ -10,12 +10,15 @@ class Reportes extends Model
 {
     use HasFactory, SoftDeletes;
 
+    protected $table = 'reportes';
     protected $primaryKey = 'Id_reporte';
     public $timestamps = true;
 
     protected $fillable = [
         'Id_lote',
         'Id_muestra',
-        'Texto'
+        'Texto',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

@@ -19,5 +19,7 @@ class Norma extends Model
         'Id_descarga',
         'Inicio_validez',
         'Fin_validez',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

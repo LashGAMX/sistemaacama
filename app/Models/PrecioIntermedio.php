@@ -19,6 +19,8 @@ class PrecioIntermedio extends Model
         'Id_catalogo',
         'Precio',
         'Original',
-        'Descuento'
+        'Descuento',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

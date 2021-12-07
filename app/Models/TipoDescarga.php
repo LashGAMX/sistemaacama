@@ -14,8 +14,8 @@ class TipoDescarga extends Model
 
     protected $fillable = [
         'Descarga',
-        'Descripcion'
-        // 'Id_user_c',
-        // 'Id_user_m',
+        'Descripcion',
+        'Id_user_c',
+        'Id_user_m',
     ];
 }

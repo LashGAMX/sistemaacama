@@ -6,18 +6,19 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Tecnica extends Model
+class Limite002 extends Model
 {
-    use HasFactory,SoftDeletes;
-    
-    protected $table = 'tecnicas';
-    protected $primaryKey = 'Id_tecnica';
+    use HasFactory;
+    use SoftDeletes;
+
+    protected $table = 'limitepnorma_002';
+    protected $primaryKey = 'Id_nmx02';
     public $timestamps = true;
 
     protected $fillable = [
-        'Tecnica',
-        //'Status',
+        'Prom_intsmax',
+        'Prom_intsmin',        
         'Id_user_c',
-        'Id_user_m',
+        'Id_user_m'
     ];
 }

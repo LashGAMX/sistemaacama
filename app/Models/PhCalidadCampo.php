@@ -23,6 +23,7 @@ class PhCalidadCampo extends Model
         'Lectura3',
         'Estado',
         'Promedio',
-        'Id_user_c'
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

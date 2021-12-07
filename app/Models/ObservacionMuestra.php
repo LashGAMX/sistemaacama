@@ -21,6 +21,8 @@ class ObservacionMuestra extends Model
         'Solido',
         'Olor',
         'Color',
-        'Observaciones'
+        'Observaciones',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

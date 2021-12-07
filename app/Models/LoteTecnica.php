@@ -6,30 +6,29 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class TecnicaLoteMetales extends Model
+class LoteTecnica extends Model
 {
-    use HasFactory,SoftDeletes;
-    
-    protected $table = 'tecnica_lote_metales';
+    use HasFactory;
+    use SoftDeletes;
+
+    protected $table = 'lote_tecnica';
     protected $primaryKey = 'Id_tecnica';
     public $timestamps = true;
 
     protected $fillable = [
         'Id_lote',
-        'Fecha_hora_dig',
+        'Fecha_gestacion',
         'Longitud_onda',
         'Flujo_gas',
-        'Equipo',
-        'Num_inventario',
-        'Num_invent_lamp',
-        'Slit',
+        'No_inventario',
+        'No_lampara',
+        'Sit',
         'Corriente',
         'Energia',
-        'Conc_std',
+        'Con_std',
         'Gas',
         'Aire',
         'Oxido_nitroso',
-        'Fecha_preparacion',
         'Id_user_c',
         'Id_user_m'
     ];

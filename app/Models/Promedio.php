@@ -6,18 +6,18 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Tecnica extends Model
+class Promedio extends Model
 {
-    use HasFactory,SoftDeletes;
-    
-    protected $table = 'tecnicas';
-    protected $primaryKey = 'Id_tecnica';
+    use HasFactory;
+    use SoftDeletes;
+
+    protected $table = 'promedios';
+    protected $primaryKey = 'Id_promedio';
     public $timestamps = true;
 
     protected $fillable = [
-        'Tecnica',
-        //'Status',
+        'Descripcion',                
         'Id_user_c',
-        'Id_user_m',
+        'Id_user_m'
     ];
 }

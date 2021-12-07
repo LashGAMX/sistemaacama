@@ -20,5 +20,7 @@ class LoteAnalisis extends Model
         'Asignado',
         'Liberado',
         'Fecha',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

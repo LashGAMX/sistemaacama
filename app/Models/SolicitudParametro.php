@@ -16,6 +16,9 @@ class SolicitudParametro extends Model
     protected $fillable = [
         'Id_solicitud',
         'Id_subnorma',
-        'Extra'
+        'Extra',
+        'Asignado',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

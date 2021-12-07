@@ -15,6 +15,8 @@ class MaterialesCampo extends Model
 
     protected $fillable = [
         'Material',
-        'Unidad'
+        'Unidad',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

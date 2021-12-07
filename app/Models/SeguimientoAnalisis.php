@@ -20,6 +20,7 @@ class SeguimientoAnalisis extends Model
         'Obs_muestreo',
         'Recepcion', 
         'Obs_recepcion',
-        'Id_user_c'
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

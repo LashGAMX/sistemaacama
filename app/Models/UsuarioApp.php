@@ -17,5 +17,7 @@ class UsuarioApp extends Model
         'Id_muestreador',
         'User',
         'UserPass',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

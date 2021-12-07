@@ -23,6 +23,8 @@ class ProcesoAnalisis extends Model
         'Reporte',
         'ClienteG',
         'Hora_recepcion',
-        'Hora_entrada'        
+        'Hora_entrada',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

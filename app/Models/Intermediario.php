@@ -15,7 +15,6 @@ class Intermediario extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Id_intermediario',
         'Id_cliente',
         'Nombres',
         'A_paterno',
@@ -27,6 +26,8 @@ class Intermediario extends Model
         'Tel_oficina',
         'Extension',
         'Celular1',
+        'Celular2',
+        'Celular3',
         'Detalle',
         'Id_user_c',
         'Id_user_m',

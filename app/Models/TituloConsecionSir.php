@@ -9,12 +9,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class TituloConsecionSir extends Model
 {
     use HasFactory,SoftDeletes;
+    
     protected $table = 'titulo_concesion_sir';
     protected $primaryKey = 'Id_titulo';
     public $timestamps = true;
 
     protected $fillable = [
         'Id_sucursal',
-        'Titulo',  
+        'Titulo',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

@@ -20,6 +20,8 @@ class MaterialesMuestreo extends Model
         'Id_recipiente',
         'Volumen',
         'Id_unidad',
+        'Id_user_c',
+        'Id_user_m'
     ];
     
 }

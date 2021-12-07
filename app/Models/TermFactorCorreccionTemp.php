@@ -18,6 +18,8 @@ class TermFactorCorreccionTemp extends Model
         'De_c',
         'A_c',
         'Factor',
-        'Factor_aplicado'
+        'Factor_aplicado',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

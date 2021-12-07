@@ -14,6 +14,8 @@ class TipoTratamiento extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Tratamiento' 
+        'Tratamiento',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

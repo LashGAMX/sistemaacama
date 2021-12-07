@@ -18,7 +18,7 @@ class SubNorma extends Model
         'Id_norma',
         'Norma',
         'Clave',
-        // 'Id_user_c',
-        // 'Id_user_m',
+        'Id_user_c',
+        'Id_user_m',
     ];
 }

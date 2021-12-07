@@ -18,6 +18,8 @@ class TermometroCampo extends Model
         'Equipo',
         'Marca',
         'Modelo',
-        'Serie'
+        'Serie',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

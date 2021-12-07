@@ -16,5 +16,7 @@ class SolicitudPuntos extends Model
     protected $fillable = [
         'Id_solicitud',
         'Id_muestreo',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

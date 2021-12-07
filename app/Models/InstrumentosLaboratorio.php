@@ -18,6 +18,8 @@ class InstrumentosLaboratorio extends Model
         'Descripcion',
         'Valor_real',
         'Valor_actual',
-        'Valor_configurado'
+        'Valor_configurado',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

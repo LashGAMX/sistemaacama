@@ -16,5 +16,7 @@ class Regla extends Model
     protected $fillable = [
         'Regla',
         'Descripcion',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

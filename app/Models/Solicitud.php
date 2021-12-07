@@ -36,5 +36,7 @@ class Solicitud extends Model
       'Id_muestra',
       'Id_promedio',
       'Id_reporte',
+      'Id_user_c',
+      'Id_user_m'
     ];
 }

@@ -15,6 +15,8 @@ class MaterialLab extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Material'
+        'Material',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

@@ -28,5 +28,7 @@ class LoteDetalle extends Model
         'Vol_disolucion',
         'Fecha',
         'Liberado',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

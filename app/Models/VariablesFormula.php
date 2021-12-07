@@ -20,6 +20,8 @@ class VariablesFormula extends Model
         'Variable',
         'Id_tipo',
         'Valor',
-        'Drcimal'
+        'Deci',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }
