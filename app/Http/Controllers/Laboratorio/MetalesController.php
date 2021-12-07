@@ -73,7 +73,7 @@ class MetalesController extends Controller
     public function getObservacionanalisis(Request $request)
     {
         $model = DB::table('ViewObservacionMuestra')->where('Id_area', $request->id)->get();
-        $solicitudModel = DB::table('users')
+        $solicitudModel = DB::table('users');
         
 
         $data = array(
