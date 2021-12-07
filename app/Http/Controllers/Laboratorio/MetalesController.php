@@ -57,17 +57,23 @@ class MetalesController extends Controller
         return view('laboratorio.metales.analisis', compact('model', 'elements', 'solicitud', 'solicitudLength', 'tecnicas', 'solicitudPuntos', 'solicitudPuntosLength', 'parametros', 'parametrosLength', 'puntoMuestreo', 'puntoMuestreoLength'));
     }
 
-
-    //***********************************************OBSERVACIÓN********************************************** */
+  
+    //* ********************************************** OBSERVACIÓN ********************************************** */
     public function observacion()
     {
-        $formulas = DB::table('tipo_formulas')->where('Id_area', 2)->get();
+        $formulas = DB::table('tipo_formulas')
+        ->orWhere('Id_tipo_formula', 21)
+        ->orWhere('Id_tipo_formula', 22)
+        ->orWhere('Id_tipo_formula', 23)
+        ->orWhere('Id_tipo_formula', 24)
+        ->get();
         return view('laboratorio.metales.observacion', compact('formulas'));
     }
 
     public function getObservacionanalisis(Request $request)
     {
         $model = DB::table('ViewObservacionMuestra')->where('Id_area', $request->id)->get();
+        $solicitudModel = DB::table('users')
         
 
         $data = array(
