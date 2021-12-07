@@ -9,13 +9,15 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class DetallesTipoCuerpo extends Model
 {
     use HasFactory;
+    use SoftDeletes;
+    
     protected $table = 'detalle_tipoCuerpos';
     protected $primaryKey = 'Id_detalle';
     
-
     protected $fillable = [
-        'Id_detalle',
-        'Id_cuerpo',
-        'Categoria'
+        'Id_tipo',
+        'Detalle',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

@@ -16,5 +16,7 @@ class DireccionReporte extends Model
     protected $fillable = [
         'Id_sucursal',
         'Direccion',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

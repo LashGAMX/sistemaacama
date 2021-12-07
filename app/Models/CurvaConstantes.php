@@ -18,7 +18,12 @@ class CurvaConstantes extends Model
         'B',
         'M',
         'R',
+<<<<<<< HEAD
         'Fecha_inicio',
         'Fecha_final'
+=======
+        'Id_user_c',
+        'Id_user_m'
+>>>>>>> 7b431173da463061d5c734d827fbd51a2bcf4583
     ];
 }

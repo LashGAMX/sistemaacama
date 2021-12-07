@@ -22,7 +22,7 @@ function getServicio(id) {
     let tabla = document.getElementById('solicitudGenerada');
     let tab = '';
     $.ajax({
-        url: base_url + '/admin/laboratorio/metales/getObservacionanalisis', //archivo que recibe la peticion
+        url: base_url + '/admin/laboratorio/fq/getObservacionanalisis', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
             id: id,

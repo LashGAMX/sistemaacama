@@ -16,5 +16,7 @@ class ConcentracionParametro extends Model
     protected $fillable = [
         'Id_parametro',
         'Concentracion',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

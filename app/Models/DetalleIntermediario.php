@@ -17,5 +17,7 @@ class DetalleIntermediario extends Model
         'Id_intermediario',
         'Id_nivel',
         'Descuento',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

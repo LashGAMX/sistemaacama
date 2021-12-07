@@ -15,6 +15,8 @@ class CotizacionPunto extends Model
 
     protected $fillable = [
         'Id_cotizacion',
-        'Descripcion'
+        'Descripcion',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

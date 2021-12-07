@@ -21,5 +21,7 @@ class ContactoCliente extends Model
         'Celular',
         'Telefono',
         'Email',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

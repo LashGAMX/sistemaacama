@@ -17,6 +17,8 @@ class Analisis extends Model
         'Analisis',
         'Id_parametro',
         'Id_envase',
-        'Id_perservacion',
+        'Id_preservacion',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

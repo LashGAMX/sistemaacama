@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Campo;
 
 use App\Http\Controllers\Controller;
+use App\Models\CampoCompuesto;
 use App\Models\CampoConCalidad;
 use App\Models\CampoConTrazable;
 use App\Models\CampoGenerales;
@@ -215,30 +216,32 @@ class CampoController extends Controller
             ]);
         }
 
-        //    $conCalidadModel = CampoConCalidad::where('Id_solicitud',$request->idSolicitud)->get();
-        //    if($conCalidadModel->count())
-        //    {
-        //        $conCalidad = CampoConCalidad::find($conCalidadModel[0]->Id_conductividad);
-        //        $conCalidad->Id_solicitud = $request->idSolicitud;
-        //        $conCalidad->Id_conCalidad = $request->conCalidad;
-        //        $conCalidad->Lectura1 = $request->conCl1;
-        //        $conCalidad->Lectura2 = $request->conCl2;
-        //        $conCalidad->Lectura3 = $request->conCl3;
-        //        $conCalidad->Estado = $request->conCEstado;
-        //        $conCalidad->Promedio = $request->conCPromedio;
-        //        $conCalidad->save();
+        //Conductividad control calidad
+            $conCalidadModel = CampoConCalidad::where('Id_solicitud',$request->idSolicitud)->get();
+            if($conCalidadModel->count())
+            {
+                $conCalidad = CampoConCalidad::find($conCalidadModel[0]->Id_conductividad);
+                $conCalidad->Id_solicitud = $request->idSolicitud;
+                $conCalidad->Id_conCalidad = $request->conCalidad;
+                $conCalidad->Lectura1 = $request->conCl1;
+                $conCalidad->Lectura2 = $request->conCl2;
+                $conCalidad->Lectura3 = $request->conCl3;
+                $conCalidad->Estado = $request->conCEstado;
+                $conCalidad->Promedio = $request->conCPromedio;
+                $conCalidad->save();
 
-        //    }else{
-        //     CampoConCalidad::create([
-        //            'Id_solicitud' => $request->idSolicitud,
-        //            'Id_conCalidad' => $request->conCalidad,
-        //            'Lectura1' => $request->conCl1,
-        //            'Lectura2' => $request->conCl2,
-        //            'Lectura3' => $request->conCl3,
-        //            'Estado' => $request->conCEstado,
-        //            'Promedio' => $request->conCPromedio,
-        //        ]);
-        //    }
+            }else{
+             CampoConCalidad::create([
+                    'Id_solicitud' => $request->idSolicitud,
+                    'Id_conCalidad' => $request->conCalidad,
+                    'Lectura1' => $request->conCl1,
+                    'Lectura2' => $request->conCl2,
+                    'Lectura3' => $request->conCl3,
+                    'Estado' => $request->conCEstado,
+                    'Promedio' => $request->conCPromedio,
+                ]);
+            }
+
         $seguimiento = SeguimientoAnalisis::where('Id_servicio',$request->idSolicitud)->first();
         $seguimiento->Muestreo = 1;
         $seguimiento->save();
@@ -397,22 +400,39 @@ class CampoController extends Controller
         return response()->json($data);
     }
 
-    /*public function setEvidencia(Request $request){
-        $img1 = $_FILES["imgEvidencia1"];
-        $img2 = $_FILES["imgEvidencia2"];
+    public function setDataCompuesto(Request $request){
+        $campoCompModel = CampoCompuesto::where('Id_solicitud', $request->idSolicitud)->get();
 
+        if($campoCompModel->count()){
+            $campoComp = CampoCompuesto::find($request->idSolicitud);
+            
+            $campoComp->Metodo_aforo = $request->aforoCompuesto;
+            $campoComp->Con_tratamiento = $request->conTratamientoCompuesto;
+            $campoComp->Tipo_tratamiento = $request->tipoTratamientoCompuesto;
+            $campoComp->Proce_muestreo = $request->procedimientoCompuesto;
+            $campoComp->Observaciones = $request->obsCompuesto;
+            $campoComp->Ph_muestraComp = $request->phMuestraCompuesto;
+            $campoComp->Temp_muestraComp = $request->valTempCompuesto;
+            $campoComp->Volumen_calculado = $request->volCalculadoComp;
 
-        $evModel = Evidencia::where('Id_solicitud', $request->idSolicitud)->get();
+            $campoComp->save();
+        }else{
+            CampoCompuesto::create([
+                'Id_solicitud' => $request->idSolicitud,
+                'Metodo_aforo' => $request->aforoCompuesto,
+                'Con_tratamiento' => $request->conTratamientoCompuesto,
+                'Tipo_tratamiento' => $request->tipoTratamientoCompuesto,
+                'Proce_muestreo' => $request->procedimientoCompuesto,
+                'Observaciones' => $request->obsCompuesto,
+                'Ph_muestraComp' => $request->phMuestraCompuesto,
+                'Temp_muestraComp' => $request->valTempCompuesto,
+                'Volumen_calculado' => $request->volCalculadoComp
+            ]);
+        }
 
-        Evidencia::create([
-            'Id_solicitud' => $request->idSolicitud
-            //'Imagen_1' => $request->,
-            //'Imagen_2' => $request->,            
-        ]);        
-
-        $data = array('sw' => true, 'model' => $request);
+        $data = array('sw' => true);
         return response()->json($data);
-    }*/
+    }
 
     public $nota;
     public $alert;

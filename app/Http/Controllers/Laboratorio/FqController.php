@@ -56,8 +56,11 @@ class FqController extends Controller
     }
     public function observacion()
     {
-        $formulas = DB::table('tipo_formulas')->where('Id_area', 8)->get();
-        return view('laboratorio.metales.observacion', compact('formulas'));
+        $formulas = DB::table('tipo_formulas')
+        ->orWhere('Id_tipo_formula', 8)
+        ->orWhere('Id_tipo_formula',9)
+        ->get();
+        return view('laboratorio.fq.observacion', compact('formulas'));
     }
     
     public function getObservacionanalisis(Request $request)

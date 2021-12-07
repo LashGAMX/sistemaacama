@@ -19,6 +19,6 @@ class TemperaturaMuestra extends Model
         'Temperatura2',
         'Temperatura3',
         'Promedio',
-        
+        'Id_user_c'
     ];
 }

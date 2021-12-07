@@ -16,6 +16,8 @@ class CurvaCalibracionMet extends Model
     protected $fillable = [
         'Id_lote',
         'Bitacora_curCal',
-        'Folio_curCal'          
+        'Folio_curCal',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }

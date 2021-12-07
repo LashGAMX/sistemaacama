@@ -16,6 +16,8 @@ class Grupo extends Model
     protected $fillable = [
         'Grupo',
         'Comentarios',
+        'Id_user_c',
+        'Id_user_m'
     ];
 }
  

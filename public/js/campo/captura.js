@@ -3049,6 +3049,31 @@ function setDataMuestreo() {
     });
 } // return data;
 
+function setDataCompuesto(){    
+    $.ajax({
+        url: base_url + "/admin/campo/captura/setDataCompuesto", //archivo que recibe la peticion
+        type: "POST", //método de envio
+        data: {
+            idSolicitud: $("#idSolicitud").val(),
+            aforoCompuesto: $("#aforoCompuesto").val(),
+            conTratamientoCompuesto: $("#conTratamientoCompuesto").val(),
+            tipoTratamientoCompuesto: $("#tipoTratamientoCompuesto").val(),
+            procedimientoCompuesto: $("#procedimientoCompuesto").val(),
+            obsCompuesto: $("#observacionCompuesto").val(),
+            volCalculadoComp: $("#volCalculado").val(),
+            phMuestraCompuesto: $("#phMuestraCompuesto").val(),
+            valTempCompuesto: $("#valTemp").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {            
+            console.log(response);
+            swal("Registro!", "Registro guardado correctamente!", "success");
+        },
+    });
+}
+
 function selectedOption() {
     //Obtiene el valor de la opción seleccionada
     let selectedOption = document.getElementById("phTrazable1").value;

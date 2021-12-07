@@ -19,6 +19,7 @@ class GastoMuestra extends Model
         'Gasto2',
         'Gasto3',
         'Promedio',
-        
+        'Id_user_c',
+        'Id_user_m'
     ];
 }
