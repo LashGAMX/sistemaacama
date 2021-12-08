@@ -301,9 +301,15 @@ function buscar(){
         async: false, 
         success: function (response) {
             console.log(response);
-            $("#b").val(response.bmr.B);
-            $("#m").val(response.bmr.M);
-            $("#r").val(response.bmr.R); 
+            if (response.valbmr != false){ 
+                $("#b").val(response.bmr.B);
+                $("#m").val(response.bmr.M);
+                $("#r").val(response.bmr.R); 
+            }else{ 
+                $("#b").val("");
+                $("#m").val("");
+                $("#r").val(""); 
+            }
             res = response.concentracion;   
             cont = 0;
             if(response.sw == false){

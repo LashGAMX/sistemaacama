@@ -47,10 +47,10 @@ class CurvaController extends Controller
         }else{
             $sw = false;
         }
-        if(empty($bmr) ){
-            $valbmr = false;
-        }else{
+        if($bmr != "" ){
             $valbmr = true;
+        }else{
+            $valbmr = false;
         }
         $data = array(
             'stdModel' => $model,
@@ -117,11 +117,12 @@ class CurvaController extends Controller
         $fecha_inicio = date('d-m-Y'); 
 
         if($lote->count()){
-            $const = CurvaConstantes::find($lote);
+            $const = CurvaConstantes::find($request->idLote);
+            $const->Id_lote = $request->idLote;
             $const->B = $request->b;
             $cosnt->M = $request->m;
             $const->R = $request->r;
-            $const->Fecha_inicio =  $fecha_inicio;
+           // $const->Fecha_inicio =  $fecha_inicio;
             $const = save(); 
         }else{
             $model = CurvaConstantes::create([
@@ -129,7 +130,7 @@ class CurvaController extends Controller
                 'B' => $request->b,
                 'M' => $request->m,
                 'R' => $request->r,
-                'Fecha_inicio' => $fecha_inicio,
+                //'Fecha_inicio' => $fecha_inicio,
             ]);
         }
 
