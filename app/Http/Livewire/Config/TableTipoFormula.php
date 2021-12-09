@@ -2,6 +2,7 @@
 
 namespace App\Http\Livewire\Config;
 
+use App\Models\AreaAnalisis;
 use App\Models\HistorialTipoFormula;
 use App\Models\TipoFormula;
 use Illuminate\Support\Facades\DB;
@@ -36,8 +37,10 @@ class TableTipoFormula extends Component
     public function render()
     {
         //$model = TipoFormula::where('Tipo_formula','LIKE',"%{$this->search}%")->paginate($this->perPage);
+        $tipoModel = DB::table('ViewTipoFormulaAreas')->get();
+        $areaModel = AreaAnalisis::all();
         $model = DB::table('ViewTipoFormula')->where('Tipo_formula','LIKE',"%{$this->search}%")->paginate($this->perPage);
-        return view('livewire.config.table-tipo-formula',compact('model'));
+        return view('livewire.config.table-tipo-formula',compact('model','tipoModel','areaModel'));
     }
 
     public function create()

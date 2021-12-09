@@ -47,8 +47,15 @@
         <tr>  
           {{-- <form wire:submit.prevent="update"> --}}
           <td>{{$item->Id_tipo_formula}}</td>
-          <td>{{$item->Tipo_formula}}</td>       
-          <td>{{$item->Area_analisis}}</td>   
+          <td>{{$item->Tipo_formula}}</td>
+          <td>
+            @foreach ($tipoModel as $item2)
+            @if ($item2->Id_formula == $item->Id_tipo_formula)
+              {{$item2->Area_analisis}},
+            @endif
+            @endforeach
+          </td>
+          {{-- <td>{{$item->Area_analisis}}</td>    --}}
           <td>{{$item->Concentracion}}</td>   
           <td>{{$item->created_at}}</td>
           <td>{{$item->updated_at}}</td>

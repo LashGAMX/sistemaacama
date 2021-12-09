@@ -57,22 +57,59 @@ class MetalesController extends Controller
         return view('laboratorio.metales.analisis', compact('model', 'elements', 'solicitud', 'solicitudLength', 'tecnicas', 'solicitudPuntos', 'solicitudPuntosLength', 'parametros', 'parametrosLength', 'puntoMuestreo', 'puntoMuestreoLength'));
     }
 
-
-    //***********************************************OBSERVACIÓN********************************************** */
+  
+    //* ********************************************** OBSERVACIÓN ********************************************** */
     public function observacion()
     {
-        $formulas = DB::table('tipo_formulas')->where('Id_area', 2)->get();
+        $formulas = DB::table('tipo_formulas')
+        ->orWhere('Id_tipo_formula', 21)
+        ->orWhere('Id_tipo_formula', 22)
+        ->orWhere('Id_tipo_formula', 23)
+        ->orWhere('Id_tipo_formula', 24)
+        ->get(); 
         return view('laboratorio.metales.observacion', compact('formulas'));
     }
 
     public function getObservacionanalisis(Request $request)
     {
-        $model = DB::table('ViewObservacionMuestra')->where('Id_area', $request->id)->get();
-        
+        $solicitudModel = DB::table('ViewSolicitud')->get();
+        $sw = false;
+        foreach($solicitudModel as $item)
+        {
+            $paramModel = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$item->Id_solicitud)->where('Id_tipo_formula',$request->id)->get();
+            $sw = false;
+            foreach($paramModel as $item2)
+            {
+                $areaModel = DB::table('ViewTipoFormulaAreas')->where('Id_formula',$item2->Id_tipo_formula)->where('Id_area',2)->get();
+                if($areaModel->count())
+                {
+                    $sw = true;
+                }
+            }
+            if($sw == true)
+            {
+                $model = DB::table('ViewObservacionMuestra')->where('Id_area',2)->where('Id_analisis',$item->Id_solicitud)->get();
+                if($model->count()){
+                }else{
+                    ObservacionMuestra::create([
+                        'Id_analisis' => $item->Id_solicitud,
+                        'Id_area' => 2,
+                        'Ph' => '',
+                        'Solido' => '',
+                        'Olor' => '',
+                        'Color' => '',
+                        'Observacion' => '',     
+                    ]);
+                }
+                $sw = false;
+            }
+        }
+        $model = DB::table('ViewObservacionMuestra')->where('Id_area',2)->get();
 
         $data = array(
             'model' => $model,
         );
+
         return response()->json($data);
     }
 

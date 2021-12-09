@@ -79,11 +79,11 @@
     </div>
     <div class="col-md-3">
       <label for="">m</label>
-      <input type="text" id='m' class="form-control" placeholder="m">
+      <input type="text" id='m' class="form-control" placeholder="m" disabled>
   </div>
   <div class="col-md-3">
     <label for="">r</label>
-    <input type="text" id='r' class="form-control" placeholder="r">
+    <input type="text" id='r' class="form-control" placeholder="r" disabled>
 </div>
 <div class="col-md-3">
   <button class="btn btn-success" id="setConstantes" ><i class="far fa-save"></i> Guardar</button> 

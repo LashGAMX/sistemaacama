@@ -279,3 +279,12 @@ INNER JOIN ViewSolicitud as sol
 ON lote.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as pa
 ON lote.Id_parametro = pa.Id_parametro
+
+/* Lista ViewTipoFormulaAreas */
+CREATE VIEW ViewTipoFormulaAreas as SELECT tipo.Id_tipo,tipo.Id_formula,form.Tipo_formula,form.Concentracion,tipo.Id_area,areas.Area_analisis,tipo.created_at,tipo.updated_at,tipo.deleted_at FROM tipo_formula_areas as tipo
+INNER JOIN tipo_formulas as form
+ON tipo.Id_formula = form.Id_tipo_formula
+INNER JOIN area_analisis as areas
+ON tipo.Id_area = areas.Id_area_analisis
+
+
