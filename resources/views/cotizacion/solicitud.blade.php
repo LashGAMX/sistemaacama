@@ -37,7 +37,7 @@
                             </div>
                             <div class="col-md-2">
                                 {{-- <a href="{{url('admin/cotizacion/solicitud/create')}}" class="btn btn-success btn-sm"><i class="voyager-plus"></i> Crear</a> --}}
-                                <button id="btnCreate" class="btn btn-success" ><i class="voyager-plus"></i> Crear sin Cot</button>
+                                <button id="btnCreateSinCot" class="btn btn-success" ><i class="voyager-plus"></i> Crear sin Cot</button>
                             </div>
                             <div class="col-md-1">
                                 <button id="btnEdit" class="btn btn-warning" ><i class="voyager-edit"></i> Editar</button>

@@ -3,6 +3,7 @@
 // use App\Http\Controllers\Cotizacion\Cotizacion2Controller;
 use App\Http\Controllers\Cotizacion\CotizacionController;
 use App\Http\Controllers\Cotizacion\SolicitudController;
+use App\Models\Solicitud;
 use Illuminate\Support\Facades\Route;
  
 // Route::get('cotizacion', [CotizacionController::class, 'index']);
@@ -39,6 +40,10 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     
     Route::get('',[SolicitudController::class,'index']);
     Route::get('create/{idCot}',[SolicitudController::class,'create']);
+
+    Route::get('createSinCot', [SolicitudController::class, 'createSinCot']);
+
+
     Route::post('getSucursal',[SolicitudController::class,'getSucursal']);
     Route::post('getDatoIntermediario',[SolicitudController::class,'getDatoIntermediario']);
     Route::post('getDireccionReporte',[SolicitudController::class,'getDireccionReporte']);
@@ -47,6 +52,11 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::post('getDataContacto',[SolicitudController::class,'getDataContacto']);
     Route::post('getPuntoMuestro',[SolicitudController::class,'getPuntoMuestro']);
     Route::post('setSolicitud',[SolicitudController::class,'setSolicitud']);
+
+
+    Route::post('setSolicitudSinCot', [SolicitudController::class, 'setSolicitudSinCot']);
+
+
     Route::get('update/{idCot}',[SolicitudController::class,'update']);
     Route::post('getDataSolicitud',[SolicitudController::class,'getDataSolicitud']);
     Route::post('getReporteSir',[SolicitudController::class,'getReporteSir']);

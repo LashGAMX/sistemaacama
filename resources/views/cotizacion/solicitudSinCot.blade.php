@@ -12,11 +12,15 @@
         </li>
       </ul>
       {{-- Contenido de nav --}}
-      <form action="{{url('admin/cotizacion/solicitud/setSolicitud')}}" method="POST">
+      <form action="{{url('admin/cotizacion/solicitud/setSolicitudSinCot')}}" method="POST">
         @csrf
         <input type="text" class="" id="sw"  hidden value="{{@$sw}}">
-        <input type="text" class="" id="idSol" hidden value="{{@$model->Id_solicitud}}">
-       <div class="tab-content" id="myTabContent">
+
+       
+        {{-- <input type="text" class="" id="idSol" hidden value="{{@$model->Id_solicitud}}"> --}}
+       
+       
+        <div class="tab-content" id="myTabContent">
         {{-- Inicio Datos --}}
         <div class="tab-pane fade" id="datos" role="tabpanel" aria-labelledby="datos-tab">
           <div class="row">
@@ -26,11 +30,9 @@
                 <select name="intermediario" id="intermediario" class="form-control select2" onchange="getDatoIntermediario()">
                   <option value="0">Sin seleccionar</option>
                   @foreach ($intermediario as $item)
-                    @if (@$model->Id_intermedio == $item->Id_cliente)
-                      <option value="{{$item->Id_cliente}}" selected>{{$item->Nombres}} {{$item->A_paterno}}</option>
-                    @else
-                      <option value="{{$item->Id_cliente}}">{{$item->Nombres}} {{$item->A_paterno}}</option>
-                    @endif
+                    
+                    <option value="{{$item->Id_cliente}}">{{$item->Nombres}} {{$item->A_paterno}} {{$item->A_materno}}</option>
+                    
                   @endforeach
                 </select>
               </div>
@@ -81,11 +83,9 @@
                   <select name="clientes" id="clientes" class="form-control {{-- select2 --}}" onchange="getSucursal()">
                     {{-- <option value="0">Sin seleccionar</option> --}}
                     @foreach ($cliente as $item)
-                    @if (@$model->Id_cliente == $item->Id_cliente)
-                      <option value="{{$item->Id_cliente}}" selected>{{$item->Empresa}}</option>
-                    @else
+                    
                       <option value="{{$item->Id_cliente}}">{{$item->Empresa}}</option>
-                    @endif
+                    
                     @endforeach
                   </select>
                 {{-- @endif --}}
@@ -154,11 +154,11 @@
                   </tr>
                   <tr>
                     <td>Email: </td>
-                    <td><input type="text" class="form-control" id="emailCont" disabled></td>
+                    <td><input type="text" class="form-control" name="emailContVal" id="emailCont" disabled></td>                    
                     <td>Celular: </td>
                     <td><input type="text" class="form-control" id="celCont" disabled></td>
                     <td>Telefono: </td>
-                    <td><input type="text" class="form-control" id="telCont" disabled></td>
+                    <td><input type="text" class="form-control" name="telefonoCont" id="telCont" disabled></td>
                   </tr>
                 </table>
               </div>
@@ -171,12 +171,12 @@
 
           <div class="col-md-12">
             <label for="atencion">Con atención a reporte</label>
-            <input type="text" class="form-control" id="atencion" name="atencion" placeholder="Nombre con atención a..." value="{{@$model->Atencion}}">
+            <input type="text" class="form-control" id="atencion" name="atencion" placeholder="Nombre con atención a...">
           </div>
           <div class="col-md-12">
             <label for="observacion">Observación</label>
             {{-- <input type="text" class="form-control" id="observacion"> --}}
-            <textarea class="form-control" id="observacion" name="observacion" placeholder="Escribir...">{{@$model->Observacion_cotizacion}}</textarea>
+            <textarea class="form-control" id="observacion" name="observacion" placeholder="Escribir..."></textarea>
           </div>
 
           <div class="col-md-12">
@@ -188,63 +188,36 @@
             <div class="row">
               
               <div class="col-md-4">
-                <label for="servicio">Servicio</label>
-
-                @if (!is_null($model->Servicio))
-                  <select name="tipoServicio" id="tipoServicio" class="form-control">
-                    <option value="{{$model->Tipo_servicio}}" selected>{{$model->Servicio}}</option>
-                  </select>
-                @else
+                <label for="servicio">Servicio</label>                
                   <select name="tipoServicio" id="tipoServicio" class="form-control">
                     @foreach ($servicios as $item)
-                    @if (@$model->Tipo_servicio == $item->Id_tipo)
-                      <option value="{{$item->Id_tipo}}" selected>{{$item->Servicio}}</option>
-                    @else
+                    
                       <option value="{{$item->Id_tipo}}">{{$item->Servicio}}</option>
-                    @endif
+                    
                     @endforeach
-                  </select>
-                @endif
+                  </select>                
                 
               </div>
               <div class="col-md-4">
-                <label for="tipoDescarga">Tipo descarga</label>
-                
-                @if (!is_null($model->Descarga))
+                <label for="tipoDescarga">Tipo descarga</label>                                
                   <select name="tipoDescarga" id="tipoDescarga" class="form-control">
-                    <option value="{{$model->Tipo_descarga}}" selected>{{$model->Descarga}}</option>
-                  </select>                
-                @else
-                  <select name="tipoDescarga" id="tipoDescarga" class="form-control">
-                    @foreach ($descargas as $item)
-                      @if (@$model->Tipo_descarga == $item->Id_tipo)
-                        <option value="{{$item->Id_tipo}}" selected>{{$item->Descarga}}</option>
-                      @else
+                    @foreach ($descargas as $item)                      
+                        
                         <option value="{{$item->Id_tipo}}">{{$item->Descarga}}</option>
-                      @endif
+                      
                     @endforeach
-                  </select>
-                @endif
+                  </select>                
                                 
               </div>
               <div class="col-md-4">
-                <label for="norma">Norma</label>
-
-                @if (!is_null($model->Clave_norma))
+                <label for="norma">Norma</label>                
                   <select name="norma" id="norma" class="form-control">
-                    <option value="{{$model->Id_norma}}" selected>{{$model->Clave_norma}}</option>
-                  </select>
-                @else
-                  <select name="norma" id="norma" class="form-control">
-                    @foreach ($normas as $item)
-                      @if (@$model->Id_norma == $item->Id_norma)
-                        <option value="{{$item->Id_norma}}" selected>{{$item->Clave_norma}}</option>
-                      @else
+                    @foreach ($normas as $item)                                              
+                        
                         <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
-                      @endif
+
                     @endforeach
-                  </select>
-                @endif
+                  </select>                
                 
               </div>
               <div class="col-md-4">
@@ -254,27 +227,21 @@
               </div>
               <div class="col-md-4">
                 <label for="fechaMuestreo">Fecha muestreo</label> 
-                <input type="date" id="fechaMuestreo" name="fechaMuestreo" class="form-control" value="{{@$model->Fecha_muestreo}}">
+                <input type="date" id="fechaMuestreo" name="fechaMuestreo" class="form-control">
               </div>
               <div class="col-md-4">
                 <label for="frecuencia">Muestreo</label>
-                
-                @if (!is_null($frecuencia))
-                  <select class="form-control" placeholder="Frecuencia" id="frecuencia" name="frecuencia">                    
-                    <option value="{{$frecuencia->Id_frecuencia}}" selected>{{$frecuencia->Descripcion}}</option>                    
-                  </select>
-                @else
+                                
                   <select class="form-control" placeholder="Frecuencia" id="frecuencia" name="frecuencia">
                     @foreach ($frecuencia as $item)
                     <option value="{{$item->Id_frecuencia}}">{{$item->Descripcion}}</option>
                     @endforeach
-                  </select>
-                @endif
+                  </select>                
                 
               </div>
               <div class="col-md-4">
                 <label for="numTomas">Número de tomas</label>
-                <input type="text" id="numTomas" name="numTomas" class="form-control" value="{{$model->Tomas}}" disabled>
+                <input type="text" id="numTomas" name="numTomas" class="form-control">
               </div>
 
             </div>
@@ -287,48 +254,38 @@
 
           <div class="col-md-6">
             <div class="form-group">
-              <label for="tipoMuestra">Tipo de muestra</label>
-              
-              @if (!is_null($model->Tipo_muestra))
-                <select name="tipoMuestra" id="tipoMuestra" class="form-control">
-                  <option value="0" selected>{{$model->Tipo_muestra}}</option>                  
-                </select>  
-              @else
+              <label for="tipoMuestra">Tipo de muestra</label>                            
+                
                 <select name="tipoMuestra" id="tipoMuestra" class="form-control">
                   <option>Sin seleccionar</option>
                   <option value="0">INSTANTANEA</option>
                   <option value="1">COMPUESTA</option>
-                </select>
-              @endif
+                </select>              
                             
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="promedio">Promedio</label>
-
-              @if (!is_null($model->Promedio))
-                <select name="promedio"  class="form-control" id="promedio">                  
-                  <option value="0">{{$model->Promedio}}</option>
-                </select>
-              @else
+              
                 <select name="promedio"  class="form-control" id="promedio">
                   <option value="SIN SELECCIONAR" selected>SIN SELECCIONAR</option>
                   <option value="MUESTREO INSTANTANEO">MUESTREO INSTANTANEO</option>
                   <option value="MENSUAL">MENSUAL</option>
                   <option value="DIARIO">DIARIO</option>
                 </select>
-              @endif              
+              
             </div>
           </div>
           
           <div class="col-md-12">
             <div class="form-group">
               <label for="tipoReporte">Tipo de reporte</label>
+              
               <select name="tipoReporte" id="tipoReporte" class="form-control">
                 <option value="0">Sin seleccionar</option>
-
               </select>
+
             </div>
           </div>
 
@@ -344,8 +301,16 @@
                 </tr>
               </thead>
               <tbody>
+                @php
+                    $contPunto = 0;
+                @endphp
+
                 @if (@$sw === true)
                   @foreach ($puntos as $item)
+                    @php
+                        $contPunto++;
+                    @endphp
+
                     <tr>
                         <td>{{$item->Id_punto}}</td>
                         <td>{{$item->Punto_muestreo}}</td>
@@ -356,6 +321,8 @@
 
             </table>
           </div>
+
+          <input type="text" name="contPunto" id="contPunt" value="{{$contPunto}}" hidden>
 
           </div>
         </div>
@@ -387,7 +354,9 @@
         </div>
       </div>
       <div class="col-md-12" hidden>
-        <input type="text" class="form-control" hidden id="idCotizacion" name="idCotizacion" value="{{$idCot}}">
+        <td><input type="hidden" class="form-control" name="emailContVal" id="emailCont2"></td>
+        <td><input type="hidden" class="form-control" name="telefonoContVal" id="telCont2"></td>
+        {{-- <input type="text" class="form-control" hidden id="idCotizacion" name="idCotizacion" value="{{$idCot}}"> --}}
         <input type="text" class="form-control" hidden id="parametrosSolicitud" name="parametrosSolicitud" >
         <input type="text" class="form-control" hidden id="puntosSolicitud" name="puntosSolicitud" >
       </div>
