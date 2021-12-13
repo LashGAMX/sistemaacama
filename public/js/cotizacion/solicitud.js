@@ -38,6 +38,12 @@ $(document).ready(function () {
         // alert(idCot);
         window.location = base_url+"/admin/cotizacion/solicitud/create/"+idCot;
     } );
+
+    $('#btnCreateSinCot').click( function () {
+        // alert(idCot);
+        window.location = base_url+"/admin/cotizacion/solicitud/createSinCot";
+    });
+
     $('#btnEdit').click( function () {
         window.location = base_url+"/admin/cotizacion/solicitud/update/"+idCot;
     } );

@@ -51,8 +51,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
         //? Modulo Observacion - Agregar observaciones a analisis
         Route::get('observacion', [FqController::class, 'observacion']);
-        Route::post('getObservacionanalisis', [MetalesController::class, 'getObservacionanalisis']);
-        Route::post('aplicarObservacion', [MetalesController::class, 'aplicarObservacion']);
+        Route::post('getObservacionanalisis', [FqController::class, 'getObservacionanalisis']);
+        Route::post('aplicarObservacion', [FqController::class, 'aplicarObservacion']);
     });
 
     //? Módulo curva - Creación de curva

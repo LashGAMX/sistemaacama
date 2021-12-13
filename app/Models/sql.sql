@@ -123,10 +123,10 @@ ON cat.Id_laboratorio = lab.Id_sucursal
 
 /* Lista precio paquete */
 CREATE VIEW ViewPrecioPaq as SELECT
-p.Id_precio,p.Id_paquete,sub.Id_norma,sub.Norma,sub.Clave,p.Precio,p.Id_tipo,p.created_at,p.updated_at,p.deleted_at
+p.Id_precio,p.Id_paquete,sub.Id_norma,sub.Norma, sub.Id_subnorma, sub.Clave,p.Precio,p.Id_tipo,p.created_at,p.updated_at,p.deleted_at
 FROM precio_paquete as p
 INNER JOIN sub_normas as sub
-ON p.Id_paquete = sub.Id_subnorma
+ON p.Id_paquete = sub.Id_subnorma;
 
 /* Lista detalle Intermediario */
 CREATE VIEW ViewDetalleInter as SELECT 

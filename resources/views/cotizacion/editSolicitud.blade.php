@@ -70,26 +70,16 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="clientes">Clientes registrados</label>
-
-                {{-- @if (!is_null($model->Id_cliente))
-                
-                  <select name="clientes" id="clientes" class="form-control select2" onchange="getSucursal()">
-                    <option value="{{$model->Id_cliente}}" selected>{{$cliente->Empresa}}</option>
-                  </select>
-
-                @else --}}
-                  <select name="clientes" id="clientes" class="form-control {{-- select2 --}}" onchange="getSucursal()">
-                    {{-- <option value="0">Sin seleccionar</option> --}}
-                    @foreach ($cliente as $item)
-                    @if (@$model->Id_cliente == $item->Id_cliente)
-                      <option value="{{$item->Id_cliente}}" selected>{{$item->Empresa}}</option>
-                    @else
-                      <option value="{{$item->Id_cliente}}">{{$item->Empresa}}</option>
-                    @endif
-                    @endforeach
-                  </select>
-                {{-- @endif --}}
-
+                <select name="clientes" id="clientes" class="form-control select2" onchange="getSucursal()">
+                 <option value="0">Sin seleccionar</option>
+                 @foreach ($cliente as $item)
+                  @if (@$model->Id_cliente == $item->Id_cliente)
+                    <option value="{{$item->Id_cliente}}" selected>{{$item->Empresa}}</option>
+                  @else
+                    <option value="{{$item->Id_cliente}}">{{$item->Empresa}}</option>
+                  @endif
+                 @endforeach
+               </select>
              </div>
              <div class="col-md-6">
               <div class="form-group">
@@ -121,20 +111,8 @@
               <div class="col-md-4">
                 <div class="form-group">
                   <label for="contacto">Contacto cliente</label>
-                  
-                  @if(isset($contactoCliente))
-                    <select name="contacto" id="contacto" class="form-control" onchange="getDataContacto()">
-                    
-                      @foreach ($contactoCliente as $item)
-                        <option value="{{$item->Id_contacto}}">{{$item->Nombres}} {{$item->A_paterno}} {{$item->A_materno}}</option>
-                      @endforeach                    
-
-                    </select>                  
-                  @else
-                    <select name="contacto" id="contacto" class="form-control" onchange="getDataContacto()">
-                    </select>
-                  @endif
-
+                  <select name="contacto" id="contacto" class="form-control" onchange="getDataContacto()">
+                  </select>
                   <small id="" class="form-text text-muted">
                     <button onclick="setContacto()" style="border:none;background:none;" type="button"><i class="fa fa-user-plus text-success hover" > Nuevo contacto</i></button>
                     
@@ -176,7 +154,7 @@
           <div class="col-md-12">
             <label for="observacion">Observación</label>
             {{-- <input type="text" class="form-control" id="observacion"> --}}
-            <textarea class="form-control" id="observacion" name="observacion" placeholder="Escribir...">{{@$model->Observacion_cotizacion}}</textarea>
+            <textarea class="form-control" id="observacion" name="observacion" placeholder="Escribir..." value="{{@$model->Observacion}}"></textarea>
           </div>
 
           <div class="col-md-12">
@@ -189,63 +167,32 @@
               
               <div class="col-md-4">
                 <label for="servicio">Servicio</label>
-
-                @if (!is_null($model->Servicio))
-                  <select name="tipoServicio" id="tipoServicio" class="form-control">
-                    <option value="{{$model->Tipo_servicio}}" selected>{{$model->Servicio}}</option>
-                  </select>
-                @else
-                  <select name="tipoServicio" id="tipoServicio" class="form-control">
-                    @foreach ($servicios as $item)
-                    @if (@$model->Tipo_servicio == $item->Id_tipo)
-                      <option value="{{$item->Id_tipo}}" selected>{{$item->Servicio}}</option>
-                    @else
-                      <option value="{{$item->Id_tipo}}">{{$item->Servicio}}</option>
-                    @endif
-                    @endforeach
-                  </select>
-                @endif
-                
+                <select name="tipoServicio" id="tipoServicio" class="form-control">
+                  @foreach ($servicios as $item)
+                  @if (@$model->Tipo_servicio == $item->Id_tipo)
+                  <option value="{{$item->Id_tipo}}" selected>{{$item->Servicio}}</option>
+                  @else
+                  <option value="{{$item->Id_tipo}}">{{$item->Servicio}}</option>
+                  @endif
+                  @endforeach
+                </select>
               </div>
               <div class="col-md-4">
                 <label for="tipoDescarga">Tipo descarga</label>
-                
-                @if (!is_null($model->Descarga))
-                  <select name="tipoDescarga" id="tipoDescarga" class="form-control">
-                    <option value="{{$model->Tipo_descarga}}" selected>{{$model->Descarga}}</option>
-                  </select>                
-                @else
-                  <select name="tipoDescarga" id="tipoDescarga" class="form-control">
-                    @foreach ($descargas as $item)
-                      @if (@$model->Tipo_descarga == $item->Id_tipo)
-                        <option value="{{$item->Id_tipo}}" selected>{{$item->Descarga}}</option>
-                      @else
-                        <option value="{{$item->Id_tipo}}">{{$item->Descarga}}</option>
-                      @endif
-                    @endforeach
-                  </select>
-                @endif
-                                
+                <select name="tipoDescarga" id="tipoDescarga" class="form-control">
+                  @foreach ($descargas as $item)
+                    @if (@$model->Tipo_descarga == $item->Id_tipo)
+                      <option value="{{$item->Id_tipo}}" selected>{{$item->Descarga}}</option>
+                    @else
+                      <option value="{{$item->Id_tipo}}">{{$item->Descarga}}</option>
+                    @endif
+                  @endforeach
+                </select>
               </div>
               <div class="col-md-4">
-                <label for="norma">Norma</label>
-
-                @if (!is_null($model->Clave_norma))
-                  <select name="norma" id="norma" class="form-control">
-                    <option value="{{$model->Id_norma}}" selected>{{$model->Clave_norma}}</option>
-                  </select>
-                @else
-                  <select name="norma" id="norma" class="form-control">
-                    @foreach ($normas as $item)
-                      @if (@$model->Id_norma == $item->Id_norma)
-                        <option value="{{$item->Id_norma}}" selected>{{$item->Clave_norma}}</option>
-                      @else
-                        <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
-                      @endif
-                    @endforeach
-                  </select>
-                @endif
-                
+                <label for="norma">Nworma</label>
+                <select name="norma" id="norma" class="form-control">
+                </select>
               </div>
               <div class="col-md-4">
                 <label for="subnorma">Clasificación</label>
@@ -254,27 +201,19 @@
               </div>
               <div class="col-md-4">
                 <label for="fechaMuestreo">Fecha muestreo</label> 
-                <input type="date" id="fechaMuestreo" name="fechaMuestreo" class="form-control" value="{{@$model->Fecha_muestreo}}">
+                <input type="date" id="fechaMuestreo" name="fechaMuestreo" class="form-control">
               </div>
               <div class="col-md-4">
                 <label for="frecuencia">Muestreo</label>
-                
-                @if (!is_null($frecuencia))
-                  <select class="form-control" placeholder="Frecuencia" id="frecuencia" name="frecuencia">                    
-                    <option value="{{$frecuencia->Id_frecuencia}}" selected>{{$frecuencia->Descripcion}}</option>                    
-                  </select>
-                @else
-                  <select class="form-control" placeholder="Frecuencia" id="frecuencia" name="frecuencia">
-                    @foreach ($frecuencia as $item)
-                    <option value="{{$item->Id_frecuencia}}">{{$item->Descripcion}}</option>
-                    @endforeach
-                  </select>
-                @endif
-                
+                <select  class="form-control" placeholder="Frecuencia" id="frecuencia" name="frecuencia">
+                  @foreach ($frecuencia as $item)
+                  <option value="{{$item->Id_frecuencia}}">{{$item->Descripcion}}</option>
+                  @endforeach
+                </select>
               </div>
               <div class="col-md-4">
-                <label for="numTomas">Número de tomas</label>
-                <input type="text" id="numTomas" name="numTomas" class="form-control" value="{{$model->Tomas}}" disabled>
+                <label for="numTomas">Numero de tomas</label>
+                {{-- <input type="text" id="numTomas" name="numTomas" class="form-control" value="{{$model->Num_tomas}}"> --}}
               </div>
 
             </div>
@@ -288,37 +227,21 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="tipoMuestra">Tipo de muestra</label>
-              
-              @if (!is_null($model->Tipo_muestra))
-                <select name="tipoMuestra" id="tipoMuestra" class="form-control">
-                  <option value="0" selected>{{$model->Tipo_muestra}}</option>                  
-                </select>  
-              @else
-                <select name="tipoMuestra" id="tipoMuestra" class="form-control">
-                  <option>Sin seleccionar</option>
-                  <option value="0">INSTANTANEA</option>
-                  <option value="1">COMPUESTA</option>
-                </select>
-              @endif
-                            
+              <select name="tipoMuestra" id="tipoMuestra" class="form-control">
+                <option>Sin seleccionar</option>
+                <option>INSTANTANEA</option>
+                <option>COMPUESTA</option>
+              </select>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
               <label for="promedio">Promedio</label>
-
-              @if (!is_null($model->Promedio))
-                <select name="promedio"  class="form-control" id="promedio">                  
-                  <option value="0">{{$model->Promedio}}</option>
-                </select>
-              @else
-                <select name="promedio"  class="form-control" id="promedio">
-                  <option value="SIN SELECCIONAR" selected>SIN SELECCIONAR</option>
-                  <option value="MUESTREO INSTANTANEO">MUESTREO INSTANTANEO</option>
-                  <option value="MENSUAL">MENSUAL</option>
-                  <option value="DIARIO">DIARIO</option>
-                </select>
-              @endif              
+              <select name="promedio"  class="form-control" id="promedio">
+                <option value="MUESTREO INSTANTANEO">MUESTREO INSTANTANEO</option>
+                <option value="MENSUAL">MENSUAL</option>
+                <option value="DIARIO">DIARIO</option>
+              </select>
             </div>
           </div>
           

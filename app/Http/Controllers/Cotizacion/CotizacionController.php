@@ -106,12 +106,25 @@ class CotizacionController extends Controller
     }
     public function getSubNorma()
     {
-        $id = $_POST['norma'];
-        $model = DB::table('ViewPrecioPaq')->where('Id_norma', $id)->get();
-        $data = array(
-            'model' => $model,
-        );
-        return response()->json($data);
+        if(isset($_POST['idCotizacion'])){            
+            $id = $_POST['norma'];
+            $idCot = $_POST['idCotizacion'];                                    
+
+            $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
+            $model = DB::table('ViewPrecioPaq')->where('Id_subnorma', $cotizacion->Id_subnorma)->get();
+            
+            $data = array(
+                'model' => $model,
+            );
+            return response()->json($data);
+        }else{
+            $id = $_POST['norma'];
+            $model = DB::table('ViewPrecioPaq')->where('Id_norma', $id)->get();
+            $data = array(
+                'model' => $model,
+            );
+            return response()->json($data);
+        }
     }
     public function getSubNormaId()
     {

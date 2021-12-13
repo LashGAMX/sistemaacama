@@ -65,12 +65,45 @@ class FqController extends Controller
     
     public function getObservacionanalisis(Request $request)
     {
-        $model = DB::table('ViewObservacionMuestra')->where('Id_area', $request->id)->get();
-        
+        // todo - Area analisis = id 5
+        $solicitudModel = DB::table('ViewSolicitud')->get();
+        $sw = false;
+        foreach($solicitudModel as $item)
+        {
+            $paramModel = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$item->Id_solicitud)->where('Id_tipo_formula',$request->id)->get();
+            $sw = false;
+            foreach($paramModel as $item2)
+            {
+                $areaModel = DB::table('ViewTipoFormulaAreas')->where('Id_formula',$item2->Id_tipo_formula)->where('Id_area',5)->get();
+                if($areaModel->count())
+                {
+                    $sw = true;
+                }  
+            }
+            if($sw == true)
+            {
+                $model = DB::table('ViewObservacionMuestra')->where('Id_area',5)->where('Id_analisis',$item->Id_solicitud)->get();
+                if($model->count()){
+                }else{
+                    ObservacionMuestra::create([ 
+                        'Id_analisis' => $item->Id_solicitud,
+                        'Id_area' => 5,
+                        'Ph' => '',
+                        'Solido' => '',
+                        'Olor' => '',  
+                        'Color' => '',
+                        'Observacion' => '',     
+                    ]); 
+                }
+                $sw = false;
+            } 
+        }
+        $model = DB::table('ViewObservacionMuestra')->where('Id_area',5)->get();
 
         $data = array(
             'model' => $model,
         );
+
         return response()->json($data);
     }
 
@@ -417,55 +450,8 @@ class FqController extends Controller
 
     public function getPlantillaPred(Request $request){
         $plantillaPredeterminada = Reportes::where('Id_lote', $request->idLote)->first();
-
         return response()->json($plantillaPredeterminada);
-    }
-
-
-    /* public function getDatalote(Request $request)
-    {            
-        $idLoteIf = $request->idLote;            
-        $reporte = Reportes::where('Id_lote',$request->idLote)->first();
-        $constantes = DB::table('constantes')->get();
-
-        $tecnicaLoteMet = DB::table('tecnica_lote_metales')->where('Id_lote', $request->idLote)->get();
-        $blancoCurvaMet = DB::table('blanco_curva_metales')->where('Id_lote', $request->idLote)->get();
-        $estandarVerificacionMet = DB::table('estandar_verificacion_met')->where('Id_lote', $request->idLote)->get();
-        $verificacionMet = DB::table('verificacion_metales')->where('Id_lote', $request->idLote)->get();
-        $curvaCalibracionMet = DB::table('curva_calibracion_met')->where('Id_lote', $request->idLote)->get();
-        $generadorHidrurosMet = DB::table('generador_hidruros_met')->where('Id_lote', $request->idLote)->get();
-
-        if($tecnicaLoteMet->count() && $blancoCurvaMet->count() && $estandarVerificacionMet->count() && $verificacionMet->count() && $curvaCalibracionMet->count() && $generadorHidrurosMet->count()){
-            $tecLotMet = TecnicaLoteMetales::where('Id_lote',$request->idLote)->first();
-            $blancCurvaMet = BlancoCurvaMetales::where('Id_lote',$request->idLote)->first();
-            $stdVerMet = EstandarVerificacionMet::where('Id_lote',$request->idLote)->first();
-            $verMet = VerificacionMetales::where('Id_lote',$request->idLote)->first();
-            $curMet = CurvaCalibracionMet::where('Id_lote',$request->idLote)->first();
-            $genMet = GeneradorHidrurosMet::where('Id_lote',$request->idLote)->first();
-
-            $data = array(
-                'reporte' => $reporte,
-                'constantes' => $constantes,
-                'tecLotMet' => $tecLotMet,
-                'blancCurvaMet' => $blancCurvaMet,
-                'stdVerMet' => $stdVerMet,
-                'verMet' => $verMet,
-                'curMet' => $curMet,
-                'genMet' => $genMet,
-                'idLote' => $idLoteIf
-            );
-            
-            return response()->json($data);
-        }else{
-            $data = array(
-                'reporte' => $reporte,
-                'constantes' => $constantes,
-                'idLote' => $idLoteIf
-            );
-
-            return response()->json($data);
-        }        
-    } */
+    } 
 
     public function asignar()
     {

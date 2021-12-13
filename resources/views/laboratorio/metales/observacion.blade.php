@@ -20,7 +20,7 @@
                 <select class="form-control" id="tipoFormula">
                   @foreach($formulas as $formula)
                     <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
-                  @endforeach
+                  @endforeach 
                 </select>                    
 
               </div>                

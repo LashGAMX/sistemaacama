@@ -3,6 +3,16 @@ var model;
 var swSol = $("#sw").val();;
 $(document).ready(function () {
 
+    $("#contacto").click(function(){
+        console.log("Click en contacto");
+
+        var value = $("#emailCont").val();
+        $("#emailCont2").val(value);
+
+        var value = $("#telCont").val();
+        $("#telCont2").val(value);
+    });    
+
     getDatoIntermediario()
 
     if($("#sw").val() == true)
@@ -16,6 +26,11 @@ $(document).ready(function () {
     $('#norma').click(function () {
         dataSubnorma();
     });
+
+    /* $('#clientes').click(function () {
+        getSucursal();
+    }); */
+
     $('#parametro-tab').click(function () {
         getDatos1();
         tablaParametros();
@@ -26,7 +41,9 @@ $(document).ready(function () {
     $('#addRow').click(function () {
        getPuntoMuestro();
     });
-    addColPunto();
+    addColPunto();        
+
+    
 });
 function update()
 {
@@ -91,6 +108,8 @@ function getSucursal() {
         dataType: 'json',
         async: false,
         success: function (response) {
+            console.log("Dentro de getSucursal");
+            
             console.log(response)
             // console.log("Id Contacto"+model.Id_contacto);
             $.each(response.sucursal, function (key, item) {
@@ -302,33 +321,69 @@ function dataNorma() {
 function dataSubnorma() {
     let sub = document.getElementById('subnorma');
     let tab = '';
-    $.ajax({
-        url: base_url + '/admin/cotizacion/getSubNorma', //archivo que recibe la peticion
-        type: 'POST', //método de envio
-        data: {
-            norma: $('#norma').val(),
-            _token: $('input[name="_token"]').val(),
-        },
-        dataType: 'json',
-        async: false,
-        success: function (response) {
-            console.log(response)
-            model = response;
-            $.each(response.model, function (key, item) {
-                if (swSol == true) {
-                    if (model.Id_subnorma == item.Id_paquete) {
-                        tab += '<option value="' + item.Id_paquete + '">' + item.Clave + '</option>';
+
+    if($('#idCotizacion').val() !== null){
+        
+        $.ajax({
+            url: base_url + '/admin/cotizacion/getSubNorma', //archivo que recibe la peticion
+            type: 'POST', //método de envio
+            data: {
+                idCotizacion: $('#idCotizacion').val(),
+                norma: $('#norma').val(),
+                _token: $('input[name="_token"]').val(),
+            },
+            dataType: 'json',
+            async: false,
+            success: function (response) {
+                console.log(response)
+                model = response;
+                $.each(response.model, function (key, item) {
+                    if (swSol == true) {
+                        if (model.Id_subnorma == item.Id_paquete) {
+                            tab += '<option value="' + item.Id_paquete + '">' + item.Clave + '</option>';
+                        } else {
+                            tab += '<option value="' + item.Id_paquete + '">' + item.Clave + '</option>';
+                        }
                     } else {
                         tab += '<option value="' + item.Id_paquete + '">' + item.Clave + '</option>';
                     }
-                } else {
-                    tab += '<option value="' + item.Id_paquete + '">' + item.Clave + '</option>';
-                }
 
-            });
-            sub.innerHTML = tab;
-        }
-    });
+                });
+                sub.innerHTML = tab;
+            }
+        });
+
+    }else{
+
+        $.ajax({
+            url: base_url + '/admin/cotizacion/getSubNorma', //archivo que recibe la peticion
+            type: 'POST', //método de envio
+            data: {
+                norma: $('#norma').val(),
+                _token: $('input[name="_token"]').val(),
+            },
+            dataType: 'json',
+            async: false,
+            success: function (response) {
+                console.log(response)
+                model = response;
+                $.each(response.model, function (key, item) {
+                    if (swSol == true) {
+                        if (model.Id_subnorma == item.Id_paquete) {
+                            tab += '<option value="' + item.Id_paquete + '">' + item.Clave + '</option>';
+                        } else {
+                            tab += '<option value="' + item.Id_paquete + '">' + item.Clave + '</option>';
+                        }
+                    } else {
+                        tab += '<option value="' + item.Id_paquete + '">' + item.Clave + '</option>';
+                    }
+
+                });
+                sub.innerHTML = tab;
+            }
+        });
+
+    }
 }
 function getDatos1()
 {
