@@ -349,6 +349,7 @@ class CotizacionController extends Controller
 
         $puntoMuestreo = $request->puntosCotizacion;
         $puntoMuestreo = explode(',', $puntoMuestreo);
+        
         foreach ($puntoMuestreo as $item) {
             CotizacionPunto::create([
                 'Id_cotizacion' => $cotizacion->Id_cotizacion,
