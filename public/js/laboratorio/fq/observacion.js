@@ -12,20 +12,20 @@ $(document).ready(function () {
     });
 
     $('#btnBuscar').click(function () {
-        console.log($("#tipoFormula").val());
-        getServicio($("#tipoFormula").val());
+        // console.log($("#tipoFormula").val());
+        getServicio();
     });
 });
 
 var folioSel = "";
-function getServicio(id) {
+function getServicio() { 
     let tabla = document.getElementById('solicitudGenerada');
     let tab = '';
     $.ajax({
         url: base_url + '/admin/laboratorio/fq/getObservacionanalisis', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
-            id: id,
+            id: $("#tipoFormula").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: 'json',
