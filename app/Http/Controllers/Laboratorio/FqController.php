@@ -72,35 +72,37 @@ class FqController extends Controller
         {
             $paramModel = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$item->Id_solicitud)->where('Id_tipo_formula',$request->id)->get();
             $sw = false;
-            foreach($paramModel as $item2)
-            {
-                $areaModel = DB::table('ViewTipoFormulaAreas')->where('Id_formula',$item2->Id_tipo_formula)->where('Id_area',5)->get();
-                if($areaModel->count())
-                {
-                    $sw = true;
-                }  
-            }
-            if($sw == true)
-            {
-                $model = DB::table('ViewObservacionMuestra')->where('Id_area',5)->where('Id_analisis',$item->Id_solicitud)->get();
-                if($model->count()){
-                }else{
-                    ObservacionMuestra::create([ 
-                        'Id_analisis' => $item->Id_solicitud,
-                        'Id_area' => 5,
-                        'Ph' => '',
-                        'Solido' => '',
-                        'Olor' => '',  
-                        'Color' => '',
-                        'Observacion' => '',     
-                    ]); 
-                }
-                $sw = false;
-            } 
+            // foreach($paramModel as $item2)
+            // {
+            //     $areaModel = DB::table('ViewTipoFormulaAreas')->where('Id_formula',$item2->Id_tipo_formula)->where('Id_area',5)->get();
+            //     if($areaModel->count())                
+            //     {
+            //         $sw = true;
+            //     }  
+            // }
+            // if($sw == true)
+            // {
+            //     $model = DB::table('ViewObservacionMuestra')->where('Id_area',5)->where('Id_analisis',$item->Id_solicitud)->get();
+            //     if($model->count()){
+            //     }else{
+            //         ObservacionMuestra::create([ 
+            //             'Id_analisis' => $item->Id_solicitud,
+            //             'Id_area' => 5,
+            //             'Ph' => '',
+            //             'Solido' => '',
+            //             'Olor' => '',  
+            //             'Color' => '',
+            //             'Observacion' => '',     
+            //         ]); 
+            //     }
+            //     $sw = false; 
+            // } 
         }
         $model = DB::table('ViewObservacionMuestra')->where('Id_area',5)->get();
 
         $data = array(
+            'paraModel' => $paramModel,
+            'sol' => $solicitudModel,
             'model' => $model,
         );
 
