@@ -36,9 +36,11 @@ $(document).ready(function () {
     $('#tipoDescarga').click(function () {
       dataNorma(); 
     });
+
     $('#estado').click(function () {
       getLocalidad(); 
     });
+
     $('#norma').click(function () {
       dataSubnorma();
     });
@@ -163,6 +165,11 @@ function aplicarTotal()
 }
 function getLocalidad()
 {
+
+    console.log("Dentro de getLocalidad");
+    console.log("ID Estado: " + $('#estado').val());
+
+
     let sub = document.getElementById('localidad');
     let tab = '';
     $.ajax({
@@ -177,16 +184,16 @@ function getLocalidad()
         success: function (response) {
             // console.log(response)
             // model = response;
-            $.each(response.model, function (key, item) {
-              if(sw == 1)
+            $.each(response.model, function (key, item) {              
+              if(sw == 1) //Si está actualizando el usuario
               {
-                // if(modelCot.Id_norma == item.Id_norma)
-                // {
-                //   tab += '<option value="'+item.Id_norma+'" selected>'+item.Clave_norma+'</option>';
-                // }else{
-                //   tab += '<option value="'+item.Id_norma+'">'+item.Clave_norma+'</option>';
-                // } 
-              }else{
+                /* if(model.Id_localidad == item.Id_localidad)
+                {
+                  tab += '<option value="'+item.Id_localidad+'" selected>'+item.Nombre+'</option>';
+                }else{ */
+                  tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>';
+                /* } */ 
+              }else{  //Si está creando el usuario
                 tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>';
               }
             });
@@ -363,26 +370,25 @@ function getDataMuestreo()
   tab += '    <tbody>';
   for (let i = 1; i < puntos.rows.length; i++) {
     if(sw == 1)
-    {
-      
-    puntosMuestro.push($("#"+puntos.rows[i].cells[1].children[0].id).val());
-    tab += '<tr>';
-    tab += '<td>'+i+'</td>';
-    tab += '<td>'+$("#"+puntos.rows[i].cells[1].children[0].id).val()+'</td>';
-    tab += '</tr>';
-
+    {      
+      puntosMuestro.push($("#"+puntos.rows[i].cells[1].children[0].id).val());
+      tab += '<tr>';
+      tab += '<td>'+i+'</td>';
+      tab += '<td>'+$("#"+puntos.rows[i].cells[1].children[0].id).val()+'</td>';
+      tab += '</tr>';
     }else{
-    puntosMuestro.push($("#"+puntos.rows[i].cells[1].children[1].id).val());
-    tab += '<tr>';
-    tab += '<td>'+i+'</td>';
-    tab += '<td>'+$("#"+puntos.rows[i].cells[1].children[1].id).val()+'</td>';
-    tab += '</tr>';
+      puntosMuestro.push($("#"+puntos.rows[i].cells[1].children[1].id).val());
+      tab += '<tr>';
+      tab += '<td>'+i+'</td>';
+      tab += '<td>'+$("#"+puntos.rows[i].cells[1].children[1].id).val()+'</td>';
+      tab += '</tr>';    
     }
   }
   tab += '    </tbody>';
   tab += '</table>';
-  table.innerHTML = tab;
+  table.innerHTML = tab;  
 }
+
 function getDataParametros()
 {
   let table = document.getElementById('parametros3');
@@ -542,7 +548,7 @@ function tablaParametros()
       success: function (response) {
         console.log(response.model)
         normaParametro = new Array();
-        tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agreagar', 'voyager-list-add', 'success','agregarParametros('+idSub.value+')' , 'botton') + '</div><br>';
+        tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agregar', 'voyager-list-add', 'success','agregarParametros('+idSub.value+')' , 'botton') + '</div><br>';
         tab += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
         tab += '    <thead class="thead-dark">';
         tab += '        <tr>';
@@ -585,7 +591,7 @@ function tablaParametrosCot()
       success: function (response) {
         console.log(response.model)
         normaParametro = new Array();
-        tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agreagar', 'voyager-list-add', 'success','agregarParametros('+idSub.value+')' , 'botton') + '</div><br>';
+        tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agregar', 'voyager-list-add', 'success','agregarParametros('+idSub.value+')' , 'botton') + '</div><br>';
         tab += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
         tab += '    <thead class="thead-dark">';
         tab += '        <tr>';
@@ -619,7 +625,7 @@ function updateNormaParametro()
   let param = document.getElementById('parametros');
   normaParametro = new Array();
 
-  tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agreagar', 'voyager-list-add', 'success','agregarParametros('+idSub.value+')' , 'botton') + '</div><br>';
+  tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agregar', 'voyager-list-add', 'success','agregarParametros('+idSub.value+')' , 'botton') + '</div><br>';
   tab += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
   tab += '    <thead class="thead-dark">';
   tab += '        <tr>';

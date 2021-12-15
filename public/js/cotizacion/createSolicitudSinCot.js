@@ -1,9 +1,7 @@
 var base_url = 'https://dev.sistemaacama.com.mx';
-var puntos = new Array();
 var model; 
 var swSol = $("#sw").val();;
-$(document).ready(function () {
-
+$(document).ready(function () {      
     $("#contacto").click(function(){
         console.log("Click en contacto");
 
@@ -28,21 +26,27 @@ $(document).ready(function () {
         dataSubnorma();
     });
 
+    $('#cotizacion-tab').click(function () {
+        getDatos2();
+        getPuntoMuestro();
+    });
+
     /* $('#clientes').click(function () {
         getSucursal();
     }); */
 
     $('#parametro-tab').click(function () {
         getDatos1();
-        tablaParametros();        
-        setPuntoMuestro();
+        tablaParametros();
         // if (swParametros == 0) {
         //     tablaParametros();
         // }
     });
-    $('#addRow').click(function () {
-       getPuntoMuestro();
+
+    $('#estado').click(function () {
+        getLocalidad(); 
     });
+    
     addColPunto();        
 
     
@@ -577,9 +581,9 @@ function getPuntoMuestro()
         inputSelect('puntoMuestreo','','Punto de muestreo',punto,puntoId),
     ];
     itemModal[1] = element;
-    newModal('divModal', 'setPuntoMuestro', 'Agregar punto muestreo', 'lg', 1, 1, 1, inputBtn('btnAddPunto','btnAddPunto', 'Guardar', 'save', 'success', 'btnAddPunto()'));    
+    //newModal('divModal', 'setPuntoMuestro', 'Agregar punto muestreo', 'lg', 1, 1, 1, inputBtn('btnAddPunto','btnAddPunto', 'Guardar', 'save', 'success', 'btnAddPunto()'));    
 }
-
+var puntos = new Array();
 function setPuntoMuestro()
 {
     puntos = new Array();
@@ -590,7 +594,6 @@ function setPuntoMuestro()
     $("#puntosSolicitud").val(puntos);
     $("#puntosSolicitud2").val(puntos);
 }
-
 function btnAddPunto()
 {
     var t = $('#puntoMuestro').DataTable();
@@ -600,9 +603,10 @@ function btnAddPunto()
             $("#puntoMuestreo").val(),
             $("#puntoMuestreo").text(),
           ] ).draw( false );
+
           setPuntoMuestro();
 }
-function addColPunto()
+/* function addColPunto()
 {
   var t = $('#puntoMuestro').DataTable();
 //   counterPunto = 0;
@@ -630,7 +634,43 @@ $('#delRow').click( function () {
     setPuntoMuestro()
 } );
 
+} */
+
+var counterPunto = 0;
+function addColPunto()
+{
+  var t = $('#puntoMuestro').DataTable();
+  counterPunto = 0;
+  if(swSol == true)
+  {
+    counterPunto = parseInt($("#contPunto").val());
+  }
+  $('#addRow').on( 'click', function () {
+      t.row.add( [
+        counterPunto + 1,
+        inputText('Punto de muestreo','punto'+counterPunto,'punto','',''),
+      ] ).draw( false );
+
+      counterPunto++;
+
+      setPuntoMuestro();
+  } );
+  $('#puntoMuestro tbody').on( 'click', 'tr', function () {
+    if ( $(this).hasClass('selected') ) {
+        $(this).removeClass('selected');
+    }
+    else {
+        t.$('tr.selected').removeClass('selected');
+        $(this).addClass('selected');
+    }
+   } );
+
+    $('#delRow').click( function () {
+        t.row('.selected').remove().draw( false );
+    } );
+
 }
+
 function getDireccionReporteSir()
 {   
     let siralab = document.getElementById("siralab");
@@ -679,4 +719,314 @@ function getDireccionReporteSir()
             direccion.innerHTML = tab;
         }
     });
+}
+
+var precioTotal = 0;
+var swUpdateParam = 0;
+function getDatos2()
+{
+  let suma = 0;
+  let iva = 0;
+  let sumaTotal = 0;
+    $.ajax({
+        url: base_url + '/admin/cotizacion/getDatos2', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            intermediario: $('#intermediario').val(),
+            idSub:$('#subnorma').val(),
+            idParametros:normaParametro,
+            idServicio:$('#tipoServicio').val(),
+            idDescarga:$('#tipoDescarga').val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            console.log(response)
+            $('#textInter').val(response.intermediarios.Nombres +' '+response.intermediarios.A_paterno);
+            //$('#textEstado').val("Cotización");
+            $('#textServicio').val(response.servicio.Servicio);
+            $('#textDescarga').val(response.descarga.Descarga);
+
+            //Obtiene el texto del select de Contacto cliente
+            let cliente = document.getElementById("clientes");
+            let selected = cliente.options[cliente.selectedIndex].text;
+            $('#textCliente').val(selected);
+
+            $('#textAtencion').val($('#atencion').val());
+            
+            //Obtiene el texto del select de Contacto cliente
+            let direccion = document.getElementById("direccionReporte");
+            let selectedDir = direccion.options[direccion.selectedIndex].text;
+            $('#textDireccion').val(selectedDir);            
+            
+            $('#textTelefono').val($('#telCont2').val());
+            $('#textEmail').val($('#emailCont2').val());
+
+            $('#textNorma').val(response.subnorma.Clave);
+            
+            let tipoMuestra = document.getElementById("tipoMuestra");
+            let selectedMuestra = tipoMuestra.options[tipoMuestra.selectedIndex].text;
+
+            $('#textMuestreo').val(selectedMuestra);
+            $('#textTomas').val($('#numTomas').val());
+            $('#tomasMuestreo').val($('#numTomas').val());
+            $('#fechaMuestreoCot').val($('#fechaMuestreo').val());            
+
+            if($("#tipoServicio").val() == 1 || $("#tipoServicio").val() == 2)
+            {
+              $("#divMuestreo").css("display", "block");
+              $("#divMuestreo2").css("display", "block");
+            }else{
+              $("#divMuestreo").css("display", "none");
+              $("#divMuestreo2").css("display", "none");
+            }
+
+            getDataParametros();
+            getDataMuestreo();
+
+            $("#parametrosSolicitud").val(normaParametro);
+            $("#puntosSolicitud").val(puntosMuestro);
+            precioAnalisis = response.precioTotal;
+            if(swSol != true)
+            {
+              $("#precioAnalisis").val(precioAnalisis.toFixed());
+              suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed());
+              iva = (suma * 16) / 100;
+              sumaTotal = (suma + iva);
+              $('#subTotal').val(suma);
+              $('#precioTotal').val(sumaTotal.toFixed());
+            }
+            if(swUpdateParam == 1)
+            {
+              $("#precioAnalisis").val(precioAnalisis.toFixed());
+              suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed());
+              iva = (suma * 16) / 100;
+              sumaTotal = (suma + iva);
+              $('#subTotal').val(suma);
+              $('#precioTotal').val(sumaTotal.toFixed());
+              $('#descuento').val(0);
+            }
+
+        }
+    });    
+}
+
+var puntosMuestro = new Array();
+function getDataMuestreo()
+{
+  let puntos = document.getElementById('puntoMuestro');
+  let table = document.getElementById('puntoMuestreo3');
+  let tab = '';
+  puntosMuestro = new Array();
+  
+  tab += '<table id="tablaPuntoMuestreo3" class="table table-sm  table-striped table-bordered">';
+  tab += '    <thead class="thead-dark">';
+  tab += '        <tr>';
+  tab += '            <th style="width: 5%;">#</th>';
+  tab += '            <th style="width: 30%;">Descripción</th>';
+  tab += '        </tr>'; 
+  tab += '    </thead>';
+  tab += '    <tbody>';
+
+  for (let i = 1; i < puntos.rows.length; i++) {
+    if(swSol == true)//Se actualiza
+    {      
+        puntosMuestro.push($("#"+puntos.rows[i].cells[1].children[0].id).val());
+        console.log("Arreglo en if: " + puntosMuestro);
+
+        tab += '<tr>';
+        tab += '<td>'+i+'</td>';
+        tab += '<td>'+$("#"+puntos.row+s[i].cells[1].children[0].id).val()+'</td>';
+        tab += '</tr>';
+    }else{//Se crea por 1era vez
+        puntosMuestro.push($("#"+puntos.rows[i].cells[1].children[1].id).val());
+        console.log("Arreglo en else: " + puntosMuestro);
+
+        tab += '<tr>';
+        tab += '<td>'+i+'</td>';
+        tab += '<td>'+$("#"+puntos.rows[i].cells[1].children[1].id).val()+'</td>';
+        tab += '</tr>';
+    }
+  }
+  tab += '    </tbody>';
+  tab += '</table>';
+  table.innerHTML = tab;
+}
+function getDataParametros()
+{
+  let table = document.getElementById('parametros3');
+
+  let tab = '';
+  let param = document.getElementById('tablaParametro');
+  normaParametro = new Array();
+
+  tab += '<table id="tablaParametros" class="table table-sm  table-striped table-bordered">';
+  tab += '    <thead class="thead-dark">';
+  tab += '        <tr>';
+  tab += '            <th style="width: 5%;">Id</th>';
+  tab += '            <th style="width: 30%;">Parametro</th>';
+  tab += '            <th>Matriz</th>';
+  tab += '        </tr>'; 
+  tab += '    </thead>';
+  tab += '    <tbody>';
+  for (let i = 1; i < param.rows.length; i++) {
+      normaParametro.push(param.rows[i].cells[0].textContent);
+      tab += '<tr>';
+      tab += '<td>'+param.rows[i].cells[0].textContent+'</td>';
+      tab += '<td>'+param.rows[i].cells[1].textContent+'</sup></td>';
+      tab += '<td>'+param.rows[i].cells[2].textContent+'</td>';
+      tab += '</tr>';
+  }
+  tab += '    </tbody>';
+  tab += '</table>';
+  table.innerHTML = tab;
+
+  $('#listaParametros').modal('hide');
+}
+
+function getLocalidad()
+{
+    let sub = document.getElementById('localidad');
+    let tab = '';
+    $.ajax({
+        url: base_url + '/admin/cotizacion/getLocalidad', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          idLocalidad: $('#estado').val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            // console.log(response)
+            // model = response;
+            $.each(response.model, function (key, item) {
+              if(sw == 1)
+              {
+                // if(modelCot.Id_norma == item.Id_norma)
+                // {
+                //   tab += '<option value="'+item.Id_norma+'" selected>'+item.Clave_norma+'</option>';
+                // }else{
+                //   tab += '<option value="'+item.Id_norma+'">'+item.Clave_norma+'</option>';
+                // } 
+              }else{
+                tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>';
+              }
+            });
+            sub.innerHTML = tab;
+        }
+    });
+    if(sw == true)
+    {
+      dataSubnorma();
+    }
+}
+
+function cantGasolinaTeorico() 
+{
+  let km = document.getElementById('km')
+  // console.log(km.value);
+ if(km.value != '' && $('#kmExtra').val() != '')
+ {
+   $.ajax({
+    url: base_url + '/admin/cotizacion/cantidadGasolina', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      kmExtra: $('#kmExtra').val(),
+      km: $('#km').val(),
+        _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json',
+    async: false,
+    success: function (response) {
+        console.log(response)
+        $("#gasolinaTeorico").val(response.total);
+    }
+  });
+ }
+}
+
+var totalMuestreo = 0;
+function precioCampo()
+{
+
+  let suma = 0;
+  let sumatotal = 0;
+  let iva = 0;
+  $.ajax({
+    url: base_url + '/admin/cotizacion/precioMuestreo', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      tomasMuestreo: $('#tomasMuestreo').val(),
+      diasHospedaje: $('#diasHospedaje').val(),
+      hospedaje: $('#hospedaje').val(),
+      diasMuestreo: $('#diasMuestreo').val(),
+      numeroMuestreo: $('#numeroMuestreo').val(),
+      caseta: $('#caseta').val(),
+      kmExtra: $('#kmExtra').val(),
+      km: $('#km').val(),
+      cantidadGasolina: $('#cantidadGasolina').val(),
+      paqueteria: $('#paqueteria').val(),
+      gastosExtras: $('#gastosExtras').val(),
+      numeroServicio: $('#numeroServicio').val(),
+      numMuestreador: $('#numMuestreador').val(),
+      
+        _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json',
+    async: false,
+    success: function (response) {
+        console.log(response)
+        totalMuestreo = response.total;
+
+        $("#totalMuestreo").val(totalMuestreo.toFixed());
+        $("#precioMuestra").val(totalMuestreo.toFixed());
+        suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed());
+        iva = (suma * 16) / 100;
+        $('#subTotal').val(suma);
+        sumatotal = suma + iva;
+        $('#precioTotal').val(suma.toFixed());
+    }
+});
+}
+
+var swDescuento = 0;
+function btnDescuento()
+{
+  if(swDescuento != 0)
+  {
+    $("#activarDescuento").css("display", "none");
+    swDescuento = 0;
+  }else{
+    $("#activarDescuento").css("display", "");
+    $("#descuento").val(0);
+    swDescuento = 1;
+  }
+}
+
+var swAplicarDescuento = 0;
+function aplicarTotal()
+{
+  if(swAplicarDescuento == 0)
+  {
+    // console.log("Funcion: aplicar total");
+  let total = 0;
+  let descuento =  0;
+  let iva = 0;
+  let sumaTotal = 0;
+  let analisis = parseFloat($("#precioAnalisis").val());
+
+  descuento = (analisis * parseFloat($("#descuento").val())) / 100;
+  descuentoAnalisis = (analisis - descuento);
+  total = parseFloat($("#precioMuestra").val()) + descuentoAnalisis;
+  iva = (total * 16) / 100;
+  sumaTotal = (total + iva);
+
+  $("#precioAnalisis").val(descuentoAnalisis.toFixed());
+  $("#subTotal").val(total.toFixed());
+  $("#precioTotal").val(sumaTotal.toFixed());
+  }else{
+    alert("Solo se puede aplicar una vez el descuento");
+  }
 }
