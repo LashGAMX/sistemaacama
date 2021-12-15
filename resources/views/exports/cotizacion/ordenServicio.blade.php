@@ -40,6 +40,7 @@
                     <tr>
                         <td style="width: 25%">Teléfono</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
+                            {{$cotizacion->Telefono}}
                         </td>
                     </tr>
                     <tr>

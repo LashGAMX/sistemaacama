@@ -42,7 +42,7 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::get('create/{idCot}',[SolicitudController::class,'create']);
 
     Route::get('createSinCot', [SolicitudController::class, 'createSinCot']);
-
+    Route::post('getDatos2', [SolicitudController::class, 'getDatos2']);
 
     Route::post('getSucursal',[SolicitudController::class,'getSucursal']);
     Route::post('getDatoIntermediario',[SolicitudController::class,'getDatoIntermediario']);

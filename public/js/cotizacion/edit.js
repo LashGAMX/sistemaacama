@@ -27,6 +27,10 @@ $(document).ready(function () {
         dataTomas();
     });
 
+    $('#estado').click(function () {
+        getLocalidad(); 
+      });
+
     addColPunto();
 });
 var norma;
@@ -290,7 +294,7 @@ function tablaParametros() {
         success: function (response) {
             console.log(response.model)
             normaParametro = new Array();
-            tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agreagar', 'voyager-list-add', 'success', 'agregarParametros(' + idSub.value + ')', 'botton') + '</div><br>';
+            tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agregar', 'voyager-list-add', 'success', 'agregarParametros(' + idSub.value + ')', 'botton') + '</div><br>';
             tab += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
@@ -324,7 +328,7 @@ function updateNormaParametro() {
     let param = document.getElementById('parametros');
     normaParametro = new Array();
 
-    tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agreagar', 'voyager-list-add', 'success', 'agregarParametros(' + idSub.value + ')', 'botton') + '</div><br>';
+    tab += '<div class="row justify-content-end">' + inputBtn('', '', 'Agregar', 'voyager-list-add', 'success', 'agregarParametros(' + idSub.value + ')', 'botton') + '</div><br>';
     tab += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
     tab += '    <thead class="thead-dark">';
     tab += '        <tr>';
@@ -499,4 +503,46 @@ function actualizarCotizacion() {
             console.log(response);
         }
     });
+}
+
+function getLocalidad()
+{
+    let sub = document.getElementById('localidad');
+    let tab = '';
+
+    let idLocal = $('#estado').val();
+    console.log("ID local: " + idLocal);
+
+    $.ajax({
+        url: base_url + '/admin/cotizacion/getLocalidad', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          idLocalidad: $('#estado').val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            // console.log(response)
+            // model = response;
+            $.each(response.model, function (key, item) {
+              if(sw == 1)
+              {
+                // if(modelCot.Id_norma == item.Id_norma)
+                // {
+                //   tab += '<option value="'+item.Id_norma+'" selected>'+item.Clave_norma+'</option>';
+                // }else{
+                //   tab += '<option value="'+item.Id_norma+'">'+item.Clave_norma+'</option>';
+                // } 
+              }else{
+                tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>';
+              }
+            });
+            sub.innerHTML = tab;
+        }
+    });
+    if(sw == 1)
+    {
+      dataSubnorma();
+    }
 }

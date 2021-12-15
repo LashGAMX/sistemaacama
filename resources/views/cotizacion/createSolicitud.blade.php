@@ -78,7 +78,7 @@
                   </select>
 
                 @else --}}
-                  <select name="clientes" id="clientes" class="form-control {{-- select2 --}}" onchange="getSucursal()">
+                  <select name="clientes" id="clientes" class="form-control {{-- select2 --}}" onclick="getSucursal()">
                     {{-- <option value="0">Sin seleccionar</option> --}}
                     @foreach ($cliente as $item)
                     @if (@$model->Id_cliente == $item->Id_cliente)
@@ -274,7 +274,7 @@
               </div>
               <div class="col-md-4">
                 <label for="numTomas">Número de tomas</label>
-                <input type="text" id="numTomas" name="numTomas" class="form-control" value="{{$model->Tomas}}" disabled>
+                <input type="text" id="numTomas" class="form-control" value="{{$model->Tomas}}" disabled>                
               </div>
 
             </div>
@@ -390,6 +390,7 @@
         <input type="text" class="form-control" hidden id="idCotizacion" name="idCotizacion" value="{{$idCot}}">
         <input type="text" class="form-control" hidden id="parametrosSolicitud" name="parametrosSolicitud" >
         <input type="text" class="form-control" hidden id="puntosSolicitud" name="puntosSolicitud" >
+        <input type="text" class="form-control" hidden id="numTomas2" name="numTomas" value="{{$model->Tomas}}">
       </div>
 
         {{-- Fin parametros --}}
