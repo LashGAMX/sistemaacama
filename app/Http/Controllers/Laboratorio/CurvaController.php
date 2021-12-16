@@ -114,15 +114,15 @@ class CurvaController extends Controller
     }
     public function setConstantes(Request $request){ 
         $lote = CurvaConstantes::where('Id_lote', $request->idLote)->get();
-        //$fecha_inicio = date('d-m-Y'); 
+    
 
         if($lote->count()){
-            $const = CurvaConstantes::find($request->idLote);
+            $const = CurvaConstantes::find($lote->Id_lote);
             $const->Id_lote = $request->idLote;
             $const->B = $request->b;
             $cosnt->M = $request->m;
             $const->R = $request->r;
-           // $const->Fecha_inicio =  $fecha_inicio;
+            //$const->Fecha_inicio = $request->fecha;
             $const = save(); 
         }else{
             $model = CurvaConstantes::create([
@@ -130,7 +130,7 @@ class CurvaController extends Controller
                 'B' => $request->b,
                 'M' => $request->m,
                 'R' => $request->r,
-                //'Fecha_inicio' => $fecha_inicio,
+                'Fecha_inicio' => $request->fecha,
             ]);
         }
 

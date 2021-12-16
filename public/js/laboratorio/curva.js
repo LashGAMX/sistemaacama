@@ -30,6 +30,7 @@ $(document).ready(function (){
     $("#buscar").click(function(){
         buscar();
         
+        
     });
     $('#calcular').click(function(){
         // promedio();
@@ -57,12 +58,16 @@ $(document).ready(function (){
 
 function setConstantes()
 {
-    
+    const fecha = new Date();
+    fecha = fecha.toLocaleDateString();
+    console.log(fecha);
+
     $.ajax({
         url: base_url + '/admin/laboratorio/setConstantes', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
           idLote:$("#idLote").val(),
+          fecha:fecha,
           b:$("#b").val(),
           m:$("#m").val(),
           r:$("#r").val(),
