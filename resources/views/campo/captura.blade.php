@@ -545,7 +545,7 @@
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                                             <tr>
-                                                <td>{{ $i + 1 }}</td>
+                                                <td> <button type="button" class="btn btn-outline-dark muestraCancel"> <i class="fas fa-times-circle"></i> </button> {{ $i + 1 }}</td>
                                                 <td>
                                                     <select id="materia{{ $i }}">
                                                         <option value="0">Sin seleccionar</option>
@@ -587,7 +587,7 @@
                             </div>
 
                             <div class="col-md-12">
-                                <p>Temperatura del agua</p>
+                                <p>Temperatura del agua </p>
                                 <table class="table" id="tempAgua">
                                     <thead>
                                         <tr>
@@ -599,32 +599,60 @@
                                             <th>Temperatura 3 (°C)</th>
                                             <th>Factor de corrección aplicado</th>
                                             <th>Temperatura Promedio (°C)</th>
+                                            <th>Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
-                                            <tr>
-                                                <td>{{ $i + 1 }}</td>
+                                            <tr id="filaTemp{{$i}}">
+                                                <td>
+                                                    <span id="cancelTemp{{$i}}">
+                                                        <button type="button" class="btn btn-outline-dark muestraCancel" id="phTempDel{{$i}}" 
+                                                        onclick="cancelarNumMuestra('filaTemp{{$i}}', 'tempStatus1{{$i + 1}}', 'opcionTempAgua')"   > 
+                                                            <i class="fas fa-times-circle"></i> 
+                                                        </button>
+                                                    </span>  
+                                                    
+                                                    <span id="revertTemp{{$i}}" hidden>
+                                                        <button type="button" 
+                                                            class="btn btn-outline-dark muestraCancel" onclick="revertirMuestra('opcionTempAgua', 'filaTemp{{$i}}');">
+                                                            <i class="fas fa-check-circle"></i> 
+                                                        </button>
+                                                    </span>
+                                                    
+                                                    {{$i + 1}}
+                                                
+                                                </td>                                                                                                
+                                                
                                                 <td><input type="number" id="temp1{{ $i }}"
                                                         onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
+                                                
                                                 <td>
                                                     <p id="factorTemp1{{ $i }}"></p>
                                                 </td>
+                                                
                                                 <td><input type="number" id="temp2{{ $i }}"
                                                         onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
+                                                
                                                 <td>
                                                     <p id="factorTemp2{{ $i }}"></p>
                                                 </td>
+                                                
                                                 <td><input type="number" id="temp3{{ $i }}"
                                                         onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
+                                                
                                                 <td>
                                                     <p id="factorTemp3{{ $i }}"></p>
                                                 </td>
+                                                
                                                 <td><p id="tempprom1{{ $i }}"></p></td>
+                                                
                                                 <td><input type="text" id="tempprom{{ $i }}" hidden></td>
+                                                
+                                                <td><input type="text" id="tempStatus1{{$i + 1}}" disabled></td>
                                             </tr>
                                         @endfor
                                     </tbody>
@@ -643,13 +671,29 @@
                                             <th>Lectura 3</th>
                                             <th>Estado</th>
                                             <th>Promedio</th>
+                                            <th>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
-                                            <tr>
+                                            <tr id="filaPhConCal{{$i}}">
                                                 <td>
+                                                    <span id="cancelPh{{$i}}">
+                                                        <button type="button" class="btn btn-outline-dark muestraCancel" id="phCalDel{{$i}}" 
+                                                        onclick="cancelarNumMuestra('filaPhConCal{{$i}}', 'phCMStatus1{{$i + 1}}', 'opcionPhConCal')"   > 
+                                                            <i class="fas fa-times-circle"></i> 
+                                                        </button>
+                                                    </span>  
+                                                    
+                                                    <span id="revertPh{{$i}}" hidden>
+                                                        <button type="button" 
+                                                            class="btn btn-outline-dark muestraCancel" onclick="revertirMuestra('opcionPhConCal', 'filaPhConCal{{$i}}');">
+                                                            <i class="fas fa-check-circle"></i> 
+                                                        </button>
+                                                    </span>
+                                                    
                                                     {{$i + 1}}
+                                                
                                                 </td>
 
                                                 <td>                                            
@@ -679,6 +723,7 @@
                                                 </td>
                                                 <td><input type="text" id="phCMPromedio1{{$i + 1}}" disabled>
                                                 </td>
+                                                <td><input type="text" id="phCMStatus1{{$i + 1}}" disabled></td>
                                             </tr>
                                         @endfor
                                     </tbody>
@@ -695,12 +740,32 @@
                                             <th>Conductividad 2 (µS)</th>
                                             <th>Conductividad 3 (µS)</th>
                                             <th>Conductividad Promedio (µS)</th>
+                                            <th>Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
-                                            <tr>
-                                                <td>{{ $i + 1 }}</td>
+                                            <tr id="filaCond{{$i}}">
+                                                
+                                                <td>
+                                                    <span id="cancelCond{{$i}}">
+                                                        <button type="button" class="btn btn-outline-dark muestraCancel" id="condDel{{$i}}" 
+                                                        onclick="cancelarNumMuestra('filaCond{{$i}}', 'condStatus1{{$i + 1}}', 'opcionCond')"   > 
+                                                            <i class="fas fa-times-circle"></i> 
+                                                        </button>
+                                                    </span>  
+                                                    
+                                                    <span id="revertCond{{$i}}" hidden>
+                                                        <button type="button" 
+                                                            class="btn btn-outline-dark muestraCancel" onclick="revertirMuestra('opcionCond', 'filaCond{{$i}}');">
+                                                            <i class="fas fa-check-circle"></i> 
+                                                        </button>
+                                                    </span>
+                                                    
+                                                    {{$i + 1}}
+                                                
+                                                </td>
+                                                                                                
                                                 <td><input type="text" id="con1{{ $i }}"
                                                         onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
@@ -711,6 +776,7 @@
                                                         onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td><p id="conprom1{{ $i }}"></p></td>
+                                                <td><input type="text" id="condStatus1{{$i + 1}}" disabled></td>
                                                 <td><input type="text" id="conprom{{ $i }}" hidden></td>
                                             </tr>
                                         @endfor
@@ -728,12 +794,32 @@
                                             <th>Gasto 2 (L/s)</th>
                                             <th>Gasto 3 (L/s)</th>
                                             <th>Gasto Promedio (L/s)</th>
+                                            <th>Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
-                                            <tr>
-                                                <td>{{ $i + 1 }}</td>
+                                            <tr id="filaGasto{{$i}}">
+                                                
+                                                <td>
+                                                    <span id="cancelGasto{{$i}}">
+                                                        <button type="button" class="btn btn-outline-dark muestraCancel" id="GastoDel{{$i}}" 
+                                                        onclick="cancelarNumMuestra('filaGasto{{$i}}', 'gastoStatus1{{$i + 1}}', 'opcionGasto')"   > 
+                                                            <i class="fas fa-times-circle"></i> 
+                                                        </button>
+                                                    </span>  
+                                                    
+                                                    <span id="revertGasto{{$i}}" hidden>
+                                                        <button type="button" 
+                                                            class="btn btn-outline-dark muestraCancel" onclick="revertirMuestra('opcionGasto', 'filaGasto{{$i}}');">
+                                                            <i class="fas fa-check-circle"></i> 
+                                                        </button>
+                                                    </span>
+                                                    
+                                                    {{$i + 1}}
+                                                
+                                                </td>
+
                                                 <td><input type="text" id="gas1{{ $i }}"
                                                         onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
@@ -744,6 +830,7 @@
                                                         onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td><p id="gasprom1{{ $i }}"></p></td>
+                                                <td><input type="text" id="gastoStatus1{{$i + 1}}" disabled></td>
                                                 <td><input type="text" id="gasprom{{ $i }}" hidden></td>
                                             </tr>
                                         @endfor
@@ -939,6 +1026,9 @@
 
 @endsection
 
+@section('css')
+    <link rel="stylesheet" href="{{ asset('css/campo/captura.css')}}">
+@endsection
 
 @section('javascript')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
