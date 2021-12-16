@@ -21,8 +21,9 @@ class PhCalidadCampo extends Model
         'Lectura1',
         'Lectura2',
         'Lectura3',
-        'Estado',
+        'Estado',        
         'Promedio',
+        'Status',
         'Id_user_c',
         'Id_user_m'
     ];

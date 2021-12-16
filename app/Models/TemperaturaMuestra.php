@@ -19,6 +19,7 @@ class TemperaturaMuestra extends Model
         'Temperatura2',
         'Temperatura3',
         'Promedio',
+        'Estado',
         'Id_user_c',
         'Id_user_m'
     ];
