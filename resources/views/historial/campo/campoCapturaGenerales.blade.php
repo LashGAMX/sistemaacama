@@ -82,7 +82,7 @@
                 </a>
             </div>
 
-            <div class="col-md-3">
+            {{-- <div class="col-md-3">
                 <a href="{{route('voyager.hist-campocaptseganalisis.index')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/maths.jpg');">
@@ -93,7 +93,7 @@
                         </div>
                     </div>
                 </a>
-            </div>
+            </div> --}}
 
         </div>
 

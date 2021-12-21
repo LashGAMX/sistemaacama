@@ -2967,14 +2967,16 @@ function setDataMuestreo() {
     //PH muestra
     for (let i = 0; i < $("#numTomas").val(); i++) {
         row = new Array();
-        row.push($("#materia" + i).val());
-        row.push($("#olor" + i).val());
-        row.push($("#color" + i).val());
+        row.push($("#materia" + i + " option:selected").text());
+        row.push($("#olor" + i + " option:selected").text());
+        row.push($("#color" + i + " option:selected").text());
         row.push($("#phl1" + i).val());
         row.push($("#phl2" + i).val());
         row.push($("#phl3" + i).val());
         row.push($("#phprom" + i).val());
         row.push($("#phf" + i).val());
+        row.push($("#phStatus1" + i).val());
+        row.push($("#numTomas").val());
         ph.push(row);
     }
 
@@ -2984,7 +2986,8 @@ function setDataMuestreo() {
         row.push($("#temp1" + i).val());
         row.push($("#temp2" + i).val());
         row.push($("#temp3" + i).val());
-        row.push($("#tempprom" + i).val());        
+        row.push($("#tempprom" + i).val());
+        row.push($("#tempStatus1" + (i+1)).val());
         temperatura.push(row);
     }
 
@@ -2997,15 +3000,9 @@ function setDataMuestreo() {
         row.push($("#phCM3" + (i+1)).val());
         row.push($("#phCMEstado1" + (i+1)).val());
         row.push($("#phCMPromedio1" + (i+1)).val());
+        row.push($("#phCMStatus1" + (i+1)).val());
         phCalidad.push(row);
-    }
-
-    //Ph calidad
-    /* for (let i = 0; i < $("#numTomas").val(); i++) {
-        row = new Array();
-        row.push($("#phCalidad1" + i).val());        
-        phCalidad.push(row);
-    } */
+    }    
 
     //Conductividad muestra
     for (let i = 0; i < $("#numTomas").val(); i++) {
@@ -3013,7 +3010,8 @@ function setDataMuestreo() {
         row.push($("#con1" + i).val());
         row.push($("#con2" + i).val());
         row.push($("#con3" + i).val());
-        row.push($("#conprom" + i).val());        
+        row.push($("#conprom" + i).val()); 
+        row.push($("#condStatus1" + (i+1)).val());       
         conductividad.push(row);
     }
 
@@ -3024,6 +3022,7 @@ function setDataMuestreo() {
         row.push($("#gas2" + i).val());
         row.push($("#gas3" + i).val());
         row.push($("#gasprom" + i).val());
+        row.push($("#gastoStatus1" + (i+1)).val());
         gasto.push(row);
     }
 
@@ -3053,9 +3052,7 @@ function setDataMuestreo() {
 "temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","tempprom{{ $i }}"
 
 function cancelarNumMuestra(fila, status, muestreo){
-    //INPUT de estado hidden;
-    let estado = document.getElementById(status);
-    estado.value = "CANCELADO";    
+    let resultado = window.confirm("¿Realmente desea cancelar este núm. muestra?");
 
     /*
     ELIMINA LA FILA
@@ -3065,337 +3062,505 @@ function cancelarNumMuestra(fila, status, muestreo){
 
     console.log("Valor de fila: " + fila);
 
-    if(muestreo == 'opcionTempAgua'){   //Temperatura del agua
-        //$("#"+fila).hide();                
+    if(resultado === true){           
+        let estado = document.getElementById(status);
+        estado.value = "CANCELADO";    
         
-        if(fila == 'filaTemp0'){
-            $("#temp10").attr("disabled", true);
-            $("#temp20").attr("disabled", true);
-            $("#temp30").attr("disabled", true);
-            $("#cancelTemp0").attr("hidden", true);
-            $("#revertTemp0").attr("hidden", false);
-        }else if(fila == 'filaTemp1'){
-            $("#temp11").attr("disabled", true);
-            $("#temp21").attr("disabled", true);
-            $("#temp31").attr("disabled", true);
-            $("#cancelTemp1").attr("hidden", true);
-            $("#revertTemp1").attr("hidden", false);
-        }else if(fila == 'filaTemp2'){
-            $("#temp12").attr("disabled", true);
-            $("#temp22").attr("disabled", true);
-            $("#temp32").attr("disabled", true);
-            $("#cancelTemp2").attr("hidden", true);
-            $("#revertTemp2").attr("hidden", false);
-        }else if(fila == 'filaTemp3'){
-            $("#temp13").attr("disabled", true);
-            $("#temp23").attr("disabled", true);
-            $("#temp33").attr("disabled", true);
-            $("#cancelTemp3").attr("hidden", true);
-            $("#revertTemp3").attr("hidden", false);
-        }else if(fila == 'filaTemp4'){
-            $("#temp14").attr("disabled", true);
-            $("#temp24").attr("disabled", true);
-            $("#temp34").attr("disabled", true);
-            $("#cancelTemp4").attr("hidden", true);
-            $("#revertTemp4").attr("hidden", false);
-        }else if(fila == 'filaTemp5'){
-            $("#temp15").attr("disabled", true);
-            $("#temp25").attr("disabled", true);
-            $("#temp35").attr("disabled", true);
-            $("#cancelTemp5").attr("hidden", true);
-            $("#revertTemp5").attr("hidden", false);
-        }
-        
-    }else if(muestreo == 'opcionPhConCal'){     //PH control calidad    
-        //$("#"+fila).hide();        
-
-        if(fila == 'filaPhConCal0'){
-            $("#phControlCalidadMuestra1").attr("disabled", true);
-            $("#phCM11").attr("disabled", true);
-            $("#phCM21").attr("disabled", true);
-            $("#phCM31").attr("disabled", true);
-            $("#cancelPh0").attr("hidden", true);
-            $("#revertPh0").attr("hidden", false);            
-        }else if(fila == 'filaPhConCal1'){
-            $("#phControlCalidadMuestra2").attr("disabled", true);
-            $("#phCM12").attr("disabled", true);
-            $("#phCM22").attr("disabled", true);
-            $("#phCM32").attr("disabled", true);
-            $("#cancelPh1").attr("hidden", true);
-            $("#revertPh1").attr("hidden", false);
-        }else if(fila == 'filaPhConCal2'){
-            $("#phControlCalidadMuestra3").attr("disabled", true);
-            $("#phCM13").attr("disabled", true);
-            $("#phCM23").attr("disabled", true);
-            $("#phCM33").attr("disabled", true);
-            $("#cancelPh2").attr("hidden", true);
-            $("#revertPh2").attr("hidden", false);
-        }else if(fila == 'filaPhConCal3'){
-            $("#phControlCalidadMuestra4").attr("disabled", true);
-            $("#phCM14").attr("disabled", true);
-            $("#phCM24").attr("disabled", true);
-            $("#phCM34").attr("disabled", true);
-            $("#cancelPh3").attr("hidden", true);
-            $("#revertPh3").attr("hidden", false);
-        }else if(fila == 'filaPhConCal4'){
-            $("#phControlCalidadMuestra5").attr("disabled", true);
-            $("#phCM15").attr("disabled", true);
-            $("#phCM25").attr("disabled", true);
-            $("#phCM35").attr("disabled", true);
-            $("#cancelPh4").attr("hidden", true);
-            $("#revertPh4").attr("hidden", false);
-        }else if(fila == 'filaPhConCal5'){
-            $("#phControlCalidadMuestra6").attr("disabled", true);
-            $("#phCM16").attr("disabled", true);
-            $("#phCM26").attr("disabled", true);
-            $("#phCM36").attr("disabled", true);
-            $("#cancelPh5").attr("hidden", true);
-            $("#revertPh5").attr("hidden", false);
-        }
-    }else if(muestreo == 'opcionCond'){
-        if(fila == 'filaCond0'){
-            $("#con10").attr("disabled", true);
-            $("#con20").attr("disabled", true);
-            $("#con30").attr("disabled", true);
-            $("#cancelCond0").attr("hidden", true);
-            $("#revertCond0").attr("hidden", false);
-        }else if(fila == 'filaCond1'){
-            $("#con11").attr("disabled", true);
-            $("#con21").attr("disabled", true);
-            $("#con31").attr("disabled", true);
-            $("#cancelCond1").attr("hidden", true);
-            $("#revertCond1").attr("hidden", false);
-        }else if(fila == 'filaCond2'){
-            $("#con12").attr("disabled", true);
-            $("#con22").attr("disabled", true);
-            $("#con32").attr("disabled", true);
-            $("#cancelCond2").attr("hidden", true);
-            $("#revertCond2").attr("hidden", false);            
-        }else if(fila == 'filaCond3'){
-            $("#con13").attr("disabled", true);
-            $("#con23").attr("disabled", true);
-            $("#con33").attr("disabled", true);
-            $("#cancelCond3").attr("hidden", true);
-            $("#revertCond3").attr("hidden", false);
-        }else if(fila == 'filaCond4'){
-            $("#con14").attr("disabled", true);
-            $("#con24").attr("disabled", true);
-            $("#con34").attr("disabled", true);
-            $("#cancelCond4").attr("hidden", true);
-            $("#revertCond4").attr("hidden", false);
-        }else if(fila == 'filaCond5'){
-            $("#con15").attr("disabled", true);
-            $("#con25").attr("disabled", true);
-            $("#con35").attr("disabled", true);
-            $("#cancelCond5").attr("hidden", true);
-            $("#revertCond5").attr("hidden", false);
-        }
-    }else if(muestreo = 'opcionGasto'){
-        if(fila == 'filaGasto0'){
-            $("#gas10").attr("disabled", true);
-            $("#gas20").attr("disabled", true);
-            $("#gas30").attr("disabled", true);
-            $("#cancelGasto0").attr("hidden", true);
-            $("#revertGasto0").attr("hidden", false);
-        }else if(fila == 'filaGasto1'){
-            $("#gas11").attr("disabled", true);
-            $("#gas21").attr("disabled", true);
-            $("#gas31").attr("disabled", true);
-            $("#cancelGasto1").attr("hidden", true);
-            $("#revertGasto1").attr("hidden", false);
-        }else if(fila == 'filaGasto2'){
-            $("#gas12").attr("disabled", true);
-            $("#gas22").attr("disabled", true);
-            $("#gas32").attr("disabled", true);
-            $("#cancelGasto2").attr("hidden", true);
-            $("#revertGasto2").attr("hidden", false);
-        }else if(fila == 'filaGasto3'){
-            $("#gas13").attr("disabled", true);
-            $("#gas23").attr("disabled", true);
-            $("#gas33").attr("disabled", true);
-            $("#cancelGasto3").attr("hidden", true);
-            $("#revertGasto3").attr("hidden", false);
-        }else if(fila == 'filaGasto4'){
-            $("#gas14").attr("disabled", true);
-            $("#gas24").attr("disabled", true);
-            $("#gas34").attr("disabled", true);
-            $("#cancelGasto4").attr("hidden", true);
-            $("#revertGasto4").attr("hidden", false);
-        }else if(fila == 'filaGasto5'){
-            $("#gas15").attr("disabled", true);
-            $("#gas25").attr("disabled", true);
-            $("#gas35").attr("disabled", true);
-            $("#cancelGasto5").attr("hidden", true);
-            $("#revertGasto5").attr("hidden", false);
+        if(muestreo == 'opcionPh'){
+            if(fila == 'filaPh0'){
+                $("#materia0").attr("disabled", true).val(null);
+                $("#olor0").attr("disabled", true).val(null);
+                $("#color0").attr("disabled", true).val(null);
+                $("#phl10").attr("disabled", true).val(null);
+                $("#phl20").attr("disabled", true).val(null);
+                $("#phl30").attr("disabled", true).val(null);
+                $("#phf0").attr("disabled", true).val(null);
+                $("#phprom0").val(null);
+                $("#cancelPh0").attr("hidden", true);
+                $("#revertPh0").attr("hidden", false);
+            }else if(fila == 'filaPh1'){
+                $("#materia1").attr("disabled", true).val(null);
+                $("#olor1").attr("disabled", true).val(null);
+                $("#color1").attr("disabled", true).val(null);
+                $("#phl11").attr("disabled", true).val(null);
+                $("#phl21").attr("disabled", true).val(null);
+                $("#phl31").attr("disabled", true).val(null);
+                $("#phf1").attr("disabled", true).val(null);
+                $("#phprom1").val(null);
+                $("#cancelPh1").attr("hidden", true);
+                $("#revertPh1").attr("hidden", false);
+            }else if(fila == 'filaPh2'){
+                $("#materia2").attr("disabled", true).val(null);
+                $("#olor2").attr("disabled", true).val(null);
+                $("#color2").attr("disabled", true).val(null);
+                $("#phl12").attr("disabled", true).val(null);
+                $("#phl22").attr("disabled", true).val(null);
+                $("#phl32").attr("disabled", true).val(null);
+                $("#phf2").attr("disabled", true).val(null);
+                $("#phprom2").val(null);
+                $("#cancelPh2").attr("hidden", true);
+                $("#revertPh2").attr("hidden", false);
+            }else if(fila == 'filaPh3'){
+                $("#materia3").attr("disabled", true).val(null);
+                $("#olor3").attr("disabled", true).val(null);
+                $("#color3").attr("disabled", true).val(null);
+                $("#phl13").attr("disabled", true).val(null);
+                $("#phl23").attr("disabled", true).val(null);
+                $("#phl33").attr("disabled", true).val(null);
+                $("#phf3").attr("disabled", true).val(null);
+                $("#phprom3").val(null);
+                $("#cancelPh3").attr("hidden", true);
+                $("#revertPh3").attr("hidden", false);
+            }else if(fila == 'filaPh4'){
+                $("#materia4").attr("disabled", true).val(null);
+                $("#olor4").attr("disabled", true).val(null);
+                $("#color4").attr("disabled", true).val(null);
+                $("#phl14").attr("disabled", true).val(null);
+                $("#phl24").attr("disabled", true).val(null);
+                $("#phl34").attr("disabled", true).val(null);
+                $("#phf4").attr("disabled", true).val(null);
+                $("#phprom4").val(null);
+                $("#cancelPh4").attr("hidden", true);
+                $("#revertPh4").attr("hidden", false);
+            }else if(fila == 'filaPh5'){
+                $("#materia5").attr("disabled", true).val(null);
+                $("#olor5").attr("disabled", true).val(null);
+                $("#color5").attr("disabled", true).val(null);
+                $("#phl15").attr("disabled", true).val(null);
+                $("#phl25").attr("disabled", true).val(null);
+                $("#phl35").attr("disabled", true).val(null);
+                $("#phf5").attr("disabled", true).val(null);
+                $("#phprom5").val(null);
+                $("#cancelPh5").attr("hidden", true);
+                $("#revertPh5").attr("hidden", false);
+            }
+        }else if(muestreo == 'opcionTempAgua'){               
+            if(fila == 'filaTemp0'){
+                $("#temp10").attr("disabled", true).val(null);
+                $("#temp20").attr("disabled", true).val(null);
+                $("#temp30").attr("disabled", true).val(null);
+                $("#cancelTemp0").attr("hidden", true);
+                $("#revertTemp0").attr("hidden", false);
+            }else if(fila == 'filaTemp1'){
+                $("#temp11").attr("disabled", true).val(null);
+                $("#temp21").attr("disabled", true).val(null);
+                $("#temp31").attr("disabled", true).val(null);
+                $("#cancelTemp1").attr("hidden", true);
+                $("#revertTemp1").attr("hidden", false);
+            }else if(fila == 'filaTemp2'){
+                $("#temp12").attr("disabled", true).val(null);
+                $("#temp22").attr("disabled", true).val(null);
+                $("#temp32").attr("disabled", true).val(null);
+                $("#cancelTemp2").attr("hidden", true);
+                $("#revertTemp2").attr("hidden", false);
+            }else if(fila == 'filaTemp3'){
+                $("#temp13").attr("disabled", true).val(null);
+                $("#temp23").attr("disabled", true).val(null);
+                $("#temp33").attr("disabled", true).val(null);
+                $("#cancelTemp3").attr("hidden", true);
+                $("#revertTemp3").attr("hidden", false);
+            }else if(fila == 'filaTemp4'){
+                $("#temp14").attr("disabled", true).val(null);
+                $("#temp24").attr("disabled", true).val(null);
+                $("#temp34").attr("disabled", true).val(null);
+                $("#cancelTemp4").attr("hidden", true);
+                $("#revertTemp4").attr("hidden", false);
+            }else if(fila == 'filaTemp5'){
+                $("#temp15").attr("disabled", true).val(null);
+                $("#temp25").attr("disabled", true).val(null);
+                $("#temp35").attr("disabled", true).val(null);
+                $("#cancelTemp5").attr("hidden", true);
+                $("#revertTemp5").attr("hidden", false);
+            }
+            
+        }else if(muestreo == 'opcionPhConCal'){  
+            if(fila == 'filaPhConCal0'){
+                $("#phControlCalidadMuestra1").attr("disabled", true).val(null);
+                $("#phCM11").attr("disabled", true).val(null);
+                $("#phCM21").attr("disabled", true).val(null);
+                $("#phCM31").attr("disabled", true).val(null);
+                $("#cancelPhCal0").attr("hidden", true);
+                $("#revertPhCal0").attr("hidden", false);            
+            }else if(fila == 'filaPhConCal1'){
+                $("#phControlCalidadMuestra2").attr("disabled", true).val(null);
+                $("#phCM12").attr("disabled", true).val(null);
+                $("#phCM22").attr("disabled", true).val(null);
+                $("#phCM32").attr("disabled", true).val(null);
+                $("#cancelPhCal1").attr("hidden", true);
+                $("#revertPhCal1").attr("hidden", false);
+            }else if(fila == 'filaPhConCal2'){
+                $("#phControlCalidadMuestra3").attr("disabled", true).val(null);
+                $("#phCM13").attr("disabled", true).val(null);
+                $("#phCM23").attr("disabled", true).val(null);
+                $("#phCM33").attr("disabled", true).val(null);
+                $("#cancelPhCal2").attr("hidden", true);
+                $("#revertPhCal2").attr("hidden", false);
+            }else if(fila == 'filaPhConCal3'){
+                $("#phControlCalidadMuestra4").attr("disabled", true).val(null);
+                $("#phCM14").attr("disabled", true).val(null);
+                $("#phCM24").attr("disabled", true).val(null);
+                $("#phCM34").attr("disabled", true).val(null);
+                $("#cancelPhCal3").attr("hidden", true);
+                $("#revertPhCal3").attr("hidden", false);
+            }else if(fila == 'filaPhConCal4'){
+                $("#phControlCalidadMuestra5").attr("disabled", true).val(null);
+                $("#phCM15").attr("disabled", true).val(null);
+                $("#phCM25").attr("disabled", true).val(null);
+                $("#phCM35").attr("disabled", true).val(null);
+                $("#cancelPhCal4").attr("hidden", true);
+                $("#revertPhCal4").attr("hidden", false);
+            }else if(fila == 'filaPhConCal5'){
+                $("#phControlCalidadMuestra6").attr("disabled", true).val(null);
+                $("#phCM16").attr("disabled", true).val(null);
+                $("#phCM26").attr("disabled", true).val(null);
+                $("#phCM36").attr("disabled", true).val(null);
+                $("#cancelPhCal5").attr("hidden", true);
+                $("#revertPhCal5").attr("hidden", false);
+            }
+        }else if(muestreo == 'opcionCond'){
+            if(fila == 'filaCond0'){
+                $("#con10").attr("disabled", true).val(null);
+                $("#con20").attr("disabled", true).val(null);
+                $("#con30").attr("disabled", true).val(null);
+                $("#cancelCond0").attr("hidden", true);
+                $("#revertCond0").attr("hidden", false);
+            }else if(fila == 'filaCond1'){
+                $("#con11").attr("disabled", true).val(null);
+                $("#con21").attr("disabled", true).val(null);
+                $("#con31").attr("disabled", true).val(null);
+                $("#cancelCond1").attr("hidden", true);
+                $("#revertCond1").attr("hidden", false);
+            }else if(fila == 'filaCond2'){
+                $("#con12").attr("disabled", true).val(null);
+                $("#con22").attr("disabled", true).val(null);
+                $("#con32").attr("disabled", true).val(null);
+                $("#cancelCond2").attr("hidden", true);
+                $("#revertCond2").attr("hidden", false);            
+            }else if(fila == 'filaCond3'){
+                $("#con13").attr("disabled", true).val(null);
+                $("#con23").attr("disabled", true).val(null);
+                $("#con33").attr("disabled", true).val(null);
+                $("#cancelCond3").attr("hidden", true);
+                $("#revertCond3").attr("hidden", false);
+            }else if(fila == 'filaCond4'){
+                $("#con14").attr("disabled", true).val(null);
+                $("#con24").attr("disabled", true).val(null);
+                $("#con34").attr("disabled", true).val(null);
+                $("#cancelCond4").attr("hidden", true);
+                $("#revertCond4").attr("hidden", false);
+            }else if(fila == 'filaCond5'){
+                $("#con15").attr("disabled", true).val(null);
+                $("#con25").attr("disabled", true).val(null);
+                $("#con35").attr("disabled", true).val(null);
+                $("#cancelCond5").attr("hidden", true);
+                $("#revertCond5").attr("hidden", false);
+            }
+        }else if(muestreo = 'opcionGasto'){
+            if(fila == 'filaGasto0'){
+                $("#gas10").attr("disabled", true).val(null);
+                $("#gas20").attr("disabled", true).val(null);
+                $("#gas30").attr("disabled", true).val(null);
+                $("#cancelGasto0").attr("hidden", true);
+                $("#revertGasto0").attr("hidden", false);
+            }else if(fila == 'filaGasto1'){
+                $("#gas11").attr("disabled", true).val(null);
+                $("#gas21").attr("disabled", true).val(null);
+                $("#gas31").attr("disabled", true).val(null);
+                $("#cancelGasto1").attr("hidden", true);
+                $("#revertGasto1").attr("hidden", false);
+            }else if(fila == 'filaGasto2'){
+                $("#gas12").attr("disabled", true).val(null);
+                $("#gas22").attr("disabled", true).val(null);
+                $("#gas32").attr("disabled", true).val(null);
+                $("#cancelGasto2").attr("hidden", true);
+                $("#revertGasto2").attr("hidden", false);
+            }else if(fila == 'filaGasto3'){
+                $("#gas13").attr("disabled", true).val(null);
+                $("#gas23").attr("disabled", true).val(null);
+                $("#gas33").attr("disabled", true).val(null);
+                $("#cancelGasto3").attr("hidden", true);
+                $("#revertGasto3").attr("hidden", false);
+            }else if(fila == 'filaGasto4'){
+                $("#gas14").attr("disabled", true).val(null);
+                $("#gas24").attr("disabled", true).val(null);
+                $("#gas34").attr("disabled", true).val(null);
+                $("#cancelGasto4").attr("hidden", true);
+                $("#revertGasto4").attr("hidden", false);
+            }else if(fila == 'filaGasto5'){
+                $("#gas15").attr("disabled", true).val(null);
+                $("#gas25").attr("disabled", true).val(null);
+                $("#gas35").attr("disabled", true).val(null);
+                $("#cancelGasto5").attr("hidden", true);
+                $("#revertGasto5").attr("hidden", false);
+            }
         }
     }
 
     //Obtiene el valor almacenado en el input de status
-    console.log('Valor de status: ' + $("#"+status).val());
+    //console.log('Valor de status: ' + $("#"+status).val());
 
     //Muestra en pantalla la opción de visualizar filas ocultas
     //$("#"+muestreo).attr("hidden", false)
 }
 
 //Función utilizada para mostrar inputs ocultos
-function revertirMuestra(muestreo, fila){         
-    if(muestreo == 'opcionTempAgua'){
-        if(fila == 'filaTemp0'){
-            $("#temp10").attr("disabled", false);
-            $("#temp20").attr("disabled", false);
-            $("#temp30").attr("disabled", false);
-            $("#cancelTemp0").attr("hidden", false);
-            $("#revertTemp0").attr("hidden", true);
-            $("#tempStatus11").val("ACEPTADO");
-        }else if(fila == 'filaTemp1'){
-            $("#temp11").attr("disabled", false);
-            $("#temp21").attr("disabled", false);
-            $("#temp31").attr("disabled", false);
-            $("#cancelTemp1").attr("hidden", false);
-            $("#revertTemp1").attr("hidden", true);
-            $("#tempStatus12").val("ACEPTADO");
-        }else if(fila == 'filaTemp2'){
-            $("#temp12").attr("disabled", false);
-            $("#temp22").attr("disabled", false);
-            $("#temp32").attr("disabled", false);
-            $("#cancelTemp2").attr("hidden", false);
-            $("#revertTemp2").attr("hidden", true);
-            $("#tempStatus13").val("ACEPTADO");
-        }else if(fila == 'filaTemp3'){
-            $("#temp13").attr("disabled", false);
-            $("#temp23").attr("disabled", false);
-            $("#temp33").attr("disabled", false);
-            $("#cancelTemp3").attr("hidden", false);
-            $("#revertTemp3").attr("hidden", true);
-            $("#tempStatus14").val("ACEPTADO");
-        }else if(fila == 'filaTemp4'){
-            $("#temp14").attr("disabled", false);
-            $("#temp24").attr("disabled", false);
-            $("#temp34").attr("disabled", false);
-            $("#cancelTemp4").attr("hidden", false);
-            $("#revertTemp4").attr("hidden", true);
-            $("#tempStatus15").val("ACEPTADO");
-        }else if(fila == 'filaTemp5'){
-            $("#temp15").attr("disabled", false);
-            $("#temp25").attr("disabled", false);
-            $("#temp35").attr("disabled", false);
-            $("#cancelTemp5").attr("hidden", false);
-            $("#revertTemp5").attr("hidden", true);
-            $("#tempStatus16").val("ACEPTADO");
-        }
-    }else if(muestreo == 'opcionPhConCal'){
-        if(fila == 'filaPhConCal0'){
-            $("#phControlCalidadMuestra1").attr("disabled", false);
-            $("#phCM11").attr("disabled", false);
-            $("#phCM21").attr("disabled", false);
-            $("#phCM31").attr("disabled", false);
-            $("#cancelPh0").attr("hidden", false);
-            $("#revertPh0").attr("hidden", true);
-            $("#phCMStatus11").val("ACEPTADO");
-        }else if(fila == 'filaPhConCal1'){
-            $("#phControlCalidadMuestra2").attr("disabled", false);
-            $("#phCM12").attr("disabled", false);
-            $("#phCM22").attr("disabled", false);
-            $("#phCM32").attr("disabled", false);
-            $("#cancelPh1").attr("hidden", false);
-            $("#revertPh1").attr("hidden", true);
-            $("#phCMStatus12").val("ACEPTADO");
-        }else if(fila == 'filaPhConCal2'){
-            $("#phControlCalidadMuestra3").attr("disabled", false);
-            $("#phCM13").attr("disabled", false);
-            $("#phCM23").attr("disabled", false);
-            $("#phCM33").attr("disabled", false);
-            $("#cancelPh2").attr("hidden", false);
-            $("#revertPh2").attr("hidden", true);
-            $("#phCMStatus13").val("ACEPTADO");
-        }else if(fila == 'filaPhConCal3'){
-            $("#phControlCalidadMuestra4").attr("disabled", false);
-            $("#phCM14").attr("disabled", false);
-            $("#phCM24").attr("disabled", false);
-            $("#phCM34").attr("disabled", false);
-            $("#cancelPh3").attr("hidden", false);
-            $("#revertPh3").attr("hidden", true);
-            $("#phCMStatus14").val("ACEPTADO");
-        }else if(fila == 'filaPhConCal4'){
-            $("#phControlCalidadMuestra5").attr("disabled", false);
-            $("#phCM15").attr("disabled", false);
-            $("#phCM25").attr("disabled", false);
-            $("#phCM35").attr("disabled", false);
-            $("#cancelPh4").attr("hidden", false);
-            $("#revertPh4").attr("hidden", true);
-            $("#phCMStatus15").val("ACEPTADO");
-        }else if(fila == 'filaPhConCal5'){
-            $("#phControlCalidadMuestra6").attr("disabled", false);
-            $("#phCM16").attr("disabled", false);
-            $("#phCM26").attr("disabled", false);
-            $("#phCM36").attr("disabled", false);
-            $("#cancelPh5").attr("hidden", false);
-            $("#revertPh5").attr("hidden", true);
-            $("#phCMStatus16").val("ACEPTADO");
-        }
-    }else if(muestreo == 'opcionCond'){
-        if(fila == 'filaCond0'){            
-            $("#con10").attr("disabled", false);
-            $("#con20").attr("disabled", false);
-            $("#cond30").attr("disabled", false);
-            $("#cancelCond0").attr("hidden", false);
-            $("#revertCond0").attr("hidden", true);
-            $("#condStatus11").val("ACEPTADO");
-        }else if(fila == 'filaCond1'){
-            $("#con11").attr("disabled", false);
-            $("#con21").attr("disabled", false);
-            $("#cond31").attr("disabled", false);
-            $("#cancelCond1").attr("hidden", false);
-            $("#revertCond1").attr("hidden", true);
-            $("#condStatus12").val("ACEPTADO");
-        }else if(fila == 'filaCond2'){
-            $("#con12").attr("disabled", false);
-            $("#con22").attr("disabled", false);
-            $("#cond32").attr("disabled", false);
-            $("#cancelCond2").attr("hidden", false);
-            $("#revertCond2").attr("hidden", true);
-            $("#condStatus13").val("ACEPTADO");
-        }else if(fila == 'filaCond3'){
-            $("#con13").attr("disabled", false);
-            $("#con23").attr("disabled", false);
-            $("#cond33").attr("disabled", false);
-            $("#cancelCond3").attr("hidden", false);
-            $("#revertCond3").attr("hidden", true);
-            $("#condStatus14").val("ACEPTADO");
-        }else if(fila == 'filaCond4'){
-            $("#con14").attr("disabled", false);
-            $("#con24").attr("disabled", false);
-            $("#cond34").attr("disabled", false);
-            $("#cancelCond4").attr("hidden", false);
-            $("#revertCond4").attr("hidden", true);
-            $("#condStatus15").val("ACEPTADO");
-        }else if(fila == 'filaCond5'){
-            $("#con15").attr("disabled", false);
-            $("#con25").attr("disabled", false);
-            $("#cond35").attr("disabled", false);
-            $("#cancelCond5").attr("hidden", false);
-            $("#revertCond5").attr("hidden", true);
-            $("#condStatus16").val("ACEPTADO");
-        }
-    }else if(muestreo == 'opcionGasto'){
-        if(fila == 'filaGasto0'){
-
-        }else if(fila == 'filaGasto1'){
-
-        }else if(fila == 'filaGasto2'){
-
-        }else if(fila == 'filaGasto3'){
-
-        }else if(fila == 'filaGasto4'){
-
-        }else if(fila == 'filaGasto5'){
-
+function revertirMuestra(muestreo, fila){             
+    let revertir = window.confirm("¿Desea volver a aceptar este núm. muestra?");
+    
+    if(revertir === true){    
+        if(muestreo == 'opcionPh'){        
+            if(fila == 'filaPh0'){
+                $("#materia0").attr("disabled", false).val(0);
+                $("#olor0").attr("disabled", false).val(0);
+                $("#color0").attr("disabled", false).val(0);
+                $("#phl10").attr("disabled", false);
+                $("#phl20").attr("disabled", false);
+                $("#phl30").attr("disabled", false);
+                $("#phf0").attr("disabled", false);
+                $("#cancelPh0").attr("hidden", false);
+                $("#revertPh0").attr("hidden", true);
+                $("#phStatus10").val("ACEPTADO");
+            }else if(fila == 'filaPh1'){
+                $("#materia1").attr("disabled", false).val(0);
+                $("#olor1").attr("disabled", false).val(0);
+                $("#color1").attr("disabled", false).val(0);
+                $("#phl11").attr("disabled", false);
+                $("#phl21").attr("disabled", false);
+                $("#phl31").attr("disabled", false);
+                $("#phf1").attr("disabled", false);
+                $("#cancelPh1").attr("hidden", false);
+                $("#revertPh1").attr("hidden", true);
+                $("#phStatus11").val("ACEPTADO");
+            }else if(fila == 'filaPh2'){
+                $("#materia2").attr("disabled", false).val(0);
+                $("#olor2").attr("disabled", false).val(0);
+                $("#color2").attr("disabled", false).val(0);
+                $("#phl12").attr("disabled", false);
+                $("#phl22").attr("disabled", false);
+                $("#phl32").attr("disabled", false);
+                $("#phf2").attr("disabled", false);
+                $("#cancelPh2").attr("hidden", false);
+                $("#revertPh2").attr("hidden", true);
+                $("#phStatus12").val("ACEPTADO");
+            }else if(fila == 'filaPh3'){
+                $("#materia3").attr("disabled", false).val(0);
+                $("#olor3").attr("disabled", false).val(0);
+                $("#color3").attr("disabled", false).val(0);
+                $("#phl13").attr("disabled", false);
+                $("#phl23").attr("disabled", false);
+                $("#phl33").attr("disabled", false);
+                $("#phf3").attr("disabled", false);
+                $("#cancelPh3").attr("hidden", false);
+                $("#revertPh3").attr("hidden", true);
+                $("#phStatus13").val("ACEPTADO");
+            }else if(fila == 'filaPh4'){
+                $("#materia4").attr("disabled", false).val(0);
+                $("#olor4").attr("disabled", false).val(0);
+                $("#color4").attr("disabled", false).val(0);
+                $("#phl14").attr("disabled", false);
+                $("#phl24").attr("disabled", false);
+                $("#phl34").attr("disabled", false);
+                $("#phf4").attr("disabled", false);
+                $("#cancelPh4").attr("hidden", false);
+                $("#revertPh4").attr("hidden", true);
+                $("#phStatus14").val("ACEPTADO");
+            }else if(fila == 'filaPh5'){
+                $("#materia5").attr("disabled", false).val(0);
+                $("#olor5").attr("disabled", false).val(0);
+                $("#color5").attr("disabled", false).val(0);
+                $("#phl15").attr("disabled", false);
+                $("#phl25").attr("disabled", false);
+                $("#phl35").attr("disabled", false);
+                $("#phf5").attr("disabled", false);
+                $("#cancelPh5").attr("hidden", false);
+                $("#revertPh5").attr("hidden", true);
+                $("#phStatus15").val("ACEPTADO");
+            }
+        }else if(muestreo == 'opcionTempAgua'){
+            if(fila == 'filaTemp0'){
+                $("#temp10").attr("disabled", false);
+                $("#temp20").attr("disabled", false);
+                $("#temp30").attr("disabled", false);
+                $("#cancelTemp0").attr("hidden", false);
+                $("#revertTemp0").attr("hidden", true);
+                $("#tempStatus11").val("ACEPTADO");
+            }else if(fila == 'filaTemp1'){
+                $("#temp11").attr("disabled", false);
+                $("#temp21").attr("disabled", false);
+                $("#temp31").attr("disabled", false);
+                $("#cancelTemp1").attr("hidden", false);
+                $("#revertTemp1").attr("hidden", true);
+                $("#tempStatus12").val("ACEPTADO");
+            }else if(fila == 'filaTemp2'){
+                $("#temp12").attr("disabled", false);
+                $("#temp22").attr("disabled", false);
+                $("#temp32").attr("disabled", false);
+                $("#cancelTemp2").attr("hidden", false);
+                $("#revertTemp2").attr("hidden", true);
+                $("#tempStatus13").val("ACEPTADO");
+            }else if(fila == 'filaTemp3'){
+                $("#temp13").attr("disabled", false);
+                $("#temp23").attr("disabled", false);
+                $("#temp33").attr("disabled", false);
+                $("#cancelTemp3").attr("hidden", false);
+                $("#revertTemp3").attr("hidden", true);
+                $("#tempStatus14").val("ACEPTADO");
+            }else if(fila == 'filaTemp4'){
+                $("#temp14").attr("disabled", false);
+                $("#temp24").attr("disabled", false);
+                $("#temp34").attr("disabled", false);
+                $("#cancelTemp4").attr("hidden", false);
+                $("#revertTemp4").attr("hidden", true);
+                $("#tempStatus15").val("ACEPTADO");
+            }else if(fila == 'filaTemp5'){
+                $("#temp15").attr("disabled", false);
+                $("#temp25").attr("disabled", false);
+                $("#temp35").attr("disabled", false);
+                $("#cancelTemp5").attr("hidden", false);
+                $("#revertTemp5").attr("hidden", true);
+                $("#tempStatus16").val("ACEPTADO");
+            }
+        }else if(muestreo == 'opcionPhConCal'){
+            if(fila == 'filaPhConCal0'){
+                $("#phControlCalidadMuestra1").attr("disabled", false).val(0);
+                $("#phCM11").attr("disabled", false);
+                $("#phCM21").attr("disabled", false);
+                $("#phCM31").attr("disabled", false);
+                $("#cancelPhCal0").attr("hidden", false);
+                $("#revertPhCal0").attr("hidden", true);
+                $("#phCMStatus11").val("ACEPTADO");
+            }else if(fila == 'filaPhConCal1'){
+                $("#phControlCalidadMuestra2").attr("disabled", false).val(0);
+                $("#phCM12").attr("disabled", false);
+                $("#phCM22").attr("disabled", false);
+                $("#phCM32").attr("disabled", false);
+                $("#cancelPhCal1").attr("hidden", false);
+                $("#revertPhCal1").attr("hidden", true);
+                $("#phCMStatus12").val("ACEPTADO");
+            }else if(fila == 'filaPhConCal2'){
+                $("#phControlCalidadMuestra3").attr("disabled", false).val(0);
+                $("#phCM13").attr("disabled", false);
+                $("#phCM23").attr("disabled", false);
+                $("#phCM33").attr("disabled", false);
+                $("#cancelPhCal2").attr("hidden", false);
+                $("#revertPhCal2").attr("hidden", true);
+                $("#phCMStatus13").val("ACEPTADO");
+            }else if(fila == 'filaPhConCal3'){
+                $("#phControlCalidadMuestra4").attr("disabled", false).val(0);
+                $("#phCM14").attr("disabled", false);
+                $("#phCM24").attr("disabled", false);
+                $("#phCM34").attr("disabled", false);
+                $("#cancelPhCal3").attr("hidden", false);
+                $("#revertPhCal3").attr("hidden", true);
+                $("#phCMStatus14").val("ACEPTADO");
+            }else if(fila == 'filaPhConCal4'){
+                $("#phControlCalidadMuestra5").attr("disabled", false).val(0);
+                $("#phCM15").attr("disabled", false);
+                $("#phCM25").attr("disabled", false);
+                $("#phCM35").attr("disabled", false);
+                $("#cancelPhCal4").attr("hidden", false);
+                $("#revertPhCal4").attr("hidden", true);
+                $("#phCMStatus15").val("ACEPTADO");
+            }else if(fila == 'filaPhConCal5'){
+                $("#phControlCalidadMuestra6").attr("disabled", false).val(0);
+                $("#phCM16").attr("disabled", false);
+                $("#phCM26").attr("disabled", false);
+                $("#phCM36").attr("disabled", false);
+                $("#cancelPhCal5").attr("hidden", false);
+                $("#revertPhCal5").attr("hidden", true);
+                $("#phCMStatus16").val("ACEPTADO");
+            }
+        }else if(muestreo == 'opcionCond'){
+            if(fila == 'filaCond0'){            
+                $("#con10").attr("disabled", false);
+                $("#con20").attr("disabled", false);
+                $("#con30").attr("disabled", false);
+                $("#cancelCond0").attr("hidden", false);
+                $("#revertCond0").attr("hidden", true);
+                $("#condStatus11").val("ACEPTADO");
+            }else if(fila == 'filaCond1'){
+                $("#con11").attr("disabled", false);
+                $("#con21").attr("disabled", false);
+                $("#con31").attr("disabled", false);
+                $("#cancelCond1").attr("hidden", false);
+                $("#revertCond1").attr("hidden", true);
+                $("#condStatus12").val("ACEPTADO");
+            }else if(fila == 'filaCond2'){
+                $("#con12").attr("disabled", false);
+                $("#con22").attr("disabled", false);
+                $("#con32").attr("disabled", false);
+                $("#cancelCond2").attr("hidden", false);
+                $("#revertCond2").attr("hidden", true);
+                $("#condStatus13").val("ACEPTADO");
+            }else if(fila == 'filaCond3'){
+                $("#con13").attr("disabled", false);
+                $("#con23").attr("disabled", false);
+                $("#con33").attr("disabled", false);
+                $("#cancelCond3").attr("hidden", false);
+                $("#revertCond3").attr("hidden", true);
+                $("#condStatus14").val("ACEPTADO");
+            }else if(fila == 'filaCond4'){
+                $("#con14").attr("disabled", false);
+                $("#con24").attr("disabled", false);
+                $("#cond34").attr("disabled", false);
+                $("#cancelCond4").attr("hidden", false);
+                $("#revertCond4").attr("hidden", true);
+                $("#condStatus15").val("ACEPTADO");
+            }else if(fila == 'filaCond5'){
+                $("#con15").attr("disabled", false);
+                $("#con25").attr("disabled", false);
+                $("#con35").attr("disabled", false);
+                $("#cancelCond5").attr("hidden", false);
+                $("#revertCond5").attr("hidden", true);
+                $("#condStatus16").val("ACEPTADO");
+            }
+        }else if(muestreo == 'opcionGasto'){
+            if(fila == 'filaGasto0'){
+                $("#gas10").attr("disabled", false);
+                $("#gas20").attr("disabled", false);
+                $("#gas30").attr("disabled", false);
+                $("#cancelGasto0").attr("hidden", false);
+                $("#revertGasto0").attr("hidden", true);
+                $("#gastoStatus11").val("ACEPTADO");
+            }else if(fila == 'filaGasto1'){
+                $("#gas11").attr("disabled", false);
+                $("#gas21").attr("disabled", false);
+                $("#gas31").attr("disabled", false);
+                $("#cancelGasto1").attr("hidden", false);
+                $("#revertGasto1").attr("hidden", true);
+                $("#gastoStatus12").val("ACEPTADO");
+            }else if(fila == 'filaGasto2'){
+                $("#gas12").attr("disabled", false);
+                $("#gas22").attr("disabled", false);
+                $("#gas32").attr("disabled", false);
+                $("#cancelGasto2").attr("hidden", false);
+                $("#revertGasto2").attr("hidden", true);
+                $("#gastoStatus13").val("ACEPTADO");
+            }else if(fila == 'filaGasto3'){
+                $("#gas13").attr("disabled", false);
+                $("#gas23").attr("disabled", false);
+                $("#gas33").attr("disabled", false);
+                $("#cancelGasto3").attr("hidden", false);
+                $("#revertGasto3").attr("hidden", true);
+                $("#gastoStatus14").val("ACEPTADO");
+            }else if(fila == 'filaGasto4'){
+                $("#gas14").attr("disabled", false);
+                $("#gas24").attr("disabled", false);
+                $("#gas34").attr("disabled", false);
+                $("#cancelGasto4").attr("hidden", false);
+                $("#revertGasto4").attr("hidden", true);
+                $("#gastoStatus15").val("ACEPTADO");
+            }else if(fila == 'filaGasto5'){
+                $("#gas15").attr("disabled", false);
+                $("#gas25").attr("disabled", false);
+                $("#gas35").attr("disabled", false);
+                $("#cancelGasto5").attr("hidden", false);
+                $("#revertGasto5").attr("hidden", true);
+                $("#gastoStatus16").val("ACEPTADO");
+            }
         }
     }
-        
 }
-
-
 
 function setDataCompuesto(){    
     $.ajax({
@@ -3408,6 +3573,7 @@ function setDataCompuesto(){
             tipoTratamientoCompuesto: $("#tipoTratamientoCompuesto").val(),
             procedimientoCompuesto: $("#procedimientoCompuesto").val(),
             obsCompuesto: $("#observacionCompuesto").val(),
+            //obs_sol: $("#").val(),
             volCalculadoComp: $("#volCalculado").val(),
             phMuestraCompuesto: $("#phMuestraCompuesto").val(),
             valTempCompuesto: $("#valTemp").val(),

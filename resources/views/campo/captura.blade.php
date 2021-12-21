@@ -540,12 +540,32 @@
                                             <th>pH 3</th>
                                             <th>pH Promedio</th>
                                             <th>Fecha muestreo</th>
+                                            <th hidden>Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
-                                            <tr>
-                                                <td> <button type="button" class="btn btn-outline-dark muestraCancel"> <i class="fas fa-times-circle"></i> </button> {{ $i + 1 }}</td>
+                                            <tr id="filaPh{{$i}}">
+                                                
+                                                <td>
+                                                    <span id="cancelPh{{$i}}">
+                                                        <button type="button" class="btn btn-outline-dark muestraCancel" id="phDel{{$i}}" 
+                                                        onclick="cancelarNumMuestra('filaPh{{$i}}', 'phStatus1{{$i}}', 'opcionPh')"   > 
+                                                            <i class="fas fa-times-circle"></i> 
+                                                        </button>
+                                                    </span>  
+                                                    
+                                                    <span id="revertPh{{$i}}" hidden>
+                                                        <button type="button" 
+                                                            class="btn btn-outline-dark muestraCancel" onclick="revertirMuestra('opcionPh', 'filaPh{{$i}}');">
+                                                            <i class="fas fa-check-circle"></i> 
+                                                        </button>
+                                                    </span>
+                                                    
+                                                    {{$i + 1}}
+                                                
+                                                </td> 
+
                                                 <td>
                                                     <select id="materia{{ $i }}">
                                                         <option value="0">Sin seleccionar</option>
@@ -579,6 +599,8 @@
                                                 <td><p id="phprom1{{ $i }}"></p></td>
                                                 <td><input type="datetime-local" step="1" id="phf{{ $i }}" onchange='validacionFechaMuestreo("phf{{$i}}");'></td>
                                                 <td><input type="text" id="phprom{{ $i }}" hidden></td>
+
+                                                <td><input type="text" id="phStatus1{{$i}}" value="ACEPTADO" hidden></td>
                                             </tr>
 
                                         @endfor
@@ -599,7 +621,7 @@
                                             <th>Temperatura 3 (°C)</th>
                                             <th>Factor de corrección aplicado</th>
                                             <th>Temperatura Promedio (°C)</th>
-                                            <th>Estado</th>
+                                            <th hidden>Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -652,7 +674,7 @@
                                                 
                                                 <td><input type="text" id="tempprom{{ $i }}" hidden></td>
                                                 
-                                                <td><input type="text" id="tempStatus1{{$i + 1}}" disabled></td>
+                                                <td><input type="text" id="tempStatus1{{$i + 1}}" value="ACEPTADO" hidden></td>
                                             </tr>
                                         @endfor
                                     </tbody>
@@ -671,21 +693,21 @@
                                             <th>Lectura 3</th>
                                             <th>Estado</th>
                                             <th>Promedio</th>
-                                            <th>Status</th>
+                                            <th hidden>Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                                             <tr id="filaPhConCal{{$i}}">
                                                 <td>
-                                                    <span id="cancelPh{{$i}}">
+                                                    <span id="cancelPhCal{{$i}}">
                                                         <button type="button" class="btn btn-outline-dark muestraCancel" id="phCalDel{{$i}}" 
                                                         onclick="cancelarNumMuestra('filaPhConCal{{$i}}', 'phCMStatus1{{$i + 1}}', 'opcionPhConCal')"   > 
                                                             <i class="fas fa-times-circle"></i> 
                                                         </button>
                                                     </span>  
                                                     
-                                                    <span id="revertPh{{$i}}" hidden>
+                                                    <span id="revertPhCal{{$i}}" hidden>
                                                         <button type="button" 
                                                             class="btn btn-outline-dark muestraCancel" onclick="revertirMuestra('opcionPhConCal', 'filaPhConCal{{$i}}');">
                                                             <i class="fas fa-check-circle"></i> 
@@ -723,7 +745,7 @@
                                                 </td>
                                                 <td><input type="text" id="phCMPromedio1{{$i + 1}}" disabled>
                                                 </td>
-                                                <td><input type="text" id="phCMStatus1{{$i + 1}}" disabled></td>
+                                                <td><input type="text" id="phCMStatus1{{$i + 1}}" value="ACEPTADO" hidden></td>
                                             </tr>
                                         @endfor
                                     </tbody>
@@ -740,7 +762,7 @@
                                             <th>Conductividad 2 (µS)</th>
                                             <th>Conductividad 3 (µS)</th>
                                             <th>Conductividad Promedio (µS)</th>
-                                            <th>Estado</th>
+                                            <th hidden>Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -776,7 +798,7 @@
                                                         onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td><p id="conprom1{{ $i }}"></p></td>
-                                                <td><input type="text" id="condStatus1{{$i + 1}}" disabled></td>
+                                                <td><input type="text" id="condStatus1{{$i + 1}}" value="ACEPTADO" hidden></td>
                                                 <td><input type="text" id="conprom{{ $i }}" hidden></td>
                                             </tr>
                                         @endfor
@@ -794,7 +816,7 @@
                                             <th>Gasto 2 (L/s)</th>
                                             <th>Gasto 3 (L/s)</th>
                                             <th>Gasto Promedio (L/s)</th>
-                                            <th>Estado</th>
+                                            <th hidden>Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -830,7 +852,7 @@
                                                         onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
                                                 </td>
                                                 <td><p id="gasprom1{{ $i }}"></p></td>
-                                                <td><input type="text" id="gastoStatus1{{$i + 1}}" disabled></td>
+                                                <td><input type="text" id="gastoStatus1{{$i + 1}}" value="ACEPTADO" hidden></td>
                                                 <td><input type="text" id="gasprom{{ $i }}" hidden></td>
                                             </tr>
                                         @endfor
