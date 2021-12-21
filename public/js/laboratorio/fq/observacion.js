@@ -97,7 +97,7 @@ function aplicar() {
 
     $.ajax({
         type: "POST",
-        url: base_url + '/admin/laboratorio/metales/aplicarObservacion',
+        url: base_url + '/admin/laboratorio/fq/aplicarObservacion',
         data: {
             idTipo: $("#tipoFormula").val(),
             folioActual: folioSel,
