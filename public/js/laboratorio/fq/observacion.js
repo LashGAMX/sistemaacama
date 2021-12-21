@@ -82,9 +82,10 @@ function getServicio() {
                 }
             });
 
-            $('#tablaControles tr').on('click', function () {
+            $('#solicitudGenerada tr').on('click', function () {
                 let dato = $(this).find('td:first').html();
                 folioSel = dato;
+                console.log(dato)
             });
         }
     });

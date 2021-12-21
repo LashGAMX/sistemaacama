@@ -97,7 +97,7 @@ class FqController extends Controller
                 $sw = false;
             }
         }
-        $model = DB::table('ViewObservacionMuestra')->where('Id_area',2)->get();
+        $model = DB::table('ViewObservacionMuestra')->where('Id_area',5)->get();
 
         $data = array(
             'model' => $model,
@@ -109,7 +109,7 @@ class FqController extends Controller
 
     public function aplicarObservacion(Request $request)
     {
-        $viewObservacion = DB::table('ViewObservacionMuestra')->where('Folio','LIKE',"%{$request->folioActual}%")->first();
+        $viewObservacion = DB::table('ViewObservacionMuestra')->where('Id_area',5)->where('Folio','LIKE',"%{$request->folioActual}%")->first();
 
 
         $observacion = ObservacionMuestra::find($viewObservacion->Id_observacion);
@@ -121,7 +121,7 @@ class FqController extends Controller
         $observacion->save();
 
 
-        $model = DB::table('ViewObservacionMuestra')->where('Id_area', $request->idTipo)->get();
+        $model = DB::table('ViewObservacionMuestra')->where('Id_area',5)->get();
 
         $data = array(
             'model' => $model,
