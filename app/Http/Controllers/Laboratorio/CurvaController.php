@@ -117,8 +117,8 @@ class CurvaController extends Controller
     
 
         if($lote->count()){
-            $const = CurvaConstantes::find($lote->Id_lote);
-            $const->Id_lote = $request->idLote;
+            $const = CurvaConstantes::find($request->idLote);
+            //$const->Id_lote = $request->idLote;
             $const->B = $request->b;
             $cosnt->M = $request->m;
             $const->R = $request->r;

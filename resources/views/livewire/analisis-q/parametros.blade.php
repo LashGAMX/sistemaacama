@@ -28,6 +28,7 @@
                 <th>Parámetro</th>
                 <th>Unidad</th>
                 <th>Método de prueba</th> 
+                <th>C. Metodo</th>
                 <th>Norma</th>
                 <th>Límite C.</th>
                 {{-- <th>Creación</th>
@@ -52,6 +53,7 @@
           <td>{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
           <td>{{$item->Unidad}}</td>
           <td>{{$item->Metodo_prueba}}</td>
+          <td>{{$item->Clave_metodo}}</td>
           <td>{{$item->Clave_norma}}</td>
           <td>{{$item->Limite}}</td>
           {{-- <td>{{$item->created_at}}</td>
