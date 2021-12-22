@@ -133,7 +133,7 @@ class FqController extends Controller
     //*****************************************CAPTURA****************************************************************** */
     public function tipoAnalisis()
     {
-        return view('laboratorio.metales.tipoAnalisis');
+        return view('laboratorio.fq.tipoAnalisis');
     }
 
     public function captura()
@@ -363,18 +363,22 @@ class FqController extends Controller
         return response()->json($data);
     }
 
+    // todo ******************* Inicio de lote ************************
     public function lote()
     {
-        $formulas = DB::table('ViewTipoFormula')->where('Id_area', 2)->get();
+        //* Tipo de formulas 
+        $formulas = DB::table('tipo_formulas')
+        ->orWhere('Id_tipo_formula', 8)
+        ->orWhere('Id_tipo_formula',9)
+        ->get();
         $textoRecuperadoPredeterminado = Reportes::where('Id_reporte', 0)->first();
-        return view('laboratorio.metales.lote', compact('formulas', 'textoRecuperadoPredeterminado'));
+        return view('laboratorio.fq.lote', compact('formulas', 'textoRecuperadoPredeterminado'));
     }
     public function createLote(Request $request)
     {
-        $tipoModel = TipoFormula::where('Id_tipo_formula',$request->tipo)->first();
         $model = LoteAnalisis::create([
             'Id_tipo' => $request->tipo,
-            'Id_area' => $tipoModel->Id_area,
+            'Id_area' => 5,
             'Asignado' => 0,
             'Liberado' => 0,
             'Fecha' => $request->fecha,
@@ -388,7 +392,7 @@ class FqController extends Controller
     public function buscarLote(Request $request)
     {
         //$model = LoteAnalisis::where('Id_tipo',$request->tipo)->where('Fecha',$request->fecha)->get();
-        $model = DB::table('ViewLoteAnalisis')->where('Id_tipo', $request->tipo)->where('Fecha', $request->fecha)->get();
+        $model = DB::table('ViewLoteAnalisis')->where('Id_tipo', $request->tipo)->where('Id_area',5)->where('Fecha', $request->fecha)->get();
         $data = array(
             'model' => $model,
         );
@@ -462,17 +466,14 @@ class FqController extends Controller
     {
         $lote = LoteDetalle::where('Id_lote', $id)->get();
         $idLote = $id;
-        return view('laboratorio.metales.asignarMuestraLote', compact('lote', 'idLote'));
+        return view('laboratorio.fq.asignarMuestraLote', compact('lote', 'idLote'));
     }
     //* Muestra los parametros sin asignar a lote
     public function muestraSinAsignar(Request $request)
     {
         $model = DB::table('ViewSolicitudParametros')
-        ->orWhere('Id_tipo_formula',20)
-        ->orWhere('Id_tipo_formula',21)
-        ->orWhere('Id_tipo_formula',22)
-        ->orWhere('Id_tipo_formula',23)
-        ->orWhere('Id_tipo_formula',24)
+        ->orWhere('Id_tipo_formula',8)
+        ->orWhere('Id_tipo_formula',9)
         ->where('Asignado', '!=', 1)
         ->get();
         $data = array(

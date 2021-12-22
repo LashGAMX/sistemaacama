@@ -53,6 +53,17 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('observacion', [FqController::class, 'observacion']);
         Route::post('getObservacionanalisis', [FqController::class, 'getObservacionanalisis']);
         Route::post('aplicarObservacion', [FqController::class, 'aplicarObservacion']);
+
+        //? Modulo Lote - Creación  de lotes
+        Route::get('lote', [FqController::class, 'lote']);
+        Route::post('createLote', [FqController::class, 'createLote']);
+        Route::post('buscarLote', [FqController::class, 'buscarLote']);
+        Route::post('getDatalote', [FqController::class, 'getDatalote']);
+        Route::get('asgnarMuestraLote/{id}', [FqController::class, 'asgnarMuestraLote']);
+        Route::post('muestraSinAsignar', [FqController::class, 'muestraSinAsignar']);
+        Route::post('asignarMuestraLote', [FqController::class, 'asignarMuestraLote']);
+        Route::post('getMuestraAsignada', [FqController::class, 'getMuestraAsignada']);
+        Route::post('delMuestraLote', [FqController::class, 'getMuestraAsignada']);
     });
 
     //? Módulo curva - Creación de curva
