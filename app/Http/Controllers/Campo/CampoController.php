@@ -17,6 +17,18 @@ use App\Models\ConTratamiento;
 use App\Models\Evidencia;
 use App\Models\GastoMuestra;
 use App\Models\HistorialCampoAsignar;
+use App\Models\HistorialCampoCaptCompuesto;
+use App\Models\HistorialCampoCaptMuestreoConductividad;
+use App\Models\HistorialCampoCaptMuestreoGasto;
+use App\Models\HistorialCampoCaptMuestreoPh;
+use App\Models\HistorialCampoCaptMuestreoPhCalidad;
+use App\Models\HistorialCampoCaptMuestreoTemp;
+use App\Models\HistorialCampoCapturaConCalidad;
+use App\Models\HistorialCampoCapturaConTrazable;
+use App\Models\HistorialCampoCapturaGeneral;
+use App\Models\HistorialCampoCapturaPhCalidad;
+use App\Models\HistorialCampoCapturaPhTrazable;
+use App\Models\HistorialCampoCapturaSegAnalisis;
 use App\Models\MetodoAforo;
 use App\Models\PHCalidad;
 use App\Models\PhCalidadCampo;
@@ -98,19 +110,48 @@ class CampoController extends Controller
     }
     public function setDataGeneral(Request $request)
     {
-        $model = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->first();
+        $model = null;
+        //Campos generales
+        $campoGenModel = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->get();
+        if($campoGenModel->count()){
+            $model = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->first();
 
-        $model->Captura = "Sistema";
-        $model->Id_equipo = $request->equipo;
-        $model->Temperatura_a = $request->temp1;
-        $model->Temperatura_b = $request->temp2;
-        $model->Latitud = $request->latitud;
-        $model->Longitud = $request->longitud;
-        $model->Altitud = $request->altitud;
-        $model->Pendiente = $request->pendiente;
-        $model->Criterio = $request->criterio;
-        $model->Supervisor = $request->supervisor;
-        $model->save();
+            $model->Captura = "Sistema";
+            $model->Id_equipo = $request->equipo;
+            $model->Temperatura_a = $request->temp1;
+            $model->Temperatura_b = $request->temp2;
+            $model->Latitud = $request->latitud;
+            $model->Longitud = $request->longitud;
+            $model->Altitud = $request->altitud;
+            $model->Pendiente = $request->pendiente;
+            $model->Criterio = $request->criterio;
+            $model->Supervisor = $request->supervisor;
+            $model->Id_user_m = Auth::user()->id;
+
+            $nota = "Registro modificado";
+            $this->historialCampoGeneral($request->idSolicitud, $nota, $model);
+
+            $model->save();
+        }else{
+            $model = CampoGenerales::create([
+                'Id_solicitud' => $request->idSolicitud,
+                'Captura' => "Sistema",
+                'Id_equipo' => $request->equipo,
+                'Temperatura_a' => $request->temp1,
+                'Temperatura_b' => $request->temp2,
+                'Latitud' => $request->latitud,
+                'Longitud' => $request->longitud,
+                'Altitud' => $request->altitud,
+                'Pendiente' => $request->pendiente,
+                'Criterio' => $request->criterio,
+                'Supervisor' => $request->supervisor,
+                'Id_user_c' => Auth::user()->id,
+                'Id_user_m' => Auth::user()->id
+            ]);
+
+            $nota = "Creación de registro";
+            $this->historialCampoGeneral($request->idSolicitud, $nota, $model);
+        }                
 
         //Ph trazable
         $phTrazableModel = CampoPhTrazable::where('Id_solicitud', $request->idSolicitud)->get();
@@ -122,6 +163,11 @@ class CampoController extends Controller
             $phTrazable->Lectura2 = $request->phT21;
             $phTrazable->Lectura3 = $request->phTl31;
             $phTrazable->Estado = $request->phTEstado1;
+            $phTrazable->Id_user_m = Auth::user()->id;
+
+            $nota = "Registro modificado";
+            $this->historialPhTrazable($request->idSolicitud, $nota, $phTrazable);
+
             $phTrazable->save();
 
             $phTrazable = CampoPhTrazable::find($phTrazableModel[1]->Id_ph);
@@ -131,24 +177,40 @@ class CampoController extends Controller
             $phTrazable->Lectura2 = $request->phT22;
             $phTrazable->Lectura3 = $request->phTl32;
             $phTrazable->Estado = $request->phTEstado2;
+            $phTrazable->Id_user_m = Auth::user()->id;
+
+            $nota = "Registro modificado";
+            $this->historialPhTrazable($request->idSolicitud, $nota, $phTrazable);
+
             $phTrazable->save();
         } else {
-            CampoPhTrazable::create([
+            $campoPhTrazable = CampoPhTrazable::create([
                 'Id_solicitud' => $request->idSolicitud,
                 'Id_phTrazable' => $request->phTrazable1,
                 'Lectura1' => $request->phTl11,
                 'Lectura2' => $request->phT21,
                 'Lectura3' => $request->phTl31,
                 'Estado' => $request->phTEstado1,
+                'Id_user_c' => Auth::user()->id,
+                'Id_user_m' => Auth::user()->id
             ]);
-            CampoPhTrazable::create([
+
+            $nota = "Creación de registro";
+            $this->historialPhTrazable($request->idSolicitud, $nota, $campoPhTrazable);
+
+            $campoPhTrazable = CampoPhTrazable::create([
                 'Id_solicitud' => $request->idSolicitud,
                 'Id_phTrazable' => $request->phTrazable2,
                 'Lectura1' => $request->phTl12,
                 'Lectura2' => $request->phT22,
                 'Lectura3' => $request->phTl32,
                 'Estado' => $request->phTEstado2,
+                'Id_user_c' => Auth::user()->id,
+                'Id_user_m' => Auth::user()->id
             ]);
+
+            $nota = "Creación de registro";
+            $this->historialPhTrazable($request->idSolicitud, $nota, $campoPhTrazable);
         }
         //PhCalidad
 
@@ -162,6 +224,11 @@ class CampoController extends Controller
             $phCalidad->Lectura3 = $request->phTl31;
             $phCalidad->Estado = $request->phTEstado1;
             $phCalidad->Promedio = $request->phCPromedio1;
+            $phCalidad->Id_user_m = Auth::user()->id;
+
+            $nota = "Registro modificado";
+            $this->historialPhCalidadGen($request->idSolicitud, $nota, $phCalidad);
+
             $phCalidad->save();
 
             $phCalidad = CampoPhCalidad::find($phCalidadMode[1]->Id_ph);
@@ -172,9 +239,14 @@ class CampoController extends Controller
             $phCalidad->Lectura3 = $request->phTl32;
             $phCalidad->Estado = $request->phTEstado2;
             $phCalidad->Promedio = $request->phCPromedio2;
+            $phCalidad->Id_user_m = Auth::user()->id;
+
+            $nota = "Registro modificado";
+            $this->historialPhCalidadGen($request->idSolicitud, $nota, $phCalidad);
+
             $phCalidad->save();
         } else {
-            CampoPhCalidad::create([
+            $campoPhCalidad = CampoPhCalidad::create([
                 'Id_solicitud' => $request->idSolicitud,
                 'Id_phCalidad' => $request->phTrazable1,
                 'Lectura1' => $request->phTl11,
@@ -182,8 +254,14 @@ class CampoController extends Controller
                 'Lectura3' => $request->phTl31,
                 'Estado' => $request->phTEstado1,
                 'Promedio' => $request->phCPromedio1,
+                'Id_user_c' => Auth::user()->id,
+                'Id_user_m' => Auth::user()->id
             ]);
-            CampoPhCalidad::create([
+
+            $nota = "Creación de registro";
+            $this->historialPhTrazable($request->idSolicitud, $nota, $campoPhCalidad);
+
+            $campoPhCalidad = CampoPhCalidad::create([
                 'Id_solicitud' => $request->idSolicitud,
                 'Id_phCalidad' => $request->phTrazable2,
                 'Lectura1' => $request->phTl12,
@@ -191,7 +269,12 @@ class CampoController extends Controller
                 'Lectura3' => $request->phTl32,
                 'Estado' => $request->phTEstado2,
                 'Promedio' => $request->phCPromedio2,
+                'Id_user_c' => Auth::user()->id,
+                'Id_user_m' => Auth::user()->id
             ]);
+
+            $nota = "Creación de registro";
+            $this->historialPhCalidadGen($request->idSolicitud, $nota, $campoPhCalidad);
         }
 
         //ConTrazable
@@ -204,16 +287,26 @@ class CampoController extends Controller
             $conTrazable->Lectura2 = $request->conT2;
             $conTrazable->Lectura3 = $request->conT3;
             $conTrazable->Estado = $request->conTEstado;
+            $conTrazable->Id_user_m = Auth::user()->id;
+
+            $nota = "Registro modificado";
+            $this->historialCondTrazable($request->idSolicitud, $nota, $conTrazable);
+
             $conTrazable->save();
         } else {
-            CampoConTrazable::create([
+            $campoCondTrazable = CampoConTrazable::create([
                 'Id_solicitud' => $request->idSolicitud,
                 'Id_conTrazable' => $request->conTrazable,
                 'Lectura1' => $request->conT1,
                 'Lectura2' => $request->conT2,
                 'Lectura3' => $request->conT3,
                 'Estado' => $request->conTEstado,
+                'Id_user_c' => Auth::user()->id,
+                'Id_user_m' => Auth::user()->id
             ]);
+
+            $nota = "Creación de registro";
+            $this->historialCondTrazable($request->idSolicitud, $nota, $campoCondTrazable);
         }
 
         //Conductividad control calidad
@@ -228,10 +321,15 @@ class CampoController extends Controller
                 $conCalidad->Lectura3 = $request->conCl3;
                 $conCalidad->Estado = $request->conCEstado;
                 $conCalidad->Promedio = $request->conCPromedio;
+                $conCalidad->Id_user_m = Auth::user()->id;
+
+                $nota = "Registro modificado";
+                $this->historialCondCalidad($request->idSolicitud, $nota, $conCalidad);
+
                 $conCalidad->save();
 
             }else{
-             CampoConCalidad::create([
+                $campoConCalidad = CampoConCalidad::create([
                     'Id_solicitud' => $request->idSolicitud,
                     'Id_conCalidad' => $request->conCalidad,
                     'Lectura1' => $request->conCl1,
@@ -239,16 +337,160 @@ class CampoController extends Controller
                     'Lectura3' => $request->conCl3,
                     'Estado' => $request->conCEstado,
                     'Promedio' => $request->conCPromedio,
+                    'Id_user_c' => Auth::user()->id,
+                    'Id_user_m' => Auth::user()->id
                 ]);
+
+                $nota = "Creación de registro";
+                $this->historialCondCalidad($request->idSolicitud, $nota, $campoConCalidad);
             }
 
-        $seguimiento = SeguimientoAnalisis::where('Id_servicio',$request->idSolicitud)->first();
-        $seguimiento->Muestreo = 1;
-        $seguimiento->save();
+            $seguimiento = SeguimientoAnalisis::where('Id_servicio',$request->idSolicitud)->first();
+            $seguimiento->Muestreo = 1;
+            $seguimiento->save();
 
         $data = array('sw' => true, 'model' => $model);
         return response()->json($data);
     }
+
+    public function historialCampoGeneral($idSol, $nota, $campoGeneral)
+    {
+        $idUser = Auth::user()->id;
+
+        $model = DB::table('campo_generales')->where('Id_general', $campoGeneral->Id_general)->where('Id_solicitud', $idSol)->first();
+        
+        HistorialCampoCapturaGeneral::create([
+            'Id_general' => $model->Id_general,
+            'Id_solicitud' => $model->Id_solicitud,
+            'Captura' => $model->Captura,
+            'Id_equipo' => $model->Id_equipo,
+            'Temperatura_a' => $model->Temperatura_a,
+            'Temperatura_b' => $model->Temperatura_b,
+            'Latitud' => $model->Latitud,
+            'Longitud' => $model->Longitud,
+            'Altitud' => $model->Altitud,
+            'Pendiente' => $model->Pendiente,
+            'Criterio' => $model->Criterio,
+            'Supervisor' => $model->Supervisor,
+            'Nota' => $nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,            
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $idUser,
+        ]);
+    }
+
+    public function historialPhTrazable($idSol, $nota, $campoPhTrazable)
+    {
+        $idUser = Auth::user()->id;
+
+        $model = DB::table('campo_phTrazable')->where('Id_ph', $campoPhTrazable->Id_ph)->where('Id_solicitud', $idSol)->first();
+        
+        HistorialCampoCapturaPhTrazable::create([
+            'Id_ph' => $model->Id_ph,
+            'Id_solicitud' => $model->Id_solicitud,
+            'Id_phTrazable' => $model->Id_phTrazable,
+            'Lectura1' => $model->Lectura1,
+            'Lectura2' => $model->Lectura2,
+            'Lectura3' => $model->Lectura3,            
+            'Estado' => $model->Estado,
+            'Nota' => $nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,            
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $idUser,
+        ]);
+    }
+
+    public function historialPhCalidadGen($idSol, $nota, $campoPhCalidad)
+    {
+        $idUser = Auth::user()->id;
+
+        $model = DB::table('campo_phCalidad')->where('Id_ph', $campoPhCalidad->Id_ph)->where('Id_solicitud', $idSol)->first();
+        
+        HistorialCampoCapturaPhCalidad::create([
+            'Id_ph' => $model->Id_ph,
+            'Id_solicitud' => $model->Id_solicitud,
+            'Id_phCalidad' => $model->Id_phCalidad,
+            'Lectura1' => $model->Lectura1,
+            'Lectura2' => $model->Lectura2,
+            'Lectura3' => $model->Lectura3,            
+            'Estado' => $model->Estado,
+            'Promedio' => $model->Promedio,
+            'Nota' => $nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,            
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $idUser,
+        ]);
+    }
+
+    public function historialCondTrazable($idSol, $nota, $campoCondTrazable)
+    {
+        $idUser = Auth::user()->id;
+
+        $model = DB::table('campo_conTrazable')->where('Id_conductividad', $campoCondTrazable->Id_conductividad)->where('Id_solicitud', $idSol)->first();
+        
+        HistorialCampoCapturaConTrazable::create([
+            'Id_conductividad' => $model->Id_conductividad,
+            'Id_solicitud' => $model->Id_solicitud,
+            'Id_conTrazable' => $model->Id_conTrazable,
+            'Lectura1' => $model->Lectura1,
+            'Lectura2' => $model->Lectura2,
+            'Lectura3' => $model->Lectura3,            
+            'Estado' => $model->Estado,
+            'Nota' => $nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,            
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $idUser,
+        ]);
+    }
+
+    public function historialCondCalidad($idSol, $nota, $campoCondCalidad)
+    {
+        $idUser = Auth::user()->id;
+
+        $model = DB::table('campo_conCalidad')->where('Id_conductividad', $campoCondCalidad->Id_conductividad)->where('Id_solicitud', $idSol)->first();
+        
+        HistorialCampoCapturaConCalidad::create([
+            'Id_conductividad' => $model->Id_conductividad,
+            'Id_solicitud' => $model->Id_solicitud,
+            'Id_conCalidad' => $model->Id_conCalidad,
+            'Lectura1' => $model->Lectura1,
+            'Lectura2' => $model->Lectura2,
+            'Lectura3' => $model->Lectura3,            
+            'Estado' => $model->Estado,
+            'Promedio' => $model->Promedio,
+            'Nota' => $nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,            
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $idUser,
+        ]);
+    }
+
+    /* public function historialSegAnalisis($idSol, $nota, $campoSegAnalisis)
+    {
+        $idUser = Auth::user()->id;
+
+        $model = DB::table('seguimiento_analisis')->where('Id_seguimiento', $campoSegAnalisis->Id_seguimiento)->where('Id_servicio', $idSol)->first();
+        
+        HistorialCampoCapturaSegAnalisis::create([
+            'Id_seguimiento' => $model->Id_seguimiento,
+            'Id_servicio' => $model->Id_servicio,
+            'Obs_solicitud' => $model->Obs_solicitud,
+            'Muestreo' => $model->Muestreo,
+            'Obs_muestreo' => $model->Obs_muestreo,
+            'Recepcion' => $model->Recepcion,
+            'Obs_recepcion' => $model->Obs_recepcion,    
+            'Nota' => $nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,            
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $idUser,
+        ]);
+    } */
 
     public function setDataMuestreo(Request $request)
     {
@@ -267,12 +509,19 @@ class CampoController extends Controller
                 $ph->Ph3 = $request->ph[$i][5];
                 $ph->Promedio = $request->ph[$i][6];
                 $ph->Fecha = $request->ph[$i][7];
+                $ph->Estado = $request->ph[$i][8];
+                $ph->Num_toma = $request->ph[$i][9];
+                $ph->Id_user_m = Auth::user()->id;
+                
+                $nota = "Registro modificado";
+                $this->historialPhMuestra($request->idSolicitud, $nota, $ph);
+
                 $ph->save();
             }
         } else {
             for ($i = 0; $i < $request->numTomas; $i++) {
              
-                PhMuestra::create([
+                $phMuestra = PhMuestra::create([
                     'Id_solicitud' => $request->idSolicitud,
                     'Materia' => $request->ph[$i][0],
                     'Olor' => $request->ph[$i][1],
@@ -282,7 +531,14 @@ class CampoController extends Controller
                     'Ph3' => $request->ph[$i][5],
                     'Promedio' => $request->ph[$i][6],
                     'Fecha' => $request->ph[$i][7],
+                    'Estado' => $request->ph[$i][8],
+                    'Num_toma' => $request->ph[$i][9],
+                    'Id_user_c' => Auth::user()->id,
+                    'Id_user_m' => Auth::user()->id
                 ]);
+
+                $nota = "Creación de registro";
+                $this->historialPhMuestra($request->idSolicitud, $nota, $phMuestra);
             }
         }
 
@@ -298,18 +554,30 @@ class CampoController extends Controller
                 $temp->Temperatura2 = $request->temperatura[$i][1];
                 $temp->Temperatura3 = $request->temperatura[$i][2];
                 $temp->Promedio = $request->temperatura[$i][3];
+                $temp->Estado = $request->temperatura[$i][4];
+                $temp->Id_user_m = Auth::user()->id;
+
+                $nota = "Registro modificado";
+                $this->historialTempMuestra($request->idSolicitud, $nota, $temp);
+
                 $temp->save();
             }
         } else {
             for ($i = 0; $i < $request->numTomas; $i++) {
           
-                TemperaturaMuestra::create([
+                $tempMuestra = TemperaturaMuestra::create([
                     'Id_solicitud' => $request->idSolicitud,
                     'Temperatura1' => $request->temperatura[$i][0],
                     'Temperatura2' => $request->temperatura[$i][1],
                     'Temperatura3' => $request->temperatura[$i][2],
                     'Promedio' => $request->temperatura[$i][3],
+                    'Estado' => $request->temperatura[$i][4],
+                    'Id_user_c' => Auth::user()->id,
+                    'Id_user_m' => Auth::user()->id
                 ]);
+
+                $nota = "Creación de registro";
+                $this->historialTempMuestra($request->idSolicitud, $nota, $tempMuestra);
             }
         }
 
@@ -326,23 +594,34 @@ class CampoController extends Controller
                 $phCalidad->Lectura3 = $request->phCalidad[$i][3];
                 $phCalidad->Estado = $request->phCalidad[$i][4];
                 $phCalidad->Promedio = $request->phCalidad[$i][5];
+                $phCalidad->Status = $request->phCalidad[$i][6];                
+                $phCalidad->Id_user_m = Auth::user()->id;
+                
+                $nota = "Registro modificado";
+                $this->historialPhControl($request->idSolicitud, $nota, $phCalidad);
+                
                 $phCalidad->save();
             }
         } else {
             for ($i = 0; $i < $request->numTomas; $i++) {
                
-                PhCalidadCampo::create([
+                $campoPhControlMuestra = PhCalidadCampo::create([
                     'Id_solicitud' => $request->idSolicitud,
                     'Ph_calidad' => $request->phCalidad[$i][0],
                     'Lectura1' => $request->phCalidad[$i][1],
                     'Lectura2' => $request->phCalidad[$i][2],
                     'Lectura3' => $request->phCalidad[$i][3],
                     'Estado' => $request->phCalidad[$i][4],
-                    'Promedio' => $request->phCalidad[$i][5]
+                    'Promedio' => $request->phCalidad[$i][5],
+                    'Status' => $request->phCalidad[$i][6],
+                    'Id_user_c' => Auth::user()->id,
+                    'Id_user_m' => Auth::user()->id
                 ]);
+
+                $nota = "Creación de registro";
+                $this->historialPhControl($request->idSolicitud, $nota, $campoPhControlMuestra);
             }
         }
-
 
         $conModel = ConductividadMuestra::where('Id_solicitud', $request->idSolicitud)->get();
 
@@ -355,18 +634,30 @@ class CampoController extends Controller
                 $conduc->Conductividad2 = $request->conductividad[$i][1];
                 $conduc->Conductividad3 = $request->conductividad[$i][2];
                 $conduc->Promedio = $request->conductividad[$i][3];
+                $conduc->Estado = $request->conductividad[$i][4];
+                $conduc->Id_user_m = Auth::user()->id;
+                
+                $nota = "Registro modificado";
+                $this->historialConductividad($request->idSolicitud, $nota, $conduc);
+
                 $conduc->save();
             }
         } else {
             for ($i = 0; $i < $request->numTomas; $i++) {
                
-                ConductividadMuestra::create([
+                $campoCondMuestra = ConductividadMuestra::create([
                     'Id_solicitud' => $request->idSolicitud,
                     'Conductividad1' => $request->conductividad[$i][0],
                     'Conductividad2' => $request->conductividad[$i][1],
                     'Conductividad3' => $request->conductividad[$i][2],
                     'Promedio' => $request->conductividad[$i][3],
+                    'Estado' => $request->conductividad[$i][4],
+                    'Id_user_c' => Auth::user()->id,
+                    'Id_user_m' => Auth::user()->id
                 ]);
+
+                $nota = "Creación de registro";
+                $this->historialConductividad($request->idSolicitud, $nota, $campoCondMuestra);
             }
         }
 
@@ -381,23 +672,147 @@ class CampoController extends Controller
                 $gasto->Gasto2 = $request->gasto[$i][1];
                 $gasto->Gasto3 = $request->gasto[$i][2];
                 $gasto->Promedio = $request->gasto[$i][3];
+                $gasto->Estado = $request->gasto[$i][4];
+                $gasto->Id_user_m = Auth::user()->id;
+
+                $nota = "Registro modificado";
+                $this->historialGasto($request->idSolicitud, $nota, $gasto);
+
                 $gasto->save();
             }
         } else {
             for ($i = 0; $i < $request->numTomas; $i++) {
                 
-                GastoMuestra::create([
+                $campoGastoMuestra = GastoMuestra::create([
                     'Id_solicitud' => $request->idSolicitud,
                     'Gasto1' => $request->gasto[$i][0],
                     'Gasto2' => $request->gasto[$i][1],
                     'Gasto3' => $request->gasto[$i][2],
                     'Promedio' => $request->gasto[$i][3],
+                    'Estado' => $request->gasto[$i][4],
+                    'Id_user_c' => Auth::user()->id,
+                    'Id_user_m' => Auth::user()->id
                 ]);
+
+                $nota = "Creación de registro";
+                $this->historialGasto($request->idSolicitud, $nota, $campoGastoMuestra);
             }
         }
 
         $data = array('sw' => true);
         return response()->json($data);
+    }
+
+    public function historialPhMuestra($idSol, $nota, $campoPhMuestra)
+    {
+        $idUser = Auth::user()->id;
+
+        $model = DB::table('ph_muestra')->where('Id_ph', $campoPhMuestra->Id_ph)->where('Id_solicitud', $idSol)->first();
+        HistorialCampoCaptMuestreoPh::create([
+            'Id_ph' => $model->Id_ph,
+            'Id_solicitud' => $model->Id_solicitud,
+            'Num_toma' => $model->Num_toma,
+            'Materia' => $model->Materia,
+            'Olor' => $model->Olor,
+            'Color' => $model->Color,
+            'Ph1' => $model->Ph1,
+            'Ph2' => $model->Ph2,
+            'Ph3' => $model->Ph3,
+            'Promedio' => $model->Promedio,
+            'Fecha' => $model->Fecha,
+            'Estado' => $model->Estado,
+            'Nota' => $nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,            
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $idUser,
+        ]);
+    }
+    
+    public function historialTempMuestra($idSol, $nota, $campoTempMuestra)
+    {
+        $idUser = Auth::user()->id;
+
+        $model = DB::table('temperatura_muestra')->where('Id_temperatura', $campoTempMuestra->Id_temperatura)->where('Id_solicitud', $idSol)->first();
+        HistorialCampoCaptMuestreoTemp::create([
+            'Id_temperatura' => $model->Id_temperatura,
+            'Id_solicitud' => $model->Id_solicitud,
+            'Temperatura1' => $model->Temperatura1,
+            'Temperatura2' => $model->Temperatura2,
+            'Temperatura3' => $model->Temperatura3,
+            'Promedio' => $model->Promedio,
+            'Estado' => $model->Estado,
+            'Nota' => $nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $idUser,
+        ]);
+    }
+
+    public function historialPhControl($idSol, $nota, $campoPhControlMuestra)
+    {
+        $idUser = Auth::user()->id;
+
+        $model = DB::table('ph_calidadCampo')->where('Id_phCalidad', $campoPhControlMuestra->Id_phCalidad)->where('Id_solicitud', $idSol)->first();
+        HistorialCampoCaptMuestreoPhCalidad::create([            
+            'Id_phCalidad' => $model->Id_phCalidad,
+            'Id_solicitud' => $model->Id_solicitud,
+            'Ph_calidad' => $model->Ph_calidad,
+            'Lectura1' => $model->Lectura1,
+            'Lectura2' => $model->Lectura2,
+            'Lectura3' => $model->Lectura3,
+            'Estado' => $model->Estado,
+            'Promedio' => $model->Promedio,
+            'Status' => $model->Status,
+            'Nota' => $nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $idUser,
+        ]);
+    }
+
+    public function historialConductividad($idSol, $nota, $campoCondMuestra)
+    {
+        $idUser = Auth::user()->id;
+
+        $model = DB::table('conductividad_muestra')->where('Id_conductividad', $campoCondMuestra->Id_conductividad)->where('Id_solicitud', $idSol)->first();
+        HistorialCampoCaptMuestreoConductividad::create([            
+            'Id_conductividad' => $model->Id_conductividad,
+            'Id_solicitud' => $model->Id_solicitud,
+            'Conductividad1' => $model->Conductividad1,
+            'Conductividad2' => $model->Conductividad2,
+            'Conductividad3' => $model->Conductividad3,
+            'Promedio' => $model->Promedio,
+            'Estado' => $model->Estado,
+            'Nota' => $nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $idUser,
+        ]);
+    }
+
+    public function historialGasto($idSol, $nota, $campoGastoMuestra)
+    {
+        $idUser = Auth::user()->id;
+
+        $model = DB::table('gasto_muestra')->where('Id_gasto', $campoGastoMuestra->Id_gasto)->where('Id_solicitud', $idSol)->first();
+        HistorialCampoCaptMuestreoGasto::create([            
+            'Id_gasto' => $model->Id_gasto,
+            'Id_solicitud' => $model->Id_solicitud,
+            'Gasto1' => $model->Gasto1,
+            'Gasto2' => $model->Gasto2,
+            'Gasto3' => $model->Gasto3,
+            'Promedio' => $model->Promedio,
+            'Estado' => $model->Estado,
+            'Nota' => $nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $idUser,
+        ]);
     }
 
     public function setDataCompuesto(Request $request){
@@ -414,24 +829,59 @@ class CampoController extends Controller
             $campoComp->Ph_muestraComp = $request->phMuestraCompuesto;
             $campoComp->Temp_muestraComp = $request->valTempCompuesto;
             $campoComp->Volumen_calculado = $request->volCalculadoComp;
+            $campoComp->Id_user_m = Auth::user()->id;
+
+            $nota = "Registro modificado";
+            $this->historialDatosCompuestos($request->idSolicitud, $nota, $campoComp);
 
             $campoComp->save();
         }else{
-            CampoCompuesto::create([
+            $campoComp = CampoCompuesto::create([
                 'Id_solicitud' => $request->idSolicitud,
                 'Metodo_aforo' => $request->aforoCompuesto,
                 'Con_tratamiento' => $request->conTratamientoCompuesto,
                 'Tipo_tratamiento' => $request->tipoTratamientoCompuesto,
                 'Proce_muestreo' => $request->procedimientoCompuesto,
                 'Observaciones' => $request->obsCompuesto,
+                //'Obser_solicitud' => $request->obs_sol,
                 'Ph_muestraComp' => $request->phMuestraCompuesto,
                 'Temp_muestraComp' => $request->valTempCompuesto,
-                'Volumen_calculado' => $request->volCalculadoComp
+                'Volumen_calculado' => $request->volCalculadoComp,
+                'Id_user_c' => Auth::user()->id,
+                'Id_user_m' => Auth::user()->id
             ]);
+
+            $nota = "Creación de registro";
+            $this->historialDatosCompuestos($request->idSolicitud, $nota, $campoComp);
         }
 
         $data = array('sw' => true);
         return response()->json($data);
+    }
+
+    public function historialDatosCompuestos($idSol, $nota, $campoCompuesto)
+    {
+        $idUser = Auth::user()->id;
+
+        $model = DB::table('campo_compuesto')->where('Id_campo', $campoCompuesto->Id_campo)->where('Id_solicitud', $idSol)->first();
+        HistorialCampoCaptCompuesto::create([            
+            'Id_campo' => $model->Id_campo,
+            'Id_solicitud' => $model->Id_solicitud,
+            'Metodo_aforo' => $model->Metodo_aforo,
+            'Con_tratamiento' => $model->Con_tratamiento,
+            'Tipo_tratamiento' => $model->Tipo_tratamiento,
+            'Proce_muestreo' => $model->Proce_muestreo,
+            'Observaciones' => $model->Observaciones,
+            //'Obser_solicitud' => $model->Obser_solicitud,
+            'Ph_muestraComp' => $model->Ph_muestraComp,
+            'Temp_muestraComp' => $model->Temp_muestraComp,
+            'Volumen_calculado' => $model->Volumen_calculado,
+            'Nota' => $nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $idUser,
+        ]);
     }
 
     public $nota;
