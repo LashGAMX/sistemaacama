@@ -5,7 +5,7 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-window-list"></i>
-    Tipo Análisis
+    Tipo Análisis 
   </h6>
   <!--MENU PRINCIPAL-->
   <div>
@@ -27,12 +27,12 @@
           </div>
                       
           <div class="col-md-3">
-              <a href="{{route('voyager.hist-clientes.index')}}">
+            <a href="{{url('')}}/admin/laboratorio/fq/captura">
                   <div class="panel widget center bgimage">
                       <div class="dimmer"></div>
                       <div class="panel-content">
                         <i class="fas fa-biohazard"></i>
-                          <h4>CIANUROS</h4>
+                          <h4>FQ</h4>
                       </div>
                   </div>
               </a>

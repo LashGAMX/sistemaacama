@@ -19,6 +19,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getObservacionanalisis', [MetalesController::class, 'getObservacionanalisis']);
         Route::post('aplicarObservacion', [MetalesController::class, 'aplicarObservacion']);
 
+        //? Modulo captura de datos analisis
         Route::get('tipoAnalisis', [MetalesController::class, 'tipoAnalisis']);
         Route::get('captura', [MetalesController::class, 'captura']);
         Route::post('getDataCaptura', [MetalesController::class, 'getDataCaptura']);
@@ -45,6 +46,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('lote/procedimiento', [MetalesController::class, 'guardarTexto']);
     });
 
+    // todo Modulo FisicoQuimicos
     Route::group(['prefix' => 'fq'], function () {
         //? Modulo Analisis -  Solo visualizar analisis pendientes
         Route::get('analisis', [FqController::class, 'analisis']);
@@ -64,6 +66,13 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('asignarMuestraLote', [FqController::class, 'asignarMuestraLote']);
         Route::post('getMuestraAsignada', [FqController::class, 'getMuestraAsignada']);
         Route::post('delMuestraLote', [FqController::class, 'getMuestraAsignada']);
+
+        //? Modulo captura de datos analisis
+        Route::get('tipoAnalisis', [FqController::class, 'tipoAnalisis']);
+        Route::get('captura', [FqController::class, 'captura']);
+        Route::post('getDataCaptura', [FqController::class, 'getDataCaptura']);
+        Route::post('setControlCalidad', [FqController::class, 'setControlCalidad']);
+        Route::post('liberarMuestraMetal', [FqController::class, 'liberarMuestraMetal']);
     });
 
     //? Módulo curva - Creación de curva

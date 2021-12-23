@@ -147,7 +147,7 @@ class FqController extends Controller
             ->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro);
-        return view('laboratorio.metales.captura', compact('parametro'));
+        return view('laboratorio.fq.captura', compact('parametro'));
     }
     public function getDataCaptura(Request $request)
     {
@@ -484,8 +484,7 @@ class FqController extends Controller
     //* Muestra asigada a lote
     public function getMuestraAsignada(Request $request)
     {
-        $model = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get();
-
+        $model = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get(); 
         $data = array(
             'model' => $model,
         );

@@ -178,9 +178,7 @@
           <li class="nav-item" role="menu">
             <a class="nav-link active" id="formulaGlobal-tab" data-toggle="tab" href="#formulaGlobal" role="tab" aria-controls="formulaGlobal" aria-selected="true" onclick='isSelectedProcedimiento("formulaGlobal-tab");'>Fórmulas Globales</a>
           </li>
-          <li class="nav-item" role="menu">
-            <a class="nav-link" id="equipo-tab" data-toggle="tab" href="#equipo" role="tab" aria-controls="equipo" aria-selected="false" onclick='isSelectedProcedimiento("equipo-tab");'>Equipo</a>
-          </li>
+     
           <li class="nav-item" role="menu">
             <a class="nav-link" id="procedimiento-tab" data-toggle="tab" href="#procedimiento" role="tab" aria-controls="procedimiento" aria-selected="false" onclick='isSelectedProcedimiento("procedimiento-tab");'>Procedimiento/Validación</a>
           </li>
@@ -223,72 +221,7 @@
               </div> 
                
               <div class="tab-pane fade" id="equipo" role="tabpanel" aria-labelledby="equipo-tab">  
-                <h4>Flama / Generador de hidruros / Horno de grafito / Alimentos</h4>
-                <hr>
-                <label>Lote ID: <input type="text" id="flama_loteId"></label> &nbsp;&nbsp;&nbsp; 
-                <label>Fecha / Hora digestión: <input type="datetime-local" id="flama_fechaHoraDig"></label><br>
-                <label>Longitud de onda: <input type="text" id="flama_longOnda"></label> &nbsp;&nbsp;&nbsp; 
-                <label>Flujos de gas: <input type="text" id="flama_flujoGas"></label> &nbsp;&nbsp;&nbsp;
-                <label>Equipo: <input type="text" id="flama_equipoForm"></label><br>
-                <label>No. de inventario: <input type="text" id="flama_numInventario"></label> &nbsp;&nbsp;&nbsp;
-                <label>No. de inv. de lámpara: <input type="text" id="flama_numInvLamp"></label> &nbsp;&nbsp;&nbsp;
-                <label>Slit: <input type="text" id="flama_slit" size="17"></label><br>
-                <label>Corriente: <input type="text" id="flama_corriente"></label> &nbsp;&nbsp;&nbsp;
-                <label>Energía: <input type="text" id="flama_energia"></label> &nbsp;&nbsp;&nbsp;
-                <label>Conc. Std: <input type="text" id="flama_concStd"></label><br>
-                <label>Gas: <input type="text" id="flama_gas"></label> &nbsp;&nbsp;&nbsp;
-                <label>Aire: <input type="text" id="flama_aire"></label> &nbsp;&nbsp;&nbsp;
-                <label>Óxido nitroso: <input type="text" id="flama_oxidoN"></label><br>
-                <label>Fecha de preparación: <input type="date" id="flama_fechaPrep"></label><br><br>
-                
-                <h4>Blanco de curva</h4>
-                <hr>
-                <label>Verificación de blanco: <input type="text" id="blanco_verifBlanco"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS. Teórica blanco: <input type="text" id="blanco_absTeoBlanco"></label><br>
-                <label>ABS 1: <input type="text" id="blanco_abs1" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 2: <input type="text" id="blanco_abs2" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 3: <input type="text" id="blanco_abs3" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 4: <input type="text" id="blanco_abs4" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 5: <input type="text" id="blanco_abs5" size="10"></label><br>
-                <label>ABS promedio: <input type="text" id="blanco_absProm"></label> &nbsp;&nbsp;&nbsp;
-                <label>Conclusión blanco: <input type="text" id="blanco_concBlanco"></label><br><br>
-                
-                <h4>Verificación del espectrofotómetro</h4>
-                <hr>
-                <label>STD. Cal: <input type="text" id="verif_stdCal"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS. Teórica: <input type="text" id="verif_absTeorica"></label> &nbsp;&nbsp;&nbsp;
-                <label>Conc. (mg/L): <input type="text" id="verif_concMgL"></label><br>
-                <label>ABS 1: <input type="text" id="verif_Abs1" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 2: <input type="text" id="verif_Abs2" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 3: <input type="text" id="verif_Abs3" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 4: <input type="text" id="verif_Abs4" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 5: <input type="text" id="verif_Abs5" size="10"></label><br>
-                <label>ABS promedio: <input type="text" id="verif_AbsProm" size="7"></label> &nbsp;&nbsp;&nbsp;
-                <label>Masa característica (pg/0.0044 A-s): <input type="text" id="verif_masaCarac" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>Conclusión: <input type="text" id="verif_conclusion"></label><br>
-                <label>Conc. Obtenida: <input type="text" id="verif_conclusionObtenida"></label> &nbsp;&nbsp;&nbsp;
-                <label>% Rec: <input type="text" id="verif_rec"></label> &nbsp;&nbsp;&nbsp;
-                <label>Cumple: <input type="text" id="verif_cumple"></label><br><br>
-
-                <h4>Estándar de verificación del instrumento</h4>
-                <hr>
-                <label>Conc. (mg/L): <input type="text" id="std_conc"></label> &nbsp;&nbsp;&nbsp;
-                <label>DESV. STD.: <input type="text" id="std_desvStd"></label> &nbsp;&nbsp;&nbsp;
-                <label>Cumple: <input type="text" id="std_cumple"></label><br>
-                <label>ABS 1: <input type="text" id="std_abs1" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 2: <input type="text" id="std_abs2" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 3: <input type="text" id="std_abs3" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 4: <input type="text" id="std_abs4" size="10"></label> &nbsp;&nbsp;&nbsp;
-                <label>ABS 5: <input type="text" id="std_abs5" size="10"></label><br><br>
-
-                <h4>Curva de calibración</h4> 
-                <hr>
-                <label>Bitácora curva calibración: <input type="text" id="curva_bitCurvaCal"></label> &nbsp;&nbsp;&nbsp;
-                <label>Folio curva de calibración: <input type="text" id="curva_folioCurvaCal"></label><br><br>
-
-                <h4>Generador de Hidruros</h4>
-                <hr>
-                <label>Generador de Hidruros: <input type="text" id="gen_genHidruros"></label>
+         
               </div> 
             
               <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">                                

@@ -7,7 +7,7 @@
     <i class="voyager-window-list"></i>
     Captura de resultados
   </h6>
- 
+  
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
@@ -21,7 +21,7 @@
                   </select>
             </div>
         </div>
-        {{-- <div class="col-md-3">
+        {{-- <div class="col-md-3"> 
             <div class="form-group">
                 <label for="">Núm. muestra</label>
                 <input type="text" style="width: " class="form-control" id="numeroMuestra">
