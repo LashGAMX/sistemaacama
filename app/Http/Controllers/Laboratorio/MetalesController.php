@@ -115,7 +115,7 @@ class MetalesController extends Controller
 
     public function aplicarObservacion(Request $request)
     {
-        $viewObservacion = DB::table('ViewObservacionMuestra')->where('Folio','LIKE',"%{$request->folioActual}%")->first();
+        $viewObservacion = DB::table('ViewObservacionMuestra')->where('Id_area',2)->where('Folio','LIKE',"%{$request->folioActual}%")->first();
         
 
         $observacion = ObservacionMuestra::find($viewObservacion->Id_observacion);
@@ -127,7 +127,7 @@ class MetalesController extends Controller
         $observacion->save();
 
 
-        $model = DB::table('ViewObservacionMuestra')->where('Id_area', $request->idTipo)->get();
+        $model = DB::table('ViewObservacionMuestra')->where('Id_area',2)->get();
 
         $data = array(
             'model' => $model,
@@ -144,7 +144,6 @@ class MetalesController extends Controller
 
     public function captura()
     {
-
         $parametro = Parametro::where('Id_tipo_formula', 20)
             ->orWhere('Id_tipo_formula', 21)
             ->orWhere('Id_tipo_formula', 22)
