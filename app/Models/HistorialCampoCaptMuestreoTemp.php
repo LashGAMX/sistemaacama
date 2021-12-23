@@ -22,7 +22,7 @@ class HistorialCampoCaptMuestreoTemp extends Model
         'Temperatura2',
         'Temperatura3',
         'Promedio',
-        'Estado',
+        'Activo',
         'Nota',
         'F_creacion',
         'Id_user_c',

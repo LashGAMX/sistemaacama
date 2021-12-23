@@ -27,7 +27,7 @@ class HistorialCampoCaptMuestreoPh extends Model
         'Ph3',
         'Promedio',
         'Fecha',
-        'Estado',
+        'Activo',
         'Nota',
         'F_creacion',
         'Id_user_c',

@@ -525,8 +525,11 @@
                             {{-- <button class="btn btn-danger" id="btnCancelarMuestra"><i class="voyager-x"></i> Cancelar Muestra</button> --}}
                         </div>
                         <form>
-                            <input type="text" class="" id="numTomas" value="{{ $model->Num_tomas }}" hidden>
+                            <input type="text" class="" id="numTomas" value={{ $model->Num_tomas }} hidden>
                             <div class="col-md-12">
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalProbar">Cancelar muestra</button>
+                                <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalProbar2">Revertir muestra</button>
+                                <br><br>
                                 <p>PH</p>
                                 <table class="table" id="phMuestra">
                                     <thead>
@@ -545,62 +548,141 @@
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
+                                            @if (@$phMuestra[$i]->Activo == 0) 
+                                                @php
+                                                    $sw = true;
+                                                @endphp
+                                            @else
+                                                @php
+                                                    $sw = false;
+                                                @endphp
+                                            @endif
+                                        
                                             <tr id="filaPh{{$i}}">
                                                 
-                                                <td>
-                                                    <span id="cancelPh{{$i}}">
-                                                        <button type="button" class="btn btn-outline-dark muestraCancel" id="phDel{{$i}}" 
-                                                        onclick="cancelarNumMuestra('filaPh{{$i}}', 'phStatus1{{$i}}', 'opcionPh')"   > 
-                                                            <i class="fas fa-times-circle"></i> 
-                                                        </button>
-                                                    </span>  
-                                                    
-                                                    <span id="revertPh{{$i}}" hidden>
-                                                        <button type="button" 
-                                                            class="btn btn-outline-dark muestraCancel" onclick="revertirMuestra('opcionPh', 'filaPh{{$i}}');">
-                                                            <i class="fas fa-check-circle"></i> 
-                                                        </button>
-                                                    </span>
-                                                    
-                                                    {{$i + 1}}
-                                                
-                                                </td> 
+                                                <td>{{$i + 1}}</td> 
 
                                                 <td>
-                                                    <select id="materia{{ $i }}">
-                                                        <option value="0">Sin seleccionar</option>
-                                                        <option value="1">Presente</option>
-                                                        <option value="2">Ausente</option>
+                                                    <select id="materia{{ $i }}" @if (@$sw == true) disabled @endif>
+                                                        @if (@$phMuestra[$i]->Materia == 'Presente')
+                                                            @php
+                                                                $valueSelectedMateria = 1;
+                                                            @endphp
+                                                        @elseif(@$phMuestra[$i]->Materia == 'Ausente')
+                                                            @php
+                                                                $valueSelectedMateria = 2;
+                                                            @endphp
+                                                        @else
+                                                            @php
+                                                                $valueSelectedMateria = 0;
+                                                            @endphp
+                                                        @endif
+
+                                                        <option value="0"
+                                                            @if ($valueSelectedMateria == 0)
+                                                                selected
+                                                            @endif
+                                                        >Sin seleccionar</option>
+                                                        <option value="1"
+                                                            @if ($valueSelectedMateria == 1)
+                                                                selected
+                                                            @endif
+                                                        >Presente</option>
+                                                        <option value="2"
+                                                            @if ($valueSelectedMateria == 2)
+                                                                selected
+                                                            @endif
+                                                        >Ausente</option>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select id="olor{{ $i }}">
-                                                        <option value="0">Sin seleccionar</option>
-                                                        <option value="1">Si</option>
-                                                        <option value="2">No</option>
+                                                    <select id="olor{{ $i }}" @if (@$sw == true) disabled @endif>
+                                                        @if (@$phMuestra[$i]->Olor == 'Si')
+                                                            @php
+                                                                $valueSelectedOlor = 1;
+                                                            @endphp
+                                                        @elseif(@$phMuestra[$i]->Olor == 'No')
+                                                            @php
+                                                                $valueSelectedOlor = 2;
+                                                            @endphp
+                                                        @else
+                                                            @php
+                                                                $valueSelectedOlor = 0;
+                                                            @endphp
+                                                        @endif
+                                                        
+                                                        <option value="0"
+                                                            @if ($valueSelectedOlor == 0)
+                                                                selected
+                                                            @endif
+                                                        >Sin seleccionar</option>
+                                                            
+                                                        <option value="1"
+                                                            @if ($valueSelectedOlor == 1)
+                                                                selected
+                                                            @endif
+                                                        >Si</option>
+
+                                                        <option value="2"
+                                                            @if ($valueSelectedOlor == 2)
+                                                                selected
+                                                            @endif
+                                                        >No</option>
                                                     </select>
                                                 </td>
                                                 <td>
-                                                    <select id="color{{ $i }}">
-                                                        <option value="0">Sin seleccionar</option>
-                                                        <option value="1">Rojo</option>
-                                                        <option value="2">Verde</option>
+                                                    <select id="color{{ $i }}" @if (@$sw == true) disabled @endif>
+                                                        @if (@$phMuestra[$i]->Color == 'Verde')
+                                                            @php
+                                                                $valueSelectedColor = 1;
+                                                            @endphp
+                                                        @elseif(@$phMuestra[$i]->Color == 'Rojo')
+                                                            @php
+                                                                $valueSelectedColor = 2;
+                                                            @endphp
+
+                                                        @else
+                                                            @php
+                                                                $valueSelectedColor = 0;
+                                                            @endphp
+                                                        @endif
+
+                                                        <option value="0"
+                                                            @if ($valueSelectedColor == 0)
+                                                                selected
+                                                            @endif
+                                                        >Sin seleccionar</option>
+                                                        <option value="1"
+                                                            @if ($valueSelectedColor == 1)
+                                                                selected
+                                                            @endif
+                                                        >Rojo</option>
+
+                                                        <option value="2"
+                                                            @if ($valueSelectedColor == 2)
+                                                                selected
+                                                            @endif
+                                                        >Verde</option>
                                                     </select>
                                                 </td>
                                                 <td><input type="number" step="any" id="phl1{{ $i }}"
-                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$phMuestra[$i]->Ph1}}" @if (@$sw == true) disabled @endif>
                                                 </td>
                                                 <td><input type="number" step="any" id="phl2{{ $i }}"
-                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$phMuestra[$i]->Ph2}}" @if (@$sw == true) disabled @endif>
                                                 </td>
                                                 <td><input type="number" step="any" id="phl3{{ $i }}"
-                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+                                                        onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$phMuestra[$i]->Ph3}}" @if (@$sw == true) disabled @endif>
                                                 </td>                                                
-                                                <td><p id="phprom1{{ $i }}"></p></td>
-                                                <td><input type="datetime-local" step="1" id="phf{{ $i }}" onchange='validacionFechaMuestreo("phf{{$i}}");'></td>
-                                                <td><input type="text" id="phprom{{ $i }}" hidden></td>
-
-                                                <td><input type="text" id="phStatus1{{$i}}" value="ACEPTADO" hidden></td>
+                                                <td><p id="phprom1{{ $i }}">{{@$phMuestra[$i]->Promedio}}</p></td>
+                                                <td><input type="datetime-local" step="1" id="phf{{ $i }}" onchange='validacionFechaMuestreo("phf{{$i}}");' value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif></td>
+                                                <td><input type="text" id="phprom{{ $i }}" value="{{@$phMuestra[$i]->Promedio}}" hidden></td>
+                                                
+                                                @if (!is_null(@$phMuestra[$i]->Activo))
+                                                    <td><input type="text" id="phStatus1{{$i}}" value="{{@$phMuestra[$i]->Activo}}" hidden></td>
+                                                @else
+                                                    <td><input type="text" id="phStatus1{{$i}}" value= "1" hidden></td>
+                                                @endif                                                
                                             </tr>
 
                                         @endfor
@@ -626,28 +708,22 @@
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
+                                        
+                                        @if (@$tempMuestra[$i]->Activo == 0) 
+                                            @php
+                                                $sw = true;
+                                            @endphp
+                                        @else
+                                            @php
+                                                $sw = false;
+                                            @endphp
+                                        @endif
+                                                                                
                                             <tr id="filaTemp{{$i}}">
-                                                <td>
-                                                    <span id="cancelTemp{{$i}}">
-                                                        <button type="button" class="btn btn-outline-dark muestraCancel" id="phTempDel{{$i}}" 
-                                                        onclick="cancelarNumMuestra('filaTemp{{$i}}', 'tempStatus1{{$i + 1}}', 'opcionTempAgua')"   > 
-                                                            <i class="fas fa-times-circle"></i> 
-                                                        </button>
-                                                    </span>  
-                                                    
-                                                    <span id="revertTemp{{$i}}" hidden>
-                                                        <button type="button" 
-                                                            class="btn btn-outline-dark muestraCancel" onclick="revertirMuestra('opcionTempAgua', 'filaTemp{{$i}}');">
-                                                            <i class="fas fa-check-circle"></i> 
-                                                        </button>
-                                                    </span>
-                                                    
-                                                    {{$i + 1}}
-                                                
-                                                </td>                                                                                                
+                                                <td>{{$i + 1}}</td>
                                                 
                                                 <td><input type="number" id="temp1{{ $i }}"
-                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$tempMuestra[$i]->Temperatura1}}" @if (@$sw == true) disabled @endif>
                                                 </td>
                                                 
                                                 <td>
@@ -655,7 +731,7 @@
                                                 </td>
                                                 
                                                 <td><input type="number" id="temp2{{ $i }}"
-                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$tempMuestra[$i]->Temperatura2}}" @if (@$sw == true) disabled @endif>
                                                 </td>
                                                 
                                                 <td>
@@ -663,18 +739,22 @@
                                                 </td>
                                                 
                                                 <td><input type="number" id="temp3{{ $i }}"
-                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+                                                        onkeyup='valTempMuestra("temp1{{ $i }}","temp2{{ $i }}","temp3{{ $i }}","tempprom{{ $i }}","factorTemp1{{ $i }}","factorTemp2{{ $i }}","factorTemp3{{ $i }}", "tempprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$tempMuestra[$i]->Temperatura3}}" @if (@$sw == true) disabled @endif>
                                                 </td>
                                                 
                                                 <td>
                                                     <p id="factorTemp3{{ $i }}"></p>
                                                 </td>
                                                 
-                                                <td><p id="tempprom1{{ $i }}"></p></td>
+                                                <td><p id="tempprom1{{ $i }}">{{@$tempMuestra[$i]->Promedio}}</p></td>
                                                 
-                                                <td><input type="text" id="tempprom{{ $i }}" hidden></td>
+                                                <td><input type="text" id="tempprom{{ $i }}" value="{{@$tempMuestra[$i]->Promedio}}" hidden></td>
                                                 
-                                                <td><input type="text" id="tempStatus1{{$i + 1}}" value="ACEPTADO" hidden></td>
+                                                @if (!is_null(@$tempMuestra[$i]->Activo))
+                                                    <td><input type="text" id="tempStatus1{{$i + 1}}" value="{{@$tempMuestra[$i]->Activo}}" hidden></td>
+                                                @else
+                                                    <td><input type="text" id="tempStatus1{{$i + 1}}" value= "1" hidden></td>
+                                                @endif
                                             </tr>
                                         @endfor
                                     </tbody>
@@ -697,55 +777,72 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @for ($i = 0; $i < $model->Num_tomas; $i++)
+                                        @for ($i = 0; $i < $model->Num_tomas; $i++)                                                                               
+                                            @if (@$phCalidadCampo[$i]->Activo == 0) 
+                                                @php
+                                                    $sw = true;
+                                                @endphp
+                                            @else
+                                                @php
+                                                    $sw = false;
+                                                @endphp
+                                            @endif
+                                        
                                             <tr id="filaPhConCal{{$i}}">
-                                                <td>
-                                                    <span id="cancelPhCal{{$i}}">
-                                                        <button type="button" class="btn btn-outline-dark muestraCancel" id="phCalDel{{$i}}" 
-                                                        onclick="cancelarNumMuestra('filaPhConCal{{$i}}', 'phCMStatus1{{$i + 1}}', 'opcionPhConCal')"   > 
-                                                            <i class="fas fa-times-circle"></i> 
-                                                        </button>
-                                                    </span>  
-                                                    
-                                                    <span id="revertPhCal{{$i}}" hidden>
-                                                        <button type="button" 
-                                                            class="btn btn-outline-dark muestraCancel" onclick="revertirMuestra('opcionPhConCal', 'filaPhConCal{{$i}}');">
-                                                            <i class="fas fa-check-circle"></i> 
-                                                        </button>
-                                                    </span>
-                                                    
-                                                    {{$i + 1}}
-                                                
-                                                </td>
+                                                <td>{{$i + 1}}</td>
 
                                                 <td>                                            
-                                                    <select id="phControlCalidadMuestra{{$i + 1}}">
-                                                        <option value="0">Sin seleccionar</option>
-                                                        <option value="7">{{$phControlCalidad->Ph_calidad}}</option>                                                        
+                                                    <select id="phControlCalidadMuestra{{$i + 1}}" @if (@$sw == true) disabled @endif>                                                        
+                                                        @if (@$phCalidadCampo[$i]->Ph_calidad == 0)
+                                                            @php
+                                                                $valueSelected = 0;
+                                                            @endphp
+                                                        @else
+                                                            @php
+                                                                $valueSelected = 7;
+                                                            @endphp
+                                                        @endif
+                                                        
+                                                        <option value="0" 
+                                                            @if ($valueSelected == 0)
+                                                                selected
+                                                            @endif
+                                                        >Sin seleccionar</option>
+                                                        
+                                                        <option value="7" 
+                                                            @if ($valueSelected == 7)
+                                                                selected
+                                                            @endif 
+                                                        >{{@$phControlCalidad->Ph_calidad}}</option>                                                        
                                                     </select>
                                                 </td>
                                             
                                                 <td>
-                                                    <input type="number" step="any" class="" placeholder="L1" id="phCM1{{$i+1}}"                                                        
-                                                        onkeyup="valPhCalidadMuestra('phCM1{{$i+1}}','phCM2{{$i+1}}','phCM3{{$i+1}}','phCMEstado1{{$i + 1}}','phCMPromedio1{{$i + 1}}', 'phControlCalidadMuestra{{$i + 1}}')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidadMuestra("phCM1{{$i+1}}", "phCM2{{$i+1}}", "phCM3{{$i+1}}", "phCM1{{$i+1}}", "phControlCalidadMuestra{{$i + 1}}")'>
+                                                    <input type="number" step="any" class="" id="phCM1{{$i+1}}"                                                        
+                                                        onkeyup="valPhCalidadMuestra('phCM1{{$i+1}}','phCM2{{$i+1}}','phCM3{{$i+1}}','phCMEstado1{{$i + 1}}','phCMPromedio1{{$i + 1}}', 'phControlCalidadMuestra{{$i + 1}}')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidadMuestra("phCM1{{$i+1}}", "phCM2{{$i+1}}", "phCM3{{$i+1}}", "phCM1{{$i+1}}", "phControlCalidadMuestra{{$i + 1}}")' value="{{@$phCalidadCampo[$i]->Lectura1}}" @if (@$sw == true) disabled @endif>
                                                 </td>
 
                                                 <td>
-                                                    <input type="number" step="any" class="" placeholder="L2" id="phCM2{{$i+1}}"
-                                                        onkeyup="valPhCalidadMuestra('phCM1{{$i+1}}','phCM2{{$i+1}}','phCM3{{$i+1}}','phCMEstado1{{$i + 1}}','phCMPromedio1{{$i + 1}}', 'phControlCalidadMuestra{{$i + 1}}')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidadMuestra("phCM1{{$i+1}}", "phCM2{{$i+1}}", "phCM3{{$i+1}}", "phCM2{{$i+1}}", "phControlCalidadMuestra{{$i + 1}}")'>
+                                                    <input type="number" step="any" class="" id="phCM2{{$i+1}}"
+                                                        onkeyup="valPhCalidadMuestra('phCM1{{$i+1}}','phCM2{{$i+1}}','phCM3{{$i+1}}','phCMEstado1{{$i + 1}}','phCMPromedio1{{$i + 1}}', 'phControlCalidadMuestra{{$i + 1}}')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidadMuestra("phCM1{{$i+1}}", "phCM2{{$i+1}}", "phCM3{{$i+1}}", "phCM2{{$i+1}}", "phControlCalidadMuestra{{$i + 1}}")' value="{{@$phCalidadCampo[$i]->Lectura2}}" @if (@$sw == true) disabled @endif>
                                                 </td>
 
                                                 <td>
-                                                    <input type="number" step="any" class="" placeholder="L3" id="phCM3{{$i+1}}"
-                                                        onkeyup="valPhCalidadMuestra('phCM1{{$i+1}}','phCM2{{$i+1}}','phCM3{{$i+1}}','phCMEstado1{{$i + 1}}','phCMPromedio1{{$i + 1}}', 'phControlCalidadMuestra{{$i + 1}}')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidadMuestra("phCM1{{$i+1}}", "phCM2{{$i+1}}", "phCM3{{$i+1}}", "phCM3{{$i+1}}", "phControlCalidadMuestra{{$i + 1}}")'>
+                                                    <input type="number" step="any" class="" id="phCM3{{$i+1}}"
+                                                        onkeyup="valPhCalidadMuestra('phCM1{{$i+1}}','phCM2{{$i+1}}','phCM3{{$i+1}}','phCMEstado1{{$i + 1}}','phCMPromedio1{{$i + 1}}', 'phControlCalidadMuestra{{$i + 1}}')" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='validacionPhCalidadMuestra("phCM1{{$i+1}}", "phCM2{{$i+1}}", "phCM3{{$i+1}}", "phCM3{{$i+1}}", "phControlCalidadMuestra{{$i + 1}}")' value="{{@$phCalidadCampo[$i]->Lectura3}}" @if (@$sw == true) disabled @endif>
                                                 </td>
 
                                                 <td>
                                                     <input type="text" id="phCMEstado1{{$i + 1}}" disabled>
                                                 </td>
-                                                <td><input type="text" id="phCMPromedio1{{$i + 1}}" disabled>
+                                                <td><input type="text" id="phCMPromedio1{{$i + 1}}" value="{{@$phCalidadCampo[$i]->Promedio}}" disabled>
                                                 </td>
-                                                <td><input type="text" id="phCMStatus1{{$i + 1}}" value="ACEPTADO" hidden></td>
+
+                                                @if (!is_null(@$phCalidadCampo[$i]->Activo))
+                                                    <td><input type="text" id="phCMStatus1{{$i + 1}}" value="{{@$phCalidadCampo[$i]->Activo}}" hidden></td>
+                                                @else
+                                                    <td><input type="text" id="phCMStatus1{{$i + 1}}" value= "1" hidden></td>
+                                                @endif                                                
                                             </tr>
                                         @endfor
                                     </tbody>
@@ -767,39 +864,39 @@
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
-                                            <tr id="filaCond{{$i}}">
-                                                
-                                                <td>
-                                                    <span id="cancelCond{{$i}}">
-                                                        <button type="button" class="btn btn-outline-dark muestraCancel" id="condDel{{$i}}" 
-                                                        onclick="cancelarNumMuestra('filaCond{{$i}}', 'condStatus1{{$i + 1}}', 'opcionCond')"   > 
-                                                            <i class="fas fa-times-circle"></i> 
-                                                        </button>
-                                                    </span>  
-                                                    
-                                                    <span id="revertCond{{$i}}" hidden>
-                                                        <button type="button" 
-                                                            class="btn btn-outline-dark muestraCancel" onclick="revertirMuestra('opcionCond', 'filaCond{{$i}}');">
-                                                            <i class="fas fa-check-circle"></i> 
-                                                        </button>
-                                                    </span>
-                                                    
-                                                    {{$i + 1}}
-                                                
-                                                </td>
+                                        
+                                        @if (@$conductividadMuestra[$i]->Activo == 0) 
+                                            @php
+                                                $sw = true;
+                                            @endphp
+                                        @else
+                                            @php
+                                                $sw = false;
+                                            @endphp
+                                        @endif
+                                        
+                                        <tr id="filaCond{{$i}}">                                                    
+
+                                                <td>{{$i + 1}}</td>
                                                                                                 
                                                 <td><input type="text" id="con1{{ $i }}"
-                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$conductividadMuestra[$i]->Conductividad1}}" @if (@$sw == true) disabled @endif>
                                                 </td>
                                                 <td><input type="text" id="con2{{ $i }}"
-                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$conductividadMuestra[$i]->Conductividad2}}" @if (@$sw == true) disabled @endif>
                                                 </td>
                                                 <td><input type="text" id="con3{{ $i }}"
-                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+                                                        onkeyup='valConMuestra("con1{{ $i }}","con2{{ $i }}","con3{{ $i }}","conprom{{ $i }}","conprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$conductividadMuestra[$i]->Conductividad3}}" @if (@$sw == true) disabled @endif>
                                                 </td>
-                                                <td><p id="conprom1{{ $i }}"></p></td>
-                                                <td><input type="text" id="condStatus1{{$i + 1}}" value="ACEPTADO" hidden></td>
-                                                <td><input type="text" id="conprom{{ $i }}" hidden></td>
+                                                <td><p id="conprom1{{ $i }}">{{@$conductividadMuestra[$i]->Promedio}}</p></td>
+                                                
+                                                @if (!is_null(@$conductividadMuestra[$i]->Activo))
+                                                    <td><input type="text" id="condStatus1{{$i + 1}}" value="{{@$conductividadMuestra[$i]->Activo}}" hidden></td>
+                                                @else
+                                                    <td><input type="text" id="condStatus1{{$i + 1}}" value= "1" hidden></td>
+                                                @endif  
+
+                                                <td><input type="text" id="conprom{{ $i }}" value="{{@$conductividadMuestra[$i]->Promedio}}" hidden></td>
                                             </tr>
                                         @endfor
                                     </tbody>
@@ -821,39 +918,39 @@
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
-                                            <tr id="filaGasto{{$i}}">
+                                        
+                                        @if (@$gastoMuestra[$i]->Activo == 0) 
+                                            @php
+                                                $sw = true;
+                                            @endphp
+                                        @else
+                                            @php
+                                                $sw = false;
+                                            @endphp
+                                        @endif    
+                                        
+                                        <tr id="filaGasto{{$i}}">
                                                 
-                                                <td>
-                                                    <span id="cancelGasto{{$i}}">
-                                                        <button type="button" class="btn btn-outline-dark muestraCancel" id="GastoDel{{$i}}" 
-                                                        onclick="cancelarNumMuestra('filaGasto{{$i}}', 'gastoStatus1{{$i + 1}}', 'opcionGasto')"   > 
-                                                            <i class="fas fa-times-circle"></i> 
-                                                        </button>
-                                                    </span>  
-                                                    
-                                                    <span id="revertGasto{{$i}}" hidden>
-                                                        <button type="button" 
-                                                            class="btn btn-outline-dark muestraCancel" onclick="revertirMuestra('opcionGasto', 'filaGasto{{$i}}');">
-                                                            <i class="fas fa-check-circle"></i> 
-                                                        </button>
-                                                    </span>
-                                                    
-                                                    {{$i + 1}}
-                                                
-                                                </td>
+                                                <td>{{$i + 1}}</td>
 
                                                 <td><input type="text" id="gas1{{ $i }}"
-                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$gastoMuestra[$i]->Gasto1}}" @if (@$sw == true) disabled @endif>
                                                 </td>
                                                 <td><input type="text" id="gas2{{ $i }}"
-                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$gastoMuestra[$i]->Gasto2}}" @if (@$sw == true) disabled @endif>
                                                 </td>
                                                 <td><input type="text" id="gas3{{ $i }}"
-                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5">
+                                                        onkeyup='valGastoMuestra("gas1{{ $i }}","gas2{{ $i }}","gas3{{ $i }}","gasprom{{ $i }}","gasprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$gastoMuestra[$i]->Gasto3}}" @if (@$sw == true) disabled @endif>
                                                 </td>
-                                                <td><p id="gasprom1{{ $i }}"></p></td>
-                                                <td><input type="text" id="gastoStatus1{{$i + 1}}" value="ACEPTADO" hidden></td>
-                                                <td><input type="text" id="gasprom{{ $i }}" hidden></td>
+                                                <td><p id="gasprom1{{ $i }}">{{@$gastoMuestra[$i]->Promedio}}</p></td>
+                                                
+                                                @if (!is_null(@$gastoMuestra[$i]->Activo))
+                                                    <td><input type="text" id="gastoStatus1{{$i + 1}}" value="{{@$gastoMuestra[$i]->Activo}}" hidden></td>
+                                                @else
+                                                    <td><input type="text" id="gastoStatus1{{$i + 1}}" value= "1" hidden></td>
+                                                @endif                                                  
+
+                                                <td><input type="text" id="gasprom{{ $i }}" value="{{@$gastoMuestra[$i]->Promedio}}" hidden></td>
                                             </tr>
                                         @endfor
                                     </tbody>
@@ -1045,6 +1142,96 @@
 
     </div>
 </div>
+
+
+{{-- Modal; Cancelar muestra --}}
+<div class="modal fade" id="modalProbar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        
+        {{-- Modal; Header --}}
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <h5 class="modal-title" id="exampleModalLabel">Cancelar muestra</h5>
+          
+        </div>
+  
+        {{-- Modal; Body --}}
+        <div class="modal-body" id="modal">
+
+            <p>¿Qué número de muestra deseas cancelar?</p>
+
+            <select class="form-select" aria-label="Default select example" id="selectCancelMuestra">                                
+                <option value="0" selected>Sin seleccionar</option>
+                
+                @for ($i = 1; $i <= $model->Num_tomas; $i++)
+                    <option value={{$i}}>{{$i}}</option>
+                @endfor
+                                
+            </select>            
+
+        </div>
+
+        {{-- Modal; Footer --}}
+        <div class="modal-footer">            
+
+            <button type="button" class="btn btn-secondary" {{-- data-dismiss="modal" --}} onclick="cancelaMuestra();">Aplicar</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+{{-- Fin modal; Cancelar muestra --}}
+
+{{-- Modal; Revertir muestra --}}
+
+<div class="modal fade" id="modalProbar2" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        
+        {{-- Modal; Header --}}
+        <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+
+            <h5 class="modal-title" id="exampleModalLabel">Revertir muestra</h5>
+          
+        </div>
+  
+        {{-- Modal; Body --}}
+        <div class="modal-body" id="modal">
+
+            <p>¿Qué número de muestra deseas revertir?</p>
+
+            <select class="form-select" aria-label="Default select example" id="selectRevierteMuestra">                                
+                <option value="0" selected>Sin seleccionar</option>
+                
+                @for ($i = 1; $i <= $model->Num_tomas; $i++)
+                    {{-- @if (@$phMuestra[$i-1]->Activo == 0)
+                        <option value={{$i}}>{{$i}}</option>
+                    @endif --}}
+                    <option value={{$i}}>{{$i}}</option>
+                @endfor
+                                
+            </select>            
+
+        </div>
+
+        {{-- Modal; Footer --}}
+        <div class="modal-footer">            
+
+            <button type="button" class="btn btn-secondary" {{-- data-dismiss="modal" --}} onclick="revierteMuestra();">Aplicar</button>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+{{-- Fin modal; Revertir muestra --}}
 
 @endsection
 

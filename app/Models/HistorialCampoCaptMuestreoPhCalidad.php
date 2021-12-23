@@ -24,7 +24,7 @@ class HistorialCampoCaptMuestreoPhCalidad extends Model
         'Lectura3',
         'Estado',
         'Promedio',
-        'Status',
+        'Activo',
         'Nota',
         'F_creacion',
         'Id_user_c',

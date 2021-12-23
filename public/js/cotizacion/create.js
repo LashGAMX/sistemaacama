@@ -453,6 +453,7 @@ function dataTomas() {
       success: function (response) {
           console.log(response)
           $('#tomas').val(response.Tomas);
+          $('#tomas2').val(response.Tomas);
       }
   });
 }

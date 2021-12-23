@@ -22,7 +22,7 @@ class HistorialCampoCaptMuestreoGasto extends Model
         'Gasto2',
         'Gasto3',
         'Promedio',
-        'Estado',
+        'Activo',
         'Nota',
         'F_creacion',
         'Id_user_c',

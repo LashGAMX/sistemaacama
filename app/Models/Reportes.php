@@ -18,6 +18,7 @@ class Reportes extends Model
         'Id_lote',
         'Id_muestra',
         'Texto',
+        'Id_area',
         'Id_user_c',
         'Id_user_m'
     ];

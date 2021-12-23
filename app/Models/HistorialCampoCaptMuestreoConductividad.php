@@ -22,7 +22,7 @@ class HistorialCampoCaptMuestreoConductividad extends Model
         'Conductividad2',
         'Conductividad3',
         'Promedio',
-        'Estado',
+        'Activo',
         'Nota',
         'F_creacion',
         'Id_user_c',

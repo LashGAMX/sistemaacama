@@ -197,8 +197,8 @@
                             <div class="col-md-2">
                                 <div class="form-group">
                                     <label for="tomas"># de tomas</label>
-                                    <input type="number" class="form-control" placeholder="# de tomas" id="tomas"
-                                        name="tomas" value="{{ @$model->Tomas }}">
+                                    <input type="number" class="form-control" placeholder="# de tomas" id="tomas2"
+                                        name="tomas2" value="{{ @$model->Tomas }}" disabled>
                                 </div>
                             </div>
 
@@ -639,6 +639,10 @@
                             @endif
                         </div>
                     </div>
+
+                    <div class="col-md-12" hidden>                        
+                        <input type="number" class="form-control" id="tomas" name="tomas" value="{{ @$model->Tomas }}">
+                      </div>
                     </form>
                     {{-- Fin datos Cotizacion --}}
                 </div>
