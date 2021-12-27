@@ -16,9 +16,9 @@ class HistorialCampoCapturaConCalidad extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Id_ph',
+        'Id_conductividad',
         'Id_solicitud',
-        'Id_phCalidad',
+        'Id_conCalidad',
         'Lectura1',
         'Lectura2',
         'Lectura3',

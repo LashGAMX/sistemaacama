@@ -49,7 +49,9 @@ $(document).ready(function () {
     
     addColPunto();        
 
-    
+    $('#frecuencia').click(function () {
+        dataTomas();
+    });
 });
 function update()
 {
@@ -1030,3 +1032,22 @@ function aplicarTotal()
     alert("Solo se puede aplicar una vez el descuento");
   }
 }
+
+function dataTomas() {
+
+    $.ajax({ 
+        url: base_url + '/admin/cotizacion/getTomas', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            idFrecuencia: $('#frecuencia').val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            console.log(response)
+            $('#numTomas').val(response.Tomas);
+            $('#numTomas2').val(response.Tomas);
+        }
+    });
+  }

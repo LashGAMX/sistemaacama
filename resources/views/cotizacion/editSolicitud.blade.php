@@ -214,8 +214,8 @@
               </div>
               <div class="col-md-4">
                 <label for="numTomas">Numero de tomas</label>
-                <input type="text" id="numTomas" name="numTomas" class="form-control" value="{{$model->Num_tomas}}">
-              </div>
+                <input type="text" id="numTomas2" name="numTomas2" class="form-control" value="{{$model->Num_tomas}}" disabled>                
+              </div>                            
 
             </div>
           </div>
@@ -323,7 +323,8 @@
         <input type="text" class="form-control" hidden id="idCotizacion" name="idCotizacion" value="{{$idCot}}">
         <input type="text" class="form-control" hidden id="parametrosSolicitud" name="parametrosSolicitud" >
         <input type="text" class="form-control" hidden id="puntosSolicitud" name="puntosSolicitud" >
-      </div>
+        <input type="text" id="numTomas" name="numTomas" class="form-control" value="{{$model->Num_tomas}}" >
+      </div>      
 
         {{-- Fin parametros --}}
       </form>

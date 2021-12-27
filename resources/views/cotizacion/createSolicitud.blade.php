@@ -391,7 +391,7 @@
         <input type="text" class="form-control" hidden id="parametrosSolicitud" name="parametrosSolicitud" >
         <input type="text" class="form-control" hidden id="puntosSolicitud" name="puntosSolicitud" >
         <input type="text" class="form-control" hidden id="numTomas2" name="numTomas" value="{{$model->Tomas}}">
-      </div>
+      </div>      
 
         {{-- Fin parametros --}}
       </form>

@@ -247,7 +247,7 @@
               </div>
               <div class="col-md-4">
                 <label for="numTomas">Número de tomas</label>
-                <input type="text" id="numTomas" name="numTomas" class="form-control">
+                <input type="text" id="numTomas2" name="numTomas2" class="form-control" disabled>
               </div>
 
             </div>
@@ -736,9 +736,9 @@
         <td><input type="hidden" class="form-control" name="telefonoContVal" id="telCont2"></td>
         {{-- <input type="text" class="form-control" hidden id="idCotizacion" name="idCotizacion" value="{{$idCot}}"> --}}
         {{-- <input type="text" class="form-control" id="parametrosSolicitud" name="parametrosSolicitud" > --}}
-        <input type="text" class="form-control" id="puntosSolicitud" name="puntosSolicitud">        
-      </div>
-
+        <input type="text" class="form-control" id="puntosSolicitud" name="puntosSolicitud">
+        <input type="text" id="numTomas" name="numTomas" class="form-control">
+      </div>      
         {{-- Fin parametros --}}
       </form>
       
