@@ -175,13 +175,34 @@
         <!-- <button type="button" class="btn btn-danger">Salir</button> -->
         <div id="btnRefresh"></div>        
         <ul class="nav nav-tabs" id="myTab" role="tablist"> 
+          
           <li class="nav-item" role="menu">
             <a class="nav-link active" id="formulaGlobal-tab" data-toggle="tab" href="#formulaGlobal" role="tab" aria-controls="formulaGlobal" aria-selected="true" onclick='isSelectedProcedimiento("formulaGlobal-tab");'>Fórmulas Globales</a>
+          </li>
+
+          <li class="nav-item" role="menu">
+            <a class="nav-link" id="grasas-tab" data-toggle="tab" href="#grasas" role="tab" aria-controls="grasas" aria-selected="false">Grasas</a>
+          </li>
+
+          <li class="nav-item" role="menu">
+            <a class="nav-link" id="coliformes-tab" data-toggle="tab" href="#coliformes" role="tab" aria-controls="coliformes" aria-selected="false">Coliformes</a>
+          </li>
+
+          <li class="nav-item" role="menu">
+            <a class="nav-link" id="dbo-tab" data-toggle="tab" href="#dbo" role="tab" aria-controls="dbo" aria-selected="false">DBO</a>
+          </li>
+
+          <li class="nav-item" role="menu">
+            <a class="nav-link" id="dqo-tab" data-toggle="tab" href="#dqo" role="tab" aria-controls="dqo" aria-selected="false">DQO</a>
+          </li>
+
+          <li class="nav-item" role="menu">
+            <a class="nav-link" id="metales-tab" data-toggle="tab" href="#metales" role="tab" aria-controls="metales" aria-selected="false">Metales</a>
           </li>
      
           <li class="nav-item" role="menu">
             <a class="nav-link" id="procedimiento-tab" data-toggle="tab" href="#procedimiento" role="tab" aria-controls="procedimiento" aria-selected="false" onclick='isSelectedProcedimiento("procedimiento-tab");'>Procedimiento/Validación</a>
-          </li>
+          </li>          
         </ul>
       </div>
 
@@ -220,30 +241,90 @@
 
               </div> 
                
-              <div class="tab-pane fade" id="equipo" role="tabpanel" aria-labelledby="equipo-tab">  
-         
+              {{-- GRASAS --}}
+              <div class="tab-pane fade" id="grasas" role="tabpanel" aria-labelledby="grasas-tab">  
+              
+              </div>
+              {{-- GRASAS FIN --}}
+
+              {{-- COLIFORMES --}}
+              <div class="tab-pane fade" id="coliformes" role="tabpanel" aria-labelledby="coliformes-tab">  
+                <h4>Sembrado</h4>
+                <hr>
+
+                <label>Lote ID: <input type="text" id="sembrado_loteId"></label> <br>
+                <label>Sembrado: <input type="datetime-local" id="sembrado_sembrado"></label><br>
+                <label>Fecha de resiembra de la cepa utilizada: <input type="date" id="sembrado_fechaResiembra"></label><br>
+                <label>Tubo N°: <input type="text" id="sembrado_tuboN"></label> <br>
+                <label>Bitácora: <input type="text" id="sembrado_bitacora"></label>
+
+                <br><br>
+
+                <h4>Prueba Presuntiva</h4>
+                <hr>
+                
+                <label>Preparación: <input type="datetime-local" id="pruebaPresuntiva_preparacion"></label><br>
+                <label>Lectura: <input type="datetime-local" id="pruebaPresuntiva_lectura"></label><br>
+
+                <br>
+
+                <h4>Prueba confirmativa</h4>
+                <hr>
+
+                <label>Medio: <input type="text" id="pruebaConfirmativa_medio"></label> <br>
+                <label>Preparación: <input type="datetime-local" id="pruebaConfirmativa_preparacion"></label><br>
+                <label>Lectura: <input type="datetime-local" id="pruebaConfirmativa_lectura"></label><br>                
               </div> 
+              {{-- COLIFORMES FIN --}}
+
+              {{-- DBO --}}
+              <div class="tab-pane fade" id="dbo" role="tabpanel" aria-labelledby="dbo-tab">  
+              
+              </div>
+              {{-- DBO FIN --}}
+
+              {{-- DQO --}}
+              <div class="tab-pane fade" id="dqo" role="tabpanel" aria-labelledby="dqo-tab">  
+                <h4>Ebullición</h4>
+                <hr>
+
+                <label>Lote ID: <input type="text" id="ebullicion_loteId"></label> <br>
+                <label>Inicio: <input type="date" id="ebullicion_inicio"></label>
+                <label>Fin: <input type="date" id="ebullicion_fin"></label><br><br>
+
+                <p>Bureta utilizada para titulación</p>
+                <label>INVLAB: <input type="text" id="ebullicion_invlab"></label> <br>
+              </div>
+              {{-- DQO FIN --}}
+
+              {{-- METALES --}}
+              <div class="tab-pane fade" id="metales" role="tabpanel" aria-labelledby="metales-tab">  
+              
+              </div>
+              {{-- METALES FIN --}}
             
+              {{-- PROCEDIMIENTO --}}
               <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">                                
               
                 
                 <div id="divSummer">
                   <div id="summernote">
-                    @if (isset($textoRecuperado))
-                    @php
-                        echo $textoRecuperado->Texto;
-                    @endphp
-                  @else
-                    @php
-                        echo $textoRecuperadoPredeterminado->Texto;
-                    @endphp
-                @endif       
-            </div>
+                        @if (isset($textoRecuperado))
+                        @php
+                            echo $textoRecuperado->Texto;
+                        @endphp
+                      @else
+                        @php
+                            echo $textoRecuperadoPredeterminado->Texto;
+                        @endphp
+                    @endif       
+                  </div>
                 </div>
              
                 
                 <button type="button" class="btn btn-primary" onclick='guardarTexto("idLoteHeader");'>Guardar</button>
-              </div> 
+              </div>
+              {{-- PROCEDIMIENTO FIN --}}
             </div>
           </div>
           

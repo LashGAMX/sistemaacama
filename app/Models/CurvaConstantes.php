@@ -19,7 +19,8 @@ class CurvaConstantes extends Model
         'M',
         'R',
         'Fecha_inicio',
-        'Fecha_final',
+        'Fecha_fin',
+        'Id_area',
         'Id_user_c',
         'Id_user_m'
     ];

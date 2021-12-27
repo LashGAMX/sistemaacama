@@ -18,6 +18,9 @@ use App\Models\CurvaCalibracionMet;
 use App\Models\VerificacionMetales;
 use App\Models\EstandarVerificacionMet;
 use App\Models\GeneradorHidrurosMet;
+use App\Models\PruebaConfirmativaFq;
+use App\Models\PruebaPresuntivaFq;
+use App\Models\SembradoFq;
 use Illuminate\Http\Request;
 
 ;
@@ -404,11 +407,12 @@ class FqController extends Controller
     {
         $data = array();
 
-        $idLoteIf = $request->idLote;
-        $reporte = Reportes::where('Id_lote',$request->idLote)->first();
-
+        $idLoteIf = $request->idLote;  //Array 5
+        
+        $reporte = Reportes::where('Id_lote',$request->idLote)->first(); //Array 4
+        
+        //RECUPERA EL APARTADO DE FÓRMULAS GLOBALES; Array 0
         $constantesModel = CurvaConstantes::where('Id_lote', $request->idLote)->get();
-
         if($constantesModel->count()){
             $constantes = CurvaConstantes::where('Id_lote', $request->idLote)->first();
 
@@ -417,34 +421,26 @@ class FqController extends Controller
             array_push($data, null);
         }
 
-        $tecnicaLoteMet = DB::table('tecnica_lote_metales')->where('Id_lote', $request->idLote)->get();
-        $blancoCurvaMet = DB::table('blanco_curva_metales')->where('Id_lote', $request->idLote)->get();
-        $estandarVerificacionMet = DB::table('estandar_verificacion_met')->where('Id_lote', $request->idLote)->get();
-        $verificacionMet = DB::table('verificacion_metales')->where('Id_lote', $request->idLote)->get();
-        $curvaCalibracionMet = DB::table('curva_calibracion_met')->where('Id_lote', $request->idLote)->get();
-        $generadorHidrurosMet = DB::table('generador_hidruros_met')->where('Id_lote', $request->idLote)->get();
+        /* Módulo de coliformes */
+        $sembradoFq = DB::table('sembrado_fq')->where('Id_lote', $request->idLote)->get();
+        $pruebaPresuntivaFq = DB::table('prueba_presuntiva_fq')->where('Id_lote', $request->idLote)->get();
+        $pruebaConfirmativaFq = DB::table('prueba_confirmativa_fq')->where('Id_lote', $request->idLote)->get(); 
 
-        if($tecnicaLoteMet->count() && $blancoCurvaMet->count() && $estandarVerificacionMet->count() && $verificacionMet->count() && $curvaCalibracionMet->count() && $generadorHidrurosMet->count()){
-            $tecLotMet = TecnicaLoteMetales::where('Id_lote',$request->idLote)->first();
-            $blancCurvaMet = BlancoCurvaMetales::where('Id_lote',$request->idLote)->first();
-            $stdVerMet = EstandarVerificacionMet::where('Id_lote',$request->idLote)->first();
-            $verMet = VerificacionMetales::where('Id_lote',$request->idLote)->first();
-            $curMet = CurvaCalibracionMet::where('Id_lote',$request->idLote)->first();
-            $genMet = GeneradorHidrurosMet::where('Id_lote',$request->idLote)->first();
+        if($sembradoFq->count() && $pruebaPresuntivaFq->count() && $pruebaConfirmativaFq->count()){
+            $sembradoFq = SembradoFq::where('Id_lote', $request->idLote)->first(); //Array 1
+            $pruebaPresunFq = PruebaPresuntivaFq::where('Id_lote', $request->idLote)->first(); //Array 2
+            $pruebaConfirFq = PruebaConfirmativaFq::where('Id_lote', $request->idLote)->first(); //Array 3
 
             array_push(
                 $data,
-                $tecLotMet,
-                $blancCurvaMet,
-                $stdVerMet,
-                $verMet,
-                $curMet,
-                $genMet,
+                $sembradoFq,
+                $pruebaPresunFq,
+                $pruebaConfirFq
             );
 
         }else{
             array_push(
-                $data, null, null, null, null, null, null
+                $data, null, null, null
             );
         }
 

@@ -59,7 +59,7 @@ $(document).ready(function (){
 function setConstantes()
 {
     const fecha = new Date();
-    fecha = fecha.toLocaleDateString();
+    //fecha = fecha.toLocaleDateString();
     console.log(fecha);
 
     $.ajax({

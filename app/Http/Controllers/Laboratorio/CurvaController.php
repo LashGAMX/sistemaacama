@@ -117,21 +117,21 @@ class CurvaController extends Controller
     
 
         if($lote->count()){
-            $const = CurvaConstantes::find($request->idLote);
-            //$const->Id_lote = $request->idLote;
+            $curvaModel = CurvaConstantes::where('Id_lote', $request->idLote)->first();
+            $const = CurvaConstantes::find($curvaModel->Id_curvaConst);
             $const->B = $request->b;
             $cosnt->M = $request->m;
             $const->R = $request->r;
             //$const->Fecha_inicio = $request->fecha;
-            $const = save(); 
+            $const->save(); 
         }else{
             $model = CurvaConstantes::create([
                 'Id_lote' => $request->idLote,
                 'B' => $request->b,
                 'M' => $request->m,
                 'R' => $request->r,
-                'Fecha_inicio' => $request->fecha,
-            ]);
+                //'Fecha_inicio' => $request->fecha,
+            ]); 
         }
 
         
