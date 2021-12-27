@@ -15,12 +15,12 @@
       <div class="clearfix container-fluid row">
           
           <div class="col-md-3">
-              <a href="https://dev.sistemaacama.com.mx/admin/laboratorio/metales/captura">
+            <a href="{{url('')}}/admin/laboratorio/fq/captura">
                   <div class="panel widget center bgimage">
                       <div class="dimmer"></div>
                       <div class="panel-content">
                         <i class="fab fa-buffer"></i>
-                          <h4>METALES</h4>
+                          <h4>ESPECTROFOTOMETRICOS</h4>
                       </div>
                   </div>
               </a>
@@ -32,7 +32,7 @@
                       <div class="dimmer"></div>
                       <div class="panel-content">
                         <i class="fas fa-biohazard"></i>
-                          <h4>FQ</h4>
+                          <h4>GRAVIMETRIA</h4>
                       </div>
                   </div>
               </a>
@@ -43,23 +43,22 @@
                     <div class="dimmer"></div>
                     <div class="panel-content">
                       <i class="fas fa-bolt"></i>
-                        <h4>CONDUCTIVIDAD</h4>
+                        <h4>VOLUMETRIA</h4>
                     </div>
                 </div>
             </a>
-        </div>   
+        </div>    
         <div class="col-md-3">
           <a href="{{route('voyager.hist-clientes.index')}}">
               <div class="panel widget center bgimage">
                   <div class="dimmer"></div>
                   <div class="panel-content">
-                    <i class="voyager-lab"></i>
-                      <h4>DBO</h4>
+                    <i class="fas fa-bolt"></i>
+                      <h4>G & A</h4>
                   </div>
               </div>
           </a>
-      </div>   
-
+      </div>    
       </div>
   </div> 
   </div>

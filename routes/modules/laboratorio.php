@@ -69,7 +69,9 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
         //? Modulo captura de datos analisis
         Route::get('tipoAnalisis', [FqController::class, 'tipoAnalisis']);
-        Route::get('captura', [FqController::class, 'captura']);
+
+        Route::get('capturaEspectro', [FqController::class, 'capturaEspectro']);
+
         Route::post('getDataCaptura', [FqController::class, 'getDataCaptura']);
         Route::post('setControlCalidad', [FqController::class, 'setControlCalidad']);
         Route::post('liberarMuestraMetal', [FqController::class, 'liberarMuestraMetal']);

@@ -136,7 +136,7 @@ class FqController extends Controller
         return view('laboratorio.fq.tipoAnalisis');
     }
 
-    public function captura()
+    public function capturaEspectro()
     {
 
         $parametro = Parametro::where('Id_tipo_formula', 20)
