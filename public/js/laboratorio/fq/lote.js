@@ -118,9 +118,9 @@ function getDatalote()
             
             console.log(response);  
             
-            //console.log("Valor de idLote: " + response[8]);
+            //console.log("Valor de idLote: " + response[5]);
             
-            if(response[8] == 0 || response[8] < 0 || !response[8]){
+            if(response[5] == 0 || response[5] < 0 || !response[5]){
                 tab += '<table id="tableFormulasGlobales" class="table table-sm">';
                 tab += '<thead>'
                 tab +=      '<tr>'
@@ -138,7 +138,7 @@ function getDatalote()
                 tab += '</tbody>'
                 tab += '</table>';
                 tabla.innerHTML = tab;
-            }else if(response[8] > 0){
+            }else if(response[5] > 0){
                 tab += '<table id="tableFormulasGlobales" class="table table-sm">';
                 tab += '    <thead class="thead-dark">';
                 tab += '        <tr>';
@@ -182,27 +182,22 @@ function getDatalote()
                 tabla.innerHTML = tab;
             }
 
-            if((response[1] !== null) && (response[2] !== null) && (response[3] !== null) && (response[4] !== null) && (response[5] !== null) && (response[6] !== null)){
+            /* MODIFICAR DE AQUÍ EN ADELANTE */
+            if((response[1] !== null) && (response[2] !== null) && (response[3] !== null)){
                 //Formatea la fecha a un formato admitido por el input datetime
-                let fecha = response[1].Fecha_hora_dig;
+                let fecha = response[1].Sembrado;
                 let fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm:ss');
                 let fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDThh:mm');                                
 
-                $("#flama_loteId").val(response[1].Id_lote);
-                $("#flama_fechaHoraDig").val(fechaFormateada);                
-                $("#flama_longOnda").val(response[1].Longitud_onda);
-                $("#flama_flujoGas").val(response[1].Flujo_gas);
-                $("#flama_equipoForm").val(response[1].Equipo);
-                $("#flama_numInventario").val(response[1].Num_inventario);
-                $("#flama_numInvLamp").val(response[1].Num_invent_lamp);
-                $("#flama_slit").val(response[1].Slit);
-                $("#flama_corriente").val(response[1].Corriente);
-                $("#flama_energia").val(response[1].Energia);
-                $("#flama_concStd").val(response[1].Conc_std);
-                $("#flama_gas").val(response[1].Gas);
-                $("#flama_aire").val(response[1].Aire);
-                $("#flama_oxidoN").val(response[1].Oxido_nitroso);
-                $("#flama_fechaPrep").val(response[1].Fecha_preparacion);
+                $("#sembrado_loteId").val(response[1].Id_lote);
+                $("#sembrado_sembrado").val(fechaFormateada);                
+                $("#sembrado_fechaResiembra").val(response[1].Fecha_resiembra);
+                $("#sembrado_tuboN").val(response[1].Tubo_n);
+                $("#sembrado_bitacora").val(response[1].Bitacora);                
+
+                fecha = response[2].Preparacion;
+                fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm:ss');
+                
 
                 $('#blanco_verifBlanco').val(response[2].Verif_blanco);
                 $('#blanco_absTeoBlanco').val(response[2].ABS_teor_blanco);
@@ -212,22 +207,7 @@ function getDatalote()
                 $('#blanco_abs4').val(response[2].ABS4);
                 $('#blanco_abs5').val(response[2].ABS5);
                 $('#blanco_absProm').val(response[2].ABS_prom);
-                $('#blanco_concBlanco').val(response[2].Concl_blanco);
-
-                $('#verif_stdCal').val(response[4].STD_cal);
-                $('#verif_absTeorica').val(response[4].ABS_teorica);
-                $('#verif_concMgL').val(response[4].Conc_mgL);
-                $('#verif_Abs1').val(response[4].ABS1);
-                $('#verif_Abs2').val(response[4].ABS2);
-                $('#verif_Abs3').val(response[4].ABS3);
-                $('#verif_Abs4').val(response[4].ABS4);
-                $('#verif_Abs5').val(response[4].ABS5);
-                $('#verif_AbsProm').val(response[4].ABS_prom);
-                $('#verif_masaCarac').val(response[4].Masa_caract);
-                $('#verif_conclusion').val(response[4].Conclusion);
-                $('#verif_conclusionObtenida').val(response[4].Conc_obtenida);
-                $('#verif_rec').val(response[4].Porc_rec);
-                $('#verif_cumple').val(response[4].Cumple);
+                $('#blanco_concBlanco').val(response[2].Concl_blanco);                
 
                 $('#std_conc').val(response[3].Conc_mgL);
                 $('#std_desvStd').val(response[3].DESV_std);
@@ -238,10 +218,6 @@ function getDatalote()
                 $('#std_abs4').val(response[3].ABS4);
                 $('#std_abs5').val(response[3].ABS5);
 
-                $('#curva_bitCurvaCal').val(response[5].Bitacora_curCal),
-                $('#curva_folioCurvaCal').val(response[5].Folio_curCal),
-
-                $('#gen_genHidruros').val(response[6].Generador_hidruros)
             }else{                
                 $("#flama_loteId").val('');
                 $("#flama_fechaHoraDig").val('');
@@ -300,6 +276,9 @@ function getDatalote()
             }                                                    
 
             console.log("actualizado");
+
+            /* TERMINA LA MODIFICACIÓN */
+
             if(response[7] !== null){
                 summer.innerHTML = '<div id="summernote">'+response[7].Texto+'</div>';
                 $('#summernote').summernote({
