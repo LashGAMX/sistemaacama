@@ -9,6 +9,7 @@ use App\Models\Parametro;
 use App\Models\TipoFormula;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 class ConcentracionController extends Controller
 {
@@ -18,6 +19,7 @@ class ConcentracionController extends Controller
         $norma = Norma::all();
         return view('analisisQ.concentracion',compact('norma'));
     }
+
     public function getParametroNorma(Request $request)
     {
         $model = DB::table('ViewParametros')->where('Id_norma',$request->idNorma)->get();
@@ -32,16 +34,21 @@ class ConcentracionController extends Controller
         $model = ConcentracionParametro::where('Id_parametro',$request->idParametro)->get();
         if($model->count())
         {
-            
+                        
         }else{
             $parametro = Parametro::where('Id_parametro',$request->idParametro)->first();
             $tipoModel = TipoFormula::where('Id_tipo_formula',$parametro->Id_tipo_formula)->first();
 
             for ($i=0; $i < $tipoModel->Concentracion; $i++) { 
-                ConcentracionParametro::create([
+                $model = ConcentracionParametro::create([
                     'Id_parametro' => $request->idParametro,
                     'Concentracion' => 0,
+                    'Id_user_c' => Auth::user()->id,
+                    'Id_user_m' => Auth::user()->id
                 ]);
+
+                $nota = 'Creación de registro';
+                $this->historial($nota, $model->Id_concentracion);
             }
             $model = ConcentracionParametro::where('Id_parametro',$request->idParametro)->get();
         }
@@ -50,6 +57,23 @@ class ConcentracionController extends Controller
         );
         return response()->json($data);
     }
+
+    public function historial($idConcentracion)
+    {        
+        $model = DB::table('envase')->where('Id_concentracion', $idConcentracion)->first();
+        HistorialAnalisisqEnvase::create([
+            'Id_envase' => $model->Id_envase,
+            'Nombre' => $model->Nombre,
+            'Volumen' => $model->Volumen,
+            'Unidad' => $model->Unidad,
+            'Nota' => $this->nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => Auth::user()->id
+        ]);
+    }
+
     public function setConcentracionParametro(Request $request)
     {
         $model = ConcentracionParametro::where('Id_parametro',$request->idParametro)->get();
