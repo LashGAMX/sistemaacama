@@ -21,7 +21,9 @@ use App\Models\GeneradorHidrurosMet;
 use App\Models\PruebaConfirmativaFq;
 use App\Models\PruebaPresuntivaFq;
 use App\Models\SembradoFq;
+use App\Models\DqoFq;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 ;
 use Illuminate\Support\Facades\DB;
@@ -127,11 +129,11 @@ class FqController extends Controller
         $model = DB::table('ViewObservacionMuestra')->where('Id_area',5)->get();
 
         $data = array(
-            'model' => $model,
-            'view' => $viewObservacion,
+            'model' => $model, 
+            'view' => $viewObservacion, 
         );
         return response()->json($data);
-    }
+    } 
 
     //*****************************************CAPTURA****************************************************************** */
     public function tipoAnalisis()
@@ -142,17 +144,13 @@ class FqController extends Controller
     public function capturaEspectro()
     {
 
-        $parametro = Parametro::where('Id_tipo_formula', 20)
-            ->orWhere('Id_tipo_formula', 21)
-            ->orWhere('Id_tipo_formula', 22)
-            ->orWhere('Id_tipo_formula', 23)
-            ->orWhere('Id_tipo_formula', 24)
+        $parametro = Parametro::where('Id_area', 5)
             ->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
-        // var_dump($parametro);
-        return view('laboratorio.fq.captura', compact('parametro'));
+        // var_dump($parametro); 
+        return view('laboratorio.fq.capturaEspectro', compact('parametro'));
     }
-    public function getDataCaptura(Request $request)
+    public function getDataCapturaEspectro(Request $request)
     {
         //$parametro = Parametro::where('Id_parametro',$request->formulaTipo)->first();
         $lote = DB::table('ViewLoteAnalisis')->where('Fecha', $request->fechaAnalisis)->get();
@@ -377,6 +375,7 @@ class FqController extends Controller
         $textoRecuperadoPredeterminado = Reportes::where('Id_reporte', 0)->first();
         return view('laboratorio.fq.lote', compact('formulas', 'textoRecuperadoPredeterminado'));
     }
+
     public function createLote(Request $request)
     {
         $model = LoteAnalisis::create([
@@ -404,35 +403,32 @@ class FqController extends Controller
 
     //RECUPERAR DATOS PARA ENVIARLOS A LA VENTANA MODAL > EQUIPO PARA RELLENAR LOS DATOS ALMACENADOS EN LA BD
     public function getDatalote(Request $request)
-    {
-        $data = array();
-
-        $idLoteIf = $request->idLote;  //Array 5
+    {        
+        $idLoteIf = $request->idLote;
+        $reporte = Reportes::where('Id_lote',$request->idLote)->first();
         
-        $reporte = Reportes::where('Id_lote',$request->idLote)->first(); //Array 4
-        
-        //RECUPERA EL APARTADO DE FÓRMULAS GLOBALES; Array 0
+        //RECUPERA EL APARTADO DE FÓRMULAS GLOBALES;
         $constantesModel = CurvaConstantes::where('Id_lote', $request->idLote)->get();
         if($constantesModel->count()){
-            $constantes = CurvaConstantes::where('Id_lote', $request->idLote)->first();
-
-            array_push($data, $constantes);
+            $constantes = CurvaConstantes::where('Id_lote', $request->idLote)->first();            
         }else{
-            array_push($data, null);
+            $constantes = null;
         }
 
         /* Módulo de coliformes */
+        $dataColi = array();
+
         $sembradoFq = DB::table('sembrado_fq')->where('Id_lote', $request->idLote)->get();
         $pruebaPresuntivaFq = DB::table('prueba_presuntiva_fq')->where('Id_lote', $request->idLote)->get();
         $pruebaConfirmativaFq = DB::table('prueba_confirmativa_fq')->where('Id_lote', $request->idLote)->get(); 
 
         if($sembradoFq->count() && $pruebaPresuntivaFq->count() && $pruebaConfirmativaFq->count()){
-            $sembradoFq = SembradoFq::where('Id_lote', $request->idLote)->first(); //Array 1
-            $pruebaPresunFq = PruebaPresuntivaFq::where('Id_lote', $request->idLote)->first(); //Array 2
-            $pruebaConfirFq = PruebaConfirmativaFq::where('Id_lote', $request->idLote)->first(); //Array 3
+            $sembradoFq = SembradoFq::where('Id_lote', $request->idLote)->first(); //Array 0
+            $pruebaPresunFq = PruebaPresuntivaFq::where('Id_lote', $request->idLote)->first(); //Array 1
+            $pruebaConfirFq = PruebaConfirmativaFq::where('Id_lote', $request->idLote)->first(); //Array 2
 
             array_push(
-                $data,
+                $dataColi,
                 $sembradoFq,
                 $pruebaPresunFq,
                 $pruebaConfirFq
@@ -440,11 +436,28 @@ class FqController extends Controller
 
         }else{
             array_push(
-                $data, null, null, null
+                $dataColi, null, null, null
             );
         }
+        //-------------------------------------
 
-        array_push($data, $reporte, $idLoteIf);
+        /* Módulo DQO */                
+        $dqoModel = DB::table('dqo_fq')->where('Id_lote', $request->idLote)->get();
+
+        if($dqoModel->count()){
+            $dqo = DqoFq::where('Id_lote', $request->idLote)->first();
+        }else{
+            $dqo = null;
+        }
+
+        $data = array(
+            'curvaConstantes' => $constantes,
+            'idLoteIf' => $idLoteIf,
+            'reporte' => $reporte,
+            'dataColi' => $dataColi,
+            'dataDqo' => $dqo
+        );
+
         return response()->json($data);
     }
 
@@ -608,16 +621,21 @@ class FqController extends Controller
 
         //$lote = Reportes::where('Id_lote', $idLote)->first();
 
-        $lote = DB::table('reportes')->where('Id_lote', $idLote)->get();
+        $lote = DB::table('reportes')->where('Id_lote', $idLote)->where('Id_area', $request->idArea)->get();
 
         if ($lote->count()) {
-            $texto = Reportes::where('Id_lote', $idLote)->first();
+            $texto = Reportes::where('Id_lote', $idLote)->where('Id_area', $request->idArea)->first();
             $texto->Texto = $textoPeticion;
+            $texto->Id_user_m = Auth::user()->id;            
+
             $texto->save();
         } else {
             $texto = Reportes::create([
                 'Id_lote' => $idLote,
-                'Texto' => $textoPeticion
+                'Texto' => $textoPeticion,
+                'Id_area' => $request->idArea,
+                'Id_user_c' => Auth::user()->id,
+                'Id_user_m' => Auth::user()->id
             ]);
         }
 
@@ -627,154 +645,100 @@ class FqController extends Controller
     }
 
     //*************************************GUARDA LOS DATOS DE LA VENTANA MODAL EN MÓDULO LOTE, PESTAÑA EQUIPO************* */
-    public function guardarDatosGenerales(Request $request){
-        //******************************************************Técnica Lote Metales**********************************************************
-        $tecLoteMet = TecnicaLoteMetales::where('Id_lote', $request->idLote)->get();
+    public function guardarDatos(Request $request){
+        //******************************************************SEMBRADO FQ**********************************************************
+        $sembradoFqModel = SembradoFq::where('Id_lote', $request->idLote)->get();
 
-        if ($tecLoteMet->count()) {
-            $tecLote = TecnicaLoteMetales::where('Id_lote', $request->idLote)->first();
+        if ($sembradoFqModel->count()) {
+            $sembradoFq = SembradoFq::where('Id_lote', $request->idLote)->first();
 
-            $tecLote->Fecha_hora_dig = $request->flama_fechaHoraDig;
-            $tecLote->Longitud_onda = $request->flama_longOnda;
-            $tecLote->Flujo_gas = $request->flama_flujoGas;
-            $tecLote->Equipo = $request->flama_equipoForm;
-            $tecLote->Num_inventario = $request->flama_numInventario;
-            $tecLote->Num_invent_lamp = $request->flama_numInvLamp;
-            $tecLote->Slit = $request->flama_slit;
-            $tecLote->Corriente = $request->flama_corriente;
-            $tecLote->Energia = $request->flama_energia;
-            $tecLote->Conc_std = $request->flama_concStd;
-            $tecLote->Gas = $request->flama_gas;
-            $tecLote->Aire = $request->flama_aire;
-            $tecLote->Oxido_nitroso = $request->flama_oxidoN;
-            $tecLote->Fecha_preparacion = $request->flama_fechaPrep;
+            $sembradoFq->Sembrado = $request->sembrado_sembrado;
+            $sembradoFq->Fecha_resiembra = $request->sembrado_fechaResiembra;
+            $sembradoFq->Tubo_n = $request->sembrado_tuboN;
+            $sembradoFq->Bitacora = $request->sembrado_bitacora;
+            $sembradoFq->Id_user_m = Auth::user()->id;            
 
-            $tecLote->save();
+            $sembradoFq->save();
         } else {
-            TecnicaLoteMetales::create([
-                'Id_lote' => $request->flama_loteId,
-                'Fecha_hora_dig' => $request->flama_fechaHoraDig,
-                'Longitud_onda' => $request->flama_longOnda,
-                'Flujo_gas' => $request->flama_flujoGas,
-                'Equipo' => $request->flama_equipoForm,
-                'Num_inventario' => $request->flama_numInventario,
-                'Num_invent_lamp' => $request->flama_numInvLamp,
-                'Slit' => $request->flama_slit,
-                'Corriente' => $request->flama_corriente,
-                'Energia' => $request->flama_energia,
-                'Conc_std' => $request->flama_concStd,
-                'Gas' => $request->flama_gas,
-                'Aire' => $request->flama_aire,
-                'Oxido_nitroso' => $request->flama_oxidoN,
-                'Fecha_preparacion' => $request->flama_fechaPrep
+            SembradoFq::create([
+                'Id_lote' => $request->idLote,
+                'Sembrado' => $request->sembrado_sembrado,
+                'Fecha_resiembra' => $request->sembrado_fechaResiembra,
+                'Tubo_n' => $request->sembrado_tuboN,
+                'Bitacora' => $request->sembrado_bitacora,
+                'Id_user_c' => Auth::user()->id,
+                'Id_user_m' => Auth::user()->id
             ]);
         }
-        //*******************************************BLANCOCURVAMETALES******************************************/
-        $blancoCurvaMet = BlancoCurvaMetales::where('Id_lote', $request->idLote)->get();
+        //*******************************************PRUEBA PRESUNTIVA FQ******************************************/
+        $pruebaPresuntivaModel = PruebaPresuntivaFq::where('Id_lote', $request->idLote)->get();
 
-        if ($blancoCurvaMet->count()) {
-            $blancoCurva = BlancoCurvaMetales::where('Id_lote', $request->idLote)->first();
+        if ($pruebaPresuntivaModel->count()) {
+            $pruebaPresuntivaFq = PruebaPresuntivaFq::where('Id_lote', $request->idLote)->first();
 
-            $blancoCurva->Verif_blanco = $request->blanco_verifBlanco;
-            $blancoCurva->ABS_teor_blanco = $request->blanco_absTeoBlanco;
-            $blancoCurva->ABS1 = $request->blanco_abs1;
-            $blancoCurva->ABS2 = $request->blanco_abs2;
-            $blancoCurva->ABS3 = $request->blanco_abs3;
-            $blancoCurva->ABS4 = $request->blanco_abs4;
-            $blancoCurva->ABS5 = $request->blanco_abs5;
-            $blancoCurva->ABS_prom = $request->blanco_absProm;
-            $blancoCurva->Concl_blanco = $request->blanco_concBlanco;
+            $pruebaPresuntivaFq->Preparacion = $request->pruebaPresuntiva_preparacion;
+            $pruebaPresuntivaFq->Lectura = $request->pruebaPresuntiva_lectura;
+            $pruebaPresuntivaFq->Id_user_m = Auth::user()->id;
 
-            $blancoCurva->save();
+            $pruebaPresuntivaFq->save();
         } else {
-            BlancoCurvaMetales::create([
-                    'Id_lote' => $request->idLote,
-                    'Verif_blanco' => $request->blanco_verifBlanco,
-                    'ABS_teor_blanco' => $request->blanco_absTeoBlanco,
-                    'ABS1' =>$request->blanco_abs1,
-                    'ABS2' => $request->blanco_abs2,
-                    'ABS3'  =>$request->blanco_abs3,
-                    'ABS4' => $request->blanco_abs4,
-                    'ABS5' => $request->blanco_abs5,
-                    'ABS_prom' => $request->blanco_absProm,
-                    'Concl_blanco' => $request->concBlanco
+            PruebaPresuntivaFq::create([
+                'Id_lote' => $request->idLote,
+                'Preparacion' => $request->pruebaPresuntiva_preparacion,
+                'Lectura' => $request->pruebaPresuntiva_lectura,
+                'Id_user_c' => Auth::user()->id,
+                'Id_user_m' => Auth::user()->id,                  
             ]);
         }
 
-        //***********************************************VERIFICACIONMETALES***********************************
-        $verMet = VerificacionMetales::where('Id_lote', $request->idLote)->get();
+        //***********************************************PRUEBA CONFIRMATIVA FQ***********************************
+        $pruebaConfirmativaModel = PruebaConfirmativaFq::where('Id_lote', $request->idLote)->get();
 
-        if ($verMet->count()) {
-            $verifMetales = VerificacionMetales::where('Id_lote', $request->idLote)->first();
+        if ($pruebaConfirmativaModel->count()) {
+            $pruebaConfirmativa = PruebaConfirmativaFq::where('Id_lote', $request->idLote)->first();
 
-            $verifMetales->STD_cal = $request->verif_stdCal;
-            $verifMetales->ABS_teorica = $request->verif_absTeorica;
-            $verifMetales->Conc_mgL = $request->verif_concMgL;
-            $verifMetales->ABS1 = $request->verif_Abs1;
-            $verifMetales->ABS2 = $request->verif_Abs2;
-            $verifMetales->ABS3 = $request->verif_Abs3;
-            $verifMetales->ABS4 = $request->verif_Abs4;
-            $verifMetales->ABS5 = $request->verif_Abs5;
-            $verifMetales->ABS_prom = $request->verif_AbsProm;
-            $verifMetales->Masa_caract = $request->verif_masaCarac;
-            $verifMetales->Conclusion = $request->verif_conclusion;
-            $verifMetales->Conc_obtenida = $request->verif_conclusionObtenida;
-            $verifMetales->Porc_rec = $request->verif_rec;
-            $verifMetales->Cumple = $request->verif_cumple;
+            $pruebaConfirmativa->Medio = $request->pruebaConfirmativa_medio;
+            $pruebaConfirmativa->Preparacion = $request->pruebaConfirmativa_preparacion;
+            $pruebaConfirmativa->Lectura = $request->pruebaConfirmativa_lectura;
+            $pruebaConfirmativa->Id_user_m = Auth::user()->id;
 
-            $verifMetales->save();
+            $pruebaConfirmativa->save();
         } else {
-            VerificacionMetales::create([
-                    'Id_lote' => $request->idLote,
-                    'STD_cal' => $request->verif_stdCal,
-                    'ABS_teorica' => $request->verif_absTeorica,
-                    'Conc_mgL' => $request->verif_concMgL,
-                    'ABS1' =>$request->verif_Abs1,
-                    'ABS2' => $request->verif_Abs2,
-                    'ABS3'  =>$request->verif_Abs3,
-                    'ABS4' => $request->verif_Abs4,
-                    'ABS5' => $request->verif_Abs5,
-                    'ABS_prom' => $request->verif_AbsProm,
-                    'Masa_caract' => $request->verif_masaCarac,
-                    'Conclusion' => $request->verif_conclusion,
-                    'Conc_obtenida' => $request->verif_conclusionObtenida,
-                    'Porc_rec' => $request->verif_rec,
-                    'Cumple' => $request->verif_cumple
+            PruebaConfirmativaFq::create([
+                'Id_lote' => $request->idLote,
+                'Medio' => $request->pruebaConfirmativa_medio,
+                'Preparacion' => $request->pruebaConfirmativa_preparacion,
+                'Lectura' => $request->pruebaConfirmativa_lectura,
+                'Id_user_c' => Auth::user()->id,
+                'Id_user_m' => Auth::user()->id,
             ]);
         }
 
-        //*************************************************ESTANDARVERIFICACIONMET****************************
-        $stdVerMet = EstandarVerificacionMet::where('Id_lote', $request->idLote)->get();
+        //************************************DQO********************************
+        $dqoModel = DqoFq::where('Id_lote', $request->idLote)->get();
 
-        if ($stdVerMet->count()) {
-            $stdVer = EstandarVerificacionMet::where('Id_lote', $request->idLote)->first();
+        if ($dqoModel->count()) {
+            $dqoFq = DqoFq::where('Id_lote', $request->idLote)->first();
 
-            $stdVer->Conc_mgL = $request->std_conc;
-            $stdVer->DESV_std = $request->std_desvStd;
-            $stdVer->Cumple = $request->std_cumple;
-            $stdVer->ABS1 = $request->std_abs1;
-            $stdVer->ABS2 = $request->std_abs2;
-            $stdVer->ABS3 = $request->std_abs3;
-            $stdVer->ABS4 = $request->std_abs4;
-            $stdVer->ABS5 = $request->std_abs5;
+            $dqoFq->Inicio = $request->ebullicion_inicio;
+            $dqoFq->Fin = $request->ebullicion_fin;
+            $dqoFq->Invlab = $request->ebullicion_invlab;
+            $dqoFq->Id_user_m = Auth::user()->id;
 
-            $stdVer->save();
+            $dqoFq->save();
         } else {
-            EstandarVerificacionMet::create([
-                    'Id_lote' => $request->idLote,
-                    'Conc_mgL' => $request->std_conc,
-                    'DESV_std' => $request->std_desvStd,
-                    'Cumple' => $request->std_cumple,
-                    'ABS1' => $request->std_abs1,
-                    'ABS2' => $request->std_abs2,
-                    'ABS3' => $request->std_abs3,
-                    'ABS4' => $request->std_abs4,
-                    'ABS5' => $request->std_abs5
+            DqoFq::create([
+                'Id_lote' => $request->idLote,
+                'Inicio' => $request->ebullicion_inicio,
+                'Fin' => $request->ebullicion_fin,
+                'Invlab' => $request->ebullicion_invlab,
+                'Id_user_c' => Auth::user()->id,
+                'Id_user_m' => Auth::user()->id,                    
             ]);
         }
 
         //*******************************************CURVACALIBRACIONMET*****************************************
-        $curValMet = CurvaCalibracionMet::where('Id_lote', $request->idLote)->get();
+        /* $curValMet = CurvaCalibracionMet::where('Id_lote', $request->idLote)->get();
 
         if($curValMet->count()){
             $curVal = CurvaCalibracionMet::where('Id_lote', $request->idLote)->first();
@@ -789,10 +753,10 @@ class FqController extends Controller
                 'Bitacora_curCal' => $request->curva_bitCurvaCal,
                 'Folio_curCal' => $request->curva_folioCurvaCal
             ]);
-        }
+        } */
 
         //*******************************************GENERADORHIDRUROSMET****************************************
-        $genHidMet = GeneradorHidrurosMet::where('Id_lote', $request->idLote)->get();
+        /* $genHidMet = GeneradorHidrurosMet::where('Id_lote', $request->idLote)->get();
 
         if($genHidMet->count()){
             $genHid = GeneradorHidrurosMet::where('Id_lote', $request->idLote)->first();
@@ -805,11 +769,11 @@ class FqController extends Controller
                 'Id_lote' => $request->idLote,
                 'Generador_hidruros' => $request->gen_genHidruros
             ]);
-        }
+        } */
 
         //*******************************************************************************************************
         return response()->json(
-            compact('tecLoteMet', 'blancoCurvaMet','verMet', 'stdVerMet', 'curValMet', 'genHidMet')
+            compact('sembradoFqModel', 'pruebaPresuntivaModel','pruebaConfirmativaModel', 'dqoModel')
         );
     }
 }

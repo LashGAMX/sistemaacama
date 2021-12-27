@@ -54,7 +54,33 @@
                         </div>
                     </div>
                 </a>
-            </div>            
+            </div> 
+            
+            <div class="col-md-3">
+                <a href="{{route('voyager.hist-analisisqenvases.index')}}">
+                    <div class="panel widget center bgimage"
+                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/rules.jpg');">
+                        <div class="dimmer"></div>
+                        <div class="panel-content">
+                            <i class="voyager-book"></i>
+                            <h4>Envases</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-3">
+                <a href="https://dev.sistemaacama.com.mx/admin/historial/clientes">
+                    <div class="panel widget center bgimage"
+                        style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/rules.jpg');">
+                        <div class="dimmer"></div>
+                        <div class="panel-content">
+                            <i class="voyager-book"></i>
+                            <h4>Concentración</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
 
         </div>
 

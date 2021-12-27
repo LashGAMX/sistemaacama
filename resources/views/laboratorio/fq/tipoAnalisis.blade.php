@@ -15,7 +15,7 @@
       <div class="clearfix container-fluid row">
           
           <div class="col-md-3">
-            <a href="{{url('')}}/admin/laboratorio/fq/captura">
+            <a href="{{url('')}}/admin/laboratorio/fq/capturaEspectro">
                   <div class="panel widget center bgimage">
                       <div class="dimmer"></div>
                       <div class="panel-content">

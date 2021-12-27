@@ -10,9 +10,9 @@
           <table class="table table-hover table-striped">
             <thead class="thead-dark">
                 <tr>
-                    <th>nombre</th>
-                    <th>volumen</th>
-                    <th>unidad</th>
+                    <th>Nombre</th>
+                    <th>Volumen</th>
+                    <th>Unidad</th>
                 </tr>
             </thead>
             <tbody>

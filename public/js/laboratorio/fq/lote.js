@@ -100,6 +100,7 @@ function setAsignar(id)
     window.location = base_url + "/admin/laboratorio/"+area+"/asgnarMuestraLote/"+id;
 }
 
+//Adaptando para FQ
 function getDatalote()
 {
     let tabla = document.getElementById('divTableFormulaGlobal');
@@ -120,7 +121,7 @@ function getDatalote()
             
             //console.log("Valor de idLote: " + response[5]);
             
-            if(response[5] == 0 || response[5] < 0 || !response[5]){
+            if(response.idLoteIf == 0 || response.idLoteIf < 0 || !response.idLoteIf){
                 tab += '<table id="tableFormulasGlobales" class="table table-sm">';
                 tab += '<thead>'
                 tab +=      '<tr>'
@@ -138,7 +139,7 @@ function getDatalote()
                 tab += '</tbody>'
                 tab += '</table>';
                 tabla.innerHTML = tab;
-            }else if(response[5] > 0){
+            }else if(response.idLoteIf > 0){
                 tab += '<table id="tableFormulasGlobales" class="table table-sm">';
                 tab += '    <thead class="thead-dark">';
                 tab += '        <tr>';
@@ -149,22 +150,22 @@ function getDatalote()
                 tab += '    </thead>';
                 tab += '    <tbody>';
                 
-                if(response[0] !== null){
+                if(response.curvaConstantes !== null){
                     tab +=          '<tr>';
                     tab +=              '<td>B</td>';
-                    tab +=              '<td>'+response[0].B+'</td>';
+                    tab +=              '<td>'+response.curvaConstantes.B+'</td>';
                     tab +=              '<td>3</td>';
                     tab +=          '</tr>';
 
                     tab +=          '<tr>';
                     tab +=              '<td>M</td>';
-                    tab +=              '<td>'+response[0].M+'</td>';
+                    tab +=              '<td>'+response.curvaConstantes.M+'</td>';
                     tab +=              '<td>3</td>';
                     tab +=          '</tr>';
 
                     tab +=          '<tr>';
                     tab +=              '<td>R</td>';
-                    tab +=              '<td>'+response[0].R+'</td>';
+                    tab +=              '<td>'+response.curvaConstantes.R+'</td>';
                     tab +=              '<td>3</td>';
                     tab +=          '</tr>';
                 }
@@ -181,106 +182,85 @@ function getDatalote()
                 tab += '</table>';
                 tabla.innerHTML = tab;
             }
-
-            /* MODIFICAR DE AQUÍ EN ADELANTE */
-            if((response[1] !== null) && (response[2] !== null) && (response[3] !== null)){
+            
+            if((response.dataColi[0] !== null) && (response.dataColi[1] !== null) && (response.dataColi[2] !== null)){
                 //Formatea la fecha a un formato admitido por el input datetime
-                let fecha = response[1].Sembrado;
-                let fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm:ss');
-                let fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDThh:mm');                                
+                let fecha = response.dataColi[0].Sembrado;
+                let fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm');
+                let fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');                                
 
-                $("#sembrado_loteId").val(response[1].Id_lote);
+                $("#sembrado_loteId").val(response.dataColi[0].Id_lote);
                 $("#sembrado_sembrado").val(fechaFormateada);                
-                $("#sembrado_fechaResiembra").val(response[1].Fecha_resiembra);
-                $("#sembrado_tuboN").val(response[1].Tubo_n);
-                $("#sembrado_bitacora").val(response[1].Bitacora);                
+                $("#sembrado_fechaResiembra").val(response.dataColi[0].Fecha_resiembra);
+                $("#sembrado_tuboN").val(response.dataColi[0].Tubo_n);
+                $("#sembrado_bitacora").val(response.dataColi[0].Bitacora);
 
-                fecha = response[2].Preparacion;
-                fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm:ss');
+                //--------------------------
+                fecha = response.dataColi[1].Preparacion;
+                fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm');
+                fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');
+                $('#pruebaPresuntiva_preparacion').val(fechaFormateada);
                 
+                fecha = response.dataColi[1].Lectura;
+                fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm');
+                fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');
+                $('#pruebaPresuntiva_lectura').val(fechaFormateada);
 
-                $('#blanco_verifBlanco').val(response[2].Verif_blanco);
-                $('#blanco_absTeoBlanco').val(response[2].ABS_teor_blanco);
-                $('#blanco_abs1').val(response[2].ABS1);
-                $('#blanco_abs2').val(response[2].ABS2);
-                $('#blanco_abs3').val(response[2].ABS3);
-                $('#blanco_abs4').val(response[2].ABS4);
-                $('#blanco_abs5').val(response[2].ABS5);
-                $('#blanco_absProm').val(response[2].ABS_prom);
-                $('#blanco_concBlanco').val(response[2].Concl_blanco);                
+                //--------------------------
+                $('#pruebaConfirmativa_medio').val(response.dataColi[2].Medio);
 
-                $('#std_conc').val(response[3].Conc_mgL);
-                $('#std_desvStd').val(response[3].DESV_std);
-                $('#std_cumple').val(response[3].Cumple);
-                $('#std_abs1').val(response[3].ABS1);
-                $('#std_abs2').val(response[3].ABS2);
-                $('#std_abs3').val(response[3].ABS3);
-                $('#std_abs4').val(response[3].ABS4);
-                $('#std_abs5').val(response[3].ABS5);
+                fecha = response.dataColi[2].Preparacion;
+                fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm');
+                fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');
+                $('#pruebaConfirmativa_preparacion').val(fechaFormateada);
+
+                fecha = response.dataColi[2].Lectura;
+                fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm');
+                fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');
+                $('#pruebaConfirmativa_lectura').val(fechaFormateada);
 
             }else{                
-                $("#flama_loteId").val('');
-                $("#flama_fechaHoraDig").val('');
-                $("#flama_longOnda").val('');
-                $("#flama_flujoGas").val('');
-                $("#flama_equipoForm").val('');
-                $("#flama_numInventario").val('');
-                $("#flama_numInvLamp").val('');
-                $("#flama_slit").val('');
-                $("#flama_corriente").val('');
-                $("#flama_energia").val('');
-                $("#flama_concStd").val('');
-                $("#flama_gas").val('');
-                $("#flama_aire").val('');
-                $("#flama_oxidoN").val('');
-                $("#flama_fechaPrep").val('');
+                $("#sembrado_loteId").val('');
+                $("#sembrado_sembrado").val('');
+                $("#sembrado_fechaResiembra").val('');
+                $("#sembrado_tuboN").val('');
+                $("#sembrado_bitacora").val('');                
 
-                $('#blanco_verifBlanco').val('');
-                $('#blanco_absTeoBlanco').val('');
-                $('#blanco_abs1').val('');
-                $('#blanco_abs2').val('');
-                $('#blanco_abs3').val('');
-                $('#blanco_abs4').val('');
-                $('#blanco_abs5').val('');
-                $('#blanco_absProm').val('');
-                $('#blanco_concBlanco').val('');
+                $('#pruebaPresuntiva_preparacion').val('');
+                $('#pruebaPresuntiva_lectura').val('');                
 
-                $('#verif_stdCal').val('');
-                $('#verif_absTeorica').val('');
-                $('#verif_concMgL').val('');
-                $('#verif_Abs1').val('');
-                $('#verif_Abs2').val('');
-                $('#verif_Abs3').val('');
-                $('#verif_Abs4').val('');
-                $('#verif_Abs5').val('');
-                $('#verif_AbsProm').val('');
-                $('#verif_masaCarac').val('');
-                $('#verif_conclusion').val('');
-                $('#verif_conclusionObtenida').val('');
-                $('#verif_rec').val('');
-                $('#verif_cumple').val('');
+                $('#pruebaConfirmativa_medio').val('');
+                $('#pruebaConfirmativa_preparacion').val('');
+                $('#pruebaConfirmativa_lectura').val('');                                
+            }    
+            
+            //------------DQO------------
+            if(response.dataDqo !== null){
+                $("#ebullicion_loteId").val(response.dataDqo.Id_lote);
+                
+                /* let fecha = response.dataDqo.Inicio;
+                let fechaIngresada = moment(fecha, 'DD-MM-YYYY');
+                let fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DD'); */
+                $("#ebullicion_inicio").val(response.dataDqo.Inicio);
+                
+                /* fecha = response.dataDqo.Fin;
+                fechaIngresada = moment(fecha, 'DD-MM-YYYY');
+                fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DD'); */
+                $("#ebullicion_fin").val(response.dataDqo.Fin);
 
-                $('#std_conc').val('');
-                $('#std_desvStd').val('');
-                $('#std_cumple').val('');
-                $('#std_abs1').val('');
-                $('#std_abs2').val('');
-                $('#std_abs3').val('');
-                $('#std_abs4').val('');
-                $('#std_abs5').val('');
+                $("#ebullicion_invlab").val(response.dataDqo.Invlab);
+            }else{
+                $("#ebullicion_loteId").val('');
+                $("#ebullicion_inicio").val('');
+                $("#ebullicion_fin").val('');
+                $("#ebullicion_invlab").val('');
+            }
+            //-----------------------------------------
 
-                $('#curva_bitCurvaCal').val('');
-                $('#curva_folioCurvaCal').val('');
+            console.log("actualizado");            
 
-                $('#gen_genHidruros').val('');
-            }                                                    
-
-            console.log("actualizado");
-
-            /* TERMINA LA MODIFICACIÓN */
-
-            if(response[7] !== null){
-                summer.innerHTML = '<div id="summernote">'+response[7].Texto+'</div>';
+            if(response.reporte !== null){
+                summer.innerHTML = '<div id="summernote">'+response.reporte.Texto+'</div>';
                 $('#summernote').summernote({
                     placeholder: '',
                     tabsize: 2,
@@ -333,8 +313,8 @@ function isSelectedProcedimiento(procedimientoTab){
 //Método que guarda el texto ingresado en el editor de texto Quill en la BD
 function guardarTexto(idLote){  
     let lote = document.getElementById(idLote).value;
-    let texto = document.getElementById("summernote");    
-    let summer = document.getElementById("divSummer");        
+    let texto = document.getElementById("summernote");
+    let summer = document.getElementById("divSummer");
 
     console.log("Antes de ajax");
     
@@ -343,7 +323,8 @@ function guardarTexto(idLote){
         url: base_url + "/admin/laboratorio/"+area+"/lote/procedimiento",
         data: {            
             texto: $("#summernote").summernote('code'), 
-            lote: lote
+            lote: lote,
+            idArea: 5
         },
         dataType: "json",
         async: false,
@@ -360,69 +341,39 @@ function guardarTexto(idLote){
     });
 }
 
-//Función que guarda todos los input de la vista Lote > Modal > Equipo
+//Función que guarda todos los input de la vista Lote > Modal > [Grasas, Coliformes, DBO, DQO, Metales]
 $('#guardarTodo').click(function() {
     //console.log("Valor de IDLote: " + $('#idLoteHeader').val());
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/"+area+"/lote/equipo/guardarDatosGenerales",
+        url: base_url + "/admin/laboratorio/"+area+"/lote/guardarDatos",
         data: {
             idLote: $('#idLoteHeader').val(),
-            flama_loteId: $('#flama_loteId').val(),
-            flama_fechaHoraDig: $('#flama_fechaHoraDig').val(),
-            flama_longOnda: $('#flama_longOnda').val(),
-            flama_flujoGas: $('#flama_flujoGas').val(),
-            flama_equipoForm: $('#flama_equipoForm').val(),
-            flama_numInventario: $('#flama_numInventario').val(),
-            flama_numInvLamp: $('#flama_numInvLamp').val(),
-            flama_slit: $('#flama_slit').val(),
-            flama_corriente: $('#flama_corriente').val(),
-            flama_energia: $('#flama_energia').val(),
-            flama_concStd: $('#flama_concStd').val(),
-            flama_gas: $('#flama_gas').val(),
-            flama_aire: $('#flama_aire').val(),
-            flama_oxidoN: $('#flama_oxidoN').val(),
-            flama_fechaPrep: $('#flama_fechaPrep').val(),
 
-            blanco_verifBlanco: $('#blanco_verifBlanco').val(),
-            blanco_absTeoBlanco: $('#blanco_absTeoBlanco').val(),
-            blanco_abs1: $('#blanco_abs1').val(),
-            blanco_abs2: $('#blanco_abs2').val(),
-            blanco_abs3: $('#blanco_abs3').val(),
-            blanco_abs4: $('#blanco_abs4').val(),
-            blanco_abs5: $('#blanco_abs5').val(),
-            blanco_absProm: $('#blanco_absProm').val(),
-            blanco_concBlanco: $('#blanco_concBlanco').val(),
+            //-----------------Coliformes------------------
+            sembrado_loteId: $('#sembrado_loteId').val(),
+            sembrado_sembrado: $('#sembrado_sembrado').val(),
+            sembrado_fechaResiembra: $('#sembrado_fechaResiembra').val(),
+            sembrado_tuboN: $('#sembrado_tuboN').val(),
+            sembrado_bitacora: $('#sembrado_bitacora').val(),
 
-            verif_stdCal: $('#verif_stdCal').val(),
-            verif_absTeorica: $('#verif_absTeorica').val(),
-            verif_concMgL: $('#verif_concMgL').val(),
-            verif_Abs1: $('#verif_Abs1').val(),
-            verif_Abs2: $('#verif_Abs2').val(),
-            verif_Abs3: $('#verif_Abs3').val(),
-            verif_Abs4: $('#verif_Abs4').val(),
-            verif_Abs5: $('#verif_Abs5').val(),
-            verif_AbsProm: $('#verif_AbsProm').val(),
-            verif_masaCarac: $('#verif_masaCarac').val(),
-            verif_conclusion: $('#verif_conclusion').val(),
-            verif_conclusionObtenida: $('#verif_conclusionObtenida').val(),
-            verif_rec: $('#verif_rec').val(),
-            verif_cumple: $('#verif_cumple').val(),
+            pruebaPresuntiva_preparacion: $('#pruebaPresuntiva_preparacion').val(),
+            pruebaPresuntiva_lectura: $('#pruebaPresuntiva_lectura').val(),           
 
-            std_conc: $('#std_conc').val(),
-            std_desvStd: $('#std_desvStd').val(),
-            std_cumple: $('#std_cumple').val(),
-            std_abs1: $('#std_abs1').val(),
-            std_abs2: $('#std_abs2').val(),
-            std_abs3: $('#std_abs3').val(),
-            std_abs4: $('#std_abs4').val(),
-            std_abs5: $('#std_abs5').val(),
+            pruebaConfirmativa_medio: $('#pruebaConfirmativa_medio').val(),
+            pruebaConfirmativa_preparacion: $('#pruebaConfirmativa_preparacion').val(),
+            pruebaConfirmativa_lectura: $('#pruebaConfirmativa_lectura').val(),
 
-            curva_bitCurvaCal: $('#curva_bitCurvaCal').val(),
-            curva_folioCurvaCal: $('#curva_folioCurvaCal').val(),
+            //------------Fin de coliformes---------------
+            
+            //--------------------DQO---------------------
+            ebullicion_loteId: $("#ebullicion_loteId").val(),
+            ebullicion_inicio: $("#ebullicion_inicio").val(),
+            ebullicion_fin: $("#ebullicion_fin").val(),
+            ebullicion_invlab: $("#ebullicion_invlab").val(),
 
-            gen_genHidruros: $('#gen_genHidruros').val(),
+            //-------------Fin de DQO---------------------
 
             _token: $('input[name="_token"]').val()
         },

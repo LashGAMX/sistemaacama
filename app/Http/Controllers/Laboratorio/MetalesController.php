@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Laboratorio;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
 
 use App\Models\AreaAnalisis;
 use App\Models\Constante;
@@ -669,11 +670,16 @@ class MetalesController extends Controller
         if ($lote->count()) {
             $texto = Reportes::where('Id_lote', $idLote)->first();
             $texto->Texto = $textoPeticion;
+            $texto->Id_user_m = Auth::user()->id;
+
             $texto->save();
         } else {            
             $texto = Reportes::create([
                 'Id_lote' => $idLote,
-                'Texto' => $textoPeticion
+                'Texto' => $textoPeticion,
+                'Id_area' => $request->idArea,
+                'Id_user_c' => Auth::user()->id,
+                'Id_user_m' => Auth::user()->id
             ]);
         }
         

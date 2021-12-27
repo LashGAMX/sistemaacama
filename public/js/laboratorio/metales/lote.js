@@ -550,7 +550,8 @@ function guardarTexto(idLote){
         url: base_url + "/admin/laboratorio/metales/lote/procedimiento",
         data: {            
             texto: $("#summernote").summernote('code'), 
-            lote: lote
+            lote: lote,
+            idArea: 2
         },
         dataType: "json",
         async: false,

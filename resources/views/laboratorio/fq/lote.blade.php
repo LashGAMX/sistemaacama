@@ -289,8 +289,8 @@
                 <hr>
 
                 <label>Lote ID: <input type="text" id="ebullicion_loteId"></label> <br>
-                <label>Inicio: <input type="date" id="ebullicion_inicio"></label>
-                <label>Fin: <input type="date" id="ebullicion_fin"></label><br><br>
+                <label>Inicio: <input type="time" id="ebullicion_inicio"></label>
+                <label>Fin: <input type="time" id="ebullicion_fin"></label><br><br>
 
                 <p>Bureta utilizada para titulación</p>
                 <label>INVLAB: <input type="text" id="ebullicion_invlab"></label> <br>

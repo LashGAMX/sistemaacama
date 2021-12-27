@@ -71,10 +71,13 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('tipoAnalisis', [FqController::class, 'tipoAnalisis']);
 
         Route::get('capturaEspectro', [FqController::class, 'capturaEspectro']);
-
-        Route::post('getDataCaptura', [FqController::class, 'getDataCaptura']);
+        Route::post('getDataCapturaEspectro', [FqController::class, 'getDataCapturaEspectro']);
+        
         Route::post('setControlCalidad', [FqController::class, 'setControlCalidad']);
         Route::post('liberarMuestraMetal', [FqController::class, 'liberarMuestraMetal']);
+
+        Route::post('lote/guardarDatos', [FqController::class, 'guardarDatos']);
+        Route::post('lote/procedimiento', [FqController::class, 'guardarTexto']);
     });
 
     //? Módulo curva - Creación de curva
