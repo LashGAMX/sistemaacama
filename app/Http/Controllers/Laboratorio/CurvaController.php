@@ -130,7 +130,7 @@ class CurvaController extends Controller
                 'B' => $request->b,
                 'M' => $request->m,
                 'R' => $request->r,
-                //'Fecha_inicio' => $request->fecha,
+                'Fecha_inicio' => $request->fecha,
             ]); 
         }
 
