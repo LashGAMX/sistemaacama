@@ -1,0 +1,83 @@
+#contenedorIzq{    
+    float: left;    
+    position: absolute;    
+    width: 61.5%;
+    overflow-y: hidden;
+    overflow-x: visible;
+}
+
+#contenedorDer{
+    float: right;
+    height: 280px;
+    overflow-y: visible;
+    overflow-x: hidden;
+}
+
+#tableFormulasGlobalesValores{
+    position: relative;
+    left: 3px;
+    border-collapse: collapse;
+    border-left: #DBDBDB 2px solid;
+}
+
+#modal{
+    display: block !important; /* I added this to see the modal, you don't need this */    
+}
+
+/* Important part */
+.modal-dialog{
+    overflow-y: initial !important
+}
+
+.modal-body #equipo{
+    height: 220px;
+    overflow-y: auto;    
+}
+
+#prueba{
+    background-color: black;
+}
+
+#cierreCaptura{
+    display: inline;
+}
+
+#btnRefresh{
+    display: inline;
+}
+
+
+
+#editor{
+    word-break: break-all;
+    white-space: pre-line;
+}
+
+
+
+/*
+.tablas{
+    overflow-x: "auto";
+}
+
+.entradas{
+    width: "120px";
+    background-color: aqua;
+}
+
+.centradoCab{
+    text-align:"center";
+}
+
+.elementosTab{
+    text-align:"center";
+    padding: "10px" "10px";
+    width:"120px";
+}
+
+.entradasNum{
+    height: 100%; 
+    width: 100%;
+}
+
+*/

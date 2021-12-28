@@ -120,7 +120,7 @@ class CurvaController extends Controller
             $curvaModel = CurvaConstantes::where('Id_lote', $request->idLote)->first();
             $const = CurvaConstantes::find($curvaModel->Id_curvaConst);
             $const->B = $request->b;
-            $cosnt->M = $request->m;
+            $const->M = $request->m;
             $const->R = $request->r;
             //$const->Fecha_inicio = $request->fecha;
             $const->save(); 
