@@ -7,7 +7,7 @@ use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
 use App\Models\ObservacionMuestra;
 use App\Models\Parametro;
-use App\Models\Reportes;
+use App\Models\ReportesFq;
 use App\Models\SolicitudParametro;
 use App\Models\TipoFormula;
 use App\Models\CurvaConstantes;
@@ -168,7 +168,7 @@ class FqController extends Controller
         $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $idLote)->get();
         $loteModel = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
         $curvaConst = CurvaConstantes::where('Id_lote',$idLote)->first();
-        $data = array(
+        $data = array( 
             'idL' => $idLote,
             'de' => $detModel,
             'lote' => $loteModel,
@@ -372,7 +372,7 @@ class FqController extends Controller
         ->orWhere('Id_tipo_formula', 8)
         ->orWhere('Id_tipo_formula',9)
         ->get();
-        $textoRecuperadoPredeterminado = Reportes::where('Id_reporte', 0)->first();
+        $textoRecuperadoPredeterminado = ReportesFq::where('Id_lote', 0)->first();
         return view('laboratorio.fq.lote', compact('formulas', 'textoRecuperadoPredeterminado'));
     }
 
@@ -405,7 +405,7 @@ class FqController extends Controller
     public function getDatalote(Request $request)
     {        
         $idLoteIf = $request->idLote;
-        $reporte = Reportes::where('Id_lote',$request->idLote)->first();
+        $reporte = ReportesFq::where('Id_lote',$request->idLote)->first();
         
         //RECUPERA EL APARTADO DE FÓRMULAS GLOBALES;
         $constantesModel = CurvaConstantes::where('Id_lote', $request->idLote)->get();
@@ -462,7 +462,7 @@ class FqController extends Controller
     }
 
     public function getPlantillaPred(Request $request){
-        $plantillaPredeterminada = Reportes::where('Id_lote', $request->idLote)->first();
+        $plantillaPredeterminada = ReportesFq::where('Id_lote', $request->idLote)->first();
         return response()->json($plantillaPredeterminada);
     }
 
@@ -621,16 +621,16 @@ class FqController extends Controller
 
         //$lote = Reportes::where('Id_lote', $idLote)->first();
 
-        $lote = DB::table('reportes')->where('Id_lote', $idLote)->where('Id_area', $request->idArea)->get();
+        $lote = DB::table('reportes_fq')->where('Id_lote', $idLote)->where('Id_area', $request->idArea)->get();
 
         if ($lote->count()) {
-            $texto = Reportes::where('Id_lote', $idLote)->where('Id_area', $request->idArea)->first();
+            $texto = ReportesFq::where('Id_lote', $idLote)->where('Id_area', $request->idArea)->first();
             $texto->Texto = $textoPeticion;
             $texto->Id_user_m = Auth::user()->id;            
 
             $texto->save();
         } else {
-            $texto = Reportes::create([
+            $texto = ReportesFq::create([
                 'Id_lote' => $idLote,
                 'Texto' => $textoPeticion,
                 'Id_area' => $request->idArea,

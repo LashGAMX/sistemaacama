@@ -4,6 +4,7 @@ namespace App\Http\Controllers\AnalisisQ;
 
 use App\Http\Controllers\Controller;
 use App\Models\ConcentracionParametro;
+use App\Models\HistorialAnalisisqConcentracion;
 use App\Models\Norma;
 use App\Models\Parametro;
 use App\Models\TipoFormula;
@@ -58,15 +59,14 @@ class ConcentracionController extends Controller
         return response()->json($data);
     }
 
-    public function historial($idConcentracion)
+    public function historial($nota, $idConcentracion)
     {        
-        $model = DB::table('envase')->where('Id_concentracion', $idConcentracion)->first();
-        HistorialAnalisisqEnvase::create([
-            'Id_envase' => $model->Id_envase,
-            'Nombre' => $model->Nombre,
-            'Volumen' => $model->Volumen,
-            'Unidad' => $model->Unidad,
-            'Nota' => $this->nota,
+        $model = DB::table('concentracion_parametro')->where('Id_concentracion', $idConcentracion)->first();
+        HistorialAnalisisqConcentracion::create([
+            'Id_concentracion' => $model->Id_concentracion,
+            'Id_parametro' => $model->Id_parametro,
+            'Concentracion' => $model->Concentracion,
+            'Nota' => $nota,
             'F_creacion' => $model->created_at,
             'Id_user_c' => $model->Id_user_c,
             'F_modificacion' => $model->updated_at,

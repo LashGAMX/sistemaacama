@@ -242,8 +242,315 @@
               </div> 
                
               {{-- GRASAS --}}
-              <div class="tab-pane fade" id="grasas" role="tabpanel" aria-labelledby="grasas-tab">  
-              
+              <div class="tab-pane fade" id="grasas" role="tabpanel" aria-labelledby="grasas-tab">                                
+
+                <div class="container">
+                    <div class="row">
+                        <div class="">
+                            <div class="vertical-tab" role="tabpanel">
+
+                            
+                                <ul class="nav flex-column" role="tablist">
+                                    <li role="presentation"><a href="#calentamiento" aria-controls="home" role="tab" data-toggle="tab">Calentamiento de matraces</a></li>
+                                    <li role="presentation"><a href="#enfriamiento" aria-controls="profile" role="tab" data-toggle="tab">Enfriado de matraces</a></li>
+                                    <li role="presentation"><a href="#secado" aria-controls="messages" role="tab" data-toggle="tab">Secado de cartuchos</a></li>
+                                    <li role="presentation"><a href="#tiempo" aria-controls="messages" role="tab" data-toggle="tab">Tiempo de reflujo</a></li>
+                                    <li role="presentation"><a href="#enfriado2" aria-controls="messages" role="tab" data-toggle="tab">Enfriamiento de matraces</a></li>
+                                </ul>
+                                
+                                <div class="tab-content tabs">
+                                    <div role="tabpanel" class="tab-pane fade" id="calentamiento" style="overflow-x:auto">                                        
+                                          <h5>Calentamiento de matraces</h5>
+                                          
+                                          <table class="table" id="calentamiento_matraces"> 
+                                            <thead>
+                                              <tr>
+                                                <th scope="col" style="text-align:center"><input type="number" style="width: 120px"></th>
+                                                <th scope="col" style="text-align:center"><input type="number" style="width: 120px"></th>
+                                                <th scope="col" style="text-align:center"><input type="number" style="width: 120px"></th>
+                                                <th scope="col" style="text-align:center"><input type="time"></th>
+                                                <th scope="col" style="text-align:center"><input type="time"></th>
+                                              </tr>
+                                              <tr>
+                                                <th scope="col" style="text-align: center">ID Lote</th>
+                                                <th scope="col" style="text-align: center">Masa constante</th>
+                                                <th scope="col" style="text-align: center">Temperatura</th>                                              
+                                                <th scope="col" style="text-align: center">Hora de entrada</th>
+                                                <th scope="col" style="text-align: center">Hora de salida</th>
+                                              </tr>
+                                            </thead>
+  
+                                            <tbody>
+                                              <tr>                                              
+                                                <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td> 
+                                                <td style="text-align:center;padding: 10px 10px;width:120px">1</td>
+                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%"></td>
+                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                                
+                                              </tr>
+  
+                                              <tr>                                              
+                                                <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td>
+                                                <td style="text-align:center;padding: 10px 10px;width:120px">2</td>
+                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%"></td>
+                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                                
+                                              </tr>
+  
+                                              <tr>                                              
+                                                <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td>
+                                                <td style="text-align:center;padding: 10px 10px;width:120px">3</td>
+                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%"></td>
+                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                                
+                                              </tr>                                              
+                                            </tbody>
+                                          </table>
+                                      </div>
+
+                                    <div role="tabpanel" class="tab-pane fade" id="enfriamiento" style="overflow-x:auto">
+                                        <h5>Enfriado de matraces</h5>
+
+                                        <table class="table" id="enfriamiento_matraces"> 
+                                          <thead>
+                                            <tr>
+                                              <th scope="col" style="text-align:center"><input type="number" style="width: 120px"></th>
+                                              <th scope="col" style="text-align:center"><input type="number" style="width: 120px"></th>
+                                              <th scope="col" style="text-align:center"><input type="time"></th>
+                                              <th scope="col" style="text-align:center"><input type="time"></th>   
+                                              <th></th>                                                                                         
+                                            </tr>
+                                            <tr>
+                                              <th scope="col" style="text-align: center">ID Lote</th>
+                                              <th scope="col" style="text-align: center">Masa constante</th>                                              
+                                              <th scope="col" style="text-align: center">Hora de entrada</th>
+                                              <th scope="col" style="text-align: center">Hora de salida</th>
+                                              <th scope="col" style="text-align: center">Pesado de matraces</th>
+                                            </tr>
+                                          </thead>
+
+                                          <tbody>
+                                            <tr>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%"></td>
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%"></td>
+                                            </tr>
+
+                                            <tr>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%"></td>
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%"></td>
+                                            </tr>
+
+                                            <tr>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%"></td>
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%"></td>
+                                            </tr>
+                                            
+                                          </tbody>
+                                        </table>                                        
+                                    </div>
+
+                                    <div role="tabpanel" class="tab-pane fade" id="secado" style="overflow-x:auto">
+                                        <h5>Secado de cartuchos</h5>
+
+                                        <table class="table" id="secado_cartuchos"> 
+                                          <thead>
+                                            <tr>
+                                              <th scope="col" style="text-align:center"><input type="number" style="width: 120px"></th>
+                                              <th scope="col" style="text-align:center"><input type="number" style="width: 120px"></th>
+                                              <th scope="col" style="text-align:center"><input type="time"></th>
+                                              <th scope="col" style="text-align:center"><input type="time"></th>                                                                                            
+                                            </tr>
+                                            <tr>
+                                              <th scope="col" style="text-align: center">ID Lote</th>
+                                              <th scope="col" style="text-align: center">Temperatura</th>                                              
+                                              <th scope="col" style="text-align: center">Hora de entrada</th>
+                                              <th scope="col" style="text-align: center">Hora de salida</th>                                              
+                                            </tr>
+                                          </thead>
+
+                                          <tbody>
+                                            <tr>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%"></td>
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>
+                                            </tr>
+
+                                            <tr>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%"></td>
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>
+                                            </tr>
+
+                                            <tr>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%"></td>
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>
+                                            </tr>
+                                            
+                                          </tbody>
+                                        </table>
+                                    </div>
+
+                                    <div role="tabpanel" class="tab-pane fade" id="tiempo" style="overflow-x:auto">
+                                      <h5>Tiempo de reflujo</h5>
+
+                                      <table class="table" id="tiempo_reflujo"> 
+                                        <thead>
+                                          <tr>
+                                            <th scope="col" style="text-align:center"><input type="number" style="width: 120px"></th>                                            
+                                            <th scope="col" style="text-align:center"><input type="time"></th>
+                                            <th scope="col" style="text-align:center"><input type="time"></th>                                                                                            
+                                          </tr>
+                                          <tr>
+                                            <th scope="col" style="text-align: center">ID Lote</th>                                            
+                                            <th scope="col" style="text-align: center">Hora de entrada</th>
+                                            <th scope="col" style="text-align: center">Hora de salida</th>                                              
+                                          </tr>
+                                        </thead>
+
+                                        <tbody>
+                                          <tr>                                              
+                                            <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td>                                            
+                                            <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                            <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>
+                                          </tr>
+
+                                          <tr>                                              
+                                            <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td>                                                                                          
+                                            <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                            <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>
+                                          </tr>
+
+                                          <tr>                                              
+                                            <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td>
+                                            <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                            <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>
+                                          </tr>
+                                          
+                                        </tbody>
+                                      </table>
+                                    </div>
+
+                                    <div role="tabpanel" class="tab-pane fade" id="enfriado2" style="overflow-x:auto">
+                                        <h5>Enfriado de matraces</h5>
+
+                                        <table class="table" id="enfriado_matraz"> 
+                                          <thead>
+                                            <tr>
+                                              <th scope="col" style="text-align:center"><input type="number" style="width: 120px"></th>                                            
+                                              <th scope="col" style="text-align:center"><input type="time"></th>
+                                              <th scope="col" style="text-align:center"><input type="time"></th>                                                                                            
+                                            </tr>
+                                            <tr>
+                                              <th scope="col" style="text-align: center">ID Lote</th>                                            
+                                              <th scope="col" style="text-align: center">Hora de entrada</th>
+                                              <th scope="col" style="text-align: center">Hora de salida</th>                                              
+                                            </tr>
+                                          </thead>
+
+                                          <tbody>
+                                            <tr>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td>                                            
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>
+                                            </tr>
+
+                                            <tr>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td>                                                                                          
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>
+                                            </tr>
+
+                                            <tr>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px">id lote</td>
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>                                              
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time"></td>
+                                            </tr>
+                                            
+                                          </tbody>
+                                        </table>
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                
+                <!-- <div class="container">
+                    <div class="row">
+                        <div class="">
+                            <div class="vertical-tab" role="tabpanel">
+
+                            
+                                <ul class="nav flex-column" role="tablist">
+                                    <li role="presentation"><a href="#calentamiento" aria-controls="home" role="tab" data-toggle="tab">Calentamiento de matraces</a> 
+                                      <div class="tab-content tabs">
+                                        <div role="tabpanel" class="tab-pane fade in active" id="calentamiento">
+                                          <h3>Calentamiento de matrace</h3>
+                                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna. </p>
+                                        </div>
+                                      </div>
+                                    </li>
+                                    <li role="presentation"><a href="#enfriamiento" aria-controls="profile" role="tab" data-toggle="tab">Enfriamiento de matraces</a>
+                                      <div class="tab-content tabs">                                          
+                                          <div role="tabpanel" class="tab-pane fade" id="enfriamiento">
+                                              <h3>Enfriamiento de matraces</h3>
+                                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna a ultricies volutpat, mi eros viverra massa, vitae consequat nisi justo in tortor. Proin accumsan felis ac felis dapibus, non iaculis mi varius, mi eros viverra massa.</p>
+                                          </div>                                          
+                                      </div>
+                                    </li>
+                                    <li role="presentation"><a href="#secado" aria-controls="messages" role="tab" data-toggle="tab">Secado de cartuchos</a></li>
+                                </ul>                                                                
+                            </div>
+                        </div>
+                    </div> -->
+
+                    <!-- <div class="tab-content tabs">
+                        <div role="tabpanel" class="tab-pane fade in active" id="calentamiento">
+                          <h3>Calentamiento de matrace</h3>
+                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna. </p>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="enfriamiento">
+                          <h3>Enfriamiento de matraces</h3>
+                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna a ultricies volutpat, mi eros viverra massa, vitae consequat nisi justo in tortor. Proin accumsan felis ac felis dapibus, non iaculis mi varius, mi eros viverra massa.</p>
+                        </div>
+                        <div role="tabpanel" class="tab-pane fade" id="secado">
+                          <h3>Secado de cartuchos</h3>
+                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna a ultricies volutpat, mi eros viverra massa, vitae consequat nisi justo in tortor. Proin accumsan felis ac felis dapibus, non iaculis mi varius, mi eros viverra massa.</p>
+                      </div>
+                    </div> -->
+
+                    <!-- <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Calentamiento de matraces
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+                        <h3>Calentamiento de matraces</h3>
+                        <p>Hola Mundo</p>
+                      </div>
+                    </div>   
+                    <div class="dropdown">
+                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Enfriamiento de matraces
+                      </button>
+                      <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
+                        <h3>Calentamiento de matraces</h3>
+                        <p>Hola Mundo</p>
+                      </div>
+                    </div>  -->                             
+
               </div>
               {{-- GRASAS FIN --}}
 
@@ -347,7 +654,7 @@
   @stop
 
   @section('css')
-    <link rel="stylesheet" href="{{ asset('css/laboratorio/metales/lote.css')}}">    
+    <link rel="stylesheet" href="{{ asset('css/laboratorio/fq/lote.css')}}">    
   @endsection
 
   @section('javascript')
