@@ -300,6 +300,7 @@ function buscar(){
         type: 'POST', //método de envio
         data: {
           idLote:$("#idLote").val(),
+          parametro: $("#parametro").val(),
           _token: $('input[name="_token"]').val()
         },
         dataType: 'json', 
