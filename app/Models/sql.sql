@@ -267,11 +267,13 @@ INNER JOIN area_analisis as a
 ON t.Id_area = a.Id_area_analisis
 
 /* Lista ViewLoteAnalisis */ 
-CREATE VIEW ViewLoteAnalisis as SELECT lo.Id_lote,lo.Id_tipo,ti.Tipo_formula,lo.Id_area,a.Area_analisis,lo.Asignado,lo.Liberado,lo.Fecha,lo.created_at,lo.updated_at,lo.deleted_at FROM lote_analisis as  lo 
+CREATE VIEW ViewLoteAnalisis as SELECT lo.Id_lote,lo.Id_tipo,ti.Tipo_formula,lo.Id_area,lo.Id_tecnica,tec.Tecnica,a.Area_analisis,lo.Asignado,lo.Liberado,lo.Fecha,lo.created_at,lo.updated_at,lo.deleted_at FROM lote_analisis as  lo 
 INNER JOIN area_analisis as a
 ON lo.Id_area = a.Id_area_analisis
 INNER JOIN tipo_formulas as ti
 ON lo.Id_tipo = ti.Id_tipo_formula
+INNER JOIN tecnicas as tec
+ON lo.Id_tecnica = tec.Id_tecnica
 
 /* Lista ViewDetalleLote */
 CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro FROM lote_detalle as lote
@@ -287,4 +289,12 @@ ON tipo.Id_formula = form.Id_tipo_formula
 INNER JOIN area_analisis as areas
 ON tipo.Id_area = areas.Id_area_analisis
 
-
+/* Lista  ViewLoteDetalleEspectro */
+CREATE VIEW ViewLoteDetalleEspectro as SELECT 
+det.Id_detalle,det.Id_lote,det.Id_analisis,sol.Folio_servicio,det.Id_parametro,param.Parametro,det.Descripcion,det.Abs1,det.Abs2,det.Abs3,
+det.De_color,det.Nitratos,det.Nitritos,det.Sulfuros,det.Blanco,det.Vol_aforo,det.Vol_destilacion,det.Vol_muestra,det.created_at,det.updated_at,det.deleted_at
+FROM lote_detalle_espectro as det 
+INNER JOIN ViewSolicitud as sol
+ON det.Id_analisis = sol.Id_solicitud
+INNER JOIN parametros as param
+ON det.Id_parametro = param.Id_parametro

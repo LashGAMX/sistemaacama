@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Laboratorio;
+namespace App\Http\Controllers\laboratorio;
 
 use App\Http\Controllers\Controller;
 use App\Models\LoteAnalisis;
@@ -34,8 +34,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class FqController extends Controller
+class MicroController extends Controller
 {
+    //
     //
     public function analisis()
     {
@@ -956,7 +957,7 @@ class FqController extends Controller
         }        
 
         //************************************DQO********************************
-        $dqoModel = DqoFq::where('Id_lote', $request->idLote)->get();
+        $dqoModel = ::where('Id_lote', $request->idLote)->get();
 
         if ($dqoModel->count()) {
             $dqoFq = DqoFq::where('Id_lote', $request->idLote)->first();

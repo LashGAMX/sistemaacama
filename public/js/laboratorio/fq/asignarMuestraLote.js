@@ -76,7 +76,7 @@ function getMuestraAsignada()
             tab += '          <th>Opc</th> ';
             tab += '        </tr>';
             tab += '    </thead>';
-            tab += '    <tbody>';
+            tab += '    <tbody>'; 
             $.each(response.model, function (key, item) {
                 tab += '<tr>';
                 tab += '<td>'+item.Folio_servicio+'</td>';
@@ -139,8 +139,6 @@ function asignarMuestraLote(idLote,idAnalisis,idParametro,idSol)
 } 
 
 function delMuestraLote(idLote,idDetalle,idSol,idParam){
-    let tabla = document.getElementById('divTable2');
-    let tab = '';
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/"+area+"/delMuestraLote",
@@ -155,27 +153,8 @@ function delMuestraLote(idLote,idDetalle,idSol,idParam){
         async: false,
         success: function (response) {            
             console.log(response);
-            tab += '<table id="tablaParamSin" class="table table-sm">';
-            tab += '    <thead class="thead-dark">';
-            tab += '        <tr>';
-            tab += '          <th>Folio</th>';
-            tab += '          <th>Parametros</th>';
-            tab += '          <th>Opc</th> ';
-            tab += '        </tr>';
-            tab += '    </thead>';
-            tab += '    <tbody>';
-            $.each(response.model, function (key, item) {
-                tab += '<tr>';
-                tab += '<td>'+item.Folio_servicio+'</td>';
-                tab += '<td>'+item.Parametro+'</td>';
-                tab += '<td></td>';
-              tab += '</tr>';
-            });
-            tab += '    </tbody>';
-            tab += '</table>';
-            tabla.innerHTML = tab;
-            muestraSinAsignar()
-
+            muestraSinAsignar();
+            getMuestraAsignada();
         } 
     });
-}
+}   

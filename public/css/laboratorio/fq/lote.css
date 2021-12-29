@@ -55,29 +55,27 @@
 
 
 
-/*
+
 .tablas{
     overflow-x: "auto";
 }
 
 .entradas{
-    width: "120px";
-    background-color: aqua;
+    width:120px;
 }
 
 .centradoCab{
-    text-align:"center";
+    text-align:"center";    
 }
 
 .elementosTab{
     text-align:"center";
-    padding: "10px" "10px";
-    width:"120px";
+    padding:10px 10px;
+    width:120px;
 }
 
 .entradasNum{
-    height: 100%; 
-    width: 100%;
+    height:100%; 
+    width:100%;
 }
 
-*/

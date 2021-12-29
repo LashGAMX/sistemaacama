@@ -6,22 +6,20 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class LoteAnalisis extends Model
+class EnfriadoMatraces extends Model
 {
     use HasFactory,SoftDeletes;
-
-    protected $table = 'lote_analisis';
-    protected $primaryKey = 'Id_lote';
+    protected $table = 'enfriado_matraces';
+    protected $primaryKey = 'Id_enfriado';
     public $timestamps = true;
 
     protected $fillable = [
-        'Id_tipo',
-        'Id_area',
-        'Id_tecnica',
-        'Asignado',
-        'Liberado',
-        'Fecha',
+        'Id_lote',
+        'Masa_constante',        
+        'Entrada',
+        'Salida',
+        'Pesado_matraz',
         'Id_user_c',
-        'Id_user_m'
+        'Id_user_m',
     ];
 }
