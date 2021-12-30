@@ -136,7 +136,7 @@
         </button>
         <h5 class="modal-title" id="exampleModalLabel">FLAMA</h5>
         
-        <label>ID Lote: <input type="text" id="idLoteHeader" size=10 /> <button class="btn btn-info" onclick="getDatalote()">Buscar</button></label>
+        <label>ID Lote: <input type="text" id="idLoteHeader" size=10 /> <button class="btn btn-info" onclick="getDatalote();">Buscar</button></label>
         <label>Fecha Lote: <input type="datetime-local" id="fechaLote"/></label>                
         <!-- <div class="form-check" id="cierreCaptura">
           <label class="form-check-label" for="flexCheckDefault">
@@ -256,9 +256,9 @@
                                             <tbody>
                                               @for ($i = 1; $i <= 3; $i++)
                                                 <tr>                                              
-                                                  <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:100%" id="calLote{{$i}}" value="1" disabled></input></td> 
-                                                  <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:100%" id="calMasa{{$i}}" value="{{$i}}" disabled></input></td>
-                                                  <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%" id="calTemp{{$i}}"></td>
+                                                  <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:100%" id="calLote{{$i}}" value="1"></input></td> 
+                                                  <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:100%" id="calMasa{{$i}}" value="{{$i}}"></input></td>
+                                                  <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height: 100%; width:100%" id="calTemp{{$i}}"></td>
                                                   <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="calEntrada{{$i}}"></td>
                                                   <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="calSalida{{$i}}"></td>
                                                 </tr>
@@ -292,11 +292,11 @@
 
                                             @for ($i = 1; $i <= 3; $i++)
                                               <tr>                                              
-                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:100%" id="enfLote{{$i}}" value="1" disabled></input></td>                                              
-                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:100%" id="enfMasa{{$i}}" value="{{$i}}" disabled></input></td>
+                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:100%" id="enfLote{{$i}}" value="1"></input></td>                                              
+                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:100%" id="enfMasa{{$i}}" value="{{$i}}"></input></td>
                                                 <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="enfEntrada{{$i}}"></td>                                              
                                                 <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="enfSalida{{$i}}"></td>
-                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%" id="enfPesado{{$i}}"></td>
+                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height: 100%; width:100%" id="enfPesado{{$i}}"></td>
                                               </tr>
                                             @endfor
                                             
@@ -325,8 +325,8 @@
 
                                           <tbody>
                                             <tr>                                              
-                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:120px" id="secadoLote1" value="1" disabled></input></td>
-                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height:100%; width:120px" id="secadoTemp1"></td>
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:120px" id="secadoLote1" value="1"></input></td>
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%; width:120px" id="secadoTemp1"></td>
                                               <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="secadoEntrada1"></td>
                                               <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="secadoSalida1"></td>
                                             </tr>                                                                                        
@@ -353,7 +353,7 @@
 
                                         <tbody>
                                           <tr>                                              
-                                            <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:120px" id="tiempoLote1" value="1" disabled></input></td>
+                                            <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:120px" id="tiempoLote1" value="1"></input></td>
                                             <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="tiempoEntrada1"></td>
                                             <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="tiempoSalida1"></td>
                                           </tr>
@@ -380,7 +380,7 @@
 
                                           <tbody>
                                             <tr>                                              
-                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:120px" id="enfriadoLote1" value="1" disabled></input></td>
+                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:120px" id="enfriadoLote1" value="1"></input></td>
                                               <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="enfriadoEntrada1"></td>                                              
                                               <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="enfriadoSalida1"></td>
                                             </tr>                                                                                        

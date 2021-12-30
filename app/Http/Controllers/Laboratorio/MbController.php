@@ -5,14 +5,14 @@ namespace App\Http\Controllers\Laboratorio;
 use App\Http\Controllers\Controller;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
-use App\Models\ObservacionMuestra;
+use App\Models\ObservacionMuestra; 
 use App\Models\Parametro;
 use App\Models\ReportesFq;
 use App\Models\SolicitudParametro;
 use App\Models\TipoFormula;
 use App\Models\CurvaConstantes;
 use App\Models\estandares;
-use App\Models\TecnicaLoteMetales;
+use App\Models\TecnicaLoteMetales; 
 use App\Models\BlancoCurvaMetales;
 use App\Models\CalentamientoMatraz;
 use App\Models\CurvaCalibracionMet;
@@ -45,7 +45,7 @@ class MbController extends Controller
         //Devuelve el tamaño del arreglo model
         $elements = DB::table('proceso_analisis')->count();
 
-        //Para buscar el punto de muestreo
+        //Para buscar el punto de muestreo 
         $puntoMuestreo = DB::table('cotizacion_puntos')->get();
         $puntoMuestreoLength = DB::table('cotizacion_puntos')->count();
         $solicitudPuntos = DB::table('solicitud_puntos')->get();
@@ -757,6 +757,7 @@ class MbController extends Controller
             compact('texto')
         );
     }
+<<<<<<< HEAD:app/Http/Controllers/Laboratorio/MbController.php
 
     //*************************************GUARDA LOS DATOS DE LA VENTANA MODAL EN MÓDULO LOTE, PESTAÑA EQUIPO************* */
     public function guardarDatos(Request $request){
@@ -984,4 +985,8 @@ class MbController extends Controller
             compact('sembradoFqModel', 'pruebaPresuntivaModel','pruebaConfirmativaModel', 'dqoModel')
         );
     }
+=======
+ 
+>>>>>>> 7541e18af5c0068be038af30ca8a915b8975d551:app/Http/Controllers/Laboratorio/MicroController.php
 }
+  
