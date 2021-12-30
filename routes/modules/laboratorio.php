@@ -3,6 +3,7 @@
 use App\Http\Controllers\Laboratorio\LaboratorioController;
 use App\Http\Controllers\Laboratorio\CurvaController;
 use App\Http\Controllers\Laboratorio\FqController;
+use App\Http\Controllers\Laboratorio\MbController;
 use App\Http\Controllers\Laboratorio\MetalesController;
 use App\Http\Controllers\laboratorio\MicroController;
 use App\Models\Laboratorio;
@@ -83,35 +84,35 @@ Route::group(['prefix' => 'laboratorio'], function () {
         // todo Modulo MicroBiologia
         Route::group(['prefix' => 'micro'], function () {
             //? Modulo Analisis -  Solo visualizar analisis pendientes
-            Route::get('analisis', [MicroController::class, 'analisis']);
+            Route::get('analisis', [MbController::class, 'analisis']);
     
             //? Modulo Observacion - Agregar observaciones a analisis
-            Route::get('observacion', [MicroController::class, 'observacion']);
-            Route::post('getObservacionanalisis', [MicroController::class, 'getObservacionanalisis']);
-            Route::post('aplicarObservacion', [MicroController::class, 'aplicarObservacion']);
+            Route::get('observacion', [MbController::class, 'observacion']);
+            Route::post('getObservacionanalisis', [MbController::class, 'getObservacionanalisis']);
+            Route::post('aplicarObservacion', [MbController::class, 'aplicarObservacion']);
     
             //? Modulo Lote - Creación  de lotes
-            Route::get('lote', [MicroController::class, 'lote']);
-            Route::post('createLote', [MicroController::class, 'createLote']);
-            Route::post('buscarLote', [MicroController::class, 'buscarLote']);
-            Route::post('getDatalote', [MicroController::class, 'getDatalote']);
-            Route::get('asgnarMuestraLote/{id}', [MicroController::class, 'asgnarMuestraLote']);
-            Route::post('muestraSinAsignar', [MicroController::class, 'muestraSinAsignar']);
-            Route::post('asignarMuestraLote', [MicroController::class, 'asignarMuestraLote']);
-            Route::post('getMuestraAsignada', [MicroController::class, 'getMuestraAsignada']);
-            Route::post('delMuestraLote', [MicroController::class, 'delMuestraLote']);
+            Route::get('lote', [MbController::class, 'lote']); 
+            Route::post('createLote', [MbController::class, 'createLote']);
+            Route::post('buscarLote', [MbController::class, 'buscarLote']);
+            Route::post('getDatalote', [MbController::class, 'getDatalote']);
+            Route::get('asgnarMuestraLote/{id}', [MbController::class, 'asgnarMuestraLote']);
+            Route::post('muestraSinAsignar', [MbController::class, 'muestraSinAsignar']);
+            Route::post('asignarMuestraLote', [MbController::class, 'asignarMuestraLote']);
+            Route::post('getMuestraAsignada', [MbController::class, 'getMuestraAsignada']);
+            Route::post('delMuestraLote', [MbController::class, 'delMuestraLote']);
     
             //? Modulo captura de datos analisis
-            Route::get('tipoAnalisis', [MicroController::class, 'tipoAnalisis']);
+            Route::get('tipoAnalisis', [MbController::class, 'tipoAnalisis']);
     
-            Route::get('capturaEspectro', [MicroController::class, 'capturaEspectro']);
-            Route::post('getDataCapturaEspectro', [MicroController::class, 'getDataCapturaEspectro']);
+            Route::get('capturaEspectro', [MbController::class, 'capturaEspectro']);
+            Route::post('getDataCapturaEspectro', [MbController::class, 'getDataCapturaEspectro']);
             
-            Route::post('setControlCalidad', [MicroController::class, 'setControlCalidad']);
-            Route::post('liberarMuestraMetal', [MicroController::class, 'liberarMuestraMetal']);
-            Route::post('getDataLote/plantillaPredeterminada', [MicroController::class, 'getPlantillaPred']);
-            Route::post('lote/guardarDatos', [MicroController::class, 'guardarDatos']);
-            Route::post('lote/procedimiento', [MicroController::class, 'guardarTexto']);
+            Route::post('setControlCalidad', [MbController::class, 'setControlCalidad']);
+            Route::post('liberarMuestraMetal', [MbController::class, 'liberarMuestraMetal']);
+            Route::post('getDataLote/plantillaPredeterminada', [MbController::class, 'getPlantillaPred']);
+            Route::post('lote/guardarDatos', [MbController::class, 'guardarDatos']);
+            Route::post('lote/procedimiento', [MbController::class, 'guardarTexto']);
         });
 
     //? Módulo curva - Creación de curva

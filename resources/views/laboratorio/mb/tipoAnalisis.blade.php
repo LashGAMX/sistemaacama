@@ -1,0 +1,78 @@
+@extends('voyager::master')
+
+@section('content')
+
+  @section('page_header')
+  <h6 class="page-title"> 
+    <i class="voyager-window-list"></i>
+    Tipo Análisis 
+  </h6>
+  <!--MENU PRINCIPAL-->
+  <div>
+    <div class="page-content">
+      <div class="alerts">
+      </div>
+      <div class="clearfix container-fluid row">
+          
+          <div class="col-md-3">
+            <a href="{{url('')}}/admin/laboratorio/fq/capturaEspectro">
+                  <div class="panel widget center bgimage">
+                      <div class="dimmer"></div>
+                      <div class="panel-content">
+                        <i class="fab fa-buffer"></i>
+                          <h4>ESPECTROFOTOMETRICOS</h4>
+                      </div>
+                  </div>
+              </a>
+          </div>
+                      
+          <div class="col-md-3">
+            <a href="{{url('')}}/admin/laboratorio/fq/captura">
+                  <div class="panel widget center bgimage">
+                      <div class="dimmer"></div>
+                      <div class="panel-content">
+                        <i class="fas fa-biohazard"></i>
+                          <h4>GRAVIMETRIA</h4>
+                      </div>
+                  </div>
+              </a>
+          </div>      
+          <div class="col-md-3">
+            <a href="{{route('voyager.hist-clientes.index')}}">
+                <div class="panel widget center bgimage">
+                    <div class="dimmer"></div>
+                    <div class="panel-content">
+                      <i class="fas fa-bolt"></i>
+                        <h4>VOLUMETRIA</h4>
+                    </div>
+                </div>
+            </a>
+        </div>    
+        <div class="col-md-3">
+          <a href="{{route('voyager.hist-clientes.index')}}">
+              <div class="panel widget center bgimage">
+                  <div class="dimmer"></div>
+                  <div class="panel-content">
+                    <i class="fas fa-bolt"></i>
+                      <h4>G & A</h4>
+                  </div>
+              </div>
+          </a>
+      </div>    
+      </div>
+  </div> 
+  </div>
+    <!--FIN DE MENU PRINCIPAL-->
+  
+
+  @stop
+
+  @section('javascript')
+  <script src="{{asset('js/laboratorio/mb/TipoAnalisis.js')}}"></script>
+  <script src="{{asset('js/libs/componentes.js')}}"></script>
+  <script src="{{asset('js/libs/tablas.js')}}"></script>
+  @stop
+
+@endsection  
+
+

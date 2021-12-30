@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\laboratorio;
+namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
 use App\Models\LoteAnalisis;
@@ -34,7 +34,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class MicroController extends Controller
+class MbController extends Controller
 {
     //
     //
@@ -70,7 +70,7 @@ class MicroController extends Controller
         ->orWhere('Id_tipo_formula', 8)
         ->orWhere('Id_tipo_formula',9)
         ->get();
-        return view('laboratorio.fq.observacion', compact('formulas'));
+        return view('laboratorio.mb.observacion', compact('formulas'));
     }
 
     public function getObservacionanalisis(Request $request)
@@ -957,7 +957,7 @@ class MicroController extends Controller
         }        
 
         //************************************DQO********************************
-        $dqoModel = ::where('Id_lote', $request->idLote)->get();
+        $dqoModel = DqoFq::where('Id_lote', $request->idLote)->get();
 
         if ($dqoModel->count()) {
             $dqoFq = DqoFq::where('Id_lote', $request->idLote)->first();
