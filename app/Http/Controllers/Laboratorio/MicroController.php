@@ -5,14 +5,14 @@ namespace App\Http\Controllers\laboratorio;
 use App\Http\Controllers\Controller;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
-use App\Models\ObservacionMuestra;
+use App\Models\ObservacionMuestra; 
 use App\Models\Parametro;
 use App\Models\ReportesFq;
 use App\Models\SolicitudParametro;
 use App\Models\TipoFormula;
 use App\Models\CurvaConstantes;
 use App\Models\estandares;
-use App\Models\TecnicaLoteMetales;
+use App\Models\TecnicaLoteMetales; 
 use App\Models\BlancoCurvaMetales;
 use App\Models\CalentamientoMatraz;
 use App\Models\CurvaCalibracionMet;
@@ -45,7 +45,7 @@ class MicroController extends Controller
         //Devuelve el tamaño del arreglo model
         $elements = DB::table('proceso_analisis')->count();
 
-        //Para buscar el punto de muestreo
+        //Para buscar el punto de muestreo 
         $puntoMuestreo = DB::table('cotizacion_puntos')->get();
         $puntoMuestreoLength = DB::table('cotizacion_puntos')->count();
         $solicitudPuntos = DB::table('solicitud_puntos')->get();
@@ -757,231 +757,6 @@ class MicroController extends Controller
             compact('texto')
         );
     }
-
-    //*************************************GUARDA LOS DATOS DE LA VENTANA MODAL EN MÓDULO LOTE, PESTAÑA EQUIPO************* */
-    public function guardarDatos(Request $request){
-
-        //****************************************************GRASAS*****************************************************************        
-        //calentamiento_matraces
-        $calentamientoFqModel = CalentamientoMatraz::where('Id_lote', $request->idLote)->get();
-
-        if($calentamientoFqModel->count()){
-            for($i = 0; $i < 3; $i++){
-                $calentamientoMatraz = CalentamientoMatraz::find($calentamientoFqModel[$i]->Id_calentamiento);
-
-                $calentamientoMatraz->Id_lote = $request->grasas_calentamiento[$i][0];
-                $calentamientoMatraz->Masa_constante = $request->grasas_calentamiento[$i][1];
-                $calentamientoMatraz->Temperatura = $request->grasas_calentamiento[$i][2];
-                $calentamientoMatraz->Entrada = $request->grasas_calentamiento[$i][3];
-                $calentamientoMatraz->Salida = $request->grasas_calentamiento[$i][4];
-                $calentamientoMatraz->Id_user_m = Auth::user()->id;
-
-                $calentamientoMatraz->save();
-            }
-        }else{
-            for ($i = 0; $i < 3; $i++) {
-                CalentamientoMatraz::create([
-                    'Id_lote' => $request->grasas_calentamiento[$i][0],
-                    'Masa_constante' => $request->grasas_calentamiento[$i][1],
-                    'Temperatura' => $request->grasas_calentamiento[$i][2],
-                    'Entrada' => $request->grasas_calentamiento[$i][3],
-                    'Salida' => $request->grasas_calentamiento[$i][4],
-                    'Id_user_c' => Auth::user()->id,
-                    'Id_user_m' => Auth::user()->id
-                ]);
-            }                    
-        }
-
-        //enfriado_matraces
-        $enfriadoFqModel = EnfriadoMatraces::where('Id_lote', $request->idLote)->get();
-
-        if($enfriadoFqModel->count()){
-            for($i = 0; $i < 3; $i++){
-                $enfriadoMatraz = EnfriadoMatraces::find($enfriadoFqModel[$i]->Id_enfriado);
-                $enfriadoMatraz->Id_lote = $request->grasas_enfriado[$i][0];
-                $enfriadoMatraz->Masa_constante = $request->grasas_enfriado[$i][1];
-                $enfriadoMatraz->Entrada = $request->grasas_enfriado[$i][2];
-                $enfriadoMatraz->Salida = $request->grasas_enfriado[$i][3];
-                $enfriadoMatraz->Pesado_matraz = $request->grasas_enfriado[$i][4];
-                $enfriadoMatraz->Id_user_m = Auth::user()->id;
-
-                $enfriadoMatraz->save();
-            }            
-        }else{
-            for ($i = 0; $i < 3; $i++) {                
-                EnfriadoMatraces::create([
-                    'Id_lote' => $request->grasas_enfriado[$i][0],
-                    'Masa_constante' => $request->grasas_enfriado[$i][1],
-                    'Entrada' => $request->grasas_enfriado[$i][2],
-                    'Salida' => $request->grasas_enfriado[$i][3],
-                    'Pesado_matraz' => $request->grasas_enfriado[$i][4],
-                    'Id_user_c' => Auth::user()->id,
-                    'Id_user_m' => Auth::user()->id
-                ]);
-            }
-        }
-        
-        //secado_cartuchos
-        $secadoFqModel = SecadoCartucho::where('Id_lote', $request->idLote)->get();
-
-        if($secadoFqModel->count()){
-            $secadoCartucho = SecadoCartucho::find($secadoFqModel[0]->Id_secado);
-            $secadoCartucho->Id_lote = $request->grasas_secadoLote;
-            $secadoCartucho->Temperatura = $request->grasas_secadoTemp;
-            $secadoCartucho->Entrada = $request->grasas_secadoEntrada;
-            $secadoCartucho->Salida = $request->grasas_secadoSalida;
-            $secadoCartucho->Id_user_m = Auth::user()->id;
-
-            $secadoCartucho->save();
-        }else{
-            SecadoCartucho::create([
-                'Id_lote' => $request->grasas_secadoLote,
-                'Temperatura' => $request->grasas_secadoTemp,
-                'Entrada' => $request->grasas_secadoEntrada,
-                'Salida' => $request->grasas_secadoSalida,
-                'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id
-            ]);
-        }
-
-        //tiempo_reflujo
-        $tiempoFqModel = TiempoReflujo::where('Id_lote', $request->idLote)->get();
-        
-        if($tiempoFqModel->count()){
-            $tiempoReflujo = TiempoReflujo::find($tiempoFqModel[0]->Id_tiempo);
-            $tiempoReflujo->Id_lote = $request->grasas_tiempoLote;
-            $tiempoReflujo->Entrada = $request->grasas_tiempoEntrada;
-            $tiempoReflujo->Salida = $request->grasas_tiempoSalida;
-            $tiempoReflujo->Id_user_m = Auth::user()->id;
-
-            $tiempoReflujo->save();
-        }else{
-            TiempoReflujo::create([
-                'Id_lote' => $request->grasas_tiempoLote,
-                'Entrada' => $request->grasas_tiempoEntrada,
-                'Salida' => $request->grasas_tiempoSalida,
-                'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id
-            ]);
-        }
-
-        //enfriado_matraz
-        $enfriadoFqModel = EnfriadoMatraz::where('Id_lote', $request->idLote)->get();
-
-        if($enfriadoFqModel->count()){
-            $enfriadoMatraz2 = EnfriadoMatraz::find($enfriadoFqModel[0]->Id_enfriado);
-            $enfriadoMatraz2->Id_lote = $request->grasas_enfriadoLote;
-            $enfriadoMatraz2->Entrada = $request->grasas_enfriadoEntrada;
-            $enfriadoMatraz2->Salida = $request->grasas_enfriadoSalida;
-            $enfriadoMatraz2->Id_user_m = Auth::user()->id;
-
-            $enfriadoMatraz2->save();
-        }else{
-            EnfriadoMatraz::create([
-                'Id_lote' => $request->grasas_enfriadoLote,
-                'Entrada' => $request->grasas_enfriadoEntrada,
-                'Salida' => $request->grasas_enfriadoSalida,
-                'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id
-            ]);
-        }
-
-
-        //****************************************************COLIFORMES*************************************************************
-        //******************************************************SEMBRADO FQ**********************************************************
-        $sembradoFqModel = SembradoFq::where('Id_lote', $request->idLote)->get();
-
-        if ($sembradoFqModel->count()) {
-            $sembradoFq = SembradoFq::where('Id_lote', $request->idLote)->first();
-
-            $sembradoFq->Sembrado = $request->sembrado_sembrado;
-            $sembradoFq->Fecha_resiembra = $request->sembrado_fechaResiembra;
-            $sembradoFq->Tubo_n = $request->sembrado_tuboN;
-            $sembradoFq->Bitacora = $request->sembrado_bitacora;
-            $sembradoFq->Id_user_m = Auth::user()->id;            
-
-            $sembradoFq->save();
-        } else {
-            SembradoFq::create([
-                'Id_lote' => $request->idLote,
-                'Sembrado' => $request->sembrado_sembrado,
-                'Fecha_resiembra' => $request->sembrado_fechaResiembra,
-                'Tubo_n' => $request->sembrado_tuboN,
-                'Bitacora' => $request->sembrado_bitacora,
-                'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id
-            ]);
-        }
-        //*******************************************PRUEBA PRESUNTIVA FQ******************************************/
-        $pruebaPresuntivaModel = PruebaPresuntivaFq::where('Id_lote', $request->idLote)->get();
-
-        if ($pruebaPresuntivaModel->count()) {
-            $pruebaPresuntivaFq = PruebaPresuntivaFq::where('Id_lote', $request->idLote)->first();
-
-            $pruebaPresuntivaFq->Preparacion = $request->pruebaPresuntiva_preparacion;
-            $pruebaPresuntivaFq->Lectura = $request->pruebaPresuntiva_lectura;
-            $pruebaPresuntivaFq->Id_user_m = Auth::user()->id;
-
-            $pruebaPresuntivaFq->save();
-        } else {
-            PruebaPresuntivaFq::create([
-                'Id_lote' => $request->idLote,
-                'Preparacion' => $request->pruebaPresuntiva_preparacion,
-                'Lectura' => $request->pruebaPresuntiva_lectura,
-                'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id,                  
-            ]);
-        }
-
-        //***********************************************PRUEBA CONFIRMATIVA FQ***********************************
-        $pruebaConfirmativaModel = PruebaConfirmativaFq::where('Id_lote', $request->idLote)->get();
-
-        if ($pruebaConfirmativaModel->count()) {
-            $pruebaConfirmativa = PruebaConfirmativaFq::where('Id_lote', $request->idLote)->first();
-
-            $pruebaConfirmativa->Medio = $request->pruebaConfirmativa_medio;
-            $pruebaConfirmativa->Preparacion = $request->pruebaConfirmativa_preparacion;
-            $pruebaConfirmativa->Lectura = $request->pruebaConfirmativa_lectura;
-            $pruebaConfirmativa->Id_user_m = Auth::user()->id;
-
-            $pruebaConfirmativa->save();
-        } else {
-            PruebaConfirmativaFq::create([
-                'Id_lote' => $request->idLote,
-                'Medio' => $request->pruebaConfirmativa_medio,
-                'Preparacion' => $request->pruebaConfirmativa_preparacion,
-                'Lectura' => $request->pruebaConfirmativa_lectura,
-                'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id,
-            ]);
-        }        
-
-        //************************************DQO********************************
-        $dqoModel = ::where('Id_lote', $request->idLote)->get();
-
-        if ($dqoModel->count()) {
-            $dqoFq = DqoFq::where('Id_lote', $request->idLote)->first();
-
-            $dqoFq->Inicio = $request->ebullicion_inicio;
-            $dqoFq->Fin = $request->ebullicion_fin;
-            $dqoFq->Invlab = $request->ebullicion_invlab;
-            $dqoFq->Id_user_m = Auth::user()->id;
-
-            $dqoFq->save();
-        } else {
-            DqoFq::create([
-                'Id_lote' => $request->idLote,
-                'Inicio' => $request->ebullicion_inicio,
-                'Fin' => $request->ebullicion_fin,
-                'Invlab' => $request->ebullicion_invlab,
-                'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id,                    
-            ]);
-        }        
-
-        //*******************************************************************************************************
-        return response()->json(
-            compact('sembradoFqModel', 'pruebaPresuntivaModel','pruebaConfirmativaModel', 'dqoModel')
-        );
-    }
+ 
 }
+  
