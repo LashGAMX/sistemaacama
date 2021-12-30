@@ -117,8 +117,7 @@ function getDatalote()
         dataType: "json",
         async: false,
         success: function (response) {
-            
-            console.log(response);  
+            console.group(response);
             
             //console.log("Valor de idLote: " + response[5]);
             
@@ -188,34 +187,77 @@ function getDatalote()
             //------------------------Grasas
             //console.log("Arreglo grasas: " + response.dataGrasas[0][0].Temperatura);
 
+            //calentamiento de matraces
             if(response.dataGrasas[0] !== null){
-
+                for(let i = 0; i < 3; i++){
+                    $("#calLote" + (i+1)).val(response.dataGrasas[0][i].Id_lote);
+                    $("#calMasa" + (i+1)).val(response.dataGrasas[0][i].Masa_constante);
+                    $("#calTemp" + (i+1)).val(response.dataGrasas[0][i].Temperatura);
+                    $("#calEntrada" + (i+1)).val(response.dataGrasas[0][i].Entrada);
+                    $("#calSalida" + (i+1)).val(response.dataGrasas[0][i].Salida);
+                }
             }else{
-
+                for(let i = 0; i < 3; i++){
+                    $("#calLote" + (i+1)).val('');
+                    $("#calMasa" + (i+1)).val('');
+                    $("#calTemp" + (i+1)).val('');
+                    $("#calEntrada" + (i+1)).val('');
+                    $("#calSalida" + (i+1)).val('');
+                }
             }
 
+            //enfriado de matraces
             if(response.dataGrasas[1] !== null){
-
+                for(let i = 0; i < 3; i++){
+                    $("#enfLote" + (i+1)).val(response.dataGrasas[1][i].Id_lote);
+                    $("#enfMasa" + (i+1)).val(response.dataGrasas[1][i].Masa_constante);
+                    $("#enfEntrada" + (i+1)).val(response.dataGrasas[1][i].Entrada);
+                    $("#enfSalida" + (i+1)).val(response.dataGrasas[1][i].Salida);
+                    $("#enfPesado" + (i+1)).val(response.dataGrasas[1][i].Pesado_matraz);
+                }
             }else{
-                
+                for(let i = 0; i < 3; i++){
+                    $("#enfLote" + (i+1)).val('');
+                    $("#enfMasa" + (i+1)).val('');
+                    $("#enfEntrada" + (i+1)).val('');
+                    $("#enfSalida" + (i+1)).val('');
+                    $("#enfPesado" + (i+1)).val('');
+                }
             }
 
+            //secado de cartuchos
             if(response.dataGrasas[2] !== null){
-
+                $("#secadoLote1").val(response.dataGrasas[2].Id_lote);
+                $("#secadoTemp1").val(response.dataGrasas[2].Temperatura);
+                $("#secadoEntrada1").val(response.dataGrasas[2].Entrada);
+                $("#secadoSalida1").val(response.dataGrasas[2].Salida);
             }else{
-                
+                $("#secadoLote1").val('');
+                $("#secadoTemp1").val('');
+                $("#secadoEntrada1").val('');
+                $("#secadoSalida1").val('');
             }
 
+            //tiempo de reflujo
             if(response.dataGrasas[3] !== null){
-
+                $("#tiempoLote1").val(response.dataGrasas[3].Id_lote);
+                $("#tiempoEntrada1").val(response.dataGrasas[3].Entrada);
+                $("#tiempoSalida1").val(response.dataGrasas[3].Salida);
             }else{
-                
+                $("#tiempoLote1").val('');
+                $("#tiempoEntrada1").val('');
+                $("#tiempoSalida1").val('');
             }
 
+            //enfriado de matraces
             if(response.dataGrasas[4] !== null){
-
+                $("#enfriadoLote1").val(response.dataGrasas[4].Id_lote);
+                $("#enfriadoEntrada1").val(response.dataGrasas[4].Entrada);
+                $("#enfriadoSalida1").val(response.dataGrasas[4].Salida);
             }else{
-                
+                $("#enfriadoLote1").val('');
+                $("#enfriadoEntrada1").val('');
+                $("#enfriadoSalida1").val('');
             }
 
             //------------------------Coliformes
