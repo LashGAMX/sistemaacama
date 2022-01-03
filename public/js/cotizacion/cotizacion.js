@@ -1,6 +1,5 @@
-var base_url = 'https://dev.sistemaacama.com.mx';
 var table;
-// var selectedRow = false;
+
 $(document).ready(function () {
     table = $('#tablaCotizacion').DataTable({
         "ordering": false,

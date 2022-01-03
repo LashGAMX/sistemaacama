@@ -175,8 +175,8 @@
 
 
 @section('javascript')
-    <script src="{{asset('js/campo/AsignarMuestreo.js')}}"></script>
-    <script src="{{asset('js/libs/componentes.js')}}"></script>
-    <script src="{{asset('js/libs/tablas.js')}}"></script>
+    <script src="{{asset('/public/js/campo/AsignarMuestreo.js')}}"></script>
+    <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
+    <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
 @stop
 

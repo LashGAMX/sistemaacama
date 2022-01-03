@@ -85,5 +85,5 @@
 
 @endsection
 @section('javascript')
-<script src="{{ asset('js/usuarios/usuarios.js') }}"></script>
+<script src="{{ asset('/public/js/usuarios/usuarios.js') }}"></script>
 @stop

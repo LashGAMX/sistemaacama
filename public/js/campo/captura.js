@@ -1,4 +1,4 @@
-var base_url = "https://dev.sistemaacama.com.mx";
+
 // var selectedRow = false;
 $(document).ready(function () {        
     $("#datosGenerales-tab").click();

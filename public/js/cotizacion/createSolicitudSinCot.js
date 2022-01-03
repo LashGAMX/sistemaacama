@@ -1,4 +1,4 @@
-var base_url = 'https://dev.sistemaacama.com.mx';
+
 var model; 
 var swSol = $("#sw").val();;
 $(document).ready(function () {      

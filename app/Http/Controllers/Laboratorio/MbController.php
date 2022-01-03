@@ -55,7 +55,7 @@ class MbController extends Controller
         $tecnicas = DB::table('tecnicas')->get();
 
         //Para buscar la Norma de la solicitud
-        $solicitud = DB::table('ViewSolicitud')->get();
+        $solicitud = DB::table('ViewSolicitud')->get(); 
         $solicitudLength = DB::table('ViewSolicitud')->count();
  
         //Para buscar los parámetros de la solicitud
@@ -757,7 +757,7 @@ class MbController extends Controller
             compact('texto')
         );
     }
-<<<<<<< HEAD:app/Http/Controllers/Laboratorio/MbController.php
+
 
     //*************************************GUARDA LOS DATOS DE LA VENTANA MODAL EN MÓDULO LOTE, PESTAÑA EQUIPO************* */
     public function guardarDatos(Request $request){
@@ -985,8 +985,6 @@ class MbController extends Controller
             compact('sembradoFqModel', 'pruebaPresuntivaModel','pruebaConfirmativaModel', 'dqoModel')
         );
     }
-=======
- 
->>>>>>> 7541e18af5c0068be038af30ca8a915b8975d551:app/Http/Controllers/Laboratorio/MicroController.php
+
 }
   

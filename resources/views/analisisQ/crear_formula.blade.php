@@ -164,7 +164,7 @@
 @endsection  
  
 @section('javascript')
-<script src="{{asset('js/analisisQ/crear_formula.js')}}"></script>
-<script src="{{asset('js/libs/componentes.js')}}"></script>
-<script src="{{asset('js/libs/tablas.js')}}"></script>
+<script src="{{asset('/public/js/analisisQ/crear_formula.js')}}"></script>
+<script src="{{asset('/public/js/libs/componentes.js')}}"></script>
+<script src="{{asset('/public/js/libs/tablas.js')}}"></script>
 @stop

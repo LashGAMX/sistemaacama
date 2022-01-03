@@ -1,4 +1,4 @@
-var base_url = 'https://dev.sistemaacama.com.mx';
+
 var table;
 var folioAsignar;
 let idSolicitud = 0; 

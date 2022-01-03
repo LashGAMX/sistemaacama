@@ -1,4 +1,4 @@
-@extends('voyager::master')
+/public/@extends('voyager::master')
 
 @section('content')
 
@@ -57,9 +57,9 @@
 
 
 @section('javascript')
-<script src="{{asset('js/analisisQ/detalle_normas.js')}}"></script>
-<script src="{{asset('js/libs/componentes.js')}}"></script>
-<script src="{{asset('js/libs/tablas.js')}}"></script>
+<script src="{{asset('/public/js/analisisQ/detalle_normas.js')}}"></script>
+<script src="{{asset('/public/js/libs/componentes.js')}}"></script>
+<script src="{{asset('/public/js/libs/tablas.js')}}"></script>
 @stop
 
 

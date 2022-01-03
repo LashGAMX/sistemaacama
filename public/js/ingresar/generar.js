@@ -1,4 +1,3 @@
-var base_url = 'https://dev.sistemaacama.com.mx';
 
 function buscadorSol(busqueda, valIngreso, valProceso, valRepListo, valCliente, msj){
     let busquedaIn = document.getElementById(busqueda).value;

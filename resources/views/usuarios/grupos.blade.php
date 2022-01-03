@@ -153,5 +153,5 @@
 
 @endsection
 @section('javascript')
-<script src="{{ asset('js/usuarios/grupos.js') }}"></script>
+<script src="{{ asset('/public/js/usuarios/grupos.js') }}"></script>
 @stop

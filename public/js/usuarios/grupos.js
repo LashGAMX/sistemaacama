@@ -1,6 +1,3 @@
-console.log('grupos');
-
-var base_url = 'https://dev.sistemaacama.com.mx';
 
 /**
  * Función para Abrir el Modal

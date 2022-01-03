@@ -655,8 +655,8 @@
     @endsection
     @section('javascript')
 
-        <script src="{{ asset('js/cotizacion/create.js') }}"></script>
-        {{-- <script src="{{asset('js/cotizacion/edit.js')}}"></script> --}}
-        <script src="{{ asset('js/libs/componentes.js') }}"></script>
-        <script src="{{ asset('js/libs/tablas.js') }}"></script>
+        <script src="{{ asset('/public/js/cotizacion/create.js') }}"></script>
+        {{-- <script src="{{asset('/public/js/cotizacion/edit.js')}}"></script> --}}
+        <script src="{{ asset('/public/js/libs/componentes.js') }}"></script>
+        <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
     @stop

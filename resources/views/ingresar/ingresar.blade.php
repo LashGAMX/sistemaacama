@@ -90,14 +90,14 @@
     <br><br><br><br><br>    
 </div>
 {{-- <livewire:historial.config/> --}}
-@endsection
+@endsection 
 
 @section('css') 
-    <link rel="stylesheet" href="{{asset('css/ingresar/ingresar.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/ingresar/ingresar.css')}}">
 @endsection
 
 @section('javascript')
-    <script src="{{ asset('js/ingresar/ingresar.js') }}"></script>
-    <script src="{{ asset('js/libs/componentes.js') }}"></script>
-    <script src="{{ asset('js/libs/tablas.js') }}"></script>    
+    <script src="{{ asset('/public/js/ingresar/ingresar.js') }}"></script>
+    <script src="{{ asset('/public/js/libs/componentes.js') }}"></script>
+    <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>    
 @stop

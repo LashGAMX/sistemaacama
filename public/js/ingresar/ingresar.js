@@ -1,4 +1,3 @@
-var base_url = 'https://dev.sistemaacama.com.mx';
 
 function buscarFolio(){ 
     $.ajax({

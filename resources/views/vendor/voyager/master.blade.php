@@ -174,5 +174,9 @@ $(document).ready( function () {
     @foreach(config('voyager.additional_js') as $js)<script type="text/javascript" src="{{ asset($js) }}"></script>@endforeach
 @endif
 
+<script>
+    var base_url = "{{url('')}}";
+</script>
+
 </body>
 </html>

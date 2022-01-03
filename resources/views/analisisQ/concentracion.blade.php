@@ -50,8 +50,8 @@
 </div>
   @stop
 
-  <script src="{{asset('js/analisisQ/concentracion.js')}}"></script>
-  <script src="{{asset('js/libs/componentes.js')}}"></script>
-  <script src="{{asset('js/libs/tablas.js')}}"></script>
+  <script src="{{asset('/public/js/analisisQ/concentracion.js')}}"></script>
+  <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
+  <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
 
 @endsection  

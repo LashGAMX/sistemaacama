@@ -34,6 +34,6 @@
 
 </script>
 
-{{-- <script src="{{asset('js/config/campo/campo.js')}}"></script> --}}
+{{-- <script src="{{asset('/public/js/config/campo/campo.js')}}"></script> --}}
 
 @stop

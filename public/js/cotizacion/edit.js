@@ -1,4 +1,4 @@
-var base_url = 'https://dev.sistemaacama.com.mx';
+
 var swParametros = 0;
 $(document).ready(function () {
     $('#datos-tab').click();
