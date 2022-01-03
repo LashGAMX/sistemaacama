@@ -123,9 +123,9 @@ class MbController extends Controller
     {
         $viewObservacion = DB::table('ViewObservacionMuestra')->where('Id_area',5)->where('Folio','LIKE',"%{$request->folioActual}%")->first();
 
-
         $observacion = ObservacionMuestra::find($viewObservacion->Id_observacion);
         $observacion->Ph = $request->ph;
+        
         $observacion->Solido = $request->solidos;
         $observacion->Olor = $request->olor;
         $observacion->Color = $request->color;
