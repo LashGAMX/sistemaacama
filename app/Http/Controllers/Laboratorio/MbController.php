@@ -57,7 +57,7 @@ class MbController extends Controller
         //Para buscar la Norma de la solicitud
         $solicitud = DB::table('ViewSolicitud')->get();
         $solicitudLength = DB::table('ViewSolicitud')->count();
-
+ 
         //Para buscar los parámetros de la solicitud
         $parametros = DB::table('parametros')->get();
         $parametrosLength = DB::table('parametros')->count();
@@ -71,7 +71,7 @@ class MbController extends Controller
         ->orWhere('Id_tipo_formula',9)
         ->get();
         return view('laboratorio.mb.observacion', compact('formulas'));
-    }
+    }  
 
     public function getObservacionanalisis(Request $request)
     {
