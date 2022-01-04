@@ -77,7 +77,7 @@ class Parametros extends Component
             ->get();
         }else{
             $model = DB::table('ViewParametros')
-            ->where('Parametro', 'LIKE', "%{$this->search}%")
+            ->where('Parametro', 'LIKE', "%{$this->search}%") 
             ->get();
         }
         

@@ -35,7 +35,7 @@
                 <th>Modificación</th> --}}
                 <th>Acción</th> 
             </tr>
-        </thead>
+        </thead> 
         <tbody>
         @if ($model->count()) 
         @foreach ($model as $item) 
