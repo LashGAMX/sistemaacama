@@ -67,15 +67,14 @@ class MbController extends Controller
     public function observacion()
     {
         $formulas = DB::table('tipo_formulas')
-        ->orWhere('Id_tipo_formula', 8)
-        ->orWhere('Id_tipo_formula',9)
+        ->orWhere('Id_tipo_formula', 7)
         ->get();
         return view('laboratorio.mb.observacion', compact('formulas'));
     }  
 
     public function getObservacionanalisis(Request $request)
     {
-        // todo - Area analisis = id 5
+        // todo - Area analisis = id 13
         $solicitudModel = DB::table('ViewSolicitud')->get();
         $sw = false;
         foreach($solicitudModel as $item)
@@ -84,7 +83,7 @@ class MbController extends Controller
             $sw = false;
             foreach($paramModel as $item2)
             {
-                $areaModel = DB::table('ViewTipoFormulaAreas')->where('Id_formula',$item2->Id_tipo_formula)->where('Id_area',5)->get();
+                $areaModel = DB::table('ViewTipoFormulaAreas')->where('Id_formula',$item2->Id_tipo_formula)->where('Id_area',13)->get();
                 if($areaModel->count())
                 {
                     $sw = true;
@@ -93,12 +92,12 @@ class MbController extends Controller
             if($sw == true)
             {
                 // $model = DB::table('ViewObservacionMuestra')->where('Id_area',5)->where('Id_analisis',$item->Id_solicitud)->get();
-                $model = ObservacionMuestra::where('Id_analisis',$item->Id_solicitud)->where('Id_area',5)->get();
+                $model = ObservacionMuestra::where('Id_analisis',$item->Id_solicitud)->where('Id_area',13)->get();
                 if($model->count()){
                 }else{
                     ObservacionMuestra::create([
                         'Id_analisis' => $item->Id_solicitud,
-                        'Id_area' => 5,
+                        'Id_area' => 13,
                         'Ph' => '',
                         'Solido' => '',
                         'Olor' => '',
@@ -109,7 +108,7 @@ class MbController extends Controller
                 $sw = false;
             }
         }
-        $model = DB::table('ViewObservacionMuestra')->where('Id_area',5)->get();
+        $model = DB::table('ViewObservacionMuestra')->where('Id_area',13)->get();
 
         $data = array(
             'model' => $model,

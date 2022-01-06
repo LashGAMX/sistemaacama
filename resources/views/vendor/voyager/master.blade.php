@@ -117,7 +117,7 @@ if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Ill
         <div class="container-fluid">
             <div class="side-body padding-top">
                 @yield('page_header')
-                <div id="voyager-notifications"></div>
+                <div id="voyager-notifications"></div> 
                 @yield('content')
             </div> 
         </div>
@@ -151,7 +151,7 @@ $(document).ready( function () {
     @if(Session::has('alerts'))
         let alerts = {!! json_encode(Session::get('alerts')) !!};
         helpers.displayAlerts(alerts, toastr);
-    @endif
+    @endif 
 
     @if(Session::has('message'))
 

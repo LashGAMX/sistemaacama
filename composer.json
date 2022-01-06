@@ -21,7 +21,7 @@
         "mediconesystems/livewire-datatables": "^0.4.3",
         "milon/barcode": "^8.0",
         "mpdf/mpdf": "^8.0",
-        "tcg/voyager": "^1.4"
+        "tcg/voyager": "^1.5"
     }, 
     "require-dev": {
         "facade/ignition": "^2.5",

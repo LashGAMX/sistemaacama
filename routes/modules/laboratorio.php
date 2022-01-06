@@ -74,12 +74,19 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
         Route::get('capturaEspectro', [FqController::class, 'capturaEspectro']);
         Route::post('getDataCapturaEspectro', [FqController::class, 'getDataCapturaEspectro']);
+
+        Route::get('capturaGA', [FqController::class, 'capturaGA']);
+        // Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
+        // Route::post('getDataCapturaEspectro', [FqController::class, 'getDataCapturaEspectro']);
         
         Route::post('setControlCalidad', [FqController::class, 'setControlCalidad']);
         Route::post('liberarMuestraMetal', [FqController::class, 'liberarMuestraMetal']);
         Route::post('getDataLote/plantillaPredeterminada', [FqController::class, 'getPlantillaPred']);
         Route::post('lote/guardarDatos', [FqController::class, 'guardarDatos']);
         Route::post('lote/procedimiento', [FqController::class, 'guardarTexto']);
+
+        //? Export PDF
+        Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
     });
         // todo Modulo MicroBiologia
         Route::group(['prefix' => 'micro'], function () {

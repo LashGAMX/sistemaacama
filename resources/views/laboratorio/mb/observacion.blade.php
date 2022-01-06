@@ -89,7 +89,7 @@
       </div>
     
       <div class="col-md-12">
-
+ 
         <div id="contenedorGeneral">
             
           <div id="contenedorIzq">

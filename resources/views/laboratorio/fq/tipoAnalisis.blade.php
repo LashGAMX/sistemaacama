@@ -49,7 +49,7 @@
             </a>
         </div>    
         <div class="col-md-3">
-          <a href="{{route('voyager.hist-clientes.index')}}">
+          <a href="{{url('')}}/admin/laboratorio/fq/capturaGA">
               <div class="panel widget center bgimage">
                   <div class="dimmer"></div>
                   <div class="panel-content">
