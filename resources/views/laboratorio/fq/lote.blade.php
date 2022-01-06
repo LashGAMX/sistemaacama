@@ -103,7 +103,7 @@
             </div>
             <div class="form-group">
               <label for="exampleFormControSelect1">Tecnica análisis</label> 
-              <select class="form-control" id="teecn">
+              <select class="form-control" id="tecnicaAnalisis">
                 @foreach($tecnica as $item)
                   <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
                 @endforeach

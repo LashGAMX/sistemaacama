@@ -62,7 +62,7 @@
                         <div class="col-md-3">
                             <p class="">Información global</p>
                             <div id="infoGlobal">
-
+                                <button class="btn btn-secondary" id="btnGenControl" onclick="imprimir();">Imprimir</button>
                             </div>
                         </div>
                         <div class="col-md-9">

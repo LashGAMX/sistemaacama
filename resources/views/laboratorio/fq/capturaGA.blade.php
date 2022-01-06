@@ -5,7 +5,11 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-window-list"></i>
+<<<<<<< HEAD
     Captura de resultados
+=======
+    Captura de resultados G&Afefef
+>>>>>>> b7bb2bd74a674b31438b7c996afe65fe69ab50bb
   </h6>
   
 <div class="container-fluid">
@@ -62,7 +66,11 @@
                         <div class="col-md-3">
                             <p class="">Información global</p>
                             <div id="infoGlobal">
+<<<<<<< HEAD
 
+=======
+                                <button class="btn btn-success" onclick="getDataCaptura()" id="btnBuscar">Buscar</button>
+>>>>>>> b7bb2bd74a674b31438b7c996afe65fe69ab50bb
                             </div>
                         </div>
                         <div class="col-md-9">
@@ -94,7 +102,11 @@
                       </div> --}}
                 </div>
                 <div class="col-md-2">
+<<<<<<< HEAD
                     <button class="btn btn-secondary" id="btnGenControl" onclick="generarControles();">Generar controles</button>
+=======
+                    
+>>>>>>> b7bb2bd74a674b31438b7c996afe65fe69ab50bb
                 </div>
 
                 <div class="col-md-1">
@@ -107,6 +119,7 @@
                 <table class="table" id="tablaControles">
                     <thead>
                         <tr>
+<<<<<<< HEAD
                             <th>#</th>
                             <th>Abs1</th>
                             <th>Abs2</th>
@@ -124,6 +137,19 @@
                         </tr>
                     </thead>
                 </table>
+=======
+                            <th>#</th> 
+                            <th>Opc</th>
+                            <th>Folio</th>
+                            <th># Toma</th>
+                            <th>Norma</th>
+                            <th>Resultado</th>
+                            <th>Tipo Analisis</th>
+                            <th>Observacion</th>
+                        </tr>
+                    </thead>
+                </table> 
+>>>>>>> b7bb2bd74a674b31438b7c996afe65fe69ab50bb
             </div>
         </div>
       </div>
@@ -139,7 +165,11 @@
                     </button>
                   </div>
                   <div class="modal-body"> 
+<<<<<<< HEAD
                       <div class="row">
+=======
+                      <div class="row"> 
+>>>>>>> b7bb2bd74a674b31438b7c996afe65fe69ab50bb
                           <div class="col-md-6">
                               
                               <label for="">Nombre</label>
@@ -159,14 +189,24 @@
                 </form>
                 </div>
               </div>
+<<<<<<< HEAD
               
              </div>
              
+=======
+               
+             </div>
+              
+>>>>>>> b7bb2bd74a674b31438b7c996afe65fe69ab50bb
 </div>
   @stop
 
   @section('javascript')
+<<<<<<< HEAD
   <script src="{{asset('/public/js/laboratorio/fq/capturaEspectro.js')}}"></script>
+=======
+  <script src="{{asset('/public/js/laboratorio/fq/capturaGA.js')}}"></script>
+>>>>>>> b7bb2bd74a674b31438b7c996afe65fe69ab50bb
   <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
   <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
   @stop
