@@ -69,17 +69,24 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getMuestraAsignada', [FqController::class, 'getMuestraAsignada']);
         Route::post('delMuestraLote', [FqController::class, 'delMuestraLote']);
 
-        //? Modulo captura de datos analisis
-        Route::get('tipoAnalisis', [FqController::class, 'tipoAnalisis']);
+        //? Modulo captura de datos analisisp
 
         Route::get('capturaEspectro', [FqController::class, 'capturaEspectro']);
         Route::post('getDataCapturaEspectro', [FqController::class, 'getDataCapturaEspectro']);
+
+        Route::get('capturaGA', [FqController::class, 'capturaGA']);  
+        // Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
+        // Route::post('getDataCapturaEspectro', [FqController::class, 'getDataCapturaEspectro']);
         
         Route::post('setControlCalidad', [FqController::class, 'setControlCalidad']);
         Route::post('liberarMuestraMetal', [FqController::class, 'liberarMuestraMetal']);
         Route::post('getDataLote/plantillaPredeterminada', [FqController::class, 'getPlantillaPred']);
         Route::post('lote/guardarDatos', [FqController::class, 'guardarDatos']);
         Route::post('lote/procedimiento', [FqController::class, 'guardarTexto']);
+
+        //? Export PDF
+        Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
+        Route::get('captura/exportPdfCapturaEspectro/{idLote}', [FqController::class, 'exportPdfCapturaEspectro']);
     });
         // todo Modulo MicroBiologia
         Route::group(['prefix' => 'micro'], function () {

@@ -1,3 +1,5 @@
+var area = "fq";
+
 $(document).ready(function () {
     table = $('#tableAnalisis').DataTable({        
         "ordering": false,
@@ -48,7 +50,7 @@ function getDataCaptura()
 
         $.ajax({ 
             type: "POST",
-            url: base_url + "/admin/laboratorio/metales/getDataCaptura",
+            url: base_url + "/admin/laboratorio/"+area+"/getDataCaptura",
             data: {
                 formulaTipo: $("#formulaTipo").val(), 
                 fechaAnalisis: $("#fechaAnalisis").val(),
@@ -182,7 +184,7 @@ function getDataCaptura()
 function imprimir(idLote){
     console.log("Dentro de evento btnBuscar");
     $('#btnImprimir').click(function() {
-        window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote;
+        window.location = base_url + "/admin/laboratorio/captura/exportPdfCapturaGA/"+idLote;
     });
 }
 
@@ -191,7 +193,7 @@ function operacion()
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/metales/operacion",
+        url: base_url + "/admin/laboratorio/"+area+"/operacion",
         data: {
             idlote:$("#idLote").val(),
             idDetalle:$("#idDetalle"+idMuestra).val(),
@@ -223,7 +225,7 @@ function liberarMuestraMetal()
     
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/metales/liberarMuestraMetal",
+        url: base_url + "/admin/laboratorio/"+area+"/liberarMuestraMetal",
         data: {
             idDetalle:$("#idDetalle"+idMuestra).val(),
             _token: $('input[name="_token"]').val()
@@ -355,7 +357,7 @@ function generarControles()
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/metales/setControlCalidad",
+        url: base_url + "/admin/laboratorio/"+area+"/setControlCalidad",
         data: {
             ranCon:ranCon,
             numMuestra:numMuestras, 

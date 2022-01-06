@@ -5,9 +5,9 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-window-list"></i>
-    Captura de resultados
+    Captura de resultados G&Afefef
   </h6>
- 
+  
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
@@ -21,7 +21,7 @@
                   </select>
             </div>
         </div>
-        {{-- <div class="col-md-3">
+        {{-- <div class="col-md-3"> 
             <div class="form-group">
                 <label for="">Núm. muestra</label>
                 <input type="text" style="width: " class="form-control" id="numeroMuestra">
@@ -62,7 +62,7 @@
                         <div class="col-md-3">
                             <p class="">Información global</p>
                             <div id="infoGlobal">
-
+                                <button class="btn btn-success" onclick="getDataCaptura()" id="btnBuscar">Buscar</button>
                             </div>
                         </div>
                         <div class="col-md-9">
@@ -94,7 +94,7 @@
                       </div> --}}
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-secondary" id="btnGenControl" onclick="generarControles();">Generar controles</button>
+                    
                 </div>
 
                 <div class="col-md-1">
@@ -107,23 +107,17 @@
                 <table class="table" id="tablaControles">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>NumMuestra</th>
-                            <th>NomCliente</th>
-                            {{-- <th>PuntoMuestreo</th> --}}
-                            <th>Vol. Muestra E</th>
-                            <th>Abs1</th>
-                            <th>Abs2</th>
-                            <th>Abs3</th>
-                            <th>Absorción
-                                promedio
-                            </th>
-                            <th>Factor dilución D</th>
-                            <th>Factor conversion G</th>
-                            <th>Vol. disolución digerida v</th>
+                            <th>#</th> 
+                            <th>Opc</th>
+                            <th>Folio</th>
+                            <th># Toma</th>
+                            <th>Norma</th>
+                            <th>Resultado</th>
+                            <th>Tipo Analisis</th>
+                            <th>Observacion</th>
                         </tr>
                     </thead>
-                </table>
+                </table> 
             </div>
         </div>
       </div>
@@ -139,7 +133,7 @@
                     </button>
                   </div>
                   <div class="modal-body"> 
-                      <div class="row">
+                      <div class="row"> 
                           <div class="col-md-6">
                               
                               <label for="">Nombre</label>
@@ -159,18 +153,18 @@
                 </form>
                 </div>
               </div>
-              
+               
              </div>
-             
+              
 </div>
   @stop
 
   @section('javascript')
-  <script src="{{asset('public/js/laboratorio/metales/captura.js')}}"></script>
-  <script src="{{asset('public/js/libs/componentes.js')}}"></script>
-  <script src="{{asset('public/js/libs/tablas.js')}}"></script>
+  <script src="{{asset('/public/js/laboratorio/fq/capturaGA.js')}}"></script>
+  <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
+  <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
   @stop
 
-@endsection    
+@endsection  
 
 

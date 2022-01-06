@@ -11,16 +11,16 @@ $(document).ready(function () {
 
     $('#btnBuscar').click(function () {
         // console.log($("#tipoFormula").val());
-        getServicio();
+        getServicio(); 
     });
 });
-
+ 
 var folioSel = "";
 function getServicio() { 
     let tabla = document.getElementById('solicitudGenerada');
     let tab = '';
     $.ajax({
-        url: base_url + '/admin/laboratorio/fq/getObservacionanalisis', //archivo que recibe la peticion
+        url: base_url + '/admin/laboratorio/mb/getObservacionanalisis', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
             id: $("#tipoFormula").val(),

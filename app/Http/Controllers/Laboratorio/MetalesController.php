@@ -175,8 +175,8 @@ class MetalesController extends Controller
         $curvaConst = CurvaConstantes::where('Id_lote',$idLote)->first();
         $data = array(
             'idL' => $idLote,
-            'de' => $detModel,
-            'lote' => $loteModel,
+            'de' => $detModel, 
+            'lote' => $loteModel, 
             'curvaConst' => $curvaConst,
             'detalle' => $detalle,
         );
@@ -184,7 +184,7 @@ class MetalesController extends Controller
     }
 
     //NUEVA FUNCIÓN BUSQUEDA FILTROS > CAPTURA.JS
-    public function busquedaFiltros(Request $request)
+    public function busquedaFiltros(Request $request) 
     {
         //REALIZARÁ CONSULTA A LA BASE DE DATOS VIEWLOTEDETALLE PARA RECUPERAR LOS DATOS
 

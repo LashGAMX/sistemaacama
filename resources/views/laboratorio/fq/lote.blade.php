@@ -1,7 +1,7 @@
 @extends('voyager::master')
 
 @section('content')
-<link rel="stylesheet" href="{{asset('assets/summer/summernote.min.css')}}">
+<link rel="stylesheet" href="{{asset('/public/assets/summer/summernote.min.css')}}">
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-data"></i>    
@@ -103,7 +103,7 @@
             </div>
             <div class="form-group">
               <label for="exampleFormControSelect1">Tecnica análisis</label> 
-              <select class="form-control" id="teecn">
+              <select class="form-control" id="tecnicaAnalisis">
                 @foreach($tecnica as $item)
                   <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
                 @endforeach
@@ -559,12 +559,12 @@
   @stop
 
   @section('css')
-    <link rel="stylesheet" href="{{ asset('css/laboratorio/fq/lote.css')}}">    
+    <link rel="stylesheet" href="{{ asset('/public/css/laboratorio/fq/lote.css')}}">    
   @endsection
 
   @section('javascript')
   <!-- include summernote css/js -->
-  <script src="{{asset('assets/summer/summernote.js')}}"></script>
+  <script src="{{asset('/public/assets/summer/summernote.js')}}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>

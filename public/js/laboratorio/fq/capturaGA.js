@@ -175,7 +175,7 @@ function getDataCaptura() {
 function imprimir(idLote) {
     console.log("Dentro de evento btnBuscar");
     $('#btnImprimir').click(function () {
-        window.location = base_url + "/admin/laboratorio/"+area+"captura/exportPdfCapturaEspectro/" + idLote;
+        window.location = base_url + "/admin/laboratorio/"+area+"captura/exportPdfCapturaGA/" + idLote;
     });
 }
 
@@ -406,7 +406,7 @@ function generarControles() {
             });
             tab2 += '    </tbody>';
             tab2 += '</table>';
-            tabla2.innerHTML = tab2; 
+            tabla2.innerHTML = tab2;
             var t = $('#tablaControles').DataTable({
                 "ordering": false,
                 "language": {

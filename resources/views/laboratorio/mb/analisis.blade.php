@@ -222,9 +222,9 @@
   @stop
 
   @section('javascript')
-  <script src="{{asset('/public/js/laboratorio/fq/analisis.js')}}"></script>
-  <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
-  <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
+  <script src="{{asset('js/laboratorio/fq/analisis.js')}}"></script>
+  <script src="{{asset('js/libs/componentes.js')}}"></script>
+  <script src="{{asset('js/libs/tablas.js')}}"></script>
 
   <script>
     $('.botonF1').hover(function(){
