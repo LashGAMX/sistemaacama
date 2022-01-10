@@ -8,6 +8,7 @@ use App\Models\LoteDetalle;
 use App\Models\ObservacionMuestra; 
 use App\Models\Parametro;
 use App\Models\ReportesFq;
+use App\Models\ReportesMb;
 use App\Models\SolicitudParametro;
 use App\Models\TipoFormula;
 use App\Models\CurvaConstantes;
@@ -26,6 +27,7 @@ use App\Models\DqoFq;
 use App\Models\EnfriadoMatraces;
 use App\Models\EnfriadoMatraz;
 use App\Models\LoteDetalleEspectro;
+use App\Models\LoteDetalleHH;
 use App\Models\LoteTecnica;
 use App\Models\SecadoCartucho;
 use App\Models\Tecnica;
@@ -146,6 +148,15 @@ class MbController extends Controller
     {
         return view('laboratorio.fq.tipoAnalisis');
     }
+
+
+    //MÉTODO DE PRUEBA
+    public function captura(){
+        $parametro = Parametro::where('Id_area', 6)->get();
+
+        return view('laboratorio.mb.captura', compact('parametro'));
+    }
+
 
     public function capturaEspectro()
     {
@@ -375,19 +386,18 @@ class MbController extends Controller
     {
         //* Tipo de formulas 
         $formulas = DB::table('tipo_formulas')
-        ->orWhere('Id_tipo_formula', 8)
-        ->orWhere('Id_tipo_formula',9)
+        ->orWhere('Id_tipo_formula', 7)
         ->get();
         $tecnica = Tecnica::all();
-        $textoRecuperadoPredeterminado = ReportesFq::where('Id_lote', 0)->first();
-        return view('laboratorio.fq.lote', compact('formulas', 'textoRecuperadoPredeterminado','tecnica'));
+        $textoRecuperadoPredeterminado = ReportesMb::where('Id_lote', 0)->first();
+        return view('laboratorio.mb.lote', compact('formulas', 'textoRecuperadoPredeterminado','tecnica'));
     }
 
     public function createLote(Request $request) 
     {
         $model = LoteAnalisis::create([
             'Id_tipo' => $request->tipo,
-            'Id_area' => 5,
+            'Id_area' => 6,
             'Id_tecnica' => $request->tecnica,
             'Asignado' => 0,
             'Liberado' => 0,
@@ -402,8 +412,8 @@ class MbController extends Controller
     public function buscarLote(Request $request)
     {
         //$model = LoteAnalisis::where('Id_tipo',$request->tipo)->where('Fecha',$request->fecha)->get();
-        $model = DB::table('ViewLoteAnalisis')->where('Id_tipo', $request->tipo)->where('Id_area',5)->where('Fecha', $request->fecha)->get();
-        $data = array(
+        $model = DB::table('ViewLoteAnalisis')->where('Id_tipo', $request->tipo)->where('Id_area',6)->where('Fecha', $request->fecha)->get();
+        $data = array( 
             'model' => $model,
         );
         return response()->json($data);
@@ -415,7 +425,7 @@ class MbController extends Controller
         $idLoteIf = $request->idLote;
 
         //RECUPERA LA PLANTILLA DEL REPORTE
-        $reporte = ReportesFq::where('Id_lote',$request->idLote)->first();
+        $reporte = ReportesMb::where('Id_lote',$request->idLote)->first();
         
         //RECUPERA EL APARTADO DE FÓRMULAS GLOBALES;
         $constantesModel = CurvaConstantes::where('Id_lote', $request->idLote)->get();
@@ -518,7 +528,7 @@ class MbController extends Controller
     }
 
     public function getPlantillaPred(Request $request){
-        $plantillaPredeterminada = ReportesFq::where('Id_lote', $request->idLote)->first();
+        $plantillaPredeterminada = ReportesMb::where('Id_lote', $request->idLote)->first();
         return response()->json($plantillaPredeterminada);
     }
 
@@ -537,8 +547,7 @@ class MbController extends Controller
     public function muestraSinAsignar(Request $request)
     {
         $model = DB::table('ViewSolicitudParametros')
-        ->orWhere('Id_tipo_formula',8)
-        ->orWhere('Id_tipo_formula',9)
+        ->orWhere('Id_tipo_formula',7)
         ->where('Asignado', '!=', 1)
         ->get();
         $data = array(
@@ -607,46 +616,16 @@ class MbController extends Controller
 
         return response()->json($data);
     }
-    public function liberarMuestraMetal(Request $request)
-    {
-
-        $detalle = LoteDetalle::find($request->idDetalle);
-        $detalle->Liberado = 1;
-        $detalle->save();
-
-        $detalleModel = LoteDetalle::where('Id_lote',$detalle->Id_lote)->where('Liberado',1)->get();
-
-        $lote = LoteAnalisis::find($detalle->Id_lote);
-        $lote->Liberado = $detalleModel->count();
-        $lote->save();
-
-        $detalleModel = DB::table('ViewLoteDetalle')->where('Id_lote',$detalle->Id_lote)->get();
-
-        $loteModel = LoteAnalisis::where('Id_lote',$detalle->Id_lote)->first();
-
-
-        $data = array(
-            'detalleModel' => $detalleModel,
-            'liberado' => $detalleModel->count(),
-            'lote' => $loteModel,
-        );
-        return response()->json($data);
-    }
     //* Asignar parametro a lote
     public function asignarMuestraLote(Request $request)
     {
         $sw = false;
         $loteModel = LoteAnalisis::where('Id_lote',$request->idLote)->first();
         switch ($loteModel->Id_tecnica) {
-            case 9: //todo Espectrofotometria
-                $detModel = LoteDetalleEspectro::where('Id_lote',$request->idLote)->get();
+            case 11: //todo Sembrado
+                $detModel = LoteDetalleHH::where('Id_lote',$request->idLote)->get();
                 break;
-            case 10: //todo Gravimetia
-                    # code...
-                break;
-            case 15: //todo Volumetria
-                        # code...
-                break;
+        
             default:
                 # code...
                 break;
@@ -664,28 +643,16 @@ class MbController extends Controller
         {
             switch ($loteModel->Id_tecnica) {
                 case 9: //todo Espectrofotometria
-                    $model = LoteDetalleEspectro::create([
+                    $model = LoteDetalleHH::create([
                         'Id_lote' => $request->idLote,
                         'Id_analisis' => $request->idAnalisis,
                         'Id_parametro' => $request->idParametro,
-                        'Descripcion' => 'Resultado',
-                        'Abs1' => 0,
-                        'Abs2' => 0,
-                        'Abs3' => 0,
-                        'De_color' => 0,
-                        'Nitratos' => 0,
-                        'Nitritos' => 0,
-                        'Sulfuros' => 0,
-                        'Vol_aforo' => 0,
-                        'Vol_destilacion' => 0,
+                        'A_alumbricoides' => 0,
+                        'H_nana' => 0,
+                        'Taenia_sp' => 0,
+                        'T_trichiura' => 0,
                         'Vol_muestra' => 0,
                     ]);
-                    break;
-                case 10: //todo Gravimetia
-                        # code...
-                    break;
-                case 15: //todo Volumetria
-                            # code...
                     break;
                 default:
                     # code...
@@ -695,7 +662,7 @@ class MbController extends Controller
             $solModel->Asignado = 1;
             $solModel->save();
 
-            $detModel = LoteDetalle::where('Id_lote',$request->idLote)->get();
+            $detModel = LoteDetalleHH::where('Id_lote',$request->idLote)->get();
 
             $loteModel = LoteAnalisis::find($request->idLote);
             $loteModel->Asignado = $detModel->count();
@@ -706,14 +673,9 @@ class MbController extends Controller
         //? Muestra datos de lote detalle
         switch ($loteModel->Id_tecnica) {
             case 9: //todo Espectrofotometria
-                $paraModel = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->get();
+                $paraModel = DB::table('ViewLoteDetalleHH')->where('Id_lote', $request->idLote)->get();
                 break;
-            case 10: //todo Gravimetia
-                    # code...
-                break;
-            case 15: //todo Volumetria
-                        # code...
-                break;
+    
             default:
                 # code...
                 break;
@@ -734,16 +696,16 @@ class MbController extends Controller
 
         //$lote = Reportes::where('Id_lote', $idLote)->first();
 
-        $lote = DB::table('reportes_fq')->where('Id_lote', $idLote)->where('Id_area', $request->idArea)->get();
+        $lote = DB::table('reportes_mb')->where('Id_lote', $idLote)->where('Id_area', $request->idArea)->get();
 
         if ($lote->count()) {
-            $texto = ReportesFq::where('Id_lote', $idLote)->where('Id_area', $request->idArea)->first();
+            $texto = ReportesMb::where('Id_lote', $idLote)->where('Id_area', $request->idArea)->first();
             $texto->Texto = $textoPeticion;
             $texto->Id_user_m = Auth::user()->id;            
 
             $texto->save();
         } else {
-            $texto = ReportesFq::create([
+            $texto = ReportesMb::create([
                 'Id_lote' => $idLote,
                 'Texto' => $textoPeticion,
                 'Id_area' => $request->idArea,
@@ -984,6 +946,207 @@ class MbController extends Controller
             compact('sembradoFqModel', 'pruebaPresuntivaModel','pruebaConfirmativaModel', 'dqoModel')
         );
     }
+
+    //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
+    public function exportPdfCaptura()
+    {
+         //Var. de prueba temporal
+         $idLote = 11;
+
+         //Opciones del documento PDF
+         $mpdf = new \Mpdf\Mpdf([    
+             'orientation' => 'P',        
+             'format' => 'letter',
+             'margin_left' => 10,
+             'margin_right' => 10,
+             'margin_top' => 31,
+             'margin_bottom' => 45,
+             'defaultheaderfontstyle' => ['normal'],
+             'defaultheaderline' => '0'
+         ]);
+ 
+         //Establece la marca de agua del documento PDF
+         /* $mpdf->SetWatermarkImage(
+             asset('storage/HojaMembretadaHorizontal.png'),
+             1,
+             array(215, 280),
+             array(0, 0),
+         ); */
+ 
+         //$mpdf->showWatermarkImage = true;
+         $mpdf->CSSselectMedia = 'mpdf';                
+ 
+         $id_lote = $idLote;
+         $semaforo = true;             
+ 
+         //Recupera el nombre de usuario y firma
+         $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
+         $firma = $usuario->firma;
+ 
+         //Formatea la fecha
+         $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
+         if(!is_null($fechaAnalisis)){
+             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
+         }else{
+             $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
+             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
+             echo '<script> alert("Valores predeterminados para la fecha de análisis. Rellena este campo.") </script>';
+         }        
+ 
+         //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes
+         $textoProcedimiento = ReportesMb::where('Id_lote', $id_lote)->first();
+         if(!is_null($textoProcedimiento)){
+             //Hoja1
+             $htmlCaptura = view('exports.laboratorio.mb.hh.capturaBody', compact('textoProcedimiento'));
+         }else{
+             $textoProcedimiento = ReportesMb::where('Id_lote', 0)->first();
+             $htmlCaptura = view('exports.laboratorio.mb.hh.capturaBody', compact('textoProcedimiento'));
+ 
+             $mpdf->SetJS('print("Valores predeterminados para el reporte. Rellena este campo.");');
+ 
+             //echo '<script type= alert("Valores predeterminados para el reporte. Rellena este campo."); </script>';
+         }                       
+ 
+         //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
+         $htmlHeader = view('exports.laboratorio.mb.hh.capturaHeader', compact('fechaConFormato'));
+         //Establece el encabezado del documento PDF
+         $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
+ 
+         //Hace referencia a la vista capturaPie
+         $htmlFooter = view('exports.laboratorio.mb.hh.capturaFooter', compact('usuario', 'firma')); 
+         //Establece el pie de página del PDF                
+         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+ 
+         /* if(is_null($formula) || is_null($fechaAnalisis) || is_null($datos) || is_null($loteModel)){
+             $semaforo = false;
+         } */
+ 
+         //if($semaforo === true){
+             //Escribe el contenido HTML de la var.html en el documento PDF
+             $mpdf->WriteHTML($htmlCaptura);
+         //}
+ 
+         //*************************************************Segundo juego de documentos PDF***************************************************
+         //$mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+ 
+         //$semaforoHoja1 = true;
+ 
+         //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes
+         /* $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
+         if(!is_null($textoProcedimiento)){ */
+             //Hoja1
+             //$htmlCaptura1 = view('exports.laboratorio.fq.ga.captura1Body');
+         //}else{
+             //$textoProcedimiento = ReportesFq::where('Id_lote', 0)->first();
+             //$htmlCurva = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
+ 
+             //$mpdf->SetJS('print("Valores predeterminados para el reporte. Rellena este campo.");');
+ 
+             //echo '<script type= alert("Valores predeterminados para el reporte. Rellena este campo."); </script>';
+         //}
+ 
+         //if(!is_null($formula) && !is_null($fechaAnalisis)){
+            /* $htmlCurvaHeader = view('exports.laboratorio.fq.ga.capturaHeader', compact('fechaConFormato'));
+            $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlCurvaHeader, 'O', 'E'); */
+         //}
+ 
+        /*  $htmlCurvaFooter = view('exports.laboratorio.fq.ga.capturaFooter', compact('usuario', 'firma'));        
+         $mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E'); */
+ 
+         /* if(is_null($textoProcedimiento) || is_null($formula) || is_null($fechaAnalisis)){
+             $semaforoHoja1 = false;
+         } */
+ 
+         //if($semaforoHoja1 === true){ 
+             //$mpdf->WriteHTML($htmlCaptura1);
+         //}
+ 
+         //Hoja2
+         //$semaforoHoja2 = true;
+         /* $mpdf->AddPage('', '', '', '', '', '', '', 40, '', '', '', '', '', '', '', '', '', '', ''); */                
+ 
+         /* $estandares = estandares::where('Id_lote', $id_lote)->get();
+         if(is_null($estandares)){
+             $estandares = estandares::where('Id_lote', 0)->get();
+             echo '<script> alert("Valores predeterminados para los estándares. Rellena estos datos.") </script>';
+         }        
+ 
+         $bmr = CurvaConstantes::where('Id_lote', $id_lote)->first();
+         if(is_null($bmr)){
+             $bmr = CurvaConstantes::where('Id_lote', 0)->first();
+             echo '<script> alert("Valores predeterminados para las curvas. Rellena estos datos.") </script>';
+         }
+ 
+         $tecnicaMetales = TecnicaLoteMetales::where('Id_lote', $id_lote)->first();
+         if(!is_null($tecnicaMetales)){ */
+             //Recupera la fecha de preparación y le da un formato d/m/Y        
+             //$fechaPreparacion = date("d/m/Y", strtotime($tecnicaMetales->Fecha_preparacion));
+ 
+             //Instancia Carbon
+             //$fechaHora = Carbon::parse($tecnicaMetales->Fecha_hora_dig);        
+ 
+             //Separa de la hora la fecha y aplica un formato DD/MM/AAAA
+             //$soloFecha = $fechaHora->toDateString();
+             //$soloFechaFormateada = date("d/m/Y", strtotime($soloFecha));
+ 
+             //Separa la hora de la fecha dando un formato de HH:mm:ss
+             //$soloHoraFormateada = $fechaHora->toTimeString();
+         /* }else{
+             $tecnicaMetales = TecnicaLoteMetales::where('Id_lote', 0)->first();            
+             $fechaPreparacion = date("d/m/Y", strtotime($tecnicaMetales->Fecha_preparacion));            
+             $fechaHora = Carbon::parse($tecnicaMetales->Fecha_hora_dig);
+             $soloFecha = $fechaHora->toDateString();
+             $soloFechaFormateada = date("d/m/Y", strtotime($soloFecha));            
+             $soloHoraFormateada = $fechaHora->toTimeString();
+ 
+             echo '<script> alert("Valores predeterminados en la sección Flama/Generador de hidruros/Horno de grafito/Alimentos. Rellena estos datos.") </script>';
+         } */
+ 
+         //Recupera los datos de las tablas filtrándolas por Id del lote
+         /* $blancoMetales = BlancoCurvaMetales::where('Id_lote', $id_lote)->first();
+         if(is_null($blancoMetales)){
+             $blancoMetales = BlancoCurvaMetales::where('Id_lote', 0)->first();
+             echo '<script> alert("Valores predeterminados en la sección Blanco de curva. Rellena estos datos.") </script>';
+         }
+ 
+         $estandarMetales = EstandarVerificacionMet::where('Id_lote', $id_lote)->first();
+         if(is_null($estandarMetales)){
+             $estandarMetales = EstandarVerificacionMet::where('Id_lote', 0)->first();
+             echo '<script> alert("Valores predeterminados para la sección Estándar de verificación del instrumento. Rellena estos datos.") </script>';
+         }
+ 
+         $verificacionMetales = VerificacionMetales::where('Id_lote', $id_lote)->first();
+         if(is_null($verificacionMetales)){
+             $verificacionMetales = VerificacionMetales::where('Id_lote', 0)->first();
+             echo '<script> alert("Valores predeterminados para la sección Verificación del espectrofotómetro. Rellena estos datos.") </script>';
+         } */
+ 
+         /* if(is_null($estandares) || is_null($bmr) || is_null($tecnicaMetales) || is_null($blancoMetales) || is_null($estandarMetales) || is_null($verificacionMetales)){
+             $semaforoHoja2 = false;
+         } */
+ 
+         //if($semaforoHoja2 === true){
+ 
+             //if($semaforo === true && $semaforoHoja1 === true && $semaforoHoja2 === true){
+                 //Crea el documento PDF final
+                 //$sw = true;
+             //}else{            
+                 //echo "Fallo al generar el PDF, faltan valores por llenar o no se encontró un lote válido.";
+             //    echo '<script> alert("Faltan valores por llenar"); </script>';
+             //    $sw = false;
+             //}
+ 
+             /* $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento', 'estandares', 'bmr', 
+             'tecnicaMetales', 'blancoMetales', 'estandarMetales', 'verificacionMetales', 'fechaConFormato', 'soloFechaFormateada', 
+             'soloHoraFormateada', 'fechaPreparacion','sw')); */
+             //$mpdf->WriteHTML($htmlCurva2);
+ 
+ 
+ 
+         //}
+ 
+         $mpdf->Output();
+     }
 
 }
   

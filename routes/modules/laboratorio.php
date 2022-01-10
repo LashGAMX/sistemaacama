@@ -69,16 +69,16 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getMuestraAsignada', [FqController::class, 'getMuestraAsignada']);
         Route::post('delMuestraLote', [FqController::class, 'delMuestraLote']);
 
-        //? Modulo captura de datos analisisp
+        //? Modulo captura de datos analisis
+        Route::get('tipoAnalisis', [FqController::class, 'tipoAnalisis']);
 
         Route::get('capturaEspectro', [FqController::class, 'capturaEspectro']);
         Route::post('getDataCapturaEspectro', [FqController::class, 'getDataCapturaEspectro']);
 
-<<<<<<< HEAD
         Route::get('capturaGA', [FqController::class, 'capturaGA']);
-=======
-        Route::get('capturaGA', [FqController::class, 'capturaGA']);  
->>>>>>> b7bb2bd74a674b31438b7c996afe65fe69ab50bb
+        Route::post('getDataCapturaGA', [FqController::class, 'getDataCapturaGA']);
+        Route::post('getDetalleGA', [FqController::class, 'getDetalleGA']);
+        
         // Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
         // Route::post('getDataCapturaEspectro', [FqController::class, 'getDataCapturaEspectro']);
         
@@ -88,15 +88,11 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('lote/guardarDatos', [FqController::class, 'guardarDatos']);
         Route::post('lote/procedimiento', [FqController::class, 'guardarTexto']);
 
-        //Ruta temporal
+        //Ruta temporal 
         Route::get('captura/exportPdfCapturaGA', [FqController::class, 'exportPdfCapturaGA']);
 
         //? Export PDF
         Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
-<<<<<<< HEAD
-=======
-        Route::get('captura/exportPdfCapturaEspectro/{idLote}', [FqController::class, 'exportPdfCapturaEspectro']);
->>>>>>> b7bb2bd74a674b31438b7c996afe65fe69ab50bb
     });
         // todo Modulo MicroBiologia
         Route::group(['prefix' => 'micro'], function () {
@@ -130,6 +126,13 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('getDataLote/plantillaPredeterminada', [MbController::class, 'getPlantillaPred']);
             Route::post('lote/guardarDatos', [MbController::class, 'guardarDatos']);
             Route::post('lote/procedimiento', [MbController::class, 'guardarTexto']);
+
+
+            //RUTA PARA VISTA CAPTURA DE MICROBIOLOGÍA
+            Route::get('captura', [MbController::class, 'captura']);
+            
+            //Ruta temporal de prueba
+            Route::get('captura/exportPdfCaptura', [MbController::class, 'exportPdfCaptura']);
         });
 
     //? Módulo curva - Creación de curva

@@ -549,7 +549,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerra</button>
       
       </div>
     </div>
@@ -559,7 +559,7 @@
   @stop
 
   @section('css')
-    <link rel="stylesheet" href="{{ asset('/public/css/laboratorio/fq/lote.css')}}">    
+    <link rel="stylesheet" href="{{ asset('/public/css/laboratorio/mb/lote.css')}}">    
   @endsection
 
   @section('javascript')

@@ -33,7 +33,7 @@
                       <div class="panel-content">
                         <i class="fas fa-biohazard"></i>
                           <h4>GRAVIMETRIA</h4>
-                      </div>
+                      </div> 
                   </div>
               </a>
           </div>      

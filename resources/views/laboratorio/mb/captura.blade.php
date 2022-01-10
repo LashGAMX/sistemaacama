@@ -54,6 +54,7 @@
                               </tr>
                             </thead>
                             <!-- <button class="btn btn-success" id="btnImprimir"><i class="fas fa-file-download"></i></button> -->
+                            <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button>
                           </table>
                     </div>
                 </div>
@@ -166,9 +167,9 @@
   @stop
 
   @section('javascript')
-  <script src="{{asset('js/laboratorio/mb/captura.js')}}"></script>
-  <script src="{{asset('js/libs/componentes.js')}}"></script>
-  <script src="{{asset('js/libs/tablas.js')}}"></script>
+  <script src="{{asset('/public/js/laboratorio/mb/captura.js')}}"></script>
+  <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
+  <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
   @stop
 
 @endsection  

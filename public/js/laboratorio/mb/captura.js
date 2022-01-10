@@ -1,3 +1,5 @@
+var area = "micro";
+
 $(document).ready(function () {
     table = $('#tableAnalisis').DataTable({        
         "ordering": false,
@@ -179,11 +181,12 @@ function getDataCaptura()
 }
 
 //Función imprimir PDF
-function imprimir(idLote){
-    console.log("Dentro de evento btnBuscar");
-    $('#btnImprimir').click(function() {
-        window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote;
-    });
+function imprimir(){
+    console.log("Dentro de evento imprimir");
+    /* $('#btnImprimir').click(function() { */
+        //window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote;
+        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCaptura";
+    /* }); */
 }
 
 function operacion()

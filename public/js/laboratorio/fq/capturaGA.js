@@ -24,7 +24,7 @@ $(document).ready(function () {
 });
 
 
-$('#ejecutar').click(function () {
+$('#guardar').click(function () {
     operacion();
 });
 $('#btnLiberar').click(function () {
@@ -51,7 +51,7 @@ function getDataCaptura() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/getDataCapturaEspectro",
+        url: base_url + "/admin/laboratorio/" + area + "/getDataCapturaGA",
         data: {
             formulaTipo: $("#formulaTipo").val(),
             fechaAnalisis: $("#fechaAnalisis").val(),
@@ -63,20 +63,14 @@ function getDataCaptura() {
 
             $("#idLote").val(response.lote.Id_lote);
 
-            tab3 += '<p>B: ' + response.curvaConst.B + '</p>';
-            tab3 += '<p>M: ' + response.curvaConst.M + '</p>';
-            tab3 += '<p>R: ' + response.curvaConst.R + '</p>';
-            conte.innerHTML = tab3;
-
-
-            tab4 += '<p>Formula: x = [( y - b ) / m]</p>';
+            tab4 += '<p>Formula: (mf-mi/volumen)1000000- blanco </p>';
             conte2.innerHTML = tab4;
 
             tab += '<table id="tablaLote" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
             tab += '          <th>Tipo formula</th>';
-            tab += '          <th>Fecha lote</th> ';
+            tab += '          <th>Fecha lote</th> '; 
             tab += '          <th>Total asignado</th> ';
             tab += '          <th>Total liberados</th> ';
             tab += '          <th>Opc</th> ';
@@ -88,7 +82,7 @@ function getDataCaptura() {
             tab += '<td>' + response.lote.Fecha + '</td>';
             tab += '<td>' + response.lote.Asignado + '</td>';
             tab += '<td>' + response.lote.Liberado + '</td>';
-            tab += '<td><button class="btn btn-success" id="btnImprimir"><i class="fas fa-file-download"></i></button></td>';
+            tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button></td>';
             tab += '</tr>';
             tab += '    </tbody>';
             tab += '</table>';
@@ -98,41 +92,29 @@ function getDataCaptura() {
             tab2 += '<table id="tablaControles" class="table table-sm">';
             tab2 += '    <thead>';
             tab2 += '        <tr>';
-            tab2 += '          <th>#</th>';
-            tab2 += '          <th>Abs1</th>';
-            tab2 += '          <th>Abs2</th>';
-            tab2 += '          <th>Abs3</th>';
-            tab2 += '          <th>De color</th>';
-            tab2 += '          <th>Nitritos</th>';
-            tab2 += '          <th>Nitratos</th>';
-            tab2 += '          <th>Sulfuros</th>';
-            tab2 += '          <th>Blanco A</th>';
-            tab2 += '          <th>Vol. Aforo</th>';
-            tab2 += '          <th>Vol. Aforo Dest</th>';
-            tab2 += '          <th>Vol. Muestra</th>';
+            tab2 += '          <th>Opc</th>';
+            tab2 += '          <th>Folio</th>';
+            tab2 += '          <th># toma</th>';
+            tab2 += '          <th>Norma</th>';
+            tab2 += '          <th>Resultado</th>';
+            tab2 += '          <th>Tipo Análisis</th>';
             tab2 += '        </tr>';
             tab2 += '    </thead>';
             tab2 += '    <tbody>';
             $.each(response.detalle, function (key, item) {
                 tab2 += '<tr>';
-                tab2 += '<td>' + cont + '</td>';
           
                 if (item.Liberado != 0) {
                     status = "";
                 } else {
                     status = "disabled";
                 }
-                tab2 += '<td><input '+status+' style="width: 80px" id="abs1' + cont + '" value="' + item.Abs1 + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="abs2' + cont + '" value="' + item.Abs2 + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="abs3' + cont + '" value="' + item.Abs3 + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="deColor' + cont + '" value="' + item.De_color + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="nitritos' + cont + '" value="' + item.Nitritos + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="nitratos' + cont + '" value="' + item.Nitratos + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="sulfuros' + cont + '" value="' + item.Sulfuros + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="blanco' + cont + '" value="' + item.Blanco + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="volAforo' + cont + '" value="' + item.Vol_aforo + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="volDestilacion' + cont + '" value="' + item.Vol_destilacion + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="volMuestra' + cont + '" value="' + item.Vol_muestra + '"></td>';
+                tab2 += '<td><button type="button" class="btn btn-success" onclick="getDetalleGA('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button></td>';
+                tab2 += '<td><input disabled style="width: 80px" value="'+item.Folio_servicio+'"></td>';
+                tab2 += '<td><input disabled style="width: 80px" value="-"></td>';
+                tab2 += '<td><input disabled style="width: 80px" value="'+item.Clave_norma+'"></td>';
+                tab2 += '<td><input disabled style="width: 80px" value="-"></td>';
+                tab2 += '<td><input disabled style="width: 80px" value="-"></td>';
                 tab2 += '</tr>';
                 numMuestras.push(item.Id_detalle);
                 cont++;
@@ -166,14 +148,14 @@ function getDataCaptura() {
                 idMuestra = dato;
             });
 
-            imprimir(response.lote.Id_lote);
+            // imprimir(response.lote.Id_lote);
         }
     });
 }
 
 //Función imprimir PDF
 function imprimir() {
-    console.log("Dentro de evento btnBuscar");
+    console.log("Dentro de evento btnBuscarprueb");
     /* $('#btnImprimir').click(function () {
         console.log("Clic en botón imprimir"); */
         window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA";
@@ -184,23 +166,26 @@ function operacion() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/operacion",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionAG",
         data: {
-            idlote: $("#idLote").val(),
-            idDetalle: $("#idDetalle" + idMuestra).val(),
-            volMuestra: $("#volMuestra" + idMuestra).val(),
-            x: $("#abs1" + idMuestra).val(),
-            y: $("#abs2" + idMuestra).val(),
-            z: $("#abs3" + idMuestra).val(),
-            FD: $("#factorDilucion" + idMuestra).val(),
+            P:$("#p").val(),
+            R:$("#resultado").val(),
+            h:$("#h1").val(),
+            J:$("#j1").val(),
+            K:$("#k1").val(),
+            C:$("#c1").val(),
+            l:$("#l1").val(),
+            I:$("#i1").val(),
+            G:$("#g1").val(),
+            E:$("#e1").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
-            let fix = response.resultado.toFixed(3);
-            $("#absPromedio" + idMuestra).val(response.promedio);
-            $("#VolDisolucion" + idMuestra).val(fix);
+            //let fix = response.resultado.toFixed(3);
+            $("#h1").val(response.mf);
+         
         }
     });
 }
@@ -432,6 +417,29 @@ function generarControles() {
                 let dato = $(this).find('td:first').html();
                 idMuestra = dato;
             });
+        }
+    });
+}
+function getDetalleGA(idDetalle)
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/getDetalleGA",
+        data: {
+            idDetalle: idDetalle,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            $("#h1").val(response.model.M_final);
+            $("#j1").val(response.model.M_inicial1);
+            $("#k1").val(response.model.M_inicial2);
+            $("#c1").val(response.model.M_inicial3);
+            $("#l1").val(response.model.Ph);
+            $("#i1").val(response.model.Vol_muestra);
+            $("#g1").val(response.model.Blanco);
+            $("#e1").val(response.model.F_conversion);
         }
     });
 }

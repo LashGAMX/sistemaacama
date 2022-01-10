@@ -29,7 +29,7 @@
         </div> --}}
         <div class="col-md-3">
             <div class="form-group">
-                <label for="">Fecha análisis25</label>
+                <label for="">Fecha análisis</label>
                 <input type="date" class="form-control" id="fechaAnalisis">
             </div>
         </div>
@@ -53,7 +53,7 @@
                                 <th>Opc</th>
                               </tr>
                             </thead>
-                            <!-- <button class="btn btn-success" id="btnImprimir"><i class="fas fa-file-download"></i></button> -->
+                            <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
                           </table>
                     </div>
                 </div>
@@ -111,67 +111,104 @@
                 <table class="table" id="tablaControles">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>Abs1</th>
-                            <th>Abs2</th>
-                            <th>Abs3</th>
-                            <th>Mililitros D.
-                                color
-                            </th>
-                            <th>Nitratos</th>
-                            <th>Nitritos</th>
-                            <th>Sulfuros</th>
-                            <th>Blanco A. </th>
-                            <th>Vol. Aforo</th>
-                            <th>Vol. Aforo Desti</th>
-                            <th>Vol. Muestra</th>
-                        </tr>
-                    </thead>
-                </table>
-                            <th>#</th> 
                             <th>Opc</th>
                             <th>Folio</th>
                             <th># Toma</th>
                             <th>Norma</th>
                             <th>Resultado</th>
                             <th>Tipo Analisis</th>
-                            <th>Observacion</th>                            
-                        </tr>                        
-                    </thead> 
+                            {{-- <th>Observacion</th>     --}}
+                        </tr>
+                    </thead>
                     
-                    <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i>Descargar</button>
+                    {{-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> --}}
                 </table> 
             </div>
         </div>
       </div>
         <!-- Modal -->
-        <div wire:ignore.self class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalCaptura" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                  <form wire:submit.prevent="create">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nueva constante</h5>
+                    <h5 class="modal-title" id="">Captura de resultados</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
+                    <input type="number" id="resultado" placeholder="Resultado"></input>
+                    <input type="number" id="p" placeholder="Peso sin muestra"></input>
                   </div>
                   <div class="modal-body"> 
-                      <div class="row">
-                          <div class="col-md-6">
-                              
-                              <label for="">Nombre</label>
-                              <input type="text" id='nombre' wire:model='nombre'  class="form-control" placeholder="Nombre">
-                          </div>
-                          <div class="col-md-6">
-                              <label for="">Volumen</label>
-                              <input type="text" id='volumen' wire:model='volumen' class="form-control" placeholder="Volumen">
-                          </div>
-                          
-                      </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table" id=""> 
+                                <thead>
+                                  <tr>
+                                    <th>Parametro</th>
+                                    <th>Descripción</th>
+                                    <th>Valor</th>
+                                    <th>Valor2</th>
+                                  </tr>
+                                </thead>
+                                <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                                <tbody>
+                                    <tr>
+                                        <td>H</td>
+                                        <td>Masa Final</td>
+                                        <td><input type="text" id="h1" value="0"></td>
+                                        <td><input type="text" id="h2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>J</td>
+                                        <td>Masa Inicial 1</td>
+                                        <td><input type="text" id="j1" value="0"></td>
+                                        <td><input type="text" id="j2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>K</td>
+                                        <td>Masa Inicial 2</td>
+                                        <td><input type="text" id="k1" value="0"></td>
+                                        <td><input type="text" id="k2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>C</td>
+                                        <td>Masa Inicial 3</td>
+                                        <td><input type="text" id="c1" value="0"></td>
+                                        <td><input type="text" id="c2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>L</td>
+                                        <td>Ph</td>
+                                        <td><input type="text" id="l1" value="0"></td>
+                                        <td><input type="text" id="l2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>I</td>
+                                        <td>Volumen</td>
+                                        <td><input type="text" id="i1" value="0"></td>
+                                        <td><input type="text" id="i2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>G</td>
+                                        <td>Blanco</td>
+                                        <td><input type="text" id="g1" value="0"></td>
+                                        <td><input type="text" id="g2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>E</td>
+                                        <td>Factor de conversión</td>
+                                        <td><input type="text" id="e1" value="1000000"></td>
+                                        <td><input type="text" id="e2" value="1000000"></td>
+                                    </tr>
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button"  id="guardar" class="btn btn-primary">Guardar</button>
                   </div>
                 </form>
                 </div>
@@ -183,7 +220,7 @@
   @stop
 
   @section('javascript')
-  <script src="{{asset('/public/js/laboratorio/fq/capturaEspectro.js')}}"></script>
+  <script src="{{asset('/public/js/laboratorio/fq/capturaGA.js')}}"></script>
   <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
   <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
   @stop
