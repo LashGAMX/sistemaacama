@@ -1032,7 +1032,7 @@ class FqController extends Controller
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF
     public function exportPdfCapturaGA($idLote)
     {
-        //Opciones del documento PDF
+        //Opciones del documento PDF 
         $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'L',
             'format' => 'letter',
