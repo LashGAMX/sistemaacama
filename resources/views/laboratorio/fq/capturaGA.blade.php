@@ -5,7 +5,7 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-window-list"></i>
-    Captura de resultados G&Afefef
+    Captura de resultados
   </h6>
   
 <div class="container-fluid">
@@ -29,7 +29,7 @@
         </div> --}}
         <div class="col-md-3">
             <div class="form-group">
-                <label for="">Fecha análisis</label>
+                <label for="">Fecha análisis25</label>
                 <input type="date" class="form-control" id="fechaAnalisis">
             </div>
         </div>
@@ -114,9 +114,11 @@
                             <th>Norma</th>
                             <th>Resultado</th>
                             <th>Tipo Analisis</th>
-                            <th>Observacion</th>
-                        </tr>
-                    </thead>
+                            <th>Observacion</th>                            
+                        </tr>                        
+                    </thead> 
+                    
+                    <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i>Descargar</button>
                 </table> 
             </div>
         </div>

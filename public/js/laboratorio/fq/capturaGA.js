@@ -172,11 +172,12 @@ function getDataCaptura() {
 }
 
 //Función imprimir PDF
-function imprimir(idLote) {
+function imprimir() {
     console.log("Dentro de evento btnBuscar");
-    $('#btnImprimir').click(function () {
-        window.location = base_url + "/admin/laboratorio/"+area+"captura/exportPdfCapturaGA/" + idLote;
-    });
+    /* $('#btnImprimir').click(function () {
+        console.log("Clic en botón imprimir"); */
+        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA";
+   /*  }); */
 }
 
 function operacion() {
