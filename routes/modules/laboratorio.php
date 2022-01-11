@@ -78,6 +78,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('capturaGA', [FqController::class, 'capturaGA']);
         Route::post('getDataCapturaGA', [FqController::class, 'getDataCapturaGA']);
         Route::post('getDetalleGA', [FqController::class, 'getDetalleGA']);
+        Route::post('operacionGA', [FqController::class, 'operacionGA']);
         
         // Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
         // Route::post('getDataCapturaEspectro', [FqController::class, 'getDataCapturaEspectro']);
@@ -129,7 +130,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
 
             //RUTA PARA VISTA CAPTURA DE MICROBIOLOGÍA
-            Route::get('captura', [MbController::class, 'captura']);
+            Route::get('capturaMicro', [MbController::class, 'capturaMicro']);
             
             //Ruta temporal de prueba
             Route::get('captura/exportPdfCaptura', [MbController::class, 'exportPdfCaptura']);

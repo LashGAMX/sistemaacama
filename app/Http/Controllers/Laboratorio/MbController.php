@@ -146,13 +146,18 @@ class MbController extends Controller
     //*****************************************CAPTURA****************************************************************** */
     public function tipoAnalisis()
     {
-        return view('laboratorio.fq.tipoAnalisis');
+        return view('laboratorio.mb.tipoAnalisis');
     }
 
 
     //MÉTODO DE PRUEBA
     public function captura(){
         $parametro = Parametro::where('Id_area', 6)->get();
+
+        return view('laboratorio.mb.captura', compact('parametro'));
+    }
+    public function capturaMicro(){
+        $parametro = Parametro::where('Id_area', 7)->get();
 
         return view('laboratorio.mb.captura', compact('parametro'));
     }
@@ -541,7 +546,7 @@ class MbController extends Controller
     {
         $lote = LoteDetalle::where('Id_lote', $id)->get();
         $idLote = $id;
-        return view('laboratorio.fq.asignarMuestraLote', compact('lote', 'idLote'));
+        return view('laboratorio.mb.asignarMuestraLote', compact('lote', 'idLote'));
     }
     //* Muestra los parametros sin asignar a lote
     public function muestraSinAsignar(Request $request)
@@ -619,71 +624,81 @@ class MbController extends Controller
     //* Asignar parametro a lote
     public function asignarMuestraLote(Request $request)
     {
-        $sw = false;
-        $loteModel = LoteAnalisis::where('Id_lote',$request->idLote)->first();
-        switch ($loteModel->Id_tecnica) {
-            case 11: //todo Sembrado
-                $detModel = LoteDetalleHH::where('Id_lote',$request->idLote)->get();
-                break;
+        // $sw = false;
+        // $loteModel = LoteAnalisis::where('Id_lote',$request->idLote)->first();
+        // switch ($loteModel->Id_tecnica) {
+        //     case 11: //todo Sembrado
+        //         $detModel = LoteDetalleHH::where('Id_lote',$request->idLote)->get();
+        //         break;
         
-            default:
-                # code...
-                break;
-        }
-        if($detModel->count())
-        {
-           if($detModel[0]->Id_parametro == $request->idParametro)
-           {
-            $sw = true;
-           }
-        }else{
-            $sw = true;
-        }
-        if($sw = true)
-        {
-            switch ($loteModel->Id_tecnica) {
-                case 9: //todo Espectrofotometria
-                    $model = LoteDetalleHH::create([
-                        'Id_lote' => $request->idLote,
-                        'Id_analisis' => $request->idAnalisis,
-                        'Id_parametro' => $request->idParametro,
-                        'A_alumbricoides' => 0,
-                        'H_nana' => 0,
-                        'Taenia_sp' => 0,
-                        'T_trichiura' => 0,
-                        'Vol_muestra' => 0,
-                    ]);
-                    break;
-                default:
-                    # code...
-                    break;
-            }
-            $solModel = SolicitudParametro::find($request->idSol);
-            $solModel->Asignado = 1;
-            $solModel->save();
+        //     default:
+        //         # code...
+        //         break;
+        // }
+        // if($detModel->count())
+        // {
+        //    if($detModel[0]->Id_parametro == $request->idParametro)
+        //    {
+        //     $sw = true;
+        //    }
+        // }else{
+        //     $sw = true;
+        // }
+        // if($sw = true)
+        // {
+        //     switch ($loteModel->Id_tecnica) {
+        //         case 11: //todo Espectrofotometria
+        //             $model = LoteDetalleHH::create([
+        //                 'Id_lote' => $request->idLote,
+        //                 'Id_analisis' => $request->idAnalisis,
+        //                 'Id_parametro' => $request->idParametro,
+        //                 'A_alumbricoides' => 0,
+        //                 'H_nana' => 0,
+        //                 'Taenia_sp' => 0,
+        //                 'T_trichiura' => 0,
+        //                 'Vol_muestra' => 0,
+        //             ]);
+        //             break;
+        //         default:
+        //             # code...
+        //             break;
+        //     }
+        //     $solModel = SolicitudParametro::find($request->idSol);
+        //     $solModel->Asignado = 1;
+        //     $solModel->save();
 
-            $detModel = LoteDetalleHH::where('Id_lote',$request->idLote)->get();
+        //     $detModel = LoteDetalleHH::where('Id_lote',$request->idLote)->get();
 
-            $loteModel = LoteAnalisis::find($request->idLote);
-            $loteModel->Asignado = $detModel->count();
-            $loteModel->Liberado = 0;
-            $loteModel->save();
-        }
+        //     $loteModel = LoteAnalisis::find($request->idLote);
+        //     $loteModel->Asignado = $detModel->count();
+        //     $loteModel->Liberado = 0;
+        //     $loteModel->save();
+        // }
 
-        //? Muestra datos de lote detalle
-        switch ($loteModel->Id_tecnica) {
-            case 9: //todo Espectrofotometria
-                $paraModel = DB::table('ViewLoteDetalleHH')->where('Id_lote', $request->idLote)->get();
-                break;
+        // //? Muestra datos de lote detalle
+        // switch ($loteModel->Id_tecnica) {
+        //     case 11: //todo Espectrofotometria
+        //         $paraModel = DB::table('ViewLoteDetalleHH')->where('Id_lote', $request->idLote)->get();
+        //         break;
     
-            default:
-                # code...
-                break;
-        }
-
-        $data = array(
-            'sw' => $sw,
-            'model' => $paraModel,
+        //     default:
+        //         # code...
+        //         break;
+        // }
+        $model = LoteDetalleHH::create([
+            'Id_lote' => $request->idLote,
+            'Id_analisis' => $request->idAnalisis,
+            'Id_parametro' => $request->idParametro,
+            'A_alumbricoides' => 0,
+            'H_nana' => 0,
+            'Taenia_sp' => 0,
+            'T_trichiura' => 0,
+            'Uncinarias' => 0,
+            'Vol_muestra' => 0,
+        ]);
+        $data = array( 
+            'sw' => true,
+            'model' => $model,
         );
         return response()->json($data);
     }

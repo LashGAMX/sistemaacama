@@ -1,4 +1,4 @@
-var area = "fq";
+var area = "micro";
 
 $(document).ready(function () {
     muestraSinAsignar();
@@ -16,7 +16,7 @@ function muestraSinAsignar()
         url: base_url + "/admin/laboratorio/"+area+"/muestraSinAsignar",
         data: {
             _token: $('input[name="_token"]').val(),
-        },
+        }, 
         dataType: "json",
         async: false,
         success: function (response) {      

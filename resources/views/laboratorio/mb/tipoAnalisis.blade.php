@@ -15,50 +15,17 @@
       <div class="clearfix container-fluid row">
           
           <div class="col-md-3">
-            <a href="{{url('')}}/admin/laboratorio/fq/capturaEspectro">
+            <a href="{{url('')}}/admin/laboratorio/micro/capturaMicro">
                   <div class="panel widget center bgimage">
                       <div class="dimmer"></div>
                       <div class="panel-content">
                         <i class="fab fa-buffer"></i>
-                          <h4>ESPECTROFOTOMETRICOS</h4>
+                          <h4>MICROBIOLOGÍA</h4>
                       </div>
                   </div>
               </a>
           </div>
-                      
-          <div class="col-md-3">
-            <a href="{{url('')}}/admin/laboratorio/fq/captura">
-                  <div class="panel widget center bgimage">
-                      <div class="dimmer"></div>
-                      <div class="panel-content">
-                        <i class="fas fa-biohazard"></i>
-                          <h4>GRAVIMETRIA</h4>
-                      </div>
-                  </div>
-              </a>
-          </div>      
-          <div class="col-md-3">
-            <a href="{{route('voyager.hist-clientes.index')}}">
-                <div class="panel widget center bgimage">
-                    <div class="dimmer"></div>
-                    <div class="panel-content">
-                      <i class="fas fa-bolt"></i>
-                        <h4>VOLUMETRIA</h4>
-                    </div>
-                </div>
-            </a>
-        </div>    
-        <div class="col-md-3">
-          <a href="{{route('voyager.hist-clientes.index')}}">
-              <div class="panel widget center bgimage">
-                  <div class="dimmer"></div>
-                  <div class="panel-content">
-                    <i class="fas fa-bolt"></i>
-                      <h4>G & A</h4>
-                  </div>
-              </div>
-          </a>
-      </div>    
+
       </div>
   </div> 
   </div>

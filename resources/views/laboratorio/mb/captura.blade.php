@@ -5,7 +5,7 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-window-list"></i>
-    Captura de resultados
+    Captura de resultados Micro
   </h6>
   
 <div class="container-fluid">
@@ -108,23 +108,18 @@
                 <table class="table" id="tablaControles">
                     <thead>
                         <tr>
-                            <th>#</th>
-                            <th>NumMuestra</th>
-                            <th>NomCliente</th>
-                            {{-- <th>PuntoMuestreo</th> --}}
-                            <th>Vol. Muestra E</th>
-                            <th>Abs1</th>
-                            <th>Abs2</th>
-                            <th>Abs3</th>
-                            <th>Absorción
-                                promedio
-                            </th>
-                            <th>Factor dilución D</th>
-                            <th>Factor conversion G</th>
-                            <th>Vol. disolución digerida v</th>
+                            <th>Opc</th>
+                            <th>Folio</th>
+                            <th># Toma</th>
+                            <th>Norma</th>
+                            <th>Resultado</th>
+                            <th>Tipo Analisis</th>
+                            {{-- <th>Observacion</th>     --}}
                         </tr>
                     </thead>
-                </table>
+                    
+                    {{-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> --}}
+                </table> 
             </div>
         </div>
       </div>
