@@ -24,7 +24,7 @@ $(document).ready(function () {
 });
 
 
-$('#ejecutar').click(function () {
+$('#ejecutarModal').click(function () {
     operacion();
 });
 $('#btnLiberar').click(function () {
@@ -98,41 +98,30 @@ function getDataCaptura() {
             tab2 += '<table id="tablaControles" class="table table-sm">';
             tab2 += '    <thead>';
             tab2 += '        <tr>';
-            tab2 += '          <th>#</th>';
-            tab2 += '          <th>Abs1</th>';
-            tab2 += '          <th>Abs2</th>';
-            tab2 += '          <th>Abs3</th>';
-            tab2 += '          <th>De color</th>';
-            tab2 += '          <th>Nitritos</th>';
-            tab2 += '          <th>Nitratos</th>';
-            tab2 += '          <th>Sulfuros</th>';
-            tab2 += '          <th>Blanco A</th>';
-            tab2 += '          <th>Vol. Aforo</th>';
-            tab2 += '          <th>Vol. Aforo Dest</th>';
-            tab2 += '          <th>Vol. Muestra</th>';
+            tab2 += '          <th>Opc</th>';
+            tab2 += '          <th>folio</th>';
+            tab2 += '          <th># Toma</th>';
+            tab2 += '          <th>Norma</th>';
+            tab2 += '          <th>Resultado</th>';
+            tab2 += '          <th>Tipo análisis</th>';
+            tab2 += '          <th>Observación</th>';
             tab2 += '        </tr>';
             tab2 += '    </thead>';
             tab2 += '    <tbody>';
             $.each(response.detalle, function (key, item) {
                 tab2 += '<tr>';
-                tab2 += '<td>' + cont + '</td>';
-          
                 if (item.Liberado != 0) {
                     status = "";
                 } else {
                     status = "disabled";
                 }
-                tab2 += '<td><input '+status+' style="width: 80px" id="abs1' + cont + '" value="' + item.Abs1 + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="abs2' + cont + '" value="' + item.Abs2 + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="abs3' + cont + '" value="' + item.Abs3 + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="deColor' + cont + '" value="' + item.De_color + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="nitritos' + cont + '" value="' + item.Nitritos + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="nitratos' + cont + '" value="' + item.Nitratos + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="sulfuros' + cont + '" value="' + item.Sulfuros + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="blanco' + cont + '" value="' + item.Blanco + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="volAforo' + cont + '" value="' + item.Vol_aforo + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="volDestilacion' + cont + '" value="' + item.Vol_destilacion + '"></td>';
-                tab2 += '<td><input '+status+' style="width: 80px" id="volMuestra' + cont + '" value="' + item.Vol_muestra + '"></td>';
+                tab2 += '<td><button type="button" class="btn btn-success" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button></td>';
+                tab2 += '<td>'+item.Folio_servicio+'</td>';
+                tab2 += '<td>'+item.Folio_servicio+'</td>';
+                tab2 += '<td>Norma</td>';
+                tab2 += '<td>Res</td>';
+                tab2 += '<td>Tipo</td>';
+                tab2 += '<td>Obs</td>';
                 tab2 += '</tr>';
                 numMuestras.push(item.Id_detalle);
                 cont++;
@@ -170,6 +159,30 @@ function getDataCaptura() {
         }
     });
 }
+function getDetalleEspectro(idDetalle)
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/getDetalleEspectro",
+        data: {
+            idDetalle: idDetalle,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) { 
+            console.log(response);
+            $("#blanco1").val(response.model.Blanco);
+            $("#b1").val(response.curva.B);
+            $("#m1").val(response.curva.M);
+            $("#r1").val(response.curva.R);
+            $("#fDilucion1").val(response.model.Vol_muestra);
+            // $("#volMuestra1").val(response.model);
+            $("#abs11").val(response.model.Abs1);
+            $("#abs21").val(response.model.Abs2);
+            $("#abs31").val(response.model.Abs3);
+        }
+    });
+}
 
 //Función imprimir PDF
 function imprimir(idLote) {
@@ -183,23 +196,26 @@ function operacion() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/operacion",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionEspectro",
         data: {
-            idlote: $("#idLote").val(),
-            idDetalle: $("#idDetalle" + idMuestra).val(),
-            volMuestra: $("#volMuestra" + idMuestra).val(),
-            x: $("#abs1" + idMuestra).val(),
-            y: $("#abs2" + idMuestra).val(),
-            z: $("#abs3" + idMuestra).val(),
-            FD: $("#factorDilucion" + idMuestra).val(),
+            parametro: $('#formulaTipo').val(),
+            ABS:$('#abs1').val(),
+            CA:$('#blanco1').val(),
+            CB:$('#b1').val(),
+            CM:$('#m1').val(),
+            CR:$('#r1').val(),
+            D:$('#d1').val(),
+            E:$('#e1').val(),
+            X:$('#abs11').val(),
+            Y:$('#abs21').val(),
+            Z:$('#abs31').val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
-            let fix = response.resultado.toFixed(3);
-            $("#absPromedio" + idMuestra).val(response.promedio);
-            $("#VolDisolucion" + idMuestra).val(fix);
+          // $("#abs1").val(response->absPromedio); 
+            
         }
     });
 }

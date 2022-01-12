@@ -4,11 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/sdf/sdfPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/espectroPDF.css')}}">
     <title>Captura PDF</title>
 </head>
 <body>
-    <p id='curvaProcedimiento'>Procedimiento</p>
+    <p id='curvaProcedimiento'>Procedimientos</p>
 
     <div id="contenidoCurva">
         <?php echo html_entity_decode($textoProcedimiento->Texto);?>
@@ -27,13 +27,12 @@
                 </tr>                
 
                 <tr>
-                    <th class="tableCabecera anchoColumna">No. de muestra</th>
-                    <th class="anchoColumna"></th>
-                    <th class="tableCabecera anchoColumna">Valor 1</th>
-                    <th class="anchoColumna"></th>
-                    <th class="tableCabecera anchoColumna">Valor 2</th>
-                    <th class="tableCabecera anchoColumna">SOLIDOS DISUELTOS FIJOS (SDF) mg/L</th>                    
-                    <th class="tableCabecera anchoColumna">Observaciones</th>                    
+                    <th class="tableCabecera anchoColumna">No. de muestras</th>
+                    <th class="tableCabecera anchoColumna">No. de cono IMHOFF</th>
+                    <th class="tableCabecera anchoColumna">SOLIDOS SEDIMENTABLES (S.S)</th>
+                    <th class="tableCabecera anchoColumna">LLEGADA 2°C a 8°C</th>
+                    <th class="tableCabecera anchoColumna">TEMPERATURA DE LA MUESTRA °C AL ANALIZAR (Temp. Amb)</th>
+                    <th class="tableCabecera anchoColumna">Observaciones</th>                                        
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
                 </tr>
@@ -42,7 +41,6 @@
             <tbody>
                 {{-- @for ($i = 0; $i < 100 ; $i++) --}}
                     <tr>
-                        <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">PRUEBA</td>

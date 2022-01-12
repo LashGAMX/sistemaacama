@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/sdf/sdfPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/sdt/sdtPDF.css')}}">
     <title>Captura PDF</title>
 </head>
 <body>
@@ -32,8 +32,8 @@
                     <th class="tableCabecera anchoColumna">Valor 1</th>
                     <th class="anchoColumna"></th>
                     <th class="tableCabecera anchoColumna">Valor 2</th>
-                    <th class="tableCabecera anchoColumna">SOLIDOS DISUELTOS FIJOS (SDF) mg/L</th>                    
-                    <th class="tableCabecera anchoColumna">Observaciones</th>                    
+                    <th class="tableCabecera anchoColumna">SOLIDOS DISUELTOS TOTALES (SDT) mg/L</th>                    
+                    <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
                 </tr>

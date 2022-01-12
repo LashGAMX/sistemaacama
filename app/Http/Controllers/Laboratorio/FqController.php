@@ -149,16 +149,46 @@ class FqController extends Controller
     {
         return view('laboratorio.fq.tipoAnalisis');  
     }
-
+    //***********espectrofotometrico ***************/
     public function capturaEspectro()
     {
 
-        $parametro = Parametro::where('Id_area', 5)
-            ->get();
+        $parametro = Parametro::where('Id_area', 5)->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro); 
         return view('laboratorio.fq.capturaEspectro', compact('parametro')); 
     }
+
+    public function operacionEspectro(Request $request)
+    {
+        $curva = CurvaConstantes::where('Parametros', $request->parametros)->first();
+        $x = ($request->X + $request->Y+ $request->Z) / 3;
+        switch ($request->parametro) {
+            case 20:
+                # CIANUROS
+
+                break;
+            case 9:
+                 # NITRITOS
+                  $resultado = (($x-$curva->B)/$curva->M)* $request->D;
+                break;
+            case 8:
+                # NITRATOS
+                    
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+        $data = array( 
+            //'resultado' => $resultado,
+            //'absPromedio' => $x,
+        ); 
+        return response()->json($data); 
+
+    }
+
     public function getDataCapturaEspectro(Request $request)
     {
         //$parametro = Parametro::where('Id_parametro',$request->formulaTipo)->first();
@@ -185,6 +215,17 @@ class FqController extends Controller
             'detalle' => $detalle,
         ); 
         return response()->json($data); 
+    }
+    public function getDetalleEspectro(Request $request)
+    {
+        $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle',$request->idDetalle)->first();
+        $curva = CurvaConstantes::where('Id_lote',$model->Id_lote)->first();
+
+        $data = array(
+            'model' => $model,
+            'curva' => $curva,
+        );
+        return response()->json($data);
     }
     // todo Captura GA
     public function operacionGA(Request $request)
@@ -1132,14 +1173,14 @@ class FqController extends Controller
              //Hoja1
 
              //Instrucción de prueba
-             //$htmlCaptura = view('exports.laboratorio.fq.sdf.capturaBody', compact('textoProcedimiento'));             
-             $htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
+             $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento'));             
+             //$htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
          }else{
              $textoProcedimiento = ReportesFq::where('Id_lote', 0)->first();
 
             //Instrucción de prueba
-            //$htmlCaptura = view('exports.laboratorio.fq.sdf.capturaBody', compact('textoProcedimiento'));
-             $htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
+            $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento'));
+            //$htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
  
              $mpdf->SetJS('print("Valores predeterminados para el reporte. Rellena este campo.");');
  
@@ -1149,8 +1190,8 @@ class FqController extends Controller
          //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
          
          //Instrucción de prueba
-         //$htmlHeader = view('exports.laboratorio.fq.sdf.capturaHeader', compact('fechaConFormato'));
-         $htmlHeader = view('exports.laboratorio.fq.ga.capturaHeader', compact('fechaConFormato'));
+         $htmlHeader = view('exports.laboratorio.fq.espectro.cianuros.capturaHeader', compact('fechaConFormato'));
+         //$htmlHeader = view('exports.laboratorio.fq.ga.capturaHeader', compact('fechaConFormato'));
          
          //Establece el encabezado del documento PDF
          $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
@@ -1158,8 +1199,8 @@ class FqController extends Controller
          //Hace referencia a la vista capturaPie
 
          //Instrucción de prueba
-         //$htmlFooter = view('exports.laboratorio.fq.sdf.capturaFooter', compact('usuario', 'firma')); 
-         $htmlFooter = view('exports.laboratorio.fq.ga.capturaFooter', compact('usuario', 'firma')); 
+         $htmlFooter = view('exports.laboratorio.fq.espectro.cianuros.capturaFooter', compact('usuario', 'firma')); 
+         //$htmlFooter = view('exports.laboratorio.fq.ga.capturaFooter', compact('usuario', 'firma')); 
          
          //Establece el pie de página del PDF                
          $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');

@@ -119,20 +119,30 @@
         </div>
       </div>
         <!-- Modal -->
-        <div wire:ignore.self class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalCaptura" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                 <form wire:submit.prevent="create">
                   <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Captura de resultados</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <button class="btn btn-success" id="guardar">Guardar</button>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary" id="ejecutarModal">Ejecutar</button>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-info">Liberar</button>
+                        </div>
+                    </div>
                   </div>
                   <div class="modal-body"> 
                       <div class="row">
                          <div class="col-md-12">
-                            <table>
+                            <table class="table">
                                 <thead>
                                     <tr>
                                         <th>Parametro</th>
@@ -156,21 +166,21 @@
                                     </tr>
                                     <tr>
                                         <td>CB</td>
-                                        <td>b Fosforo</td>
-                                        <td><input type="text" id="bFosforo1"></td>
-                                        <td><input type="text" id="bFosforo2"></td>
+                                        <td>b</td>
+                                        <td><input type="text" id="b1"></td>
+                                        <td><input type="text" id="b2"></td>
                                     </tr>
                                     <tr>
                                         <td>CM</td>
-                                        <td>m Fosforo</td>
-                                        <td><input type="text" id="mFosforo1"></td>
-                                        <td><input type="text" id="mFosforo2"></td>
+                                        <td>m</td>
+                                        <td><input type="text" id="m1"></td>
+                                        <td><input type="text" id="m2"></td>
                                     </tr>
                                     <tr>
                                         <td>CR</td>
-                                        <td>r Fosforo</td>
-                                        <td><input type="text" id="rFosforo1"></td>
-                                        <td><input type="text" id="rFosforo2"></td>
+                                        <td>r</td>
+                                        <td><input type="text" id="r1"></td>
+                                        <td><input type="text" id="r2"></td>
                                     </tr>
                                     <tr>
                                         <td>D</td>
@@ -208,11 +218,6 @@
                          </div>
                       </div>
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                  </div>
-                </form>
                 </div>
               </div>
               
