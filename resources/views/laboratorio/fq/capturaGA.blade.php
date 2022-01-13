@@ -5,7 +5,7 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-window-list"></i>
-    Captura de resultados
+    Captura de resultados modif
   </h6>
   
 <div class="container-fluid">

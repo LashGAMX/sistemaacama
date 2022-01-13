@@ -204,7 +204,7 @@ function operacion() {
             CB:$('#b1').val(),
             CM:$('#m1').val(),
             CR:$('#r1').val(),
-            D:$('#d1').val(),
+            D:$('#fDilucion1').val(),
             E:$('#e1').val(),
             X:$('#abs11').val(),
             Y:$('#abs21').val(),
@@ -214,8 +214,8 @@ function operacion() {
         dataType: "json",
         success: function (response) {
             console.log(response);
-          // $("#abs1").val(response->absPromedio); 
-            
+          $("#abs1").val(response.x); 
+          $("#resultadoF").val(response.resultado);  
         }
     });
 }

@@ -108,12 +108,12 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('aplicarObservacion', [MbController::class, 'aplicarObservacion']);
     
             //? Modulo Lote - Creación  de lotes
-            Route::get('lote', [MbController::class, 'lote']); 
+            Route::get('lote', [MbController::class, 'lote']);  
             Route::post('createLote', [MbController::class, 'createLote']);
             Route::post('buscarLote', [MbController::class, 'buscarLote']);
             Route::post('getDatalote', [MbController::class, 'getDatalote']);
             Route::get('asgnarMuestraLote/{id}', [MbController::class, 'asgnarMuestraLote']);
-            Route::post('muestraSinAsignar', [MbController::class, 'muestraSinAsignar']);
+            Route::post('muestraSinAsignar', [MbController::class, 'muestraSinAsi1gnar']);
             Route::post('asignarMuestraLote', [MbController::class, 'asignarMuestraLote']);
             Route::post('getMuestraAsignada', [MbController::class, 'getMuestraAsignada']);
             Route::post('delMuestraLote', [MbController::class, 'delMuestraLote']);

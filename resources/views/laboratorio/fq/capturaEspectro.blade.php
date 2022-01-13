@@ -137,6 +137,9 @@
                         <div class="col-md-2">
                             <button class="btn btn-info">Liberar</button>
                         </div>
+                        <div>
+                        <input type="text" id="resultadoF">
+                        </div>
                     </div>
                   </div>
                   <div class="modal-body"> 
