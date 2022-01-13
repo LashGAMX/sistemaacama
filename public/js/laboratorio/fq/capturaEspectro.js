@@ -27,6 +27,7 @@ $(document).ready(function () {
 
 $('#ejecutarModal').click(function () {
     operacion();
+    validacionModal();
 });
 $('#btnLiberar').click(function () {
     // operacion();
@@ -161,6 +162,13 @@ function getDataCaptura() {
         }
     });
 }
+function validacionModal(){
+    if($("#blanco1").val()!= $("#blanco2").val()){
+        console.log('correcto');
+    }else{
+        console.log('no valido');
+    }
+}
 function getDetalleEspectro(idDetalle)
 {
     $.ajax({
@@ -177,6 +185,9 @@ function getDetalleEspectro(idDetalle)
             $("#b1").val(response.curva.B);
             $("#m1").val(response.curva.M);
             $("#r1").val(response.curva.R);
+            $("#b2").val(response.curva.B);
+            $("#m2").val(response.curva.M);
+            $("#r2").val(response.curva.R);
             $("#fDilucion1").val(response.model.Vol_muestra);
             // $("#volMuestra1").val(response.model);
             $("#abs11").val(response.model.Abs1);
