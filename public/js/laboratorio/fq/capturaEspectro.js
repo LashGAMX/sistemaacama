@@ -166,7 +166,7 @@ function validacionModal(){
     if($("#blanco1").val()!= $("#blanco2").val()){
         console.log('no valido'); 
     }else{
-        console.log('valido');  
+        console.log('valido');   
     }
 }
 function getDetalleEspectro(idDetalle)
