@@ -104,59 +104,120 @@
         </div>
         <div class="col-md-12">
             <div id="divTablaControles">
-                <table class="table" id="tablaControles">
-                    <thead>
-                        <tr>
-                            <th>#</th>
-                            <th>Abs1</th>
-                            <th>Abs2</th>
-                            <th>Abs3</th>
-                            <th>Mililitros D.
-                                color
-                            </th>
-                            <th>Nitratos</th>
-                            <th>Nitritos</th>
-                            <th>Sulfuros</th>
-                            <th>Blanco A. </th>
-                            <th>Vol. Aforo</th>
-                            <th>Vol. Aforo Desti</th>
-                            <th>Vol. Muestra</th>
-                        </tr>
-                    </thead>
-                </table>
+                <thead>
+                    <tr>
+                        <th>Opc</th>
+                        <th>Folio</th>
+                        <th># Toma</th>
+                        <th>Norma</th>
+                        <th>Resultado</th>
+                        <th>Tipo Analisis</th>
+                        <th>Observacion</th>    
+                    </tr>
+                </thead>
             </div>
         </div>
       </div>
         <!-- Modal -->
-        <div wire:ignore.self class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalCaptura" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                 <form wire:submit.prevent="create">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Nueva constante</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Captura de resultados</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
+                    <div class="row">
+                        <div class="col-md-2">
+                            <button class="btn btn-success" id="guardar">Guardar</button>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-primary" id="ejecutarModal">Ejecutar</button>
+                        </div>
+                        <div class="col-md-2">
+                            <button class="btn btn-info">Liberar</button>
+                        </div>
+                    </div>
                   </div>
                   <div class="modal-body"> 
                       <div class="row">
-                          <div class="col-md-6">
-                              
-                              <label for="">Nombre</label>
-                              <input type="text" id='nombre' wire:model='nombre'  class="form-control" placeholder="Nombre">
-                          </div>
-                          <div class="col-md-6">
-                              <label for="">Volumen</label>
-                              <input type="text" id='volumen' wire:model='volumen' class="form-control" placeholder="Volumen">
-                          </div>
-                          
+                         <div class="col-md-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Parametro</th>
+                                        <th>Descripción</th>
+                                        <th>Valor</th>
+                                        <th>Valor2</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>ABS</td>
+                                        <td>ABS Promedio</td>
+                                        <td><input type="text" id="abs1"></td>
+                                        <td><input type="text" id="abs2"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CA</td>
+                                        <td>Blanco</td>
+                                        <td><input type="text" id="blanco1"></td>
+                                        <td><input type="text" id="blanco2"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CB</td>
+                                        <td>b</td>
+                                        <td><input type="text" id="b1"></td>
+                                        <td><input type="text" id="b2"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CM</td>
+                                        <td>m</td>
+                                        <td><input type="text" id="m1"></td>
+                                        <td><input type="text" id="m2"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>CR</td>
+                                        <td>r</td>
+                                        <td><input type="text" id="r1"></td>
+                                        <td><input type="text" id="r2"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>D</td>
+                                        <td>Factor dilucion</td>
+                                        <td><input type="text" id="fDilucion1"></td>
+                                        <td><input type="text" id="fDilucion2"></td>
+                                    </tr>
+
+                                    <tr>
+                                        <td>E</td>
+                                        <td>Vol de la muestra</td>
+                                        <td><input type="text" id="volMuestra1"></td>
+                                        <td><input type="text" id="volMuestra2"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>X</td>
+                                        <td>Absorbancia1</td>
+                                        <td><input type="text" id="abs11"></td>
+                                        <td><input type="text" id="abs12"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Y</td>
+                                        <td>Absorbancia2</td>
+                                        <td><input type="text" id="abs21"></td>
+                                        <td><input type="text" id="abs22"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>Z</td>
+                                        <td>Absorbancia3</td>
+                                        <td><input type="text" id="abs31"></td>
+                                        <td><input type="text" id="abs32"></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                         </div>
                       </div>
                   </div>
-                  <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
-                  </div>
-                </form>
                 </div>
               </div>
               

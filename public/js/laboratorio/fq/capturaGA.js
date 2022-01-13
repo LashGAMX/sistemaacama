@@ -1,5 +1,6 @@
 
 var area = "fq";
+var idLote;
 
 $(document).ready(function () {
     table = $('#tableAnalisis').DataTable({
@@ -148,18 +149,22 @@ function getDataCaptura() {
                 idMuestra = dato;
             });
 
-            // imprimir(response.lote.Id_lote);
+            idLote = response.lote.Id_lote;
+
+            /* console.log("Valor de idLote: " + response.lote.Id_lote);
+            imprimir(response.lote.Id_lote); */
         }
     });
 }
 
 //Función imprimir PDF
 function imprimir() {
-    console.log("Dentro de evento btnBuscarprueb");
-    /* $('#btnImprimir').click(function () {
-        console.log("Clic en botón imprimir"); */
-        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA";
-   /*  }); */
+    /* console.log("Dentro de evento imprimir modif");
+    $('#btnImprimir').click(function () {
+        console.log("Valor de idLote: " + idLote);   */     
+        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA/"+idLote;
+        //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA";
+    //});
 }
 
 function operacion() {
@@ -183,8 +188,15 @@ function operacion() {
         dataType: "json",
         success: function (response) {
             console.log(response);
-            //let fix = response.resultado.toFixed(3);
-            $("#h1").val(response.mf);
+            let fixh1 = response.mf.toFixed(4);
+            let fixj1 = response.m1.toFixed(4);
+            let fixk1 = response.m2.toFixed(4);
+            let fixc1 = response.m3.toFixed(4); 
+        
+            $("#h1").val(fixh1); 
+            $("#j1").val(fixj1);
+            $("#k1").val(fixk1);
+            $("#c1").val(fixc1);
          
         }
     });
@@ -224,7 +236,7 @@ function liberarMuestraMetal() {
             tab += '<td>' + response.lote.Fecha + '</td>';
             tab += '<td>' + response.lote.Asignado + '</td>';
             tab += '<td>' + response.lote.Liberado + '</td>';
-            tab += '<td><button class="btn btn-success" id="btnImprimir"><i class="fas fa-file-download"></i></button></td>';
+            tab += '<td><button class="btn btn-success" id="btnImprimir onclick="imprimir();"><i class="fas fa-file-download"></i></button></td>';
             tab += '</tr>';
             tab += '    </tbody>';
             tab += '</table>';

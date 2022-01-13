@@ -149,16 +149,46 @@ class FqController extends Controller
     {
         return view('laboratorio.fq.tipoAnalisis');  
     }
-
+    //***********espectrofotometrico ***************/
     public function capturaEspectro()
     {
 
-        $parametro = Parametro::where('Id_area', 5)
-            ->get();
+        $parametro = Parametro::where('Id_area', 5)->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro); 
         return view('laboratorio.fq.capturaEspectro', compact('parametro')); 
     }
+
+    public function operacionEspectro(Request $request)
+    {
+        $curva = CurvaConstantes::where('Parametros', $request->parametros)->first();
+        $x = ($request->X + $request->Y+ $request->Z) / 3;
+        switch ($request->parametro) {
+            case 20:
+                # CIANUROS
+
+                break;
+            case 9:
+                 # NITRITOS
+                  $resultado = (($x-$curva->B)/$curva->M)* $request->D;
+                break;
+            case 8:
+                # NITRATOS
+                    
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+        $data = array( 
+            //'resultado' => $resultado,
+            //'absPromedio' => $x,
+        ); 
+        return response()->json($data); 
+
+    }
+
     public function getDataCapturaEspectro(Request $request)
     {
         //$parametro = Parametro::where('Id_parametro',$request->formulaTipo)->first();
@@ -186,13 +216,31 @@ class FqController extends Controller
         ); 
         return response()->json($data); 
     }
+    public function getDetalleEspectro(Request $request)
+    {
+        $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle',$request->idDetalle)->first();
+        $curva = CurvaConstantes::where('Id_lote',$model->Id_lote)->first();
+
+        $data = array(
+            'model' => $model,
+            'curva' => $curva,
+        );
+        return response()->json($data);
+    }
     // todo Captura GA
     public function operacionGA(Request $request)
     { 
-        //  $mf = (($request->R/1000000) * $request->I)+$request->P;
+        $mf = (($request->R/1000000) * $request->I)+$request->P;
+        $m1 = $mf + 0.0001;
+        $m2 = $m1 + 0.0001;
+        $m3 = $m2 + 0.0001;
+
 
         $data = array( 
-           'mf' => "mf",
+           'mf' => $mf,
+           'm1' => $m1,
+           'm2' => $m2,
+           'm3' => $m3,
             
         ); 
         return response()->json($data); 
@@ -202,7 +250,7 @@ class FqController extends Controller
         $parametro = Parametro::where('Id_area', 13)->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro); 
-        return view('laboratorio.fq.capturaGA', compact('parametro')); 
+        return view('laboratorio.fq.capturaGA', compact('parametro'));
     } 
     public function getDataCapturaGA(Request $request)
     {
@@ -1074,10 +1122,10 @@ class FqController extends Controller
     }
 
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
-    public function exportPdfCapturaGA()
+    public function exportPdfCapturaGA($idLote)
     {
          //Var. de prueba temporal
-         $idLote = 11;
+         //$idLote = 11;
 
          //Opciones del documento PDF
          $mpdf = new \Mpdf\Mpdf([    
@@ -1123,10 +1171,16 @@ class FqController extends Controller
          $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
          if(!is_null($textoProcedimiento)){
              //Hoja1
-             $htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
+
+             //Instrucción de prueba
+             $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento'));             
+             //$htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
          }else{
              $textoProcedimiento = ReportesFq::where('Id_lote', 0)->first();
-             $htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
+
+            //Instrucción de prueba
+            $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento'));
+            //$htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
  
              $mpdf->SetJS('print("Valores predeterminados para el reporte. Rellena este campo.");');
  
@@ -1134,12 +1188,20 @@ class FqController extends Controller
          }                       
  
          //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
-         $htmlHeader = view('exports.laboratorio.fq.ga.capturaHeader', compact('fechaConFormato'));
+         
+         //Instrucción de prueba
+         $htmlHeader = view('exports.laboratorio.fq.espectro.cianuros.capturaHeader', compact('fechaConFormato'));
+         //$htmlHeader = view('exports.laboratorio.fq.ga.capturaHeader', compact('fechaConFormato'));
+         
          //Establece el encabezado del documento PDF
          $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
  
          //Hace referencia a la vista capturaPie
-         $htmlFooter = view('exports.laboratorio.fq.ga.capturaFooter', compact('usuario', 'firma')); 
+
+         //Instrucción de prueba
+         $htmlFooter = view('exports.laboratorio.fq.espectro.cianuros.capturaFooter', compact('usuario', 'firma')); 
+         //$htmlFooter = view('exports.laboratorio.fq.ga.capturaFooter', compact('usuario', 'firma')); 
+         
          //Establece el pie de página del PDF                
          $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
  
@@ -1153,7 +1215,7 @@ class FqController extends Controller
          //}
  
          //*************************************************Segundo juego de documentos PDF***************************************************
-         $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+         //$mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
  
          //$semaforoHoja1 = true;
  
@@ -1161,7 +1223,7 @@ class FqController extends Controller
          /* $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
          if(!is_null($textoProcedimiento)){ */
              //Hoja1
-             $htmlCaptura1 = view('exports.laboratorio.fq.ga.captura1Body');
+             //$htmlCaptura1 = view('exports.laboratorio.fq.ga.captura1Body');
          //}else{
              //$textoProcedimiento = ReportesFq::where('Id_lote', 0)->first();
              //$htmlCurva = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
@@ -1172,19 +1234,19 @@ class FqController extends Controller
          //}
  
          //if(!is_null($formula) && !is_null($fechaAnalisis)){
-            $htmlCurvaHeader = view('exports.laboratorio.fq.ga.capturaHeader', compact('fechaConFormato'));
-            $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlCurvaHeader, 'O', 'E');
+            //$htmlCurvaHeader = view('exports.laboratorio.fq.ga.capturaHeader', compact('fechaConFormato'));
+            //$mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlCurvaHeader, 'O', 'E');
          //}
  
-         $htmlCurvaFooter = view('exports.laboratorio.fq.ga.capturaFooter', compact('usuario', 'firma'));        
-         $mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E');
+         //$htmlCurvaFooter = view('exports.laboratorio.fq.ga.capturaFooter', compact('usuario', 'firma'));        
+         //$mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E');
  
          /* if(is_null($textoProcedimiento) || is_null($formula) || is_null($fechaAnalisis)){
              $semaforoHoja1 = false;
          } */
  
          //if($semaforoHoja1 === true){ 
-             $mpdf->WriteHTML($htmlCaptura1);
+             //$mpdf->WriteHTML($htmlCaptura1);
          //}
  
          //Hoja2
