@@ -169,7 +169,7 @@ class FqController extends Controller
                 break;
             case 9:
                  # NITRITOS
-                  $resultado = (($x-$request->CB)/$request->CM) * $request->D;
+                  $resultado = (($x-$request->CB)/$request->CM) * $request->D; 
                 break;
             case 8:
                 # NITRATOS
