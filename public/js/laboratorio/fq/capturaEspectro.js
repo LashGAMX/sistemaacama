@@ -228,8 +228,11 @@ function operacion() {
         dataType: "json",
         success: function (response) {
             console.log(response);
-          $("#abs1").val(response.x); 
-          $("#resultadoF").val(response.resultado);  
+            let x = response.x.toFixed(3);
+          $("#abs1").val(x); 
+          $("#abs2").val(x); 
+          let resultado = response.resultado.toFixed(3);
+          $("#resultadoF").val(resultado); 
         }
     });
 }
