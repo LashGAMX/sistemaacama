@@ -4,47 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/mb/coliformes/coliformesPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/mb/dboIn/dboInPDF.css')}}">
     <title>Captura PDF</title>
 </head>
 <body>   
+    <p id='curvaProcedimiento'>Procedimientos</p>
+
+    <div id="contenidoCurva">
+        <?php echo html_entity_decode($textoProcedimiento->Texto);?>
+    </div>
+
     <table cellpadding="0" cellspacing="0" border-color="#000000">
-        <thead>            
+        <thead>  
+            <tr>
+                <th class="nombreHeader" colspan="13">
+                    Resultado de las muestras
+                </th>
+            </tr>
+            
             <tr>
                 <th class="nombreHeader bordesTabla">
                     No. de muestra
                 </th>
 
                 <th class="nombreHeader bordesTabla">
-                    Diluciones empleadas
-                </th>
-
-                <th class="nombreHeader bordesTabla" colspan="3">
-                    Prueba presuntiva
+                    Vol. de la Muestra (ml)
                 </th>
 
                 <th class="nombreHeader bordesTabla">
-                    Resultado presuntiva
-                </th>
-
-                <th class="nombreHeader bordesTabla" colspan="3">
-                    Prueba confirmativa
+                    % de dilución expresado en decimales
                 </th>
 
                 <th class="nombreHeader bordesTabla">
-                    N.M.P. Obtenido
+                    NO. DE BOTELLA INICIAL
                 </th>
 
                 <th class="nombreHeader bordesTabla">
-                    Resultado NMP/100 mL (Tabla)
+                    OXIGENO DISUELTO INICIAL
                 </th>
 
                 <th class="nombreHeader bordesTabla">
-                    Resultado NMP/100 mL (Fórmula 1)
+                    NO. BOTELLA FINAL
                 </th>
 
                 <th class="nombreHeader bordesTabla">
-                    Resultado NMP/100 mL (Fórmula 2)
+                    OXIGENO DISUELTO AL 5to. DIA
+                </th>
+
+                <th class="nombreHeader bordesTabla">
+                    PH INICIAL
+                </th>
+
+                <th class="nombreHeader bordesTabla">
+                    PH FINAL
+                </th>
+
+                <th class="nombreHeader bordesTabla">
+                    DBO5 mg/L
+                </th>
+
+                <th class="nombreHeader bordesTabla">
+                    Observaciones
                 </th>
 
                 <th class="nombreHeader">
@@ -59,10 +79,6 @@
         
         <tbody>
             <tr>
-                <td class="contenidoBody bordesTabla" rowspan="3">
-                    PRUEBA
-                </td>
-
                 <td class="contenidoBody bordesTabla">
                     PRUEBA
                 </td>
@@ -99,28 +115,6 @@
                     PRUEBA
                 </td>
 
-                <td class="contenidoBody bordesTabla" rowspan="3">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla" rowspan="3">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla" rowspan="3">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody" rowspan="3">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody" rowspan="3">
-                    PRUEBA
-                </td>                
-            </tr>
-            
-            <tr>
                 <td class="contenidoBody bordesTabla">
                     PRUEBA
                 </td>
@@ -129,82 +123,16 @@
                     PRUEBA
                 </td>
 
-                <td class="contenidoBody bordesTabla">
+                <td class="contenidoBody">
                     PRUEBA
                 </td>
 
-                <td class="contenidoBody bordesTabla">
+                <td class="contenidoBody">
                     PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>       
-            </tr>
-
-            <tr>
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
-
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>                          
-            </tr>
+                </td>           
+            </tr>                                    
         </tbody>
     </table>
-
-    <br>
-
-    <p id='curvaProcedimiento'>Procedimiento</p>
-
-    <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento->Texto);?>
-    </div>
 
     <br>
 
@@ -212,37 +140,29 @@
         <table autosize="1" class="table table-borderless" id="tablaDatos">
             <tbody>
                 <tr>
-                    <td class="nombreHeader nombreHeaderBold">
-                        Fecha de sembrado
-                    </td>                   
-
-                    <td class="tableContent">
-                        AQUÍ VA LA FECHA
-                    </td>
+                    <th></th>
                     
-                    <td></td>                                        
+                    <th class="nombreHeader nombreHeaderBold" colspan="2">
+                        AIREAR APROX. 1 HORA
+                    </th>                   
 
-                    <td class="nombreHeader nombreHeaderBold">
-                        Hora de sembrado
-                    </td>
+                    <th></th>                                        
 
-                    <td></td>
-
-                    <td class="tableContent">
-                        AQUÍ VA LA HORA
-                    </td>
+                    <th class="nombreHeader nombreHeaderBold" colspan="2">
+                        ESTANDAR BIT RE-12-001-1A-13
+                    </th>                    
                 </tr>
 
                 <tr>
-                    <th class="nombreHeader" colspan="2">
-                        Prueba presuntiva
-                    </th>                    
+                    <td class="nombreHeader nombreHeaderBold">
+                        Cantidad de agua de dilucion
+                    </td>
 
-                    <td></td>                                      
+                    <td class="tableContent">AQUÍ VA LA CANTIDAD</td>                                      
 
-                    <th class="nombreHeader" colspan="3">
-                        Prueba confirmativa
-                    </th>
+                    <td class="nombreHeader">
+                        DE <span>AQUÍ VA LA HORA</span>
+                    </td>
                 </tr>                
 
                 <tr>
