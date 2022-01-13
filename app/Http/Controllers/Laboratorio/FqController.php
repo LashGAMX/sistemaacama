@@ -1148,7 +1148,7 @@ class FqController extends Controller
          ); */
  
          //$mpdf->showWatermarkImage = true;
-         $mpdf->CSSselectMedia = 'mpdf';                
+         $mpdf->CSSselectMedia = 'mpdf';               
  
          $id_lote = $idLote;
          $semaforo = true;             
@@ -1173,13 +1173,13 @@ class FqController extends Controller
              //Hoja1
 
              //Instrucción de prueba
-             $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento'));             
+             $htmlCaptura = view('exports.laboratorio.fq.espectro.condElec.capturaBody', compact('textoProcedimiento'));
              //$htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
          }else{
              $textoProcedimiento = ReportesFq::where('Id_lote', 0)->first();
 
             //Instrucción de prueba
-            $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento'));
+            $htmlCaptura = view('exports.laboratorio.fq.espectro.condElec.capturaBody', compact('textoProcedimiento'));
             //$htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
  
              $mpdf->SetJS('print("Valores predeterminados para el reporte. Rellena este campo.");');
@@ -1190,7 +1190,7 @@ class FqController extends Controller
          //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
          
          //Instrucción de prueba
-         $htmlHeader = view('exports.laboratorio.fq.espectro.cianuros.capturaHeader', compact('fechaConFormato'));
+         $htmlHeader = view('exports.laboratorio.fq.espectro.condElec.capturaHeader', compact('fechaConFormato'));
          //$htmlHeader = view('exports.laboratorio.fq.ga.capturaHeader', compact('fechaConFormato'));
          
          //Establece el encabezado del documento PDF
@@ -1199,7 +1199,7 @@ class FqController extends Controller
          //Hace referencia a la vista capturaPie
 
          //Instrucción de prueba
-         $htmlFooter = view('exports.laboratorio.fq.espectro.cianuros.capturaFooter', compact('usuario', 'firma')); 
+         $htmlFooter = view('exports.laboratorio.fq.espectro.condElec.capturaFooter', compact('usuario', 'firma')); 
          //$htmlFooter = view('exports.laboratorio.fq.ga.capturaFooter', compact('usuario', 'firma')); 
          
          //Establece el pie de página del PDF                

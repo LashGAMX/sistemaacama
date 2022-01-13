@@ -69,7 +69,7 @@
     text-align: center;
 }
 
-#contenedorTabla{    
+.contenedorTabla{    
     max-height: 100px;    
 }
 
@@ -88,4 +88,10 @@
 
 .anchoColumna{
     width: 12.5%;
+}
+
+.contenedorSexto{    
+    font-family: Calibri;
+    font-size: 9;
+    text-align: justify;
 }

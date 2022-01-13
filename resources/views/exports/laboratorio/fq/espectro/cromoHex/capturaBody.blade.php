@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/cianuros/cianurosPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/cromoHex/cromoHexPDF.css')}}">
     <title>Captura PDF</title>
 </head>
 <body>
@@ -21,24 +21,22 @@
             <thead>
 
                 <tr>
-                    <th class="nombreHeader" colspan="13">
+                    <th class="nombreHeader" colspan="12">
                         Resultado de las muestras
                     </th>                    
                 </tr>                
 
                 <tr>
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
-                    <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
+                    <th class="tableCabecera anchoColumna">Volumen de muestra</th>
                     <th class="tableCabecera anchoColumna">Abs 1</th>
                     <th class="tableCabecera anchoColumna">Abs 2</th>
                     <th class="tableCabecera anchoColumna">Abs 3</th>
                     <th class="tableCabecera anchoColumna">Abs Promedio</th>
-                    <th class="tableCabecera anchoColumna">Sulfuros</th>
-                    <th class="tableCabecera anchoColumna">Nitratos</th>
-                    <th class="tableCabecera anchoColumna">Nitritos</th>
-                    <th class="tableCabecera anchoColumna">CIANUROS (CN ̄)
-                        mg/L</th>
-                    <th class="tableCabecera anchoColumna">Observaciones</th>                                        
+                    <th class="tableCabecera anchoColumna">Ph Inicial</th>
+                    <th class="tableCabecera anchoColumna">Ph Final</th>
+                    <th class="tableCabecera anchoColumna">CROMO HEXAVALENTE (Cr+6) mg/L</th>
+                    <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
                 </tr>
@@ -59,11 +57,19 @@
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
                     </tr>                
                 {{-- @endfor --}}
             </tbody>        
         </table>  
+    </div>
+
+    <br>
+
+    <div class="contenedorSexto">                
+        <span><br> Absorbancia B1: PRUEBA</span> <br>
+        <span>Absorbancia B2: PRUEBA</span> <br>
+        <span>Absorbancia B3: PRUEBA</span> <br>
+        <span>RESULTADO BLANCO: PRUEBA</span>
     </div>
 
     <br>
