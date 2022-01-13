@@ -8,7 +8,7 @@
     <title>Captura PDF</title>
 </head>
 <body>   
-    <p id='curvaProcedimiento'>Procedimientos</p>
+    <p id='curvaProcedimiento'>Procedimiento</p>
 
     <div id="contenidoCurva">
         <?php echo html_entity_decode($textoProcedimiento->Texto);?>
