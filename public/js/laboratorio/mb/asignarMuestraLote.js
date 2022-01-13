@@ -1,10 +1,10 @@
-var area = "fq";
+var area = "micro";
 
 $(document).ready(function () {
     muestraSinAsignar();
     getMuestraAsignada();
 });
-
+ 
 
 function muestraSinAsignar()
 {
@@ -22,7 +22,7 @@ function muestraSinAsignar()
         success: function (response) {      
             console.log("Muestra sin asignar")      ;
             console.log(response);
-            tab += '<table id="tablaParamSin" class="table table-sm">';
+            tab += '<table id="tablaParamSin" class="table table-sm">';  
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
             tab += '          <th>Folio</th>';

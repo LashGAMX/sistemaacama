@@ -166,7 +166,7 @@ function operacion() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/operacionAG",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionGA", 
         data: {
             P:$("#p").val(),
             R:$("#resultado").val(),

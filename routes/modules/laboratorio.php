@@ -78,6 +78,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('capturaGA', [FqController::class, 'capturaGA']);
         Route::post('getDataCapturaGA', [FqController::class, 'getDataCapturaGA']);
         Route::post('getDetalleGA', [FqController::class, 'getDetalleGA']);
+        Route::post('operacionGA', [FqController::class, 'operacionGA']);
         
         // Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
         // Route::post('getDataCapturaEspectro', [FqController::class, 'getDataCapturaEspectro']);
@@ -105,12 +106,12 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('aplicarObservacion', [MbController::class, 'aplicarObservacion']);
     
             //? Modulo Lote - Creación  de lotes
-            Route::get('lote', [MbController::class, 'lote']); 
+            Route::get('lote', [MbController::class, 'lote']);  
             Route::post('createLote', [MbController::class, 'createLote']);
             Route::post('buscarLote', [MbController::class, 'buscarLote']);
             Route::post('getDatalote', [MbController::class, 'getDatalote']);
             Route::get('asgnarMuestraLote/{id}', [MbController::class, 'asgnarMuestraLote']);
-            Route::post('muestraSinAsignar', [MbController::class, 'muestraSinAsignar']);
+            Route::post('muestraSinAsignar', [MbController::class, 'muestraSinAsi1gnar']);
             Route::post('asignarMuestraLote', [MbController::class, 'asignarMuestraLote']);
             Route::post('getMuestraAsignada', [MbController::class, 'getMuestraAsignada']);
             Route::post('delMuestraLote', [MbController::class, 'delMuestraLote']);
