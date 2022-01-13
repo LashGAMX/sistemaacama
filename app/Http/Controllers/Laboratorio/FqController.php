@@ -161,8 +161,7 @@ class FqController extends Controller
 
     public function operacionEspectro(Request $request)
     {
-        $curva = CurvaConstantes::where('Parametros', $request->parametros)->first();
-        $x = ($request->X + $request->Y+ $request->Z) / 3;
+         $x = ($request->X + $request->Y+ $request->Z) / 3;
         switch ($request->parametro) {
             case 20:
                 # CIANUROS
@@ -170,7 +169,7 @@ class FqController extends Controller
                 break;
             case 9:
                  # NITRITOS
-                  $resultado = (($x-$curva->B)/$curva->M)* $request->D;
+                  $resultado = (($x-$request->CB)/$request->CM) * $request->D;
                 break;
             case 8:
                 # NITRATOS
@@ -182,8 +181,8 @@ class FqController extends Controller
                 break;
         }
         $data = array( 
-            //'resultado' => $resultado,
-            //'absPromedio' => $x,
+            'x' => $x,
+            'resultado' => $resultado,
         ); 
         return response()->json($data); 
 
