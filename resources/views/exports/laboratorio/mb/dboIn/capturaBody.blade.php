@@ -137,86 +137,57 @@
     <br>
 
     <div id="contenedorTabla">
-        <table autosize="1" class="table table-borderless" id="tablaDatos">
+        <table autosize="1" class="table table-borderless" id="tablaDatos" style="width: 100%">
             <tbody>
                 <tr>
                     <th></th>
+
+                    <th></th>
                     
-                    <th class="nombreHeader nombreHeaderBold" colspan="2">
+                    <th class="tableContent nombreHeaderBold" colspan="2">
                         AIREAR APROX. 1 HORA
                     </th>                   
 
-                    <th></th>                                        
+                    <th></th>                                       
 
-                    <th class="nombreHeader nombreHeaderBold" colspan="2">
+                    <th class="tableContent nombreHeaderBold" colspan="2">
                         ESTANDAR BIT RE-12-001-1A-13
                     </th>                    
                 </tr>
 
                 <tr>
-                    <td class="nombreHeader nombreHeaderBold">
+                    <td class="tableContent nombreHeaderBold">
                         Cantidad de agua de dilucion
                     </td>
 
-                    <td class="tableContent">AQUÍ VA LA CANTIDAD</td>                                      
+                    <td class="tableContent">AQUÍ VA LA CANTIDAD</td>                                     
 
-                    <td class="nombreHeader">
-                        DE <span>AQUÍ VA LA HORA</span>
+                    <td>
+                        <span class="tableContent nombreHeaderBold">DE</span> <span class="tableContent">AQUÍ VA LA HORA</span>
                     </td>
+
+                    <td>
+                        <span class="tableContent nombreHeaderBold">A</span> <span class="tableContent">AQUÍ VA LA HORA</span>
+                    </td>
+
+                    <td></td>
+
+                    <td>
+                        <span class="tableContent nombreHeaderBold">PAG</span> <span class="tableContent">AQUÍ VA LA PAG</span>
+                    </td>
+
+                    <td>
+                        <span class="tableContent nombreHeaderBold">N.</span> <span class="tableContent">AQUÍ VA LA N</span>
+                    </td>                
                 </tr>                
 
-                <tr>
-                    <td class="tableContent">Caldo lactosado se prepara el día: </td>                    
-                    <td class="tableContent">AQUÍ VA LA FECHA</td>
-                    
-                    <td></td>                  
-                    
-                    <td class="tableContent">El medio que se utiliza es:</td>
-                    <td></td>
-                    <td class="tableContent">AQUÍ VA EL MEDIO</td>                    
-                </tr>
-
-                <tr>
-                    <td class="tableContent">Para determinar: </td>                    
-                    <td class="tableContent">AQUÍ VA COLIFORMES FECALES</td>
-                    
-                    <td></td>                  
-                    
-                    <td class="tableContent">Preparado:</td>
-                    <td></td>
-                    <td class="tableContent">AQUÍ VA LA FECHA</td>                    
-                </tr>
-
-                <tr>
-                    <td class="tableContent">Fecha y hora de lectura, después <br> 24 hrs. y 48 hrs. de incubación: </td>                    
-                    <td class="tableContent">AQUÍ VA LA FECHA Y HORA</td>
-                    
-                    <td></td>                  
-                    
-                    <td class="tableContent">Para determinar: </td>
-                    <td></td>
-                    <td class="tableContent">AQUÍ VA COLIFORMES FECALES</td>                    
-                </tr>
-
-                <tr>
-                    <td class="tableContent"></td>     
-                    <td></td>               
-                    <td class="tableContent"></td>
-                                                          
-                    
-                    <td class="tableContent">Fecha y hora de lectura para </td> 
-                    <td></td>                   
-                    <td class="tableContent">AQUÍ VA LA FECHA Y HORA</td>                    
+                <tr>                
+                    <td>
+                        <span class="tableContent nombreHeaderBold">&nbsp;Disoluciones preparadas el día: </span> <span class="tableContent">AQUÍ VA EL DÍA</span>
+                    </td>
                 </tr>
             </tbody>                      
         </table>  
-    </div>
-    
-    <br>
-
-    <div id="contenidoCurva">
-        <p>Fecha de resiembra de la cepa utilizada: AQUÍ VA LA FECHA de la placa N° AQUÍ VA LA PLACA</p>
-        <p>Bitácora AQUÍ VA LA BITÁCORA</p>
-    </div>
+    </div>    
 </body>
 </html>
