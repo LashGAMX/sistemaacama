@@ -165,8 +165,26 @@ function getDataCaptura() {
 function validacionModal(){
     if($("#blanco1").val()!= $("#blanco2").val()){
         console.log('no valido'); 
-    }else{
-        console.log('valido');   
+    }
+    if($("#volMuestra1").val()!= $("#volMuestra2").val())
+    {
+
+    }
+    if($("#abs11").val()!= $("#abs12").val())
+    {
+ 
+    }
+    if($("#abs21").val()!= $("#abs22").val())
+    {
+        
+    }
+    if($("#abs31").val()!= $("#abs32").val())
+    {
+
+    }
+    else
+    {
+        //colocar contorno en verde
     }
 }
 function getDetalleEspectro(idDetalle)
