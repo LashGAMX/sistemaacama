@@ -15,6 +15,10 @@
     </div>
 
     <br>
+    <br>
+    <br>
+    <br>
+    <br>
 
     <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos">
@@ -58,8 +62,6 @@
             </tbody>        
         </table>  
     </div>
-
-    <br>
 
     <div class="contenedorSexto">                
         <span><br> Absorbancia B1: PRUEBA</span> <br>

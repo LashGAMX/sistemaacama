@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/mb/dboIn/dboInPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/mb/dbo/dboPDF.css')}}">
     <title>Captura PDF</title>
 </head>
 <body>   
@@ -32,7 +32,7 @@
                 </th>
 
                 <th class="nombreHeader bordesTabla">
-                    % de dilución expresado en decimales
+                    % de dilucion expresado en decimales
                 </th>
 
                 <th class="nombreHeader bordesTabla">

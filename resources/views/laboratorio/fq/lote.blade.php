@@ -45,6 +45,9 @@
         <div class="col-md-3">
           <button class="btn btn-success" data-toggle="modal" data-target="#modalProbar" class="btn btn-info">Datos lote</button>
         </div>
+        <div class="col-md-3">
+          <button class="btn btn-success" data-toggle="modal" data-target="#modalFq2" class="btn btn-info">Nueva función</button>
+        </div>
       </div>
       <div class="" id="divTable">
         
@@ -73,6 +76,50 @@
                   
         </tbody>
       </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalFq2" tabindex="-1" role="dialog" aria-labelledby="modalCrearLote" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Crear lote</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="exampleFormControSelect1">Tipo fórmula</label>
+              <select class="form-control" id="tipoFormula">
+                @foreach($formulas as $formula)
+                  <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControSelect1">Tecnica análisis</label> 
+              <select class="form-control" id="tecnicaAnalisis">
+                @foreach($tecnica as $item)
+                  <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group">
+                <input type="date" id="fechaLote" class="form-control">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btnCreateLote" onclick="createLote()" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>

@@ -29,6 +29,9 @@ $('#ejecutarModal').click(function () {
     operacion();
     validacionModal(); 
 });
+$('#guardar').click(function (){
+    
+});
 $('#btnLiberar').click(function () {
     // operacion();
     liberarMuestraMetal();
@@ -225,6 +228,9 @@ function imprimir() {
         //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA/"+idLote;
         window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaEspectro/" + idLote;
     //});
+}
+function guardar() {
+    
 }
 
 function operacion() {
