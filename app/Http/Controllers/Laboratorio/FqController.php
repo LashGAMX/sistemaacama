@@ -486,7 +486,7 @@ class FqController extends Controller
         ->orWhere('Id_tipo_formula',9)
         ->get();
         $tecnica = Tecnica::all(); 
-        $textoRecuperadoPredeterminado = ReportesFq::where('Id_lote', 0)->first();
+        $textoRecuperadoPredeterminado = ReportesFq::where('Id_reporte', 0)->first();
         return view('laboratorio.fq.lote', compact('formulas', 'textoRecuperadoPredeterminado','tecnica'));
     }
 
@@ -521,7 +521,7 @@ class FqController extends Controller
     {        
         $idLoteIf = $request->idLote;
 
-        //RECUPERA LA PLANTILLA DEL REPORTE
+        //RECUPERA LA PLANTILLA DEL REPORTE    
         $reporte = ReportesFq::where('Id_lote',$request->idLote)->first();
         
         //RECUPERA EL APARTADO DE FÓRMULAS GLOBALES;
@@ -625,7 +625,40 @@ class FqController extends Controller
     }
 
     public function getPlantillaPred(Request $request){
-        $plantillaPredeterminada = ReportesFq::where('Id_lote', $request->idLote)->first();
+
+        //Obtiene el parámetro que se está consultando
+        $parametro = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->first();
+        
+        if($parametro->Parametro == 'N-Nitritos'){
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 1)->first();
+        }else if($parametro->Parametro == 'N-Nitratos'){
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 2)->first();
+        }else if($parametro->Parametro == 'Boro'){ //POR VERIFICAR EN LA TABLA DE PARAMETROS
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 3)->first();
+        }else if($parametro->Parametro == 'Cianuros (CN)-'){
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 4)->first();
+        }else if($parametro->Parametro == 'Conductividad'){ //POR VERIFICAR EN LA TABLA DE PARAMETROS
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 5)->first();
+        }else if($parametro->Parametro == 'CROMO HEXAVALENTE (Cr+6)'){
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 6)->first();
+        }else if($parametro->Parametro == 'Fosforo-Total'){
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 7)->first();
+        }else if($parametro->Parametro == 'Materia Flotante'){ //POR VERIFICAR EN LA TABLA DE PARAMETROS
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 8)->first();
+        }else if($parametro->Parametro == 'SILICE (SiO₂)'){
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 9)->first();
+        }else if($parametro->Parametro == 'FENOLES TOTALES'){
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 10)->first();
+        }else if($parametro->Parametro == 'FLUORUROS (F¯)'){
+
+        }else if($parametro->Parametro == 'SUSTANCIAS ACTIVAS AL AZUL DE METILENO (SAAM )'){
+
+        }else if($parametro->Parametro == 'SULFATOS (SO4˭)'){
+
+        }else{
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 0)->first();
+        }        
+        
         return response()->json($plantillaPredeterminada);
     }
 
@@ -1168,44 +1201,37 @@ class FqController extends Controller
              $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
              $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
              echo '<script> alert("Valores predeterminados para la fecha de análisis. Rellena este campo.") </script>';
-         }        
+         }   
+         
+         //Recupera el parámetro que se está utilizando
+         $parametro = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->first();
  
          //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes
          $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
          if(!is_null($textoProcedimiento)){
              //Hoja1
-
-             //Instrucción de prueba
-             $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento'));
-             //$htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
+             
+             if($parametro->Parametro == 'N-Nitritos'){
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento'));
+             }                                       
          }else{
              $textoProcedimiento = ReportesFq::where('Id_lote', 0)->first();
 
-            //Instrucción de prueba
-            $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento'));
-            //$htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
+             if($parametro->Parametro == 'N-Nitritos'){
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento'));
+             }            
  
              $mpdf->SetJS('print("Valores predeterminados para el reporte. Rellena este campo.");');
  
              //echo '<script type= alert("Valores predeterminados para el reporte. Rellena este campo."); </script>';
-         }                       
- 
-         //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
+         }                                 
          
-         //Instrucción de prueba
-         $htmlHeader = view('exports.laboratorio.fq.espectro.nitritos.capturaHeader', compact('fechaConFormato'));
-         //$htmlHeader = view('exports.laboratorio.fq.ga.capturaHeader', compact('fechaConFormato'));
-         
-         //Establece el encabezado del documento PDF
-         $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
- 
-         //Hace referencia a la vista capturaPie
+         if($parametro->Parametro == 'N-Nitritos'){
+            $htmlHeader = view('exports.laboratorio.fq.espectro.nitritos.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.espectro.nitritos.capturaFooter', compact('usuario', 'firma'));
+         }                  
 
-         //Instrucción de prueba
-         $htmlFooter = view('exports.laboratorio.fq.espectro.nitritos.capturaFooter', compact('usuario', 'firma')); 
-         //$htmlFooter = view('exports.laboratorio.fq.ga.capturaFooter', compact('usuario', 'firma')); 
-         
-         //Establece el pie de página del PDF                
+         $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
          $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
  
          /* if(is_null($formula) || is_null($fechaAnalisis) || is_null($datos) || is_null($loteModel)){
@@ -1214,7 +1240,7 @@ class FqController extends Controller
  
          //if($semaforo === true){
              //Escribe el contenido HTML de la var.html en el documento PDF
-             $mpdf->WriteHTML($htmlCaptura);
+            $mpdf->WriteHTML($htmlCaptura);
          //}
  
          //*************************************************Segundo juego de documentos PDF***************************************************
