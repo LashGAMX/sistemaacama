@@ -169,6 +169,7 @@ class FqController extends Controller
         $model->Abs3 = $request->Z;
         $model->Promedio = $request->ABS;
         $model->Vol_muestra = $request->E;
+        $model->Blanco = $request->CA;
         $model->save();
 
         $data = array(
@@ -1242,8 +1243,7 @@ class FqController extends Controller
         //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes****************************************************
         $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
         if(!is_null($textoProcedimiento)){
-           //Hoja1
-            
+           //Hoja1            
             if($parametro->Parametro == 'Boro'){ //POR REVISAR EN LA TABLA DE DATOS
                 $htmlCaptura = view('exports.laboratorio.fq.espectro.boro.capturaBody', compact('textoProcedimiento'));
                 $horizontal = false;

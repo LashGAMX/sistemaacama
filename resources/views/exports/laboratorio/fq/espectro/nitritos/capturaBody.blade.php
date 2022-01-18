@@ -64,9 +64,9 @@
     </div>
 
     <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: {{@$data[0]->Abs1}}</span> <br>
-        <span>Absorbancia B2: {{@$data[0]->Abs2}}</span> <br>
-        <span>Absorbancia B3: {{@$data[0]->Abs3}}</span> <br>
+        <span><br> Absorbancia B1: {{@$data[0]->Blanco}}</span> <br>
+        <span>Absorbancia B2: {{@$data[0]->Blanco}}</span> <br>
+        <span>Absorbancia B3: {{@$data[0]->Blanco}}</span> <br>
         <span>RESULTADO BLANCO: {{@$data[0]->Blanco}}</span>
     </div>
 
@@ -97,7 +97,7 @@
                         <td class="tableCabecera">m = </td>
                         <td class="tableContent">{{@$curva->M}}</td>                        
                         <td class="tableCabecera">Límite de cuantificación: </td>
-                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent"> <0.020 </td>
                     </tr>
 
                     <tr>

@@ -180,7 +180,7 @@ function guardar(){
             CM:$('#m1').val(),
             CR:$('#r1').val(),
             D:$('#fDilucion1').val(),
-            E:$('#e1').val(),
+            E:$('#volMuestra1').val(),
             X:$('#abs11').val(),
             Y:$('#abs21').val(),
             Z:$('#abs31').val(),
