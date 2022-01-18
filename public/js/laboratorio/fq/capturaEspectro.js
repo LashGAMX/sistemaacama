@@ -52,7 +52,7 @@ function getDataCaptura() {
     let tab3 = '';
     let conte2 = document.getElementById('infoGen');
     let tab4 = '';
-    let status = "";
+    let status = "";    
 
     $.ajax({
         type: "POST",

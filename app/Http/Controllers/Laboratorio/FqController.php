@@ -822,9 +822,11 @@ class FqController extends Controller
                 }
                 break;
             case 15: //todo Volumetria
+                $detModel = LoteDetalleEspectro::where('Id_lote',$request->idLote)->get();
                         # code...
                 break;
             default:
+            $detModel = LoteDetalleEspectro::where('Id_lote',$request->idLote)->get();
                 # code...
                 break;
         }
@@ -876,8 +878,40 @@ class FqController extends Controller
                     break;
                 case 15: //todo Volumetria
                             # code...
+                            $model = LoteDetalleEspectro::create([
+                                'Id_lote' => $request->idLote,
+                                'Id_analisis' => $request->idAnalisis,
+                                'Id_parametro' => $request->idParametro,
+                                'Descripcion' => 'Resultado',
+                                'Abs1' => 0,
+                                'Abs2' => 0,
+                                'Abs3' => 0,
+                                'De_color' => 0,
+                                'Nitratos' => 0,
+                                'Nitritos' => 0,
+                                'Sulfuros' => 0,
+                                'Vol_aforo' => 0,
+                                'Vol_destilacion' => 0,
+                                'Vol_muestra' => 0,
+                            ]);
                     break;
                 default:
+                $model = LoteDetalleEspectro::create([
+                    'Id_lote' => $request->idLote,
+                    'Id_analisis' => $request->idAnalisis,
+                    'Id_parametro' => $request->idParametro,
+                    'Descripcion' => 'Resultado',
+                    'Abs1' => 0,
+                    'Abs2' => 0,
+                    'Abs3' => 0,
+                    'De_color' => 0,
+                    'Nitratos' => 0,
+                    'Nitritos' => 0,
+                    'Sulfuros' => 0,
+                    'Vol_aforo' => 0,
+                    'Vol_destilacion' => 0,
+                    'Vol_muestra' => 0,
+                ]);
                     # code...
                     break;
             }
@@ -1240,7 +1274,7 @@ class FqController extends Controller
          //Recupera el parámetro que se está utilizando
          $parametro = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->first();
  
-        //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes****************************************************
+        //Recupera el texto dinámico Procedimientos de la tabla reportes****************************************************
         $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
         if(!is_null($textoProcedimiento)){
            //Hoja1            
