@@ -18,6 +18,8 @@ class LoteDetalleEspectro extends Model
         'Id_analisis',
         'Id_parametro',
         'Descripcion',
+        'Resultado',
+        'Promedio',
         'Abs1',
         'Abs2',
         'Abs3',

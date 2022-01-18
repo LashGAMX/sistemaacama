@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\VolumenParametros; 
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
 use App\Models\ObservacionMuestra;
@@ -160,12 +161,29 @@ class FqController extends Controller
     }
     public function guardarEspectro(Request $request)
     {
-        
+        //$lote = DB::table('ViewLoteAnalisis')->where('Fecha', $request->fechaAnalisis)->get();
+        $model = LoteDetalleEspectro::find($request->idMuestra);
+        $model->Resultado = $request->resultado;  
+        $model->Abs1 = $request->X;
+        $model->Abs2 = $request->Y;
+        $model->Abs3 = $request->Z;
+        $model->Promedio = $request->ABS;
+        $model->Vol_muestra = $request->E;
+        $model->save();
 
-    }
+        $data = array(
+            'model' => $model,
+            
+        );
+        return response()->json($data);
+
+    } 
     public function operacionEspectro(Request $request)
     {
-         $x = ($request->X + $request->Y+ $request->Z) / 3;
+        $volumen = VolumenParametros::where('Id_parametro', $request->parametro)->first();
+        
+        $d =  $request->E /  $volumen->Volumen; 
+        $x = ($request->X + $request->Y+ $request->Z) / 3;
         switch ($request->parametro) {
             case 70:
                 # Cromo Hexavalente
@@ -182,12 +200,13 @@ class FqController extends Controller
             
             default:
                 # code...
-                $resultado = (($x-$request->CB)/$request->CM) * $request->D; 
+                $resultado = (($x-$request->CB)/$request->CM) * $d; 
                 break;
         }
         $data = array( 
             'x' => $x,
             'resultado' => $resultado,
+            'd' => $d,
         ); 
         return response()->json($data); 
 
@@ -1165,6 +1184,7 @@ class FqController extends Controller
          //$idLote = 11;
 
         $horizontal = false;
+        $sw = true;
 
          //Opciones del documento PDF
          $mpdf = new \Mpdf\Mpdf([    
@@ -1200,7 +1220,7 @@ class FqController extends Controller
          //$mpdf->showWatermarkImage = true;         
  
          $id_lote = $idLote;
-         $semaforo = true;             
+         $semaforo = true;
  
          //Recupera el nombre de usuario y firma
          $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
@@ -1254,9 +1274,19 @@ class FqController extends Controller
             }else if($parametro->Parametro == 'N-Nitratos'){
                 $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.capturaBody', compact('textoProcedimiento'));
                 $horizontal = false;
-            }else if($parametro->Parametro == 'N-Nitritos'){                             
-                $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento'));
-                $horizontal = false;
+            }else if($parametro->Parametro == 'N-Nitritos'){
+                $horizontal = false;                
+                $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+
+                if(!is_null($data)){                         
+                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }  
+
                 //$htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento'));
             }else if($parametro->Parametro == 'SUSTANCIAS ACTIVAS AL AZUL DE METILENO (SAAM )'){
                 $htmlCaptura = view('exports.laboratorio.fq.espectro.saam.capturaBody', compact('textoProcedimiento'));
@@ -1307,9 +1337,18 @@ class FqController extends Controller
                 $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.capturaBody', compact('textoProcedimiento'));
                 $horizontal = false;
             }else if($parametro->Parametro == 'N-Nitritos'){
-                $textoProcedimiento = ReportesFq::where('Id_reporte', 1)->first();
-                $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento'));
-                $horizontal = false;
+                $horizontal = false;                
+                $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+
+                if(!is_null($data)){
+                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+                    $textoProcedimiento = ReportesFq::where('Id_reporte', 1)->first();
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }                                
             }else if($parametro->Parametro == 'SUSTANCIAS ACTIVAS AL AZUL DE METILENO (SAAM )'){
                 $textoProcedimiento = ReportesFq::where('Id_reporte', 12)->first();
                 $htmlCaptura = view('exports.laboratorio.fq.espectro.saam.capturaBody', compact('textoProcedimiento'));
@@ -1320,63 +1359,65 @@ class FqController extends Controller
                 $horizontal = true;
             }
  
-            if($horizontal === false){
+            /* if($horizontal === false){
                 $mpdf->SetJS('print("Valores predeterminados para el reporte. Rellena este campo.");');
             }else{
                 $mpdfH->SetJS('print("Valores predeterminados para el reporte. Rellena este campo.");');
-            }
+            } */
             
  
             //echo '<script type= alert("Valores predeterminados para el reporte. Rellena este campo."); </script>';
         }   
 
         //HEADER-FOOTER******************************************************************************************************************         
-        if($parametro->Parametro == 'Boro'){ //POR REVISAR EN LA TABLA DE DATOS
-            $htmlHeader = view('exports.laboratorio.fq.espectro.boro.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.espectro.boro.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'Cianuros (CN)-'){
-            $htmlHeader = view('exports.laboratorio.fq.espectro.cianuros.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.espectro.cianuros.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'Conductividad'){ //POR REVISAR EN LA TABLA DE DATOS
-            $htmlHeader = view('exports.laboratorio.fq.espectro.condElec.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.espectro.condElec.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'CROMO HEXAVALENTE (Cr+6)'){
-            $htmlHeader = view('exports.laboratorio.fq.espectro.cromoHex.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.espectro.cromoHex.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'Fosforo-Total'){
-            $htmlHeader = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'Materia flotante'){ //POR REVISAR EN LA TABLA DE DATOS
-            $htmlHeader = view('exports.laboratorio.fq.espectro.materiaF.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.espectro.materiaF.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'SILICE (SiO₂)'){
-            $htmlHeader = view('exports.laboratorio.fq.espectro.silice.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.espectro.silice.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'FENOLES TOTALES'){
-            $htmlHeader = view('exports.laboratorio.fq.espectro.fenoles.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.espectro.fenoles.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'FLUORUROS (F¯)'){
-            $htmlHeader = view('exports.laboratorio.fq.espectro.fluoruros.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.espectro.fluoruros.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'N-Nitratos'){
-            $htmlHeader = view('exports.laboratorio.fq.espectro.nitratos.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.espectro.nitratos.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'N-Nitritos'){                     
-            $htmlHeader = view('exports.laboratorio.fq.espectro.nitritos.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.espectro.nitritos.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'SUSTANCIAS ACTIVAS AL AZUL DE METILENO (SAAM )'){
-            $htmlHeader = view('exports.laboratorio.fq.espectro.saam.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.espectro.saam.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'SULFATOS (SO4˭)'){
-            $htmlHeader = view('exports.laboratorio.fq.espectro.sulfatos.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.espectro.sulfatos.capturaFooter', compact('usuario', 'firma'));
+        if($sw === true){        
+            if($parametro->Parametro == 'Boro'){ //POR REVISAR EN LA TABLA DE DATOS
+                $htmlHeader = view('exports.laboratorio.fq.espectro.boro.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.boro.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'Cianuros (CN)-'){
+                $htmlHeader = view('exports.laboratorio.fq.espectro.cianuros.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.cianuros.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'Conductividad'){ //POR REVISAR EN LA TABLA DE DATOS
+                $htmlHeader = view('exports.laboratorio.fq.espectro.condElec.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.condElec.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'CROMO HEXAVALENTE (Cr+6)'){
+                $htmlHeader = view('exports.laboratorio.fq.espectro.cromoHex.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.cromoHex.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'Fosforo-Total'){
+                $htmlHeader = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'Materia flotante'){ //POR REVISAR EN LA TABLA DE DATOS
+                $htmlHeader = view('exports.laboratorio.fq.espectro.materiaF.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.materiaF.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'SILICE (SiO₂)'){
+                $htmlHeader = view('exports.laboratorio.fq.espectro.silice.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.silice.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'FENOLES TOTALES'){
+                $htmlHeader = view('exports.laboratorio.fq.espectro.fenoles.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.fenoles.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'FLUORUROS (F¯)'){
+                $htmlHeader = view('exports.laboratorio.fq.espectro.fluoruros.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.fluoruros.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'N-Nitratos'){
+                $htmlHeader = view('exports.laboratorio.fq.espectro.nitratos.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.nitratos.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'N-Nitritos'){                     
+                $htmlHeader = view('exports.laboratorio.fq.espectro.nitritos.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.nitritos.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'SUSTANCIAS ACTIVAS AL AZUL DE METILENO (SAAM )'){
+                $htmlHeader = view('exports.laboratorio.fq.espectro.saam.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.saam.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'SULFATOS (SO4˭)'){
+                $htmlHeader = view('exports.laboratorio.fq.espectro.sulfatos.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.sulfatos.capturaFooter', compact('usuario', 'firma'));
+            }
         }                                  
 
-        if($horizontal === false){            
+        if($horizontal === false && $sw === true){            
             $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
             $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
             $mpdf->WriteHTML($htmlCaptura);            
-        }else{            
+        }else if($horizontal === true && $sw === true){            
             $mpdfH->setHeader("{PAGENO}<br><br>" . $htmlHeader);
             $mpdfH->SetHTMLFooter($htmlFooter, 'O', 'E');
             $mpdfH->WriteHTML($htmlCaptura);            
@@ -1510,11 +1551,11 @@ class FqController extends Controller
  
          //}
  
-        if($horizontal === false){            
+        if($horizontal === false && $sw === true){            
             $mpdf->CSSselectMedia = 'mpdf';
             $mpdf->Output();
 
-        }else{  //Es vertical la bitácora
+        }else if($horizontal === true && $sw === true){  //Es vertical la bitácora
             $mpdfH->CSSselectMedia = 'mpdf';
             $mpdfH->Output();
         }        

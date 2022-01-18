@@ -232,6 +232,62 @@
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade  active" id="formulaGlobal" role="tabpanel" aria-labelledby="formulaGlobal-tab">    
                 <div class="col-md-12">    
+
+                <div class="dqo">
+                  <div class="row">
+                    <div class="col-md-8">
+                        <table class="table table-sm">
+                            <thead>
+                              <tr>
+                                <th>Lote</th>
+                                <th>Fórmula</th>
+                                <th>Expresión</th>
+                                <th>Resultado</th>
+                                <th># decimal</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td></td>
+                                <td>Blanco</td>
+                                <td>A</td>
+                                <td></td>
+                                <td>2</td> 
+                              </tr>
+                              <tr>
+                                <td></td>
+                                <td>Molaridad</td>
+                                <td>(A*B*C)/D</td>
+                                <td></td>
+                                <td>3</td>
+                              </tr>
+                            </tbody>
+                        </table> 
+                        
+                    </div>
+                    <div class="col-md-4">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Parametro</th>
+                            <th>Desscripción</th>
+                            <th>Valor</th>
+                            <th>Tipo</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr>
+                            <td>A</td>
+                            <th>Vol de K2</th>
+                            <th></th>
+                            <th>C</th>
+                          </tr>
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
                   <div id="divTableFormulaGlobal">
                     <table class="table" id=""> 
                       <thead>

@@ -143,6 +143,7 @@
                     </div>
                   </div>
                   <div class="modal-body"> 
+                      <input type="text" id="idMuestra">
                       <div class="row">
                          <div class="col-md-12">
                             <table class="table">

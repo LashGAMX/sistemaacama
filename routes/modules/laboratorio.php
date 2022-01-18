@@ -76,6 +76,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getDataCapturaEspectro', [FqController::class, 'getDataCapturaEspectro']);
         Route::post('getDetalleEspectro', [FqController::class, 'getDetalleEspectro']);
         Route::post('operacionEspectro', [FqController::class, 'operacionEspectro']);
+        Route::post('guardarEspectro', [FqController::class, 'guardarEspectro']);
 
         Route::get('capturaGA', [FqController::class, 'capturaGA']);
         Route::post('getDataCapturaGA', [FqController::class, 'getDataCapturaGA']);

@@ -30,7 +30,7 @@ $('#ejecutarModal').click(function () {
     validacionModal(); 
 });
 $('#guardar').click(function (){
-    
+    guardar();
 });
 $('#btnLiberar').click(function () {
     // operacion();
@@ -146,22 +146,51 @@ function getDataCaptura() {
             });
 
 
-            $('#tablaControles tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                }
-                else {
-                    table.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                }
-            });
-            $('#tablaControles tr').on('click', function () {
-                let dato = $(this).find('td:first').html();
-                idMuestra = dato;
-            });
+            // $('#tablaControles tbody').on('click', 'tr', function () {
+            //     if ($(this).hasClass('selected')) {
+            //         $(this).removeClass('selected');
+            //     }
+            //     else {
+            //         table.$('tr.selected').removeClass('selected');
+            //         $(this).addClass('selected');
+            //     }
+            // });
+            // $('#tablaControles tr').on('click', function () {
+            //     let dato = $(this).find('td:first').html();
+            //     idMuestra = dato;
+            // });
             
             idLote = response.lote.Id_lote;            
             //imprimir(response.lote.Id_lote);
+        }
+    });
+}
+function guardar(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/guardarEspectro",
+        data: {
+            idMuestra: $("#idMuestra").val(),
+            fechaAnalisis: $("#fechaAnalisis").val(),
+            parametro: $('#formulaTipo').val(),
+            resultado: $('#resultadoF').val(),
+            ABS:$('#abs1').val(),
+            CA:$('#blanco1').val(),
+            CB:$('#b1').val(),
+            CM:$('#m1').val(),
+            CR:$('#r1').val(),
+            D:$('#fDilucion1').val(),
+            E:$('#e1').val(),
+            X:$('#abs11').val(),
+            Y:$('#abs21').val(),
+            Z:$('#abs31').val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) { 
+            console.log(response);
+            
+            
         }
     });
 }
@@ -205,6 +234,7 @@ function getDetalleEspectro(idDetalle)
         dataType: "json",
         success: function (response) { 
             console.log(response);
+            $("#idMuestra").val(idDetalle);
             $("#blanco1").val(response.model.Blanco);
             $("#b1").val(response.curva.B);
             $("#m1").val(response.curva.M);
@@ -229,9 +259,6 @@ function imprimir() {
         window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaEspectro/" + idLote;
     //});
 }
-function guardar() {
-    
-}
 
 function operacion() {
 
@@ -246,7 +273,7 @@ function operacion() {
             CM:$('#m1').val(),
             CR:$('#r1').val(),
             D:$('#fDilucion1').val(),
-            E:$('#e1').val(),
+            E:$('#volMuestra1').val(),
             X:$('#abs11').val(),
             Y:$('#abs21').val(),
             Z:$('#abs31').val(),
@@ -260,6 +287,7 @@ function operacion() {
           $("#abs2").val(x); 
           let resultado = response.resultado.toFixed(3);
           $("#resultadoF").val(resultado); 
+          $("#fDilucion1").val(response.d)
         }
     });
 }

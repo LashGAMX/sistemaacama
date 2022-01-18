@@ -45,29 +45,29 @@
             </thead>
     
             <tbody>
-                {{-- @for ($i = 0; $i < 100 ; $i++) --}}
+                @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">{{@$data[$i]->Folio_servicio}}</td>
+                        <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
+                        <td class="tableContent">{{@$data[$i]->Abs1}}</td>
+                        <td class="tableContent">{{@$data[$i]->Abs2}}</td>
+                        <td class="tableContent">{{@$data[$i]->Abs3}}</td>
+                        <td class="tableContent">{{@$data[$i]->Promedio}}</td>
+                        <td class="tableContent">{{@$data[$i]->Nitritos}}</td>
+                        <td class="tableContent">OBS DE PRUEBA</td>
+                        <td class="tableContent">LIBERADO</td>
+                        <td class="tableContent">{{@$data[$i]->Descripcion}}</td>
                     </tr>                
-                {{-- @endfor --}}
+                @endfor
             </tbody>        
         </table>  
     </div>
 
     <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: PRUEBA</span> <br>
-        <span>Absorbancia B2: PRUEBA</span> <br>
-        <span>Absorbancia B3: PRUEBA</span> <br>
-        <span>RESULTADO BLANCO: PRUEBA</span>
+        <span><br> Absorbancia B1: {{@$data[0]->Abs1}}</span> <br>
+        <span>Absorbancia B2: {{@$data[0]->Abs2}}</span> <br>
+        <span>Absorbancia B3: {{@$data[0]->Abs3}}</span> <br>
+        <span>RESULTADO BLANCO: {{@$data[0]->Blanco}}</span>
     </div>
 
     <br>
@@ -88,21 +88,21 @@
                 {{-- @for ($i = 0; $i < 100 ; $i++) --}}
                     <tr>
                         <td class="tableCabecera">b = </td>
-                        <td class="tableContent">PRUEBA</td>                        
+                        <td class="tableContent">{{@$curva->B}}</td>                        
                         <td class="tableCabecera">Fecha de preparación: </td>
-                        <td class="tableContent">PRUEBA</td>                                                
+                        <td class="tableContent">12/01/2022</td>                                                
                     </tr>
 
                     <tr>
                         <td class="tableCabecera">m = </td>
-                        <td class="tableContent">PRUEBA</td>                        
+                        <td class="tableContent">{{@$curva->M}}</td>                        
                         <td class="tableCabecera">Límite de cuantificación: </td>
                         <td class="tableContent">PRUEBA</td>
                     </tr>
 
                     <tr>
                         <td class="tableCabecera">r = </td>
-                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">{{@$curva->R}}</td>
                     </tr>
                 {{-- @endfor --}}
             </tbody>        

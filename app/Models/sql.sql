@@ -291,7 +291,7 @@ ON tipo.Id_area = areas.Id_area_analisis
 
 /* Lista  ViewLoteDetalleEspectro */
 CREATE VIEW ViewLoteDetalleEspectro as SELECT 
-det.Id_detalle,det.Id_lote,det.Id_analisis,sol.Folio_servicio,det.Id_parametro,param.Parametro,det.Descripcion,det.Abs1,det.Abs2,det.Abs3,
+det.Id_detalle,det.Id_lote,det.Id_analisis,sol.Folio_servicio,det.Id_parametro,param.Parametro,det.Descripcion, det.Resultado, det.Promedio,det.Abs1,det.Abs2,det.Abs3,
 det.De_color,det.Nitratos,det.Nitritos,det.Sulfuros,det.Blanco,det.Vol_aforo,det.Vol_destilacion,det.Vol_muestra,det.created_at,det.updated_at,det.deleted_at
 FROM lote_detalle_espectro as det 
 INNER JOIN ViewSolicitud as sol
