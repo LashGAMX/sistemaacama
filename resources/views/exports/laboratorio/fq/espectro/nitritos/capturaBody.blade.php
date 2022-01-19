@@ -53,7 +53,7 @@
                         <td class="tableContent">{{@$data[$i]->Abs2}}</td>
                         <td class="tableContent">{{@$data[$i]->Abs3}}</td>
                         <td class="tableContent">{{@$data[$i]->Promedio}}</td>
-                        <td class="tableContent">{{@$data[$i]->Nitritos}}</td>
+                        <td class="tableContent">{{@$data[$i]->Resultado}}</td>
                         <td class="tableContent">OBS DE PRUEBA</td>
                         <td class="tableContent">LIBERADO</td>
                         <td class="tableContent">{{@$data[$i]->Descripcion}}</td>
@@ -90,7 +90,7 @@
                         <td class="tableCabecera">b = </td>
                         <td class="tableContent">{{@$curva->B}}</td>                        
                         <td class="tableCabecera">Fecha de preparación: </td>
-                        <td class="tableContent">12/01/2022</td>                                                
+                        <td class="tableContent">18/01/2022</td>                                                
                     </tr>
 
                     <tr>
