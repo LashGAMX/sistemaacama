@@ -350,7 +350,7 @@ function getDatalote()
                     type: "POST",
                     url: base_url + "/admin/laboratorio/"+area+"/getDataLote/plantillaPredeterminada",
                     data: {
-                        idLote: 0,
+                        idLote: $("#idLoteHeader").val(),
                         _token: $('input[name="_token"]').val(),
                     },
                     dataType: "json",

@@ -533,9 +533,31 @@ class MbController extends Controller
     }
 
     public function getPlantillaPred(Request $request){
-        $plantillaPredeterminada = ReportesMb::where('Id_lote', $request->idLote)->first();
+
+        //Obtiene el parámetro que se está consultando
+        $parametro = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->first();
+        
+        if($parametro->Parametro == 'COLIFORMES FECALES'){
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 1)->first();
+        }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO CON INOCULO (DBO5)'){
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 2)->first();
+        }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 3)->first();
+        }else if($parametro->Parametro == 'OXIGENO DISUELTO'){
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 4)->first();
+        }else if($parametro->Parametro == 'HUEVOS DE HELMINTO'){
+            $plantillaPredeterminada = ReportesMb::where('Id_reporte', 0)->first();
+        }else{
+            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 0)->first();
+        }        
+        
         return response()->json($plantillaPredeterminada);
     }
+
+    /* public function getPlantillaPred(Request $request){
+        $plantillaPredeterminada = ReportesMb::where('Id_lote', $request->idLote)->first();
+        return response()->json($plantillaPredeterminada);
+    } */
 
     public function asignar()
     {

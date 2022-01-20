@@ -111,19 +111,19 @@
                     <td class="tableContent2 anchoColumna">mL TITULADOS DE DICROMATO DE POTASIO (1)</td>
                     <td class=""></td>
                     <td class="tableContent2 anchoColumna">9.9</td>
-                </tr>
+                </tr>                
 
                 <tr>
                     <td class="tableContent2 anchoColumna">mL TITULADOS DE DICROMATO DE POTASIO (2)</td>
                     <td class=""></td>
                     <td class="tableContent2 anchoColumna">9.9</td>
-                </tr>
+                </tr>                
 
                 <tr>
                     <td class="tableContent2 anchoColumna">mL TITULADOS DE DICROMATO DE POTASIO (3)</td>
                     <td class=""></td>
                     <td class="tableContent2 anchoColumna">9.9</td>
-                </tr>
+                </tr>                
 
                 <tr>
                     <td class="tableContent2 anchoColumna">RESULTADO NORMALIDAD REAL</td>
