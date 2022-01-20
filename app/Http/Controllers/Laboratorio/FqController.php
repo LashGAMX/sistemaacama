@@ -1282,14 +1282,14 @@ class FqController extends Controller
         ]);
  
          //Establece la marca de agua del documento PDF
-         /* $mpdf->SetWatermarkImage(
-             asset('storage/HojaMembretadaHorizontal.png'),
-             1,
-             array(215, 280),
-             array(0, 0),
-         ); */
+        //  $mpdf->SetWatermarkImage(
+        //      asset('HojaMembretada2.png'),
+        //      1,
+        //      array(215, 280),
+        //      array(0, 0),
+        //  ); 
  
-         //$mpdf->showWatermarkImage = true;         
+        //  $mpdf->showWatermarkImage = true;         
 
          $id_lote = $idLote;
          $semaforo = true;
