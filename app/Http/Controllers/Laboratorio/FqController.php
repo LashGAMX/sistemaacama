@@ -683,41 +683,80 @@ class FqController extends Controller
     }
 
     public function getPlantillaPred(Request $request){
+        $bandera = '';
 
         //Obtiene el parámetro que se está consultando
         $parametro = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->first();
-        
-        if($parametro->Parametro == 'N-Nitritos'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 1)->first();
-        }else if($parametro->Parametro == 'N-Nitratos'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 2)->first();
-        }else if($parametro->Parametro == 'BORO (B)'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 3)->first();
-        }else if($parametro->Parametro == 'Cianuros (CN)-'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 4)->first();
-        }else if($parametro->Parametro == 'Conductividad'){ //POR VERIFICAR EN LA TABLA DE PARAMETROS
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 5)->first();
-        }else if($parametro->Parametro == 'CROMO HEXAVALENTE (Cr+6)'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 6)->first();
-        }else if($parametro->Parametro == 'Fosforo-Total'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 7)->first();
-        }else if($parametro->Parametro == 'Materia Flotante'){ //POR VERIFICAR EN LA TABLA DE PARAMETROS
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 8)->first();
-        }else if($parametro->Parametro == 'SILICE (SiO₂)'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 9)->first();
-        }else if($parametro->Parametro == 'FENOLES TOTALES'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 10)->first();
-        }else if($parametro->Parametro == 'FLUORUROS (F¯)'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 11)->first();
-        }else if($parametro->Parametro == 'SUSTANCIAS ACTIVAS AL AZUL DE METILENO (SAAM )'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 12)->first();
-        }else if($parametro->Parametro == 'SULFATOS (SO4˭)'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 13)->first();
+
+        if(is_null($parametro)){
+            $parametro = DB::table('ViewLoteDetalleGA')->where('Id_lote', $request->idLote)->first();
+
+            if(!is_null($parametro)){
+                $bandera = 'ga';
+            }            
         }else{
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 0)->first();
-        }        
+            $bandera = 'espectro';
+        }
         
-        return response()->json($plantillaPredeterminada);
+        if($bandera === 'espectro'){
+            if($parametro->Parametro == 'N-Nitritos'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 1)->first();
+            }else if($parametro->Parametro == 'N-Nitratos'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 2)->first();
+            }else if($parametro->Parametro == 'BORO (B)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 3)->first();
+            }else if($parametro->Parametro == 'Cianuros (CN)-'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 4)->first();
+            }else if($parametro->Parametro == 'Conductividad'){ //POR VERIFICAR EN LA TABLA DE PARAMETROS
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 5)->first();
+            }else if($parametro->Parametro == 'CROMO HEXAVALENTE (Cr+6)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 6)->first();
+            }else if($parametro->Parametro == 'Fosforo-Total'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 7)->first();
+            }else if($parametro->Parametro == 'Materia Flotante'){ //POR VERIFICAR EN LA TABLA DE PARAMETROS
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 8)->first();
+            }else if($parametro->Parametro == 'SILICE (SiO₂)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 9)->first();
+            }else if($parametro->Parametro == 'FENOLES TOTALES'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 10)->first();
+            }else if($parametro->Parametro == 'FLUORUROS (F¯)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 11)->first();
+            }else if($parametro->Parametro == 'SUSTANCIAS ACTIVAS AL AZUL DE METILENO (SAAM )'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 12)->first();
+            }else if($parametro->Parametro == 'SULFATOS (SO4˭)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 13)->first();
+            }else{
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 0)->first();
+            } 
+        }else if($bandera === 'ga'){
+            if($parametro->Parametro == 'Grasas y Aceites ++'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 0)->first();                
+            }else if($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 14)->first();                
+            }else if($parametro->Parametro == 'SOLIDOS DISUELTOS TOTALES (SDT)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 15)->first();                
+            }else if($parametro->Parametro == 'SOLIDOS DISUELTOS VOLÁTILES (SDV)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 16)->first();                
+            }else if($parametro->Parametro == 'SOLIDOS SEDIMENTABLES (S.S)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 17)->first();                
+            }else if($parametro->Parametro == 'SOLIDOS SUSPENDIDOS FIJOS (SSF)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 18)->first();                
+            }else if($parametro->Parametro == 'SOLIDOS SUSPENDIDOS TOTALES (SST)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 19)->first();                
+            }else if($parametro->Parametro == 'SOLIDOS SUSPENDIDOS VOLÁTILES (SSV)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 20)->first();                
+            }else if($parametro->Parametro == 'SOLIDOS TOTALES (ST)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 21)->first();                
+            }else if($parametro->Parametro == 'SOLIDOS TOTALES FIJOS (STF)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 22)->first();                
+            }else if($parametro->Parametro == 'SOLIDOS TOTALES VOLATILES (STV)'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 23)->first();                
+            }
+        }           
+        
+        if(!is_null($plantillaPredeterminada)){
+            return response()->json($plantillaPredeterminada);
+        }        
     }
 
     public function asignar()
@@ -1282,14 +1321,14 @@ class FqController extends Controller
         ]);
  
          //Establece la marca de agua del documento PDF
-         /* $mpdf->SetWatermarkImage(
-             asset('storage/HojaMembretadaHorizontal.png'),
-             1,
-             array(215, 280),
-             array(0, 0),
-         ); */
+        /* $mpdf->SetWatermarkImage(
+            asset('storage/HojaMembretada2.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
  
-         //$mpdf->showWatermarkImage = true;         
+        $mpdf->showWatermarkImage = true; */
 
          $id_lote = $idLote;
          $semaforo = true;
@@ -1851,8 +1890,22 @@ class FqController extends Controller
            //Hoja1
             
             if($parametro->Parametro == 'Grasas y Aceites ++'){ //FALTA AÑADIRLE LA SEGUNDA HOJA
-                $htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
-                $horizontal = false;
+                $horizontal = false;                
+                //$data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+
+                //if(!is_null($data)){                         
+                    //$curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    //$dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento',));
+
+                    $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+                    $htmlCaptura1 = view('exports.laboratorio.fq.ga.captura1Body');
+                    $mpdf->WriteHTML($htmlCaptura1);
+                /* }else{
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                } */
+                
             }else if($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)'){
                 $htmlCaptura = view('exports.laboratorio.fq.sdf.capturaBody', compact('textoProcedimiento'));
                 $horizontal = false;
@@ -1886,9 +1939,19 @@ class FqController extends Controller
             }
         }else{                        
             if($parametro->Parametro == 'Grasas y Aceites ++'){
-                $textoProcedimiento = ReportesFq::where('Id_reporte', 0)->first();
-                $htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
-                $horizontal = false;
+                $horizontal = false;                
+                //$data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+
+                /* if(!is_null($data)){
+                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count(); */
+                    $textoProcedimiento = ReportesFq::where('Id_reporte', 0)->first();
+                                        
+                    $htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));                                          
+                //}else{
+                    /* $sw = false;
+                    $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                } */                 
             }else if($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)'){
                 $textoProcedimiento = ReportesFq::where('Id_reporte', 14)->first();
                 $htmlCaptura = view('exports.laboratorio.fq.sdf.capturaBody', compact('textoProcedimiento'));
@@ -1980,7 +2043,18 @@ class FqController extends Controller
         if($horizontal === false){            
             $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
             $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-            $mpdf->WriteHTML($htmlCaptura);            
+            $mpdf->WriteHTML($htmlCaptura);   
+            
+            if($parametro->Parametro = 'Grasas y Aceites ++'){
+                $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+                    
+                $htmlCaptura1 = view('exports.laboratorio.fq.ga.captura1Body');
+                $htmlCurvaHeader = view('exports.laboratorio.fq.ga.capturaHeader', compact('fechaConFormato'));
+                $htmlCurvaFooter = view('exports.laboratorio.fq.ga.capturaFooter', compact('usuario', 'firma'));
+                $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlCurvaHeader, 'O', 'E');
+                $mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E');
+                $mpdf->WriteHTML($htmlCaptura1);
+            }
         }else{            
             $mpdfH->setHeader("{PAGENO}<br><br>" . $htmlHeader);
             $mpdfH->SetHTMLFooter($htmlFooter, 'O', 'E');
