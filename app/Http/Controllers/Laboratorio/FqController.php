@@ -1288,6 +1288,35 @@ class FqController extends Controller
             compact('sembradoFqModel', 'pruebaPresuntivaModel','pruebaConfirmativaModel', 'dqoModel')
         );
     }
+    //todo *******************************************
+    //todo Inicio Seccion de Volumetria
+    //todo *******************************************
+    public function capturaVolumetria()
+    {
+        $parametro = Parametro::where('Id_area', 14)->get();
+        // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
+        // var_dump($parametro); 
+        return view('laboratorio.fq.capturaVolumetria', compact('parametro')); 
+    }
+    
+    //todo *******************************************
+    //todo Fin Seccion de Volumetria
+    //todo *******************************************
+
+    //todo *******************************************
+    //todo Inicio Seccion de Volumetria
+    //todo *******************************************
+    public function capturaGravi()
+    {
+        $parametro = Parametro::where('Id_area', 11)->get();
+        // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
+        // var_dump($parametro); 
+        return view('laboratorio.fq.capturaGravi', compact('parametro')); 
+    }
+    
+    //todo *******************************************
+    //todo Fin Seccion de Volumetria
+    //todo *******************************************
 
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
     public function exportPdfCapturaEspectro($idLote)

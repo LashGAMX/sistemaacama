@@ -82,6 +82,10 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getDataCapturaGA', [FqController::class, 'getDataCapturaGA']);
         Route::post('getDetalleGA', [FqController::class, 'getDetalleGA']);
         Route::post('operacionGA', [FqController::class, 'operacionGA']);
+
+        Route::get('capturaVolumetria', [FqController::class, 'capturaVolumetria']);
+
+        Route::get('capturaGravi', [FqController::class, 'capturaGravi']);
         
         // Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
         // Route::post('getDataCapturaEspectro', [FqController::class, 'getDataCapturaEspectro']);

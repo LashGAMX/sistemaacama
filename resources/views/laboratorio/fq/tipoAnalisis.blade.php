@@ -27,7 +27,7 @@
           </div>
                       
           <div class="col-md-3">
-            <a href="{{url('')}}/admin/laboratorio/fq/captura">
+            <a href="{{url('')}}/admin/laboratorio/fq/capturaGravi">
                   <div class="panel widget center bgimage">
                       <div class="dimmer"></div>
                       <div class="panel-content">
@@ -38,7 +38,7 @@
               </a>
           </div>      
           <div class="col-md-3">
-            <a href="{{route('voyager.hist-clientes.index')}}">
+            <a href="{{url('')}}/admin/laboratorio/fq/capturaVolumetria">
                 <div class="panel widget center bgimage">
                     <div class="dimmer"></div>
                     <div class="panel-content">
