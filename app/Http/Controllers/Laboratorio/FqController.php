@@ -239,6 +239,7 @@ class FqController extends Controller
                 $data = array( 
                     'x' => $x,
                     'resultado' => $resultado,
+                    'd' => $d,
                     
                 ); 
                 return response()->json($data); 
