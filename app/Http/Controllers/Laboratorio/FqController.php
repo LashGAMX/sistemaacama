@@ -168,6 +168,7 @@ class FqController extends Controller
         $model->Abs2 = $request->Y;
         $model->Abs3 = $request->Z;
         $model->Promedio = $request->ABS;
+        $model->Vol_dilucion = $request->D;
         $model->Vol_muestra = $request->E;
         $model->Blanco = $request->CA;
         $model->save();
@@ -1321,8 +1322,7 @@ class FqController extends Controller
         ]);
  
          //Establece la marca de agua del documento PDF
-<<<<<<< HEAD
-        //  $mpdf->SetWatermarkImage(
+        //  $mpdf->SetWatermarkImage( 
         //      asset('HojaMembretada2.png'),
         //      1,
         //      array(215, 280),
@@ -1330,16 +1330,6 @@ class FqController extends Controller
         //  ); 
  
         //  $mpdf->showWatermarkImage = true;         
-=======
-        /* $mpdf->SetWatermarkImage(
-            asset('storage/HojaMembretada2.png'),
-            1,
-            array(215, 280),
-            array(0, 0),
-        );
- 
-        $mpdf->showWatermarkImage = true; */
->>>>>>> 369ed697da4fcc7f6dc24431829a8d20845e1b35
 
          $id_lote = $idLote;
          $semaforo = true;

@@ -28,6 +28,7 @@ class LoteDetalleEspectro extends Model
         'Nitritos',
         'Sulfuros',
         'Blanco',
+        'Vol_dilucion',
         'Vol_aforo',
         'Vol_destilacion',
         'Vol_muestra',

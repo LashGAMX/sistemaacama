@@ -31,6 +31,7 @@ $('#ejecutarModal').click(function () {
 });
 $('#guardar').click(function (){
     guardar();
+    alert('Guardado');
 });
 $('#btnLiberar').click(function () {
     // operacion();
@@ -236,17 +237,23 @@ function getDetalleEspectro(idDetalle)
             console.log(response);
             $("#idMuestra").val(idDetalle);
             $("#blanco1").val(response.model.Blanco);
+            $("#blanco2").val(response.model.Blanco);
             $("#b1").val(response.curva.B);
             $("#m1").val(response.curva.M);
             $("#r1").val(response.curva.R);
             $("#b2").val(response.curva.B);
             $("#m2").val(response.curva.M);
             $("#r2").val(response.curva.R);
-            $("#fDilucion1").val(response.model.Vol_muestra);
-            // $("#volMuestra1").val(response.model);
+            $("#fDilucion1").val(response.model.Vol_dilusion);
+            $("#fDilucion2").val(response.model.Vol_dilusion);
+            $("#volMuestra1").val(response.model.Vol_muestra);
+            $("#volMuestra2").val(response.model.Vol_muestra);
             $("#abs11").val(response.model.Abs1);
             $("#abs21").val(response.model.Abs2);
             $("#abs31").val(response.model.Abs3);
+            $("#abs12").val(response.model.Abs1);
+            $("#abs22").val(response.model.Abs2);
+            $("#abs32").val(response.model.Abs3);
         }
     });
 }
@@ -287,7 +294,9 @@ function operacion() {
           $("#abs2").val(x); 
           let resultado = response.resultado.toFixed(3);
           $("#resultadoF").val(resultado); 
-          $("#fDilucion1").val(response.d)
+          let d = response.d.toFixed(3);
+          $("#fDilucion1").val(d);
+          $("#fDilucion2").val(d);
         }
     });
 }
