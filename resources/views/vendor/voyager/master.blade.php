@@ -120,6 +120,7 @@ if (\Illuminate\Support\Str::startsWith(Auth::user()->avatar, 'http://') || \Ill
                 <div id="voyager-notifications"></div> 
                 @yield('content')
             </div> 
+       
         </div>
     </div>
 </div>

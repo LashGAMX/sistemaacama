@@ -198,25 +198,24 @@ function guardar(){
 function validacionModal(){
     if($("#blanco1").val()!= $("#blanco2").val())
     {
-        let atribute = document.getElementById("#blanco2");
-        //atribute.setAttribute("style", "border-color:#dc3545");
+        alert('Los valores de BLANCO no son iguales')
         console.log('no valido'); 
     }
     if($("#volMuestra1").val()!= $("#volMuestra2").val())
     {
-
+        alert('Los valores de VOLUMEN MUESTRA no son iguales')
     }
     if($("#abs11").val()!= $("#abs12").val())
     {
- 
+        alert('Los valores de ABS no son iguales')
     }
     if($("#abs21").val()!= $("#abs22").val())
     {
-        
+        alert('Los valores de ABS no son iguales')
     }
     if($("#abs31").val()!= $("#abs32").val())
     {
-
+        alert('Los valores de ABS no son iguales')
     }
     else
     {

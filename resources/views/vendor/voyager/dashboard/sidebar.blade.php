@@ -30,7 +30,14 @@
 
         </div>
         <div id="adminmenu">
+            @php
+                $idRol = Auth::user()->role->id;
+            @endphp
+            @if ($idRol == 10)
+            <admin-menu :items="{{ menu('lab', '_json') }}"></admin-menu>
+            @else
             <admin-menu :items="{{ menu('admin', '_json') }}"></admin-menu>
+            @endif
         </div>
     </nav>
 </div>

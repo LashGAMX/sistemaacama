@@ -1288,6 +1288,35 @@ class FqController extends Controller
             compact('sembradoFqModel', 'pruebaPresuntivaModel','pruebaConfirmativaModel', 'dqoModel')
         );
     }
+    //todo *******************************************
+    //todo Inicio Seccion de Volumetria
+    //todo *******************************************
+    public function capturaVolumetria()
+    {
+        $parametro = Parametro::where('Id_area', 14)->get();
+        // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
+        // var_dump($parametro); 
+        return view('laboratorio.fq.capturaVolumetria', compact('parametro')); 
+    }
+    
+    //todo *******************************************
+    //todo Fin Seccion de Volumetria
+    //todo *******************************************
+
+    //todo *******************************************
+    //todo Inicio Seccion de Volumetria
+    //todo *******************************************
+    public function capturaGravi()
+    {
+        $parametro = Parametro::where('Id_area', 11)->get();
+        // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
+        // var_dump($parametro); 
+        return view('laboratorio.fq.capturaGravi', compact('parametro')); 
+    }
+    
+    //todo *******************************************
+    //todo Fin Seccion de Volumetria
+    //todo *******************************************
 
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
     public function exportPdfCapturaEspectro($idLote)
@@ -1897,11 +1926,44 @@ class FqController extends Controller
                 //if(!is_null($data)){                         
                     //$curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
                     //$dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
-                    $htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento',));
+                                        
+                    $data = array();
+                    
+                    $calMatraz = CalentamientoMatraz::where('Id_lote', $id_lote)->get();
+                    if(!is_null($calMatraz)){
+                        array_push($data, $calMatraz);
+                    }else{
+                        array_push($data, null);
+                    }
 
-                    $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
-                    $htmlCaptura1 = view('exports.laboratorio.fq.ga.captura1Body');
-                    $mpdf->WriteHTML($htmlCaptura1);
+                    $enfMatraces = EnfriadoMatraces::where('Id_lote', $id_lote)->get();
+                    if(!is_null($enfMatraces)){
+                        array_push($data, $enfMatraces);
+                    }else{
+                        array_push($data, null);
+                    }
+                    
+                    $secCartuchos = SecadoCartucho::where('Id_lote', $id_lote)->first();
+                    if(!is_null($secCartuchos)){
+                        array_push($data, $secCartuchos);
+                    }else{
+                        array_push($data, null);
+                    }
+
+                    $tiempoReflujo = TiempoReflujo::where('Id_lote', $id_lote)->first();
+                    if(!is_null($tiempoReflujo)){
+                        array_push($data, $tiempoReflujo);
+                    }
+
+                    $enfMatraz = EnfriadoMatraz::where('Id_lote', $id_lote)->first();
+                    if(!is_null($enfMatraz)){
+                        array_push($data, $enfMatraz);
+                    }
+
+                    print_r($data);
+                    
+                    $htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));
+                    
                 /* }else{
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -1947,7 +2009,39 @@ class FqController extends Controller
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count(); */
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 0)->first();
+                    
+                    /* $calentamientoMatraz = array();
+                    $calMatraz = CalentamientoMatraz::where('Id_lote', $id_lote)->get();
+                    if(!is_null($calMatraz)){
+                        array_push($calentamientoMatraz, $calMatraz);
+                    }else{
+                        array_push($calentamientoMatraz, null);
+                    }
+
+                    $enfriamientoMatraces = array();
+                    $enfMatraces = EnfriadoMatraces::where('Id_lote', $id_lote)->get();
+                    if(!is_null($enfMatraces)){
+                        array_push($enfriamientoMatraces, $enfMatraces);
+                    }else{
+                        array_push($enfriamientoMatraces, null);
+                    }
                                         
+                    $secCartuchos = SecadoCartucho::where('Id_lote', $id_lote)->first();                    
+
+                    $tiempoReflujo = TiempoReflujo::where('Id_lote', $id_lote)->first();                    
+
+                    $enfMatraz = EnfriadoMatraz::where('Id_lote', $id_lote)->first();                    
+                    
+                    $dataPrueba = array(
+                        'calMatraz' => $calentamientoMatraz,
+                        'enfMatraces' => $enfriamientoMatraces,
+                        'secCartuchos' => $secCartuchos,
+                        'tiempoReflujo' => $tiempoReflujo,
+                        'enfMatraz' => $enfMatraz
+                    );
+
+                    print_r($dataPrueba); */
+                    
                     $htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento'));                                          
                 //}else{
                     /* $sw = false;
