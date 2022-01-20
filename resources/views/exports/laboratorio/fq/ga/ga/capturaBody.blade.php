@@ -101,15 +101,15 @@
         <tbody>
             <tr>
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$calMatraces[0]->Temperatura}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$calMatraces[0]->Entrada}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$calMatraces[0]->Salida}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
@@ -119,15 +119,15 @@
                 
             <tr>
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$calMatraces[1]->Temperatura}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$calMatraces[1]->Entrada}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$calMatraces[1]->Salida}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
@@ -137,15 +137,15 @@
 
             <tr>
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$calMatraces[2]->Temperatura}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$calMatraces[2]->Entrada}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$calMatraces[2]->Salida}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
@@ -192,15 +192,15 @@
         <tbody>
             <tr>
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$enfMatraces[0]->Entrada}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$enfMatraces[0]->Salida}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$enfMatraces[0]->Pesado_matraz}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
@@ -210,15 +210,15 @@
                 
             <tr>
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$enfMatraces[1]->Entrada}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$enfMatraces[1]->Salida}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$enfMatraces[1]->Pesado_matraz}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
@@ -228,15 +228,15 @@
 
             <tr>
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$enfMatraces[2]->Entrada}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$enfMatraces[2]->Salida}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$enfMatraces[2]->Pesado_matraz}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
