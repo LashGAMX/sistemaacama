@@ -1479,7 +1479,7 @@ class FqController extends Controller
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
                     
                     //INSTRUCCIÓN DE PRUEBA PARA BITÁCORAS DE VOLUMETRÍA
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                    $htmlCaptura = view('exports.laboratorio.fq.sdf.capturaBody', compact('textoProcedimiento'));
                     //$htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
@@ -1617,7 +1617,7 @@ class FqController extends Controller
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 1)->first();
                     
                     //INSTRUCCIÓN DE PRUEBA PARA BITÁCORAS DE VOLUMETRÍA
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                     //$htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;

@@ -96,9 +96,10 @@
                       </div> --}}
                 </div>
                 <div class="col-md-2">
-
+                    <button class="btn btn-secondary" id="btnGenControlInd">Generar control</button>
+                </div>
+                <div class="col-md-2">
                     <button class="btn btn-secondary" id="btnGenControl" onclick="generarControles();">Generar controles</button>
-
                 </div>
 
                 <div class="col-md-1">

@@ -35,6 +35,9 @@
     <li class="nav-item" role="menu">
       <a class="nav-link" id="procedimiento-tab" data-toggle="tab" href="#procedimiento" role="tab" aria-controls="procedimiento" aria-selected="false">Procedimiento</a>
     </li>
+    <li class="nav-item" role="menu">
+      <a class="nav-link" id="matrizGA-tab" data-toggle="tab" href="#matrizGA" role="tab" aria-controls="matrizGA" aria-selected="false">Matriz GA</a>
+    </li>
   </ul>
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade  active" id="Tipo" role="tabpanel" aria-labelledby="Tipo-tab">  
@@ -60,6 +63,9 @@
     </div>
     <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">
       @livewire('config.procedimiento',['idUser'=>$idUser])
+    </div>
+    <div class="tab-pane fade" id="matrizGA" role="tabpanel" aria-labelledby="matrizGA-tab">
+      @livewire('config.matriz-g-a',['idUser'=>$idUser])
     </div>
   </div>
 @endsection   

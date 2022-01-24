@@ -25,7 +25,7 @@
         </div>
         <div class="clearfix container-fluid row">
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/config/laboratorio">
+                    <a href="{{url('/admin/config/laboratorio')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/laboratory.jpg');">
                         <div class="dimmer"></div>
@@ -38,7 +38,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/config/analisis">
+                    <a href="{{url('/admin/config/analisis')}}">
                     <div class=" panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/analysis.jpg');">
                         <div class="dimmer"></div>
@@ -51,7 +51,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/tipo-servicios">
+                <a href="{{url('/config/tipo-servicios')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx/admin/voyager-assets?path=images%2Fwidget-backgrounds%2F02.jpg');">
                         <div class="dimmer"></div>
@@ -64,7 +64,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/costo-muestreo">
+                <a href="{{url('/config/costo-muestreo')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/accountancy.jpg');">
                         <div class="dimmer"></div>
@@ -79,7 +79,7 @@
 
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/localidades">
+                <a href="{{url('/config/localidades')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/localities-min.jpg');">
                         <div class="dimmer"></div>
@@ -92,7 +92,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/estados">
+                <a href="{{url('/config/estados')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/mexicoMap.jpg');">
                         <div class="dimmer"></div>
@@ -105,7 +105,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/config/campo">
+                <a href="{{url('/config/campo')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/fieldEngineering.jpg');">
                         <div class="dimmer"></div>
@@ -118,7 +118,7 @@
             </div>  
             
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/areas-lab">
+                <a href="{{url('/config/areas-lab')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/labArea.jpg');">
                         <div class="dimmer"></div>
@@ -131,7 +131,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/areas-categoria">
+                <a href="{{url('/config/areas-categoria')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/categoryLab.jpg');">
                         <div class="dimmer"></div>
@@ -144,7 +144,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/materiales-lab">
+                    <a href="{{url('/config/areas-categoria')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/testTube.jpg');">
                         <div class="dimmer"></div>

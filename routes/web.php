@@ -6,6 +6,7 @@ use App\Http\Controllers\Cotizacion\SolicitudController;
 use App\Http\Controllers\Home\HomeController;
 use App\Http\Controllers\Pruebas\PruebaController;
 use App\Http\Middleware\Authenticate;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 
@@ -24,16 +25,12 @@ Route::get('/', function () {
  return redirect()->to('admin');
 });
 
-Route::get('/editorTexto', function(){
-    return view('editor.editor');
-});
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
-
 Route::group(['prefix' => 'clientes'], function () {
     Route::get('orden_servicio/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
 });
 
-Route::get('animacion', [BetoController::class,'animacion']);
+// Route::get('animacion', [BetoController::class,'animacion']);
