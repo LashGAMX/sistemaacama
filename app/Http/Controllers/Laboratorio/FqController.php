@@ -16,6 +16,7 @@ use App\Models\estandares;
 use App\Models\TecnicaLoteMetales;
 use App\Models\BlancoCurvaMetales;
 use App\Models\CalentamientoMatraz;
+use App\Models\ControlCalidad;
 use App\Models\CurvaCalibracionMet;
 use App\Models\VerificacionMetales;
 use App\Models\EstandarVerificacionMet;
@@ -289,66 +290,7 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
-    // todo Captura GA
-    public function operacionGA(Request $request)
-    { 
-        $mf = (($request->R/1000000) * $request->I)+$request->P;
-        $m1 = $mf + 0.0001;
-        $m2 = $m1 + 0.0001;
-        $m3 = $m2 + 0.0001;
 
-
-        $data = array( 
-           'mf' => $mf,
-           'm1' => $m1,
-           'm2' => $m2,
-           'm3' => $m3,
-            
-        ); 
-        return response()->json($data); 
-    }
-    public function capturaGA()  
-    {
-        $parametro = Parametro::where('Id_area', 13)->get();
-        // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
-        // var_dump($parametro); 
-        return view('laboratorio.fq.capturaGA', compact('parametro'));
-    } 
-    public function getDataCapturaGA(Request $request)
-    {
-        //$parametro = Parametro::where('Id_parametro',$request->formulaTipo)->first();
-        $lote = DB::table('ViewLoteAnalisis')->where('Fecha', $request->fechaAnalisis)->get();
-        $idLote = 0;
-        foreach($lote as $item)
-        { 
-            $detModel = DB::table('ViewLoteDetalleGA')->where('Id_lote', $item->Id_lote)->first();
-            if($detModel->Id_parametro == $request->formulaTipo) 
-            { 
-                $idLote = $detModel->Id_lote;
-            } 
-        } 
-
-        // $detalleModel = DB::tables'ViewLoteDetalle')->where('Id_lote', $lote->Id_lote)->get();
-        $detalle = DB::table('ViewLoteDetalleGA')->where('Id_lote', $idLote)->get();
-        $loteModel = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
-        $curvaConst = CurvaConstantes::where('Id_lote',$idLote)->first();
-        $data = array( 
-            'idL' => $idLote,
-            'de' => $detModel,
-            'lote' => $loteModel,
-            'detalle' => $detalle,
-        ); 
-        return response()->json($data); 
-    }
-    public function getDetalleGA(Request $request)
-    {
-        $model = DB::table("ViewLoteDetalleGA")->where('Id_detalle',$request->idDetalle)->first();
-        
-        $data = array(
-            'model' => $model,
-        );
-        return response()->json($data);
-    }
     //NUEVA FUNCIÓN BUSQUEDA FILTROS > CAPTURA.JS
     public function busquedaFiltros(Request $request)
     {
@@ -1288,6 +1230,100 @@ class FqController extends Controller
             compact('sembradoFqModel', 'pruebaPresuntivaModel','pruebaConfirmativaModel', 'dqoModel')
         );
     }
+    
+    // todo ***************************
+    // todo Inicia Captura GA
+    // todo ***************************
+    public function operacionGA(Request $request)
+    { 
+        $mf = (($request->R/1000000) * $request->I)+$request->P;
+        $m1 = $mf + 0.0001;
+        $m2 = $m1 + 0.0001;
+        $m3 = $m2 + 0.0001;
+
+
+        $data = array( 
+           'mf' => $mf,
+           'm1' => $m1,
+           'm2' => $m2,
+           'm3' => $m3,
+            
+        ); 
+        return response()->json($data); 
+    }
+    public function capturaGA()  
+    {
+        $parametro = Parametro::where('Id_area', 13)->get();
+        $controlModel = ControlCalidad::all();
+        // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
+        // var_dump($parametro); 
+        return view('laboratorio.fq.capturaGA', compact('parametro','controlModel'));
+    } 
+    public function getDataCapturaGA(Request $request)
+    {
+        //$parametro = Parametro::where('Id_parametro',$request->formulaTipo)->first();
+        $lote = DB::table('ViewLoteAnalisis')->where('Fecha', $request->fechaAnalisis)->get();
+        $idLote = 0;
+        foreach($lote as $item)
+        { 
+            $detModel = DB::table('ViewLoteDetalleGA')->where('Id_lote', $item->Id_lote)->first();
+            if($detModel->Id_parametro == $request->formulaTipo) 
+            { 
+                $idLote = $detModel->Id_lote;
+            } 
+        } 
+
+        // $detalleModel = DB::tables'ViewLoteDetalle')->where('Id_lote', $lote->Id_lote)->get();
+        $detalle = DB::table('ViewLoteDetalleGA')->where('Id_lote', $idLote)->get();
+        $loteModel = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
+        $curvaConst = CurvaConstantes::where('Id_lote',$idLote)->first();
+        $data = array( 
+            'idL' => $idLote,
+            'de' => $detModel,
+            'lote' => $loteModel,
+            'detalle' => $detalle,
+        ); 
+        return response()->json($data); 
+    }
+    public function getDetalleGA(Request $request)
+    {
+        $model = DB::table("ViewLoteDetalleGA")->where('Id_detalle',$request->idDetalle)->first();
+        
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function createControlCalidad(Request $request)
+    {
+        $muestra = LoteDetalleGA::where('Id_detalle',$request->idMuestra)->first();
+
+        $model = LoteDetalleGA::create([ 
+            'Id_lote' => $muestra->Id_lote,
+            'Id_analisis' => $muestra->Id_analisis,
+            'Id_parametro' => $muestra->Id_parametro,
+            'Id_control' => $request->idControl,
+            'M_final' => 0,
+            'M_inicial1' => 0,
+            'M_inicial2' => 0,
+            'M_inicial3' => 0,
+            'Ph' => 0,
+            'Vol_muestra' => 0,
+            'Blanco' => 0,
+            'F_conversion' => 0,
+        ]);
+        
+        $data = array(
+            'model' => $model,
+            'muestra' => $muestra,
+        );
+        return response()->json($data);
+    }
+    // todo ***************************
+    // todo Fin Captura GA
+    // todo ***************************
+
+
     //todo *******************************************
     //todo Inicio Seccion de Volumetria
     //todo *******************************************
@@ -1301,10 +1337,10 @@ class FqController extends Controller
     
     //todo *******************************************
     //todo Fin Seccion de Volumetria
-    //todo *******************************************
+    //todo ******************************************* 
 
     //todo *******************************************
-    //todo Inicio Seccion de Volumetria
+    //todo Inicio Seccion de Gravimetria
     //todo *******************************************
     public function capturaGravi()
     {
@@ -1315,7 +1351,7 @@ class FqController extends Controller
     }
     
     //todo *******************************************
-    //todo Fin Seccion de Volumetria
+    //todo Fin Seccion de Gravimetria
     //todo *******************************************
 
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE

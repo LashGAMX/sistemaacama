@@ -81,51 +81,6 @@
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="modalFq2" tabindex="-1" role="dialog" aria-labelledby="modalCrearLote" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Crear lote</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
-              <label for="exampleFormControSelect1">Tipo fórmula</label>
-              <select class="form-control" id="tipoFormula">
-                @foreach($formulas as $formula)
-                  <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
-                @endforeach
-              </select>
-            </div>
-            <div class="form-group">
-              <label for="exampleFormControSelect1">Tecnica análisis</label> 
-              <select class="form-control" id="tecnicaAnalisis">
-                @foreach($tecnica as $item)
-                  <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
-                @endforeach
-              </select>
-            </div>
-            <div class="col-md-12">
-              <div class="form-group">
-                <input type="date" id="fechaLote" class="form-control">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="btnCreateLote" onclick="createLote()" class="btn btn-primary">Guardar</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-
 
 <!-- Modal -->
 <div class="modal fade" id="modalCrearLote" tabindex="-1" role="dialog" aria-labelledby="modalCrearLote" aria-hidden="true">
@@ -174,7 +129,7 @@
 
  <!-- Modal -->
  <div class="modal fade" id="modalProbar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-lg" style="width: 80%">
     <div class="modal-content">
       
       <div class="modal-header">
@@ -198,6 +153,10 @@
           
           <li class="nav-item" role="menu">
             <a class="nav-link active" id="formulaGlobal-tab" data-toggle="tab" href="#formulaGlobal" role="tab" aria-controls="formulaGlobal" aria-selected="true" onclick='isSelectedProcedimiento("formulaGlobal-tab");'>Fórmulas Globales</a>
+          </li>
+
+          <li class="nav-item" role="menu">
+            <a class="nav-link" id="volumetria-tab" data-toggle="tab" href="#volumetria" role="tab" aria-controls="volumetria" aria-selected="false">Vol</a>
           </li>
 
           <li class="nav-item" role="menu">
@@ -232,62 +191,6 @@
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade  active" id="formulaGlobal" role="tabpanel" aria-labelledby="formulaGlobal-tab">    
                 <div class="col-md-12">    
-
-                <div class="dqo">
-                  <div class="row">
-                    <div class="col-md-8">
-                        <table class="table table-sm">
-                            <thead>
-                              <tr>
-                                <th>Lote</th>
-                                <th>Fórmula</th>
-                                <th>Expresión</th>
-                                <th>Resultado</th>
-                                <th># decimal</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td></td>
-                                <td>Blanco</td>
-                                <td>A</td>
-                                <td></td>
-                                <td>2</td> 
-                              </tr>
-                              <tr>
-                                <td></td>
-                                <td>Molaridad</td>
-                                <td>(A*B*C)/D</td>
-                                <td></td>
-                                <td>3</td>
-                              </tr>
-                            </tbody>
-                        </table> 
-                        
-                    </div>
-                    <div class="col-md-4">
-                      <table class="table">
-                        <thead>
-                          <tr>
-                            <th>Parametro</th>
-                            <th>Desscripción</th>
-                            <th>Valor</th>
-                            <th>Tipo</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <tr>
-                            <td>A</td>
-                            <th>Vol de K2</th>
-                            <th></th>
-                            <th>C</th>
-                          </tr>
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-                </div>
-
                   <div id="divTableFormulaGlobal">
                     <table class="table" id=""> 
                       <thead>
@@ -316,6 +219,41 @@
                 </div>                                
 
               </div> 
+
+              <div class="tab-pane fade" id="volumetria" role="tabpanel" aria-labelledby="volumetria-tab">    
+                <div class="row">
+                  <div class="col-md-8">
+                     <table class="table">
+                        <thead>
+                          <tr>
+                            <th>Formula</th>
+                            <th>Expresión</th>
+                            <th>Resultado</th>
+                            <th># Decimal</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="col-md-4">
+                    <table class="table">
+                      <thead>
+                        <tr>
+                          <th>Parametro</th>
+                          <th>Descripción</th>
+                          <th>Valor</th>
+                          <th>Tipo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        
+                      </tbody>
+                    </table>
+                 </div>
+                </div>
+              </div>
                
               {{-- GRASAS --}}
               <div class="tab-pane fade" id="grasas" role="tabpanel" aria-labelledby="grasas-tab">                                

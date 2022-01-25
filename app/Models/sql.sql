@@ -300,7 +300,7 @@ INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro
 
 /* Lista ViewLoteDetalleGA */
-create view ViewLoteDetalleGA as SELECT det.Id_detalle,det.Id_lote,det.Id_analisis,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,det.Id_parametro,param.Parametro,det.M_final,det.M_inicial1,
+create view ViewLoteDetalleGA as SELECT det.Id_detalle,det.Id_lote,det.Id_analisis,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,det.Id_parametro,param.Parametro,det.Id_control,con.Control,det.M_final,det.M_inicial1,
 det.M_inicial2,det.M_inicial3,det.Ph,det.Vol_muestra,det.Blanco,det.F_conversion,det.created_at,det.updated_at,det.deleted_at FROM lote_detalle_ga as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
@@ -308,6 +308,8 @@ INNER JOIN  ViewSolicitud as sol
 ON det.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro
+INNER JOIN control_calidad as con
+ON det.Id_control = con.Id_control
 
 /* Lista ViewLoteDetalleHH */ 
 CREATE VIEW ViewLoteDetalleHH as SELECT det.Id_detalle,det.Id_lote,det.Id_analisis,sol.Folio_servicio,sol.Empresa_suc,sol.Clave_norma,det.Id_parametro,param.Parametro,det.A_alumbricoides,det.H_nana,det.Taenia_sp,det.T_trichiura,det.Uncinarias,det.Vol_muestra FROM lote_detalle_hh as det

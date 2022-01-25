@@ -17,6 +17,7 @@ class LoteDetalleGA extends Model
         'Id_lote',
         'Id_analisis',
         'Id_parametro',
+        'Id_control',
         'M_final',
         'M_inicial1',
         'M_inicial2',
