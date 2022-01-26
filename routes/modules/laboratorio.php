@@ -72,11 +72,13 @@ Route::group(['prefix' => 'laboratorio'], function () {
         //? Modulo captura de datos analisis
         Route::get('tipoAnalisis', [FqController::class, 'tipoAnalisis']);
 
+    //***************************Espectrofotometría******************************************
         Route::get('capturaEspectro', [FqController::class, 'capturaEspectro']);
         Route::post('getDataCapturaEspectro', [FqController::class, 'getDataCapturaEspectro']);
         Route::post('getDetalleEspectro', [FqController::class, 'getDetalleEspectro']);
         Route::post('operacionEspectro', [FqController::class, 'operacionEspectro']);
         Route::post('guardarEspectro', [FqController::class, 'guardarEspectro']);
+    //***************************************************************************************
 
         Route::get('capturaGA', [FqController::class, 'capturaGA']);
         Route::post('getDataCapturaGA', [FqController::class, 'getDataCapturaGA']);
@@ -84,7 +86,11 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('operacionGA', [FqController::class, 'operacionGA']);
         Route::post('createControlCalidad', [FqController::class, 'createControlCalidad']);
 
+
         Route::get('capturaVolumetria', [FqController::class, 'capturaVolumetria']);
+        Route::post('getDataCapturaVolumetria', [FqController::class, 'getDataCapturaVolumetria']);
+        Route::post('getDetalleVolumetria', [FqController::class, 'getDetalleVolumetria']);
+        Route::post('operacionVolumetria', [FqController::class, 'operacionVolumetria']);
 
         Route::get('capturaGravi', [FqController::class, 'capturaGravi']);
         
@@ -100,6 +106,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         //? Export PDF
         Route::get('captura/exportPdfCapturaEspectro/{idLote}', [FqController::class, 'exportPdfCapturaEspectro']);
         Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
+        Route::get('captura/exportPdfCapturaVolumetria/{idLote}', [FqController::class, 'exportPdfCapturaVolumetria']);
     });
         // todo Modulo MicroBiologia
         Route::group(['prefix' => 'micro'], function () {

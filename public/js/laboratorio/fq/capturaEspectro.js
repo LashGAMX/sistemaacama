@@ -175,6 +175,7 @@ function guardar(){
             fechaAnalisis: $("#fechaAnalisis").val(),
             parametro: $('#formulaTipo').val(),
             resultado: $('#resultadoF').val(),
+            observacion: $area('#obs').val(),
             ABS:$('#abs1').val(),
             CA:$('#blanco1').val(),
             CB:$('#b1').val(),

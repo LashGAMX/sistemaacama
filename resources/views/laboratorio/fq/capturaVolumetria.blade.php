@@ -165,41 +165,30 @@
                                 <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
                                 <tbody>
                                     <tr>
+                                        <td>A</td>
+                                        <td>Volumen de dicromato</td>
+                                        <td><input type="text" id="a1" value="0"></td>
+                                        <td><input type="text" id="a2" value="0"></td>
+                                    </tr>
+                                    <tr>
                                         <td>B</td>
-                                        <td>mL. Titulados muestra</td>
-                                        <td><input type="text" id="mt1" value="0"></td>
-                                        <td><input type="text" id="mt2" value="0"></td>
+                                        <td>Concentración</td>
+                                        <td><input type="text" id="b1" value="0"></td>
+                                        <td><input type="text" id="b2" value="0"></td>
                                     </tr>
                                     <tr>
                                         <td>C</td>
-                                        <td>M. de fas altas</td>
-                                        <td><input type="text" id="ma1" value="0"></td>
-                                        <td><input type="text" id="ma2" value="0"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>CA</td>
-                                        <td>mL. Titulados Blanco</td>
-                                        <td><input type="text" id="blancoTi1" value="0"></td>
-                                        <td><input type="text" id="blancoti2" value="0"></td>
+                                        <td>Factor de equivalencia</td>
+                                        <td><input type="text" id="c1" value="0"></td>
+                                        <td><input type="text" id="c2" value="0"></td>
                                     </tr>
                                     <tr>
                                         <td>D</td>
-                                        <td>Factor de equivalencia</td>
-                                        <td><input type="text" id="equi1" value="0"></td>
-                                        <td><input type="text" id="equi12" value="0"></td>
+                                        <td>Volumen titulado de FAS</td>
+                                        <td><input type="text" id="d1" value="0"></td>
+                                        <td><input type="text" id="d2" value="0"></td>
                                     </tr>
-                                    <tr>
-                                        <td>E</td>
-                                        <td>Vol. de muestra mL</td>
-                                        <td><input type="text" id="volMuestra1" value="0"></td>
-                                        <td><input type="text" id="volMuestra2" value="0"></td>
-                                    </tr>
-                                    <tr>
-                                        <td>G</td>
-                                        <td>mL. del blanco</td>
-                                        <td><input type="text" id="blanco1" value="0"></td>
-                                        <td><input type="text" id="blanco2" value="0"></td>
-                                    </tr>
+                                
                                 </tbody>
                               </table>
                         </div>
@@ -214,16 +203,16 @@
               </div>
               
              </div>
-             
+            
 </div>
   @stop
 
   @section('javascript')
-  <script src="{{asset('/public/js/laboratorio/fq/capturaGA.js')}}"></script>
+  <script src="{{asset('/public/js/laboratorio/fq/capturaVolumetria.js')}}"></script>
   <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
   <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
   @stop
 
-@endsection  
+@endsection
 
 
