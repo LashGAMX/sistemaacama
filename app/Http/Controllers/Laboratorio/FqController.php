@@ -1334,6 +1334,49 @@ class FqController extends Controller
         // var_dump($parametro); 
         return view('laboratorio.fq.capturaVolumetria', compact('parametro')); 
     }
+    public function operacionVolumetria()
+    {
+ 
+    }
+
+    public function getDataCapturaVolumetria(Request $request)
+    {
+        //$parametro = Parametro::where('Id_parametro',$request->formulaTipo)->first();
+        $lote = DB::table('ViewLoteAnalisis')->where('Fecha', $request->fechaAnalisis)->get();
+        $idLote = 0;
+        foreach($lote as $item)
+        { 
+            $detModel = DB::table('ViewLoteDetalleVolumetria')->where('Id_lote', $item->Id_lote)->first();
+            if($detModel->Id_parametro == $request->formulaTipo)
+            { 
+                $idLote = $detModel->Id_lote;
+            } 
+        }
+
+        // $detalleModel = DB::tables'ViewLoteDetalle')->where('Id_lote', $lote->Id_lote)->get();
+        $detalle = DB::table('ViewLoteDetalleVolumetria')->where('Id_lote', $idLote)->get();
+        $loteModel = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
+        $curvaConst = CurvaConstantes::where('Id_lote',$idLote)->first();
+        $data = array( 
+            'idL' => $idLote,
+            'de' => $detModel,
+            'lote' => $loteModel,
+            'curvaConst' => $curvaConst,
+            'detalle' => $detalle,
+        ); 
+        return response()->json($data); 
+    }
+    public function getDetalleVolumetria(Request $request)
+    {
+        $model = DB::table("ViewLoteDetalleVolumetria")->where('Id_detalle',$request->idDetalle)->first();
+        $curva = CurvaConstantes::where('Id_lote',$model->Id_lote)->first();
+
+        $data = array(
+            'model' => $model,
+            'curva' => $curva,
+        );
+        return response()->json($data);
+    }
     
     //todo *******************************************
     //todo Fin Seccion de Volumetria
@@ -2009,5 +2052,184 @@ class FqController extends Controller
             $mpdfH->CSSselectMedia = 'mpdf';
             $mpdfH->Output();
         }        
-    }    
+    } 
+    
+     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
+     public function exportPdfCapturaVolumetria($idLote)
+     {
+          //Var. de prueba temporal
+          //$idLote = 11;         
+         $sw = true;
+ 
+          //Opciones del documento PDF
+          $mpdf = new \Mpdf\Mpdf([
+              'orientation' => 'P',
+              'format' => 'letter',
+              'margin_left' => 10,
+              'margin_right' => 10,
+              'margin_top' => 31,
+              'margin_bottom' => 45,
+              'defaultheaderfontstyle' => ['normal'],
+              'defaultheaderline' => '0'
+          ]);        
+  
+          //Establece la marca de agua del documento PDF
+         //  $mpdf->SetWatermarkImage( 
+         //      asset('HojaMembretada2.png'),
+         //      1,
+         //      array(215, 280),
+         //      array(0, 0),
+         //  ); 
+  
+         //  $mpdf->showWatermarkImage = true;         
+ 
+          $id_lote = $idLote;
+          $semaforo = true;
+  
+          //Recupera el nombre de usuario y firma
+          $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
+          $firma = $usuario->firma;
+  
+          //Formatea la fecha
+          $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
+          if(!is_null($fechaAnalisis)){
+              $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
+          }else{
+              $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
+              $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
+              echo '<script> alert("Valores predeterminados para la fecha de análisis. Rellena este campo.") </script>';
+          }   
+          
+          //Recupera el parámetro que se está utilizando
+          $parametro = DB::table('ViewLoteDetalleVolumetria')->where('Id_lote', $id_lote)->first();
+  
+         //Recupera el texto dinámico Procedimientos de la tabla reportes****************************************************
+         $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
+         if(!is_null($textoProcedimiento)){
+            //Hoja1            
+             if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)'){                
+                $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+ 
+                if(!is_null($data)){                         
+                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }
+             }else if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)'){                
+                $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+ 
+                if(!is_null($data)){                         
+                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoB.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }
+             }else if($parametro->Parametro == 'Nitrógeno Amoniacal'){                 
+                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+ 
+                 if(!is_null($data)){                         
+                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                 }else{
+                     $sw = false;
+                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                 }
+             }else if($parametro->Parametro == 'Nitrógeno Orgánico'){ //POR REVISAR EN LA TABLA DE DATOS                                  
+                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+
+                 if(!is_null($data)){                         
+                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }
+             }
+         }else{                        
+             if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)'){                
+                $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+ 
+                if(!is_null($data)){
+                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+                    $textoProcedimiento = ReportesFq::where('Id_reporte', 25)->first();
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }                  
+             }else if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)'){                
+                $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+ 
+                if(!is_null($data)){
+                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+                    $textoProcedimiento = ReportesFq::where('Id_reporte', 26)->first();
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoB.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }
+             }else if($parametro->Parametro == 'Nitrógeno Amoniacal'){                 
+                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+ 
+                 if(!is_null($data)){
+                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
+                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+                     $textoProcedimiento = ReportesFq::where('Id_reporte', 27)->first();
+                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                 }else{
+                     $sw = false;
+                     $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                 }                                
+             }else if($parametro->Parametro == 'Nitrógeno Orgánico'){ //POR REVISAR EN LA TABLA DE DATOS                
+                $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+ 
+                if(!is_null($data)){
+                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+                    $textoProcedimiento = ReportesFq::where('Id_reporte', 28)->first();
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }                
+             }
+         }   
+ 
+         //HEADER-FOOTER******************************************************************************************************************         
+         if($sw === true){        
+            if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)'){
+                $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoA.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoA.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)'){
+                $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoB.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoB.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'Nitrógeno Amoniacal'){
+                $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'Nitrógeno Orgánico'){ //POR REVISAR EN LA TABLA DE DATOS
+                $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaFooter', compact('usuario', 'firma'));
+            }
+         }                                  
+ 
+        if($sw === true){            
+           $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
+           $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+           $mpdf->WriteHTML($htmlCaptura);            
+        }
+  
+        if($sw === true){            
+           $mpdf->CSSselectMedia = 'mpdf';
+           $mpdf->Output();
+        }        
+     }
 }

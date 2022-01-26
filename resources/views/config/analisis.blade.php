@@ -38,6 +38,9 @@
     <li class="nav-item" role="menu">
       <a class="nav-link" id="matrizGA-tab" data-toggle="tab" href="#matrizGA" role="tab" aria-controls="matrizGA" aria-selected="false">Matriz GA</a>
     </li>
+    <li class="nav-item" role="menu">
+      <a class="nav-link" id="crisolGA-tab" data-toggle="tab" href="#crisolGA" role="tab" aria-controls="crisolGA" aria-selected="false">Crisol GA</a>
+    </li>
   </ul>
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade  active" id="Tipo" role="tabpanel" aria-labelledby="Tipo-tab">  
@@ -66,6 +69,9 @@
     </div>
     <div class="tab-pane fade" id="matrizGA" role="tabpanel" aria-labelledby="matrizGA-tab">
       @livewire('config.matriz-g-a',['idUser'=>$idUser])
+    </div>
+    <div class="tab-pane fade" id="crisolGA" role="tabpanel" aria-labelledby="crisolGA-tab">
+      @livewire('config.crisol-g-a',['idUser'=>$idUser])
     </div>
   </div>
 @endsection   

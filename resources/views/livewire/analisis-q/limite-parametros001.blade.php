@@ -32,7 +32,7 @@
                     @if ($model->count()) 
                     @for ($i = 0; $i < 3; $i++)
                     <tr>  
-                        <td>{{$model[$i]->Categoria}}</td>
+                        <td>{{$model[$i]->Detalle}}</td>
                         <td>{{$model[$i]->Prom_Mmax}}</td>          
                         <td>{{$model[$i]->Prom_Mmin}}</td>
                         <td>{{$model[$i]->Prom_Dmax}}</td>
@@ -65,7 +65,7 @@
                     @if ($model->count()) 
                     @for ($i = 3; $i < 5; $i++)
                     <tr>  
-                        <td>{{$model[$i]->Categoria}}</td>
+                        <td>{{$model[$i]->Detalle}}</td>
                         <td>{{$model[$i]->Prom_Mmax}}</td>          
                         <td>{{$model[$i]->Prom_Mmin}}</td>
                         <td>{{$model[$i]->Prom_Dmax}}</td>
@@ -99,7 +99,7 @@
                     @if ($model->count()) 
                     @for ($i = 5; $i < 8; $i++)
                     <tr>  
-                        <td>{{$model[$i]->Categoria}}</td>
+                        <td>{{$model[$i]->Detalle}}</td>
                         <td>{{$model[$i]->Prom_Mmax}}</td>          
                         <td>{{$model[$i]->Prom_Mmin}}</td>
                         <td>{{$model[$i]->Prom_Dmax}}</td>
@@ -133,7 +133,7 @@
                     @if ($model->count()) 
                     @for ($i = 8; $i < 10; $i++)
                     <tr>  
-                        <td>{{$model[$i]->Categoria}}</td>
+                        <td>{{$model[$i]->Detalle}}</td>
                         <td>{{$model[$i]->Prom_Mmax}}</td>          
                         <td>{{$model[$i]->Prom_Mmin}}</td>
                         <td>{{$model[$i]->Prom_Dmax}}</td>
@@ -189,7 +189,8 @@
           </form>
           </div>
         </div>
-      </div>
+      </div>}
+    <input type="text"> 0
 
       @if ($alert == true)
       <script>

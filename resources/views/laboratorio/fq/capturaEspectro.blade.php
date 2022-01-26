@@ -1,11 +1,11 @@
-@extends('voyager::master')
+ @extends('voyager::master')
 
 @section('content')
 
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-window-list"></i>
-    Captura de resultados {{url('')}}
+    Captura de resultados 
   </h6>
   
 <div class="container-fluid">
@@ -143,7 +143,11 @@
                     </div>
                   </div>
                   <div class="modal-body"> 
-                      <input type="text" id="idMuestra">
+                      <input type="text" id="idMuestra" hidden>
+                      <tr>
+                            <td>Observación</td>
+                            <td><input type="text" id="obs"></td>
+                       </tr>
                       <div class="row">
                          <div class="col-md-12">
                             <table class="table">

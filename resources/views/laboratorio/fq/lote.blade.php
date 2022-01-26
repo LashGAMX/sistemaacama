@@ -233,7 +233,17 @@
                           </tr>
                         </thead>
                         <tbody>
-
+                          <tr>
+                            <td>Blanco Análisis</td>
+                            <td>A</td>
+                            <td><input type="text" value="" disabled></td>
+                            <td>2</td>
+                          </tr>
+                          <tr>
+                            <td>Molaridad</td>
+                            <td>((A*B*C) /D) </td>
+                            <td><input type="text" value="" disabled></td>
+                          </tr> 
                         </tbody>
                      </table>
                   </div>
@@ -248,7 +258,11 @@
                         </tr>
                       </thead>
                       <tbody>
-                        
+                        <tr>
+                          <td>A</td>
+                          <td>Vol. de K2Cr207</td>
+                          <td></td>
+                        </tr>
                       </tbody>
                     </table>
                  </div>

@@ -9,10 +9,8 @@ use Illuminate\Support\Facades\DB;
 
 class LimitesController extends Controller
 {
-    
     public function index()
     {
-     
         return view('analisisQ.limites');
     }
     public function show($idNorma)
@@ -22,7 +20,6 @@ class LimitesController extends Controller
     public function details($idNorma,$idParametro)
     {
         return view('analisisQ.limites',compact('idNorma','idParametro'));
-    }
-    
+    }   
 }
  

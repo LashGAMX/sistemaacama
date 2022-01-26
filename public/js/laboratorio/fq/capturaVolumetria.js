@@ -1,4 +1,3 @@
-
 var area = "fq";
 var idLote;
 
@@ -51,7 +50,7 @@ function getDataCaptura() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/getDataCapturaGA",
+        url: base_url + "/admin/laboratorio/" + area + "/getDataCapturaVolumetria",
         data: {
             formulaTipo: $("#formulaTipo").val(),
             fechaAnalisis: $("#fechaAnalisis").val(),
@@ -99,7 +98,7 @@ function getDataCaptura() {
             tab2 += '          <th>Resultado</th>';
             tab2 += '          <th>Tipo Análisis</th>';
             tab2 += '        </tr>';
-            tab2 += '    </thead>'; 
+            tab2 += '    </thead>';
             tab2 += '    <tbody>';
             $.each(response.detalle, function (key, item) {
                 tab2 += '<tr>';
@@ -167,7 +166,7 @@ function imprimir() {
     /* console.log("Dentro de evento imprimir modif");
     $('#btnImprimir').click(function () {
         console.log("Valor de idLote: " + idLote);   */     
-        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA/"+idLote;
+        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaVolumetria/"+idLote;
         //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA";
     //});
 }
@@ -176,7 +175,7 @@ function operacion() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/operacionGA", 
+        url: base_url + "/admin/laboratorio/" + area + "/operacionVolumetria", 
         data: {
             P:$("#p").val(),
             R:$("#resultado").val(),
@@ -246,7 +245,7 @@ function generarControles() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/getDataCapturaEspectro",
+        url: base_url + "/admin/laboratorio/" + area + "/getDataCapturaVolumetria",
         data: {
             ranCon: ranCon,
             numMuestra: numMuestras,
@@ -340,7 +339,7 @@ function getDetalleGA(idDetalle)
 {
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/getDetalleGA",
+        url: base_url + "/admin/laboratorio/" + area + "/getDetalleVolumetria",
         data: {
             idDetalle: idDetalle,
             _token: $('input[name="_token"]').val()
