@@ -31,7 +31,7 @@
             
             
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/historial/clientes">
+                <a href="https://sistemaacama.com.mx/admin/historial/clientes">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/rules.jpg');">
                         <div class="dimmer"></div>
@@ -44,7 +44,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/historial/analisisQ">
+                <a href="https://sistemaacama.com.mx/admin/historial/analisisQ">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/maths.jpg');">
                         <div class="dimmer"></div>
@@ -70,7 +70,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/historial/clientes">
+                <a href="https://sistemaacama.com.mx/admin/historial/clientes">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/rules.jpg');">
                         <div class="dimmer"></div>

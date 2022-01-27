@@ -18,7 +18,7 @@
         </div>
         <div class="clearfix container-fluid row">
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/historial/config">
+                <a href="https://sistemaacama.com.mx/admin/historial/config">
                 <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/gears.jpg');">
                     <div class="dimmer"></div>
                     <div class="panel-content">
@@ -29,7 +29,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/historial/clientes">
+                <a href="https://sistemaacama.com.mx/admin/historial/clientes">
                 <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/clients.png');">
                     <div class="dimmer"></div>
                     <div class="panel-content">
@@ -40,7 +40,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/historial/analisisQ">
+                <a href="https://sistemaacama.com.mx/admin/historial/analisisQ">
                 <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/qAnalysis.jpg');">
                     <div class="dimmer"></div>
                     <div class="panel-content">
@@ -51,7 +51,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/historial/precios">
+                <a href="https://sistemaacama.com.mx/admin/historial/precios">
                 <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/prices.jpg');">
                     <div class="dimmer"></div>
                     <div class="panel-content">
@@ -62,7 +62,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/posts">
+                <a href="https://sistemaacama.com.mx/admin/posts">
                 <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/quiz.png');">
                     <div class="dimmer"></div>
                     <div class="panel-content">
@@ -73,7 +73,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/users">
+                <a href="https://sistemaacama.com.mx/admin/users">
                 <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/HistoryBackground/quotes.jpg');">
                 <div class="dimmer"></div>
                 
@@ -84,7 +84,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/historial/ingCampo">
+                <a href="https://sistemaacama.com.mx/admin/historial/ingCampo">
                 <div class="panel widget center bgimage"
                 style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/fieldEngineering.jpg');">
                     <div class="dimmer"></div>

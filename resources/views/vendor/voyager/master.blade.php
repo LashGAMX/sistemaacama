@@ -178,6 +178,8 @@ $(document).ready( function () {
 <script>
     var base_url = "{{url('')}}";
 </script>
+<script src="{{asset('/public/js/libs/componentes.js')}}"></script>
+<script src="{{asset('/public/js/libs/tablas.js')}}"></script>
 
 </body>
 </html>

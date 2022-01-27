@@ -144,10 +144,6 @@
                   </div>
                   <div class="modal-body"> 
                       <input type="text" id="idMuestra" hidden>
-                      <tr>
-                            <td>Observación</td>
-                            <td><input type="text" id="obs"></td>
-                       </tr>
                       <div class="row">
                          <div class="col-md-12">
                             <table class="table">

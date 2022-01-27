@@ -98,6 +98,7 @@ function getDataCaptura() {
             tab2 += '          <th>Norma</th>';
             tab2 += '          <th>Resultado</th>';
             tab2 += '          <th>Tipo Análisis</th>';
+            tab2 += '          <th>Observación</th>';
             tab2 += '        </tr>';
             tab2 += '    </thead>'; 
             tab2 += '    <tbody>';
@@ -105,7 +106,7 @@ function getDataCaptura() {
                 tab2 += '<tr>';
                 if (item.Liberado != 0) {
                     status = "";
-                } else {
+                } else { 
                     status = "disabled";
                 }
                 tab2 += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleGA('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
@@ -120,10 +121,11 @@ function getDataCaptura() {
                 tab2 += '<td><input disabled style="width: 80px" value="'+item.Clave_norma+'"></td>';
                 tab2 += '<td><input disabled style="width: 80px" value="-"></td>';
                 tab2 += '<td><input disabled style="width: 80px" value="-"></td>';
+                tab2 += '<td>'+item.Observacion+'</td>';
                 tab2 += '</tr>';
                 numMuestras.push(item.Id_detalle);
                 cont++;
-            });
+            }); 
             tab2 += '    </tbody>';
             tab2 += '</table>';
             tabla2.innerHTML = tab2;
@@ -356,11 +358,29 @@ function getDetalleGA(idDetalle)
             $("#i1").val(response.model.Vol_muestra);
             $("#g1").val(response.model.Blanco);
             $("#e1").val(response.model.F_conversion);
+            $("#observacion").val(response.model.Observacion);
         }
     });
 }
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
+}
+function updateObsMuestraGA()
+{
+    
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestraGA",
+        data: {
+            idMuestra: idMuestra,
+            observacion: $("#observacion").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+        }
+    }); 
 }
 function createControlCalidad()
 {

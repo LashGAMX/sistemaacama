@@ -85,6 +85,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getDetalleGA', [FqController::class, 'getDetalleGA']);
         Route::post('operacionGA', [FqController::class, 'operacionGA']);
         Route::post('createControlCalidad', [FqController::class, 'createControlCalidad']);
+        Route::post('updateObsMuestraGA', [FqController::class, 'updateObsMuestraGA']);
 
 
         Route::get('capturaVolumetria', [FqController::class, 'capturaVolumetria']);

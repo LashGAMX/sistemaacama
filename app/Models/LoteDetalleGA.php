@@ -25,6 +25,7 @@ class LoteDetalleGA extends Model
         'Ph',
         'Vol_muestra',
         'Blanco',
-        'F_conversion'
+        'F_conversion',
+        'Observacion', 
     ];
 }

@@ -1,4 +1,4 @@
- <?php
+<?php
 
 namespace App\Models;
 
@@ -30,6 +30,6 @@ class LoteDetalle extends Model
         'Fecha',
         'Liberado',
         'Id_user_c',
-        'Id_user_m'
+        'Id_user_m',
     ];
 }

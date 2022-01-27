@@ -298,7 +298,7 @@ ON det.Id_parametro = param.Id_parametro
 
 /* Lista ViewLoteDetalleGA */
 create view ViewLoteDetalleGA as SELECT det.Id_detalle,det.Id_lote,det.Id_analisis,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,det.Id_parametro,param.Parametro,det.Id_control,con.Control,det.M_final,det.M_inicial1,
-det.M_inicial2,det.M_inicial3,det.Ph,det.Vol_muestra,det.Blanco,det.F_conversion,det.created_at,det.updated_at,det.deleted_at FROM lote_detalle_ga as det
+det.M_inicial2,det.M_inicial3,det.Ph,det.Vol_muestra,det.Blanco,det.F_conversion,det.Observacion,det.created_at,det.updated_at,det.deleted_at FROM lote_detalle_ga as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
 INNER JOIN  ViewSolicitud as sol

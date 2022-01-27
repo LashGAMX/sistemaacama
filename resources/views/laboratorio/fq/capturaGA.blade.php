@@ -117,8 +117,8 @@
                             <th># Toma</th>
                             <th>Norma</th>
                             <th>Resultado</th>
-                            <th>Tipo Analisis</th>
-                            {{-- <th>Observacion</th>     --}}
+                            <th>Tipo Analisis</th> 
+                            <th>Observacion</th>    
                         </tr>
                     </thead>
                     
@@ -129,7 +129,7 @@
       </div>
         <!-- Modal -->
         <div class="modal fade" id="modalCaptura" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg" >
                 <div class="modal-content">
                  <form wire:submit.prevent="create">
                   <div class="modal-header">
@@ -137,11 +137,23 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
-                    <input type="number" id="resultado" placeholder="Resultado"></input>
-                    <input type="number" id="p" placeholder="Peso sin muestra"></input>
                   </div>
                   <div class="modal-body"> 
                     <div class="row">
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label for="">Observación</label>
+                          <input type="text" class="form-control" id="observacion">
+                        </div>
+                        <div class="form-group">
+                          <button class="btn btn-success" type="button" onclick="updateObsMuestraGA()" id="btnAplicarObs">Aplicar</button>
+                        </div>
+                        <div class="dropdown-divider"></div>
+                      </div>
+                      <div class="col-md-12">
+                        <input type="number" id="resultado" placeholder="Resultado"></input>
+                        <input type="number" id="p" placeholder="Peso sin muestra"></input>
+                      </div>
                         <div class="col-md-12">
                             <table class="table" id=""> 
                                 <thead>
@@ -261,9 +273,7 @@
   @stop
 
   @section('javascript')
-  <script src="{{asset('/js/laboratorio/fq/capturaGA.js')}}?v=0.001"></script>
-  <script src="{{asset('/js/libs/componentes.js')}}"></script>
-  <script src="{{asset('/js/libs/tablas.js')}}"></script>
+  <script src="{{asset('/public/js/laboratorio/fq/capturaGA.js')}}?v=0.001"></script>
   @stop
 
 @endsection  
