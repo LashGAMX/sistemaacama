@@ -316,3 +316,17 @@ INNER JOIN  ViewSolicitud as sol
 ON det.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro
+
+/* Lista ViewLoteDetalleSolidos */ 
+
+CREATE VIEW ViewLoteDetalleSolidos as SELECT det.Id_detalle,det.Id_lote,det.Id_analisis,sol.Folio_servicio,sol.Empresa_suc,sol.Clave_norma,det.Id_parametro,param.Parametro,
+det.Id_control,control.Control,control.Descripcion,det.Masa1,det.Masa2,
+det.Peso_muestra1,det.Peso_muestra2,det.Peso_constante1,det.Peso_constante2,det.Vol_muestra,det.Factor_conversion,det.Observacion,
+det.created_at,det.updated_at,det.deleted_at
+FROM lote_detalle_solidos as det
+INNER JOIN ViewSolicitud as sol
+on det.Id_analisis = sol.Id_solicitud 
+INNER JOIN parametros as param
+ON det.Id_parametro = param.Id_parametro
+INNER JOIN control_calidad as control
+ON det.Id_control = control.Id_control

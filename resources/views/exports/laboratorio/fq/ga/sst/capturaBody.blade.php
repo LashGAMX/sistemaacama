@@ -43,7 +43,7 @@
                 </tr>
             </thead>
     
-            <tbody>
+            <tbody> 
                 {{-- @for ($i = 0; $i < 100 ; $i++) --}}
                     <tr>
                         <td class="tableContent">PRUEBA</td>

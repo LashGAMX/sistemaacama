@@ -5,7 +5,7 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-window-list"></i>
-    Captura de resultados modif
+    Captura de resultados
   </h6>
   
 <div class="container-fluid">
@@ -167,52 +167,44 @@
                                 <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
                                 <tbody>
                                     <tr>
-                                        <td>H</td>
-                                        <td>Masa Final</td>
-                                        <td><input type="text" id="h1" value="0"></td>
-                                        <td><input type="text" id="h2" value="0"></td>
+                                        <td>Masa 1</td>
+                                        <td><input type="text" id="m11" value="0"></td>
+                                        <td><input type="text" id="m12" value="0"></td>
                                     </tr>
                                     <tr>
-                                        <td>J</td>
-                                        <td>Masa Inicial 1</td>
-                                        <td><input type="text" id="j1" value="0"></td>
-                                        <td><input type="text" id="j2" value="0"></td>
+                                        <td>Masa 2</td>
+                                        <td><input type="text" id="m21" value="0"></td>
+                                        <td><input type="text" id="m22" value="0"></td>
                                     </tr>
                                     <tr>
-                                        <td>K</td>
-                                        <td>Masa Inicial 2</td>
-                                        <td><input type="text" id="k1" value="0"></td>
-                                        <td><input type="text" id="k2" value="0"></td>
+                                        <td>Peso constante c/muestra 1</td>
+                                        <td><input type="text" id="pcm11" value="0"></td>
+                                        <td><input type="text" id="pcm12" value="0"></td>
                                     </tr>
                                     <tr>
-                                        <td>C</td>
-                                        <td>Masa Inicial 3</td>
-                                        <td><input type="text" id="c1" value="0"></td>
-                                        <td><input type="text" id="c2" value="0"></td>
+                                        <td>Peso constante c/muestra 2</td>
+                                        <td><input type="text" id="pcm21" value="0"></td>
+                                        <td><input type="text" id="pcm22" value="0"></td>
                                     </tr>
                                     <tr>
-                                        <td>L</td>
-                                        <td>Ph</td>
-                                        <td><input type="text" id="l1" value="0"></td>
-                                        <td><input type="text" id="l2" value="0"></td>
+                                        <td>Peso constante 1</td>
+                                        <td><input type="text" id="pc1" value="0"></td>
+                                        <td><input type="text" id="pc2" value="0"></td>
                                     </tr>
                                     <tr>
-                                        <td>I</td>
-                                        <td>Volumen</td>
-                                        <td><input type="text" id="i1" value="0"></td>
-                                        <td><input type="text" id="i2" value="0"></td>
+                                        <td>Peso constante 2</td>
+                                        <td><input type="text" id="pc21" value="0"></td>
+                                        <td><input type="text" id="pc22" value="0"></td>
                                     </tr>
                                     <tr>
-                                        <td>G</td>
-                                        <td>Blanco</td>
-                                        <td><input type="text" id="g1" value="0"></td>
-                                        <td><input type="text" id="g2" value="0"></td>
+                                        <td>Volumen de muestra</td>
+                                        <td><input type="text" id="v1" value="0"></td>
+                                        <td><input type="text" id="v2" value="0"></td>
                                     </tr>
                                     <tr>
-                                        <td>E</td>
                                         <td>Factor de conversión</td>
-                                        <td><input type="text" id="e1" value="1000000"></td>
-                                        <td><input type="text" id="e2" value="1000000"></td>
+                                        <td><input type="text" id="f1" value="1000000"></td>
+                                        <td><input type="text" id="f2" value="1000000"></td>
                                     </tr>
                                 </tbody>
                               </table>
@@ -252,7 +244,7 @@
                             <div class="form-group">
                                 <label for="">Tipo</label>
                                 <select class="form-control" id="controlCalidad">
-                                  @foreach ($controlModel as $item)
+                                  @foreach ($controlModel as $item) --}}
                                     <option value="{{$item->Id_control}}">{{$item->Control}}</option>
                                   @endforeach
                                 </select>
@@ -273,9 +265,7 @@
   @stop
 
   @section('javascript')
-  <script src="{{asset('/public/js/laboratorio/fq/capturaGA.js')}}?v=0.001"></script>
+  <script src="{{asset('/public/js/laboratorio/fq/capturaSolidos.js')}}?v=0.001"></script>
   @stop
 
 @endsection  
-
-

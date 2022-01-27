@@ -36,6 +36,7 @@ class CrisolGA extends Component
           'Peso' => $this->peso, 
           'Min' => ($this->peso - 0.0001),
           'Max' => ($this->peso + 0.0001),
+          'Estado' => 0,
         //   'Id_user_c' => $this->idUser,  
         //   'Id_user_m' => $this->idUser,
       ]);

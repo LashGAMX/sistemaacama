@@ -18,6 +18,7 @@ use App\Models\TecnicaLoteMetales;
 use App\Models\BlancoCurvaMetales;
 use App\Models\CalentamientoMatraz;
 use App\Models\ControlCalidad;
+use App\Models\CrisolesGA;
 use App\Models\CurvaCalibracionMet;
 use App\Models\VerificacionMetales;
 use App\Models\EstandarVerificacionMet;
@@ -30,6 +31,7 @@ use App\Models\EnfriadoMatraces;
 use App\Models\EnfriadoMatraz;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
+use App\Models\LoteDetalleSolidos;
 use App\Models\LoteTecnica;
 use App\Models\Reportes;
 use App\Models\SecadoCartucho;
@@ -838,6 +840,7 @@ class FqController extends Controller
                         break;
                     default:
                         # code...
+                        $detModel = LoteDetalleSolidos::where('Id_lote',$request->idLote)->get();
                         break;
                 }
                 break;
@@ -882,19 +885,43 @@ class FqController extends Controller
                     ]);
                     break;
                 case 10: //todo Gravimetia
-                    $model = LoteDetalleGA::create([ 
-                        'Id_lote' => $request->idLote,
-                        'Id_analisis' => $request->idAnalisis,
-                        'Id_parametro' => $request->idParametro,
-                        'M_final' => 0,
-                        'M_inicial1' => 0,
-                        'M_inicial2' => 0,
-                        'M_inicial3' => 0,
-                        'Ph' => 0,
-                        'Vol_muestra' => 0,
-                        'Blanco' => 0,
-                        'F_conversion' => 0,
-                    ]);
+                    switch ($request->idParametro) {
+                        case 14:
+                            $model = LoteDetalleGA::create([ 
+                                'Id_lote' => $request->idLote,
+                                'Id_analisis' => $request->idAnalisis,
+                                'Id_parametro' => $request->idParametro,
+                                'Id_control' => 0,
+                                'M_final' => 0,
+                                'M_inicial1' => 0,
+                                'M_inicial2' => 0,
+                                'M_inicial3' => 0,
+                                'Ph' => 0,
+                                'Vol_muestra' => 1000,
+                                'Blanco' => 0,
+                                'F_conversion' => 0,
+                            ]);
+                            break;
+                        default:
+                            $model = LoteDetalleSolidos::create([
+                                'Id_lote' => $request->idLote,
+                                'Id_analisis' => $request->idAnalisis,
+                                'Id_parametro' => $request->idParametro,
+                                'Id_control' => 1,
+                                'Masa1' => 0,
+                                'Masa2' => 0,
+                                'Peso_muestra1' => 0,
+                                'Peso_muestra2' => 0, 
+                                'Peso_constante1' => 0,
+                                'Peso_constante2' => 0,
+                                'Vol_muestra' => 0,
+                                'Factor_conversion' => 0,
+                                'Observacion' => '',
+                            ]);
+                            break;
+                    }
+                    break;
+                
                     break;
                 case 15: //todo Volumetria
                             # code...
@@ -956,7 +983,15 @@ class FqController extends Controller
                 break;
             case 10: //todo Gravimetia
                     # code...ViewLoteDetalleGA
-                    $paraModel = DB::table('ViewLoteDetalleGA')->where('Id_lote', $request->idLote)->get();
+                    switch ($request->idParametro) {
+                        case 14:
+                            $paraModel = DB::table('ViewLoteDetalleGA')->where('Id_lote', $request->idLote)->get();
+                            break;
+                        default:
+                            $paraModel = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $request->idLote)->get();
+                            break;
+                    }
+                    break;
                 break;
             case 15: //todo Volumetria
                         # code...
@@ -1235,27 +1270,52 @@ class FqController extends Controller
     // todo ***************************
     // todo Inicia Captura GA
     // todo ***************************
-    public function operacionGA(Request $request)
+    public function operacionGASimple(Request $request)
     { 
-        $id = rand(0,10);
-        $matraz = MatrazGA::where('id_matraz', $id)->first();
-        $peso = mt_rand($matraz->Min, $matraz->Max); 
+        $modelMatraz = MatrazGA::all();
+        $cont = 0;
+        //? Aplica la busqueda de matraz hasta encontrar un matraz desocupado
+        do{
+            $id = rand(0,$modelMatraz->count());
+            $matraz = MatrazGA::where('id_matraz', $id)->first();
+            $cont++;
+        }while($matraz->Estado == 1);        
 
-        $mf = (($request->R/1000000) * $request->I)+$request->P;
-        $m1 = $mf + 0.0001;
-        $m2 = $m1 + 0.0001;
-        $m3 = $m2 + 0.0001;
+        //$m3 = mt_rand($matraz->Min, $matraz->Max);
+        $dif = ($matraz->Max - $matraz->Min); 
+        $ran = (round($dif,4))/10;
+        $m3 = $matraz->Max - $ran;
 
 
-        $data = array( 
+        $mf = ((($request->R/$request->E) * $request->I)+$m3);
+        $m1 = ($m3 - 0.0002); 
+        $m2 = ($m3 - 0.0001);
+
+
+        $data = array(
            'mf' => $mf,
            'm1' => $m1,
            'm2' => $m2,
            'm3' => $m3,
-           'peso' => $peso,
-            
+           'serie' => $matraz->Num_serie,        
+           'min' => $matraz->Min,
+           'max' => $matraz->Max,
+           //'potencia' => $potencia,
         ); 
         return response()->json($data); 
+    }
+    public function operacionGALarga(Request $request){
+        // $res = (((($request->H - $request->C) / $request->I) * $request->E) - $request->G);
+        $res1 = $request->H - $request->C;
+        $res2 = $res1 / $request->I;
+        $res3 = $res2 * $request->E;
+        $res = $res3 - $request->G;
+        
+        $data = array(
+
+            'res' => $res,
+        );
+        return response()->json($data);
     }
     public function capturaGA()  
     {
@@ -1340,6 +1400,134 @@ class FqController extends Controller
     // todo Fin Captura GA
     // todo ***************************
 
+    // todo ***************************
+    // todo Inicia Captura Solidos
+    // todo ***************************
+
+    public function capturaSolidos()
+    {
+        $parametro = Parametro::where('Id_area', 15)->get();
+        $controlModel = ControlCalidad::all(); 
+        // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
+        // var_dump($parametro); 
+        return view('laboratorio.fq.capturaSolidos', compact('parametro','controlModel')); 
+    }
+
+    public function getDataCapturaSolidos(Request $request)
+    {
+        //$parametro = Parametro::where('Id_parametro',$request->formulaTipo)->first();
+        $lote = DB::table('ViewLoteAnalisis')->where('Fecha', $request->fechaAnalisis)->get();
+        $idLote = 0;
+        foreach($lote as $item)
+        { 
+            $detModel = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $item->Id_lote)->first();
+            if($detModel->Id_parametro == $request->formulaTipo) 
+            { 
+                $idLote = $detModel->Id_lote;
+            } 
+        } 
+
+        // $detalleModel = DB::tables'ViewLoteDetalle')->where('Id_lote', $lote->Id_lote)->get();
+        $detalle = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $idLote)->get();
+        $loteModel = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
+        $curvaConst = CurvaConstantes::where('Id_lote',$idLote)->first();
+        $data = array( 
+            'idL' => $idLote,
+            'de' => $detModel,
+            'lote' => $loteModel,
+            'detalle' => $detalle,
+        ); 
+        return response()->json($data); 
+    }
+
+    public function getDetalleSolidos(Request $request)
+    {
+        $model = DB::table("ViewLoteDetalleGA")->where('Id_detalle',$request->idDetalle)->first();
+        
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+
+    public function operacionSolidosSimple(Request $request)
+    { 
+        $modelCrisol = CrisolesGA::all();
+        //? Aplica la busqueda de crisol hasta encontrar un crisol desocupado
+        do{
+            $id = rand(0,$modelCrisol->count());
+            $crisol = CrisolesGA::where('Id_crisol', $id)->first();
+        }while($crisol->Estado == 1);     
+
+        $mf = ((($request->R/$request->factor) * $request->volumen)+$crisol->Peso);
+    
+        $data = array(
+           'masa1' => $crisol->Peso,
+           'masa2' => $mf,
+           'pesoConMuestra1' => ($crisol->Peso + 0.0002),
+           'pesoConMuestra2' => ($crisol->Peso + 0.0004),
+           'pesoC1' => $mf + 0.0002,
+           'pesoC2' => $mf + 0.0004,
+           'serie' => $crisol->Num_serie,  
+           //'potencia' => $potencia,
+        );
+        return response()->json($data);
+    }
+    public function operacionSolidosLarga(Request $request){
+        $res1 = $request->masa2 - $request->masa1;
+        $res2 = $res1 / $request->volumen;
+        $res = $res2 * $request->factor;
+        
+        $data = array(
+
+            'res' => $res,
+        );
+        return response()->json($data);
+    }
+    
+
+    public function createControlCalidadSolidos(Request $request){
+        $muestra = LoteDetalleSolidos::where('Id_detalle',$request->idMuestra)->first();
+
+        $model = LoteDetalleSolidos::create([
+            'Id_lote' => $muestra->Id_lote,
+            'Id_analisis' => $muestra->Id_analisis,
+            'Id_parametro' => $muestra->Id_parametro,
+            'Id_control' => $request->idControl,
+            'Masa1' => 0,
+            'Masa2' => 0,
+            'Peso_muestra1' => 0,
+            'Peso_muestra2' => 0, 
+            'Peso_constante1' => 0,
+            'Peso_constante2' => 0,
+            'Vol_muestra' => 0,
+            'Factor_conversion' => 0,
+            'Observacion' => $muestra->Observacion,
+        ]);
+        
+        $data = array(
+            'model' => $model,
+            'muestra' => $muestra,
+        );
+        return response()->json($data);
+    }
+
+    public function updateObsMuestraSolidos(Request $request)
+    {
+        $model = LoteDetalleGA::where('Id_detalle',$request->idMuestra)->first();
+        $model->Observacion = $request->observacion;
+        $model->save();
+
+        $data = array(
+            'model' => $model, 
+        );
+        return response()->json($data);
+    }
+    
+    // todo ***************************
+    // todo Fin Captura Solidos
+    // todo ***************************
+
 
     //todo *******************************************
     //todo Inicio Seccion de Volumetria
@@ -1397,22 +1585,7 @@ class FqController extends Controller
     
     //todo *******************************************
     //todo Fin Seccion de Volumetria
-    //todo ******************************************* 
-
-    //todo *******************************************
-    //todo Inicio Seccion de Gravimetria
-    //todo *******************************************
-    public function capturaGravi()
-    {
-        $parametro = Parametro::where('Id_area', 11)->get();
-        // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
-        // var_dump($parametro); 
-        return view('laboratorio.fq.capturaGravi', compact('parametro')); 
-    }
-    
-    //todo *******************************************
-    //todo Fin Seccion de Gravimetria
-    //todo *******************************************
+    //todo *******************************************     
 
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
     public function exportPdfCapturaEspectro($idLote)
@@ -1447,17 +1620,17 @@ class FqController extends Controller
         ]);
  
          //Establece la marca de agua del documento PDF
-        //  $mpdf->SetWatermarkImage( 
-        //      asset('HojaMembretada2.png'),
-        //      1,
-        //      array(215, 280),
-        //      array(0, 0),
-        //  ); 
+        /* $mpdf->SetWatermarkImage( 
+            asset('HojaMembretada2.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        ); 
  
-        //  $mpdf->showWatermarkImage = true;         
+        $mpdf->showWatermarkImage = true; */
 
-         $id_lote = $idLote;
-         $semaforo = true;
+        $id_lote = $idLote;
+        $semaforo = true;
  
          //Recupera el nombre de usuario y firma
          $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
@@ -1882,6 +2055,98 @@ class FqController extends Controller
     public function exportPdfCapturaGA($idLote)
     {
          //Var. de prueba temporal
+         //$idLote = 11;        
+
+         //Opciones del documento PDF
+         $mpdf = new \Mpdf\Mpdf([    
+            'orientation' => 'P',        
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 31,
+            'margin_bottom' => 45,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+ 
+        //  //Establece la marca de agua del documento PDF
+        /* $mpdf->SetWatermarkImage(
+              asset('/public/storage/HojaMembretada3.png'),
+              1,
+              array(215, 280),
+              array(0, 0),
+          );         
+          $mpdf->showWatermarkImage = true; */ 
+ 
+         $id_lote = $idLote;
+         $semaforo = true;             
+ 
+         //Recupera el nombre de usuario y firma
+         $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
+         $firma = $usuario->firma;
+ 
+         //Formatea la fecha
+         $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
+         if(!is_null($fechaAnalisis)){
+             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
+         }else{
+             $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
+             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
+             echo '<script> alert("Valores predeterminados para la fecha de análisis. Rellena este campo.") </script>';
+         }   
+                   
+        //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes****************************************************
+        $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
+        if(!is_null($textoProcedimiento)){
+            $calMatraces = CalentamientoMatraz::where('Id_lote', $id_lote)->get();
+            $enfMatraces = EnfriadoMatraces::where('Id_lote', $id_lote)->get();
+            $secCartuchos = SecadoCartucho::where('Id_lote', $id_lote)->first();
+            $tiempoReflujo = TiempoReflujo::where('Id_lote', $id_lote)->first();
+            $enfMatraz = EnfriadoMatraz::where('Id_lote', $id_lote)->first();  
+
+            $htmlCaptura = view('exports.laboratorio.fq.ga.ga.capturaBody', compact('textoProcedimiento', 'calMatraces', 'enfMatraces', 'secCartuchos', 'tiempoReflujo', 'enfMatraz'));
+        }else{                                                                                                          
+            $textoProcedimiento = ReportesFq::where('Id_reporte', 0)->first();
+
+            $calMatraces = CalentamientoMatraz::where('Id_lote', $id_lote)->get();
+            $enfMatraces = EnfriadoMatraces::where('Id_lote', $id_lote)->get();
+            $secCartuchos = SecadoCartucho::where('Id_lote', $id_lote)->first();
+            $tiempoReflujo = TiempoReflujo::where('Id_lote', $id_lote)->first();
+            $enfMatraz = EnfriadoMatraz::where('Id_lote', $id_lote)->first();                                  
+ 
+            $mpdf->SetJS('print("Valores predeterminados para el reporte. Rellena este campo.");');
+
+            $htmlCaptura = view('exports.laboratorio.fq.ga.ga.capturaBody', compact('textoProcedimiento', 'calMatraces', 'enfMatraces', 'secCartuchos', 'tiempoReflujo', 'enfMatraz'));
+             
+        }   
+
+        //HEADER-FOOTER******************************************************************************************************************                 
+        $htmlHeader = view('exports.laboratorio.fq.ga.ga.capturaHeader', compact('fechaConFormato'));
+        $htmlFooter = view('exports.laboratorio.fq.ga.ga.capturaFooter', compact('usuario', 'firma'));
+                                                 
+        $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        $mpdf->WriteHTML($htmlCaptura);   
+                        
+        $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+                    
+        $htmlCaptura1 = view('exports.laboratorio.fq.ga.ga.captura1Body');
+        $htmlCurvaHeader = view('exports.laboratorio.fq.ga.ga.capturaHeader', compact('fechaConFormato'));
+        $htmlCurvaFooter = view('exports.laboratorio.fq.ga.ga.capturaFooter', compact('usuario', 'firma'));
+        
+        //Hoja 2
+        $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlCurvaHeader, 'O', 'E');
+        $mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E');
+        $mpdf->WriteHTML($htmlCaptura1);                                    
+         
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->Output();        
+    }
+    
+    //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
+    public function exportPdfCapturaSolidos($idLote)
+    {
+         //Var. de prueba temporal
          //$idLote = 11;
 
         $horizontal = false;
@@ -1910,14 +2175,14 @@ class FqController extends Controller
         ]);
  
          //Establece la marca de agua del documento PDF
-         /* $mpdf->SetWatermarkImage(
-             asset('storage/HojaMembretadaHorizontal.png'),
+         $mpdfH->SetWatermarkImage(
+             asset('/public/storage/HojaMembretadaHorizontal.png'),
              1,
              array(215, 280),
              array(0, 0),
-         ); */
+         ); 
  
-         //$mpdf->showWatermarkImage = true;         
+         $mpdfH->showWatermarkImage = true;         
  
          $id_lote = $idLote;
          $semaforo = true;             
@@ -1937,91 +2202,116 @@ class FqController extends Controller
          }   
          
          //Recupera el parámetro que se está utilizando
-         $parametro = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->first();
+         $parametro = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->first();
  
         //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes****************************************************
         $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
         if(!is_null($textoProcedimiento)){
            //Hoja1
             
-            if($parametro->Parametro == 'Grasas y Aceites ++'){ //FALTA AÑADIRLE LA SEGUNDA HOJA
+            if($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)'){
                 $horizontal = false;                
-                //$data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
 
-                //if(!is_null($data)){                         
-                    //$curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                    //$dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
-                    $htmlCaptura = view('exports.laboratorio.fq.ga.capturaBody', compact('textoProcedimiento',));
-                /* }else{
+                if(!is_null($data)){                                                           
+                    $htmlCaptura = view('exports.laboratorio.fq.sdf.capturaBody', compact('textoProcedimiento',));
+                }else{
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
-                } */
-                
-            }else if($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)'){
-                $htmlCaptura = view('exports.laboratorio.fq.sdf.capturaBody', compact('textoProcedimiento'));
-                $horizontal = false;
+                }                                
             }else if($parametro->Parametro == 'SOLIDOS DISUELTOS TOTALES (SDT)'){ //POR REVISAR EN LA TABLA DE DATOS
-                $htmlCaptura = view('exports.laboratorio.fq.sdt.capturaBody', compact('textoProcedimiento'));
-                $horizontal = false;
+                $horizontal = false;                
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
+
+                if(!is_null($data)){                                                           
+                    $htmlCaptura = view('exports.laboratorio.fq.sdt.capturaBody', compact('textoProcedimiento',));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }                                                  
             }else if($parametro->Parametro == 'SOLIDOS DISUELTOS VOLÁTILES (SDV)'){
-                $htmlCaptura = view('exports.laboratorio.fq.sdv.capturaBody', compact('textoProcedimiento'));
-                $horizontal = false;
+                $horizontal = false;                
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
+
+                if(!is_null($data)){                                                           
+                    $htmlCaptura = view('exports.laboratorio.fq.sdv.capturaBody', compact('textoProcedimiento',));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }                              
             }else if($parametro->Parametro == 'SOLIDOS SEDIMENTABLES (S.S)'){
-                $htmlCaptura = view('exports.laboratorio.fq.ss.capturaBody', compact('textoProcedimiento'));
-                $horizontal = false;
+                $horizontal = false;                
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
+
+                if(!is_null($data)){                                                           
+                    $htmlCaptura = view('exports.laboratorio.fq.ss.capturaBody', compact('textoProcedimiento',));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }
             }else if($parametro->Parametro == 'SOLIDOS SUSPENDIDOS FIJOS (SSF)'){ //POR REVISAR EN LA TABLA DE DATOS
-                $htmlCaptura = view('exports.laboratorio.fq.ssf.capturaBody', compact('textoProcedimiento'));
-                $horizontal = false;
+                $horizontal = false;                
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
+
+                if(!is_null($data)){                                                           
+                    $htmlCaptura = view('exports.laboratorio.fq.ssf.capturaBody', compact('textoProcedimiento',));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }                                  
             }else if($parametro->Parametro == 'SOLIDOS SUSPENDIDOS TOTALES (SST)'){
-                $htmlCaptura = view('exports.laboratorio.fq.sst.capturaBody', compact('textoProcedimiento'));
-                $horizontal = true;
+                $horizontal = true;                
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
+
+                if(!is_null($data)){                                                           
+                    $htmlCaptura = view('exports.laboratorio.fq.sst.capturaBody', compact('textoProcedimiento',));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }                                  
             }else if($parametro->Parametro == 'SOLIDOS SUSPENDIDOS VOLÁTILES (SSV)'){
-                $htmlCaptura = view('exports.laboratorio.fq.ssv.capturaBody', compact('textoProcedimiento'));
                 $horizontal = true;
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
+
+                if(!is_null($data)){                                                           
+                    $htmlCaptura = view('exports.laboratorio.fq.ssv.capturaBody', compact('textoProcedimiento',));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }                                  
             }else if($parametro->Parametro == 'SOLIDOS TOTALES (ST)'){
-                $htmlCaptura = view('exports.laboratorio.fq.st.capturaBody', compact('textoProcedimiento'));
-                $horizontal = true;
+                $horizontal = true;                
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
+
+                if(!is_null($data)){                                                           
+                    $htmlCaptura = view('exports.laboratorio.fq.st.capturaBody', compact('textoProcedimiento',));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }                                  
             }else if($parametro->Parametro == 'SOLIDOS TOTALES FIJOS (STF)'){
-                $htmlCaptura = view('exports.laboratorio.fq.stf.capturaBody', compact('textoProcedimiento'));
-                $horizontal = false;
+                $horizontal = false;                
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
+
+                if(!is_null($data)){                                                           
+                    $htmlCaptura = view('exports.laboratorio.fq.stf.capturaBody', compact('textoProcedimiento',));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }                                  
             }else if($parametro->Parametro == 'SOLIDOS TOTALES VOLATILES (STV)'){
-                $htmlCaptura = view('exports.laboratorio.fq.stv.capturaBody', compact('textoProcedimiento'));
-                $horizontal = true;
+                $horizontal = true;                
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
+
+                if(!is_null($data)){                                                           
+                    $htmlCaptura = view('exports.laboratorio.fq.stv.capturaBody', compact('textoProcedimiento',));
+                }else{
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                }                                                  
             }
         }else{                        
-            if($parametro->Parametro == 'Grasas y Aceites ++'){
-                $horizontal = false;                               
-                
-                //$data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
-
-                /* if(!is_null($data)){
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count(); */
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 0)->first();
-
-                    $calMatraces = CalentamientoMatraz::where('Id_lote', $id_lote)->get();
-                    $enfMatraces = EnfriadoMatraces::where('Id_lote', $id_lote)->get();
-                    $secCartuchos = SecadoCartucho::where('Id_lote', $id_lote)->first();
-                    $tiempoReflujo = TiempoReflujo::where('Id_lote', $id_lote)->first();
-                    $enfMatraz = EnfriadoMatraz::where('Id_lote', $id_lote)->first();
-
-
-                    /* $data = array(
-                        'calMatraces' => $calMatraces,
-                        'enfMatraces' => $enfMatraces,
-                        'secCartuchos' => $secCartuchos,
-                        'tiempoReflujo' => $tiempoReflujo,
-                        'enfMatraz' => $enfMatraz
-                    );    */                 
-                                        
-                    $htmlCaptura = view('exports.laboratorio.fq.ga.ga.capturaBody', compact('textoProcedimiento', 'calMatraces', 'enfMatraces',
-                        'secCartuchos', 'tiempoReflujo', 'enfMatraz'
-                    ));
-                //}else{
-                    /* $sw = false;
-                    $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
-                } */                 
-            }else if($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)'){
+            if($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)'){
                 $textoProcedimiento = ReportesFq::where('Id_reporte', 14)->first();
                 $htmlCaptura = view('exports.laboratorio.fq.sdf.capturaBody', compact('textoProcedimiento'));
                 $horizontal = false;
@@ -2071,56 +2361,42 @@ class FqController extends Controller
         }   
 
         //HEADER-FOOTER******************************************************************************************************************         
-        if($parametro->Parametro == 'Grasas y Aceites ++'){ //POR REVISAR EN LA TABLA DE DATOS
-            $htmlHeader = view('exports.laboratorio.fq.ga.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.ga.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)'){
-            $htmlHeader = view('exports.laboratorio.fq.sdf.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.sdf.capturaFooter', compact('usuario', 'firma'));
+        if($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)'){
+            $htmlHeader = view('exports.laboratorio.fq.ga.sdf.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.ga.sdf.capturaFooter', compact('usuario', 'firma'));
         }else if($parametro->Parametro == 'SOLIDOS DISUELTOS TOTALES (SDT)'){ //POR REVISAR EN LA TABLA DE DATOS
-            $htmlHeader = view('exports.laboratorio.fq.sdt.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.sdt.capturaFooter', compact('usuario', 'firma'));
+            $htmlHeader = view('exports.laboratorio.fq.ga.sdt.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.ga.sdt.capturaFooter', compact('usuario', 'firma'));
         }else if($parametro->Parametro == 'SOLIDOS DISUELTOS VOLÁTILES (SDV)'){
-            $htmlHeader = view('exports.laboratorio.fq.sdv.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.sdv.capturaFooter', compact('usuario', 'firma'));
+            $htmlHeader = view('exports.laboratorio.fq.ga.sdv.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.ga.sdv.capturaFooter', compact('usuario', 'firma'));
         }else if($parametro->Parametro == 'SOLIDOS SEDIMENTABLES (S.S)'){
-            $htmlHeader = view('exports.laboratorio.fq.ss.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.ss.capturaFooter', compact('usuario', 'firma'));
+            $htmlHeader = view('exports.laboratorio.fq.ga.ss.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.ga.ss.capturaFooter', compact('usuario', 'firma'));
         }else if($parametro->Parametro == 'SOLIDOS SUSPENDIDOS FIJOS (SSF)'){ //POR REVISAR EN LA TABLA DE DATOS
-            $htmlHeader = view('exports.laboratorio.fq.ssf.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.ssf.capturaFooter', compact('usuario', 'firma'));
+            $htmlHeader = view('exports.laboratorio.fq.ga.ssf.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.ga.ssf.capturaFooter', compact('usuario', 'firma'));
         }else if($parametro->Parametro == 'SOLIDOS SUSPENDIDOS TOTALES (SST)'){
-            $htmlHeader = view('exports.laboratorio.fq.sst.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.sst.capturaFooter', compact('usuario', 'firma'));
+            $htmlHeader = view('exports.laboratorio.fq.ga.sst.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.ga.sst.capturaFooter', compact('usuario', 'firma'));
         }else if($parametro->Parametro == 'SOLIDOS SUSPENDIDOS VOLÁTILES (SSV)'){
-            $htmlHeader = view('exports.laboratorio.fq.ssv.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.ssv.capturaFooter', compact('usuario', 'firma'));
+            $htmlHeader = view('exports.laboratorio.fq.ga.ssv.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.ga.ssv.capturaFooter', compact('usuario', 'firma'));
         }else if($parametro->Parametro == 'SOLIDOS TOTALES (ST)'){
-            $htmlHeader = view('exports.laboratorio.fq.st.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.st.capturaFooter', compact('usuario', 'firma'));
+            $htmlHeader = view('exports.laboratorio.fq.ga.st.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.ga.st.capturaFooter', compact('usuario', 'firma'));
         }else if($parametro->Parametro == 'SOLIDOS TOTALES FIJOS (STF)'){
-            $htmlHeader = view('exports.laboratorio.fq.stf.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.stf.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'SOLIDOS TOTALES VOLATILES (STV)'){                     
-            $htmlHeader = view('exports.laboratorio.fq.stv.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.fq.stv.capturaFooter', compact('usuario', 'firma'));
+            $htmlHeader = view('exports.laboratorio.fq.ga.stf.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.ga.stf.capturaFooter', compact('usuario', 'firma'));
+        }else if($parametro->Parametro == 'SOLIDOS TOTALES VOLATILES (STV)'){                      
+            $htmlHeader = view('exports.laboratorio.fq.ga.stv.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.ga.stv.capturaFooter', compact('usuario', 'firma'));
         }                                  
 
         if($horizontal === false){            
             $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
             $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-            $mpdf->WriteHTML($htmlCaptura);   
-            
-            if($parametro->Parametro = 'Grasas y Aceites ++'){
-                $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
-                    
-                $htmlCaptura1 = view('exports.laboratorio.fq.ga.captura1Body');
-                $htmlCurvaHeader = view('exports.laboratorio.fq.ga.capturaHeader', compact('fechaConFormato'));
-                $htmlCurvaFooter = view('exports.laboratorio.fq.ga.capturaFooter', compact('usuario', 'firma'));
-                $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlCurvaHeader, 'O', 'E');
-                $mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E');
-                $mpdf->WriteHTML($htmlCaptura1);
-            }
+            $mpdf->WriteHTML($htmlCaptura);                           
         }else{ //Es horizontal la bitácora
             $mpdfH->setHeader("{PAGENO}<br><br>" . $htmlHeader);
             $mpdfH->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -2135,7 +2411,7 @@ class FqController extends Controller
             $mpdfH->CSSselectMedia = 'mpdf';
             $mpdfH->Output();
         }        
-    } 
+    }
     
      //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
      public function exportPdfCapturaVolumetria($idLote)

@@ -78,20 +78,37 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getDetalleEspectro', [FqController::class, 'getDetalleEspectro']);
         Route::post('operacionEspectro', [FqController::class, 'operacionEspectro']);
         Route::post('guardarEspectro', [FqController::class, 'guardarEspectro']);
-    //***************************************************************************************
+    //****************************************GA***********************************************
 
         Route::get('capturaGA', [FqController::class, 'capturaGA']);
         Route::post('getDataCapturaGA', [FqController::class, 'getDataCapturaGA']);
         Route::post('getDetalleGA', [FqController::class, 'getDetalleGA']);
-        Route::post('operacionGA', [FqController::class, 'operacionGA']);
+        Route::post('operacionGA', [FqController::class, 'operacionGA']); 
+        Route::post('operacionGASimple', [FqController::class, 'operacionGASimple']);
+        Route::post('operacionGALarga', [FqController::class, 'operacionGALarga']);
         Route::post('createControlCalidad', [FqController::class, 'createControlCalidad']);
         Route::post('updateObsMuestraGA', [FqController::class, 'updateObsMuestraGA']);
 
+//****************************************SOLIDOS***********************************************
+        Route::get('capturaSolidos', [FqController::class, 'capturaSolidos']);
+        Route::post('getDataCapturaSolidos', [FqController::class, 'getDataCapturaSolidos']);
+        Route::post('getDetalleSolidos', [FqController::class, 'getDetalleSolidos']);
+        Route::post('operacionSolidosSimple', [FqController::class, 'operacionSolidosSimple']);
+        Route::post('operacionSolidosLarga', [FqController::class, 'operacionSolidosLarga']);
+        Route::post('createControlCalidadSolidos', [FqController::class, 'createControlCalidadSolidos']);
+        Route::post('updateObsMuestraSolidos', [FqController::class, 'updateObsMuestraSolidos']);
+
+
+//****************************************FIN SOLIDOS***********************************************
+
+//****************************************VOLUMETRIA***********************************************
 
         Route::get('capturaVolumetria', [FqController::class, 'capturaVolumetria']);
         Route::post('getDataCapturaVolumetria', [FqController::class, 'getDataCapturaVolumetria']);
         Route::post('getDetalleVolumetria', [FqController::class, 'getDetalleVolumetria']);
         Route::post('operacionVolumetria', [FqController::class, 'operacionVolumetria']);
+
+//****************************************FIN VOLUMETRIA***********************************************
 
         Route::get('capturaGravi', [FqController::class, 'capturaGravi']);
         
@@ -107,6 +124,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         //? Export PDF
         Route::get('captura/exportPdfCapturaEspectro/{idLote}', [FqController::class, 'exportPdfCapturaEspectro']);
         Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
+        Route::get('captura/exportPdfCapturaSolidos/{idLote}', [FqController::class, 'exportPdfCapturaSolidos']);
         Route::get('captura/exportPdfCapturaVolumetria/{idLote}', [FqController::class, 'exportPdfCapturaVolumetria']);
     });
         // todo Modulo MicroBiologia

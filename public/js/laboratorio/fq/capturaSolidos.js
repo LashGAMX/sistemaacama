@@ -1,4 +1,3 @@
-
 var area = "fq";
 var idLote;
 
@@ -57,7 +56,7 @@ function getDataCaptura() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/getDataCapturaGA",
+        url: base_url + "/admin/laboratorio/" + area + "/getDataCapturaSolidos",
         data: {
             formulaTipo: $("#formulaTipo").val(),
             fechaAnalisis: $("#fechaAnalisis").val(),
@@ -115,7 +114,7 @@ function getDataCaptura() {
                 } else { 
                     status = "disabled";
                 }
-                tab2 += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleGA('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
+                tab2 += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleSolidos('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
                 if (item.Id_control != 1) 
                 {
                     tab2 += '<br> <small class="text-danger">'+item.Control+'</small></td>';
@@ -175,7 +174,7 @@ function imprimir() {
     /* console.log("Dentro de evento imprimir modif");
     $('#btnImprimir').click(function () {
         console.log("Valor de idLote: " + idLote);   */     
-        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA/"+idLote;
+        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaSolidos/"+idLote;
         //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA";
     //});
 }
@@ -184,33 +183,30 @@ function operacionSimple() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/operacionGASimple", 
+        url: base_url + "/admin/laboratorio/" + area + "/operacionSolidosSimple", 
         data: {
-            P:$("#p").val(),
             R:$("#resultado").val(),
-            H:$("#h1").val(),
-            J:$("#j1").val(),
-            K:$("#k1").val(),
-            C:$("#c1").val(),
-            L:$("#l1").val(),
-            I:$("#i1").val(),
-            G:$("#g1").val(),
-            E:$("#e1").val(),
+            masa1:$("#m11").val(),
+            masa2:$("#m21").val(),
+            pesoConMuestra1:$("#pcm11").val(),
+            pesoConMuestra2:$("#pcm21").val(),
+            pesoC1:$("#pc1").val(),
+            pesoC2:$("#pc21").val(),
+            volumen:$("#v1").val(),
+            factor:$("#f1").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
-            let fixh1 = response.mf.toFixed(4);
-            let fixj1 = response.m1.toFixed(4);
-            let fixk1 = response.m2.toFixed(4);
-            let fixc1 = response.m3.toFixed(4); 
-        
-            $("#h1").val(fixh1); 
-            $("#j1").val(fixj1);
-            $("#k1").val(fixk1);
-            $("#c1").val(fixc1);
-            $('#p').val(response.serie);
+            
+            $('#p').val(response.serie); 
+            $("#m11").val(response.masa1);
+            $("#m21").val(response.masa2);
+            $("#pcm11").val(response.pesoConMuestra1);
+            $("#pcm21").val(response.pesoConMuestra2); 
+            $("#pc1").val(response.pesoC1);
+            $("#pc21").val(response.pesoC2);
          
         }
     });
@@ -219,159 +215,29 @@ function operacionLarga() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/operacionGALarga", 
+        url: base_url + "/admin/laboratorio/" + area + "/operacionSolidosLarga", 
         data: {
-            P:$("#p").val(),
-            //R:$("#resultado").val(),
-            H:$("#h1").val(),
-            J:$("#j1").val(),
-            K:$("#k1").val(),
-            C:$("#c1").val(),
-            L:$("#l1").val(),
-            I:$("#i1").val(),
-            G:$("#g1").val(),
-            E:$("#e1").val(),
+            
+            masa1:$("#m11").val(),
+            masa2:$("#m21").val(),
+            pesoConMuestra1:$("#pcm11").val(),
+            pesoConMuestra2:$("#pcm21").val(),
+            pesoC1:$("#pc1").val(),
+            pesoC2:$("#pc21").val(),
+            volumen:$("#v1").val(),
+            factor:$("#f1").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
             $('#resultado').val(response.res.toFixed(4));
-         
         }
     });
 }
 
-function liberarMuestraMetal() {
-    let tabla = document.getElementById('divLote');
-    let tab = '';
 
-    let tabla2 = document.getElementById('divTablaControles');
-    let tab2 = '';
-    let cont = 1;
-
-    $.ajax({
-        type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/liberarMuestraMetal",
-        data: {
-            idDetalle: $("#idDetalle" + idMuestra).val(),
-            _token: $('input[name="_token"]').val()
-        },
-        dataType: "json",
-        success: function (response) {
-            console.log(response);
-            getDataCaptura();
-        }
-    });
-}
-
-function generarControles() {
-    var ranCon = new Array();
-
-    ranCon.push(random(0, numMuestras.length - 1));
-    ranCon.push(random(0, numMuestras.length - 1));
-    ranCon.push(random(0, numMuestras.length - 1));
-    ranCon.push(random(0, numMuestras.length - 1));
-    ranCon.push(random(0, numMuestras.length - 1));
-
-    let tabla2 = document.getElementById('divTablaControles');
-    let tab2 = '';
-
-    let cont = 1;
-
-    $.ajax({
-        type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/getDataCapturaEspectro",
-        data: {
-            ranCon: ranCon,
-            numMuestra: numMuestras,
-            _token: $('input[name="_token"]').val()
-        },
-        dataType: "json",
-        success: function (response) {
-            console.log(response);
-
-            tab2 += '<table id="tablaControles" class="table table-sm">';
-            tab2 += '    <thead class="">';
-            tab2 += '        <tr>';
-            tab2 += '          <th>#</th>';
-            tab2 += '          <th>Abs1</th>';
-            tab2 += '          <th>Abs2</th>';
-            tab2 += '          <th>Abs3</th>';
-            tab2 += '          <th>Mililitros D Color</th>';
-            tab2 += '          <th>Nitratos</th>';
-            tab2 += '          <th>Nitritos</th>';
-            tab2 += '          <th>Sulfuros</th>';
-            tab2 += '          <th>Blanco A.</th>';
-            tab2 += '          <th>Vol. Aforo</th>';
-            tab2 += '          <th>Vol. Aforo Des</th>';
-            tab2 += '          <th>Vol. Muestra</th>';
-            tab2 += '        </tr>';
-            tab2 += '    </thead>';
-            tab2 += '    <tbody>';
-            $.each(response.detalle, function (key, item) {
-                tab2 += '<tr>';
-                tab2 += '<input style="width: 80px" hidden id="idDetalle' + cont + '" value="' + item.Id_detalle + '">';
-                tab2 += '<td>' + item.Folio_servicio + '</td>';
-                if (item.Descripcion != 'Resultado') {
-                    tab2 += '<td>' + item.Empresa + ' <br> <small class="text-danger">' + item.Descripcion + '</small></td>';
-                } else {
-                    tab2 += '<td>' + item.Empresa + ' <br> <small class="text-info">' + item.Descripcion + '</small></td>';
-                }
-                if (item.Liberado != 0) {
-                    tab2 += '<td><input disabled style="width: 80px" id="volMuestra' + cont + '" value="50"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="abs1' + cont + '" value="' + item.Abs1 + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="abs2' + cont + '" value="' + item.Abs2 + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="abs3' + cont + '" value="' + item.Abs3 + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="absPromedio' + cont + '" value="' + item.Abs_promedio + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="factorDilucion' + cont + '" value="' + item.Factor_dilucion + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="factorConversion' + cont + '" value="' + item.Factor_conversion + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="VolDisolucion' + cont + '" value="' + item.Vol_disolucion + '"></td>';
-                } else {
-                    tab2 += '<td><input style="width: 80px" id="volMuestra' + cont + '" value="50"></td>';
-                    tab2 += '<td><input style="width: 80px" id="abs1' + cont + '" value="' + item.Abs1 + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="abs2' + cont + '" value="' + item.Abs2 + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="abs3' + cont + '" value="' + item.Abs3 + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="absPromedio' + cont + '" value="' + item.Abs_promedio + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="factorDilucion' + cont + '" value="' + item.Factor_dilucion + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="factorConversion' + cont + '" value="' + item.Factor_conversion + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="VolDisolucion' + cont + '" value="' + item.Vol_disolucion + '"></td>';
-                }
-                tab2 += '</tr>';
-                numMuestras.push(item.Id_detalle);
-                cont++;
-            });
-            tab2 += '    </tbody>';
-            tab2 += '</table>';
-            tabla2.innerHTML = tab2;
-            var t = $('#tablaControles').DataTable({
-                "ordering": false,
-                "language": {
-                    "lengthMenu": "# _MENU_ por pagina",
-                    "zeroRecords": "No hay datos encontrados",
-                    "info": "Pagina _PAGE_ de _PAGES_",
-                    "infoEmpty": "No hay datos encontrados",
-                }
-            });
-
-
-            $('#tablaControles tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                }
-                else {
-                    table.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                }
-            });
-            $('#tablaControles tr').on('click', function () {
-                let dato = $(this).find('td:first').html();
-                idMuestra = dato;
-            });
-        }
-    });
-}
-function getDetalleGA(idDetalle)
+function getDetalleSolidos(idDetalle)
 {
     $.ajax({
         type: "POST",
@@ -398,12 +264,12 @@ function getDetalleGA(idDetalle)
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
-function updateObsMuestraGA()
+function updateObsMuestraSolidos()
 {
     
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestraGA",
+        url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestraSolidos",
         data: {
             idMuestra: idMuestra,
             observacion: $("#observacion").val(),
@@ -419,7 +285,7 @@ function createControlCalidad()
 {
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/createControlCalidad",
+        url: base_url + "/admin/laboratorio/" + area + "/createControlCalidadSolidos",
         data: {
             idMuestra: idMuestra,
             idControl: $("#controlCalidad").val(),

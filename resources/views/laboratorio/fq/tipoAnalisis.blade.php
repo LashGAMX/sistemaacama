@@ -58,7 +58,18 @@
                   </div>
               </div>
           </a>
-      </div>    
+      </div>  
+      <div class="col-md-3">
+        <a href="{{url('')}}/admin/laboratorio/fq/capturaSolidos">
+            <div class="panel widget center bgimage">
+                <div class="dimmer"></div>
+                <div class="panel-content">
+                  <i class="fas fa-bolt"></i>
+                    <h4>Solidos</h4>
+                </div>
+            </div>
+        </a>
+    </div>    
       </div>
   </div> 
   </div>
