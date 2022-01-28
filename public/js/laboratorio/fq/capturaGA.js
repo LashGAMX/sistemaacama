@@ -432,3 +432,57 @@ function createControlCalidad()
         }
     });
 }
+
+
+function validacionModal(){
+    let sw = true;
+    
+ if(validarCampos("campos")){
+    if($("#blanco1").val()!= $("#blanco2").val())
+    {
+        //alert('Los valores de BLANCO no son iguales')
+        // $("#blanco2").attr("class", "bg-danger");
+        // $("#blanco2").attr("class", "bg-danger");
+        inputFocus("blanco2")
+        inputFocus("blanco1")
+        sw = false;
+        
+        console.log('no valido'); 
+    }
+    if($("#volMuestra1").val()!= $("#volMuestra2").val())
+    {
+        //alert('Los valores de VOLUMEN MUESTRA no son iguales')
+        inputFocus("volMuestra1")
+        inputFocus("volMuestra2")
+        sw = false;
+    }
+    if($("#abs11").val()!= $("#abs12").val())
+    {
+        //alert('Los valores de ABS no son iguales')
+        inputFocus("abs11")
+        inputFocus("abs12")
+        sw = false;
+    }
+    if($("#abs21").val()!= $("#abs22").val())
+    {
+        //alert('Los valores de ABS no son iguales')
+        inputFocus("abs11")
+        inputFocus("abs22")
+        sw = false;
+    }
+    if($("#abs31").val()!= $("#abs32").val())
+    {
+        //alert('Los valores de ABS no son iguales')
+        inputFocus("abs31")
+        inputFocus("abs32")
+        sw = false;
+    }
+    
+    if(sw == true)
+    {
+        operacion();
+        inputDesFocus();
+    }
+ }
+ 
+}

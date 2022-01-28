@@ -1460,6 +1460,18 @@ class FqController extends Controller
         }while($crisol->Estado == 1);     
 
         $mf = ((($request->R/$request->factor) * $request->volumen)+$crisol->Peso);
+
+        $model = LoteDetalleSolidos::find($request->idMuestra);
+        $model->Masa1 = $crisol->Peso;
+        $model->Masa2 = $mf;
+        $model->Peso_muestra1 =($crisol->Peso + 0.0002);
+        $model->Peso_muestra2 =($crisol->Peso + 0.0004);
+        $model->Peso_constante1 = $mf + 0.0002;
+        $model->Peso_constante2 = $mf + 0.0004;
+        $model->Vol_muestra = $request->volumen;
+        $model->Factor_conversion = $request->factor;
+        $model->Resultado = $request->R;
+        $model->save();
     
         $data = array(
            'masa1' => $crisol->Peso,
@@ -1478,9 +1490,23 @@ class FqController extends Controller
         $res2 = $res1 / $request->volumen;
         $res = $res2 * $request->factor;
         
+        
+        $model = LoteDetalleSolidos::find($request->idMuestra);
+        $model->Masa1 = $request->masa1;
+        $model->Masa2 = $request->masa2;
+        $model->Peso_muestra1 = $request->pesoConMuestra1;
+        $model->Peso_muestra2 = $request->PesoConMuestra2;
+        $model->Peso_constante1 = $request->pesoC1;
+        $model->Peso_constante2 = $request->pesoC2;
+        $model->Vol_muestra = $request->volumen;
+        $model->Factor_conversion = $request->factor;
+        $model->Resultado = $request->R;
+        $model->save();
+        
         $data = array(
 
             'res' => $res,
+            'model' => $model,
         );
         return response()->json($data);
     }

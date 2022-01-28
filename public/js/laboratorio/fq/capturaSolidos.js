@@ -26,7 +26,8 @@ $(document).ready(function () {
 $('#guardar').click(function () {
     if($("#resultado").val() != ''){
         console.log("Metodo corto");
-        operacionSimple();
+        validacionModal();
+        //operacionSimple();
     }else{
         console.log("Metodo largo");
         operacionLarga();
@@ -124,7 +125,7 @@ function getDataCaptura() {
                 tab2 += '<td><input disabled style="width: 80px" value="'+item.Folio_servicio+'"></td>';
                 tab2 += '<td><input disabled style="width: 80px" value="-"></td>';
                 tab2 += '<td><input disabled style="width: 80px" value="'+item.Clave_norma+'"></td>';
-                tab2 += '<td><input disabled style="width: 80px" value="-"></td>';
+                tab2 += '<td><input disabled style="width: 80px" value="'+item.Resultado+'"></td>';
                 tab2 += '<td><input disabled style="width: 80px" value="-"></td>';
                 tab2 += '<td>'+item.Observacion+'</td>';
                 tab2 += '</tr>';
@@ -178,6 +179,65 @@ function imprimir() {
         //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA";
     //});
 }
+function validacionModal(){
+    let sw = true;
+    
+ if(validarCampos("campos")){
+    if($("#m11").val()!= $("#m12").val())
+    {
+        //alert('Los valores de BLANCO no son iguales')
+        // $("#blanco2").attr("class", "bg-danger");
+        // $("#blanco2").attr("class", "bg-danger");
+        inputFocus("m11")
+        inputFocus("m12")
+        sw = false;
+        
+        console.log('no valido'); 
+    }
+    if($("#m21").val()!= $("#m22").val())
+    {
+        //alert('Los valores de VOLUMEN MUESTRA no son iguales')
+        inputFocus("m21")
+        inputFocus("m22")
+        sw = false;
+    }
+    if($("#pcm11").val()!= $("#pcn12").val())
+    {
+        //alert('Los valores de ABS no son iguales')
+        inputFocus("pcm11")
+        inputFocus("pcm12")
+        sw = false;
+    }
+    if($("#pcm21").val()!= $("#pcm22").val())
+    {
+        //alert('Los valores de ABS no son iguales')
+        inputFocus("pcm21")
+        inputFocus("pcm22")
+        sw = false;
+    }
+    if($("#pc1").val()!= $("#pc2").val())
+    {
+        //alert('Los valores de ABS no son iguales')
+        inputFocus("pc1")
+        inputFocus("pc2")
+        sw = false;
+    }
+    if($("#v1").val()!= $("#v2").val())
+    {
+        //alert('Los valores de ABS no son iguales')
+        inputFocus("v1")
+        inputFocus("v2")
+        sw = false;
+    }
+    
+    if(sw == true)
+    {
+        operacionSimple();
+        inputDesFocus();
+    }
+ }
+ 
+}
 
 function operacionSimple() {
 
@@ -185,6 +245,7 @@ function operacionSimple() {
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/operacionSolidosSimple", 
         data: {
+            idMuestra: idMuestra,
             R:$("#resultado").val(),
             masa1:$("#m11").val(),
             masa2:$("#m21").val(),

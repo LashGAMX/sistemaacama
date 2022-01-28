@@ -30,29 +30,42 @@ var validarRFC = (function (rfc = '') {
 
 var validarCampos = (function (item) {
   let campo;
-  let sw = false;
+  let sw = true;
   campo = document.getElementsByName(item);
   for (let i = 0; i < campo.length; i++) {
     if (campo[i].value != '') {
       $("#" + campo[i].id).css("border", "");
-      sw = true;
+      // sw = true;
     } else {
       //inputFocus(campo[i].id);
       $("#" + campo[i].id).css("border", "solid 1px #dc3545");
       $("#" + campo[i].id).append(" <b>Appended text</b>.");
       $("#" + campo[i].id).click(function () {
-        $("#" + campo[i].id).css("border", "");
+        $("#" + campo[i].id).css("border", "");       
       });
       swal("Error!", "Por favor verifique sus datos!", "warning");
       sw = false;
-
     }
   }
   return sw;
 });
 
 var inputFocus = (function (id) {
-  $('#' + id).css("background-color", "#fffa86");
+  $('#' + id).css("background-color", "#f8d7da");
+});
+
+var inputDesFocus = (function (id) {
+  $('#' + id).css("background-color", "#fff");
+});
+
+var inputValDefault = (function (contenedor = "") {
+  
+  let sw = true; 
+  $('#'+contenedor).find('input, select').each(function() {
+    // columnas.push($(this).attr("id"));
+    $('#' + $(this).attr("id")).css("border", "");
+  })
+  return sw;
 });
 
 var validarCambio = (function (last, now) {

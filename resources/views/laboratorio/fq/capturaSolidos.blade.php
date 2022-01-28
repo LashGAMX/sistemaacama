@@ -159,7 +159,6 @@
                                 <thead>
                                   <tr>
                                     <th>Parametro</th>
-                                    <th>Descripción</th>
                                     <th>Valor</th>
                                     <th>Valor2</th>
                                   </tr>
@@ -168,43 +167,43 @@
                                 <tbody>
                                     <tr>
                                         <td>Masa 1</td>
-                                        <td><input type="text" id="m11" value="0"></td>
-                                        <td><input type="text" id="m12" value="0"></td>
+                                        <td><input name="campos" type="text" id="m11" value="0"></td>
+                                        <td><input name="campos" type="text" id="m12" value="0"></td>
                                     </tr>
                                     <tr>
                                         <td>Masa 2</td>
-                                        <td><input type="text" id="m21" value="0"></td>
-                                        <td><input type="text" id="m22" value="0"></td>
+                                        <td><input name="campos" type="text" id="m21" value="0"></td>
+                                        <td><input name="campos" type="text" id="m22" value="0"></td>
                                     </tr>
                                     <tr>
                                         <td>Peso constante c/muestra 1</td>
-                                        <td><input type="text" id="pcm11" value="0"></td>
-                                        <td><input type="text" id="pcm12" value="0"></td>
+                                        <td><input name="campos" type="text" id="pcm11" value="0"></td>
+                                        <td><input name="campos" type="text" id="pcm12" value="0"></td>
                                     </tr>
                                     <tr>
                                         <td>Peso constante c/muestra 2</td>
-                                        <td><input type="text" id="pcm21" value="0"></td>
-                                        <td><input type="text" id="pcm22" value="0"></td>
+                                        <td><input name="campos" type="text" id="pcm21" value="0"></td>
+                                        <td><input name="campos" type="text" id="pcm22" value="0"></td>
                                     </tr>
                                     <tr>
                                         <td>Peso constante 1</td>
-                                        <td><input type="text" id="pc1" value="0"></td>
-                                        <td><input type="text" id="pc2" value="0"></td>
+                                        <td><input name="campos" type="text" id="pc1" value="0"></td>
+                                        <td><input name="campos" type="text" id="pc2" value="0"></td>
                                     </tr>
                                     <tr>
                                         <td>Peso constante 2</td>
-                                        <td><input type="text" id="pc21" value="0"></td>
-                                        <td><input type="text" id="pc22" value="0"></td>
+                                        <td><input name="campos" type="text" id="pc21" value="0"></td>
+                                        <td><input name="campos" type="text" id="pc22" value="0"></td>
                                     </tr>
                                     <tr>
                                         <td>Volumen de muestra</td>
-                                        <td><input type="text" id="v1" value="0"></td>
-                                        <td><input type="text" id="v2" value="0"></td>
+                                        <td><input name="campos" type="text" id="v1" value="0"></td>
+                                        <td><input name="campos" type="text" id="v2" value="0"></td>
                                     </tr>
                                     <tr>
                                         <td>Factor de conversión</td>
-                                        <td><input type="text" id="f1" value="1000000"></td>
-                                        <td><input type="text" id="f2" value="1000000"></td>
+                                        <td><input name="campos" type="text" id="f1" value="1000000"></td>
+                                        <td><input name="campos" type="text" id="f2" value="1000000"></td>
                                     </tr>
                                 </tbody>
                               </table>
@@ -213,13 +212,72 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button"  id="guardar" class="btn btn-primary">Guardar</button>
+                    <button type="button"  id="guardar" class="btn btn-primary">Ejecutar y Guardar</button>
                   </div>
                 </form>
                 </div>
               </div>
               
              </div>
+
+               <!-- Modal Solidos (Diferencias) -->
+        <div class="modal fade" id="modalCapturaSol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-lg" >
+              <div class="modal-content">
+               <form wire:submit.prevent="create">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="">Captura de resultados</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body"> 
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="form-group">
+                        <label for="">Observación</label>
+                        <input type="text" class="form-control" id="observacion">
+                      </div>
+                      <div class="form-group">
+                        <button class="btn btn-success" type="button" onclick="updateObsMuestraGA()" id="btnAplicarObs">Aplicar</button>
+                      </div>
+                      <div class="dropdown-divider"></div>
+                    </div>
+                    <div class="col-md-12">
+                      <input type="number" id="resultado" placeholder="Resultado"></input>
+                      <input type="number" id="p" placeholder="No. Serie Matraz"></input>
+                    </div>
+                      <div class="col-md-12">
+                          <table class="table" id=""> 
+                              <thead>
+                                <tr>
+                                  <th>Parametro</th>
+                                  <th>Valor</th>
+                                  <th>Valor2</th>
+                                </tr>
+                              </thead>
+                              <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                              <tbody>
+                                  <tr>
+                                      <td>Masa 1</td>
+                                      <td><input type="text" id="m11" value="0"></td>
+                                      <td><input type="text" id="m12" value="0"></td>
+                                  </tr>
+                     
+                              </tbody>
+                            </table>
+                      </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button type="button"  id="guardar" class="btn btn-primary">Guardar</button>
+                </div>
+              </form>
+              </div>
+            </div>
+            
+           </div>
 
                <!-- Modal Control Calidad-->
         <div class="modal fade" id="modalCalidad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -266,6 +324,7 @@
 
   @section('javascript')
   <script src="{{asset('/public/js/laboratorio/fq/capturaSolidos.js')}}?v=0.001"></script>
+  <script src="{{asset('/public/js/libs/funciones.js')}}"></script>
   @stop
 
 @endsection  

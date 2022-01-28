@@ -142,7 +142,7 @@
                         </div>
                     </div>
                   </div>
-                  <div class="modal-body"> 
+                  <div class="modal-body" id="prueba"> 
                       <input type="text" id="idMuestra" hidden>
                       <div class="row">
                          <div class="col-md-12">
@@ -165,26 +165,26 @@
                                     <tr>
                                         <td>CA</td>
                                         <td>Blanco</td>
-                                        <td><input type="text" id="blanco1"></td>
-                                        <td><input type="text" id="blanco2"></td>
+                                        <td><input name="campos" type="text" id="blanco1"></td>
+                                        <td><input name="campos" type="text" id="blanco2"></td>
                                     </tr>
                                     <tr>
                                         <td>CB</td>
                                         <td>b</td>
-                                        <td><input type="text" id="b1"></td>
-                                        <td><input type="text" id="b2"></td>
+                                        <td><input name="campos" type="text" id="b1"></td>
+                                        <td><input name="campos" type="text" id="b2"></td>
                                     </tr>
                                     <tr>
                                         <td>CM</td>
                                         <td>m</td>
-                                        <td><input type="text" id="m1"></td>
-                                        <td><input type="text" id="m2"></td>
+                                        <td><input name="campos" type="text" id="m1"></td>
+                                        <td><input name="campos" type="text" id="m2"></td>
                                     </tr>
                                     <tr>
                                         <td>CR</td>
                                         <td>r</td>
-                                        <td><input type="text" id="r1"></td>
-                                        <td><input type="text" id="r2"></td>
+                                        <td><input name="campos" type="text" id="r1"></td>
+                                        <td><input name="campos" type="text" id="r2"></td>
                                     </tr>
                                     <tr>
                                         <td>D</td>
@@ -196,26 +196,26 @@
                                     <tr>
                                         <td>E</td>
                                         <td>Vol de la muestra</td>
-                                        <td><input type="text" id="volMuestra1"></td>
-                                        <td><input type="text" id="volMuestra2"></td>
+                                        <td><input name="campos" type="text" id="volMuestra1"></td>
+                                        <td><input name="campos" type="text" id="volMuestra2"></td>
                                     </tr>
                                     <tr>
                                         <td>X</td>
                                         <td>Absorbancia1</td>
-                                        <td><input type="text" id="abs11"></td>
-                                        <td><input type="text" id="abs12"></td>
+                                        <td><input name="campos" type="text" id="abs11"></td>
+                                        <td><input name="campos" type="text" id="abs12"></td>
                                     </tr>
                                     <tr>
                                         <td>Y</td>
                                         <td>Absorbancia2</td>
-                                        <td><input type="text" id="abs21"></td>
-                                        <td><input type="text" id="abs22"></td>
+                                        <td><input name="campos" type="text" id="abs21"></td>
+                                        <td><input name="campos" type="text" id="abs22"></td>
                                     </tr>
                                     <tr>
                                         <td>Z</td>
                                         <td>Absorbancia3</td>
-                                        <td><input type="text" id="abs31"></td>
-                                        <td><input type="text" id="abs32"></td>
+                                        <td><input name="campos" type="text" id="abs31"></td>
+                                        <td><input name="campos" type="text" id="abs32"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -232,8 +232,8 @@
 
   @section('javascript')
   <script src="{{asset('/public/js/laboratorio/fq/capturaEspectro.js')}}"></script>
-  <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
-  <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
+  <script src="{{asset('/public/js/libs/funciones.js')}}"></script>
+
   @stop
 
 @endsection  

@@ -26,6 +26,7 @@ class LoteDetalleSolidos extends Model
         'Peso_constante2',
         'Vol_muestra',
         'Factor_conversion',
+        'Resultado',
         'Observacion'
     ];
 }
