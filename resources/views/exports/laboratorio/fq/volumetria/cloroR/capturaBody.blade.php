@@ -108,19 +108,19 @@
         <table autosize="1" class="table table-borderless" id="">
             <tbody>                              
                 <tr>
-                    <td class="tableContent2 anchoColumna">mL TITULADOS DE DICROMATO DE POTASIO (1)</td>
+                    <td class="tableContent2 anchoColumna">mL TITULADOS DE TIOSULFATO DE SODIO (1)</td>
                     <td class=""></td>
                     <td class="tableContent2 anchoColumna">9.9</td>
                 </tr>                
 
                 <tr>
-                    <td class="tableContent2 anchoColumna">mL TITULADOS DE DICROMATO DE POTASIO (2)</td>
+                    <td class="tableContent2 anchoColumna">mL TITULADOS DE TIOSULFATO DE SODIO (2)</td>
                     <td class=""></td>
                     <td class="tableContent2 anchoColumna">9.9</td>
                 </tr>                
 
                 <tr>
-                    <td class="tableContent2 anchoColumna">mL TITULADOS DE DICROMATO DE POTASIO (3)</td>
+                    <td class="tableContent2 anchoColumna">mL TITULADOS DE TIOSULFATO DE SODIO (3)</td>
                     <td class=""></td>
                     <td class="tableContent2 anchoColumna">9.9</td>
                 </tr>                

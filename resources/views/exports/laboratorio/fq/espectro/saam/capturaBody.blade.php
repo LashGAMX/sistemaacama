@@ -49,7 +49,7 @@
                         <td class="tableContent">{{@$data[$i]->Abs2}}</td>
                         <td class="tableContent">{{@$data[$i]->Abs3}}</td>
                         <td class="tableContent">{{@$data[$i]->Promedio}}</td>
-                        <td class="tableContent">{{@$data[$i]->Resultado}}</td>
+                        <td class="tableContent">{{@$limites[$i]}}</td>
                         <td class="tableContent">OBS DE PRUEBA</td>
                         <td class="tableContent">LIBERADO</td>
                         <td class="tableContent">{{@$data[$i]->Resultado}}</td>
@@ -95,7 +95,7 @@
                         <td class="tableCabecera">m = </td>
                         <td class="tableContent">{{@$curva->M}}</td>                        
                         <td class="tableCabecera">Límite de cuantificación: </td>
-                        <td class="tableContent"> <0.020 </td>
+                        <td class="tableContent">{{@$limiteC->Limite}}</td>
                     </tr>
 
                     <tr>

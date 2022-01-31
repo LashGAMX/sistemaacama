@@ -37,7 +37,7 @@
                   </div>
               </a>
           </div>       --}}
-          <div class="col-md-3">
+          <!-- <div class="col-md-3">
             <a href="{{url('')}}/admin/laboratorio/fq/capturaVolumetria">
                 <div class="panel widget center bgimage">
                     <div class="dimmer"></div>
@@ -47,7 +47,7 @@
                     </div>
                 </div>
             </a>
-        </div>    
+        </div>     -->
         <div class="col-md-3">
           <a href="{{url('')}}/admin/laboratorio/fq/capturaGA">
               <div class="panel widget center bgimage">

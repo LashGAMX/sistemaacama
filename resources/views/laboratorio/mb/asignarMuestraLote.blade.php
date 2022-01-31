@@ -61,8 +61,6 @@
 
   @section('javascript')
   <script src="{{asset('/public/js/laboratorio/mb/asignarMuestraLote.js')}}"></script>
-  <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
-  <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
   @stop
 
 @endsection

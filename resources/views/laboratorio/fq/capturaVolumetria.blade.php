@@ -165,29 +165,36 @@
                                 <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
                                 <tbody>
                                     <tr>
-                                        <td>A</td>
-                                        <td>Volumen de dicromato</td>
-                                        <td><input type="text" id="a1" value="0"></td>
-                                        <td><input type="text" id="a2" value="0"></td>
-                                    </tr>
-                                    <tr>
                                         <td>B</td>
-                                        <td>Concentración</td>
+                                        <td>Mililitros Titulados Muestra</td>
                                         <td><input type="text" id="b1" value="0"></td>
                                         <td><input type="text" id="b2" value="0"></td>
                                     </tr>
                                     <tr>
                                         <td>C</td>
-                                        <td>Factor de equivalencia</td>
+                                        <td>Molaridad del FAS</td>
                                         <td><input type="text" id="c1" value="0"></td>
                                         <td><input type="text" id="c2" value="0"></td>
                                     </tr>
                                     <tr>
+                                        <td>CA</td>
+                                        <td>Mililitros titulados del blanco</td>
+                                        <td><input type="text" id="ca1" value="0"></td>
+                                        <td><input type="text" id="ca2" value="0"></td>
+                                    </tr>
+                                    <tr>
                                         <td>D</td>
-                                        <td>Volumen titulado de FAS</td>
+                                        <td>Factor de quivalencia</td>
                                         <td><input type="text" id="d1" value="0"></td>
                                         <td><input type="text" id="d2" value="0"></td>
                                     </tr>
+                                    <tr>
+                                        <td>E</td>
+                                        <td>Volumen de muestra</td>
+                                        <td><input type="text" id="e1" value="0"></td>
+                                        <td><input type="text" id="e2" value="0"></td>
+                                    </tr>
+                                    
                                 
                                 </tbody>
                               </table>

@@ -208,7 +208,7 @@ INNER JOIN sub_normas as sub
 ON sub.Id_subnorma = sol.Id_subnorma
 
 /* Lista Solicitud parametros */
-CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_parametro as Id_solParam,sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro,pa.Id_tipo_formula,sol.Asignado,s.Folio_servicio FROM solicitud_parametros as sol
+CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_parametro as Id_solParam,sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro,pa.Id_area,pa.Area_analisis,pa.Id_tipo_formula,sol.Asignado,s.Folio_servicio FROM solicitud_parametros as sol
 INNER JOIN ViewParametros as pa
 ON sol.Id_subnorma = pa.Id_parametro
 INNER JOIN solicitudes as s
@@ -309,7 +309,7 @@ INNER JOIN control_calidad as con
 ON det.Id_control = con.Id_control
 
 /* Lista ViewLoteDetalleHH */ 
-CREATE VIEW ViewLoteDetalleHH as SELECT det.Id_detalle,det.Id_lote,det.Id_analisis,sol.Folio_servicio,sol.Empresa_suc,sol.Clave_norma,det.Id_parametro,param.Parametro,det.A_alumbricoides,det.H_nana,det.Taenia_sp,det.T_trichiura,det.Uncinarias,det.Vol_muestra FROM lote_detalle_hh as det
+CREATE VIEW ViewLoteDetalleHH as SELECT det.*,sol.Folio_servicio,sol.Clave_norma,sol.Empresa_suc,param.Parametro FROM lote_detalle_hh as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
 INNER JOIN  ViewSolicitud as sol
@@ -330,3 +330,13 @@ INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro
 INNER JOIN control_calidad as control
 ON det.Id_control = control.Id_control
+
+/* Lista ViewLoteDetalleColiformes */ 
+
+CREATE VIEW ViewLoteDetalleColiformes as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion FROM lote_detalle_coliformes as col
+INNER JOIN ViewSolicitud as sol
+ON col.Id_analisis = sol.Id_solicitud
+INNER JOIN parametros as param
+ON col.Id_parametro = param.Id_parametro
+INNER JOIN control_calidad as control
+ON col.Id_control = control.Id_control

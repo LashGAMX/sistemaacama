@@ -177,30 +177,19 @@ function operacion() {
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/operacionVolumetria", 
         data: {
-            P:$("#p").val(),
-            R:$("#resultado").val(),
-            h:$("#h1").val(),
-            J:$("#j1").val(),
-            K:$("#k1").val(),
+            idParametro:$("#formulaTipo").val(),
+            B:$("#b1").val(),
             C:$("#c1").val(),
-            l:$("#l1").val(),
-            I:$("#i1").val(),
-            G:$("#g1").val(),
+            CA:$("#ca1").val(),
+            D:$("#d1").val(),
             E:$("#e1").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
-            let fixh1 = response.mf.toFixed(4);
-            let fixj1 = response.m1.toFixed(4);
-            let fixk1 = response.m2.toFixed(4);
-            let fixc1 = response.m3.toFixed(4); 
-        
-            $("#h1").val(fixh1); 
-            $("#j1").val(fixj1);
-            $("#k1").val(fixk1);
-            $("#c1").val(fixc1);
+            $("#resultado").val(response.res.toFixed(2));
+            
          
         }
     });
@@ -229,112 +218,6 @@ function liberarMuestraMetal() {
     });
 }
 
-function generarControles() {
-    var ranCon = new Array();
-
-    ranCon.push(random(0, numMuestras.length - 1));
-    ranCon.push(random(0, numMuestras.length - 1));
-    ranCon.push(random(0, numMuestras.length - 1));
-    ranCon.push(random(0, numMuestras.length - 1));
-    ranCon.push(random(0, numMuestras.length - 1));
-
-    let tabla2 = document.getElementById('divTablaControles');
-    let tab2 = '';
-
-    let cont = 1;
-
-    $.ajax({
-        type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/getDataCapturaVolumetria",
-        data: {
-            ranCon: ranCon,
-            numMuestra: numMuestras,
-            _token: $('input[name="_token"]').val()
-        },
-        dataType: "json",
-        success: function (response) {
-            console.log(response);
-
-            tab2 += '<table id="tablaControles" class="table table-sm">';
-            tab2 += '    <thead class="">';
-            tab2 += '        <tr>';
-            tab2 += '          <th>#</th>';
-            tab2 += '          <th>Abs1</th>';
-            tab2 += '          <th>Abs2</th>';
-            tab2 += '          <th>Abs3</th>';
-            tab2 += '          <th>Mililitros D Color</th>';
-            tab2 += '          <th>Nitratos</th>';
-            tab2 += '          <th>Nitritos</th>';
-            tab2 += '          <th>Sulfuros</th>';
-            tab2 += '          <th>Blanco A.</th>';
-            tab2 += '          <th>Vol. Aforo</th>';
-            tab2 += '          <th>Vol. Aforo Des</th>';
-            tab2 += '          <th>Vol. Muestra</th>';
-            tab2 += '        </tr>';
-            tab2 += '    </thead>';
-            tab2 += '    <tbody>';
-            $.each(response.detalle, function (key, item) {
-                tab2 += '<tr>';
-                tab2 += '<input style="width: 80px" hidden id="idDetalle' + cont + '" value="' + item.Id_detalle + '">';
-                tab2 += '<td>' + item.Folio_servicio + '</td>';
-                if (item.Descripcion != 'Resultado') {
-                    tab2 += '<td>' + item.Empresa + ' <br> <small class="text-danger">' + item.Descripcion + '</small></td>';
-                } else {
-                    tab2 += '<td>' + item.Empresa + ' <br> <small class="text-info">' + item.Descripcion + '</small></td>';
-                }
-                if (item.Liberado != 0) {
-                    tab2 += '<td><input disabled style="width: 80px" id="volMuestra' + cont + '" value="50"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="abs1' + cont + '" value="' + item.Abs1 + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="abs2' + cont + '" value="' + item.Abs2 + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="abs3' + cont + '" value="' + item.Abs3 + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="absPromedio' + cont + '" value="' + item.Abs_promedio + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="factorDilucion' + cont + '" value="' + item.Factor_dilucion + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="factorConversion' + cont + '" value="' + item.Factor_conversion + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="VolDisolucion' + cont + '" value="' + item.Vol_disolucion + '"></td>';
-                } else {
-                    tab2 += '<td><input style="width: 80px" id="volMuestra' + cont + '" value="50"></td>';
-                    tab2 += '<td><input style="width: 80px" id="abs1' + cont + '" value="' + item.Abs1 + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="abs2' + cont + '" value="' + item.Abs2 + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="abs3' + cont + '" value="' + item.Abs3 + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="absPromedio' + cont + '" value="' + item.Abs_promedio + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="factorDilucion' + cont + '" value="' + item.Factor_dilucion + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="factorConversion' + cont + '" value="' + item.Factor_conversion + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="VolDisolucion' + cont + '" value="' + item.Vol_disolucion + '"></td>';
-                }
-                tab2 += '</tr>';
-                numMuestras.push(item.Id_detalle);
-                cont++;
-            });
-            tab2 += '    </tbody>';
-            tab2 += '</table>';
-            tabla2.innerHTML = tab2;
-            var t = $('#tablaControles').DataTable({
-                "ordering": false,
-                "language": {
-                    "lengthMenu": "# _MENU_ por pagina",
-                    "zeroRecords": "No hay datos encontrados",
-                    "info": "Pagina _PAGE_ de _PAGES_",
-                    "infoEmpty": "No hay datos encontrados",
-                }
-            });
-
-
-            $('#tablaControles tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                }
-                else {
-                    table.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                }
-            });
-            $('#tablaControles tr').on('click', function () {
-                let dato = $(this).find('td:first').html();
-                idMuestra = dato;
-            });
-        }
-    });
-}
 function getDetalleGA(idDetalle)
 {
     $.ajax({

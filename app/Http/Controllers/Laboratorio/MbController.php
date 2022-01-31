@@ -26,6 +26,7 @@ use App\Models\SembradoFq;
 use App\Models\DqoFq;
 use App\Models\EnfriadoMatraces;
 use App\Models\EnfriadoMatraz;
+use App\Models\LoteDetalleColiformes;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleHH;
 use App\Models\LoteTecnica;
@@ -162,54 +163,94 @@ class MbController extends Controller
 
 
     //MÉTODO DE PRUEBA
-    public function captura(){
-        $parametro = Parametro::where('Id_area', 6)->get();
-
-        return view('laboratorio.mb.captura', compact('parametro'));
-    }
     public function capturaMicro(){
-        $parametro = Parametro::where('Id_area', 7)->get();
-
+        $parametro = Parametro::where('Id_area', 6)->get();
         return view('laboratorio.mb.captura', compact('parametro'));
     }
 
-
-    public function capturaEspectro()
+    public function getLoteMicro(Request $request)
     {
-
-        $parametro = Parametro::where('Id_area', 5)
-            ->get();
-        // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
-        // var_dump($parametro); 
-        return view('laboratorio.fq.capturaEspectro', compact('parametro')); 
-    }
-    public function getDataCapturaEspectro(Request $request)
-    {
-        //$parametro = Parametro::where('Id_parametro',$request->formulaTipo)->first();
         $lote = DB::table('ViewLoteAnalisis')->where('Fecha', $request->fechaAnalisis)->get();
-        $idLote = 0;
+        $tecnica = 0;
+
         foreach($lote as $item)
         { 
-            $detModel = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $item->Id_lote)->first();
-            if($detModel->Id_parametro == $request->formulaTipo)
+
+            $detModel = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $item->Id_lote)->first(); // Asi se hara con las otras
+           if(@$detModel->Id_parametro == @$request->formulaTipo) 
+           { 
+               $tecnica = 17;
+           } 
+
+           $detModel = DB::table('ViewLoteDetalleHH')->where('Id_lote', $item->Id_lote)->first();
+            if(@$detModel->Id_parametro == @$request->formulaTipo) 
             { 
-                $idLote = $detModel->Id_lote;
+                $tecnica = 19; 
             } 
+ 
+        } 
+
+        switch ($tecnica) {
+            case 17: //todo Número más probable (NMP), en tubos múltiples
+                $loteModel = DB::select('SELECT * FROM ViewLoteAnalisis WHERE Id_tecnica = '.$tecnica.' AND Fecha = "'.$request->fechaAnalisis.'"');
+                break;
+            case 18: //todo Metodo electrometrico
+                    # code...
+                break;
+            case 19: //todo Flotación de huevos de helminto
+                        # code...
+                $loteModel = DB::select('SELECT * FROM ViewLoteAnalisis WHERE Id_tecnica = '.$tecnica.' AND Fecha = "'.$request->fechaAnalisis.'"');
+                break;
+            default:
+                # code...
+                break;
         }
 
-        // $detalleModel = DB::tables'ViewLoteDetalle')->where('Id_lote', $lote->Id_lote)->get();
-        $detalle = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-        $loteModel = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
-        $curvaConst = CurvaConstantes::where('Id_lote',$idLote)->first();
         $data = array( 
-            'idL' => $idLote,
-            'de' => $detModel,
             'lote' => $loteModel,
-            'curvaConst' => $curvaConst,
+            'tecnica' => $tecnica,
+        );
+        return response()->json($data);
+    }
+    public function getLoteCapturaMicro(Request $request)
+    {
+        switch ($request->tecnica) {
+            case 17: //todo Número más probable (NMP), en tubos múltiples
+                $detalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+                break;
+            case 18: //todo Metodo electrometrico
+                    # code...
+                break;
+            case 19: //todo Flotación de huevos de helminto
+                        # code...
+                $detalle = DB::table('ViewLoteDetalleHH')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+                break;
+            default:
+                # code...
+                break;
+        }
+        $data = array(
             'detalle' => $detalle,
         );
         return response()->json($data);
     }
+    public function getDetalleCol(Request $request)
+    {
+        $model = DB::table('ViewLoteDetalleColiformes')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function getDetalleHH(Request $request)
+    {
+        $model = DB::table('ViewLoteDetalleHH')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+
 
     //NUEVA FUNCIÓN BUSQUEDA FILTROS > CAPTURA.JS
     public function busquedaFiltros(Request $request)
@@ -241,107 +282,11 @@ class MbController extends Controller
         );
     }
 
-    public function setControlCalidad(Request $request)
-    {
-        //! Blanco reactivo
-        $loteModel = LoteDetalle::where('Id_detalle', $request->numMuestra[$request->ranCon[0]])->first();
-        LoteDetalle::create([
-            'Id_lote' => $loteModel->Id_lote,
-            'Id_analisis' => $loteModel->Id_analisis,
-            'Id_parametro' => $loteModel->Id_parametro,
-            'Descripcion' => "Blanco reactivo",
-            'Vol_muestra' => 50,
-            'Abs1' => 0,
-            'Abs2' => 0,
-            'Abs3' => 0,
-            'Abs_promedio' => 0,
-            'Factor_dilucion' => 1,
-            'Factor_conversion' => 0,
-            'Vol_disolucion' => 0,
-            'Liberado' => 0,
-        ]);
-        //! Estandar de verificacion
-        $loteModel = LoteDetalle::where('Id_detalle', $request->numMuestra[$request->ranCon[0]])->first();
-        LoteDetalle::create([
-            'Id_lote' => $loteModel->Id_lote,
-            'Id_analisis' => $loteModel->Id_analisis,
-            'Id_parametro' => $loteModel->Id_parametro,
-            'Descripcion' => "Estandar de verificacion",
-            'Vol_muestra' => 50,
-            'Abs1' => 0,
-            'Abs2' => 0,
-            'Abs3' => 0,
-            'Abs_promedio' => 0,
-            'Factor_dilucion' => 1,
-            'Factor_conversion' => 0,
-            'Vol_disolucion' => 0,
-            'Liberado' => 0,
-        ]);
-        //! Muestra duplicada
-        $loteModel = LoteDetalle::where('Id_detalle', $request->numMuestra[$request->ranCon[0]])->first();
-        LoteDetalle::create([
-            'Id_lote' => $loteModel->Id_lote,
-            'Id_analisis' => $loteModel->Id_analisis,
-            'Id_parametro' => $loteModel->Id_parametro,
-            'Descripcion' => "Muestra duplicada",
-            'Vol_muestra' => 50,
-            'Abs1' => 0,
-            'Abs2' => 0,
-            'Abs3' => 0,
-            'Abs_promedio' => 0,
-            'Factor_dilucion' => 1,
-            'Factor_conversion' => 0,
-            'Vol_disolucion' => 0,
-            'Liberado' => 0,
-        ]);
-        //! Muestra adicionada
-        $loteModel = LoteDetalle::where('Id_detalle', $request->numMuestra[$request->ranCon[0]])->first();
-        LoteDetalle::create([
-            'Id_lote' => $loteModel->Id_lote,
-            'Id_analisis' => $loteModel->Id_analisis,
-            'Id_parametro' => $loteModel->Id_parametro,
-            'Descripcion' => "Muestra adicionada",
-            'Vol_muestra' => 50,
-            'Abs1' => 0,
-            'Abs2' => 0,
-            'Abs3' => 0,
-            'Abs_promedio' => 0,
-            'Factor_dilucion' => 1,
-            'Factor_conversion' => 0,
-            'Vol_disolucion' => 0,
-            'Liberado' => 0,
-        ]);
-        //! Estandar
-        $loteModel = LoteDetalle::where('Id_detalle', $request->numMuestra[$request->ranCon[0]])->first();
-        LoteDetalle::create([
-            'Id_lote' => $loteModel->Id_lote,
-            'Id_analisis' => $loteModel->Id_analisis,
-            'Id_parametro' => $loteModel->Id_parametro,
-            'Descripcion' => "Estandar",
-            'Vol_muestra' => 50,
-            'Abs1' => 0,
-            'Abs2' => 0,
-            'Abs3' => 0,
-            'Abs_promedio' => 0,
-            'Factor_dilucion' => 1,
-            'Factor_conversion' => 0,
-            'Vol_disolucion' => 0,
-            'Liberado' => 0,
-        ]);
+    // public function setControlCalidad(Request $request)
+    // {
+  
 
-        $detalleModel = LoteDetalle::where('Id_lote',$loteModel->Id_lote)->get();
-        $lote = LoteAnalisis::find($loteModel->Id_lote);
-        $lote->Asignado = $detalleModel->count();
-        $lote->save();
-
-        $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $loteModel->Id_lote)->get();
-
-
-        $data = array(
-            'detalle' => $detalle
-        );
-        return response()->json($data);
-    }
+    // }
     public function operacion(Request $request)
     {
 
@@ -411,6 +356,7 @@ class MbController extends Controller
         ->orWhere('Id_tipo_formula', 12)
         ->orWhere('Id_tipo_formula', 13)
         ->orWhere('Id_tipo_formula', 14)
+        ->orWhere('Id_tipo_formula', 7)
         ->get();
         $tecnica = Tecnica::all();
         $textoRecuperadoPredeterminado = ReportesMb::where('Id_lote', 0)->first();
@@ -591,9 +537,9 @@ class MbController extends Controller
     }
     //* Muestra los parametros sin asignar a lote
     public function muestraSinAsignar(Request $request)
-    {
+    { 
         $model = DB::table('ViewSolicitudParametros')
-        ->orWhere('Id_tipo_formula',7)
+        ->orWhere('Id_area',6)
         ->where('Asignado', '!=', 1)
         ->get();
         $data = array(
@@ -605,14 +551,15 @@ class MbController extends Controller
     public function getMuestraAsignada(Request $request)
     {
         $loteModel = LoteAnalisis::where('Id_lote',$request->idLote)->first();
+        $model = "";
         switch ($loteModel->Id_tecnica) {
-            case 9: //todo Espectrofotometria
-                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->get(); 
+            case 17: //todo 
+                // $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->get(); 
                 break;
-            case 10: //todo Gravimetia
+            case 18: //todo 
                     # code...
                 break;
-            case 15: //todo Volumetria
+            case 19: //todo 
                         # code...
                 break;
             default:
@@ -629,14 +576,14 @@ class MbController extends Controller
     {
         $loteModel = LoteAnalisis::where('Id_lote',$request->idLote)->first();
         switch ($loteModel->Id_tecnica) {
-            case 9: //todo Espectrofotometria
+            case 17: //todo Espectrofotometria
                 $detModel = DB::table('lote_detalle_espectro')->where('Id_detalle',$request->idDetalle)->delete();
                 $detModel = LoteDetalleEspectro::where('Id_lote',$request->idLote)->get();
                 break;
-            case 10: //todo Gravimetia
+            case 18: //todo Gravimetia
                     # code...
                 break;
-            case 15: //todo Volumetria
+            case 19: //todo Volumetria
                         # code...
                 break;
             default:
@@ -665,78 +612,73 @@ class MbController extends Controller
     //* Asignar parametro a lote
     public function asignarMuestraLote(Request $request)
     {
-        // $sw = false;
-        // $loteModel = LoteAnalisis::where('Id_lote',$request->idLote)->first();
-        // switch ($loteModel->Id_tecnica) {
-        //     case 11: //todo Sembrado
-        //         $detModel = LoteDetalleHH::where('Id_lote',$request->idLote)->get();
-        //         break;
-        
-        //     default:
-        //         # code...
-        //         break;
-        // }
-        // if($detModel->count())
-        // {
-        //    if($detModel[0]->Id_parametro == $request->idParametro)
-        //    {
-        //     $sw = true;
-        //    }
-        // }else{
-        //     $sw = true;
-        // }
-        // if($sw = true)
-        // {
-        //     switch ($loteModel->Id_tecnica) {
-        //         case 11: //todo Espectrofotometria
-        //             $model = LoteDetalleHH::create([
-        //                 'Id_lote' => $request->idLote,
-        //                 'Id_analisis' => $request->idAnalisis,
-        //                 'Id_parametro' => $request->idParametro,
-        //                 'A_alumbricoides' => 0,
-        //                 'H_nana' => 0,
-        //                 'Taenia_sp' => 0,
-        //                 'T_trichiura' => 0,
-        //                 'Vol_muestra' => 0,
-        //             ]);
-        //             break;
-        //         default:
-        //             # code...
-        //             break;
-        //     }
-        //     $solModel = SolicitudParametro::find($request->idSol);
-        //     $solModel->Asignado = 1;
-        //     $solModel->save();
+        $sw = false;
+        $loteModel = LoteAnalisis::where('Id_lote',$request->idLote)->first();
+        switch ($loteModel->Id_tecnica) {
+            case 17: //todo Número más probable (NMP), en tubos múltiples
+                $detModel = LoteDetalleColiformes::where('Id_lote',$request->idLote)->get();
+                break;
+            case 18: //todo Metodo electrometrico
+                    # code...
+                break;
+            case 19: //todo Flotación de huevos de helminto
+                        # code...
+                    $detModel = LoteDetalleHH::where('Id_lote',$request->idLote)->get();
+                break;
+            default:
+                # code...
+                break;
+        }
+        if($detModel->count())
+        {
+           if($detModel[0]->Id_parametro == $request->idParametro)
+           {
+            $sw = true;
+           }
+        }else{
+            $sw = true;
+        }
+        if($sw = true)
+        {
+            switch ($loteModel->Id_tecnica) {
+                case 17: //todo Número más probable (NMP), en tubos múltiples
+                    $model = LoteDetalleColiformes::create([
+                        'Id_lote' => $request->idLote,
+                        'Id_analisis' => $request->idAnalisis,
+                        'Id_parametro' => $request->idParametro,
+                        'Id_control' => 1,
+                    ]);
 
-        //     $detModel = LoteDetalleHH::where('Id_lote',$request->idLote)->get();
+                    $detModel = LoteDetalleColiformes::where('Id_lote',$request->idLote)->get();
+                    break;
+                case 18: //todo Metodo electrometrico
+                        # code...
+                    break;
+                case 19: //todo Flotación de huevos de helminto
+                            # code...
+                        $model = LoteDetalleHH::create([
+                            'Id_lote' => $request->idLote,
+                            'Id_analisis' => $request->idAnalisis,
+                            'Id_parametro' => $request->idParametro,
+                            'Id_control' => 1,
+                        ]);
+                        $detModel = LoteDetalleHH::where('Id_lote',$request->idLote)->get();
+                    break;
+                default:
+                    # code...
+                    break;
+            }
+            $solModel = SolicitudParametro::find($request->idSol);
+            $solModel->Asignado = 1;
+            $solModel->save();
+ 
 
-        //     $loteModel = LoteAnalisis::find($request->idLote);
-        //     $loteModel->Asignado = $detModel->count();
-        //     $loteModel->Liberado = 0;
-        //     $loteModel->save();
-        // }
+            $loteModel = LoteAnalisis::find($request->idLote);
+            $loteModel->Asignado = $detModel->count();
+            $loteModel->Liberado = 0;
+            $loteModel->save();
+        }
 
-        // //? Muestra datos de lote detalle
-        // switch ($loteModel->Id_tecnica) {
-        //     case 11: //todo Espectrofotometria
-        //         $paraModel = DB::table('ViewLoteDetalleHH')->where('Id_lote', $request->idLote)->get();
-        //         break;
-    
-        //     default:
-        //         # code...
-        //         break;
-        // }
-        $model = LoteDetalleHH::create([
-            'Id_lote' => $request->idLote,
-            'Id_analisis' => $request->idAnalisis,
-            'Id_parametro' => $request->idParametro,
-            'A_alumbricoides' => 0,
-            'H_nana' => 0,
-            'Taenia_sp' => 0,
-            'T_trichiura' => 0,
-            'Uncinarias' => 0,
-            'Vol_muestra' => 0,
-        ]);
         $data = array( 
             'sw' => true,
             'model' => $model,

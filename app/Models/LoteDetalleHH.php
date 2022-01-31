@@ -17,11 +17,13 @@ class LoteDetalleHH extends Model
         'Id_lote',
         'Id_analisis',
         'Id_parametro',
+        'Id_control',
         'A_alumbricoides',
         'H_nana',
         'Taenia_sp',
         'T_trichiura',
         'Uncinarias',
         'Vol_muestra',
+        'Observacion'
     ];
 }

@@ -221,6 +221,7 @@ function operacionLarga() {
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/operacionGALarga", 
         data: {
+            idMuestra:idMuestra,
             P:$("#p").val(),
             //R:$("#resultado").val(),
             H:$("#h1").val(),

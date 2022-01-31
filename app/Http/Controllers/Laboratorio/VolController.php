@@ -42,7 +42,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class FqController extends Controller
+class VolController extends Controller
 {
     //
     public function analisis()
@@ -494,20 +494,6 @@ class FqController extends Controller
         return view('laboratorio.fq.lote', compact('formulas', 'textoRecuperadoPredeterminado','tecnica'));
     }
 
-    //VOLUMETRIA
-    public function loteVol()
-    {
-        //* Tipo de formulas  
-        $formulas = DB::table('tipo_formulas')
-        ->orWhere('Id_tipo_formula', 7)
-        ->orWhere('Id_tipo_formula', 8)
-        ->orWhere('Id_tipo_formula',9)
-        ->get();
-        $tecnica = Tecnica::all(); 
-        $textoRecuperadoPredeterminado = ReportesFq::where('Id_reporte', 0)->first();
-        return view('laboratorio.fq.lote', compact('formulas', 'textoRecuperadoPredeterminado','tecnica'));
-    }
-
     public function createLote(Request $request)   
     {
         $model = LoteAnalisis::create([
@@ -640,7 +626,7 @@ class FqController extends Controller
         );
 
         return response()->json($data);
-    }    
+    }
 
     public function getPlantillaPred(Request $request){
         $bandera = '';
@@ -1305,16 +1291,7 @@ class FqController extends Controller
         $m1 = ($m3 - 0.0002); 
         $m2 = ($m3 - 0.0001);
 
-        $model = LoteDetalleGA::find($request->idMuestra);
-        $model->M_final = $mf;
-        $model->M_incial1 = $m1;
-        $model->M_incial2 = $m2;
-        $model->M_incial3 = $m3;
-        $model->Ph = $request->L;
-        $model->Blanco = $request->I;
-        $model->F_conversion = $request->G;
-        $model->Resultado = $request->R;
-        $model->save();
+        $model = 
 
 
         $data = array(
@@ -1345,7 +1322,8 @@ class FqController extends Controller
         $model->Ph = $request->L;
         $model->Blanco = $request->I;
         $model->F_conversion = $request->G;
-        $model->Resultado = $res;
+        $model->Resultado = $request->E;
+        $model->Observacion = $request->R;
         $model->save();
         
         $data = array(
@@ -1603,35 +1581,9 @@ class FqController extends Controller
         // var_dump($parametro); 
         return view('laboratorio.fq.capturaVolumetria', compact('parametro')); 
     }
-    public function operacionVolumetria(Request $request)
+    public function operacionVolumetria()
     {
-        $parametro = Parametro::where('Id_parametro', $request->idParametro)->first();
-
-        switch ($parametro->Id_parametro)
-        {
-            case 6:
-            // case 77:
-            // case 74:
-            // case 76:
-            // case 73:
-            // case 75:
-                $res1 = ($request->CA - $request->B);
-                $res2 = ($res1 * $request->C); 
-                $res3 = ($res2 * $request->D);
-                $res = ($res3 / $request->E);
-
-            break;
-
-                
-        }
-        $data = array(
-            'id' => $parametro->Id_parametro, 
-            'res' => $res,
-            'ca' => $request->CA,
-            'b' => $request->B,
-        );
-        return response()->json($data);
-        
+ 
     }
 
     public function getDataCapturaVolumetria(Request $request)
@@ -1738,7 +1690,6 @@ class FqController extends Controller
          
          //Recupera el parámetro que se está utilizando
          $parametro = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->first();
-         $limiteC = DB::table('parametros')->where('Id_parametro', $parametro->Id_parametro)->first();
  
         //Recupera el texto dinámico Procedimientos de la tabla reportes****************************************************
         $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
@@ -1746,26 +1697,12 @@ class FqController extends Controller
            //Hoja1            
             if($parametro->Parametro == 'BORO (B)'){                
                 $horizontal = false;
-                $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();                
+                $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
                 if(!is_null($data)){                         
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.boro.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.boro.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -1776,22 +1713,8 @@ class FqController extends Controller
 
                 if(!is_null($data)){                         
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -1802,8 +1725,7 @@ class FqController extends Controller
 
                 if(!is_null($data)){                         
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();                                        
-                    
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.condElec.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
@@ -1811,26 +1733,12 @@ class FqController extends Controller
                 }
             }else if($parametro->Parametro == 'CROMO HEXAVALENTE (Cr+6)'){
                 $horizontal = false;                
-                $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();                
+                $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
                 if(!is_null($data)){                         
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.cromoHex.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limC', 'limites'));
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.cromoHex.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -1841,22 +1749,8 @@ class FqController extends Controller
 
                 if(!is_null($data)){                         
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -1879,22 +1773,8 @@ class FqController extends Controller
 
                 if(!is_null($data)){                         
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.silice.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.silice.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -1907,22 +1787,8 @@ class FqController extends Controller
 
                 if(!is_null($data)){                         
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fenoles.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fenoles.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -1933,22 +1799,8 @@ class FqController extends Controller
 
                 if(!is_null($data)){                         
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fluoruros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fluoruros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -1959,22 +1811,8 @@ class FqController extends Controller
 
                 if(!is_null($data)){                         
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -1985,22 +1823,9 @@ class FqController extends Controller
 
                 if(!is_null($data)){                         
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
                                         
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -2011,22 +1836,8 @@ class FqController extends Controller
 
                 if(!is_null($data)){
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.saam.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.saam.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -2037,22 +1848,8 @@ class FqController extends Controller
 
                 if(!is_null($data)){                         
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.sulfatos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.sulfatos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -2066,22 +1863,8 @@ class FqController extends Controller
                 if(!is_null($data)){
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-                    
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 3)->first();
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.boro.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.boro.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -2093,22 +1876,8 @@ class FqController extends Controller
                 if(!is_null($data)){
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-                    
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 4)->first();
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -2133,22 +1902,8 @@ class FqController extends Controller
                 if(!is_null($data)){
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 6)->first();
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.cromoHex.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.cromoHex.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -2160,22 +1915,8 @@ class FqController extends Controller
                 if(!is_null($data)){
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-                    
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 7)->first();
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -2200,22 +1941,8 @@ class FqController extends Controller
                 if(!is_null($data)){
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 9)->first();
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.silice.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.silice.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -2227,22 +1954,8 @@ class FqController extends Controller
                 if(!is_null($data)){
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 10)->first();
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fenoles.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fenoles.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -2254,22 +1967,8 @@ class FqController extends Controller
                 if(!is_null($data)){
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 11)->first();
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fluoruros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fluoruros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -2281,22 +1980,8 @@ class FqController extends Controller
                 if(!is_null($data)){
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 2)->first();
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -2308,23 +1993,9 @@ class FqController extends Controller
                 if(!is_null($data)){
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 1)->first();
                                                     
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -2336,22 +2007,8 @@ class FqController extends Controller
                 if(!is_null($data)){
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 12)->first();
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.saam.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.saam.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -2363,22 +2020,8 @@ class FqController extends Controller
                 if(!is_null($data)){
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach($data as $item){
-                        if($item->Resultado < $limiteC->Limite){
-                            $limC = "< ".$limiteC->Limite;
-                            
-                            array_push($limites, $limC);
-                        }else{  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 13)->first();
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.sulfatos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.sulfatos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
                 }else{
                     $sw = false;
                     $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
@@ -2492,8 +2135,7 @@ class FqController extends Controller
              $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
              $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
              echo '<script> alert("Valores predeterminados para la fecha de análisis. Rellena este campo.") </script>';
-         }  
-                
+         }   
                    
         //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes****************************************************
         $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();

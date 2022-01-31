@@ -78,6 +78,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getDetalleEspectro', [FqController::class, 'getDetalleEspectro']);
         Route::post('operacionEspectro', [FqController::class, 'operacionEspectro']);
         Route::post('guardarEspectro', [FqController::class, 'guardarEspectro']);
+    
     //****************************************GA***********************************************
 
         Route::get('capturaGA', [FqController::class, 'capturaGA']);
@@ -102,7 +103,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
 //****************************************FIN SOLIDOS***********************************************
 
 //****************************************VOLUMETRIA***********************************************
-
+        Route::get('loteVol', [FqController::class, 'loteVol']);
         Route::get('capturaVolumetria', [FqController::class, 'capturaVolumetria']);
         Route::post('getDataCapturaVolumetria', [FqController::class, 'getDataCapturaVolumetria']);
         Route::post('getDetalleVolumetria', [FqController::class, 'getDetalleVolumetria']);
@@ -143,7 +144,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('buscarLote', [MbController::class, 'buscarLote']);
             Route::post('getDatalote', [MbController::class, 'getDatalote']);
             Route::get('asgnarMuestraLote/{id}', [MbController::class, 'asgnarMuestraLote']);
-            Route::post('muestraSinAsignar', [MbController::class, 'muestraSinAsi1gnar']);
+            Route::post('muestraSinAsignar', [MbController::class, 'muestraSinAsignar']);
             Route::post('asignarMuestraLote', [MbController::class, 'asignarMuestraLote']);
             Route::post('getMuestraAsignada', [MbController::class, 'getMuestraAsignada']);
             Route::post('delMuestraLote', [MbController::class, 'delMuestraLote']);
@@ -151,8 +152,11 @@ Route::group(['prefix' => 'laboratorio'], function () {
             //? Modulo captura de datos analisis
             Route::get('tipoAnalisis', [MbController::class, 'tipoAnalisis']);
     
-            Route::get('capturaEspectro', [MbController::class, 'capturaEspectro']);
-            Route::post('getDataCapturaEspectro', [MbController::class, 'getDataCapturaEspectro']);
+            Route::get('capturaMicro', [MbController::class, 'capturaMicro']);
+            Route::post('getLoteMicro', [MbController::class, 'getLoteMicro']);
+            Route::post('getLoteCapturaMicro', [MbController::class, 'getLoteCapturaMicro']);
+            Route::post('getDetalleCol', [MbController::class, 'getDetalleCol']);
+            Route::post('getDetalleHH', [MbController::class, 'getDetalleHH']);
             
             Route::post('setControlCalidad', [MbController::class, 'setControlCalidad']);
             Route::post('liberarMuestraMetal', [MbController::class, 'liberarMuestraMetal']);
@@ -165,7 +169,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::get('capturaMicro', [MbController::class, 'capturaMicro']);
             
             //Ruta temporal de prueba
-            Route::get('captura/exportPdfCaptura', [MbController::class, 'exportPdfCaptura']);
+            Route::get('captura/exportPdfCaptura/{idLote}', [MbController::class, 'exportPdfCaptura']);
         });
 
     //? Módulo curva - Creación de curva
