@@ -38,8 +38,9 @@ use Illuminate\Support\Facades\DB;
 
 class MbController extends Controller
 {
-    //
-    //
+    // todo ************************************************
+    // todo Inicio de anlisis
+    // todo ************************************************
     public function analisis()
     {
         $model = DB::table('proceso_analisis')->get();
@@ -66,6 +67,13 @@ class MbController extends Controller
 
         return view('laboratorio.mb.analisis', compact('model', 'elements', 'solicitud', 'solicitudLength', 'tecnicas', 'solicitudPuntos', 'solicitudPuntosLength', 'parametros', 'parametrosLength', 'puntoMuestreo', 'puntoMuestreoLength'));
     }
+    // todo ************************************************
+    // todo fin de anlisis
+    // todo ************************************************
+
+    // todo ************************************************
+    // todo Inicio de Observación
+    // todo ************************************************
     public function observacion()
     {
         $formulas = DB::table('tipo_formulas')
@@ -143,7 +151,10 @@ class MbController extends Controller
         return response()->json($data);
     } 
 
-    //*****************************************CAPTURA****************************************************************** */
+    // todo ************************************************
+    // todo Inicio de Captura
+    // todo ************************************************
+
     public function tipoAnalisis()
     {
         return view('laboratorio.mb.tipoAnalisis');
@@ -386,12 +397,20 @@ class MbController extends Controller
         return response()->json($data);
     }
 
-    // todo ******************* Inicio de lote ************************
+    // todo ************************************************
+    // todo Fin de anlisis
+    // todo ************************************************
+
+    // todo ************************************************
+    // todo Inicio de Lote
+    // todo ************************************************
     public function lote()
     {
         //* Tipo de formulas 
         $formulas = DB::table('tipo_formulas')
-        ->orWhere('Id_tipo_formula', 7)
+        ->orWhere('Id_tipo_formula', 12)
+        ->orWhere('Id_tipo_formula', 13)
+        ->orWhere('Id_tipo_formula', 14)
         ->get();
         $tecnica = Tecnica::all();
         $textoRecuperadoPredeterminado = ReportesMb::where('Id_lote', 0)->first();
@@ -983,6 +1002,10 @@ class MbController extends Controller
             compact('sembradoFqModel', 'pruebaPresuntivaModel','pruebaConfirmativaModel', 'dqoModel')
         );
     }
+
+    // todo ************************************************
+    // todo Fin de Lote
+    // todo ************************************************
 
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
     public function exportPdfCaptura($idLote)

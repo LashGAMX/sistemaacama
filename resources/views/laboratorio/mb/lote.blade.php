@@ -154,10 +154,6 @@
           </li>
 
           <li class="nav-item" role="menu">
-            <a class="nav-link" id="grasas-tab" data-toggle="tab" href="#grasas" role="tab" aria-controls="grasas" aria-selected="false">Grasas</a>
-          </li>
-
-          <li class="nav-item" role="menu">
             <a class="nav-link" id="coliformes-tab" data-toggle="tab" href="#coliformes" role="tab" aria-controls="coliformes" aria-selected="false">Coliformes</a>
           </li>
 
@@ -165,14 +161,6 @@
             <a class="nav-link" id="dbo-tab" data-toggle="tab" href="#dbo" role="tab" aria-controls="dbo" aria-selected="false">DBO</a>
           </li>
 
-          <li class="nav-item" role="menu">
-            <a class="nav-link" id="dqo-tab" data-toggle="tab" href="#dqo" role="tab" aria-controls="dqo" aria-selected="false">DQO</a>
-          </li>
-
-          <li class="nav-item" role="menu">
-            <a class="nav-link" id="metales-tab" data-toggle="tab" href="#metales" role="tab" aria-controls="metales" aria-selected="false">Metales</a>
-          </li>
-     
           <li class="nav-item" role="menu">
             <a class="nav-link" id="procedimiento-tab" data-toggle="tab" href="#procedimiento" role="tab" aria-controls="procedimiento" aria-selected="false" onclick='isSelectedProcedimiento("procedimiento-tab");'>Procedimiento/Validación</a>
           </li>          
@@ -199,11 +187,7 @@
                       </thead>
                       <tbody>
                         <tr>
-                          <!-- <td>Blanco Cobre</td> -->
-                          {{-- <td></td> --}}
-                          <!-- <td>0</td> -->
-                          <!-- <td>3</td> -->
-                          {{-- <td contenteditable="true"><input type="date-time" id="fechaInicio" size="17"></td> --}}
+                          
                         </tr>
                         
                       </tbody>
@@ -213,251 +197,7 @@
                 </div>                                
 
               </div> 
-               
-              {{-- GRASAS --}}
-              <div class="tab-pane fade" id="grasas" role="tabpanel" aria-labelledby="grasas-tab">                                
 
-                <div class="container">
-                    <div class="row">
-                        <div class="">
-                            <div class="vertical-tab" role="tabpanel">
-
-                            
-                                <ul class="nav flex-column" role="tablist">
-                                    <li role="presentation"><a href="#calentamiento" aria-controls="home" role="tab" data-toggle="tab">Calentamiento de matraces</a></li>
-                                    <li role="presentation"><a href="#enfriamiento" aria-controls="profile" role="tab" data-toggle="tab">Enfriado de matraces</a></li>
-                                    <li role="presentation"><a href="#secado" aria-controls="messages" role="tab" data-toggle="tab">Secado de cartuchos</a></li>
-                                    <li role="presentation"><a href="#tiempo" aria-controls="messages" role="tab" data-toggle="tab">Tiempo de reflujo</a></li>
-                                    <li role="presentation"><a href="#enfriado2" aria-controls="messages" role="tab" data-toggle="tab">Enfriado de matraces</a></li>
-                                </ul>
-                                
-                                <div class="tab-content tabs">
-                                    <div role="tabpanel" class="tab-pane fade tablas" id="calentamiento">                                        
-                                          <h5>Calentamiento de matraces</h5>
-                                          
-                                          <table class="table" id="calentamiento_matraces"> 
-                                            <thead>
-                                              <tr>
-                                                <th scope="col" style="text-align: center"><input type="number" class="entradas"></th>
-                                                <th scope="col" style="text-align: center"><input type="number" class="entradas"></th>
-                                                <th scope="col" style="text-align: center"><input type="number" class="entradas"></th>
-                                                <th scope="col" style="text-align: center"><input type="time"></th>
-                                                <th scope="col" style="text-align: center"><input type="time"></th>
-                                              </tr>
-                                              <tr>
-                                                <th scope="col" style="text-align: center">ID Lote</th>
-                                                <th scope="col" style="text-align: center">Masa constante</th>
-                                                <th scope="col" style="text-align: center">Temperatura</th>
-                                                <th scope="col" style="text-align: center">Hora de entrada</th>
-                                                <th scope="col" style="text-align: center">Hora de salida</th>
-                                              </tr>
-                                            </thead>                                            
-  
-                                            <tbody>
-                                              @for ($i = 1; $i <= 3; $i++)
-                                                <tr>                                              
-                                                  <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:100%" id="calLote{{$i}}" value="1" disabled></input></td> 
-                                                  <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:100%" id="calMasa{{$i}}" value="{{$i}}" disabled></input></td>
-                                                  <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%" id="calTemp{{$i}}"></td>
-                                                  <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="calEntrada{{$i}}"></td>
-                                                  <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="calSalida{{$i}}"></td>
-                                                </tr>
-                                              @endfor                                                                                        
-                                            </tbody>
-                                          </table>
-                                      </div>
-
-                                    <div role="tabpanel" class="tab-pane fade tablas" id="enfriamiento">
-                                        <h5>Enfriado de matraces</h5>
-
-                                        <table class="table" id="enfriamiento_matraces"> 
-                                          <thead>
-                                            <tr>
-                                              <th scope="col" style="text-align:center"><input type="number" class="entradas"></th>
-                                              <th scope="col" style="text-align:center"><input type="number" class="entradas"></th>
-                                              <th scope="col" style="text-align:center"><input type="time"></th>
-                                              <th scope="col" style="text-align:center"><input type="time"></th>   
-                                              <th></th>                                                                                         
-                                            </tr>
-                                            <tr>
-                                              <th scope="col" style="text-align: center">ID Lote</th>
-                                              <th scope="col" style="text-align: center">Masa constante</th>                                              
-                                              <th scope="col" style="text-align: center">Hora de entrada</th>
-                                              <th scope="col" style="text-align: center">Hora de salida</th>
-                                              <th scope="col" style="text-align: center">Pesado de matraces</th>
-                                            </tr>
-                                          </thead>
-
-                                          <tbody>
-
-                                            @for ($i = 1; $i <= 3; $i++)
-                                              <tr>                                              
-                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:100%" id="enfLote{{$i}}" value="1" disabled></input></td>                                              
-                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:100%" id="enfMasa{{$i}}" value="{{$i}}" disabled></input></td>
-                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="enfEntrada{{$i}}"></td>                                              
-                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="enfSalida{{$i}}"></td>
-                                                <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height: 100%; width:100%" id="enfPesado{{$i}}"></td>
-                                              </tr>
-                                            @endfor
-                                            
-                                          </tbody>
-                                        </table>                                        
-                                    </div>
-
-                                    <div role="tabpanel" class="tab-pane fade tablas" id="secado">
-                                        <h5>Secado de cartuchos</h5>
-
-                                        <table class="table" id="secado_cartuchos"> 
-                                          <thead>
-                                            <tr>
-                                              <th scope="col" style="text-align:center"><input type="number" class="entradas"></th>
-                                              <th scope="col" style="text-align:center"><input type="number" class="entradas"></th>
-                                              <th scope="col" style="text-align:center"><input type="time"></th>
-                                              <th scope="col" style="text-align:center"><input type="time"></th>                                                                                            
-                                            </tr>
-                                            <tr>
-                                              <th scope="col" style="text-align: center">ID Lote</th>
-                                              <th scope="col" style="text-align: center">Temperatura</th>                                              
-                                              <th scope="col" style="text-align: center">Hora de entrada</th>
-                                              <th scope="col" style="text-align: center">Hora de salida</th>                                              
-                                            </tr>
-                                          </thead>
-
-                                          <tbody>
-                                            <tr>                                              
-                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:120px" id="secadoLote1" value="1" disabled></input></td>
-                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="height:100%; width:120px" id="secadoTemp1"></td>
-                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="secadoEntrada1"></td>
-                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="secadoSalida1"></td>
-                                            </tr>                                                                                        
-                                          </tbody>
-                                        </table>
-                                    </div>
-
-                                    <div role="tabpanel" class="tab-pane fade tablas" id="tiempo">
-                                      <h5>Tiempo de reflujo</h5>
-
-                                      <table class="table" id="tiempo_reflujo"> 
-                                        <thead>
-                                          <tr>
-                                            <th scope="col" style="text-align:center"><input type="number" class="entradas"></th>                                            
-                                            <th scope="col" style="text-align:center"><input type="time"></th>
-                                            <th scope="col" style="text-align:center"><input type="time"></th>                                                                                            
-                                          </tr>
-                                          <tr>
-                                            <th scope="col" style="text-align: center">ID Lote</th>                                            
-                                            <th scope="col" style="text-align: center">Hora de entrada</th>
-                                            <th scope="col" style="text-align: center">Hora de salida</th>                                              
-                                          </tr>
-                                        </thead>
-
-                                        <tbody>
-                                          <tr>                                              
-                                            <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:120px" id="tiempoLote1" value="1" disabled></input></td>
-                                            <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="tiempoEntrada1"></td>
-                                            <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="tiempoSalida1"></td>
-                                          </tr>
-                                        </tbody>
-                                      </table>
-                                    </div>
-
-                                    <div role="tabpanel" class="tab-pane fade tablas" id="enfriado2">
-                                        <h5>Enfriado de matraces</h5>
-
-                                        <table class="table" id="enfriado_matraz"> 
-                                          <thead>
-                                            <tr>
-                                              <th scope="col" style="text-align:center"><input type="number" class="entradas"></th>                                            
-                                              <th scope="col" style="text-align:center"><input type="time"></th>
-                                              <th scope="col" style="text-align:center"><input type="time"></th>                                                                                            
-                                            </tr>
-                                            <tr>
-                                              <th scope="col" style="text-align: center">ID Lote</th>                                            
-                                              <th scope="col" style="text-align: center">Hora de entrada</th>
-                                              <th scope="col" style="text-align: center">Hora de salida</th>                                              
-                                            </tr>
-                                          </thead>
-
-                                          <tbody>
-                                            <tr>                                              
-                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="number" style="text-align:center;height:100%;width:120px" id="enfriadoLote1" value="1" disabled></input></td>
-                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="enfriadoEntrada1"></td>                                              
-                                              <td style="text-align:center;padding: 10px 10px;width:120px"><input type="time" id="enfriadoSalida1"></td>
-                                            </tr>                                                                                        
-                                          </tbody>
-                                        </table>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                
-                <!-- <div class="container">
-                    <div class="row">
-                        <div class="">
-                            <div class="vertical-tab" role="tabpanel">
-
-                            
-                                <ul class="nav flex-column" role="tablist">
-                                    <li role="presentation"><a href="#calentamiento" aria-controls="home" role="tab" data-toggle="tab">Calentamiento de matraces</a> 
-                                      <div class="tab-content tabs">
-                                        <div role="tabpanel" class="tab-pane fade in active" id="calentamiento">
-                                          <h3>Calentamiento de matrace</h3>
-                                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna. </p>
-                                        </div>
-                                      </div>
-                                    </li>
-                                    <li role="presentation"><a href="#enfriamiento" aria-controls="profile" role="tab" data-toggle="tab">Enfriamiento de matraces</a>
-                                      <div class="tab-content tabs">                                          
-                                          <div role="tabpanel" class="tab-pane fade" id="enfriamiento">
-                                              <h3>Enfriamiento de matraces</h3>
-                                              <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna a ultricies volutpat, mi eros viverra massa, vitae consequat nisi justo in tortor. Proin accumsan felis ac felis dapibus, non iaculis mi varius, mi eros viverra massa.</p>
-                                          </div>                                          
-                                      </div>
-                                    </li>
-                                    <li role="presentation"><a href="#secado" aria-controls="messages" role="tab" data-toggle="tab">Secado de cartuchos</a></li>
-                                </ul>                                                                
-                            </div>
-                        </div>
-                    </div> -->
-
-                    <!-- <div class="tab-content tabs">
-                        <div role="tabpanel" class="tab-pane fade in active" id="calentamiento">
-                          <h3>Calentamiento de matrace</h3>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna. </p>
-                        </div>
-                        <div role="tabpanel" class="tab-pane fade" id="enfriamiento">
-                          <h3>Enfriamiento de matraces</h3>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna a ultricies volutpat, mi eros viverra massa, vitae consequat nisi justo in tortor. Proin accumsan felis ac felis dapibus, non iaculis mi varius, mi eros viverra massa.</p>
-                        </div>
-                        <div role="tabpanel" class="tab-pane fade" id="secado">
-                          <h3>Secado de cartuchos</h3>
-                          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce semper, magna a ultricies volutpat, mi eros viverra massa, vitae consequat nisi justo in tortor. Proin accumsan felis ac felis dapibus, non iaculis mi varius, mi eros viverra massa.</p>
-                      </div>
-                    </div> -->
-
-                    <!-- <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Calentamiento de matraces
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
-                        <h3>Calentamiento de matraces</h3>
-                        <p>Hola Mundo</p>
-                      </div>
-                    </div>   
-                    <div class="dropdown">
-                      <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu3" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Enfriamiento de matraces
-                      </button>
-                      <div class="dropdown-menu" aria-labelledby="dropdownMenu3">
-                        <h3>Calentamiento de matraces</h3>
-                        <p>Hola Mundo</p>
-                      </div>
-                    </div>  -->                             
-
-              </div>
-              {{-- GRASAS FIN --}}
 
               {{-- COLIFORMES --}}
               <div class="tab-pane fade" id="coliformes" role="tabpanel" aria-labelledby="coliformes-tab">  
@@ -495,25 +235,8 @@
               </div>
               {{-- DBO FIN --}}
 
-              {{-- DQO --}}
-              <div class="tab-pane fade" id="dqo" role="tabpanel" aria-labelledby="dqo-tab">  
-                <h4>Ebullición</h4>
-                <hr>
+             
 
-                <label>Lote ID: <input type="text" id="ebullicion_loteId"></label> <br>
-                <label>Inicio: <input type="time" id="ebullicion_inicio"></label>
-                <label>Fin: <input type="time" id="ebullicion_fin"></label><br><br>
-
-                <p>Bureta utilizada para titulación</p>
-                <label>INVLAB: <input type="text" id="ebullicion_invlab"></label> <br>
-              </div>
-              {{-- DQO FIN --}}
-
-              {{-- METALES --}}
-              <div class="tab-pane fade" id="metales" role="tabpanel" aria-labelledby="metales-tab">  
-              
-              </div>
-              {{-- METALES FIN --}}
             
               {{-- PROCEDIMIENTO --}}
               <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">                                
@@ -521,15 +244,7 @@
                 
                 <div id="divSummer">
                   <div id="summernote">
-                        @if (isset($textoRecuperado))
-                        @php
-                            echo $textoRecuperado->Texto;
-                        @endphp
-                      @else
-                        @php
-                            echo $textoRecuperadoPredeterminado->Texto;
-                        @endphp
-                    @endif       
+                       
                   </div>
                 </div>
              

@@ -38,7 +38,7 @@ function createLote()
         url: base_url + "/admin/laboratorio/"+area+"/createLote",
         data: {
             tipo: $("#tipoFormula").val(),
-            tecnica: $("#tecnicaAnalisis").val(),
+            tecnica: $("#teecn").val(),
             fecha: $("#fechaLote").val(),
             _token: $('input[name="_token"]').val(),
         },
