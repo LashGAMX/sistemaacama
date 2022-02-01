@@ -27,6 +27,7 @@ use App\Models\DqoFq;
 use App\Models\EnfriadoMatraces;
 use App\Models\EnfriadoMatraz;
 use App\Models\LoteDetalleColiformes;
+use App\Models\LoteDetalleDbo;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleHH;
 use App\Models\LoteTecnica;
@@ -182,6 +183,12 @@ class MbController extends Controller
                $tecnica = 17;
            } 
 
+           $detModel = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $item->Id_lote)->first(); // Asi se hara con las otras
+           if(@$detModel->Id_parametro == @$request->formulaTipo) 
+           { 
+               $tecnica = 18;
+           } 
+
            $detModel = DB::table('ViewLoteDetalleHH')->where('Id_lote', $item->Id_lote)->first();
             if(@$detModel->Id_parametro == @$request->formulaTipo) 
             { 
@@ -190,21 +197,7 @@ class MbController extends Controller
  
         } 
 
-        switch ($tecnica) {
-            case 17: //todo Número más probable (NMP), en tubos múltiples
-                $loteModel = DB::select('SELECT * FROM ViewLoteAnalisis WHERE Id_tecnica = '.$tecnica.' AND Fecha = "'.$request->fechaAnalisis.'"');
-                break;
-            case 18: //todo Metodo electrometrico
-                    # code...
-                break;
-            case 19: //todo Flotación de huevos de helminto
-                        # code...
-                $loteModel = DB::select('SELECT * FROM ViewLoteAnalisis WHERE Id_tecnica = '.$tecnica.' AND Fecha = "'.$request->fechaAnalisis.'"');
-                break;
-            default:
-                # code...
-                break;
-        }
+        $loteModel = DB::select('SELECT * FROM ViewLoteAnalisis WHERE Id_tecnica = '.$tecnica.' AND Fecha = "'.$request->fechaAnalisis.'"');
 
         $data = array( 
             'lote' => $loteModel,
@@ -220,6 +213,10 @@ class MbController extends Controller
                 break;
             case 18: //todo Metodo electrometrico
                     # code...
+                if($request->formulaTipo == 72)
+                {
+                    $detalle = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+                }
                 break;
             case 19: //todo Flotación de huevos de helminto
                         # code...
@@ -540,6 +537,7 @@ class MbController extends Controller
     { 
         $model = DB::table('ViewSolicitudParametros')
         ->orWhere('Id_area',6)
+        ->orWhere('Id_area',5)
         ->where('Asignado', '!=', 1)
         ->get();
         $data = array(
@@ -619,7 +617,11 @@ class MbController extends Controller
                 $detModel = LoteDetalleColiformes::where('Id_lote',$request->idLote)->get();
                 break;
             case 18: //todo Metodo electrometrico
-                    # code...
+                //dbo Normal
+                    if($request->idParametro == 72)
+                    {
+                        $detModel = LoteDetalleDbo::where('Id_lote',$request->idLote)->get();
+                    }
                 break;
             case 19: //todo Flotación de huevos de helminto
                         # code...
@@ -652,7 +654,17 @@ class MbController extends Controller
                     $detModel = LoteDetalleColiformes::where('Id_lote',$request->idLote)->get();
                     break;
                 case 18: //todo Metodo electrometrico
-                        # code...
+                    if($request->idParametro == 72)
+                    {
+                        $model = LoteDetalleDbo::create([
+                            'Id_lote' => $request->idLote,
+                            'Id_analisis' => $request->idAnalisis,
+                            'Id_parametro' => $request->idParametro,
+                            'Id_control' => 1,
+                        ]);
+    
+                        $detModel = LoteDetalleDbo::where('Id_lote',$request->idLote)->get();
+                    }
                     break;
                 case 19: //todo Flotación de huevos de helminto
                             # code...

@@ -40,19 +40,19 @@
             </thead>
     
             <tbody>
-                {{-- @for ($i = 0; $i < 100 ; $i++) --}}
+                @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
+                        <td class="tableContent">{{@$data[$i]->Folio_servicio}}</td>
                         <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>                        
+                        <td class="tableContent">{{@$data[$i]->Abs1}}</td>
+                        <td class="tableContent">{{@$data[$i]->Abs2}}</td>
+                        <td class="tableContent">{{@$data[$i]->Abs3}}</td>
+                        <td class="tableContent">{{@$data[$i]->Promedio}}</td>
+                        <td class="tableContent">{{@$observaciones[$i]->Observaciones}}</td>
+                        <td class="tableContent">LIBERADO</td>
+                        <td class="tableContent">{{@$data[$i]->Descripcion}}</td>                        
                     </tr>                
-                {{-- @endfor --}}
+                @endfor
             </tbody>        
         </table>  
     </div>

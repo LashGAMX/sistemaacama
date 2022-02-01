@@ -97,7 +97,7 @@ function buscarLote()
 
 function setAsignar(id)
 {
-    window.location = base_url + "/admin/laboratorio/"+area+"/asgnarMuestraLote/"+id;
+    window.location = base_url + "/admin/laboratorio/"+area+"/asgnarMuestraLoteVol/"+id;
 }
 
 //Adaptando para FQ

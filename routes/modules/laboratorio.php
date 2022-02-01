@@ -6,6 +6,7 @@ use App\Http\Controllers\Laboratorio\FqController;
 use App\Http\Controllers\Laboratorio\MbController;
 use App\Http\Controllers\Laboratorio\MetalesController;
 use App\Http\Controllers\laboratorio\MicroController;
+use App\Http\Controllers\Laboratorio\VolController;
 use App\Models\Laboratorio;
 use Illuminate\Support\Facades\Route;
 
@@ -103,11 +104,21 @@ Route::group(['prefix' => 'laboratorio'], function () {
 //****************************************FIN SOLIDOS***********************************************
 
 //****************************************VOLUMETRIA***********************************************
-        Route::get('loteVol', [FqController::class, 'loteVol']);
-        Route::get('capturaVolumetria', [FqController::class, 'capturaVolumetria']);
-        Route::post('getDataCapturaVolumetria', [FqController::class, 'getDataCapturaVolumetria']);
-        Route::post('getDetalleVolumetria', [FqController::class, 'getDetalleVolumetria']);
-        Route::post('operacionVolumetria', [FqController::class, 'operacionVolumetria']);
+
+        Route::get('loteVol', [VolController::class, 'loteVol']);
+        // Route::post('createLote', [FqController::class, 'createLote']);
+        // Route::post('buscarLote', [FqController::class, 'buscarLote']);
+        // Route::post('getDatalote', [FqController::class, 'getDatalote']);
+        Route::get('asgnarMuestraLoteVol/{id}', [VolController::class, 'asgnarMuestraLoteVol']);
+        Route::post('muestraSinAsignarVol', [VolController::class, 'muestraSinAsignarVol']);
+        Route::post('asignarMuestraLoteVol', [VolController::class, 'asignarMuestraLoteVol']);
+        Route::post('getMuestraAsignadaVol', [VolController::class, 'getMuestraAsignadaVol']);
+        Route::post('delMuestraLoteVol', [VolController::class, 'delMuestraLoteVol']);
+
+        Route::get('capturaVolumetria', [VolController::class, 'capturaVolumetria']);
+        Route::post('getDataCapturaVolumetria', [VolController::class, 'getDataCapturaVolumetria']);
+        Route::post('getDetalleVolumetria', [VolController::class, 'getDetalleVolumetria']);
+        Route::post('operacionVolumetria', [VolController::class, 'operacionVolumetria']);
 
 //****************************************FIN VOLUMETRIA***********************************************
 

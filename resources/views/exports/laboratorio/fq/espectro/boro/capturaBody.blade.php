@@ -50,7 +50,7 @@
                         <td class="tableContent">{{@$data[$i]->Abs3}}</td>
                         <td class="tableContent">{{@$data[$i]->Promedio}}</td>
                         <td class="tableContent">{{@$limites[$i]}}</td>
-                        <td class="tableContent">OBS DE PRUEBA</td>
+                        <td class="tableContent">{{@$observaciones[$i]->Observaciones}}</td>
                         <td class="tableContent">LIBERADO</td>
                         <td class="tableContent">{{@$data[$i]->Descripcion}}</td>
                     </tr>

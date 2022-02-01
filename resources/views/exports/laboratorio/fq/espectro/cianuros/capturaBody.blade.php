@@ -57,7 +57,7 @@
                         <td class="tableContent">{{@$data[$i]->Nitratos}}</td>
                         <td class="tableContent">{{@$data[$i]->Nitritos}}</td>
                         <td class="tableContent">{{@$limites[$i]}}</td>
-                        <td class="tableContent">OBS DE PRUEBA</td>
+                        <td class="tableContent">{{@$observaciones[$i]->Observaciones}}</td>
                         <td class="tableContent">LIBERADO</td>
                         <td class="tableContent">{{@$data[$i]->Descripcion}}</td>
                     </tr>                

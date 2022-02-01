@@ -130,6 +130,7 @@ function getLoteCapturaMicro() {
         url: base_url + "/admin/laboratorio/" + area + "/getLoteCapturaMicro",
         data: {
             idLote: idLote,
+            formulaTipo: $("#formulaTipo").val(), 
             tecnica: tecnica,
             _token: $('input[name="_token"]').val()
         },
@@ -162,7 +163,7 @@ function getLoteCapturaMicro() {
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleCol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                         break;
                     case 18:
-                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleCol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleDbo('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaDbo">Capturar</button>';
                         break;
                     case 19:
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleHH('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaHH">Capturar</button>';

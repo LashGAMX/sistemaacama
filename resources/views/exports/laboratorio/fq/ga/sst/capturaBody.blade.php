@@ -44,23 +44,23 @@
             </thead>
     
             <tbody> 
-                {{-- @for ($i = 0; $i < 100 ; $i++) --}}
+                @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
+                        <td class="tableContent">{{@$data[$i]->Folio_servicio}}</td>
+                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
+                        <td class="tableContent">{{@$data[$i]->Peso_constante1}}</td>
+                        <td class="tableContent">{{@$data[$i]->Peso_constante2}}</td>
+                        <td class="tableContent">{{@$data[$i]->Masa2}}</td>
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">{{@$data[$i]->Resultado}}</td>
+                        <td class="tableContent">{{@$data[$i]->Observacion}}</td>
+                        <td class="tableContent">LIBERADO</td>
+                        <td class="tableContent">{{@$data[$i]->Descripcion}}</td>
                     </tr>                
-                {{-- @endfor --}}
+                @endfor
             </tbody>        
         </table>  
     </div>
