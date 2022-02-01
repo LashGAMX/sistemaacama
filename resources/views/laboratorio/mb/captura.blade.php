@@ -175,7 +175,7 @@
                                     <tr>
                                         <td>G3</td>
                                         <td>mL De muestra en todos los tubos</td>
-                                        <td><input type="text" id="" value="0"></td>
+                                        <td><input type="text" id="todos1" value="0"></td>
                                         <td><input type="text" id="todos2" value="0"></td>
                                     </tr>
                                     <tr>
@@ -301,11 +301,14 @@
                                 </tbody>
                               </table>
                           </div>
+                          <div class="col-md-12">
+                                <input type="text" id="resCol" disabled>
+                          </div>
                       </div>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-primary" onclick="operacionCol();">Guardar</button>
                   </div>
                 </form>
                 </div>
@@ -378,11 +381,14 @@
                                 </tbody>
                               </table>
                           </div>
+                          <div class="col-md-12">
+                                <input type="text" id="resHH" disabled>
+                          </div>
                       </div>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-primary" onclick="operacionHH()">Guardar</button>
                   </div>
                 </form>
                 </div>
@@ -474,11 +480,14 @@
                                 </tbody>
                               </table>
                           </div>
+                          <div class="col-md-12">
+                                <input type="text" id="resDbo" disabled placeholder="Resultado"> 
+                          </div>
                       </div>
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary">Guardar</button>
+                    <button type="button" class="btn btn-primary" onclick="operacionDbo()">Guardar</button>
                   </div>
                 </form>
                 </div>

@@ -24,6 +24,7 @@ class LoteDetalleHH extends Model
         'T_trichiura',
         'Uncinarias',
         'Vol_muestra',
+        'Resultado',
         'Observacion'
     ];
 }

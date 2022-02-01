@@ -79,7 +79,5 @@
 
 @endsection  
 @section('javascript')
-    <script src="{{ asset('/public/js/config/concentracion.js')}}"></script>
-    <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
-    <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
+    <script src="{{ asset('/js/config/concentracion.js')}}"></script>
 @stop

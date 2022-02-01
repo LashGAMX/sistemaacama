@@ -1,4 +1,4 @@
-<div>
+  <div>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <a class="nav-link active" id="rios-tab" data-toggle="tab" href="#rios" role="tab" aria-controls="rios" aria-selected="true">Rios</a>
@@ -189,8 +189,7 @@
           </form>
           </div>
         </div>
-      </div>}
-    <input type="text"> 0
+      </div>
 
       @if ($alert == true)
       <script>

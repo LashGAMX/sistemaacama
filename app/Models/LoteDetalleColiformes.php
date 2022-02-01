@@ -43,6 +43,7 @@ class LoteDetalleColiformes extends Model
         'Presuntiva7',
         'Presuntiva8',
         'Presuntiva9',
+        'Resultado',
         'Observacion', 
     ];
 }

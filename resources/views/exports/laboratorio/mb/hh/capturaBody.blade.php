@@ -11,7 +11,7 @@
     <p id='curvaProcedimiento'>Procedimiento</p>
 
     <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento->Texto);?>
+        <?php echo html_entity_decode(@$textoProcedimiento->Texto);?>
     </div>
 
     <br>
@@ -41,20 +41,20 @@
             </thead>
     
             <tbody>
-                {{-- @for ($i = 0; $i < 100 ; $i++) --}}
+                @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">{{@$data[$i]->Folio_servicio}}</td>
+                        <td class="tableContent">{{@$data[$i]->A_alumbricoides}}</td>
+                        <td class="tableContent">{{@$data[$i]->Uncinarias}}</td>
+                        <td class="tableContent">{{@$data[$i]->H_nana}}</td>
+                        <td class="tableContent">{{@$data[$i]->T_trichiura}}</td>
+                        <td class="tableContent">{{@$data[$i]->Taenia}}</td>
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">PRUEBA</td>                        
                     </tr>                
-                {{-- @endfor --}}
+                @endfor
             </tbody>        
         </table>  
     </div>

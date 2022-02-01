@@ -73,7 +73,7 @@ function getLoteMicro()
                     tab += '<td>'+item.Fecha+'</td>';
                     tab += '<td>'+item.Asignado+'</td>';
                     tab += '<td>'+item.Liberado+'</td>';
-                    tab += '<td><button class="btn btn-success" id="btnImprimir"><i class="fas fa-file-download"></i></button></td>';
+                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick=imprimir();><i class="fas fa-file-download"></i></button></td>';
                     tab += '</tr>';
                 }); 
                 tab += '    </tbody>';
@@ -109,7 +109,7 @@ function getLoteMicro()
                     getLoteCapturaMicro();
                   });
           
-                // imprimir(response.lote.Id_lote);                
+                idLote = response.lote.Id_lote;
             }
         });
 }
@@ -289,13 +289,108 @@ function imprimir(){
     console.log("Dentro de evento imprimir");
     /* $('#btnImprimir').click(function() { */
         //window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote;
-        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCaptura" + idLote;
+        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCaptura/" + idLote;
     /* }); */
 } 
 
-function operacion()
+function operacionCol()
 {  
- 
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacion",
+        data: {
+            tecnica:tecnica,
+            idDetalle: idMuestra,
+            idParametro:$('#tipoFormula').val(),
+            D1:$('#dil1').val(),
+            D2:$('#dil2').val(),
+            D3:$('#dil3').val(),
+            NMP:$('#nmp1').val(),
+            G3:$('#todos1').val(),
+            G2:$('#negativos1').val(),
+            G1:$('#positivos1').val(),
+            con3:$("#con3").val(),
+            con2:$("#con2").val(),
+            con1:$("#con1").val(),
+            con4:$("#con4").val(),
+            con5:$("#con5").val(),
+            con6:$("#con6").val(),
+            con7:$("#con7").val(),
+            con8:$("#con8").val(),
+            con9:$("#con9").val(),
+            pre1:$("#pre1").val(),
+            pre2:$("#pre2").val(),
+            pre3:$("#pre3").val(),
+            pre4:$("#pre4").val(),
+            pre5:$("#pre5").val(),
+            pre6:$("#pre6").val(),
+            pre7:$("#pre7").val(),
+            pre8:$("#pre8").val(),
+            pre9:$("#pre9").val(),
+            
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+           
+            $('#resCol').val(response.res);
+        }
+    }); 
+}
+
+
+function operacionDbo()
+{  
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacion",
+        data: {
+            tecnica:tecnica,
+            idDetalle:idMuestra,
+            H:$('#botellaF1').val(),
+            G:$('#od1').val(),
+            B:$('#oxiFinal1').val(),
+            A:$('#oxiInicial1').val(),
+            J:$('#phF1').val(),
+            I:$('#phIni1').val(),
+            D:$('#volDbo1').val(),
+            E:$('#dil1').val(),
+            C:$('#win1').val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+           
+            $('#resDbo').val(response.res);
+        }
+    }); 
+}
+
+function operacionHH()
+{  
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacion",
+        data: {
+            idParametro: $("#formulaTipo").val(), 
+            idDetalle: idMuestra,
+            tecnica:tecnica,
+            lum1:$("#lum1").val(),
+            na1:$("#na1").val(),
+            sp1:$("#sp1").val(),
+            tri1:$("#tri1").val(),
+            uni1:$("#uni1").val(),
+            volH1:$("#volH1").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            $("#resHH").val(response.res); 
+        }
+    }); 
 }
 
 function random(min, max) {

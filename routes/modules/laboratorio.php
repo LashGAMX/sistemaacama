@@ -168,6 +168,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('getLoteCapturaMicro', [MbController::class, 'getLoteCapturaMicro']);
             Route::post('getDetalleCol', [MbController::class, 'getDetalleCol']);
             Route::post('getDetalleHH', [MbController::class, 'getDetalleHH']);
+            Route::post('operacion', [MbController::class, 'operacion']);
             
             Route::post('setControlCalidad', [MbController::class, 'setControlCalidad']);
             Route::post('liberarMuestraMetal', [MbController::class, 'liberarMuestraMetal']);
@@ -178,8 +179,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
             //RUTA PARA VISTA CAPTURA DE MICROBIOLOGÍA
             Route::get('capturaMicro', [MbController::class, 'capturaMicro']);
-            
-            //Ruta temporal de prueba
+                        
             Route::get('captura/exportPdfCaptura/{idLote}', [MbController::class, 'exportPdfCaptura']);
         });
 

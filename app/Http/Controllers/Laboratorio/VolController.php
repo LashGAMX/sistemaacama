@@ -704,8 +704,35 @@ class VolController extends Controller
         // var_dump($parametro); 
         return view('laboratorio.fq.capturaVolumetria', compact('parametro')); 
     }
-    public function operacionVolumetria()
+    public function operacionVolumetria(Request $request)
     {
+        $parametro = Parametro::where('Id_parametro', $request->idParametro)->first();
+
+        switch ($parametro->Id_parametro)
+        {
+            case 6:
+            // case 77:
+            // case 74:
+            // case 76:
+            // case 73:
+            // case 75:
+                $res1 = ($request->CA - $request->B);
+                $res2 = ($res1 * $request->C); 
+                $res3 = ($res2 * $request->D);
+                $res = ($res3 / $request->E);
+
+            break;
+
+                
+        }
+        $data = array(
+            'id' => $parametro->Id_parametro, 
+            'res' => $res,
+            'ca' => $request->CA,
+            'b' => $request->B,
+        );
+        return response()->json($data);
+        
  
     }
 
