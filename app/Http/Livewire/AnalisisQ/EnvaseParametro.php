@@ -1,16 +1,11 @@
 <?php
 
 namespace App\Http\Livewire\AnalisisQ;
-use Illuminate\Support\Facades\DB;
-use App\Models\Envase;
-use App\Models\HistorialAnalisisqEnvase;
-use App\Models\Unidad;
-use Illuminate\Support\Facades\Auth;
-use Livewire\Component; 
 
-class Envases extends Component
-{ 
+use Livewire\Component;
 
+class EnvaseParametro extends Component
+{
     public $sw = false;
     public $search = '';
 
@@ -19,15 +14,11 @@ class Envases extends Component
     public $vol;
     public $unidad;
     public $alert =  false;
- 
     public function render()
     {
-        $unidades = Unidad::all();
-        $model = DB::table("ViewEnvases")
-        ->where('Nombre','LIKE',"%{$this->search}%")
-        ->get();
-        return view('livewire.analisis-q.envases', compact('unidades','model'));
+        return view('livewire.analisis-q.envase-parametro');
     }
+    
     public function create()
     {
         $model = Envase::create([
@@ -91,6 +82,4 @@ class Envases extends Component
     {
         $this->alert = false;
     }
-
-
 }
