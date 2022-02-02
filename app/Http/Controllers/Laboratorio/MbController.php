@@ -957,46 +957,10 @@ class MbController extends Controller
 
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
     public function exportPdfCaptura($idLote)
-    {
-        //Var. de prueba temporal
-        //$idLote = 11;
-
+    {        
+        $bandera = '';
         $horizontal = false;
-        $sw = true;
- 
-        //Opciones del documento PDF
-        $mpdf = new \Mpdf\Mpdf([    
-            'orientation' => 'P',        
-            'format' => 'letter',
-            'margin_left' => 10,
-            'margin_right' => 10,
-            'margin_top' => 31,
-            'margin_bottom' => 45,
-            'defaultheaderfontstyle' => ['normal'],
-            'defaultheaderline' => '0'
-        ]);
- 
-        $mpdfH = new \Mpdf\Mpdf([    
-            'orientation' => 'L',        
-            'format' => 'letter',
-            'margin_left' => 10,
-            'margin_right' => 10,
-            'margin_top' => 31,
-            'margin_bottom' => 45,
-            'defaultheaderfontstyle' => ['normal'],
-            'defaultheaderline' => '0'
-        ]);
-  
-        //Establece la marca de agua del documento PDF
-        //  $mpdf->SetWatermarkImage( 
-        //      asset('HojaMembretada2.png'),
-        //      1,
-        //      array(215, 280),
-        //      array(0, 0),
-        //  ); 
-  
-        //  $mpdf->showWatermarkImage = true;         
- 
+        $sw = true;                       
         $id_lote = $idLote;
         $semaforo = true;
   
@@ -1012,12 +976,9 @@ class MbController extends Controller
             $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
             echo '<script> alert("Valores predeterminados para la fecha de análisis. Rellena este campo.") </script>';
-        }   
-          
-        //Recupera el parámetro que se está utilizando
-
-        $bandera = '';
+        }                           
         
+        //Recupera el parámetro que se está utilizando****************************
         $parametro = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->first();
 
         if(is_null($parametro)){
@@ -1033,179 +994,234 @@ class MbController extends Controller
             }
         }else{
             $bandera = 'coli';
-        }
-        
-//HUEVOS DE HELMINTO
-
-        //AÚN NO EXISTE ESTA VISTA, POR TAL MOTIVO ESTA INSTRUCCIÓN GENERARÁ PROBLEMAS
-        //$parametro = DB::table('ViewLoteDetalleMicro')->where('Id_lote', $id_lote)->first();
+        }        
+        //************************************************************************        
   
-         //Recupera el texto dinámico Procedimientos de la tabla reportes****************************************************
+        //Recupera el texto dinámico Procedimientos de la tabla reportes****************************************************
         $textoProcedimiento = ReportesMb::where('Id_lote', $id_lote)->first();
         if(!is_null($textoProcedimiento)){
-            //Hoja1            
             if($bandera === 'coli'){
-                if($parametro->Parametro == 'COLIFORMES FECALES'){
-                    $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento'));
-                    $horizontal = false;
-                }else if($parametro->Parametro == 'COLIFORMES TOTALES'){
-                    $horizontal = false;                
-                    $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+                if($parametro->Parametro == 'COLIFORMES FECALES' || $parametro->Parametro == 'Coliformes Fecales +'){                    
+                    $horizontal = 'P';                    
+                    $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
      
-                    if(!is_null($data)){                         
-                        $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                        $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
-                        $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                    if(!is_null($data)){                                                 
+                        $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();                        
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+
                     }else{
-                        $sw = false;
-                        $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                        $sw = false;                        
+                    }                                                            
+                }else if($parametro->Parametro == 'COLIFORMES TOTALES'){                    
+                    $horizontal = 'P';                    
+                    $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
+     
+                    if(!is_null($data)){                                                 
+                        $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();
+                        $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+
+                    }else{
+                        $sw = false;                        
                     }
                 }
             }else if($bandera === 'hh'){
-                if($parametro->Parametro == 'HUEVOS DE HELMINTO'){ //POR REVISAR EN LA TABLA DE DATOS
-                    $htmlCaptura = view('exports.laboratorio.mb.hh.capturaBody', compact('textoProcedimiento'));
-                    $horizontal = false;
+                if($parametro->Parametro == 'HUEVOS DE HELMINTO' || $parametro->Parametro == 'Huevos de Helminto'){ //POR REVISAR EN LA TABLA DE DATOS
+                    $horizontal = 'P';                    
+                    $data = DB::table('ViewLoteDetalleHH')->where('Id_lote', $id_lote)->get();
+     
+                    if(!is_null($data)){                                                 
+                        $dataLength = DB::table('ViewLoteDetalleHH')->where('Id_lote', $id_lote)->count();                        
+                        $htmlCaptura = view('exports.laboratorio.mb.hh.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+
+                    }else{
+                        $sw = false;                        
+                    }
                 }
-            }else if($bandera === 'enteroCoco'){
+            }else if($bandera === 'enteroCoco'){    //NO EXISTE BITÁCORA AÚN POR SER UN PARÁMETRO NUEVO
                 if($parametro->Parametro == 'ENTEROCOCO FECAL'){ //POR REVISAR EN LA TABLA DE DATOS
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.condElec.capturaBody', compact('textoProcedimiento'));
-                    $horizontal = false;
+                    $horizontal = 'P';                    
+                    $data = DB::table('ViewLoteDetalleMicro')->where('Id_lote', $id_lote)->get();
+     
+                    if(!is_null($data)){                                                 
+                        $dataLength = DB::table('ViewLoteDetalleMicro')->where('Id_lote', $id_lote)->count();                        
+                        $htmlCaptura = view('exports.laboratorio.mb.enteroC.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+
+                    }else{
+                        $sw = false;                        
+                    }                                        
                 }
             }else if($bandera === 'dbo'){
                 if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
-                    $horizontal = false;                
-                    $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+                    $horizontal = 'P';
+                    $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
      
-                    if(!is_null($data)){                         
-                        $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
-                        $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
-                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                    if(!is_null($data)){                                                 
+                        $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();               
+                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+
                     }else{
-                        $sw = false;
-                        $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                        $sw = false;                        
                     }                
                 }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO CON INOCULO (DBO5)'){
-                    $horizontal = false;                
-                    $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+                    $horizontal = 'P';
+                    $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
      
-                    if(!is_null($data)){                         
-                        $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    if(!is_null($data)){                                                 
                         $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
-                        $htmlCaptura = view('exports.laboratorio.mb.dboIn.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                        $htmlCaptura = view('exports.laboratorio.mb.dboIn.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+
                     }else{
-                        $sw = false;
-                        $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                        $sw = false;                        
                     }                
                 }
             }                                                     
         }else{  
             if($bandera === 'coli'){
-                if($parametro->Parametro == 'COLIFORMES FECALES'){
-                    $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
-                    $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
-
-                    $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento'));
-                    $horizontal = false;
-                }else if($parametro->Parametro == 'COLIFORMES TOTALES'){
-                    $horizontal = false;                
-                    $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+                if($parametro->Parametro == 'COLIFORMES FECALES' || $parametro->Parametro == 'Coliformes Fecales +'){                    
+                    $horizontal = 'P';
+                    $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
      
-                    if(!is_null($data)){
-                        $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
-                        $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-                        $textoProcedimiento = ReportesMb::where('Id_reporte', 4)->first();
-                        $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                    if(!is_null($data)){                                                 
+                        $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                        $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();                        
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+
                     }else{
                         $sw = false;
-                        $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
-                    }                                
+                    }
+                }else if($parametro->Parametro == 'COLIFORMES TOTALES'){
+                    $horizontal = 'P';
+                    $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
+     
+                    if(!is_null($data)){                                                 
+                        $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                        $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();                        
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+
+                    }else{
+                        $sw = false;
+                    }
                 }
             }else if($bandera === 'hh'){ 
-                $data = DB::table('ViewLoteDetalleHH')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleHH')->where('Id_lote', $id_lote)->count();
+                if($parametro->Parametro == 'HUEVOS DE HELMINTO' || $parametro->Parametro == 'Huevos de Helminto'){                
+                    $horizontal = 'P';
+                    $data = DB::table('ViewLoteDetalleHH')->where('Id_lote', $id_lote)->get();
+        
+                    if(!is_null($data)){                                                 
+                        $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                        $dataLength = DB::table('ViewLoteDetalleHH')->where('Id_lote', $id_lote)->count();                        
+                        $htmlCaptura = view('exports.laboratorio.mb.hh.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
 
-                if($parametro->Parametro == 'HUEVOS DE HELMINTO'){ //POR REVISAR EN LA TABLA DE DATOS
-                    $htmlCaptura = view('exports.laboratorio.mb.hh.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                    $horizontal = false;
+                    }else{
+                        $sw = false;
+                    }
                 }
-            }else if($bandera === 'enteroCoco'){
+            }else if($bandera === 'enteroCoco'){ //NO EXISTE AÚN BITÁCORA DEBIDO A QUE ES NUEVO PARÁMETRO
                 if($parametro->Parametro == 'ENTEROCOCO FECAL'){ //POR REVISAR EN LA TABLA DE DATOS
-                    $textoProcedimiento = ReportesMb::where('Id_reporte', 5)->first();
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.condElec.capturaBody', compact('textoProcedimiento'));
-                    $horizontal = false;
+                    $horizontal = 'P';
+                    $data = DB::table('ViewLoteDetalleMicro')->where('Id_lote', $id_lote)->get();
+        
+                    if(!is_null($data)){                                                 
+                        $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                        $dataLength = DB::table('ViewLoteDetalleMicro')->where('Id_lote', $id_lote)->count();                        
+                        $htmlCaptura = view('exports.laboratorio.mb.enteroC.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+
+                    }else{
+                        $sw = false;
+                    }
                 }
             }else if($bandera === 'dbo'){
                 if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
-                    $horizontal = false;                
-                    $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+                    $horizontal = 'P';
+                    $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
      
-                    if(!is_null($data)){
-                        $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
-                        $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+                    if(!is_null($data)){                        
+                        $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();
                         $textoProcedimiento = ReportesMb::where('Id_reporte', 6)->first();
-                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+
                     }else{
-                        $sw = false;
-                        $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                        $sw = false;                        
                     }                                                
                 }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO CON INOCULO (DBO5)'){
-                    $horizontal = false;                
-                    $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+                    $horizontal = 'P';                
+                    $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
      
-                    if(!is_null($data)){
-                        $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();                    
-                        $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+                    if(!is_null($data)){                        
+                        $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();
                         $textoProcedimiento = ReportesMb::where('Id_reporte', 7)->first();
-                        $htmlCaptura = view('exports.laboratorio.mb.dboIn.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
+                        $htmlCaptura = view('exports.laboratorio.mb.dboIn.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+
                     }else{
-                        $sw = false;
-                        $mpdf->SetJS('No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+                        $sw = false;                        
                     }
                 }
             }                        
          }   
  
          //HEADER-FOOTER******************************************************************************************************************         
-        if($sw === true){        
-            if($parametro->Parametro == 'COLIFORMES FECALES'){
-                $htmlHeader = view('exports.laboratorio.mb.coliformes.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.mb.coliformes.capturaFooter', compact('usuario', 'firma'));
-            }else if($parametro->Parametro == 'COLIFORMES TOTALES'){
-                $htmlHeader = view('exports.laboratorio.mb.espectro.cianuros.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.mb.espectro.cianuros.capturaFooter', compact('usuario', 'firma'));
-            }else if($parametro->Parametro == 'HUEVOS DE HELMINTO'){
-                $htmlHeader = view('exports.laboratorio.mb.hh.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.mb.hh.capturaFooter', compact('usuario', 'firma'));
-            }else if($parametro->Parametro == 'ENTEROCOCO FECAL'){ //POR REVISAR EN LA TABLA DE DATOS
-                $htmlHeader = view('exports.laboratorio.mb.espectro.condElec.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.mb.espectro.condElec.capturaFooter', compact('usuario', 'firma'));
-            }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
-                $htmlHeader = view('exports.laboratorio.mb.dbo.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.mb.dbo.capturaFooter', compact('usuario', 'firma'));
-            }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO CON INOCULO (DBO5)'){
-                $htmlHeader = view('exports.laboratorio.mb.dboIn.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.mb.dboIn.capturaFooter', compact('usuario', 'firma'));
-            }
-        }                                  
- 
-        if($horizontal === false && $sw === true){            
-            $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
-            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-            $mpdf->WriteHTML($htmlCaptura);            
-        }else if($horizontal === true && $sw === true){            
-            $mpdfH->setHeader("{PAGENO}<br><br>" . $htmlHeader);
-            $mpdfH->SetHTMLFooter($htmlFooter, 'O', 'E');
-            $mpdfH->WriteHTML($htmlCaptura);            
+               
+        if($parametro->Parametro == 'COLIFORMES FECALES' || $parametro->Parametro == 'Coliformes Fecales +'){
+            $htmlHeader = view('exports.laboratorio.mb.coliformes.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.mb.coliformes.capturaFooter', compact('usuario', 'firma'));
+        }else if($parametro->Parametro == 'COLIFORMES TOTALES'){
+            $htmlHeader = view('exports.laboratorio.mb.espectro.cianuros.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.mb.espectro.cianuros.capturaFooter', compact('usuario', 'firma'));
+        }else if($parametro->Parametro == 'HUEVOS DE HELMINTO' || $parametro->Parametro == 'Huevos de Helminto'){
+            $htmlHeader = view('exports.laboratorio.mb.hh.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.mb.hh.capturaFooter', compact('usuario', 'firma'));
+        }else if($parametro->Parametro == 'ENTEROCOCO FECAL'){ //POR REVISAR EN LA TABLA DE DATOS
+            $htmlHeader = view('exports.laboratorio.mb.espectro.condElec.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.mb.espectro.condElec.capturaFooter', compact('usuario', 'firma'));
+        }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
+            $htmlHeader = view('exports.laboratorio.mb.dbo.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.mb.dbo.capturaFooter', compact('usuario', 'firma'));
+        }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO CON INOCULO (DBO5)'){
+            $htmlHeader = view('exports.laboratorio.mb.dboIn.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.mb.dboIn.capturaFooter', compact('usuario', 'firma'));
         }
-  
-        if($horizontal === false && $sw === true){            
-            $mpdf->CSSselectMedia = 'mpdf';
-            $mpdf->Output();
- 
-        }else if($horizontal === true && $sw === true){  //Es vertical la bitácora
-            $mpdfH->CSSselectMedia = 'mpdf';
-            $mpdfH->Output();
+
+        //Opciones del documento PDF
+        $mpdf = new \Mpdf\Mpdf([    
+            'orientation' => $horizontal,        
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 31,
+            'margin_bottom' => 45,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+
+        if($horizontal == 'L'){
+            //Establece la marca de agua del documento PDF
+            $mpdf->SetWatermarkImage(
+                asset('/public/storage/HojaMembretadaHorizontal.png'),
+                1,
+                array(215, 280),
+                array(0, 0),
+            );
+        }else{
+            //Establece la marca de agua del documento PDF
+            /* $mpdf->SetWatermarkImage(
+                asset('/public/storage/HojaMembretada3.png'),
+                1,
+                array(215, 280),
+                array(0, 0),
+            ); */
         }
+
+        $mpdf->showWatermarkImage = true;
+
+        if($sw === false){
+            $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
+        }
+        
+        $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        $mpdf->WriteHTML($htmlCaptura);
+        $mpdf->CSSselectMedia = 'mpdf';        
+        $mpdf->Output();
     }
 }
   

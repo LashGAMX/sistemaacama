@@ -284,12 +284,9 @@ function getDetalleEspectro(idDetalle)
 }
 
 //Función imprimir PDF
-function imprimir() {
-    /* console.log("Dentro de evento btnBuscar");
-    $('#btnImprimir').click(function () { */
-        //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA/"+idLote;
-        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaEspectro/" + idLote;
-    //});
+function imprimir() {            
+    window.open(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaEspectro/" + idLote);
+    //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaEspectro/" + idLote;    
 }
 
 function operacion() {
