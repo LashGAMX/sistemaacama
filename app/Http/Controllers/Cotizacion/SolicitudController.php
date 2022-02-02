@@ -43,6 +43,11 @@ class SolicitudController extends Controller
         $model = DB::table('ViewCotizacion')->get();
         return view('cotizacion.solicitud',compact('model'));
     } 
+    public function buscarFecha()
+    {
+        
+        
+    }
 
     public function create($idCot)
     {
