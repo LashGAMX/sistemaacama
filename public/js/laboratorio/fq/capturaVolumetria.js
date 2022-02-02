@@ -162,13 +162,9 @@ function getDataCaptura() {
 }
 
 //Función imprimir PDF
-function imprimir() {
-    /* console.log("Dentro de evento imprimir modif");
-    $('#btnImprimir').click(function () {
-        console.log("Valor de idLote: " + idLote);   */     
-        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaVolumetria/"+idLote;
-        //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA";
-    //});
+function imprimir() {       
+    window.open(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaVolumetria/"+idLote);
+    //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaVolumetria/"+idLote;
 }
 
 function operacion() {

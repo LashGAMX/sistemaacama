@@ -180,11 +180,9 @@ function getDataCaptura()
 }
 
 //Función imprimir PDF
-function imprimir(idLote){
-    console.log("Dentro de evento btnBuscar");
-    $('#btnImprimir').click(function() {
-        window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote;
-    });
+function imprimir(idLote){        
+    window.open(base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote);
+    //window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote;
 }
 
 function operacion()

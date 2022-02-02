@@ -48,11 +48,11 @@
                         <td class="tableContent">{{@$data[$i]->Uncinarias}}</td>
                         <td class="tableContent">{{@$data[$i]->H_nana}}</td>
                         <td class="tableContent">{{@$data[$i]->T_trichiura}}</td>
-                        <td class="tableContent">{{@$data[$i]->Taenia}}</td>
+                        <td class="tableContent">{{@$data[$i]->Taenia_sp}}</td>
                         <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>                        
+                        <td class="tableContent">{{@$data[$i]->Observacion}}</td>
+                        <td class="tableContent">LIBERADO</td>
+                        <td class="tableContent">RESULTADO</td>
                     </tr>                
                 @endfor
             </tbody>        

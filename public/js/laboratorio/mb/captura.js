@@ -54,6 +54,8 @@ function getLoteMicro()
             success: function (response) {            
                 console.log(response);
                 
+                console.log("Dentro de AJAX en getLoteMicro");
+
                 tab += '<table id="tablaLote" class="table table-sm">';
                 tab += '    <thead class="thead-dark">';
                 tab += '        <tr>';
@@ -73,7 +75,7 @@ function getLoteMicro()
                     tab += '<td>'+item.Fecha+'</td>';
                     tab += '<td>'+item.Asignado+'</td>';
                     tab += '<td>'+item.Liberado+'</td>';
-                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick=imprimir();><i class="fas fa-file-download"></i></button></td>';
+                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button></td>';
                     tab += '</tr>';
                 }); 
                 tab += '    </tbody>';
@@ -108,8 +110,6 @@ function getLoteMicro()
                     idLote = dato;
                     getLoteCapturaMicro();
                   });
-          
-                idLote = response.lote.Id_lote;
             }
         });
 }
@@ -285,12 +285,10 @@ function getDetalleHH(idDetalle)
 }
 
 //Función imprimir PDF
-function imprimir(){
-    console.log("Dentro de evento imprimir");
-    /* $('#btnImprimir').click(function() { */
-        //window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote;
-        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCaptura/" + idLote;
-    /* }); */
+function imprimir(){        
+    //ABRE LA RUTA ESPECÍFICADA EN UNA NUEVA PESTAÑA
+    window.open(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCaptura/" + idLote);
+    //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCaptura/" + idLote;    
 } 
 
 function operacionCol()
