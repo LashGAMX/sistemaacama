@@ -32,6 +32,7 @@ $('#btnLiberar').click(function(){
 
 var numMuestras = new Array();
 var idMuestra = 0; 
+var idLote = 0;
 function getDataCaptura()
 {
     numMuestras = new Array();
@@ -86,7 +87,7 @@ function getDataCaptura()
                 tab += '<td>'+response.lote.Fecha+'</td>';
                 tab += '<td>'+response.lote.Asignado+'</td>';
                 tab += '<td>'+response.lote.Liberado+'</td>';
-                tab += '<td><button class="btn btn-success" id="btnImprimir"><i class="fas fa-file-download"></i></button></td>';
+                tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button></td>';
               tab += '</tr>';
                 tab += '    </tbody>';
                 tab += '</table>';
@@ -173,14 +174,14 @@ function getDataCaptura()
                     let dato = $(this).find('td:first').html();
                     idMuestra = dato;
                   });
-          
-                imprimir(response.lote.Id_lote);                
+                  idLote = response.lote.Id_lote;
+                //imprimir(response.lote.Id_lote);
             }
         });
 }
 
 //Función imprimir PDF
-function imprimir(idLote){        
+function imprimir(){        
     window.open(base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote);
     //window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote;
 }

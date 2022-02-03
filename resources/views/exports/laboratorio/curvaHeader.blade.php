@@ -17,6 +17,6 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 
-<span id='curvaHora'>Hora</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="subFechaHora"> AQUÍ VA LA HORA
+<span id='curvaHora'>Hora</span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="subFechaHora"> {{@$hora}}
 </span>
 

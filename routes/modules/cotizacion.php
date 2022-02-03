@@ -55,6 +55,7 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
 
 
     Route::post('setSolicitudSinCot', [SolicitudController::class, 'setSolicitudSinCot']);
+    Route::get('duplicarSol/{idCot}', [SolicitudController::class, 'duplicarSol']);
 
 
     Route::get('update/{idCot}',[SolicitudController::class,'update']);

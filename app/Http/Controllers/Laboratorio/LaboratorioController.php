@@ -163,7 +163,7 @@ class LaboratorioController extends Controller
 
         //Establece la marca de agua del documento PDF
         $mpdf->SetWatermarkImage(
-            asset('storage/HojaMembretadaHorizontal.png'),
+            asset('/public/storage/HojaMembretadaHorizontal.png'),
             1,
             array(215, 280),
             array(0, 0),
@@ -184,7 +184,7 @@ class LaboratorioController extends Controller
         }else{
             $formula = DB::table('ViewLoteDetalle')->where('Id_lote', 0)->first();
             $formulaSelected = $formula->Parametro;
-            echo '<script> alert("Valores predeterminados para el detalle del lote") </script>';
+            $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
         }
 
         //Recupera el nombre de usuario y firma
@@ -195,10 +195,12 @@ class LaboratorioController extends Controller
         $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
         if(!is_null($fechaAnalisis)){
             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
+            $hora = date("h:j:s", strtotime($fechaAnalisis->created_at));
         }else{
             $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
-            echo '<script> alert("Valores predeterminados para la fecha de análisis. Rellena este campo.") </script>';
+            $hora = date("h:j:s", strtotime($fechaAnalisis->created_at));
+            $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
         }
 
         $datos = DB::table('ViewLoteDetalle')->where('Id_lote', $id_lote)->get();
@@ -227,7 +229,7 @@ class LaboratorioController extends Controller
         } */
 
         //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
-        $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected', 'fechaConFormato'));
+        $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected', 'fechaConFormato', 'hora'));
         //Establece el encabezado del documento PDF
         $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
 
@@ -265,7 +267,7 @@ class LaboratorioController extends Controller
         }
 
         //if(!is_null($formula) && !is_null($fechaAnalisis)){
-            $htmlCurvaHeader = view('exports.laboratorio.curvaHeader', compact('formulaSelected', 'fechaConFormato'));
+            $htmlCurvaHeader = view('exports.laboratorio.curvaHeader', compact('formulaSelected', 'fechaConFormato', 'hora'));
             $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlCurvaHeader, 'O', 'E');
         //}
         

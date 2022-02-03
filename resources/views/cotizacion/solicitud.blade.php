@@ -45,6 +45,11 @@
                             <div class="col-md-1">
                                 <button id="btnImprimir" class="btn btn-info" ><i class="voyager-documentation"></i> Imprimir</button>
                             </div>
+
+                            <div class="col-md-1">
+                                <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Solicitud</button>
+                            </div>
+
                             <div class="col-md-1">
                                 <button id="btnGenFolio" class="btn btn-success" ><i class="voyager-file-text"></i> Generar Código</button>
                             </div>
@@ -90,7 +95,5 @@
     </div>
 @endsection
     @section('javascript')
-        <script src="{{ asset('js/cotizacion/solicitud.js') }}"></script>
-        <script src="{{ asset('js/libs/componentes.js') }}"></script>
-        <script src="{{ asset('js/libs/tablas.js') }}"></script>
+        <script src="{{ asset('/public/js/cotizacion/solicitud.js') }}"></script>        
     @stop

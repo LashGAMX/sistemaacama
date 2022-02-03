@@ -663,6 +663,18 @@ class SolicitudController extends Controller
         );
         return response()->json($data);
     }
+
+    public function duplicarSol($idCot){
+        $solOriginal = Solicitud::where('Id_cotizacion', $idCot)->first();
+        $solDuplicada = $solOriginal->replicate();
+
+        $solDuplicada->Id_user_c = Auth::user()->id;
+        $solDuplicada->Id_user_m = Auth::user()->id;
+        $solDuplicada->created_at = Carbon::now();
+        $solDuplicada->updated_at = Carbon::now();
+
+        $solDuplicada->save();
+    }
     
     public function exportPdfOrden($idOrden) 
     {
@@ -679,13 +691,13 @@ class SolicitudController extends Controller
             'margin_bottom' => 18
         ]);
         
-        /* $mpdf->SetWatermarkImage(
-            asset('/public/storage/HojaMembretada2.png'),
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/MembreteVertical.png'),
             1,
             array(215, 280),
             array(0, 0),
         );
-        $mpdf->showWatermarkImage = true; */
+        $mpdf->showWatermarkImage = true;
         $html = view('exports.cotizacion.ordenServicio', compact('model','parametros','qr', 'cotizacion'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);

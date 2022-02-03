@@ -52,6 +52,11 @@ $(document).ready(function () {
         window.open(base_url+"/admin/cotizacion/solicitud/exportPdfOrden/"+idCot);
         //window.location = base_url+"/admin/cotizacion/solicitud/exportPdfOrden/"+idCot;
     } );
+
+    $('#btnDuplicar').click(function(){                
+        window.location = base_url + "/admin/cotizacion/solicitud/duplicarSol/"+idCot;
+    });
+
     $('#btnGenFolio').click( function () {
          //alert("Imprimir GenerarFolio");
          let element = [];
