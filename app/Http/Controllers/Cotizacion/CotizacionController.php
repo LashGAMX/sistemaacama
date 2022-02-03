@@ -30,6 +30,11 @@ class CotizacionController extends Controller
         $model = DB::table('ViewCotizacion')->get();
         return view('cotizacion.cotizacion', compact('model'));
     }
+    public function buscarFecha($inicio, $fin)
+    {
+        $model = DB::table('ViewCotizacion')->whereBetween('created_at', [$inicio, $fin])->get();
+        return view('cotizacion.cotizacion', compact('model'));
+    }
     public function create()
     {
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', null)->get();
