@@ -1203,12 +1203,12 @@ class MbController extends Controller
             );
         }else{
             //Establece la marca de agua del documento PDF
-            /* $mpdf->SetWatermarkImage(
-                asset('/public/storage/HojaMembretada3.png'),
+            $mpdf->SetWatermarkImage(
+                asset('/public/storage/MembreteVertical.png'),
                 1,
                 array(215, 280),
                 array(0, 0),
-            ); */
+            );
         }
 
         $mpdf->showWatermarkImage = true;

@@ -780,10 +780,8 @@ class VolController extends Controller
     //todo *******************************************     
          
      public function exportPdfCapturaVolumetria($idLote)
-     {
-          //Var. de prueba temporal
-          //$idLote = 11;         
-         $sw = true;
+     {          
+        $sw = true;
  
           //Opciones del documento PDF
           $mpdf = new \Mpdf\Mpdf([
@@ -797,18 +795,18 @@ class VolController extends Controller
               'defaultheaderline' => '0'
           ]);        
   
-          //Establece la marca de agua del documento PDF
-         //  $mpdf->SetWatermarkImage( 
-         //      asset('HojaMembretada2.png'),
-         //      1,
-         //      array(215, 280),
-         //      array(0, 0),
-         //  ); 
+        //Establece la marca de agua del documento PDF
+        $mpdf->SetWatermarkImage( 
+            asset('MembreteVertical.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        ); 
   
-         //  $mpdf->showWatermarkImage = true;         
+        $mpdf->showWatermarkImage = true;         
  
-          $id_lote = $idLote;
-          $semaforo = true;
+        $id_lote = $idLote;
+        $semaforo = true;
   
           //Recupera el nombre de usuario y firma
           $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
@@ -948,7 +946,7 @@ class VolController extends Controller
         if($sw === true){            
            $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-           $mpdf->WriteHTML($htmlCaptura);            
+           $mpdf->WriteHTML($htmlCaptura);
         }
   
         if($sw === true){            

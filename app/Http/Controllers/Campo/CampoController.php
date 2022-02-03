@@ -1026,7 +1026,7 @@ class CampoController extends Controller
         ]);
         
         $mpdf->SetWatermarkImage(
-            asset('storage/HojaMembretada.png'),
+            asset('/public/storage/MembreteVertical.png'),
             1,
             array(215, 280),
             array(0, 0),
@@ -1062,7 +1062,7 @@ class CampoController extends Controller
         ]);
         
         $mpdf->SetWatermarkImage(
-            asset('storage/HojaMembretada.png'),
+            asset('/public/storage/MembreteVertical.png'),
             1,
             array(215, 280),
             array(0, 0), 

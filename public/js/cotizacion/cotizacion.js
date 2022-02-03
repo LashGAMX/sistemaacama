@@ -27,6 +27,11 @@ $(document).ready(function () {
         }
     } );
  
+    $('#btnBuscar').click( function (){
+        console.log('click btnBuscar')
+        window.location = base_url+ "/admin/cotizacion/buscarFecha/"+ $("#inicio").val()+ "/" + $("#fin").val();
+    });
+
     let idCot = 0; 
     $('#tablaCotizacion tr').on('click', function(){
         let dato = $(this).find('td:first').html();

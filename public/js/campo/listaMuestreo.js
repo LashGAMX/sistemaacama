@@ -39,9 +39,11 @@ $(document).ready(function () {
     } );
 
     $('#btnHojaCampo').click( function () {
-        window.location = base_url+"/admin/campo/hojaCampo/"+idCot;
+        window.open(base_url+"/admin/campo/hojaCampo/"+idCot);
+        //window.location = base_url+"/admin/campo/hojaCampo/"+idCot;
     });
     $('#btnBitacora').click( function () {
-        window.location = base_url+"/admin/campo/bitacoraCampo/"+idCot;
+        window.open(base_url+"/admin/campo/bitacoraCampo/"+idCot);
+        //window.location = base_url+"/admin/campo/bitacoraCampo/"+idCot;
     });
 });
