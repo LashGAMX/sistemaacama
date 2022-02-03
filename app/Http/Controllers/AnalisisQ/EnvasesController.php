@@ -11,4 +11,8 @@ class EnvasesController extends Controller
     {
         return view('analisisQ.envases');
     }
+    public function envase()
+    {
+        return view('analisisQ.envase_parametro');
+    }
 }

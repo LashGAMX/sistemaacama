@@ -23,7 +23,7 @@
               <td>{{$item->Id_envase}}</td>
               <td>{{$item->Id_preservacion}}</td>
             </tr>
-        @endforeach
+            @endforeach
             </tbody>
         </table>
         </div>

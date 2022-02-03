@@ -66,8 +66,9 @@ function getConcentracionParametro(idParametro,parametro)
           tab += '    <h6>Parametro: <input type="text" value="'+parametro+'" disabled>&nbsp;<button class="btn btn-success" onclick="setConcentracionParametro()">Guardar</button></h6>';
           tab += '    <thead class="thead-dark">';
           tab += '        <tr>';
-          tab += '            <th style="width: 5%;">#</th>';
-          tab += '            <th style="width: 30%;">Concentracion</th>';
+          tab += '            <th>#</th>';
+          tab += '            <th>Concentracion</th>';
+          tab += '            <th>Opc</th>';
           tab += '        </tr>';
           tab += '    </thead>';
           tab += '    <tbody>';
@@ -75,6 +76,7 @@ function getConcentracionParametro(idParametro,parametro)
             tab += '<tr>';
             tab += '<td>'+cont+'</td>';
             tab += '<td><input id="con'+cont+'" type="text" value="'+item.Concentracion+'"></td>';
+            tab += '<td><button class="btn btn-danger"><i class="voyager-trash"></i></button></td>';
             tab += '</tr>';
             cont++;
             numStd = cont;

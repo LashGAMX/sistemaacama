@@ -52,7 +52,7 @@
                                 <th>Tipo descarga</th>
                                 <th>Estado cotización</th>
                                 <th>Creado por</th>
-                                <th>Fecha creación</th>
+                                <th>Fecha creación</th> 
                                 <th>Actualizado por</th> 
                                 <th>Fecha actualización</th>
                             </tr>
@@ -82,10 +82,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> 
 @endsection
     @section('javascript')
-        <script src="{{ asset('/js/cotizacion/cotizacion.js') }}"></script>
-        <script src="{{ asset('/js/libs/componentes.js') }}"></script>
-        <script src="{{ asset('/js/libs/tablas.js') }}"></script>
+        <script src="{{ asset('/public/js/cotizacion/cotizacion.js') }}"></script>
     @stop

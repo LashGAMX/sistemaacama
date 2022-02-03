@@ -356,3 +356,15 @@ ON col.Id_control = control.Id_control
 CREATE VIEW ViewEnvases as SELECT en.*,uni.Unidad FROM envase as en
 INNER JOIN unidades as uni
 ON en.Id_unidad = uni.Id_unidad
+
+/* Lista ViewEnvaseParametro */ 
+
+CREATE VIEW ViewEnvaseParametro as SELECT env.*,lab.Area,pa.Parametro,en.Nombre,en.Volumen,pre.Preservacion FROM envase_parametro as env
+INNER JOIN areas_lab as lab
+ON env.Id_analisis = lab.Id_area
+INNER JOIN parametros as pa
+ON env.Id_parametro = pa.Id_parametro
+INNER JOIN envase as en
+ON env.Id_envase = en.Id_envase
+INNER JOIN preservacion as pre
+ON env.Id_preservador = pre.Id_preservacion

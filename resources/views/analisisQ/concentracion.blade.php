@@ -34,11 +34,12 @@
             <div class="col-md-6">
               <div id="tableStd">
                 <table class="table">
-                  <h6>Parametro: <input type="text" value="" disabled>&nbsp;<button class="btn btn-success">Guardar</button></h6> 
+                  <h6>Parametro: <input type="text" value="" disabled>&nbsp;<button class="btn btn-success">Guardar</button>&nbsp;&nbsp;<button class="btn btn-success"><i class="voyager-plus"></i></button></h6>
                   <thead>
                     <tr>
                       <th>#</th>
                       <th>Concentracion</th>
+                      <th>Opc</th>
                     </tr>
                   </thead>
                 </table>
@@ -51,7 +52,5 @@
   @stop
 
   <script src="{{asset('/public/js/analisisQ/concentracion.js')}}"></script>
-  <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
-  <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
 
 @endsection  

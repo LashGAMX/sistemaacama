@@ -12,9 +12,10 @@
         <thead class="">
             <tr>
                 <th>Id</th>
+                <th>Area</th>
+                <th>Parametro</th>
                 <th>Envase</th>
-                <th>Volumen</th>
-                <th>Unidad</th>
+                <th>Preservador</th>
                 <th>Acción</th> 
             </tr>
         </thead>
@@ -26,12 +27,13 @@
             @else
                 <tr>
             @endif
-          <td>{{$item->Id_envase}}</td>
+          <td>{{$item->Id_env}}</td>
+          <td>{{$item->Parametro}}</td>
+          <td>{{$item->Area}}</td>
           <td>{{$item->Nombre}}</td>
-          <td>{{$item->Volumen}}</td>
-          <td>{{$item->Id_unidad}}</td>
+          <td>{{$item->Preservacion}}</td>
           <td>
-              <button type="button" class="btn btn-warning" wire:click="setData('{{$item->Id_envase}}','{{$item->Nombre}}','{{$item->Volumen}}','{{$item->Id_unidad}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalEnvase"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+              <button type="button" class="btn btn-warning" wire:click="setData('{{$item->Id_env}}','{{$item->Id_analisis}}','{{$item->Id_parametro}}','{{$item->Id_envase}}','{{$item->Id_preservador}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalEnvase"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>  
         </tr>
     @endforeach
@@ -70,7 +72,6 @@
                                 <label class="custom-control-label" for=""> Activo</label>
                             </div>
                         @else
-                            <input type="text" wire:model="idNorma" hidden>
                             <div class="custom-control custom-switch">
                                 <input wire:model='status' type="checkbox" class="custom-control-input" id="customSwitch1">
                                 <label class="custom-control-label" for="customSwitch1">Activo</label>
@@ -79,26 +80,56 @@
                     </div>
                     <div class="col-md-12">
                         <div class="form-group">
-                            <label for="nombre">Nombre</label>
-                           <input type="text" wire:model='nombre' class="form-control" placeholder="Nombre envase">
+                            <label for="parametro">Parametros</label>
+                            @if ($sw == false)
+                                <select class="form-control" wire:model='parametro' >
+                            @else
+                                <select class="form-control" wire:model='parametro' disabled>
+                            @endif
+                                <option value="0">Sin seleccionar</option>
+                                @foreach ($parametros as $item)
+                                    @if ($item->Envase != 0)
+                                        <option value="{{$item->Id_parametro}}" style="color:crimson" disabled>{{$item->Parametro}}</option>
+                                    @else
+                                        <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
+                                    @endif
+                                @endforeach
+                           </select>
                           </div>
-                    </div>
+                    </div>   
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="volumen">Volumen</label>
-                           <input type="text" wire:model='vol' class="form-control" placeholder="Volumen">
-                          </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="unidad">Unidad</label>
-                           <select class="form-control" wire:model='unidad'>
-                               @foreach ($unidades as $item)
-                                   <option value="{{$item->Id_unidad}}">{{$item->Unidad}}</option>
+                            <label for="area">Area</label>
+                           <select class="form-control" wire:model='area'>
+                            <option>Sin seleccionar</option>
+                               @foreach ($areaLab as $item)
+                                   <option value="{{$item->Id_area}}">{{$item->Area}}</option>
                                @endforeach
                            </select>
                           </div>
                     </div>     
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="envase">Envases</label>
+                           <select class="form-control" wire:model='envase'>
+                            <option>Sin seleccionar</option>
+                               @foreach ($envases as $item)
+                                   <option value="{{$item->Id_envase}}">{{$item->Nombre}} DE {{$item->Volumen}} {{$item->Unidad}}</option>
+                               @endforeach
+                           </select>
+                          </div>
+                    </div>   
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="preservador">Preservador</label>
+                           <select class="form-control" wire:model='preservador'>
+                               <option>Sin seleccionar</option>
+                               @foreach ($preservadores as $item)
+                                   <option value="{{$item->Id_preservacion}}">{{$item->Preservacion}}</option>
+                               @endforeach
+                           </select>
+                          </div>
+                    </div>  
                 </div>
             </div>
             <div class="modal-footer">

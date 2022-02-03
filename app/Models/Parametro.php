@@ -29,6 +29,7 @@ class Parametro extends Model
         'F_inicio_vigencia',
         'F_fin_vigencia',
         'Precio',
+        'Envase',
         'Id_user_c',
         'Id_user_m'
     ];

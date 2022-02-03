@@ -499,7 +499,7 @@ class CotizacionController extends Controller
         // var_dump(storage_path('public/HojaMembretada.png'));
         // $mpdf->SetWatermarkImage();https://dev.sistemaacama.com.mx//storage/HojaMembretada.png
         $mpdf->SetWatermarkImage(
-            asset('storage/HojaMembretada2.png'),
+            asset('/public/storage/MembreteVertical.png'),
             1,
             array(215, 280),
             array(0, 0), 

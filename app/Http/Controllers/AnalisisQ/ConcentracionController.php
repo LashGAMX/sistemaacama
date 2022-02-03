@@ -35,7 +35,7 @@ class ConcentracionController extends Controller
         $model = ConcentracionParametro::where('Id_parametro',$request->idParametro)->get();
         if($model->count())
         {
-                        
+            
         }else{
             $parametro = Parametro::where('Id_parametro',$request->idParametro)->first();
             $tipoModel = TipoFormula::where('Id_tipo_formula',$parametro->Id_tipo_formula)->first();
