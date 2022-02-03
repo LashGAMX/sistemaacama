@@ -33,7 +33,8 @@ Route::group(['prefix' => 'cotizacion'], function () {
     Route::post('updateCotizacion', [CotizacionController::class,'updateCotizacion']);
     Route::get('duplicar', [CotizacionController::class, 'duplicar']); 
 
-    Route::get('exportPdfOrden/{idCot}',[CotizacionController::class,'exportPdfOrden']);
+    Route::get('buscarFecha/{inicio}/{fin}', [CotizacionController::class,'buscarFecha']);
+    Route::get('exportPdfOrden/{idCot}',[CotizacionController::class,'exportPdfOrden']); 
 });
 
 Route::group(['prefix' => 'cotizacion/solicitud'], function () {

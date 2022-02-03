@@ -15,14 +15,14 @@
                     </div>
 
                     <div class="col-md-4 mt-2">
-                        <input type="date" placeholder="Fecha inicio" class="form-control" value="">
+                        <input type="date" id="inicio" placeholder="Fecha inicio" class="form-control" value="">
                     </div>
                     <div class="col-md-4 mt-2">
-                        <input type="date" placeholder="Fecha inicio" class="form-control" value="">
+                        <input type="date" id="fin" placeholder="Fecha inicio" class="form-control" value="">
                     </div>
 
                     <div class="col-md-2 mt-2">
-                        <input type="search" class="form-control" placeholder="Buscar">
+                        <button id="btnBuscar" class="btn btn-success btn-sm">BUSCAR</button> 
                     </div>
                     <!-- Fin Parte de Encabezado-->
 
@@ -58,7 +58,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                          @foreach ($model as $item)
+                          @foreach (@$model as $item)
                               <tr>
                                   <td>{{$item->Id_cotizacion}}</td>
                                   <td>{{$item->Folio_servicio}}</td>
@@ -85,7 +85,7 @@
     </div>
 @endsection
     @section('javascript')
-        <script src="{{ asset('/js/cotizacion/cotizacion.js') }}"></script>
+        <script src="{{ asset('public/js/cotizacion/cotizacion.js') }}"></script>
         <script src="{{ asset('/js/libs/componentes.js') }}"></script>
         <script src="{{ asset('/js/libs/tablas.js') }}"></script>
     @stop
