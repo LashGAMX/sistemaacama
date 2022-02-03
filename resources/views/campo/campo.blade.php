@@ -19,12 +19,12 @@
 <div>
     {{-- Be like water. --}}
 
-    <div class="page-content">
+    <div class="page-content"> 
         <div class="alerts">
         </div>
         <div class="clearfix container-fluid row">
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/config/termometros">
+                    <a href="{{url('/admin/config/termometros')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/thermometer_1.jpg');">
                         <div class="dimmer"></div>
@@ -37,7 +37,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/conductividad-trazable">
+                    <a href="{{url('/admin/conductividad-trazable')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/traceableConductivity.jpg');">
                         <div class="dimmer"></div>
@@ -50,7 +50,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/conductividad-calidad">
+                    <a href="{{url('/admin/conductividad-calidad')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/qualityConductivity.jpg');">
                         <div class="dimmer"></div>
@@ -63,7 +63,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/materiales-campo">
+                    <a href="{{url('/admin/materiales-campo')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/materialCamp.jpg');">
                         <div class="dimmer"></div>
@@ -76,7 +76,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/materiales-muestreo">
+                    <a href="{{url('/admin/materiales-muestreo')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/samplingMaterial.png');">
                         <div class="dimmer"></div>
@@ -89,7 +89,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/ph-trazable">
+                    <a href="{{url('/admin/ph-trazable')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/phTraceable.jpg');">
                         <div class="dimmer"></div>
@@ -102,7 +102,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/ph-calidad">
+                <a href="{{url('/admin/ph-calidad')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/phQuality.jpg');">
                         <div class="dimmer"></div>
@@ -115,7 +115,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/metodo-aforo">
+                <a href="{{url('/admin/metodo-aforo')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/methodAforo.jpg');">
                         <div class="dimmer"></div>
@@ -128,7 +128,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/con-tratamiento">
+                    <a href="{{url('/admin/con-tratamiento')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/withTreatments.jpg');">
                         <div class="dimmer"></div>
@@ -141,7 +141,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/tipo-tratamiento">
+                <a href="{{url('/admin/tipo-tratamiento')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/treatmentTypes.jpg');">
                         <div class="dimmer"></div>
@@ -154,7 +154,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/usuarios-app">
+                <a href="{{url('/admin/usuarios-app')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/users.png');">
                         <div class="dimmer"></div>

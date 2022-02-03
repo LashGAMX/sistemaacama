@@ -350,3 +350,9 @@ INNER JOIN parametros as param
 ON col.Id_parametro = param.Id_parametro
 INNER JOIN control_calidad as control
 ON col.Id_control = control.Id_control
+
+/* Lista ViewEnvases */ 
+
+CREATE VIEW ViewEnvases as SELECT en.*,uni.Unidad FROM envase as en
+INNER JOIN unidades as uni
+ON en.Id_unidad = uni.Id_unidad

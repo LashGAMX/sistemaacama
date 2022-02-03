@@ -684,13 +684,13 @@ class SolicitudController extends Controller
             'margin_bottom' => 18
         ]);
         
-        $mpdf->SetWatermarkImage(
-            asset('storage/HojaMembretada.png'),
+        /* $mpdf->SetWatermarkImage(
+            asset('/public/storage/HojaMembretada2.png'),
             1,
             array(215, 280),
             array(0, 0),
         );
-        $mpdf->showWatermarkImage = true;
+        $mpdf->showWatermarkImage = true; */
         $html = view('exports.cotizacion.ordenServicio', compact('model','parametros','qr', 'cotizacion'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);

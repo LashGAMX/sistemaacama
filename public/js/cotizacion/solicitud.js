@@ -49,7 +49,8 @@ $(document).ready(function () {
     } );
     $('#btnImprimir').click( function () {
         // alert("Imprimir PDF");
-        window.location = base_url+"/admin/cotizacion/solicitud/exportPdfOrden/"+idCot;
+        window.open(base_url+"/admin/cotizacion/solicitud/exportPdfOrden/"+idCot);
+        //window.location = base_url+"/admin/cotizacion/solicitud/exportPdfOrden/"+idCot;
     } );
     $('#btnGenFolio').click( function () {
          //alert("Imprimir GenerarFolio");

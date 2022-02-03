@@ -16,7 +16,7 @@ class Envase extends Model
     protected $fillable = [
         'Nombre',
         'Volumen',
-        'Unidad',
+        'Id_unidad',
         'Id_user_c',
         'Id_user_m'
     ];
