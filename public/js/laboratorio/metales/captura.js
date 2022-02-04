@@ -31,7 +31,7 @@ $('#btnLiberar').click(function(){
 });
 
 var numMuestras = new Array();
-var idMuestra = 0; 
+var idMuestra = 0;  
 var idLote = 0;
 function getDataCaptura()
 {

@@ -26,40 +26,7 @@
               </a>
           </div>
                       
-          <div class="col-md-3">
-              <a href="{{route('voyager.hist-clientes.index')}}">
-                  <div class="panel widget center bgimage">
-                      <div class="dimmer"></div>
-                      <div class="panel-content">
-                        <i class="fas fa-biohazard"></i>
-                          <h4>CIANUROS</h4>
-                      </div>
-                  </div>
-              </a>
-          </div>      
-          <div class="col-md-3">
-            <a href="{{route('voyager.hist-clientes.index')}}">
-                <div class="panel widget center bgimage">
-                    <div class="dimmer"></div>
-                    <div class="panel-content">
-                      <i class="fas fa-bolt"></i>
-                        <h4>CONDUCTIVIDAD</h4>
-                    </div>
-                </div>
-            </a>
-        </div>   
-        <div class="col-md-3">
-          <a href="{{route('voyager.hist-clientes.index')}}">
-              <div class="panel widget center bgimage">
-                  <div class="dimmer"></div>
-                  <div class="panel-content">
-                    <i class="voyager-lab"></i>
-                      <h4>DBO</h4>
-                  </div>
-              </div>
-          </a>
-      </div>   
-
+        
       </div>
   </div> 
   </div>
@@ -70,8 +37,6 @@
 
   @section('javascript')
   <script src="{{asset('js/laboratorio/metales/TipoAnalisis.js')}}"></script>
-  <script src="{{asset('js/libs/componentes.js')}}"></script>
-  <script src="{{asset('js/libs/tablas.js')}}"></script>
   @stop
 
 @endsection  

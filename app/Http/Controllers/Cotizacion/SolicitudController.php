@@ -43,9 +43,10 @@ class SolicitudController extends Controller
         $model = DB::table('ViewCotizacion')->get();
         return view('cotizacion.solicitud',compact('model'));
     } 
-    public function buscarFecha()
+    public function buscarFecha($inicio, $fin)
     {
-        
+        $model = DB::table('ViewCotizacion')->whereBetween('created_at', [$inicio, $fin])->get();
+        return view('cotizacion.solicitud', compact('model'));
         
     }
 

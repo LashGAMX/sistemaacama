@@ -91,8 +91,7 @@ function getMuestraAsignada()
 
 function asignarMuestraLote(idLote,idAnalisis,idParametro,idSol)
 {
-    let tabla = document.getElementById('divTable2');
-    let tab = '';
+  
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/metales/asignarMuestraLote",
@@ -107,31 +106,6 @@ function asignarMuestraLote(idLote,idAnalisis,idParametro,idSol)
         async: false,
         success: function (response) {            
             console.log(response);
-            tab += '<table id="tablaParamSin" class="table table-sm">';
-            tab += '    <thead class="thead-dark">';
-            tab += '        <tr>';
-            tab += '          <th>Folio</th>';
-            tab += '          <th>Parametros</th>';
-            tab += '          <th>Opc</th> ';
-            tab += '        </tr>';
-            tab += '    </thead>';
-            tab += '    <tbody>';
-            $.each(response.model, function (key, item) {
-                tab += '<tr>';
-                tab += '<td>'+item.Folio_servicio+'</td>';
-                tab += '<td>'+item.Parametro+'</td>';
-                tab += '<td><button type="button" id="btnAsignar" onclick="delMuestraLote('+item.Id_lote+','+item.Id_detalle+','+item.Id_analisis+','+item.Id_parametro+')"  class="btn btn-danger">Eliminar</button></td>';
-              tab += '</tr>';
-            });
-            tab += '    </tbody>';
-            tab += '</table>';
-            tabla.innerHTML = tab;
-            muestraSinAsignar()
-
-            if(response.sw == false)
-            {
-                swal("Registro!", "Esta muestra no puede ser asignada!", "error");
-            }
         } 
     });
 } 

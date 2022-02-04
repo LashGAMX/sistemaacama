@@ -12,7 +12,6 @@ $(document).ready(function () {
     });
 
     $('#btnBuscar').click(function () {
-        console.log($("#tipoFormula").val());
         getServicio($("#tipoFormula").val());
     });
 });

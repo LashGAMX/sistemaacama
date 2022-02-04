@@ -29,6 +29,10 @@ $(document).ready(function () {
             $("#btnEdit").prop('disabled', false);
         }
     } );
+    
+    $("#btnBuscar").click( function(){
+        window.location = base_url+ "/admin/cotizacion/buscarFecha/"+ $("#inicio").val()+ "/" + $("#fin").val();
+    });
  
     $('#tablaSolicitud tr').on('click', function(){
         let dato = $(this).find('td:first').html();

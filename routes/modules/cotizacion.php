@@ -54,6 +54,7 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::post('getPuntoMuestro',[SolicitudController::class,'getPuntoMuestro']);
     Route::post('setSolicitud',[SolicitudController::class,'setSolicitud']);
 
+    Route::get('buscarFecha/{inicio}/{fin}', [SolicitudController::class,'buscarFecha']); 
 
     Route::post('setSolicitudSinCot', [SolicitudController::class, 'setSolicitudSinCot']);
     Route::get('duplicarSol/{idCot}', [SolicitudController::class, 'duplicarSol']);

@@ -121,13 +121,11 @@
 @stop
 
   @section('css')
-  <link rel="stylesheet" href="{{ asset('css/laboratorio/metales/observacion.css')}}">
+  <link rel="stylesheet" href="{{ asset('public/css/laboratorio/metales/observacion.css')}}">
   @endsection
 
   @section('javascript')
-  <script src="{{asset('js/laboratorio/metales/observacion.js')}}"></script>
-  <script src="{{asset('js/libs/componentes.js')}}"></script>
-  <script src="{{asset('js/libs/tablas.js')}}"></script>
+  <script src="{{asset('public/js/laboratorio/metales/observacion.js')}}"></script>
   @stop
 
 @endsection

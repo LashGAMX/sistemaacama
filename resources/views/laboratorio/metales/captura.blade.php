@@ -120,7 +120,7 @@
                             </th>
                             <th>Factor dilución D</th>
                             <th>Factor conversion G</th>
-                            <th>Vol. disolución digerida v</th>
+                            <th>Vol. disolución digerida v</th> 
                         </tr>
                     </thead>
                 </table>
@@ -167,8 +167,6 @@
 
   @section('javascript')
   <script src="{{asset('public/js/laboratorio/metales/captura.js')}}"></script>
-  <script src="{{asset('public/js/libs/componentes.js')}}"></script>
-  <script src="{{asset('public/js/libs/tablas.js')}}"></script>
   @stop
 
 @endsection    

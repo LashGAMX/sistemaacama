@@ -25,12 +25,15 @@ use App\Models\CurvaCalibracionMet;
 use App\Models\VerificacionMetales;
 use App\Models\EstandarVerificacionMet;
 use App\Models\GeneradorHidrurosMet;
+use App\Models\Tecnica;
 use Carbon\Carbon;
 
 class MetalesController extends Controller
 {
-    //
-    
+    //  
+    // todo ************************************************
+    // todo Inicio analisis
+    // todo ************************************************
     public function analisis()
     {
         $model = DB::table('proceso_analisis')->get();
@@ -57,9 +60,14 @@ class MetalesController extends Controller
 
         return view('laboratorio.metales.analisis', compact('model', 'elements', 'solicitud', 'solicitudLength', 'tecnicas', 'solicitudPuntos', 'solicitudPuntosLength', 'parametros', 'parametrosLength', 'puntoMuestreo', 'puntoMuestreoLength'));
     }
-
+    // todo ************************************************
+    // todo Fin de Analisis
+    // todo ************************************************
   
-    //* ********************************************** OBSERVACIÓN ********************************************** */
+  
+    // todo ************************************************
+    // todo Inicio de Observacion
+    // todo ************************************************
     public function observacion()
     {
         $formulas = DB::table('tipo_formulas')
@@ -95,6 +103,7 @@ class MetalesController extends Controller
                     ObservacionMuestra::create([
                         'Id_analisis' => $item->Id_solicitud,
                         'Id_area' => 2,
+                        'Id_tipo' => $request->id,
                         'Ph' => '',
                         'Solido' => '',
                         'Olor' => '',
@@ -105,7 +114,7 @@ class MetalesController extends Controller
                 $sw = false;
             }
         }
-        $model = DB::table('ViewObservacionMuestra')->where('Id_area',2)->get();
+        $model = DB::table('ViewObservacionMuestra')->where('Id_area',2)->where('Id_tipo',$request->id)->get();
 
         $data = array(
             'model' => $model,
@@ -136,8 +145,13 @@ class MetalesController extends Controller
         );
         return response()->json($data);
     }
-
-    //*****************************************CAPTURA****************************************************************** */
+    // todo ************************************************
+    // todo Fin de Observacion
+    // todo ************************************************
+    
+    // todo ************************************************
+    // todo Inicio de captura
+    // todo ************************************************
     public function tipoAnalisis()
     {
         return view('laboratorio.metales.tipoAnalisis');
@@ -369,11 +383,20 @@ class MetalesController extends Controller
         return response()->json($data);
     }
 
+    // todo ************************************************
+    // todo Fin de Captura
+    // todo ************************************************
+
+    // todo ************************************************
+    // todo Inicio de lote
+    // todo ************************************************
+
     public function lote()
     {
+        $tecnica = Tecnica::all();
         $formulas = DB::table('ViewTipoFormula')->where('Id_area', 2)->get();
         $textoRecuperadoPredeterminado = Reportes::where('Id_reporte', 0)->first();
-        return view('laboratorio.metales.lote', compact('formulas', 'textoRecuperadoPredeterminado'));
+        return view('laboratorio.metales.lote', compact('formulas','tecnica','textoRecuperadoPredeterminado'));
     }
     public function createLote(Request $request)
     {
@@ -381,6 +404,7 @@ class MetalesController extends Controller
         $model = LoteAnalisis::create([
             'Id_tipo' => $request->tipo,
             'Id_area' => $tipoModel->Id_area,
+            'Id_tecnica' => $request->tecnica,
             'Asignado' => 0,
             'Liberado' => 0,
             'Fecha' => $request->fecha,
@@ -604,6 +628,7 @@ class MetalesController extends Controller
                 'Id_lote' => $request->idLote,
                 'Id_analisis' => $request->idAnalisis,
                 'Id_parametro' => $request->idParametro,
+                'Id_control' => 1,
                 'Descripcion' => 'Resultado',
                 'Factor_dilucion' => 1,
                 'Factor_conversion' => 0,
@@ -874,4 +899,8 @@ class MetalesController extends Controller
             compact('tecLoteMet', 'blancoCurvaMet','verMet', 'stdVerMet', 'curValMet', 'genHidMet')
         );
     }
+
+    // todo ************************************************
+    // todo Fin de Lote
+    // todo ************************************************
 }

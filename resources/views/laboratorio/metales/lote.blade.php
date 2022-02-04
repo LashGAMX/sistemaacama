@@ -79,7 +79,6 @@
 </div>
 
 
-
 <!-- Modal -->
 <div class="modal fade" id="modalCrearLote" tabindex="-1" role="dialog" aria-labelledby="modalCrearLote" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -98,6 +97,14 @@
               <select class="form-control" id="tipoFormula">
                 @foreach($formulas as $formula)
                   <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
+                @endforeach
+              </select>
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControSelect1">Tecnica análisis</label> 
+              <select class="form-control" id="tecnicaAnalisis">
+                @foreach($tecnica as $item)
+                  <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
                 @endforeach
               </select>
             </div>
