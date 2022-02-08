@@ -29,6 +29,7 @@ use App\Models\SembradoFq;
 use App\Models\DqoFq;
 use App\Models\EnfriadoMatraces;
 use App\Models\EnfriadoMatraz;
+use App\Models\LoteDetalleCloro;
 use App\Models\LoteDetalleDqo;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
@@ -308,14 +309,8 @@ class VolController extends Controller
             case 7: //todo DQO
                 $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $request->idLote)->get();
                 break;
-            case 13: //todo Gr
-                $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $request->idLote)->get();
-                break;
-            case 15:
-                $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $request->idLote)->get();
-                break;
-            case 14: //todo Volumetria
-                # code...
+            case 295: //todo CLORO RESIDUAL LIBRE
+                $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get();
                 break;
             default:
                 # code...
@@ -402,14 +397,34 @@ class VolController extends Controller
                     'Id_analisis' => $request->idAnalisis,
                     'Id_parametro' => $loteModel->Id_tecnica,
                     'Id_control' => 1,
-              
                 ]);
+                $detModel = LoteDetalleDqo::where('Id_lote',$request->idLote)->get();
+                $sw = true;
+                break;
+            case 295: //todo CLORO RESIDUAL LIBRE
+                $model = LoteDetalleCloro::create([
+                    'Id_lote' => $request->idLote,
+                    'Id_analisis' => $request->idAnalisis,
+                    'Id_parametro' => $loteModel->Id_tecnica,
+                    'Id_control' => 1,
+                ]);
+                $detModel = LoteDetalleCloro::where('Id_lote',$request->idLote)->get();
+                $sw = true;
                 break;
             default:
           
                 break;
         }
       
+        $solModel = SolicitudParametro::find($request->idSol);
+        $solModel->Asignado = 1;
+        $solModel->save();
+
+       
+        $loteModel = LoteAnalisis::find($request->idLote);
+        $loteModel->Asignado = $detModel->count();
+        $loteModel->Liberado = 0;
+        $loteModel->save();
         
         $data = array(
             'sw' => $sw,
@@ -683,10 +698,24 @@ class VolController extends Controller
     //todo *******************************************
     public function capturaVolumetria()
     {
-        $parametro = Parametro::where('Id_area', 14)->get();
+        $parametro = DB::table("ViewParametros")->where('Id_area', 14)->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro); 
         return view('laboratorio.fq.capturaVolumetria', compact('parametro')); 
+    }
+    public function operacionVolumetriaCloro(Request $request)
+    {
+        $res1 = $request->A - $request->B;
+        $res2 = $res1 * $request->C; 
+        $res3 = $res2 * $request->D;
+        $res = $res3 / $request->E;
+        
+        $data = array(
+           
+            'res' => $res,
+            
+        );
+        return response()->json($data);
     }
     public function operacionVolumetria(Request $request)
     {
@@ -720,41 +749,49 @@ class VolController extends Controller
  
     }
 
-    public function getDataCapturaVolumetria(Request $request)
+    public function getLotevol(Request $request)
     {
-        //$parametro = Parametro::where('Id_parametro',$request->formulaTipo)->first();
-        $lote = DB::table('ViewLoteAnalisis')->where('Fecha', $request->fechaAnalisis)->get();
-        $idLote = 0;
-        foreach($lote as $item)
-        { 
-            $detModel = DB::table('ViewLoteDetalleVolumetria')->where('Id_lote', $item->Id_lote)->first();
-            if($detModel->Id_parametro == $request->formulaTipo)
-            { 
-                $idLote = $detModel->Id_lote;
-            } 
-        }
+        $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $request->formulaTipo)->where('Fecha', $request->fechaAnalisis)->get();
 
-        // $detalleModel = DB::tables'ViewLoteDetalle')->where('Id_lote', $lote->Id_lote)->get();
-        $detalle = DB::table('ViewLoteDetalleVolumetria')->where('Id_lote', $idLote)->get();
-        $loteModel = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
-        $curvaConst = CurvaConstantes::where('Id_lote',$idLote)->first();
-        $data = array( 
-            'idL' => $idLote,
-            'de' => $detModel,
-            'lote' => $loteModel,
-            'curvaConst' => $curvaConst,
-            'detalle' => $detalle,
-        ); 
-        return response()->json($data); 
+        $data = array(
+            'lote' => $model,
+        );
+        return response()->json($data);
     }
-    public function getDetalleVolumetria(Request $request)
+    public function getLoteCapturaVol(Request $request)
     {
-        $model = DB::table("ViewLoteDetalleVolumetria")->where('Id_detalle',$request->idDetalle)->first();
-        $curva = CurvaConstantes::where('Id_lote',$model->Id_lote)->first();
+        switch ($request->formulaTipo) {
+            case 7: //todo DQO
+                $detalle = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+                break;
+            case 295: //todo CLORO RESIDUAL LIBRE 
+                $detalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+                break;
+            default:
+                # code...
+                break;
+        }
+        $data = array(
+            'detalle' => $detalle,
+        );
+        return response()->json($data);
+    }
+    public function getDetalleVol(Request $request)
+    {
+        switch ($request->formulaTipo) {
+            case 7: //todo DQO
+                $model = DB::table("ViewLoteDetalleDqo")->where('Id_lote',$request->idDetalle)->first();
+                break;
+            case 295: //todo CLORO RESIDUAL LIBRE 
+                $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+                break;
+            default:
+                # code...
+                break;
+        }
 
         $data = array(
             'model' => $model,
-            'curva' => $curva,
         );
         return response()->json($data);
     }
@@ -807,7 +844,17 @@ class VolController extends Controller
           }   
           
           //Recupera el parámetro que se está utilizando
-          $parametro = DB::table('ViewLoteDetalleVolumetria')->where('Id_lote', $id_lote)->first();
+          $parametro = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $id_lote)->first();
+
+          if(is_null($parametro)){
+            $parametro = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->first();
+
+            if(!is_null($parametro)){
+                $bandera = 'dqo';
+            }
+        }else{
+            $bandera = 'cloro';
+        }
   
          //Recupera el texto dinámico Procedimientos de la tabla reportes****************************************************
          $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
@@ -857,6 +904,8 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
                 }
+             }else if($parametro->Parametro == 'CLORO RESIDUAL LIBRE'){
+                
              }
          }else{                        
              if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)'){                
@@ -911,7 +960,7 @@ class VolController extends Controller
          }   
  
          //HEADER-FOOTER******************************************************************************************************************         
-         if($sw === true){        
+         //if($sw === true){        
             if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)'){
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoA.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoA.capturaFooter', compact('usuario', 'firma'));
@@ -924,18 +973,21 @@ class VolController extends Controller
             }else if($parametro->Parametro == 'Nitrógeno Orgánico'){ //POR REVISAR EN LA TABLA DE DATOS
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaFooter', compact('usuario', 'firma'));
+            }else if($parametro->Parametro == 'CLORO RESIDUAL LIBRE'){
+                $htmlHeader = view('exports.laboratorio.fq.volumetria.cloroR.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.volumetria.cloroR.capturaFooter', compact('usuario', 'firma'));
             }
-         }                                  
+         //}                                  
  
-        if($sw === true){            
+        //if($sw === true){            
            $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
            $mpdf->WriteHTML($htmlCaptura);
-        }
+        //}
   
-        if($sw === true){            
+        //if($sw === true){            
            $mpdf->CSSselectMedia = 'mpdf';
            $mpdf->Output();
-        }        
+        //}        
      }
 }
