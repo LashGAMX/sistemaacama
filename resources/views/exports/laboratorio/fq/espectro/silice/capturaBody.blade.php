@@ -11,7 +11,7 @@
     <p id='curvaProcedimiento'>Procedimiento</p>
 
     <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento->Texto);?>
+        <?php echo html_entity_decode($textoProcedimiento[0]);?>
     </div>
 
     <br>
@@ -69,6 +69,13 @@
         <span>Absorbancia B2: {{@$data[0]->Blanco}}</span> <br>
         <span>Absorbancia B3: {{@$data[0]->Blanco}}</span> <br>
         <span>RESULTADO BLANCO: {{@$data[0]->Blanco}}</span>
+    </div>
+
+    <br>
+    
+    <div id="contenidoCurva">
+        <span id="curvaProcedimiento">Valoración / Observación</span>
+        <?php echo html_entity_decode($textoProcedimiento[1]);?>
     </div>
 
     <br>

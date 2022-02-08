@@ -58,7 +58,7 @@
         </thead>
         
         <tbody>
-            @for ($i = 0; $i < $datosLength ; $i++)
+            @for ($i = 0; $i < $dataLength ; $i++)
                 <tr>
                     <td class="contenidoBody bordesTabla" rowspan="3">
                         {{@$data[$i]->Folio_servicio}}
@@ -101,11 +101,11 @@
                     </td>
 
                     <td class="contenidoBody bordesTabla" rowspan="3">
-                        PRUEBA
+                        {{@$loteColi[$i]->Resultado}}
                     </td>
 
                     <td class="contenidoBody bordesTabla" rowspan="3">
-                        PRUEBA
+                        {{@$loteColi[$i]->Resultado}}
                     </td>
 
                     <td class="contenidoBody bordesTabla" rowspan="3">
@@ -117,8 +117,8 @@
                     </td>
 
                     <td class="contenidoBody" rowspan="3">
-                        {{@$data[$i]->Descripcion}}
-                    </td>                
+                        {{@$data[$i]->Control}}
+                    </td>
                 </tr>
                 
                 <tr>
@@ -139,7 +139,7 @@
                     </td>
 
                     <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->resultadosPresuntivas[$i + 1]}}
+                        {{@$resultadosPresuntivas[$i + 1]}}
                     </td>
 
                     <td class="contenidoBody bordesTabla">
@@ -177,7 +177,7 @@
                     </td>
 
                     <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->resultadosPresuntivas[$i + 2]}}
+                        {{@$resultadosPresuntivas[$i + 2]}}
                     </td>
 
                     <td class="contenidoBody bordesTabla">
@@ -202,10 +202,10 @@
 
     <br>
 
-    <p id='curvaProcedimiento'>Procedimiento</p>
+    <p id='curvaProcedimiento'>Procedimientos</p>
 
     <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento->Texto);?>
+        <?php echo html_entity_decode($textoProcedimiento[0]);?>
     </div>
 
     <br>
@@ -299,6 +299,11 @@
     <div id="contenidoCurva">
         <p>Fecha de resiembra de la cepa utilizada: AQUÍ VA LA FECHA de la placa N° AQUÍ VA LA PLACA</p>
         <p>Bitácora AQUÍ VA LA BITÁCORA</p>
+    </div>
+
+    <div id="contenidoCurva">
+        <span id="curvaProcedimiento">Valoración</span>
+        <?php echo html_entity_decode(@$textoProcedimiento[1]);?>
     </div>
 </body>
 </html>

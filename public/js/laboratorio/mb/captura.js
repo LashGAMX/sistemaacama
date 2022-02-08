@@ -346,6 +346,7 @@ function operacionDbo()
         url: base_url + "/admin/laboratorio/" + area + "/operacion",
         data: {
             tecnica:tecnica,
+            idParametro: $("#formulaTipo").val(),
             idDetalle:idMuestra,
             H:$('#botellaF1').val(),
             G:$('#od1').val(),

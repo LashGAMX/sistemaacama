@@ -195,6 +195,90 @@
               
              </div>
             
+               <!-- Modal -->
+        <div class="modal fade" id="modalCloro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                 <form wire:submit.prevent="create">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="">Captura de resultados</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <input type="number" id="resultadoCloro" placeholder="Resultado"></input>
+                    {{-- <input type="number" id="p" placeholder="Peso sin muestra"></input> --}}
+                  </div>
+                  <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table" id=""> 
+                                <thead>
+                                  <tr>
+                                    <th>Parametro</th>
+                                    <th>Descripción</th>
+                                    <th>Valor</th>
+                                    <th>Valor2</th>
+                                  </tr>
+                                </thead>
+                                <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                                <tbody>
+                                    <tr>
+                                        <td>A</td>
+                                        <td>MILILITROS TITULADOS DE MUESTRA</td>
+                                        <td><input type="text" id="cloroA1" value="0"></td>
+                                        <td><input type="text" id="cloroA2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>E</td>
+                                        <td>mL DE MUESTRA</td>
+                                        <td><input type="text" id="cloroE1" value="0"></td>
+                                        <td><input type="text" id="cloroE2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>H</td>
+                                        <td>pH FINAL</td>
+                                        <td><input type="text" id="cloroH1" value="0"></td>
+                                        <td><input type="text" id="cloroH2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>G</td>
+                                        <td>pH FINAL</td>
+                                        <td><input type="text" id="cloroG1" value="0"></td>
+                                        <td><input type="text" id="cloroG2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>B</td>
+                                        <td>BLANCO DE ANALISIS</td>
+                                        <td><input type="text" id="cloroB1" value="0"></td>
+                                        <td><input type="text" id="cloroB2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>C</td>
+                                        <td>NORMALIDAD REAL</td>
+                                        <td><input type="text" id="cloroC1" value="0"></td>
+                                        <td><input type="text" id="cloroC2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>D</td>
+                                        <td>FACTOR DE CONVERSION mg/L</td>
+                                        <td><input type="text" id="cloroD1" value="0"></td>
+                                        <td><input type="text" id="cloroD2" value="0"></td>
+                                    </tr>
+                                    
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    <button type="button"  id="guardar" class="btn btn-primary">Guardar</button>
+                  </div>
+                </form>
+                </div>
+              </div>
+              
+             </div>
 </div>
   @stop
 

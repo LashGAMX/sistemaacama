@@ -11,7 +11,7 @@
     <p id='curvaProcedimiento'>Procedimiento</p>
 
     <div id="contenidoCurva">
-        <?php echo html_entity_decode(@$textoProcedimiento->Texto);?>
+        <?php echo html_entity_decode(@$textoProcedimiento[0]);?>
     </div>
 
     <br>
@@ -22,7 +22,7 @@
 
                 <tr>
                     <th class="nombreHeader" colspan="10">
-                        Resultado de las muestras
+                        Resultado de las muestrasmodif
                     </th>                    
                 </tr>                
 
@@ -52,11 +52,18 @@
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
                         <td class="tableContent">LIBERADO</td>
-                        <td class="tableContent">RESULTADO</td>
+                        <td class="tableContent">{{@$controlesCalidad[$i]->Control}}</td>
                     </tr>                
                 @endfor
             </tbody>        
         </table>  
+    </div>
+
+    <br>
+
+    <div id="contenidoCurva">
+        <span id="curvaProcedimiento">Validación</span>
+        <?php echo html_entity_decode(@$textoProcedimiento[1]);?>
     </div>
 </body>
 </html>

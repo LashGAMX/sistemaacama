@@ -221,7 +221,7 @@
              </div>
 
                <!-- Modal Solidos (Diferencias) -->
-        <div class="modal fade" id="modalCapturaSol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalDiferencia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
           <div class="modal-dialog modal-lg" >
               <div class="modal-content">
                <form wire:submit.prevent="create">
@@ -244,8 +244,9 @@
                       <div class="dropdown-divider"></div>
                     </div>
                     <div class="col-md-12">
-                      <input type="number" id="resultado" placeholder="Resultado"></input>
-                      <input type="number" id="p" placeholder="No. Serie Matraz"></input>
+                      <label for="">Resultado</label>
+                      <input type="number" id="resultadoDif" placeholder="Resultado"></input>
+                     
                     </div>
                       <div class="col-md-12">
                           <table class="table" id=""> 
@@ -259,9 +260,14 @@
                               <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
                               <tbody>
                                   <tr>
-                                      <td>Masa 1</td>
-                                      <td><input type="text" id="m11" value="0"></td>
-                                      <td><input type="text" id="m12" value="0"></td>
+                                      <td><input type="text" id="nomParametro1"></td>
+                                      <td><input type="text" id="val11" value="0"></td>
+                                      <td><input type="text" id="val12" value="0"></td>
+                                  </tr>
+                                  <tr>
+                                      <td><input type="text" id="nomParametro2"></td>
+                                      <td><input type="text" id="val21" value="0"></td>
+                                      <td><input type="text" id="val22" value="0"></td>
                                   </tr>
                      
                               </tbody>
@@ -271,7 +277,7 @@
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                  <button type="button"  id="guardar" class="btn btn-primary">Guardar</button>
+                  <button type="button"  id="guardarDif" class="btn btn-primary">Guardar</button>
                 </div>
               </form>
               </div>

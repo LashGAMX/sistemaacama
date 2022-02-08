@@ -376,3 +376,13 @@ INNER JOIN parametros as param
 ON col.Id_parametro = param.Id_parametro
 INNER JOIN control_calidad as control
 ON col.Id_control = control.Id_control
+
+/* Lista ViewLoteDetalleCloro */ 
+
+CREATE VIEW ViewLoteDetalleCloro as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion FROM lote_detalle_cloro as col
+INNER JOIN ViewSolicitud as sol
+ON col.Id_analisis = sol.Id_solicitud
+INNER JOIN parametros as param
+ON col.Id_parametro = param.Id_parametro
+INNER JOIN control_calidad as control
+ON col.Id_control = control.Id_control

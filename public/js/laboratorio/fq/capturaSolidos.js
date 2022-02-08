@@ -8,13 +8,16 @@ var tecnica = 0;
 $(document).ready(function () {
 
 });
-
+$('#guardarDif').click(function (){
+    operacionDif();
+})
 
 $('#guardar').click(function () { 
     if($("#resultado").val() != ''){
         console.log("Metodo corto");
-        validacionModal();
-        //operacionSimple();
+        // validacionModal();
+
+        operacionSimple();
     }else{
         console.log("Metodo largo");
         operacionLarga();
@@ -95,13 +98,13 @@ function getDataCaptura() {
                 $('#tablaLote tr').on('click', function(){
                     let dato = $(this).find('td:first').html();
                     idLote = dato;
-                    getLoteCapturaEspectro();
+                    getLoteCapturaSolidos();
                   });
             }
         });
 }
 
-function getLoteCapturaEspectro() {
+function getLoteCapturaSolidos() {
     numMuestras = new Array();
     let tabla = document.getElementById('divTablaControles');
     let tab = '';
@@ -142,7 +145,15 @@ function getLoteCapturaEspectro() {
                 } else { 
                     status = "disabled";
                 }
-                tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
+                if($("#formulaTipo").val() != 89)
+                {
+                    tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleSolidos('+item.Id_detalle+',1);" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
+                }
+                else 
+                {
+                    tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleSolidos('+item.Id_detalle+',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
+                }
+                
                 if (item.Id_control != 1) 
                 {
                     tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
@@ -299,7 +310,7 @@ function operacionLarga() {
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/operacionSolidosLarga", 
         data: {
-            
+            idMuestra:idMuestra,
             masa1:$("#m11").val(),
             masa2:$("#m21").val(),
             pesoConMuestra1:$("#pcm11").val(),
@@ -319,30 +330,49 @@ function operacionLarga() {
 }
 
 
-function getDetalleSolidos(idDetalle)
+function getDetalleSolidos(idDetalle,num)
 {
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/getDetalleGA",
+        url: base_url + "/admin/laboratorio/" + area + "/getDetalleSolidos",
         data: {
+            num:num,
+            idLote: idLote,
+            idParametro: $("#formulaTipo").val(),
             idDetalle: idDetalle,
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
-            $("#h1").val(response.model.M_final);
-            $("#j1").val(response.model.M_inicial1);
-            $("#k1").val(response.model.M_inicial2);
-            $("#c1").val(response.model.M_inicial3);
-            $("#l1").val(response.model.Ph);
-            $("#i1").val(response.model.Vol_muestra);
-            $("#g1").val(response.model.Blanco);
-            $("#e1").val(response.model.F_conversion);
-            $("#observacion").val(response.model.Observacion);
+           switch (num) {
+               case 1:
+                $("#h1").val(response.model.M_final);
+                $("#j1").val(response.model.M_inicial1);
+                $("#k1").val(response.model.M_inicial2);
+                $("#c1").val(response.model.M_inicial3);
+                $("#l1").val(response.model.Ph);
+                $("#i1").val(response.model.Vol_muestra);
+                $("#g1").val(response.model.Blanco);
+                $("#e1").val(response.model.F_conversion);
+                $("#observacion").val(response.model.Observacion);
+                   break;
+           case 2:
+               
+                $("#nomParametro1").val(response.nom1);
+                $("#val11").val(response.dif1.Resultado);
+                $("#nomParametro2").val(response.nom2);
+                $("#val21").val(response.dif2.Resultado);
+                let res = response.dif1.Resultado - response.dif2.Resultado;
+                $("#resultadoDif").val(res);
+               break;
+               default:
+                   break;
+           }
         }
     });
 }
+
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }

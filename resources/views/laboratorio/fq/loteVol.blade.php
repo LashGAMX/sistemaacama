@@ -166,7 +166,7 @@
               <div class="tab-pane fade  active" id="formulaGlobal" role="tabpanel" aria-labelledby="formulaGlobal-tab">    
                 <div class="row">
                   <div class="col-md-7">
-                     <table class="table">
+                     <table class="table" id="tableValRes">
                         <thead>
                           <tr>
                             <th>Formula</th>
@@ -176,23 +176,40 @@
                           </tr>
                         </thead>
                         <tbody>
-                          <tr>
+                          <tr onclick="habilitarTabla('tableValBla','tableValMol')">
                             <td>Blanco Análisis</td>
                             <td>A</td>
-                            <td><input type="text" value="" disabled></td>
+                            <td><input type="text" value="" id="blancoRes" disabled></td>
                             <td>2</td>
                           </tr>
-                          <tr>
+                          <tr onclick="habilitarTabla('tableValMol','tableValBla')">
                             <td>Molaridad</td>
                             <td>((A*B*C) /D) </td>
-                            <td><input type="text" value="" disabled></td>
+                            <td><input type="text" value="" id="molRes" disabled></td>
                             <td>3</td>
                           </tr> 
                         </tbody>
                      </table>
                   </div>
                   <div class="col-md-5">
-                    <table class="table">
+                    <button id="btnBlanco" class="btn btn-success">Ejcutar</button>
+                    <table class="table" id="tableValBla"  hidden>
+                      <thead>
+                        <tr>
+                          <th>Parametro</th>
+                          <th>Descripción</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>B</td>
+                          <td>Blanco</td>
+                          <td><input type="text" id="blancoVal"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table class="table" id="tableValMol" hidden>
                       <thead>
                         <tr>
                           <th>Parametro</th>
@@ -204,32 +221,32 @@
                         <tr>
                           <td>A</td>
                           <td>Vol. de K2Cr207</td>
-                          <td><input type="text"></td>
+                          <td><input type="number" id="A"></td>
                         </tr>
                         <tr>
                           <td>B</td>
                           <td>concentracion</td>
-                          <td><input type="text"></td>
+                          <td><input type="number" id="B"></td>
                         </tr>
                         <tr>
                           <td>C</td>
                           <td>Factor de equivalentes</td>
-                          <td><input type="text"></td>
+                          <td><input type="number" id="C"></td>
                         </tr>
                         <tr>
                           <td>D</td>
                           <td>Vol. titulado</td>
-                          <td><input type="text"></td>
+                          <td><input type="number" id="D"></td>
                         </tr>
                         <tr>
                           <td>E</td>
                           <td>Vol. titulado 2</td>
-                          <td><input type="text"></td>
+                          <td><input type="number" id="E"></td>
                         </tr>
                         <tr>
                           <td>G</td>
                           <td>Vol. titulado 3</td>
-                          <td><input type="text"></td>
+                          <td><input type="number" id="G"></td>
                         </tr>
                       </tbody>
                     </table>

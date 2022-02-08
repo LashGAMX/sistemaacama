@@ -166,6 +166,11 @@ class FqController extends Controller
         $model->Abs1 = $request->X;
         $model->Abs2 = $request->Y;
         $model->Abs3 = $request->Z;
+        $model->Abs4 = $request->ABS4;
+        $model->Abs5 = $request->ABS5;
+        $model->Abs6 = $request->ABS6;
+        $model->Abs7 = $request->ABS7;
+        $model->Abs8 = $request->ABS8;
         $model->Promedio = $request->ABS;
         $model->Vol_dilucion = $request->D;
         $model->Vol_muestra = $request->E;
@@ -252,7 +257,50 @@ class FqController extends Controller
                 );
                 return response()->json($data);
                 break;
+            case 16:
+                    # Fosforo-Total 
+                    $abs = ($request->X + $request->Y + $request->Z) / 3;
+                    $resultado = (($abs - $request->CB) / $request->CM) * $request->D;
+    
+                    $data = array(
+                        'x' => $abs,
+                        'resultado' => $resultado,
+                    );
+                    return response()->json($data);
+                    break;
+    
+            case 231:
+                        # Boro (B) 
+                        $abs = ($request->X + $request->Y + $request->Z) / 3;
+                        $resultado = (($abs - $request->CB) / $request->CM) * 1;
+        
+                        $data = array(
+                            'x' => $abs,
+                            'resultado' => $resultado,
+                        );
+                        return response()->json($data);
+                        break;
+            case 8:
+                # N-Nitratos
+                $abs = ($request->X + $request->Y + $request->Z) / 3;
+                $resultado = (($abs - $request->CB) / $request->CM) * (10/$request->E);
 
+                $data = array(
+                    'x' => $abs,
+                    'resultado' => $resultado,
+                );
+                return response()->json($data);
+                break;
+            case 8:
+                # N-Nitratos
+                $abs = ($request->X + $request->Y + $request->Z) / 3;
+                $resultado = (($abs - ( - $request->CB) / $request->CM) * (50 / $request->E));
+                $data = array(
+                    'x' => $abs,
+                    'resultado' => $resultado,
+                );
+                return response()->json($data);
+                break;
             default:
                 # code...
                 $x = ($request->X + $request->Y + $request->Z) / 3;
@@ -927,6 +975,7 @@ class FqController extends Controller
                 # code...
                 break;
         }
+
         $solModel = SolicitudParametro::find($request->idSol);
         $solModel->Asignado = 1;
         $solModel->save();
@@ -1212,7 +1261,7 @@ class FqController extends Controller
         //? Aplica la busqueda de matraz hasta encontrar un matraz desocupado
         do {
             $id = rand(0, $modelMatraz->count());
-            $matraz = MatrazGA::where('id_matraz', $id)->first();
+            $matraz = MatrazGA::where('Id_matraz', $id)->first();
             $cont++;
         } while ($matraz->Estado == 1);
 
@@ -1365,6 +1414,7 @@ class FqController extends Controller
 
     public function getLoteSolidos(Request $request)
     {
+     
         $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $request->formulaTipo)->where('Fecha', $request->fechaAnalisis)->get();
 
         $data = array(
@@ -1375,10 +1425,30 @@ class FqController extends Controller
 
     public function getDetalleSolidos(Request $request)
     {
-        $model = DB::table("ViewLoteDetalleSolios")->where('Id_detalle', $request->idDetalle)->first();
+        $detalle = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $request->idLote)->first(); // Asi se hara con las otras
+        switch ($request->idParametro) 
+        {
+            case 89:
+                $nom1 = "ST";
+                $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio",$detalle->Folio_servicio)->where('Id_parametro', 91)->first();
+                $nom2 = "SST";
+                $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio",$detalle->Folio_servicio)->where('Id_parametro', 93)->first();
+            break;
 
-        $data = array(
-            'model' => $model,
+            default: 
+            $dif1 = "Sin datos";
+            $dif2 = "Sin datos";
+            $nom1 = 'sin nombre';
+            $nom2 = 'sin nombre';
+            break;
+        }
+
+         $data = array(
+            "detalle" => $detalle,
+            'nom1' => $nom1,
+            'nom2' => $nom2,
+            'dif1' => $dif1,
+            'dif2' => $dif2,
         );
         return response()->json($data);
     }
@@ -1386,8 +1456,29 @@ class FqController extends Controller
     public function getLoteCapturaSolidos(Request $request)
     {
         $detalle = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
-        $data = array(
-            'detalle' => $detalle,
+        switch ($request->idParametro) 
+        {
+            case 89:
+                $nom1 = "ST";
+                $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio",$detalle->Folio_servicio)->where('Id_lote', $request->idLote)->where('id_parametro', 91)->first();
+                $nom2 = "SST";
+                $dif2 = LoteDetalleSolidos::where('Id_lote', $request->idLote)->where('id_parametro', 5)->first();
+            break;
+
+            default: 
+            $dif1 = "Sin datos";
+            $dif2 = "Sin datos";
+            $nom1 = 'sin nombre';
+            $nom2 = 'sin nombre';
+            break;
+        }
+
+         $data = array(
+            "detalle" => $detalle,
+            'nom1' => $nom1,
+            'nom2' => $nom2,
+            'dif1' => $dif1,
+            'dif2' => $dif2,
         );
         return response()->json($data);
     }
@@ -1526,12 +1617,17 @@ class FqController extends Controller
                 $res = ($res3 / $request->E);
 
                 break;
+
+            case 128:
+                
+
+            break;    
         }
         $data = array(
             'id' => $parametro->Id_parametro,
             'res' => $res,
-            'ca' => $request->CA,
-            'b' => $request->B,
+            // 'ca' => $request->CA,
+            // 'b' => $request->B,
         );
         return response()->json($data);
     }
@@ -1608,8 +1704,10 @@ class FqController extends Controller
         }
 
         //Recupera el texto dinámico Procedimientos de la tabla reportes****************************************************
-        $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
-        if (!is_null($textoProcedimiento)) {
+        $textProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
+        $proced = false;
+        if (!is_null($textProcedimiento)) {
+            $proced = true;
             //Hoja1            
             if ($parametro->Parametro == 'BORO (B)') {
                 $horizontal = 'P';
@@ -1631,6 +1729,9 @@ class FqController extends Controller
                             array_push($limites, $limC);
                         }
                     }
+                    
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.boro.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
@@ -1657,6 +1758,9 @@ class FqController extends Controller
                         }
                     }
 
+                    $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
@@ -1668,6 +1772,9 @@ class FqController extends Controller
                 if (!is_null($data)) {
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+
+                    $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.condElec.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'observaciones'));
                 } else {
@@ -1694,6 +1801,9 @@ class FqController extends Controller
                         }
                     }
 
+                    $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);                    
+
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.cromoHex.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
@@ -1719,6 +1829,9 @@ class FqController extends Controller
                         }
                     }
 
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
@@ -1730,6 +1843,10 @@ class FqController extends Controller
                 if (!is_null($data)) {
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+
+                    $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.materiaF.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'observaciones'));
                 } else {
                     $sw = false;
@@ -1754,6 +1871,9 @@ class FqController extends Controller
                             array_push($limites, $limC);
                         }
                     }
+
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.silice.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
@@ -1782,7 +1902,10 @@ class FqController extends Controller
                         }
                     }
 
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fenoles.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
+                    //$separador = "Valoración";
+                    //$textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fenoles.capturaBody', compact('textProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
                 }
@@ -1806,6 +1929,9 @@ class FqController extends Controller
                             array_push($limites, $limC);
                         }
                     }
+
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.fluoruros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
@@ -1832,7 +1958,10 @@ class FqController extends Controller
                         }
                     }
 
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
+                    /* $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto); */
+
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.capturaBody', compact('textProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
                 }
@@ -1857,7 +1986,10 @@ class FqController extends Controller
                         }
                     }
 
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
+                    /* $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto); */
+
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
                 }
@@ -1881,6 +2013,9 @@ class FqController extends Controller
                             array_push($limites, $limC);
                         }
                     }
+
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.saam.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
@@ -1906,6 +2041,9 @@ class FqController extends Controller
                             array_push($limites, $limC);
                         }
                     }
+
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.sulfatos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
@@ -1934,7 +2072,10 @@ class FqController extends Controller
                         }
                     }
 
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 3)->first();
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 3)->first();
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.boro.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
@@ -1960,7 +2101,10 @@ class FqController extends Controller
                         }
                     }
 
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 4)->first();
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 4)->first();                    
+                    $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                    
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
@@ -1972,7 +2116,11 @@ class FqController extends Controller
                 if (!is_null($data)) {
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 5)->first();
+                    
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 5)->first();                    
+                    $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                    
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.condElec.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'observaciones'));
                 } else {
                     $sw = false;
@@ -1998,7 +2146,10 @@ class FqController extends Controller
                         }
                     }
 
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 6)->first();
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 6)->first();                    
+                    $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.cromoHex.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
@@ -2024,7 +2175,10 @@ class FqController extends Controller
                         }
                     }
 
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 7)->first();
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 7)->first();                    
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                    
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
@@ -2036,7 +2190,11 @@ class FqController extends Controller
                 if (!is_null($data)) {
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 8)->first();
+                    
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 8)->first();                    
+                    $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.materiaF.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'observaciones'));
                 } else {
                     $sw = false;
@@ -2062,7 +2220,10 @@ class FqController extends Controller
                         }
                     }
 
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 9)->first();
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 9)->first();                    
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                    
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.silice.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
@@ -2088,8 +2249,11 @@ class FqController extends Controller
                         }
                     }
 
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 10)->first();
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fenoles.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 10)->first();                    
+                    /* $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto); */
+                    
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.fenoles.capturaBody', compact('textProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
                 }
@@ -2114,7 +2278,10 @@ class FqController extends Controller
                         }
                     }
 
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 11)->first();
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 11)->first();                    
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                    
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.fluoruros.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
@@ -2140,8 +2307,11 @@ class FqController extends Controller
                         }
                     }
 
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 2)->first();
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 2)->first();                    
+                    /* $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto); */
+
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.capturaBody', compact('textProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
                 }
@@ -2166,9 +2336,11 @@ class FqController extends Controller
                         }
                     }
 
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 1)->first();
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 1)->first();                    
+                    /* $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto); */
 
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
+                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', compact('textProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
                 }
@@ -2193,7 +2365,10 @@ class FqController extends Controller
                         }
                     }
 
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 12)->first();
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 12)->first();                    
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.saam.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
@@ -2219,7 +2394,10 @@ class FqController extends Controller
                         }
                     }
 
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 13)->first();
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 13)->first();                    
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
                     $htmlCaptura = view('exports.laboratorio.fq.espectro.sulfatos.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
                 } else {
                     $sw = false;
@@ -2309,6 +2487,178 @@ class FqController extends Controller
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->WriteHTML($htmlCaptura);
         $mpdf->CSSselectMedia = 'mpdf';
+
+        //Hoja 2
+        $hoja2 = false;
+
+        if($parametro->Parametro == 'Cianuros (CN)-'){
+            $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+            
+            $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+            $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+            $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+
+            $limites = array();
+            foreach ($data as $item) {
+                if ($item->Resultado < $limiteC->Limite) {
+                    $limC = "< " . $limiteC->Limite;
+
+                    array_push($limites, $limC);
+                } else {  //Si es mayor el resultado que el límite de cuantificación
+                    $limC = $item->Resultado;
+
+                    array_push($limites, $limC);
+                }
+            }
+
+            if($proced === true){
+                $separador = "Valoración";
+                $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+            }else{
+                $textProcedimiento = ReportesFq::where('Id_reporte', 4)->first();
+                $separador = "Valoración";
+                $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+            }
+
+            $htmlCaptura1 = view('exports.laboratorio.fq.espectro.cianuros.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
+            $htmlHeader = view('exports.laboratorio.fq.espectro.cianuros.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.espectro.cianuros.capturaFooter', compact('usuario', 'firma'));
+            $hoja2 = true;
+            
+        }else if($parametro->Parametro == 'Fosforo-Total'){
+            $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+            
+            $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+
+            if (!is_null($data)) {
+                $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+
+                $limites = array();
+                foreach ($data as $item) {
+                    if ($item->Resultado < $limiteC->Limite) {
+                        $limC = "< " . $limiteC->Limite;
+
+                        array_push($limites, $limC);
+                    } else {  //Si es mayor el resultado que el límite de cuantificación
+                        $limC = $item->Resultado;
+
+                        array_push($limites, $limC);
+                    }
+                }
+
+                if($proced === true){
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                }else{
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 7)->first();
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                }
+                
+                $htmlCaptura1 = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+                $htmlHeader = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaFooter', compact('usuario', 'firma'));
+                $hoja2 = true;
+            }
+        }else if($parametro->Parametro == 'N-Nitratos'){
+            $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+            
+            $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+
+                if (!is_null($data)) {
+                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+
+                    $limites = array();
+                    foreach ($data as $item) {
+                        if ($item->Resultado < $limiteC->Limite) {
+                            $limC = "< " . $limiteC->Limite;
+
+                            array_push($limites, $limC);
+                        } else {  //Si es mayor el resultado que el límite de cuantificación
+                            $limC = $item->Resultado;
+
+                            array_push($limites, $limC);
+                        }
+                    }
+                }    
+                        
+            $htmlCaptura1 = view('exports.laboratorio.fq.espectro.nitratos.capturaBody1', compact('data', 'dataLength', 'curva', 'limiteC', 'limites'));
+            $htmlHeader = view('exports.laboratorio.fq.espectro.nitratos.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.espectro.nitratos.capturaFooter', compact('usuario', 'firma'));
+            $hoja2 = true;
+        }else if($parametro->Parametro == 'N-Nitritos'){
+            $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+            
+            $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+
+                if (!is_null($data)) {
+                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+
+                    $limites = array();
+                    foreach ($data as $item) {
+                        if ($item->Resultado < $limiteC->Limite) {
+                            $limC = "< " . $limiteC->Limite;
+
+                            array_push($limites, $limC);
+                        } else {  //Si es mayor el resultado que el límite de cuantificación
+                            $limC = $item->Resultado;
+
+                            array_push($limites, $limC);
+                        }
+                    }                    
+                }                    
+
+            $htmlCaptura1 = view('exports.laboratorio.fq.espectro.nitritos.capturaBody1', compact('data', 'dataLength', 'curva', 'limiteC', 'limites'));
+            $htmlHeader = view('exports.laboratorio.fq.espectro.nitritos.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.espectro.nitritos.capturaFooter', compact('usuario', 'firma'));
+            $hoja2 = true;
+        }else if($parametro->Parametro == 'SUSTANCIAS ACTIVAS AL AZUL DE METILENO (SAAM )'){
+            $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+            
+            $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+
+            if (!is_null($data)) {
+                $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+
+                $limites = array();
+                foreach ($data as $item) {
+                    if ($item->Resultado < $limiteC->Limite) {
+                        $limC = "< " . $limiteC->Limite;
+
+                        array_push($limites, $limC);
+                    } else {  //Si es mayor el resultado que el límite de cuantificación
+                        $limC = $item->Resultado;
+
+                        array_push($limites, $limC);
+                    }
+                }
+                
+                if($proced === true){
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                }else{
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 12)->first();
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                }
+            }
+
+            $htmlCaptura1 = view('exports.laboratorio.fq.espectro.saam.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
+            $htmlHeader = view('exports.laboratorio.fq.espectro.saam.capturaHeader', compact('fechaConFormato'));
+            $htmlFooter = view('exports.laboratorio.fq.espectro.saam.capturaFooter', compact('usuario', 'firma'));
+            $hoja2 = true;
+        }
+
+        if($hoja2 === true){
+            $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlHeader, 'O', 'E');
+            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+            $mpdf->WriteHTML($htmlCaptura1);
+        }        
+
         $mpdf->Output();
     }
 

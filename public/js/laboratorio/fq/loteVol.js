@@ -29,8 +29,28 @@ $(document).ready(function () {
 
     //quill = new Quill('#editor', options);
 
-});
 
+});
+$('#btnBlanco').click(function () {
+    $("#blancoRes").val($("#blancoVal").val())
+    let prom;
+    let res;
+    let D = $("#D").val();
+    let E = $("#E").val();
+    let G = $("#G").val();
+    let A = $("#A").val();
+    let B = $("#B").val();
+    let C = $("#C").val();
+
+    prom = (parseFloat(D) +parseFloat(E)  + parseFloat(G)) /3;
+    res = (parseFloat(A) * parseFloat(B) * parseFloat(C)) / prom;
+    $("#molRes").val(res.toFixed(3));
+});
+function habilitarTabla(id1,id2)
+{
+    $("#"+id1).show();
+    $("#"+id2).hide();
+}
 function createLote() 
 {
     $.ajax({
@@ -530,3 +550,4 @@ $('#guardarTodo').click(function() {
         }
     });
 });
+

@@ -241,7 +241,7 @@
                     </button>
                     <div class="row">
                         <div class="col-md-2">
-                            <button class="btn btn-success" id="guardar">Guardar</button>
+                            <button class="btn btn-success" id="guardarSulfato">Guardar</button>
                         </div>
                         <div class="col-md-2">
                             <button class="btn btn-primary" id="ejecutarModalSulfato">Ejecutar</button>

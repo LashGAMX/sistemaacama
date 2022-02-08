@@ -16,6 +16,7 @@ use App\Models\estandares;
 use App\Models\TecnicaLoteMetales; 
 use App\Models\BlancoCurvaMetales;
 use App\Models\CalentamientoMatraz;
+use App\Models\ControlCalidad;
 use App\Models\CurvaCalibracionMet;
 use App\Models\VerificacionMetales;
 use App\Models\EstandarVerificacionMet;
@@ -265,8 +266,8 @@ class MbController extends Controller
     public function operacion(Request $request)
     {
         
-        switch ($request->tecnica) {
-            case 17: //todo Número más probable (NMP), en tubos múltiples
+        switch ($request->idParametro) {
+            case 13: //todo Número más probable (NMP), en tubos múltiples
                     // $nmp1 = $request->G1*100;
                     // $nmp2 = $request->G2*$request->G3;
                     // $nmp3 = sqrt($nmp2);
@@ -285,7 +286,21 @@ class MbController extends Controller
                     // $model->save();
                     
                 break;
-            case 18: //todo Metodo electrometrico
+                case 262: //todo Número más probable (NMP), en tubos múltiples
+           
+                    $n1 = $request->con1 + $request->con2 +$request->con3;
+                    $n2 = $request->con4 + $request->con5 +$request->con6;
+                    $n3 = $request->con7 + $request->con8 +$request->con9;
+
+                    $numModel = Nmp1Micro::where('Col1',$n1)->where('Col2',$n2)->where('Col3',$n3)->first();
+                    $res = $numModel->Nmp;
+
+                    // $model = LoteDetalleColiformes::find($request->idDetalle)->replicate();
+                    // $model->Id_control = 2;
+                    // $model->save();
+                    
+                break;
+            case 72: //todo Metodo electrometrico
                     # code...
                 if($request->formulaTipo == 72) // Dbo
                 {
@@ -294,7 +309,7 @@ class MbController extends Controller
                 }
                    
                 break;
-            case 19: //todo Flotación de huevos de helminto
+            case 17: //todo Flotación de huevos de helminto
                         # code...
                     $suma = $request->lum1 + $request->na1 + $request->sp1 + $request->tri1 + $request->uni1;
                     $res = round($suma/$request->volH1);
@@ -966,8 +981,10 @@ class MbController extends Controller
         //************************************************************************        
   
         //Recupera el texto dinámico Procedimientos de la tabla reportes****************************************************
-        $textoProcedimiento = ReportesMb::where('Id_lote', $id_lote)->first();
-        if(!is_null($textoProcedimiento)){
+        $textProcedimiento = ReportesMb::where('Id_lote', $id_lote)->first();
+        $proced = false;
+        if(!is_null($textProcedimiento)){
+            $proced = true;
             if($bandera === 'coli'){
                 if($parametro->Parametro == 'COLIFORMES FECALES' || $parametro->Parametro == 'Coliformes Fecales +'){                    
                     $horizontal = 'P';                    
@@ -1000,9 +1017,15 @@ class MbController extends Controller
                                 $item->confirmativa7 + $item->confirmativa8 + $item->confirmativa9,
                             );
                         }
+        
+                        //Recupera el campo Resultado
+                        $loteColi = LoteDetalleColiformes::where('Id_lote', $id_lote)->get();
+
+                        $separador = "Valoración";
+                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);                        
                         
                         $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();                        
-                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'resultadosPresuntivas', 'resultadosConfirmativas'));
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'resultadosPresuntivas', 'resultadosConfirmativas'));
 
                     }else{
                         $sw = false;                        
@@ -1025,8 +1048,30 @@ class MbController extends Controller
                     $data = DB::table('ViewLoteDetalleHH')->where('Id_lote', $id_lote)->get();
      
                     if(!is_null($data)){                                                 
+
+                        $controles = array();
+                        $controlesCalidad = array();
+
+                        foreach($data as $item){                            
+                            array_push(
+                                $controles,
+                                $item->Id_control,                                
+                            );                            
+                        }
+
+                        foreach($controles as $item){
+                            array_push(
+                                $controlesCalidad,
+                                ControlCalidad::where('Id_control', $item)->first()
+                            );
+                        }
+
                         $dataLength = DB::table('ViewLoteDetalleHH')->where('Id_lote', $id_lote)->count();                        
-                        $htmlCaptura = view('exports.laboratorio.mb.hh.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                        
+                        $separador = "Valoración";
+                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);  
+                        
+                        $htmlCaptura = view('exports.laboratorio.mb.hh.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'controlesCalidad'));
 
                     }else{
                         $sw = false;                        
@@ -1052,6 +1097,10 @@ class MbController extends Controller
      
                     if(!is_null($data)){                                                 
                         $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();               
+                        
+                        $separador = "Valoración";
+                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                        
                         $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
 
                     }else{
@@ -1063,6 +1112,10 @@ class MbController extends Controller
      
                     if(!is_null($data)){                                                 
                         $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+                        
+                        $separador = "Valoración";
+                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);   
+                        
                         $htmlCaptura = view('exports.laboratorio.mb.dboIn.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
 
                     }else{
@@ -1082,10 +1135,12 @@ class MbController extends Controller
                         if(!is_null($fechaAnalisis)){
                             $parametroDeterminar = $fechaAnalisis->Parametro;
                             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
-                            $hora = date("h:j:s", strtotime($fechaAnalisis->created_at));
+                            $hora = date("h:i:s", strtotime($fechaAnalisis->created_at));
                         }
                         
-                        $textoProcedimiento = ReportesMb::where('Id_reporte', 1)->first();
+                        $textProcedimiento = ReportesMb::where('Id_reporte', 1)->first();                        
+                        $separador = "Valoración";
+                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
                         
                         $resultadosPresuntivas = array();
                         $resultadosConfirmativas = array();
@@ -1098,16 +1153,23 @@ class MbController extends Controller
                                 $item->Presuntiva7 + $item->Presuntiva8 + $item->Presuntiva9,
                             );
 
+                            var_dump($resultadosPresuntivas);                            
+
                             array_push(
                                 $resultadosConfirmativas,
-                                $item->Confirmativa1 + $item->confirmativa2 + $item->confirmativa3,
-                                $item->confirmativa4 + $item->confirmativa5 + $item->confirmativa6,
-                                $item->confirmativa7 + $item->confirmativa8 + $item->confirmativa9,
+                                $item->Confirmativa1 + $item->Confirmativa2 + $item->Confirmativa3,
+                                $item->Confirmativa4 + $item->Confirmativa5 + $item->Confirmativa6,
+                                $item->Confirmativa7 + $item->Confirmativa8 + $item->Confirmativa9,
                             );
+
+                            var_dump($resultadosConfirmativas);
                         }
                         
-                        $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();                        
-                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'resultadosPresuntivas', 'resultadosConfirmativas'));
+                        $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();  
+                        //Recupera el campo Resultado
+                        $loteColi = LoteDetalleColiformes::where('Id_lote', $id_lote)->get();
+                        
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'resultadosPresuntivas', 'resultadosConfirmativas'));
 
                     }else{
                         $sw = false;
@@ -1131,9 +1193,29 @@ class MbController extends Controller
                     $data = DB::table('ViewLoteDetalleHH')->where('Id_lote', $id_lote)->get();
         
                     if(!is_null($data)){                                                 
-                        $textoProcedimiento = ReportesMb::where('Id_reporte', 0)->first();
+                        $textProcedimiento = ReportesMb::where('Id_reporte', 0)->first();
+                        $separador = "Valoración";
+                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
+                        $controles = array();
+                        $controlesCalidad = array();
+
+                        foreach($data as $item){                            
+                            array_push(
+                                $controles,
+                                $item->Id_control,                                
+                            );                            
+                        }
+
+                        foreach($controles as $item){
+                            array_push(
+                                $controlesCalidad,
+                                ControlCalidad::where('Id_control', $item)->first()
+                            );
+                        }
+                        
                         $dataLength = DB::table('ViewLoteDetalleHH')->where('Id_lote', $id_lote)->count();                        
-                        $htmlCaptura = view('exports.laboratorio.mb.hh.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                        $htmlCaptura = view('exports.laboratorio.mb.hh.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'controlesCalidad'));
 
                     }else{
                         $sw = false;
@@ -1160,7 +1242,11 @@ class MbController extends Controller
      
                     if(!is_null($data)){                        
                         $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();
-                        $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                        
+                        $textProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                        $separador = "Valoración";
+                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                        
                         $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
 
                     }else{
@@ -1172,7 +1258,10 @@ class MbController extends Controller
      
                     if(!is_null($data)){                        
                         $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();
-                        $textoProcedimiento = ReportesMb::where('Id_reporte', 2)->first();
+                        $textProcedimiento = ReportesMb::where('Id_reporte', 2)->first();
+                        $separador = "Valoración";
+                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
                         $htmlCaptura = view('exports.laboratorio.mb.dboIn.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
 
                     }else{
@@ -1243,7 +1332,43 @@ class MbController extends Controller
         $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->WriteHTML($htmlCaptura);
-        $mpdf->CSSselectMedia = 'mpdf';        
+        $mpdf->CSSselectMedia = 'mpdf'; 
+        
+        //Hoja 2
+        $hoja2 = false;
+        if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
+            $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+            //$horizontal = 'P';
+            $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
+
+            if(!is_null($data)){                                                 
+                $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();               
+                
+                if($proced === true){
+                    $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                }else{
+                    $textProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                    $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                }                
+                
+                $htmlHeader = view('exports.laboratorio.mb.dbo.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.mb.dbo.capturaFooter', compact('usuario', 'firma'));
+                $htmlCaptura1 = view('exports.laboratorio.mb.dbo.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength'));
+                $hoja2 = true;
+
+            }else{
+                $sw = false;                        
+            }                
+        }
+
+        if($hoja2 === true){
+            $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlHeader, 'O', 'E');
+            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+            $mpdf->WriteHTML($htmlCaptura1);
+        }
+
         $mpdf->Output();
     }
 }

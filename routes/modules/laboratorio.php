@@ -122,9 +122,11 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('delMuestraLoteVol', [VolController::class, 'delMuestraLoteVol']);
 
         Route::get('capturaVolumetria', [VolController::class, 'capturaVolumetria']);
-        Route::post('getDataCapturaVolumetria', [VolController::class, 'getDataCapturaVolumetria']);
-        Route::post('getDetalleVolumetria', [VolController::class, 'getDetalleVolumetria']);
+        Route::post('getLotevol', [VolController::class, 'getLotevol']);
+        Route::post('getLoteCapturaVol', [VolController::class, 'getLoteCapturaVol']);
+        Route::post('getDetalleVol', [VolController::class, 'getDetalleVol']);
         Route::post('operacionVolumetria', [VolController::class, 'operacionVolumetria']);
+        Route::post('operacionVolumetriaCloro', [VolController::class, 'operacionVolumetriaCloro']);
 
 //****************************************FIN VOLUMETRIA***********************************************
 
@@ -143,7 +145,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('captura/exportPdfCapturaEspectro/{idLote}', [FqController::class, 'exportPdfCapturaEspectro']);
         Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
         Route::get('captura/exportPdfCapturaSolidos/{idLote}', [FqController::class, 'exportPdfCapturaSolidos']);
-        Route::get('captura/exportPdfCapturaVolumetria/{idLote}', [FqController::class, 'exportPdfCapturaVolumetria']);
+        Route::get('captura/exportPdfCapturaVolumetria/{idLote}', [VolController::class, 'exportPdfCapturaVolumetria']);
     });
         // todo Modulo MicroBiologia
         Route::group(['prefix' => 'micro'], function () {

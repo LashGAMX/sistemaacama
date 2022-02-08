@@ -10,7 +10,8 @@ $(document).ready(function () {
 
 
 $('#ejecutarModal').click(function () {
-        validacionModal(); 
+        // validacionModal(); 
+        operacion();
 });
 $('#ejecutarModalSulfato').click(function () {
     operacionSulfatos(); 

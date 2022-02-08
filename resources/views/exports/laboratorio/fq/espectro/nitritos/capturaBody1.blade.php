@@ -4,25 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/boro/boroPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/nitritos/nitritosPDF.css')}}">
     <title>Captura PDF</title>
 </head>
-<body>
-    <p id='curvaProcedimiento'>Procedimiento</p>
-
-    <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento[0]);?>
-    </div>
-
-    <br>
-
+<body>    
     <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos">
             <thead>
 
                 <tr>
                     <th class="nombreHeader" colspan="10">
-                        Resultado de las muestras
+                        Resultado de las muestras0
                     </th>                    
                 </tr>                
 
@@ -33,7 +25,7 @@
                     <th class="tableCabecera anchoColumna">Abs 2</th>
                     <th class="tableCabecera anchoColumna">Abs 3</th>
                     <th class="tableCabecera anchoColumna">Abs Promedio</th>
-                    <th class="tableCabecera anchoColumna">BORO (B) mg/L</th>                    
+                    <th class="tableCabecera anchoColumna">NITRITOS (N-NO2 ̄)</th>                    
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
@@ -53,24 +45,17 @@
                         <td class="tableContent">{{@$observaciones[$i]->Observaciones}}</td>
                         <td class="tableContent">LIBERADO</td>
                         <td class="tableContent">{{@$data[$i]->Descripcion}}</td>
-                    </tr>
+                    </tr>                
                 @endfor
             </tbody>        
         </table>  
-    </div>    
+    </div>
 
     <div class="contenedorSexto">                
         <span><br> Absorbancia B1: {{@$data[0]->Blanco}}</span> <br>
         <span>Absorbancia B2: {{@$data[0]->Blanco}}</span> <br>
         <span>Absorbancia B3: {{@$data[0]->Blanco}}</span> <br>
         <span>RESULTADO BLANCO: {{@$data[0]->Blanco}}</span>
-    </div>
-
-    <br>
-
-    <div id="contenidoCurva">
-        <span id='curvaProcedimiento'>Valoración / Observación</span>
-        <?php echo html_entity_decode($textoProcedimiento[1]);?>
     </div>
 
     <br>
@@ -93,7 +78,7 @@
                         <td class="tableCabecera">b = </td>
                         <td class="tableContent">{{@$curva->B}}</td>                        
                         <td class="tableCabecera">Fecha de preparación: </td>
-                        <td class="tableContent">18/01/2022</td>
+                        <td class="tableContent">18/01/2022</td>                                                
                     </tr>
 
                     <tr>
