@@ -44,7 +44,7 @@
                         <td id="tableContent">{{$datos[$i]->Vol_disolucion}}</td>
                         <td id="tableContent">{{$datos[$i]->Factor_dilucion}}</td>
                         <!-- <td id="tableContent">PRUEBA</td> -->
-                        <td id="tableContent">0.476</td>
+                        <td id="tableContent">{{@$limites[$i]}}</td>
                         <td id="tableContent">{{$loteModel->Observaciones}}</td>
                         <td id="tableContent">{{$datos[$i]->Descripcion}}</td>                
                     </tr>                

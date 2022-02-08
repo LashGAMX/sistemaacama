@@ -172,61 +172,38 @@ class MbController extends Controller
 
     public function getLoteMicro(Request $request)
     {
-        $lote = DB::table('ViewLoteAnalisis')->where('Fecha', $request->fechaAnalisis)->get();
-        $tecnica = 0;
+        $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $request->formulaTipo)->where('Fecha', $request->fechaAnalisis)->get();
 
-        foreach($lote as $item)
-        { 
-
-            $detModel = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $item->Id_lote)->first(); // Asi se hara con las otras
-           if(@$detModel->Id_parametro == @$request->formulaTipo) 
-           { 
-               $tecnica = 17;
-           } 
-
-           $detModel = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $item->Id_lote)->first(); // Asi se hara con las otras
-           if(@$detModel->Id_parametro == @$request->formulaTipo) 
-           { 
-               $tecnica = 18;
-           } 
-
-           $detModel = DB::table('ViewLoteDetalleHH')->where('Id_lote', $item->Id_lote)->first();
-            if(@$detModel->Id_parametro == @$request->formulaTipo) 
-            { 
-                $tecnica = 19; 
-            } 
- 
-        } 
-
-        $loteModel = DB::select('SELECT * FROM ViewLoteAnalisis WHERE Id_tecnica = '.$tecnica.' AND Fecha = "'.$request->fechaAnalisis.'"');
-
-        $data = array( 
-            'lote' => $loteModel,
-            'tecnica' => $tecnica,
+        $data = array(
+            'lote' => $model,
         );
         return response()->json($data);
     }
     public function getLoteCapturaMicro(Request $request)
     {
-        switch ($request->tecnica) {
-            case 17: //todo Número más probable (NMP), en tubos múltiples
-                $detalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+        $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
+        $detalle = array();
+        switch ($loteModel->Id_tecnica) {
+            case 13: //todo Coliformes+
+                $detalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->get(); 
                 break;
-            case 18: //todo Metodo electrometrico
+            case 262: //todo  ENTEROCOCO FECAL
                     # code...
-                if($request->formulaTipo == 72)
-                {
-                    $detalle = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
-                }
+                    $detalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->get(); 
                 break;
-            case 19: //todo Flotación de huevos de helminto
+            case 72: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
                         # code...
-                $detalle = DB::table('ViewLoteDetalleHH')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+                    $detalle = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $request->idLote)->get(); 
+                break;
+            case 17: //todo Huevos de Helminto 
+                    # code...
+                    $detalle = DB::table('ViewLoteDetalleHH')->where('Id_lote', $request->idLote)->get(); 
                 break;
             default:
                 # code...
                 break;
         }
+   
         $data = array(
             'detalle' => $detalle,
         );
@@ -343,23 +320,19 @@ class MbController extends Controller
     public function lote()
     {
         //* Tipo de formulas 
-        $formulas = DB::table('tipo_formulas')
-        ->orWhere('Id_tipo_formula', 12)
-        ->orWhere('Id_tipo_formula', 13)
-        ->orWhere('Id_tipo_formula', 14)
-        ->orWhere('Id_tipo_formula', 7)
+        $parametro = DB::table('ViewParametros')
+        ->orWhere('Id_area', 6)
         ->get();
-        $tecnica = Tecnica::all();
+
         $textoRecuperadoPredeterminado = ReportesMb::where('Id_lote', 0)->first();
-        return view('laboratorio.mb.lote', compact('formulas', 'textoRecuperadoPredeterminado','tecnica'));
+        return view('laboratorio.mb.lote', compact('parametro', 'textoRecuperadoPredeterminado'));
     }
 
     public function createLote(Request $request) 
     {
         $model = LoteAnalisis::create([
-            'Id_tipo' => $request->tipo,
             'Id_area' => 6,
-            'Id_tecnica' => $request->tecnica,
+            'Id_tecnica' => $request->tipo,
             'Asignado' => 0,
             'Liberado' => 0,
             'Fecha' => $request->fecha,
@@ -372,10 +345,15 @@ class MbController extends Controller
     }
     public function buscarLote(Request $request)
     {
-        //$model = LoteAnalisis::where('Id_tipo',$request->tipo)->where('Fecha',$request->fecha)->get();
-        $model = DB::table('ViewLoteAnalisis')->where('Id_tipo', $request->tipo)->where('Id_area',6)->where('Fecha', $request->fecha)->get();
-        $data = array( 
+        $sw = false;
+        $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $request->tipo)->where('Id_area', 6)->where('Fecha', $request->fecha)->get();
+        if ($model->count()) {
+            $sw = true;
+        }
+
+        $data = array(
             'model' => $model,
+            'sw' => $sw,
         );
         return response()->json($data);
     }
@@ -529,11 +507,11 @@ class MbController extends Controller
     //* Muestra los parametros sin asignar a lote
     public function muestraSinAsignar(Request $request)
     { 
+        $lote = LoteAnalisis::find($request->idLote);
         $model = DB::table('ViewSolicitudParametros')
-        ->orWhere('Id_area',6)
-        ->orWhere('Id_area',5)
-        ->where('Asignado', '!=', 1)
-        ->get();
+            ->where('Id_parametro', $lote->Id_tecnica)
+            ->where('Asignado', '!=', 1)
+            ->get();
         $data = array(
             'model' => $model,
         );
@@ -542,17 +520,23 @@ class MbController extends Controller
     //* Muestra asigada a lote
     public function getMuestraAsignada(Request $request)
     {
-        $loteModel = LoteAnalisis::where('Id_lote',$request->idLote)->first();
-        $model = "";
+        $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
+        $model = array();
         switch ($loteModel->Id_tecnica) {
-            case 17: //todo 
-                // $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->get(); 
+            case 13: //todo Coliformes+
+                $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->get(); 
                 break;
-            case 18: //todo 
+            case 262: //todo  ENTEROCOCO FECAL
                     # code...
+                    $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->get(); 
                 break;
-            case 19: //todo 
+            case 72: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
                         # code...
+                    $model = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $request->idLote)->get(); 
+                break;
+            case 17: //todo Huevos de Helminto 
+                    # code...
+                    $model = DB::table('ViewLoteDetalleHH')->where('Id_lote', $request->idLote)->get(); 
                 break;
             default:
                 # code...
@@ -605,75 +589,59 @@ class MbController extends Controller
     public function asignarMuestraLote(Request $request)
     {
         $sw = false;
-        $loteModel = LoteAnalisis::where('Id_lote',$request->idLote)->first();
-        switch ($loteModel->Id_tecnica) {
-            case 17: //todo Número más probable (NMP), en tubos múltiples
-                $detModel = LoteDetalleColiformes::where('Id_lote',$request->idLote)->get();
+        $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
+        $paraModel = Parametro::find($loteModel->Id_tecnica);
+
+        switch ($paraModel->Id_parametro) {
+            case 13: //todo Número más probable (NMP), en tubos múltiples
+                $model = LoteDetalleColiformes::create([
+                                'Id_lote' => $request->idLote,
+                                'Id_analisis' => $request->idAnalisis,
+                                'Id_parametro' => $loteModel->idParametro,
+                                'Id_control' => 1,
+                            ]);
+                $detModel = LoteDetalleEspectro::where('Id_lote',$request->idLote)->get();
+                $sw = true;
                 break;
-            case 18: //todo Metodo electrometrico
-                //dbo Normal
-                    if($request->idParametro == 72)
-                    {
-                        $detModel = LoteDetalleDbo::where('Id_lote',$request->idLote)->get();
-                    }
-                break;
-            case 19: //todo Flotación de huevos de helminto
-                        # code...
-                    $detModel = LoteDetalleHH::where('Id_lote',$request->idLote)->get();
-                break;
-            default:
-                # code...
-                break;
-        }
-        if($detModel->count())
-        {
-           if($detModel[0]->Id_parametro == $request->idParametro)
-           {
-            $sw = true;
-           }
-        }else{
-            $sw = true;
-        }
-        if($sw = true)
-        {
-            switch ($loteModel->Id_tecnica) {
-                case 17: //todo Número más probable (NMP), en tubos múltiples
+            case 262: //todo  ENTEROCOCO FECAL
+                    # code...
                     $model = LoteDetalleColiformes::create([
                         'Id_lote' => $request->idLote,
                         'Id_analisis' => $request->idAnalisis,
-                        'Id_parametro' => $request->idParametro,
+                        'Id_parametro' => $loteModel->idParametro,
                         'Id_control' => 1,
                     ]);
-
-                    $detModel = LoteDetalleColiformes::where('Id_lote',$request->idLote)->get();
-                    break;
-                case 18: //todo Metodo electrometrico
-                    if($request->idParametro == 72)
-                    {
+                $detModel = LoteDetalleEspectro::where('Id_lote',$request->idLote)->get();
+                $sw = true;
+                break;
+            case 72: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+                        # code...
                         $model = LoteDetalleDbo::create([
                             'Id_lote' => $request->idLote,
                             'Id_analisis' => $request->idAnalisis,
-                            'Id_parametro' => $request->idParametro,
+                            'Id_parametro' => $loteModel->idParametro,
                             'Id_control' => 1,
                         ]);
-    
                         $detModel = LoteDetalleDbo::where('Id_lote',$request->idLote)->get();
-                    }
-                    break;
-                case 19: //todo Flotación de huevos de helminto
-                            # code...
-                        $model = LoteDetalleHH::create([
-                            'Id_lote' => $request->idLote,
-                            'Id_analisis' => $request->idAnalisis,
-                            'Id_parametro' => $request->idParametro,
-                            'Id_control' => 1,
-                        ]);
-                        $detModel = LoteDetalleHH::where('Id_lote',$request->idLote)->get();
-                    break;
-                default:
+                        $sw = true;
+                break;
+            case 17: //todo Huevos de Helminto 
                     # code...
-                    break;
-            }
+                    $model = LoteDetalleHH::create([
+                        'Id_lote' => $request->idLote,
+                        'Id_analisis' => $request->idAnalisis,
+                        'Id_parametro' => $loteModel->idParametro,
+                        'Id_control' => 1,
+                ]);
+                $detModel = LoteDetalleHH::where('Id_lote',$request->idLote)->get();
+                $sw = true;
+                break;
+            default:
+                # code...
+                $sw  = false;
+                break;
+        }
+     
             $solModel = SolicitudParametro::find($request->idSol);
             $solModel->Asignado = 1;
             $solModel->save();
@@ -683,7 +651,7 @@ class MbController extends Controller
             $loteModel->Asignado = $detModel->count();
             $loteModel->Liberado = 0;
             $loteModel->save();
-        }
+        
 
         $data = array( 
             'sw' => true,
@@ -1004,10 +972,37 @@ class MbController extends Controller
                 if($parametro->Parametro == 'COLIFORMES FECALES' || $parametro->Parametro == 'Coliformes Fecales +'){                    
                     $horizontal = 'P';                    
                     $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
+
+                    //Formatea la fecha
+                    $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
+                    if(!is_null($fechaAnalisis)){
+                        $parametroDeterminar = $fechaAnalisis->Parametro;
+                        $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
+                        $hora = date("h:j:s", strtotime($fechaAnalisis->created_at));
+                    }
      
-                    if(!is_null($data)){                                                 
+                    if(!is_null($data)){                                             
+                        $resultadosPresuntivas = array();
+                        $resultadosConfirmativas = array();
+
+                        foreach($data as $item){
+                            array_push(
+                                $resultadosPresuntivas,
+                                $item->Presuntiva1 + $item->Presuntiva2 + $item->Presuntiva3,
+                                $item->Presuntiva4 + $item->Presuntiva5 + $item->Presuntiva6,
+                                $item->Presuntiva7 + $item->Presuntiva8 + $item->Presuntiva9,
+                            );
+
+                            array_push(
+                                $resultadosConfirmativas,
+                                $item->Confirmativa1 + $item->confirmativa2 + $item->confirmativa3,
+                                $item->confirmativa4 + $item->confirmativa5 + $item->confirmativa6,
+                                $item->confirmativa7 + $item->confirmativa8 + $item->confirmativa9,
+                            );
+                        }
+                        
                         $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();                        
-                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'resultadosPresuntivas', 'resultadosConfirmativas'));
 
                     }else{
                         $sw = false;                        
@@ -1082,9 +1077,37 @@ class MbController extends Controller
                     $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
      
                     if(!is_null($data)){                                                 
-                        $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                        //Formatea la fecha
+                        $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
+                        if(!is_null($fechaAnalisis)){
+                            $parametroDeterminar = $fechaAnalisis->Parametro;
+                            $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
+                            $hora = date("h:j:s", strtotime($fechaAnalisis->created_at));
+                        }
+                        
+                        $textoProcedimiento = ReportesMb::where('Id_reporte', 1)->first();
+                        
+                        $resultadosPresuntivas = array();
+                        $resultadosConfirmativas = array();
+
+                        foreach($data as $item){
+                            array_push(
+                                $resultadosPresuntivas,
+                                $item->Presuntiva1 + $item->Presuntiva2 + $item->Presuntiva3,
+                                $item->Presuntiva4 + $item->Presuntiva5 + $item->Presuntiva6,
+                                $item->Presuntiva7 + $item->Presuntiva8 + $item->Presuntiva9,
+                            );
+
+                            array_push(
+                                $resultadosConfirmativas,
+                                $item->Confirmativa1 + $item->confirmativa2 + $item->confirmativa3,
+                                $item->confirmativa4 + $item->confirmativa5 + $item->confirmativa6,
+                                $item->confirmativa7 + $item->confirmativa8 + $item->confirmativa9,
+                            );
+                        }
+                        
                         $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();                        
-                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'resultadosPresuntivas', 'resultadosConfirmativas'));
 
                     }else{
                         $sw = false;
@@ -1094,7 +1117,7 @@ class MbController extends Controller
                     $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
      
                     if(!is_null($data)){                                                 
-                        $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                        $textoProcedimiento = ReportesMb::where('Id_reporte', 5)->first();
                         $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();                        
                         $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
 
@@ -1108,7 +1131,7 @@ class MbController extends Controller
                     $data = DB::table('ViewLoteDetalleHH')->where('Id_lote', $id_lote)->get();
         
                     if(!is_null($data)){                                                 
-                        $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                        $textoProcedimiento = ReportesMb::where('Id_reporte', 0)->first();
                         $dataLength = DB::table('ViewLoteDetalleHH')->where('Id_lote', $id_lote)->count();                        
                         $htmlCaptura = view('exports.laboratorio.mb.hh.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
 
@@ -1137,7 +1160,7 @@ class MbController extends Controller
      
                     if(!is_null($data)){                        
                         $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();
-                        $textoProcedimiento = ReportesMb::where('Id_reporte', 6)->first();
+                        $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
                         $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
 
                     }else{
@@ -1149,7 +1172,7 @@ class MbController extends Controller
      
                     if(!is_null($data)){                        
                         $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();
-                        $textoProcedimiento = ReportesMb::where('Id_reporte', 7)->first();
+                        $textoProcedimiento = ReportesMb::where('Id_reporte', 2)->first();
                         $htmlCaptura = view('exports.laboratorio.mb.dboIn.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
 
                     }else{

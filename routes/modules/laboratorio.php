@@ -61,7 +61,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
         //? Modulo Lote - Creación  de lotes
         Route::get('lote', [FqController::class, 'lote']);
-        Route::post('createLote', [FqController::class, 'createLote']);
+        Route::post('createLote', [FqController::class, 'createLote']); 
         Route::post('buscarLote', [FqController::class, 'buscarLote']);
         Route::post('getDatalote', [FqController::class, 'getDatalote']);
         Route::get('asgnarMuestraLote/{id}', [FqController::class, 'asgnarMuestraLote']);
@@ -75,15 +75,19 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
     //***************************Espectrofotometría******************************************
         Route::get('capturaEspectro', [FqController::class, 'capturaEspectro']);
-        Route::post('getDataCapturaEspectro', [FqController::class, 'getDataCapturaEspectro']);
+        Route::post('getLoteEspectro', [FqController::class, 'getLoteEspectro']);
+        Route::post('getLoteCapturaEspectro', [FqController::class, 'getLoteCapturaEspectro']);
         Route::post('getDetalleEspectro', [FqController::class, 'getDetalleEspectro']);
         Route::post('operacionEspectro', [FqController::class, 'operacionEspectro']);
+        Route::post('operacionSulfatos', [FqController::class, 'operacionEspectro']);
         Route::post('guardarEspectro', [FqController::class, 'guardarEspectro']);
+        Route::post('guardarSulfatos', [FqController::class, 'guardarSulfatos']);
     
     //****************************************GA***********************************************
 
         Route::get('capturaGA', [FqController::class, 'capturaGA']);
-        Route::post('getDataCapturaGA', [FqController::class, 'getDataCapturaGA']);
+        Route::post('getLoteGA', [FqController::class, 'getLoteGA']);
+        Route::post('getLoteCapturaGA', [FqController::class, 'getLoteCapturaGA']);
         Route::post('getDetalleGA', [FqController::class, 'getDetalleGA']);
         Route::post('operacionGA', [FqController::class, 'operacionGA']); 
         Route::post('operacionGASimple', [FqController::class, 'operacionGASimple']);
@@ -93,6 +97,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
 //****************************************SOLIDOS***********************************************
         Route::get('capturaSolidos', [FqController::class, 'capturaSolidos']);
+        Route::post('getLoteSolidos', [FqController::class, 'getLoteSolidos']);
+        Route::post('getLoteCapturaSolidos', [FqController::class, 'getLoteCapturaSolidos']);
         Route::post('getDataCapturaSolidos', [FqController::class, 'getDataCapturaSolidos']);
         Route::post('getDetalleSolidos', [FqController::class, 'getDetalleSolidos']);
         Route::post('operacionSolidosSimple', [FqController::class, 'operacionSolidosSimple']);

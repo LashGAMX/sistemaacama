@@ -88,7 +88,7 @@
                         <td class="tableCabecera">b = </td>
                         <td class="tableContent">{{@$curva->B}}</td>                        
                         <td class="tableCabecera">Fecha de preparación: </td>
-                        <td class="tableContent">18/01/2022</td>                                                
+                        <td class="tableContent">18/01/2022</td>
                     </tr>
 
                     <tr>

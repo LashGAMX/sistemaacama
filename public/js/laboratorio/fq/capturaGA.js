@@ -1,6 +1,8 @@
-
 var area = "fq";
-var idLote;
+var numMuestras = new Array();
+var idMuestra = 0; 
+var idLote = 0;
+var tecnica = 0;
 
 $(document).ready(function () {
     table = $('#tableAnalisis').DataTable({
@@ -38,105 +40,145 @@ $('#btnLiberar').click(function () {
     liberarMuestraMetal();
 });
 
-var numMuestras = new Array();
-var idMuestra = 0;
 function getDataCaptura() {
     numMuestras = new Array();
     let tabla = document.getElementById('divLote');
     let tab = '';
 
-    let tabla2 = document.getElementById('divTablaControles');
-    let tab2 = '';
+
+        $.ajax({ 
+            type: "POST",
+            url: base_url + "/admin/laboratorio/"+area+"/getLoteGA",
+            data: {
+                formulaTipo: $("#formulaTipo").val(), 
+                fechaAnalisis: $("#fechaAnalisis").val(),
+                _token: $('input[name="_token"]').val()
+            },
+            dataType: "json",
+            success: function (response) {            
+                console.log(response);
+
+                tab += '<table id="tablaLote" class="table table-sm">';
+                tab += '    <thead class="thead-dark">';
+                tab += '        <tr>';
+                tab += '          <th>Lote</th>';
+                tab += '          <th>Tipo formula</th>';
+                tab += '          <th>Fecha lote</th> ';
+                tab += '          <th>Total asignado</th> ';
+                tab += '          <th>Total liberados</th> ';
+                tab += '          <th>Opc</th> ';
+                tab += '        </tr>';
+                tab += '    </thead>';
+                tab += '    <tbody>';
+                $.each(response.lote, function (key, item) {
+                    tab += '<tr>';
+                    tab += '<td>'+item.Id_lote+'</td>';
+                    tab += '<td>'+item.Tipo_formula+'</td>';
+                    tab += '<td>'+item.Fecha+'</td>';
+                    tab += '<td>'+item.Asignado+'</td>';
+                    tab += '<td>'+item.Liberado+'</td>';
+                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button></td>';
+                    tab += '</tr>';
+                }); 
+                tab += '    </tbody>';
+                tab += '</table>';
+                tabla.innerHTML = tab;
+
+                tecnica = response.tecnica;
+
+
+                var t = $('#tablaLote').DataTable({        
+                    "ordering": false, 
+                    "language": {
+                        "lengthMenu": "# _MENU_ por pagina",
+                        "zeroRecords": "No hay datos encontrados", 
+                        "info": "Pagina _PAGE_ de _PAGES_",
+                        "infoEmpty": "No hay datos encontrados",
+                    }
+                });
+
+
+                $('#tablaLote tbody').on( 'click', 'tr', function () {
+                    if ( $(this).hasClass('selected') ) {
+                        $(this).removeClass('selected');
+                    }
+                    else {
+                        t.$('tr.selected').removeClass('selected');
+                        $(this).addClass('selected');
+                    }
+                } );
+                $('#tablaLote tr').on('click', function(){
+                    let dato = $(this).find('td:first').html();
+                    idLote = dato;
+                    getLoteCapturaGA();
+                  });
+            }
+        });
+}
+
+function getLoteCapturaGA() {
+    numMuestras = new Array();
+    let tabla = document.getElementById('divTablaControles');
+    let tab = '';
     let cont = 1;
 
-    let conte = document.getElementById('infoGlobal');
-    let tab3 = '';
-    let conte2 = document.getElementById('infoGen');
-    let tab4 = '';
     let status = "";
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/getDataCapturaGA",
+        url: base_url + "/admin/laboratorio/" + area + "/getLoteCapturaGA",
         data: {
-            formulaTipo: $("#formulaTipo").val(),
-            fechaAnalisis: $("#fechaAnalisis").val(),
-            _token: $('input[name="_token"]').val()
+            idLote: idLote,
+            formulaTipo: $("#formulaTipo").val(), 
+            tecnica: tecnica,
+            _token: $('input[name="_token"]').val() 
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
 
-            $("#idLote").val(response.lote.Id_lote);
-
-            tab4 += '<p>Formula: (mf-mi/volumen)1000000- blanco </p>';
-            conte2.innerHTML = tab4;
-
-            tab += '<table id="tablaLote" class="table table-sm">';
-            tab += '    <thead class="thead-dark">';
+            tab += '<table id="tablaControles" class="table table-sm">';
+            tab += '    <thead>';
             tab += '        <tr>';
-            tab += '          <th>Tipo formula</th>';
-            tab += '          <th>Fecha lote</th> '; 
-            tab += '          <th>Total asignado</th> ';
-            tab += '          <th>Total liberados</th> ';
-            tab += '          <th>Opc</th> ';
+            tab += '          <th>Opc</th>';
+            tab += '          <th>Folio</th>';
+            tab += '          <th># toma</th>';
+            tab += '          <th>Norma</th>';
+            tab += '          <th>Resultado</th>';
+            tab += '          <th>Tipo Análisis</th>';
+            tab += '          <th>Observación</th>';
             tab += '        </tr>';
-            tab += '    </thead>';
+            tab += '    </thead>'; 
             tab += '    <tbody>';
-            tab += '<tr>';
-            tab += '<td>' + response.lote.Tipo_formula + '</td>';
-            tab += '<td>' + response.lote.Fecha + '</td>';
-            tab += '<td>' + response.lote.Asignado + '</td>';
-            tab += '<td>' + response.lote.Liberado + '</td>';
-            tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button></td>';
-            tab += '</tr>';
-            tab += '    </tbody>';
-            tab += '</table>';
-            tabla.innerHTML = tab;
-
-
-            tab2 += '<table id="tablaControles" class="table table-sm">';
-            tab2 += '    <thead>';
-            tab2 += '        <tr>';
-            tab2 += '          <th>Opc</th>';
-            tab2 += '          <th>Folio</th>';
-            tab2 += '          <th># toma</th>';
-            tab2 += '          <th>Norma</th>';
-            tab2 += '          <th>Resultado</th>';
-            tab2 += '          <th>Tipo Análisis</th>';
-            tab2 += '          <th>Observación</th>';
-            tab2 += '        </tr>';
-            tab2 += '    </thead>'; 
-            tab2 += '    <tbody>';
             $.each(response.detalle, function (key, item) {
-                tab2 += '<tr>';
+                tab += '<tr>';
                 if (item.Liberado != 0) {
                     status = "";
                 } else { 
                     status = "disabled";
                 }
-                tab2 += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleGA('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
+                tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleGA('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
                 if (item.Id_control != 1) 
                 {
-                    tab2 += '<br> <small class="text-danger">'+item.Control+'</small></td>';
+                    tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
                 }else{
-                    tab2 += '<br> <small class="text-info">'+item.Control+'</small></td>';
+                    tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
                 }
-                tab2 += '<td><input disabled style="width: 80px" value="'+item.Folio_servicio+'"></td>';
-                tab2 += '<td><input disabled style="width: 80px" value="-"></td>';
-                tab2 += '<td><input disabled style="width: 80px" value="'+item.Clave_norma+'"></td>';
-                tab2 += '<td><input disabled style="width: 80px" value="-"></td>';
-                tab2 += '<td><input disabled style="width: 80px" value="-"></td>';
-                tab2 += '<td>'+item.Observacion+'</td>';
-                tab2 += '</tr>';
+                tab += '<td><input disabled style="width: 80px" value="'+item.Folio_servicio+'"></td>';
+                tab += '<td><input disabled style="width: 80px" value="-"></td>';
+                tab += '<td><input disabled style="width: 80px" value="'+item.Clave_norma+'"></td>';
+                tab += '<td><input disabled style="width: 80px" value="-"></td>';
+                tab += '<td><input disabled style="width: 80px" value="-"></td>';
+                tab += '<td>'+item.Observacion+'</td>';
+                tab += '</tr>';
                 numMuestras.push(item.Id_detalle);
                 cont++;
             }); 
-            tab2 += '    </tbody>';
-            tab2 += '</table>';
-            tabla2.innerHTML = tab2;
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
 
-            var t = $('#tablaControles').DataTable({
+            var t2 = $('#tablaControles').DataTable({
                 "ordering": false,
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",
@@ -152,7 +194,7 @@ function getDataCaptura() {
                     $(this).removeClass('selected');
                 }
                 else {
-                    table.$('tr.selected').removeClass('selected');
+                    t2.$('tr.selected').removeClass('selected');
                     $(this).addClass('selected');
                 }
             });
@@ -162,10 +204,7 @@ function getDataCaptura() {
                 // console.log(idMuestra);
             });
 
-            idLote = response.lote.Id_lote;
 
-            /* console.log("Valor de idLote: " + response.lote.Id_lote);
-            imprimir(response.lote.Id_lote); */
         }
     });
 }

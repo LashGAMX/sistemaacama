@@ -58,143 +58,145 @@
         </thead>
         
         <tbody>
-            <tr>
-                <td class="contenidoBody bordesTabla" rowspan="3">
-                    PRUEBA
-                </td>
+            @for ($i = 0; $i < $datosLength ; $i++)
+                <tr>
+                    <td class="contenidoBody bordesTabla" rowspan="3">
+                        {{@$data[$i]->Folio_servicio}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Dilucion1}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Presuntiva1}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Presuntiva2}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Presuntiva3}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$resultadosPresuntivas[$i]}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Confirmativa1}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Confirmativa2}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Confirmativa3}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$resultadosConfirmativas[$i]}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla" rowspan="3">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla" rowspan="3">
+                        PRUEBA
+                    </td>
 
-                <td class="contenidoBody bordesTabla" rowspan="3">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla" rowspan="3">
+                        PRUEBA
+                    </td>
 
-                <td class="contenidoBody bordesTabla" rowspan="3">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla" rowspan="3">
+                        PRUEBA
+                    </td>
 
-                <td class="contenidoBody" rowspan="3">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody" rowspan="3">
+                        LIBERADO
+                    </td>
 
-                <td class="contenidoBody" rowspan="3">
-                    PRUEBA
-                </td>                
-            </tr>
-            
-            <tr>
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody" rowspan="3">
+                        {{@$data[$i]->Descripcion}}
+                    </td>                
+                </tr>
+                
+                <tr>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Dilucion2}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Presuntiva4}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Presuntiva5}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Presuntiva6}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->resultadosPresuntivas[$i + 1]}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Confirmativa4}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Confirmativa5}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Confirmativa6}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>       
-            </tr>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$resultadosConfirmativas[$i + 1]}}
+                    </td>       
+                </tr>
 
-            <tr>
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                <tr>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Dilucion3}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Presuntiva7}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Presuntiva8}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Presuntiva9}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->resultadosPresuntivas[$i + 2]}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Confirmativa7}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Confirmativa8}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Confirmativa9}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>                          
-            </tr>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$resultadosConfirmativas[$i + 2]}}
+                    </td>                          
+                </tr>
+            @endfor
         </tbody>
     </table>
 
@@ -217,7 +219,7 @@
                     </td>                   
 
                     <td class="tableContent">
-                        AQUÍ VA LA FECHA
+                        {{@$fechaConFormato}}
                     </td>
                     
                     <td></td>                                        
@@ -229,7 +231,7 @@
                     <td></td>
 
                     <td class="tableContent">
-                        AQUÍ VA LA HORA
+                        {{@$hora}}
                     </td>
                 </tr>
 
@@ -258,7 +260,7 @@
 
                 <tr>
                     <td class="tableContent">Para determinar: </td>                    
-                    <td class="tableContent">AQUÍ VA COLIFORMES FECALES</td>
+                    <td class="tableContent">{{@$parametroDeterminar}}</td>
                     
                     <td></td>                  
                     

@@ -21,7 +21,7 @@
             <thead>
 
                 <tr>
-                    <th class="nombreHeader" colspan="10">
+                    <th class="nombreHeader" colspan="15">
                         Resultado de las muestras
                     </th>                    
                 </tr>                
@@ -32,6 +32,11 @@
                     <th class="tableCabecera anchoColumna">Abs 1</th>
                     <th class="tableCabecera anchoColumna">Abs 2</th>
                     <th class="tableCabecera anchoColumna">Abs 3</th>
+                    <th class="tableCabecera anchoColumna">Abs 4</th>
+                    <th class="tableCabecera anchoColumna">Abs 5</th>
+                    <th class="tableCabecera anchoColumna">Abs 6</th>
+                    <th class="tableCabecera anchoColumna">Abs 7</th>
+                    <th class="tableCabecera anchoColumna">Abs 8</th>
                     <th class="tableCabecera anchoColumna">Abs Promedio</th>
                     <th class="tableCabecera anchoColumna">SULFATOS (SO4) mg/L</th>                    
                     <th class="tableCabecera anchoColumna">Observaciones</th>
@@ -48,6 +53,11 @@
                         <td class="tableContent">{{@$data[$i]->Abs1}}</td>
                         <td class="tableContent">{{@$data[$i]->Abs2}}</td>
                         <td class="tableContent">{{@$data[$i]->Abs3}}</td>
+                        <td class="tableContent">{{@$data[$i]->Abs4}}</td>
+                        <td class="tableContent">{{@$data[$i]->Abs5}}</td>
+                        <td class="tableContent">{{@$data[$i]->Abs6}}</td>
+                        <td class="tableContent">{{@$data[$i]->Abs7}}</td>
+                        <td class="tableContent">{{@$data[$i]->Abs8}}</td>
                         <td class="tableContent">{{@$data[$i]->Promedio}}</td>
                         <td class="tableContent">{{@$limites[$i]}}</td>
                         <td class="tableContent">{{@$observaciones[$i]->Observaciones}}</td>

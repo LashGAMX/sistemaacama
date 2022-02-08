@@ -17,8 +17,8 @@
           <div class="form-group">
             <label for="exampleFormControSelect1">Tipo fórmula</label>
             <select class="form-control" id="tipo">
-              @foreach($formulas as $formula)
-                <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
+              @foreach($parametro as $item)
+                <option value="{{$item->Id_parametro}}">{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
               @endforeach
             </select>
           </div>
@@ -95,22 +95,16 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
+            
             <div class="form-group">
               <label for="exampleFormControSelect1">Tipo fórmula</label>
               <select class="form-control" id="tipoFormula">
-                @foreach($formulas as $formula)
-                  <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
+                @foreach($parametro as $item)
+                  <option value="{{$item->Id_parametro}}"> {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
                 @endforeach
               </select>
             </div>
-            <div class="form-group">
-              <label for="exampleFormControSelect1">Tecnica análisis</label> 
-              <select class="form-control" id="tecnicaAnalisis">
-                @foreach($tecnica as $item)
-                  <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
-                @endforeach
-              </select>
-            </div>
+     
             <div class="col-md-12">
               <div class="form-group">
                 <input type="date" id="fechaLote" class="form-control">
@@ -313,6 +307,4 @@
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
   <script src="{{asset('/public/js/laboratorio/fq/loteVol.js')}}"></script>
-  <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
-  <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
 @endsection

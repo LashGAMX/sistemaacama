@@ -38,7 +38,6 @@ function createLote()
         url: base_url + "/admin/laboratorio/"+area+"/createLote",
         data: {
             tipo: $("#tipoFormula").val(),
-            tecnica: $("#teecn").val(),
             fecha: $("#fechaLote").val(),
             _token: $('input[name="_token"]').val(),
         },
@@ -79,15 +78,20 @@ function buscarLote()
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
-            $.each(response.model, function (key, item) {
-                tab += '<tr>';
-                tab += '<td>'+item.Id_lote+'</td>';
-                tab += '<td>'+item.Tipo_formula+'</td>';
-                tab += '<td>'+item.Fecha+'</td>';
-                tab += '<td>'+item.created_at+'</td>';
-                tab += '<td><button type="button" id="btnAsignar" onclick="setAsignar('+item.Id_lote+')"  class="btn btn-primary">Agregar</button></td>';
-              tab += '</tr>';
-            });
+                if(response.sw == true)
+                {
+                    $.each(response.model, function (key, item) {
+                        tab += '<tr>';
+                        tab += '<td>'+item.Id_lote+'</td>';
+                        tab += '<td>'+item.Parametro+' ('+item.Tipo_formula+')</td>';
+                        tab += '<td>'+item.Fecha+'</td>';
+                        tab += '<td>'+item.created_at+'</td>';
+                        tab += '<td><button type="button" id="btnAsignar" onclick="setAsignar('+item.Id_lote+')"  class="btn btn-primary">Agregar</button></td>';
+                      tab += '</tr>';
+                    });
+                }else{
+                    tab += '<h5 style="color:red;">No hay datos</h5>';
+                }
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;

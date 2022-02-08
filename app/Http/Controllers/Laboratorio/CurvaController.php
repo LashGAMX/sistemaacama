@@ -27,8 +27,7 @@ class CurvaController extends Controller
     public function getParametro(Request $request){
         $idLote = $request->idLote;
         $model = LoteAnalisis::where('Id_lote', $idLote)->first();
-        $idTipo = $model->Id_tipo;
-        $parametro = Parametro::where('Id_tipo_formula', $idTipo)->get();
+        $parametro = Parametro::where('Id_parametro', $model->Id_tecnica)->get();
      
         $data = array(
             'model'=> $parametro,
@@ -66,7 +65,8 @@ class CurvaController extends Controller
 
         $model = estandares::where('Id_Lote', $request->idLote)->get(); 
         $loteAnalisis = LoteAnalisis::where('Id_lote',$request->idLote)->first();
-        $numEstandares = TipoFormula::where('Id_tipo_formula', $loteAnalisis->Id_tipo)->first();
+        $paraModel = Parametro::find($loteAnalisis->Id_tecnica);
+        $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
 
         $num = $numEstandares->Concentracion;
          if($model->count()){

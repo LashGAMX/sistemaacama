@@ -205,6 +205,27 @@ class LaboratorioController extends Controller
 
         $datos = DB::table('ViewLoteDetalle')->where('Id_lote', $id_lote)->get();
         if(!is_null($datos)){
+            //Recupera el parámetro que se está utilizando
+            $parametro = DB::table('ViewLoteDetalle')->where('Id_lote', $id_lote)->first();
+
+            if (!is_null($parametro)) {                
+                $limiteC = DB::table('parametros')->where('Id_parametro', $parametro->Id_parametro)->first();
+            }
+
+            //Falta campo de resultado
+            $limites = array();
+                    foreach ($datos as $item) {
+                        if ($item->Resultado < $limiteC->Limite) {  //Tira error debido a que no existe aún en la tabla el campo Resultado
+                            $limC = "< " . $limiteC->Limite;
+
+                            array_push($limites, $limC);
+                        } else {  //Si es mayor el resultado que el límite de cuantificación
+                            $limC = $item->Resultado;
+
+                            array_push($limites, $limC);
+                        }
+                    }
+
             $datosLength = sizeof($datos);
         }else{
             $datos = DB::table('ViewLoteDetalle')->where('Id_lote', 0)->get();
@@ -219,7 +240,7 @@ class LaboratorioController extends Controller
             $html = view('exports.laboratorio.captura', compact('datos', 'datosLength', 'loteModel'));
         } */
 
-        $html = view('exports.laboratorio.captura', compact('datos', 'datosLength', 'loteModel'));
+        $html = view('exports.laboratorio.captura', compact('datos', 'datosLength', 'loteModel', 'limites'));
         
         /* if(!is_null($formula) && !is_null($fechaAnalisis)){
             //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected

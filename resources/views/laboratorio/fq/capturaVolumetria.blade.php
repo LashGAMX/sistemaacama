@@ -5,7 +5,7 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-window-list"></i>
-    Captura de resultados modif
+    Captura de resultados 
   </h6>
   
 <div class="container-fluid">
@@ -15,8 +15,8 @@
               <label for="exampleFormControlSelect1">Fórmula tipo</label>
                 <select class="form-control" name="formulaTipo" id="formulaTipo">
                     <option value="0">Sin seleccionar</option>
-                    @foreach ($parametro as $parametros)
-                        <option value= {{$parametros->Id_parametro}}>{{$parametros->Parametro}}</option>
+                    @foreach ($parametro as $item)
+                        <option value= {{$item->Id_parametro}}>{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
                     @endforeach
                   </select>
             </div>
@@ -53,7 +53,7 @@
                                 <th>Opc</th>
                               </tr>
                             </thead>
-                            <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                            <!-- <button class="btn btn-success" id="btnImprimir"><i class="fas fa-file-download"></i></button> -->
                           </table>
                     </div>
                 </div>
@@ -62,9 +62,7 @@
                         <div class="col-md-3">
                             <p class="">Información global</p>
                             <div id="infoGlobal">
-
-                                <button class="btn btn-success" onclick="getDataCaptura()" id="btnBuscar">Buscar</button>
-
+                                <button class="btn btn-secondary" id="btnGenControl" onclick="imprimir();">Imprimir</button>
                             </div>
                         </div>
                         <div class="col-md-9">
@@ -95,11 +93,9 @@
                         </label>
                       </div> --}}
                 </div>
-                <div class="col-md-2">
-
+                {{-- <div class="col-md-2">
                     <button class="btn btn-secondary" id="btnGenControl" onclick="generarControles();">Generar controles</button>
-
-                </div>
+                </div> --}}
 
                 <div class="col-md-1">
                     {{-- <button class="btn btn-secondary">Duplicar</button> --}}
@@ -108,35 +104,23 @@
         </div>
         <div class="col-md-12">
             <div id="divTablaControles">
-                <table class="table" id="tablaControles">
-                    <thead>
-                        <tr>
-                            <th>Opc</th>
-                            <th>Folio</th>
-                            <th># Toma</th>
-                            <th>Norma</th>
-                            <th>Resultado</th>
-                            <th>Tipo Analisis</th>
-                            <th>Observacion</th>    
-                        </tr>
-                    </thead>
-                    <tbody>
-                            <tr>
-                            <td><button type="button" class="btn btn-success" onclick="" data-toggle="modal" data-target="#modalCaptura">Capturar</button></td>
-                            <td></td>
-                            <td></td>
-                            <td>Norma</td>
-                            <td>Res</td>
-                            <td>Tipo</td>
-                            <td>Obs</td>
-                            </tr>
-                    </tbody>
-                    
-                    {{-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> --}}
-                </table> 
+               <table class="table">
+                <thead>
+                    <tr>
+                        <th>Opc</th>
+                        <th>Folio</th>
+                        <th># Toma</th>
+                        <th>Norma</th>
+                        <th>Resultado</th>
+                        <th>Tipo Analisis</th>
+                        <th>Observacion</th>    
+                    </tr>
+                </thead>
+               </table>
             </div>
         </div>
       </div>
+
         <!-- Modal -->
         <div class="modal fade" id="modalCaptura" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -216,8 +200,6 @@
 
   @section('javascript')
   <script src="{{asset('/public/js/laboratorio/fq/capturaVolumetria.js')}}"></script>
-  <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
-  <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
   @stop
 
 @endsection

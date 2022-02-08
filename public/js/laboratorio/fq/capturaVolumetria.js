@@ -1,5 +1,8 @@
 var area = "fq";
-var idLote;
+var numMuestras = new Array();
+var idMuestra = 0; 
+var idLote = 0;
+var tecnica = 0;
 
 $(document).ready(function () {
     table = $('#tableAnalisis').DataTable({
@@ -31,8 +34,6 @@ $('#btnLiberar').click(function () {
     liberarMuestraMetal();
 });
 
-var numMuestras = new Array();
-var idMuestra = 0;
 function getDataCaptura() {
     numMuestras = new Array();
     let tabla = document.getElementById('divLote');

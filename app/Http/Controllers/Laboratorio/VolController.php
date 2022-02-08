@@ -51,20 +51,19 @@ class VolController extends Controller
     public function loteVol()
     {
         //* Tipo de formulas  
-        $formulas = DB::table('tipo_formulas')
-        ->orWhere('Id_tipo_formula', 7)
-        ->get(); 
-        $tecnica = Tecnica::all(); 
+        $parametro = DB::table('ViewParametros')
+        ->orWhere('Id_area',14)
+        ->get();
+
         $textoRecuperadoPredeterminado = ReportesFq::where('Id_reporte', 0)->first();
-        return view('laboratorio.fq.loteVol', compact('formulas', 'textoRecuperadoPredeterminado','tecnica'));
+        return view('laboratorio.fq.loteVol', compact('parametro', 'textoRecuperadoPredeterminado'));
     }
 
     public function createLote(Request $request)   
     {
         $model = LoteAnalisis::create([
-            'Id_tipo' => $request->tipo,
-            'Id_area' => 5,
-            'Id_tecnica' => $request->tecnica,
+            'Id_area' => 14,
+            'Id_tecnica' => $request->tipo,
             'Asignado' => 0,
             'Liberado' => 0,
             'Fecha' => $request->fecha,
@@ -77,10 +76,15 @@ class VolController extends Controller
     }
     public function buscarLote(Request $request)
     {
-        //$model = LoteAnalisis::where('Id_tipo',$request->tipo)->where('Fecha',$request->fecha)->get();
-        $model = DB::table('ViewLoteAnalisis')->where('Id_tipo', $request->tipo)->where('Id_area',5)->where('Fecha', $request->fecha)->get();
+        $sw = false;
+        $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $request->tipo)->where('Id_area', 14)->where('Fecha', $request->fecha)->get();
+        if ($model->count()) {
+            $sw = true;
+        }
+
         $data = array(
             'model' => $model,
+            'sw' => $sw,
         );
         return response()->json($data);
     }
@@ -284,36 +288,34 @@ class VolController extends Controller
     //* Muestra los parametros sin asignar a lote
     public function muestraSinAsignarVol(Request $request)
     {
+        $lote = LoteAnalisis::find($request->idLote);
         $model = DB::table('ViewSolicitudParametros')
-        ->orWhere('Id_area',14)
-        ->where('Asignado', '!=', 1)
-        ->get();
+            ->where('Id_parametro', $lote->Id_tecnica)
+            ->where('Asignado', '!=', 1)
+            ->get();
         $data = array(
             'model' => $model,
         );
         return response()->json($data);
     }
     //* Muestra asigada a lote
-    public function getMuestraAsignada(Request $request)
+    public function getMuestraAsignadaVol(Request $request)
     {
-        $loteModel = LoteAnalisis::where('Id_lote',$request->idLote)->first();
+        $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
+        $paraModel = Parametro::find($loteModel->Id_tecnica);
+        $model = array();
         switch ($loteModel->Id_tecnica) {
-            case 9: //todo Espectrofotometria
-                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->get(); 
+            case 7: //todo DQO
+                $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $request->idLote)->get();
                 break;
-            case 10: //todo Gravimetia
-                switch ($request->idParametro) {
-                    case 14:
-                        $model = LoteDetalleGA::where('Id_lote',$request->idLote)->get();
-                        break;
-                    
-                    default:
-                        # code...
-                        break;
-                }
+            case 13: //todo Gr
+                $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $request->idLote)->get();
                 break;
-            case 15: //todo Volumetria
-                        # code...
+            case 15:
+                $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $request->idLote)->get();
+                break;
+            case 14: //todo Volumetria
+                # code...
                 break;
             default:
                 # code...
@@ -390,43 +392,25 @@ class VolController extends Controller
     //* Asignar parametro a lote
     public function asignarMuestraLoteVol(Request $request)
     {
-        
-        switch ($request->idParametro) {
-            case 6: //todo Espectrofotometria
-                $detModel = LoteDetalleDqo::where('Id_lote',$request->idLote)->get();
+        $sw = false;
+        $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
+        $paraModel = Parametro::find($loteModel->Id_tecnica);
+        switch ($loteModel->Id_tecnica) {
+            case 7: //todo DQO
+                $model = LoteDetalleDqo::create([
+                    'Id_lote' => $request->idLote,
+                    'Id_analisis' => $request->idAnalisis,
+                    'Id_parametro' => $loteModel->Id_tecnica,
+                    'Id_control' => 1,
+              
+                ]);
                 break;
             default:
           
                 break;
         }
-        if($detModel->count())
-        {
-           if($detModel[0]->Id_parametro == $request->idParametro)
-           {
-            $sw = true;
-           }
-        }else{
-            $sw = true;
-        }
-
-        if($sw = true)
-        {
-            switch ($request->idParametro) {
-                case 6: //todo Dqo
-                    $model = LoteDetalleDqo::create([
-                        'Id_lote' => $request->idLote,
-                        'Id_analisis' => $request->idAnalisis,
-                        'Id_parametro' => $request->idParametro,
-                        'Id_control' => 1,
-                  
-                    ]);
-                    break;
-               
-                default:
-              
-                    break;
-            }
-        }
+      
+        
         $data = array(
             'sw' => $sw,
             'model' => $model,

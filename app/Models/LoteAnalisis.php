@@ -15,7 +15,6 @@ class LoteAnalisis extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Id_tipo',
         'Id_area',
         'Id_tecnica',
         'Asignado',

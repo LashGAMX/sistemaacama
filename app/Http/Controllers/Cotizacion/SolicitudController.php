@@ -672,14 +672,69 @@ class SolicitudController extends Controller
 
     public function duplicarSol($idCot){
         $solOriginal = Solicitud::where('Id_cotizacion', $idCot)->first();
-        $solDuplicada = $solOriginal->replicate();
+        /* $solDuplicada = $solOriginal->replicate();
+    
+        $year = date("y");
+        $month = date("m");
+        $dayYear = date("z") + 1;
+        $today = Carbon::now()->format('Y-m-d');
+        $solicitudDay = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->count();
 
+        $numCot = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $solOriginal->Id_cliente)->get();
+        $firtsFol = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $solOriginal->Id_cliente)->first();
+        
+        $cantCot = $numCot->count();
+        
+        if ($cantCot > 0) {//Crea un nuevo folio tomando como base el primero; ej: 348-1/21-2
+            $folio = $firtsFol->Folio_servicio . '-' . ($cantCot + 1);
+        } else {//Crea un nuevo folio; ej: 348-1/21
+            $folio = $dayYear . "-" . ($solicitudDay + 1) . "/" . $year;
+        }
+
+        $solDuplicada->Folio_servicio = $folio;
         $solDuplicada->Id_user_c = Auth::user()->id;
         $solDuplicada->Id_user_m = Auth::user()->id;
         $solDuplicada->created_at = Carbon::now();
         $solDuplicada->updated_at = Carbon::now();
+        
+        $solDuplicada->save(); */
 
-        $solDuplicada->save();
+        //Duplica registro en tabla solicitud_puntos
+        //$solPuntosOriginal = SolicitudPuntos::where('Id_solicitud', $solOriginal->Id_solicitud)->first();
+        //$solPuntosDuplicada = $solPuntosOriginal->replicate();
+        //$solPuntosDuplicada->Id_solicitud = 30;
+        //$solPuntosDuplicada->Id_solicitud = $solDuplicada->Id_solicitud;
+        //$solPuntosDuplicada->Id_user_c = Auth::user()->id;
+        //$solPuntosDuplicada->Id_user_m = Auth::user()->id;
+        //$solPuntosDuplicada->created_at = Carbon::now();
+        //$solPuntosDuplicada->updated_at = Carbon::now();
+
+        //$solPuntosDuplicada->save();
+
+        //Duplica registro en tabla solicitud_parametros
+        $solParamOriginal = SolicitudParametro::where('Id_solicitud', $solOriginal->Id_solicitud)->get();
+
+        foreach($solParamOriginal as $item){
+            $solParamDuplicada = $item->replicate();
+            $solParamDuplicada->Id_solicitud = 30;
+            $solParamDuplicada->save();
+            //$solParamDuplicada->Id_solicitud = $solDuplicada->Id_solicitud;
+        }
+                
+        //Duplica registro en tabla seguimiento_analisis
+        //$segAnalisisOriginal = SeguimientoAnalisis::where('Id_servicio', $solOriginal->Id_solicitud)->first();
+        //$segAnalisisDuplicada = $segAnalisisOriginal->replicate();
+        //$segAnalisisDuplicada->Id_servicio = 30;
+        //$segAnalisisDuplicada->Id_servicio = $solDuplicada->Id_solicitud;
+        //$segAnalisisDuplicada->Id_user_c = Auth::user()->id;
+        //$segAnalisisDuplicada->Id_user_m = Auth::user()->id;
+        //$segAnalisisDuplicada->created_at = Carbon::now();
+        //$segAnalisisDuplicada->updated_at = Carbon::now();
+
+        //$segAnalisisDuplicada->save();
+
+        echo "<script>alert('Solicitud duplicada exitosamente!');</script>";
+        return redirect()->to('admin/cotizacion/solicitud');
     }
     
     public function exportPdfOrden($idOrden) 

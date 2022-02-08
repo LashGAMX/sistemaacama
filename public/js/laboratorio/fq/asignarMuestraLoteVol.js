@@ -15,6 +15,7 @@ function muestraSinAsignar()
         type: 'POST',
         url: base_url + "/admin/laboratorio/"+area+"/muestraSinAsignarVol",
         data: {
+            idLote:$("#idLote").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -35,7 +36,7 @@ function muestraSinAsignar()
                 tab += '<tr>';
                 tab += '<td>'+item.Folio_servicio+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
-                tab += '<td><button type="button" id="btnAsignar" onclick="asignarMuestraLote('+idLote+','+item.Id_solicitud+','+item.Id_parametro+','+item.Id_solParam+')"  class="btn btn-primary">Agregar</button></td>';
+                tab += '<td><button type="button" id="btnAsignar" onclick="asignarMuestraLote('+item.Id_solicitud+','+item.Id_solParam+')"  class="btn btn-primary">Agregar</button></td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';
@@ -58,7 +59,7 @@ function getMuestraAsignada()
     let idLote = $("#idLote").val();
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/"+area+"/getMuestraAsignada",
+        url: base_url + "/admin/laboratorio/"+area+"/getMuestraAsignadaVol",
         data: {
             idLote:$("#idLote").val(),
             _token: $('input[name="_token"]').val(),
@@ -90,17 +91,15 @@ function getMuestraAsignada()
     });
 }  
 
-function asignarMuestraLote(idLote,idAnalisis,idParametro,idSol)
+function asignarMuestraLote(idAnalisis,idSol)
 {
-    let tabla = document.getElementById('divTable2');
-    let tab = '';
+
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/"+area+"/asignarMuestraLoteVol",
         data: {
-            idLote:idLote,
+            idLote:$("#idLote").val(),
             idAnalisis:idAnalisis,
-            idParametro:idParametro,
             idSol:idSol,
             _token: $('input[name="_token"]').val(),
         },
@@ -108,26 +107,9 @@ function asignarMuestraLote(idLote,idAnalisis,idParametro,idSol)
         async: false,
         success: function (response) {            
             console.log(response);
-            tab += '<table id="tablaParamSin" class="table table-sm">';
-            tab += '    <thead class="thead-dark">';
-            tab += '        <tr>';
-            tab += '          <th>Folio</th>';
-            tab += '          <th>Parametros</th>';
-            tab += '          <th>Opc</th> ';
-            tab += '        </tr>';
-            tab += '    </thead>';
-            tab += '    <tbody>';
-            $.each(response.model, function (key, item) {
-                tab += '<tr>';
-                tab += '<td>'+item.Folio_servicio+'</td>';
-                tab += '<td>'+item.Parametro+'</td>';
-                tab += '<td><button type="button" id="btnAsignar" onclick="delMuestraLote('+item.Id_lote+','+item.Id_detalle+','+item.Id_analisis+','+item.Id_parametro+')"  class="btn btn-danger">Eliminar</button></td>';
-              tab += '</tr>';
-            });
-            tab += '    </tbody>';
-            tab += '</table>';
-            tabla.innerHTML = tab;
+    
             muestraSinAsignar()
+            getMuestraAsignada()
 
             if(response.sw == false)
             {

@@ -16,11 +16,11 @@
         <div class="col-md-3">
           <div class="form-group">
             <label for="exampleFormControSelect1">Tipo fórmula</label>
-            <select class="form-control" id="tipo">
-              @foreach($formulas as $formula)
-                <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
-              @endforeach
-            </select>
+              <select class="form-control" id="tipo">
+                @foreach($parametro as $item)
+                  <option value="{{$item->Id_parametro}}">{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
+                @endforeach
+              </select>
           </div>
         </div>
 
@@ -60,17 +60,6 @@
             <th>Fecha creacion</th>
             <th>Opc</th>
           </tr>
-          {{-- <tr>
-            <th scope="col">Cerrado</th>
-            <th scope="col">AnaFórmulaId</th>
-            <th scope="col">RcpLoteAnálisisId</th>
-            <th scope="col">Fórmula</th>
-            <th scope="col">TipoFórmulaBitácora</th>
-            <th scope="col">FechaLote</th>
-            <th scope="col">FechaHora</th>
-            <th scope="col">FechaNuevoLote</th>
-            <th scope="col">HoraNuevoLote</th>
-          </tr> --}}
         </thead>
         <tbody>
                   
@@ -95,22 +84,16 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
+            
             <div class="form-group">
               <label for="exampleFormControSelect1">Tipo fórmula</label>
               <select class="form-control" id="tipoFormula">
-                @foreach($formulas as $formula)
-                  <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
+                @foreach($parametro as $item)
+                  <option value="{{$item->Id_parametro}}"> {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
                 @endforeach
               </select>
             </div>
-            <div class="form-group">
-              <label for="exampleFormControSelect1">Tecnica análisis</label> 
-              <select class="form-control" id="tecnicaAnalisis">
-                @foreach($tecnica as $item)
-                  <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
-                @endforeach
-              </select>
-            </div>
+     
             <div class="col-md-12">
               <div class="form-group">
                 <input type="date" id="fechaLote" class="form-control">
@@ -125,7 +108,6 @@
     </div>
   </div>
 </div>
-
 
  <!-- Modal -->
  <div class="modal fade" id="modalProbar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -624,6 +606,4 @@
   <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
   <script src="{{asset('/public/js/laboratorio/fq/lote.js')}}"></script>
-  <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
-  <script src="{{asset('/public/js/libs/tablas.js')}}"></script>  
 @endsection

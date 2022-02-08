@@ -48,19 +48,21 @@
         </thead>
 
         <tbody>
-            <tr>
-                <td class="contenidoBody">
-                    PRUEBA
-                </td>
+            @for ($i = 0; $i < @$dataLength ; $i++)
+                <tr>
+                    <td class="contenidoBody">
+                        {{@$data[$i]->M_inicial1}}
+                    </td>
 
-                <td class="contenidoBody">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody">
+                        {{@$data[$i]->M_inicial2}}
+                    </td>
 
-                <td class="contenidoBody">
-                    PRUEBA
-                </td>                
-            </tr>                            
+                    <td class="contenidoBody">
+                        {{@$data[$i]->M_inicial3}}
+                    </td>                
+                </tr>
+            @endfor                                        
         </tbody>
     </table>
 
@@ -280,15 +282,15 @@
         <tbody>
             <tr>
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$secCartuchos->Temperatura}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$secCartuchos->Entrada}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$secCartuchos->Salida}}
                 </td>                
             </tr>                            
         </tbody>
@@ -323,11 +325,11 @@
         <tbody>
             <tr>
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$tiempoReflujo->Entrada}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$tiempoReflujo->Salida}}
                 </td>                              
             </tr>                            
         </tbody>
@@ -363,11 +365,11 @@
         <tbody>
             <tr class="contenidoBody">
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$enfMatraz->Entrada}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$enfMatraz->Entrada}}
                 </td>                              
             </tr>                            
         </tbody>

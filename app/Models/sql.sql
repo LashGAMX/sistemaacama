@@ -264,13 +264,11 @@ INNER JOIN area_analisis as a
 ON t.Id_area = a.Id_area_analisis
 
 /* Lista ViewLoteAnalisis */ 
-CREATE VIEW ViewLoteAnalisis as SELECT lo.Id_lote,lo.Id_tipo,ti.Tipo_formula,lo.Id_area,lo.Id_tecnica,tec.Tecnica,a.Area_analisis,lo.Asignado,lo.Liberado,lo.Fecha,lo.created_at,lo.updated_at,lo.deleted_at FROM lote_analisis as  lo 
+CREATE VIEW ViewLoteAnalisis as SELECT lo.*,a.Area_analisis,pa.Parametro,pa.Id_tipo_formula,pa.Tipo_formula FROM lote_analisis as  lo 
 INNER JOIN area_analisis as a
 ON lo.Id_area = a.Id_area_analisis
-INNER JOIN tipo_formulas as ti
-ON lo.Id_tipo = ti.Id_tipo_formula
-INNER JOIN tecnicas as tec
-ON lo.Id_tecnica = tec.Id_tecnica
+INNER JOIN ViewParametros as pa
+ON lo.Id_tecnica = pa.Id_parametro
 
 /* Lista ViewDetalleLote */ 
 CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro FROM lote_detalle as lote
@@ -287,14 +285,14 @@ INNER JOIN area_analisis as areas
 ON tipo.Id_area = areas.Id_area_analisis
 
 /* Lista  ViewLoteDetalleEspectro */
-CREATE VIEW ViewLoteDetalleEspectro as SELECT 
-det.Id_detalle,det.Id_lote,det.Id_analisis,sol.Folio_servicio,det.Id_parametro,param.Parametro,det.Descripcion, det.Resultado, det.Promedio,det.Abs1,det.Abs2,det.Abs3,
-det.De_color,det.Nitratos,det.Nitritos,det.Sulfuros,det.Blanco,det.Vol_aforo,det.Vol_destilacion,det.Vol_muestra,det.created_at,det.updated_at,det.deleted_at
+CREATE VIEW ViewLoteDetalleEspectro as SELECT det.*,sol.Folio_servicio,param.Parametro,control.Control
 FROM lote_detalle_espectro as det 
 INNER JOIN ViewSolicitud as sol
 ON det.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro
+INNER JOIN control_calidad as control
+ON det.Id_control = control.Id_control
 
 /* Lista ViewLoteDetalleGA */
 create view ViewLoteDetalleGA as SELECT det.Id_detalle,det.Id_lote,det.Id_analisis,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,det.Id_parametro,param.Parametro,det.Id_control,con.Control,det.M_final,det.M_inicial1,
@@ -368,3 +366,13 @@ INNER JOIN envase as en
 ON env.Id_envase = en.Id_envase
 INNER JOIN preservacion as pre
 ON env.Id_preservador = pre.Id_preservacion
+
+/* Lista ViewLoteDetalleDqo */ 
+
+CREATE VIEW ViewLoteDetalleDqo as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion FROM lote_detalle_dqo as col
+INNER JOIN ViewSolicitud as sol
+ON col.Id_analisis = sol.Id_solicitud
+INNER JOIN parametros as param
+ON col.Id_parametro = param.Id_parametro
+INNER JOIN control_calidad as control
+ON col.Id_control = control.Id_control

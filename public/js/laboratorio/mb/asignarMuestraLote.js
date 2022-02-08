@@ -4,7 +4,7 @@ $(document).ready(function () {
     muestraSinAsignar();
     getMuestraAsignada();
 });
- 
+
 
 function muestraSinAsignar()
 {
@@ -15,19 +15,20 @@ function muestraSinAsignar()
         type: 'POST',
         url: base_url + "/admin/laboratorio/"+area+"/muestraSinAsignar",
         data: {
+            idLote: $("#idLote").val(),
             _token: $('input[name="_token"]').val(),
-        }, 
+        },
         dataType: "json",
         async: false,
         success: function (response) {      
             console.log("Muestra sin asignar")      ;
             console.log(response);
-            tab += '<table id="tablaParamSin" class="table table-sm">';  
+            tab += '<table id="tablaParamSin" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
             tab += '          <th>Folio</th>';
             tab += '          <th>Parametros</th>';
-            tab += '          <th>Opc</th> ';  
+            tab += '          <th>Opc</th> '; 
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
@@ -35,7 +36,7 @@ function muestraSinAsignar()
                 tab += '<tr>';
                 tab += '<td>'+item.Folio_servicio+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
-                tab += '<td><button type="button" id="btnAsignar" onclick="asignarMuestraLote('+idLote+','+item.Id_solicitud+','+item.Id_parametro+','+item.Id_solParam+')"  class="btn btn-primary">Agregar</button></td>';
+                tab += '<td><button type="button" id="btnAsignar" onclick="asignarMuestraLote('+item.Id_solicitud+','+item.Id_solParam+')"  class="btn btn-primary">Agregar</button></td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';
@@ -55,7 +56,6 @@ function getMuestraAsignada()
 {
     let tabla = document.getElementById('divTable2');
     let tab = '';
-    let idLote = $("#idLote").val();
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/"+area+"/getMuestraAsignada",
@@ -80,7 +80,7 @@ function getMuestraAsignada()
                 tab += '<tr>';
                 tab += '<td>'+item.Folio_servicio+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
-                tab += '<td><button type="button" id="btnAsignar" onclick="delMuestraLote('+item.Id_lote+','+item.Id_detalle+','+item.Id_analisis+','+item.Id_parametro+')"  class="btn btn-danger">Eliminar</button></td>';
+                tab += '<td><button type="button" id="btnAsignar" onclick="delMuestraLote('+item.Id_detalle+','+item.Id_analisis+','+item.Id_parametro+')"  class="btn btn-danger">Eliminar</button></td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';
@@ -90,17 +90,15 @@ function getMuestraAsignada()
     });
 }  
 
-function asignarMuestraLote(idLote,idAnalisis,idParametro,idSol)
+function asignarMuestraLote(idAnalisis,idSol)
 {
-    let tabla = document.getElementById('divTable2');
-    let tab = '';
+
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/"+area+"/asignarMuestraLote",
         data: {
-            idLote:idLote,
+            idLote:$("#idLote").val(),
             idAnalisis:idAnalisis,
-            idParametro:idParametro,
             idSol:idSol,
             _token: $('input[name="_token"]').val(),
         },
@@ -108,26 +106,9 @@ function asignarMuestraLote(idLote,idAnalisis,idParametro,idSol)
         async: false,
         success: function (response) {            
             console.log(response);
-            tab += '<table id="tablaParamSin" class="table table-sm">';
-            tab += '    <thead class="thead-dark">';
-            tab += '        <tr>';
-            tab += '          <th>Folio</th>';
-            tab += '          <th>Parametros</th>';
-            tab += '          <th>Opc</th> ';
-            tab += '        </tr>';
-            tab += '    </thead>';
-            tab += '    <tbody>';
-            $.each(response.model, function (key, item) {
-                tab += '<tr>';
-                tab += '<td>'+item.Folio_servicio+'</td>';
-                tab += '<td>'+item.Parametro+'</td>';
-                tab += '<td><button type="button" id="btnAsignar" onclick="delMuestraLote('+item.Id_lote+','+item.Id_detalle+','+item.Id_analisis+','+item.Id_parametro+')"  class="btn btn-danger">Eliminar</button></td>';
-              tab += '</tr>';
-            });
-            tab += '    </tbody>';
-            tab += '</table>';
-            tabla.innerHTML = tab;
+    
             muestraSinAsignar()
+            getMuestraAsignada()
 
             if(response.sw == false)
             {
@@ -137,12 +118,12 @@ function asignarMuestraLote(idLote,idAnalisis,idParametro,idSol)
     });
 } 
 
-function delMuestraLote(idLote,idDetalle,idSol,idParam){
+function delMuestraLote(idDetalle,idSol,idParam){
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/"+area+"/delMuestraLote",
         data: {
-            idLote:idLote,
+            idLote:$("#idLote").val(),
             idSol:idSol,
             idDetalle:idDetalle,
             idParametro:idParam,

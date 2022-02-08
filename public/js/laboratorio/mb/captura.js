@@ -53,9 +53,6 @@ function getLoteMicro()
             dataType: "json",
             success: function (response) {            
                 console.log(response);
-                
-                console.log("Dentro de AJAX en getLoteMicro");
-
                 tab += '<table id="tablaLote" class="table table-sm">';
                 tab += '    <thead class="thead-dark">';
                 tab += '        <tr>';
@@ -115,8 +112,6 @@ function getLoteMicro()
 }
 
 
-var numMuestras = new Array();
-var idMuestra = 0;
 function getLoteCapturaMicro() {
     numMuestras = new Array();
     let tabla = document.getElementById('divTablaControles');
@@ -158,24 +153,30 @@ function getLoteCapturaMicro() {
                 } else { 
                     status = "disabled";
                 }
-                switch (tecnica) {
-                    case 17:
+                switch ($("#formulaTipo").val()) {
+                    case "13":
+                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleCol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
+                        console.log("Entro a 13");
+                        break;
+                    case "262":
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleCol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                         break;
-                    case 18:
+                    case "72":
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleDbo('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaDbo">Capturar</button>';
                         break;
-                    case 19:
+                    case "17":
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleHH('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaHH">Capturar</button>';
                         break;
                     default:
+                        console.log("Entro a al limbo");
+                        break;
                 }
                 if (item.Id_control != 1) 
                 {
                     tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
                 }else{
                     tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
-                }
+                } 
                 tab += '<td><input disabled style="width: 80px" value="'+item.Folio_servicio+'"></td>';
                 tab += '<td><input disabled style="width: 80px" value="-"></td>';
                 tab += '<td><input disabled style="width: 80px" value="'+item.Clave_norma+'"></td>';
