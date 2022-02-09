@@ -9,7 +9,7 @@ $(document).ready(function () {
 });
 
 
-$('#ejecutarModal').click(function () {
+$('#btnEjecutar').click(function () {
         // validacionModal(); 
         operacion();
 });
@@ -17,9 +17,9 @@ $('#ejecutarModalSulfato').click(function () {
     operacionSulfatos(); 
 });
 
-$('#guardar').click(function (){
+$('#btnGuardar').click(function (){
     guardar();
-    alert('Guardado');
+    // alert('Guardado');
 });
 $('#btnLiberar').click(function () {
     // operacion();
@@ -129,10 +129,9 @@ function getLoteCapturaEspectro() {
             tab += '        <tr>';
             tab += '          <th>Opc</th>';
             tab += '          <th>Folio</th>';
-            tab += '          <th># toma</th>';
+            // tab += '          <th># toma</th>';
             tab += '          <th>Norma</th>';
             tab += '          <th>Resultado</th>';
-            tab += '          <th>Tipo Análisis</th>';
             tab += '          <th>Observación</th>';
             tab += '        </tr>';
             tab += '    </thead>'; 
@@ -156,12 +155,19 @@ function getLoteCapturaEspectro() {
                 }else{
                     tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
                 }
-                tab += '<td><input disabled style="width: 80px" value="'+item.Folio_servicio+'"></td>';
-                tab += '<td><input disabled style="width: 80px" value="-"></td>';
-                tab += '<td><input disabled style="width: 80px" value="'+item.Clave_norma+'"></td>';
-                tab += '<td><input disabled style="width: 80px" value="-"></td>';
-                tab += '<td><input disabled style="width: 80px" value="-"></td>';
-                tab += '<td>'+item.Observacion+'</td>';
+                tab += '<td><input disabled style="width: 100px" value="'+item.Folio_servicio+'"></td>';
+                // tab += '<td><input disabled style="width: 80px" value="-"></td>';
+                tab += '<td><input disabled style="width: 200px" value="'+item.Clave_norma+'"></td>';
+                if(item.Resultado != null){
+                    tab += '<td><input disabled style="width: 100px" value="'+item.Resultado+'"></td>';
+                }else{
+                    tab += '<td><input disabled style="width: 80px" value=""></td>';
+                }
+                if(item.Observacion != null){
+                    tab += '<td>'+item.Observacion+'</td>';
+                }else{
+                    tab += '<td></td>';
+                }
                 tab += '</tr>';
                 numMuestras.push(item.Id_detalle);
                 cont++;
@@ -317,6 +323,17 @@ function validacionModal(){
 }
 function getDetalleEspectro(idDetalle)
 {
+    switch ($("#formulaTipo").val()) {
+        case 70:
+            $("#conPh").show();
+            $("#conPh2").show();
+            // $("#"+id2).hide();
+            break;
+        default:
+            $("#conPh").show();
+            $("#conPh2").hide();
+            break;
+    }
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getDetalleEspectro",
@@ -327,6 +344,11 @@ function getDetalleEspectro(idDetalle)
         dataType: "json",
         success: function (response) { 
             console.log(response);
+            $("#observacion").val(response.model.Observacion);
+            $("#abs1").val(response.curva.Promedio);
+            $("#abs2").val(response.curva.Promedio);
+            $("#blanco1").val(0);
+            $("#blanco1").val(0);
             $("#idMuestra").val(idDetalle);
             $("#blanco1").val(response.model.Blanco);
             $("#blanco2").val(response.model.Blanco);
@@ -421,141 +443,33 @@ function operacionSulfatos() {
           $("#abs2F").val(x); 
           let resultado = response.resultado.toFixed(3);
           $("#resultadoF").val(resultado); 
-          let d = response.d.toFixed(3);
+         // let d = response.d.toFixed(3);
+          let d = response.d;
           $("#fDilucion1F").val(d);
           $("#fDilucion2F").val(d);
         }
     });
 }
 
-function liberarMuestraMetal() {
-    let tabla = document.getElementById('divLote');
-    let tab = '';
-
-    let tabla2 = document.getElementById('divTablaControles');
-    let tab2 = '';
-    let cont = 1;
-
+function updateObsMuestraEspectro()
+{
+    
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/liberarMuestraMetal",
+        url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestraEspectro",
         data: {
-            idDetalle: $("#idDetalle" + idMuestra).val(),
+            idMuestra: idMuestra,
+            observacion: $("#observacion").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
+            getLoteCapturaEspectro();
         }
-    });
+    }); 
 }
 
-function generarControles() {
-    var ranCon = new Array();
-
-    ranCon.push(random(0, numMuestras.length - 1));
-    ranCon.push(random(0, numMuestras.length - 1));
-    ranCon.push(random(0, numMuestras.length - 1));
-    ranCon.push(random(0, numMuestras.length - 1));
-    ranCon.push(random(0, numMuestras.length - 1));
-
-    let tabla2 = document.getElementById('divTablaControles');
-    let tab2 = '';
-
-    let cont = 1;
-
-    $.ajax({
-        type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/getDataCapturaEspectro",
-        data: {
-            ranCon: ranCon,
-            numMuestra: numMuestras,
-            _token: $('input[name="_token"]').val()
-        },
-        dataType: "json",
-        success: function (response) {
-            console.log(response);
-
-            tab2 += '<table id="tablaControles" class="table table-sm">';
-            tab2 += '    <thead class="">';
-            tab2 += '        <tr>';
-            tab2 += '          <th>#</th>';
-            tab2 += '          <th>Abs1</th>';
-            tab2 += '          <th>Abs2</th>';
-            tab2 += '          <th>Abs3</th>';
-            tab2 += '          <th>Mililitros D Color</th>';
-            tab2 += '          <th>Nitratos</th>';
-            tab2 += '          <th>Nitritos</th>';
-            tab2 += '          <th>Sulfuros</th>';
-            tab2 += '          <th>Blanco A.</th>';
-            tab2 += '          <th>Vol. Aforo</th>';
-            tab2 += '          <th>Vol. Aforo Des</th>';
-            tab2 += '          <th>Vol. Muestra</th>';
-            tab2 += '        </tr>';
-            tab2 += '    </thead>';
-            tab2 += '    <tbody>';
-            $.each(response.detalle, function (key, item) {
-                tab2 += '<tr>';
-                tab2 += '<input style="width: 80px" hidden id="idDetalle' + cont + '" value="' + item.Id_detalle + '">';
-                tab2 += '<td>' + item.Folio_servicio + '</td>';
-                if (item.Descripcion != 'Resultado') {
-                    tab2 += '<td>' + item.Empresa + ' <br> <small class="text-danger">' + item.Descripcion + '</small></td>';
-                } else {
-                    tab2 += '<td>' + item.Empresa + ' <br> <small class="text-info">' + item.Descripcion + '</small></td>';
-                }
-                if (item.Liberado != 0) {
-                    tab2 += '<td><input disabled style="width: 80px" id="volMuestra' + cont + '" value="50"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="abs1' + cont + '" value="' + item.Abs1 + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="abs2' + cont + '" value="' + item.Abs2 + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="abs3' + cont + '" value="' + item.Abs3 + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="absPromedio' + cont + '" value="' + item.Abs_promedio + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="factorDilucion' + cont + '" value="' + item.Factor_dilucion + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="factorConversion' + cont + '" value="' + item.Factor_conversion + '"></td>';
-                    tab2 += '<td><input disabled style="width: 80px" id="VolDisolucion' + cont + '" value="' + item.Vol_disolucion + '"></td>';
-                } else {
-                    tab2 += '<td><input style="width: 80px" id="volMuestra' + cont + '" value="50"></td>';
-                    tab2 += '<td><input style="width: 80px" id="abs1' + cont + '" value="' + item.Abs1 + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="abs2' + cont + '" value="' + item.Abs2 + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="abs3' + cont + '" value="' + item.Abs3 + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="absPromedio' + cont + '" value="' + item.Abs_promedio + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="factorDilucion' + cont + '" value="' + item.Factor_dilucion + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="factorConversion' + cont + '" value="' + item.Factor_conversion + '"></td>';
-                    tab2 += '<td><input style="width: 80px" id="VolDisolucion' + cont + '" value="' + item.Vol_disolucion + '"></td>';
-                }
-                tab2 += '</tr>';
-                numMuestras.push(item.Id_detalle);
-                cont++;
-            });
-            tab2 += '    </tbody>';
-            tab2 += '</table>';
-            tabla2.innerHTML = tab2; 
-            var t = $('#tablaControles').DataTable({
-                "ordering": false,
-                "language": {
-                    "lengthMenu": "# _MENU_ por pagina",
-                    "zeroRecords": "No hay datos encontrados",
-                    "info": "Pagina _PAGE_ de _PAGES_",
-                    "infoEmpty": "No hay datos encontrados",
-                }
-            });
-
-
-            $('#tablaControles tbody').on('click', 'tr', function () {
-                if ($(this).hasClass('selected')) {
-                    $(this).removeClass('selected');
-                }
-                else {
-                    table.$('tr.selected').removeClass('selected');
-                    $(this).addClass('selected');
-                }
-            });
-            $('#tablaControles tr').on('click', function () {
-                let dato = $(this).find('td:first').html();
-                idMuestra = dato;
-            });
-        }
-    });
-}
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }

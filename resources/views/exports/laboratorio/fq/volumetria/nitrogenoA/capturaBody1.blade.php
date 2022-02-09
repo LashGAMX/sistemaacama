@@ -7,14 +7,7 @@
     <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/volumetria/nitrogenoA/nitrogenoAPDF.css')}}">
     <title>Captura PDF</title>
 </head>
-<body>
-    <p id='curvaProcedimiento'>Procedimiento</p>
-
-    <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento->Texto);?>
-    </div>
-
-    <br>
+<body>    
 
     <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos">
@@ -53,6 +46,61 @@
                 {{-- @endfor --}}
             </tbody>        
         </table>  
-    </div>    
+    </div>
+
+    <br>
+
+    <div class="contenedorTabla">
+        <table autosize="1" class="table table-borderless" id="">
+            <tbody>                              
+                <tr>
+                    <td class="tableContent2">MILILITROS TITULADOS DEL BLANCO</td>
+                    <td class=""></td>
+                    <td class=""></td>
+                    <td class="tableContent2">0.4</td>
+                </tr>
+
+                <tr>
+                    <td class="tableContent2">RESULTADO BLANCO</td>
+                    <td class=""></td>
+                    <td class=""></td>
+                    <td class="tableContent2">0.4</td>
+                </tr>
+
+                <tr>
+                    <td class="tableContent2">MILILITROS 1 TITULADOS DE H2SO4</td>
+                    <td class=""></td>
+                    <td class=""></td>
+                    <td class="tableContent2">26.7</td>
+                </tr>
+
+                <tr>
+                    <td class="tableContent2">MILILITROS 2 TITULADOS DE H2SO4 2</td>
+                    <td class=""></td>
+                    <td class=""></td>
+                    <td class="tableContent2">26.7</td>
+                </tr>                
+
+                <tr>
+                    <td class="tableContent2">MILILITROS 3 TITULADOS DE H2SO4 3</td>
+                    <td class=""></td>
+                    <td class=""></td>
+                    <td class="tableContent2">26.7</td>
+                </tr>
+
+                <tr>
+                    <td class="tableContent2">RESULTADO MOLARIDAD REAL</td>
+                    <td class=""></td>
+                    <td class=""></td>
+                    <td class="tableContent2">0.011</td>
+                </tr>
+            </tbody>    
+        </table>  
+    </div>
+
+    <div id="contenidoCurva">
+        <span id="curvaProcedimiento">Valoración</span> <br>
+        VALORACIÓN <?php //echo html_entity_decode($textoProcedimiento->Texto);?>
+    </div>
 </body>
 </html>

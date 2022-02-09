@@ -285,11 +285,11 @@ INNER JOIN area_analisis as areas
 ON tipo.Id_area = areas.Id_area_analisis
 
 /* Lista  ViewLoteDetalleEspectro */
-CREATE VIEW ViewLoteDetalleEspectro as SELECT det.*,sol.Folio_servicio,param.Parametro,control.Control
+CREATE VIEW ViewLoteDetalleEspectro as SELECT det.*,sol.Folio_servicio,param.Clave_norma,param.Parametro,control.Control
 FROM lote_detalle_espectro as det 
 INNER JOIN ViewSolicitud as sol
 ON det.Id_analisis = sol.Id_solicitud
-INNER JOIN parametros as param
+INNER JOIN ViewParametros as param
 ON det.Id_parametro = param.Id_parametro
 INNER JOIN control_calidad as control
 ON det.Id_control = control.Id_control

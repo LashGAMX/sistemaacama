@@ -22,7 +22,7 @@
 
                 <tr>
                     <th class="nombreHeader" colspan="10">
-                        Resultado de las muestrasmodif
+                        Resultado de las muestras
                     </th>                    
                 </tr>                
 
