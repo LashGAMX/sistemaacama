@@ -208,8 +208,8 @@ class FqController extends Controller
             case 96:
                 // Sulfatos
                 $x = ($request->X + $request->Y + $request->Z + $request->ABS4 + $request->ABS5 + $request->ABS6 + $request->ABS7 + $request->ABS8) / 8;
-                $d =   $volumen->Volumen  / $request->E;
-                $resultado = (($x - $request->CB) / $request->CM) * $d; 
+                $d =   100  / $request->E;
+                $resultado = (($x -1 *($request->CB)) / $request->CM) * $d; 
 
                 $data = array(
                     'd' => $d,
@@ -1275,16 +1275,16 @@ class FqController extends Controller
         $m1 = ($m3 - 0.0002);
         $m2 = ($m3 - 0.0001);
 
-        $model = LoteDetalleGA::find($request->idMuestra);
-        $model->M_final = $mf;
-        $model->M_incial1 = $m1;
-        $model->M_incial2 = $m2;
-        $model->M_incial3 = $m3;
-        $model->Ph = $request->L;
-        $model->Blanco = $request->I;
-        $model->F_conversion = $request->G;
-        $model->Resultado = $request->R;
-        $model->save();
+        // $model = LoteDetalleGA::find($request->idMuestra);
+        // $model->M_final = $mf;
+        // $model->M_incial1 = $m1;
+        // $model->M_incial2 = $m2;
+        // $model->M_incial3 = $m3;
+        // $model->Ph = $request->L;
+        // $model->Blanco = $request->I;
+        // $model->F_conversion = $request->G;
+        // $model->Resultado = $request->R;
+        // $model->save();
 
 
         $data = array(

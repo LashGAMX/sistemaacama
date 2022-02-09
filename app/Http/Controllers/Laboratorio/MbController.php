@@ -302,11 +302,8 @@ class MbController extends Controller
                 break;
             case 72: //todo Metodo electrometrico
                     # code...
-                if($request->formulaTipo == 72) // Dbo
-                {
                     $E = $request->D / $request->C;
-                    $res = ($request->A - $request->B) / $E; 
-                }
+                    $res = ($request->A - $request->B) / round($E,3); 
                    
                 break;
             case 17: //todo Flotación de huevos de helminto
@@ -618,6 +615,16 @@ class MbController extends Controller
                 $detModel = LoteDetalleEspectro::where('Id_lote',$request->idLote)->get();
                 $sw = true;
                 break;
+            case 52: //todo Número más probable (NMP), en tubos múltiples
+                    $model = LoteDetalleColiformes::create([
+                                    'Id_lote' => $request->idLote,
+                                    'Id_analisis' => $request->idAnalisis,
+                                    'Id_parametro' => $loteModel->idParametro,
+                                    'Id_control' => 1,
+                                ]);
+                    $detModel = LoteDetalleEspectro::where('Id_lote',$request->idLote)->get();
+                    $sw = true;
+                    break;
             case 262: //todo  ENTEROCOCO FECAL
                     # code...
                     $model = LoteDetalleColiformes::create([
