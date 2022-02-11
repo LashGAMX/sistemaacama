@@ -62,7 +62,17 @@
             @for ($i = 0; $i < $dataLength ; $i++)
                 <tr>
                     <td class="contenidoBody bordesTabla" rowspan="3">
-                        {{@$data[$i]->Folio_servicio}}
+                        @if (@$data[$i]->Control == 'Estandar')
+                            ESTANDAR
+                        @elseif(@$data[$i]->Control == 'Blanco')
+                            BLANCO
+                        @elseif(@$data[$i]->Control == 'Positivo')
+                            POSITIVO
+                        @elseif(@$data[$i]->Control == 'Negativo')
+                            NEGATIVO
+                        @else
+                            {{@$data[$i]->Folio_servicio}}
+                        @endif 
                     </td>
 
                     <td class="contenidoBody bordesTabla">
@@ -114,7 +124,11 @@
                     </td>
 
                     <td class="contenidoBody" rowspan="3">
-                        LIBERADO
+                        @if (@$data[$i]->Liberado == 1)
+                            Liberado
+                        @elseif(@$data[$i]->Liberado == 0)
+                            No liberado
+                        @endif 
                     </td>
 
                     <td class="contenidoBody" rowspan="3">

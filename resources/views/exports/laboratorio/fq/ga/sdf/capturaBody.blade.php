@@ -42,15 +42,29 @@
             <tbody>
                 @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
-                        <td class="tableContent">{{@$data[$i]->Folio_servicio}}</td>
-                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">
+                            @if (@$data[$i]->Control == 'Estandar')
+                                ESTANDAR
+                            @elseif(@$data[$i]->Control == 'Blanco')
+                                BLANCO
+                            @else
+                                {{@$data[$i]->Folio_servicio}}
+                            @endif
+                        </td>
+                        <td class="tableContent">{{@$paramSdt->Parametro}}</td>
                         <td class="tableContent">{{@$data[$i]->Masa1}}</td>
-                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">{{@$paramSdt->Parametro}}</td>
                         <td class="tableContent">{{@$data[$i]->Masa2}}</td>
                         <td class="tableContent">{{@$data[$i]->Resultado}}</td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
-                        <td class="tableContent">LIBERADO</td>
-                        <td class="tableContent">{{@$data[$i]->Descripcion}}</td>
+                        <td class="tableContent">
+                            @if (@$data[$i]->Liberado == 1)
+                                Liberado
+                            @elseif(@$data[$i]->Liberado == 0)
+                                No liberado
+                            @endif     
+                        </td>
+                        <td class="tableContent">{{@$data[$i]->Control}}</td>
                     </tr>                
                 @endfor
             </tbody>        

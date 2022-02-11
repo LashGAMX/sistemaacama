@@ -278,7 +278,7 @@ INNER JOIN parametros as pa
 ON lote.Id_parametro = pa.Id_parametro
 
 /* Lista ViewTipoFormulaAreas */
-CREATE VIEW ViewTipoFormulaAreas as SELECT tipo.Id_tipo,tipo.Id_formula,form.Tipo_formula,form.Concentracion,tipo.Id_area,areas.Area_analisis,tipo.created_at,tipo.updated_at,tipo.deleted_at FROM tipo_formula_areas as tipo
+CREATE VIEW ViewTipoFormulaAreas as SELECT tipo.Id_tVipo,tipo.Id_formula,form.Tipo_formula,form.Concentracion,tipo.Id_area,areas.Area_analisis,tipo.created_at,tipo.updated_at,tipo.deleted_at FROM tipo_formula_areas as tipo
 INNER JOIN tipo_formulas as form
 ON tipo.Id_formula = form.Id_tipo_formula
 INNER JOIN area_analisis as areas
@@ -295,8 +295,7 @@ INNER JOIN control_calidad as control
 ON det.Id_control = control.Id_control
 
 /* Lista ViewLoteDetalleGA */
-create view ViewLoteDetalleGA as SELECT det.Id_detalle,det.Id_lote,det.Id_analisis,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,det.Id_parametro,param.Parametro,det.Id_control,con.Control,det.M_final,det.M_inicial1,
-det.M_inicial2,det.M_inicial3,det.Ph,det.Vol_muestra,det.Blanco,det.F_conversion,det.Observacion,det.created_at,det.updated_at,det.deleted_at FROM lote_detalle_ga as det
+CREATE VIEW ViewLoteDetalleGA as SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,con.Control FROM lote_detalle_ga as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
 INNER JOIN  ViewSolicitud as sol

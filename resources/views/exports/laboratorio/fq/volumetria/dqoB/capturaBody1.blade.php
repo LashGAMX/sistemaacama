@@ -38,7 +38,13 @@
                         <td class="tableContent">{{@$data[$i]->Titulo_blanco}}</td>
                         <td class="tableContent">{{@$data[$i]->Resultado}}</td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
-                        <td class="tableContent">{{@$data[$i]->Descripcion}}</td>
+                        <td class="tableContent">
+                            @if (@$data[$i]->Liberado == 1)
+                                Liberado
+                            @elseif(@$data[$i]->Liberado == 0)
+                                No liberado
+                            @endif  
+                        </td>
                         <td class="tableContent">{{@$data[$i]->Control}}</td>                                              
                     </tr>                
                 @endfor

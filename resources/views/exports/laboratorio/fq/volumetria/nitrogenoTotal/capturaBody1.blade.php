@@ -32,18 +32,26 @@
             </thead>
     
             <tbody>
-                {{-- @for ($i = 0; $i < 100 ; $i++) --}}
+                @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
+                        <td class="tableContent">                            
+                            {{@$data[$i]->Folio_servicio}}                            
+                        </td>
                         <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
                         <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">{{@$data[$i]->Resultado}}</td>
+                        <td class="tableContent">{{@$data[$i]->Observacion}}</td>
+                        <td class="tableContent">
+                            @if (@$data[$i]->Liberado == 1)
+                                Liberado
+                            @elseif(@$data[$i]->Liberado == 0)
+                                No liberado
+                            @endif
+                        </td>
+                        <td class="tableContent">{{@$data[$i]->Control}}</td>
                     </tr>                
-                {{-- @endfor --}}
+                @endfor
             </tbody>        
         </table>  
     </div>
@@ -100,7 +108,7 @@
 
     <div id="contenidoCurva">
         <span id="curvaProcedimiento">Valoración</span> <br>
-        VALORACIÓN <?php //echo html_entity_decode($textoProcedimiento->Texto);?>
+        VALORACIÓN <?php echo html_entity_decode($textoProcedimiento[1]);?>
     </div>
 </body>
 </html>

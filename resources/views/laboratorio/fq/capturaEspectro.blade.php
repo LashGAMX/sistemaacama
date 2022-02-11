@@ -86,6 +86,10 @@
                     <div class="col-md-1">
                         {{-- <button class="btn btn-secondary">Liberar todo</button> --}}
                     </div>
+                    <div class="col-md-2">
+                        <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad"
+                            id="btnGenControlInd">Generar control</button>
+                    </div>
                     <div class="col-md-1">
                         {{-- <div class="form-check">
                             <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
@@ -220,8 +224,26 @@
                                         <tr id="conPh2">
                                             <td>P2</td>
                                             <td>pH Inicial</td>
+                                            <td><input name="campos" type="text" id="phIni1" value="0"></td>
                                             <td><input name="campos" type="text" id="phIni2" value="0"></td>
-                                            <td><input name="campos" type="text" id="phIni2" value="0"></td>
+                                        </tr>
+                                        <tr id="conN1">
+                                            <td>N1</td>
+                                            <td>Nitratos</td>
+                                            <td><input name="campos" type="text" id="nitratos1" value="0"></td>
+                                            <td><input name="campos" type="text" id="nitratos2" value="0"></td>
+                                        </tr>
+                                        <tr id="conN2">
+                                            <td>N2</td>
+                                            <td>Nitritos</td>
+                                            <td><input name="campos" type="text" id="nitritos1" value="0"></td>
+                                            <td><input name="campos" type="text" id="nitritos2" value="0"></td>
+                                        </tr>
+                                        <tr id="conN3">
+                                            <td>N3</td>
+                                            <td>Sulfuros</td>
+                                            <td><input name="campos" type="text" id="sulfuros1" value="0"></td>
+                                            <td><input name="campos" type="text" id="sulfuros2" value="0"></td>
                                         </tr>
                                         <tr>
                                             <td>E</td>
@@ -395,7 +417,47 @@
                     </div>
                 </div>
             </div>
+        </div>
 
+        <!-- Modal Control Calidad-->
+        <div class="modal fade" id="modalCalidad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form wire:submit.prevent="create">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="">Control de calidad</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                {{-- <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Formula</label>
+                                        <input type="text" id="mFormula" disabled value="Forms">
+                                    </div>
+                                </div> --}}
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Tipo</label>
+                                        <select class="form-control" id="controlCalidad">
+                                            @foreach ($controlModel as $item)
+                                            <option value="{{$item->Id_control}}">{{$item->Control}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" onclick="createControlCalidad()" id="guardar"
+                                class="btn btn-primary">Generar</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
         </div>
 
     </div>

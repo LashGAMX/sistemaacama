@@ -83,6 +83,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('guardarEspectro', [FqController::class, 'guardarEspectro']);
         Route::post('guardarSulfatos', [FqController::class, 'guardarSulfatos']);
         Route::post('updateObsMuestraEspectro', [FqController::class, 'updateObsMuestraEspectro']);
+        Route::post('createControlCalidadEspectro', [FqController::class, 'createControlCalidadEspectro']);
     
     //****************************************GA***********************************************
 

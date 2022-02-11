@@ -24,6 +24,13 @@ class LoteDetalleEspectro extends Model
         'Abs1',
         'Abs2',
         'Abs3',
+        'Abs4',
+        'Abs5',
+        'Abs6',
+        'Abs7',
+        'Abs8',
+        'Ph_ini',
+        'Ph_fin',
         'De_color',
         'Nitratos',
         'Nitritos',
@@ -33,6 +40,7 @@ class LoteDetalleEspectro extends Model
         'Vol_aforo',
         'Vol_destilacion',
         'Vol_muestra',
+        'Liberado'
     ];
 
 }

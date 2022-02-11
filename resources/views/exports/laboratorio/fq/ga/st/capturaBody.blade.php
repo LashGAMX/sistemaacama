@@ -8,10 +8,10 @@
     <title>Captura PDF</title>
 </head>
 <body>
-    <p id='curvaProcedimiento'>Procedimiento</p>
+    <p id='curvaProcedimiento'>Procedimientos</p>
 
     <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento->Texto);?>
+        <?php echo html_entity_decode($textoProcedimiento[0]);?>
     </div>
 
     <br>
@@ -46,7 +46,15 @@
             <tbody>
                 @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
-                        <td class="tableContent">{{@$data[$i]->Folio_servicio}}</td>
+                        <td class="tableContent">
+                            @if (@$data[$i]->Control == 'Estandar')
+                                ESTANDAR
+                            @elseif(@$data[$i]->Control == 'Blanco')
+                                BLANCO
+                            @else
+                                {{@$data[$i]->Folio_servicio}}
+                            @endif     
+                        </td>
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
                         <td class="tableContent">{{@$data[$i]->Peso_constante1}}</td>
@@ -57,8 +65,14 @@
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">{{@$data[$i]->Resultado}}</td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
-                        <td class="tableContent">LIBERADO</td>
-                        <td class="tableContent">{{@$data[$i]->Descripcion}}</td>
+                        <td class="tableContent">
+                            @if (@$data[$i]->Liberado == 1)
+                                Liberado
+                            @elseif(@$data[$i]->Liberado == 0)
+                                No liberado
+                            @endif 
+                        </td>
+                        <td class="tableContent">{{@$data[$i]->Control}}</td>
                     </tr>                
                 @endfor
             </tbody>        

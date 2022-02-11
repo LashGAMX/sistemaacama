@@ -1414,7 +1414,7 @@ class MbController extends Controller
         //Hoja 2
         $hoja2 = false;
         if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
-            $mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+            //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
             //$horizontal = 'P';
             $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
 
@@ -1433,18 +1433,18 @@ class MbController extends Controller
                 $htmlHeader = view('exports.laboratorio.mb.dbo.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.mb.dbo.capturaFooter', compact('usuario', 'firma'));
                 $htmlCaptura1 = view('exports.laboratorio.mb.dbo.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength'));
-                $hoja2 = true;
+                //$hoja2 = true;
 
             }else{
                 $sw = false;                        
             }                
         }
 
-        if($hoja2 === true){
+        /* if($hoja2 === true){
             $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlHeader, 'O', 'E');
             $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
             $mpdf->WriteHTML($htmlCaptura1);
-        }
+        } */
 
         $mpdf->Output();
     }

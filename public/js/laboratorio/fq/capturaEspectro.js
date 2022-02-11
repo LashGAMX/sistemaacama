@@ -29,6 +29,7 @@ $('#btnLiberar').click(function () {
 
 function getDataCaptura() {
     numMuestras = new Array();
+    cleanTable();
     let tabla = document.getElementById('divLote');
     let tab = '';
 
@@ -64,7 +65,7 @@ function getDataCaptura() {
                     tab += '<td>'+item.Fecha+'</td>';
                     tab += '<td>'+item.Asignado+'</td>';
                     tab += '<td>'+item.Liberado+'</td>';
-                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button></td>';
+                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir('+item.Id_lote+');"><i class="fas fa-file-download"></i></button></td>';
                     tab += '</tr>';
                 }); 
                 tab += '    </tbody>';
@@ -247,13 +248,18 @@ function guardar(){
             idMuestra: $("#idMuestra").val(),
             fechaAnalisis: $("#fechaAnalisis").val(),
             parametro: $('#formulaTipo').val(),
-            resultado: $('#resultadoF').val(),
-            observacion: $area('#obs').val(),
+            resultado: $('#resultado').val(),
+            observacion: $('#obs').val(),
             ABS:$('#abs1').val(),
             CA:$('#blanco1').val(),
             CB:$('#b1').val(),
             CM:$('#m1').val(),
             CR:$('#r1').val(),
+            phIni:$('#phIni1').val(),
+            phFin:$('#phFin1').val(),
+            nitratos:$('#nitratos1').val(),
+            nitritos:$('#nitritos1').val(),
+            sulfuros:$('#sulfuros1').val(),
             D:$('#fDilucion1').val(),
             E:$('#volMuestra1').val(),
             X:$('#abs11').val(),
@@ -264,8 +270,7 @@ function guardar(){
         dataType: "json",
         success: function (response) { 
             console.log(response);
-            
-            
+            getLoteCapturaEspectro();        
         }
     });
 }
@@ -323,15 +328,30 @@ function validacionModal(){
 }
 function getDetalleEspectro(idDetalle)
 {
-    switch ($("#formulaTipo").val()) {
+    switch (parseInt($("#formulaTipo").val())) {
         case 70:
             $("#conPh").show();
             $("#conPh2").show();
-            // $("#"+id2).hide();
+
+            $("#conN1").hide();
+            $("#conN2").hide();
+            $("#conN3").hide();
+            break;
+        case 20:
+            $("#conN1").show();
+            $("#conN2").show();
+            $("#conN3").show();
+
+            $("#conPh").hide();
+            $("#conPh2").hide();
             break;
         default:
-            $("#conPh").show();
+            $("#conPh").hide();
             $("#conPh2").hide();
+
+            $("#conN1").hide();
+            $("#conN2").hide();
+            $("#conN3").hide();
             break;
     }
     $.ajax({
@@ -345,10 +365,8 @@ function getDetalleEspectro(idDetalle)
         success: function (response) { 
             console.log(response);
             $("#observacion").val(response.model.Observacion);
-            $("#abs1").val(response.curva.Promedio);
-            $("#abs2").val(response.curva.Promedio);
-            $("#blanco1").val(0);
-            $("#blanco1").val(0);
+            $("#abs1").val(response.model.Promedio);
+            $("#abs2").val(response.model.Promedio);
             $("#idMuestra").val(idDetalle);
             $("#blanco1").val(response.model.Blanco);
             $("#blanco2").val(response.model.Blanco);
@@ -358,8 +376,13 @@ function getDetalleEspectro(idDetalle)
             $("#b2").val(response.curva.B);
             $("#m2").val(response.curva.M);
             $("#r2").val(response.curva.R);
-            $("#fDilucion1").val(response.model.Vol_dilusion);
-            $("#fDilucion2").val(response.model.Vol_dilusion);
+            $("#phIni1").val(response.model.Ph_ini);
+            $("#phFin1").val(response.model.Ph_fin);
+            $("#nitratos1").val(response.model.Nitratos);
+            $("#nitritos1").val(response.model.Nitritos);
+            $("#sulfuros1").val(response.model.Sulfuros);
+            $("#fDilucion1").val(response.model.Vol_dilucion);
+            $("#fDilucion2").val(response.model.Vol_dilucion);
             $("#volMuestra1").val(response.model.Vol_muestra);
             $("#volMuestra2").val(response.model.Vol_muestra);
             $("#abs11").val(response.model.Abs1);
@@ -368,13 +391,14 @@ function getDetalleEspectro(idDetalle)
             $("#abs12").val(response.model.Abs1);
             $("#abs22").val(response.model.Abs2);
             $("#abs32").val(response.model.Abs3);
+            $("#resultado").val(response.model.Resultado);
         }
     });
 }
 
 //Función imprimir PDF
-function imprimir() {            
-    window.open(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaEspectro/" + idLote);
+function imprimir(id) {            
+    window.open(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaEspectro/" + id);
     //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaEspectro/" + idLote;    
 }
 
@@ -469,7 +493,45 @@ function updateObsMuestraEspectro()
         }
     }); 
 }
-
+function createControlCalidad()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/createControlCalidadEspectro",
+        data: {
+            idMuestra: idMuestra,
+            idControl: $("#controlCalidad").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaEspectro();
+        }
+    });
+}
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function cleanTable() {
+
+    let tabla = document.getElementById('divTablaControles');
+    let tab = '';
+
+            tab += '<table id="tablaControles" class="table table-sm">';
+            tab += '    <thead>';
+            tab += '        <tr>';
+            tab += '          <th>Opc</th>';
+            tab += '          <th>Folio</th>';
+            // tab += '          <th># toma</th>';
+            tab += '          <th>Norma</th>';
+            tab += '          <th>Resultado</th>';
+            tab += '          <th>Observación</th>';
+            tab += '        </tr>';
+            tab += '    </thead>'; 
+            tab += '    <tbody>';
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
 }

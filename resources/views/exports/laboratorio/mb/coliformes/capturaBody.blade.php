@@ -61,7 +61,17 @@
             @for ($i = 0; $i < $dataLength ; $i++)
                 <tr>
                     <td class="contenidoBody bordesTabla" rowspan="3">
-                        {{@$data[$i]->Folio_servicio}}
+                        @if (@$data[$i]->Control == 'Estandar')
+                            ESTANDAR
+                        @elseif(@$data[$i]->Control == 'Blanco')
+                            BLANCO
+                        @elseif(@$data[$i]->Control == 'Positivo')
+                            POSITIVO
+                        @elseif(@$data[$i]->Control == 'Negativo')
+                            NEGATIVO
+                        @else
+                            {{@$data[$i]->Folio_servicio}}
+                        @endif  
                     </td>
 
                     <td class="contenidoBody bordesTabla">
@@ -113,201 +123,11 @@
                     </td>
 
                     <td class="contenidoBody" rowspan="3">
-                        LIBERADO
-                    </td>
-
-                    <td class="contenidoBody" rowspan="3">
-                        {{@$data[$i]->Control}}
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Dilucion2}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Presuntiva4}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Presuntiva5}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Presuntiva6}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$resultadosPresuntivas[$i + 1]}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Confirmativa4}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Confirmativa5}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Confirmativa6}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$resultadosConfirmativas[$i + 1]}}
-                    </td>       
-                </tr>
-
-                <tr>
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Dilucion3}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Presuntiva7}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Presuntiva8}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Presuntiva9}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$resultadosPresuntivas[$i + 2]}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Confirmativa7}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Confirmativa8}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Confirmativa9}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$resultadosConfirmativas[$i + 2]}}
-                    </td>                          
-                </tr>
-            @endfor
-        </tbody>
-    </table>
-
-    <br>
-
-    <table cellpadding="0" cellspacing="0" border-color="#000000">
-        <thead>            
-            <tr>
-                <th class="nombreHeader bordesTabla">
-                    No. de muestra
-                </th>
-
-                <th class="nombreHeader bordesTabla">
-                    Diluciones empleadas
-                </th>
-
-                <th class="nombreHeader bordesTabla" colspan="3">
-                    Prueba presuntiva
-                </th>
-
-                <th class="nombreHeader bordesTabla">
-                    Resultado presuntiva
-                </th>
-
-                <th class="nombreHeader bordesTabla" colspan="3">
-                    Prueba confirmativa
-                </th>
-
-                <th class="nombreHeader bordesTabla">
-                    N.M.P. Obtenido
-                </th>
-
-                <th class="nombreHeader bordesTabla">
-                    Resultado NMP/100 mL (Tabla)
-                </th>
-
-                <th class="nombreHeader bordesTabla">
-                    Resultado NMP/100 mL (Fórmula 1)
-                </th>
-
-                <th class="nombreHeader bordesTabla">
-                    Resultado NMP/100 mL (Fórmula 2)
-                </th>
-
-                <th class="nombreHeader">
-                    
-                </th>
-
-                <th class="nombreHeader">
-                    
-                </th>
-            </tr>                        
-        </thead>
-        
-        <tbody>
-            @for ($i = 0; $i < $dataLength ; $i++)
-                <tr>
-                    <td class="contenidoBody bordesTabla" rowspan="3">
-                        {{@$data[$i]->Folio_servicio}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Dilucion1}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Presuntiva1}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Presuntiva2}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Presuntiva3}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$resultadosPresuntivas[$i]}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Confirmativa1}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Confirmativa2}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$data[$i]->Confirmativa3}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla">
-                        {{@$resultadosConfirmativas[$i]}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla" rowspan="3">
-                        {{@$loteColi[$i]->Resultado}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla" rowspan="3">
-                        {{@$loteColi[$i]->Resultado}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla" rowspan="3">
-                        PRUEBA
-                    </td>
-
-                    <td class="contenidoBody" rowspan="3">
-                        LIBERADO
+                        @if (@$data[$i]->Liberado == 1)
+                            Liberado
+                        @elseif(@$data[$i]->Liberado == 0)
+                            No liberado
+                        @endif 
                     </td>
 
                     <td class="contenidoBody" rowspan="3">

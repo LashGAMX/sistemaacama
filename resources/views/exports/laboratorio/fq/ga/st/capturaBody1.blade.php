@@ -4,17 +4,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/sst/sstPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/st/stPDF.css')}}">
     <title>Captura PDF</title>
 </head>
-<body>
-    <p id='curvaProcedimiento'>Procedimiento</p>
-
-    <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento[0]);?>
-    </div>
-
-    <br>
+<body>    
 
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos">
@@ -28,38 +21,30 @@
 
                 <tr>
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
-                    <th class="tableCabecera anchoColumna">No. Crisol</th>
+                    <th class="tableCabecera anchoColumna">No. Capsula</th>
                     <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
                     <th class="tableCabecera anchoColumna">Peso cte 1</th>
                     <th class="tableCabecera anchoColumna">Peso cte 2</th>
-                    <th class="tableCabecera anchoColumna">Masa 2</th>
+                    <th class="tableCabecera anchoColumna">Masa 1</th>
                     <th class="tableCabecera anchoColumna">Peso cte c/muestra 1</th>
                     <th class="tableCabecera anchoColumna">Peso cte c/muestra 2</th>
-                    <th class="tableCabecera anchoColumna">Masa 6</th>
-                    <th class="tableCabecera anchoColumna">SOLIDOS SUSPENDIDOS TOTALES (SST) mg/L</th>
-                    <th class="tableCabecera anchoColumna">Observaciones</th>
+                    <th class="tableCabecera anchoColumna">Masa 3</th>
+                    <th class="tableCabecera anchoColumna">SOLIDOS TOTALES (ST) mg/L</th>
+                    <th class="tableCabecera anchoColumna">Observaciones</th>                                        
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
                 </tr>
             </thead>
     
-            <tbody> 
+            <tbody>
                 @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
-                        <td class="tableContent">
-                            @if (@$data[$i]->Control == 'Estandar')
-                                ESTANDAR
-                            @elseif(@$data[$i]->Control == 'Blanco')
-                                BLANCO
-                            @else
-                                {{@$data[$i]->Folio_servicio}}
-                            @endif 
-                        </td>
+                        <td class="tableContent">{{@$data[$i]->Folio_servicio}}</td>
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
                         <td class="tableContent">{{@$data[$i]->Peso_constante1}}</td>
                         <td class="tableContent">{{@$data[$i]->Peso_constante2}}</td>
-                        <td class="tableContent">{{@$data[$i]->Masa2}}</td>
+                        <td class="tableContent">{{@$data[$i]->Masa1}}</td>
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">PRUEBA</td>
@@ -70,7 +55,7 @@
                                 Liberado
                             @elseif(@$data[$i]->Liberado == 0)
                                 No liberado
-                            @endif 
+                            @endif     
                         </td>
                         <td class="tableContent">{{@$data[$i]->Control}}</td>
                     </tr>                
@@ -78,6 +63,8 @@
             </tbody>        
         </table>  
     </div>
+
+    <br>
 
     <div id="contenidoCurva">
         <span id="curvaProcedimiento">Valoración / Observación</span>

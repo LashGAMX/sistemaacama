@@ -1082,7 +1082,7 @@ class VolController extends Controller
             $hoja2 = false;
 
             if($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))'){
-                $mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+                //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
  
@@ -1103,10 +1103,10 @@ class VolController extends Controller
                     $htmlFooter = view('exports.laboratorio.fq.volumetria.dqo.capturaFooter', compact('usuario', 'firma'));                    
                 }                              
 
-               $hoja2 = true;
+               //$hoja2 = true;
                 
             }else if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)'){
-                $mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+                //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
  
@@ -1127,9 +1127,9 @@ class VolController extends Controller
                     $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoA.capturaFooter', compact('usuario', 'firma'));
                 }                              
 
-               $hoja2 = true;
+               //$hoja2 = true;
             }else if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)'){
-                $mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+                //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
  
@@ -1150,9 +1150,9 @@ class VolController extends Controller
                     $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoB.capturaFooter', compact('usuario', 'firma'));
                 }                              
 
-               $hoja2 = true;
+               //$hoja2 = true;
             }else if($parametro->Parametro == 'Nitrógeno Total *'){
-                $mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+                //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
  
@@ -1173,9 +1173,9 @@ class VolController extends Controller
                     $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaFooter', compact('usuario', 'firma'));
                 }                              
 
-               $hoja2 = true;
+               //$hoja2 = true;
             }else if($parametro->Parametro == 'Nitrógeno Amoniacal'){
-                $mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+                //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
  
@@ -1196,9 +1196,9 @@ class VolController extends Controller
                     $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaFooter', compact('usuario', 'firma'));
                 }                              
 
-               $hoja2 = true;
+               //$hoja2 = true;
             }else if($parametro->Parametro == 'Nitrógeno Orgánico'){
-                $mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+                //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
  
@@ -1219,14 +1219,14 @@ class VolController extends Controller
                     $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaFooter', compact('usuario', 'firma'));
                 }                              
 
-               $hoja2 = true;
+               //$hoja2 = true;
             }            
 
-            if($hoja2 === true){
+            /* if($hoja2 === true){
                 $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlHeader, 'O', 'E');
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $mpdf->WriteHTML($htmlCaptura1);
-            }
+            } */
         }        
   
         if($sw === true){            

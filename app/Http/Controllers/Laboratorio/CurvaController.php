@@ -14,6 +14,7 @@ use App\Models\LoteAnalisis;
 use App\Models\CurvaConstantes;
 use App\Models\LoteDetalle;
 use App\Models\TipoFormula;
+use Carbon\Carbon;
 
 class CurvaController extends Controller
 {
@@ -114,6 +115,7 @@ class CurvaController extends Controller
     }
     public function setConstantes(Request $request){ 
         $lote = CurvaConstantes::where('Id_lote', $request->idLote)->get();
+        $fechaNow = Carbon::now();
     
 
         if($lote->count()){
@@ -122,7 +124,7 @@ class CurvaController extends Controller
             $const->B = $request->b;
             $const->M = $request->m;
             $const->R = $request->r;
-            //$const->Fecha_inicio = $request->fecha;
+            $const->Fecha_inicio = $fechaNow;
             $const->save(); 
         }else{
             $model = CurvaConstantes::create([
@@ -130,7 +132,7 @@ class CurvaController extends Controller
                 'B' => $request->b,
                 'M' => $request->m,
                 'R' => $request->r,
-                'Fecha_inicio' => $request->fecha,
+                'Fecha_inicio' => $fechaNow,
             ]); 
         }
 

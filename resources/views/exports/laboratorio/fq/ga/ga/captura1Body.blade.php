@@ -8,42 +8,56 @@
     <title>Captura PDF</title>
 </head>
 <body>
-    <div id="contenedorTabla">
-        <table autosize="1" class="table table-borderless" id="tablaDatos">
+<div id="contenedorTabla">
+        <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000">
             <thead>
                 <tr>
-                    <td class="tableCabecera">pH de las muestras &nbsp;</td>
-                    <td class="tableCabecera">&nbsp;No. de muestra&nbsp;&nbsp;</td>
-                    <td class="tableCabecera">&nbsp;No. de cartucho&nbsp;&nbsp;</td>
-                    <td class="tableCabecera">&nbsp;No. de matraz&nbsp;&nbsp;</td>
-                    <td class="tableCabecera">&nbsp;Masa inicial 3 g&nbsp;&nbsp;</td>
-                    <td class="tableCabecera">&nbsp;Vol. de la muestra(ml)&nbsp;&nbsp;</td>
-                    <td class="tableCabecera">&nbsp;Masa con muestra g&nbsp;&nbsp;</td>
-                    <td class="tableCabecera">&nbsp;G y A mg/L&nbsp;&nbsp;</td>
-                    <td class="tableCabecera">&nbsp;Observaciones&nbsp;&nbsp;</td>                                                            
-                    <td></td>
-                    <td></td>
+                    <td class="tableCabecera bordesTabla">pH de las muestras &nbsp;</td>
+                    <td class="tableCabecera bordesTabla">&nbsp;No. de muestra&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTabla">&nbsp;No. de cartucho&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTabla">&nbsp;No. de matraz&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTabla">&nbsp;Masa inicial 3 g&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTabla">&nbsp;Vol. de la muestra(ml)&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTabla">&nbsp;Masa con muestra g&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTabla">&nbsp;G y A mg/L&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTabla">&nbsp;Observaciones&nbsp;&nbsp;</td>                                                            
+                    <td class="bordesTabla"></td>
+                    <td class="bordesTabla"></td>
                 </tr>
             </thead>
     
             <tbody>
                 @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
-                        <td class="tableContent">{{@$data[$i]->Ph}}</td>
-                        <td class="tableContent">{{@$data[$i]->Folio_servicio}}</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">{{@$data[$i]->Observaciones}}</td>
-                        <td class="tableContent">LIBERADO</td>                        
-                        <td class="tableContent">PRUEBA</td>                        
+                        <td class="tableContent bordesTabla">{{@$data[$i]->Ph}}</td>
+                        <td class="tableContent bordesTabla">
+                            @if (@$data[$i]->Control == 'Estandar')
+                                ESTANDAR
+                            @elseif(@$data[$i]->Control == 'Blanco')
+                                BLANCO
+                            @else
+                                {{@$data[$i]->Folio_servicio}}
+                            @endif    
+                        </td>
+                        <td class="tableContent bordesTabla">PRUEBA</td>
+                        <td class="tableContent bordesTabla">PRUEBA</td>
+                        <td class="tableContent bordesTabla">PRUEBA</td>
+                        <td class="tableContent bordesTabla">{{@$data[$i]->Vol_muestra}}</td>
+                        <td class="tableContent bordesTabla">PRUEBA</td>
+                        <td class="tableContent bordesTabla">PRUEBA</td>
+                        <td class="tableContent bordesTabla">{{@$data[$i]->Observacion}}</td>
+                        <td class="tableContent bordesTabla">
+                            @if (@$data[$i]->Liberado == 1)
+                                Liberado
+                            @elseif(@$data[$i]->Liberado == 0)
+                                No liberado
+                            @endif 
+                        </td>                        
+                        <td class="tableContent bordesTabla">{{@$data[$i]->Control}}</td>                        
                     </tr>                
                 @endfor
             </tbody>        
         </table>  
-    </div>
+    </div>    
 </body>
 </html>

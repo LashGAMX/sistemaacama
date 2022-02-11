@@ -62,43 +62,55 @@
         </thead>
         
         <tbody>
-            <tr>
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+            @for ($i = 0; $i < @$dataLength ; $i++)
+                <tr>
+                    <td class="contenidoBody bordesTabla">
+                        @if (@$data[$i]->Control == 'Estandar')
+                                ESTANDAR
+                            @elseif(@$data[$i]->Control == 'Blanco')
+                                BLANCO
+                            @else
+                                {{@$data[$i]->Folio_servicio}}
+                        @endif 
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Vol_muestra}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Vol_blanco}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Resultado}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Ph_inicial}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Ph_final}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Observacion}}
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>
+                    <td class="contenidoBody bordesTabla">
+                        @if (@$data[$i]->Liberado == 1)
+                                Liberado
+                            @elseif(@$data[$i]->Liberado == 0)
+                                No liberado
+                        @endif
+                    </td>
 
-                <td class="contenidoBody bordesTabla">
-                    PRUEBA
-                </td>                        
-            </tr>                                    
+                    <td class="contenidoBody bordesTabla">
+                        {{@$data[$i]->Control}}
+                    </td>                        
+                </tr> 
+            @endfor                                   
         </tbody>
     </table>
 

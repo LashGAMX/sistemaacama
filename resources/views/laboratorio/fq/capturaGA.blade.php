@@ -5,7 +5,7 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-window-list"></i>
-    Captura de resultados modif
+    Captura de resultados
   </h6>
   
 <div class="container-fluid">
@@ -98,9 +98,9 @@
                 <div class="col-md-2">
                     <button class="btn btn-secondary"  data-toggle="modal" data-target="#modalCalidad" id="btnGenControlInd">Generar control</button>
                 </div>
-                <div class="col-md-2">
+                {{-- <div class="col-md-2">
                     <button class="btn btn-secondary" id="btnGenControl" onclick="generarControles();">Generar controles</button>
-                </div>
+                </div> --}}
 
                 <div class="col-md-1">
                     {{-- <button class="btn btn-secondary">Duplicar</button> --}}
@@ -111,15 +111,14 @@
             <div id="divTablaControles">
                 <table class="table" id="tablaControles">
                     <thead>
-                        <tr>
-                            <th>Opc</th>
-                            <th>Folio</th>
-                            <th># Toma</th>
-                            <th>Norma</th>
-                            <th>Resultado</th>
-                            <th>Tipo Analisis</th> 
-                            <th>Observacion</th>    
-                        </tr>
+                      <tr>
+                        <th>Opc</th>
+                        <th>Folio</th>
+                        {{-- <th># Toma</th> --}}
+                        <th>Norma</th>
+                        <th>Resultado</th>
+                        <th>Observacion</th>
+                    </tr>
                     </thead>
                     
                     {{-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> --}}
@@ -150,9 +149,16 @@
                         </div>
                         <div class="dropdown-divider"></div>
                       </div>
-                      <div class="col-md-12">
-                        <input type="number" id="resultado" placeholder="Resultado"></input>
-                        <input type="number" id="p" placeholder="No. Serie Matraz"></input>
+                      <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="resultado">Resultado</label>
+                            <input type="text" id="resultado" style="font-size: 20px;color:red;"
+                                placeholder="Resultado">
+                        </div>
+                    </div>
+                      <div class="col-md-">
+                        <input type="text" id="p" style="font-size: 20px;color:blue;"
+                                placeholder="No. Serie Matraz">
                       </div>
                         <div class="col-md-12">
                             <table class="table" id=""> 
@@ -221,7 +227,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button"  id="guardar" class="btn btn-primary">Guardar</button>
+                    <button type="button"  id="guardar" class="btn btn-primary">Guardar y jecutar</button>
                   </div>
                 </form>
                 </div>
@@ -242,12 +248,6 @@
                   </div>
                   <div class="modal-body"> 
                     <div class="row">
-                        {{-- <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="">Formula</label>
-                                <input type="text" id="mFormula" disabled value="Forms">
-                            </div>
-                        </div> --}}
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="">Tipo</label>

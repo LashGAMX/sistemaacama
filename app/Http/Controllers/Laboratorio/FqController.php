@@ -156,8 +156,9 @@ class FqController extends Controller
     {
 
         $parametro = DB::table('ViewParametros')->where("Id_area", 16)->get();
+        $controlModel = ControlCalidad::all();
 
-        return view('laboratorio.fq.capturaEspectro', compact('parametro'));
+        return view('laboratorio.fq.capturaEspectro', compact('parametro','controlModel'));
     }
     public function guardarSulfatos(Request $request)
     {
@@ -186,14 +187,18 @@ class FqController extends Controller
         $model->Abs2 = $request->Y;
         $model->Abs3 = $request->Z;
         $model->Promedio = $request->ABS;
+        if($request->parametro == 70){
+            $model->Ph_ini = $request->phIni;
+            $model->Ph_fin = $request->phFin;
+        }
         $model->Vol_dilucion = $request->D;
         $model->Vol_muestra = $request->E;
         $model->Blanco = $request->CA;
+        $model->Resultado = $request->resultado;
         $model->save();
 
         $data = array(
             'model' => $model,
-
         );
         return response()->json($data);
     }
@@ -206,17 +211,17 @@ class FqController extends Controller
                 // Sulfatos
                 $x = ($request->X + $request->Y + $request->Z + $request->ABS4 + $request->ABS5 + $request->ABS6 + $request->ABS7 + $request->ABS8) / 8;
                 $d =   100  / $request->E;
-                $res1 = round($x, 3) - $request->CB;
+                $res1 = round($x, 3) - ($request->CB);
                 $res2 = $res1 / $request->CM;
                 $resultado = $res2 * round($d, 3);
                 break;
-            case 70:
+            case 70: 
                 # Cromo Hexavalente
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $r1 = ($x - $request->CB) / $request->CM;
                 $r2 = 100 / $request->E;
                 $resultado = $r1 * $r2;
-
+                $d = 0;
                 break;
             case 20:
                 # Cianuros
@@ -236,7 +241,7 @@ class FqController extends Controller
             case 16:
                 # Fosforo-Total 
                 $x = ($request->X + $request->Y + $request->Z) / 3;
-                $resultado = (($x - $request->CB) / $request->CM) * $request->D;
+                $resultado = (($x - $request->CB) / $request->CM) * (100 / $request->E);
                 $d = 0;
                 break;
             case 231:
@@ -306,6 +311,19 @@ class FqController extends Controller
     {
         $model = LoteDetalleEspectro::where('Id_detalle', $request->idMuestra)->first();
         $model->Observacion = $request->observacion;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function createControlCalidadEspectro(Request $request)
+    {
+        $muestra = LoteDetalleEspectro::where('Id_detalle', $request->idMuestra)->first();
+
+        $model = $muestra->replicate();
+        $model->Id_control = $request->idControl;
         $model->save();
 
         $data = array(
@@ -886,7 +904,6 @@ class FqController extends Controller
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
                     'Id_parametro' => $loteModel->Id_tecnica,
-                    'Id_control' => 1,
                     'M_final' => 0,
                     'M_inicial1' => 0,
                     'M_inicial2' => 0,
@@ -1224,12 +1241,10 @@ class FqController extends Controller
     public function operacionGASimple(Request $request)
     {
         $modelMatraz = MatrazGA::all();
-        $cont = 0;
         //? Aplica la busqueda de matraz hasta encontrar un matraz desocupado
         do {
             $id = rand(0, $modelMatraz->count());
             $matraz = MatrazGA::where('Id_matraz', $id)->first();
-            $cont++;
         } while ($matraz->Estado == 1);
 
         //$m3 = mt_rand($matraz->Min, $matraz->Max);
@@ -1242,16 +1257,19 @@ class FqController extends Controller
         $m1 = ($m3 - 0.0002);
         $m2 = ($m3 - 0.0001);
 
-        // $model = LoteDetalleGA::find($request->idMuestra);
-        // $model->M_final = $mf;
-        // $model->M_incial1 = $m1;
-        // $model->M_incial2 = $m2;
-        // $model->M_incial3 = $m3;
-        // $model->Ph = $request->L;
-        // $model->Blanco = $request->I;
-        // $model->F_conversion = $request->G;
-        // $model->Resultado = $request->R;
-        // $model->save();
+        $model = LoteDetalleGA::find($request->idMuestra);
+        $model->Id_matraz = $matraz->Id_matraz;
+        $model->Matraz = $matraz->Num_serie;
+        $model->M_final = $mf;
+        $model->M_inicial1 = $m1;
+        $model->M_inicial2 = $m2;
+        $model->M_inicial3 = $m3;
+        $model->Ph = $request->L;
+        $model->Blanco = $request->G;
+        $model->F_conversion = $request->E;
+        $model->Vol_muestra = $request->I;
+        $model->Resultado = $request->R;
+        $model->save();
 
 
         $data = array(
@@ -1275,14 +1293,19 @@ class FqController extends Controller
         $res = $res3 - $request->G;
 
 
+        $matraz = MatrazGA::where('Num_serie',$request->P)->first();
+
         $model = LoteDetalleGA::find($request->idMuestra);
         $model->M_final = $request->H;
-        $model->M_incial1 = $request->J;
-        $model->M_incial2 = $request->K;
-        $model->M_incial3 = $request->C;
+        $model->Id_matraz = $matraz->Id_matraz;
+        $model->Matraz = $matraz->Num_serie;
+        $model->M_inicial1 = $request->J;
+        $model->M_inicial2 = $request->K;
+        $model->M_inicial3 = $request->C;
         $model->Ph = $request->L;
-        $model->Blanco = $request->I;
-        $model->F_conversion = $request->G;
+        $model->Blanco = $request->G;
+        $model->F_conversion = $request->E;
+        $model->Vol_muestra = $request->I;
         $model->Resultado = $res;
         $model->save();
 
@@ -2457,7 +2480,7 @@ class FqController extends Controller
         $hoja2 = false;
 
         if ($parametro->Parametro == 'Cianuros (CN)-') {
-            $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+            //$mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
             $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
@@ -2488,9 +2511,9 @@ class FqController extends Controller
             $htmlCaptura1 = view('exports.laboratorio.fq.espectro.cianuros.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
             $htmlHeader = view('exports.laboratorio.fq.espectro.cianuros.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.cianuros.capturaFooter', compact('usuario', 'firma'));
-            $hoja2 = true;
+            //$hoja2 = true;
         } else if ($parametro->Parametro == 'Fosforo-Total') {
-            $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+            //$mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2523,10 +2546,10 @@ class FqController extends Controller
                 $htmlCaptura1 = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
                 $htmlHeader = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaFooter', compact('usuario', 'firma'));
-                $hoja2 = true;
+                //$hoja2 = true;
             }
         } else if ($parametro->Parametro == 'N-Nitratos') {
-            $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+            //$mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2551,9 +2574,9 @@ class FqController extends Controller
             $htmlCaptura1 = view('exports.laboratorio.fq.espectro.nitratos.capturaBody1', compact('data', 'dataLength', 'curva', 'limiteC', 'limites'));
             $htmlHeader = view('exports.laboratorio.fq.espectro.nitratos.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.nitratos.capturaFooter', compact('usuario', 'firma'));
-            $hoja2 = true;
+            //$hoja2 = true;
         } else if ($parametro->Parametro == 'N-Nitritos') {
-            $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+            //$mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2578,9 +2601,9 @@ class FqController extends Controller
             $htmlCaptura1 = view('exports.laboratorio.fq.espectro.nitritos.capturaBody1', compact('data', 'dataLength', 'curva', 'limiteC', 'limites'));
             $htmlHeader = view('exports.laboratorio.fq.espectro.nitritos.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.nitritos.capturaFooter', compact('usuario', 'firma'));
-            $hoja2 = true;
+            //$hoja2 = true;
         } else if ($parametro->Parametro == 'SUSTANCIAS ACTIVAS AL AZUL DE METILENO (SAAM )') {
-            $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+            //$mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2614,7 +2637,7 @@ class FqController extends Controller
             $htmlCaptura1 = view('exports.laboratorio.fq.espectro.saam.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites'));
             $htmlHeader = view('exports.laboratorio.fq.espectro.saam.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.saam.capturaFooter', compact('usuario', 'firma'));
-            $hoja2 = true;
+            //$hoja2 = true;
         }
 
         if ($hoja2 === true) {
@@ -2628,9 +2651,7 @@ class FqController extends Controller
 
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
     public function exportPdfCapturaGA($idLote)
-    {
-        //Var. de prueba temporal
-        //$idLote = 11;        
+    {                
 
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
@@ -2644,14 +2665,15 @@ class FqController extends Controller
             'defaultheaderline' => '0'
         ]);
 
-        //  //Establece la marca de agua del documento PDF
-        /* $mpdf->SetWatermarkImage(
-              asset('/public/storage/HojaMembretada3.png'),
+        //Establece la marca de agua del documento PDF
+        $mpdf->SetWatermarkImage(
+              asset('/public/storage/MembreteVertical.png'),
               1,
               array(215, 280),
               array(0, 0),
           );         
-          $mpdf->showWatermarkImage = true; */
+        
+          $mpdf->showWatermarkImage = true;
 
         $id_lote = $idLote;
         $semaforo = true;
@@ -2672,8 +2694,8 @@ class FqController extends Controller
 
 
         //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes****************************************************        
-        $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
-        if (!is_null($textoProcedimiento)) {
+        $textProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
+        if (!is_null($textProcedimiento)) {
             $data = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->get();
             $dataLength = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->count();
 
@@ -2683,9 +2705,14 @@ class FqController extends Controller
             $tiempoReflujo = TiempoReflujo::where('Id_lote', $id_lote)->first();
             $enfMatraz = EnfriadoMatraz::where('Id_lote', $id_lote)->first();
 
+            $separador = "Valoración / Observación";
+            $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
             $htmlCaptura = view('exports.laboratorio.fq.ga.ga.capturaBody', compact('textoProcedimiento', 'calMatraces', 'enfMatraces', 'secCartuchos', 'tiempoReflujo', 'enfMatraz', 'data', 'dataLength'));
         } else {
-            $textoProcedimiento = ReportesFq::where('Id_reporte', 0)->first();
+            $textProcedimiento = ReportesFq::where('Id_reporte', 0)->first();
+            $separador = "Valoración / Observación";
+            $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
             $data = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->get();
             $dataLength = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->count();
@@ -2709,7 +2736,7 @@ class FqController extends Controller
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->WriteHTML($htmlCaptura);
 
-        $mpdf->AddPage('', '', '1', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+        $mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
         $data = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->get();
         $dataLength = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->count();
 
@@ -2728,15 +2755,13 @@ class FqController extends Controller
 
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
     public function exportPdfCapturaSolidos($idLote)
-    {
-        //Var. de prueba temporal
-        //$idLote = 11;
-
+    {        
         $horizontal = 'P';
 
         $id_lote = $idLote;
         $semaforo = true;
         $sw = true;
+        $proced = false;
 
         //Recupera el nombre de usuario y firma
         $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
@@ -2756,187 +2781,193 @@ class FqController extends Controller
         $parametro = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->first();
 
         //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes****************************************************
-        $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
-        if (!is_null($textoProcedimiento)) {
+        $textProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
+        if (!is_null($textProcedimiento)) {
             //Hoja1
-
+            $proced = true;
             if ($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)') {
                 $horizontal = 'P';
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();                
 
                 if (!is_null($data)) {
-                    $htmlCaptura = view('exports.laboratorio.fq.sdf.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                    $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();     
+                    
+                    $paramSdt = Parametro::where('Id_parametro', 89)->first();
+
+                    $htmlCaptura = view('exports.laboratorio.fq.sdf.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'paramSdt'));
                 } else {
                     $sw = false;
                 }
             } else if ($parametro->Parametro == 'SOLIDOS DISUELTOS TOTALES (SDT)') { //POR REVISAR EN LA TABLA DE DATOS
                 $horizontal = 'P';
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();                
 
                 if (!is_null($data)) {
-                    $htmlCaptura = view('exports.laboratorio.fq.sdt.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                    $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+
+                    //Recupera el nombre del parámetro solidos disueltos totales
+                    $paramSt = Parametro::where('Id_parametro', 91)->first();
+
+                    $htmlCaptura = view('exports.laboratorio.fq.sdt.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'paramSt'));
                 } else {
                     $sw = false;
                 }
             } else if ($parametro->Parametro == 'SOLIDOS DISUELTOS VOLÁTILES (SDV)') {
-                $horizontal = 'P';
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
-
-                if (!is_null($data)) {
-                    $htmlCaptura = view('exports.laboratorio.fq.sdv.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                } else {
-                    $sw = false;
-                }
+                $horizontal = 'P';                
+                
+                $htmlCaptura = view('exports.laboratorio.fq.sdv.capturaBody', compact('textoProcedimiento'));                
             } else if ($parametro->Parametro == 'SOLIDOS SEDIMENTABLES (S.S)') {
                 $horizontal = 'P';
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();                
 
-                if (!is_null($data)) {
+                if (!is_null($data)) {                    
+                    $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+
                     $htmlCaptura = view('exports.laboratorio.fq.ss.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
                 } else {
                     $sw = false;
                 }
             } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS FIJOS (SSF)') { //POR REVISAR EN LA TABLA DE DATOS
-                $horizontal = 'P';
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+                $horizontal = 'P';                                
 
-                if (!is_null($data)) {
-                    $htmlCaptura = view('exports.laboratorio.fq.ssf.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                } else {
-                    $sw = false;
-                }
+                $htmlCaptura = view('exports.laboratorio.fq.ssf.capturaBody', compact('textoProcedimiento'));                
             } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS TOTALES (SST)') {
                 $horizontal = 'L';
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();                
 
                 if (!is_null($data)) {
+                    $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
                     $htmlCaptura = view('exports.laboratorio.fq.sst.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
                 } else {
                     $sw = false;
                 }
             } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS VOLÁTILES (SSV)') {
-                $horizontal = true;
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
-
-                if (!is_null($data)) {
-                    $htmlCaptura = view('exports.laboratorio.fq.ssv.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                } else {
-                    $sw = false;
-                }
+                $horizontal = true;                
+                
+                $htmlCaptura = view('exports.laboratorio.fq.ssv.capturaBody', compact('textoProcedimiento'));                
             } else if ($parametro->Parametro == 'SOLIDOS TOTALES (ST)') {
                 $horizontal = 'L';
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();                
 
                 if (!is_null($data)) {
-                    $htmlCaptura = view('exports.laboratorio.fq.st.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                    $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
+                    $htmlCaptura = view('exports.laboratorio.fq.ga.st.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
                 } else {
                     $sw = false;
                 }
             } else if ($parametro->Parametro == 'SOLIDOS TOTALES FIJOS (STF)') {
                 $horizontal = 'P';
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
 
-                if (!is_null($data)) {
-                    $htmlCaptura = view('exports.laboratorio.fq.stf.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                } else {
-                    $sw = false;
-                }
+                $htmlCaptura = view('exports.laboratorio.fq.stf.capturaBody', compact('textoProcedimiento'));
             } else if ($parametro->Parametro == 'SOLIDOS TOTALES VOLATILES (STV)') {
                 $horizontal = 'L';
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
-
-                if (!is_null($data)) {
-                    $htmlCaptura = view('exports.laboratorio.fq.stv.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                } else {
-                    $sw = false;
-                }
+                                
+                $htmlCaptura = view('exports.laboratorio.fq.stv.capturaBody', compact('textoProcedimiento'));                
             }
         } else {
             if ($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)') {
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
-                $textoProcedimiento = ReportesFq::where('Id_reporte', 14)->first();
+                
+                if(!is_null($data)){
+                    $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
 
-                $htmlCaptura = view('exports.laboratorio.fq.sdf.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                    //Recupera el nombre del parámetro solidos disueltos totales
+                    $paramSdt = Parametro::where('Id_parametro', 89)->first();
+
+                    $textoProcedimiento = ReportesFq::where('Id_reporte', 14)->first();
+
+                    $htmlCaptura = view('exports.laboratorio.fq.sdf.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'paramSdt'));
+                }                
 
                 $horizontal = 'P';
             } else if ($parametro->Parametro == 'SOLIDOS DISUELTOS TOTALES (SDT)') {
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
-                $textoProcedimiento = ReportesFq::where('Id_reporte', 15)->first();
 
-                $htmlCaptura = view('exports.laboratorio.fq.sdt.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                if(!is_null($data)){
+                    $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+
+                    //Recupera el nombre del parámetro solidos disueltos totales
+                    $paramSt = Parametro::where('Id_parametro', 91)->first();
+
+                    $textoProcedimiento = ReportesFq::where('Id_reporte', 15)->first();
+
+                    $htmlCaptura = view('exports.laboratorio.fq.sdt.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'paramSt'));
+                }                
 
                 $horizontal = 'P';
-            } else if ($parametro->Parametro == 'SOLIDOS DISUELTOS VOLÁTILES (SDV)') {
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+            } else if ($parametro->Parametro == 'SOLIDOS DISUELTOS VOLÁTILES (SDV)') {                
                 $textoProcedimiento = ReportesFq::where('Id_reporte', 16)->first();
 
-                $htmlCaptura = view('exports.laboratorio.fq.sdv.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                $htmlCaptura = view('exports.laboratorio.fq.sdv.capturaBody', compact('textoProcedimiento'));
 
                 $horizontal = 'P';
             } else if ($parametro->Parametro == 'SOLIDOS SEDIMENTABLES (S.S)') {
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
-                $textoProcedimiento = ReportesFq::where('Id_reporte', 17)->first();
 
-                $htmlCaptura = view('exports.laboratorio.fq.ss.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                if(!is_null($data)){
+                    $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+                    
+                    $textoProcedimiento = ReportesFq::where('Id_reporte', 17)->first();
+
+                    $htmlCaptura = view('exports.laboratorio.fq.ss.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                }                            
 
                 $horizontal = 'P';
-            } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS FIJOS (SSF)') {
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+            } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS FIJOS (SSF)') {                
                 $textoProcedimiento = ReportesFq::where('Id_reporte', 18)->first();
 
-                $htmlCaptura = view('exports.laboratorio.fq.ssf.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                $htmlCaptura = view('exports.laboratorio.fq.ssf.capturaBody', compact('textoProcedimiento'));
 
                 $horizontal = 'P';
-            } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS TOTALES (SST)') {
-                $textoProcedimiento = ReportesFq::where('Id_reporte', 19)->first();
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+            } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS TOTALES (SST)') {                
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();                
 
-                $htmlCaptura = view('exports.laboratorio.fq.sst.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                if(!is_null($data)){
+                    $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 19)->first();
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
+                    $htmlCaptura = view('exports.laboratorio.fq.sst.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                }                                
 
                 $horizontal = 'L';
-            } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS VOLÁTILES (SSV)') {
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+            } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS VOLÁTILES (SSV)') {                
                 $textoProcedimiento = ReportesFq::where('Id_reporte', 20)->first();
 
-                $htmlCaptura = view('exports.laboratorio.fq.ssv.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                $htmlCaptura = view('exports.laboratorio.fq.ssv.capturaBody', compact('textoProcedimiento'));
 
                 $horizontal = 'L';
             } else if ($parametro->Parametro == 'SOLIDOS TOTALES (ST)') {
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
-                $textoProcedimiento = ReportesFq::where('Id_reporte', 21)->first();
 
-                $htmlCaptura = view('exports.laboratorio.fq.st.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                if(!is_null($data)){
+                    $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+                    
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 21)->first();
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
+                    $htmlCaptura = view('exports.laboratorio.fq.ga.st.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                }                
 
                 $horizontal = 'L';
-            } else if ($parametro->Parametro == 'SOLIDOS TOTALES FIJOS (STF)') {
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+            } else if ($parametro->Parametro == 'SOLIDOS TOTALES FIJOS (STF)') {                
                 $textoProcedimiento = ReportesFq::where('Id_reporte', 22)->first();
 
                 $htmlCaptura = view('exports.laboratorio.fq.stf.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
 
                 $horizontal = 'P';
-            } else if ($parametro->Parametro == 'SOLIDOS TOTALES VOLATILES (STV)') {
-                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
-                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+            } else if ($parametro->Parametro == 'SOLIDOS TOTALES VOLATILES (STV)') {                
                 $textoProcedimiento = ReportesFq::where('Id_reporte', 23)->first();
 
                 $htmlCaptura = view('exports.laboratorio.fq.stv.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
@@ -3018,6 +3049,38 @@ class FqController extends Controller
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->WriteHTML($htmlCaptura);
         $mpdf->CSSselectMedia = 'mpdf';
+
+        //Hoja 2
+        $hoja2 = false;
+        if($parametro->Parametro == 'SOLIDOS TOTALES (ST)'){
+            $mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+            $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
+
+            if(!is_null($data)){
+                $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+                    
+                if ($proced === true) {
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                } else {
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 21)->first();
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                }
+
+                $htmlHeader = view('exports.laboratorio.fq.ga.st.capturaHeader', compact('fechaConFormato'));
+                $htmlFooter = view('exports.laboratorio.fq.ga.st.capturaFooter', compact('usuario', 'firma'));
+                $htmlCaptura1 = view('exports.laboratorio.fq.ga.st.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength'));
+                $hoja2 = true;
+            }                                    
+        }
+
+        if ($hoja2 === true) {
+            $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlHeader, 'O', 'E');
+            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+            $mpdf->WriteHTML($htmlCaptura1);
+        }
+
         $mpdf->Output();
     }
 }

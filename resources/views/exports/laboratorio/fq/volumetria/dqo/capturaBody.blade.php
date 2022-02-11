@@ -40,17 +40,86 @@
             <tbody>
                 @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
-                        <td class="tableContent">{{@$data[$i]->Folio_servicio}}</td>
+                        <td class="tableContent">
+                            @if (@$data[$i]->Control == 'Estandar')
+                                ESTANDAR
+                            @elseif(@$data[$i]->Control == 'Blanco')
+                                BLANCO
+                            @else
+                                {{@$data[$i]->Folio_servicio}}
+                            @endif 
+                        </td>
                         <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
                         <td class="tableContent">{{@$data[$i]->Titulo_blanco}}</td>
                         <td class="tableContent">{{@$data[$i]->Resultado}}</td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
-                        <td class="tableContent">{{@$data[$i]->Descripcion}}</td>
-                        <td class="tableContent">{{@$data[$i]->Control}}</td>                                              
+                        <td class="tableContent">
+                            @if (@$data[$i]->Liberado == 1)
+                                Liberado
+                            @elseif(@$data[$i]->Liberado == 0)
+                                No liberado
+                            @endif  
+                        </td>
+                        <td class="tableContent">{{@$data[$i]->Control}}</td>
                     </tr>                
                 @endfor
             </tbody>        
         </table>  
     </div>    
+
+    <br>
+
+    <div class="contenedorTabla">
+        <table autosize="1" class="table table-borderless" id="">
+            <tbody>                              
+                <tr>
+                    <td class="tableContent2">MILILITROS TITULADOS</td>
+                    <td class=""></td>
+                    <td class=""></td>
+                    <td class="tableContent2">10</td>
+                </tr>
+
+                <tr>
+                    <td class="tableContent2">RESULTADO BLANCO</td>
+                    <td class=""></td>
+                    <td class=""></td>
+                    <td class="tableContent2">10</td>
+                </tr>
+
+                <tr>
+                    <td class="tableContent2">VOLUMEN TITULADO DE FAS 1</td>
+                    <td class=""></td>
+                    <td class=""></td>
+                    <td class="tableContent2">20.1</td>
+                </tr>
+
+                <tr>
+                    <td class="tableContent2">VOLUMEN TITULADO DE FAS 2</td>
+                    <td class=""></td>
+                    <td class=""></td>
+                    <td class="tableContent2">20.1</td>
+                </tr>
+
+                <tr>
+                    <td class="tableContent2">VOLUMEN TITULADO DE FAS 3</td>
+                    <td class=""></td>
+                    <td class=""></td>
+                    <td class="tableContent2">20</td>
+                </tr>
+
+                <tr>
+                    <td class="tableContent2">RESULTADO MOLARIDAD REAL</td>
+                    <td class=""></td>
+                    <td class=""></td>
+                    <td class="tableContent2">0.12</td>
+                </tr>
+            </tbody>    
+        </table>  
+    </div>
+
+    <div id="contenidoCurva">
+        <span id="curvaProcedimiento">Valoración</span> <br>
+        <?php echo html_entity_decode($textoProcedimiento[1]);?>
+    </div>
 </body>
 </html>

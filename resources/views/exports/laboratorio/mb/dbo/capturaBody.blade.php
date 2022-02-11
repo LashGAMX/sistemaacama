@@ -82,7 +82,17 @@
         @for ($i = 0; $i < @$dataLength ; $i++)
             <tr>
                 <td class="contenidoBody bordesTabla">
-                    {{@$data[$i]->Folio_servicio}}
+                    @if (@$data[$i]->Control == 'Estandar')
+                        ESTANDAR
+                    @elseif(@$data[$i]->Control == 'Blanco')
+                        BLANCO
+                    @elseif(@$data[$i]->Control == 'Positivo')
+                        POSITIVO
+                    @elseif(@$data[$i]->Control == 'Negativo')
+                        NEGATIVO
+                    @else
+                        {{@$data[$i]->Folio_servicio}}
+                    @endif
                 </td>
 
                 <td class="contenidoBody bordesTabla">
@@ -126,7 +136,11 @@
                 </td>
 
                 <td class="contenidoBody">
-                    LIBERADO
+                    @if (@$data[$i]->Liberado == 1)
+                        Liberado
+                    @elseif(@$data[$i]->Liberado == 0)
+                        No liberado
+                    @endif
                 </td>
 
                 <td class="contenidoBody">
@@ -136,5 +150,69 @@
         @endfor                                  
         </tbody>
     </table>
+
+    <div id="contenedorTabla">
+        <table autosize="1" class="table table-borderless" id="tablaDatos" style="width: 100%">
+            <tbody>
+                <tr>
+                    <th></th>
+
+                    <th></th>
+                    
+                    <th class="tableContent nombreHeaderBold" colspan="2">
+                        AIREAR APROX. 1 HORA
+                    </th>                   
+
+                    <th></th>                                       
+
+                    <th class="tableContent nombreHeaderBold" colspan="2">
+                        ESTANDAR BIT RE-12-001-1A-13
+                    </th>                    
+                </tr>
+
+                <tr>
+                    <td class="tableContent nombreHeaderBold">
+                        Cantidad de agua de dilucion
+                    </td>
+
+                    <td class="tableContent">AQUÍ VA LA CANTIDAD</td>
+                    
+                    <td></td>
+
+                    <td>
+                        <span class="tableContent nombreHeaderBold">DE</span> <span class="tableContent">AQUÍ VA LA HORA</span>
+                    </td>
+
+                    <td>
+                        <span class="tableContent nombreHeaderBold">A</span> <span class="tableContent">AQUÍ VA LA HORA</span>
+                    </td>
+
+                    <td></td>
+
+                    <td>
+                        <span class="tableContent nombreHeaderBold">PAG</span> <span class="tableContent">AQUÍ VA LA PAG</span>
+                    </td>
+
+                    <td>
+                        <span class="tableContent nombreHeaderBold">N.</span> <span class="tableContent">AQUÍ VA LA N</span>
+                    </td>                
+                </tr>                
+
+                <tr>                
+                    <td>
+                        <span class="tableContent nombreHeaderBold">&nbsp;Disoluciones preparadas el día: </span> <span class="tableContent">AQUÍ VA EL DÍA</span>
+                    </td>
+                </tr>
+            </tbody>                      
+        </table>  
+    </div>  
+
+    <br>
+    <br>
+    
+    <div id="contenidoCurva">
+        <span id="curvaProcedimiento">Validación</span>    
+        <?php echo html_entity_decode(@$textoProcedimiento[1]);?>
+    </div>
 </body>
 </html>
