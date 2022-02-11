@@ -7,6 +7,9 @@ var tecnica = 0;
 $(document).ready(function () {
 
 });
+$('#guardarSulfato').click(function () {
+    guardarSulfatos(); 
+});
 
 
 $('#btnEjecutar').click(function () {
@@ -148,7 +151,7 @@ function getLoteCapturaEspectro() {
                 {
                     tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
                 }else{
-                    tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="" data-toggle="modal" data-target="#modalCapturaSulfatos">Capturar</button>';
+                    tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleEspectroSulfatos('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaSulfatos">Capturar</button>';
                 }
                 if (item.Id_control != 1) 
                 {
@@ -212,9 +215,10 @@ function guardarSulfatos(){
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/guardarSulfatos",
         data: {
-            idMuestra: $("#idMuestra").val(),
+            idMuestra:idMuestra,
             fechaAnalisis: $("#fechaAnalisis").val(),
             parametro: $('#formulaTipo').val(),
+            resultado:$('#resultadoF').val(),
             ABS:$('#abs1F').val(),
             CA:$('#blanco1F').val(),
             CB:$('#b1F').val(),
@@ -231,7 +235,7 @@ function guardarSulfatos(){
             ABS7:$('#abs71F').val(),
             ABS8:$('#abs81F').val(),
             _token: $('input[name="_token"]').val()
-        },
+        }, 
         dataType: "json",
         success: function (response) { 
             console.log(response);
@@ -240,6 +244,8 @@ function guardarSulfatos(){
         }
     });
 }
+
+
 function guardar(){
     $.ajax({
         type: "POST",
@@ -392,6 +398,85 @@ function getDetalleEspectro(idDetalle)
             $("#abs22").val(response.model.Abs2);
             $("#abs32").val(response.model.Abs3);
             $("#resultado").val(response.model.Resultado);
+        }
+    });
+}
+function getDetalleEspectroSulfatos(idDetalle)
+{
+    switch (parseInt($("#formulaTipo").val())) {
+        case 70:
+            $("#conPh").show();
+            $("#conPh2").show();
+
+            $("#conN1").hide();
+            $("#conN2").hide();
+            $("#conN3").hide();
+            break;
+        case 20:
+            $("#conN1").show();
+            $("#conN2").show();
+            $("#conN3").show();
+
+            $("#conPh").hide();
+            $("#conPh2").hide();
+            break;
+        default:
+            $("#conPh").hide();
+            $("#conPh2").hide();
+
+            $("#conN1").hide();
+            $("#conN2").hide();
+            $("#conN3").hide();
+            break;
+    }
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/getDetalleEspectroSulfatos",
+        data: {
+            idDetalle: idDetalle,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) { 
+            console.log(response);
+            $("#observacionF").val(response.model.Observacion);
+            $("#abs1F").val(response.model.Promedio);
+            $("#abs2F").val(response.model.Promedio);
+            $("#idMuestraF").val(idDetalle);
+            $("#blanco1F").val(response.model.Blanco);
+            $("#blanco2F").val(response.model.Blanco);
+            $("#b1F").val(response.curva.B);
+            $("#m1F").val(response.curva.M);
+            $("#r1F").val(response.curva.R);
+            $("#b2F").val(response.curva.B);
+            $("#m2F").val(response.curva.M);
+            $("#r2F").val(response.curva.R);
+            $("#phIni1F").val(response.model.Ph_ini);
+            $("#phFin1F").val(response.model.Ph_fin);
+            $("#nitratos1F").val(response.model.Nitratos);
+            $("#nitritos1F").val(response.model.Nitritos);
+            $("#sulfuros1F").val(response.model.Sulfuros);
+            $("#fDilucion1F").val(response.model.Vol_dilucion);
+            $("#fDilucion2F").val(response.model.Vol_dilucion);
+            $("#volMuestra1F").val(response.model.Vol_muestra);
+            $("#volMuestra2F").val(response.model.Vol_muestra);
+            $("#abs11F").val(response.model.Abs1);
+            $("#abs21F").val(response.model.Abs2);
+            $("#abs31F").val(response.model.Abs3);
+            $("#abs12F").val(response.model.Abs1);
+            $("#abs22F").val(response.model.Abs2);
+            $("#abs32F").val(response.model.Abs3);
+            $("#abs41F").val(response.model.Abs4);
+            $("#abs42F").val(response.model.Abs4);
+            $("#abs51F").val(response.model.Abs5);
+            $("#abs52F").val(response.model.Abs5);
+            $("#abs61F").val(response.model.Abs6);
+            $("#abs62F").val(response.model.Abs6);
+            $("#abs71F").val(response.model.Abs7);
+            $("#abs72F").val(response.model.Abs7);
+            $("#abs81F").val(response.model.Abs8);
+            $("#abs82F").val(response.model.Abs8);
+            $("#resultadoF").val(response.model.Resultado);
         }
     });
 }

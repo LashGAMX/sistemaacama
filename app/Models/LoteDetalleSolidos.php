@@ -18,6 +18,8 @@ class LoteDetalleSolidos extends Model
         'Id_analisis',
         'Id_parametro', 
         'Id_control',
+        'Id_crisol',
+        'Crisol',
         'Masa1',
         'Masa2',
         'Peso_muestra1',

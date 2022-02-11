@@ -5,24 +5,7 @@ var idLote = 0;
 var tecnica = 0;
 
 $(document).ready(function () {
-    table = $('#tableAnalisis').DataTable({
-        "ordering": false,
-        "language": {
-            "lengthMenu": "# _MENU_ por pagina",
-            "zeroRecords": "No hay datos encontrados",
-            "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",
-        }
-    });
-    table2 = $('#tableDatos2').DataTable({
-        "ordering": false,
-        "language": {
-            "lengthMenu": "# _MENU_ por pagina",
-            "zeroRecords": "No hay datos encontrados",
-            "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",
-        }
-    });
+
 });
 
 
@@ -41,6 +24,7 @@ $('#btnLiberar').click(function () {
 });
 
 function getDataCaptura() {
+    cleanTable();
     numMuestras = new Array();
     let tabla = document.getElementById('divLote');
     let tab = '';
@@ -77,7 +61,7 @@ function getDataCaptura() {
                     tab += '<td>'+item.Fecha+'</td>';
                     tab += '<td>'+item.Asignado+'</td>';
                     tab += '<td>'+item.Liberado+'</td>';
-                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button></td>';
+                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir('+item.Id_lote+');"><i class="fas fa-file-download"></i></button></td>';
                     tab += '</tr>';
                 }); 
                 tab += '    </tbody>';
@@ -215,8 +199,8 @@ function getLoteCapturaGA() {
 }
 
 //Función imprimir PDF
-function imprimir() {    
-    window.open(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA/"+idLote);
+function imprimir(id) {    
+    window.open(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA/"+id);
     //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaGA/"+idLote;
 }
 
@@ -425,4 +409,26 @@ function validacionModal(){
     }
  }
  
+}
+
+function cleanTable() {
+
+    let tabla = document.getElementById('divTablaControles');
+    let tab = '';
+
+            tab += '<table id="tablaControles" class="table table-sm">';
+            tab += '    <thead>';
+            tab += '        <tr>';
+            tab += '          <th>Opc</th>';
+            tab += '          <th>Folio</th>';
+            // tab += '          <th># toma</th>';
+            tab += '          <th>Norma</th>';
+            tab += '          <th>Resultado</th>';
+            tab += '          <th>Observación</th>';
+            tab += '        </tr>';
+            tab += '    </thead>'; 
+            tab += '    <tbody>';
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
 }

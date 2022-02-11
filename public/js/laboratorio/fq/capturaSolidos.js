@@ -8,9 +8,6 @@ var tecnica = 0;
 $(document).ready(function () {
 
 });
-$('#guardarDif').click(function (){
-    operacionDif();
-})
 
 $('#guardar').click(function () { 
     if($("#resultado").val() != ''){
@@ -23,12 +20,16 @@ $('#guardar').click(function () {
         operacionLarga();
     }
 });
+$('#guardarDif').click(function () { 
+    operacionSolidosDif();
+});
 $('#btnLiberar').click(function () {
     // operacion();
     liberarMuestraMetal();
 });
 
 function getDataCaptura() {
+    cleanTable();
     numMuestras = new Array();
     let tabla = document.getElementById('divLote');
     let tab = '';
@@ -65,7 +66,7 @@ function getDataCaptura() {
                     tab += '<td>'+item.Fecha+'</td>';
                     tab += '<td>'+item.Asignado+'</td>';
                     tab += '<td>'+item.Liberado+'</td>';
-                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button></td>';
+                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir('+item.Id_lote+');"><i class="fas fa-file-download"></i></button></td>';
                     tab += '</tr>';
                 }); 
                 tab += '    </tbody>';
@@ -130,10 +131,9 @@ function getLoteCapturaSolidos() {
             tab += '        <tr>';
             tab += '          <th>Opc</th>';
             tab += '          <th>Folio</th>';
-            tab += '          <th># toma</th>';
+            // tab += '          <th># toma</th>';
             tab += '          <th>Norma</th>';
             tab += '          <th>Resultado</th>';
-            tab += '          <th>Tipo Análisis</th>';
             tab += '          <th>Observación</th>';
             tab += '        </tr>';
             tab += '    </thead>'; 
@@ -161,11 +161,17 @@ function getLoteCapturaSolidos() {
                     tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
                 }
                 tab += '<td><input disabled style="width: 80px" value="'+item.Folio_servicio+'"></td>';
-                tab += '<td><input disabled style="width: 80px" value="-"></td>';
                 tab += '<td><input disabled style="width: 80px" value="'+item.Clave_norma+'"></td>';
-                tab += '<td><input disabled style="width: 80px" value="-"></td>';
-                tab += '<td><input disabled style="width: 80px" value="-"></td>';
-                tab += '<td>'+item.Observacion+'</td>';
+                if(item.Resultado != null){
+                    tab += '<td><input disabled style="width: 100px" value="'+item.Resultado+'"></td>';
+                }else{
+                    tab += '<td><input disabled style="width: 80px" value=""></td>';
+                }
+                if(item.Observacion != null){
+                    tab += '<td>'+item.Observacion+'</td>';
+                }else{
+                    tab += '<td></td>';
+                }
                 tab += '</tr>';
                 numMuestras.push(item.Id_detalle);
                 cont++;
@@ -183,7 +189,7 @@ function getLoteCapturaSolidos() {
                     "infoEmpty": "No hay datos encontrados",
                 }
             });
-
+ 
 
             $('#tablaControles tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
@@ -206,8 +212,8 @@ function getLoteCapturaSolidos() {
 }
 
 //Función imprimir PDF
-function imprimir() {    
-    window.open(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaSolidos/"+idLote);   
+function imprimir(id) {    
+    window.open(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaSolidos/"+id);   
     //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaSolidos/"+idLote;
 }
 
@@ -222,7 +228,7 @@ function validacionModal(){
         // $("#blanco2").attr("class", "bg-danger");
         inputFocus("m11")
         inputFocus("m12")
-        sw = false;
+        sw = false;d
         
         console.log('no valido'); 
     }
@@ -300,7 +306,7 @@ function operacionSimple() {
             $("#pcm21").val(response.pesoConMuestra2); 
             $("#pc1").val(response.pesoC1);
             $("#pc21").val(response.pesoC2);
-         
+            getLoteCapturaSolidos();
         }
     });
 }
@@ -311,6 +317,7 @@ function operacionLarga() {
         url: base_url + "/admin/laboratorio/" + area + "/operacionSolidosLarga", 
         data: {
             idMuestra:idMuestra,
+            crisol:$("#crisol").val(),
             masa1:$("#m11").val(),
             masa2:$("#m21").val(),
             pesoConMuestra1:$("#pcm11").val(),
@@ -325,6 +332,28 @@ function operacionLarga() {
         success: function (response) {
             console.log(response);
             $('#resultado').val(response.res.toFixed(4));
+            getLoteCapturaSolidos();
+        }
+    });
+}
+
+function operacionSolidosDif() {
+
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionSolidosDif", 
+        data: {
+            idMuestra: idMuestra,
+            resultado:$("#preResDif").val(),
+            resultado:$("#preResDif").val(),
+            resultado:$("#preResDif").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            $("#resultadoDif").val(response.res);
+            getLoteCapturaSolidos();
         }
     });
 }
@@ -347,28 +376,41 @@ function getDetalleSolidos(idDetalle,num)
             console.log(response);
            switch (num) {
                case 1:
-                $("#h1").val(response.model.M_final);
-                $("#j1").val(response.model.M_inicial1);
-                $("#k1").val(response.model.M_inicial2);
-                $("#c1").val(response.model.M_inicial3);
-                $("#l1").val(response.model.Ph);
-                $("#i1").val(response.model.Vol_muestra);
-                $("#g1").val(response.model.Blanco);
-                $("#e1").val(response.model.F_conversion);
-                $("#observacion").val(response.model.Observacion);
+                $("#m11").val(response.detalle.Masa1);
+                $("#m12").val(response.detalle.Masa1);
+                $("#m21").val(response.detalle.Masa2);
+                $("#m22").val(response.detalle.Masa2);
+                $("#pcm11").val(response.detalle.Peso_muestra1);
+                $("#pcm12").val(response.detalle.Peso_muestra1);
+                $("#pcm21").val(response.detalle.Peso_muestra2);
+                $("#pcm22").val(response.detalle.Peso_muestra2);
+                $("#pc1").val(response.detalle.Peso_constante1);
+                $("#pc2").val(response.detalle.Peso_constante1);
+                $("#pc21").val(response.detalle.Peso_constante2);
+                $("#pc22").val(response.detalle.Peso_constante2);
+                $("#v1").val(response.detalle.Vol_muestra);
+                $("#v2").val(response.detalle.Vol_muestra);
+                $("#f1").val(response.detalle.Factor_conversion);
+                $("#f1").val(response.detalle.Factor_conversion);
+
+                $("#crisol").val(response.detalle.Crisol);
+                $("#resultado").val(response.detalle.Resultado);
+                $("#observacion").val(response.detalle.Observacion);
                    break;
            case 2:
-               
                 $("#nomParametro1").val(response.nom1);
                 $("#val11").val(response.dif1.Resultado);
                 $("#nomParametro2").val(response.nom2);
                 $("#val21").val(response.dif2.Resultado);
                 let res = response.dif1.Resultado - response.dif2.Resultado;
-                $("#resultadoDif").val(res);
+                $("#preResDif").val(res);
+                $("#resultadoDif").val(response.detalle.Resultado);
+                $("#observacionDif").val(response.detalle.Observacion);
                break;
                default:
                    break;
            }
+
         }
     });
 }
@@ -376,7 +418,7 @@ function getDetalleSolidos(idDetalle,num)
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
-function updateObsMuestraSolidos()
+function updateObsMuestraSolidos() 
 {
     
     $.ajax({
@@ -390,6 +432,25 @@ function updateObsMuestraSolidos()
         dataType: "json",
         success: function (response) {
             console.log(response);
+            getLoteCapturaSolidos();
+        }
+    }); 
+}
+function updateObsMuestraSolidosDif() 
+{
+    
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestraSolidosDif",
+        data: {
+            idMuestra: idMuestra,
+            observacion: $("#observacionDif").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaSolidos();
         }
     }); 
 }
@@ -406,7 +467,29 @@ function createControlCalidad()
         dataType: "json",
         success: function (response) {
             console.log(response);
-            getDataCaptura();
+            getLoteCapturaSolidos();
         }
     });
+}
+
+function cleanTable() {
+
+    let tabla = document.getElementById('divTablaControles');
+    let tab = '';
+
+            tab += '<table id="tablaControles" class="table table-sm">';
+            tab += '    <thead>';
+            tab += '        <tr>';
+            tab += '          <th>Opc</th>';
+            tab += '          <th>Folio</th>';
+            // tab += '          <th># toma</th>';
+            tab += '          <th>Norma</th>';
+            tab += '          <th>Resultado</th>';
+            tab += '          <th>Observación</th>';
+            tab += '        </tr>';
+            tab += '    </thead>'; 
+            tab += '    <tbody>';
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
 }

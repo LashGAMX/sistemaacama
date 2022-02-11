@@ -291,19 +291,27 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <div class="row">
-                            <div class="col-md-2">
-                                <button class="btn btn-success" id="guardarSulfato">Guardar</button>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-primary" id="ejecutarModalSulfato">Ejecutar</button>
-                            </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-info">Liberar</button>
-                            </div>
+                           
                             <div>
-                                <input type="text" id="resultadoF">
+                            <div class="col-md-2">
+                                <button class="btn btn-success" id="guardarSulfato"><i class="voyager-upload"></i>
+                                    Guardar</button>&nbsp;&nbsp;
+                            </div> 
+                            <div class="col-md-2">
+                                <button class="btn btn-primary" id="ejecutarModalSulfato"><i class="voyager-play"></i>
+                                    Ejecutar</button>
                             </div>
-                        </div>
+                            {{-- <div class="col-md-2">
+                                <button class="btn btn-warning">Liberar</button>
+                            </div> --}}
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="resultado">Resultado</label>
+                                    <input type="text" id="resultadoF" style="font-size: 20px;color:red;"
+                                        placeholder="Resultado">
+                                </div>
+                            </div>
+                        </div> 
                     </div>
                     <div class="modal-body" id="prueba">
                         <input type="text" id="idMuestra" hidden>
@@ -359,8 +367,8 @@
                                         <tr>
                                             <td>E</td>
                                             <td>Vol de la muestra</td>
-                                            <td><input name="campos" type="text" id="volMuestra1F"></td>
-                                            <td><input name="campos" type="text" id="volMuestra2F"></td>
+                                            <td><input name="campos" type="text" id="volMuestra1F" value="0"></td>
+                                            <td><input name="campos" type="text" id="volMuestra2F" value="0"></td>
                                         </tr>
                                         <tr>
                                             <td>ABS1</td>

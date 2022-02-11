@@ -163,7 +163,7 @@ class FqController extends Controller
     public function guardarSulfatos(Request $request)
     {
         $model = LoteDetalleEspectro::find($request->idMuestra);
-        $model->Resultado = $request->resultado;
+        $model->Resultado = $request->resultado; 
         $model->Abs1 = $request->X;
         $model->Abs2 = $request->Y;
         $model->Abs3 = $request->Z;
@@ -177,6 +177,12 @@ class FqController extends Controller
         $model->Vol_muestra = $request->E;
         $model->Blanco = $request->CA;
         $model->save();
+
+        $data = array(
+            'model' => $model,
+            
+        );
+        return response()->json($data);
     }
     public function guardarEspectro(Request $request)
     {
@@ -236,6 +242,7 @@ class FqController extends Controller
                 $r1 = ($x - $request->CB) / $request->CM;
                 $r2 = 1000 / $request->E;
                 $resultado = $r1 * $r2;
+                $d = 0;
 
                 break;
             case 16:
@@ -252,8 +259,8 @@ class FqController extends Controller
                 break;
             case 8:
                 # N-Nitratos
-                $abs = ($request->X + $request->Y + $request->Z) / 3;
-                $resultado = (($abs - $request->CB) / $request->CM) * (10 / $request->E);
+                $x = ($request->X + $request->Y + $request->Z) / 3;
+                $resultado = (($x - $request->CB) / $request->CM) * (10 / $request->E);
                 $d = 0;
                 break;
             case 8:
@@ -297,6 +304,17 @@ class FqController extends Controller
         return response()->json($data);
     }
     public function getDetalleEspectro(Request $request)
+    {
+        $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
+        $curva = CurvaConstantes::where('Id_lote', $model->Id_lote)->first();
+
+        $data = array(
+            'model' => $model,
+            'curva' => $curva,
+        );
+        return response()->json($data);
+    }
+    public function getDetalleEspectroSulfatos(Request $request)
     {
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
         $curva = CurvaConstantes::where('Id_lote', $model->Id_lote)->first();
@@ -1415,7 +1433,7 @@ class FqController extends Controller
 
     public function getDetalleSolidos(Request $request)
     {
-        $detalle = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $request->idLote)->first(); // Asi se hara con las otras
+        $detalle = DB::table('ViewLoteDetalleSolidos')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
         switch ($request->idParametro) {
             case 89:
                 $nom1 = "ST";
@@ -1450,7 +1468,7 @@ class FqController extends Controller
                 $nom1 = "ST";
                 $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_lote', $request->idLote)->where('id_parametro', 91)->first();
                 $nom2 = "SST";
-                $dif2 = LoteDetalleSolidos::where('Id_lote', $request->idLote)->where('id_parametro', 5)->first();
+                $dif2 = LoteDetalleSolidos::where('Id_lote', $request->idLote)->where('Id_parametro', 5)->first();
                 break;
 
             default:
@@ -1483,6 +1501,8 @@ class FqController extends Controller
         $mf = ((($request->R / $request->factor) * $request->volumen) + $crisol->Peso);
 
         $model = LoteDetalleSolidos::find($request->idMuestra);
+        $model->Id_crisol = $crisol->Id_crisol;
+        $model->Crisol = $crisol->Num_serie;
         $model->Masa1 = $crisol->Peso;
         $model->Masa2 = $mf;
         $model->Peso_muestra1 = ($crisol->Peso + 0.0002);
@@ -1514,6 +1534,7 @@ class FqController extends Controller
 
 
         $model = LoteDetalleSolidos::find($request->idMuestra);
+        $model->Crisol = $request->crisol;
         $model->Masa1 = $request->masa1;
         $model->Masa2 = $request->masa2;
         $model->Peso_muestra1 = $request->pesoConMuestra1;
@@ -1522,7 +1543,7 @@ class FqController extends Controller
         $model->Peso_constante2 = $request->pesoC2;
         $model->Vol_muestra = $request->volumen;
         $model->Factor_conversion = $request->factor;
-        $model->Resultado = $request->R;
+        $model->Resultado = $res;
         $model->save();
 
         $data = array(
@@ -1532,38 +1553,49 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
+    public function operacionSolidosDif(Request $request)
+    {
+        $model = LoteDetalleSolidos::find($request->idMuestra);
+        $model->Resultado = $request->resultado;
+        $model->save();
+
+        $data = array(
+            'res' => $request->resultado,
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
 
 
     public function createControlCalidadSolidos(Request $request)
     {
+
         $muestra = LoteDetalleSolidos::where('Id_detalle', $request->idMuestra)->first();
 
-        $model = LoteDetalleSolidos::create([
-            'Id_lote' => $muestra->Id_lote,
-            'Id_analisis' => $muestra->Id_analisis,
-            'Id_parametro' => $muestra->Id_parametro,
-            'Id_control' => $request->idControl,
-            'Masa1' => 0,
-            'Masa2' => 0,
-            'Peso_muestra1' => 0,
-            'Peso_muestra2' => 0,
-            'Peso_constante1' => 0,
-            'Peso_constante2' => 0,
-            'Vol_muestra' => 0,
-            'Factor_conversion' => 0,
-            'Observacion' => $muestra->Observacion,
-        ]);
+        $model = $muestra->replicate();
+        $model->Id_control = $request->idControl;
+        $model->save();
 
         $data = array(
             'model' => $model,
-            'muestra' => $muestra,
         );
         return response()->json($data);
     }
 
     public function updateObsMuestraSolidos(Request $request)
     {
-        $model = LoteDetalleGA::where('Id_detalle', $request->idMuestra)->first();
+        $model = LoteDetalleSolidos::where('Id_detalle', $request->idMuestra)->first();
+        $model->Observacion = $request->observacion;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function updateObsMuestraSolidosDif(Request $request)
+    {
+        $model = LoteDetalleSolidos::where('Id_detalle', $request->idMuestra)->first();
         $model->Observacion = $request->observacion;
         $model->save();
 
@@ -2899,7 +2931,7 @@ class FqController extends Controller
 
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 15)->first();
 
-                    $htmlCaptura = view('exports.laboratorio.fq.sdt.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'paramSt'));
+                    $htmlCaptura = view('exports.laboratorio.fq.ga.sdt.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'paramSt'));
                 }                
 
                 $horizontal = 'P';
@@ -2937,7 +2969,7 @@ class FqController extends Controller
                     $separador = "Valoración / Observación";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
-                    $htmlCaptura = view('exports.laboratorio.fq.sst.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                    $htmlCaptura = view('exports.laboratorio.fq.ga.sst.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
                 }                                
 
                 $horizontal = 'L';

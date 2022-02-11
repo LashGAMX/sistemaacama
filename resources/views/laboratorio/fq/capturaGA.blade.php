@@ -142,7 +142,7 @@
                       <div class="col-md-12">
                         <div class="form-group">
                           <label for="">Observación</label>
-                          <input type="text" class="form-control" id="observacion">
+                          <input type="text" class="form-control" placeholder="Observacion de la muestra" id="observacion">
                         </div>
                         <div class="form-group">
                           <button class="btn btn-success" type="button" onclick="updateObsMuestraGA()" id="btnAplicarObs">Aplicar</button>
@@ -156,9 +156,8 @@
                                 placeholder="Resultado">
                         </div>
                     </div>
-                      <div class="col-md-">
-                        <input type="text" id="p" style="font-size: 20px;color:blue;"
-                                placeholder="No. Serie Matraz">
+                      <div class="col-md-6">
+                        <input type="text" id="p" style="font-size: 20px;color:blue;" placeholder="No. Serie Matraz">
                       </div>
                         <div class="col-md-12">
                             <table class="table" id=""> 

@@ -38,27 +38,35 @@
     
             <tbody>
                 @for ($i = 0; $i < @$dataLength ; $i++)
-                    <tr>
-                        <td class="tableContent">{{@$data[$i]->Folio_servicio}}</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$data[$i]->Peso_constante1}}</td>
-                        <td class="tableContent">{{@$data[$i]->Peso_constante2}}</td>
-                        <td class="tableContent">{{@$data[$i]->Masa1}}</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">{{@$data[$i]->Resultado}}</td>
-                        <td class="tableContent">{{@$data[$i]->Observacion}}</td>
-                        <td class="tableContent">
-                            @if (@$data[$i]->Liberado == 1)
-                                Liberado
-                            @elseif(@$data[$i]->Liberado == 0)
-                                No liberado
-                            @endif     
-                        </td>
-                        <td class="tableContent">{{@$data[$i]->Control}}</td>
-                    </tr>                
+                <tr>
+                    <td class="tableContent">
+                        @if (@$data[$i]->Control == 'Estandar')
+                            ESTANDAR
+                        @elseif(@$data[$i]->Control == 'Blanco')
+                            BLANCO
+                        @else
+                            {{@$data[$i]->Folio_servicio}}
+                        @endif     
+                    </td>
+                    <td class="tableContent">{{@$data[$i]->Crisol}}</td>
+                    <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
+                    <td class="tableContent">{{@$data[$i]->Peso_constante1}}</td>
+                    <td class="tableContent">{{@$data[$i]->Peso_constante2}}</td>
+                    <td class="tableContent">{{@$data[$i]->Masa1}}</td>
+                    <td class="tableContent">{{@$data[$i]->Peso_muestra1}}</td>
+                    <td class="tableContent">{{@$data[$i]->Peso_muestra2}}</td>
+                    <td class="tableContent">{{@$data[$i]->Masa2}}</td>
+                    <td class="tableContent">{{@$data[$i]->Resultado}}</td>
+                    <td class="tableContent">{{@$data[$i]->Observacion}}</td>
+                    <td class="tableContent">
+                        @if (@$data[$i]->Liberado == 1)
+                            Liberado
+                        @elseif(@$data[$i]->Liberado == 0)
+                            No liberado
+                        @endif 
+                    </td>
+                    <td class="tableContent">{{@$data[$i]->Control}}</td>
+                </tr>                       
                 @endfor
             </tbody>        
         </table>  
