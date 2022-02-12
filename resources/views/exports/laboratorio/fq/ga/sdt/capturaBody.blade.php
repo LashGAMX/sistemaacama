@@ -53,7 +53,7 @@
                         </td>
                         <td class="tableContent">{{@$paramSt->Parametro}}</td>
                         <td class="tableContent">{{@$data[$i]->Masa1}}</td>
-                        <td class="tableContent">{{@$paramSt->Parametro}}</td>
+                        <td class="tableContent">{{@$paramSt2->Parametro}}</td>
                         <td class="tableContent">{{@$data[$i]->Masa2}}</td>
                         <td class="tableContent">{{@$data[$i]->Resultado}}</td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>

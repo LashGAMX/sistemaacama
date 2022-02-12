@@ -152,6 +152,15 @@ function getLoteCapturaSolidos() {
                     case 45:
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
                         break;
+                    case 44:
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
+                        break;
+                    case 46:
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
+                        break;
+                    case 48:
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
+                        break;
                     default:
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleSolidos(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
                         break;
@@ -339,8 +348,8 @@ function operacionSolidosDif() {
         data: {
             idMuestra: idMuestra,
             resultado: $("#preResDif").val(),
-            resultado: $("#preResDif").val(),
-            resultado: $("#preResDif").val(),
+            val1: $("#val11").val(),
+            val2: $("#val21").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",

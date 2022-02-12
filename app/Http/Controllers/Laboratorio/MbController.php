@@ -265,15 +265,9 @@ class MbController extends Controller
     // }
     public function operacion(Request $request)
     {
-        
+        $res = 0;
         switch ($request->idParametro) {
             case 13: //todo Número más probable (NMP), en tubos múltiples
-                    // $nmp1 = $request->G1*100;
-                    // $nmp2 = $request->G2*$request->G3;
-                    // $nmp3 = sqrt($nmp2);
-                    // $nmp = $nmp1 / $nmp3;
-
-                    // $res = (10/$request->D1)*$nmp;
                     $n1 = $request->con1 + $request->con2 +$request->con3;
                     $n2 = $request->con4 + $request->con5 +$request->con6;
                     $n3 = $request->con7 + $request->con8 +$request->con9;
@@ -281,9 +275,34 @@ class MbController extends Controller
                     $numModel = Nmp1Micro::where('Col1',$n1)->where('Col2',$n2)->where('Col3',$n3)->first();
                     $res = $numModel->Nmp;
 
-                    // $model = LoteDetalleColiformes::find($request->idDetalle)->replicate();
-                    // $model->Id_control = 2;
-                    // $model->save();
+                    $model = LoteDetalleColiformes::find($request->idDetalle);
+                    $model->Dilucion1 = $request->D1;
+                    $model->Dilucion2 = $request->D2;
+                    $model->Dilucion3 = $request->D3;
+                    $model->Indice = $res;
+                    $model->Muestra_tubos = $request->G3;
+                    $model->Tubos_negativos = $request->G2;
+                    $model->Tubos_positivos = $request->G1;
+                    $model->Confirmativa1 = $request->con1;
+                    $model->Confirmativa2 = $request->con2;
+                    $model->Confirmativa3 = $request->con3;
+                    $model->Confirmativa4 = $request->con4;
+                    $model->Confirmativa5 = $request->con5;
+                    $model->Confirmativa6 = $request->con6;
+                    $model->Confirmativa7 = $request->con7;
+                    $model->Confirmativa8 = $request->con8;
+                    $model->Confirmativa9 = $request->con9;
+                    $model->Presuntiva1 = $request->pre1;
+                    $model->Presuntiva2 = $request->pre2;
+                    $model->Presuntiva3 = $request->pre3;
+                    $model->Presuntiva4 = $request->pre4;
+                    $model->Presuntiva5 = $request->pre5;
+                    $model->Presuntiva6 = $request->pre6;
+                    $model->Presuntiva7 = $request->pre7;
+                    $model->Presuntiva8 = $request->pre8;
+                    $model->Presuntiva9 = $request->pre9;
+                    $model->Resultado = $res;
+                    $model->save();
                     
                 break;
                 case 262: //todo Número más probable (NMP), en tubos múltiples
@@ -301,9 +320,22 @@ class MbController extends Controller
                     
                 break;
             case 72: //todo Metodo electrometrico
-                    # code...
+                    # DBO
                     $E = $request->D / $request->C;
                     $res = ($request->A - $request->B) / round($E,3); 
+
+                    $model = LoteDetalleDbo::find($request->idDetalle);
+                    $model->Botella_final = $request->H;
+                    $model->Botella_od = $request->G;
+                    $model->Odf = $request->B;
+                    $model->Odi = $request->A;
+                    $model->Ph_final = $request->J;
+                    $model->Ph_inicial = $request->I;
+                    $model->Vol_muestra = $request->D;
+                    $model->Dilucion = $request->E;
+                    $model->Vol_botella = $request->C;
+                    $model->Observacion = $request->Observacion;
+                    $model->save();
                    
                 break;
             case 17: //todo Flotación de huevos de helminto
@@ -321,6 +353,38 @@ class MbController extends Controller
 
         return response()->json($data);
     }
+
+    public function updateObsMuestra(Request $request)
+    {
+
+        switch ($request->caso) {
+            case 1:
+                # Coliformes
+                $model = LoteDetalleColiformes::where('Id_detalle', $request->idMuestra)->first();
+                $model->Observacion = $request->observacion;   
+                break;
+            case 2:
+                #DBO
+                $model = LoteDetalleDbo::where('Id_detalle', $request->idMuestra)->first();
+                $model->Observacion = $request->observacion;   
+                    break;
+            case 3:
+                #HH
+                $model = LoteDetalleHH::where('Id_detalle', $request->idMuestra)->first();
+                $model->Observacion = $request->observacion;   
+                break;
+            default:
+                # code...
+                break;
+        }
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+
 
     // todo ************************************************
     // todo Fin de anlisis

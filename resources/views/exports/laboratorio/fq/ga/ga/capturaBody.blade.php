@@ -45,18 +45,18 @@
         </thead>
 
         <tbody>
-            @for ($i = 0; $i < @$dataLength ; $i++)
+            @for ($i = 0; $i < @$matracesLength ; $i++)
                 <tr>
                     <td class="contenidoBody">
-                        {{@$data[$i]->M_inicial1}}
+                        {{@$matraces[$i]->Num_serie}}
                     </td>
 
                     <td class="contenidoBody">
-                        {{@$data[$i]->M_inicial2}}
+                        {{@$matraces[$i]->Min}}
                     </td>
 
                     <td class="contenidoBody">
-                        {{@$data[$i]->M_inicial3}}
+                        {{@$matraces[$i]->Max}}
                     </td>                
                 </tr>
             @endfor                                        

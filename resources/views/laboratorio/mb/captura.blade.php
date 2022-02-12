@@ -105,21 +105,18 @@
         </div>
         <div class="col-md-12">
             <div id="divTablaControles">
-                <table class="table" id="tablaControles">
+                <table class="table">
                     <thead>
                         <tr>
                             <th>Opc</th>
                             <th>Folio</th>
-                            <th># Toma</th>
+                            {{-- <th># Toma</th> --}}
                             <th>Norma</th>
                             <th>Resultado</th>
-                            <th>Tipo Analisis</th>
-                            {{-- <th>Observacion</th>     --}}
+                            <th>Observacion</th>
                         </tr>
                     </thead>
-                    
-                    {{-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> --}}
-                </table> 
+                </table>
             </div>
         </div>
       </div>
@@ -136,6 +133,17 @@
                   </div>
                   <div class="modal-body"> 
                       <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="">Observación</label>
+                                <input type="text" class="form-control" id="observacionCol"
+                                    placeholder="Observacion de la muestra">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success" type="button" onclick="updateObsMuestra(1,'observacionCol')"
+                                    id="btnAplicarObsColiformes"><i class="voyager-check"></i> Aplicar</button>
+                            </div>
+                        </div>
                           <div class="col-md-12">
                             <table class="table" id=""> 
                                 <thead>
@@ -302,13 +310,16 @@
                               </table>
                           </div>
                           <div class="col-md-12">
-                                <input type="text" id="resCol" disabled>
-                          </div>
+                            <div class="form-group">
+                                <label for="resultado">Resultado</label>
+                                <input type="text" id="resultadoCol" style="font-size: 20px;color:red;"
+                                    placeholder="Resultado">
+                            </div>
+                        </div>
                       </div>
                   </div>
                   <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" class="btn btn-primary" onclick="operacionCol();">Guardar</button>
+                    <button type="button" class="btn btn-primary" onclick="operacionCol();">Guardar y ejecutar</button>
                   </div>
                 </form>
                 </div>
@@ -330,6 +341,17 @@
                   </div>
                   <div class="modal-body"> 
                       <div class="row">
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="">Observación</label>
+                                <input type="text" class="form-control" id="observacionDbo"
+                                    placeholder="Observacion de la muestra">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success" type="button" onclick="updateObsMuestra(3,'observacionDbo')"
+                                    id="btnAplicarObsColiformes"><i class="voyager-check"></i> Aplicar</button>
+                            </div>
+                        </div>
                           <div class="col-md-12">
                             <table class="table" id=""> 
                                 <thead>
@@ -411,6 +433,16 @@
                   </div>
                   <div class="modal-body"> 
                       <div class="row">
+                      <div class="col-md-12">
+                            <div class="form-group">
+                                <label for="">Observación</label>
+                                <input type="text" class="form-control" id="observacionDbo"
+                                    placeholder="Observacion de la muestra">
+                            </div>
+                            <div class="form-group">
+                                <button class="btn btn-success" type="button" onclick="updateObsMuestra(2,'observacionDbo')"
+                                    id="btnAplicarObsColiformes"><i class="voyager-check"></i> Aplicar</button>
+                            </div>
                           <div class="col-md-12">
                             <table class="table" id=""> 
                                 <thead>

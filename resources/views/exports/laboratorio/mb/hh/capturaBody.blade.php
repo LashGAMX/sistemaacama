@@ -51,7 +51,12 @@
                         <td class="tableContent">{{@$data[$i]->Taenia_sp}}</td>
                         <td class="tableContent">PRUEBA</td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
-                        <td class="tableContent">LIBERADO</td>
+                        <td class="tableContent">
+                            @if (@$data[$i]->Liberado == 1)
+                                Liberado
+                            @elseif(@$data[$i]->Liberado == 0)
+                                No liberado
+                            @endif </td>
                         <td class="tableContent">{{@$controlesCalidad[$i]->Control}}</td>
                     </tr>                
                 @endfor

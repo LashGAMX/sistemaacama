@@ -291,6 +291,17 @@
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Observación</label>
+                                    <input type="text" class="form-control" id="observacionSulfatos"
+                                        placeholder="Observacion de la muestra">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="button" onclick="updateObsMuestraEspectroSulfatos()"
+                                        id="btnAplicarObsSulfatos"><i class="voyager-check"></i> Aplicar</button>
+                                </div>
+                            </div>
                            
                             <div>
                             <div class="col-md-2">

@@ -578,6 +578,24 @@ function updateObsMuestraEspectro()
         }
     }); 
 }
+function updateObsMuestraEspectroSulfatos()
+{
+    
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestraEspectroSulfatos",
+        data: {
+            idMuestra: idMuestra,
+            observacion: $("#observacionSulfatos").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaEspectro();
+        }
+    }); 
+}
 function createControlCalidad()
 {
     $.ajax({

@@ -138,10 +138,9 @@ function getLoteCapturaMicro() {
             tab += '        <tr>';
             tab += '          <th>Opc</th>';
             tab += '          <th>Folio</th>';
-            tab += '          <th># toma</th>';
+            // tab += '          <th># toma</th>';
             tab += '          <th>Norma</th>';
             tab += '          <th>Resultado</th>';
-            tab += '          <th>Tipo Análisis</th>';
             tab += '          <th>Observación</th>';
             tab += '        </tr>';
             tab += '    </thead>'; 
@@ -177,12 +176,19 @@ function getLoteCapturaMicro() {
                 }else{
                     tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
                 } 
-                tab += '<td><input disabled style="width: 80px" value="'+item.Folio_servicio+'"></td>';
-                tab += '<td><input disabled style="width: 80px" value="-"></td>';
-                tab += '<td><input disabled style="width: 80px" value="'+item.Clave_norma+'"></td>';
-                tab += '<td><input disabled style="width: 80px" value="-"></td>';
-                tab += '<td><input disabled style="width: 80px" value="-"></td>';
-                tab += '<td>'+item.Observacion+'</td>';
+                tab += '<td><input disabled style="width: 100px" value="'+item.Folio_servicio+'"></td>';
+                // tab += '<td><input disabled style="width: 80px" value="-"></td>';
+                tab += '<td><input disabled style="width: 200px" value="'+item.Clave_norma+'"></td>';
+                if(item.Resultado != null){
+                    tab += '<td><input disabled style="width: 100px" value="'+item.Resultado+'"></td>';
+                }else{
+                    tab += '<td><input disabled style="width: 80px" value=""></td>';
+                }
+                if(item.Observacion != null){
+                    tab += '<td>'+item.Observacion+'</td>';
+                }else{
+                    tab += '<td></td>';
+                }
                 tab += '</tr>';
                 numMuestras.push(item.Id_detalle);
                 cont++;
@@ -300,7 +306,7 @@ function operacionCol()
         data: {
             tecnica:tecnica,
             idDetalle: idMuestra,
-            idParametro:$('#tipoFormula').val(),
+            idParametro:$('#formulaTipo').val(),
             D1:$('#dil1').val(),
             D2:$('#dil2').val(),
             D3:$('#dil3').val(),
@@ -333,7 +339,7 @@ function operacionCol()
         success: function (response) {
             console.log(response);
            
-            $('#resCol').val(response.res);
+            $('#resultadoCol').val(response.res);
         }
     }); 
 }
@@ -348,6 +354,7 @@ function operacionDbo()
             tecnica:tecnica,
             idParametro: $("#formulaTipo").val(),
             idDetalle:idMuestra,
+            Observacion:$('#observacion').val(),
             H:$('#botellaF1').val(),
             G:$('#od1').val(),
             B:$('#oxiFinal1').val(),
@@ -392,7 +399,25 @@ function operacionHH()
         }
     }); 
 }
-
+function updateObsMuestra(caso,obs)
+{
+    
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestra",
+        data: {
+            caso:caso,
+            idMuestra: idMuestra,
+            observacion: $("#"+obs).val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaMicro();
+        }
+    }); 
+}
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }

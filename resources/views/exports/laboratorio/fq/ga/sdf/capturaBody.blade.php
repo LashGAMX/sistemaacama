@@ -31,7 +31,7 @@
                     <th class="anchoColumna"></th>
                     <th class="tableCabecera anchoColumna">Valor 1</th>
                     <th class="anchoColumna"></th>
-                    <th class="tableCabecera anchoColumna">Valor 2</th>
+                    <th class="tableCabecera anchoColumna">Valor 2</th> 
                     <th class="tableCabecera anchoColumna">SOLIDOS DISUELTOS FIJOS (SDF) mg/L</th>                    
                     <th class="tableCabecera anchoColumna">Observaciones</th>                    
                     <th class="anchoColumna"></th>
@@ -53,7 +53,7 @@
                         </td>
                         <td class="tableContent">{{@$paramSdt->Parametro}}</td>
                         <td class="tableContent">{{@$data[$i]->Masa1}}</td>
-                        <td class="tableContent">{{@$paramSdt->Parametro}}</td>
+                        <td class="tableContent">{{@$paramSdt2->Parametro}}</td>
                         <td class="tableContent">{{@$data[$i]->Masa2}}</td>
                         <td class="tableContent">{{@$data[$i]->Resultado}}</td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>

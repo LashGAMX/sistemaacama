@@ -84,6 +84,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('guardarEspectro', [FqController::class, 'guardarEspectro']);
         Route::post('guardarSulfatos', [FqController::class, 'guardarSulfatos']);
         Route::post('updateObsMuestraEspectro', [FqController::class, 'updateObsMuestraEspectro']);
+        Route::post('updateObsMuestraEspectroSulfatos', [FqController::class, 'updateObsMuestraEspectroSulfatos']);
         Route::post('createControlCalidadEspectro', [FqController::class, 'createControlCalidadEspectro']);
     
     //****************************************GA***********************************************
@@ -182,6 +183,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('getDetalleCol', [MbController::class, 'getDetalleCol']);
             Route::post('getDetalleHH', [MbController::class, 'getDetalleHH']);
             Route::post('operacion', [MbController::class, 'operacion']);
+            Route::post('updateObsMuestra', [MbController::class, 'updateObsMuestra']);
+            
             
             Route::post('setControlCalidad', [MbController::class, 'setControlCalidad']);
             Route::post('liberarMuestraMetal', [MbController::class, 'liberarMuestraMetal']);
