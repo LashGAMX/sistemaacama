@@ -1435,13 +1435,18 @@ class FqController extends Controller
     {
         $detalle = DB::table('ViewLoteDetalleSolidos')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
         switch ($request->idParametro) {
-            case 89:
+            case 89: // SDT
                 $nom1 = "ST";
                 $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 91)->first();
                 $nom2 = "SST";
                 $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 93)->first();
                 break;
-
+            case 45: // SDV
+                $nom1 = "STV";  
+                $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 49)->first();
+                $nom2 = "SSV";
+                $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 47)->first();
+                break;
             default:
                 $dif1 = "Sin datos";
                 $dif2 = "Sin datos";
@@ -3000,11 +3005,24 @@ class FqController extends Controller
 
                 $horizontal = 'P';
             } else if ($parametro->Parametro == 'SOLIDOS TOTALES VOLATILES (STV)') {                
-                $textoProcedimiento = ReportesFq::where('Id_reporte', 23)->first();
+                
 
-                $htmlCaptura = view('exports.laboratorio.fq.stv.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+          
+
+                $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
+
+                if(!is_null($data)){
+                    $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
+                    
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 23)->first();
+                    $separador = "Valoración / Observación";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
+                    $htmlCaptura = view('exports.laboratorio.fq.ga.stv.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                }                
 
                 $horizontal = 'L';
+                
             }
         }
 

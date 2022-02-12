@@ -536,11 +536,11 @@ class MbController extends Controller
         $model = array();
         switch ($loteModel->Id_tecnica) {
             case 13: //todo Coliformes+
-                $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->get(); 
+                $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->where('Id_control',1)->get(); 
                 break;
             case 262: //todo  ENTEROCOCO FECAL
                     # code...
-                    $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->get(); 
+                    $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->where('Id_control',1)->get(); 
                 break;
             case 72: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
                         # code...
