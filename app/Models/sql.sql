@@ -306,13 +306,15 @@ INNER JOIN control_calidad as con
 ON det.Id_control = con.Id_control
 
 /* Lista ViewLoteDetalleHH */ 
-CREATE VIEW ViewLoteDetalleHH as SELECT det.*,sol.Folio_servicio,sol.Clave_norma,sol.Empresa_suc,param.Parametro FROM lote_detalle_hh as det
+CREATE VIEW ViewLoteDetalleHH as SELECT det.*,sol.Folio_servicio,sol.Clave_norma,sol.Empresa_suc,param.Parametro,control.Control FROM lote_detalle_hh as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
 INNER JOIN  ViewSolicitud as sol
 ON det.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro
+INNER JOIN control_calidad as control
+ON det.Id_control = control.Id_control
 
 /* Lista ViewLoteDetalleSolidos */ 
 

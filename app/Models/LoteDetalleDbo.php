@@ -27,6 +27,7 @@ class LoteDetalleDbo extends Model
         'Vol_muestra',
         'Dilucion',
         'Vol_botella',
+        'Resultado',
         'Observacion',
     ];
 }

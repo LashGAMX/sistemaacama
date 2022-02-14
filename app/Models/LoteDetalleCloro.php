@@ -21,6 +21,7 @@ class LoteDetalleCloro extends Model
         'Vol_muestra',
         'Vol_blanco',
         'Normalidad',
+        'Observacion',
         'Ph_final',
         'Ph_inicial',
         'Factor_conversion',

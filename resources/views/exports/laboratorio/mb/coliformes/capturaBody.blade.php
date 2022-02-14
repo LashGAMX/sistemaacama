@@ -91,7 +91,7 @@
                     </td>
 
                     <td class="contenidoBody bordesTabla">
-                        {{@$resultadosPresuntivas[$i]}}
+                        {{@$data[$i]->Presuntiva1 + @$data[$i]->Presuntiva2 + @$data[$i]->Presuntiva3}}                        
                     </td>
 
                     <td class="contenidoBody bordesTabla">
@@ -107,7 +107,7 @@
                     </td>
 
                     <td class="contenidoBody bordesTabla">
-                        {{@$resultadosConfirmativas[$i]}}
+                        {{@$data[$i]->Confirmativa1 + @$data[$i]->Confirmativa2 + @$data[$i]->Confirmativa3}}
                     </td>
 
                     <td class="contenidoBody bordesTabla" rowspan="3">
@@ -118,8 +118,8 @@
                         {{@$loteColi[$i]->Resultado}}
                     </td>
 
-                    <td class="contenidoBody bordesTabla" rowspan="3">
-                        PRUEBA
+                    <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
+                        --
                     </td>
 
                     <td class="contenidoBody" rowspan="3">
@@ -153,7 +153,7 @@
                     </td>
 
                     <td class="contenidoBody bordesTabla">
-                        {{@$resultadosPresuntivas[$i + 1]}}
+                        {{@$data[$i]->Presuntiva4 + @$data[$i]->Presuntiva5 + @$data[$i]->Presuntiva6}}                        
                     </td>
 
                     <td class="contenidoBody bordesTabla">
@@ -169,7 +169,7 @@
                     </td>
 
                     <td class="contenidoBody bordesTabla">
-                        {{@$resultadosConfirmativas[$i + 1]}}
+                        {{@$data[$i]->Confirmativa4 + @$data[$i]->Confirmativa5 + @$data[$i]->Confirmativa6}}
                     </td>       
                 </tr>
 
@@ -191,7 +191,7 @@
                     </td>
 
                     <td class="contenidoBody bordesTabla">
-                        {{@$resultadosPresuntivas[$i + 2]}}
+                        {{@$data[$i]->Presuntiva7 + @$data[$i]->Presuntiva8 + @$data[$i]->Presuntiva9}}                    
                     </td>
 
                     <td class="contenidoBody bordesTabla">
@@ -207,7 +207,7 @@
                     </td>
 
                     <td class="contenidoBody bordesTabla">
-                        {{@$resultadosConfirmativas[$i + 2]}}
+                        {{@$data[$i]->Confirmativa7 + @$data[$i]->Confirmativa8 + @$data[$i]->Confirmativa9}}
                     </td>                          
                 </tr>
             @endfor

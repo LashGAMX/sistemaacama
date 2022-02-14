@@ -131,9 +131,37 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
-                    <input type="number" id="resultado" placeholder="Resultado"></input>
-                    {{-- <input type="number" id="p" placeholder="Peso sin muestra"></input> --}}
-                  </div>
+                    <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Observación</label>
+                                    <input type="text" class="form-control" id="observacion"
+                                        placeholder="Observacion de la muestra">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="button" onclick="updateObsVolumetria()"
+                                        id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-success" id="btnGuardar"><i class="voyager-upload"></i>
+                                    Guardar</button>&nbsp;&nbsp;
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary" id="btnEjecutar"><i class="voyager-play"></i>
+                                    Ejecutar</button>
+                            </div>
+                            {{-- <div class="col-md-2">
+                                <button class="btn btn-warning">Liberar</button>
+                            </div> --}}
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <input type="text" id="resultado" style="font-size: 20px;color:red;"
+                                        placeholder="Resultado">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                   <div class="modal-body"> 
                     <div class="row">
                         <div class="col-md-12">
@@ -187,7 +215,7 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button"  id="guardar" class="btn btn-primary">Guardar</button>
+                   
                   </div>
                 </form>
                 </div>
@@ -205,9 +233,37 @@
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
-                    <input type="number" id="resultadoCloro" placeholder="Resultado"></input>
-                    {{-- <input type="number" id="p" placeholder="Peso sin muestra"></input> --}}
-                  </div>
+                    <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Observación</label>
+                                    <input type="text" class="form-control" id="observacion"
+                                        placeholder="Observacion de la muestra">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="button" onclick="updateObsVolumetriaCloro()"
+                                        id="btnAplicarObsCloro"><i class="voyager-check"></i> Aplicar</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-success" id="btnGuardarCloro"><i class="voyager-upload"></i>
+                                    Guardar</button>&nbsp;&nbsp;
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary" id="btnEjecutarCloro"><i class="voyager-play"></i>
+                                    Ejecutar</button>
+                            </div>
+                            {{-- <div class="col-md-2">
+                                <button class="btn btn-warning">Liberar</button>
+                            </div> --}}
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <input type="text" id="resultadoCloro" style="font-size: 20px;color:red;"
+                                        placeholder="Resultado">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                   <div class="modal-body"> 
                     <div class="row">
                         <div class="col-md-12">
@@ -272,7 +328,6 @@
                   </div>
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button"  id="guardar" class="btn btn-primary">Guardar</button>
                   </div>
                 </form>
                 </div>

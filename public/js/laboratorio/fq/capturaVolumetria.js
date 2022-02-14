@@ -24,6 +24,19 @@ $(document).ready(function () {
         }
     });
 });
+// $('#btnAplicarObsCloro').click(function (){
+//     updateObsVolumetriaCloro();
+// });
+// $('#btnAplicarObs').click(function (){
+//     updateObsVolumetria();
+// });
+
+$('#btnEjecutar').click(function (){
+    operacion();
+})
+$('#btnEjecutarCloro').click(function (){
+    operacionCloro();
+})
 
 $('#guardarCloro').click(function (){
     operacionCloro();
@@ -269,7 +282,43 @@ function operacion() {
         }
     });
 }
+function updateObsVolumetria()
+{
+     
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/updateObsVolumetria",
+        data: {
+            idMuestra: idMuestra,
+            observacion: $("#observacion").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaVol();
+        }
+    }); 
 
+}
+function updateObsVolumetriaCloro()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/updateObsVolumetriaCloro",
+        data: {
+            idMuestra: idMuestra,
+            observacion: $("#observacionCloro").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaVol();
+        }
+    }); 
+
+}
 
 function getDetalleVol(idDetalle)
 {

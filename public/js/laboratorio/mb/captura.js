@@ -1,24 +1,6 @@
 var area = "micro";
 
 $(document).ready(function () {
-    table = $('#tableAnalisis').DataTable({        
-        "ordering": false,
-        "language": {
-            "lengthMenu": "# _MENU_ por pagina",
-            "zeroRecords": "No hay datos encontrados",
-            "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",
-        }
-    });
-    table2 = $('#tableDatos2').DataTable({        
-        "ordering": false,
-        "language": {
-            "lengthMenu": "# _MENU_ por pagina",
-            "zeroRecords": "No hay datos encontrados",
-            "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",
-        }
-    });    
 
 });
 
@@ -37,6 +19,7 @@ var idLote = 0;
 var tecnica = 0;
 function getLoteMicro()
 {
+    cleanTable();
     numMuestras = new Array();
     let tabla = document.getElementById('divLote');
     let tab = '';
@@ -72,7 +55,7 @@ function getLoteMicro()
                     tab += '<td>'+item.Fecha+'</td>';
                     tab += '<td>'+item.Asignado+'</td>';
                     tab += '<td>'+item.Liberado+'</td>';
-                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button></td>';
+                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir('+item.Id_lote+');"><i class="fas fa-file-download"></i></button></td>';
                     tab += '</tr>';
                 }); 
                 tab += '    </tbody>';
@@ -264,7 +247,9 @@ function getDetalleCol(idDetalle)
             $("#pre7").val(response.model.Presuntiva7);
             $("#pre8").val(response.model.Presuntiva8);
             $("#pre9").val(response.model.Presuntiva9);
-            
+
+            $("#resultadoCol").val(response.model.Resultado);
+            $("#observacionCol").val(response.model.Observacion);
         }
     });
 }
@@ -287,14 +272,43 @@ function getDetalleHH(idDetalle)
             $("#tri1").val(response.model.T_trichiura);
             $("#uni1").val(response.model.Uncinarias);
             $("#volH1").val(response.model.Vol_muestra);            
+            $("#resultadoHH").val(response.model.Resultado);   
+        }
+    });
+}
+function getDetalleDbo(idDetalle)
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/getDetalleDbo",
+        data: {
+            idDetalle: idDetalle,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            
+            $('#botellaF1').val(response.model.Botella_final);
+            $('#od1').val(response.model.Botella_od);
+            $('#oxiFinal1').val(response.model.Odf);
+            $('#oxiInicial1').val(response.model.Odi);
+            $('#phF1').val(response.model.Ph_final);
+            $('#phIni1').val(response.model.Ph_inicial);
+            $('#volDbo1').val(response.model.Vol_muestra);
+            $('#dil1').val(response.model.Dilucion);
+            $('#win1').val(response.model.Vol_botella);
+            
+            $("#observacionDbo").val(response.model.Observacion);          
+            $("#resDbo").val(response.model.Resultado);          
         }
     });
 }
 
 //Función imprimir PDF
-function imprimir(){        
+function imprimir(id){        
     //ABRE LA RUTA ESPECÍFICADA EN UNA NUEVA PESTAÑA
-    window.open(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCaptura/" + idLote);
+    window.open(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCaptura/" + id);
     //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCaptura/" + idLote;    
 } 
 
@@ -338,7 +352,7 @@ function operacionCol()
         dataType: "json",
         success: function (response) {
             console.log(response);
-           
+            getLoteCapturaMicro();
             $('#resultadoCol').val(response.res);
         }
     }); 
@@ -371,6 +385,7 @@ function operacionDbo()
             console.log(response);
            
             $('#resDbo').val(response.res);
+            getLoteCapturaMicro();
         }
     }); 
 }
@@ -396,6 +411,7 @@ function operacionHH()
         success: function (response) {
             console.log(response);
             $("#resHH").val(response.res); 
+            getLoteCapturaMicro();
         }
     }); 
 }
@@ -418,6 +434,46 @@ function updateObsMuestra(caso,obs)
         }
     }); 
 }
+function createControlCalidad()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/createControlCalidadMb",
+        data: {
+            idParametro: $("#formulaTipo").val(), 
+            idMuestra: idMuestra,
+            idControl: $("#controlCalidad").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaMicro();
+        }
+    });
+}
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
+}
+
+function cleanTable() {
+
+    let tabla = document.getElementById('divTablaControles');
+    let tab = '';
+
+            tab += '<table id="tablaControles" class="table table-sm">';
+            tab += '    <thead>';
+            tab += '        <tr>';
+            tab += '          <th>Opc</th>';
+            tab += '          <th>Folio</th>';
+            // tab += '          <th># toma</th>';
+            tab += '          <th>Norma</th>';
+            tab += '          <th>Resultado</th>';
+            tab += '          <th>Observación</th>';
+            tab += '        </tr>';
+            tab += '    </thead>'; 
+            tab += '    <tbody>';
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
 }

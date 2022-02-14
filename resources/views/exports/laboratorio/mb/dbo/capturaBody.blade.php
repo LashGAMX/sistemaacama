@@ -104,7 +104,7 @@
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$data[$i]->Botella_od}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
@@ -116,7 +116,7 @@
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$data[$i]->Odf}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">
@@ -128,7 +128,7 @@
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    PRUEBA
+                    {{@$data[$i]->Resultado}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">

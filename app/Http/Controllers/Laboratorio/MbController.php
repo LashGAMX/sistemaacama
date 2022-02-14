@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Laboratorio;
 use App\Http\Controllers\Controller;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
+use App\Models\LoteDetalleCloro;
 use App\Models\ObservacionMuestra; 
 use App\Models\Parametro;
 use App\Models\ReportesFq;
@@ -168,7 +169,8 @@ class MbController extends Controller
     //MÉTODO DE PRUEBA
     public function capturaMicro(){
         $parametro = Parametro::where('Id_area', 6)->get();
-        return view('laboratorio.mb.captura', compact('parametro'));
+        $controlModel = ControlCalidad::all();
+        return view('laboratorio.mb.captura', compact('parametro','controlModel'));
     }
 
     public function getLoteMicro(Request $request)
@@ -226,6 +228,38 @@ class MbController extends Controller
         );
         return response()->json($data);
     }
+    public function getDetalleDbo(Request $request)
+    {
+        $model = DB::table('ViewLoteDetalleDbo')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    
+    public function createControlCalidadMb(Request $request)
+    {
+        switch ($request->idParametro) {
+            case 13: // coliformes +
+                $muestra = LoteDetalleColiformes::where('Id_detalle', $request->idMuestra)->first();
+                break;
+            case 72:
+                $muestra = LoteDetalleDbo::where('Id_detalle', $request->idMuestra)->first();
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        $model = $muestra->replicate();
+        $model->Id_control = $request->idControl;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
 
 
     //NUEVA FUNCIÓN BUSQUEDA FILTROS > CAPTURA.JS
@@ -268,6 +302,7 @@ class MbController extends Controller
         $res = 0;
         switch ($request->idParametro) {
             case 13: //todo Número más probable (NMP), en tubos múltiples
+                # Coliformes
                     $n1 = $request->con1 + $request->con2 +$request->con3;
                     $n2 = $request->con4 + $request->con5 +$request->con6;
                     $n3 = $request->con7 + $request->con8 +$request->con9;
@@ -334,7 +369,7 @@ class MbController extends Controller
                     $model->Vol_muestra = $request->D;
                     $model->Dilucion = $request->E;
                     $model->Vol_botella = $request->C;
-                    $model->Observacion = $request->Observacion;
+                    $model->Resultado = $res;
                     $model->save();
                    
                 break;
@@ -360,24 +395,26 @@ class MbController extends Controller
         switch ($request->caso) {
             case 1:
                 # Coliformes
-                $model = LoteDetalleColiformes::where('Id_detalle', $request->idMuestra)->first();
+                $model = LoteDetalleColiformes::find( $request->idMuestra);
                 $model->Observacion = $request->observacion;   
+                $model->save();
                 break;
             case 2:
                 #DBO
-                $model = LoteDetalleDbo::where('Id_detalle', $request->idMuestra)->first();
+                $model = LoteDetalleDbo::find($request->idMuestra);
                 $model->Observacion = $request->observacion;   
+                $model->save();
                     break;
             case 3:
                 #HH
-                $model = LoteDetalleHH::where('Id_detalle', $request->idMuestra)->first();
+                $model = LoteDetalleHH::find($request->idMuestra);
                 $model->Observacion = $request->observacion;   
+                $model->save();
                 break;
             default:
                 # code...
                 break;
         }
-        $model->save();
 
         $data = array(
             'model' => $model,
@@ -673,7 +710,7 @@ class MbController extends Controller
                 $model = LoteDetalleColiformes::create([
                                 'Id_lote' => $request->idLote,
                                 'Id_analisis' => $request->idAnalisis,
-                                'Id_parametro' => $loteModel->idParametro,
+                                'Id_parametro' => $loteModel->Id_tecnica,
                                 'Id_control' => 1,
                             ]);
                 $detModel = LoteDetalleEspectro::where('Id_lote',$request->idLote)->get();
@@ -683,7 +720,7 @@ class MbController extends Controller
                     $model = LoteDetalleColiformes::create([
                                     'Id_lote' => $request->idLote,
                                     'Id_analisis' => $request->idAnalisis,
-                                    'Id_parametro' => $loteModel->idParametro,
+                                    'Id_parametro' => $loteModel->Id_tecnica,
                                     'Id_control' => 1,
                                 ]);
                     $detModel = LoteDetalleEspectro::where('Id_lote',$request->idLote)->get();
@@ -694,7 +731,7 @@ class MbController extends Controller
                     $model = LoteDetalleColiformes::create([
                         'Id_lote' => $request->idLote,
                         'Id_analisis' => $request->idAnalisis,
-                        'Id_parametro' => $loteModel->idParametro,
+                        'Id_parametro' => $loteModel->Id_tecnica,
                         'Id_control' => 1,
                     ]);
                 $detModel = LoteDetalleEspectro::where('Id_lote',$request->idLote)->get();
@@ -705,7 +742,7 @@ class MbController extends Controller
                         $model = LoteDetalleDbo::create([
                             'Id_lote' => $request->idLote,
                             'Id_analisis' => $request->idAnalisis,
-                            'Id_parametro' => $loteModel->idParametro,
+                            'Id_parametro' => $loteModel->Id_tecnica,
                             'Id_control' => 1,
                         ]);
                         $detModel = LoteDetalleDbo::where('Id_lote',$request->idLote)->get();
@@ -716,7 +753,7 @@ class MbController extends Controller
                     $model = LoteDetalleHH::create([
                         'Id_lote' => $request->idLote,
                         'Id_analisis' => $request->idAnalisis,
-                        'Id_parametro' => $loteModel->idParametro,
+                        'Id_parametro' => $loteModel->Id_tecnica,
                         'Id_control' => 1,
                 ]);
                 $detModel = LoteDetalleHH::where('Id_lote',$request->idLote)->get();
@@ -1069,26 +1106,7 @@ class MbController extends Controller
                         $hora = date("h:j:s", strtotime($fechaAnalisis->created_at));
                     }
      
-                    if(!is_null($data)){                                             
-                        $resultadosPresuntivas = array();
-                        $resultadosConfirmativas = array();
-
-                        foreach($data as $item){
-                            array_push(
-                                $resultadosPresuntivas,
-                                $item->Presuntiva1 + $item->Presuntiva2 + $item->Presuntiva3,
-                                $item->Presuntiva4 + $item->Presuntiva5 + $item->Presuntiva6,
-                                $item->Presuntiva7 + $item->Presuntiva8 + $item->Presuntiva9,
-                            );
-
-                            array_push(
-                                $resultadosConfirmativas,
-                                $item->Confirmativa1 + $item->confirmativa2 + $item->confirmativa3,
-                                $item->confirmativa4 + $item->confirmativa5 + $item->confirmativa6,
-                                $item->confirmativa7 + $item->confirmativa8 + $item->confirmativa9,
-                            );
-                        }
-        
+                    if(!is_null($data)){                            
                         //Recupera el campo Resultado
                         $loteColi = LoteDetalleColiformes::where('Id_lote', $id_lote)->get();
 
@@ -1096,7 +1114,7 @@ class MbController extends Controller
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);                        
                         
                         $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();                        
-                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'resultadosPresuntivas', 'resultadosConfirmativas'));
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar'));
 
                     }else{
                         $sw = false;                        
@@ -1113,26 +1131,7 @@ class MbController extends Controller
                         $hora = date("h:j:s", strtotime($fechaAnalisis->created_at));
                     }
      
-                    if(!is_null($data)){                                             
-                        $resultadosPresuntivas = array();
-                        $resultadosConfirmativas = array();
-
-                        foreach($data as $item){
-                            array_push(
-                                $resultadosPresuntivas,
-                                $item->Presuntiva1 + $item->Presuntiva2 + $item->Presuntiva3,
-                                $item->Presuntiva4 + $item->Presuntiva5 + $item->Presuntiva6,
-                                $item->Presuntiva7 + $item->Presuntiva8 + $item->Presuntiva9,
-                            );
-
-                            array_push(
-                                $resultadosConfirmativas,
-                                $item->Confirmativa1 + $item->confirmativa2 + $item->confirmativa3,
-                                $item->confirmativa4 + $item->confirmativa5 + $item->confirmativa6,
-                                $item->confirmativa7 + $item->confirmativa8 + $item->confirmativa9,
-                            );
-                        }
-        
+                    if(!is_null($data)){                                
                         //Recupera el campo Resultado
                         $loteColi = LoteDetalleColiformes::where('Id_lote', $id_lote)->get();
 
@@ -1140,7 +1139,7 @@ class MbController extends Controller
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);                        
                         
                         $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();                        
-                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'resultadosPresuntivas', 'resultadosConfirmativas'));
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar'));
 
                     }else{
                         $sw = false;                        
@@ -1196,7 +1195,7 @@ class MbController extends Controller
                 }
             }else if($bandera === 'dbo'){
                 if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
-                    $horizontal = 'P';
+                    $horizontal = 'L';
                     $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
      
                     if(!is_null($data)){                                                 
@@ -1211,7 +1210,7 @@ class MbController extends Controller
                         $sw = false;                        
                     }                
                 }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO CON INOCULO (DBO5)'){
-                    $horizontal = 'P';
+                    $horizontal = 'L';
                     $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
      
                     if(!is_null($data)){                                                 
@@ -1244,36 +1243,13 @@ class MbController extends Controller
                         
                         $textProcedimiento = ReportesMb::where('Id_reporte', 1)->first();                        
                         $separador = "Valoración";
-                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                        
-                        $resultadosPresuntivas = array();
-                        $resultadosConfirmativas = array();
-
-                        foreach($data as $item){
-                            array_push(
-                                $resultadosPresuntivas,
-                                $item->Presuntiva1 + $item->Presuntiva2 + $item->Presuntiva3,
-                                $item->Presuntiva4 + $item->Presuntiva5 + $item->Presuntiva6,
-                                $item->Presuntiva7 + $item->Presuntiva8 + $item->Presuntiva9,
-                            );
-
-                            var_dump($resultadosPresuntivas);                            
-
-                            array_push(
-                                $resultadosConfirmativas,
-                                $item->Confirmativa1 + $item->Confirmativa2 + $item->Confirmativa3,
-                                $item->Confirmativa4 + $item->Confirmativa5 + $item->Confirmativa6,
-                                $item->Confirmativa7 + $item->Confirmativa8 + $item->Confirmativa9,
-                            );
-
-                            var_dump($resultadosConfirmativas);
-                        }
+                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);                                                
                         
                         $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();  
                         //Recupera el campo Resultado
                         $loteColi = LoteDetalleColiformes::where('Id_lote', $id_lote)->get();
                         
-                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'resultadosPresuntivas', 'resultadosConfirmativas'));
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar'));
 
                     }else{
                         $sw = false;
@@ -1293,30 +1269,7 @@ class MbController extends Controller
                         
                         $textProcedimiento = ReportesMb::where('Id_reporte', 5)->first();                        
                         $separador = "Valoración";
-                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                        
-                        $resultadosPresuntivas = array();
-                        $resultadosConfirmativas = array();
-
-                        foreach($data as $item){
-                            array_push(
-                                $resultadosPresuntivas,
-                                $item->Presuntiva1 + $item->Presuntiva2 + $item->Presuntiva3,
-                                $item->Presuntiva4 + $item->Presuntiva5 + $item->Presuntiva6,
-                                $item->Presuntiva7 + $item->Presuntiva8 + $item->Presuntiva9,
-                            );
-
-                            var_dump($resultadosPresuntivas);                            
-
-                            array_push(
-                                $resultadosConfirmativas,
-                                $item->Confirmativa1 + $item->Confirmativa2 + $item->Confirmativa3,
-                                $item->Confirmativa4 + $item->Confirmativa5 + $item->Confirmativa6,
-                                $item->Confirmativa7 + $item->Confirmativa8 + $item->Confirmativa9,
-                            );
-
-                            var_dump($resultadosConfirmativas);
-                        }
+                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);                                                
                         
                         $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();  
                         //Recupera el campo Resultado
@@ -1378,7 +1331,7 @@ class MbController extends Controller
                 }
             }else if($bandera === 'dbo'){
                 if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
-                    $horizontal = 'P';
+                    $horizontal = 'L';
                     $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
      
                     if(!is_null($data)){                        
@@ -1394,7 +1347,7 @@ class MbController extends Controller
                         $sw = false;                        
                     }                                                
                 }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO CON INOCULO (DBO5)'){
-                    $horizontal = 'P';                
+                    $horizontal = 'L';                
                     $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
      
                     if(!is_null($data)){                        

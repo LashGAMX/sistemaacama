@@ -197,6 +197,30 @@ class VolController extends Controller
 
         return response()->json($data);
     }
+    #OBSERVACIONES
+    public function updateObsVolumetria(Request $request)
+    {
+        $model = LoteDetalle::where('Id_detalle', $request->idMuestra)->first();
+        $model->Observacion = $request->observacion;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+
+    }
+    public function updateObsVolumetriaCloro(Request $request)
+    {
+        $model = LoteDetalleCloro::where('Id_detalle', $request->idMuestra)->first();
+        $model->Observacion = $request->observacion;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
 
     public function getPlantillaPred(Request $request){
         $bandera = '';
