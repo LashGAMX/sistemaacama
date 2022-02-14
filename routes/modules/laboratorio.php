@@ -126,13 +126,15 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('asignarMuestraLoteVol', [VolController::class, 'asignarMuestraLoteVol']);
         Route::post('getMuestraAsignadaVol', [VolController::class, 'getMuestraAsignadaVol']);
         Route::post('delMuestraLoteVol', [VolController::class, 'delMuestraLoteVol']);
+        Route::post('updateObsVolumetria', [VolController::class, 'updateObsVolumetria']);
+        Route::post('updateObsVolumetriaCloro', [VolController::class, 'updateObsVolumetriaCloro']);
 
         Route::get('capturaVolumetria', [VolController::class, 'capturaVolumetria']);
         Route::post('getLotevol', [VolController::class, 'getLotevol']);
         Route::post('getLoteCapturaVol', [VolController::class, 'getLoteCapturaVol']);
         Route::post('getDetalleVol', [VolController::class, 'getDetalleVol']);
-        Route::post('operacionVolumetria', [VolController::class, 'operacionVolumetria']);
-        Route::post('operacionVolumetriaCloro', [VolController::class, 'operacionVolumetriaCloro']);
+        Route::post('operacion', [VolController::class, 'operacionVolumetria']);
+        Route::post('operacionCloro', [VolController::class, 'operacionVolumetriaCloro']);
 
 //****************************************FIN VOLUMETRIA***********************************************
 
@@ -182,11 +184,12 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('getLoteCapturaMicro', [MbController::class, 'getLoteCapturaMicro']);
             Route::post('getDetalleCol', [MbController::class, 'getDetalleCol']);
             Route::post('getDetalleHH', [MbController::class, 'getDetalleHH']);
+            Route::post('getDetalleDbo', [MbController::class, 'getDetalleDbo']);
             Route::post('operacion', [MbController::class, 'operacion']);
             Route::post('updateObsMuestra', [MbController::class, 'updateObsMuestra']);
+            Route::post('createControlCalidadMb', [MbController::class, 'createControlCalidadMb']);
             
             
-            Route::post('setControlCalidad', [MbController::class, 'setControlCalidad']);
             Route::post('liberarMuestraMetal', [MbController::class, 'liberarMuestraMetal']);
             Route::post('getDataLote/plantillaPredeterminada', [MbController::class, 'getPlantillaPred']);
             Route::post('lote/guardarDatos', [MbController::class, 'guardarDatos']);
