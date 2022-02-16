@@ -31,7 +31,7 @@
                     <th class="tableCabecera anchoColumna">VOL. TITULANTE BLANCO</th>
                     <th class="tableCabecera anchoColumna">VOL. MUESTRA</th>
                     <th class="tableCabecera anchoColumna">VOL. TITULANTE MUESTRA</th>
-                    <th class="tableCabecera anchoColumna">NITRÓGENO AMONIACAL (N-NH3) mg/L</th>
+                    <th class="tableCabecera anchoColumna">NITRÓGENO TOTAL mg/L</th>
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
@@ -46,13 +46,15 @@
                                 ESTANDAR
                             @elseif(@$data[$i]->Control == 'Blanco')
                                 BLANCO
+                            @elseif(@$data[$i]->Control == 'Blanco reactivo')
+                                BLANCO REACTIVO
                             @else
                                 {{@$data[$i]->Folio_servicio}}
-                            @endif 
+                            @endif
                         </td>
-                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">{{@$data[$i]->Titulado_blanco}}</td>
                         <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">{{@$data[$i]->Titulado_muestra}}</td>
                         <td class="tableContent">{{@$data[$i]->Resultado}}</td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
                         <td class="tableContent">
@@ -67,7 +69,9 @@
                 @endfor
             </tbody>        
         </table>  
-    </div>  
+    </div>
+    
+    <br>
     
     <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="">
@@ -118,8 +122,8 @@
     </div>
 
     <div id="contenidoCurva">
-        <span id="curvaProcedimiento">Valoración</span> <br>
-        VALORACIÓN <?php echo html_entity_decode($textoProcedimiento[1]);?>
+        <span id="curvaProcedimiento">Valoración</span>
+        <?php echo html_entity_decode($textoProcedimiento[1]);?>
     </div>
 </body>
 </html>

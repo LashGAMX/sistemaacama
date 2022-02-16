@@ -46,13 +46,15 @@
                                 ESTANDAR
                             @elseif(@$data[$i]->Control == 'Blanco')
                                 BLANCO
+                            @elseif(@$data[$i]->Control == 'Blanco reactivo')
+                                BLANCO REACTIVO
                             @else
                                 {{@$data[$i]->Folio_servicio}}
                             @endif 
                         </td>
-                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">{{@$data[$i]->Titulado_blanco}}</td>
                         <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">{{@$data[$i]->Titulado_muestra}}</td>
                         <td class="tableContent">{{@$data[$i]->Resultado}}</td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
                         <td class="tableContent">

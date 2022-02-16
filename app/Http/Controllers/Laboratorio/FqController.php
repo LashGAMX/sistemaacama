@@ -1271,13 +1271,18 @@ class FqController extends Controller
     {
         $modelMatraz = MatrazGA::all();
         //? Aplica la busqueda de matraz hasta encontrar un matraz desocupado
-        do {
+        $cont = $modelMatraz->count();
+        for ($i=0; $i < $cont; $i++) { 
+            # code...
             $id = rand(0, $modelMatraz->count());
             $matraz = MatrazGA::where('Id_matraz', $id)->first();
-        } while ($matraz->Estado == 1);
+            if($matraz->Estado == 0){
+                break;
+            }
+        }
 
         //$m3 = mt_rand($matraz->Min, $matraz->Max);
-        $dif = ($matraz->Max - $matraz->Min);
+        $dif = ($matraz->Max - $matraz->Min); 
         $ran = (round($dif, 4)) / 10;
         $m3 = $matraz->Max - $ran;
 
@@ -1527,10 +1532,16 @@ class FqController extends Controller
     {
         $modelCrisol = CrisolesGA::all();
         //? Aplica la busqueda de crisol hasta encontrar un crisol desocupado
-        do {
+        $cont = $modelCrisol->count();
+        
+        for ($i=0; $i < $cont; $i++) { 
+            # code...
             $id = rand(0, $modelCrisol->count());
             $crisol = CrisolesGA::where('Id_crisol', $id)->first();
-        } while ($crisol->Estado == 1);
+            if($crisol->Estado == 0){
+                break;
+            }
+        }
 
         $mf = ((($request->R / $request->factor) * $request->volumen) + $crisol->Peso);
 

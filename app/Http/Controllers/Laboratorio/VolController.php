@@ -1125,7 +1125,7 @@ class VolController extends Controller
         if(is_null($parametro)){
             $parametro = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->first();            
             if(is_null($parametro)){
-                $parametro = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->first();            
+                $parametro = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->first();
             }
         }
   
@@ -1219,7 +1219,7 @@ class VolController extends Controller
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
             }else if($parametro->Parametro == 'Nitrógeno Total *'){                 
-                $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+                $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
 
                 if(!is_null($data)){                                             
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
@@ -1230,7 +1230,7 @@ class VolController extends Controller
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
             }else if($parametro->Parametro == 'Nitrógeno Amoniacal'){                 
-                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
  
                  if(!is_null($data)){                                              
                      $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
@@ -1241,7 +1241,7 @@ class VolController extends Controller
                      $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                  }
              }else if($parametro->Parametro == 'Nitrógeno Orgánico'){ //POR REVISAR EN LA TABLA DE DATOS                                  
-                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
 
                  if(!is_null($data)){                                             
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
@@ -1358,11 +1358,14 @@ class VolController extends Controller
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
             }else if($parametro->Parametro == 'Nitrógeno Total *'){
-                $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+                $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
 
                 if(!is_null($data)){                    
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 30)->first();
+                    $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
+                    
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 30)->first();
+                    $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
                 }else{
@@ -1370,10 +1373,10 @@ class VolController extends Controller
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }                                
             }else if($parametro->Parametro == 'Nitrógeno Amoniacal'){                 
-                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
  
                  if(!is_null($data)){                     
-                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+                     $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
 
                      $textoProcedimiento = ReportesFq::where('Id_reporte', 27)->first();
 
@@ -1383,7 +1386,7 @@ class VolController extends Controller
                      $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                  }                                
              }else if($parametro->Parametro == 'Nitrógeno Orgánico'){ //POR REVISAR EN LA TABLA DE DATOS                
-                $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
+                $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
  
                 if(!is_null($data)){                                       
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
