@@ -10,52 +10,171 @@ var area = "fq";
 
 $(document).ready(function () {
 
-    $('#summernote').summernote({
-        placeholder: '', 
-        tabsize: 2,
-        height: 100,
-
-      });
-
-    table = $('#table').DataTable({        
-        "ordering": false,
-        "language": {
-            "lengthMenu": "# _MENU_ por pagina",
-            "zeroRecords": "No hay datos encontrados",
-            "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",
-        }
-    });
-
-    //quill = new Quill('#editor', options);
 
 
 });
-$('#btnBlanco').click(function () {
-    $("#blancoRes").val($("#blancoVal").val())
-    let prom;
-    let res;
-    let D = $("#D").val();
-    let E = $("#E").val();
-    let G = $("#G").val();
-    let A = $("#A").val();
-    let B = $("#B").val();
-    let C = $("#C").val();
-
-    prom = (parseFloat(D) +parseFloat(E)  + parseFloat(G)) /3;
-    res = (parseFloat(A) * parseFloat(B) * parseFloat(C)) / prom;
-    $("#molRes").val(res.toFixed(3));
+$('#btnDatosLote').click(function () {
+    switch ($("#tipoFormula").val()) {
+        case '295': // CLORO RESIDUAL LIBRE
+            $("#secctionCloro").show();
+            $("#secctionDqo").hide();
+            $("#secctionNitrogeno").hide();
+            break;
+        case '7': // DQO
+            $("#secctionDqo").show();
+            $("#secctionCloro").hide();
+            $("#secctionNitrogeno").hide();
+            break;
+        case '12':
+            $("#secctionNitrogeno").show();
+            $("#secctionCloro").hide();
+            $("#secctionDqo").hide();
+            break;
+        default:
+            break;
+    }
 });
-function habilitarTabla(id1,id2)
-{
-    $("#"+id1).show();
-    $("#"+id2).hide();
+$('#btnEjecutarVal').click(function () {
+    let prom = 0;
+    let res = 0;
+    let titulado1 = 0;
+    let titulado2 = 0;
+    let titulado3 = 0;
+    switch ($("#tipoFormula").val()) {
+        case '295': // CLORO RESIDUAL LIBRE
+            $("#blancoResClo").val($("#blancoCloro").val()) 
+            titulado1 = $("#tituladoClo1").val();
+            titulado2 = $("#tituladoClo2").val();
+            titulado3 = $("#tituladoClo3").val();
+            let trazable = $("#trazableClo").val();
+            let normalidad = $("#normalidadClo").val();
+
+            prom = (parseFloat(titulado1) + parseFloat(titulado2) + parseFloat(titulado3)) / 3;
+            res = (parseFloat(trazable) * parseFloat(normalidad)) / prom;
+            $("#normalidadResCloro").val(res.toFixed(4));
+            break;
+        case '7': // DQO
+            $("#blancoResD").val($("#blancoValD").val())
+            titulado1 = $("#titulado1D").val();
+            titulado2 = $("#titulado2D").val();
+            titulado3 = $("#titulado3D").val();
+            let volk2 = $("#volk2D").val();
+            let concentracion = $("#concentracionD").val();
+            let factor = $("#factorD").val();
+
+            prom = (parseFloat(titulado1) + parseFloat(titulado2) + parseFloat(titulado3)) / 3;
+            res = (parseFloat(volk2) * parseFloat(concentracion) * parseFloat(factor)) / prom;
+            $("#molaridadResD").val(res.toFixed(4));
+            // console.log(res)
+            break;
+        case '12': // DQO
+            $("#blancoResN").val($("#blancoValN").val())
+            titulado1 = $("#titulado1N").val();
+            titulado2 = $("#titulado2N").val();
+            titulado3 = $("#titulado3N").val();
+            let gramos = $("#gramosN").val();
+            let factorN = $("#factorN").val();
+            let pm = $("#PmN").val();
+
+            prom = (parseFloat(titulado1) + parseFloat(titulado2) + parseFloat(titulado3)) / 3;
+            res = (parseFloat(gramos) / (parseFloat(pm) * prom)) * factorN;
+            $("#molaridadResN").val(res.toFixed(4));
+            // console.log(res)
+            break;
+        default:
+            break;
+    }
+});
+$('#btnGuardarVal').click(function () {
+    switch ($("#tipoFormula").val()) {
+        case '295': // CLORO RESIDUAL LIBRE
+        $.ajax({
+            type: 'POST',
+            url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+            data: {
+                caso:1,
+                idParametro:$("#tipoFormula").val(),
+                blanco: $("#blancoResClo").val(),
+                idLote: $("#idLoteHeader").val(),
+                titulado1:$("#tituladoClo1").val(),
+                titulado2:$("#tituladoClo2").val(),
+                titulado3:$("#tituladoClo3").val(),
+                trazable:$("#trazableClo").val(),
+                normalidad:$("#normalidadClo").val(),
+                resultado:$("#normalidadResCloro").val(),
+                _token: $('input[name="_token"]').val(),
+            },
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                console.log(response);
+            }
+        });
+            break;
+        case '7': // DQO
+        $.ajax({
+            type: 'POST',
+            url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+            data: {
+                caso:2,
+                idParametro:$("#tipoFormula").val(),
+                blanco: $("#blancoResD").val(),
+                idLote: $("#idLoteHeader").val(),
+                volk2D:$("#volk2D").val(),
+                concentracion:$("#concentracionD").val(),
+                factor:$("#factorD").val(),
+                titulado1:$("#titulado1D").val(),
+                titulado2:$("#titulado2D").val(),
+                titulado3:$("#titulado3D").val(),
+                resultado: $("#molaridadResD").val(),
+                _token: $('input[name="_token"]').val(),
+            },
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                console.log(response);
+            }
+        });
+            break;
+        case '12': // NITROGENO TOTAL
+            $.ajax({
+                type: 'POST',
+                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                data: {
+                    caso: 3,
+                    idParametro: $("#tipoFormula").val(),
+                    blanco: $("#blancoResN").val(),
+                    idLote: $("#idLoteHeader").val(),
+                    gramos: $("#gramosN").val(),
+                    factor: $("#factorN").val(),
+                    titulado1: $("#titulado1N").val(),
+                    titulado2: $("#titulado2N").val(),
+                    titulado3: $("#titulado3N").val(),
+                    pm: $("#PmN").val(),
+                    resultado: $("#molaridadResN").val(),
+                    _token: $('input[name="_token"]').val(),
+                },
+                dataType: "json",
+                async: false,
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+            break;
+        default:
+            break;
+    }
+});
+
+
+function habilitarTabla(id1, id2) {
+    $("#" + id1).show();
+    $("#" + id2).hide();
 }
-function createLote() 
-{
+function createLote() {
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/"+area+"/createLote",
+        url: base_url + "/admin/laboratorio/" + area + "/createLote",
         data: {
             tipo: $("#tipoFormula").val(),
             fecha: $("#fechaLote").val(),
@@ -63,7 +182,7 @@ function createLote()
         },
         dataType: "json",
         async: false,
-        success: function (response) {            
+        success: function (response) {
             console.log(response);
             swal("Registro!", "Lote creado correctamente!", "success");
             $('#modalCrearLote').modal('hide')
@@ -71,21 +190,20 @@ function createLote()
     });
 }
 
-function buscarLote()
-{
+function buscarLote() {
     let tabla = document.getElementById('divTable');
     let tab = '';
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/"+area+"/buscarLote",
+        url: base_url + "/admin/laboratorio/" + area + "/buscarLote",
         data: {
-            tipo: $("#tipo").val(),
+            tipo: $("#tipoFormula").val(),
             fecha: $("#fecha").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         async: false,
-        success: function (response) {            
+        success: function (response) {
             console.log(response);
             tab += '<table id="tablaLote" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
@@ -98,20 +216,19 @@ function buscarLote()
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
-                if(response.sw == true)
-                {
-                    $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>'+item.Id_lote+'</td>';
-                        tab += '<td>'+item.Parametro+' ('+item.Tipo_formula+')</td>';
-                        tab += '<td>'+item.Fecha+'</td>';
-                        tab += '<td>'+item.created_at+'</td>';
-                        tab += '<td><button type="button" id="btnAsignar" onclick="setAsignar('+item.Id_lote+')"  class="btn btn-primary">Agregar</button></td>';
-                      tab += '</tr>';
-                    });
-                }else{
-                    tab += '<h5 style="color:red;">No hay datos</h5>';
-                }
+            if (response.sw == true) {
+                $.each(response.model, function (key, item) {
+                    tab += '<tr>';
+                    tab += '<td>' + item.Id_lote + '</td>';
+                    tab += '<td>' + item.Parametro + ' (' + item.Tipo_formula + ')</td>';
+                    tab += '<td>' + item.Fecha + '</td>';
+                    tab += '<td>' + item.created_at + '</td>';
+                    tab += '<td><button type="button" id="btnAsignar" onclick="setAsignar(' + item.Id_lote + ')"  class="btn btn-primary">Agregar</button></td>';
+                    tab += '</tr>';
+                });
+            } else {
+                tab += '<h5 style="color:red;">No hay datos</h5>';
+            }
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
@@ -119,142 +236,72 @@ function buscarLote()
     });
 }
 
-function setAsignar(id)
-{
-    window.location = base_url + "/admin/laboratorio/"+area+"/asgnarMuestraLoteVol/"+id;
+function setAsignar(id) {
+    window.location = base_url + "/admin/laboratorio/" + area + "/asgnarMuestraLoteVol/" + id;
 }
 
 //Adaptando para FQ
-function getDatalote()
-{
+function getDatalote() {
     let tabla = document.getElementById('divTableFormulaGlobal');
     let tab = '';
     let summer = document.getElementById("divSummer");
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/"+area+"/getDatalote",
+        url: base_url + "/admin/laboratorio/" + area + "/getDataloteVol",
         data: {
-            idLote:$("#idLoteHeader").val(),
+            idLote: $("#idLoteHeader").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         async: false,
         success: function (response) {
             console.group(response);
-            
-            //console.log("Valor de idLote: " + response[5]);
-            
-            if(response.idLoteIf == 0 || response.idLoteIf < 0 || !response.idLoteIf){
-                tab += '<table id="tableFormulasGlobales" class="table table-sm">';
-                tab += '<thead>'
-                tab +=      '<tr>'
-                tab +=          '<th scope="col">Fórmula</th>'
-                tab +=          '<th scope="col">Resultado</th>'
-                tab +=          '<th scope="col">Núm.Decimales</th>'
-                tab +=      '</tr>'
-                tab += '</thead>'
-                tab += '<tbody>'
-                tab +=      '<tr>'
-                //tab +=          '<td></td>'
-                //tab +=          '<td></td>'
-                //tab +=          '<td></td>'
-                tab +=      '</tr>'
-                tab += '</tbody>'
-                tab += '</table>';
-                tabla.innerHTML = tab;
-            }else if(response.idLoteIf > 0){
-                tab += '<table id="tableFormulasGlobales" class="table table-sm">';
-                tab += '    <thead class="thead-dark">';
-                tab += '        <tr>';
-                tab += '          <th>Fórmula</th>';
-                tab += '          <th>Resultado</th> ';
-                tab += '          <th>Núm. Decimales</th> ';
-                tab += '        </tr>';
-                tab += '    </thead>';
-                tab += '    <tbody>';
-                
-                if(response.curvaConstantes !== null){
-                    tab +=          '<tr>';
-                    tab +=              '<td>B</td>';
-                    tab +=              '<td>'+response.curvaConstantes.B+'</td>';
-                    tab +=              '<td>3</td>';
-                    tab +=          '</tr>';
-
-                    tab +=          '<tr>';
-                    tab +=              '<td>M</td>';
-                    tab +=              '<td>'+response.curvaConstantes.M+'</td>';
-                    tab +=              '<td>3</td>';
-                    tab +=          '</tr>';
-
-                    tab +=          '<tr>';
-                    tab +=              '<td>R</td>';
-                    tab +=              '<td>'+response.curvaConstantes.R+'</td>';
-                    tab +=              '<td>3</td>';
-                    tab +=          '</tr>';
-                }
-                
-                /* $.each(response[0], function (key, item) {
-                    tab += '<tr>';
-                    tab +=      '<td>'+item.Constante+'</td>';
-                    tab +=      '<td>'+item.Valor+'</td>';
-                    tab +=      '<td>3</td>';                
-                    tab += '</tr>';
-                }); */ 
-
-                tab += '    </tbody>';
-                tab += '</table>';
-                tabla.innerHTML = tab;
-            }
-
-
-            //------------------------Grasas
-            //console.log("Arreglo grasas: " + response.dataGrasas[0][0].Temperatura);
 
             //calentamiento de matraces
-            if(response.dataGrasas[0] !== null){
-                for(let i = 0; i < 3; i++){
-                    $("#calLote" + (i+1)).val(response.dataGrasas[0][i].Id_lote);
-                    $("#calMasa" + (i+1)).val(response.dataGrasas[0][i].Masa_constante);
-                    $("#calTemp" + (i+1)).val(response.dataGrasas[0][i].Temperatura);
-                    $("#calEntrada" + (i+1)).val(response.dataGrasas[0][i].Entrada);
-                    $("#calSalida" + (i+1)).val(response.dataGrasas[0][i].Salida);
+            if (response.dataGrasas[0] !== null) {
+                for (let i = 0; i < 3; i++) {
+                    $("#calLote" + (i + 1)).val(response.dataGrasas[0][i].Id_lote);
+                    $("#calMasa" + (i + 1)).val(response.dataGrasas[0][i].Masa_constante);
+                    $("#calTemp" + (i + 1)).val(response.dataGrasas[0][i].Temperatura);
+                    $("#calEntrada" + (i + 1)).val(response.dataGrasas[0][i].Entrada);
+                    $("#calSalida" + (i + 1)).val(response.dataGrasas[0][i].Salida);
                 }
-            }else{
-                for(let i = 0; i < 3; i++){
-                    $("#calLote" + (i+1)).val('');
-                    $("#calMasa" + (i+1)).val('');
-                    $("#calTemp" + (i+1)).val('');
-                    $("#calEntrada" + (i+1)).val('');
-                    $("#calSalida" + (i+1)).val('');
+            } else {
+                for (let i = 0; i < 3; i++) {
+                    $("#calLote" + (i + 1)).val('');
+                    $("#calMasa" + (i + 1)).val('');
+                    $("#calTemp" + (i + 1)).val('');
+                    $("#calEntrada" + (i + 1)).val('');
+                    $("#calSalida" + (i + 1)).val('');
                 }
             }
 
             //enfriado de matraces
-            if(response.dataGrasas[1] !== null){
-                for(let i = 0; i < 3; i++){
-                    $("#enfLote" + (i+1)).val(response.dataGrasas[1][i].Id_lote);
-                    $("#enfMasa" + (i+1)).val(response.dataGrasas[1][i].Masa_constante);
-                    $("#enfEntrada" + (i+1)).val(response.dataGrasas[1][i].Entrada);
-                    $("#enfSalida" + (i+1)).val(response.dataGrasas[1][i].Salida);
-                    $("#enfPesado" + (i+1)).val(response.dataGrasas[1][i].Pesado_matraz);
+            if (response.dataGrasas[1] !== null) {
+                for (let i = 0; i < 3; i++) {
+                    $("#enfLote" + (i + 1)).val(response.dataGrasas[1][i].Id_lote);
+                    $("#enfMasa" + (i + 1)).val(response.dataGrasas[1][i].Masa_constante);
+                    $("#enfEntrada" + (i + 1)).val(response.dataGrasas[1][i].Entrada);
+                    $("#enfSalida" + (i + 1)).val(response.dataGrasas[1][i].Salida);
+                    $("#enfPesado" + (i + 1)).val(response.dataGrasas[1][i].Pesado_matraz);
                 }
-            }else{
-                for(let i = 0; i < 3; i++){
-                    $("#enfLote" + (i+1)).val('');
-                    $("#enfMasa" + (i+1)).val('');
-                    $("#enfEntrada" + (i+1)).val('');
-                    $("#enfSalida" + (i+1)).val('');
-                    $("#enfPesado" + (i+1)).val('');
+            } else {
+                for (let i = 0; i < 3; i++) {
+                    $("#enfLote" + (i + 1)).val('');
+                    $("#enfMasa" + (i + 1)).val('');
+                    $("#enfEntrada" + (i + 1)).val('');
+                    $("#enfSalida" + (i + 1)).val('');
+                    $("#enfPesado" + (i + 1)).val('');
                 }
             }
 
             //secado de cartuchos
-            if(response.dataGrasas[2] !== null){
+            if (response.dataGrasas[2] !== null) {
                 $("#secadoLote1").val(response.dataGrasas[2].Id_lote);
                 $("#secadoTemp1").val(response.dataGrasas[2].Temperatura);
                 $("#secadoEntrada1").val(response.dataGrasas[2].Entrada);
                 $("#secadoSalida1").val(response.dataGrasas[2].Salida);
-            }else{
+            } else {
                 $("#secadoLote1").val('');
                 $("#secadoTemp1").val('');
                 $("#secadoEntrada1").val('');
@@ -262,37 +309,37 @@ function getDatalote()
             }
 
             //tiempo de reflujo
-            if(response.dataGrasas[3] !== null){
+            if (response.dataGrasas[3] !== null) {
                 $("#tiempoLote1").val(response.dataGrasas[3].Id_lote);
                 $("#tiempoEntrada1").val(response.dataGrasas[3].Entrada);
                 $("#tiempoSalida1").val(response.dataGrasas[3].Salida);
-            }else{
+            } else {
                 $("#tiempoLote1").val('');
                 $("#tiempoEntrada1").val('');
                 $("#tiempoSalida1").val('');
             }
 
             //enfriado de matraces
-            if(response.dataGrasas[4] !== null){
+            if (response.dataGrasas[4] !== null) {
                 $("#enfriadoLote1").val(response.dataGrasas[4].Id_lote);
                 $("#enfriadoEntrada1").val(response.dataGrasas[4].Entrada);
                 $("#enfriadoSalida1").val(response.dataGrasas[4].Salida);
-            }else{
+            } else {
                 $("#enfriadoLote1").val('');
                 $("#enfriadoEntrada1").val('');
                 $("#enfriadoSalida1").val('');
             }
 
             //------------------------Coliformes
-            
-            if((response.dataColi[0] !== null) && (response.dataColi[1] !== null) && (response.dataColi[2] !== null)){
+
+            if ((response.dataColi[0] !== null) && (response.dataColi[1] !== null) && (response.dataColi[2] !== null)) {
                 //Formatea la fecha a un formato admitido por el input datetime
                 let fecha = response.dataColi[0].Sembrado;
                 let fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm');
-                let fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');                                
+                let fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');
 
                 $("#sembrado_loteId").val(response.dataColi[0].Id_lote);
-                $("#sembrado_sembrado").val(fechaFormateada);                
+                $("#sembrado_sembrado").val(fechaFormateada);
                 $("#sembrado_fechaResiembra").val(response.dataColi[0].Fecha_resiembra);
                 $("#sembrado_tuboN").val(response.dataColi[0].Tubo_n);
                 $("#sembrado_bitacora").val(response.dataColi[0].Bitacora);
@@ -302,7 +349,7 @@ function getDatalote()
                 fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm');
                 fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');
                 $('#pruebaPresuntiva_preparacion').val(fechaFormateada);
-                
+
                 fecha = response.dataColi[1].Lectura;
                 fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm');
                 fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');
@@ -321,37 +368,37 @@ function getDatalote()
                 fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');
                 $('#pruebaConfirmativa_lectura').val(fechaFormateada);
 
-            }else{                
+            } else {
                 $("#sembrado_loteId").val('');
                 $("#sembrado_sembrado").val('');
                 $("#sembrado_fechaResiembra").val('');
                 $("#sembrado_tuboN").val('');
-                $("#sembrado_bitacora").val('');                
+                $("#sembrado_bitacora").val('');
 
                 $('#pruebaPresuntiva_preparacion').val('');
-                $('#pruebaPresuntiva_lectura').val('');                
+                $('#pruebaPresuntiva_lectura').val('');
 
                 $('#pruebaConfirmativa_medio').val('');
                 $('#pruebaConfirmativa_preparacion').val('');
-                $('#pruebaConfirmativa_lectura').val('');                                
-            }    
-            
+                $('#pruebaConfirmativa_lectura').val('');
+            }
+
             //------------DQO------------
-            if(response.dataDqo !== null){
+            if (response.dataDqo !== null) {
                 $("#ebullicion_loteId").val(response.dataDqo.Id_lote);
-                
+
                 /* let fecha = response.dataDqo.Inicio;
                 let fechaIngresada = moment(fecha, 'DD-MM-YYYY');
                 let fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DD'); */
                 $("#ebullicion_inicio").val(response.dataDqo.Inicio);
-                
+
                 /* fecha = response.dataDqo.Fin;
                 fechaIngresada = moment(fecha, 'DD-MM-YYYY');
                 fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DD'); */
                 $("#ebullicion_fin").val(response.dataDqo.Fin);
 
                 $("#ebullicion_invlab").val(response.dataDqo.Invlab);
-            }else{
+            } else {
                 $("#ebullicion_loteId").val('');
                 $("#ebullicion_inicio").val('');
                 $("#ebullicion_fin").val('');
@@ -359,20 +406,20 @@ function getDatalote()
             }
             //-----------------------------------------
 
-            console.log("actualizado");            
+            console.log("actualizado");
 
-            if(response.reporte !== null){
-                summer.innerHTML = '<div id="summernote">'+response.reporte.Texto+'</div>';
+            if (response.reporte !== null) {
+                summer.innerHTML = '<div id="summernote">' + response.reporte.Texto + '</div>';
                 $('#summernote').summernote({
                     placeholder: '',
                     tabsize: 2,
                     height: 100,
-            
+
                 });
-            }else{
+            } else {
                 $.ajax({
                     type: "POST",
-                    url: base_url + "/admin/laboratorio/"+area+"/getDataLote/plantillaPredeterminada",
+                    url: base_url + "/admin/laboratorio/" + area + "/getDataLote/plantillaPredeterminada",
                     data: {
                         idLote: $("#idLoteHeader").val(),
                         _token: $('input[name="_token"]').val(),
@@ -381,31 +428,69 @@ function getDatalote()
                     async: false,
                     success: function (response) {
                         //console.log(response);                        
-                        summer.innerHTML = '<div id="summernote">'+response.Texto+'</div>';
+                        summer.innerHTML = '<div id="summernote">' + response.Texto + '</div>';
                         $('#summernote').summernote({
                             placeholder: '',
                             tabsize: 2,
                             height: 100,
-                    
+
                         });
                     }
                 });
             }
+
+            switch ($("#tipoFormula").val()) {
+                case '295': // CLORO RESIDUAL LIBRE
+                    $("#blancoResClo").val(response.valoracion.Blanco);
+                    $("#blancoCloro").val(response.valoracion.Blanco);
+                    $("#tituladoClo1").val(response.valoracion.Ml_titulado1);
+                    $("#tituladoClo2").val(response.valoracion.Ml_titulado2);
+                    $("#tituladoClo3").val(response.valoracion.Ml_titulado3);
+                    $("#trazableClo").val(response.valoracion.Ml_trazable);
+                    $("#normalidadClo").val(response.valoracion.Normalidad);
+                    $("#normalidadResCloro").val(response.valoracion.Resultado);
+                    break;
+                case '7': // DQO
+                    $("#blancoResD").val(response.valoracion.Blanco);
+                    $("#blancoValD").val(response.valoracion.Blanco);
+                    $("#volk2D").val(response.valoracion.Vol_k2);
+                    $("#concentracionD").val(response.valoracion.Concentracion);
+                    $("#factorD").val(response.valoracion.Factor);
+                    $("#titulado1D").val(response.valoracion.Vol_titulado1);
+                    $("#titulado2D").val(response.valoracion.Vol_titulado2);
+                    $("#titulado3D").val(response.valoracion.Vol_titulado3);
+                    $("#molaridadResD").val(response.valoracion.Resultado);
+                    break;
+                case '12': // NITROGENO TOTAL
+                    $("#blancoResN").val(response.valoracion.Blanco);
+                    $("#blancoValN").val(response.valoracion.Blanco);
+                    $("#gramosN").val(response.valoracion.Gramos);
+                    $("#factorN").val(response.valoracion.Factor_conversion);
+                    $("#titulado1N").val(response.valoracion.Titulo1);
+                    $("#titulado2N").val(response.valoracion.Titulo2);
+                    $("#titulado3N").val(response.valoracion.Titulo3);
+                    $("#PmN").val(response.valoracion.Pm);
+                    $("#molaridadResN").val(response.valoracion.Resultado);
+                    break;
+                default:
+                    break;
+            }
+
         }
     });
 }
 
 
-function isSelectedProcedimiento(procedimientoTab){
+function isSelectedProcedimiento(procedimientoTab) {
     let valorProcedimientoTab = 'https://dev.sistemaacama.com.mx/admin/laboratorio/lote#procedimiento';
     let pestañaProcedimiento = document.getElementById(procedimientoTab);
     let btnActualizar = document.getElementById('btnRefresh');
     let annex = '';
     let evento = "(onclick='busquedaPlantilla('idLoteHeader');')";
 
-    if(pestañaProcedimiento == valorProcedimientoTab){        
-        annex+= '<button type="button" class="btn btn-primary" evento.value><i class="fas fa-sync-alt"></i></button>';
-    }else{        
+    if (pestañaProcedimiento == valorProcedimientoTab) {
+        annex += '<button type="button" class="btn btn-primary" evento.value><i class="fas fa-sync-alt"></i></button>';
+    } else {
         annex = '';
     }
 
@@ -413,53 +498,53 @@ function isSelectedProcedimiento(procedimientoTab){
 }
 
 //Método que guarda el texto ingresado en el editor de texto Quill en la BD
-function guardarTexto(idLote){  
+function guardarTexto(idLote) {
     let lote = document.getElementById(idLote).value;
     let texto = document.getElementById("summernote");
     let summer = document.getElementById("divSummer");
 
     console.log("Antes de ajax");
-    
+
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/"+area+"/lote/procedimiento",
-        data: {            
-            texto: $("#summernote").summernote('code'), 
+        url: base_url + "/admin/laboratorio/" + area + "/lote/procedimiento",
+        data: {
+            texto: $("#summernote").summernote('code'),
             lote: lote,
             idArea: 5
         },
         dataType: "json",
         async: false,
-        success: function (response) {            
-            console.log("REGISTRO EXITOSO");            
+        success: function (response) {
+            console.log("REGISTRO EXITOSO");
             //console.log(response);
-            summer.innerHTML = '<div id="summernote">'+response.texto.Texto+'</div>';
+            summer.innerHTML = '<div id="summernote">' + response.texto.Texto + '</div>';
             $('#summernote').summernote({
                 placeholder: '',
                 tabsize: 2,
-                height: 100,            
+                height: 100,
             });
         }
     });
 }
 
 //Función que guarda todos los input de la vista Lote > Modal > [Grasas, Coliformes, DBO, DQO, Metales]
-$('#guardarTodo').click(function() {
+$('#guardarTodo').click(function () {
     //console.log("Valor de IDLote: " + $('#idLoteHeader').val());
-    
+
     //Calentamiento de matraces
     let calentamiento = new Array();
-    
-    for(let i = 0; i < 3; i++){
+
+    for (let i = 0; i < 3; i++) {
         row = new Array();
 
-        row.push($("#calLote" + (i+1)).val());
-        row.push($("#calMasa" + (i+1)).val());
-        row.push($("#calTemp" + (i+1)).val());
-        row.push($("#calEntrada" + (i+1)).val());
-        row.push($("#calSalida" + (i+1)).val());
+        row.push($("#calLote" + (i + 1)).val());
+        row.push($("#calMasa" + (i + 1)).val());
+        row.push($("#calTemp" + (i + 1)).val());
+        row.push($("#calEntrada" + (i + 1)).val());
+        row.push($("#calSalida" + (i + 1)).val());
         calentamiento.push(row);
-    }    
+    }
 
     console.log("Array calentamiento: " + calentamiento);
 
@@ -467,13 +552,13 @@ $('#guardarTodo').click(function() {
     //Enfriado de matraces
     let enfriado = new Array();
 
-    for(let i = 0; i < 3; i++){
+    for (let i = 0; i < 3; i++) {
         row = new Array();
-        row.push($("#enfLote" + (i+1)).val());
-        row.push($("#enfMasa" + (i+1)).val());
-        row.push($("#enfEntrada" + (i+1)).val());
-        row.push($("#enfSalida" + (i+1)).val());
-        row.push($("#enfPesado" + (i+1)).val());
+        row.push($("#enfLote" + (i + 1)).val());
+        row.push($("#enfMasa" + (i + 1)).val());
+        row.push($("#enfEntrada" + (i + 1)).val());
+        row.push($("#enfSalida" + (i + 1)).val());
+        row.push($("#enfPesado" + (i + 1)).val());
         enfriado.push(row);
     }
     console.log("Array enfriado: " + enfriado);
@@ -482,42 +567,42 @@ $('#guardarTodo').click(function() {
     console.log("secadoTemp: " + $("#secadoTemp1").val());
     console.log("secadoEntrada: " + $("#secadoEntrada1").val());
     console.log("secadoSalida: " + $("#secadoSalida1").val());
-    
+
     console.log("tiempoLote: " + $("#tiempoLote1").val());
     console.log("tiempoEntrada: " + $("#tiempoEntrada1").val());
     console.log("tiempoSalida: " + $("#tiempoSalida1").val());
 
     console.log("enfriadoLote: " + $("#enfriadoLote1").val());
     console.log("enfriadoEntrada: " + $("#enfriadoEntrada1").val());
-    console.log("enfriadoSalida: " + $("#enfriadoSalida1").val());    
+    console.log("enfriadoSalida: " + $("#enfriadoSalida1").val());
 
     //Guardado de datos
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/"+area+"/lote/guardarDatos",
+        url: base_url + "/admin/laboratorio/" + area + "/lote/guardarDatos",
         data: {
             idLote: $('#idLoteHeader').val(),
 
             //-----------------Grasas----------------------
             grasas_calentamiento: calentamiento,
-            
+
             grasas_enfriado: enfriado,
-            
+
             grasas_secadoLote: $("#secadoLote1").val(),
             grasas_secadoTemp: $("#secadoTemp1").val(),
             grasas_secadoEntrada: $("#secadoEntrada1").val(),
             grasas_secadoSalida: $("#secadoSalida1").val(),
-            
+
             grasas_tiempoLote: $("#tiempoLote1").val(),
             grasas_tiempoEntrada: $("#tiempoEntrada1").val(),
             grasas_tiempoSalida: $("#tiempoSalida1").val(),
-            
+
             grasas_enfriadoLote: $("#enfriadoLote1").val(),
             grasas_enfriadoEntrada: $("#enfriadoEntrada1").val(),
             grasas_enfriadoSalida: $("#enfriadoSalida1").val(),
-            
-            
-            
+
+
+
             //-----------------Coliformes------------------
             sembrado_loteId: $('#sembrado_loteId').val(),
             sembrado_sembrado: $('#sembrado_sembrado').val(),
@@ -526,19 +611,19 @@ $('#guardarTodo').click(function() {
             sembrado_bitacora: $('#sembrado_bitacora').val(),
 
             pruebaPresuntiva_preparacion: $('#pruebaPresuntiva_preparacion').val(),
-            pruebaPresuntiva_lectura: $('#pruebaPresuntiva_lectura').val(),           
+            pruebaPresuntiva_lectura: $('#pruebaPresuntiva_lectura').val(),
 
             pruebaConfirmativa_medio: $('#pruebaConfirmativa_medio').val(),
             pruebaConfirmativa_preparacion: $('#pruebaConfirmativa_preparacion').val(),
-            pruebaConfirmativa_lectura: $('#pruebaConfirmativa_lectura').val(),            
-            
-            
-            
+            pruebaConfirmativa_lectura: $('#pruebaConfirmativa_lectura').val(),
+
+
+
             //--------------------DQO---------------------
             ebullicion_loteId: $("#ebullicion_loteId").val(),
             ebullicion_inicio: $("#ebullicion_inicio").val(),
             ebullicion_fin: $("#ebullicion_fin").val(),
-            ebullicion_invlab: $("#ebullicion_invlab").val(),            
+            ebullicion_invlab: $("#ebullicion_invlab").val(),
 
             _token: $('input[name="_token"]').val()
         },

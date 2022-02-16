@@ -14,19 +14,25 @@ $(document).ready(function () {
 //     updateObsVolumetria();
 // });
 
-$('#btnEjecutar').click(function (){
-    operacion();
+$('#btnEjecutarDqo').click(function (){
+    operacionDqo();
 })
 $('#btnEjecutarCloro').click(function (){
     operacionCloro();
+})
+$('#btnEjecutarNitro').click(function (){
+    operacionNitrogeno();
 })
 
 $('#btnGuardarCloro').click(function (){
     // operacionCloro();
     guardarCloro();
 });
-$('#guardar').click(function () {
-    operacion();
+$('#btnGuardarDqo').click(function () {
+    guardarDqo();
+});
+$('#btnGuardarNitro').click(function (){
+    guardarNitrogeno();
 });
 $('#btnLiberar').click(function () {
     // operacion();
@@ -72,7 +78,7 @@ function getDataCaptura() {
                     tab += '<td>'+item.Fecha+'</td>';
                     tab += '<td>'+item.Asignado+'</td>';
                     tab += '<td>'+item.Liberado+'</td>';
-                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button></td>';
+                    tab += '<td><button class="btn btn-success" id="btnImprimir" onclick="imprimir('+item.Id_lote+');"><i class="fas fa-file-download"></i></button></td>';
                     tab += '</tr>';
                 }); 
                 tab += '    </tbody>';
@@ -142,30 +148,33 @@ function getLoteCapturaVol() {
             tab += '          <th>Resultado</th>';
             tab += '          <th>Observación</th>';
             tab += '        </tr>';
-            tab += '    </thead>'; 
+            tab += '    </thead>';
             tab += '    <tbody>';
             $.each(response.detalle, function (key, item) {
                 tab += '<tr>';
                 if (item.Liberado != 0) {
                     status = "";
-                } else { 
+                } else {
                     status = "disabled";
                 }
                 switch ($("#formulaTipo").val()) {
                     case '295': // CLORO RESIDUAL LIBRE
                         // tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleVol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';    
-                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleVol('+item.Id_detalle+',1);" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleVol(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
                         break;
                     case '7':
-                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleVol('+item.Id_detalle+',1);" data-toggle="modal" data-target="#modalDqo">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleVol(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDqo">Capturar</button>';
+                        break;
+                    case '12':
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleVol(' + item.Id_detalle + ',3);" data-toggle="modal" data-target="#modalNitrogeno">Capturar</button>';
                         break;
                     default:
-                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleVol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
+                        // tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleVol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
+                        tab +='<td></td>';
                         break;
-                }
-                    
-                if (item.Id_control != 1) 
-                {
+                } 
+
+                if (item.Id_control != 1) {
                     tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
                 }else{
                     tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
@@ -223,10 +232,37 @@ function getLoteCapturaVol() {
 }
 
 //Función imprimir PDF
-function imprimir() {       
-    window.open(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaVolumetria/"+idLote);
+function imprimir(id) {       
+    window.open(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaVolumetria/"+id);
     //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaVolumetria/"+idLote;
 }
+function operacionNitrogeno()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionVolumetriaNitrogeno", 
+        data: {
+            idDetalle:idMuestra,
+            A:$("#tituladosNitro1").val(),
+            B:$("#blancoNitro1").val(),
+            C:$("#molaridadNitro1").val(),
+            D:$("#factorNitro1").val(),
+            E:$("#conversion1").val(),
+            G:$("#volNitro1").val(),
+
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            $("#resultadoNitro").val(response.res.toFixed(2));
+            
+         
+        }
+    });
+}
+
+
 function operacionCloro()
 {
     $.ajax({
@@ -281,26 +317,72 @@ function guardarCloro()
 }
 
 
-function operacion() {
+function operacionDqo() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/operacionVolumetria", 
+        url: base_url + "/admin/laboratorio/" + area + "/operacionVolumetriaDqo", 
         data: {
-            idParametro:$("#formulaTipo").val(),
-            B:$("#b1").val(),
-            C:$("#c1").val(),
-            CA:$("#ca1").val(),
-            D:$("#d1").val(),
-            E:$("#e1").val(),
+            idDetalle:idMuestra,
+            B:$("#tituladoDqo1").val(),
+            C:$("#MolaridadDqo1").val(),
+            CA:$("#blancoDqo1").val(),
+            D:$("#factorDqo1").val(),
+            E:$("#volDqo1").val(),
+            resultado:$("#resultadoDqo").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
-            $("#resultado").val(response.res.toFixed(2));
-            
-         
+            $("#resultadoDqo").val(response.res);
+            getLoteCapturaVol();
+        }
+    });
+}
+
+function guardarDqo() {
+
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/guardarDqo", 
+        data: {
+            idDetalle:idMuestra,
+            B:$("#tituladoDqo1").val(),
+            C:$("#MolaridadDqo1").val(),
+            CA:$("#blancoDqo1").val(),
+            D:$("#factorDqo1").val(),
+            E:$("#volDqo1").val(),
+            resultado:$("#resultadoDqo").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaVol();
+        }
+    });
+}
+function guardarNitrogeno() {
+
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/guardarNitrogeno", 
+        data: {
+            idDetalle:idMuestra,
+            A:$("#tituladosNitro1").val(),
+            B:$("#blancoNitro1").val(),
+            C:$("#molaridadNitro1").val(),
+            D:$("#factorNitro1").val(),
+            E:$("#conversion1").val(),
+            G:$("#volNitro1").val(),
+            resultado:$("#resultadoNitro").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaVol();
         }
     });
 }
@@ -325,8 +407,7 @@ function updateObsVolumetria(caso,obs)
 
 }
 
-function getDetalleVol(idDetalle,caso)
-{
+function getDetalleVol(idDetalle, caso) {
     /*
         Caso 1 = Cloro
         caso 2 = DQO
@@ -336,7 +417,7 @@ function getDetalleVol(idDetalle,caso)
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getDetalleVol",
         data: {
-            caso:caso,
+            caso: caso,
             formulaTipo: $("#formulaTipo").val(),
             idDetalle: idDetalle,
             _token: $('input[name="_token"]').val()
@@ -346,21 +427,40 @@ function getDetalleVol(idDetalle,caso)
             console.log(response);
             switch (caso) {
                 case 1: // Cloro
-                $("#cloroA1").val(response.model.Vol_muestra);
-                $("#cloroE1").val(response.model.Ml_muestra);
-                $("#calroH1").val(response.model.Ph_final);
-                $("#cloroG1").val(response.model.Ph_inicial);
-                $("#cloroB1").val(response.model.Vol_blanco);
-                $("#cloroC1").val(response.model.Normalidad);
-                $("#cloroD1").val(response.model.Factor_conversion);
-                $("#resultadoCloro").val(response.model.Resultado);
-                $("#observacionCloro").val(response.model.Observacion);
+                    $("#cloroA1").val(response.model.Vol_muestra);
+                    $("#cloroE1").val(response.model.Ml_muestra);
+                    $("#calroH1").val(response.model.Ph_final);
+                    $("#cloroG1").val(response.model.Ph_inicial);
+                    $("#cloroB1").val(response.valoracion.Blanco);
+                    $("#cloroC1").val(response.valoracion.Resultado);
+                    $("#cloroD1").val(response.model.Factor_conversion);
+                    $("#resultadoCloro").val(response.model.Resultado);
+                    $("#observacionCloro").val(response.model.Observacion);
                     break;
-            
+                case 2: // DQO
+                    $("#tituladoDqo1").val(response.model.Titulo_muestra);
+                    $("#MolaridadDqo1").val(response.valoracion.Resultado);
+                    $("#blancoDqo1").val(response.valoracion.Blanco);
+                    $("#factorDqo1").val(response.model.Equivalencia);
+                    $("#volDqo1").val(response.model.Vol_muestra);
+                    $("#resultadoDqo").val(response.model.Resultado);
+                    $("#observacionDqo").val(response.model.Observacion);
+                    break;
+                case 3: // NITROGENO TOTAL
+                    $("#tituladosNitro1").val(response.model.Titulado_muestra);
+                    $("#blancoNitro1").val(response.valoracion.Blanco);
+                    $("#molaridadNitro1").val(response.valoracion.Resultado);
+                    $("#factorNitro1").val(response.model.Factor_equivalencia);
+                    $("#conversion1").val(response.model.Factor_conversion);
+                    $("#volNitro1").val(response.model.Vol_muestra);
+                    $("#observacionNitro").val(response.model.Observacion);
+                    $("#resultadoNitro").val(response.model.Resultado);
+                    
+                    break;
                 default:
                     break;
             }
-        
+
         }
     });
 }
@@ -371,7 +471,7 @@ function createControlCalidad()
 { 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/createControlCalidad",
+        url: base_url + "/admin/laboratorio/" + area + "/createControlCalidadVol",
         data: {
             idParametro:$("#formulaTipo").val(),
             idMuestra: idMuestra,

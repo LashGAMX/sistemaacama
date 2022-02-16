@@ -33,12 +33,16 @@ use App\Models\LoteDetalleCloro;
 use App\Models\LoteDetalleDqo;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
+use App\Models\LoteDetalleNitrogeno;
 use App\Models\LoteDetalleSolidos;
 use App\Models\LoteTecnica;
 use App\Models\Reportes;
 use App\Models\SecadoCartucho;
 use App\Models\Tecnica;
 use App\Models\TiempoReflujo;
+use App\Models\ValoracionCloro;
+use App\Models\ValoracionDqo;
+use App\Models\ValoracionNitrogeno;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -89,9 +93,116 @@ class VolController extends Controller
         );
         return response()->json($data);
     }
+    public function guardarValidacionVol(Request $request)
+    {
+        switch ($request->caso) {
+            case 1: // Cloro
+                # code...
+                $valoracionModel = ValoracionCloro::where('Id_lote',$request->idLote)->get();
+                if($valoracionModel->count()){
+                    $model = ValoracionCloro::where('Id_lote',$request->idLote)->first();
+                    $model->Id_lote = $request->idLote;
+                    $model->Id_parametro = $request->idParametro;
+                    $model->Blanco = $request->blanco;
+                    $model->Ml_titulado1 = $request->titulado1;
+                    $model->Ml_titulado2 = $request->titulado2;
+                    $model->Ml_titulado3 = $request->titulado3;
+                    $model->Ml_trazable = $request->trazable;
+                    $model->Normalidad = $request->normalidad;
+                    $model->Resultado = $request->resultado;
+                    $model->save();
 
+                }else{
+                    $model = ValoracionCloro::create([
+                        'Id_lote' => $request->idLote,
+                        'Id_parametro' => $request->idParametro,
+                        'Blanco' => $request->blanco,
+                        'Ml_titulado1' => $request->titulado1, 
+                        'Ml_titulado2' => $request->titulado2,
+                        'Ml_titulado3' => $request->titulado3,
+                        'Ml_trazable' => $request->trazable,
+                        'Normalidad' => $request->normalidad,
+                        'Resultado' => $request->resultado,
+                    ]); 
+                }
+                break;
+                case 2: // DQO
+                    # code...
+                    $valoracionModel = ValoracionDqo::where('Id_lote',$request->idLote)->get();
+                    if($valoracionModel->count()){
+                        $model = ValoracionDqo::where('Id_lote',$request->idLote)->first();
+                        $model->Id_lote = $request->idLote;
+                        $model->Id_parametro = $request->idParametro;
+                        $model->Blanco = $request->blanco;
+                        $model->Vol_k2 = $request->volk2D;
+                        $model->Concentracion = $request->concentracion;
+                        $model->Factor = $request->factor;
+                        $model->Vol_titulado1 = $request->titulado1;
+                        $model->Vol_titulado2 = $request->titulado2;
+                        $model->Vol_titulado3 = $request->titulado3;
+                        $model->Resultado = $request->resultado;
+                        $model->save(); 
+    
+                    }else{
+                        $model = ValoracionDqo::create([
+                        'Id_lote' => $request->idLote,
+                        'Id_parametro' => $request->idParametro,
+                        'Blanco' => $request->blanco,
+                        'Vol_k2' => $request->volk2D,
+                        'Concentracion' => $request->concentracion,
+                        'Factor' => $request->factor,
+                        'Vol_titulado1' => $request->titulado1,
+                        'Vol_titulado2' => $request->titulado2,
+                        'Vol_titulado3' => $request->titulado3,
+                        'Resultado' => $request->resultado,
+                        ]); 
+                    }
+                break;
+            case 3: // DQO
+                # code...
+                $valoracionModel = ValoracionNitrogeno::where('Id_lote', $request->idLote)->get();
+                if ($valoracionModel->count()) {
+                    $model = ValoracionNitrogeno::where('Id_lote', $request->idLote)->first();
+                    $model->Id_lote = $request->idLote;
+                    $model->Id_parametro = $request->idParametro;
+                    $model->Blanco = $request->blanco;
+                    $model->Gramos = $request->gramos;
+                    $model->Factor_conversion = $request->factor;
+                    $model->Titulo1 = $request->titulado1;
+                    $model->Titulo2 = $request->titulado2;
+                    $model->Titulo3 = $request->titulado3;
+                    $model->Pm = $request->pm;
+                    $model->Resultado = $request->resultado;
+                    $model->save();
+                } else {
+                    $model = ValoracionNitrogeno::create([
+                        'Id_lote' => $request->idLote,
+                        'Id_parametro' => $request->idParametro,
+                        'Blanco' => $request->blanco,
+                        'Gramos' => $request->gramos,
+                        'Factor_conversion' => $request->factor,
+                        'Titulo1' => $request->titulado1,
+                        'Titulo2' => $request->titulado2, 
+                        'Titulo3' => $request->titulado3,
+                        'Pm' => $request->pm,
+                        'Resultado' => $request->resultado,
+                    ]);
+                }
+                break;
+                
+            
+            default:
+                # code...
+                break;
+        }
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+ 
     //RECUPERAR DATOS PARA ENVIARLOS A LA VENTANA MODAL > EQUIPO PARA RELLENAR LOS DATOS ALMACENADOS EN LA BD
-    public function getDatalote(Request $request)
+    public function getDataloteVol(Request $request)
     {        
         $idLoteIf = $request->idLote;
 
@@ -178,15 +289,32 @@ class VolController extends Controller
         /* Módulo DQO */                
         $dqoModel = DB::table('dqo_fq')->where('Id_lote', $request->idLote)->get();
 
-        if($dqoModel->count()){
+        if ($dqoModel->count()) {
             $dqo = DqoFq::where('Id_lote', $request->idLote)->first();
-        }else{
+        } else {
             $dqo = null;
         }
 
+        //? Obtiene los valores para llenar la valoracion
+        $paraModel = LoteAnalisis::find($request->idLote);
+        switch ($paraModel->Id_tecnica) {
+            case 7: //todo DQO
+                $valoracion = ValoracionDqo::where('Id_lote', $request->idLote)->first();
+                break;
+            case 295: //todo CLORO RESIDUAL LIBRE
+                $valoracion = ValoracionCloro::where('Id_lote', $request->idLote)->first();
+                break;
+            case 12: //todo NITROGENO TOTAL
+                $valoracion = ValoracionNitrogeno::where('Id_lote', $request->idLote)->first();
+                break;
+            default:
+
+                break;
+        }
 
         //-------------------------------------
         $data = array(
+            'valoracion' => $valoracion,
             'curvaConstantes' => $constantes,
             'idLoteIf' => $idLoteIf,
             'reporte' => $reporte,
@@ -213,7 +341,12 @@ class VolController extends Controller
                 $model->Observacion = $request->observacion;
                 $model->save();
                 break;
-                
+            case 3: // Nitrogeno
+                # code...
+                $model = LoteDetalleNitrogeno::find($request->idDetalle);
+                $model->Observacion = $request->observacion;
+                $model->save();
+                break;  
             default:
                 # code...
                 break;
@@ -344,6 +477,7 @@ class VolController extends Controller
                 break;
             default:
                 # code...
+                $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get();
                 break;
         }
         $data = array(
@@ -428,7 +562,7 @@ class VolController extends Controller
                     'Id_parametro' => $loteModel->Id_tecnica,
                     'Id_control' => 1,
                 ]);
-                $detModel = LoteDetalleDqo::where('Id_lote',$request->idLote)->get();
+                $detModel = LoteDetalleDqo::where('Id_lote', $request->idLote)->get();
                 $sw = true;
                 break;
             case 295: //todo CLORO RESIDUAL LIBRE
@@ -438,11 +572,21 @@ class VolController extends Controller
                     'Id_parametro' => $loteModel->Id_tecnica,
                     'Id_control' => 1,
                 ]);
-                $detModel = LoteDetalleCloro::where('Id_lote',$request->idLote)->get();
+                $detModel = LoteDetalleCloro::where('Id_lote', $request->idLote)->get();
+                $sw = true;
+                break;
+            case 12: //todo Nitrógeno Total 
+                $model = LoteDetalleNitrogeno::create([
+                    'Id_lote' => $request->idLote,
+                    'Id_analisis' => $request->idAnalisis,
+                    'Id_parametro' => $loteModel->Id_tecnica,
+                    'Id_control' => 1,
+                ]);
+                $detModel = LoteDetalleNitrogeno::where('Id_lote', $request->idLote)->get();
                 $sw = true;
                 break;
             default:
-          
+
                 break;
         }
       
@@ -734,6 +878,22 @@ class VolController extends Controller
         $controlModel = ControlCalidad::all();
         return view('laboratorio.fq.capturaVolumetria', compact('parametro','controlModel')); 
     }
+    public function operacionVolumetriaNitrogeno(Request $request)
+    {
+        $res1 = $request->A - $request->B;
+        $res2 = $res1 * $request->C;
+        $res3 = $res2 * $request->D;
+        $res4 = $res3 * $request->E;
+        $res = $res4 / $request->G;
+        
+        $data = array(
+           
+            'res' => $res ,
+            
+        );
+        return response()->json($data);
+
+    }
     public function operacionVolumetriaCloro(Request $request)
     {
         $res1 = $request->A - $request->B;
@@ -748,36 +908,56 @@ class VolController extends Controller
         );
         return response()->json($data);
     }
-    public function operacionVolumetria(Request $request)
+    public function operacionVolumetriaDqo(Request $request)
     {
-        $parametro = Parametro::where('Id_parametro', $request->idParametro)->first();
-
-        switch ($parametro->Id_parametro)
-        {
-            case 6:
-            // case 77:
-            // case 74:
-            // case 76:
-            // case 73:
-            // case 75:
+  
                 $res1 = ($request->CA - $request->B);
                 $res2 = ($res1 * $request->C); 
                 $res3 = ($res2 * $request->D);
                 $res = ($res3 / $request->E);
 
-            break;
-
-                
-        }
         $data = array(
-            'id' => $parametro->Id_parametro, 
-            'res' => $res,
-            'ca' => $request->CA,
-            'b' => $request->B,
+            'res' => $res
         );
         return response()->json($data);
-        
- 
+    
+    }
+    public function guardarDqo(Request $request)
+    {
+  
+        $model = LoteDetalleDqo::find($request->idDetalle);
+        $model->Titulo_muestra = $request->B;
+        $model->Molaridad = $request->C;
+        $model->Titulo_blanco = $request->CA;
+        $model->Equivalencia = $request->D;
+        $model->Vol_muestra = $request->E;
+        $model->Resultado = $request->resultado;  
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    
+    }
+    public function guardarNitrogeno(Request $request)
+    {
+  
+        $model = LoteDetalleNitrogeno::find($request->idDetalle);
+        $model->Titulado_muestra = $request->A;
+        $model->Titulado_blanco = $request->B;
+        $model->Molaridad = $request->C;
+        $model->Factor_equivalencia = $request->D;
+        $model->Factor_conversion = $request->E;
+        $model->Vol_muestra = $request->G;
+        $model->Resultado = $request->resultado;  
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    
     }
     public function guardarCloro(Request $request)
     {
@@ -810,7 +990,18 @@ class VolController extends Controller
                 $model = $muestra->replicate();
                 $model->Id_control = $request->idControl;
                 break;
-            
+            case 7:
+                # DQO
+                $muestra = LoteDetalleDqo::where('Id_detalle', $request->idMuestra)->first();
+                $model = $muestra->replicate();
+                $model->Id_control = $request->idControl;
+                break;
+            case 12:
+                # Nitrogeno
+                $muestra = LoteDetalleNitrogeno::where('Id_detalle', $request->idMuestra)->first();
+                $model = $muestra->replicate();
+                $model->Id_control = $request->idControl;
+                break;
             default:
                 # code...
                 break;
@@ -842,6 +1033,9 @@ class VolController extends Controller
             case 295: //todo CLORO RESIDUAL LIBRE 
                 $detalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
                 break;
+                case 12: //todo DQO
+                    $detalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+                    break;
             default: 
                 # code...
                 break;
@@ -856,12 +1050,15 @@ class VolController extends Controller
         switch ($request->caso) {
             case 1: //todo Cloro
                 $model = DB::table('ViewLoteDetalleCloro')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
+                $valoracion = ValoracionCloro::where('Id_lote',$model->Id_lote)->first(); 
                 break;
             case 2: //todo DQO
                 $model = DB::table("ViewLoteDetalleDqo")->where('Id_detalle', $request->idDetalle)->first();
+                $valoracion = ValoracionDqo::where('Id_lote',$model->Id_lote)->first(); 
                 break;
             case 3: //todo  Nitrogeno
-                $model = DB::table("ViewLoteDetalleDqo")->where('Id_detalle', $request->idDetalle)->first();
+                $model = DB::table("ViewLoteDetalleNitrogeno")->where('Id_detalle', $request->idDetalle)->first();
+                $valoracion = ValoracionNitrogeno::where('Id_lote',$model->Id_lote)->first(); 
                 break;
             default:
                 # code...
@@ -870,6 +1067,7 @@ class VolController extends Controller
 
         $data = array(
             'model' => $model,
+            'valoracion' => $valoracion,
         );
         return response()->json($data);
     }
@@ -926,6 +1124,9 @@ class VolController extends Controller
         $parametro = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $id_lote)->first();
         if(is_null($parametro)){
             $parametro = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->first();            
+            if(is_null($parametro)){
+                $parametro = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->first();            
+            }
         }
   
          //Recupera el texto dinámico Procedimientos de la tabla reportes****************************************************

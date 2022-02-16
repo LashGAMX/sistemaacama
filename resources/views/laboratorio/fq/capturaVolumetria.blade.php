@@ -21,12 +21,7 @@
                   </select>
             </div>
         </div>
-        {{-- <div class="col-md-3"> 
-            <div class="form-group">
-                <label for="">Núm. muestra</label>
-                <input type="text" style="width: " class="form-control" id="numeroMuestra">
-            </div>
-        </div> --}}
+    
         <div class="col-md-3">
             <div class="form-group">
                 <label for="">Fecha análisis</label>
@@ -128,7 +123,6 @@
         <div class="modal fade" id="modalDqo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                 <form wire:submit.prevent="create">
                   <div class="modal-header">
                     <h5 class="modal-title" id="">Captura de resultados</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -147,11 +141,11 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <button class="btn btn-success" id="btnGuardar"><i class="voyager-upload"></i>
+                                <button class="btn btn-success" id="btnGuardarDqo"><i class="voyager-upload"></i>
                                     Guardar</button>&nbsp;&nbsp;
                             </div>
-                            <div class="col-md-2">
-                                <button class="btn btn-primary" id="btnEjecutar"><i class="voyager-play"></i>
+                            <div class="col-md-2"> 
+                                <button class="btn btn-primary" id="btnEjecutarDqo"><i class="voyager-play"></i>
                                     Ejecutar</button>
                             </div>
                             {{-- <div class="col-md-2">
@@ -159,7 +153,7 @@
                             </div> --}}
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <input type="text" id="resultado" style="font-size: 20px;color:red;"
+                                    <input type="text" id="resultadoDqo" style="font-size: 20px;color:red;"
                                         placeholder="Resultado">
                                 </div>
                             </div>
@@ -220,11 +214,118 @@
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                    
                   </div>
-                </form>
                 </div>
               </div>
               
              </div>
+
+              <!-- Modal -->
+        <div class="modal fade" id="modalNitrogeno" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="">Captura de resultados</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Observación</label>
+                                    <input type="text" class="form-control" id="observacionNitro"
+                                        placeholder="Observacion de la muestra">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="button" onclick="updateObsVolumetria(3,'observacionNitro')"
+                                        id=""><i class="voyager-check"></i> Aplicar</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-success" id="btnGuardarNitro"><i class="voyager-upload"></i>
+                                    Guardar</button>&nbsp;&nbsp;
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary" id="btnEjecutarNitro"><i class="voyager-play"></i>
+                                    Ejecutar</button>
+                            </div>
+                            {{-- <div class="col-md-2">
+                                <button class="btn btn-warning">Liberar</button>
+                            </div> --}}
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <input type="text" id="resultadoNitro" style="font-size: 20px;color:red;"
+                                        placeholder="Resultado">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table" id=""> 
+                                <thead>
+                                  <tr>
+                                    <th>Parametro</th>
+                                    <th>Descripción</th>
+                                    <th>Valor</th>
+                                    <th>Valor2</th>
+                                  </tr>
+                                </thead>
+                                <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                                <tbody>
+                                    <tr>
+                                        <td>A</td>
+                                        <td>Mililitros Titulados Muestra</td>
+                                        <td><input type="text" id="tituladosNitro1" value="0"></td>
+                                        <td><input type="text" id="tituladosNitro2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>B</td>
+                                        <td>Mililitros titulados del blanco</td>
+                                        <td><input type="text" id="blancoNitro1" value="0"></td>
+                                        <td><input type="text" id="blancoNitro2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>C</td>
+                                        <td>Molaridad del FAS</td>
+                                        <td><input type="text" id="molaridadNitro1" value="0"></td>
+                                        <td><input type="text" id="molaridadNitro2" value="0"></td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>D</td>
+                                        <td>Factor de quivalencia</td>
+                                        <td><input type="text" id="factorNitro1" value="0"></td>
+                                        <td><input type="text" id="factorNitro2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>E</td>
+                                        <td>Factor de conversión</td>
+                                        <td><input type="text" id="conversion1" value="0"></td>
+                                        <td><input type="text" id="conversion2" value="0"></td>
+                                    </tr>
+                                    <tr>
+                                        <td>G</td>
+                                        <td>Volumen de muestra</td>
+                                        <td><input type="text" id="volNitro1" value="0"></td>
+                                        <td><input type="text" id="volNitro2" value="0"></td>
+                                    </tr>
+                                    
+                                
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+              
+             </div>
+
 
              
         <!-- Modal Control Calidad-->

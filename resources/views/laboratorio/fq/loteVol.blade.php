@@ -16,7 +16,7 @@
         <div class="col-md-3">
           <div class="form-group">
             <label for="exampleFormControSelect1">Tipo fórmula</label>
-            <select class="form-control" id="tipo">
+            <select class="form-control" id="tipoFormula">
               @foreach($parametro as $item)
                 <option value="{{$item->Id_parametro}}">{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
               @endforeach
@@ -43,7 +43,7 @@
           <button class="btn btn-success" data-toggle="modal" data-target="#modalCrearLote" class="btn btn-info">Crear lote</button>
         </div>
         <div class="col-md-3">
-          <button class="btn btn-success" data-toggle="modal" data-target="#modalProbar" class="btn btn-info">Datos lote</button>
+          <button class="btn btn-success" data-toggle="modal" data-target="#modalProbar" id="btnDatosLote" class="btn btn-info">Datos lote</button>
         </div>
         <div class="col-md-3">
           <button class="btn btn-success" data-toggle="modal" data-target="#modalFq2" class="btn btn-info">Nueva función</button>
@@ -60,17 +60,7 @@
             <th>Fecha creacion</th>
             <th>Opc</th>
           </tr>
-          {{-- <tr>
-            <th scope="col">Cerrado</th>
-            <th scope="col">AnaFórmulaId</th>
-            <th scope="col">RcpLoteAnálisisId</th>
-            <th scope="col">Fórmula</th>
-            <th scope="col">TipoFórmulaBitácora</th>
-            <th scope="col">FechaLote</th>
-            <th scope="col">FechaHora</th>
-            <th scope="col">FechaNuevoLote</th>
-            <th scope="col">HoraNuevoLote</th>
-          </tr> --}}
+    
         </thead>
         <tbody>
                   
@@ -134,19 +124,13 @@
         
         <label>ID Lote: <input type="text" id="idLoteHeader" size=10 /> <button class="btn btn-info" onclick="getDatalote();">Buscar</button></label>
         <label>Fecha Lote: <input type="datetime-local" id="fechaLote"/></label>                
-        <!-- <div class="form-check" id="cierreCaptura">
-          <label class="form-check-label" for="flexCheckDefault">
-            Cierre captura:
-          </label>
-          <input class="form-check-input" type="checkbox" id="cierreCaptura">        
-        </div> -->
+    
         <button type="button" class="btn btn-success" id="guardarTodo">Guardar</button>        
-        <!-- <button type="button" class="btn btn-danger">Salir</button> -->
         <div id="btnRefresh"></div>        
         <ul class="nav nav-tabs" id="myTab" role="tablist"> 
           
           <li class="nav-item" role="menu">
-            <a class="nav-link active" id="formulaGlobal-tab" data-toggle="tab" href="#formulaGlobal" role="tab" aria-controls="formulaGlobal" aria-selected="true" onclick='isSelectedProcedimiento("formulaGlobal-tab");'>Fórmulas Globales</a>
+            <a class="nav-link active" id="formulaGlobal-tab" data-toggle="tab" href="#formulaGlobal" role="tab" aria-controls="formulaGlobal" aria-selected="true" onclick=''>Fórmulas Globales</a>
           </li>
 
           <li class="nav-item" role="menu">
@@ -165,35 +149,43 @@
             <div class="tab-content" id="myTabContent">
               <div class="tab-pane fade  active" id="formulaGlobal" role="tabpanel" aria-labelledby="formulaGlobal-tab">    
                 <div class="row">
+                  <div class="col-md-12">
+                    <button id="btnGuardarVal" class="btn btn-success">Guardar</button>
+                    <button id="btnEjecutarVal" class="btn btn-success">Ejcutar</button>
+                  </div>
+                </div>
+                      <!-- ***************************** --> 
+                <!-- Inicio Cloro --> 
+                <!-- ***************************** --> 
+                <div class="row" id="secctionCloro" hidden>
                   <div class="col-md-7">
-                     <table class="table" id="tableValRes">
+                     <table class="table" id="">
                         <thead>
                           <tr>
-                            <th>Formula</th>
+                            <th>Formula </th>
                             <th>Expresión</th>
                             <th>Resultado</th>
                             <th># Decimal</th>
                           </tr>
                         </thead>
                         <tbody>
-                          <tr onclick="habilitarTabla('tableValBla','tableValMol')">
+                          <tr onclick="habilitarTabla('tableCloroBlanco','tableCloroValoracion')">
                             <td>Blanco Análisis</td>
                             <td>A</td>
-                            <td><input type="text" value="" id="blancoRes" disabled></td>
+                            <td><input type="text" value="" id="blancoResClo" disabled></td>
                             <td>2</td>
                           </tr>
-                          <tr onclick="habilitarTabla('tableValMol','tableValBla')">
-                            <td>Molaridad</td>
+                          <tr onclick="habilitarTabla('tableCloroValoracion','tableCloroBlanco')">
+                            <td>Normalidad Real</td>
                             <td>((A*B*C) /D) </td>
-                            <td><input type="text" value="" id="molRes" disabled></td>
+                            <td><input type="text" value="" id="normalidadResCloro" disabled></td>
                             <td>3</td>
                           </tr> 
                         </tbody>
                      </table>
                   </div>
                   <div class="col-md-5">
-                    <button id="btnBlanco" class="btn btn-success">Ejcutar</button>
-                    <table class="table" id="tableValBla"  hidden>
+                    <table class="table" id="tableCloroBlanco"  hidden>
                       <thead>
                         <tr>
                           <th>Parametro</th>
@@ -205,11 +197,100 @@
                         <tr>
                           <td>B</td>
                           <td>Blanco</td>
-                          <td><input type="text" id="blancoVal"></td>
+                          <td><input type="text" id="blancoCloro"></td>
                         </tr>
                       </tbody>
                     </table>
-                    <table class="table" id="tableValMol" hidden>
+                    <table class="table" id="tableCloroValoracion" hidden>
+                      <thead>
+                        <tr>
+                          <th>Parametro</th>
+                          <th>Descripción</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>C</td>
+                          <td>mL Titulado 1</td>
+                          <td><input type="number" id="tituladoClo1"></td>
+                        </tr>
+                        <tr>
+                          <td>D</td>
+                          <td>mL Titulado 2</td>
+                          <td><input type="number" id="tituladoClo2"></td>
+                        </tr>
+                        <tr>
+                          <td>E</td>
+                          <td>mL Titulado 3</td>
+                          <td><input type="number" id="tituladoClo3"></td>
+                        </tr>
+                        <tr>
+                          <td>A</td>
+                          <td>mL de NqCI Trazable</td>
+                          <td><input type="number" id="trazableClo" value="10"></td>
+                        </tr>
+                        <tr>
+                          <td>B</td>
+                          <td>Normalidad teorica</td>
+                          <td><input type="number" id="normalidadClo" value="0.014"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                 </div>
+                </div> 
+                <!-- ***************************** --> 
+                <!-- Fin Cloro --> 
+                <!-- ***************************** --> 
+
+                <!-- ***************************** --> 
+                <!-- Inicio Dqo --> 
+                <!-- ***************************** --> 
+                <div class="row" id="secctionDqo" hidden>
+                  <div class="col-md-7">
+                     <table class="table" id="">
+                        <thead>
+                          <tr>
+                            <th>Formula</th>
+                            <th>Expresión</th>
+                            <th>Resultado</th>
+                            <th># Decimal</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr onclick="habilitarTabla('tableDqoBlanco','tableDqoValoracion')">
+                            <td>Blanco Análisis</td>
+                            <td>A</td>
+                            <td><input type="text" value="" id="blancoResD" disabled></td>
+                            <td>2</td>
+                          </tr>
+                          <tr onclick="habilitarTabla('tableDqoValoracion','tableDqoBlanco')">
+                            <td>Molaridad</td>
+                            <td>((A*B*C) /D) </td>
+                            <td><input type="text" value="" id="molaridadResD" disabled></td>
+                            <td>3</td>
+                          </tr> 
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="col-md-5">
+                    <table class="table" id="tableDqoBlanco"  hidden>
+                      <thead>
+                        <tr>
+                          <th>Parametro</th>
+                          <th>Descripción</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>B</td>
+                          <td>Blanco</td>
+                          <td><input type="text" id="blancoValD"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table class="table" id="tableDqoValoracion" hidden>
                       <thead>
                         <tr>
                           <th>Parametro</th>
@@ -221,37 +302,134 @@
                         <tr>
                           <td>A</td>
                           <td>Vol. de K2Cr207</td>
-                          <td><input type="number" id="A"></td>
+                          <td><input type="number" id="volk2D"></td>
                         </tr>
                         <tr>
                           <td>B</td>
                           <td>concentracion</td>
-                          <td><input type="number" id="B"></td>
+                          <td><input type="number" id="concentracionD"></td>
                         </tr>
                         <tr>
                           <td>C</td>
                           <td>Factor de equivalentes</td>
-                          <td><input type="number" id="C"></td>
+                          <td><input type="number" id="factorD"></td>
                         </tr>
                         <tr>
                           <td>D</td>
                           <td>Vol. titulado</td>
-                          <td><input type="number" id="D"></td>
+                          <td><input type="number" id="titulado1D"></td>
                         </tr>
                         <tr>
                           <td>E</td>
                           <td>Vol. titulado 2</td>
-                          <td><input type="number" id="E"></td>
+                          <td><input type="number" id="titulado2D"></td>
                         </tr>
                         <tr>
                           <td>G</td>
                           <td>Vol. titulado 3</td>
-                          <td><input type="number" id="G"></td>
+                          <td><input type="number" id="titulado3D"></td>
                         </tr>
                       </tbody>
                     </table>
                  </div>
-                </div>                             
+                </div> 
+                <!-- ***************************** --> 
+                <!-- Fin Dqo --> 
+                <!-- ***************************** --> 
+
+                <!-- ***************************** --> 
+                <!-- Inicio Nitrogeno --> 
+                <!-- ***************************** --> 
+                <div class="row" id="secctionNitrogeno" hidden>
+                  <div class="col-md-7">
+                     <table class="table" id="">
+                        <thead>
+                          <tr>
+                            <th>Formula</th>
+                            <th>Expresión</th>
+                            <th>Resultado</th>
+                            <th># Decimal</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr onclick="habilitarTabla('tableNBlanco','tableNValoracion')">
+                            <td>Blanco Análisis</td>
+                            <td>A</td>
+                            <td><input type="text" value="" id="blancoResN" disabled></td>
+                            <td>2</td>
+                          </tr>
+                          <tr onclick="habilitarTabla('tableNValoracion','tableNBlanco')">
+                            <td>Molaridad N2</td>
+                            <td>((A*B*C) /D) </td>
+                            <td><input type="text" value="" id="molaridadResN" disabled></td>
+                            <td>3</td>
+                          </tr> 
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="col-md-5">
+                    <table class="table" id="tableNBlanco"  hidden>
+                      <thead>
+                        <tr>
+                          <th>Parametro</th>
+                          <th>Descripción</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>B</td>
+                          <td>Blanco</td>
+                          <td><input type="text" id="blancoValN"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table class="table" id="tableNValoracion" hidden>
+                      <thead>
+                        <tr>
+                          <th>Parametro</th>
+                          <th>Descripción</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>A</td>
+                          <td>gramos de Na2CO3</td>
+                          <td><input type="number" id="gramosN" value="0.0318"></td>
+                        </tr>
+                        <tr>
+                          <td>B</td>
+                          <td>Factor conversion</td>
+                          <td><input type="number" id="factorN" value="1000"></td>
+                        </tr>
+                        <tr>
+                          <td>C</td>
+                          <td>Mililitro 1 Titulado</td>
+                          <td><input type="number" id="titulado1N"></td>
+                        </tr>
+                        <tr>
+                          <td>D</td>
+                          <td>Mililitro 3 Titulado</td>
+                          <td><input type="number" id="titulado2N"></td>
+                        </tr>
+                        <tr>
+                          <td>E</td>
+                          <td>Mililitro 3 Titulado</td>
+                          <td><input type="number" id="titulado3N"></td>
+                        </tr>
+                        <tr>
+                          <td>G</td>
+                          <td>Pm del Na2CO3</td>
+                          <td><input type="number" id="PmN"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                 </div>
+                </div> 
+                <!-- ***************************** --> 
+                <!-- Fin Nitrogeno --> 
+                <!-- ***************************** --> 
               </div> 
 
    
@@ -317,7 +495,7 @@
     <link rel="stylesheet" href="{{ asset('/css/laboratorio/fq/lote.css')}}">    
   @endsection
 
-  @section('javascript')
+  @section('javascript') 
   <!-- include summernote css/js -->
   <script src="{{asset('/assets/summer/summernote.js')}}"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>

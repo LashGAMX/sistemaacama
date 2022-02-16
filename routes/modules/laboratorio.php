@@ -120,7 +120,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('loteVol', [VolController::class, 'loteVol']);
         // Route::post('createLote', [FqController::class, 'createLote']);
         // Route::post('buscarLote', [FqController::class, 'buscarLote']);
-        // Route::post('getDatalote', [FqController::class, 'getDatalote']);
+        Route::post('getDataloteVol', [VolController::class, 'getDataloteVol']);
+        Route::post('guardarValidacionVol', [VolController::class, 'guardarValidacionVol']);
         Route::get('asgnarMuestraLoteVol/{id}', [VolController::class, 'asgnarMuestraLoteVol']);
         Route::post('muestraSinAsignarVol', [VolController::class, 'muestraSinAsignarVol']);
         Route::post('asignarMuestraLoteVol', [VolController::class, 'asignarMuestraLoteVol']);
@@ -132,10 +133,13 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getLotevol', [VolController::class, 'getLotevol']);
         Route::post('getLoteCapturaVol', [VolController::class, 'getLoteCapturaVol']);
         Route::post('getDetalleVol', [VolController::class, 'getDetalleVol']);
-        Route::post('operacion', [VolController::class, 'operacionVolumetria']);
+        Route::post('operacionVolumetriaDqo', [VolController::class, 'operacionVolumetriaDqo']);
         Route::post('operacionVolumetriaCloro', [VolController::class, 'operacionVolumetriaCloro']);
+        Route::post('operacionVolumetriaNitrogeno', [VolController::class, 'operacionVolumetriaNitrogeno']);
 
         Route::post('guardarCloro', [VolController::class, 'guardarCloro']);
+        Route::post('guardarDqo', [VolController::class, 'guardarDqo']);
+        Route::post('guardarNitrogeno', [VolController::class, 'guardarNitrogeno']);
         Route::post('createControlCalidadVol', [VolController::class, 'createControlCalidadVol']);
         
 
@@ -222,3 +226,4 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::get('captura/exportPdfCaptura/{idLote}', [LaboratorioController::class, 'exportPdfCaptura']);
     /*Route::get('captura/exportPdfCaptura/{formulaTipo}/{numeroMuestra}/{idLote}', [LaboratorioController::class, 'exportPdfCaptura'])->where('numeroMuestra', '(.*)');*/
 });
+
