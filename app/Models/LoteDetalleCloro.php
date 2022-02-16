@@ -10,7 +10,7 @@ class LoteDetalleCloro extends Model
 {
     use HasFactory,SoftDeletes;
     protected $table = 'lote_detalle_cloro';
-    protected $primaryKey = 'Id_detalleCloro';
+    protected $primaryKey = 'Id_detalle';
     public $timestamps = true;
 
     protected $fillable = [
@@ -19,6 +19,7 @@ class LoteDetalleCloro extends Model
         'Id_parametro',
         'Id_control',
         'Vol_muestra',
+        'Ml_muestra',
         'Vol_blanco',
         'Normalidad',
         'Observacion',

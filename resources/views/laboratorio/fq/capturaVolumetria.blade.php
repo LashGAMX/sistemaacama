@@ -82,6 +82,10 @@
                 <div class="col-md-1">
                     <button class="btn btn-secondary" id="btnLiberar">Liberar</button>
                 </div>
+                <div class="col-md-2">
+                    <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad"
+                        id="btnGenControlInd">Generar control</button>
+                </div>
                 <div class="col-md-1">
                     {{-- <button class="btn btn-secondary">Liberar todo</button> --}}
                 </div>
@@ -104,25 +108,24 @@
         </div>
         <div class="col-md-12">
             <div id="divTablaControles">
-               <table class="table">
-                <thead>
-                    <tr>
-                        <th>Opc</th>
-                        <th>Folio</th>
-                        <th># Toma</th>
-                        <th>Norma</th>
-                        <th>Resultado</th>
-                        <th>Tipo Analisis</th>
-                        <th>Observacion</th>    
-                    </tr>
-                </thead>
-               </table>
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Opc</th>
+                            <th>Folio</th>
+                            {{-- <th># Toma</th> --}}
+                            <th>Norma</th>
+                            <th>Resultado</th>
+                            <th>Observacion</th>
+                        </tr>
+                    </thead>
+                </table>
             </div>
         </div>
       </div>
 
         <!-- Modal -->
-        <div class="modal fade" id="modalCaptura" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal fade" id="modalDqo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                  <form wire:submit.prevent="create">
@@ -135,12 +138,12 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">Observación</label>
-                                    <input type="text" class="form-control" id="observacion"
+                                    <input type="text" class="form-control" id="observacionDqo"
                                         placeholder="Observacion de la muestra">
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-success" type="button" onclick="updateObsVolumetria()"
-                                        id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
+                                    <button class="btn btn-success" type="button" onclick="updateObsVolumetria(2,'observacionDqo')"
+                                        id=""><i class="voyager-check"></i> Aplicar</button>
                                 </div>
                             </div>
                             <div class="col-md-2">
@@ -179,32 +182,32 @@
                                     <tr>
                                         <td>B</td>
                                         <td>Mililitros Titulados Muestra</td>
-                                        <td><input type="text" id="b1" value="0"></td>
-                                        <td><input type="text" id="b2" value="0"></td>
+                                        <td><input type="text" id="tituladoDqo1" value="0"></td>
+                                        <td><input type="text" id="tituladoDqo2" value="0"></td>
                                     </tr>
                                     <tr>
                                         <td>C</td>
                                         <td>Molaridad del FAS</td>
-                                        <td><input type="text" id="c1" value="0"></td>
-                                        <td><input type="text" id="c2" value="0"></td>
+                                        <td><input type="text" id="MolaridadDqo1" value="0"></td>
+                                        <td><input type="text" id="MolaridadDqo2" value="0"></td>
                                     </tr>
                                     <tr>
                                         <td>CA</td>
                                         <td>Mililitros titulados del blanco</td>
-                                        <td><input type="text" id="ca1" value="0"></td>
-                                        <td><input type="text" id="ca2" value="0"></td>
+                                        <td><input type="text" id="blancoDqo1" value="0"></td>
+                                        <td><input type="text" id="blancoDqo2" value="0"></td>
                                     </tr>
                                     <tr>
                                         <td>D</td>
                                         <td>Factor de quivalencia</td>
-                                        <td><input type="text" id="d1" value="0"></td>
-                                        <td><input type="text" id="d2" value="0"></td>
+                                        <td><input type="text" id="factorDqo1" value="0"></td>
+                                        <td><input type="text" id="factorDqo2" value="0"></td>
                                     </tr>
                                     <tr>
                                         <td>E</td>
                                         <td>Volumen de muestra</td>
-                                        <td><input type="text" id="e1" value="0"></td>
-                                        <td><input type="text" id="e2" value="0"></td>
+                                        <td><input type="text" id="volDqo1" value="0"></td>
+                                        <td><input type="text" id="volDqo2" value="0"></td>
                                     </tr>
                                     
                                 
@@ -222,12 +225,51 @@
               </div>
               
              </div>
+
+             
+        <!-- Modal Control Calidad-->
+        <div class="modal fade" id="modalCalidad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="">Control de calidad</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row">
+                                {{-- <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Formula</label>
+                                        <input type="text" id="mFormula" disabled value="Forms">
+                                    </div>
+                                </div> --}}
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Tipo</label>
+                                        <select class="form-control" id="controlCalidad">
+                                            @foreach ($controlModel as $item)
+                                            <option value="{{$item->Id_control}}">{{$item->Control}}</option>
+                                            @endforeach
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" onclick="createControlCalidad()"
+                                class="btn btn-primary">Generar</button>
+                        </div>
+                </div>
+            </div>
+        </div>
             
                <!-- Modal -->
         <div class="modal fade" id="modalCloro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                 <form wire:submit.prevent="create">
                   <div class="modal-header">
                     <h5 class="modal-title" id="">Captura de resultados</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -237,11 +279,11 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">Observación</label>
-                                    <input type="text" class="form-control" id="observacion"
+                                    <input type="text" class="form-control" id="observacionCloro"
                                         placeholder="Observacion de la muestra">
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-success" type="button" onclick="updateObsVolumetriaCloro()"
+                                    <button class="btn btn-success" type="button" onclick="updateObsVolumetria(1,'observacionCloro')"
                                         id="btnAplicarObsCloro"><i class="voyager-check"></i> Aplicar</button>
                                 </div>
                             </div>
@@ -298,7 +340,7 @@
                                     </tr>
                                     <tr>
                                         <td>G</td>
-                                        <td>pH FINAL</td>
+                                        <td>pH Inicial</td>
                                         <td><input type="text" id="cloroG1" value="0"></td>
                                         <td><input type="text" id="cloroG2" value="0"></td>
                                     </tr>
@@ -308,7 +350,7 @@
                                         <td><input type="text" id="cloroB1" value="0"></td>
                                         <td><input type="text" id="cloroB2" value="0"></td>
                                     </tr>
-                                    <tr>
+                                    <tr> 
                                         <td>C</td>
                                         <td>NORMALIDAD REAL</td>
                                         <td><input type="text" id="cloroC1" value="0"></td>
@@ -317,8 +359,8 @@
                                     <tr>
                                         <td>D</td>
                                         <td>FACTOR DE CONVERSION mg/L</td>
-                                        <td><input type="text" id="cloroD1" value="0"></td>
-                                        <td><input type="text" id="cloroD2" value="0"></td>
+                                        <td><input type="text" id="cloroD1" value="35450"></td>
+                                        <td><input type="text" id="cloroD2" value="35450"></td>
                                     </tr>
                                     
                                 </tbody>
@@ -329,7 +371,6 @@
                   <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                   </div>
-                </form>
                 </div>
               </div>
               

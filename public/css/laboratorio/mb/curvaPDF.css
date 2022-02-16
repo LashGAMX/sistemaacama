@@ -111,6 +111,7 @@
 
 .bordesTabla{
     border: 1;
+    border-width: 0.1;
     border-collapse: collapse;
     border-color: #ddd;
 }

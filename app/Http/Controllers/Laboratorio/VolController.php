@@ -200,9 +200,25 @@ class VolController extends Controller
     #OBSERVACIONES
     public function updateObsVolumetria(Request $request)
     {
-        $model = LoteDetalle::where('Id_detalle', $request->idMuestra)->first();
-        $model->Observacion = $request->observacion;
-        $model->save();
+        switch ($request->caso) {
+            case 1: // Cloro
+                # code...
+                $model = LoteDetalleCloro::find($request->idDetalle);
+                $model->Observacion = $request->observacion;
+                $model->save();
+                break;
+            case 2: // Dqo
+                # code...
+                $model = LoteDetalleDqo::find($request->idDetalle);
+                $model->Observacion = $request->observacion;
+                $model->save();
+                break;
+                
+            default:
+                # code...
+                break;
+        }
+      
 
         $data = array(
             'model' => $model,
@@ -210,17 +226,7 @@ class VolController extends Controller
         return response()->json($data);
 
     }
-    public function updateObsVolumetriaCloro(Request $request)
-    {
-        $model = LoteDetalleCloro::where('Id_detalle', $request->idMuestra)->first();
-        $model->Observacion = $request->observacion;
-        $model->save();
-
-        $data = array(
-            'model' => $model,
-        );
-        return response()->json($data);
-    }
+  
 
     public function getPlantillaPred(Request $request){
         $bandera = '';
@@ -725,7 +731,8 @@ class VolController extends Controller
         $parametro = DB::table("ViewParametros")->where('Id_area', 14)->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro); 
-        return view('laboratorio.fq.capturaVolumetria', compact('parametro')); 
+        $controlModel = ControlCalidad::all();
+        return view('laboratorio.fq.capturaVolumetria', compact('parametro','controlModel')); 
     }
     public function operacionVolumetriaCloro(Request $request)
     {
@@ -772,6 +779,50 @@ class VolController extends Controller
         
  
     }
+    public function guardarCloro(Request $request)
+    {
+
+        $model = LoteDetalleCloro::find($request->idDetalle);
+        $model->Vol_muestra = $request->A;
+        $model->Ml_muestra = $request->E;
+        $model->Vol_blanco = $request->B;
+        $model->Normalidad = $request->C;
+        $model->Ph_inicial = $request->G;
+        $model->Ph_final = $request->H;
+        $model->Factor_conversion = $request->D;
+        $model->Resultado = $request->Resultado;
+        $model->save();         
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data); 
+
+    }
+
+    public function createControlCalidadVol(Request $request)
+    {
+
+        switch ($request->idParametro) {
+            case 295:
+                # Cloro
+                $muestra = LoteDetalleCloro::where('Id_detalle', $request->idMuestra)->first();
+                $model = $muestra->replicate();
+                $model->Id_control = $request->idControl;
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+        
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
 
     public function getLotevol(Request $request)
     {
@@ -791,7 +842,7 @@ class VolController extends Controller
             case 295: //todo CLORO RESIDUAL LIBRE 
                 $detalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
                 break;
-            default:
+            default: 
                 # code...
                 break;
         }
@@ -802,12 +853,15 @@ class VolController extends Controller
     }
     public function getDetalleVol(Request $request)
     {
-        switch ($request->formulaTipo) {
-            case 7: //todo DQO
-                $model = DB::table("ViewLoteDetalleDqo")->where('Id_lote',$request->idDetalle)->first();
+        switch ($request->caso) {
+            case 1: //todo Cloro
+                $model = DB::table('ViewLoteDetalleCloro')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
                 break;
-            case 295: //todo CLORO RESIDUAL LIBRE 
-                $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+            case 2: //todo DQO
+                $model = DB::table("ViewLoteDetalleDqo")->where('Id_detalle', $request->idDetalle)->first();
+                break;
+            case 3: //todo  Nitrogeno
+                $model = DB::table("ViewLoteDetalleDqo")->where('Id_detalle', $request->idDetalle)->first();
                 break;
             default:
                 # code...
@@ -1149,7 +1203,7 @@ class VolController extends Controller
                     $textProcedimiento = ReportesFq::where('Id_reporte', 24)->first();                                     
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-
+                    
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.cloroR.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
                 }else{
                     $sw = false;
@@ -1184,7 +1238,7 @@ class VolController extends Controller
             }else if($parametro->Parametro == 'Nitrógeno Orgánico'){ //POR REVISAR EN LA TABLA DE DATOS
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaFooter', compact('usuario', 'firma'));
-            }else if($parametro->Parametro == 'CLORO RESIDUAL LIBRE'){                
+            }else if($parametro->Parametro == 'CLORO RESIDUAL LIBRE'){                                
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.cloroR.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.cloroR.capturaFooter', compact('usuario', 'firma'));
             }else if($parametro->Parametro == 'Nitrógeno Total *'){

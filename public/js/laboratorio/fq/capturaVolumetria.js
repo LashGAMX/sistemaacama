@@ -5,24 +5,7 @@ var idLote = 0;
 var tecnica = 0;
 
 $(document).ready(function () {
-    table = $('#tableAnalisis').DataTable({
-        "ordering": false,
-        "language": {
-            "lengthMenu": "# _MENU_ por pagina",
-            "zeroRecords": "No hay datos encontrados",
-            "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",
-        }
-    });
-    table2 = $('#tableDatos2').DataTable({
-        "ordering": false,
-        "language": {
-            "lengthMenu": "# _MENU_ por pagina",
-            "zeroRecords": "No hay datos encontrados",
-            "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",
-        }
-    });
+ 
 });
 // $('#btnAplicarObsCloro').click(function (){
 //     updateObsVolumetriaCloro();
@@ -38,8 +21,9 @@ $('#btnEjecutarCloro').click(function (){
     operacionCloro();
 })
 
-$('#guardarCloro').click(function (){
-    operacionCloro();
+$('#btnGuardarCloro').click(function (){
+    // operacionCloro();
+    guardarCloro();
 });
 $('#guardar').click(function () {
     operacion();
@@ -51,6 +35,7 @@ $('#btnLiberar').click(function () {
 
 
 function getDataCaptura() {
+    cleanTable();
     numMuestras = new Array();
     let tabla = document.getElementById('divLote');
     let tab = '';
@@ -152,10 +137,9 @@ function getLoteCapturaVol() {
             tab += '        <tr>';
             tab += '          <th>Opc</th>';
             tab += '          <th>Folio</th>';
-            tab += '          <th># toma</th>';
+            // tab += '          <th># toma</th>';
             tab += '          <th>Norma</th>';
             tab += '          <th>Resultado</th>';
-            tab += '          <th>Tipo Análisis</th>';
             tab += '          <th>Observación</th>';
             tab += '        </tr>';
             tab += '    </thead>'; 
@@ -167,13 +151,17 @@ function getLoteCapturaVol() {
                 } else { 
                     status = "disabled";
                 }
-                if ($("#formulaTipo").val() != 295)
-                {
-                    tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleVol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
-                }
-                else 
-                {
-                    tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleVol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
+                switch ($("#formulaTipo").val()) {
+                    case '295': // CLORO RESIDUAL LIBRE
+                        // tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleVol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';    
+                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleVol('+item.Id_detalle+',1);" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
+                        break;
+                    case '7':
+                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleVol('+item.Id_detalle+',1);" data-toggle="modal" data-target="#modalDqo">Capturar</button>';
+                        break;
+                    default:
+                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleVol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
+                        break;
                 }
                     
                 if (item.Id_control != 1) 
@@ -182,12 +170,19 @@ function getLoteCapturaVol() {
                 }else{
                     tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
                 }
-                tab += '<td><input disabled style="width: 80px" value="'+item.Folio_servicio+'"></td>';
-                tab += '<td><input disabled style="width: 80px" value="-"></td>';
-                tab += '<td><input disabled style="width: 80px" value="'+item.Clave_norma+'"></td>';
-                tab += '<td><input disabled style="width: 80px" value="-"></td>';
-                tab += '<td><input disabled style="width: 80px" value="-"></td>';
-                tab += '<td>'+item.Observacion+'</td>';
+                tab += '<td><input disabled style="width: 100px" value="'+item.Folio_servicio+'"></td>';
+                // tab += '<td><input disabled style="width: 80px" value="-"></td>';
+                tab += '<td><input disabled style="width: 200px" value="'+item.Clave_norma+'"></td>';
+                if(item.Resultado != null){
+                    tab += '<td><input disabled style="width: 100px" value="'+item.Resultado+'"></td>';
+                }else{
+                    tab += '<td><input disabled style="width: 80px" value=""></td>';
+                }
+                if(item.Observacion != null){
+                    tab += '<td>'+item.Observacion+'</td>';
+                }else{
+                    tab += '<td></td>';
+                }
                 tab += '</tr>';
                 numMuestras.push(item.Id_detalle);
                 cont++;
@@ -195,7 +190,7 @@ function getLoteCapturaVol() {
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
-
+ 
             var t2 = $('#tablaControles').DataTable({
                 "ordering": false,
                 "language": {
@@ -259,6 +254,33 @@ function operacionCloro()
 
 }
 
+function guardarCloro()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/guardarCloro", 
+        data: {
+            idDetalle:idMuestra,
+            A:$("#cloroA1").val(),
+            E:$("#cloroE1").val(),
+            H:$("#cloroH1").val(),
+            G:$("#cloroG1").val(),
+            B:$("#cloroB1").val(),
+            C:$("#cloroC1").val(),
+            D:$("#cloroD1").val(),
+            Resultado:$("#resultadoCloro").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaVol();
+        }
+    });
+
+}
+
+
 function operacion() {
 
     $.ajax({
@@ -282,33 +304,16 @@ function operacion() {
         }
     });
 }
-function updateObsVolumetria()
+
+function updateObsVolumetria(caso,obs)
 {
-     
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/updateObsVolumetria",
         data: {
-            idMuestra: idMuestra,
-            observacion: $("#observacion").val(),
-            _token: $('input[name="_token"]').val()
-        },
-        dataType: "json",
-        success: function (response) {
-            console.log(response);
-            getLoteCapturaVol();
-        }
-    }); 
-
-}
-function updateObsVolumetriaCloro()
-{
-    $.ajax({
-        type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/updateObsVolumetriaCloro",
-        data: {
-            idMuestra: idMuestra,
-            observacion: $("#observacionCloro").val(),
+            caso:caso,
+            idDetalle: idMuestra,
+            observacion: $("#"+obs).val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
@@ -320,12 +325,18 @@ function updateObsVolumetriaCloro()
 
 }
 
-function getDetalleVol(idDetalle)
+function getDetalleVol(idDetalle,caso)
 {
+    /*
+        Caso 1 = Cloro
+        caso 2 = DQO
+        Caso 3 = Nitrogeno
+    */
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getDetalleVol",
         data: {
+            caso:caso,
             formulaTipo: $("#formulaTipo").val(),
             idDetalle: idDetalle,
             _token: $('input[name="_token"]').val()
@@ -333,14 +344,23 @@ function getDetalleVol(idDetalle)
         dataType: "json",
         success: function (response) {
             console.log(response);
-            $("#h1").val(response.model.M_final);
-            $("#j1").val(response.model.M_inicial1);
-            $("#k1").val(response.model.M_inicial2);
-            $("#c1").val(response.model.M_inicial3);
-            $("#l1").val(response.model.Ph);
-            $("#i1").val(response.model.Vol_muestra);
-            $("#g1").val(response.model.Blanco);
-            $("#e1").val(response.model.F_conversion);
+            switch (caso) {
+                case 1: // Cloro
+                $("#cloroA1").val(response.model.Vol_muestra);
+                $("#cloroE1").val(response.model.Ml_muestra);
+                $("#calroH1").val(response.model.Ph_final);
+                $("#cloroG1").val(response.model.Ph_inicial);
+                $("#cloroB1").val(response.model.Vol_blanco);
+                $("#cloroC1").val(response.model.Normalidad);
+                $("#cloroD1").val(response.model.Factor_conversion);
+                $("#resultadoCloro").val(response.model.Resultado);
+                $("#observacionCloro").val(response.model.Observacion);
+                    break;
+            
+                default:
+                    break;
+            }
+        
         }
     });
 }
@@ -348,11 +368,12 @@ function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
 function createControlCalidad()
-{
+{ 
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/createControlCalidad",
         data: {
+            idParametro:$("#formulaTipo").val(),
             idMuestra: idMuestra,
             idControl: $("#controlCalidad").val(),
             _token: $('input[name="_token"]').val()
@@ -360,7 +381,28 @@ function createControlCalidad()
         dataType: "json",
         success: function (response) {
             console.log(response);
-            getDataCaptura();
+            getLoteCapturaVol();
         }
     });
+}
+function cleanTable() {
+
+    let tabla = document.getElementById('divTablaControles');
+    let tab = '';
+
+            tab += '<table id="tablaControles" class="table table-sm">';
+            tab += '    <thead>';
+            tab += '        <tr>';
+            tab += '          <th>Opc</th>';
+            tab += '          <th>Folio</th>';
+            // tab += '          <th># toma</th>';
+            tab += '          <th>Norma</th>';
+            tab += '          <th>Resultado</th>';
+            tab += '          <th>Observación</th>';
+            tab += '        </tr>';
+            tab += '    </thead>'; 
+            tab += '    <tbody>';
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
 }

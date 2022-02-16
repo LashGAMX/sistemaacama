@@ -2893,6 +2893,9 @@ class FqController extends Controller
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
 
+                    $separador = "VALIDACION DEL SISTEMA";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
                     $htmlCaptura = view('exports.laboratorio.fq.ga.sdv.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
                 } else {
                     $sw = false;
@@ -2916,8 +2919,8 @@ class FqController extends Controller
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
 
-                    $separador = "Valoración / Observación";
-                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                    $separador = "VALIDACION DEL SISTEMA";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);                 
 
                     $htmlCaptura = view('exports.laboratorio.fq.ga.ssf.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
                 } else {
@@ -2974,7 +2977,7 @@ class FqController extends Controller
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
 
-                    $separador = "Valoración / Observación";
+                    $separador = "VALIDACION DEL SISTEMA";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.ga.stf.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
@@ -3037,7 +3040,9 @@ class FqController extends Controller
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
 
-                    $textoProcedimiento = ReportesFq::where('Id_reporte', 16)->first();
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 16)->first();
+                    $separador = "VALIDACION DEL SISTEMA";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.ga.sdv.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
                 }                                                
@@ -3059,8 +3064,11 @@ class FqController extends Controller
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
 
+                    //Recupera el nombre del parámetro solidos disueltos totales
+                    $paramSdt = Parametro::where('Id_parametro', 46)->first();                    
+
                     $textProcedimiento = ReportesFq::where('Id_reporte', 18)->first();
-                    $separador = "Valoración / Observación";
+                    $separador = "VALIDACION DEL SISTEMA";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.ga.ssf.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
@@ -3118,7 +3126,7 @@ class FqController extends Controller
                     $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
 
                     $textProcedimiento = ReportesFq::where('Id_reporte', 22)->first();
-                    $separador = "Valoración / Observación";
+                    $separador = "VALIDACION DEL SISTEMA";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.ga.stf.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));

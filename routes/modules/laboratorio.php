@@ -127,14 +127,17 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getMuestraAsignadaVol', [VolController::class, 'getMuestraAsignadaVol']);
         Route::post('delMuestraLoteVol', [VolController::class, 'delMuestraLoteVol']);
         Route::post('updateObsVolumetria', [VolController::class, 'updateObsVolumetria']);
-        Route::post('updateObsVolumetriaCloro', [VolController::class, 'updateObsVolumetriaCloro']);
 
         Route::get('capturaVolumetria', [VolController::class, 'capturaVolumetria']);
         Route::post('getLotevol', [VolController::class, 'getLotevol']);
         Route::post('getLoteCapturaVol', [VolController::class, 'getLoteCapturaVol']);
         Route::post('getDetalleVol', [VolController::class, 'getDetalleVol']);
         Route::post('operacion', [VolController::class, 'operacionVolumetria']);
-        Route::post('operacionCloro', [VolController::class, 'operacionVolumetriaCloro']);
+        Route::post('operacionVolumetriaCloro', [VolController::class, 'operacionVolumetriaCloro']);
+
+        Route::post('guardarCloro', [VolController::class, 'guardarCloro']);
+        Route::post('createControlCalidadVol', [VolController::class, 'createControlCalidadVol']);
+        
 
 //****************************************FIN VOLUMETRIA***********************************************
 

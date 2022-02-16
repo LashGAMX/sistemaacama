@@ -61,3 +61,31 @@
     font-size: 9;    
     text-align: center;
 }
+
+#contenedorTabla{    
+    max-height: 100px;    
+}
+
+/*Tablas*/
+.nombreHeader{
+    font-family: Calibri;
+    font-size: 12;
+    text-align: center;
+}
+
+.tableCabecera{
+    text-align: center;
+    font-family: Calibri;
+    font-size: 9;
+    font-weight: bold;
+}
+
+/* .anchoColumna{
+    width: 7.69%;
+} */
+
+.tableContent{
+    font-family: Calibri;
+    font-size: 9;
+    text-align: center;
+}

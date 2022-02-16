@@ -246,6 +246,9 @@ class MbController extends Controller
             case 72:
                 $muestra = LoteDetalleDbo::where('Id_detalle', $request->idMuestra)->first();
                 break;
+            case 17:
+                $muestra = LoteDetalleHH::where('Id_detalle', $request->idMuestra)->first();
+                break;
             default:
                 # code...
                 break;
@@ -377,6 +380,17 @@ class MbController extends Controller
                         # code...
                     $suma = $request->lum1 + $request->na1 + $request->sp1 + $request->tri1 + $request->uni1;
                     $res = round($suma/$request->volH1);
+
+                    $model = LoteDetalleHH::find($request->idDetalle);
+                    $model->A_alumbricoides = $request->lum1;
+                    $model->H_nana = $request->lum1;
+                    $model->Taenia_sp = $request->sp1;
+                    $model->T_trichiura = $request->tri1;
+                    $model->Uncinarias = $request->uni1;
+                    $model->Vol_muestra = $request->volH1;
+                    $model->Resultado = $res;
+                    $model->save();
+
                 break;
             default:
                 # code...

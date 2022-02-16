@@ -69,6 +69,9 @@
                                 ESTANDAR
                             @elseif(@$data[$i]->Control == 'Blanco')
                                 BLANCO
+
+                            @elseif(@$data[$i]->Control == 'Blanco reactivo')
+                                BLANCO REACTIVO
                             @else
                                 {{@$data[$i]->Folio_servicio}}
                         @endif 
@@ -98,7 +101,7 @@
                         {{@$data[$i]->Observacion}}
                     </td>
 
-                    <td class="contenidoBody bordesTabla">
+                    <td class="contenidoBody">
                         @if (@$data[$i]->Liberado == 1)
                                 Liberado
                             @elseif(@$data[$i]->Liberado == 0)
@@ -106,7 +109,7 @@
                         @endif
                     </td>
 
-                    <td class="contenidoBody bordesTabla">
+                    <td class="contenidoBody">
                         {{@$data[$i]->Control}}
                     </td>                        
                 </tr> 

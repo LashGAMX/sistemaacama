@@ -107,6 +107,7 @@
 
 .bordesTabla{
     border: 1;
+    border-width: 0.1;
     border-collapse: collapse;
     border-color: #2E2E2E ;
     /* border-color: #ddd; */

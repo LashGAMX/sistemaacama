@@ -410,7 +410,7 @@ function operacionHH()
         dataType: "json",
         success: function (response) {
             console.log(response);
-            $("#resHH").val(response.res); 
+            $("#resultadoHH").val(response.res); 
             getLoteCapturaMicro();
         }
     }); 

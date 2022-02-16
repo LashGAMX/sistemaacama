@@ -17,7 +17,7 @@ class MatrazGA extends Model
         'Num_serie',
         'Peso',
         'Min',
-        'Max',
+        'Max', 
         'Estado'
         
     ];
