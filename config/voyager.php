@@ -57,6 +57,7 @@ return [
     'storage' => [
         'disk' => env('FILESYSTEM_DRIVER', 'public'),
         // 'url' => env('APP_URL').'/storage', 
+         // 'disk' => 'public',
     ],
 
     /*
