@@ -40,6 +40,10 @@
                             <div class="col-md-1">
                                 <button id="btnPrint" class="btn btn-info" ><i class="voyager-edit"></i> Imprimir</button>
                             </div>
+
+                            <div class="col-md-1">
+                                <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Cotización</button>
+                            </div>
                         </div>
                         <thead class="">
                             <tr>

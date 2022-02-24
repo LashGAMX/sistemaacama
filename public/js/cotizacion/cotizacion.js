@@ -44,4 +44,8 @@ $(document).ready(function () {
         window.open(base_url+"/admin/cotizacion/exportPdfOrden/"+idCot);
         //window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idCot;
     } );
+
+    $('#btnDuplicar').click(function(){                
+        window.location = base_url + "/admin/cotizacion/duplicarCot/"+idCot;
+    });
 });

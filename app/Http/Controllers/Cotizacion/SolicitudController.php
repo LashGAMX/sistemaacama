@@ -671,8 +671,66 @@ class SolicitudController extends Controller
     }
 
     public function duplicarSol($idCot){
+        
+        //Duplica antes la cotización para que pueda actualizar la tabla de solicitudes en la tabla de solicitudes
+        $cotOriginal = Cotizacion::where('Id_cotizacion', $idCot)->first();
+        $cotReplicada = $cotOriginal->replicate();
+
+        $year = date("y");
+        $month = date("m");
+        $dayYear = date("z") + 1;
+        $today = Carbon::now()->format('Y-m-d');
+        $cotizacionDay = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->count();
+
+        $numCot = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $cotOriginal->Id_cliente)->get();
+        $firtsFol = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $cotOriginal->Id_cliente)->first();
+        $cantCot = $numCot->count();
+        if ($cantCot > 0) {
+
+            $folio = $firtsFol->Folio . '-' . ($cantCot + 1);
+        } else {
+            $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
+        }
+
+        //$cotReplicada->Id_cotizacion = $idCot;
+        $cotReplicada->Folio_servicio = NULL;
+        $cotReplicada->Folio = $folio;
+        $cotReplicada->Creado_por = Auth::user()->id;
+        $cotReplicada->Actualizado_por = Auth::user()->id;
+        $cotReplicada->created_at = Carbon::now();
+        $cotReplicada->updated_at = Carbon::now();
+        
+        $cotReplicada->save();
+
+        $cotMuestreoOriginal = CotizacionMuestreo::where('Id_cotizacion', $idCot)->first();
+        $cotMuestreoDuplicada = $cotMuestreoOriginal->replicate();
+        $cotMuestreoDuplicada->Id_cotizacion = $cotReplicada->Id_cotizacion;
+        $cotMuestreoDuplicada->Id_user_c = Auth::user()->id;
+        $cotMuestreoDuplicada->Id_user_m = Auth::user()->id;
+        $cotMuestreoDuplicada->created_at = Carbon::now();
+        $cotMuestreoDuplicada->updated_at = Carbon::now();
+        $cotMuestreoDuplicada->save();
+
+        $cotParamOriginal = CotizacionParametros::where('Id_cotizacion', $idCot)->get();
+
+        foreach($cotParamOriginal as $item){
+            $cotParamDuplicada = $item->replicate();
+            $cotParamDuplicada->Id_cotizacion = $cotReplicada->Id_cotizacion;
+            $cotParamDuplicada->save();
+        }
+
+        $cotPuntoOriginal = CotizacionPunto::where('Id_cotizacion', $idCot)->get();
+
+        foreach($cotPuntoOriginal as $item){
+            $cotPuntoDuplicada = $item->replicate();
+            $cotPuntoDuplicada->Id_cotizacion = $cotReplicada->Id_cotizacion;
+            $cotPuntoDuplicada->save();
+        }
+
+        //Duplica la solicitud----------------------------------------------------------------
+
         $solOriginal = Solicitud::where('Id_cotizacion', $idCot)->first();
-        /* $solDuplicada = $solOriginal->replicate();
+        $solDuplicada = $solOriginal->replicate();
     
         $year = date("y");
         $month = date("m");
@@ -691,47 +749,51 @@ class SolicitudController extends Controller
             $folio = $dayYear . "-" . ($solicitudDay + 1) . "/" . $year;
         }
 
+        $solDuplicada->Id_cotizacion = $cotReplicada->Id_cotizacion;
         $solDuplicada->Folio_servicio = $folio;
         $solDuplicada->Id_user_c = Auth::user()->id;
         $solDuplicada->Id_user_m = Auth::user()->id;
         $solDuplicada->created_at = Carbon::now();
         $solDuplicada->updated_at = Carbon::now();
         
-        $solDuplicada->save(); */
+        $solDuplicada->save();
 
-        //Duplica registro en tabla solicitud_puntos
-        //$solPuntosOriginal = SolicitudPuntos::where('Id_solicitud', $solOriginal->Id_solicitud)->first();
-        //$solPuntosDuplicada = $solPuntosOriginal->replicate();
-        //$solPuntosDuplicada->Id_solicitud = 30;
-        //$solPuntosDuplicada->Id_solicitud = $solDuplicada->Id_solicitud;
-        //$solPuntosDuplicada->Id_user_c = Auth::user()->id;
-        //$solPuntosDuplicada->Id_user_m = Auth::user()->id;
-        //$solPuntosDuplicada->created_at = Carbon::now();
-        //$solPuntosDuplicada->updated_at = Carbon::now();
+        ///Duplica registro en tabla solicitud_puntos
+        $solPuntosOriginal = SolicitudPuntos::where('Id_solicitud', $solOriginal->Id_solicitud)->first();
+        $solPuntosDuplicada = $solPuntosOriginal->replicate();        
+        $solPuntosDuplicada->Id_solicitud = $solDuplicada->Id_solicitud;
+        $solPuntosDuplicada->Id_user_c = Auth::user()->id;
+        $solPuntosDuplicada->Id_user_m = Auth::user()->id;
+        $solPuntosDuplicada->created_at = Carbon::now();
+        $solPuntosDuplicada->updated_at = Carbon::now();
 
-        //$solPuntosDuplicada->save();
+        $solPuntosDuplicada->save();
 
         //Duplica registro en tabla solicitud_parametros
         $solParamOriginal = SolicitudParametro::where('Id_solicitud', $solOriginal->Id_solicitud)->get();
 
         foreach($solParamOriginal as $item){
             $solParamDuplicada = $item->replicate();
-            $solParamDuplicada->Id_solicitud = 30;
+            $solParamDuplicada->Id_solicitud = $solDuplicada->Id_solicitud;
             $solParamDuplicada->save();
-            //$solParamDuplicada->Id_solicitud = $solDuplicada->Id_solicitud;
         }
                 
         //Duplica registro en tabla seguimiento_analisis
-        //$segAnalisisOriginal = SeguimientoAnalisis::where('Id_servicio', $solOriginal->Id_solicitud)->first();
-        //$segAnalisisDuplicada = $segAnalisisOriginal->replicate();
-        //$segAnalisisDuplicada->Id_servicio = 30;
-        //$segAnalisisDuplicada->Id_servicio = $solDuplicada->Id_solicitud;
-        //$segAnalisisDuplicada->Id_user_c = Auth::user()->id;
-        //$segAnalisisDuplicada->Id_user_m = Auth::user()->id;
-        //$segAnalisisDuplicada->created_at = Carbon::now();
-        //$segAnalisisDuplicada->updated_at = Carbon::now();
+        $segAnalisisOriginal = SeguimientoAnalisis::where('Id_servicio', $solOriginal->Id_solicitud)->first();
+        $segAnalisisDuplicada = $segAnalisisOriginal->replicate();        
+        $segAnalisisDuplicada->Id_servicio = $solDuplicada->Id_solicitud;
+        $segAnalisisDuplicada->Id_user_c = Auth::user()->id;
+        $segAnalisisDuplicada->Id_user_m = Auth::user()->id;
+        $segAnalisisDuplicada->created_at = Carbon::now();
+        $segAnalisisDuplicada->updated_at = Carbon::now();
 
-        //$segAnalisisDuplicada->save();
+        $segAnalisisDuplicada->save();     
+        
+        //Actualiza la cotización de estado
+        $cotModel = Cotizacion::find($solDuplicada->Id_cotizacion);
+        $cotModel->Folio_servicio = $solDuplicada->Folio_servicio;
+        $cotModel->Estado_cotizacion = 2;
+        $cotModel->save();
 
         echo "<script>alert('Solicitud duplicada exitosamente!');</script>";
         return redirect()->to('admin/cotizacion/solicitud');

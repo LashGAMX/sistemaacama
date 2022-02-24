@@ -46,7 +46,7 @@
                                 <button id="btnImprimir" class="btn btn-info" ><i class="voyager-documentation"></i> Imprimir</button>
                             </div>
 
-                            <div class="col-md-1">
+                            <div class="col-md-2">
                                 <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Solicitud</button>
                             </div>
 
