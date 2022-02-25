@@ -42,7 +42,7 @@
                             <div class="col-md-1">
                                 <button id="btnEdit" class="btn btn-warning" ><i class="voyager-edit"></i> Editar</button>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-2">
                                 <button id="btnImprimir" class="btn btn-info" ><i class="voyager-documentation"></i> Imprimir</button>
                             </div>
 

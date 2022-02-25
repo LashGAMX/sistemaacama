@@ -16,6 +16,7 @@ class TipoReporte extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'Tipo',
         'Descripcion',        
         'Id_user_c',
         'Id_user_m'
