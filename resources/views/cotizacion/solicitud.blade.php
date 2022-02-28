@@ -59,7 +59,7 @@
                                 <th>#</th>
                                 <th>Estado</th>
                                 <th>Folio cotización</th>
-                                <th>Folio servicio</th>
+                                <th>Folio servicio</th>|
                                 <th>Norma</th>
                                 <th>Servicio</th>
                                 <th>Cliente</th>
@@ -93,7 +93,7 @@
     <div class="" id="divModal">
 
     </div>
-@endsection
+@endsection 
     @section('javascript')
         <script src="{{ asset('/public/js/cotizacion/solicitud.js') }}"></script>        
     @stop
