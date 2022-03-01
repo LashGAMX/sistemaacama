@@ -83,17 +83,11 @@
                    </div>
                   </div>
                     <!-- Fin de la Tabla -->
-                </div>
+                </div> 
             </div>
         </div>
     </div> 
 @endsection
     @section('javascript')
-<<<<<<< HEAD
         <script src="{{ asset('/public/js/cotizacion/cotizacion.js') }}"></script>
-=======
-        <script src="{{ asset('public/js/cotizacion/cotizacion.js') }}"></script>
-        <script src="{{ asset('/js/libs/componentes.js') }}"></script>
-        <script src="{{ asset('/js/libs/tablas.js') }}"></script>
->>>>>>> 23afdc14721b90c94e69fad53dd8e13b80b24ce8
     @stop

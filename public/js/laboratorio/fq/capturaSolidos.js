@@ -404,7 +404,7 @@ function getDetalleSolidos(idDetalle, num) {
                     $("#val11").val(response.dif1.Resultado);
                     $("#nomParametro2").val(response.nom2);
                     $("#val21").val(response.dif2.Resultado);
-                    let res = response.dif1.Resultado - response.dif2.Resultado;
+                    let res = (response.dif1.Resultado) - (response.dif2.Resultado);
                     $("#preResDif").val(res);
                     $("#resultadoDif").val(response.detalle.Resultado);
                     $("#observacionDif").val(response.detalle.Observacion);

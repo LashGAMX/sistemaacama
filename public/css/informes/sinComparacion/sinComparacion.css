@@ -12,7 +12,7 @@
     margin: 0;
 }
 
-#revisiones{
+.revisiones{
     font-size: 9;
     text-align: right;
 }
@@ -40,7 +40,7 @@
 
 .contenedorHijo12{
     float: left;
-    width: 50%;    
+    width: 49.877%;    
     /*background-color: orange;*/ 
 }
 
@@ -72,7 +72,7 @@
 .nombreHeader{
     font-family: Calibri;
     /* font-size: 12; */
-    text-align: center;
+    /* text-align: center; */
 }
 
 #contenedorTabla{    
@@ -109,8 +109,11 @@
 }
 
 .anchoColumna60{
-    width: 60%;    
-    background-color: aqua;
+    width: 43%;        
+}
+
+.anchoColumna28{
+    width: 28%;
 }
 
 .bordesTabla{
@@ -121,11 +124,15 @@
     /* border-color: #ddd; */
 }
 
-.bordesTablaNom{
+.nom{
     border: 1;
-    border-width: 0.1;
+    /* border-width: 0.1px; */
+    border-top-width: 0.1px;
+    border-bottom-width: 0.1px;
+    border-left-width: 0.1px;
+    border-right-width: 0.1px;
     border-collapse: collapse;
-    border-color: #2E2E2E ;
+    border-color: #2E2E2E ;    
     /* border-color: #ddd; */
 }
 
@@ -143,12 +150,16 @@
     font-size: 11;    
 }
 
+.fontSize9{
+    font-size: 9;    
+}
+
 .width100{
     width: 100%;
 }
 
 .paddingTop{
-    padding-top: 5px;    
+    padding-top: 4px;    
 }
 
 .bordeDer{
@@ -183,10 +194,109 @@
     border-left-width: 0px;    
 }
 
+.bordeIzqDerSinSup{
+    border-style: solid;
+    border-top-width: 0px;
+    border-bottom-width: 0.1px;
+    border-right-width: 0px;
+    border-left-width: 0px;    
+}
+
 .bordeFinal{
     border-style: solid;
     border-top-width: 0.1px;
     border-bottom-width: 0.1px;
     border-right-width: 0.1px;
     border-left-width: 0px;    
+}
+
+.bordeSinIzqFinalSup{
+    border-style: solid;
+    border-top-width: 0px;
+    border-bottom-width: 0.1px;
+    border-right-width: 0.1px;
+    border-left-width: 0px;    
+}
+
+.bordeConIzqFinalSup{
+    border-style: solid;
+    border-top-width: 0px;
+    border-bottom-width: 0.1px;
+    border-right-width: 0.1px;
+    border-left-width: 0.1px;    
+}
+
+.bordeIzqFinalSup{
+    border-style: solid;
+    border-top-width: 0px;
+    border-bottom-width: 0.1px;
+    border-right-width: 0.1px;
+    border-left-width: 0px;    
+}
+
+.bordesTablaBody{
+    border-style: solid;
+    border-color: #2E2E2E ;
+    border-top-width: 0.1px;
+    border-bottom-width: 0.1px;
+    border-right-width: 0.1px;
+    border-left-width: 0.1px;    
+}
+
+.bordesTablaFirmasSupIzq{
+    border-style: solid;
+    border-color: black ;
+    border-top-width: 0.6px;
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0.6px;    
+}
+
+.bordesTablaFirmasSupDer{
+    border-style: solid;
+    border-color: black ;
+    border-top-width: 0.6px;
+    border-bottom-width: 0px;
+    border-right-width: 0.6px;
+    border-left-width: 0.6px;    
+}
+
+.bordesTablaFirmasInfIzq{
+    border-style: solid;
+    border-color: black ;
+    border-top-width: 0.6px;
+    border-bottom-width: 0.6px;
+    border-right-width: 0px;
+    border-left-width: 0.6px;    
+}
+
+.bordesTablaFirmasInfDer{
+    border-style: solid;
+    border-color: black ;
+    border-top-width: 0.6px;
+    border-bottom-width: 0.6px;
+    border-right-width: 0.6px;
+    border-left-width: 0.6px;    
+}
+
+.justificadoDer{
+    text-align: right;
+}
+
+.justificadorCentr{
+    text-align: center;
+}
+
+.justificadorIzq{
+    text-align: left;
+}
+
+.paddingTopBot{
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.paddingTopBotInter{
+    padding-top: 2px;
+    padding-bottom: 2px;
 }

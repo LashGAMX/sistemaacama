@@ -23,8 +23,8 @@ class InformesController extends Controller
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 90,
-            'margin_bottom' => 45,
+            'margin_top' => 76,
+            'margin_bottom' => 114,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
