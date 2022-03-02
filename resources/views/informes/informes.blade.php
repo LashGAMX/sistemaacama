@@ -45,18 +45,21 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
+                                    @foreach ($model as $item)
+                                        <tr onclick="getPuntoMuestro({{$item->Id_solicitud}})">
+                                            <td>{{$item->Id_solicitud}}</td>
+                                            <td>{{$item->Folio_servicio}}</td>
+                                            <td>{{$item->Empresa_suc}}</td>
+                                            <td>{{$item->Clave_norma}}</td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
                                             <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{$item->Observacion}}</td>
+
                                         </tr>
+                                    @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -67,12 +70,14 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label for="puntoMuestreo">Punto de muestreo</label>
-                                        <select class="form-control" id="puntoMuestreo">
-                                            <option value="">Puntos Muestreo</option>
-                                        </select>
+                                        <div id="selPuntos">
+                                            <select class="form-control" id="puntoMuestreo">
+                                                <option value="">Puntos Muestreo</option>
+                                            </select>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <div class="form-group">
                                         <label for="tipoReporte">Tipo  de reporte</label>
                                         <select class="form-control" id="tipoReporte">
@@ -82,10 +87,14 @@
                                         </select>
                                     </div>
                                 </div>
+                                <div class="col-md-2"> 
+                                    <button class="btn btn-info" id="btnImprimir"><i class="voyager-cloud-download"></i> Descargar</button>
+                                </div>
                             </div>
 
                             <div style="width: 100%; overflow:scroll">
-                                <table id="tableServicios" class="table" style="width: 100%; font-size: 10px">
+                               <div id="divServicios">
+                                <table id="tablaParametro" class="table" style="width: 100%; font-size: 10px">
                                     <thead>
                                         <tr>
                                             <th>Norma</th>
@@ -113,6 +122,7 @@
                                         </tr>
                                     </tbody>
                                 </table>
+                               </div>
                             </div>
                         </div>
                     </div>
