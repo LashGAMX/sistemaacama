@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+ <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -9,12 +9,12 @@
 </head>
 <body>
     <div id="contenedorTabla">
-        <table autosize="1" class="table table-borderless paddingTop1" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+        <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <thead>
                 <tr>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="40%" height="30">PARAMETRO &nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;UNIDAD&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;METODO DE PRUEBA&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="47%">PARAMETRO &nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="7%">&nbsp;UNIDAD&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="14%">&nbsp;METODO DE PRUEBA&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PROMEDIO MENSUAL PONDERADO&nbsp;&nbsp;</td>                    
@@ -22,9 +22,9 @@
             </thead>
     
             <tbody>
-                @for ($i = 0; $i < 8/* @$solicitudParametrosLength */ ; $i++)
+                @for ($i = 0; $i < 20/* @$solicitudParametrosLength */ ; $i++)
                     <tr>
-                        <td class="tableContent bordesTablaBody" height="25">{{@$solicitudParametros[$i]->Parametro}}</td>
+                        <td class="tableContentLeft bordesTablaBody">{{@$solicitudParametros[$i]->Parametro}}</td>
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Unidad}}</td>
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Metodo_prueba}}</td>
                         <td class="tableContent bordesTablaBody">PROMEDIO DIARIO</td>

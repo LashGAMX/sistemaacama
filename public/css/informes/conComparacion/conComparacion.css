@@ -13,7 +13,7 @@
 }
 
 .revisiones{
-    font-size: 9;
+    font-size: 5;
     text-align: right;
 }
 
@@ -46,15 +46,17 @@
 }
 
 .contenedorSubPadre12{    
-    text-align: center; 
+    /* text-align: right;  */
     width: 40%;      
     float: left;    
+    display: flex;
+    align-items: right;
     /*background-color: aqua;*/
 }
 
 .contenedorHijo12{
     float: left;
-    width: 49%;    
+    width: 33%;
     /*background-color: orange;*/ 
 }
 
@@ -112,13 +114,10 @@
     text-align: center;
 }
 
-.pruebaAncho{
-    width: 50%;
-    background-color: greenyellow;
-}
-
-.pruebaAncho2{
-    width: 12.5%;
+.tableContentLeft{
+    font-family: Calibri;
+    font-size: 9;
+    text-align: left;
 }
 
 .anchoColumna{
@@ -148,7 +147,7 @@
 .bordesTabla{
     /* border: 1; */
     /* border-width: 0.1; */
-    border-collapse: collapse;
+    /* border-collapse: collapse; */
     border-color: black ;
     /* border-color: #ddd; */
 }
@@ -175,24 +174,44 @@
     font-weight: bold;    
 }
 
+.fontNormal{
+    font-weight: normal;    
+}
+
 .fontSize11{
     font-size: 11;    
 }
 
+.fontSize5{
+    font-size: 5;      
+}
+
+.fontSize6{
+    font-size: 6;      
+}
+
+.fontSize7{
+    font-size: 7;      
+}
+
+.fontSize727{
+    font-size: 7.27px
+}
+
 .fontSize8{
-    font-size: 8;    
+    font-size: 8;
 }
 
 .fontSize9{
     font-size: 9;    
 }
 
-.width100{
-    width: 100%;
+.fontSize12{
+    font-size: 12;    
 }
 
-.paddingTop1{
-    padding-top: 1px;    
+.width100{
+    width: 100%;
 }
 
 .paddingTop{

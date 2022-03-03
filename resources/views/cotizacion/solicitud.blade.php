@@ -28,7 +28,7 @@
 
                     <!--Tabla -->
                   <div class="col-md-12">
-                   <div class="table-responsive">
+                   <div class="table-responsive"> 
                     <table id="tablaSolicitud" class="table">
                         <div class="row">
                             <div class="col-md-1">
@@ -84,7 +84,7 @@
                         </tbody>
                     </table>
                    </div>                  </div>
-                    <!-- Fin de la Tabla -->
+                    <!-- Fin de la Tabla --> 
                 </div>
             </div>
         </div>
@@ -95,5 +95,5 @@
     </div>
 @endsection 
     @section('javascript')
-        <script src="{{ asset('/public/js/cotizacion/solicitud.js') }}"></script>        
+        <script src="{{ asset('/js/cotizacion/solicitud.js') }}"></script>        
     @stop

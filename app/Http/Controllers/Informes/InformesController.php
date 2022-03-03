@@ -7,6 +7,7 @@ use App\Models\Clientes;
 use App\Models\Cotizacion;
 use App\Models\CotizacionPunto;
 use App\Models\DireccionReporte;
+use App\Models\Norma;
 use App\Models\Parametro;
 use App\Models\Solicitud;
 use App\Models\SolicitudParametro;
@@ -162,8 +163,8 @@ class InformesController extends Controller
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 61,
-            'margin_bottom' => 85,
+            'margin_top' => 73,
+            'margin_bottom' => 66,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
@@ -189,6 +190,7 @@ class InformesController extends Controller
         }
 
         $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
+        $norma = Norma::where('Id_norma', $solicitud->Id_norma)->first();
         $direccion = DireccionReporte::where('Id_direccion', $solicitud->Id_direccion)->first();
         $folio = explode("-", $solicitud->Folio_servicio);
         $parte1 = strval($folio[0]);
@@ -254,7 +256,7 @@ class InformesController extends Controller
         $htmlInforme = view('exports.informes.conComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
-        $htmlHeader = view('exports.informes.conComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden'));
+        $htmlHeader = view('exports.informes.conComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma'));
         $htmlFooter = view('exports.informes.conComparacion.footerInforme', compact('solicitud'/* 'usuario', 'firma' */));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
