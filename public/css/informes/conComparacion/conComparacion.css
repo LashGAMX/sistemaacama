@@ -38,7 +38,27 @@
     /*background-color: aqua;*/
 }
 
+.contenedorSubPadre11{    
+    text-align: center; 
+    width: 60%;
+    float: left;       
+    /*background-color: aqua;*/
+}
+
+.contenedorSubPadre12{    
+    text-align: center; 
+    width: 40%;      
+    float: left;    
+    /*background-color: aqua;*/
+}
+
 .contenedorHijo12{
+    float: left;
+    width: 49%;    
+    /*background-color: orange;*/ 
+}
+
+.contenedorHijo13{
     float: left;
     width: 49.877%;    
     /*background-color: orange;*/ 
@@ -92,6 +112,15 @@
     text-align: center;
 }
 
+.pruebaAncho{
+    width: 50%;
+    background-color: greenyellow;
+}
+
+.pruebaAncho2{
+    width: 12.5%;
+}
+
 .anchoColumna{
     width: 12.5%;
 }
@@ -120,7 +149,7 @@
     /* border: 1; */
     /* border-width: 0.1; */
     border-collapse: collapse;
-    border-color: #2E2E2E ;
+    border-color: black ;
     /* border-color: #ddd; */
 }
 
@@ -150,12 +179,20 @@
     font-size: 11;    
 }
 
+.fontSize8{
+    font-size: 8;    
+}
+
 .fontSize9{
     font-size: 9;    
 }
 
 .width100{
     width: 100%;
+}
+
+.paddingTop1{
+    padding-top: 1px;    
 }
 
 .paddingTop{
@@ -210,6 +247,38 @@
     border-left-width: 0px;    
 }
 
+.soloBordeSup{
+    border-style: solid;
+    border-top-width: 0.1px;
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0px;    
+}
+
+.soloBordeInf{
+    border-style: solid;
+    border-top-width: 0px;
+    border-bottom-width: 0.1px;
+    border-right-width: 0px;
+    border-left-width: 0px;    
+}
+
+.soloBordeIzq{
+    border-style: solid;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0.1px;    
+}
+
+.soloBordeDer{
+    border-style: solid;
+    border-top-width: 0px;
+    border-bottom-width: 0px;
+    border-right-width: 0.1px;
+    border-left-width: 0px;    
+}
+
 .bordeSinIzqFinalSup{
     border-style: solid;
     border-top-width: 0px;
@@ -246,6 +315,14 @@
     border-style: solid;
     border-top-width: 0.1px;
     border-bottom-width: 0.1px;
+    border-right-width: 0.1px;
+    border-left-width: 0px;    
+}
+
+.bordeSupDer{
+    border-style: solid;
+    border-top-width: 0.1px;
+    border-bottom-width: 0px;
     border-right-width: 0.1px;
     border-left-width: 0px;    
 }
