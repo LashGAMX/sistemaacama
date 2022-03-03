@@ -29,7 +29,9 @@ $(document).ready(function () {
 
         console.log("Valor de tipoReporte: " + $("#tipoReporte").val());
 
-        if($("#tipoReporte").val() === 2){
+        if($("#tipoReporte").val() == 1){
+            window.open(base_url+"/admin/informes/exportPdfConComparacion/"+idSol);
+        }else if($("#tipoReporte").val() == 2){
             window.open(base_url+"/admin/informes/exportPdfSinComparacion/"+idSol);
         }        
     });

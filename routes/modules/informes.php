@@ -11,5 +11,5 @@ Route::group(['prefix' => 'informes'], function () {
 
     //Rutas temporales para la generación de plantillas de las bitácoras
     Route::get('exportPdfSinComparacion/{idSol}', [InformesController::class, 'pdfSinComparacion']);
-    Route::get('exportPdfComparacion', [InformesController::class, 'pdfComparacion']);
+    Route::get('exportPdfConComparacion/{idSol}', [InformesController::class, 'pdfComparacion']);
 });
