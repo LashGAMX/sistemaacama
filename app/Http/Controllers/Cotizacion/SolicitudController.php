@@ -636,7 +636,7 @@ class SolicitudController extends Controller
     public function getDataContacto(Request $request)
     {
         $model = ContactoCliente::where('Id_contacto',$request->idContacto)->first();
-        $data = array(
+        $data = array(       
             'model' => $model,
         );
         return response()->json($data);
@@ -830,7 +830,31 @@ class SolicitudController extends Controller
     public function setGenFolio(Request $request){
         //$model = DB::table('frecuencia001')->where('Id_frecuencia', $idFrecuencia)->first();
         $model = DB::table('ViewSolicitud')->where('Id_cotizacion',$request->idCot)->first();
-        return response()->json($model);
+        $coliforme = false;
+        $ga = false;
+
+        $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$model->Id_solicitud)->where('Id_parametro',14)->get();
+        if($solParam->count())
+        {
+            $ga = true;
+        }
+        $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$model->Id_solicitud)->where('Id_parametro',13)->get();
+        if($solParam->count())
+        {
+            $coliforme = true;
+        }
+
+        foreach ($solParam as $item) {
+            
+        }
+
+        $data = array(
+            'ga' => $ga,
+            'coliformes' => $coliforme,
+            'model' => $model,
+        );
+
+        return response()->json($data);
     }
 
     public function getDatos2()
