@@ -4,10 +4,10 @@
 
 @section('page_header')
     <div class="row">
-        <h6 class="page-title">
+        <h1 class="page-title">
             <i class="fas fa-angle-double-right"></i>
             Ingresar
-        </h6>
+        </h1>
     </div>    
     <div class="col-md-4">
         <div class="form-group">
@@ -20,7 +20,7 @@
 
 <div class="row">
     <div class="col-md-12">
-        <p id="parrafoDatos">Datos Generales</p>    
+        <h3>Datos generales</h3>
     </div>
     <div class="col-md-6">
         <div class="row">
@@ -81,6 +81,4 @@
 
 @section('javascript')
     <script src="{{ asset('/public/js/ingresar/ingresar.js') }}"></script>
-    <script src="{{ asset('/public/js/libs/componentes.js') }}"></script>
-    <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>    
 @stop
