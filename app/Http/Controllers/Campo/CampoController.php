@@ -35,6 +35,7 @@ use App\Models\PhCalidadCampo;
 use App\Models\PhMuestra;
 use App\Models\PHTrazable;
 use App\Models\SeguimientoAnalisis;
+use App\Models\Solicitud;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -1012,6 +1013,13 @@ class CampoController extends Controller
     { 
       
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
+
+        $folio = explode("-", $model->Folio_servicio);
+        $parte1 = strval($folio[0]);
+        $parte2 = strval($folio[1]);
+
+        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();
+
         $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$id)->first();
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud',$id)->first();
 
@@ -1020,6 +1028,9 @@ class CampoController extends Controller
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
         $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
         $muestreador = Usuario::where('id',$solGen->Id_muestreador)->first();
+
+        $envases = DB::table('ViewEnvaseParametro')->get();
+        $envasesLength = $envases->count();
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
@@ -1036,11 +1047,12 @@ class CampoController extends Controller
             array(0, 0),
         );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.hojaCampo',compact('model','punto','phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador'));
+        $html = view('exports.campo.hojaCampo',compact('model', 'numOrden', 'punto','phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'envases', 'envasesLength'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output();
     }  
+
     public function bitacoraCampo($id)
     {
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
