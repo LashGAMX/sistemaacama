@@ -8,6 +8,11 @@ body{
     font-size: 11px; 
    
 }
+
+.fontNormal{
+    font-weight: normal;
+}
+
 .verdeClaro{
     color: #00a987; 
 }
@@ -44,8 +49,25 @@ p{
     font-size: 7px;
 }
 
+.fontSize8{
+    font-family: Calibri;
+    font-size: 8px;
+}
+
 .anchoColumna{
     width: 25%;
+}
+
+.anchoColumna125{
+    width: 12.5%;
+}
+
+.anchoColumna111{
+    width: 11.1%;
+}
+
+.fontCalibri{
+    font-family: Calibri;
 }
 
 .bordesTabla{    
