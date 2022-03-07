@@ -908,14 +908,13 @@ class CampoController extends Controller
             $model = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->get();
             $this->idSol = $request->idSolicitud;
             $this->nota = "Registro modificado";
-            $this->historial();
+            //$this->historial();
             $this->alert = true;                         
         } else {                                //CREAR
             $this->idSol = $request->idSolicitud;
             $this->nota = "Creación de registro";
-            $this->historial();
+            //$this->historial();
             $this->alert = true;
-            
             $solGen = SolicitudesGeneradas::create([
                 'Id_solicitud' => $request->idSolicitud,
                 'Folio' => $request->folio,
@@ -929,29 +928,34 @@ class CampoController extends Controller
             $model = SolicitudesGeneradas::where('Id_solicitud', $solGen->Id_solicitud)->get();                        
         }                
 
+            $data = Array(
+                'model' => $model,
+            );
+
         return response()->json(
-            compact('model')
+            // compact('model'),
+            $data
         );
     }
 
-    public function historial()
-    {
-        $idUser = Auth::user()->id;
+    // public function historial()
+    // {
+    //     $idUser = Auth::user()->id;
 
-        $model = DB::table('solicitudes_generadas')->where('Id_solicitud', $this->idSol)->first();
-        HistorialCampoAsignar::create([
-            'Id_solicitud' => $model->Id_solicitud,
-            'Id_muestreador' => $model->Id_muestreador,
-            'Nota' => $this->nota,
-            'F_creacion' => $model->created_at,
-            'Id_user_c' => $model->Id_user_c,
-            'Id_user_m' => $idUser,
-            'F_modificacion' => $model->updated_at,
-            'Id_user_m' => $idUser,
-            'Punto_muestreo' => $model->Punto_muestreo,
-            'Captura' => $model->Captura
-        ]);
-    }
+    //     $model = DB::table('solicitudes_generadas')->where('Id_solicitud', $this->idSol)->first();
+    //     HistorialCampoAsignar::create([
+    //         'Id_solicitud' => $model->Id_solicitud,
+    //         'Id_muestreador' => $model->Id_muestreador,
+    //         'Nota' => $this->nota,
+    //         'F_creacion' => $model->created_at,
+    //         'Id_user_c' => $model->Id_user_c,
+    //         'Id_user_m' => $idUser,
+    //         'F_modificacion' => $model->updated_at,
+    //         'Id_user_m' => $idUser,
+    //         'Punto_muestreo' => $model->Punto_muestreo,
+    //         'Captura' => $model->Captura
+    //     ]);
+    // }
 
     public function getFolio(Request $request)
     {
