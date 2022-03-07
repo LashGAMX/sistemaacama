@@ -38,7 +38,6 @@ function createLote()
         data: {
             tipo: $("#tipoFormula").val(),
             fecha: $("#fechaLote").val(),
-            tecnica: $("#tecnicaAnalisis").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",

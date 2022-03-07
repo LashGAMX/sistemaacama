@@ -400,3 +400,11 @@ ON col.Id_control = control.Id_control
 CREATE VIEW ViewPuntoMuestreoGen as SELECT pu.*,gen.Punto_muestreo FROM solicitud_puntos as pu
 INNER JOIN puntos_muestreogen as gen
 ON pu.Id_muestreo = gen.Id_punto
+
+/*Lista ViewCodigoParametro */
+
+CREATE VIEW ViewCodigoParametro AS  SELECT cod.*,sol.Folio_servicio,sol.Clave_norma,pa.Parametro,pa.Id_tipo_formula,pa.Tipo_formula FROM codigo_parametro as cod
+INNER JOIN ViewSolicitud as sol
+ON cod.Id_solicitud = sol.Id_solicitud
+INNER JOIN ViewParametros as pa
+ON cod.Id_parametro = pa.Id_parametro

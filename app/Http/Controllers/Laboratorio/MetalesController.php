@@ -21,6 +21,7 @@ use App\Models\CurvaConstantes;
 use App\Models\estandares;
 use App\Models\TecnicaLoteMetales;
 use App\Models\BlancoCurvaMetales;
+use App\Models\CodigoParametros;
 use App\Models\CurvaCalibracionMet;
 use App\Models\VerificacionMetales;
 use App\Models\EstandarVerificacionMet;
@@ -85,7 +86,7 @@ class MetalesController extends Controller
         $sw = false;
         foreach($solicitudModel as $item)
         {
-            $paramModel = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$item->Id_solicitud)->where('Id_tipo_formula',$request->id)->get();
+            $paramModel = DB::table('ViewCodigoParametro')->where('Id_solicitud',$item->Id_solicitud)->where('Id_tipo_formula',$request->id)->get();
             $sw = false;
             foreach($paramModel as $item2)
             {
@@ -393,18 +394,18 @@ class MetalesController extends Controller
 
     public function lote()
     {
-        $tecnica = Tecnica::all();
-        $formulas = DB::table('ViewTipoFormula')->where('Id_area', 2)->get();
+        $parametro = DB::table('ViewParametros')
+        ->orWhere('Id_area', 2)
+        ->get();
+
         $textoRecuperadoPredeterminado = Reportes::where('Id_reporte', 0)->first();
-        return view('laboratorio.metales.lote', compact('formulas','tecnica','textoRecuperadoPredeterminado'));
+        return view('laboratorio.metales.lote', compact('parametro','textoRecuperadoPredeterminado'));
     }
     public function createLote(Request $request)
     {
-        $tipoModel = TipoFormula::where('Id_tipo_formula',$request->tipo)->first();
         $model = LoteAnalisis::create([
-            'Id_tipo' => $request->tipo,
-            'Id_area' => $tipoModel->Id_area,
-            'Id_tecnica' => $request->tecnica,
+            'Id_area' => 2,
+            'Id_tecnica' => $request->tipo,
             'Asignado' => 0,
             'Liberado' => 0,
             'Fecha' => $request->fecha,
@@ -417,10 +418,15 @@ class MetalesController extends Controller
     }
     public function buscarLote(Request $request)
     {
-        //$model = LoteAnalisis::where('Id_tipo',$request->tipo)->where('Fecha',$request->fecha)->get();
-        $model = DB::table('ViewLoteAnalisis')->where('Id_tipo', $request->tipo)->where('Fecha', $request->fecha)->get();
+        $sw = false;
+        $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $request->tipo)->where('Id_area', 2)->where('Fecha', $request->fecha)->get();
+        if ($model->count()) {
+            $sw = true;
+        }
+
         $data = array(
             'model' => $model,
+            'sw' => $sw,
         );
         return response()->json($data);
     }
@@ -544,16 +550,14 @@ class MetalesController extends Controller
     //* Muestra los parametros sin asignar a lote
     public function muestraSinAsignar(Request $request)
     {
-        $model = DB::table('ViewSolicitudParametros')
-        ->orWhere('Id_tipo_formula',20)
-        ->orWhere('Id_tipo_formula',21)
-        ->orWhere('Id_tipo_formula',22)
-        ->orWhere('Id_tipo_formula',23)
-        ->orWhere('Id_tipo_formula',24)
-        ->where('Asignado', '!=', 1)
-        ->get();
+        $lote = LoteAnalisis::find($request->idLote); 
+        $model = DB::table('ViewCodigoParametro')
+            ->where('Id_parametro', $lote->Id_tecnica)
+            ->where('Asignado', '!=', 1)  
+            ->get();
         $data = array(
             'model' => $model,
+            'lote' => $lote,
         );
         return response()->json($data);
     }
@@ -619,65 +623,32 @@ class MetalesController extends Controller
     public function asignarMuestraLote(Request $request)
     {
         $sw = false;
-        $detModel = LoteDetalle::where('Id_lote',$request->idLote)->get();
-        if($detModel->count())
-        {
-           if($detModel[0]->Id_parametro == $request->idParametro)
-           {
-            $model = LoteDetalle::create([
-                'Id_lote' => $request->idLote,
-                'Id_analisis' => $request->idAnalisis,
-                'Id_parametro' => $request->idParametro,
-                'Id_control' => 1,
-                'Descripcion' => 'Resultado',
-                'Factor_dilucion' => 1,
-                'Factor_conversion' => 0,
-                'Liberado' => 0,
-            ]);
-    
-            $solModel = SolicitudParametro::find($request->idSol);
-            $solModel->Asignado = 1;
-            $solModel->save();
-    
-            $detModel = LoteDetalle::where('Id_lote',$request->idLote)->get();
-            
-            $loteModel = LoteAnalisis::find($request->idLote);
-            $loteModel->Asignado = $detModel->count();
-            $loteModel->Liberado = 0;
-            $loteModel->save();
-            
-            $sw = true;
-           }
-        }else{
-            $model = LoteDetalle::create([
-                'Id_lote' => $request->idLote,
-                'Id_analisis' => $request->idAnalisis,
-                'Id_parametro' => $request->idParametro,
-                'Descripcion' => 'Resultado',
-                'Factor_dilucion' => 1,
-                'Factor_conversion' => 0,
-                'Liberado' => 0,
-            ]);
-    
-            $solModel = SolicitudParametro::find($request->idSol);
-            $solModel->Asignado = 1;
-            $solModel->save();
-    
-            $detModel = LoteDetalle::where('Id_lote',$request->idLote)->get();
-            
-            $loteModel = LoteAnalisis::find($request->idLote);
-            $loteModel->Asignado = $detModel->count();
-            $loteModel->Liberado = 0;
-            $loteModel->save();
-            
-            $sw = true;
-        }
+        $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
 
-        $paraModel = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get();
+        $model = LoteDetalle::create([
+            'Id_lote' => $request->idLote,
+            'Id_analisis' => $request->idAnalisis,
+            'Id_parametro' => $loteModel->Id_tecnica,
+            'Id_control' => 1,
+            'Factor_dilucion' => 1,
+            'Factor_conversion' => 0,
+            'Liberado' => 0,
+        ]);
+        $detModel = LoteDetalle::where('Id_lote', $request->idLote)->get();
+        $sw = true;
+
+        $solModel = CodigoParametros::find($request->idSol);
+        $solModel->Asignado = 1;
+        $solModel->save();
+
+
+        $loteModel = LoteAnalisis::find($request->idLote);
+        $loteModel->Asignado = $detModel->count();
+        $loteModel->Liberado = 0;
+        $loteModel->save();
 
         $data = array(
             'sw' => $sw,
-            'model' => $paraModel,
         );
         return response()->json($data);
     }

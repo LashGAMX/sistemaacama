@@ -16,14 +16,13 @@
         <div class="col-md-3">
           <div class="form-group">
             <label for="exampleFormControSelect1">Tipo fórmula</label>
-            <select class="form-control" id="tipo">
-              @foreach($formulas as $formula)
-                <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
-              @endforeach
-            </select>
+              <select class="form-control" id="tipo">
+                @foreach($parametro as $item)
+                  <option value="{{$item->Id_parametro}}">{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
+                @endforeach
+              </select>
           </div>
         </div>
-
         <div class="col-md-3">
           <div class="form-group">
             <label for="">Fecha lote</label>
@@ -79,6 +78,7 @@
 </div>
 
 
+
 <!-- Modal -->
 <div class="modal fade" id="modalCrearLote" tabindex="-1" role="dialog" aria-labelledby="modalCrearLote" aria-hidden="true">
   <div class="modal-dialog" role="document">
@@ -92,23 +92,17 @@
       <div class="modal-body">
         <div class="row">
           <div class="col-md-12">
+             
             <div class="form-group">
               <label for="exampleFormControSelect1">Tipo fórmula</label>
               <select class="form-control" id="tipoFormula">
-                @foreach($formulas as $formula)
-                  <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
+                @foreach($parametro as $item)
+                  <option value="{{$item->Id_parametro}}"> {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
                 @endforeach
               </select>
             </div>
-            <div class="form-group">
-              <label for="exampleFormControSelect1">Tecnica análisis</label> 
-              <select class="form-control" id="tecnicaAnalisis">
-                @foreach($tecnica as $item)
-                  <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
-                @endforeach
-              </select>
-            </div>
-            <div class="col-md-12">
+     
+            <div class="col-md-12"> 
               <div class="form-group">
                 <input type="date" id="fechaLote" class="form-control">
               </div>
@@ -123,41 +117,6 @@
   </div>
 </div>
 
-<!-- Modal -->
-<div class="modal fade" id="modalCrearLote" tabindex="-1" role="dialog" aria-labelledby="modalListaParam" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Crear lote</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <div class="row">
-          <div class="col-md-12">
-            <div class="form-group">
-              <label for="exampleFormControSelect1">Tipo fórmula</label>
-              <select class="form-control" id="tipoFormula">
-                @foreach($formulas as $formula)
-                  <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
-                @endforeach
-              </select>
-            </div>
-            <div class="col-md-12">
-              <div class="form-group">
-                <input type="date" id="fechaLote" class="form-control">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" id="btnCreateLote" onclick="createLote()" class="btn btn-primary">Guardar</button>
-      </div>
-    </div>
-  </div>
-</div>
 
  <!-- Modal -->
  <div class="modal fade" id="modalProbar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

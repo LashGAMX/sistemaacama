@@ -76,12 +76,12 @@ $(document).ready(function () {
             async: false,
             success: function (response) { 
                 console.log(response);
-                if(response.sw == true)
-                {
-                    Swal("success","Esta solicitud ya tiene codigos registrados");
-                }else{
-                    Swal("success","Codigos creados satisfactoriamente");
-                }
+                // if(response.sw == true)
+                // {
+                //     Swal("success","Esta solicitud ya tiene codigos registrados"); 
+                // }else{
+                //     Swal("success","Codigos creados satisfactoriamente");
+                // }
                 
                 // element[ult] = response.Folio_servicio;
                 // if(response.ga == true)
