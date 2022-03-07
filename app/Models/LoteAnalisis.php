@@ -24,3 +24,4 @@ class LoteAnalisis extends Model
         'Id_user_m'
     ];
 }
+ 
