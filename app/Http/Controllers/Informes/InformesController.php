@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Informes;
 
 use App\Http\Controllers\Controller;
 use App\Models\Clientes;
+use App\Models\CodigoParametros;
 use App\Models\Cotizacion;
 use App\Models\CotizacionPunto;
 use App\Models\DireccionReporte;
@@ -75,6 +76,7 @@ class InformesController extends Controller
             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
         }
 
+        $fechaEmision = \Carbon\Carbon::now();
         $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
         $direccion = DireccionReporte::where('Id_direccion', $solicitud->Id_direccion)->first();
         $folio = explode("-", $solicitud->Folio_servicio);
@@ -88,15 +90,17 @@ class InformesController extends Controller
         $solicitudPunto = SolicitudPuntos::where('Id_solicitud', $solicitud->Id_solicitud)->first();
         $puntoMuestreo = DB::table('puntos_muestreo')->where('Id_punto', $solicitudPunto->Id_punto)->first();
 
-        $solicitudParametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $solicitud->Id_solicitud)->get();        
+        /* $solicitudParametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $solicitud->Id_solicitud)->get();
+        $solicitudParametrosLength = $solicitudParametros->count(); */
 
+        $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->get();
         $solicitudParametrosLength = $solicitudParametros->count();
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
-        $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden'));
+        $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'fechaEmision'));
         $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud'/* 'usuario', 'firma' */));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
@@ -142,27 +146,34 @@ class InformesController extends Controller
 
         $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
         $norma = Norma::where('Id_norma', $solicitud->Id_norma)->first();
+        $fechaEmision = \Carbon\Carbon::now();
         $direccion = DireccionReporte::where('Id_direccion', $solicitud->Id_direccion)->first();
+        
         $folio = explode("-", $solicitud->Folio_servicio);
         $parte1 = strval($folio[0]);
-        $parte2 = strval($folio[1]);    
+        $parte2 = strval($folio[1]);
 
         $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();
+
+        $comparacion = Solicitud::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->first();
+
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
         $cliente = Clientes::where('Id_cliente', $solicitud->Id_cliente)->first();
         $solicitudPunto = SolicitudPuntos::where('Id_solicitud', $solicitud->Id_solicitud)->first();
         $puntoMuestreo = DB::table('puntos_muestreo')->where('Id_punto', $solicitudPunto->Id_punto)->first();
 
-        $solicitudParametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $solicitud->Id_solicitud)->get();        
+        /* $solicitudParametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $solicitud->Id_solicitud)->get();
+        $solicitudParametrosLength = $solicitudParametros->count(); */
 
+        $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->get();
         $solicitudParametrosLength = $solicitudParametros->count();
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.conComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
-        $htmlHeader = view('exports.informes.conComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma'));
+        $htmlHeader = view('exports.informes.conComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'fechaEmision'));
         $htmlFooter = view('exports.informes.conComparacion.footerInforme', compact('solicitud'/* 'usuario', 'firma' */));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
@@ -195,12 +206,15 @@ class InformesController extends Controller
         );
 
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$idSol)->first();
+        $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->get();
+        $paramResultadoLength = $paramResultado->count();
+        $fechaEmision = \Carbon\Carbon::now();
         $tipoMuestra = DB::table('tipo_descargas')->where('Id_tipo', $model->Id_muestreo)->first();
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
 
         $mpdf->showWatermarkImage = true;
 
-        $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', compact('model', 'tipoMuestra', 'norma'));
+        $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', compact('model', 'tipoMuestra', 'norma', 'fechaEmision', 'paramResultado', 'paramResultadoLength'));
 
         $mpdf->WriteHTML($htmlInforme);
 
