@@ -35,7 +35,7 @@ function muestraSinAsignar()
                 tab += '<tr>';
                 tab += '<td>'+item.Folio_servicio+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
-                tab += '<td><button type="button" id="btnAsignar" onclick="asignarMuestraLote('+item.Id_solicitud+','+item.Id_codigo+')"  class="btn btn-primary">Agregar</button></td>';
+                tab += '<td><button type="button" id="btnAsignar" onclick="asignarMuestraLote('+item.Id_solicitud+','+parseInt(item.Id_codigo)+')"  class="btn btn-primary">Agregar</button></td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';
@@ -55,7 +55,6 @@ function getMuestraAsignada()
 {
     let tabla = document.getElementById('divTable2');
     let tab = '';
-    let idLote = $("#idLote").val();
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/metales/getMuestraAsignada",
@@ -80,7 +79,7 @@ function getMuestraAsignada()
                 tab += '<tr>';
                 tab += '<td>'+item.Folio_servicio+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
-                tab += '<td><button type="button" id="btnAsignar" onclick="delMuestraLote('+item.Id_lote+','+item.Id_detalle+','+item.Id_analisis+','+item.Id_parametro+')"  class="btn btn-danger">Eliminar</button></td>';
+                tab += '<td><button type="button" id="btnAsignar" onclick="delMuestraLote('+item.Id_detalle+','+item.Id_analisis+','+item.Id_parametro+')"  class="btn btn-danger">Eliminar</button></td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';
@@ -112,13 +111,13 @@ function asignarMuestraLote(idAnalisis,idSol)
     });
 } 
 
-function delMuestraLote(idLote,idDetalle,idSol,idParam){
+function delMuestraLote(idDetalle,idSol,idParam){
 
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/metales/delMuestraLote",
         data: {
-            idLote:idLote,
+            idLote:$("#idLote").val(),
             idSol:idSol,
             idDetalle:idDetalle,
             idParametro:idParam,
@@ -127,6 +126,7 @@ function delMuestraLote(idLote,idDetalle,idSol,idParam){
         dataType: "json",
         async: false,
         success: function (response) {            
+            console.log("delMuestraLote");
             console.log(response);
        
             muestraSinAsignar()

@@ -581,18 +581,21 @@ class MetalesController extends Controller
         $loteModel->Asignado = $detModel->count();
         $loteModel->Liberado = 0;
         $loteModel->save();
-
+  
         
-        $solModel = SolicitudParametro::where('Id_solicitud',$request->idSol)->where('Id_subnorma',$request->idParametro)->first();
+        $solModel = CodigoParametros::where('Id_solicitud',$request->idSol)->where('Id_parametro',$request->idParametro)->first();
         $solModel->Asignado = 0;
         $solModel->save(); 
-        $solModel = SolicitudParametro::find($request->idSol);
 
-        $model = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get();
+        $sw = true;
+ 
         $data = array(
-            'model' => $model,
+            'sw' => $sw,
+            'idSol' => $request->idSol,
+            'idDetalle' => $request->idDetalle,
+            'idParam' => $request->idParam,
         );
-        return response()->json();
+        return response()->json($data);
     }
     public function liberarMuestraMetal(Request $request) 
     {
@@ -625,19 +628,19 @@ class MetalesController extends Controller
         $sw = false;
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
 
-        $model = LoteDetalle::create([
+        LoteDetalle::create([
             'Id_lote' => $request->idLote,
-            'Id_analisis' => $request->idAnalisis,
+            'Id_analisis' => $request->idAnalisis, 
             'Id_parametro' => $loteModel->Id_tecnica,
             'Id_control' => 1,
             'Factor_dilucion' => 1,
-            'Factor_conversion' => 0,
+            'Factor_conversion' => 0, 
             'Liberado' => 0,
         ]);
         $detModel = LoteDetalle::where('Id_lote', $request->idLote)->get();
         $sw = true;
 
-        $solModel = CodigoParametros::find($request->idSol);
+        $solModel = CodigoParametros::find($request->idSol); 
         $solModel->Asignado = 1;
         $solModel->save();
 
@@ -648,6 +651,8 @@ class MetalesController extends Controller
         $loteModel->save();
 
         $data = array(
+            'idSol' => $request->idSol,
+            'idAnalisis' => $request->idAnalisis,
             'sw' => $sw,
         );
         return response()->json($data);
@@ -656,7 +661,7 @@ class MetalesController extends Controller
     //Función LOTE > CREAR O MODIFICAR TEXTO DEL LOTE > PROCEDIMIENTO/VALIDACIÓN
     public function guardarTexto(Request $request)
     {
-        $textoPeticion = $request->texto;
+        $textoPeticion = $request->texto; 
         $idLote = $request->lote;
 
         //$lote = Reportes::where('Id_lote', $idLote)->first();
