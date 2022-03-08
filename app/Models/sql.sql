@@ -271,11 +271,13 @@ INNER JOIN ViewParametros as pa
 ON lo.Id_tecnica = pa.Id_parametro
 
 /* Lista ViewDetalleLote */ 
-CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro FROM lote_detalle as lote
+CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro,control.Control FROM lote_detalle as lote
 INNER JOIN ViewSolicitud as sol
 ON lote.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as pa
 ON lote.Id_parametro = pa.Id_parametro
+INNER JOIN control_calidad as control
+ON lote.Id_control = control.Id_control
 
 /* Lista ViewTipoFormulaAreas */
 CREATE VIEW ViewTipoFormulaAreas as SELECT tipo.Id_tVipo,tipo.Id_formula,form.Tipo_formula,form.Concentracion,tipo.Id_area,areas.Area_analisis,tipo.created_at,tipo.updated_at,tipo.deleted_at FROM tipo_formula_areas as tipo
@@ -405,7 +407,7 @@ ON pu.Id_muestreo = gen.Id_punto
 
 /*Lista ViewCodigoParametro */
 
-CREATE VIEW ViewCodigoParametro AS  SELECT cod.*,sol.Folio_servicio,sol.Clave_norma,pa.Parametro,pa.Id_tipo_formula,pa.Tipo_formula FROM codigo_parametro as cod
+CREATE VIEW ViewCodigoParametro AS  SELECT cod.*,sol.Folio_servicio,sol.Clave_norma,pa.Parametro,pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba FROM codigo_parametro as cod
 INNER JOIN ViewSolicitud as sol
 ON cod.Id_solicitud = sol.Id_solicitud
 INNER JOIN ViewParametros as pa

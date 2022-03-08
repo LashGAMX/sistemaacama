@@ -12,11 +12,14 @@
         <div class="row">
             
             <div class="col-12 negrita">
-                <div>                
+                <div>
+                <div class="fontNormal fontCalibri justifyRight fontSize13">
+                        CADENA DE CUSTODIA INTERNA
+                    </div>                
                     <div class="fontNormal fontCalibri">
                         1.-DATOS GENERALES
                     </div>
-                    <div>
+                    <div class="fontCalibri">
                         <table class="table-sm" width="100%">
                             <tr>
                                 <td>N° de Muestra &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="negrita">{{$model->Folio_servicio}}</span></td>                                
@@ -54,7 +57,7 @@
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{-- {{@$envases[$i]->Nombre}} --}}SALIDA ANALISIS</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{-- {{@$envases[$i]->Volumen}} --}} ENTRADA GUARDAR</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{-- {{@$envases[$i]->Unidad}} --}} SALIDA ELIMINAR</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{-- {{@$envases[$i]->Preservacion}} --}}EMISION RESULTADO</td>
+                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$fechaEmision)->format('d/m/Y')}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>                                
                             </tr>
                         {{-- @endfor --}}
@@ -70,44 +73,44 @@
             <div class="col-md-12">
                 <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}" cellpadding="0" cellspacing="0" width="100%">
 
-                    @php
-                        $envasesLength = 37;
-                        $semaforo = 0;
+                    @php                        
+                        $semaforo = 0;                        
 
-                        if($envasesLength >= 0 && $envasesLength < 10){
+                        if($paramResultadoLength >= 0 && $paramResultadoLength < 10){
                             $semaforo = 1;
-                        }else if($envasesLength >= 10 && $envasesLength < 20){
+                        }else if($paramResultadoLength >= 10 && $paramResultadoLength < 20){
                             $semaforo = 2;
-                        }else if($envasesLength >= 20 && $envasesLength < 30){
+                        }else if($paramResultadoLength >= 20 && $paramResultadoLength < 30){
                             $semaforo = 3;
-                        }else if($envasesLength >= 30){
+                        }else if($paramResultadoLength >= 30){
                             $semaforo = 4;
                         }
                     @endphp
 
                     <thead>
                         <tr>
-                            @if ($envasesLength >= 0 && $envasesLength < 10)
+                            @if ($paramResultadoLength >= 0 && $paramResultadoLength < 10)
                                 <td class="negrita bordesTabla anchoColumna125 fontSize8 fontCalibri">Parametro</td>
                                 <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
                             @endif
 
-                            @if ($envasesLength >= 10 && $envasesLength < 20)
+                            @if ($paramResultadoLength >= 10 && $paramResultadoLength < 20)
                                 <td class="negrita bordesTablaSupInfDer fontSize8 anchoColumna125">Parametro</td>
                                 <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
                                 <td class="negrita bordesTablaSupInfDer fontSize8 anchoColumna125">Parametro</td>
                                 <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
                             @endif
                             
-                            @if ($envasesLength >= 20 && $envasesLength < 30)
+                            @if ($paramResultadoLength >= 20 && $paramResultadoLength < 30)
                                 <td class="negrita bordesTablaSupInfDer fontSize8 anchoColumna125">Parametro</td>
                                 <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
                                 <td class="negrita bordesTablaSupInfDer fontSize8 anchoColumna125">Parametro</td>
-                                <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td><td class="negrita bordesTablaSupInfDer fontSize8 anchoColumna125">Parametro</td>
+                                <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
+                                <td class="negrita bordesTablaSupInfDer fontSize8 anchoColumna125">Parametro</td>
                                 <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
                             @endif
 
-                            @if ($envasesLength >= 30)
+                            @if ($paramResultadoLength >= 30)
                                 <td class="negrita bordesTablaSupInfDer fontSize8 anchoColumna125">Parametro</td>
                                 <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
                                 <td class="negrita bordesTablaSupInfDer fontSize8 anchoColumna125">Parametro</td>
@@ -121,44 +124,42 @@
                     </thead>
 
                     <tbody>                                                                                    
-                        @for ($i = 0; $i < $envasesLength; $i+=$semaforo)
+                        @for ($i = 0; $i < $paramResultadoLength; $i+=$semaforo)
                             <tr>                                
-                                @if ($envasesLength < 10)
-                                    <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">PARAMETRO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">RESULTADO</td>
+                                @if ($paramResultadoLength < 10)
+                                    <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{@$paramResultado[$i]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Resultado}}</td>
                                 @endif                                
                                                                 
-                                @if ($envasesLength >= 10 && $envasesLength < 20)                                    
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">PARAMETRO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">RESULTADO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">PARAMETRO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">RESULTADO</td>
+                                @if ($paramResultadoLength >= 10 && $paramResultadoLength < 20)                                    
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Resultado}}</td>
 
                                 @endif                                
                                                                 
-                                @if ($envasesLength >= 20 && $envasesLength <= 30)
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">PARAMETRO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">RESULTADO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">PARAMETRO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">RESULTADO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">PARAMETRO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">RESULTADO</td>
+                                @if ($paramResultadoLength >= 20 && $paramResultadoLength <= 30)
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+2]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Resultado}}</td>
                                 @endif                                
                                 
-                                @if ($envasesLength >= 30 && $envasesLength <= 40)
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">PARAMETRO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">RESULTADO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">PARAMETRO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">RESULTADO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">PARAMETRO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">RESULTADO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">PARAMETRO</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">RESULTADO</td>                                    
+                                @if ($paramResultadoLength >= 30)
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+2]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+2]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+3]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+3]->Resultado}}</td>
                                 @endif                                                                                     
                             </tr>
-                        @endfor
-
-                        {{-- @endwhile --}}
+                        @endfor                        
                     </tbody>                    
                 </table>
             </div>

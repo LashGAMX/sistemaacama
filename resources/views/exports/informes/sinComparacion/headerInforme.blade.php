@@ -35,7 +35,7 @@
                 <tr>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Fecha de Emisión: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="fontBold">FECHA</span>
+                        <span class="fontBold">{{ \Carbon\Carbon::parse(@$fechaEmision)->format('d/m/Y')}}</span>
                     </td>
                 </tr>                                      
 

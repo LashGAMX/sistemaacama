@@ -22,7 +22,7 @@
             </thead>
     
             <tbody>
-                @for ($i = 0; $i < 20/* @$solicitudParametrosLength */ ; $i++)
+                @for ($i = 0; $i <@$solicitudParametrosLength ; $i++)
                     <tr>
                         <td class="tableContentLeft bordesTablaBody">{{@$solicitudParametros[$i]->Parametro}}</td>
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Unidad}}</td>

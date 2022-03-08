@@ -33,7 +33,9 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('lote', [MetalesController::class, 'lote']);
         Route::post('createLote', [MetalesController::class, 'createLote']);
         Route::post('buscarLote', [MetalesController::class, 'buscarLote']);
-        Route::post('getDatalote', [MetalesController::class, 'getDatalote']);
+        Route::post('getLote', [MetalesController::class, 'getLote']);
+        Route::post('getLoteCaptura', [MetalesController::class, 'getLoteCaptura']);
+        // Route::post('getDatalote', [MetalesController::class, 'getDatalote']);
         Route::get('asgnarMuestraLote/{id}', [MetalesController::class, 'asgnarMuestraLote']);
         Route::post('muestraSinAsignar', [MetalesController::class, 'muestraSinAsignar']);
         Route::post('asignarMuestraLote', [MetalesController::class, 'asignarMuestraLote']);

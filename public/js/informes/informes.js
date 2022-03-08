@@ -92,7 +92,7 @@ function getSolParametro()
           tab += '          <th>Diagnostico</th>';
           tab += '          <th>Liberado</th>';
           tab += '          <th>#</th>';
-          tab += '          <th># Muiestra</th>';
+          tab += '          <th># Muestra</th>';
           tab += '          <th>Opc</th> ';
           tab += '        </tr>';
           tab += '    </thead>';

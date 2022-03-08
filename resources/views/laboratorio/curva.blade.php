@@ -28,16 +28,8 @@
       </div>
 
       <div class="col-md-2">
-        <select class="form-control" id="idLote">
-          <option value="">Selecciona Lote</option>
-          @foreach ($lote as $item)
-          @if (@$id==$item->Id_lote)
-          <option selected value="{{$item->Id_lote}}">{{$item->Fecha}} / Id:{{$item->Id_lote}}</option>
-          @else
-          <option value="{{$item->Id_lote}}">{{$item->Fecha}} Id:{{$item->Id_lote}}</option>
-          @endif
-          @endforeach
-          </select>
+        <input type="date" class="form-control" id="fecha" >
+        
 </div>
         <div class="col-md-2" id="divParametro">
           <select class="form-control" id="parametro">

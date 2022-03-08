@@ -20,7 +20,7 @@ $('#guardar').click(function () {
 });
 $('#btnLiberar').click(function () {
     // operacion();
-    liberarMuestraMetal();
+    // liberarMuestraMetal();
 });
 
 function getDataCaptura() {

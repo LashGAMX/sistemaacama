@@ -60,8 +60,8 @@
 
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">FECHA DE EMISIÓN:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}}</td>
+                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{\Carbon\Carbon::parse(@$fechaEmision)->format('d/m/Y')}}</td>
+                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{\Carbon\Carbon::parse(@$fechaEmision)->format('d/m/Y')}}</td>
                 </tr>
                 
                 <tr>

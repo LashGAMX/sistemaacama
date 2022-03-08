@@ -1,3 +1,4 @@
+var area = "metales"
 var numMuestras = new Array();
 var idMuestra = 0; 
 var idLote = 0;
@@ -23,7 +24,7 @@ function getDataCaptura() {
 
         $.ajax({ 
             type: "POST",
-            url: base_url + "/admin/laboratorio/"+area+"/getLotevol",
+            url: base_url + "/admin/laboratorio/"+area+"/getLote",
             data: {
                 formulaTipo: $("#formulaTipo").val(), 
                 fechaAnalisis: $("#fechaAnalisis").val(),
@@ -85,10 +86,117 @@ function getDataCaptura() {
                 $('#tablaLote tr').on('click', function(){
                     let dato = $(this).find('td:first').html();
                     idLote = dato;
-                    getLoteCapturaVol();
+                    // getLoteCapturaVol();
+                    getLoteCaptura()
                   });
             }
         });
+}
+var numMuestras = new Array();
+function getLoteCaptura() {
+    numMuestras = new Array();
+    numMuestras = new Array();
+    let tabla = document.getElementById('divTablaControles');
+    let tab = '';
+    let cont = 1;
+
+    let status = "";
+
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/getLoteCaptura",
+        data: {
+            idLote: idLote,
+            formulaTipo: $("#formulaTipo").val(), 
+            tecnica: tecnica,
+            _token: $('input[name="_token"]').val() 
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+
+            tab += '<table id="tablaControles" class="table table-sm">';
+            tab += '    <thead>';
+            tab += '        <tr>';
+            // tab += '          <th>#</th>';
+            tab += '          <th>Muestra</th>';
+            tab += '          <th>Cliente</th>';
+            //tab2 += '          <th>PuntoMuestreo</th>';
+            tab += '          <th>Vol. Muestra E</th>';
+            tab += '          <th>Abs1</th>';
+            tab += '          <th>Abs2</th>';
+            tab += '          <th>Abs3</th>';
+            tab += '          <th>Absorción promedio</th>';
+            tab += '          <th>Factor dilución D</th>';
+            tab += '          <th>Factor conversion G</th>';
+            tab += '          <th>Vol. disolución digerida v</th>';
+            tab += '        </tr>';
+            tab += '    </thead>';
+            tab += '    <tbody>';
+            $.each(response.detalle, function (key, item) {
+                tab += '<tr>';
+                if (item.Liberado != 0) {
+                    status = "";
+                } else { 
+                    status = "disabled";
+                }
+                tab += '<input style="width: 80px" hidden id="idDetalle'+cont+'" value="'+item.Id_detalle+'">';
+                // tab += '<td>'+cont+'</td>';
+                tab += '<td>'+item.Folio_servicio;
+                if (item.Id_control != 1) 
+                {
+                    tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
+                }else{
+                    tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
+                }
+                tab += '<td>'+item.Empresa_suc+'</td>';
+                tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+cont+'" value="50"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="abs1'+cont+'" value="'+item.Abs1+'"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="abs2'+cont+'" value="'+item.Abs2+'"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="abs3'+cont+'" value="'+item.Abs3+'"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="absPromedio'+cont+'" value="'+item.Abs_promedio+'"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="factorDilucion'+cont+'" value="'+item.Factor_dilucion+'"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="factorConversion'+cont+'" value="'+item.Factor_conversion+'"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+cont+'" value="'+item.Vol_disolucion+'"></td>';
+
+                tab += '</tr>';
+                numMuestras.push(item.Id_detalle);
+                cont++; 
+         
+            }); 
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
+
+            var t = $('#tablaControles').DataTable({
+                "ordering": false,
+                "language": {
+                    "lengthMenu": "# _MENU_ por pagina",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",
+                }
+            });
+
+
+            $('#tablaControles tbody').on('click', 'tr', function () {
+                if ($(this).hasClass('selected')) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    t.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                }
+            });
+            $('#tablaControles tr').on('click', function () {
+                let dato = $(this).find('td:first');
+                idMuestra = dato[0].firstElementChild.value;
+                // console.log(idMuestra);
+            });
+
+
+        }
+    });
 }
 function getDataCaptura2()
 {
@@ -504,4 +612,25 @@ function generarControles()
 }
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
+}
+function cleanTable() {
+
+    let tabla = document.getElementById('divTablaControles');
+    let tab = '';
+
+            tab += '<table id="tablaControles" class="table table-sm">';
+            tab += '    <thead>';
+            tab += '        <tr>';
+            tab += '          <th>Opc</th>';
+            tab += '          <th>Folio</th>';
+            // tab += '          <th># toma</th>';
+            tab += '          <th>Norma</th>';
+            tab += '          <th>Resultado</th>';
+            tab += '          <th>Observación</th>';
+            tab += '        </tr>';
+            tab += '    </thead>'; 
+            tab += '    <tbody>';
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
 }

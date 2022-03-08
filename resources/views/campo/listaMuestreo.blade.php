@@ -133,7 +133,5 @@
 
 @section('javascript')
     <script src="{{asset('/public/js/campo/listaMuestreo.js')}}"></script>
-    <script src="{{asset('/public/js/libs/componentes.js')}}"></script>
-    <script src="{{asset('/public/js/libs/tablas.js')}}"></script>
 @stop
 

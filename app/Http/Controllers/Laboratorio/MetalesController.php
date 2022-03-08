@@ -431,6 +431,23 @@ class MetalesController extends Controller
         return response()->json($data);
     }
 
+    public function getLote(Request $request)
+    {
+        $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $request->formulaTipo)->where('Fecha', $request->fechaAnalisis)->get();
+
+        $data = array(
+            'lote' => $model,
+        );
+        return response()->json($data);
+    }
+    public function getLoteCaptura(Request $request)
+    {
+        $detalle = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+        $data = array(
+            'detalle' => $detalle,
+        );
+        return response()->json($data);
+    }
     //RECUPERAR DATOS PARA ENVIARLOS A LA VENTANA MODAL > EQUIPO PARA RELLENAR LOS DATOS ALMACENADOS EN LA BD
     public function getDatalote(Request $request)
     {            
