@@ -153,15 +153,30 @@ class InformesController extends Controller
         $parte1 = strval($folio[0]);
         $parte2 = strval($folio[1]);
 
-        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();
-
-        $comparacion = Solicitud::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->first();
+        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();        
 
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
         $cliente = Clientes::where('Id_cliente', $solicitud->Id_cliente)->first();
         $solicitudPunto = SolicitudPuntos::where('Id_solicitud', $solicitud->Id_solicitud)->first();
         $puntoMuestreo = DB::table('puntos_muestreo')->where('Id_punto', $solicitudPunto->Id_punto)->first();
+
+        $comparacion = Solicitud::where('Folio_servicio', 'LIKE', "%{$numOrden->Folio_servicio}%")->get();        
+        $comparacionEncontrada = "";
+
+        foreach($comparacion as $item){
+            if(($item->Id_cliente == $solicitud->Id_cliente) && ($item->Folio_servicio !== $solicitud->Folio_servicio)){
+                $solicitudComparacion = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();                
+                $comparacionEncontrada = DB::table('puntos_muestreo')->where('Id_punto', $solicitudComparacion->Id_punto)->first();                   
+                
+                /* if($puntoMuestreo->Titulo_concesion == $comparacionEncontrada->Titulo_concesion){
+                    echo "Son iguales";
+                    break;
+                }   */                       
+            }
+        }        
+
+        print_r($comparacionEncontrada);
 
         /* $solicitudParametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $solicitud->Id_solicitud)->get();
         $solicitudParametrosLength = $solicitudParametros->count(); */
@@ -181,7 +196,7 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->Output();
+        //$mpdf->Output();
     }    
 
     public function custodiaInterna($idSol){
