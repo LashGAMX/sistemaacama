@@ -22,6 +22,7 @@ use App\Models\estandares;
 use App\Models\TecnicaLoteMetales;
 use App\Models\BlancoCurvaMetales;
 use App\Models\CodigoParametros;
+use App\Models\ControlCalidad;
 use App\Models\CurvaCalibracionMet;
 use App\Models\VerificacionMetales;
 use App\Models\EstandarVerificacionMet;
@@ -168,7 +169,8 @@ class MetalesController extends Controller
             ->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get(); 
         // var_dump($parametro);
-        return view('laboratorio.metales.captura', compact('parametro'));
+        $controlModel = ControlCalidad::all();
+        return view('laboratorio.metales.captura', compact('parametro','controlModel'));
     }
     public function getDataCaptura(Request $request)
     {
@@ -194,6 +196,19 @@ class MetalesController extends Controller
             'lote' => $loteModel, 
             'curvaConst' => $curvaConst,
             'detalle' => $detalle,
+        );
+        return response()->json($data);
+    }
+    public function createControlCalidad(Request $request)
+    {
+        $muestra = LoteDetalle::where('Id_detalle', $request->idMuestra)->first();
+
+        $model = $muestra->replicate();
+        $model->Id_control = $request->idControl;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
         );
         return response()->json($data);
     }
@@ -337,7 +352,6 @@ class MetalesController extends Controller
         $curvaConstantes = CurvaConstantes::where('Id_lote', $request->idlote)->first();
         $parametroPurificada = Parametro::where('Id_matriz',9)->where('Id_parametro',$detalleModel->Id_parametro)->get();
 
-        $curva = CurvaConstantes::where('Id_lote', $request->idlote)->first();
         $x = $request->x;
         $y = $request->y;
         $z = $request->z;
@@ -376,7 +390,7 @@ class MetalesController extends Controller
 
         $data = array(
             'idDeta' => $request->idDetalle,
-            'curva' => $curva,
+            'curva' => $curvaConstantes,
             'promedio' => $promedio,
             'resultado' => $resultado
         );
