@@ -10,6 +10,7 @@ use App\Models\CotizacionPunto;
 use App\Models\DireccionReporte;
 use App\Models\Norma;
 use App\Models\Parametro;
+use App\Models\PuntoMuestreoSir;
 use App\Models\Solicitud;
 use App\Models\SolicitudParametro;
 use App\Models\SolicitudPuntos;
@@ -118,7 +119,7 @@ class InformesController extends Controller
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 73,
+            'margin_top' => 74,
             'margin_bottom' => 66,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
@@ -161,22 +162,34 @@ class InformesController extends Controller
         $solicitudPunto = SolicitudPuntos::where('Id_solicitud', $solicitud->Id_solicitud)->first();
         $puntoMuestreo = DB::table('puntos_muestreo')->where('Id_punto', $solicitudPunto->Id_punto)->first();
 
-        $comparacion = Solicitud::where('Folio_servicio', 'LIKE', "%{$numOrden->Folio_servicio}%")->get();        
-        $comparacionEncontrada = "";
+        //Encuentra el folio secundario para la comparación a través de si el cliente y titulo de consecion es el mismo que el de la solicitud primaria
+        $comparacion = DB::table('ViewSolicitud')->where('Folio_servicio', 'LIKE', "%{$numOrden->Folio_servicio}%")->get();
+        $data = array();
+        $comparacionEncontrada = null;
 
         foreach($comparacion as $item){
-            if(($item->Id_cliente == $solicitud->Id_cliente) && ($item->Folio_servicio !== $solicitud->Folio_servicio)){
-                $solicitudComparacion = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();                
-                $comparacionEncontrada = DB::table('puntos_muestreo')->where('Id_punto', $solicitudComparacion->Id_punto)->first();                   
+            if(($item->Id_cliente == $solicitud->Id_cliente) && ($item->Folio_servicio !== $solicitud->Folio_servicio)){   
+                $solicitudComparacionPunto = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
+                $puntoMuestreoComparacion = DB::table('puntos_muestreo')->where('Id_punto', $solicitudComparacionPunto->Id_punto)->first();
                 
-                /* if($puntoMuestreo->Titulo_concesion == $comparacionEncontrada->Titulo_concesion){
-                    echo "Son iguales";
-                    break;
-                }   */                       
-            }
-        }        
+                //Si ambos titulos de consecion y anexos son los mismos entonces se almacena en la var.comparación encontrada la solicitud correspondiente
+                if(($puntoMuestreo->Titulo_consecion == $puntoMuestreoComparacion->Titulo_consecion) && ($puntoMuestreo->Anexo == $puntoMuestreoComparacion->Anexo)){
+                    $comparacionEncontrada = $item;                    
 
-        print_r($comparacionEncontrada);
+                    $folioComparacion = explode("-", $item->Folio_servicio);
+                    $parte1C = strval($folio[0]);
+                    $parte2C = strval($folio[1]);
+                    $folioC = $parte1."-".$parte2;
+
+                    array_push($data, $comparacionEncontrada, $folioC);
+                    break;
+                }                
+            }            
+        }
+
+        //print_r($data);
+
+        /* print_r($comparacionEncontrada); */
 
         /* $solicitudParametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $solicitud->Id_solicitud)->get();
         $solicitudParametrosLength = $solicitudParametros->count(); */
@@ -188,7 +201,7 @@ class InformesController extends Controller
         $htmlInforme = view('exports.informes.conComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
-        $htmlHeader = view('exports.informes.conComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'fechaEmision'));
+        $htmlHeader = view('exports.informes.conComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'fechaEmision', 'comparacionEncontrada', 'data'));
         $htmlFooter = view('exports.informes.conComparacion.footerInforme', compact('solicitud'/* 'usuario', 'firma' */));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
@@ -196,7 +209,7 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        //$mpdf->Output();
+        $mpdf->Output();
     }    
 
     public function custodiaInterna($idSol){

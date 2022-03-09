@@ -49,13 +49,21 @@
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">FECHA DE MUESTREO:</td>
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{ \Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{ \Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}}</td>
+                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
+                        @if (!is_null(@$comparacionEncontrada))
+                            {{ \Carbon\Carbon::parse(@$comparacionEncontrada->Fecha_muestreo)->format('d/m/Y')}}
+                        @endif                        
+                    </td>
                 </tr>
 
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">FECHA DE RECEPCION:</td>
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}}</td>
+                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
+                        @if (!is_null(@$comparacionEncontrada))
+                            {{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}}
+                        @endif                                                
+                    </td>
                 </tr>
 
                 <tr>
@@ -66,26 +74,30 @@
                 
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">PERIODO DE ANALISIS:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">DE {{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}} A {{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">DE {{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}} A {{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}}</td>
+                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">DE {{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}} A {{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->addDays(7)->format('d/m/Y')}}</td>
+                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
+                        @if (!is_null(@$comparacionEncontrada))
+                            DE {{\Carbon\Carbon::parse(@$comparacionEncontrada->Fecha_muestreo)->format('d/m/Y')}} A {{\Carbon\Carbon::parse(@$comparacionEncontrada->Fecha_muestreo)->addDays(7)->format('d/m/Y')}}
+                        @endif                         
+                    </td>
                 </tr>
 
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">TIPO DE MUESTREO:</td>
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$solicitud->Id_muestra}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$solicitud->Id_muestra}}</td>
+                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$comparacionEncontrada->Id_muestra}}</td>
                 </tr>
 
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">N° DE MUESTRA:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$solicitud->Folio_servicio}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$solicitud->Folio_servicio}}</td>
+                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$solicitud->Id_solicitud}} {{@$solicitud->Folio_servicio}}</td>
+                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$comparacionEncontrada->Id_solicitud}} {{@$comparacionEncontrada->Folio_servicio}}</td>
                 </tr>
 
                 <tr>
                     <td class="filasIzq bordesTabla bordeSupDer paddingTopBotInter fontSize6">N° DE ORDEN:</td>
                     <td class="filasIzq bordesTabla soloBordeDer paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$numOrden->Folio_servicio}}</td>
-                    <td class="filasIzq bordesTabla soloBordeDer paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$numOrden->Folio_servicio}}</td>
+                    <td class="filasIzq bordesTabla soloBordeDer paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$data[1]}}</td>
                 </tr>                
         </tbody>         
     </table>  
