@@ -110,6 +110,11 @@
                         @endswitch
                         <td>{{$item->Captura}}</td>
 
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+{{-- 
                         @foreach ($equipo as $item2)
                             @if ($item->Id_solicitud == $item2->Id_solicitud)
                                 <td>{{$item2->Equipo}}</td>
@@ -117,7 +122,7 @@
                                 <td>{{$item2->Modelo}}</td>
                                 <td>{{$item2->Serie}}</td>
                             @endif
-                        @endforeach
+                        @endforeach --}}
 
                         <td>{{$item->created_at}}</td>
                         <td>{{$item->updated_at}}</td>
@@ -132,6 +137,6 @@
 
 
 @section('javascript')
-    <script src="{{asset('/public/js/campo/listaMuestreo.js')}}"></script>
+    <script src="{{asset('/public/js/campo/listaMuestreo.js')}}"></script> 
 @stop
 
