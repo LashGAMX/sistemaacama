@@ -17,6 +17,7 @@ use App\Models\estandares;
 use App\Models\TecnicaLoteMetales;
 use App\Models\BlancoCurvaMetales;
 use App\Models\CalentamientoMatraz;
+use App\Models\CodigoParametros;
 use App\Models\ControlCalidad;
 use App\Models\CrisolesGA;
 use App\Models\CurvaCalibracionMet;
@@ -796,13 +797,14 @@ class FqController extends Controller
     //* Muestra los parametros sin asignar a lote
     public function muestraSinAsignar(Request $request)
     {
-        $lote = LoteAnalisis::find($request->idLote);
-        $model = DB::table('ViewSolicitudParametros')
+        $lote = LoteAnalisis::find($request->idLote); 
+        $model = DB::table('ViewCodigoParametro')
             ->where('Id_parametro', $lote->Id_tecnica)
-            ->where('Asignado', '!=', 1)
+            ->where('Asignado', '!=', 1)  
             ->get();
         $data = array(
             'model' => $model,
+            'lote' => $lote,
         );
         return response()->json($data);
     }
@@ -862,10 +864,9 @@ class FqController extends Controller
         $loteModel->save();
 
 
-        $solModel = SolicitudParametro::where('Id_solicitud', $request->idSol)->where('Id_subnorma', $request->idParametro)->first();
+        $solModel = CodigoParametros::where('Id_solicitud', $request->idSol)->where('Id_parametro', $request->idParametro)->first();
         $solModel->Asignado = 0;
         $solModel->save();
-        $solModel = SolicitudParametro::find($request->idSol);
 
         $data = array(
             'idDetalle' => $request->idDetalle,
@@ -989,7 +990,7 @@ class FqController extends Controller
                 break;
         }
 
-        $solModel = SolicitudParametro::find($request->idSol);
+        $solModel = CodigoParametros::find($request->idSol);
         $solModel->Asignado = 1;
         $solModel->save();
 
