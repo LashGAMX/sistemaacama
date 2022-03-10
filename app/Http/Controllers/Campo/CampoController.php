@@ -934,29 +934,29 @@ class CampoController extends Controller
             );
 
         return response()->json(
-            // compact('model'),
-            $data
+            compact('model'),
+           // $data
         );
     }
 
-    // public function historial()
-    // {
-    //     $idUser = Auth::user()->id;
+    public function historial()
+    {
+        $idUser = Auth::user()->id;
 
-    //     $model = DB::table('solicitudes_generadas')->where('Id_solicitud', $this->idSol)->first();
-    //     HistorialCampoAsignar::create([
-    //         'Id_solicitud' => $model->Id_solicitud,
-    //         'Id_muestreador' => $model->Id_muestreador,
-    //         'Nota' => $this->nota,
-    //         'F_creacion' => $model->created_at,
-    //         'Id_user_c' => $model->Id_user_c,
-    //         'Id_user_m' => $idUser,
-    //         'F_modificacion' => $model->updated_at,
-    //         'Id_user_m' => $idUser,
-    //         'Punto_muestreo' => $model->Punto_muestreo,
-    //         'Captura' => $model->Captura
-    //     ]);
-    // }
+        $model = DB::table('solicitudes_generadas')->where('Id_solicitud', $this->idSol)->first();
+        HistorialCampoAsignar::create([
+            'Id_solicitud' => $model->Id_solicitud,
+            'Id_muestreador' => $model->Id_muestreador,
+            'Nota' => $this->nota,
+            'F_creacion' => $model->created_at,
+            'Id_user_c' => $model->Id_user_c,
+            'Id_user_m' => $idUser,
+            'F_modificacion' => $model->updated_at,
+            'Id_user_m' => $idUser,
+            'Punto_muestreo' => $model->Punto_muestreo,
+            'Captura' => $model->Captura
+        ]);
+    }
 
     public function getFolio(Request $request)
     {

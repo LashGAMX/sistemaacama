@@ -49,8 +49,12 @@ $(document).ready(function (){
     // $("#idLote").addEventListener('change', (event)=> {
     //     getParametro();
     // });
-    $("#idLote").on("change",function(){ 
+    $("#idArea").on("change",function(){ 
         getParametro();
+    });
+
+    $("#idAreaModal").on("change",function(){ 
+        getLote();
     });
 
 });
@@ -93,6 +97,7 @@ function getParametro(){
         type: 'POST', //método de envio
         data: {
           idLote:$("#idLote").val(),
+          idArea:$("#idArea").val(),
           _token: $('input[name="_token"]').val(),
         },
         dataType: 'json', 
@@ -109,7 +114,38 @@ function getParametro(){
 
         }
     });        
+    
 }
+function getLote(){
+
+    let div = document.getElementById("divParametro");
+    let tab = "";
+
+    $.ajax({
+        url: base_url + '/admin/laboratorio/getLote', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          idLote:$("#idLote").val(),
+          idArea:$("#idArea").val(),
+          _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {
+         console.log(response);
+            tab+= '<select class="form-control" id="parametro">';
+            tab+= '<option value="">Selecciona Parametro</option>';
+            $.each(response.model, function (key, item) {
+                tab+= '<option value="'+item.Id_parametro+'">'+item.Parametro+'</option>';
+            });
+            tab+= '</select>';
+            div.innerHTML = tab;
+
+        }
+    });        
+    
+}
+
 
 function setCalcular()
 {
@@ -299,6 +335,7 @@ function buscar(){
         type: 'POST', //método de envio
         data: {
           idLote:$("#idLote").val(),
+          fecha:$("#fecha").val(),
           parametro: $("#parametro").val(),
           _token: $('input[name="_token"]').val()
         },

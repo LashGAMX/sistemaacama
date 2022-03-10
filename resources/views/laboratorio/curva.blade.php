@@ -19,7 +19,7 @@
       </div> 
 
         <div class="col-md-2">
-             <select class="form-control" id="area">
+             <select class="form-control" id="idArea">
               <option value="">Selecciona Area</option>
               @foreach ($area as $item)
                 <option value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
@@ -34,6 +34,7 @@
         <div class="col-md-2" id="divParametro">
           <select class="form-control" id="parametro">
             <option value="">Selecciona Parametro</option>
+           
           </select>
         </div>
       <div class="col-md-1">
@@ -100,21 +101,30 @@
         <div class="modal-body">
           <div class="row">
             <div class="col-md-12">
-              <select class="form-control" id="idUsuarios">
+              <select class="form-control" id="idAreaModal">
                 <option>Selecciona area</option>
-                @foreach ($usuarios as $item)
-                <option value="{{$item->id}}">{{$item->name}}</option>
-                @endforeach
+                @foreach ($area as $item)
+                <option value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
+              @endforeach
                 </select>
             </div>
             <div class="col-md-12">
-              <select class="form-control" id="idUsuarios">
-                <option>Selecciona area</option>
-                @foreach ($usuarios as $item)
+              <select class="form-control" id="idLoteModal">
+                <option>Selecciona Lote</option>
+                {{-- @foreach ($usuarios as $item)
                 <option value="{{$item->id}}">{{$item->name}}</option>
-                @endforeach
+                @endforeach --}}
                 </select>
             </div>
+            <div class="col-md-12">
+              <select class="form-control" id="idParametroModal">
+                <option>Selecciona parametro</option>
+                {{-- @foreach ($usuarios as $item)
+                <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach --}}
+                </select>
+            </div>
+              <label>Fecha fin</label> 
             <div class="col-md-12">
               <input type="date" id="fechaFin">
               
@@ -123,7 +133,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-success" id="btnGuardar">Guardar</button>
+          <button type="button" class="btn btn-success" id="CreateStd">Crear</button>
         </div>
       </div>
     </div>
