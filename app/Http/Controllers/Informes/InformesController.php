@@ -174,8 +174,9 @@ class InformesController extends Controller
                 
                 //Si ambos titulos de consecion y anexos son los mismos entonces se almacena en la var.comparación encontrada la solicitud correspondiente
                 if(($puntoMuestreo->Titulo_consecion == $puntoMuestreoComparacion->Titulo_consecion) && ($puntoMuestreo->Anexo == $puntoMuestreoComparacion->Anexo)){
-                    $comparacionEncontrada = $item;                    
+                    $comparacionEncontrada = $item;      
 
+                    //Obtiene el número de orden para el informe; Ej si la comparación encontrada es 60-1/22-2 estas instrucciones devuelven 60-1/22
                     $folioComparacion = explode("-", $item->Folio_servicio);
                     $parte1C = strval($folio[0]);
                     $parte2C = strval($folio[1]);

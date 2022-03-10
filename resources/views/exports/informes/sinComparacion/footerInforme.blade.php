@@ -54,16 +54,22 @@
                     </tr>                
             </tbody>         
         </table>  
-    </div>
+    </div>    
 
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <thead>
                 <tr>
-                    <td style="width:50%"><span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></span></td>
+                    {{-- <td style="width:50%"><span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></span></td> --}}
+                    @php
+                        $bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($solicitud->Folio_servicio, "C39");
+                    @endphp
+                    <td><img style="width: 15%" src="{{$bar_code}}" alt="barcode" /> <p class="revisiones fontBold justificadorCentr">{{@$solicitud->Folio_servicio}}</p></td>
                     <td style="text-align: right"><span class="revisiones">FO-13-001</span> <br> <span class="revisiones">Revisión 5</span></td>
                 </tr>                
             </thead>                        
         </table>  
-    </div>         
+    </div> 
+    
+    <br>
 </footer>
