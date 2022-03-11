@@ -100,7 +100,7 @@
         </div>
         <div class="modal-body">
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-6">
               <select class="form-control" id="idAreaModal">
                 <option>Selecciona area</option>
                 @foreach ($area as $item)
@@ -108,7 +108,7 @@
               @endforeach
                 </select>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-6">
               <select class="form-control" id="idLoteModal">
                 <option>Selecciona Lote</option>
                 {{-- @foreach ($usuarios as $item)
@@ -116,7 +116,7 @@
                 @endforeach --}}
                 </select>
             </div>
-            <div class="col-md-12">
+            <div class="col-md-6">
               <select class="form-control" id="idParametroModal">
                 <option>Selecciona parametro</option>
                 {{-- @foreach ($usuarios as $item)
@@ -125,7 +125,7 @@
                 </select>
             </div>
               <label>Fecha fin</label> 
-            <div class="col-md-12">
+            <div class="col-md-6">
               <input type="date" id="fechaFin">
               
             </div>
