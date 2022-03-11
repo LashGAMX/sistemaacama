@@ -8,7 +8,7 @@
     Captura de resultados
 </h6>
 
-<div class="container-fluid">
+<div class="container-fluid"> 
     <div class="row">
         <div class="col-md-3">
             <div class="form-group">
@@ -16,17 +16,11 @@
                 <select class="form-control" name="formulaTipo" id="formulaTipo">
                     <option value="0">Sin seleccionar</option>
                     @foreach ($parametro as $item)
-                    <option value={{$item->Id_parametro}}>{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
+                    <option value={{$item ->Id_parametro}}>{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
                     @endforeach
                 </select>
             </div>
         </div>
-        {{-- <div class="col-md-3">
-            <div class="form-group">
-                <label for="">Núm. muestra</label>
-                <input type="text" style="width: " class="form-control" id="numeroMuestra">
-            </div>
-        </div> --}}
         <div class="col-md-3">
             <div class="form-group">
                 <label for="">Fecha análisis</label>
@@ -43,7 +37,7 @@
             <div class="row">
                 <div class="col-md-6">
                     <div id="divLote">
-                        <table class="table" id="">
+                        <table class="table">
                             <thead>
                                 <tr>
                                     <th>Folio</th>
@@ -53,7 +47,6 @@
                                     <th>Opc</th>
                                 </tr>
                             </thead>
-                            <!-- <button class="btn btn-success" id="btnImprimir"><i class="fas fa-file-download"></i></button> -->
                         </table>
                     </div>
                 </div>

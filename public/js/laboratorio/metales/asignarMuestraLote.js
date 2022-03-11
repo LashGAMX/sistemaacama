@@ -33,7 +33,7 @@ function muestraSinAsignar()
             tab += '    <tbody>';
             $.each(response.model, function (key, item) {
                 tab += '<tr>';
-                tab += '<td>'+item.Folio_servicio+'</td>';
+                tab += '<td>'+item.Codigo+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
                 tab += '<td><button type="button" id="btnAsignar" onclick="asignarMuestraLote('+item.Id_solicitud+','+parseInt(item.Id_codigo)+')"  class="btn btn-primary">Agregar</button></td>';
                 tab += '</tr>';

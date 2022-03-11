@@ -287,7 +287,7 @@ INNER JOIN area_analisis as areas
 ON tipo.Id_area = areas.Id_area_analisis
 
 /* Lista  ViewLoteDetalleEspectro */
-CREATE VIEW ViewLoteDetalleEspectro as SELECT det.*,sol.Folio_servicio,param.Clave_norma,param.Parametro,control.Control
+CREATE VIEW ViewLoteDetalleEspectro as SELECT det.*,sol.Folio_servicio,param.Clave_norma,param.Parametro,control.Control,cod.Codigo
 FROM lote_detalle_espectro as det 
 INNER JOIN ViewSolicitud as sol
 ON det.Id_analisis = sol.Id_solicitud
@@ -295,9 +295,11 @@ INNER JOIN ViewParametros as param
 ON det.Id_parametro = param.Id_parametro
 INNER JOIN control_calidad as control
 ON det.Id_control = control.Id_control
+INNER JOIN codigo_parametro as cod
+ON det.Id_analisis = cod.Id_codigo
 
 /* Lista ViewLoteDetalleGA */
-CREATE VIEW ViewLoteDetalleGA as SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,con.Control FROM lote_detalle_ga as det
+CREATE VIEW ViewLoteDetalleGA as SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,con.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_ga as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
 INNER JOIN  ViewSolicitud as sol
@@ -306,6 +308,8 @@ INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro
 INNER JOIN control_calidad as con
 ON det.Id_control = con.Id_control
+INNER JOIN codigo_parametro as cod
+ON det.Id_analisis = cod.Id_codigo
 
 /* Lista ViewLoteDetalleHH */ 
 CREATE VIEW ViewLoteDetalleHH as SELECT det.*,sol.Folio_servicio,sol.Clave_norma,sol.Empresa_suc,param.Parametro,control.Control FROM lote_detalle_hh as det
