@@ -28,8 +28,8 @@
                 <tr>
             @endif
           <td>{{$item->Id_env}}</td>
-          <td>{{$item->Parametro}}</td>
           <td>{{$item->Area}}</td>
+          <td>{{$item->Parametro}}</td>
           <td>{{$item->Nombre}}</td>
           <td>{{$item->Preservacion}}</td>
           <td>

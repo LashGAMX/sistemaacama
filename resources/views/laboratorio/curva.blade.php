@@ -12,10 +12,9 @@
   <div class="container-fluid"> 
     <div class="row">
       <div class="col-md-3">
-        <button class="btn btn-success" id="CreateStd"><i class="voyager-plus"></i> Crear</button>
-        <button type="button" class="btn btn-warning" id="editar" data-toggle="modal" data-target="#modalCrear">
-          <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
-
+        <button type="button"class="btn btn-success"  data-toggle="modal" data-target="#modalCrear"id="btnCrear"><i class="voyager-plus"></i> Crear</button>
+        {{-- <button type="button" class="btn btn-warning" id="editar" data-toggle="modal" data-target="#modalCrear"> <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+--}}
       </div> 
 
         <div class="col-md-2">
@@ -119,9 +118,6 @@
             <div class="col-md-6">
               <select class="form-control" id="idParametroModal">
                 <option>Selecciona parametro</option>
-                {{-- @foreach ($usuarios as $item)
-                <option value="{{$item->id}}">{{$item->name}}</option>
-                @endforeach --}}
                 </select>
             </div>
               <label>Fecha fin</label> 
