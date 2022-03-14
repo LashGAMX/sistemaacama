@@ -1029,8 +1029,16 @@ class CampoController extends Controller
         $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
         $muestreador = Usuario::where('id',$solGen->Id_muestreador)->first();
 
-        $envases = DB::table('ViewEnvaseParametro')->get();
-        $envasesLength = $envases->count();
+        //Recupera los parámetros de la solicitud
+        $paramSolicitud = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $id)->get();
+        $paramSolicitudLength = $paramSolicitud->count();
+        $envasesArray = array();
+
+        foreach($paramSolicitud as $item){
+            $modelEnvase = DB::table('ViewEnvaseParametro')->where('Id_parametro', $item->Id_parametro)->first();            
+
+            array_push($envasesArray, $modelEnvase);
+        }            
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
@@ -1047,7 +1055,7 @@ class CampoController extends Controller
             array(0, 0),
         );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.hojaCampo',compact('model', 'numOrden', 'punto','phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'envases', 'envasesLength'));
+        $html = view('exports.campo.hojaCampo',compact('model', 'numOrden', 'punto','phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'envasesArray', 'paramSolicitudLength'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output();

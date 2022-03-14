@@ -86,7 +86,7 @@ function getMuestraAsignada()
             });
             tab += '    </tbody>';
             tab += '</table>';
-            tabla.innerHTML = tab;
+            tabla.innerHTML = tab; 
         } 
     });
 }  

@@ -90,8 +90,8 @@
 
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">N° DE MUESTRA:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$solicitud->Id_solicitud}} {{@$solicitud->Folio_servicio}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$comparacionEncontrada->Id_solicitud}} {{@$comparacionEncontrada->Folio_servicio}}</td>
+                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$solicitud->Folio_servicio}}</td>
+                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$comparacionEncontrada->Folio_servicio}}</td>
                 </tr>
 
                 <tr>

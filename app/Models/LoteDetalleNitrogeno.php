@@ -15,6 +15,7 @@ class LoteDetalleNitrogeno extends Model
     protected $fillable = [
         'Id_lote',
         'Id_analisis',
+        'Id_codigo',
         'Id_parametro',
         'Id_control',
         'Titulado_muestra',
@@ -24,6 +25,7 @@ class LoteDetalleNitrogeno extends Model
         'Factor_conversion',
         'Vol_muestra',
         'Resultado',
-        'Observacion'
+        'Observacion',
+        'Liberado',
     ];
 }

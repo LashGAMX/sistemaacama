@@ -36,7 +36,7 @@ function muestraSinAsignar()
                 tab += '<tr>';
                 tab += '<td>'+item.Folio_servicio+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
-                tab += '<td><button type="button" id="btnAsignar" onclick="asignarMuestraLote('+item.Id_solicitud+','+item.Id_solParam+')"  class="btn btn-primary">Agregar</button></td>';
+                tab += '<td><button type="button" id="btnAsignar" onclick="asignarMuestraLote('+item.Id_solicitud+','+item.Id_codigo+')"  class="btn btn-primary">Agregar</button></td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';
@@ -81,7 +81,7 @@ function getMuestraAsignada()
                 tab += '<tr>';
                 tab += '<td>'+item.Folio_servicio+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
-                tab += '<td><button type="button" id="btnAsignar" onclick="delMuestraLote('+item.Id_lote+','+item.Id_detalle+','+item.Id_analisis+','+item.Id_parametro+')"  class="btn btn-danger">Eliminar</button></td>';
+                tab += '<td><button type="button" id="btnAsignar" onclick="delMuestraLote('+item.Id_detalle+','+item.Id_analisis+','+item.Id_parametro+')"  class="btn btn-danger">Eliminar</button></td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';

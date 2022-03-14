@@ -16,6 +16,7 @@ class LoteDetalleCloro extends Model
     protected $fillable = [
         'Id_lote', 
         'Id_analisis',
+        'Id_codigo',
         'Id_parametro',
         'Id_control',
         'Vol_muestra',
@@ -27,6 +28,7 @@ class LoteDetalleCloro extends Model
         'Ph_inicial',
         'Factor_conversion',
         'Resultado',
+        'Liberado',
         
     ];
 }

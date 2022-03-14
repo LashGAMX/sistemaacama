@@ -16,6 +16,7 @@ class AreaLab extends Model
     protected $fillable = [
         'Area',
         'Descripcion',
+        'Id_responsable',
         'Id_user_c',
         'Id_user_m'
     ];

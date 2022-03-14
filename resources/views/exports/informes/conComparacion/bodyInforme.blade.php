@@ -29,7 +29,7 @@
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Metodo_prueba}}</td>
                         <td class="tableContent bordesTablaBody">PROMEDIO DIARIO</td>
                         <td class="tableContent bordesTablaBody">PROMEDIO DIARIO</td>
-                        <td class="tableContent bordesTablaBody">RESULTADO</td>
+                        <td class="tableContent bordesTablaBody">{{@$limitesC[$i]}}</td>
                     </tr>                
                 @endfor
             </tbody>        

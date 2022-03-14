@@ -25,7 +25,7 @@ $('#guardarDif').click(function () {
 });
 $('#btnLiberar').click(function () {
     // operacion();
-    liberarMuestraMetal();
+    liberarMuestra();
 });
 
 function getDataCaptura() {
@@ -112,6 +112,7 @@ function getLoteCapturaSolidos() {
     let cont = 1;
 
     let status = "";
+    let color = "";
 
     $.ajax({
         type: "POST",
@@ -140,29 +141,31 @@ function getLoteCapturaSolidos() {
             tab += '    <tbody>';
             $.each(response.detalle, function (key, item) {
                 tab += '<tr>';
-                if (item.Liberado != 0) {
+                if (item.Liberado != 1) {
                     status = "";
-                } else {
+                    color = "success";
+                } else { 
                     status = "disabled";
+                    color = "warning"
                 }
                 switch (parseInt($("#formulaTipo").val())) {
                     case 89:
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
                         break;
                     case 45:
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
                         break;
                     case 44:
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
                         break;
                     case 46:
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
                         break;
                     case 48:
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
                         break;
                     default:
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleSolidos(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
                         break;
                 }
                 if (item.Id_control != 1) {
@@ -467,6 +470,30 @@ function createControlCalidad() {
         success: function (response) {
             console.log(response);
             getLoteCapturaSolidos();
+        }
+    });
+}
+
+function liberarMuestra()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/liberarMuestraSolidos",
+        data: {
+            idMuestra: idMuestra,
+            idLote:idLote,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response.sw == true)
+            {
+                getDataCaptura();
+                getLoteCapturaSolidos();
+            }else{
+                alert("La muestra no se pudo liberar");
+            }
         }
     });
 }

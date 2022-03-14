@@ -187,8 +187,9 @@ class FqController extends Controller
     }
     public function guardarEspectro(Request $request)
     {
-        //$lote = DB::table('ViewLoteAnalisis')->where('Fecha', $request->fechaAnalisis)->get();
+        $idCodigo = 0;
         $model = LoteDetalleEspectro::find($request->idMuestra);
+        $idCodigo = $model->Id_codigo; // todo Obtenemos el id_codigoppara usar en su tabla
         $model->Resultado = $request->resultado;
         $model->Abs1 = $request->X;
         $model->Abs2 = $request->Y;
@@ -203,6 +204,11 @@ class FqController extends Controller
         $model->Blanco = $request->CA;
         $model->Resultado = $request->resultado;
         $model->save();
+
+        $model = CodigoParametros::find($idCodigo);
+        $model->Resultado = $request->resultado;
+        $model->save();
+        
 
         $data = array(
             'model' => $model,
@@ -282,6 +288,29 @@ class FqController extends Controller
             'resultado' => $resultado,
             'x' => $x,
             'd' => $d,
+        );
+        return response()->json($data);
+    }
+    public function liberarMuestraEspectro(Request $request)
+    {
+        $sw = false;
+        $model = LoteDetalleEspectro::find($request->idMuestra);
+        $model->Liberado = 1;
+        if($model->Resultado != null)
+        {
+            $sw = true;
+            $model->save();
+        }
+        
+        $model = LoteDetalleEspectro::where('Id_lote',$request->idLote)->where('Liberado',1)->get();
+        $loteModel = LoteAnalisis::find($request->idLote);
+        $loteModel->Liberado = $model->count();
+        $loteModel->save();
+        
+
+        $data = array(
+            'model' => $model,
+            'sw' => $sw,
         );
         return response()->json($data);
     }
@@ -911,6 +940,7 @@ class FqController extends Controller
                 $model = LoteDetalleEspectro::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
                     'Id_parametro' => $loteModel->Id_tecnica,
                     'Id_control' => 1,
                     'Observacion' => '',
@@ -933,6 +963,7 @@ class FqController extends Controller
                 $model = LoteDetalleGA::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
                     'Id_parametro' => $loteModel->Id_tecnica,
                     'M_final' => 0,
                     'M_inicial1' => 0,
@@ -950,6 +981,7 @@ class FqController extends Controller
                 $model = LoteDetalleSolidos::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
                     'Id_parametro' => $loteModel->Id_tecnica,
                     'Id_control' => 1,
                     'Masa1' => 0,
@@ -970,6 +1002,7 @@ class FqController extends Controller
                 $model = LoteDetalleEspectro::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
                     'Id_parametro' => $request->idParametro,
                     'Descripcion' => 'Resultado',
                     'Abs1' => 0,
@@ -1420,6 +1453,29 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
+    public function liberarMuestraGa(Request $request)
+    {
+        $sw = false;
+        $model = LoteDetalleGA::find($request->idMuestra);
+        $model->Liberado = 1;
+        if($model->Resultado != null)
+        {
+            $sw = true;
+            $model->save();
+        }
+        
+        $model = LoteDetalleGA::where('Id_lote',$request->idLote)->where('Liberado',1)->get();
+        $loteModel = LoteAnalisis::find($request->idLote);
+        $loteModel->Liberado = $model->count();
+        $loteModel->save();
+        
+
+        $data = array(
+            'model' => $model,
+            'sw' => $sw,
+        );
+        return response()->json($data);
+    }
     // todo ***************************
     // todo Fin Captura GA
     // todo ***************************
@@ -1649,6 +1705,30 @@ class FqController extends Controller
 
         $data = array(
             'model' => $model,
+        );
+        return response()->json($data);
+    }
+
+    public function liberarMuestraSolidos(Request $request)
+    {
+        $sw = false;
+        $model = LoteDetalleSolidos::find($request->idMuestra);
+        $model->Liberado = 1;
+        if($model->Resultado != null)
+        {
+            $sw = true;
+            $model->save();
+        }
+        
+        $model = LoteDetalleSolidos::where('Id_lote',$request->idLote)->where('Liberado',1)->get();
+        $loteModel = LoteAnalisis::find($request->idLote);
+        $loteModel->Liberado = $model->count();
+        $loteModel->save();
+        
+
+        $data = array(
+            'model' => $model,
+            'sw' => $sw,
         );
         return response()->json($data);
     }

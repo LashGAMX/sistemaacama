@@ -17,6 +17,7 @@ use App\Models\estandares;
 use App\Models\TecnicaLoteMetales;
 use App\Models\BlancoCurvaMetales;
 use App\Models\CalentamientoMatraz;
+use App\Models\CodigoParametros;
 use App\Models\ControlCalidad;
 use App\Models\CrisolesGA;
 use App\Models\CurvaCalibracionMet;
@@ -453,9 +454,9 @@ class VolController extends Controller
     public function muestraSinAsignarVol(Request $request)
     {
         $lote = LoteAnalisis::find($request->idLote);
-        $model = DB::table('ViewSolicitudParametros')
+        $model = DB::table('ViewCodigoParametro')
             ->where('Id_parametro', $lote->Id_tecnica)
-            ->where('Asignado', '!=', 1)
+            ->where('Asignado', '!=', 1)  
             ->get();
         $data = array(
             'model' => $model,
@@ -559,6 +560,7 @@ class VolController extends Controller
                 $model = LoteDetalleDqo::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
                     'Id_parametro' => $loteModel->Id_tecnica,
                     'Id_control' => 1,
                 ]);
@@ -569,6 +571,7 @@ class VolController extends Controller
                 $model = LoteDetalleCloro::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
                     'Id_parametro' => $loteModel->Id_tecnica,
                     'Id_control' => 1,
                 ]);
@@ -579,6 +582,7 @@ class VolController extends Controller
                 $model = LoteDetalleNitrogeno::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
                     'Id_parametro' => $loteModel->Id_tecnica,
                     'Id_control' => 1,
                 ]);
@@ -590,10 +594,10 @@ class VolController extends Controller
                 break;
         }
       
-        $solModel = SolicitudParametro::find($request->idSol);
+
+        $solModel = CodigoParametros::find($request->idSol);
         $solModel->Asignado = 1;
         $solModel->save();
-
        
         $loteModel = LoteAnalisis::find($request->idLote);
         $loteModel->Asignado = $detModel->count();

@@ -16,6 +16,7 @@ class LoteDetalleEspectro extends Model
     protected $fillable = [
         'Id_lote',
         'Id_analisis',
+        'Id_codigo',
         'Id_parametro',
         'Id_control',
         'Observacion',

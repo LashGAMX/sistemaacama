@@ -16,6 +16,7 @@ class LoteDetalleSolidos extends Model
     protected $fillable = [
         'Id_lote', 
         'Id_analisis',
+        'Id_codigo',
         'Id_parametro', 
         'Id_control',
         'Id_crisol',
@@ -29,6 +30,7 @@ class LoteDetalleSolidos extends Model
         'Vol_muestra',
         'Factor_conversion',
         'Resultado',
-        'Observacion'
+        'Observacion',
+        'Liberado',
     ];
 }

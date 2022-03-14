@@ -26,7 +26,7 @@ $('#btnGuardar').click(function (){
 });
 $('#btnLiberar').click(function () {
     // operacion();
-    liberarMuestraMetal();
+    liberarMuestra();
 });
 
 
@@ -114,6 +114,7 @@ function getLoteCapturaEspectro() {
     let cont = 1;
 
     let status = "";
+    let color = "";
 
     $.ajax({
         type: "POST",
@@ -141,17 +142,19 @@ function getLoteCapturaEspectro() {
             tab += '    </thead>'; 
             tab += '    <tbody>';
             $.each(response.detalle, function (key, item) {
-                tab += '<tr>';
-                if (item.Liberado != 0) {
+                if (item.Liberado != 1) {
                     status = "";
+                    color = "success";
                 } else { 
                     status = "disabled";
+                    color = "warning"
                 }
+                tab += '<tr>';
                 if($("#formulaTipo").val() != 96)
                 {
-                    tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
+                    tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
                 }else{
-                    tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleEspectroSulfatos('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaSulfatos">Capturar</button>';
+                    tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectroSulfatos('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaSulfatos">Capturar</button>';
                 }
                 if (item.Id_control != 1) 
                 {
@@ -596,20 +599,44 @@ function updateObsMuestraEspectroSulfatos()
         }
     }); 
 }
-function createControlCalidad()
+function updateObsMuestraEspectroSulfatos()
 {
+    
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/createControlCalidadEspectro",
+        url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestraEspectroSulfatos",
         data: {
             idMuestra: idMuestra,
-            idControl: $("#controlCalidad").val(),
+            observacion: $("#observacionSulfatos").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
             getLoteCapturaEspectro();
+        }
+    }); 
+}
+function liberarMuestra()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/liberarMuestraEspectro",
+        data: {
+            idMuestra: idMuestra,
+            idLote:idLote,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response.sw == true)
+            {
+                getDataCaptura();
+                getLoteCapturaEspectro();
+            }else{
+                alert("La muestra no se pudo liberar");
+            }
         }
     });
 }

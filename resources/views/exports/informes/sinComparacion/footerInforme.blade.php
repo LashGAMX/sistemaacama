@@ -64,7 +64,8 @@
                     @php
                         $bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($solicitud->Folio_servicio, "C39");
                     @endphp
-                    <td><img style="width: 15%" src="{{$bar_code}}" alt="barcode" /> <p class="revisiones fontBold justificadorCentr">{{@$solicitud->Folio_servicio}}</p></td>
+                    <td><img style="width: 15%" src="{{$bar_code}}" alt="barcode" /> <br> <span class="revisiones fontBold justificadorCentr">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        {{@$solicitud->Folio_servicio}}</span></td>
                     <td style="text-align: right"><span class="revisiones">FO-13-001</span> <br> <span class="revisiones">Revisión 5</span></td>
                 </tr>                
             </thead>                        

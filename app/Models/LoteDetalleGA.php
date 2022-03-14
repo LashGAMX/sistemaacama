@@ -16,6 +16,7 @@ class LoteDetalleGA extends Model
     protected $fillable = [
         'Id_lote',
         'Id_analisis',
+        'Id_codigo',
         'Id_parametro',
         'Id_control',
         'Id_matraz',
@@ -30,5 +31,6 @@ class LoteDetalleGA extends Model
         'F_conversion',
         'Resultado',
         'Observacion', 
+        'Liberado',
     ];
 }

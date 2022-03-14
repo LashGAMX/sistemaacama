@@ -20,7 +20,8 @@ $('#guardar').click(function () {
 });
 $('#btnLiberar').click(function () {
     // operacion();
-    // liberarMuestraMetal();
+    // liberarMuestraMetal
+    liberarMuestra();
 });
 
 function getDataCaptura() {
@@ -107,6 +108,7 @@ function getLoteCapturaGA() {
     let cont = 1;
 
     let status = "";
+    let color = "";
 
     $.ajax({
         type: "POST",
@@ -135,12 +137,14 @@ function getLoteCapturaGA() {
             tab += '    <tbody>';
             $.each(response.detalle, function (key, item) {
                 tab += '<tr>';
-                if (item.Liberado != 0) {
+                if (item.Liberado != 1) {
                     status = "";
+                    color = "success";
                 } else { 
                     status = "disabled";
+                    color = "warning"
                 }
-                tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleGA('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
+                tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleGA('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
                 if (item.Id_control != 1) 
                 {
                     tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
@@ -357,6 +361,29 @@ function createControlCalidad()
     });
 }
 
+function liberarMuestra()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/liberarMuestraGa",
+        data: {
+            idMuestra: idMuestra,
+            idLote:idLote,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response.sw == true)
+            {
+                getDataCaptura();
+                getLoteCapturaGA();
+            }else{
+                alert("La muestra no se pudo liberar");
+            }
+        }
+    });
+}
 
 function validacionModal(){
     let sw = true;
@@ -410,6 +437,7 @@ function validacionModal(){
  }
  
 }
+
 
 function cleanTable() {
 

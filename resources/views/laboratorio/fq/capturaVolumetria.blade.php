@@ -57,7 +57,7 @@
                         <div class="col-md-3">
                             <p class="">Información global</p>
                             <div id="infoGlobal">
-                                <button class="btn btn-secondary" id="btnGenControl" onclick="imprimir();">Imprimir</button>
+                                {{-- <button class="btn btn-secondary" id="btnGenControl" onclick="imprimir();">Imprimir</button> --}}
                             </div>
                         </div>
                         <div class="col-md-9">
@@ -71,9 +71,9 @@
 
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-1">
+                {{-- <div class="col-md-1">
                     <button class="btn btn-secondary" id="ejecutar">Ejecutar</button>
-                </div>
+                </div> --}}
                 <div class="col-md-1">
                     <button class="btn btn-secondary" id="btnLiberar">Liberar</button>
                 </div>

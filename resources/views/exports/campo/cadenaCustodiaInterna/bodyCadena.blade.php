@@ -49,10 +49,10 @@
                     </thead>
 
                     <tbody>                                           
-                        {{-- @for ($i = 0; $i < $envasesLength; $i++) --}}
+                        @for ($i = 0; $i < $areasLabLength; $i++)
                             <tr>
-                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{-- {{@$envases[$i]->Id_env}} --}}AREA</td>
-                                <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{-- {{@$envases[$i]->Area}} --}}RESPONSABLE</td>
+                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{@$areasLab[$i]->Area}}</td>
+                                <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$responsables[$i]}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{-- {{@$envases[$i]->Parametro}} --}}RECIPIENTES</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{-- {{@$envases[$i]->Nombre}} --}}SALIDA ANALISIS</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{-- {{@$envases[$i]->Volumen}} --}} ENTRADA GUARDAR</td>
@@ -60,7 +60,7 @@
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$fechaEmision)->format('d/m/Y')}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>                                
                             </tr>
-                        {{-- @endfor --}}
+                        @endfor
                     </tbody>
                     
                 </table>
@@ -128,35 +128,35 @@
                             <tr>                                
                                 @if ($paramResultadoLength < 10)
                                     <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{@$paramResultado[$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$limitesC[$i]}}</td>
                                 @endif                                
                                                                 
                                 @if ($paramResultadoLength >= 10 && $paramResultadoLength < 20)                                    
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$limitesC[$i]}}</td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$limitesC[$i+1]}}</td>
 
                                 @endif                                
                                                                 
                                 @if ($paramResultadoLength >= 20 && $paramResultadoLength <= 30)
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$limitesC[$i]}}</td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$limitesC[$i+1]}}</td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+2]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$limitesC[$i+2]}}</td>
                                 @endif                                
                                 
                                 @if ($paramResultadoLength >= 30)
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$limitesC[$i]}}</td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$limitesC[$i+1]}}</td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+2]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+2]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$limitesC[$i+2]}}</td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+3]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+3]->Resultado}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$limitesC[$i+3]}}</td>
                                 @endif                                                                                     
                             </tr>
                         @endfor                        
@@ -172,14 +172,19 @@
                         <table class="table-sm" width="100%">
                             <tr>
                                 <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">VALOR</td>
+                                <td class="fontCalibri anchoColumna111 fontSize8">{{$promedioPonderadoGA}}</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">VALOR</td>
+                                <td class="fontCalibri anchoColumna111 fontSize8">{{$limiteColiformes}}</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">VALOR</td>
                                 <td class="fontCalibri anchoColumna111 justifyCenter"><span class="fontSize7 negrita">FIRMA RESPONSABLE</span> <br> <span class="fontSize8">Q.F.B. RODRÍGUEZ BLANCO AGUEDA</span> &nbsp;&nbsp; </td>
-                                <td class="justifyCenter anchoColumna111"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
-                                <td class="justifyCenter anchoColumna111">CÓDIGO</td>
+                                <td class="justifyCenter anchoColumna111"><img style="width: auto; height: auto; max-width: 60px; max-height: 40px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
+                                
+                                @php
+                                    $bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($model->Folio_servicio, "C39");
+                                @endphp
+
+                                <td class="justifyCenter anchoColumna111"><img style="width: 10%" src="{{$bar_code}}" alt="barcode" /> <br> {{@$model->Folio_servicio}}</td>
                             </tr>
                         </table>
                     </div>                    

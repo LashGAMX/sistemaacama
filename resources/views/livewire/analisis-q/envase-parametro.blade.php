@@ -124,6 +124,7 @@
                             <label for="preservador">Preservador</label>
                            <select class="form-control" wire:model='preservador'>
                                <option>Sin seleccionar</option>
+                               
                                @foreach ($preservadores as $item)
                                    <option value="{{$item->Id_preservacion}}">{{$item->Preservacion}}</option>
                                @endforeach

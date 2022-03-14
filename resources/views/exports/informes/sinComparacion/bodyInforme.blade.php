@@ -25,7 +25,7 @@
                         <td class="tableContent bordesTablaBody" height="25">{{@$solicitudParametros[$i]->Parametro}}</td>
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Metodo_prueba}}</td>
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Unidad}}</td>
-                        <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Resultado}}</td>
+                        <td class="tableContent bordesTablaBody">{{@$limitesC[$i]}}</td>
                     </tr>                
                 @endfor
             </tbody>        

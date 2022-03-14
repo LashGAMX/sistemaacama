@@ -83,16 +83,16 @@
                     </thead>
 
                     <tbody>                                           
-                        @for ($i = 0; $i < $envasesLength; $i++)
+                        @for ($i = 0; $i < $paramSolicitudLength; $i++)
                             <tr>
-                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envases[$i]->Id_env}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envases[$i]->Area}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envases[$i]->Parametro}}</td>
-                                <td class="bordesTablaInfIzqDer">{{@$envases[$i]->Nombre}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envases[$i]->Volumen}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envases[$i]->Unidad}}</td>
-                                <td class="bordesTablaInfIzqDer">{{@$envases[$i]->Preservacion}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envases[$i]->Preservacion}}</td>
+                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Id_env}}</td>
+                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Area}}</td>
+                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Parametro}}</td>
+                                <td class="bordesTablaInfIzqDer">{{@$envasesArray[$i]->Nombre}}</td>
+                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Volumen}}</td>
+                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Unidad}}</td>
+                                <td class="bordesTablaInfIzqDer">{{@$envasesArray[$i]->Preservacion}}</td>
+                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Preservacion}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer">SI</td>
                             </tr>
                         @endfor                        

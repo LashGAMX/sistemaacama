@@ -90,6 +90,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('updateObsMuestraEspectro', [FqController::class, 'updateObsMuestraEspectro']);
         Route::post('updateObsMuestraEspectroSulfatos', [FqController::class, 'updateObsMuestraEspectroSulfatos']);
         Route::post('createControlCalidadEspectro', [FqController::class, 'createControlCalidadEspectro']);
+        Route::post('liberarMuestraEspectro', [FqController::class, 'liberarMuestraEspectro']);
     
     //****************************************GA***********************************************
 
@@ -102,6 +103,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('operacionGALarga', [FqController::class, 'operacionGALarga']);
         Route::post('createControlCalidad', [FqController::class, 'createControlCalidad']);
         Route::post('updateObsMuestraGA', [FqController::class, 'updateObsMuestraGA']);
+        Route::post('liberarMuestraGa', [FqController::class, 'liberarMuestraGa']);
 
 //****************************************SOLIDOS***********************************************
         Route::get('capturaSolidos', [FqController::class, 'capturaSolidos']);
@@ -115,6 +117,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('createControlCalidadSolidos', [FqController::class, 'createControlCalidadSolidos']);
         Route::post('updateObsMuestraSolidos', [FqController::class, 'updateObsMuestraSolidos']);
         Route::post('updateObsMuestraSolidosDif', [FqController::class, 'updateObsMuestraSolidosDif']);
+        Route::post('liberarMuestraSolidos', [FqController::class, 'liberarMuestraSolidos']);
 
 
 //****************************************FIN SOLIDOS***********************************************

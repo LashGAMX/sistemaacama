@@ -16,6 +16,7 @@ class LoteDetalleDqo extends Model
     protected $fillable = [
         'Id_lote',
         'Id_analisis',
+        'Id_codigo',
         'Id_parametro',
         'Id_control',
         'Titulo_muestra',
@@ -25,5 +26,6 @@ class LoteDetalleDqo extends Model
         'Vol_muestra',
         'Blanco',
         'Observacion',
+        'Liberado',
     ];
 }

@@ -70,9 +70,9 @@
 
             <div class="col-md-12">
                 <div class="row">
-                    <div class="col-md-1">
+                    {{-- <div class="col-md-1">
                         <button class="btn btn-secondary" id="ejecutar">Ejecutar</button>
-                    </div>
+                    </div> --}}
                     <div class="col-md-1">
                         <button class="btn btn-secondary" id="btnLiberar">Liberar</button>
                     </div>
