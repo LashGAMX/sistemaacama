@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Informes;
 
 use App\Http\Controllers\Controller;
+use App\Models\AreaLab;
 use App\Models\Clientes;
 use App\Models\CodigoParametros;
 use App\Models\Cotizacion;
 use App\Models\CotizacionPunto;
 use App\Models\DireccionReporte;
+use App\Models\GastoMuestra;
 use App\Models\Norma;
 use App\Models\Parametro;
 use App\Models\PuntoMuestreoSir;
@@ -94,11 +96,29 @@ class InformesController extends Controller
         /* $solicitudParametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $solicitud->Id_solicitud)->get();
         $solicitudParametrosLength = $solicitudParametros->count(); */
 
-        $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->get();
+        //Recupera los parámetros
+        $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->get();                
         $solicitudParametrosLength = $solicitudParametros->count();
+                
+        $limitesC = array();
+
+        //Recupera los límites de cuantificación de los parámetros        
+        foreach($solicitudParametros as $item){
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();            
+            
+            if ($item->Resultado < $limiteC->Limite) {
+                $limC = "< " . $limiteC->Limite;
+
+                array_push($limitesC, $limC);
+            } else {  //Si es mayor el resultado que el límite de cuantificación
+                $limC = $item->Resultado;
+
+                array_push($limitesC, $limC);
+            }
+        }
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
-        $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength'));
+        $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'fechaEmision'));
@@ -154,7 +174,7 @@ class InformesController extends Controller
         $parte1 = strval($folio[0]);
         $parte2 = strval($folio[1]);
 
-        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();        
+        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();                 
 
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
@@ -190,16 +210,30 @@ class InformesController extends Controller
 
         //print_r($data);
 
-        /* print_r($comparacionEncontrada); */
+        /* print_r($comparacionEncontrada); */        
 
-        /* $solicitudParametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $solicitud->Id_solicitud)->get();
-        $solicitudParametrosLength = $solicitudParametros->count(); */
-
-        $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->get();
+        $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->get();
         $solicitudParametrosLength = $solicitudParametros->count();
 
+        $limitesC = array();
+
+        //Recupera los límites de cuantificación de los parámetros        
+        foreach($solicitudParametros as $item){
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();            
+            
+            if ($item->Resultado < $limiteC->Limite) {
+                $limC = "< " . $limiteC->Limite;
+
+                array_push($limitesC, $limC);
+            } else {  //Si es mayor el resultado que el límite de cuantificación
+                $limC = $item->Resultado;
+
+                array_push($limitesC, $limC);
+            }
+        }
+
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
-        $htmlInforme = view('exports.informes.conComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength'));
+        $htmlInforme = view('exports.informes.conComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.conComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'fechaEmision', 'comparacionEncontrada', 'data'));
@@ -235,15 +269,135 @@ class InformesController extends Controller
         );
 
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$idSol)->first();
+        
         $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->get();
         $paramResultadoLength = $paramResultado->count();
+                
+        $gaMenorLimite = false;                
+
+        $limitesC = array();
+        $limiteGrasas = "";
+        $limiteCGrasa = DB::table('parametros')->where('Id_parametro', 14)->first();                            
+        $paramGrasasResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->first();        
+
+        if ($paramGrasasResultado->Resultado < $limiteCGrasa->Limite) {
+            $limC = "< " . $limiteCGrasa->Limite;
+
+            $limiteGrasas = $limC;
+
+            $gaMenorLimite = true;
+        } else {  //Si es mayor el resultado que el límite de cuantificación
+            $limC = $paramGrasasResultado->Resultado;
+
+            $limiteGrasas = $limC;
+        }
+
+        if($gaMenorLimite === false){
+            $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();        
+            $modelParamGrasasLength = $modelParamGrasas->count();
+            $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
+
+            //Calcula promedio ponderado de G y A
+            $promPonderadoGaArray = 0;
+            //Arreglo que contiene los valores de GYA * GASTO por cada fila
+            $gaPorGastoArray = array();
+            //Contiene la suma de G(GYA * GASTO)
+            $sumaG = 0;
+            //Arreglo que contiene los valores de GYA * GASTO entre sumaG por cada fila
+            $gaPorGastoDivSumaArray = array();
+            //Arreglo que contiene los valores de GYA * (GYA*GASTO) / SUMAG
+            $gaPorgaGastoDivSumaG = array();
+
+            //Realiza las operaciones GYA * GASTO
+            for($i = 0; $i < $modelParamGrasasLength; $i++){
+                //Si no tiene un valor guardado lo toma como cero
+                if($gastosModel[$i]->Promedio === null){
+                    $gastos = 0;
+                }else{
+                    $gastos = $gastosModel[$i]->Promedio;
+                }
+
+                array_push($gaPorGastoArray, $modelParamGrasas[$i]->Resultado * $gastos);                                    
+            }
+
+            //Realiza la suma de G (GYA * GASTO)
+            for($i = 0; $i < $modelParamGrasasLength; $i++){
+                //Si no tiene un valor guardado lo toma como cero
+                $sumaG += $gaPorGastoArray;
+            }
+
+            //Realiza las operaciones (GYA*GASTO)/SUMA DE G
+            for($i = 0; $i < $modelParamGrasasLength; $i++){                     
+                array_push($gaPorGastoDivSumaArray, $gaPorGastoArray[$i] / $sumaG);                                    
+            }
+
+            //Realiza las operaciones GYA * (GYA*GASTO) / SUMAG
+            for($i = 0; $i < $modelParamGrasasLength; $i++){      
+                $resultado = ($modelParamGrasas[$i]->Resultado * $gaPorGastoArray[$i]) / $sumaG;
+                array_push($gaPorgaGastoDivSumaG, $resultado);                                    
+            }
+
+            //Calcula el promedio ponderado de GA
+            for($i = 0; $i < $modelParamGrasasLength; $i++){      
+                $promPonderadoGaArray += $gaPorgaGastoDivSumaG[$i];                
+            }
+        }
+
+        $promedioPonderadoGA = "";
+        if($gaMenorLimite === false){
+            $promedioPonderadoGA = $promPonderadoGaArray;
+        }else{
+            $promedioPonderadoGA = $limiteGrasas;
+        }
+
+        $limiteColiformes = "";
+        $limiteColiformes = DB::table('parametros')->where('Id_parametro', 13)->first();                            
+        $paramColiformesResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->first();
+
+        if ($paramColiformesResultado->Resultado < $limiteColiformes->Limite) {
+            $limC = "< " . $limiteColiformes->Limite;
+
+            $limiteColiformes = $limC;
+        } else {  //Si es mayor el resultado que el límite de cuantificación
+            $limC = $paramColiformesResultado->Resultado;
+
+            $limiteColiformes = $limC;
+        }
+
+        //Recupera los límites de cuantificación de los parámetros        
+        foreach($paramResultado as $item){
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();                            
+            
+            if ($item->Resultado < $limiteC->Limite) {
+                $limC = "< " . $limiteC->Limite;
+
+                array_push($limitesC, $limC);
+            } else {  //Si es mayor el resultado que el límite de cuantificación
+                $limC = $item->Resultado;
+
+                array_push($limitesC, $limC);
+            }
+        }
+
+        //Recupera todas las areas_lab de momento
+        $areasLab = DB::table('areas_lab')->get();
+        $areasLabLength = $areasLab->count();
+        $responsables = array();        
+
+        foreach($areasLab as $item){
+            $modelResponsable = DB::table('users')->where('id', $item->Id_responsable)->first();
+            $responsable = $modelResponsable->name;
+
+            array_push($responsables, $responsable);
+        }
+
         $fechaEmision = \Carbon\Carbon::now();
         $tipoMuestra = DB::table('tipo_descargas')->where('Id_tipo', $model->Id_muestreo)->first();
-        $norma = Norma::where('Id_norma', $model->Id_norma)->first();
+        $norma = Norma::where('Id_norma', $model->Id_norma)->first();        
 
         $mpdf->showWatermarkImage = true;
 
-        $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', compact('model', 'tipoMuestra', 'norma', 'fechaEmision', 'paramResultado', 'paramResultadoLength'));
+        $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', compact('model', 'tipoMuestra', 'norma', 'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'areasLab', 'areasLabLength', 'responsables', 'promedioPonderadoGA'));
 
         $mpdf->WriteHTML($htmlInforme);
 
