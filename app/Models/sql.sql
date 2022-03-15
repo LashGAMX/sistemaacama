@@ -313,7 +313,7 @@ INNER JOIN codigo_parametro as cod
 ON det.Id_codigo = cod.Id_codigo
 
 /* Lista ViewLoteDetalleHH */ 
-CREATE VIEW ViewLoteDetalleHH as SELECT det.*,sol.Folio_servicio,sol.Clave_norma,sol.Empresa_suc,param.Parametro,control.Control FROM lote_detalle_hh as det
+CREATE VIEW ViewLoteDetalleHH as SELECT det.*,sol.Folio_servicio,sol.Clave_norma,sol.Empresa_suc,param.Parametro,control.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_hh as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
 INNER JOIN  ViewSolicitud as sol
@@ -322,6 +322,8 @@ INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro
 INNER JOIN control_calidad as control
 ON det.Id_control = control.Id_control
+INNER JOIN codigo_parametro as cod
+ON det.Id_codigo = cod.Id_codigo
 
 /* Lista ViewLoteDetalleSolidos */ 
 
@@ -337,23 +339,27 @@ ON det.Id_codigo = cod.Id_codigo
 
 /* Lista ViewLoteDetalleColiformes */ 
 
-CREATE VIEW ViewLoteDetalleColiformes as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion FROM lote_detalle_coliformes as col
+CREATE VIEW ViewLoteDetalleColiformes as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_coliformes as col
 INNER JOIN ViewSolicitud as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON col.Id_parametro = param.Id_parametro
 INNER JOIN control_calidad as control
 ON col.Id_control = control.Id_control
+INNER JOIN codigo_parametro as cod
+ON col.Id_codigo = cod.Id_codigo
 
 /* Lista ViewLoteDetalleDbo */ 
 
-CREATE VIEW ViewLoteDetalleDbo as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion FROM lote_detalle_dbo as col
+CREATE VIEW ViewLoteDetalleDbo as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_dbo as col
 INNER JOIN ViewSolicitud as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON col.Id_parametro = param.Id_parametro
 INNER JOIN control_calidad as control
 ON col.Id_control = control.Id_control
+INNER JOIN codigo_parametro as cod
+ON col.Id_codigo = cod.Id_codigo
 
 /* Lista ViewEnvases */ 
 

@@ -79,7 +79,7 @@ function getMuestraAsignada()
             tab += '    <tbody>'; 
             $.each(response.model, function (key, item) {
                 tab += '<tr>';
-                tab += '<td>'+item.Folio_servicio+'</td>';
+                tab += '<td>'+item.Codigo+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
                 tab += '<td><button type="button" id="btnAsignar" onclick="delMuestraLote('+item.Id_detalle+','+item.Id_analisis+','+item.Id_parametro+')"  class="btn btn-danger">Eliminar</button></td>';
                 tab += '</tr>';

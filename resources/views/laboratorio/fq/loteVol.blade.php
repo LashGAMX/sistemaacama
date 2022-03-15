@@ -45,9 +45,7 @@
         <div class="col-md-3">
           <button class="btn btn-success" data-toggle="modal" data-target="#modalProbar" id="btnDatosLote" class="btn btn-info">Datos lote</button>
         </div>
-        <div class="col-md-3">
-          <button class="btn btn-success" data-toggle="modal" data-target="#modalFq2" class="btn btn-info">Nueva función</button>
-        </div>
+        
       </div>
       <div class="" id="divTable">
         
@@ -436,6 +434,14 @@
 
               {{-- DQO --}}
               <div class="tab-pane fade" id="dqo" role="tabpanel" aria-labelledby="dqo-tab">  
+              <h4>Tipo de Lote</h4>
+
+              <select>
+                <option value="0">Selecionar</option>  
+                <option value="1">DQO ALTA</option>
+                <option value="2">DQO BAJA</option> 
+              </select>
+
                 <h4>Ebullición</h4>
                 <hr>
 

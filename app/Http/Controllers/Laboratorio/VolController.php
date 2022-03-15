@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
-use App\Models\VolumenParametros; 
+use App\Models\VolumenParametros;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
 use App\Models\ObservacionMuestra;
@@ -51,21 +51,21 @@ use Illuminate\Support\Facades\DB;
 
 class VolController extends Controller
 {
-  
+
 
     // todo ******************* Inicio de lote ************************
     public function loteVol()
     {
         //* Tipo de formulas  
         $parametro = DB::table('ViewParametros')
-        ->orWhere('Id_area',14)
-        ->get();
+            ->orWhere('Id_area', 14)
+            ->get();
 
         $textoRecuperadoPredeterminado = ReportesFq::where('Id_reporte', 0)->first();
         return view('laboratorio.fq.loteVol', compact('parametro', 'textoRecuperadoPredeterminado'));
     }
 
-    public function createLote(Request $request)   
+    public function createLote(Request $request)
     {
         $model = LoteAnalisis::create([
             'Id_area' => 14,
@@ -99,9 +99,9 @@ class VolController extends Controller
         switch ($request->caso) {
             case 1: // Cloro
                 # code...
-                $valoracionModel = ValoracionCloro::where('Id_lote',$request->idLote)->get();
-                if($valoracionModel->count()){
-                    $model = ValoracionCloro::where('Id_lote',$request->idLote)->first();
+                $valoracionModel = ValoracionCloro::where('Id_lote', $request->idLote)->get();
+                if ($valoracionModel->count()) {
+                    $model = ValoracionCloro::where('Id_lote', $request->idLote)->first();
                     $model->Id_lote = $request->idLote;
                     $model->Id_parametro = $request->idParametro;
                     $model->Blanco = $request->blanco;
@@ -112,40 +112,38 @@ class VolController extends Controller
                     $model->Normalidad = $request->normalidad;
                     $model->Resultado = $request->resultado;
                     $model->save();
-
-                }else{
+                } else {
                     $model = ValoracionCloro::create([
                         'Id_lote' => $request->idLote,
                         'Id_parametro' => $request->idParametro,
                         'Blanco' => $request->blanco,
-                        'Ml_titulado1' => $request->titulado1, 
+                        'Ml_titulado1' => $request->titulado1,
                         'Ml_titulado2' => $request->titulado2,
                         'Ml_titulado3' => $request->titulado3,
                         'Ml_trazable' => $request->trazable,
                         'Normalidad' => $request->normalidad,
                         'Resultado' => $request->resultado,
-                    ]); 
+                    ]);
                 }
                 break;
-                case 2: // DQO
-                    # code...
-                    $valoracionModel = ValoracionDqo::where('Id_lote',$request->idLote)->get();
-                    if($valoracionModel->count()){
-                        $model = ValoracionDqo::where('Id_lote',$request->idLote)->first();
-                        $model->Id_lote = $request->idLote;
-                        $model->Id_parametro = $request->idParametro;
-                        $model->Blanco = $request->blanco;
-                        $model->Vol_k2 = $request->volk2D;
-                        $model->Concentracion = $request->concentracion;
-                        $model->Factor = $request->factor;
-                        $model->Vol_titulado1 = $request->titulado1;
-                        $model->Vol_titulado2 = $request->titulado2;
-                        $model->Vol_titulado3 = $request->titulado3;
-                        $model->Resultado = $request->resultado;
-                        $model->save(); 
-    
-                    }else{
-                        $model = ValoracionDqo::create([
+            case 2: // DQO
+                # code...
+                $valoracionModel = ValoracionDqo::where('Id_lote', $request->idLote)->get();
+                if ($valoracionModel->count()) {
+                    $model = ValoracionDqo::where('Id_lote', $request->idLote)->first();
+                    $model->Id_lote = $request->idLote;
+                    $model->Id_parametro = $request->idParametro;
+                    $model->Blanco = $request->blanco;
+                    $model->Vol_k2 = $request->volk2D;
+                    $model->Concentracion = $request->concentracion;
+                    $model->Factor = $request->factor;
+                    $model->Vol_titulado1 = $request->titulado1;
+                    $model->Vol_titulado2 = $request->titulado2;
+                    $model->Vol_titulado3 = $request->titulado3;
+                    $model->Resultado = $request->resultado;
+                    $model->save();
+                } else {
+                    $model = ValoracionDqo::create([
                         'Id_lote' => $request->idLote,
                         'Id_parametro' => $request->idParametro,
                         'Blanco' => $request->blanco,
@@ -156,8 +154,8 @@ class VolController extends Controller
                         'Vol_titulado2' => $request->titulado2,
                         'Vol_titulado3' => $request->titulado3,
                         'Resultado' => $request->resultado,
-                        ]); 
-                    }
+                    ]);
+                }
                 break;
             case 3: // DQO
                 # code...
@@ -183,15 +181,15 @@ class VolController extends Controller
                         'Gramos' => $request->gramos,
                         'Factor_conversion' => $request->factor,
                         'Titulo1' => $request->titulado1,
-                        'Titulo2' => $request->titulado2, 
+                        'Titulo2' => $request->titulado2,
                         'Titulo3' => $request->titulado3,
                         'Pm' => $request->pm,
                         'Resultado' => $request->resultado,
                     ]);
                 }
                 break;
-                
-            
+
+
             default:
                 # code...
                 break;
@@ -201,20 +199,20 @@ class VolController extends Controller
         );
         return response()->json($data);
     }
- 
+
     //RECUPERAR DATOS PARA ENVIARLOS A LA VENTANA MODAL > EQUIPO PARA RELLENAR LOS DATOS ALMACENADOS EN LA BD
     public function getDataloteVol(Request $request)
-    {        
+    {
         $idLoteIf = $request->idLote;
 
         //RECUPERA LA PLANTILLA DEL REPORTE    
-        $reporte = ReportesFq::where('Id_lote',$request->idLote)->first();
-        
+        $reporte = ReportesFq::where('Id_lote', $request->idLote)->first();
+
         //RECUPERA EL APARTADO DE FÓRMULAS GLOBALES;
         $constantesModel = CurvaConstantes::where('Id_lote', $request->idLote)->get();
-        if($constantesModel->count()){
-            $constantes = CurvaConstantes::where('Id_lote', $request->idLote)->first();            
-        }else{
+        if ($constantesModel->count()) {
+            $constantes = CurvaConstantes::where('Id_lote', $request->idLote)->first();
+        } else {
             $constantes = null;
         }
 
@@ -227,36 +225,36 @@ class VolController extends Controller
         $tiempoFq = DB::table('tiempo_reflujo')->where('Id_lote', $request->idLote)->get();
         $enfriadoMatrazFq = DB::table('enfriado_matraz')->where('Id_lote', $request->idLote)->get();
 
-        if($calentamientoFq->count()){            
+        if ($calentamientoFq->count()) {
             array_push($dataGrasas, $calentamientoFq);
-        }else{
+        } else {
             array_push($dataGrasas, null);
         }
 
-        if($enfriadoFq->count()){            
+        if ($enfriadoFq->count()) {
             array_push($dataGrasas, $enfriadoFq);
-        }else{
+        } else {
             array_push($dataGrasas, null);
         }
 
-        if($secadoFq->count()){
+        if ($secadoFq->count()) {
             $secadoCartucho = SecadoCartucho::where('Id_lote', $request->idLote)->first();
             array_push($dataGrasas, $secadoCartucho);
-        }else{
+        } else {
             array_push($dataGrasas, null);
         }
 
-        if($tiempoFq->count()){
+        if ($tiempoFq->count()) {
             $tiempoReflujo = TiempoReflujo::where('Id_lote', $request->idLote)->first();
             array_push($dataGrasas, $tiempoReflujo);
-        }else{
+        } else {
             array_push($dataGrasas, null);
         }
 
-        if($enfriadoMatrazFq->count()){
+        if ($enfriadoMatrazFq->count()) {
             $enfriadoMatraz = EnfriadoMatraz::where('Id_lote', $request->idLote)->first();
             array_push($dataGrasas, $enfriadoMatraz);
-        }else{
+        } else {
             array_push($dataGrasas, null);
         }
 
@@ -268,7 +266,7 @@ class VolController extends Controller
         $pruebaPresuntivaFq = DB::table('prueba_presuntiva_fq')->where('Id_lote', $request->idLote)->get();
         $pruebaConfirmativaFq = DB::table('prueba_confirmativa_fq')->where('Id_lote', $request->idLote)->get();
 
-        if($sembradoFq->count() && $pruebaPresuntivaFq->count() && $pruebaConfirmativaFq->count()){
+        if ($sembradoFq->count() && $pruebaPresuntivaFq->count() && $pruebaConfirmativaFq->count()) {
             $sembradoFq = SembradoFq::where('Id_lote', $request->idLote)->first(); //Array 0
             $pruebaPresunFq = PruebaPresuntivaFq::where('Id_lote', $request->idLote)->first(); //Array 1
             $pruebaConfirFq = PruebaConfirmativaFq::where('Id_lote', $request->idLote)->first(); //Array 2
@@ -279,15 +277,17 @@ class VolController extends Controller
                 $pruebaPresunFq,
                 $pruebaConfirFq
             );
-
-        }else{
+        } else {
             array_push(
-                $dataColi, null, null, null
+                $dataColi,
+                null,
+                null,
+                null
             );
         }
         //-------------------------------------
 
-        /* Módulo DQO */                
+        /* Módulo DQO */
         $dqoModel = DB::table('dqo_fq')->where('Id_lote', $request->idLote)->get();
 
         if ($dqoModel->count()) {
@@ -347,96 +347,96 @@ class VolController extends Controller
                 $model = LoteDetalleNitrogeno::find($request->idDetalle);
                 $model->Observacion = $request->observacion;
                 $model->save();
-                break;  
+                break;
             default:
                 # code...
                 break;
         }
-      
+
 
         $data = array(
             'model' => $model,
         );
         return response()->json($data);
-
     }
-  
 
-    public function getPlantillaPred(Request $request){
+
+    public function getPlantillaPred(Request $request)
+    {
         $bandera = '';
 
         //Obtiene el parámetro que se está consultando
         $parametro = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->first();
 
-        if(is_null($parametro)){
+        if (is_null($parametro)) {
             $parametro = DB::table('ViewLoteDetalleGA')->where('Id_lote', $request->idLote)->first();
 
-            if(!is_null($parametro)){
+            if (!is_null($parametro)) {
                 $bandera = 'ga';
-            }            
-        }else{
+            }
+        } else {
             $bandera = 'espectro';
         }
-        
-        if($bandera === 'espectro'){
-            if($parametro->Parametro == 'N-Nitritos'){
+
+        if ($bandera === 'espectro') {
+            if ($parametro->Parametro == 'N-Nitritos') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 1)->first();
-            }else if($parametro->Parametro == 'N-Nitratos'){
+            } else if ($parametro->Parametro == 'N-Nitratos') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 2)->first();
-            }else if($parametro->Parametro == 'BORO (B)'){
+            } else if ($parametro->Parametro == 'BORO (B)') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 3)->first();
-            }else if($parametro->Parametro == 'Cianuros (CN)-'){
+            } else if ($parametro->Parametro == 'Cianuros (CN)-') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 4)->first();
-            }else if($parametro->Parametro == 'Conductividad'){ //POR VERIFICAR EN LA TABLA DE PARAMETROS
+            } else if ($parametro->Parametro == 'Conductividad') { //POR VERIFICAR EN LA TABLA DE PARAMETROS
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 5)->first();
-            }else if($parametro->Parametro == 'CROMO HEXAVALENTE (Cr+6)'){
+            } else if ($parametro->Parametro == 'CROMO HEXAVALENTE (Cr+6)') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 6)->first();
-            }else if($parametro->Parametro == 'Fosforo-Total'){
+            } else if ($parametro->Parametro == 'Fosforo-Total') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 7)->first();
-            }else if($parametro->Parametro == 'Materia Flotante'){ //POR VERIFICAR EN LA TABLA DE PARAMETROS
+            } else if ($parametro->Parametro == 'Materia Flotante') { //POR VERIFICAR EN LA TABLA DE PARAMETROS
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 8)->first();
-            }else if($parametro->Parametro == 'SILICE (SiO₂)'){
+            } else if ($parametro->Parametro == 'SILICE (SiO₂)') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 9)->first();
-            }else if($parametro->Parametro == 'FENOLES TOTALES'){
+            } else if ($parametro->Parametro == 'FENOLES TOTALES') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 10)->first();
-            }else if($parametro->Parametro == 'FLUORUROS (F¯)'){
+            } else if ($parametro->Parametro == 'FLUORUROS (F¯)') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 11)->first();
-            }else if($parametro->Parametro == 'SUSTANCIAS ACTIVAS AL AZUL DE METILENO (SAAM )'){
+            } else if ($parametro->Parametro == 'SUSTANCIAS ACTIVAS AL AZUL DE METILENO (SAAM )') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 12)->first();
-            }else if($parametro->Parametro == 'SULFATOS (SO4˭)'){
+            } else if ($parametro->Parametro == 'SULFATOS (SO4˭)') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 13)->first();
-            }else{
+            } else {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 0)->first();
-            } 
-        }else if($bandera === 'ga'){
-            if($parametro->Parametro == 'Grasas y Aceites ++'){
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 0)->first();                
-            }else if($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)'){
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 14)->first();                
-            }else if($parametro->Parametro == 'SOLIDOS DISUELTOS TOTALES (SDT)'){
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 15)->first();                
-            }else if($parametro->Parametro == 'SOLIDOS DISUELTOS VOLÁTILES (SDV)'){
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 16)->first();                
-            }else if($parametro->Parametro == 'SOLIDOS SEDIMENTABLES (S.S)'){
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 17)->first();                
-            }else if($parametro->Parametro == 'SOLIDOS SUSPENDIDOS FIJOS (SSF)'){
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 18)->first();                
-            }else if($parametro->Parametro == 'SOLIDOS SUSPENDIDOS TOTALES (SST)'){
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 19)->first();                
-            }else if($parametro->Parametro == 'SOLIDOS SUSPENDIDOS VOLÁTILES (SSV)'){
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 20)->first();                
-            }else if($parametro->Parametro == 'SOLIDOS TOTALES (ST)'){
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 21)->first();                
-            }else if($parametro->Parametro == 'SOLIDOS TOTALES FIJOS (STF)'){
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 22)->first();                
-            }else if($parametro->Parametro == 'SOLIDOS TOTALES VOLATILES (STV)'){
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 23)->first();                
             }
-        }           
-        
-        if(!is_null($plantillaPredeterminada)){
+        } else if ($bandera === 'ga') {
+            if ($parametro->Parametro == 'Grasas y Aceites ++') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 0)->first();
+            } else if ($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 14)->first();
+            } else if ($parametro->Parametro == 'SOLIDOS DISUELTOS TOTALES (SDT)') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 15)->first();
+            } else if ($parametro->Parametro == 'SOLIDOS DISUELTOS VOLÁTILES (SDV)') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 16)->first();
+            } else if ($parametro->Parametro == 'SOLIDOS SEDIMENTABLES (S.S)') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 17)->first();
+            } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS FIJOS (SSF)') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 18)->first();
+            } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS TOTALES (SST)') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 19)->first();
+            } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS VOLÁTILES (SSV)') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 20)->first();
+            } else if ($parametro->Parametro == 'SOLIDOS TOTALES (ST)') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 21)->first();
+            } else if ($parametro->Parametro == 'SOLIDOS TOTALES FIJOS (STF)') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 22)->first();
+            } else if ($parametro->Parametro == 'SOLIDOS TOTALES VOLATILES (STV)') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 23)->first();
+            }
+        }
+
+        if (!is_null($plantillaPredeterminada)) {
             return response()->json($plantillaPredeterminada);
-        }        
+        }
     }
 
     public function asignar()
@@ -456,7 +456,7 @@ class VolController extends Controller
         $lote = LoteAnalisis::find($request->idLote);
         $model = DB::table('ViewCodigoParametro')
             ->where('Id_parametro', $lote->Id_tecnica)
-            ->where('Asignado', '!=', 1)  
+            ->where('Asignado', '!=', 1)
             ->get();
         $data = array(
             'model' => $model,
@@ -489,17 +489,17 @@ class VolController extends Controller
     //! Eliminar parametro muestra
     public function delMuestraLote(Request $request)
     {
-        $loteModel = LoteAnalisis::where('Id_lote',$request->idLote)->first();
+        $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         switch ($loteModel->Id_tecnica) {
             case 9: //todo Espectrofotometria
-                $detModel = DB::table('lote_detalle_espectro')->where('Id_detalle',$request->idDetalle)->delete();
-                $detModel = LoteDetalleEspectro::where('Id_lote',$request->idLote)->get();
+                $detModel = DB::table('lote_detalle_espectro')->where('Id_detalle', $request->idDetalle)->delete();
+                $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
                 break;
             case 10: //todo Gravimetia
-                    # code...
+                # code...
                 break;
             case 15: //todo Volumetria
-                        # code...
+                # code...
                 break;
             default:
                 # code...
@@ -512,8 +512,8 @@ class VolController extends Controller
         $loteModel->Liberado = 0;
         $loteModel->save();
 
- 
-        $solModel = SolicitudParametro::where('Id_solicitud',$request->idSol)->where('Id_subnorma',$request->idParametro)->first();
+
+        $solModel = SolicitudParametro::where('Id_solicitud', $request->idSol)->where('Id_subnorma', $request->idParametro)->first();
         $solModel->Asignado = 0;
         $solModel->save();
         $solModel = SolicitudParametro::find($request->idSol);
@@ -531,15 +531,15 @@ class VolController extends Controller
         $detalle->Liberado = 1;
         $detalle->save();
 
-        $detalleModel = LoteDetalle::where('Id_lote',$detalle->Id_lote)->where('Liberado',1)->get();
- 
+        $detalleModel = LoteDetalle::where('Id_lote', $detalle->Id_lote)->where('Liberado', 1)->get();
+
         $lote = LoteAnalisis::find($detalle->Id_lote);
         $lote->Liberado = $detalleModel->count();
         $lote->save();
 
-        $detalleModel = DB::table('ViewLoteDetalle')->where('Id_lote',$detalle->Id_lote)->get();
+        $detalleModel = DB::table('ViewLoteDetalle')->where('Id_lote', $detalle->Id_lote)->get();
 
-        $loteModel = LoteAnalisis::where('Id_lote',$detalle->Id_lote)->first();
+        $loteModel = LoteAnalisis::where('Id_lote', $detalle->Id_lote)->first();
 
 
         $data = array(
@@ -593,17 +593,17 @@ class VolController extends Controller
 
                 break;
         }
-      
+
 
         $solModel = CodigoParametros::find($request->idSol);
         $solModel->Asignado = 1;
         $solModel->save();
-       
+
         $loteModel = LoteAnalisis::find($request->idLote);
         $loteModel->Asignado = $detModel->count();
         $loteModel->Liberado = 0;
         $loteModel->save();
-        
+
         $data = array(
             'sw' => $sw,
             'model' => $model,
@@ -624,7 +624,7 @@ class VolController extends Controller
         if ($lote->count()) {
             $texto = ReportesFq::where('Id_lote', $idLote)->where('Id_area', $request->idArea)->first();
             $texto->Texto = $textoPeticion;
-            $texto->Id_user_m = Auth::user()->id;            
+            $texto->Id_user_m = Auth::user()->id;
 
             $texto->save();
         } else {
@@ -643,14 +643,15 @@ class VolController extends Controller
     }
 
     //*************************************GUARDA LOS DATOS DE LA VENTANA MODAL EN MÓDULO LOTE, PESTAÑA EQUIPO************* */
-    public function guardarDatos(Request $request){
+    public function guardarDatos(Request $request)
+    {
 
         //****************************************************GRASAS*****************************************************************        
         //calentamiento_matraces
         $calentamientoFqModel = CalentamientoMatraz::where('Id_lote', $request->idLote)->get();
 
-        if($calentamientoFqModel->count()){
-            for($i = 0; $i < 3; $i++){
+        if ($calentamientoFqModel->count()) {
+            for ($i = 0; $i < 3; $i++) {
                 $calentamientoMatraz = CalentamientoMatraz::find($calentamientoFqModel[$i]->Id_calentamiento);
 
                 $calentamientoMatraz->Id_lote = $request->grasas_calentamiento[$i][0];
@@ -662,7 +663,7 @@ class VolController extends Controller
 
                 $calentamientoMatraz->save();
             }
-        }else{
+        } else {
             for ($i = 0; $i < 3; $i++) {
                 CalentamientoMatraz::create([
                     'Id_lote' => $request->grasas_calentamiento[$i][0],
@@ -673,14 +674,14 @@ class VolController extends Controller
                     'Id_user_c' => Auth::user()->id,
                     'Id_user_m' => Auth::user()->id
                 ]);
-            }                    
+            }
         }
 
         //enfriado_matraces
         $enfriadoFqModel = EnfriadoMatraces::where('Id_lote', $request->idLote)->get();
 
-        if($enfriadoFqModel->count()){
-            for($i = 0; $i < 3; $i++){
+        if ($enfriadoFqModel->count()) {
+            for ($i = 0; $i < 3; $i++) {
                 $enfriadoMatraz = EnfriadoMatraces::find($enfriadoFqModel[$i]->Id_enfriado);
                 $enfriadoMatraz->Id_lote = $request->grasas_enfriado[$i][0];
                 $enfriadoMatraz->Masa_constante = $request->grasas_enfriado[$i][1];
@@ -690,9 +691,9 @@ class VolController extends Controller
                 $enfriadoMatraz->Id_user_m = Auth::user()->id;
 
                 $enfriadoMatraz->save();
-            }            
-        }else{
-            for ($i = 0; $i < 3; $i++) {                
+            }
+        } else {
+            for ($i = 0; $i < 3; $i++) {
                 EnfriadoMatraces::create([
                     'Id_lote' => $request->grasas_enfriado[$i][0],
                     'Masa_constante' => $request->grasas_enfriado[$i][1],
@@ -704,11 +705,11 @@ class VolController extends Controller
                 ]);
             }
         }
-        
+
         //secado_cartuchos
         $secadoFqModel = SecadoCartucho::where('Id_lote', $request->idLote)->get();
 
-        if($secadoFqModel->count()){
+        if ($secadoFqModel->count()) {
             $secadoCartucho = SecadoCartucho::find($secadoFqModel[0]->Id_secado);
             $secadoCartucho->Id_lote = $request->grasas_secadoLote;
             $secadoCartucho->Temperatura = $request->grasas_secadoTemp;
@@ -717,7 +718,7 @@ class VolController extends Controller
             $secadoCartucho->Id_user_m = Auth::user()->id;
 
             $secadoCartucho->save();
-        }else{
+        } else {
             SecadoCartucho::create([
                 'Id_lote' => $request->grasas_secadoLote,
                 'Temperatura' => $request->grasas_secadoTemp,
@@ -730,8 +731,8 @@ class VolController extends Controller
 
         //tiempo_reflujo
         $tiempoFqModel = TiempoReflujo::where('Id_lote', $request->idLote)->get();
-        
-        if($tiempoFqModel->count()){
+
+        if ($tiempoFqModel->count()) {
             $tiempoReflujo = TiempoReflujo::find($tiempoFqModel[0]->Id_tiempo);
             $tiempoReflujo->Id_lote = $request->grasas_tiempoLote;
             $tiempoReflujo->Entrada = $request->grasas_tiempoEntrada;
@@ -739,7 +740,7 @@ class VolController extends Controller
             $tiempoReflujo->Id_user_m = Auth::user()->id;
 
             $tiempoReflujo->save();
-        }else{
+        } else {
             TiempoReflujo::create([
                 'Id_lote' => $request->grasas_tiempoLote,
                 'Entrada' => $request->grasas_tiempoEntrada,
@@ -752,7 +753,7 @@ class VolController extends Controller
         //enfriado_matraz
         $enfriadoFqModel = EnfriadoMatraz::where('Id_lote', $request->idLote)->get();
 
-        if($enfriadoFqModel->count()){
+        if ($enfriadoFqModel->count()) {
             $enfriadoMatraz2 = EnfriadoMatraz::find($enfriadoFqModel[0]->Id_enfriado);
             $enfriadoMatraz2->Id_lote = $request->grasas_enfriadoLote;
             $enfriadoMatraz2->Entrada = $request->grasas_enfriadoEntrada;
@@ -760,7 +761,7 @@ class VolController extends Controller
             $enfriadoMatraz2->Id_user_m = Auth::user()->id;
 
             $enfriadoMatraz2->save();
-        }else{
+        } else {
             EnfriadoMatraz::create([
                 'Id_lote' => $request->grasas_enfriadoLote,
                 'Entrada' => $request->grasas_enfriadoEntrada,
@@ -782,7 +783,7 @@ class VolController extends Controller
             $sembradoFq->Fecha_resiembra = $request->sembrado_fechaResiembra;
             $sembradoFq->Tubo_n = $request->sembrado_tuboN;
             $sembradoFq->Bitacora = $request->sembrado_bitacora;
-            $sembradoFq->Id_user_m = Auth::user()->id;            
+            $sembradoFq->Id_user_m = Auth::user()->id;
 
             $sembradoFq->save();
         } else {
@@ -813,7 +814,7 @@ class VolController extends Controller
                 'Preparacion' => $request->pruebaPresuntiva_preparacion,
                 'Lectura' => $request->pruebaPresuntiva_lectura,
                 'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id,                  
+                'Id_user_m' => Auth::user()->id,
             ]);
         }
 
@@ -838,7 +839,7 @@ class VolController extends Controller
                 'Id_user_c' => Auth::user()->id,
                 'Id_user_m' => Auth::user()->id,
             ]);
-        }        
+        }
 
         //************************************DQO********************************
         $dqoModel = DqoFq::where('Id_lote', $request->idLote)->get();
@@ -859,13 +860,13 @@ class VolController extends Controller
                 'Fin' => $request->ebullicion_fin,
                 'Invlab' => $request->ebullicion_invlab,
                 'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id,                    
+                'Id_user_m' => Auth::user()->id,
             ]);
-        }        
+        }
 
         //*******************************************************************************************************
         return response()->json(
-            compact('sembradoFqModel', 'pruebaPresuntivaModel','pruebaConfirmativaModel', 'dqoModel')
+            compact('sembradoFqModel', 'pruebaPresuntivaModel', 'pruebaConfirmativaModel', 'dqoModel')
         );
     }
 
@@ -880,7 +881,7 @@ class VolController extends Controller
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro); 
         $controlModel = ControlCalidad::all();
-        return view('laboratorio.fq.capturaVolumetria', compact('parametro','controlModel')); 
+        return view('laboratorio.fq.capturaVolumetria', compact('parametro', 'controlModel'));
     }
     public function operacionVolumetriaNitrogeno(Request $request)
     {
@@ -889,64 +890,61 @@ class VolController extends Controller
         $res3 = $res2 * $request->D;
         $res4 = $res3 * $request->E;
         $res = $res4 / $request->G;
-        
+
         $data = array(
-           
-            'res' => $res ,
-            
+
+            'res' => $res,
+
         );
         return response()->json($data);
-
     }
     public function operacionVolumetriaCloro(Request $request)
     {
         $res1 = $request->A - $request->B;
-        $res2 = $res1 * $request->C; 
+        $res2 = $res1 * $request->C;
         $res3 = $res2 * $request->D;
         $res = $res3 / $request->E;
-        
+
         $data = array(
-           
+
             'res' => $res,
-            
+
         );
         return response()->json($data);
     }
     public function operacionVolumetriaDqo(Request $request)
     {
-  
-                $res1 = ($request->CA - $request->B);
-                $res2 = ($res1 * $request->C); 
-                $res3 = ($res2 * $request->D);
-                $res = ($res3 / $request->E);
+
+        $res1 = ($request->CA - $request->B);
+        $res2 = ($res1 * $request->C);
+        $res3 = ($res2 * $request->D);
+        $res = ($res3 / $request->E);
 
         $data = array(
             'res' => $res
         );
         return response()->json($data);
-    
     }
     public function guardarDqo(Request $request)
     {
-  
+
         $model = LoteDetalleDqo::find($request->idDetalle);
         $model->Titulo_muestra = $request->B;
         $model->Molaridad = $request->C;
         $model->Titulo_blanco = $request->CA;
         $model->Equivalencia = $request->D;
         $model->Vol_muestra = $request->E;
-        $model->Resultado = $request->resultado;  
+        $model->Resultado = $request->resultado;
         $model->save();
 
         $data = array(
             'model' => $model,
         );
         return response()->json($data);
-    
     }
     public function guardarNitrogeno(Request $request)
     {
-  
+
         $model = LoteDetalleNitrogeno::find($request->idDetalle);
         $model->Titulado_muestra = $request->A;
         $model->Titulado_blanco = $request->B;
@@ -954,14 +952,13 @@ class VolController extends Controller
         $model->Factor_equivalencia = $request->D;
         $model->Factor_conversion = $request->E;
         $model->Vol_muestra = $request->G;
-        $model->Resultado = $request->resultado;  
+        $model->Resultado = $request->resultado;
         $model->save();
 
         $data = array(
             'model' => $model,
         );
         return response()->json($data);
-    
     }
     public function guardarCloro(Request $request)
     {
@@ -975,13 +972,12 @@ class VolController extends Controller
         $model->Ph_final = $request->H;
         $model->Factor_conversion = $request->D;
         $model->Resultado = $request->Resultado;
-        $model->save();         
+        $model->save();
 
         $data = array(
             'model' => $model,
         );
-        return response()->json($data); 
-
+        return response()->json($data);
     }
 
     public function createControlCalidadVol(Request $request)
@@ -1010,7 +1006,7 @@ class VolController extends Controller
                 # code...
                 break;
         }
-        
+
         $model->save();
 
         $data = array(
@@ -1037,10 +1033,10 @@ class VolController extends Controller
             case 295: //todo CLORO RESIDUAL LIBRE 
                 $detalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
                 break;
-                case 12: //todo DQO
-                    $detalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
-                    break;
-            default: 
+            case 12: //todo DQO
+                $detalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+                break;
+            default:
                 # code...
                 break;
         }
@@ -1054,15 +1050,15 @@ class VolController extends Controller
         switch ($request->caso) {
             case 1: //todo Cloro
                 $model = DB::table('ViewLoteDetalleCloro')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
-                $valoracion = ValoracionCloro::where('Id_lote',$model->Id_lote)->first(); 
+                $valoracion = ValoracionCloro::where('Id_lote', $model->Id_lote)->first();
                 break;
             case 2: //todo DQO
                 $model = DB::table("ViewLoteDetalleDqo")->where('Id_detalle', $request->idDetalle)->first();
-                $valoracion = ValoracionDqo::where('Id_lote',$model->Id_lote)->first(); 
+                $valoracion = ValoracionDqo::where('Id_lote', $model->Id_lote)->first();
                 break;
             case 3: //todo  Nitrogeno
                 $model = DB::table("ViewLoteDetalleNitrogeno")->where('Id_detalle', $request->idDetalle)->first();
-                $valoracion = ValoracionNitrogeno::where('Id_lote',$model->Id_lote)->first(); 
+                $valoracion = ValoracionNitrogeno::where('Id_lote', $model->Id_lote)->first();
                 break;
             default:
                 # code...
@@ -1075,545 +1071,596 @@ class VolController extends Controller
         );
         return response()->json($data);
     }
-    
+    public function liberarMuestraVol(Request $request)
+    {
+        $sw = false;
+        
+        
+        switch ($request->formulaTipo) {
+            case 295: //todo Cloro
+                $$model = LoteDetalleCloro::find($request->idMuestra);
+                $model->Liberado = 1;
+                if ($model->Resultado != null) {
+                    $sw = true;
+                    $model->save();
+                }
+
+                $model = LoteDetalleCloro::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
+                break;
+            case 7: //todo DQO
+                $model = LoteDetalleDqo::find($request->idMuestra);
+                $model->Liberado = 1;
+                if ($model->Resultado != null) {
+                    $sw = true;
+                    $model->save();
+                }
+
+                $model = LoteDetalleDqo::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
+                break;
+            case 12: //todo  Nitrogeno
+                $model = LoteDetalleNitrogeno::find($request->idMuestra);
+                $model->Liberado = 1;
+                if ($model->Resultado != null) {
+                    $sw = true;
+                    $model->save();
+                }
+
+                $model = LoteDetalleNitrogeno::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        $loteModel = LoteAnalisis::find($request->idLote);
+        $loteModel->Liberado = $model->count();
+        $loteModel->save();
+
+
+        $data = array(
+            'model' => $model,
+            'sw' => $sw,
+        );
+        return response()->json($data);
+    }
     //todo *******************************************
     //todo Fin Seccion de Volumetria
     //todo *******************************************     
-         
-     public function exportPdfCapturaVolumetria($idLote)
-     {          
+
+    public function exportPdfCapturaVolumetria($idLote)
+    {
         $sw = true;
         $proced = false;
- 
-          //Opciones del documento PDF
-          $mpdf = new \Mpdf\Mpdf([
-              'orientation' => 'P',
-              'format' => 'letter',
-              'margin_left' => 10,
-              'margin_right' => 10,
-              'margin_top' => 31,
-              'margin_bottom' => 45,
-              'defaultheaderfontstyle' => ['normal'],
-              'defaultheaderline' => '0'
-          ]);
-  
+
+        //Opciones del documento PDF
+        $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'P',
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 31,
+            'margin_bottom' => 45,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+
         //Establece la marca de agua del documento PDF
-        $mpdf->SetWatermarkImage( 
+        $mpdf->SetWatermarkImage(
             asset('/public/storage/MembreteVertical.png'),
             1,
             array(215, 280),
             array(0, 0),
-        ); 
-  
-        $mpdf->showWatermarkImage = true;         
- 
+        );
+
+        $mpdf->showWatermarkImage = true;
+
         $id_lote = $idLote;
         $semaforo = true;
-  
-          //Recupera el nombre de usuario y firma
-          $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
-          $firma = $usuario->firma;
-  
-          //Formatea la fecha
-          $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
-          if(!is_null($fechaAnalisis)){
-              $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
-          }else{
-              $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
-              $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
-              echo '<script> alert("Valores predeterminados para la fecha de análisis. Rellena este campo.") </script>';
-          }   
-          
+
+        //Recupera el nombre de usuario y firma
+        $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
+        $firma = $usuario->firma;
+
+        //Formatea la fecha
+        $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
+        if (!is_null($fechaAnalisis)) {
+            $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
+        } else {
+            $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
+            $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
+            echo '<script> alert("Valores predeterminados para la fecha de análisis. Rellena este campo.") </script>';
+        }
+
         //Recupera el parámetro que se está utilizando
         $parametro = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $id_lote)->first();
-        if(is_null($parametro)){
-            $parametro = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->first();            
-            if(is_null($parametro)){
+        if (is_null($parametro)) {
+            $parametro = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->first();
+            if (is_null($parametro)) {
                 $parametro = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->first();
             }
         }
-  
-         //Recupera el texto dinámico Procedimientos de la tabla reportes****************************************************
-         $textProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
-         if(!is_null($textProcedimiento)){
+
+        //Recupera el texto dinámico Procedimientos de la tabla reportes****************************************************
+        $textProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
+        if (!is_null($textProcedimiento)) {
             //Hoja1    
-            $proced = true;        
-            if($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))'){
+            $proced = true;
+            if ($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))') {
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                                             
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
+                } else {
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            }else if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)'){                
+            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') {
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                                             
-                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();        
-                    
+
+                if (!is_null($data)) {
+                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
+
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
+                } else {
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-             }else if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)'){                
+            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                                             
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoB.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
+                } else {
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            }else if($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE (DQO)'){
+            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE (DQO)') {
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                                             
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoSoluble.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
+                } else {
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            }else if($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)'){
+            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') {
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                                             
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoSolubleAlta.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
+                } else {
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            }else if($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)'){
+            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                                             
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoSolubleBaja.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
+                } else {
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            }else if($parametro->Parametro == 'Nitrógeno Total *'){                 
+            } else if ($parametro->Parametro == 'Nitrógeno Total *') {
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
 
-                if(!is_null($data)){                                             
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
+                } else {
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            }else if($parametro->Parametro == 'Nitrógeno Amoniacal'){                 
-                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
- 
-                 if(!is_null($data)){                                              
-                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();               
+            } else if ($parametro->Parametro == 'Nitrógeno Amoniacal') {
+                $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
 
-                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                 }else{
-                     $sw = false;
-                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
-                 }
-             }else if($parametro->Parametro == 'Nitrógeno Orgánico'){ //POR REVISAR EN LA TABLA DE DATOS                                  
-                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
+                if (!is_null($data)) {
+                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
-                 if(!is_null($data)){                                             
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                } else {
+                    $sw = false;
+                    $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
+                }
+            } else if ($parametro->Parametro == 'Nitrógeno Orgánico') { //POR REVISAR EN LA TABLA DE DATOS                                  
+                $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
+                } else {
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            }else if($parametro->Parametro == 'CLORO RESIDUAL LIBRE'){
+            } else if ($parametro->Parametro == 'CLORO RESIDUAL LIBRE') {
                 $data = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $id_lote)->get();
 
-                if(!is_null($data)){
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $id_lote)->count();
-                                     
+
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.cloroR.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
+                } else {
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
             }
-         }else{   //---------------                     
-            if($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))'){
+        } else {   //---------------                     
+            if ($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))') {
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                    
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
                     $textProcedimiento = ReportesFq::where('Id_reporte', 29)->first();
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                    
+
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
-                    $sw = false;
-                    $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
-                }                
-            }else if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)'){                
-                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                    
-                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
-
-                    $textProcedimiento = ReportesFq::where('Id_reporte', 25)->first();                    
-                    $separador = "Valoración";
-                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
-                    $sw = false;
-                    $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
-                }                  
-             }else if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)'){                
-                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                    
-                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
-                    
-                    $textProcedimiento = ReportesFq::where('Id_reporte', 26)->first();                    
-                    $separador = "Valoración";
-                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoB.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
+                } else {
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-             }else if($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE (DQO)'){
+            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') {
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                    
-                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
-                    $textProcedimiento = ReportesFq::where('Id_reporte', 29)->first();
-                    $separador = "Valoración";
-                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                    
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoSoluble.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
-                    $sw = false;
-                    $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
-                }
-             }else if($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)'){
-                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                    
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
                     $textProcedimiento = ReportesFq::where('Id_reporte', 25)->first();
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                    
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoSolubleAlta.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
+
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                } else {
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-             }else if($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)'){
+            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                    
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
                     $textProcedimiento = ReportesFq::where('Id_reporte', 26)->first();
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                    
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoSolubleBaja.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
+
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoB.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                } else {
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            }else if($parametro->Parametro == 'Nitrógeno Total *'){
+            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE (DQO)') {
+                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
+
+                if (!is_null($data)) {
+                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
+
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 29)->first();
+                    $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoSoluble.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                } else {
+                    $sw = false;
+                    $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
+                }
+            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') {
+                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
+
+                if (!is_null($data)) {
+                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
+
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 25)->first();
+                    $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoSolubleAlta.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                } else {
+                    $sw = false;
+                    $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
+                }
+            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
+                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
+
+                if (!is_null($data)) {
+                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
+
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 26)->first();
+                    $separador = "Valoración";
+                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoSolubleBaja.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                } else {
+                    $sw = false;
+                    $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
+                }
+            } else if ($parametro->Parametro == 'Nitrógeno Total *') {
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
 
-                if(!is_null($data)){                    
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
-                    
+
                     $textProcedimiento = ReportesFq::where('Id_reporte', 30)->first();
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
+                } else {
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
-                }                                
-            }else if($parametro->Parametro == 'Nitrógeno Amoniacal'){                 
-                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
- 
-                 if(!is_null($data)){                     
-                     $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
-
-                     $textoProcedimiento = ReportesFq::where('Id_reporte', 27)->first();
-
-                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                 }else{
-                     $sw = false;
-                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
-                 }                                
-             }else if($parametro->Parametro == 'Nitrógeno Orgánico'){ //POR REVISAR EN LA TABLA DE DATOS                
+                }
+            } else if ($parametro->Parametro == 'Nitrógeno Amoniacal') {
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                                       
+
+                if (!is_null($data)) {
+                    $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
+
+                    $textoProcedimiento = ReportesFq::where('Id_reporte', 27)->first();
+
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                } else {
+                    $sw = false;
+                    $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
+                }
+            } else if ($parametro->Parametro == 'Nitrógeno Orgánico') { //POR REVISAR EN LA TABLA DE DATOS                
+                $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 28)->first();
 
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'curva'));
-                }else{
+                } else {
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            }else if($parametro->Parametro == 'CLORO RESIDUAL LIBRE'){
+            } else if ($parametro->Parametro == 'CLORO RESIDUAL LIBRE') {
                 $data = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $id_lote)->get();
 
-                if(!is_null($data)){
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $id_lote)->count();
-                    
-                    $textProcedimiento = ReportesFq::where('Id_reporte', 24)->first();                                     
+
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 24)->first();
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                    
+
                     $htmlCaptura = view('exports.laboratorio.fq.volumetria.cloroR.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
-                }else{
+                } else {
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
             }
-         }   
- 
+        }
+
         //HEADER-FOOTER******************************************************************************************************************         
-        if($sw === true){                    
-            if($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))'){                
+        if ($sw === true) {
+            if ($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))') {
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqo.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.fq.volumetria.dqo.capturaFooter', compact('usuario', 'firma'));                
-            }else if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)'){
+                $htmlFooter = view('exports.laboratorio.fq.volumetria.dqo.capturaFooter', compact('usuario', 'firma'));
+            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') {
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoA.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoA.capturaFooter', compact('usuario', 'firma'));
-            }else if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)'){
+            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoB.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoB.capturaFooter', compact('usuario', 'firma'));
-            }else if($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE (DQO)'){                
+            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE (DQO)') {
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoSoluble.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoSoluble.capturaFooter', compact('usuario', 'firma'));                
-            }else if($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)'){                
+                $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoSoluble.capturaFooter', compact('usuario', 'firma'));
+            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') {
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoSolubleAlta.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoSolubleAlta.capturaFooter', compact('usuario', 'firma'));                
-            }else if($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)'){                
+                $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoSolubleAlta.capturaFooter', compact('usuario', 'firma'));
+            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoSolubleBaja.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoSolubleBaja.capturaFooter', compact('usuario', 'firma'));                
-            }else if($parametro->Parametro == 'Nitrógeno Amoniacal'){
+                $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoSolubleBaja.capturaFooter', compact('usuario', 'firma'));
+            } else if ($parametro->Parametro == 'Nitrógeno Amoniacal') {
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaFooter', compact('usuario', 'firma'));
-            }else if($parametro->Parametro == 'Nitrógeno Orgánico'){ //POR REVISAR EN LA TABLA DE DATOS
+            } else if ($parametro->Parametro == 'Nitrógeno Orgánico') { //POR REVISAR EN LA TABLA DE DATOS
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaFooter', compact('usuario', 'firma'));
-            }else if($parametro->Parametro == 'CLORO RESIDUAL LIBRE'){                                
+            } else if ($parametro->Parametro == 'CLORO RESIDUAL LIBRE') {
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.cloroR.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.cloroR.capturaFooter', compact('usuario', 'firma'));
-            }else if($parametro->Parametro == 'Nitrógeno Total *'){
+            } else if ($parametro->Parametro == 'Nitrógeno Total *') {
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaFooter', compact('usuario', 'firma'));
             }
-        }                                  
- 
-        if($sw === true){            
-           $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
-           $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-           $mpdf->WriteHTML($htmlCaptura);
+        }
 
-           //Hoja 2
+        if ($sw === true) {
+            $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
+            $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+            $mpdf->WriteHTML($htmlCaptura);
+
+            //Hoja 2
             $hoja2 = false;
 
-            if($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))'){
+            if ($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))') {
                 //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                    
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
-                    if($proced === true){
+                    if ($proced === true) {
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                     }else{
+                    } else {
                         $textProcedimiento = ReportesFq::where('Id_reporte', 29)->first();
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
                     }
-                    
+
                     $htmlCaptura1 = view('exports.laboratorio.fq.volumetria.dqo.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength'));
                     $htmlHeader = view('exports.laboratorio.fq.volumetria.dqo.capturaHeader', compact('fechaConFormato'));
-                    $htmlFooter = view('exports.laboratorio.fq.volumetria.dqo.capturaFooter', compact('usuario', 'firma'));                    
-                }                              
+                    $htmlFooter = view('exports.laboratorio.fq.volumetria.dqo.capturaFooter', compact('usuario', 'firma'));
+                }
 
-               //$hoja2 = true;
-                
-            }else if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)'){
+                //$hoja2 = true;
+
+            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') {
                 //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                    
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
-                    if($proced === true){
+                    if ($proced === true) {
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                     }else{
+                    } else {
                         $textProcedimiento = ReportesFq::where('Id_reporte', 25)->first();
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
                     }
-                    
+
                     $htmlCaptura1 = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength'));
                     $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoA.capturaHeader', compact('fechaConFormato'));
                     $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoA.capturaFooter', compact('usuario', 'firma'));
-                }                              
+                }
 
-               //$hoja2 = true;
-            }else if($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)'){
+                //$hoja2 = true;
+            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
                 //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                    
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
-                    if($proced === true){
+                    if ($proced === true) {
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                     }else{
+                    } else {
                         $textProcedimiento = ReportesFq::where('Id_reporte', 26)->first();
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
                     }
-                    
+
                     $htmlCaptura1 = view('exports.laboratorio.fq.volumetria.dqoB.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength'));
                     $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoB.capturaHeader', compact('fechaConFormato'));
                     $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoB.capturaFooter', compact('usuario', 'firma'));
-                }                              
+                }
 
-               //$hoja2 = true;
-            }else if($parametro->Parametro == 'Nitrógeno Total *'){
+                //$hoja2 = true;
+            } else if ($parametro->Parametro == 'Nitrógeno Total *') {
                 //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                    
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
-                    if($proced === true){
+                    if ($proced === true) {
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                     }else{
+                    } else {
                         $textProcedimiento = ReportesFq::where('Id_reporte', 30)->first();
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
                     }
-                    
+
                     $htmlCaptura1 = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength'));
                     $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaHeader', compact('fechaConFormato'));
                     $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaFooter', compact('usuario', 'firma'));
-                }                              
+                }
 
-               //$hoja2 = true;
-            }else if($parametro->Parametro == 'Nitrógeno Amoniacal'){
+                //$hoja2 = true;
+            } else if ($parametro->Parametro == 'Nitrógeno Amoniacal') {
                 //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                    
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
-                    if($proced === true){
+                    if ($proced === true) {
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                     }else{
+                    } else {
                         $textProcedimiento = ReportesFq::where('Id_reporte', 27)->first();
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
                     }
-                    
+
                     $htmlCaptura1 = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength'));
                     $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaHeader', compact('fechaConFormato'));
                     $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaFooter', compact('usuario', 'firma'));
-                }                              
+                }
 
-               //$hoja2 = true;
-            }else if($parametro->Parametro == 'Nitrógeno Orgánico'){
+                //$hoja2 = true;
+            } else if ($parametro->Parametro == 'Nitrógeno Orgánico') {
                 //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
- 
-                if(!is_null($data)){                    
+
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
-                    if($proced === true){
+                    if ($proced === true) {
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                     }else{
+                    } else {
                         $textProcedimiento = ReportesFq::where('Id_reporte', 27)->first();
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
                     }
-                    
+
                     $htmlCaptura1 = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength'));
                     $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaHeader', compact('fechaConFormato'));
                     $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaFooter', compact('usuario', 'firma'));
-                }                              
+                }
 
-               //$hoja2 = true;
-            }            
+                //$hoja2 = true;
+            }
 
             /* if($hoja2 === true){
                 $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlHeader, 'O', 'E');
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $mpdf->WriteHTML($htmlCaptura1);
             } */
-        }        
-  
-        if($sw === true){            
-           $mpdf->CSSselectMedia = 'mpdf';
-           $mpdf->Output();
-        }        
-     }
+        }
+
+        if ($sw === true) {
+            $mpdf->CSSselectMedia = 'mpdf';
+            $mpdf->Output();
+        }
+    }
 }

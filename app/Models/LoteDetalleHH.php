@@ -16,6 +16,7 @@ class LoteDetalleHH extends Model
     protected $fillable = [
         'Id_lote',
         'Id_analisis',
+        'Id_codigo',
         'Id_parametro',
         'Id_control',
         'A_alumbricoides',
@@ -26,5 +27,6 @@ class LoteDetalleHH extends Model
         'Vol_muestra',
         'Resultado',
         'Observacion'
+        'Liberado'
     ];
 }

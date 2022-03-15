@@ -17,6 +17,7 @@ use App\Models\estandares;
 use App\Models\TecnicaLoteMetales; 
 use App\Models\BlancoCurvaMetales;
 use App\Models\CalentamientoMatraz;
+use App\Models\CodigoParametros;
 use App\Models\ControlCalidad;
 use App\Models\CurvaCalibracionMet;
 use App\Models\VerificacionMetales;
@@ -635,9 +636,9 @@ class MbController extends Controller
     public function muestraSinAsignar(Request $request)
     { 
         $lote = LoteAnalisis::find($request->idLote);
-        $model = DB::table('ViewSolicitudParametros')
+        $model = DB::table('ViewCodigoParametro')
             ->where('Id_parametro', $lote->Id_tecnica)
-            ->where('Asignado', '!=', 1)
+            ->where('Asignado', '!=', 1)  
             ->get();
         $data = array(
             'model' => $model,
@@ -724,6 +725,7 @@ class MbController extends Controller
                 $model = LoteDetalleColiformes::create([
                                 'Id_lote' => $request->idLote,
                                 'Id_analisis' => $request->idAnalisis,
+                                'Id_codigo' => $request->idSol,
                                 'Id_parametro' => $loteModel->Id_tecnica,
                                 'Id_control' => 1,
                             ]);
@@ -734,6 +736,7 @@ class MbController extends Controller
                     $model = LoteDetalleColiformes::create([
                                     'Id_lote' => $request->idLote,
                                     'Id_analisis' => $request->idAnalisis,
+                                    'Id_codigo' => $request->idSol,
                                     'Id_parametro' => $loteModel->Id_tecnica,
                                     'Id_control' => 1,
                                 ]);
@@ -745,6 +748,7 @@ class MbController extends Controller
                     $model = LoteDetalleColiformes::create([
                         'Id_lote' => $request->idLote,
                         'Id_analisis' => $request->idAnalisis,
+                        'Id_codigo' => $request->idSol,
                         'Id_parametro' => $loteModel->Id_tecnica,
                         'Id_control' => 1,
                     ]);
@@ -756,6 +760,7 @@ class MbController extends Controller
                         $model = LoteDetalleDbo::create([
                             'Id_lote' => $request->idLote,
                             'Id_analisis' => $request->idAnalisis,
+                            'Id_codigo' => $request->idSol,
                             'Id_parametro' => $loteModel->Id_tecnica,
                             'Id_control' => 1,
                         ]);
@@ -767,6 +772,7 @@ class MbController extends Controller
                     $model = LoteDetalleHH::create([
                         'Id_lote' => $request->idLote,
                         'Id_analisis' => $request->idAnalisis,
+                        'Id_codigo' => $request->idSol,
                         'Id_parametro' => $loteModel->Id_tecnica,
                         'Id_control' => 1,
                 ]);
@@ -779,10 +785,10 @@ class MbController extends Controller
                 break;
         }
      
-            $solModel = SolicitudParametro::find($request->idSol);
-            $solModel->Asignado = 1;
-            $solModel->save();
- 
+        $solModel = CodigoParametros::find($request->idSol);
+        $solModel->Asignado = 1;
+        $solModel->save();
+
 
             $loteModel = LoteAnalisis::find($request->idLote);
             $loteModel->Asignado = $detModel->count();

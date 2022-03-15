@@ -16,6 +16,7 @@ class LoteDetalleDbo extends Model
     protected $fillable = [
         'Id_lote',
         'Id_analisis',
+        'Id_codigo',
         'Id_parametro',
         'Id_control',
         'Botella_final',
@@ -29,5 +30,6 @@ class LoteDetalleDbo extends Model
         'Vol_botella',
         'Resultado',
         'Observacion',
+        'Liberado'
     ];
 }

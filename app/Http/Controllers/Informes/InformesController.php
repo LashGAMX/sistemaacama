@@ -271,7 +271,7 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$idSol)->first();
         
         $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->get();
-        $paramResultadoLength = $paramResultado->count();
+        $paramResultadoLength = $paramResultado->count();          
                 
         $gaMenorLimite = false;                
 
@@ -292,6 +292,7 @@ class InformesController extends Controller
             $limiteGrasas = $limC;
         }
 
+        //Calcula el promedio ponderado de las grasas y aceites
         if($gaMenorLimite === false){
             $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();        
             $modelParamGrasasLength = $modelParamGrasas->count();
@@ -323,7 +324,7 @@ class InformesController extends Controller
             //Realiza la suma de G (GYA * GASTO)
             for($i = 0; $i < $modelParamGrasasLength; $i++){
                 //Si no tiene un valor guardado lo toma como cero
-                $sumaG += $gaPorGastoArray;
+                $sumaG += $gaPorGastoArray[$i];
             }
 
             //Realiza las operaciones (GYA*GASTO)/SUMA DE G
@@ -339,13 +340,13 @@ class InformesController extends Controller
 
             //Calcula el promedio ponderado de GA
             for($i = 0; $i < $modelParamGrasasLength; $i++){      
-                $promPonderadoGaArray += $gaPorgaGastoDivSumaG[$i];                
+                $promPonderadoGaArray += $gaPorgaGastoDivSumaG[$i];
             }
         }
 
         $promedioPonderadoGA = "";
         if($gaMenorLimite === false){
-            $promedioPonderadoGA = $promPonderadoGaArray;
+            $promedioPonderadoGA = number_format($promPonderadoGaArray, 2);
         }else{
             $promedioPonderadoGA = $limiteGrasas;
         }
@@ -353,15 +354,39 @@ class InformesController extends Controller
         $limiteColiformes = "";
         $limiteColiformes = DB::table('parametros')->where('Id_parametro', 13)->first();                            
         $paramColiformesResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->first();
+        $coliformesMenorLimite = false;
+        $mediaAritmeticaColi = "";
+        $mAritmeticaColi = "";
 
         if ($paramColiformesResultado->Resultado < $limiteColiformes->Limite) {
             $limC = "< " . $limiteColiformes->Limite;
 
             $limiteColiformes = $limC;
+
+            $coliformesMenorLimite = true;
         } else {  //Si es mayor el resultado que el límite de cuantificación
             $limC = $paramColiformesResultado->Resultado;
 
             $limiteColiformes = $limC;
+        }
+
+        //Calcula la media aritmética de los coliformes
+        if($coliformesMenorLimite === false){
+            $modelParamColiformes = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();        
+            $modelParamColiformesLength = $modelParamColiformes->count();
+            $res = 0;
+
+            for($i = 0; $i < $modelParamColiformesLength; $i++){
+                $res += $modelParamColiformes[$i]->Resultado;                
+            }
+
+            $mediaAritmeticaColi = $res / $modelParamColiformesLength;
+        }
+        
+        if($coliformesMenorLimite === false){
+            $mAritmeticaColi = number_format($mediaAritmeticaColi, 2);
+        }else{
+            $mAritmeticaColi = $limiteColiformes;
         }
 
         //Recupera los límites de cuantificación de los parámetros        
@@ -379,16 +404,35 @@ class InformesController extends Controller
             }
         }
 
-        //Recupera todas las areas_lab de momento
-        $areasLab = DB::table('areas_lab')->get();
-        $areasLabLength = $areasLab->count();
+        //Recupera las areas_lab
+        $areasLabArray = array();                        
+
+        foreach($paramResultado as $item){
+            $modelArea = DB::table('ViewEnvaseParametro')->where('Id_parametro', $item->Id_parametro)->first();
+            
+            //LINEA DE PRUEBA PARA AREAS
+            if(!is_null($modelArea)){
+                array_push($areasLabArray, $modelArea->Area);
+            }            
+        }
+
+        $areasLabArraySinDup = array_unique($areasLabArray);
+
+        print_r($areasLabArraySinDup);
+        
+        $areasLabLength = sizeof($areasLabArraySinDup);
+        
         $responsables = array();        
 
-        foreach($areasLab as $item){
-            $modelResponsable = DB::table('users')->where('id', $item->Id_responsable)->first();
-            $responsable = $modelResponsable->name;
+        foreach($areasLabArraySinDup as $item){
+            //INSTRUCCIÓN TEMPORAL
+            if(!is_null($item)){
+                $responsableArea = AreaLab::where('Area', $item)->first();
+                $modelResponsable = DB::table('users')->where('id', $responsableArea->Id_responsable)->first();
+                $responsable = $modelResponsable->name;
 
-            array_push($responsables, $responsable);
+                array_push($responsables, $responsable);
+            }            
         }
 
         $fechaEmision = \Carbon\Carbon::now();
@@ -397,11 +441,11 @@ class InformesController extends Controller
 
         $mpdf->showWatermarkImage = true;
 
-        $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', compact('model', 'tipoMuestra', 'norma', 'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'areasLab', 'areasLabLength', 'responsables', 'promedioPonderadoGA'));
+        $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', compact('model', 'tipoMuestra', 'norma', 'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'areasLabArraySinDup', 'areasLabLength', 'responsables', 'promedioPonderadoGA', 'mAritmeticaColi'));
 
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->Output();
+        //$mpdf->Output();
     }
 }

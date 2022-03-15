@@ -7,12 +7,11 @@ var tecnica = 0;
 $(document).ready(function () {
  
 });
-// $('#btnAplicarObsCloro').click(function (){
-//     updateObsVolumetriaCloro();
-// });
-// $('#btnAplicarObs').click(function (){
-//     updateObsVolumetria();
-// });
+
+$('#btnLiberar').click(function () {
+    // operacion();
+    liberarMuestra();
+});
 
 $('#btnEjecutarDqo').click(function (){
     operacionDqo();
@@ -34,10 +33,7 @@ $('#btnGuardarDqo').click(function () {
 $('#btnGuardarNitro').click(function (){
     guardarNitrogeno();
 });
-$('#btnLiberar').click(function () {
-    // operacion();
-    liberarMuestraMetal();
-});
+
 
 
 function getDataCaptura() {
@@ -124,6 +120,7 @@ function getLoteCapturaVol() {
     let cont = 1;
 
     let status = "";
+    let color = "";
 
     $.ajax({
         type: "POST",
@@ -152,21 +149,23 @@ function getLoteCapturaVol() {
             tab += '    <tbody>';
             $.each(response.detalle, function (key, item) {
                 tab += '<tr>';
-                if (item.Liberado != 0) {
+                if (item.Liberado != 1) {
                     status = "";
-                } else {
+                    color = "success";
+                } else { 
                     status = "disabled";
+                    color = "warning"
                 }
                 switch ($("#formulaTipo").val()) {
                     case '295': // CLORO RESIDUAL LIBRE
                         // tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleVol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';    
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleVol(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleVol(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
                         break;
                     case '7':
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleVol(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDqo">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleVol(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDqo">Capturar</button>';
                         break;
                     case '12':
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleVol(' + item.Id_detalle + ',3);" data-toggle="modal" data-target="#modalNitrogeno">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleVol(' + item.Id_detalle + ',3);" data-toggle="modal" data-target="#modalNitrogeno">Capturar</button>';
                         break;
                     default:
                         // tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleVol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
@@ -461,6 +460,30 @@ function getDetalleVol(idDetalle, caso) {
                     break;
             }
 
+        }
+    });
+}
+function liberarMuestra()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/liberarMuestraVol",
+        data: {
+            idMuestra: idMuestra,
+            idLote:idLote,
+            formulaTipo: $("#formulaTipo").val(), 
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response.sw == true)
+            {
+                getDataCaptura();
+                getLoteCapturaVol();
+            }else{
+                alert("La muestra no se pudo liberar");
+            }
         }
     });
 }

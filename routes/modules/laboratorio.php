@@ -148,6 +148,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('guardarDqo', [VolController::class, 'guardarDqo']);
         Route::post('guardarNitrogeno', [VolController::class, 'guardarNitrogeno']);
         Route::post('createControlCalidadVol', [VolController::class, 'createControlCalidadVol']);
+        Route::post('liberarMuestraVol', [VolController::class, 'liberarMuestraVol']);
         
 
 //****************************************FIN VOLUMETRIA***********************************************

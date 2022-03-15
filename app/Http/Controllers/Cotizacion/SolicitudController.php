@@ -864,7 +864,7 @@ class SolicitudController extends Controller
                     $codigo = CodigoParametros::create([
                         'Id_solicitud' => $model->Id_solicitud,
                         'Id_parametro' => $item->Id_parametro,
-                        'Codigo' => $model->Folio_servicio . "-G-" . ($i + 1) . "",
+                        'Codigo' => $model->Folio_servicio . "-C-" . ($i + 1) . "",
                         'Num_muestra' => $i + 1,
                         'Asignado' => 0,
                     ]);
