@@ -486,8 +486,8 @@ function getDetalleEspectroSulfatos(idDetalle)
 
 //Función imprimir PDF
 function imprimir(id) {            
-    window.open(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaEspectro/" + id);
-    //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaEspectro/" + idLote;    
+    // window.location(base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaEspectro/" + id);
+    window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaEspectro/" + id;    
 }
 
 function operacion() {

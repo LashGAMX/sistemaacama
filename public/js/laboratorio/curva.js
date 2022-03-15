@@ -54,8 +54,12 @@ $(document).ready(function (){
     });
 
     $("#idAreaModal").on("change",function(){ 
+        console.log('evento activado area');
         getLote();
+        getParametroModal();
     });
+    
+    
 
 });
 
@@ -116,17 +120,17 @@ function getParametro(){
     });        
     
 }
-function getLote(){
+function getParametroModal(){
 
-    let div = document.getElementById("divParametro");
+    let div = document.getElementById("divParametroModal");
     let tab = "";
 
     $.ajax({
-        url: base_url + '/admin/laboratorio/getLote', //archivo que recibe la peticion
+        url: base_url + '/admin/laboratorio/getParametroModal', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
-          idLote:$("#idLote").val(),
-          idArea:$("#idArea").val(),
+       
+         idArea:$("#idAreaModal").val(),
           _token: $('input[name="_token"]').val(),
         },
         dataType: 'json', 
@@ -135,8 +139,37 @@ function getLote(){
          console.log(response);
             tab+= '<select class="form-control" id="parametro">';
             tab+= '<option value="">Selecciona Parametro</option>';
-            $.each(response.model, function (key, item) {
+            $.each(response.parametro, function (key, item) {
                 tab+= '<option value="'+item.Id_parametro+'">'+item.Parametro+'</option>';
+            });
+            tab+= '</select>';
+            div.innerHTML = tab;
+
+        }
+    });        
+    
+}
+function getLote(){
+
+    let div = document.getElementById("DivLoteModal");
+    let tab = "";
+
+    $.ajax({
+        url: base_url + '/admin/laboratorio/getLote', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          //idLote:$("#idLote").val(),
+          idArea:$("#idAreaModal").val(),
+          _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {
+         console.log(response);
+            tab+= '<select class="form-control" id="idLoteModal">';
+            tab+= '<option value="">Selecciona Lote</option>';
+            $.each(response.lote, function (key, item) {
+                tab+= '<option value="'+item.Id_lote+'">'+item.Fecha+' : '+item.Id_lote+'</option>';
             });
             tab+= '</select>';
             div.innerHTML = tab;
@@ -273,7 +306,10 @@ function createStd(){
         url: base_url + '/admin/laboratorio/createStd', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
-          idLote:$("#idLote").val(),
+            idAreaModal:$("#idAreaModal").val(),
+             idLote:$("#idLoteModal").val(),
+            fechaFin:$("#fechaFin").val(),
+          //idLote:$("#idLote").val(),
           _token: $('input[name="_token"]').val(),
         },
         dataType: 'json', 

@@ -68,7 +68,7 @@ function getMuestraAsignada()
         async: false,
         success: function (response) {            
             console.log(response);
-            tab += '<table id="tablaParamSin" class="table table-sm">';
+            tab += '<table id="tablaParamAsi" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
             tab += '          <th>Folio</th>';
@@ -89,6 +89,16 @@ function getMuestraAsignada()
             tabla.innerHTML = tab; 
         } 
     });
+    var t = $('#tablaParamAsi').DataTable({        
+        "ordering": false, 
+        "language": {
+            "lengthMenu": "# _MENU_ por pagina",
+            "zeroRecords": "No hay datos encontrados", 
+            "info": "Pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay datos encontrados",
+        }
+    });
+
 }  
 
 function asignarMuestraLote(idAnalisis,idSol)

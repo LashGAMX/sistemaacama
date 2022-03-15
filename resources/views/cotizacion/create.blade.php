@@ -655,6 +655,6 @@
     @endsection
     @section('javascript')
 
-        <script src="{{ asset('/public/js/cotizacion/create.js') }}"></script>
+        <script src="{{ asset('/public/js/cotizacion/create.js') }}?v=0.0.1"></script>
         
     @stop

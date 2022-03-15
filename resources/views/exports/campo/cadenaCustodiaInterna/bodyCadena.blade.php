@@ -52,9 +52,9 @@
                         @for ($i = 0; $i < $areasLabLength; $i++)
                             <tr>
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">
-                                    {{-- @if (!is_null($areasLabArraySinDup[$i])) --}}
+                                    <!-- @if ($areasLabArraySinDup[$i] !== "") -->
                                         {{@$areasLabArraySinDup[$i]}}
-                                    {{-- @endif   --}}                                  
+                                    <!-- @endif -->
                                 </td>
                                 <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$responsables[$i]}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{-- {{@$envases[$i]->Parametro}} --}}RECIPIENTES</td>

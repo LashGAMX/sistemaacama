@@ -416,9 +416,11 @@ class InformesController extends Controller
             }            
         }
 
-        $areasLabArraySinDup = array_unique($areasLabArray);
+        //print_r($areasLabArray);
 
-        print_r($areasLabArraySinDup);
+        $areasLabArraySinDup = array_values(array_unique($areasLabArray));
+
+        //print_r($areasLabArraySinDup);
         
         $areasLabLength = sizeof($areasLabArraySinDup);
         
@@ -446,6 +448,6 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        //$mpdf->Output();
+        $mpdf->Output();
     }
 }

@@ -8,6 +8,113 @@
     <title>Captura PDF</title>
 </head>
 <body>   
+
+    <p id='curvaProcedimiento'>Procedimientos</p>
+
+    <div id="contenidoCurva">
+        <?php echo html_entity_decode($textoProcedimiento[0]);?>
+    </div>
+
+    <br>
+
+    <div id="contenedorTabla">
+        <table autosize="1" class="table table-borderless" id="tablaDatos">
+            <tbody>
+                <tr>
+                    <td class="nombreHeader nombreHeaderBold">
+                        Fecha de sembrado
+                    </td>                   
+
+                    <td class="tableContent">
+                        {{@$fechaConFormato}}
+                    </td>
+                    
+                    <td></td>                                        
+
+                    <td class="nombreHeader nombreHeaderBold">
+                        Hora de sembrado
+                    </td>
+
+                    <td></td>
+
+                    <td class="tableContent">
+                        {{@$hora}}
+                    </td>
+                </tr>
+
+                <tr>
+                    <th class="nombreHeader" colspan="2">
+                        Prueba presuntiva
+                    </th>                    
+
+                    <td></td>                                      
+
+                    <th class="nombreHeader" colspan="3">
+                        Prueba confirmativa
+                    </th>
+                </tr>                
+
+                <tr>
+                    <td class="tableContent">Caldo lactosado se prepara el día: </td>                    
+                    <td class="tableContent">AQUÍ VA LA FECHA</td>
+                    
+                    <td></td>                  
+                    
+                    <td class="tableContent">El medio que se utiliza es:</td>
+                    <td></td>
+                    <td class="tableContent">AQUÍ VA EL MEDIO</td>                    
+                </tr>
+
+                <tr>
+                    <td class="tableContent">Para determinar: </td>                    
+                    <td class="tableContent">{{@$parametroDeterminar}}</td>
+                    
+                    <td></td>                  
+                    
+                    <td class="tableContent">Preparado:</td>
+                    <td></td>
+                    <td class="tableContent">AQUÍ VA LA FECHA</td>                    
+                </tr>
+
+                <tr>
+                    <td class="tableContent">Fecha y hora de lectura, después <br> 24 hrs. y 48 hrs. de incubación: </td>                    
+                    <td class="tableContent">AQUÍ VA LA FECHA Y HORA</td>
+                    
+                    <td></td>                  
+                    
+                    <td class="tableContent">Para determinar: </td>
+                    <td></td>
+                    <td class="tableContent">AQUÍ VA COLIFORMES FECALES</td>                    
+                </tr>
+
+                <tr>
+                    <td class="tableContent"></td>     
+                    <td></td>               
+                    <td class="tableContent"></td>
+                                                          
+                    
+                    <td class="tableContent">Fecha y hora de lectura para </td> 
+                    <td></td>                   
+                    <td class="tableContent">AQUÍ VA LA FECHA Y HORA</td>                    
+                </tr>
+            </tbody>                      
+        </table>  
+    </div>
+    
+    <br>
+
+    <div id="contenidoCurva">
+        <p>Fecha de resiembra de la cepa utilizada: AQUÍ VA LA FECHA de la placa N° AQUÍ VA LA PLACA</p>
+        <p>Bitácora AQUÍ VA LA BITÁCORA</p> <br>
+    </div>
+
+    <div id="contenidoCurva">
+        <span id="curvaProcedimiento">Valoración</span>
+        <?php echo html_entity_decode(@$textoProcedimiento[1]);?>
+    </div>
+
+    <br>
+
     <table cellpadding="0" cellspacing="0" border-color="#000000">
         <thead>            
             <tr>
@@ -213,111 +320,5 @@
             @endfor
         </tbody>
     </table>
-
-    <br>
-
-    <p id='curvaProcedimiento'>Procedimientos</p>
-
-    <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento[0]);?>
-    </div>
-
-    <br>
-
-    <div id="contenedorTabla">
-        <table autosize="1" class="table table-borderless" id="tablaDatos">
-            <tbody>
-                <tr>
-                    <td class="nombreHeader nombreHeaderBold">
-                        Fecha de sembrado
-                    </td>                   
-
-                    <td class="tableContent">
-                        {{@$fechaConFormato}}
-                    </td>
-                    
-                    <td></td>                                        
-
-                    <td class="nombreHeader nombreHeaderBold">
-                        Hora de sembrado
-                    </td>
-
-                    <td></td>
-
-                    <td class="tableContent">
-                        {{@$hora}}
-                    </td>
-                </tr>
-
-                <tr>
-                    <th class="nombreHeader" colspan="2">
-                        Prueba presuntiva
-                    </th>                    
-
-                    <td></td>                                      
-
-                    <th class="nombreHeader" colspan="3">
-                        Prueba confirmativa
-                    </th>
-                </tr>                
-
-                <tr>
-                    <td class="tableContent">Caldo lactosado se prepara el día: </td>                    
-                    <td class="tableContent">AQUÍ VA LA FECHA</td>
-                    
-                    <td></td>                  
-                    
-                    <td class="tableContent">El medio que se utiliza es:</td>
-                    <td></td>
-                    <td class="tableContent">AQUÍ VA EL MEDIO</td>                    
-                </tr>
-
-                <tr>
-                    <td class="tableContent">Para determinar: </td>                    
-                    <td class="tableContent">{{@$parametroDeterminar}}</td>
-                    
-                    <td></td>                  
-                    
-                    <td class="tableContent">Preparado:</td>
-                    <td></td>
-                    <td class="tableContent">AQUÍ VA LA FECHA</td>                    
-                </tr>
-
-                <tr>
-                    <td class="tableContent">Fecha y hora de lectura, después <br> 24 hrs. y 48 hrs. de incubación: </td>                    
-                    <td class="tableContent">AQUÍ VA LA FECHA Y HORA</td>
-                    
-                    <td></td>                  
-                    
-                    <td class="tableContent">Para determinar: </td>
-                    <td></td>
-                    <td class="tableContent">AQUÍ VA COLIFORMES FECALES</td>                    
-                </tr>
-
-                <tr>
-                    <td class="tableContent"></td>     
-                    <td></td>               
-                    <td class="tableContent"></td>
-                                                          
-                    
-                    <td class="tableContent">Fecha y hora de lectura para </td> 
-                    <td></td>                   
-                    <td class="tableContent">AQUÍ VA LA FECHA Y HORA</td>                    
-                </tr>
-            </tbody>                      
-        </table>  
-    </div>
-    
-    <br>
-
-    <div id="contenidoCurva">
-        <p>Fecha de resiembra de la cepa utilizada: AQUÍ VA LA FECHA de la placa N° AQUÍ VA LA PLACA</p>
-        <p>Bitácora AQUÍ VA LA BITÁCORA</p> <br>
-    </div>
-
-    <div id="contenidoCurva">
-        <span id="curvaProcedimiento">Valoración</span>
-        <?php echo html_entity_decode(@$textoProcedimiento[1]);?>
-    </div>
 </body>
 </html>

@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="{{asset('/public/css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('/public/css/pdf/style.css')}}">
  
-    <title>Solicitud </title>
+    <title>Bitácora de Campo </title>
 </head>
 <body> 
     <div class="container" id="pag">

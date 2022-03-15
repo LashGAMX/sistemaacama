@@ -31,9 +31,9 @@
         </div><br>
         <div class="row">
             <div class="col-md-12 negrita">
-                {{$model->Telefono}}<br>
-                {{$model->Correo}}<br>
-                {{$model->Atencion}}<br>
+                TELÉFONO: {{$model->Telefono}}<br>
+                CORREO: {{$model->Correo}}<br>
+                ATENCIÓN A: {{$model->Atencion}}<br>
             </div><br>
             <div class="col-md-12">
                 <p>ME PERMITO SOMETER A SU AMABLE CONSIDEREACIÓN LA SIGUIENTE COTIZACIÓN DEL SERVICIO DE MUESTREO Y ANÁLISIS DE AGUA DE ACEURDO A:</p>

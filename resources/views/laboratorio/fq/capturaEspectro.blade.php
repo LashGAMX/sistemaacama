@@ -68,7 +68,7 @@
                 </div>
             </div>
 
-            <div class="col-md-12">
+            <div class="colo-md-12">
                 <div class="row">
                     {{-- <div class="col-md-1">
                         <button class="btn btn-secondary" id="ejecutar">Ejecutar</button>
@@ -81,7 +81,7 @@
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad"
-                            id="btnGenControlInd">Generar control</button>
+                            id="">Generar control</button>
                     </div>
                     <div class="col-md-1">
                         {{-- <div class="form-check">
@@ -435,8 +435,7 @@
         <div class="modal fade" id="modalCalidad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
-                    <form wire:submit.prevent="create">
-                        <div class="modal-header">
+                  <div class="modal-header">
                             <h5 class="modal-title" id="">Control de calidad</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
@@ -464,10 +463,9 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" onclick="createControlCalidad()" id="guardar"
-                                class="btn btn-primary">Generar</button>
+                            <button type="button" onclick="createControlCalidad()" id="guardar" class="btn btn-primary">Generar</button>
                         </div>
-                    </form>
+                  
                 </div>
             </div>
         </div>

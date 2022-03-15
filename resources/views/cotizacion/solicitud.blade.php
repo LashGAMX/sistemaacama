@@ -51,7 +51,7 @@
                             </div>
 
                             <div class="col-md-1">
-                                <button id="btnGenFolio" class="btn btn-success" ><i class="voyager-file-text"></i> Generar Código</button>
+                                <button id="btnGenFolio" class="btn btn-success" ><i class="voyager-file-text"></i> Entrada al lab</button>
                             </div>
                         </div> 
                         <thead class="">
@@ -95,5 +95,9 @@
     </div>
 @endsection 
     @section('javascript')
-        <script src="{{ asset('/public/js/cotizacion/solicitud.js')}}?v=0.0.2"></script>        
+        <script src="{{ asset('/js/cotizacion/solicitud.js')}}?v=0.0.3"></script>        
     @stop
+
+
+    
+

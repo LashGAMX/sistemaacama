@@ -89,5 +89,5 @@
     </div> 
 @endsection
     @section('javascript')
-        <script src="{{ asset('/public/js/cotizacion/cotizacion.js') }}"></script>
+        <script src="{{ asset('/public/js/cotizacion/cotizacion.js') }}?v=0.0.1"></script> 
     @stop

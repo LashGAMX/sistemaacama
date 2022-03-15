@@ -151,8 +151,8 @@ function getLoteCapturaGA() {
                 }else{
                     tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
                 }
-                tab += '<td><input disabled style="width: 80px" value="'+item.Folio_servicio+'"></td>';
-                tab += '<td><input disabled style="width: 80px" value="'+item.Clave_norma+'"></td>';
+                tab += '<td><input disabled style="width: 100px" value="'+item.Codigo+'"></td>';
+                tab += '<td><input disabled style="width: 100px" value="'+item.Clave_norma+'"></td>';
                 if(item.Resultado != null){
                     tab += '<td><input disabled style="width: 100px" value="'+item.Resultado+'"></td>';
                 }else{
@@ -319,6 +319,16 @@ function getDetalleGA(idDetalle)
             $("#g1").val(response.model.Blanco);
             $("#e1").val(response.model.F_conversion);
             $("#observacion").val(response.model.Observacion);
+
+
+            $("#h2").val(response.model.M_final);
+            $("#j2").val(response.model.M_inicial1);
+            $("#k2").val(response.model.M_inicial2);
+            $("#c2").val(response.model.M_inicial3);
+            $("#l2").val(response.model.Ph);
+            $("#i2").val(response.model.Vol_muestra);
+            $("#g2").val(response.model.Blanco);
+            $("#e2").val(response.model.F_conversion);
         }
     });
 }
@@ -350,6 +360,7 @@ function createControlCalidad()
         url: base_url + "/admin/laboratorio/" + area + "/createControlCalidad",
         data: {
             idMuestra: idMuestra,
+            idLote:idLote,
             idControl: $("#controlCalidad").val(),
             _token: $('input[name="_token"]').val()
         },

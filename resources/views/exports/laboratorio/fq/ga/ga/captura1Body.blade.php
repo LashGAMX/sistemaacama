@@ -36,7 +36,7 @@
                             @elseif(@$data[$i]->Control == 'Blanco')
                                 BLANCO
                             @else
-                                {{@$data[$i]->Folio_servicio}}
+                                {{@$data[$i]->Codigo}}
                             @endif    
                         </td>
                         <td class="tableContent bordesTabla">{{@$data[$i]->Id_matraz}}</td>
@@ -44,7 +44,7 @@
                         <td class="tableContent bordesTabla">{{@$data[$i]->M_inicial3}}</td>
                         <td class="tableContent bordesTabla">{{@$data[$i]->Vol_muestra}}</td>
                         <td class="tableContent bordesTabla">{{@$data[$i]->M_final}}</td>
-                        <td class="tableContent bordesTabla">{{@$data[$i]->Resultado}}</td>
+                        <td class="tableContent bordesTabla">{{@$limites[$i]}}</td>
                         <td class="tableContent bordesTabla">{{@$data[$i]->Observacion}}</td>
                         <td class="tableContent bordesTabla">
                             @if (@$data[$i]->Liberado == 1)

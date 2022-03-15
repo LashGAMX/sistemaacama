@@ -35,7 +35,24 @@ class CurvaController extends Controller
         );
         return response()->json($data);
     }
+    public function getParametroModal(Request $request ){
+        $parametro = Parametro::where('Id_area', $request->idArea)->get();
 
+        $data = array(
+            
+            'parametro' => $parametro
+        );
+        return response()->json($data);
+    }
+    public function getLote(Request $request){
+        $lote = LoteAnalisis::where('Id_area', $request->idArea)->get();
+
+        $data = array(
+            'area' => $request->idArea,
+            'lote' => $lote,
+        );
+        return response()->json($data);
+    }
      public function buscar(Request $request){
         $lote = LoteAnalisis::where('Fecha', $request->fecha)->first();
         $model = estandares::where('Id_Lote', $lote->Id_lote)->get(); 
@@ -91,6 +108,8 @@ class CurvaController extends Controller
         }
         $loteDetalle = LoteDetalle::where('Id_lote', $request->idLote)->first();
         $concent = ConcentracionParametro::where('Id_parametro',$loteDetalle->Id_parametro)->get();
+
+
 
         $data = array(
             'num' => $num,

@@ -972,7 +972,6 @@ class FqController extends Controller
                     'Ph' => 0,
                     'Vol_muestra' => 1000,
                     'Blanco' => 0,
-                    'F_conversion' => 0,
                 ]);
                 $detModel = LoteDetalleGA::where('Id_lote', $request->idLote)->get();
                 $sw = true;
@@ -1424,6 +1423,7 @@ class FqController extends Controller
         $model = LoteDetalleGA::create([
             'Id_lote' => $muestra->Id_lote,
             'Id_analisis' => $muestra->Id_analisis,
+            'Id_codigo' => $muestra->Id_codigo,
             'Id_parametro' => $muestra->Id_parametro,
             'Id_control' => $request->idControl,
             'M_final' => 0,
@@ -1435,6 +1435,11 @@ class FqController extends Controller
             'Blanco' => 0,
             'F_conversion' => 0,
         ]);
+
+        $detlModel = LoteDetalleGA::where('Id_lote',$request->idLote)->get();
+        $loteModel = LoteAnalisis::find($request->idLote);
+        $loteModel->Asignado = $detlModel->count();
+        $loteModel->save();
 
         $data = array(
             'model' => $model,
@@ -2852,6 +2857,12 @@ class FqController extends Controller
             echo '<script> alert("Valores predeterminados para la fecha de análisis. Rellena este campo.") </script>';
         }
 
+        //Obtiene el parámetro que se está utilizando
+        $parametro = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->first();
+
+        if (!is_null($parametro)) {            
+            $limiteC = DB::table('parametros')->where('Id_parametro', $parametro->Id_parametro)->first();
+        }
 
         //Recupera (PRUEBA) el texto dinámico Procedimientos de la tabla reportes****************************************************        
         $textProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
@@ -2878,6 +2889,20 @@ class FqController extends Controller
             $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
             $data = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->get();
+
+            $limites = array();
+                foreach ($data as $item) {
+                    if ($item->Resultado < $limiteC->Limite) {
+                        $limC = "< " . $limiteC->Limite;
+
+                        array_push($limites, $limC);
+                    } else {  //Si es mayor el resultado que el límite de cuantificación
+                        $limC = $item->Resultado;
+
+                        array_push($limites, $limC);
+                    }
+                }
+            
             $dataLength = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->count();
 
             $matraces = MatrazGA::all();
@@ -2906,7 +2931,7 @@ class FqController extends Controller
         $data = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->get();
         $dataLength = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->count();
 
-        $htmlCaptura1 = view('exports.laboratorio.fq.ga.ga.captura1Body', compact('data', 'dataLength'));
+        $htmlCaptura1 = view('exports.laboratorio.fq.ga.ga.captura1Body', compact('data', 'dataLength', 'limiteC', 'limites'));
         $htmlCurvaHeader = view('exports.laboratorio.fq.ga.ga.capturaHeader', compact('fechaConFormato'));
         $htmlCurvaFooter = view('exports.laboratorio.fq.ga.ga.capturaFooter', compact('usuario', 'firma'));
 

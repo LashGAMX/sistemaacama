@@ -27,7 +27,7 @@ class CotizacionController extends Controller
     public function index()
     {
         //Vista Cotización
-        $model = DB::table('ViewCotizacion')->get();
+        $model = DB::table('ViewCotizacion')->orderBy('Id_cotizacion', 'DESC')->get();
         return view('cotizacion.cotizacion', compact('model'));
     }
     public function buscarFecha($inicio, $fin)
@@ -572,7 +572,7 @@ class CotizacionController extends Controller
             array(0, 0), 
         );
       
-        $mpdf->showWatermarkImage = true;
+        //$mpdf->showWatermarkImage = true;
         $html = view('exports.cotizacion.cotizacion', compact('model','parametros'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);

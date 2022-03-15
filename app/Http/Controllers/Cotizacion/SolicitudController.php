@@ -41,7 +41,7 @@ class SolicitudController extends Controller
     public function index()
     {
         // $model = DB::table('ViewSolicitud')->get();
-        $model = DB::table('ViewCotizacion')->get();
+        $model = DB::table('ViewCotizacion')->orderby('Id_cotizacion', 'DESC')->get();
         return view('cotizacion.solicitud', compact('model'));
     }
     public function buscarFecha($inicio, $fin)
@@ -693,6 +693,9 @@ class SolicitudController extends Controller
         //$cotReplicada->Id_cotizacion = $idCot;
         $cotReplicada->Folio_servicio = NULL;
         $cotReplicada->Folio = $folio;
+
+        $cotReplicada->Fecha_muestreo = NULL;
+
         $cotReplicada->Creado_por = Auth::user()->id;
         $cotReplicada->Actualizado_por = Auth::user()->id;
         $cotReplicada->created_at = Carbon::now();
@@ -749,6 +752,9 @@ class SolicitudController extends Controller
 
         $solDuplicada->Id_cotizacion = $cotReplicada->Id_cotizacion;
         $solDuplicada->Folio_servicio = $folio;
+
+        $solDuplicada->Fecha_muestreo = NULL;
+
         $solDuplicada->Id_user_c = Auth::user()->id;
         $solDuplicada->Id_user_m = Auth::user()->id;
         $solDuplicada->created_at = Carbon::now();

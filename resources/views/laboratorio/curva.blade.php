@@ -107,15 +107,15 @@
               @endforeach
                 </select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" id="DivLoteModal">
               <select class="form-control" id="idLoteModal">
                 <option>Selecciona Lote</option>
                 {{-- @foreach ($usuarios as $item)
-                <option value="{{$item->id}}">{{$item->name}}</option>
+               
                 @endforeach --}}
                 </select>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-6" id="divParametroModal">
               <select class="form-control" id="idParametroModal">
                 <option>Selecciona parametro</option>
                 </select>

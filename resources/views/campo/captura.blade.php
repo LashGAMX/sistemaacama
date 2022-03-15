@@ -859,7 +859,7 @@
                                             <th>Conductividad 2 (µS)</th>
                                             <th>Conductividad 3 (µS)</th>
                                             <th>Conductividad Promedio (µS)</th>
-                                            <th hidden>Estado</th>
+                                            <th>Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -891,9 +891,9 @@
                                                 <td><p id="conprom1{{ $i }}">{{@$conductividadMuestra[$i]->Promedio}}</p></td>
                                                 
                                                 @if (!is_null(@$conductividadMuestra[$i]->Activo))
-                                                    <td><input type="text" id="condStatus1{{$i + 1}}" value="{{@$conductividadMuestra[$i]->Activo}}" hidden></td>
+                                                    <td><input type="text" id="condStatus1{{$i + 1}}" value="{{@$conductividadMuestra[$i]->Activo}}" ></td>
                                                 @else
-                                                    <td><input type="text" id="condStatus1{{$i + 1}}" value= "1" hidden></td>
+                                                    <td><input type="text" id="condStatus1{{$i + 1}}" value= "1" ></td>
                                                 @endif  
 
                                                 <td><input type="text" id="conprom{{ $i }}" value="{{@$conductividadMuestra[$i]->Promedio}}" hidden></td>
