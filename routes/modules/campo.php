@@ -12,7 +12,7 @@ Route::group(['prefix' => 'campo'], function () {
 
     Route::post('asignar/getFolio', [CampoController::class,'getFolio']);
     Route::post('captura/getFactorCorreccion',[CampoController::class,'getFactorCorreccion']);
-    Route::post('captura/getPhTrazable',[CampoController::class,'getPhTrazable']);
+    Route::post('captura/getPhTrazable',[CampoController::class,'getPhTrazable']); 
     Route::post('captura/getPhCalidad',[CampoController::class,'getPhCalidad']);
     Route::post('captura/getConTrazable',[CampoController::class,'getConTrazable']);
     Route::post('captura/getConCalidad',[CampoController::class,'getConCalidad']);
@@ -23,7 +23,11 @@ Route::group(['prefix' => 'campo'], function () {
     Route::post('captura/setDataMuestreo', [CampoController::class,'setDataMuestreo']);
     Route::post('captura/setDataCompuesto', [CampoController::class, 'setDataCompuesto']);
 
+    //todo Configuracion de bitacora de campo
+    Route::get('configuracion/configPlan',[CampoController::class,'configPlan']);
+
     //pdf 
     Route::get('hojaCampo/{id}', [CampoController::class,'hojaCampo']);
     Route::get('bitacoraCampo/{id}', [CampoController::class,'bitacoraCampo']);
+    Route::get('planMuestreo/{idSolicitud}', [CampoController::class,'planMuestreo']);
 });

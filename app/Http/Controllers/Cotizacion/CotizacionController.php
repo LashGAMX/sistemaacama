@@ -4,6 +4,8 @@ namespace App\Http\Controllers\Cotizacion;
 
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
+use App\Models\ClienteGeneral;
+use App\Models\SucursalCliente;
 use Illuminate\Http\Request;
 
 use App\Models\Cotizacion;
@@ -35,6 +37,24 @@ class CotizacionController extends Controller
         $model = DB::table('ViewCotizacion')->whereBetween('created_at', [$inicio, $fin])->get();
         return view('cotizacion.cotizacion', compact('model'));
     }
+    public function clienteSucursal(Request $request){
+        $datosCliente = SucursalCliente::where('Id_cliente', $request->idCliente)->get();
+
+        $data = array(
+            'model' => $datosCliente,
+            'id' => $request->idCliente
+        );
+        return response()->json($data);
+    }
+    public function DatosClienteSucursal(Request $request){ 
+        $info = SucursalCliente::where('Id_sucursal', $request->idSucursal)->first();
+        $nombre = $info->Empresa;
+
+        $data = array(
+            'info' => $info,
+        );
+        return response()->json($data); 
+    } 
     public function create()
     {
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', null)->get();
@@ -45,6 +65,8 @@ class CotizacionController extends Controller
         $descargas = DB::table('tipo_descargas')->get();
         $metodoPago = DB::table('metodo_pago')->get();
         $estados = DB::table('estados')->get();
+
+        
 
         $data = array(
             'intermediarios' => $intermediarios,
@@ -180,6 +202,7 @@ class CotizacionController extends Controller
         $costoTotal = ($costoSuma * (1 + $model->Ganancia));
         $costoTotal += ($request->paqueteria + $request->gastosExtras);
         $data = array(
+            'descaste' => $desgaste,
             'viaticos' => $costoViaticos,
             'costoSuma' => $costoSuma,
             'total' => $costoTotal,

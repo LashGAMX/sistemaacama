@@ -10,6 +10,7 @@ use App\Models\CampoGenerales;
 use App\Models\CampoPhCalidad;
 use App\Models\CampoPhTrazable;
 use App\Models\CampoTempCalidad;
+use App\Models\ComplementoCampo;
 use App\Models\ConductividadCalidad;
 use App\Models\ConductividadMuestra;
 use App\Models\ConductividadTrazable;
@@ -1096,5 +1097,66 @@ class CampoController extends Controller
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output();
+    }
+
+    public function planMuestreo($idSolicitud)
+    {
+        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$idSolicitud)->first();
+        /* $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$id)->first();
+        $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud',$id)->first();
+
+        $campoGen = DB::table('ViewCampoGenerales')->where('Id_solicitud',$id)->first();
+        $phMuestra = PhMuestra::where('Id_solicitud',$id)->get();
+        $gastoMuestra = GastoMuestra::where('Id_solicitud',$id)->get();
+        $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
+        $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
+        $muestreador = Usuario::where('id',$solGen->Id_muestreador)->first();
+
+        $phTrazable = CampoPhTrazable::where('Id_solicitud',$id)->get();
+        $campoConTrazable = CampoConTrazable::wherE('Id_solicitud',$id)->get(); */
+
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => 'letter',
+            'margin_left' => 20,
+            'margin_right' => 20,
+            'margin_top' => 35.5,
+            'margin_bottom' => 18
+        ]);
+        
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/MembreteVertical.png'),
+            1,
+            array(215, 280),
+            array(0, 0),  
+        );
+
+        $mpdf->showWatermarkImage = true;
+
+        //Recupera los parámetros de la solicitud
+        //$parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $idSolicitud)->get();
+
+        $complementoCampoTipo1 = ComplementoCampo::where('Tipo', 1)->get();
+        $complementoCampoTipo2 = ComplementoCampo::where('Tipo', 2)->get();
+        $complementoCampoTipo3 = ComplementoCampo::where('Tipo', 3)->get();
+        $complementoCampoTipo1Length = $complementoCampoTipo1->count();
+        $complementoCampoTipo2Length = $complementoCampoTipo2->count();
+        $complementoCampoTipo3Length = $complementoCampoTipo3->count();
+
+        $html = view('exports.campo.planMuestreo.bodyPlanMuestreo', compact('complementoCampoTipo1', 'complementoCampoTipo2', 'complementoCampoTipo3', 'complementoCampoTipo1Length',
+        'complementoCampoTipo2Length', 'complementoCampoTipo3Length')); 
+        $htmlHeader = view('exports.campo.planMuestreo.headerPlanMuestreo', compact('model'));
+        $htmlFooter = view('exports.campo.planMuestreo.footerPlanMuestreo');            
+
+        $mpdf->CSSselectMedia = 'mpdf';
+        
+        $mpdf->setHeader("<br><br>".$htmlHeader);
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        $mpdf->WriteHTML($html);
+        
+        $mpdf->Output();
+    } 
+    public function configPlan()
+    {
+        return view('campo.configuracionPlan');
     }
 }

@@ -47,6 +47,17 @@ $(document).ready(function () {
     $('#frecuencia').click(function () {
       dataTomas();
     });
+
+    $("#clientes").on("change", function(){
+      
+      clienteSucursal();
+    });
+
+    $("#clienteSucursal").on("change", function(){
+      console.log('btn brandon')
+      //DatosClienteSucursal();
+    });
+
     $('#tipoMuestra').click(function ()
     {
       if($('#tipoMuestra').val() == "INSTANTANEA")
@@ -420,8 +431,55 @@ function getDataParametros()
 
   $('#listaParametros').modal('hide');
 }
+function clienteSucursal(){
+  let div = document.getElementById("divClienteSucursal");
+  let tab = "";
 
+  $.ajax({
+    url: base_url + '/admin/cotizacion/clienteSucursal', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      idCliente: $('#clientes').val(),
+        _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json',
+    async: false,
+    success: function (response) { 
+        console.log(response)
+        tab+= ' <label for="clienteSucursal">Clientes Sucursal (Hijos) </label> ';
+        tab+= '<select onchange="DatosClienteSucursal()" class="form-control" id="clienteSucursal">';
+        
+            tab+= '<option value="">Selecciona cliente</option>';
+            $.each(response.model, function (key, item) {
+                tab+= '<option value="'+item.Id_sucursal+'">'+item.Empresa+'</option>';
+            });
+            tab+= '</select>';
+            div.innerHTML = tab;
+    }
+});
+}
 
+function DatosClienteSucursal(){
+
+  $.ajax({
+    url: base_url + '/admin/cotizacion/DatosClienteSucursal', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+        idSucursal: $('#clienteSucursal').val(),
+        _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json',
+    async: false,
+    success: function (response) { 
+        console.log(response)
+            $("#nombreCliente").val(response.info.Empresa);
+            $("#direccion").val(response.info.Direccion);
+            $("#atencion").val(response.info.Atencion);
+            $("#telefono").val(response.info.Telefono);
+            $("#correo").val(response.info.Correo);
+    }
+});
+}
 
 function dataCliente() {
     $.ajax({

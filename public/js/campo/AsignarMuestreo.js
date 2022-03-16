@@ -77,7 +77,7 @@ var folioAsignar;
         // window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idSolicitud;
     });
     $('#btnPlanMuestreo').click( function () {
-        alert("Plan de muestreo")
+        window.open(base_url+"/admin/campo/planMuestreo/"+idSolicitud);
         // window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idSolicitud;
     });
     $('#btnGuardar').click( function () {

@@ -63,7 +63,7 @@
                             </div>
                             <div class="col-md-12">
                                 <div class="form-group">
-                                    <label for="clientes">Clientes registrados</label>
+                                    <label for="clientes">Clientes registrados padre</label>
                                     <select name="clientes" id="clientes" class="form-control select2">
                                         <option value="0">Sin seleccionar</option>
                                         @foreach ($generales as $item)
@@ -77,14 +77,26 @@
                                     </select>
                                 </div>
                             </div>
+                            <!-- cliente sucursal que depende del cliente (tabla cliente_general) -->
+                            <div class="col-md-6">
+                                <div class="form-group" id="divClienteSucursal">
+                                    <label for="clienteSucursal">Clientes Sucursal (Hijos) </label> 
+                                    <select onchange="DatosClienteSucursal()" name="clienteSucursal" id="clienteSucursal" class="form-control select2">
+                                        <option value="0">Sin seleccionar</option>
+                                        
+                                    </select>
+                                </div>
+                            </div>
+
                             <div class="dropdown-divider"></div>
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="nombreCliente">Nombre del cliente</label>
                                     <input type="text" class="form-control" placeholder="Nombre del cliente"
-                                        id="nombreCliente" name="nombreCliente" value="{{ @$model->Nombre }}">
+                                        id="nombreCliente" name="nombreCliente" >
                                 </div>
                             </div>
+
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="direccion">Dirección</label>

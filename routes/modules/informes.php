@@ -10,7 +10,7 @@ Route::group(['prefix' => 'informes'], function () {
     Route::post('/getSolParametro',[InformesController::class,'getSolParametro']);
     
     Route::get('exportPdfSinComparacion/{idSol}', [InformesController::class, 'pdfSinComparacion']);
-    Route::get('exportPdfConComparacion/{idSol}', [InformesController::class, 'pdfComparacion']);
+    Route::get('exportPdfConComparacion/{idSol}', [InformesController::class, 'pdfConComparacion']);
 
     //Ruta temporal para la generación de plantilla de custodia interna
     Route::get('exportPdfCustodiaInterna/{idSol}', [InformesController::class, 'custodiaInterna']);
