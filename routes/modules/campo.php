@@ -25,6 +25,9 @@ Route::group(['prefix' => 'campo'], function () {
 
     //todo Configuracion de bitacora de campo
     Route::get('configuracion/configPlan',[CampoController::class,'configPlan']);
+    Route::post('configuracion/getPaquetes',[CampoController::class,'getPaquetes']);
+    Route::post('configuracion/getEnvase',[CampoController::class,'getEnvase']);
+    Route::post('configuracion/setPlanMuestreo',[CampoController::class,'setPlanMuestreo']);
 
     //pdf 
     Route::get('hojaCampo/{id}', [CampoController::class,'hojaCampo']);

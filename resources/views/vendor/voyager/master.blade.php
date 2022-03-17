@@ -30,7 +30,7 @@
         <link rel="stylesheet" href="{{ voyager_asset('css/rtl.css') }}">
     @endif
 
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{{url('/assets/duallist/dist/bootstrap-duallistbox.min.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" class="">
@@ -142,8 +142,8 @@ $(document).ready( function () {
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 <script src="{{url('/assets/duallist/dist/jquery.bootstrap-duallistbox.min.js')}}"></script>
-<script src="{{url('/assets/js/jtable/jquery.jtable.min.js')}}"></script>
-<script src="{{url('/assets/js/jtable/themes/metro/blue/jtable.min.css')}}"></script>
+{{-- <script src="{{url('/assets/js/jtable/jquery.jtable.min.js')}}"></script>
+<script src="{{url('/assets/js/jtable/themes/metro/blue/jtable.min.css')}}"></script> --}}
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 {{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> --}}

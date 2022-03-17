@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Campo;
 
 use App\Http\Controllers\Controller;
+use App\Models\AreaLab;
 use App\Models\CampoCompuesto;
 use App\Models\CampoConCalidad;
 use App\Models\CampoConTrazable;
@@ -41,6 +42,7 @@ use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\SolicitudesGeneradas;
+use App\Models\SubNorma;
 use App\Models\TemperaturaMuestra;
 use App\Models\TermFactorCorreccionTemp;
 use App\Models\TermometroCampo;
@@ -1154,9 +1156,41 @@ class CampoController extends Controller
         $mpdf->WriteHTML($html);
         
         $mpdf->Output();
+    
     } 
+    //todo ******************************************************
+    //todo Inicio de configuracio plan de muestreo
+    //todo ******************************************************
     public function configPlan()
     {
         return view('campo.configuracionPlan');
     }
+    public function getPaquetes(Request $res)
+    {
+        $model = SubNorma::all();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function getEnvase(Request $res)
+    {
+        $model = DB::table('ViewPlanPaquete')->where('Id_paquete',$res->idPaquete)->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function setPlanMuestreo(Request $res)
+    {
+        $model = AreaLab::all();
+        
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    //todo ******************************************************
+    //todo Fin de configuracio plan de muestreo
+    //todo ******************************************************
 }

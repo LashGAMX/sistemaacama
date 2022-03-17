@@ -6,7 +6,7 @@
 
   <h6 class="page-title"> 
       <i class="voyager-person"></i>
-      Detalle cliente
+      Detalle cliente 
   </h6>
   <div class="row">
     <div class="col-md-5">
@@ -54,6 +54,9 @@
                     </li>
                     <li class="nav-item" role="presentation">
                       <a class="nav-link" id="siralab-tab" data-toggle="tab" href="#siralab" role="tab" aria-controls="siralab" aria-selected="false">Siralab</a>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                      <a class="nav-link" id="generales-tab" data-toggle="tab" href="#generales" role="tab" aria-controls="siralab" aria-selected="false">Datos Generales</a>
                     </li>
                   </ul>
                   <div class="tab-content" id="myTabContent">
@@ -118,6 +121,7 @@
                             </div>
                           </div>
                     </div>
+
                     <div class="tab-pane fade" id="siralab" role="tabpanel" aria-labelledby="siralab-tab">
                         
                       <div class="accordion" id="accordionExample">
@@ -182,6 +186,19 @@
                       </div>
 
                     </div>
+
+                    <!-- generales -->
+                    <div class="tab-pane fade" id="generales" role="tabpanel" aria-labelledby="generales-tab">
+                        
+                      <div class="row">
+                        <div class="col-md-3">
+                          <label>Telefono</label>
+                          <input type="text" id="telefono"/>
+                        </div>
+
+                      </div> 
+
+                  
                   </div>
             </div>
           </div>

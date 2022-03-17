@@ -428,3 +428,10 @@ INNER JOIN ViewSolicitud as sol
 ON cod.Id_solicitud = sol.Id_solicitud
 INNER JOIN ViewParametros as pa
 ON cod.Id_parametro = pa.Id_parametro
+
+/* Lista ViewPlanPaquete */
+CREATE VIEW ViewPlanPaquete as SELECT p.*,lab.Area,e.Nombre as Envase,e.Volumen FROM plan_paquete as p
+INNER JOIN areas_lab as lab
+ON p.Id_area = lab.Id_area
+INNER JOIN envase as e
+ON p.Id_recipiente = e.Id_envase
