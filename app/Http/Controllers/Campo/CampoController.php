@@ -1181,7 +1181,34 @@ class CampoController extends Controller
         );
         return response()->json($data);
     }
+    public function getPlanMuestreo(Request $res)
+    {
+        $model = AreaLab::all();
+        
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
     public function setPlanMuestreo(Request $res)
+    {
+        $model = AreaLab::all();
+        
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function getMaterial(Request $res)
+    {
+        $model = ComplementoCampo::where('Tipo',1)->get();
+        
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function setMaterial(Request $res)
     {
         $model = AreaLab::all();
         

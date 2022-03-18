@@ -5,7 +5,11 @@ $(document).ready(function () {
 });
 
 $('#btnAddPlan').click(function(){
-    setPlanMuestreo();
+    getPlanMuestreo();
+});
+
+$('#btnAddMaterial').click(function(){
+    getMaterial();
 });
 
 function getPaquetes()
@@ -137,18 +141,17 @@ function getEnvase(id)
         });
 }
 
-function setPlanMuestreo()
+function getPlanMuestreo()
 {
-    console.log("Entra")
     let tab = '';
   $.ajax({
-    url: base_url + "/admin/campo/configuracion/setPlanMuestreo",
+    url: base_url + "/admin/campo/configuracion/getPlanMuestreo",
     type: 'POST', //método de envio
     data: {
       idSub:idSub,
       _token: $('input[name="_token"]').val(),
     },
-    dataType: 'json', 
+    dataType: 'json',  
     async: false,
     success: function (response) {
 
@@ -162,7 +165,7 @@ function setPlanMuestreo()
         tab += '    <tbody>';
         $.each(response.model, function (key, item) {
             tab += '<tr>';
-            tab += '<td><input type="checkbox" class="custom-control-input" id="customCheck1"></td>';
+            tab += '<td><input type="checkbox" class="custom-control-input" name="ckAreas" value="'+item.Id_area+'"></td>';
             tab += '<td>'+item.Area+'</td>';
             tab += '</tr>';
         }); 
@@ -173,17 +176,95 @@ function setPlanMuestreo()
         itemModal[0] = [
             tab,
         ]
-        newModal('divModal','modalAreas','Areas plan','',1,1,0,'')
+        newModal('divModal','modalAreas','Areas plan','',1,1,0,inputBtn('','','Guardar','fas fa-save','btn btn-success','setPlanMuestreo()'))
 
         var t = $('#tableAreas').DataTable({        
             "ordering": false, 
             "language": {
                 "lengthMenu": "# _MENU_ por pagina",
                 "zeroRecords": "No hay datos encontrados", 
-                "info": "Pagina _PAGE_ de _PAGES_",
+                "info": "Pagina _PAGE_ de _PAGES_", 
                 "infoEmpty": "No hay datos encontrados",
             }
         });
     }
   });
+} 
+
+function setPlanMuestreo()
+{
+    let elementos = document.getElementsByName("ckAreas");
+    let areas = new Array();
+
+    for(var i=0; i<elementos.length; i++) {
+        if(elementos[i].checked)
+        {
+            areas.push(elementos[i].value);   
+        }
+    }
+
+    console.log(areas);
+}
+function getMaterial()
+{
+    let tab = '';
+  $.ajax({
+    url: base_url + "/admin/campo/configuracion/getMaterial",
+    type: 'POST', //método de envio
+    data: {
+      idSub:idSub,
+      _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json',  
+    async: false,
+    success: function (response) {
+
+        tab += '<table id="tableMaterialMed" class="table cell-border" style="width:100%">';
+        tab += '    <thead>';
+        tab += '        <tr>';
+        tab += '          <th>Activo</th>';
+        tab += '          <th>Material</th>';
+        tab += '        </tr>';
+        tab += '    </thead>';
+        tab += '    <tbody>';
+        $.each(response.model, function (key, item) {
+            tab += '<tr>';
+            tab += '<td><input type="checkbox" class="custom-control-input" name="ckMaterial" value="'+item.Id_complemento+'"></td>';
+            tab += '<td>'+item.Complemento+'</td>';
+            tab += '</tr>';
+        }); 
+        tab += '    </tbody>'; 
+        tab += '</table>';
+        tabla.innerHTML = tab; 
+
+        itemModal[1] = [
+            tab,
+        ]
+        newModal('divModal','modalMaterial','Material de medicion','',1,1,1,inputBtn('','','Guardar','fas fa-save','btn btn-success','setPlanMuestreo()'))
+
+        $('#tableMaterialMed').DataTable({        
+            "ordering": false, 
+            "language": {
+                "lengthMenu": "# _MENU_ por pagina",
+                "zeroRecords": "No hay datos encontrados", 
+                "info": "Pagina _PAGE_ de _PAGES_", 
+                "infoEmpty": "No hay datos encontrados",
+            }
+        });
+    }
+  });
+} 
+
+function setMaterial()
+{
+    let elementos = document.getElementsByName("ckAreas");
+    let areas = new Array();
+
+    for(var i=0; i<elementos.length; i++) {
+        if(elementos[i].checked)
+        {
+            areas.push(elementos[i].value);   
+        }
+    }
+
 }

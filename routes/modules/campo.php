@@ -27,8 +27,12 @@ Route::group(['prefix' => 'campo'], function () {
     Route::get('configuracion/configPlan',[CampoController::class,'configPlan']);
     Route::post('configuracion/getPaquetes',[CampoController::class,'getPaquetes']);
     Route::post('configuracion/getEnvase',[CampoController::class,'getEnvase']);
-    Route::post('configuracion/setPlanMuestreo',[CampoController::class,'setPlanMuestreo']);
 
+        Route::post('configuracion/getPlanMuestreo',[CampoController::class,'getPlanMuestreo']);
+        Route::post('configuracion/setPlanMuestreo',[CampoController::class,'setPlanMuestreo']);
+
+        Route::post('configuracion/getMaterial',[CampoController::class,'getMaterial']);
+        Route::post('configuracion/setMaterial',[CampoController::class,'setMaterial']);
     //pdf 
     Route::get('hojaCampo/{id}', [CampoController::class,'hojaCampo']);
     Route::get('bitacoraCampo/{id}', [CampoController::class,'bitacoraCampo']);
