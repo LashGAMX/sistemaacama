@@ -142,6 +142,7 @@ class TableCliente extends Component
             'Id_user_m' => $this->idUser,
         ]);
     }
+
     
     public function btnCreate()
     {

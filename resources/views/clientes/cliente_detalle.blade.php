@@ -8,6 +8,7 @@
       <i class="voyager-person"></i>
       Detalle cliente 
   </h6>
+  <input type="text" id="idUser" value="{{@$sucursal->Id_sucursal}}" hidden>
   <div class="row">
     <div class="col-md-5">
         <div class="card">
@@ -191,12 +192,35 @@
                     <div class="tab-pane fade" id="generales" role="tabpanel" aria-labelledby="generales-tab">
                         
                       <div class="row">
-                        <div class="col-md-3">
-                          <label>Telefono</label>
-                          <input type="text" id="telefono"/>
+                        <h6>Telefono</h6>
+                        <div class="col-md-5">
+                          <input type="text" id="telefono" value="{{@$sucursal->Telefono}}"/>
                         </div>
-
                       </div> 
+                      <div class="row">
+                        <h6>Correo</h6>
+                        <div class="col-md-5">
+                          <input type="text" id="correo" value="{{@$sucursal->Correo}}"/>
+                        </div>
+                      </div> 
+                      <div class="row">
+                        <h6>Direccion</h6>
+                        <div class="col-md-5">
+                          <input type="text" wire:model="direccion" value="{{@$sucursal->Direccion}}"/>
+                        </div>
+                      </div> 
+                      <div class="row">
+                        <h6>Atencion</h6>
+                        <div class="col-md-5">
+                          <input type="text"id="atencion" value="{{@$sucursal->Atencion}}"/>
+                        </div>
+                      </div> 
+                     
+                      <div class="row">
+                        <div class="col-md-5">
+                          <button type="text" id="guardarTelefono" class="btn btn-success btn-sm" wire.click="datosGenerales()" >Guardar</button> 
+                        </div> 
+                        </div>
 
                   
                   </div>
@@ -207,3 +231,7 @@
   @stop
 
 @endsection   
+@section('javascript')
+    <script src="{{asset('/public/js/cliente/cliente_detalle.js')}}"></script>
+   
+@stop
