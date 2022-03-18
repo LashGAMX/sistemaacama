@@ -26,4 +26,21 @@ class ClienteController extends Controller
         // var_dump($sucursal);
         return view('clientes.cliente_detalle',compact('cliente','idSuc','sucursal'));
     }
+    public function datosGenerales(Request $request){
+        $model = SucursalCliente::find($request->idUser);
+        $model->Telefono = $request->telefono;
+        $model->Correo = $request->correo;
+        $model->Direccion = $request->direccion;
+        $model->Atencion = $request->atencion;
+        $model->save();
+
+        $data = array(
+            'sw' => true,
+            'model' => $model
+        );
+        
+        return response()->json($data);
+        
+      
+    }
 } 
