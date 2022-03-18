@@ -16,6 +16,7 @@ use App\Models\ConductividadCalidad;
 use App\Models\ConductividadMuestra;
 use App\Models\ConductividadTrazable;
 use App\Models\ConTratamiento;
+use App\Models\Envase;
 use App\Models\Evidencia;
 use App\Models\GastoMuestra;
 use App\Models\HistorialCampoAsignar;
@@ -36,6 +37,8 @@ use App\Models\PHCalidad;
 use App\Models\PhCalidadCampo;
 use App\Models\PhMuestra;
 use App\Models\PHTrazable;
+use App\Models\PlanComplemento;
+use App\Models\PlanPaquete;
 use App\Models\SeguimientoAnalisis;
 use App\Models\Solicitud;
 use Facade\FlareClient\View;
@@ -1184,39 +1187,62 @@ class CampoController extends Controller
     public function getPlanMuestreo(Request $res)
     {
         $model = AreaLab::all();
+        $envase = Envase::all();
+        $datoModel = DB::table('ViewPlanPaquete')->where('Id_paquete',$res->idSub)->get();
         
         $data = array(
             'model' => $model,
+            'envase' => $envase,
+            'datoModel' => $datoModel,
         );
         return response()->json($data);
     }
     public function setPlanMuestreo(Request $res)
     {
-        $model = AreaLab::all();
-        
+        $model = DB::table('plan_paquete')->where('Id_paquete',$res->idSub)->delete();
+        for ($i=0; $i < sizeof($res->areas); $i++) { 
+            PlanPaquete::create([
+                'Id_paquete' => $res->idSub,
+                'Id_area' => $res->areas[$i],
+                'Id_recipiente' => $res->envase[$i],
+                'Cantidad' => $res->cantidad[$i],
+            ]);
+        } 
+        $model = PlanPaquete::where('Id_paquete',$res->idSub)->get();
         $data = array(
-            'model' => $model,
+          'model' => $model,
         );
         return response()->json($data);
     }
     public function getMaterial(Request $res)
     {
-        $model = ComplementoCampo::where('Tipo',1)->get();
+        $model = DB::table('ViewPlanComplemento')->where('Id_paquete',$res->idsub)->where('Tipo',1)->get();
         
         $data = array(
             'model' => $model,
         );
         return response()->json($data);
     }
-    public function setMaterial(Request $res)
+    public function getComplemento(Request $res)
     {
-        $model = AreaLab::all();
+        $model = ComplementoCampo::where('Tipo',$res->tipo)->get();
         
         $data = array(
             'model' => $model,
         );
         return response()->json($data);
     }
+    public function setComplemento(Request $res)
+    {
+        $model = ComplementoCampo::where('Tipo',$res->tipo)->get();
+        
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+  
+  
     //todo ******************************************************
     //todo Fin de configuracio plan de muestreo
     //todo ******************************************************

@@ -81,8 +81,8 @@
       <div class="col-md-4">
         <h6>Complementos</h6>
         &nbsp;&nbsp;<i  id="btnAddComplemento" class="fas fa-plus text-success"></i>
-        <div id="divTableComplemento" class="card">
-          <table id="tableComplemento" class="display compact" style="width:100%">
+        <div id="divTableComplementoCamp" class="card">
+          <table id="tableComplementoCamp" class="display compact" style="width:100%">
             <thead>
                 <tr>
                   <th>Complemento</th 
