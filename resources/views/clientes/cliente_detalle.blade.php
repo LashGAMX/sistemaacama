@@ -218,7 +218,7 @@
                      
                       <div class="row">
                         <div class="col-md-5">
-                          <button type="text" id="guardarTelefono" class="btn btn-success btn-sm" wire.click="datosGenerales()" >Guardar</button> 
+                          <button type="button" id="guardarTelefono" onclick="datosGenerales()" class="btn btn-success btn-sm">Guardar</button> 
                         </div> 
                         </div>
 
