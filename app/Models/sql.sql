@@ -435,3 +435,8 @@ INNER JOIN areas_lab as lab
 ON p.Id_area = lab.Id_area
 INNER JOIN envase as e
 ON p.Id_recipiente = e.Id_envase
+
+/* Lista ViewPlanComplemento */
+CREATE VIEW ViewPlanComplemento as SELECT com.*,cam.Complemento FROM plan_complemento as com
+INNER JOIN complementos_campo as cam
+ON com.Id_complemento = cam.Id_complemento

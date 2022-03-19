@@ -32,7 +32,9 @@ Route::group(['prefix' => 'campo'], function () {
         Route::post('configuracion/setPlanMuestreo',[CampoController::class,'setPlanMuestreo']);
 
         Route::post('configuracion/getMaterial',[CampoController::class,'getMaterial']);
-        Route::post('configuracion/setMaterial',[CampoController::class,'setMaterial']);
+        Route::post('configuracion/getComplemento',[CampoController::class,'getComplemento']);
+        Route::post('configuracion/setComplemento',[CampoController::class,'setComplemento']);
+        
     //pdf 
     Route::get('hojaCampo/{id}', [CampoController::class,'hojaCampo']);
     Route::get('bitacoraCampo/{id}', [CampoController::class,'bitacoraCampo']);
