@@ -32,6 +32,9 @@ Route::group(['prefix' => 'campo'], function () {
         Route::post('configuracion/setPlanMuestreo',[CampoController::class,'setPlanMuestreo']);
 
         Route::post('configuracion/getMaterial',[CampoController::class,'getMaterial']);
+        Route::post('configuracion/getEquipo',[CampoController::class,'getEquipo']);
+        Route::post('configuracion/getComplementoCamp',[CampoController::class,'getComplementoCamp']);
+
         Route::post('configuracion/getComplemento',[CampoController::class,'getComplemento']);
         Route::post('configuracion/setComplemento',[CampoController::class,'setComplemento']);
         

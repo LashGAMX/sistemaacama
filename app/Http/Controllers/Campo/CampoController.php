@@ -1216,7 +1216,25 @@ class CampoController extends Controller
     }
     public function getMaterial(Request $res)
     {
-        $model = DB::table('ViewPlanComplemento')->where('Id_paquete',$res->idsub)->where('Tipo',1)->get();
+        $model = DB::table('ViewPlanComplemento')->where('Id_paquete',$res->idSub)->where('Tipo',1)->get();
+        
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function getEquipo(Request $res)
+    {
+        $model = DB::table('ViewPlanComplemento')->where('Id_paquete',$res->idSub)->where('Tipo',2)->get();
+        
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function getComplementoCamp(Request $res)
+    {
+        $model = DB::table('ViewPlanComplemento')->where('Id_paquete',$res->idSub)->where('Tipo',3)->get();
         
         $data = array(
             'model' => $model,
@@ -1226,16 +1244,25 @@ class CampoController extends Controller
     public function getComplemento(Request $res)
     {
         $model = ComplementoCampo::where('Tipo',$res->tipo)->get();
+        $comModel = PlanComplemento::where('Id_paquete',$res->idSub)->get();
         
         $data = array(
             'model' => $model,
+            'comModel' => $comModel,
         );
         return response()->json($data);
     }
     public function setComplemento(Request $res)
     {
-        $model = ComplementoCampo::where('Tipo',$res->tipo)->get();
-        
+        $model = DB::table('plan_complemento')->where('Id_paquete',$res->idSub)->delete();
+        for ($i=0; $i < sizeof($res->complemento); $i++) { 
+            PlanComplemento::create([
+                'Id_paquete' => $res->idSub,
+                'Id_complemento' => $res->complemento[$i],
+                'Tipo' => $res->tipo,
+            ]);
+        } 
+        $model = PlanComplemento::where('Id_paquete',$res->idSub)->get();
         $data = array(
             'model' => $model,
         );

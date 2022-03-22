@@ -11,6 +11,13 @@ $('#btnAddPlan').click(function () {
 $('#btnAddMaterial').click(function () {
     getComplemento(1);
 });
+$('#btnAddEquipo').click(function () {
+    getComplemento(2);
+});
+$('#btnAddComplemento').click(function () {
+    getComplemento(3);
+});
+
 
 
 function getPaquetes() {
@@ -73,6 +80,8 @@ function getPaquetes() {
                 let dato = $(this).find('td:first').html();
                 getEnvase(dato);
                 getMaterial(dato);
+                getEquipo(dato);
+                getComplementoCamp(dato);
                 idSub = dato;
             });
         }
@@ -313,9 +322,99 @@ function getMaterial(id) {
     });
 }
 
+function getEquipo(id) {
+
+    let tabla = document.getElementById("divTableEquipo");
+    let tab = '';
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/campo/configuracion/getEquipo",
+        data: {
+            idSub: id,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            tab += '<table id="tableEquipo" class="display compact cell-border" style="width:100%">';
+            tab += '    <thead>';
+            tab += '        <tr>';
+            // tab += '          <th>Paquete</th>';
+            tab += '          <th>Material</th>';
+            tab += '        </tr>';
+            tab += '    </thead>';
+            tab += '    <tbody>';
+            $.each(response.model, function (key, item) {
+                tab += '<tr>';
+                tab += '<td>' + item.Complemento + '</td>';
+                tab += '</tr>';
+            });
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
+
+
+            var t = $('#tableEquipo').DataTable({
+                "ordering": false,
+                "language": {
+                    "lengthMenu": "# _MENU_ por pagina",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",
+                }
+            });
+
+        }
+    });
+}
+function getComplementoCamp(id) {
+
+    let tabla = document.getElementById("divTableComplementoCamp");
+    let tab = '';
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/campo/configuracion/getComplementoCamp",
+        data: {
+            idSub: id,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            tab += '<table id="tableComplementoCamp" class="display compact cell-border" style="width:100%">';
+            tab += '    <thead>';
+            tab += '        <tr>';
+            // tab += '          <th>Paquete</th>';
+            tab += '          <th>Material</th>';
+            tab += '        </tr>';
+            tab += '    </thead>';
+            tab += '    <tbody>';
+            $.each(response.model, function (key, item) {
+                tab += '<tr>';
+                tab += '<td>' + item.Complemento + '</td>';
+                tab += '</tr>';
+            });
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
+
+
+            var t = $('#tableComplementoCamp').DataTable({
+                "ordering": false,
+                "language": {
+                    "lengthMenu": "# _MENU_ por pagina",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",
+                }
+            });
+
+        }
+    });
+}
+
 function getComplemento(tipo) {
     let tab = '';
-    let cont = 0;
     let sw = false;
     let temp = 0;
     $.ajax({
@@ -330,6 +429,7 @@ function getComplemento(tipo) {
         async: false,
         success: function (response) {
             console.log(response)
+            
             tab += '<table id="tableComplemento" class="display compact cell-border" style="width:100%">';
             tab += '    <thead>';
             tab += '        <tr>';
@@ -340,8 +440,19 @@ function getComplemento(tipo) {
             tab += '    <tbody>';
             tab += '    <button class="btn btn-info" id="btnAllComplemento"><i class="fas fa-check-square"></i></button>';
             $.each(response.model, function (key, item) {
+                sw = false;
+                $.each(response.comModel, function (key, item2) {
+                    temp++;
+                    if (item.Id_complemento == item2.Id_complemento) {
+                        sw = true;
+                    }
+                });
                 tab += '<tr>';
-                tab += '<td><input type="checkbox" class="custom-control-input" name="ckComplemento" ></td>';
+                if (sw == true) {
+                    tab += '<td><input checked type="checkbox" class="custom-control-input" name="ckComplemento" value="' + item.Id_complemento + '"></td>';
+                } else {
+                    tab += '<td><input type="checkbox" class="custom-control-input" name="ckComplemento" value="' + item.Id_complemento + '"></td>';
+                }
                 tab += '<td>' + item.Complemento + '</td>';
                 tab += '</tr>';
             });
@@ -356,7 +467,12 @@ function getComplemento(tipo) {
                 case 1:
                     newModal('divModal', 'modalComplemento', 'Material de medicion', '', 1, 1, 1, inputBtn('', '', 'Guardar', 'fas fa-save', 'btn btn-success', 'setComplemento(1)'))       
                     break;
-            
+                case 2:
+                    newModal('divModal', 'modalComplemento', 'Equipo de muestreo', '', 1, 1, 1, inputBtn('', '', 'Guardar', 'fas fa-save', 'btn btn-success', 'setComplemento(2)'))       
+                    break;
+                case 3:
+                    newModal('divModal', 'modalComplemento', 'Complemento', '', 1, 1, 1, inputBtn('', '', 'Guardar', 'fas fa-save', 'btn btn-success', 'setComplemento(3)'))       
+                    break;
                 default:
                     break;
             }
@@ -379,7 +495,7 @@ function getComplemento(tipo) {
 }
 
 function setComplemento(tipo) {
-    let elementos = document.getElementsByName("ckAreas");
+    let elementos = document.getElementsByName("ckComplemento");
     let com = new Array();
 
 
@@ -403,11 +519,13 @@ function setComplemento(tipo) {
             console.log(response);
             switch (tipo) {
                 case 1:
-                    getMaterial(tipo)
+                    getMaterial(idSub)
                     break;
                 case 2:
+                    getEquipo(idSub)
                     break;
                 case 3:
+                    getComplementoCamp(idSub)
                     break;
                 default:
                     break;
