@@ -191,14 +191,14 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <select id="phTrazable1" focus>
+                                            <select id="phTrazable1" name="phTrazable1n" focus>
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach ($phTrazable as $item)                                                                                                
                                                     @if (@$phCampoTrazable[0]->Id_phTrazable == $item->Id_ph)
                                                         <option value="{{ $item->Id_ph }}" selected> {{ $item->Ph }}</option>
                                                     @else
                                                         <option value="{{ $item->Id_ph }}">{{ $item->Ph }}</option>
-                                                    @endif
+                                                    @endif                                                    
                                                 @endforeach
                                             </select>
                                         </td>
@@ -294,7 +294,7 @@
                                 <tbody>
                                     <tr>
                                         <td>                                            
-                                            <select id="phCalidad1">
+                                            <select id="phCalidad1" name="phCalidad1n">
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach ($phCalidad as $item)
                                                     @if (@$phCampoCalidad[0]->Id_phCalidad == $item->Id_ph)
@@ -1109,34 +1109,20 @@
                         </div>
                     </form>
                 </div>
+                <!-- Seccion de evidencia -->
                 <div class="tab-pane fade" id="evidencia" role="tabpanel" aria-labelledby="evidencia-tab">                                        
-
-                    <div class="col-md-4">
-                        <input type="file" name="foto" id="imgEvidencia1" accept="image/png, image/jpeg" />
-                    </div>
-                    <div class="col-md-4">
-                        <input type="file" name="foto" id="imgEvidencia2" accept="image/png, image/jpeg" />
-                    </div>
-                    <div class="col-md-4">                        
-                        <button type="submit" class="btn btn-success">Subir Imagen</button>
-                    </div>
-                    
-                    <!--<form method="post" id="formulario-imagen" action="/public/js/campo/captura.js" enctype="multipart/form-data">
-                        
-                        Datos Evidencia
-                        <hr>                        
-                        <div class="col-md-4">
-                            <input type="file" name="foto" id="imgEvidencia1" accept="image/png, image/jpeg" />
+                    <div class="card">
+                        <div class="card-body">
+                            <img src="" alt="">
+                            <form action="{{url('/admin/campo/captura/setEvidencia')}}" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <input type="file" name="file" id="" accept="image/*">
+                                <button type="submit" class="btn btn-primary">Subir imagen</button>
+                            </form>
                         </div>
-                        <div class="col-md-4">
-                            <input type="file" name="foto" id="imgEvidencia2" accept="image/png, image/jpeg" />
-                        </div>
-                        <div class="col-md-4">
-                            <button type="submit" class="btn btn-success" onclick="setEvidencia()">Subir Imagen</button>
-                        </div>
-                    </form>-->
-
+                    </div>
                 </div>
+                <!-- Seccion de evidencia -->
             </div>
         </div>
 
@@ -1241,6 +1227,6 @@
 
 @section('javascript')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-    <script src="{{ asset('js/campo/captura.js') }}"></script>
+    <script src="{{ asset('/public/js/campo/captura.js') }}"></script>
 @stop
  

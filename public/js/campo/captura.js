@@ -28,7 +28,10 @@ function datosGenerales() {
     });
 
     //phTrazable1
-    $("#phTrazable1").click(function () {        
+    $("#phTrazable1").click(function () {     
+        
+        console.log("Valor: " + $("#phTrazable1").val());
+        
         if($("#phTrazable1").val() == "0"){
             setPhTrazable2(
                 $("#phTrazable1").val(),
@@ -37,14 +40,19 @@ function datosGenerales() {
                 "phTLote1"
             );    
         }else{
+            console.log("Valor select: " + $("#phTrazable1").val());
             setPhTrazable(
                 $("#phTrazable1").val(),
                 "phTNombre1",
                 "phTMarca1",
                 "phTLote1",
             );
-        }        
+        }                
 
+        /*NOTA: Al select de phCalidad1 le está asignando el texto que tiene almacenado el valor del select de phTrazable1, como el valor
+        10.01 en la tabla de la bd ph trazable tiene un ID 7 trata el select de ph calidad encontrar un valor de opción 7 pero como no encuentra
+        no muestra nada; probablemente sea el error
+        */
         $("#phCalidad1").val($("#phTrazable1").val()).attr("disabled", "disabled");
             //idPh, nombre, marca, lote
             setPhCalidad($("#phCalidad1").val(), "phCNombre1", "phCMarca1", "phCLote1");
@@ -2732,7 +2740,7 @@ function getFactorCorreccion() {
 }
 
 function setPhTrazable(idPh, nombre, marca, lote) {
-    //let valor = $("#phTrazable1").val();
+    //let valor = $("#phTrazable1").val();    
     
     let nom = document.getElementById(nombre);
     let mar = document.getElementById(marca);
@@ -2747,8 +2755,10 @@ function setPhTrazable(idPh, nombre, marca, lote) {
         dataType: "json",
         async: false,
         success: function (response) {
-            console.log(response);  
-            //console.log("HOLAA")            
+            console.log(response);
+            //console.log("HOLAA")
+
+            //$('select[name="phTrazable1n"] option:selected').val(response.model.Id_ph);
             nom.innerText = response.model.Ph;
             mar.innerText = response.model.Marca;
             lot.innerText = response.model.Lote;
@@ -2784,27 +2794,37 @@ function setPhCalidad(idPh, nombre, marca, lote) {
     let mar = document.getElementById(marca);
     let lot = document.getElementById(lote);
 
-    console.log("Valor de idPh: " + idPh);
+    let idph = $('select[name="phTrazable1"] option:selected').text();
+    console.log("Texto idph: " + idph);
+    let trazable = $('select[name="phTrazable1n"] option:selected').text();
+
+    console.log("Valor de idPh en setPhCalidad: " + idph);       
 
     $.ajax({
         url: base_url + "/admin/campo/captura/getPhCalidad", //archivo que recibe la peticion
         type: "POST", //método de envio
         data: {
             idPh: idPh,
+            trazable: trazable,
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         async: false,
-        success: function (response) {            
-            console.log(response);            
+        success: function (response) {
+            console.log(response);
+            console.log("Valor de idph: " + response.model.Id_ph);
+
+            $("#phCalidad1").val(response.model.Id_ph);
+            //$('select[name="phCalidad1n"] option:selected').val(response.model.Id_ph);
+            //$('select[name="phCalidad1n"] option:selected').text(idPh);
             nom.innerText = response.model.Ph_calidad;
             mar.innerText = response.model.Marca;
-            lot.innerText = response.model.Lote;                                   
+            lot.innerText = response.model.Lote;
         },
     });
 }
 
-function setPhCalidad2(idPh, nombre, marca, lote) {    
+function setPhCalidad2(idPh, nombre, marca, lote) {
     let nom = document.getElementById(nombre);
     let mar = document.getElementById(marca);
     let lot = document.getElementById(lote);
@@ -2817,11 +2837,11 @@ function setPhCalidad2(idPh, nombre, marca, lote) {
         },
         dataType: "json",
         async: false,
-        success: function (response) {            
+        success: function (response) {
             console.log(response);
             nom.innerText = "";
             mar.innerText = "";
-            lot.innerText = "";                                   
+            lot.innerText = "";
         },
     });
 }
