@@ -22,12 +22,14 @@
                 </tr>
             </thead>
     
-            <tbody>                
-                <tr>
-                    <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr" height="25">PARAMETRO</td>
-                    <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">TOTAL</td>
-                    <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">VOLUMEN</td>                
-                </tr>                                
+            <tbody>    
+                @for ($i = 0; $i < $paqueteLength; $i++)
+                    <tr>
+                        <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr" height="25">{{@$paquete[$i]->Area}}</td>
+                        <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">{{@$paquete[$i]->Cantidad * @$model->Num_tomas}}</td>
+                        <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">{{@$paquete[$i]->Volumen}}</td>
+                    </tr>
+                @endfor
             </tbody>        
         </table>        
     </div> 
@@ -43,10 +45,12 @@
                     </tr>
                 </thead>
         
-                <tbody>                
-                    <tr>
-                        <td class="tableContent bordesTablaBody fontBold justificadorIzq">PRESERVADOR</td>
-                    </tr>                                
+                <tbody>  
+                    @for ($i = 0; $i < @$preservacionesArrayLength; $i++)
+                        <tr>
+                            <td class="tableContent bordesTablaBody fontBold justificadorIzq">{{@$preservacionesArray[$i]}}</td>
+                        </tr>
+                    @endfor                                  
                 </tbody>        
             </table>
         </div>

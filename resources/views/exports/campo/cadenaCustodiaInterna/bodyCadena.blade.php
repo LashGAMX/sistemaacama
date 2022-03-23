@@ -49,20 +49,17 @@
                     </thead>
 
                     <tbody>                                           
-                        @for ($i = 0; $i < $areasLabLength; $i++)
+                        @for ($i = 0; $i < @$paqueteLength; $i++)
                             <tr>
-                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">
-                                    <!-- @if ($areasLabArraySinDup[$i] !== "") -->
-                                        {{@$areasLabArraySinDup[$i]}}
-                                    <!-- @endif -->
+                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{@$paquete[$i]->Area}}                                    
                                 </td>
                                 <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$responsables[$i]}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{-- {{@$envases[$i]->Parametro}} --}}RECIPIENTES</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{-- {{@$envases[$i]->Nombre}} --}}SALIDA ANALISIS</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{-- {{@$envases[$i]->Volumen}} --}} ENTRADA GUARDAR</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{-- {{@$envases[$i]->Unidad}} --}} SALIDA ELIMINAR</td>
+                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paquete[$i]->Cantidad}}</td>
+                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$paquete[$i]->created_at)->format('d/m/Y')}}</td>
+                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$paquete[$i]->created_at)->format('d/m/Y')}}</td>
+                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$paquete[$i]->created_at)->addDays(rand(12,14))->format('d/m/Y')}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$fechaEmision)->format('d/m/Y')}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>                                
+                                <td class="justifyCenter bordesTablaInfIzqDer"><img style="width: auto; height: auto; max-width: 75px; max-height: 55px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>                                
                             </tr>
                         @endfor
                     </tbody>
@@ -180,7 +177,7 @@
                                 <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">{{@$mAritmeticaColi}}</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">VALOR</td>
+                                <td class="fontCalibri anchoColumna111 fontSize8">{{@$gastoPromFinal}}</td>
                                 <td class="fontCalibri anchoColumna111 justifyCenter"><span class="fontSize7 negrita">FIRMA RESPONSABLE</span> <br> <span class="fontSize8">Q.F.B. RODRÍGUEZ BLANCO AGUEDA</span> &nbsp;&nbsp; </td>
                                 <td class="justifyCenter anchoColumna111"><img style="width: auto; height: auto; max-width: 60px; max-height: 40px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
                                 

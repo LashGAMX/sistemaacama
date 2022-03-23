@@ -346,7 +346,7 @@ class InformesController extends Controller
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 22,
-            'margin_bottom' => 66,
+            'margin_bottom' => 20,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
@@ -383,11 +383,13 @@ class InformesController extends Controller
             $limiteGrasas = $limC;
         }
 
+        $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
+        $gastosModelLength = $gastosModel->count();
+
         //Calcula el promedio ponderado de las grasas y aceites
         if($gaMenorLimite === false){
             $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();        
-            $modelParamGrasasLength = $modelParamGrasas->count();
-            $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
+            $modelParamGrasasLength = $modelParamGrasas->count();            
 
             //Calcula promedio ponderado de G y A
             $promPonderadoGaArray = 0;
@@ -480,6 +482,18 @@ class InformesController extends Controller
             $mAritmeticaColi = $limiteColiformes;
         }
 
+        //Calcula el promedio de los promedios del gasto
+        $gastoPromSuma = 0;
+        foreach($gastosModel as $item){
+            if($item->Promedio === null){
+                $gastoPromSuma += 0;
+            }else{
+                $gastoPromSuma += $item->Promedio;
+            }
+        }
+
+        $gastoPromFinal = $gastoPromSuma / $gastosModelLength;
+
         //Recupera los límites de cuantificación de los parámetros        
         foreach($paramResultado as $item){
             $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();                            
@@ -494,39 +508,22 @@ class InformesController extends Controller
                 array_push($limitesC, $limC);
             }
         }
+                
+        $paquete = DB::table('ViewPlanPaquete')->where('Id_paquete', $model->Id_subnorma)->distinct()->get();
+        $paqueteLength = $paquete->count();
 
-        //Recupera las areas_lab
-        $areasLabArray = array();                        
-
-        foreach($paramResultado as $item){
-            $modelArea = DB::table('ViewEnvaseParametro')->where('Id_parametro', $item->Id_parametro)->first();
-            
-            //LINEA DE PRUEBA PARA AREAS
-            if(!is_null($modelArea)){
-                array_push($areasLabArray, $modelArea->Area);
-            }            
-        }
-
-        //print_r($areasLabArray);
-
-        $areasLabArraySinDup = array_values(array_unique($areasLabArray));
-
-        //print_r($areasLabArraySinDup);
-        
-        $areasLabLength = sizeof($areasLabArraySinDup);
-        
         $responsables = array();        
 
-        foreach($areasLabArraySinDup as $item){
+        foreach($paquete as $item){
             //INSTRUCCIÓN TEMPORAL
             if(!is_null($item)){
-                $responsableArea = AreaLab::where('Area', $item)->first();
+                $responsableArea = AreaLab::where('Area', $item->Area)->first();
                 $modelResponsable = DB::table('users')->where('id', $responsableArea->Id_responsable)->first();
                 $responsable = $modelResponsable->name;
 
                 array_push($responsables, $responsable);
             }            
-        }
+        }    
 
         $fechaEmision = \Carbon\Carbon::now();
         $tipoMuestra = DB::table('tipo_descargas')->where('Id_tipo', $model->Id_muestreo)->first();
@@ -534,7 +531,7 @@ class InformesController extends Controller
 
         $mpdf->showWatermarkImage = true;
 
-        $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', compact('model', 'tipoMuestra', 'norma', 'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'areasLabArraySinDup', 'areasLabLength', 'responsables', 'promedioPonderadoGA', 'mAritmeticaColi'));
+        $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', compact('model', 'paquete', 'paqueteLength', 'tipoMuestra', 'norma', 'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'responsables', 'promedioPonderadoGA', 'mAritmeticaColi', 'gastoPromFinal'));
 
         $mpdf->WriteHTML($htmlInforme);
 

@@ -867,7 +867,7 @@ class CampoController extends Controller
                 'Temp_muestraComp' => $request->valTempCompuesto,
                 'Volumen_calculado' => $request->volCalculadoComp,
                 'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id
+                'Id_user_m' => Auth::user()->id 
             ]);
 
             $nota = "Creación de registro";
@@ -876,8 +876,44 @@ class CampoController extends Controller
 
         $data = array('sw' => true);
         return response()->json($data);
-    }
+    } 
 
+    public function setEvidencia(Request $request)
+    {
+        
+        $contenidoBinario = file_get_contents($request->file);
+        $imagenComoBase64 = base64_encode($contenidoBinario);
+
+        $decoder = base64_decode($imagenComoBase64);
+        $img = imagecreatefromstring($decoder);
+        if(!$img) 
+        {
+            die("Base 64 valor no aceptado");
+        }
+        echo $imagenComoBase64;
+        // header('Content-Type:image/jpg');
+        // imagejpeg($img);
+        // imagedestroy($img);
+
+        // Nombre de la imagen
+        // $path = 'image.png';
+        
+        // // Extensión de la imagen
+        // $type = pathinfo($contenidoBinario, PATHINFO_EXTENSION);
+        
+        // // Cargando la imagen
+        // $data = file_get_contents($contenidoBinario);
+        
+        // // Decodificando la imagen en base64
+        // $base64 = 'data:image/' . $type . ';base64,' . decoder;
+        
+        // // Mostrando la imagen
+        // echo '<img src="'.$base64.'"/>';
+        
+        // // Mostrando el código base64
+        // echo $base64;
+ 
+    }
     public function historialDatosCompuestos($idSol, $nota, $campoCompuesto)
     {
         $idUser = Auth::user()->id;
@@ -1001,8 +1037,8 @@ class CampoController extends Controller
         return response()->json(compact('model'));
     }
     public function getPhCalidad(Request $request)
-    {                
-        $model = PHCalidad::where('Id_ph', $request->idPh)->first();
+    {                        
+        $model = PHCalidad::where('Ph_calidad', $request->trazable)->first();
         return response()->json(compact('model'));
     }
     public function getConTrazable(Request $request)
@@ -1140,15 +1176,41 @@ class CampoController extends Controller
         //Recupera los parámetros de la solicitud
         //$parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $idSolicitud)->get();
 
-        $complementoCampoTipo1 = ComplementoCampo::where('Tipo', 1)->get();
-        $complementoCampoTipo2 = ComplementoCampo::where('Tipo', 2)->get();
-        $complementoCampoTipo3 = ComplementoCampo::where('Tipo', 3)->get();
+        $complementoCampoTipo1 = DB::table('ViewPlanComplemento')->where('Id_paquete', $model->Id_subnorma)->where('Tipo', 1)->get();
+        $complementoCampoTipo2 = DB::table('ViewPlanComplemento')->where('Id_paquete', $model->Id_subnorma)->where('Tipo', 2)->get();
+        $complementoCampoTipo3 = DB::table('ViewPlanComplemento')->where('Id_paquete', $model->Id_subnorma)->where('Tipo', 3)->get();
         $complementoCampoTipo1Length = $complementoCampoTipo1->count();
         $complementoCampoTipo2Length = $complementoCampoTipo2->count();
         $complementoCampoTipo3Length = $complementoCampoTipo3->count();
+        
+        $paquete = DB::table('ViewPlanPaquete')->where('Id_paquete', $model->Id_subnorma)->get();
+        $paqueteLength = $paquete->count();
+
+
+
+        //Obtiene los parámetros de esta solicitud
+        $parametrosSolicitud = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSolicitud)->get();
+        $parametrosSolicitudLength = $parametrosSolicitud->count();
+
+        //Obtiene las preservaciones de los parámetros
+        $preservacionesArray = array();
+        
+        foreach($parametrosSolicitud as $item){
+            $preservacionParametro = DB::table('ViewEnvaseParametro')->where('Id_parametro', $item->Id_parametro)->first();
+
+            if(!is_null($preservacionParametro)){
+                if(!in_array($preservacionParametro->Preservacion, $preservacionesArray)){
+                    array_push($preservacionesArray,
+                    $preservacionParametro->Preservacion
+                    );
+                }                
+            }
+        }
+
+        $preservacionesArrayLength = sizeof($preservacionesArray);
 
         $html = view('exports.campo.planMuestreo.bodyPlanMuestreo', compact('complementoCampoTipo1', 'complementoCampoTipo2', 'complementoCampoTipo3', 'complementoCampoTipo1Length',
-        'complementoCampoTipo2Length', 'complementoCampoTipo3Length')); 
+        'complementoCampoTipo2Length', 'complementoCampoTipo3Length', 'paquete', 'paqueteLength', 'model', 'preservacionesArray', 'preservacionesArrayLength')); 
         $htmlHeader = view('exports.campo.planMuestreo.headerPlanMuestreo', compact('model'));
         $htmlFooter = view('exports.campo.planMuestreo.footerPlanMuestreo');            
 
@@ -1254,7 +1316,7 @@ class CampoController extends Controller
     }
     public function setComplemento(Request $res)
     {
-        $model = DB::table('plan_complemento')->where('Id_paquete',$res->idSub)->delete();
+        $model = DB::table('plan_complemento')->where('Id_paquete',$res->idSub)->where('Tipo',$res->tipo)->delete();
         for ($i=0; $i < sizeof($res->complemento); $i++) { 
             PlanComplemento::create([
                 'Id_paquete' => $res->idSub,

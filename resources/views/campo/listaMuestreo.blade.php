@@ -133,10 +133,10 @@
             </div>
         </div>
     </div>
-@endsection  
+@endsection   
 
 
 @section('javascript')
-    <script src="{{asset('/public/js/campo/listaMuestreo.js')}}"></script> 
+    <script src="{{asset('/public/js/campo/listaMuestreo.js')}}?v=0.0.1"></script> 
 @stop
 

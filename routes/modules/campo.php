@@ -22,6 +22,7 @@ Route::group(['prefix' => 'campo'], function () {
     Route::post('captura/setDataGeneral', [CampoController::class,'setDataGeneral']);
     Route::post('captura/setDataMuestreo', [CampoController::class,'setDataMuestreo']);
     Route::post('captura/setDataCompuesto', [CampoController::class, 'setDataCompuesto']);
+    Route::post('captura/setEvidencia', [CampoController::class, 'setEvidencia']);
 
     //todo Configuracion de bitacora de campo
     Route::get('configuracion/configPlan',[CampoController::class,'configPlan']);
