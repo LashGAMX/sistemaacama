@@ -231,7 +231,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <select id="phTrazable2">
+                                            <select id="phTrazable2" name="phTrazable2n">
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach ($phTrazable as $item)
                                                     <p>{{ @$phCampoTrazable }}</p>
@@ -338,7 +338,7 @@
                                     </tr>
                                     <tr>
                                         <td>
-                                            <select id="phCalidad2">
+                                            <select id="phCalidad2" name="phCalidad2n">
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach ($phCalidad as $item)
                                                     @if (@$phCampoCalidad[1]->Id_phCalidad == $item->Id_ph)
@@ -697,11 +697,11 @@
                                         <tr>
                                             <th>Núm Muestra</th>
                                             <th>Temperatura 1 (°C)</th>
-                                            <th>Factor de corrección aplicado</th>
+                                            <th>Temperatura corregida</th>
                                             <th>Temperatura 2 (°C)</th>
-                                            <th>Factor de corrección aplicado</th>
+                                            <th>Temperatura corregida</th>
                                             <th>Temperatura 3 (°C)</th>
-                                            <th>Factor de corrección aplicado</th>
+                                            <th>Temperatura corregida</th>
                                             <th>Temperatura Promedio (°C)</th>
                                             <th hidden>Estado</th>
                                         </tr>

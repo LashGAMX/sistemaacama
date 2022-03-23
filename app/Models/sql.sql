@@ -440,3 +440,19 @@ ON p.Id_recipiente = e.Id_envase
 CREATE VIEW ViewPlanComplemento as SELECT com.*,cam.Complemento FROM plan_complemento as com
 INNER JOIN complementos_campo as cam
 ON com.Id_complemento = cam.Id_complemento
+
+CREATE VIEW ViewCampoPhCalidad as SELECT c.*,ph.Ph_calidad,ph.Marca,ph.Lote,ph.Inicio_caducidad,ph.Fin_caducidad  FROM campo_phCalidad as c
+INNER JOIN ph_calidad as ph
+ON c.Id_phCalidad = ph.Id_ph
+
+CREATE VIEW ViewCampoPhTrazable as  SELECT c.*,ph.Ph,ph.Marca,ph.Lote,ph.Inicio_caducidad,ph.Fin_caducidad FROM campo_phTrazable as c
+INNER JOIN ph_trazable as ph
+ON c.Id_phTrazable = ph.Id_ph
+
+CREATE VIEW ViewCampoConCalidad as SELECT c.*,con.Conductividad,con.Marca,con.Lote,con.Inicio_caducidad,con.Fin_caducidad FROM campo_conCalidad as c
+INNER JOIN conductividad_calidad as con
+ON c.Id_conCalidad = con.Id_conductividad
+
+CREATE VIEW ViewCampoConTrazable as SELECT c.*,con.Conductividad,con.Marca,con.Lote,con.Inicio_caducidad,con.Fin_caducidad FROM campo_conTrazable as c
+INNER JOIN conductividad_trazable as con
+ON c.Id_conTrazable = con.Id_conductividad

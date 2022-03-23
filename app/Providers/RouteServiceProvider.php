@@ -100,21 +100,25 @@ class RouteServiceProvider extends ServiceProvider
                 ->prefix('admin')
                 ->group(base_path('routes/modules/historial.php'));
             Route::middleware('web', 'auth')
-               ->namespace($this->namespace)
-               ->prefix('admin')
-               ->group(base_path('routes/modules/recurso.php'));
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/recurso.php'));
             Route::middleware('web', 'auth')
-              ->namespace($this->namespace)
-              ->prefix('admin')
-              ->group(base_path('routes/modules/ingresar.php'));
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/ingresar.php'));
             Route::middleware('web', 'auth')
-              ->namespace($this->namespace)
-              ->prefix('admin')
-              ->group(base_path('routes/modules/laboratorio.php'));
-              Route::middleware('web', 'auth')
-              ->namespace($this->namespace)
-              ->prefix('admin')
-              ->group(base_path('routes/modules/informes.php'));
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/laboratorio.php'));
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/informes.php'));
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/supervicion.php'));
         });
     }
 

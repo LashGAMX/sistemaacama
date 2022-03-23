@@ -9,7 +9,7 @@
  
     <title>Hoja de Campo </title>
 </head>
-<body> 
+<body style="font-size: 10px"> 
     <div class="container" id="pag">
         <div class="row">
             <div class="col-md-12">
@@ -150,7 +150,7 @@
 
                     <tr>
                         <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita">{{$muestreador->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
-                        <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">{{$muestreador->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
+                        <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">{{$muestreador->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{url("/public/storage")."/".$firmaRes->firma}}"></td>                      
                     </tr>                    
 
                     {{-- <tr style="background-color: aquamarine">
@@ -166,7 +166,7 @@
                 <table class="{{-- table table-borderless --}} table-sm {{-- colorBorde --}}" width="100%">
                     <tr>
                       <td class="bordesTabla justifyCenter" colspan="2"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
-                      <td class="bordesTabla justifyCenter" colspan="2"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>                      
+                      <td class="bordesTabla justifyCenter" colspan="2"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{url("/public/storage")."/".$firmaRes->firma}}"></td>                      
                     </tr>
 
                     <tr>

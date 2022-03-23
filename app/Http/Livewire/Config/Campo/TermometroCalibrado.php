@@ -111,42 +111,106 @@ class TermometroCalibrado extends Component
         
         $termo = TermFactorCorreccionTemp::find($model[0]->Id_factor);
         $termo->Factor = $this->fa1;
-        $termo->Factor_aplicado = $this->apl1;
+
+        if($this->fa1 >= 0.5){
+            $termo->Factor_aplicado = 1;
+        }else if($this->fa1 <= -0.5){
+            $termo->Factor_aplicado = -1;
+        }else{
+            $termo->Factor_aplicado = 0 /* $this->apl1 */;
+        }
+
         $termo->save();
 
         $termo = TermFactorCorreccionTemp::find($model[1]->Id_factor);
         $termo->Factor = $this->fa2;
-        $termo->Factor_aplicado = $this->apl2;
+
+        if($this->fa2 >= 0.5){
+            $termo->Factor_aplicado = 1;
+        }else if($this->fa2 <= -0.5){
+            $termo->Factor_aplicado = -1;
+        }else{
+            $termo->Factor_aplicado = 0 /* $this->apl2 */;
+        }
+        
         $termo->save();
 
         $termo = TermFactorCorreccionTemp::find($model[2]->Id_factor);
         $termo->Factor = $this->fa3;
-        $termo->Factor_aplicado = $this->apl3;
+
+        if($this->fa3 >= 0.5){
+            $termo->Factor_aplicado = 1;
+        }else if($this->fa3 <= -0.5){
+            $termo->Factor_aplicado = -1;
+        }else{
+            $termo->Factor_aplicado = 0 /* $this->apl3 */;
+        }
+        
         $termo->save();
 
         $termo = TermFactorCorreccionTemp::find($model[3]->Id_factor);
         $termo->Factor = $this->fa4;
-        $termo->Factor_aplicado = $this->apl4;
+
+        if($this->fa4 >= 0.5){
+            $termo->Factor_aplicado = 1;
+        }else if($this->fa4 <= -0.5){
+            $termo->Factor_aplicado = -1;
+        }else{
+            $termo->Factor_aplicado = 0 /* $this->apl4 */;
+        }
+        
         $termo->save();
 
         $termo = TermFactorCorreccionTemp::find($model[4]->Id_factor);
         $termo->Factor = $this->fa5;
-        $termo->Factor_aplicado = $this->apl5;
+
+        if($this->fa5 >= 0.5){
+            $termo->Factor_aplicado = 1;
+        }else if($this->fa5 <= -0.5){
+            $termo->Factor_aplicado = -1;
+        }else{
+            $termo->Factor_aplicado = 0 /* $this->apl5 */;
+        }
+        
         $termo->save();
 
         $termo = TermFactorCorreccionTemp::find($model[5]->Id_factor);
         $termo->Factor = $this->fa6;
-        $termo->Factor_aplicado = $this->apl6;
+
+        if($this->fa6 >= 0.5){
+            $termo->Factor_aplicado = 1;
+        }else if($this->fa6 <= -0.5){
+            $termo->Factor_aplicado = -1;
+        }else{
+            $termo->Factor_aplicado = 0 /* $this->apl6 */;
+        }
+        
         $termo->save();
 
         $termo = TermFactorCorreccionTemp::find($model[6]->Id_factor);
         $termo->Factor = $this->fa7;
-        $termo->Factor_aplicado = $this->apl7;
+
+        if($this->fa7 >= 0.5){
+            $termo->Factor_aplicado = 1;
+        }else if($this->fa7 <= -0.5){
+            $termo->Factor_aplicado = -1;
+        }else{
+            $termo->Factor_aplicado = 0 /* $this->apl7 */;
+        }
+        
         $termo->save();
         
         $termo = TermFactorCorreccionTemp::find($model[7]->Id_factor);
         $termo->Factor = $this->fa8;
-        $termo->Factor_aplicado = $this->apl8;
+
+        if($this->fa8 >= 0.5){
+            $termo->Factor_aplicado = 1;
+        }else if($this->fa8 <= -0.5){
+            $termo->Factor_aplicado = -1;
+        }else{
+            $termo->Factor_aplicado = 0 /* $this->apl8 */;
+        }
+        
         $termo->save();
 
         $this->alert = true;
@@ -161,42 +225,114 @@ class TermometroCalibrado extends Component
 
        $termo = TermFactorCorreccionTemp::find($model[0]->Id_factor);
         $this->fa1 = $termo->Factor;
-       $this->apl1 = $termo->Factor_aplicado ;
+
+        if($this->fa1 >= 0.5){
+            $this->apl1 = 1;
+        }else if($this->fa1 <= -0.5){
+            $this->apl1 = -1;
+        }else{
+            $this->apl1 = 0;
+        }
+        
+        //$this->apl1 = $termo->Factor_aplicado ;
        
 
        $termo = TermFactorCorreccionTemp::find($model[1]->Id_factor);
         $this->fa2 = $termo->Factor;
-       $this->apl2 = $termo->Factor_aplicado ;
+
+        if($this->fa2 >= 0.5){
+            $this->apl2 = 1;
+        }else if($this->fa2 <= -0.5){
+            $this->apl2 = -1;
+        }else{
+            $this->apl2 = 0;
+        }
+       
+        //$this->apl2 = $termo->Factor_aplicado ;
        
 
        $termo = TermFactorCorreccionTemp::find($model[2]->Id_factor);
         $this->fa3 = $termo->Factor;
-       $this->apl3 = $termo->Factor_aplicado ;
+       
+        if($this->fa3 >= 0.5){
+            $this->apl3 = 1;
+        }else if($this->fa3 <= -0.5){
+            $this->apl3 = -1;
+        }else{
+            $this->apl3 = 0;
+        }
+       
+        //$this->apl3 = $termo->Factor_aplicado ;
        
 
        $termo = TermFactorCorreccionTemp::find($model[3]->Id_factor);
         $this->fa4 = $termo->Factor;
-       $this->apl4 = $termo->Factor_aplicado ;
+
+        if($this->fa4 >= 0.5){
+            $this->apl4 = 1;
+        }else if($this->fa4 <= -0.5){
+            $this->apl4 = -1;
+        }else{
+            $this->apl4 = 0;
+        }
+
+       //$this->apl4 = $termo->Factor_aplicado ;
        
 
        $termo = TermFactorCorreccionTemp::find($model[4]->Id_factor);
         $this->fa5 = $termo->Factor;
-       $this->apl5 = $termo->Factor_aplicado ;
+        
+        if($this->fa5 >= 0.5){
+            $this->apl5 = 1;
+        }else if($this->fa5 <= -0.5){
+            $this->apl5 = -1;
+        }else{
+            $this->apl5 = 0;
+        }
+        
+        //$this->apl5 = $termo->Factor_aplicado ;
        
 
        $termo = TermFactorCorreccionTemp::find($model[5]->Id_factor);
         $this->fa6 = $termo->Factor;
-       $this->apl6 = $termo->Factor_aplicado ;
+
+        if($this->fa6 >= 0.5){
+            $this->apl6 = 1;
+        }else if($this->fa6 <= -0.5){
+            $this->apl6 = -1;
+        }else{
+            $this->apl6 = 0;
+        }
+        
+        //$this->apl6 = $termo->Factor_aplicado ;
        
 
        $termo = TermFactorCorreccionTemp::find($model[6]->Id_factor);
         $this->fa7 = $termo->Factor;
-       $this->apl7 = $termo->Factor_aplicado ;
+
+        if($this->fa7 >= 0.5){
+            $this->apl7 = 1;
+        }else if($this->fa7 <= -0.5){
+            $this->apl7 = -1;
+        }else{
+            $this->apl7 = 0;
+        }
+
+        //$this->apl7 = $termo->Factor_aplicado ;
        
        
        $termo = TermFactorCorreccionTemp::find($model[7]->Id_factor);
         $this->fa8 = $termo->Factor;
-       $this->apl8 = $termo->Factor_aplicado ;
+
+        if($this->fa8 >= 0.5){
+            $this->apl8 = 1;
+        }else if($this->fa8 <= -0.5){
+            $this->apl8 = -1;
+        }else{
+            $this->apl8 = 0;
+        }
+
+        //$this->apl8 = $termo->Factor_aplicado ;
        
     }
     public function setData($idTermo)
