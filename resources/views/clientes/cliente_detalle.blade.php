@@ -232,6 +232,6 @@
 
 @endsection   
 @section('javascript')
-    <script src="{{asset('/public/js/cliente/cliente_detalle.js')}}"></script>
+    <script src="{{asset('/js/cliente/detalle.js')}}?v=0.1.1"></script>
    
 @stop
