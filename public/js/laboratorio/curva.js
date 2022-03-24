@@ -56,13 +56,34 @@ $(document).ready(function (){
     $("#idAreaModal").on("change",function(){ 
         console.log('evento activado area');
         getLote();
-        getParametroModal();
+       // getParametroModal();
     });
     
     
+    $("#idLoteModal").on('change', function(){
+        console.log('evento activado parametro');
+    });
+
+    
 
 });
+function getParametroDetalle(){ 
+    $.ajax({
+        url: base_url + '/admin/laboratorio/getParametroDetalle', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          idLote:$("#idLoteModal").val(),
+         
+          _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {
+         console.log(response);
 
+        }
+    });   
+}
 function setConstantes()
 {
     const fecha = new Date();

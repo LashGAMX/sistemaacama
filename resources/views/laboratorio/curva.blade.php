@@ -108,7 +108,7 @@
                 </select>
             </div>
             <div class="col-md-6" id="DivLoteModal">
-              <select class="form-control" id="idLoteModal">
+              <select class="form-control" id="idLoteModal" >
                 <option>Selecciona Lote</option>
                 {{-- @foreach ($usuarios as $item)
                
@@ -118,6 +118,9 @@
             <div class="col-md-6" id="divParametroModal">
               <select class="form-control" id="idParametroModal">
                 <option>Selecciona parametro</option>
+                @foreach ($parametro as $item)
+                <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
+                @endforeach
                 </select>
             </div>
               <label>Fecha fin</label> 

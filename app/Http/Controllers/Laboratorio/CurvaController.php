@@ -21,8 +21,10 @@ class CurvaController extends Controller
     public function index(){
         $lote = LoteAnalisis::all();
         $area = AreaAnalisis::all();
+        $parametro = Parametro::all();
+
         $model = "";
-        return view('laboratorio/curva', compact('model','lote','area'));
+        return view('laboratorio/curva', compact('model','lote','area','parametro'));
     }
 
     public function getParametro(Request $request){
@@ -32,7 +34,17 @@ class CurvaController extends Controller
      
         $data = array(
             'model'=> $parametro,
+            'idLote' => $idLote,
         );
+        return response()->json($data);
+    }
+    public function getParametroDetalle(Request $request){
+        $parametro = LoteDetalle::where('Id_Lote', $request->idLote)->get();
+
+        $data = array(
+            'parametro' => $parametro,
+        );
+
         return response()->json($data);
     }
     public function getParametroModal(Request $request ){
@@ -46,10 +58,12 @@ class CurvaController extends Controller
     }
     public function getLote(Request $request){
         $lote = LoteAnalisis::where('Id_area', $request->idArea)->get();
-
+        
         $data = array(
             'area' => $request->idArea,
             'lote' => $lote,
+           
+    
         );
         return response()->json($data);
     }
