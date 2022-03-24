@@ -45,6 +45,7 @@ use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\SolicitudesGeneradas;
+use App\Models\SolicitudPuntos;
 use App\Models\SubNorma;
 use App\Models\TemperaturaMuestra;
 use App\Models\TermFactorCorreccionTemp;
@@ -1071,6 +1072,8 @@ class CampoController extends Controller
         $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
         $muestreador = Usuario::where('id',$solGen->Id_muestreador)->first();
 
+        $firmaRes = DB::table('users')->where('id',$solGen->Id_muestreador)->first();
+
         //Recupera los parámetros de la solicitud
         $paramSolicitud = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $id)->get();
         $paramSolicitudLength = $paramSolicitud->count();
@@ -1097,7 +1100,7 @@ class CampoController extends Controller
             array(0, 0),
         );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.hojaCampo',compact('model', 'numOrden', 'punto','phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'envasesArray', 'paramSolicitudLength'));
+        $html = view('exports.campo.hojaCampo',compact('model', 'numOrden', 'punto','phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'envasesArray', 'paramSolicitudLength','firmaRes'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output();
@@ -1116,8 +1119,12 @@ class CampoController extends Controller
         $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
         $muestreador = Usuario::where('id',$solGen->Id_muestreador)->first();
 
-        $phTrazable = CampoPhTrazable::where('Id_solicitud',$id)->get();
-        $campoConTrazable = CampoConTrazable::wherE('Id_solicitud',$id)->get();
+        // $phTrazable = CampoPhTrazable::where('Id_solicitud',$id)->get();
+        $phTrazable = DB::table('ViewCampoPhTrazable')->where('Id_solicitud',$id)->get();
+        $phCalidad = DB::table('ViewCampoPhCalidad')->where('Id_solicitud',$id)->get();
+        
+        $campoConTrazable = DB::table('ViewCampoConTrazable')->where('Id_solicitud',$id)->get();
+        $campoConCalidad = DB::table('ViewCampoConCalidad')->where('Id_solicitud',$id)->get();
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
@@ -1134,7 +1141,7 @@ class CampoController extends Controller
             array(0, 0), 
         );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.bitacoraCampo',compact('model','punto','phMuestra','gastoMuestra','campoGen','tempMuestra','conMuestra','muestreador','phTrazable','campoConTrazable'));
+        $html = view('exports.campo.bitacoraCampo',compact('model','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra','campoGen','tempMuestra','conMuestra','muestreador','phTrazable','campoConTrazable'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output();
@@ -1143,19 +1150,8 @@ class CampoController extends Controller
     public function planMuestreo($idSolicitud)
     {
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$idSolicitud)->first();
-        /* $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$id)->first();
-        $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud',$id)->first();
-
-        $campoGen = DB::table('ViewCampoGenerales')->where('Id_solicitud',$id)->first();
-        $phMuestra = PhMuestra::where('Id_solicitud',$id)->get();
-        $gastoMuestra = GastoMuestra::where('Id_solicitud',$id)->get();
-        $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
-        $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
-        $muestreador = Usuario::where('id',$solGen->Id_muestreador)->first();
-
-        $phTrazable = CampoPhTrazable::where('Id_solicitud',$id)->get();
-        $campoConTrazable = CampoConTrazable::wherE('Id_solicitud',$id)->get(); */
-
+        $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+        $puntos = $puntoMuestreo->count();
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
             'margin_left' => 20,
@@ -1210,8 +1206,8 @@ class CampoController extends Controller
         $preservacionesArrayLength = sizeof($preservacionesArray);
 
         $html = view('exports.campo.planMuestreo.bodyPlanMuestreo', compact('complementoCampoTipo1', 'complementoCampoTipo2', 'complementoCampoTipo3', 'complementoCampoTipo1Length',
-        'complementoCampoTipo2Length', 'complementoCampoTipo3Length', 'paquete', 'paqueteLength', 'model', 'preservacionesArray', 'preservacionesArrayLength')); 
-        $htmlHeader = view('exports.campo.planMuestreo.headerPlanMuestreo', compact('model'));
+        'complementoCampoTipo2Length', 'complementoCampoTipo3Length', 'paquete', 'paqueteLength', 'model', 'preservacionesArray', 'preservacionesArrayLength','puntos')); 
+        $htmlHeader = view('exports.campo.planMuestreo.headerPlanMuestreo', compact('model','puntos'));
         $htmlFooter = view('exports.campo.planMuestreo.footerPlanMuestreo');            
 
         $mpdf->CSSselectMedia = 'mpdf';

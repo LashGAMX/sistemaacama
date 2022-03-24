@@ -28,10 +28,7 @@ function datosGenerales() {
     });
 
     //phTrazable1
-    $("#phTrazable1").click(function () {     
-        
-        console.log("Valor: " + $("#phTrazable1").val());
-        
+    $("#phTrazable1").click(function () {                             
         if($("#phTrazable1").val() == "0"){
             setPhTrazable2(
                 $("#phTrazable1").val(),
@@ -39,8 +36,7 @@ function datosGenerales() {
                 "phTMarca1",
                 "phTLote1"
             );    
-        }else{
-            console.log("Valor select: " + $("#phTrazable1").val());
+        }else{            
             setPhTrazable(
                 $("#phTrazable1").val(),
                 "phTNombre1",
@@ -48,11 +44,7 @@ function datosGenerales() {
                 "phTLote1",
             );
         }                
-
-        /*NOTA: Al select de phCalidad1 le está asignando el texto que tiene almacenado el valor del select de phTrazable1, como el valor
-        10.01 en la tabla de la bd ph trazable tiene un ID 7 trata el select de ph calidad encontrar un valor de opción 7 pero como no encuentra
-        no muestra nada; probablemente sea el error
-        */
+        
         $("#phCalidad1").val($("#phTrazable1").val()).attr("disabled", "disabled");
             //idPh, nombre, marca, lote
             setPhCalidad($("#phCalidad1").val(), "phCNombre1", "phCMarca1", "phCLote1");
@@ -85,7 +77,7 @@ function datosGenerales() {
                 "phTLote2"
             );    
         }else{
-            setPhTrazable(
+            setPhTrazable2(
                 $("#phTrazable2").val(),
                 "phTNombre2",
                 "phTMarca2",
@@ -93,10 +85,8 @@ function datosGenerales() {
             );
         }        
 
-        $("#phCalidad2")
-            .val($("#phTrazable2").val())
-            .attr("disabled", "disabled");
-            setPhCalidad($("#phCalidad2").val(), "phCNombre2", "phCMarca2", "phCLote2");
+        $("#phCalidad2").val($("#phTrazable2").val()).attr("disabled", "disabled");
+        setPhCalidad2($("#phCalidad2").val(), "phCNombre2", "phCMarca2", "phCLote2");
 
         if ($("#phTrazable1").val() != "0" && $("#phTrazable2").val() != "0" && $("#phTrazable1").val() == $("#phTrazable2").val()) {
             //alert("Los valores de Ph trazable no pueden ser los mismos");
@@ -136,7 +126,7 @@ function datosGenerales() {
 
     //phCalidad2
     $("#phCalidad2").click(function () {
-        setPhCalidad(
+        setPhCalidad2(
             $("#phCalidad2").val(),
             "phCNombre2",
             "phCMarca2",
@@ -1798,138 +1788,138 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
                         i++;
                     });                                        
     
-                    $.each(response.model, function (key, item) {
-                        item.Factor = parseInt(item.Factor);                        
+                    //$.each(response.model, function (key, item) {
+                        //item.Factor = parseInt(item.Factor);                        
                                                     
                             //LECTURA 1-----------------------------------------------
                             if((l1 >= 0 && l1 < 5)){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
                                     fac1.innerHTML = parseFloat((l1 + factores[0])).toFixed(2);
                                     l1 = parseFloat(l1 + factores[0]);                                    
-                                }
+                                //}
                             }else if(l1 >= 5 && l1 < 10){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){
                                     fac1.innerHTML = parseFloat((l1 + factores[1])).toFixed(2);
                                     l1 = parseFloat(l1 + factores[1]);                                                                                                            
-                                }
+                                //}
                             }else if((l1 >= 10 && l1 < 15)){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
                                     fac1.innerHTML = parseFloat((l1 + factores[2])).toFixed(2);
                                     l1 = parseFloat(l1 + factores[2]);
-                                }
+                                //}
                             }else if(l1 >= 15 && l1 < 20){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
                                     fac1.innerHTML = parseFloat((l1 + factores[3])).toFixed(2);
                                     l1 = parseFloat(l1 + factores[3]);
-                                }
+                                //}
                             }else if(l1 >= 20 && l1 < 25){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
                                     fac1.innerHTML = parseFloat((l1 + factores[4])).toFixed(2);
                                     l1 = parseFloat(l1 + factores[4]);
-                                }
+                                //}
                             }else if(l1 >= 25 && l1 < 30){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
                                     fac1.innerHTML = parseFloat((l1 + factores[5])).toFixed(2);
                                     l1 = parseFloat(l1 + factores[5]);
-                                }
+                                //}
                             }else if(l1 >= 30 && l1 < 35){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
                                     fac1.innerHTML = parseFloat((l1 + factores[6])).toFixed(2);
                                     l1 = parseFloat(l1 + factores[6]);
-                                }
+                                //}
                             }else if(l1 >= 35 && l1 < 40){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
                                     fac1.innerHTML = parseFloat((l1 + factores[7])).toFixed(2);
                                     l1 = parseFloat(l1 + factores[7]);
-                                }
+                                //}
                             }                                                    
                             
                             //LECTURA 2---------------------------------------------
                             if((l2 >= 0 && l2 < 5)){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
                                     fac2.innerHTML = parseFloat((l2 + factores[0])).toFixed(2);
                                     l2 = parseFloat(l2 + factores[0]);
-                                }
+                                //}
                             }else if(l2 >= 5 && l2 < 10){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){
                                     fac2.innerHTML = parseFloat((l2 + factores[1])).toFixed(2);
                                     l2 = parseFloat(l2 + factores[1]);
-                                }
+                                //}
                             }else if((l2 >= 10 && l2 < 15)){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
                                     fac2.innerHTML = parseFloat((l2 + factores[2])).toFixed(2);
                                     l2 = parseFloat(l2 + factores[2]);
-                                }
+                                //}
                             }else if(l2 >= 15 && l2 < 20){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
                                     fac2.innerHTML = parseFloat((l2 + factores[3])).toFixed(2);
                                     l2 = parseFloat(l2 + factores[3]);
-                                }
+                                //}
                             }else if(l2 >= 20 && l2 < 25){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
                                     fac2.innerHTML = parseFloat((l2 + factores[4])).toFixed(2);
                                     l2 = parseFloat(l2 + factores[4]);
-                                }
+                                //}
                             }else if(l2 >= 25 && l2 < 30){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
                                     fac2.innerHTML = parseFloat((l2 + factores[5])).toFixed(2);
                                     l2 = parseFloat(l2 + factores[5]);
-                                }
+                                //}
                             }else if(l2 >= 30 && l2 < 35){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
                                     fac2.innerHTML = parseFloat((l2 + factores[6])).toFixed(2);
                                     l2 = parseFloat(l2 + factores[6]);
-                                }
+                                //}
                             }else if(l2 >= 35 && l2 < 40){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
                                     fac2.innerHTML = parseFloat((l2 + factores[7])).toFixed(2);
                                     l2 = parseFloat(l2 + factores[7]);
-                                }
+                                //}
                             }                                                    
                             
                             //LECTURA 3---------------------------------------------    
                             if((l3 >= 0 && l3 < 5)){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
                                     fac3.innerHTML = parseFloat((l3 + factores[0])).toFixed(2);
                                     l3 = parseFloat(l3 + factores[0]);                                    
-                                }
+                                //}
                             }else if(l3 >= 5 && l3 < 10){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){
                                     fac3.innerHTML = parseFloat((l3 + factores[1])).toFixed(2);
                                     l3 = parseFloat(l3 + factores[1]);
-                                }
+                                //}
                             }else if((l3 >= 10 && l3 < 15)){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
                                     fac3.innerHTML = parseFloat((l3 + factores[2])).toFixed(2);
                                     l3 = parseFloat(l3 + factores[2]);                        
-                                }
+                                //}
                             }else if(l3 >= 15 && l3 < 20){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
                                     fac3.innerHTML = parseFloat((l3 + factores[3])).toFixed(2);
                                     l3 = parseFloat(l3 + factores[3]);
-                                }
+                                //}
                             }else if(l3 >= 20 && l3 < 25){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
                                     fac3.innerHTML = parseFloat((l3 + factores[4])).toFixed(2);
                                     l3 = parseFloat(l3 + factores[4]);
-                                }
+                                //}
                             }else if(l3 >= 25 && l3 < 30){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
                                     fac3.innerHTML = parseFloat((l3 + factores[5])).toFixed(2);
                                     l3 = parseFloat(l3 + factores[5]);
-                                }
+                                //}
                             }else if(l3 >= 30 && l3 < 35){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
                                     fac3.innerHTML = parseFloat((l3 + factores[6])).toFixed(2);
                                     l3 = parseFloat(l3 + factores[6]);
-                                }
+                                //}
                             }else if(l3 >= 35 && l3 < 40){
-                                if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
+                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
                                     fac3.innerHTML = parseFloat((l3 + factores[7])).toFixed(2);
                                     l3 = parseFloat(l3 + factores[7]);
-                                }
+                                //}
                             }                        
-                    });
+                    //});
                 },
             });                                    
         
@@ -2770,6 +2760,7 @@ function setPhTrazable2(idPh, nombre, marca, lote) {
     let nom = document.getElementById(nombre);
     let mar = document.getElementById(marca);
     let lot = document.getElementById(lote);
+
     $.ajax({
         url: base_url + "/admin/campo/captura/getPhTrazable", //archivo que recibe la peticion
         type: "POST", //método de envio
@@ -2782,6 +2773,11 @@ function setPhTrazable2(idPh, nombre, marca, lote) {
         success: function (response) {
             console.log(response);
             //console.log("holaaa");
+
+            /* nom.innerText = response.model.Ph;
+            mar.innerText = response.model.Marca;
+            lot.innerText = response.model.Lote; */
+
             nom.innerText = "";
             mar.innerText = "";
             lot.innerText = "";
@@ -2794,11 +2790,8 @@ function setPhCalidad(idPh, nombre, marca, lote) {
     let mar = document.getElementById(marca);
     let lot = document.getElementById(lote);
 
-    let idph = $('select[name="phTrazable1"] option:selected').text();
-    console.log("Texto idph: " + idph);
-    let trazable = $('select[name="phTrazable1n"] option:selected').text();
-
-    console.log("Valor de idPh en setPhCalidad: " + idph);       
+    let idph = $('select[name="phTrazable1"] option:selected').text();    
+    let trazable = $('select[name="phTrazable1n"] option:selected').text();    
 
     $.ajax({
         url: base_url + "/admin/campo/captura/getPhCalidad", //archivo que recibe la peticion
@@ -2811,8 +2804,7 @@ function setPhCalidad(idPh, nombre, marca, lote) {
         dataType: "json",
         async: false,
         success: function (response) {
-            console.log(response);
-            console.log("Valor de idph: " + response.model.Id_ph);
+            console.log(response);            
 
             $("#phCalidad1").val(response.model.Id_ph);
             //$('select[name="phCalidad1n"] option:selected').val(response.model.Id_ph);
@@ -2828,20 +2820,30 @@ function setPhCalidad2(idPh, nombre, marca, lote) {
     let nom = document.getElementById(nombre);
     let mar = document.getElementById(marca);
     let lot = document.getElementById(lote);
+
+    let idph = $('select[name="phTrazable1"] option:selected').text(); 
+    let trazable = $('select[name="phTrazable2n"] option:selected').text();
+
     $.ajax({
         url: base_url + "/admin/campo/captura/getPhCalidad", //archivo que recibe la peticion
         type: "POST", //método de envio
         data: {
             idPh: idPh,
+            trazable: trazable,
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         async: false,
-        success: function (response) {
+        success: function (response) {                       
             console.log(response);
-            nom.innerText = "";
+            
+            $("#phCalidad2").val(response.model.Id_ph);
+            nom.innerText = response.model.Ph_calidad;
+            mar.innerText = response.model.Marca;
+            lot.innerText = response.model.Lote;
+            /* nom.innerText = ""; 
             mar.innerText = "";
-            lot.innerText = "";
+            lot.innerText = ""; */
         },
     });
 }

@@ -64,9 +64,9 @@
                                     </tr>
                                     @foreach ($phTrazable as $item)
                                         <tr>
-                                            <td>7</td>
-                                            <td>PERMONT</td>
-                                            <td>100231</td>
+                                            <td>{{$item->Ph}}</td>
+                                            <td>{{$item->Marca}}</td>
+                                            <td>{{$item->Lote}}</td>
                                             <td>{{$item->Lectura1}}</td>
                                             <td>{{$item->Lectura2}}</td>
                                             <td>{{$item->Lectura3}}</td>
@@ -89,11 +89,11 @@
                                        <td>3° Lectura</td>
                                        <td>+-0.05 unidades de pH y 0.03 entre lecturuas</td>
                                     </tr>
-                                    @foreach ($phTrazable as $item)
+                                    @foreach ($phCalidad as $item)
                                         <tr>
-                                            <td>7</td>
-                                            <td>PERMONT</td>
-                                            <td>100231</td>
+                                            <td>{{$item->Ph_calidad}}</td>
+                                            <td>{{$item->Marca}}</td>
+                                            <td>{{$item->Lote}}</td>
                                             <td>{{$item->Lectura1}}</td>
                                             <td>{{$item->Lectura2}}</td>
                                             <td>{{$item->Lectura3}}</td>
@@ -131,9 +131,9 @@
                                     </tr>
                                     @foreach ($campoConTrazable as $item)
                                         <tr>
-                                            <td>1412</td>
-                                            <td>MERCK</td>
-                                            <td>B1834438</td>
+                                            <td>{{$item->Conductividad}}</td>
+                                            <td>{{$item->Marca}}</td>
+                                            <td>{{$item->Lote}}</td>
                                             <td>{{$item->Lectura1}}</td>
                                             <td>{{$item->Lectura2}}</td>
                                             <td>{{$item->Lectura3}}</td>
@@ -162,11 +162,11 @@
                                         aceptación valor
                                         nominals</td>
                                     </tr>
-                                    @foreach ($campoConTrazable as $item)
+                                    @foreach ($campoConCalidad as $item)
                                         <tr>
-                                            <td>1412</td>
-                                            <td>MERCK</td>
-                                            <td>B1834438</td>
+                                            <td>{{$item->Conductividad}}</td>
+                                            <td>{{$item->Marca}}</td>
+                                            <td>{{$item->Lote}}</td>
                                             <td>{{$item->Lectura1}}</td>
                                             <td>{{$item->Lectura2}}</td>
                                             <td>{{$item->Lectura3}}</td>

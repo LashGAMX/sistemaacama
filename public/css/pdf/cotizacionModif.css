@@ -1,125 +1,8 @@
-/* *{
-    margin: 0;
-    padding: 0;
-} */
-/* body{ */
-    /* margin-top: 30px; */
-    /* font-family: "Times New Roman";
-    font-size: 11px; 
-   
-}
-.verdeClaro{
-    color: #00a987; 
-}
-p{
-    font-size: 11px;;
-} 
-.bordeTabla{
-    padding: 5px;
-    margin-top: 5px;
-    border-color: black;
-    border-width: 1px;
-    border-style: solid;
-}
-.negrita{
-    font-weight: bold;
-}
-
-.justifyCenter{
-    text-align: center;
-}
-
-.justifyRight{
-    text-align: right;
-}
-
-.colorBorde{
-    border: 1;
-    border-width: 0.1px;
-    border-style: solid;
-    border-color: black ;
-}
-
-.fontSize7{
-    font-size: 7px;
-}
-
-.anchoColumna{
-    width: 25%;
-}
-
-.bordesTabla{    
-    border: 1;
-    border-style: solid;
-    border-color: black ;
-    border-top-width: 0.1px;
-    border-bottom-width: 0.1px;
-    border-right-width: 0.1px;
-    border-left-width: 0.1px;    
-}
-
-.bordesTablaSupInfDer{    
-    border: 1;
-    border-style: solid;
-    border-color: black ;
-    border-top-width: 0.1px;
-    border-bottom-width: 0.1px;
-    border-right-width: 0.1px;
-    border-left-width: 0px;    
-}
-
-.bordesTablaInfIzqDer{    
-    border: 1;
-    border-style: solid;
-    border-color: black ;
-    border-top-width: 0px;
-    border-bottom-width: 0.1px;
-    border-right-width: 0.1px;
-    border-left-width: 0.1px;    
-}
-
-.bordesTablaInfDer{    
-    border: 1;
-    border-style: solid;
-    border-color: black ;
-    border-top-width: 0px;
-    border-bottom-width: 0.1px;
-    border-right-width: 0.1px;
-    border-left-width: 0px;    
-}
-
-.bordesTablaInfIzq{    
-    border: 1;
-    border-style: solid;
-    border-color: black ;
-    border-top-width: 0px;
-    border-bottom-width: 0.1px;
-    border-right-width: 0px;
-    border-left-width: 0.1px;    
-}
-
-.bordesTablaInf{    
-    border: 1;
-    border-style: solid;
-    border-color: black ;
-    border-top-width: 0px;
-    border-bottom-width: 0.1px;
-    border-right-width: 0px;
-    border-left-width: 0px;    
-} */
-
-/* @page{margin: 0.2in 0.5in 0.2in 0.5in;} */
-
-/*-----------------------------------------------*/
 #header1{
     font-family: Calibri;
     font-size: 14;
     text-align: center;  
     font-weight: bold;    
-}
-
-.fontCalibri{
-    font-family: Calibri;
 }
 
 #curvaProcedimiento{
@@ -267,11 +150,7 @@ p{
 }
 
 .fontBold{
-    font-weight: bold;        
-}
-
-.fontSize10{
-    font-size: 10;    
+    font-weight: bold;    
 }
 
 .fontSize11{
@@ -282,16 +161,8 @@ p{
     font-size: 12;
 }
 
-.fontSize13{
-    font-size: 12;
-}
-
 .fontSize14{
     font-size: 14;    
-}
-
-.fontSize15{
-    font-size: 15;    
 }
 
 .fontSize9{
@@ -322,8 +193,6 @@ p{
     border-left-width: 0.1px;
 }
 
-
-
 .bordeDerSinSup{
     border-style: solid;
     border-top-width: 0px;
@@ -338,14 +207,6 @@ p{
     border-bottom-width: 0.1px;
     border-right-width: 0px;
     border-left-width: 0px;    
-}
-
-.bordeSup{
-    border-style: solid;
-    border-top-width: 1px;
-    border-bottom-width: 0px;
-    border-right-width: 0px;
-    border-left-width: 0px;
 }
 
 .bordeIzqSinSup{
@@ -442,7 +303,7 @@ p{
 }
 
 .justificadoDer{
-    text-align: right;
+    text-align: right;    
 }
 
 .justificadorCentr{

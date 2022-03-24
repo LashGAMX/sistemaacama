@@ -581,10 +581,10 @@ class CotizacionController extends Controller
         // ]); 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
-            'margin_left' => 20,
-            'margin_right' => 20,
-            'margin_top' => 30, 
-            'margin_bottom' => 18
+            'margin_left' => 5,
+            'margin_right' => 5,
+            'margin_top' => 20, 
+            'margin_bottom' => 25
         ]);
         // var_dump(storage_path('public/HojaMembretada.png'));
         // $mpdf->SetWatermarkImage();https://dev.sistemaacama.com.mx//storage/HojaMembretada.png
@@ -595,9 +595,13 @@ class CotizacionController extends Controller
             array(0, 0), 
         );
       
-        //$mpdf->showWatermarkImage = true;
+        $mpdf->showWatermarkImage = true;
         $html = view('exports.cotizacion.cotizacion', compact('model','parametros'));
         $mpdf->CSSselectMedia = 'mpdf';
+
+        $htmlFooter = view('exports.cotizacion.footerCotizacion');
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        
         $mpdf->WriteHTML($html);
         $mpdf->Output();
     }

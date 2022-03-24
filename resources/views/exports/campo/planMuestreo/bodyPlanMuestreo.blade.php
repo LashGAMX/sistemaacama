@@ -26,7 +26,7 @@
                 @for ($i = 0; $i < $paqueteLength; $i++)
                     <tr>
                         <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr" height="25">{{@$paquete[$i]->Area}}</td>
-                        <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">{{@$paquete[$i]->Cantidad * @$model->Num_tomas}}</td>
+                        <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">{{@$paquete[$i]->Cantidad * @$puntos}}</td>
                         <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">{{@$paquete[$i]->Volumen}}</td>
                     </tr>
                 @endfor
