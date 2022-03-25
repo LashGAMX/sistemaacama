@@ -118,9 +118,9 @@
             <div class="col-md-6" id="divParametroModal">
               <select class="form-control" id="idParametroModal">
                 <option>Selecciona parametro</option>
-                @foreach ($parametro as $item)
+                {{-- @foreach ($parametro as $item)
                 <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
-                @endforeach
+                @endforeach --}}
                 </select>
             </div>
               <label>Fecha fin</label> 
