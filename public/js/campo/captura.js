@@ -7,7 +7,9 @@ $(document).ready(function () {
 
     //Llamada a función añadida
     valoresPhTrazables();    
+  
 });
+
 
 function datosGenerales() {            
     table = $("#materialUsado").DataTable({

@@ -1113,21 +1113,53 @@
                 <div class="tab-pane fade" id="evidencia" role="tabpanel" aria-labelledby="evidencia-tab">                                        
                     <div class="card">
                         <div class="card-body">
-                            <img src="" alt="">
                             <form action="{{url('/admin/campo/captura/setEvidencia')}}" method="post" enctype="multipart/form-data">
                                 @csrf
-                                <input type="file" name="file" id="" accept="image/*">
+                                <input type="text" id="idSolEv" name="idSolEv" value="{{$puntos->Id_solicitud}}" hidden>
+                                <input type="text" id="idPuntEv" name="idPuntEv" value="{{$puntos->Id_muestreo}}" hidden>
+                                <input type="file" name="file" id="" accept="image/*" required>
                                 <button type="submit" class="btn btn-primary">Subir imagen</button>
                             </form>
                         </div>
                     </div>
+                    <table class="table table-sm">
+                        <thead>
+                            <tr>
+                                <th>Fecha</th>
+                                <th>Imagen</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach ($evidencia as $item)
+                            @if ($item->Id_solicitud == $puntos->Id_solicitud)
+                            <tr class="bg-success">
+                            @else
+                            <tr class="bg-info">
+                            @endif
+
+                                <td>{{$item->created_at}}</td>
+                                <td><img class="zoom" src="data:image/gif;base64,{{$item->Base64}}" style="width: 100px;height: auto;"></td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
                 </div>
-                <!-- Seccion de evidencia -->
+                <!-- Seccion de evidencia --> 
             </div>
         </div>
 
     </div>
 </div>
+
+<style>
+    .zoom {
+    transition: transform .2s; 
+}
+ 
+.zoom:hover {
+    transform: scale(4.5); 
+}
+</style>
 
 
 {{-- Modal; Cancelar muestra --}}
@@ -1209,7 +1241,6 @@
 
         {{-- Modal; Footer --}}
         <div class="modal-footer">            
-
             <button type="button" class="btn btn-secondary" {{-- data-dismiss="modal" --}} onclick="revierteMuestra();">Aplicar</button>
 
         </div>
