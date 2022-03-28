@@ -410,28 +410,30 @@
 
                     <tbody>
                         @for ($i = 0; $i < $model->Num_tomas; $i++)                                                    
-                            <tr>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$i}}</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            </tr>
+                            @if ()
+                                <tr>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$i+1}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                </tr>
+                            @endif
                         @endfor
 
                         <tr>
