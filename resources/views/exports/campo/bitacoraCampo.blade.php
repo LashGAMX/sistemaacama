@@ -306,17 +306,12 @@
                     <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0" border-color="#000000">
                         <thead>
                             <tr>
-                                <th class="fontBold fontCalibri fontSize9 bordesTablaBody justificadorCentr">No. Muestra
-                                </th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura °C
-                                </th>
+                                <th class="fontBold fontCalibri fontSize9 bordesTablaBody justificadorCentr">No. Muestra</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura °C</th>
                                 <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">+/-</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura
-                                    corregida</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura
-                                    aplicada</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura
-                                    ajustada</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura corregida</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura aplicada</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura ajustada</th>
                             </tr>
                         </thead>
 
@@ -414,28 +409,30 @@
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                        </tr>
+                        @for ($i = 0; $i < $model->Num_tomas; $i++)                                                    
+                            <tr>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$i}}</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                            </tr>
+                        @endfor
 
                         <tr>
                             <th>&nbsp;</th>
@@ -516,42 +513,62 @@
 
             <br>
 
-            <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
-                <tbody>
-                    <tr>
-                        <td class="fontBold fontCalibri fontSize12" width="20%">Calculo de muestra compuestas</td>
-                        <td width="10%">&nbsp;</td>
-                        <td width="10%">&nbsp;</td>
-                        <td width="10%">&nbsp;</td>
-                        <td width="20%">&nbsp;</td>
-                        <td width="10%">&nbsp;</td>
-                        <td width="10%">&nbsp;</td>
-                        <td width="10%">&nbsp;</td>
-                    </tr>
+            <div class="contenedorPadre12">
+                <div class="contenedorHijo131">
+                    <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td class="fontBold fontCalibri fontSize12 justificadorIzq" colspan="3">
+                                    Calculo de muestra compuesta
+                                </td>
+                            </tr>
 
-                    <tr>
-                        <td class="fontNormal fontCalibri fontSize12">VMSI = VMC x (Qi / QT)</td>
-                        <td class="fontCalibri fontSize12 fontNormal" colspan="2">VOLUMEN CALCULADO</td>
-                        <td>&nbsp;</td>
-                        <td class="fontCalibri fontSize12 fontNormal justificadorCentr">(Qi / QT)</td>
-                        <td class="fontCalibri fontSize12 fontNormal justificadorCentr">x</td>
-                        <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMC</td>
-                        <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMSI</td>                        
-                    </tr>
+                            <tr>
+                                <td class="fontNormal fontCalibri fontSize12">VMSI = VMC x (Qi / QT)</td>
+                                <td class="fontCalibri fontSize12 fontNormal" colspan="2">VOLUMEN CALCULADO</td>
+                            </tr>
 
-                    <tr>
-                        <td class="fontBold fontCalibri fontSize12">NORMA</td>
-                        <td class="fontCalibri fontSize12 fontBold">VOLUMEN</td>
-                        <td class="fontCalibri fontSize12 fontBold">UNIDAD</td>
-                        <td class="fontCalibri fontSize12 fontBold">1</td>
-                        <td class="fontCalibri fontSize12 fontNormal justificadorCentr">Qi &nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp; QT &nbsp;&nbsp;&nbsp; =</td>
-                        <td class="fontCalibri fontSize12 fontBold">RESULTADO</td>
-                        <td class="fontCalibri fontSize12 fontBold justificadorCentr">VMC</td>
-                        <td class="fontCalibri fontSize12 fontBold justificadorCentr">VMSI</td>                        
-                    </tr>
-                    
-                </tbody>
-            </table>
+                            <tr>
+                                <td class="fontBold fontCalibri fontSize12">NORMA</td>
+                                <td class="fontCalibri fontSize12 fontBold">VOLUMEN</td>
+                                <td class="fontCalibri fontSize12 fontBold">UNIDAD</td>
+                            </tr>
+
+                            <tr>
+                                <td class="fontBold fontCalibri fontSize12">QT (GASTO TOTAL)</td>
+                                <td class="fontCalibri fontSize12 fontBold">VOLUMEN</td>
+                                <td class="fontCalibri fontSize12 fontBold">UNIDAD</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="contenedorHijo132">
+                    <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
+                        <tbody>
+                            <tr>
+                                <td colspan="5">&nbsp;</td>
+                            </tr>
+                        
+                            <tr>
+                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">&nbsp;</td>
+                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">(Qi / QT)</td>
+                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">x</td>
+                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMC</td>
+                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMSI</td>
+                            </tr>
+
+                            <tr>
+                                <td class="fontCalibri fontSize12 fontBold justificadorCentr">1</td>
+                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QI &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; QT &nbsp;&nbsp;&nbsp; =</td>
+                                <td class="fontCalibri fontSize12 fontBold justificadorCentr">RESULTADO</td>
+                                <td class="fontCalibri fontSize12 fontBold justificadorCentr">VMC</td>
+                                <td class="fontCalibri fontSize12 fontBold justificadorCentr">VMSI</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
 </body>

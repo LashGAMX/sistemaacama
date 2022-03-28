@@ -17,7 +17,16 @@ class CadenaCustodiaController extends Controller
     public function detalleCadena($id)
     {
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();         
-        return view('supervicion.cadena.detalleCadena',compact('model'));
+        $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud',$id)->get();
+        return view('supervicion.cadena.detalleCadena',compact('model','puntos'));
+    }
+    public function getParametros(Request $res)
+    {
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$res->id)->where('')->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
     }
 }
  

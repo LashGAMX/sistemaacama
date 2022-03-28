@@ -1120,7 +1120,7 @@ class CampoController extends Controller
             'margin_left' => 5,
             'margin_right' => 5,
             'margin_top' => 42,
-            'margin_bottom' => 18
+            'margin_bottom' => 50
         ]);
         
         $mpdf->SetWatermarkImage(
@@ -1135,6 +1135,9 @@ class CampoController extends Controller
 
         $htmlHeader = view('exports.campo.bitacoraCampoHeader', compact('model'));
         $mpdf->setHeader("<br><br>".$htmlHeader);
+
+        $htmlFooter = view('exports.campo.bitacoraCampoFooter');
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
 
         $mpdf->WriteHTML($html);
         $mpdf->Output();
