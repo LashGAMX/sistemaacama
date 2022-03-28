@@ -53,11 +53,17 @@
                                     </tr>
                                 </thead>
                                 <tbody>
-                        
+                                    @foreach ($puntos as $item)
+                                        <tr>
+                                            <td>{{$item->Id_punto}}</td>
+                                            <td>{{$item->Punto_muestreo}}</td>
+                                        </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
                         <div class="col-md-6">
+                           <div id="divTableParametros">
                             <table id="tableParametros" class="display compact cell-border" style="width:100%">
                                 <thead>
                                     <tr>
@@ -73,6 +79,7 @@
                         
                                 </tbody>
                             </table>
+                           </div>
                         </div>
                         <div class="col-md-3">
                             <table id="tableDescricion" class="display compact cell-border" style="width:100%">
