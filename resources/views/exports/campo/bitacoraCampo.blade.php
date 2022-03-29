@@ -390,14 +390,11 @@
                             <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Temperatura °C</th>
                             <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Temperatura °C</th>
                             <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Temperatura °C</th>
-                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Promedio temp. °C
-                            </th>
-                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Conductividad
-                                (µS/cm)</th>
-                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Conductividad
-                                (µS/cm)</th>
-                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Promedio Conduc.
-                                µS/cm (+-5%)</th>
+                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Promedio temp. °C</th>
+                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Conductividad (µS/cm)</th>
+                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Conductividad (µS/cm)</th>
+                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Conductividad (µS/cm)</th>
+                            <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Promedio Conduc. µS/cm (+-5%)</th>
                             <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Gasto (L/s)</th>
                             <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Gasto (L/s)</th>
                             <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Gasto (L/s)</th>
@@ -410,33 +407,34 @@
 
                     <tbody>
                         @for ($i = 0; $i < $model->Num_tomas; $i++)                                                    
-                            @if ()
+                            @if (@$phMuestra[$i]->Activo != 0)
                                 <tr>
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$i+1}}</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{}}</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{@$phMuestra[$i]->Materia}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$phMuestra[$i]->Color}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$phMuestra[$i]->Olor}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$phMuestra[$i]->Ph1}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$phMuestra[$i]->Ph2}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$phMuestra[$i]->Ph3}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$phMuestra[$i]->Promedio}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$tempMuestra[$i]->Temperatura1}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$tempMuestra[$i]->Temperatura2}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$tempMuestra[$i]->Temperatura3}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$conMuestra[$i]->Conductividad1}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$conMuestra[$i]->Conductividad2}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$conMuestra[$i]->Conductividad3}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$conMuestra[$i]->Promedio}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$gastoMuestra[$i]->Gasto1}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$gastoMuestra[$i]->Gasto2}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$gastoMuestra[$i]->Gasto3}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$gastoMuestra[$i]->Promedio}}</td>
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0</td>
                                 </tr>
                             @endif
                         @endfor
 
                         <tr>
+                            <th>&nbsp;</th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
