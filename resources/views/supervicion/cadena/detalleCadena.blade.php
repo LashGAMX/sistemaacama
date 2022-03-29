@@ -9,7 +9,7 @@
     Cadena de custodia
 </h6>
 @stop
-
+<input type="text" id="idSol" value="{{$model->Id_solicitud}}">
 <div class="container-fluid"> 
     <div class="row">
         <div class="col-md-12">

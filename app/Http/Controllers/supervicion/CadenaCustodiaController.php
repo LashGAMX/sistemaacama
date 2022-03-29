@@ -20,13 +20,13 @@ class CadenaCustodiaController extends Controller
         $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud',$id)->get();
         return view('supervicion.cadena.detalleCadena',compact('model','puntos'));
     }
-    public function getParametros(Request $res)
+    public function getParametroCadena(Request $res)
     {
-        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$res->id)->where('')->get();
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$res->idSol)->get();
         $data = array(
             'model' => $model,
         );
         return response()->json($data);
     }
 }
- 
+   
