@@ -71,7 +71,7 @@
             </div>
         </div>
         
-        <table autosize="1" class="table table-bordered table-sm" cellpadding="0" cellspacing="0" border-color="#000000">
+        <table autosize="1" class="table table-bordered table-sm" style="width: 100%" cellpadding="2" cellspacing="0" border-color="#000000">
             <thead>
                 <tr>
                     <th class="fontBold fontCalibri fontSize11 bordesTablaBody">PARAMETRO</th>
@@ -84,7 +84,7 @@
                 @foreach ($parametros as $item)
                 <tr>
                     <td class="fontNormal fontCalibri fontSize11 bordesTablaBody">{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
-                    <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Metodo_prueba}}</td>
+                    <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Clave_metodo}}</td>
                     <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Limite}}</td>
                     <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Unidad}}</td>
                 </tr>
@@ -235,8 +235,73 @@
             totalidad. <br> CONDICIONES DE RECEPCIÓN DE MUESTRAS: <br> POR EL CLIENTE: <br> En caso de que las muestras sean entregadas por el CLIENTE, el personal del laboratorio revisará que sean correctas en relación de análisis, se verificará la cantidad de recipientes entregados, la
             preservación, la cantidad de muestra, tiempo de análisis entre la toma, el tiempo de transporte al laboratorio, los datos de muestreo completos y el proceso en el laboratorio, en relación a la petición de análisis
             de cumplir con todos los requisitos antes mencionados la muestra será ACEPTADA y se hará la Recepción de Muestra en el Registro RE-11-011 “Cadena de recepción de muestras interna (muestras tomadas
-            por el cliente)”.</p>
-        </div>        
+            por el cliente)”. <br> Y en el caso de que NO CUMPLAN con los criterios de Recepción de muestras que puedan afectar la validez del resultado, se le informará al cliente de dicha situación, anotando en el área de observaciones,
+            que “LA MUESTRA ES REMITIDA AL LABORATORIO POR EL CLIENTE Y LOS RESULTADOS SE APLICARÁN A LA MUESTRA COMO SE RECIBIÓ”, por dicha situación el Cliente firmara de conformidad
+            y en el informe de prueba quedará asentado como: “MUESTRA REMITIDA AL LABORATORIO POR EL CLIENTE, LOS RESULTADOS SE APLICAN A LA MUESTRA COMO SE RECIBIÓ” o bien la muestra
+            será RECHAZADA. <br> POR PERSONAL DEL LABORATORIO ACAMA: <br> Para la recepción de muestras por parte del personal de Ingeniería de Campo (MUESTREO) al laboratorio ACAMA ver el ANEXO No. 1</p>
+        </div>
+
+        <div class="col-md-12 fontNormal fontCalibri fontSize12 justificadorCentr">
+            He leído la presente cotización y acepto los términos indicados en ella
+        </div>
+
+        <br>
+
+        <div class="col-md-12">
+           <table class="table" width="100%">
+                <tr>
+                    <td width="20%">&nbsp;</td>
+                    <td width="60%">
+                        &nbsp;
+                    </td>
+                    <td width="20%">&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td class="fontNormal fontCalibri fontSize12 justificadorCentr bordeSup">Firma de aceptación del Cliente</td>
+                    <td>&nbsp;</td>
+                </tr>                
+           </table>
+        </div>
+
+        <br>
+
+        <div class="col-md-12 fontNormal fontCalibri fontSize12 justificadorCentr">
+            En espera de poder servirles, de antemano agradecemos su preferencia. Reciban un cordial saludo.
+        </div>
+
+        <br>
+
+        <div class="col-md-12">
+           <table class="table" width="100%">
+                <tr>
+                    <td width="20%">&nbsp;</td>
+                    <td class="fontNormal fontCalibri fontSize12 justificadorCentr" width="60%">
+                        Atentamente
+                    </td>
+                    <td width="20%">&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td class="justificadorCentr"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
+                    <td>&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td class="fontNormal fontCalibri fontSize12 justificadorCentr bordeSup">Ing. Maribel Campos Reyes</td>
+                    <td>&nbsp;</td>
+                </tr>
+
+                <tr>
+                    <td>&nbsp;</td>
+                    <td class="fontNormal fontCalibri fontSize12 justificadorCentr">Responsable de Cotización</td>
+                    <td>&nbsp;</td>
+                </tr>
+           </table>
+        </div>
     </div>
 </body>
 </html> 

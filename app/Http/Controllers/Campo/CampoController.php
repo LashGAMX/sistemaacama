@@ -90,6 +90,8 @@ class CampoController extends Controller
         $frecuencia = DB::table('frecuencia001')->where('Id_frecuencia', $model->Id_muestreo)->first();
         $phCampoTrazable = CampoPhTrazable::where('Id_solicitud', $model->Id_solicitud)->get();
         $phCampoCalidad = CampoPhCalidad::where('Id_solicitud', $model->Id_solicitud)->get();
+        $puntos = SolicitudPuntos::where('Id_solicitud',$id)->first();
+        $evidencia = Evidencia::where('Id_punto',$puntos->Id_muestreo)->orderby('created_at','desc')->get();
 
 
         //Datos muestreo
@@ -107,6 +109,7 @@ class CampoController extends Controller
         $data = array(
             'model' => $model,
             'general' => $general,
+            'evidencia' => $evidencia,
             'frecuencia' => $frecuencia,
             'termometros' => $termometros,
             'phTrazable' => $phTrazable,
@@ -123,7 +126,8 @@ class CampoController extends Controller
             'tempMuestra' => $tempMuestra,
             'phCalidadCampo' => $phCalidadCampo,
             'conductividadMuestra' => $conductividadMuestra,
-            'gastoMuestra' => $gastoMuestra
+            'gastoMuestra' => $gastoMuestra,
+            'puntos' => $puntos,
             //'phCampoCalidadMuestra' => $phCampoCalidadMuestra
         );
         return view('campo.captura', $data);
@@ -239,9 +243,9 @@ class CampoController extends Controller
             $phCalidad = CampoPhCalidad::find($phCalidadMode[0]->Id_ph);
             $phCalidad->Id_solicitud = $request->idSolicitud;
             $phCalidad->Id_phCalidad = $request->phTrazable1;
-            $phCalidad->Lectura1 = $request->phTl11;
-            $phCalidad->Lectura2 = $request->phT21;
-            $phCalidad->Lectura3 = $request->phTl31;
+            $phCalidad->Lectura1 = $request->phC11;
+            $phCalidad->Lectura2 = $request->phC21;
+            $phCalidad->Lectura3 = $request->phC31;
             $phCalidad->Estado = $request->phTEstado1;
             $phCalidad->Promedio = $request->phCPromedio1;
             $phCalidad->Id_user_m = Auth::user()->id;
@@ -254,9 +258,9 @@ class CampoController extends Controller
             $phCalidad = CampoPhCalidad::find($phCalidadMode[1]->Id_ph);
             $phCalidad->Id_solicitud = $request->idSolicitud;
             $phCalidad->Id_phCalidad = $request->phTrazable2;
-            $phCalidad->Lectura1 = $request->phTl12;
-            $phCalidad->Lectura2 = $request->phT22;
-            $phCalidad->Lectura3 = $request->phTl32;
+            $phCalidad->Lectura1 = $request->phC12;
+            $phCalidad->Lectura2 = $request->phC22;
+            $phCalidad->Lectura3 = $request->phC23;
             $phCalidad->Estado = $request->phTEstado2;
             $phCalidad->Promedio = $request->phCPromedio2;
             $phCalidad->Id_user_m = Auth::user()->id;
@@ -269,9 +273,9 @@ class CampoController extends Controller
             $campoPhCalidad = CampoPhCalidad::create([
                 'Id_solicitud' => $request->idSolicitud,
                 'Id_phCalidad' => $request->phTrazable1,
-                'Lectura1' => $request->phTl11,
-                'Lectura2' => $request->phT21,
-                'Lectura3' => $request->phTl31,
+                'Lectura1' => $request->phC11,
+                'Lectura2' => $request->phC21,
+                'Lectura3' => $request->phC31,
                 'Estado' => $request->phTEstado1,
                 'Promedio' => $request->phCPromedio1,
                 'Id_user_c' => Auth::user()->id,
@@ -284,9 +288,9 @@ class CampoController extends Controller
             $campoPhCalidad = CampoPhCalidad::create([
                 'Id_solicitud' => $request->idSolicitud,
                 'Id_phCalidad' => $request->phTrazable2,
-                'Lectura1' => $request->phTl12,
-                'Lectura2' => $request->phT22,
-                'Lectura3' => $request->phTl32,
+                'Lectura1' => $request->phC12,
+                'Lectura2' => $request->phC22,
+                'Lectura3' => $request->phC23,
                 'Estado' => $request->phTEstado2,
                 'Promedio' => $request->phCPromedio2,
                 'Id_user_c' => Auth::user()->id,
@@ -881,39 +885,24 @@ class CampoController extends Controller
 
     public function setEvidencia(Request $request)
     {
-        
+  
         $contenidoBinario = file_get_contents($request->file);
         $imagenComoBase64 = base64_encode($contenidoBinario);
 
-        $decoder = base64_decode($imagenComoBase64);
-        $img = imagecreatefromstring($decoder);
-        if(!$img) 
-        {
-            die("Base 64 valor no aceptado");
-        }
-        echo $imagenComoBase64;
-        // header('Content-Type:image/jpg');
-        // imagejpeg($img);
-        // imagedestroy($img);
+        // $decoder = base64_decode($imagenComoBase64);
+        // $img = imagecreatefromstring($decoder);
+        // if(!$img) 
+        // {
+        //     die("Base 64 valor no aceptado");
+        // }
+      
+        $model = Evidencia::create([
+            'Id_solicitud' => $request->idSolEv,
+            'Id_punto' => $request->idPuntEv,
+            'Base64' => $imagenComoBase64
+        ]);
 
-        // Nombre de la imagen
-        // $path = 'image.png';
-        
-        // // Extensión de la imagen
-        // $type = pathinfo($contenidoBinario, PATHINFO_EXTENSION);
-        
-        // // Cargando la imagen
-        // $data = file_get_contents($contenidoBinario);
-        
-        // // Decodificando la imagen en base64
-        // $base64 = 'data:image/' . $type . ';base64,' . decoder;
-        
-        // // Mostrando la imagen
-        // echo '<img src="'.$base64.'"/>';
-        
-        // // Mostrando el código base64
-        // echo $base64;
- 
+        return redirect()->to('admin/campo/captura/'.$request->idSolEv);
     }
     public function historialDatosCompuestos($idSol, $nota, $campoCompuesto)
     {
@@ -1128,10 +1117,10 @@ class CampoController extends Controller
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
-            'margin_left' => 20,
-            'margin_right' => 20,
-            'margin_top' => 30,
-            'margin_bottom' => 18
+            'margin_left' => 5,
+            'margin_right' => 5,
+            'margin_top' => 42,
+            'margin_bottom' => 50
         ]);
         
         $mpdf->SetWatermarkImage(
@@ -1143,6 +1132,13 @@ class CampoController extends Controller
         $mpdf->showWatermarkImage = true;
         $html = view('exports.campo.bitacoraCampo',compact('model','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra','campoGen','tempMuestra','conMuestra','muestreador','phTrazable','campoConTrazable'));
         $mpdf->CSSselectMedia = 'mpdf';
+
+        $htmlHeader = view('exports.campo.bitacoraCampoHeader', compact('model'));
+        $mpdf->setHeader("<br><br>".$htmlHeader);
+
+        $htmlFooter = view('exports.campo.bitacoraCampoFooter');
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+
         $mpdf->WriteHTML($html);
         $mpdf->Output();
     }
