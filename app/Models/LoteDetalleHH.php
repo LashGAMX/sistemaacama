@@ -26,7 +26,7 @@ class LoteDetalleHH extends Model
         'Uncinarias',
         'Vol_muestra',
         'Resultado',
-        'Observacion'
+        'Observacion',
         'Liberado'
     ];
 }

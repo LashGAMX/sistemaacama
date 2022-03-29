@@ -229,16 +229,16 @@
 
                     <tr>
                         <td class="fontNormal fontCalibri fontSize12">NORMA A MUESTREAR</td>
-                        <td class="fontBold fontCalibri fontSize12">NORMA</td>
+                        <td class="fontBold fontCalibri fontSize12">{{@$model->Clave_norma}}</td>
                         <td class="fontNormal fontCalibri fontSize12">TIPO DE MUESTRA</td>
-                        <td class="fontBold fontCalibri fontSize12">TIPO</td>
+                        <td class="fontBold fontCalibri fontSize12">{{@$model->Id_muestra}}</td>
                     </tr>
 
                     <tr>
                         <td class="fontNormal fontCalibri fontSize12">TIPO DE MUESTREO</td>
                         <td class="fontBold fontCalibri fontSize12">TIPO</td>
                         <td class="fontNormal fontCalibri fontSize12">NUMERO DE MUESTRAS</td>
-                        <td class="fontBold fontCalibri fontSize12">NUMERO</td>
+                        <td class="fontBold fontCalibri fontSize12">{{@$model->Num_tomas}}</td>
                     </tr>
 
                     <tr>
@@ -289,12 +289,13 @@
                         </thead>
 
                         <tbody>
-                            <tr>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">RANGO
-                                </td>
-                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">FC</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">FA</td>
-                            </tr>
+                            @for ($i = 0; $i < @$factorCorreccionLength; $i++)                                                            
+                                <tr>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$factorCorreccion[$i]->De_c}} - {{@$factorCorreccion[$i]->A_c}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{@$factorCorreccion[$i]->Factor}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{@$factorCorreccion[$i]->Factor_aplicado}}</td>
+                                </tr>
+                            @endfor
                         </tbody>
                     </table>
                 </div>
@@ -315,7 +316,7 @@
                             </tr>
                         </thead>
 
-                        <tbody>
+                        <tbody>                            
                             <tr>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">1</td>
                                 <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr" colspan="2">
@@ -328,6 +329,8 @@
                     </table>
                 </div>
             </div>
+
+            <br>
 
             <div class="col-12 fontCalibri fontSize10 fontNormal">
                 Nota. Los demas valores registrados de temperatura llevan aplicado la temperatura corregida de la
@@ -420,6 +423,7 @@
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$tempMuestra[$i]->Temperatura1}}</td>
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$tempMuestra[$i]->Temperatura2}}</td>
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$tempMuestra[$i]->Temperatura3}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$tempMuestra[$i]->Promedio}}</td>
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$conMuestra[$i]->Conductividad1}}</td>
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$conMuestra[$i]->Conductividad2}}</td>
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$conMuestra[$i]->Conductividad3}}</td>
@@ -453,7 +457,7 @@
                             <th>&nbsp;</th>
                             <th>&nbsp;</th>
                             <th class="fontBold fontCalibri fontSize9 sinBorde justificadorCentr" colspan="2">Gasto
-                                Total GASTO</th>
+                                Total {{@$gastoTotal}} L/s</th>
                             <th>&nbsp;</th>
                         </tr>
                     </tbody>
@@ -466,35 +470,35 @@
                 <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
                     <tbody>
                         <tr>
-                            <td class="fontNormal fontCalibri fontSize12" width="40%">Metodo de aforos</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="60%">METODO</td>
+                            <td class="fontNormal fontCalibri fontSize12" width="40%">Metodo de aforo</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="60%">{{@$metodoAforo->Aforo}}</td>
                         </tr>
 
                         <tr>
                             <td class="fontNormal fontCalibri fontSize12" width="25%">Procedimiento de muestreo</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="75%">PROCEDIMIENTO</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="75%">{{@$proceMuestreo->Procedimiento}}</td>
                         </tr>
                     </tbody>
                 </table>
 
                 Procedimiento de pH PE-10-02-03, procedimiento de Temperatura PE-10-02-02, Procedimiento de
                 Conductividad PE-10-02-01 <br>
-                Procedimiento de recepción de mtas, PG-11-01, Cadena de Custodia RE-11-02 <br>
+                Procedimiento de recepción de mtas, PG-11-01, Cadena de Custodia RE-11-02<br>
 
                 <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
                     <tbody>
                         <tr>
                             <td class="fontNormal fontCalibri fontSize12" width="25%">Cuenta con tratamiento</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="25%">NO</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{@$conTratamiento->Tratamiento}}</td>
                             <td class="fontNormal fontCalibri fontSize12" width="25%">Tipo</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="25%">TIPO</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{@$tipoTratamiento->Tratamiento}}</td>
                         </tr>
 
                         <tr>
                             <td class="fontNormal fontCalibri fontSize12" width="25%">Temperatura muestra compuesta</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="25%">TEMPERATURA</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{@$campoCompuesto->Temp_muestraComp}} °C</td>
                             <td class="fontNormal fontCalibri fontSize12" width="25%">pH muestra compuesta</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="25%">PH</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{@$campoCompuesto->Ph_muestraComp}} UNIDADES</td>
                         </tr>
                     </tbody>
                 </table>
@@ -505,7 +509,7 @@
                     <tbody>
                         <tr>
                             <td class="fontNormal fontCalibri fontSize12" width="40%">Observaciones</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="60%">OBSERVACIONES</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="60%">{{@$campoCompuesto->Observaciones}}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -529,9 +533,9 @@
                             </tr>
 
                             <tr>
-                                <td class="fontBold fontCalibri fontSize12">NORMA</td>
-                                <td class="fontCalibri fontSize12 fontBold">VOLUMEN</td>
-                                <td class="fontCalibri fontSize12 fontBold">UNIDAD</td>
+                                <td class="fontBold fontCalibri fontSize12">{{@$model->Clave_norma}}</td>
+                                <td class="fontCalibri fontSize12 fontBold">{{@$campoCompuesto->Volumen_calculado}}</td>
+                                <td class="fontCalibri fontSize12 fontBold">L</td>
                             </tr>
 
                             <tr>
@@ -557,14 +561,16 @@
                                 <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMC</td>
                                 <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMSI</td>
                             </tr>
-
-                            <tr>
-                                <td class="fontCalibri fontSize12 fontBold justificadorCentr">1</td>
-                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;QI &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; QT &nbsp;&nbsp;&nbsp; =</td>
-                                <td class="fontCalibri fontSize12 fontBold justificadorCentr">RESULTADO</td>
-                                <td class="fontCalibri fontSize12 fontBold justificadorCentr">VMC</td>
-                                <td class="fontCalibri fontSize12 fontBold justificadorCentr">VMSI</td>
-                            </tr>
+                            
+                            @for ($i = 0; $i < @$model->Num_tomas; $i++)                                                             
+                                <tr>
+                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">{{$i+1}}</td>
+                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{@$gastoMuestra[$i]->Promedio}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{@$gastoTotal}} &nbsp;&nbsp;&nbsp; =</td>
+                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">{{@$gastoMuestra[$i]->Promedio / @$gastoTotal}}</td>
+                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">VMC</td>
+                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">VMSI</td>
+                                </tr>
+                            @endfor
                         </tbody>
                     </table>
                 </div>

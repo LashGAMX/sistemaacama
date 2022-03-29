@@ -39,6 +39,7 @@ use App\Models\PhMuestra;
 use App\Models\PHTrazable;
 use App\Models\PlanComplemento;
 use App\Models\PlanPaquete;
+use App\Models\ProcedimientoAnalisis;
 use App\Models\SeguimientoAnalisis;
 use App\Models\Solicitud;
 use Facade\FlareClient\View;
@@ -1102,8 +1103,35 @@ class CampoController extends Controller
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud',$id)->first();
 
         $campoGen = DB::table('ViewCampoGenerales')->where('Id_solicitud',$id)->first();
+
+        $factorCorreccion = TermFactorCorreccionTemp::where('Id_termometro', $campoGen->Id_equipo)->get();
+        $factorCorreccionLength = $factorCorreccion->count();
+
         $phMuestra = PhMuestra::where('Id_solicitud',$id)->get();
+
         $gastoMuestra = GastoMuestra::where('Id_solicitud',$id)->get();
+        $gastoTotal = 0;        
+
+        foreach($gastoMuestra as $item){
+            if($item->Promedio === NULL){
+                $gastoTotal += 0;                
+            }else{
+                $gastoTotal += $item->Promedio;                
+            }
+        }
+
+        //*****************************Qt (Sumatoria de caudales) *****************************
+        /* $qt = 0;
+
+        foreach($gastoMuestra as $item){
+            if($item->Promedio === NULL){
+
+            }
+            $qt += $item->Promedio;
+        } */
+
+        //*************************************************************************************
+
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
         $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
         $muestreador = Usuario::where('id',$solGen->Id_muestreador)->first();
@@ -1114,6 +1142,12 @@ class CampoController extends Controller
         
         $campoConTrazable = DB::table('ViewCampoConTrazable')->where('Id_solicitud',$id)->get();
         $campoConCalidad = DB::table('ViewCampoConCalidad')->where('Id_solicitud',$id)->get();
+
+        $campoCompuesto = CampoCompuesto::where('Id_solicitud', $id)->first();
+        $metodoAforo = MetodoAforo::where('Id_aforo', $campoCompuesto->Metodo_aforo)->first();
+        $proceMuestreo = ProcedimientoAnalisis::where('Id_procedimiento', $campoCompuesto->Proce_muestreo)->first();
+        $conTratamiento = ConTratamiento::where('Id_tratamiento', $campoCompuesto->Con_tratamiento)->first();
+        $tipoTratamiento = TipoTratamiento::where('Id_tratamiento', $campoCompuesto->Tipo_tratamiento)->first();
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
@@ -1130,7 +1164,9 @@ class CampoController extends Controller
             array(0, 0), 
         );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.bitacoraCampo',compact('model','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra','campoGen','tempMuestra','conMuestra','muestreador','phTrazable','campoConTrazable'));
+        $html = view('exports.campo.bitacoraCampo',compact('model','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra', 
+        'gastoTotal', 'campoGen','tempMuestra','conMuestra','muestreador','phTrazable','campoConTrazable', 'metodoAforo', 'proceMuestreo', 
+        'conTratamiento', 'tipoTratamiento', 'campoCompuesto', 'factorCorreccion', 'factorCorreccionLength'));
         $mpdf->CSSselectMedia = 'mpdf';
 
         $htmlHeader = view('exports.campo.bitacoraCampoHeader', compact('model'));

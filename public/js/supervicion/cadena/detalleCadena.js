@@ -17,6 +17,7 @@ $(document).ready(function () {
         else {
             tablePunto.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
+            getParametros();
         }
     } );
 
@@ -45,19 +46,16 @@ function getParametros()
 {
     let tabla = document.getElementById('divTableParametros');
     let tab = '';
-    let idLote = $("#idLote").val();
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/"+area+"/muestraSinAsignar",
+        url: base_url + "/admin/supervicion/cadena/getParametroCadena",
         data: {
-            idLote: $("#idLote").val(),
+            idSol: $("#idSol").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         async: false,
         success: function (response) {      
-            console.log("Muestra sin asignar")      ;
-            console.log(response);
             tab += '<table id="tableParametros" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
