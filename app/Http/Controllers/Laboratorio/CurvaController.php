@@ -42,9 +42,11 @@ class CurvaController extends Controller
     
     public function getLote(Request $request){
         $lote = LoteAnalisis::where('Id_area', $request->idArea)->get();
+        $parametro = Parametro::where('Id_area', $request->idArea)->get();
         $data = array(
             'area' => $request->idArea,
             'lote' => $lote,
+            'parametro' => $parametro,
            
         );
         return response()->json($data);
