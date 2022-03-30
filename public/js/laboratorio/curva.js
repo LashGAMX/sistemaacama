@@ -58,7 +58,7 @@ $(document).ready(function (){
     $("#idAreaModal").on("change",function(){ 
         console.log('evento activado area');
         getLote();
-       // getParametroModal();
+       getParametroModal();
     });
     
     
@@ -160,7 +160,7 @@ function getParametroModal(){
         async: false, 
         success: function (response) {
          console.log(response);
-            tab+= '<select class="form-control" id="parametro">';
+            tab+= '<select class="form-control" id="idParametroModal">';
             tab+= '<option value="">Selecciona Parametro</option>';
             $.each(response.parametro, function (key, item) {
                 tab+= '<option value="'+item.Id_parametro+'">'+item.Parametro+'</option>';
@@ -172,14 +172,10 @@ function getParametroModal(){
     });        
     
 }
-function getParametroModal(){
 
-}
-function getLote(){
+function getLote(){  // motodo para obtener el lote en la modal
 
     let div = document.getElementById("DivLoteModal");
-    let para = document.getElementById("DivParametroModal");
-    let par = "";
     let tab = "";
 
     $.ajax({
@@ -201,14 +197,6 @@ function getLote(){
             });
             tab+= '</select>';
             div.innerHTML = tab;
-
-            par+= '<select class="form-control" id="idParametroModal">';
-            par+= '<option value="">Selecciona parametro</option>';
-            $.each(response.parametro, function (key, item) {
-                par+= '<option value="'+item.Id_Parametro+'">'+item.Parametro+'</option>';
-            });
-            par+= '</select>';
-            para.innerHTML = par;
 
             
         }

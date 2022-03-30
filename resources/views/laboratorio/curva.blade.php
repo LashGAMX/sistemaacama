@@ -108,7 +108,7 @@
                 </select>
             </div>
             <div class="col-md-6" id="DivLoteModal">
-              <select class="form-control" id="idLoteModal" >
+              <select class="form-control" id="idLoteModal">
                 <option>Selecciona Lote</option>
                 {{-- @foreach ($usuarios as $item)
                

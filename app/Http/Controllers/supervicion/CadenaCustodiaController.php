@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Supervicion;
 
 use App\Http\Controllers\Controller;
+use App\Models\LoteDetalleEspectro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -25,6 +26,23 @@ class CadenaCustodiaController extends Controller
         $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$res->idSol)->get();
         $data = array(
             'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function getDetalleAnalisis(Request $res)
+    {
+        $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo',$res->idCodigo)->first();
+        $paraModel = DB::table('ViewParametros')->where('Id_parametro',$codigoModel->Id_parametro)->first();
+        switch ($paraModel->Id_area) {
+            case 16: //Espectrofotometria
+                $model = LoteDetalleEspectro::where('Id_codigo',$codigoModel->Id_codigo)->first();
+                break;
+            default:
+                # code... 
+                break;
+        }
+        $data = array(
+            'model' => $paraModel,
         );
         return response()->json($data);
     }

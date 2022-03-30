@@ -38,6 +38,15 @@ class CurvaController extends Controller
         );
         return response()->json($data);
     }
+    public function getParametroModal(Request $request){ 
+        $parametro = Parametro::where('Id_area', $request->idArea)->get();
+     
+        $data = array(
+            'parametro'=> $parametro,
+           
+        );
+        return response()->json($data);
+    }
     
     
     public function getLote(Request $request){
