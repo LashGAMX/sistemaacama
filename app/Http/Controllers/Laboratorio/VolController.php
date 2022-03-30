@@ -366,73 +366,51 @@ class VolController extends Controller
         $bandera = '';
 
         //Obtiene el parámetro que se está consultando
-        $parametro = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->first();
+        $parametro = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $request->idLote)->first();
 
         if (is_null($parametro)) {
-            $parametro = DB::table('ViewLoteDetalleGA')->where('Id_lote', $request->idLote)->first();
+            $parametro = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->first();
 
             if (!is_null($parametro)) {
-                $bandera = 'ga';
+                $bandera = 'cloro';
+            }else{
+                $parametro = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->first();
+
+                if(!is_null($parametro)){
+                    $bandera = 'nitrogeno';
+                }
             }
         } else {
-            $bandera = 'espectro';
+            $bandera = 'dqo';
         }
 
-        if ($bandera === 'espectro') {
-            if ($parametro->Parametro == 'N-Nitritos') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 1)->first();
-            } else if ($parametro->Parametro == 'N-Nitratos') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 2)->first();
-            } else if ($parametro->Parametro == 'BORO (B)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 3)->first();
-            } else if ($parametro->Parametro == 'Cianuros (CN)-') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 4)->first();
-            } else if ($parametro->Parametro == 'Conductividad') { //POR VERIFICAR EN LA TABLA DE PARAMETROS
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 5)->first();
-            } else if ($parametro->Parametro == 'CROMO HEXAVALENTE (Cr+6)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 6)->first();
-            } else if ($parametro->Parametro == 'Fosforo-Total') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 7)->first();
-            } else if ($parametro->Parametro == 'Materia Flotante') { //POR VERIFICAR EN LA TABLA DE PARAMETROS
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 8)->first();
-            } else if ($parametro->Parametro == 'SILICE (SiO₂)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 9)->first();
-            } else if ($parametro->Parametro == 'FENOLES TOTALES') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 10)->first();
-            } else if ($parametro->Parametro == 'FLUORUROS (F¯)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 11)->first();
-            } else if ($parametro->Parametro == 'SUSTANCIAS ACTIVAS AL AZUL DE METILENO (SAAM )') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 12)->first();
-            } else if ($parametro->Parametro == 'SULFATOS (SO4˭)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 13)->first();
-            } else {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 0)->first();
+        if ($bandera === 'dqo') {
+            if ($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 29)->first();
+            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 25)->first();
+            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 26)->first();
+            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE (DQO)') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 29)->first();
+            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') { //POR VERIFICAR EN LA TABLA DE PARAMETROS
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 25)->first();
+            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 26)->first();
             }
-        } else if ($bandera === 'ga') {
-            if ($parametro->Parametro == 'Grasas y Aceites ++') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 0)->first();
-            } else if ($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 14)->first();
-            } else if ($parametro->Parametro == 'SOLIDOS DISUELTOS TOTALES (SDT)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 15)->first();
-            } else if ($parametro->Parametro == 'SOLIDOS DISUELTOS VOLÁTILES (SDV)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 16)->first();
-            } else if ($parametro->Parametro == 'SOLIDOS SEDIMENTABLES (S.S)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 17)->first();
-            } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS FIJOS (SSF)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 18)->first();
-            } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS TOTALES (SST)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 19)->first();
-            } else if ($parametro->Parametro == 'SOLIDOS SUSPENDIDOS VOLÁTILES (SSV)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 20)->first();
-            } else if ($parametro->Parametro == 'SOLIDOS TOTALES (ST)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 21)->first();
-            } else if ($parametro->Parametro == 'SOLIDOS TOTALES FIJOS (STF)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 22)->first();
-            } else if ($parametro->Parametro == 'SOLIDOS TOTALES VOLATILES (STV)') {
-                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 23)->first();
+        } else if ($bandera === 'cloro') {
+            if ($parametro->Parametro == 'CLORO RESIDUAL LIBRE') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 24)->first();
             }
-        }
+        }else if($bandera === 'nitrogeno'){            
+            if ($parametro->Parametro == 'Nitrógeno Total *') {
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 30)->first();
+            }else if($parametro->Parametro == 'Nitrógeno Amoniacal'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 27)->first();
+            }else if($parametro->Parametro == 'Nitrógeno Orgánico'){
+                $plantillaPredeterminada = ReportesFq::where('Id_reporte', 28)->first();
+            }
+        }        
 
         if (!is_null($plantillaPredeterminada)) {
             return response()->json($plantillaPredeterminada);

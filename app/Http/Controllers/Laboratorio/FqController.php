@@ -744,7 +744,13 @@ class FqController extends Controller
         if (is_null($parametro)) {
             $parametro = DB::table('ViewLoteDetalleGA')->where('Id_lote', $request->idLote)->first();
 
-            if (!is_null($parametro)) {
+            if (is_null($parametro)) {
+                $parametro = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $request->idLote)->first();
+                
+                if(!is_null($parametro)){
+                    $bandera = 'solidos';
+                }                
+            }else{
                 $bandera = 'ga';
             }
         } else {
@@ -784,7 +790,9 @@ class FqController extends Controller
         } else if ($bandera === 'ga') {
             if ($parametro->Parametro == 'Grasas y Aceites ++') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 0)->first();
-            } else if ($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)') {
+            }
+        } else if ($bandera === 'solidos'){
+            if ($parametro->Parametro == 'SOLIDOS DISUELTOS FIJOS (SDF)') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 14)->first();
             } else if ($parametro->Parametro == 'SOLIDOS DISUELTOS TOTALES (SDT)') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 15)->first();

@@ -39,7 +39,7 @@
             </div>
 
             <div class="col-md-12 fontNormal fontCalibri fontSize12">
-                <p class="fontBold fontCalibri fontSize12" align="right">FECHA</p>
+                <p class="fontNormal fontCalibri fontSize12" align="right">{{\Carbon\Carbon::parse(@$model->created_at)->format('d/m/Y')}}</p>
                 <p>ME PERMITO SOMETER A SU AMABLE CONSIDERACIÓN LA SIGUIENTE COTIZACIÓN DEL SERVICIO DE MUESTREO Y ANÁLISIS DE AGUA DE ACUERDO A:</p>
             </div>
 
@@ -118,7 +118,7 @@
         </div>
 
         <br>
-        <table autosize="1" class="table table-bordered table-sm" cellpadding="0" cellspacing="0" border-color="#000000">
+        <table autosize="1" class="table table-bordered table-sm" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <thead>
                 <tr>
                     <th class="fontBold fontCalibri fontSize11 bordesTablaBody">PARAMETRO</th>
@@ -131,7 +131,7 @@
                 @foreach ($parametros as $item)
                 <tr>
                     <td class="fontNormal fontCalibri fontSize11 bordesTablaBody">{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
-                    <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Metodo_prueba}}</td>
+                    <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Clave_metodo}}</td>
                     <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Limite}}</td>
                     <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Unidad}}</td>
                 </tr>

@@ -594,32 +594,54 @@ class MbController extends Controller
         return response()->json($data);
     }
 
-    public function getPlantillaPred(Request $request){
+    public function getPlantillaPred(Request $request){        
+        $bandera = '';
 
         //Obtiene el parámetro que se está consultando
-        $parametro = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->first();
-        
-        if($parametro->Parametro == 'COLIFORMES FECALES'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 1)->first();
-        }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO CON INOCULO (DBO5)'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 2)->first();
-        }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 3)->first();
-        }else if($parametro->Parametro == 'OXIGENO DISUELTO'){
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 4)->first();
-        }else if($parametro->Parametro == 'HUEVOS DE HELMINTO'){
-            $plantillaPredeterminada = ReportesMb::where('Id_reporte', 0)->first();
+        $parametro = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->first();
+
+        if(is_null($parametro)){
+            $parametro = DB::table('ViewLoteDetalleHH')->where('Id_lote', $request->idLote)->first();
+
+            if(is_null($parametro)){
+                $parametro = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $request->idLote)->first();
+
+                if(!is_null($parametro)){                    
+                    $bandera = "dbo";
+                }
+            }else{
+                $bandera = 'hh';
+            }
         }else{
-            $plantillaPredeterminada = ReportesFq::where('Id_reporte', 0)->first();
+            $bandera = 'coli';
+        }
+        
+        if($bandera === 'coli'){        
+            if($parametro->Parametro == 'COLIFORMES FECALES' || $parametro->Parametro == 'Coliformes Fecales +'){
+                $plantillaPredeterminada = ReportesMb::where('Id_reporte', 1)->first();
+            }else if($parametro->Parametro == 'COLIFORMES TOTALES'){
+                $plantillaPredeterminada = ReportesMb::where('Id_reporte', 5)->first();
+            }        
+        }else if($bandera === 'hh'){
+            if($parametro->Parametro == 'HUEVOS DE HELMINTO' || $parametro->Parametro == 'Huevos de Helminto'){
+                $plantillaPredeterminada = ReportesMb::where('Id_reporte', 0)->first();
+            }
+        }else if($bandera === 'dbo'){
+            if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
+                $plantillaPredeterminada = ReportesMb::where('Id_reporte', 3)->first();
+            }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO CON INOCULO (DBO5)'){
+                $plantillaPredeterminada = ReportesMb::where('Id_reporte', 2)->first();
+            }
+        }else if($bandera === 'oxigeno'){
+            if($parametro->Parametro == 'OXIGENO DISUELTO'){
+                $plantillaPredeterminada = ReportesMb::where('Id_reporte', 4)->first();
+            }
+        }else{
+            $plantillaPredeterminada = ReportesMb::where('Id_reporte', 0)->first();
         }        
         
         return response()->json($plantillaPredeterminada);
     }
-
-    /* public function getPlantillaPred(Request $request){
-        $plantillaPredeterminada = ReportesMb::where('Id_lote', $request->idLote)->first();
-        return response()->json($plantillaPredeterminada);
-    } */
 
     public function asignar()
     {

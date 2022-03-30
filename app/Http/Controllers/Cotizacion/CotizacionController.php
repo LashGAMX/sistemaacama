@@ -465,8 +465,19 @@ class CotizacionController extends Controller
             ]);
 
 
-        DB::table('cotizacion_parametros')->where('Id_cotizacion', $id)->delete();
-        DB::table('cotizacion_puntos')->where('Id_cotizacion', $id)->delete();
+        $cotParam = DB::table('cotizacion_parametros')->where('Id_cotizacion', $id)->get();
+
+        //Elimina cada parámetro de la cotización existente
+        foreach($cotParam as $item){
+            $item->delete();
+        }
+
+        $cotPunto = DB::table('cotizacion_puntos')->where('Id_cotizacion', $id)->get();
+
+        //Elimina cada punto de la cotizacion existente
+        foreach($cotPunto as $item){
+            $item->delete();
+        }
 
         $parametro = $request->parametrosCotizacion;
         $parametro = explode(',', $parametro);
@@ -481,6 +492,12 @@ class CotizacionController extends Controller
             } else {
                 $extra = 1;
             }
+
+            /* CotizacionParametros::where('Id_cotizacion', $id)->update([
+                'Id_cotizacion' => $id,
+                'Id_subnorma' => $item,
+                'Extra' => $extra
+            ]); */
 
             CotizacionParametros::create([
                 'Id_cotizacion' => $id,
@@ -567,7 +584,7 @@ class CotizacionController extends Controller
     public function exportPdfOrden($idCot)
     {
         
-        $parametros = DB::table('ViewCotParam')->where('Id_cotizacion', $idCot)->get();
+        $parametros = DB::table('ViewCotParam')->where('Id_cotizacion', $idCot)->orderBy('Parametro', 'ASC')->get();
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
 
         // $mpdf = new \Mpdf\Mpdf([

@@ -84,17 +84,19 @@
 
                     <tbody>                                           
                         @for ($i = 0; $i < $paramSolicitudLength; $i++)
-                            <tr>
-                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Id_env}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Area}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Parametro}}</td>
-                                <td class="bordesTablaInfIzqDer">{{@$envasesArray[$i]->Nombre}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Volumen}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Unidad}}</td>
-                                <td class="bordesTablaInfIzqDer">{{@$envasesArray[$i]->Preservacion}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Preservacion}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer">SI</td>
-                            </tr>
+                            @if (@$envasesArray[$i] !== NULL)
+                                <tr>
+                                    <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Id_env}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Area}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Parametro}}</td>
+                                    <td class="bordesTablaInfIzqDer">{{@$envasesArray[$i]->Nombre}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Volumen}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Unidad}}</td>
+                                    <td class="bordesTablaInfIzqDer">{{@$envasesArray[$i]->Preservacion}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Preservacion}}</td>                                                                    
+                                    <td class="justifyCenter bordesTablaInfIzqDer">SI</td>                                    
+                                </tr>
+                            @endif
                         @endfor                        
                     </tbody>
                     
@@ -150,13 +152,8 @@
 
                     <tr>
                         <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita">{{$muestreador->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
-                        <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">{{$muestreador->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{url("/public/storage")."/".$firmaRes->firma}}"></td>                      
-                    </tr>                    
-
-                    {{-- <tr style="background-color: aquamarine">
-                        <td class="negrita justifyCenter">{{$muestreador->name}}</td>
-                        <td class="negrita justifyCenter">{{$muestreador->name}}</td>
-                    </tr> --}}
+                        <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">{{$muestreador->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png{{-- {{url("/public/storage")."/".$firmaRes->firma}} --}}"></td>
+                    </tr>                                        
                 </table>
             </div>
             <div class="col-12 negrita">
@@ -180,7 +177,7 @@
                     </tr>
 
                     <tr>
-                        <td colspan="2" class="bordesTablaInfIzqDer">Fecha y hora de recepción en Lab:</td>
+                        <td colspan="2" class="bordesTablaInfIzqDer">Fecha y hora de recepción en Lab: {{\Carbon\Carbon::parse(@$recepcion->created_at)->format('d/m/Y')}}</td>
                         <td colspan="2" class="bordesTablaSupInfDer">Fecha y hora de conformación de la muestra: </td>
                     </tr>
 
