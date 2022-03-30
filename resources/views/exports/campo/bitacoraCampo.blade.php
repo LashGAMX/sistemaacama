@@ -540,8 +540,8 @@
 
                             <tr>
                                 <td class="fontBold fontCalibri fontSize12">QT (GASTO TOTAL)</td>
-                                <td class="fontCalibri fontSize12 fontBold">VOLUMEN</td>
-                                <td class="fontCalibri fontSize12 fontBold">UNIDAD</td>
+                                <td class="fontCalibri fontSize12 fontBold">{{@$gastoTotal}}</td>
+                                <td class="fontCalibri fontSize12 fontBold">L/s</td>
                             </tr>
                         </tbody>
                     </table>
@@ -565,10 +565,45 @@
                             @for ($i = 0; $i < @$model->Num_tomas; $i++)                                                             
                                 <tr>
                                     <td class="fontCalibri fontSize12 fontBold justificadorCentr">{{$i+1}}</td>
-                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{@$gastoMuestra[$i]->Promedio}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; {{@$gastoTotal}} &nbsp;&nbsp;&nbsp; =</td>
-                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">{{@$gastoMuestra[$i]->Promedio / @$gastoTotal}}</td>
-                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">VMC</td>
-                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">VMSI</td>
+                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                            0
+                                        @else
+                                            {{@$gastoMuestra[$i]->Promedio}}
+                                        @endif                                                                                
+                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                                        
+                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                            0
+                                        @else
+                                            {{@$gastoTotal}}
+                                        @endif                                        
+                                        &nbsp;&nbsp;&nbsp; =</td>
+                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">
+                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                            0
+                                        @else
+                                            @php
+                                                echo round($gastoMuestra[$i]->Promedio / $gastoTotal, 4);
+                                            @endphp                                            
+                                        @endif                                        
+                                    </td>
+                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">
+                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                            0
+                                        @else
+                                            {{@$campoCompuesto->Volumen_calculado}}
+                                        @endif                                        
+                                    </td>
+                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">
+                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                            0
+                                        @else
+                                            @php
+                                                echo round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 4)) * $campoCompuesto->Volumen_calculado, 4);
+                                            @endphp                                            
+                                        @endif
+                                    </td>
                                 </tr>
                             @endfor
                         </tbody>
