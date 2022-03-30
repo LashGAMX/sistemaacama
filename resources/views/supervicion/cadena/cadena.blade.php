@@ -21,7 +21,7 @@
                         <th>Fecha Muestreo</th>
                         <th>Fecha Recepcion</th>
                         <th>Cliente</th>
-                        <th>Norma</th>
+                        <th>Norma</th> 
                         <th>Estado</th>
                         <th>Con recepción</th>
                         <th>Fecha creación</th>
@@ -51,9 +51,9 @@
             </table>
         </div>
     </div>
-</div>
+</div> 
 
 @endsection
 @section('javascript')
-<script src="{{ asset('public/js/supervicion/cadena/cadena.js') }}?v=0.0.1"></script>
+<script src="{{ asset('public/js/supervicion/cadena/cadena.js') }}?v=0.0.2"></script>
 @stop
