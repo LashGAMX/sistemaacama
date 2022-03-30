@@ -226,6 +226,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::post('buscar', [CurvaController::class, 'buscar']);
     Route::post('createStd', [CurvaController::class, 'createStd']);
     Route::post('getParametro', [CurvaController::class, 'getParametro']);
+    Route::post('getParametroModal', [CurvaController::class, 'getParametroModal']);
     Route::post('getLote', [CurvaController::class, 'getLote']);
     Route::post('setCalcular', [CurvaController::class, 'setCalcular']);
     Route::post('setConstantes', [CurvaController::class, 'setConstantes']);
