@@ -1,3 +1,5 @@
+var idCodigo;
+var dataModel;
 $(document).ready(function () {
     
     let tablePunto = $('#tablePuntos').DataTable({        
@@ -59,6 +61,7 @@ function getParametros()
             tab += '<table id="tableParametros" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
+            tab += '          <th>Id</th>';
             tab += '          <th>Parametro</th>';
             tab += '          <th>Tipo formula</th>';
             tab += '          <th>Resultado</th> '; 
@@ -70,6 +73,7 @@ function getParametros()
             tab += '    <tbody>';
             $.each(response.model, function (key, item) {
                 tab += '<tr>';
+                tab += '<td>'+item.Id_codigo+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
                 tab += '<td>'+item.Tipo_formula+'</td>';
                 tab += '<td>'+item.Resultado+'</td>';
@@ -81,7 +85,7 @@ function getParametros()
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
-            $('#tableParametros').DataTable({        
+            let tableParametro = $('#tableParametros').DataTable({        
                 "ordering": false,
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",
@@ -90,6 +94,40 @@ function getParametros()
                     "infoEmpty": "No hay datos encontrados",
                 }
             });  
+            $('#tableParametros tbody').on( 'click', 'tr', function () {
+                if ( $(this).hasClass('selected') ) {
+                    $(this).removeClass('selected');
+                }
+                else {
+                    tableParametro.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    getDetalleAnalisis(idCodigo);
+                }
+            } );
+
+            $('#tableParametros tr').on('click', function(){
+                let dato = $(this).find('td:first').html();
+                idCodigo = dato;
+              });
+        
+        } 
+    }); 
+}
+function getDetalleAnalisis(idCodigo)
+{
+   
+    $.ajax({ 
+        type: 'POST',
+        url: base_url + "/admin/supervicion/cadena/getDetalleAnalisis",
+        data: {
+            idSol: $("#idSol").val(),
+            idCodigo:idCodigo,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {      
+            dataModel = response.model
         } 
     });
 }
