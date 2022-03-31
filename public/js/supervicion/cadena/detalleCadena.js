@@ -46,6 +46,7 @@ $(document).ready(function () {
 
 function getParametros()
 {
+    let color = "";
     let tabla = document.getElementById('divTableParametros');
     let tab = '';
     $.ajax({
@@ -72,12 +73,16 @@ function getParametros()
             tab += '    </thead>';
             tab += '    <tbody>';
             $.each(response.model, function (key, item) {
-                tab += '<tr>';
+                if (item.Resultado != "NULL") {
+                    color = "success";
+                } else { 
+                    color = "warning"
+                }
+                tab += '<tr class="bg-'+color+'">';
                 tab += '<td>'+item.Id_codigo+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
                 tab += '<td>'+item.Tipo_formula+'</td>';
-                tab += '<td>'+item.Resultado+'</td>';
-                tab += '<td>'+item.Resultado+'</td>';
+                tab += '<td><input style="width:75px;" id="res'+item.Id_codigo+'" value="'+item.Resultado+'"></td>';
                 // tab += '<td>'+item.Resultado+'</td>';
                 // tab += '<td>'+item.Resultado+'</td>';
                 tab += '</tr>';
@@ -92,7 +97,10 @@ function getParametros()
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY":        "200px",
+                "scrollCollapse": true,
+                "paging":         false
             });  
             $('#tableParametros tbody').on( 'click', 'tr', function () {
                 if ( $(this).hasClass('selected') ) {
