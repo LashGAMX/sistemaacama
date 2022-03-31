@@ -423,7 +423,7 @@ ON pu.Id_muestreo = gen.Id_punto
 
 /*Lista ViewCodigoParametro */
 
-CREATE VIEW ViewCodigoParametro AS  SELECT cod.*,sol.Folio_servicio,sol.Clave_norma,pa.Parametro,pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba FROM codigo_parametro as cod
+CREATE VIEW ViewCodigoParametro AS  SELECT cod.*,sol.Folio_servicio,sol.Clave_norma,pa.Parametro,pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo FROM codigo_parametro as cod
 INNER JOIN ViewSolicitud as sol
 ON cod.Id_solicitud = sol.Id_solicitud
 INNER JOIN ViewParametros as pa
