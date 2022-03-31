@@ -70,7 +70,6 @@
                                         <th>Parametro</th>
                                         <th>Tipo formula</th>
                                         <th>Resultado</th>
-                                        <th>Resultado Escrito</th>
                                         <th>Liberado</th>
                                         <th>Nombre</th>
                                     </tr>
