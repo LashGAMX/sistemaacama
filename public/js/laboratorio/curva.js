@@ -432,7 +432,7 @@ function buscar(){
                 tab += '        </tr>';
                 tab += '    </thead>';
                 tab += '    <tbody>'; 
-
+                console.log('cont inicial:'+cont)
                 $.each(response.stdModel, function (key, item) {
                     idLote = item.Id_lote;
                   if(cont == 0) 
@@ -448,6 +448,7 @@ function buscar(){
                     tab += '<td><input id="curProm'+cont+'" value="0.0" readonly></td>';
                     tab += '</tr>';
                     cont++;
+                    console.log('primerCont:'+cont)
                   }else{
                     tab += '<tr>';
                     tab += '<td>'+item.Id_std+'</td>';
@@ -460,7 +461,9 @@ function buscar(){
                     tab += '<td><input id="curProm'+cont+'" value="'+item.Promedio+'" readonly></td>';
                     tab += '</tr>';
                     cont++;
+                    console.log('con:'+cont)
                   }
+                  
                 });
             
                 tab += '    </tbody>';
