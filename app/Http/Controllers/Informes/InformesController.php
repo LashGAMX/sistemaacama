@@ -47,6 +47,10 @@ class InformesController extends Controller
         return response()->json($data);
     }
 
+    public function mensual()
+    {
+        return view('informes.mensual'); 
+    }
     public function pdfSinComparacion($idSol){
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([

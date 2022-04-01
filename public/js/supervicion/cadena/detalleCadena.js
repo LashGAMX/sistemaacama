@@ -66,23 +66,22 @@ function getParametros()
             tab += '          <th>Parametro</th>';
             tab += '          <th>Tipo formula</th>';
             tab += '          <th>Resultado</th> '; 
-            tab += '          <th>Resultado escrito</th> '; 
             // tab += '          <th>Liberado</th> '; 
             // tab += '          <th>Nombre</th> '; 
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
             $.each(response.model, function (key, item) {
-                if (item.Resultado != "NULL") {
+                if (item.Resultado != null) {
                     color = "success";
                 } else { 
                     color = "warning"
                 }
-                tab += '<tr class="bg-'+color+'">';
+                tab += '<tr>';
                 tab += '<td>'+item.Id_codigo+'</td>';
-                tab += '<td>'+item.Parametro+'</td>';
+                tab += '<td class="bg-'+color+'">'+item.Parametro+'</td>';
                 tab += '<td>'+item.Tipo_formula+'</td>';
-                tab += '<td><input style="width:75px;" id="res'+item.Id_codigo+'" value="'+item.Resultado+'"></td>';
+                tab += '<td>'+item.Resultado+'</td>';
                 // tab += '<td>'+item.Resultado+'</td>';
                 // tab += '<td>'+item.Resultado+'</td>';
                 tab += '</tr>';
@@ -98,7 +97,7 @@ function getParametros()
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
                 },
-                "scrollY":        "200px",
+                "scrollY":        "300px",
                 "scrollCollapse": true,
                 "paging":         false
             });  
