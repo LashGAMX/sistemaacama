@@ -548,13 +548,13 @@
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
-                                            @if (@$phMuestra[$i]->Activo == 0) 
-                                                @php
-                                                    $sw = true;
-                                                @endphp
-                                            @else
+                                            @if (@$phMuestra[$i]->Activo == 1 || is_null(@$phMuestra[$i]->Activo)|| is_null(@$phMuestra[$i]))
                                                 @php
                                                     $sw = false;
+                                                @endphp
+                                            @elseif (@$phMuestra[$i]->Activo == 0)
+                                                @php
+                                                    $sw = true;
                                                 @endphp
                                             @endif
                                         
@@ -703,19 +703,19 @@
                                             <th>Temperatura 3 (°C)</th>
                                             <th>Temperatura corregida</th>
                                             <th>Temperatura Promedio (°C)</th>
-                                            <th hidden>Estado</th>
+                                            <th hidden>Estados</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                                         
-                                        @if (@$tempMuestra[$i]->Activo == 0) 
+                                        @if (@$tempMuestra[$i]->Activo == 1 || is_null(@$tempMuestra[$i]->Activo)|| is_null(@$tempMuestra[$i]))
+                                            @php                                                
+                                                $sw = false;                                                
+                                            @endphp
+                                        @elseif (@$tempMuestra[$i]->Activo == 0)
                                             @php
                                                 $sw = true;
-                                            @endphp
-                                        @else
-                                            @php
-                                                $sw = false;
                                             @endphp
                                         @endif
                                                                                 
@@ -778,13 +778,13 @@
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)                                                                               
-                                            @if (@$phCalidadCampo[$i]->Activo == 0) 
-                                                @php
-                                                    $sw = true;
-                                                @endphp
-                                            @else
+                                            @if (@$phCalidadCampo[$i]->Activo == 1 || is_null(@$phCalidadCampo[$i]->Activo)|| is_null(@$phCalidadCampo[$i])) 
                                                 @php
                                                     $sw = false;
+                                                @endphp
+                                            @elseif (@$phCalidadCampo[$i]->Activo == 0)
+                                                @php
+                                                    $sw = true;
                                                 @endphp
                                             @endif
                                         
@@ -865,13 +865,13 @@
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                                         
-                                        @if (@$conductividadMuestra[$i]->Activo == 0) 
-                                            @php
-                                                $sw = true;
-                                            @endphp
-                                        @else
+                                        @if (@$conductividadMuestra[$i]->Activo == 1 || is_null(@$conductividadMuestra[$i]->Activo) || is_null(@$conductividadMuestra[$i])) 
                                             @php
                                                 $sw = false;
+                                            @endphp
+                                        @elseif (@$conductividadMuestra[$i]->Activo == 0)
+                                            @php
+                                                $sw = true;
                                             @endphp
                                         @endif
                                         
@@ -891,9 +891,9 @@
                                                 <td><p id="conprom1{{ $i }}">{{@$conductividadMuestra[$i]->Promedio}}</p></td>
                                                 
                                                 @if (!is_null(@$conductividadMuestra[$i]->Activo))
-                                                    <td><input type="text" id="condStatus1{{$i + 1}}" value="{{@$conductividadMuestra[$i]->Activo}}" ></td>
+                                                    <td><input type="text" id="condStatus1{{$i + 1}}" value="{{@$conductividadMuestra[$i]->Activo}}" hidden></td>
                                                 @else
-                                                    <td><input type="text" id="condStatus1{{$i + 1}}" value= "1" ></td>
+                                                    <td><input type="text" id="condStatus1{{$i + 1}}" value= "1" hidden></td>
                                                 @endif  
 
                                                 <td><input type="text" id="conprom{{ $i }}" value="{{@$conductividadMuestra[$i]->Promedio}}" hidden></td>
@@ -919,13 +919,13 @@
                                     <tbody>
                                         @for ($i = 0; $i < $model->Num_tomas; $i++)
                                         
-                                        @if (@$gastoMuestra[$i]->Activo == 0) 
-                                            @php
-                                                $sw = true;
-                                            @endphp
-                                        @else
+                                        @if (@$gastoMuestra[$i]->Activo == 1 || is_null(@$gastoMuestra[$i]->Activo) || is_null(@$gastoMuestra[$i])) 
                                             @php
                                                 $sw = false;
+                                            @endphp
+                                        @elseif(@$gastoMuestra[$i]->Activo == 0)
+                                            @php
+                                                $sw = true;
                                             @endphp
                                         @endif    
                                         
