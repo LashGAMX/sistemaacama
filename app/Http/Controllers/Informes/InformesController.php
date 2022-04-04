@@ -50,7 +50,7 @@ class InformesController extends Controller
     public function mensual()
     {
         $model = DB::table('ViewSolicitud')->get();
-        return view('informes.mensual',compact('model')); 
+        return view('informes.mensual',compact('model'));  
     }
     public function pdfSinComparacion($idSol){
         //Opciones del documento PDF
@@ -290,7 +290,7 @@ class InformesController extends Controller
                 
                 //Si ambos titulos de consecion y anexos son los mismos entonces se almacena en la var.comparación encontrada la solicitud correspondiente
                 if(($puntoMuestreo->Titulo_consecion == $puntoMuestreoComparacion->Titulo_consecion) && ($puntoMuestreo->Anexo == $puntoMuestreoComparacion->Anexo)){
-                    $comparacionEncontrada = $item;      
+                    $comparacionEncontrada = $item;
 
                     //Obtiene el número de orden para el informe; Ej si la comparación encontrada es 60-1/22-2 estas instrucciones devuelven 60-1/22
                     $folioComparacion = explode("-", $item->Folio_servicio);
@@ -300,9 +300,9 @@ class InformesController extends Controller
 
                     array_push($data, $comparacionEncontrada, $folioC);
                     break;
-                }                
-            }            
-        }             
+                }
+            }
+        }
 
         //Recupera los resultados de los parámetros de la primera muestra
         $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->get();
@@ -310,9 +310,9 @@ class InformesController extends Controller
         $limiteMostrar = array();
         $limitesC = array();
 
-        //Recupera los límites de cuantificación de los parámetros        
+        //Recupera los límites de cuantificación de los parámetros
         foreach($solicitudParametros as $item){
-            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();            
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
             
             if ($item->Resultado < $limiteC->Limite) {
                 $limC = "< " . $limiteC->Limite;
@@ -332,11 +332,11 @@ class InformesController extends Controller
         //Recupera los resultados de los parámetros de la segunda muestra
         if(!is_null($comparacionEncontrada)){
             $solicitudParametros2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->where('Num_muestra', 1)->get();
-            $solicitudParametros2Length = $solicitudParametros2->count();            
+            $solicitudParametros2Length = $solicitudParametros2->count();
 
-            //Recupera los límites de cuantificación de los parámetros        
+            //Recupera los límites de cuantificación de los parámetros
             foreach($solicitudParametros2 as $item){
-                $limite2C = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();            
+                $limite2C = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
                 
                 if ($item->Resultado < $limite2C->Limite) {
                     $lim2C = "< " . $limite2C->Limite;
@@ -355,7 +355,7 @@ class InformesController extends Controller
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.sinComparacion.bodyInformeMensual',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'limites2C', 'limiteMostrar', 'limiteMostrar2'));
 
-        //HEADER-FOOTER******************************************************************************************************************                 
+        //HEADER-FOOTER******************************************************************************************************************
         $htmlHeader = view('exports.informes.sinComparacion.headerInformeMensual', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'fechaEmision', 'comparacionEncontrada', 'data'));
         $htmlFooter = view('exports.informes.sinComparacion.footerInformeMensual', compact('solicitud'/* 'usuario', 'firma' */));
 
@@ -365,7 +365,7 @@ class InformesController extends Controller
 
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->Output();
-    }    
+    }
 
     public function pdfComparacion2($idSol){
         //Opciones del documento PDF
@@ -375,7 +375,7 @@ class InformesController extends Controller
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 74,
-            'margin_bottom' => 66,
+            'margin_bottom' => 80,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
@@ -409,7 +409,7 @@ class InformesController extends Controller
         $parte1 = strval($folio[0]);
         $parte2 = strval($folio[1]);
 
-        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();                 
+        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();
 
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
@@ -496,7 +496,7 @@ class InformesController extends Controller
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.conComparacion.headerInformeMensual', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'fechaEmision', 'comparacionEncontrada', 'data'));
-        $htmlFooter = view('exports.informes.conComparacion.footerInformeMensual', compact('solicitud'/* 'usuario', 'firma' */));
+        $htmlFooter = view('exports.informes.conComparacion.footerInformeMensual', compact('solicitud', 'comparacionEncontrada' /* 'usuario', 'firma' */));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
