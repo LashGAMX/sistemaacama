@@ -859,7 +859,7 @@
                                             <th>Conductividad 2 (µS)</th>
                                             <th>Conductividad 3 (µS)</th>
                                             <th>Conductividad Promedio (µS)</th>
-                                            <th>Estado</th>
+                                            <th hidden>Estado</th>
                                         </tr>
                                     </thead>
                                     <tbody>

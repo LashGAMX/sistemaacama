@@ -58,6 +58,11 @@ p{
     font-size: 8px;
 }
 
+.fontSize11{
+    font-family: Calibri;
+    font-size: 11px;
+}
+
 .anchoColumna{
     width: 25%;
 }
