@@ -37,7 +37,8 @@
                         <tr>
                             <td class="justificadorCentr">
                                 @php
-                                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $solicitud->Folio_servicio, "QRCODE");
+                                    $url = url()->current();
+                                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                                 @endphp
                                                                 
                                 <br>
@@ -46,7 +47,8 @@
 
                             <td>
                                 @php
-                                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $solicitud->Folio_servicio, "QRCODE");
+                                    $url = url()->current();
+                                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                                 @endphp
                                     
                                 <br>

@@ -54,9 +54,17 @@
                         <input type="month" class="form-control form-control-sm">
                     </div>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                     <div class="form-group"> 
                         <button class="btn btn-sm btn-success"><i class="fas fa-search"></i> Buscar</button>
+                    </div>
+                </div>
+                <div class="col-md-2">
+                    <div class="form-group"> 
+                        <button class="btn btn-sm btn-info" id="btnSC"><i class="fas fa-print"></i> SC</button>
+                    </div>
+                    <div class="form-group"> 
+                        <button class="btn btn-sm btn-info" id="btnCc"><i class="fas fa-print"></i> CC</button>
                     </div>
                 </div>
                 <div class="col-md-12">

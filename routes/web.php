@@ -33,4 +33,6 @@ Route::group(['prefix' => 'clientes'], function () {
     Route::get('orden_servicio/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
 });
 
+
+
 // Route::get('animacion', [BetoController::class,'animacion']);
