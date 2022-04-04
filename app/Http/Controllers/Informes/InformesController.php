@@ -35,25 +35,26 @@ class InformesController extends Controller
         $model = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud',$request->id)->get();
         $data = array(
             'model' => $model,
-        );
+        ); 
         return response()->json($data);
     }
     public function getSolParametro(Request $request)
     {
         $model = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$request->id)->get();
         $data = array(
-            'model' => $model,
+            'model' => $model, 
         );
         return response()->json($data);
     }
 
     public function mensual()
     {
-        return view('informes.mensual'); 
+        $model = DB::table('ViewSolicitud')->get();
+        return view('informes.mensual',compact('model')); 
     }
     public function pdfSinComparacion($idSol){
         //Opciones del documento PDF
-        $mpdf = new \Mpdf\Mpdf([
+        $mpdf = new \Mpdf\Mpdf([ 
             'orientation' => 'P',
             'format' => 'letter',
             'margin_left' => 10,

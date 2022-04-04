@@ -8,6 +8,41 @@
     <i class="fas fa-chart-area"></i>
   </h6>
   @stop
+  <style>
+      .clearfix:after {
+    content: '';
+    display: table;
+    clear: both;
+}
+#main{
+   
+   float: right;
+   height:200px;
+    width: 75%;
+}
+#sidebar{
+   
+   width:25%;
+   float: left;
+   height:200px;
+   overflow-y: hidden;
+}
+
+#dragbar{
+   background-color:black;
+   height:100%;
+   float: right;
+   width: 3px;
+   cursor: col-resize;
+}
+#ghostbar{
+    width:3px;
+    background-color:#000;
+    opacity:0.5;
+    position:absolute;
+    cursor: col-resize;
+    z-index:999}
+  </style>
 
 
   <div class="container-fluid">
@@ -20,7 +55,7 @@
                     </div>
                 </div>
                 <div class="col-md-6">
-                    <div class="form-group">
+                    <div class="form-group"> 
                         <button class="btn btn-sm btn-success"><i class="fas fa-search"></i> Buscar</button>
                     </div>
                 </div>
@@ -34,13 +69,21 @@
                                         <tr>
                                             <th>Id</th>
                                             <th>Cliente</th>
-                                            <th>Norma</th>
+                                            <th>Norma</th> 
                                             <th>Muestreo</th>
                                             <th>Punto</th>
                                         </tr>
-                                    </thead>
+                                    </thead> 
                                     <tbody>
-                               
+                                        @foreach ($model as $item)
+                                            <tr>
+                                                <td>{{$item->Id_solicitud}}</td>
+                                                <td>{{$item->Empresa_suc}}</td>
+                                                <td>{{$item->Clave_norma}}</td>
+                                                <td>{{$item->Fecha_muestreo}}</td>
+                                                <td></td>
+                                            </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -76,5 +119,45 @@
 @endsection  
 
 @section('javascript')
-    {{-- <script src="{{asset('/public/js/informes/informes.js')}}"></script> --}}
+<script>
+    var i = 0;
+var dragging = false;
+   $('#dragbar').mousedown(function(e){
+       e.preventDefault();
+       
+       dragging = true;
+       var main = $('#main');
+       var ghostbar = $('<div>',
+                        {id:'ghostbar',
+                         css: {
+                                height: main.outerHeight(),
+                                top: main.offset().top,
+                                left: main.offset().left
+                               }
+                        }).appendTo('body');
+       
+        $(document).mousemove(function(e){
+          ghostbar.css("left",e.pageX+2);
+       });
+       
+    });
+
+   $(document).mouseup(function(e){
+       if (dragging) 
+       {
+           var percentage = (e.pageX / window.innerWidth) * 100;
+           var mainPercentage = 100-percentage;
+           
+           $('#console').text("side:" + percentage + " main:" + mainPercentage);
+           
+           $('#sidebar').css("width",percentage + "%");
+           $('#main').css("width",mainPercentage + "%");
+           $('#ghostbar').remove();
+           $(document).unbind('mousemove');
+           dragging = false;
+       }
+    });
+
+</script>
+    <script src="{{asset('/public/js/informes/mensual.js')}}"></script>
 @stop
