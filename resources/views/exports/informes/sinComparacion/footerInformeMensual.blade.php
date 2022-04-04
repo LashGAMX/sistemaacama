@@ -1,4 +1,4 @@
-<footer>
+<footer>    
     <div autosize="1" class="contenedorPadre12">
         <div autosize="1" class="contenedorSubPadre11" cellpadding="0" cellspacing="0" border-color="#000000">
 
@@ -17,7 +17,7 @@
             <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                 <tbody>            
                         <tr>
-                            <td class="nombreHeaders fontBold fontSize5 justificadorIzq">NOTA: INTERPRETAR EL PUNTO (.) COMO SIGNO DECIMAL SEGÚN NORMA NOM-008-SCFI-2002 <br>
+                            <td class="nombreHeaders fontBold fontSize5 justificadorIzq" colspan="2">NOTA: INTERPRETAR EL PUNTO (.) COMO SIGNO DECIMAL SEGÚN NORMA NOM-008-SCFI-2002 <br>
                                 LOS VALORES CON EL SIGNO MENOR (<) CORRESPONDEN AL VALOR MÍNIMO CUANTIFICADO POR EL MÉTODO. <br>
                                 ESTE REPORTE NO DEBE REPRODUCIRSE SIN LA APROBACIÓN DEL LABORATORIO EMISOR. <br>
                                 N.A INTERPRETAR COMO NO APLICA. <br>
@@ -32,14 +32,32 @@
                                 1 APROBACIÓN C.N.A. No CNA-GCA-2316, VIGENCIA A PARTIR DEL 18 DE NOVIEMBRE DE 2021 HASTA 18 DE NOVIEMBRE DEL 2023 <br>
                                 1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACIÓN EMA NO. A-0530-047/14, CONTINUARÁ VIGENTE.
                             </td>
-                        </tr>                
+                        </tr>
+
+                        <tr>
+                            <td class="justificadorCentr">
+                                @php
+                                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $solicitud->Folio_servicio, "QRCODE");
+                                @endphp
+                                                                
+                                <br>
+                                <img style="width: 11%; height: 11%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solicitud->Folio_servicio}}</span>
+                            </td>
+
+                            <td>
+                                @php
+                                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $solicitud->Folio_servicio, "QRCODE");
+                                @endphp
+                                    
+                                <br>
+                                <img style="width: 11%; height: 11%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold">&nbsp;&nbsp;&nbsp; {{@$solicitud->Folio_servicio}}</span>
+                            </td>
+                        </tr>
                 </tbody>         
-            </table>
-            
-            <br><br><br>
+            </table>                                                        
         </div>
             
-        <div autosize="1" class="contenedorSubPadre12" cellpadding="0" cellspacing="0" border-color="#000000" style="text-align:right;">
+        <div class="contenedorSubPadre12" cellpadding="0" cellspacing="0" border-color="#000000" style="text-align:right;">
             <div class="contenedorHijo12 bordesTablaFirmasInfDer justificadorCentr" style="margin-left: 130px;margin-right:0px;">  
                 <br>                         
                 <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"> <br></span>
@@ -61,4 +79,5 @@
             <span class="revisiones">FO-13-001</span> <br> <span class="revisiones fontSize5">Revisión 5</span>
         </div>    
     </div>    
+    <br> <br>
 </footer>

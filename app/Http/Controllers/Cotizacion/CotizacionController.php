@@ -584,7 +584,12 @@ class CotizacionController extends Controller
     public function exportPdfOrden($idCot)
     {
         
-        $parametros = DB::table('ViewCotParam')->where('Id_cotizacion', $idCot)->orderBy('Parametro', 'ASC')->get();
+        //Recupera los parámetros de la cotización
+        $parametros = DB::table('ViewCotParam')->where('Id_cotizacion', $idCot)->where('Extra', 0)->orderBy('Parametro', 'ASC')->get();
+
+        //Recupera los parámetros extra de la cotización
+        $parametrosExtra = DB::table('ViewCotParam')->where('Id_cotizacion', $idCot)->where('Extra', 1)->orderBy('Parametro', 'ASC')->get();
+        
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
 
         // $mpdf = new \Mpdf\Mpdf([
@@ -613,14 +618,14 @@ class CotizacionController extends Controller
         );
       
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.cotizacion.cotizacion', compact('model','parametros'));
+        $html = view('exports.cotizacion.cotizacion', compact('model','parametros', 'parametrosExtra'));
         $mpdf->CSSselectMedia = 'mpdf';
 
         $htmlFooter = view('exports.cotizacion.footerCotizacion');
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         
         $mpdf->WriteHTML($html);
-        $mpdf->Output();
+        $mpdf->Output();        
     }
  
 }

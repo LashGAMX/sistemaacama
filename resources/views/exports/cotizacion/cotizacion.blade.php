@@ -90,54 +90,56 @@
                 </tr>
                 @endforeach
             </tbody>
-        </table>
+        </table>        
 
-        <br>
+        @if (sizeof(@$parametrosExtra) > 0)
+            <br>
 
-        <div class="col-md-12">
-                <table class="table table-borderless" style="border:none" width="100%">
+            <div class="col-md-12">
+                    <table class="table table-borderless" style="border:none" width="100%">
+                        <tr>
+                            <td class="fontNormal fontCalibri fontSize12">SERVICIO: </td>
+                            <td class="fontBold fontCalibri fontSize14">{{$model->Servicio}}</td>
+                            <td class="fontNormal fontCalibri fontSize12">NÚM NORMAS:</td>
+                            <td class="fontBold fontCalibri fontSize14">1</td>
+                            <td class="fontNormal fontCalibri fontSize12">PUNTOS MUESTREO:</td>
+                            <td class="fontBold fontCalibri fontSize14">1</td>
+                            <td class="fontNormal fontCalibri fontSize12">SERVICIOS:</td>
+                            <td class="fontBold fontCalibri fontSize14">1</td>
+                        </tr>
+                    </table>
+                    <table class="table table-borderless" style="border:none" width="100%">
                     <tr>
-                        <td class="fontNormal fontCalibri fontSize12">SERVICIO: </td>
-                        <td class="fontBold fontCalibri fontSize14">{{$model->Servicio}}</td>
-                        <td class="fontNormal fontCalibri fontSize12">NÚM NORMAS:</td>
-                        <td class="fontBold fontCalibri fontSize14">1</td>
-                        <td class="fontNormal fontCalibri fontSize12">PUNTOS MUESTREO:</td>
-                        <td class="fontBold fontCalibri fontSize14">1</td>
-                        <td class="fontNormal fontCalibri fontSize12">SERVICIOS:</td>
-                        <td class="fontBold fontCalibri fontSize14">1</td>
+                        <td class="fontNormal fontCalibri fontSize12">TIPO MUESTRA: </td>
+                        <td class="fontBold fontCalibri fontSize14">{{$model->Tipo_muestra}}</td>
+                        <td class="fontNormal fontCalibri fontSize12">NORMA:</td>
+                        <td class="fontBold fontCalibri fontSize14">TODOS LOS PARÁMETROS {{-- {{$model->Clave_norma}} --}}</td>
                     </tr>
                 </table>
-                <table class="table table-borderless" style="border:none" width="100%">
-                <tr>
-                    <td class="fontNormal fontCalibri fontSize12">TIPO MUESTRA: </td>
-                    <td class="fontBold fontCalibri fontSize14">{{$model->Tipo_muestra}}</td>
-                    <td class="fontNormal fontCalibri fontSize12">NORMA:</td>
-                    <td class="fontBold fontCalibri fontSize14">{{$model->Clave_norma}}</td>
-                </tr>
-            </table>
-        </div>
+            </div>
 
-        <br>
-        <table autosize="1" class="table table-bordered table-sm" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
-            <thead>
-                <tr>
-                    <th class="fontBold fontCalibri fontSize11 bordesTablaBody">PARAMETRO</th>
-                    <th class="fontBold fontCalibri fontSize11 bordeFinal">METODO DE PRUEBA</th>
-                    <th class="fontBold fontCalibri fontSize11 bordeFinal"><small>LIMITE DE CUANTIFICACIÓN DEL METODO</small></th>
-                    <th class="fontBold fontCalibri fontSize11 bordeFinal">UNIDAD</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach ($parametros as $item)
-                <tr>
-                    <td class="fontNormal fontCalibri fontSize11 bordesTablaBody">{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
-                    <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Clave_metodo}}</td>
-                    <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Limite}}</td>
-                    <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Unidad}}</td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
+            <br>
+            <table autosize="1" class="table table-bordered table-sm" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+                <thead>
+                    <tr>
+                        <th class="fontBold fontCalibri fontSize11 bordesTablaBody">PARAMETRO</th>
+                        <th class="fontBold fontCalibri fontSize11 bordeFinal">METODO DE PRUEBA</th>
+                        <th class="fontBold fontCalibri fontSize11 bordeFinal"><small>LIMITE DE CUANTIFICACIÓN DEL METODO</small></th>
+                        <th class="fontBold fontCalibri fontSize11 bordeFinal">UNIDAD</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach ($parametrosExtra as $item)
+                    <tr>
+                        <td class="fontNormal fontCalibri fontSize11 bordesTablaBody">{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
+                        <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Clave_metodo}}</td>
+                        <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Limite}}</td>
+                        <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Unidad}}</td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        @endif
 
         <table class="table" style="font-size: 9px;" width="100%">
             <tr>
