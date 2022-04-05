@@ -8,6 +8,7 @@ use App\Http\Controllers\Pruebas\PruebaController;
 use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Informes\InformesController;
 
 
 /*
@@ -31,6 +32,8 @@ Route::group(['prefix' => 'admin'], function () {
 });
 Route::group(['prefix' => 'clientes'], function () {
     Route::get('orden_servicio/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
+    Route::get('informeMensualSinComparacion/{idSol}', [InformesController::class, 'pdfSinComparacionCliente']);
+    Route::get('informeMensualConComparacion/{idSol}', [InformesController::class, 'pdfComparacionCliente']);
 });
 
 

@@ -25,7 +25,13 @@
                         <td class="tableContent bordesTablaBody" height="25">{{@$solicitudParametros[$i]->Parametro}}</td>
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Metodo_prueba}}</td>
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Unidad}}</td>
-                        <td class="tableContent bordesTablaBody">{{@$limitesC[$i]}}</td>
+                        <td class="tableContent bordesTablaBody">
+                            @if (strpos(@$solicitudParametros[$i]->Unidad, "AUS") !== 0)
+                                {{@$limitesC[$i]}}
+                            @else
+                                AUSENTE
+                            @endif
+                        </td>                        
                     </tr>                
                 @endfor
             </tbody>        

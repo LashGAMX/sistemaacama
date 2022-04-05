@@ -13,6 +13,7 @@ Route::group(['prefix' => 'informes'], function () {
     Route::get('exportPdfConComparacion/{idSol}', [InformesController::class, 'pdfConComparacion']);
 
     Route::get('/mensual', [InformesController::class, 'mensual']);
+    Route::post('/getPreReporteMensual', [InformesController::class, 'getPreReporteMensual']);
     //Ruta temporal para la generación de plantilla de custodia interna
     Route::get('exportPdfCustodiaInterna/{idSol}', [InformesController::class, 'custodiaInterna']);
 
@@ -20,3 +21,4 @@ Route::group(['prefix' => 'informes'], function () {
     Route::get('informeMensualSinComparacion/{idSol}', [InformesController::class, 'pdfSinComparacion2']);
     Route::get('informeMensualConComparacion/{idSol}', [InformesController::class, 'pdfComparacion2']);
 });
+

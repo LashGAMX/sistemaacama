@@ -100,8 +100,8 @@
                         <div class="col-md-8">
 
                             <div style="width: 100%; overflow:scroll">
-                               <div id="divServicios">
-                                <table id="tablaParametro" class="table" style="width: 100%; font-size: 10px">
+                               <div id="divReporte">
+                                <table id="tableReporte" class="table" style="width: 100%; font-size: 10px">
                                     <thead>
                                         <tr>
                                             <th>Fórmula</th>

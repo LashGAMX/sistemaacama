@@ -16,7 +16,7 @@
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;METODO DE PRUEBA&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;UNIDAD&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION CUANTIFICADA&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PERMISIBLE&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PERMISIBLEs&nbsp;&nbsp;</td>
                 </tr>
             </thead>
     
@@ -26,8 +26,20 @@
                         <td class="tableContent bordesTablaBody" height="25">{{@$solicitudParametros[$i]->Parametro}}</td>
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Metodo_prueba}}</td>
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Unidad}}</td>
-                        <td class="tableContent bordesTablaBody">{{@$limitesC[$i]}}</td>
-                        <td class="tableContent bordesTablaBody">VALOR</td>
+                        <td class="tableContent bordesTablaBody">       
+                            @if (strpos(@$solicitudParametros[$i]->Unidad, "AUS") !== 0)
+                                {{@$limitesC[$i]}}
+                            @else
+                                AUSENTE
+                            @endif
+                        </td>
+                        <td class="tableContent bordesTablaBody">
+                            @if (strpos(@$solicitudParametros[$i]->Unidad, "AUS") !== 0)
+                                VALOR
+                            @else
+                                AUSENTE
+                            @endif
+                        </td>
                     </tr>                
                 @endfor
             </tbody>        

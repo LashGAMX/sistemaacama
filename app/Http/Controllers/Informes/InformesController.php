@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Informes;
 
 use App\Http\Controllers\Controller;
 use App\Models\AreaLab;
+use App\Models\CampoCompuesto;
 use App\Models\Clientes;
 use App\Models\CodigoParametros;
 use App\Models\Cotizacion;
@@ -52,6 +53,27 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud')->get();
         return view('informes.mensual',compact('model'));  
     }
+    public function getPreReporteMensual(Request $res)
+    {
+        $solModel = DB::table('ViewSolicitud')->where('Id_solicitud',$res->idSol)->first();
+        $solModel2 = DB::table('ViewSolicitud')->where('IdPunto',$solModel->IdPunto)->get();
+
+        //ViewCodigoParametro
+        $cont = (sizeof($solModel2) - 1);
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$solModel2[0]->Id_solicitud)->get();
+        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud',$solModel2[$cont]->Id_solicitud)->get();
+
+        $data = array( 
+            'cont' => $cont,
+            'solModel' => $solModel,
+            'solModel2' => $solModel2,
+            'model' => $model,
+            'model2' => $model2,
+        );
+        return response()->json($data);
+    }
+
+    //todo Seccio de pdf
     public function pdfSinComparacion($idSol){
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([ 
@@ -60,7 +82,7 @@ class InformesController extends Controller
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 76,
-            'margin_bottom' => 114,
+            'margin_bottom' => 125,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
@@ -84,6 +106,9 @@ class InformesController extends Controller
         if (!is_null($fechaAnalisis)) {
             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
         }
+
+        //Recupera los datos de la temperatura de la muestra compuesta
+        $tempCompuesta = CampoCompuesto::where('Id_solicitud', $idSol);
 
         $fechaEmision = \Carbon\Carbon::now();
         $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
@@ -126,7 +151,7 @@ class InformesController extends Controller
         $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();    
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
-        $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC'));
+        $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'tempCompuesta'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'fechaEmision', 'modelProcesoAnalisis'));
@@ -137,8 +162,9 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->Output();                
-    }
+        $mpdf->Output();
+
+    } 
 
     public function pdfConComparacion($idSol){
         //Opciones del documento PDF
@@ -148,7 +174,7 @@ class InformesController extends Controller
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 76,
-            'margin_bottom' => 114,
+            'margin_bottom' => 125,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
@@ -239,17 +265,7 @@ class InformesController extends Controller
             'margin_bottom' => 76,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
-        ]);
-
-        //Establece la marca de agua del documento PDF
-        $mpdf->SetWatermarkImage(
-            asset('/public/storage/HojaMembretadaHorizontal.png'),
-            1,
-            array(215, 280),
-            array(0, 0),
-        );
-
-        $mpdf->showWatermarkImage = true;
+        ]);        
 
         //Recupera el nombre de usuario y firma
         $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
@@ -364,10 +380,280 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->Output();
+        $mpdf->Output('Informe de Resultados Sin Comparacion.pdf', 'I');
     }
 
     public function pdfComparacion2($idSol){
+        //Opciones del documento PDF
+        $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'L',
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 74,
+            'margin_bottom' => 80,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);        
+
+        //Recupera el nombre de usuario y firma
+        $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
+        $firma = $usuario->firma;
+
+        //Formatea la fecha; Por adaptar para el informe sin comparacion
+        $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
+        if (!is_null($fechaAnalisis)) {
+            $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
+        }
+
+        $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
+        $norma = Norma::where('Id_norma', $solicitud->Id_norma)->first();
+        $fechaEmision = \Carbon\Carbon::now();
+        $direccion = DireccionReporte::where('Id_direccion', $solicitud->Id_direccion)->first();
+        
+        $folio = explode("-", $solicitud->Folio_servicio);
+        $parte1 = strval($folio[0]);
+        $parte2 = strval($folio[1]);
+
+        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();
+
+        //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
+        //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
+        $cliente = Clientes::where('Id_cliente', $solicitud->Id_cliente)->first();
+        $solicitudPunto = SolicitudPuntos::where('Id_solicitud', $solicitud->Id_solicitud)->first();
+        $puntoMuestreo = DB::table('puntos_muestreo')->where('Id_punto', $solicitudPunto->Id_punto)->first();
+
+        //Encuentra el folio secundario para la comparación a través de si el cliente y titulo de consecion es el mismo que el de la solicitud primaria
+        $comparacion = DB::table('ViewSolicitud')->where('Folio_servicio', 'LIKE', "%{$numOrden->Folio_servicio}%")->get();
+        $data = array();
+        $comparacionEncontrada = null;
+
+        foreach($comparacion as $item){
+            if(($item->Id_cliente == $solicitud->Id_cliente) && ($item->Folio_servicio !== $solicitud->Folio_servicio)){   
+                $solicitudComparacionPunto = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
+                $puntoMuestreoComparacion = DB::table('puntos_muestreo')->where('Id_punto', $solicitudComparacionPunto->Id_punto)->first();
+                
+                //Si ambos titulos de consecion y anexos son los mismos entonces se almacena en la var.comparación encontrada la solicitud correspondiente
+                if(($puntoMuestreo->Titulo_consecion == $puntoMuestreoComparacion->Titulo_consecion) && ($puntoMuestreo->Anexo == $puntoMuestreoComparacion->Anexo)){
+                    $comparacionEncontrada = $item;      
+
+                    //Obtiene el número de orden para el informe; Ej si la comparación encontrada es 60-1/22-2 estas instrucciones devuelven 60-1/22
+                    $folioComparacion = explode("-", $item->Folio_servicio);
+                    $parte1C = strval($folio[0]);
+                    $parte2C = strval($folio[1]);
+                    $folioC = $parte1."-".$parte2;
+
+                    array_push($data, $comparacionEncontrada, $folioC);
+                    break;
+                }                
+            }            
+        }             
+
+        //Recupera los resultados de los parámetros de la primera muestra
+        $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->get();
+        $solicitudParametrosLength = $solicitudParametros->count();
+        $limiteMostrar = array();
+        $limitesC = array();
+
+        //Recupera los límites de cuantificación de los parámetros        
+        foreach($solicitudParametros as $item){
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();            
+            
+            if ($item->Resultado < $limiteC->Limite) {
+                $limC = "< " . $limiteC->Limite;
+
+                array_push($limiteMostrar, true);
+                array_push($limitesC, $limC);
+            } else {  //Si es mayor el resultado que el límite de cuantificación
+                $limC = $item->Resultado;
+
+                array_push($limiteMostrar, false);
+                array_push($limitesC, $limC);
+            }
+        }
+
+        $limiteMostrar2 = array();
+        $limites2C = array();
+        //Recupera los resultados de los parámetros de la segunda muestra
+        if(!is_null($comparacionEncontrada)){
+            $solicitudParametros2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->where('Num_muestra', 1)->get();
+            $solicitudParametros2Length = $solicitudParametros2->count();            
+
+            //Recupera los límites de cuantificación de los parámetros        
+            foreach($solicitudParametros2 as $item){
+                $limite2C = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();            
+                
+                if ($item->Resultado < $limite2C->Limite) {
+                    $lim2C = "< " . $limite2C->Limite;
+
+                    array_push($limiteMostrar2, true);
+                    array_push($limites2C, $lim2C);
+                } else {  //Si es mayor el resultado que el límite de cuantificación
+                    $lim2C = $item->Resultado;
+
+                    array_push($limiteMostrar2, false);
+                    array_push($limites2C, $lim2C);
+                }
+            }
+        }
+
+        //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
+        $htmlInforme = view('exports.informes.conComparacion.bodyInformeMensual',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'limites2C', 'limiteMostrar', 'limiteMostrar2'));
+
+        //HEADER-FOOTER******************************************************************************************************************                 
+        $htmlHeader = view('exports.informes.conComparacion.headerInformeMensual', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'fechaEmision', 'comparacionEncontrada', 'data'));
+        $htmlFooter = view('exports.informes.conComparacion.footerInformeMensual', compact('solicitud', 'comparacionEncontrada' /* 'usuario', 'firma' */));
+
+        $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        $mpdf->WriteHTML($htmlInforme);
+
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->Output('Informe de Resultados Con Comparacion.pdf', 'I');
+    }
+
+
+    //SE ACCEDE A TRAVÉS DEL PREFIJO CLIENTES DE LA RUTA
+    public function pdfSinComparacionCliente($idSol){
+        //Opciones del documento PDF
+        $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'L',
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 74,
+            'margin_bottom' => 76,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+
+        //Establece la marca de agua del documento PDF
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/HojaMembretadaHorizontal.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+
+        $mpdf->showWatermarkImage = true;
+
+        //Recupera el nombre de usuario y firma
+        //$usuario = DB::table('users')->where('id', auth()->user()->id)->first();
+        //$firma = $usuario->firma;
+
+        //Formatea la fecha; Por adaptar para el informe sin comparacion
+        $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
+        if (!is_null($fechaAnalisis)) {
+            $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
+        }
+
+        $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
+        $norma = Norma::where('Id_norma', $solicitud->Id_norma)->first();
+        $fechaEmision = \Carbon\Carbon::now();
+        $direccion = DireccionReporte::where('Id_direccion', $solicitud->Id_direccion)->first();
+        
+        $folio = explode("-", $solicitud->Folio_servicio);
+        $parte1 = strval($folio[0]);
+        $parte2 = strval($folio[1]);
+
+        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();                 
+
+        //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
+        //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
+        $cliente = Clientes::where('Id_cliente', $solicitud->Id_cliente)->first();
+        $solicitudPunto = SolicitudPuntos::where('Id_solicitud', $solicitud->Id_solicitud)->first();
+        $puntoMuestreo = DB::table('puntos_muestreo')->where('Id_punto', $solicitudPunto->Id_punto)->first();
+
+        //Encuentra el folio secundario para la comparación a través de si el cliente y titulo de consecion es el mismo que el de la solicitud primaria
+        $comparacion = DB::table('ViewSolicitud')->where('Folio_servicio', 'LIKE', "%{$numOrden->Folio_servicio}%")->get();
+        $data = array();
+        $comparacionEncontrada = null;
+
+        foreach($comparacion as $item){
+            if(($item->Id_cliente == $solicitud->Id_cliente) && ($item->Folio_servicio !== $solicitud->Folio_servicio)){   
+                $solicitudComparacionPunto = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
+                $puntoMuestreoComparacion = DB::table('puntos_muestreo')->where('Id_punto', $solicitudComparacionPunto->Id_punto)->first();
+                
+                //Si ambos titulos de consecion y anexos son los mismos entonces se almacena en la var.comparación encontrada la solicitud correspondiente
+                if(($puntoMuestreo->Titulo_consecion == $puntoMuestreoComparacion->Titulo_consecion) && ($puntoMuestreo->Anexo == $puntoMuestreoComparacion->Anexo)){
+                    $comparacionEncontrada = $item;
+
+                    //Obtiene el número de orden para el informe; Ej si la comparación encontrada es 60-1/22-2 estas instrucciones devuelven 60-1/22
+                    $folioComparacion = explode("-", $item->Folio_servicio);
+                    $parte1C = strval($folio[0]);
+                    $parte2C = strval($folio[1]);
+                    $folioC = $parte1."-".$parte2;
+
+                    array_push($data, $comparacionEncontrada, $folioC);
+                    break;
+                }
+            }
+        }
+
+        //Recupera los resultados de los parámetros de la primera muestra
+        $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->get();
+        $solicitudParametrosLength = $solicitudParametros->count();
+        $limiteMostrar = array();
+        $limitesC = array();
+
+        //Recupera los límites de cuantificación de los parámetros
+        foreach($solicitudParametros as $item){
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
+            
+            if ($item->Resultado < $limiteC->Limite) {
+                $limC = "< " . $limiteC->Limite;
+
+                array_push($limiteMostrar, true);
+                array_push($limitesC, $limC);
+            } else {  //Si es mayor el resultado que el límite de cuantificación
+                $limC = $item->Resultado;
+
+                array_push($limiteMostrar, false);
+                array_push($limitesC, $limC);
+            }
+        }
+
+        $limiteMostrar2 = array();
+        $limites2C = array();
+        //Recupera los resultados de los parámetros de la segunda muestra
+        if(!is_null($comparacionEncontrada)){
+            $solicitudParametros2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->where('Num_muestra', 1)->get();
+            $solicitudParametros2Length = $solicitudParametros2->count();
+
+            //Recupera los límites de cuantificación de los parámetros
+            foreach($solicitudParametros2 as $item){
+                $limite2C = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
+                
+                if ($item->Resultado < $limite2C->Limite) {
+                    $lim2C = "< " . $limite2C->Limite;
+
+                    array_push($limiteMostrar2, true);
+                    array_push($limites2C, $lim2C);
+                } else {  //Si es mayor el resultado que el límite de cuantificación
+                    $lim2C = $item->Resultado;
+
+                    array_push($limiteMostrar2, false);
+                    array_push($limites2C, $lim2C);
+                }
+            }
+        }
+
+        //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
+        $htmlInforme = view('exports.informes.sinComparacion.bodyInformeMensual',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'limites2C', 'limiteMostrar', 'limiteMostrar2'));
+
+        //HEADER-FOOTER******************************************************************************************************************
+        $htmlHeader = view('exports.informes.sinComparacion.headerInformeMensual', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'fechaEmision', 'comparacionEncontrada', 'data'));
+        $htmlFooter = view('exports.informes.sinComparacion.footerInformeMensual', compact('solicitud'/* 'usuario', 'firma' */));
+
+        $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        $mpdf->WriteHTML($htmlInforme);
+
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->Output('Informe de Resultados Sin Comparacion.pdf', 'D');
+    }
+
+    public function pdfComparacionCliente($idSol){
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'L',
@@ -503,8 +789,12 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->Output();
+        $mpdf->Output('Informe de Resultados Con Comparacion.pdf', 'D');
     }
+
+
+    //---------------------------------------
+
 
     public function custodiaInterna($idSol){
         //Opciones del documento PDF

@@ -182,11 +182,9 @@ ON param.Id_subnorma = p.Id_parametro
 
 /* Lista solicitudes */
 CREATE VIEW ViewSolicitud as SELECT 
-sol.Id_cotizacion,sol.Folio,sol.Folio_servicio,sol.Id_solicitud,sol.Id_intermediario,inter.Nombres,inter.A_paterno,
-sol.Id_cliente,gen.Empresa,sol.Id_sucursal,suc.Empresa as Empresa_suc,suc.Estado,sol.Id_direccion,dir.Direccion,
-sol.Id_contacto,con.Nombres as Nom_con,con.A_paterno as Nom_pat,sol.Atencion,sol.Observacion,sol.Id_servicio,ser.Servicio,ser.Descripcion,
-sol.Id_descarga,des.Descarga,sol.Id_norma,nor.Norma,nor.Clave_norma,sol.Id_subnorma,sub.Norma as Nor_sub,sub.Clave,sol.Fecha_muestreo,
-sol.Id_muestreo,sol.Num_tomas,sol.Id_muestra,sol.Id_promedio,sol.Id_reporte,sol.created_at,sol.updated_at,sol.deleted_at
+sol.*,inter.Nombres,inter.A_paterno,gen.Empresa,suc.Empresa as Empresa_suc,suc.Estado,dir.Direccion,
+con.Nombres as Nom_con,con.A_paterno as Nom_pat,ser.Servicio,ser.Descripcion,
+des.Descarga,nor.Norma,nor.Clave_norma,sub.Norma as Nor_sub,sub.Clave,p.Id_muestreo as IdPunto,p.Punto_muestreo
 FROM solicitudes  as sol
 INNER JOIN ViewIntermediarios as inter
 ON inter.Id_cliente = sol.Id_intermediario
@@ -206,6 +204,8 @@ INNER JOIN normas as nor
 ON nor.Id_norma = sol.Id_norma
 INNER JOIN sub_normas as sub
 ON sub.Id_subnorma = sol.Id_subnorma
+INNER JOIN ViewPuntoMuestreoGen as p
+ON sol.Id_solicitud = p.Id_solicitud
 
 /* Lista Solicitud parametros */
 CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_parametro as Id_solParam,sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro,pa.Id_area,pa.Area_analisis,pa.Id_tipo_formula,sol.Asignado,s.Folio_servicio,pa.Metodo_prueba,pa.Unidad FROM solicitud_parametros as sol
@@ -423,9 +423,11 @@ ON pu.Id_muestreo = gen.Id_punto
 
 /*Lista ViewCodigoParametro */
 
-CREATE VIEW ViewCodigoParametro AS  SELECT cod.*,sol.Folio_servicio,sol.Clave_norma,pa.Parametro,pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo FROM codigo_parametro as cod
-INNER JOIN ViewSolicitud as sol
+CREATE VIEW ViewCodigoParametro AS  SELECT cod.*,sol.Folio_servicio,sub.Id_subnorma,sub.Id_norma,sub.Norma,sub.Clave,pa.Parametro,pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo FROM codigo_parametro as cod
+INNER JOIN solicitudes as sol
 ON cod.Id_solicitud = sol.Id_solicitud
+INNER JOIN sub_normas as sub
+ON sol.Id_subnorma = sub.Id_subnorma
 INNER JOIN ViewParametros as pa
 ON cod.Id_parametro = pa.Id_parametro
 

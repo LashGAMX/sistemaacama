@@ -14,11 +14,11 @@
 
     <div autosize="1" class="contenedorPadre12 paddingTop" cellpadding="0" cellspacing="0" border-color="#000000">
         <div class="contenedorHijo12 bordesTablaFirmasSupIzq">
-            <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"> <br></span>            
+            <span><img style="width: auto; height: auto; max-width: 90px; max-height: 70px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"> <br></span>            
         </div>
 
         <div class="contenedorHijo12 bordesTablaFirmasSupDer">            
-            <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"> <br></span>            
+            <span><img style="width: auto; height: auto; max-width: 90px; max-height: 70px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"> <br></span>            
         </div>  
 
         <div class="contenedorHijo12 bordesTablaFirmasInfIzq">            
@@ -44,7 +44,7 @@
                             NOTA 2: LOS DATOS EXPRESADOS AVALAN ÚNICAMENTE LOS RESULTADOS DE LA MUESTRA ANALIZADA. <br> <br>
                             * EL NT SE OBTIENE DE LA SUMA DE N-ORG,N-NH3,N-N-NO3,N-NO2 DE ACUERDO A SUS RESPECTIVAS NORMAS; NMX-AA-026-SCFI-2010, NMX-AA-079-SCFI-2001, STD-NMX-AA-099-SCFI-2021 <br> <br>
                             ** MALLA DE 3 mm, DE CLARO LIBRE. <br>
-                            *** LA DETERMINACION DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE 11.3°C Y LA INCERTIDUMBRE DE PH ES DE +/- 0.02 <br>
+                            *** LA DETERMINACION DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$tempCompuesta->Temp_muestraComp}} Y LA INCERTIDUMBRE DE PH ES DE +/- 0.02 <br>
                             + MEDIA GEOMETRICA DE 6 MUESTRAS SIMPLES DE COLIFORMES. EL VALOR MINIMO CUANTIFICADO REPORTADO SERÁ DE 3, COMO CRITERIO CALCULADO PARA COLIFORMES EN SIRALAB Y EL LABORATORIO. <br>
                             ++ PROMEDIO PONDERADO DE 6 MUESTRAS SIMPLES DE GRASAS Y ACEITES. <br>
                             1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACIÓN ema No. AG-057-025/12, CONTINUARÁ VIGENTE. <br>
@@ -59,15 +59,20 @@
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <thead>
+                <tr>                    
+                    <td>
+                        @php
+                            $url = url()->current();
+                            $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
+                        @endphp
+                                                        
+                        <img style="width: 8%; height: 8%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold">&nbsp;&nbsp;&nbsp; {{@$solicitud->Folio_servicio}}</span>
+                    </td>                                                                        
+                </tr>
+
                 <tr>
-                    {{-- <td style="width:50%"><span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></span></td> --}}
-                    @php
-                        $bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($solicitud->Folio_servicio, "C39");
-                    @endphp
-                    <td><img style="width: 15%" src="{{$bar_code}}" alt="barcode" /> <br> <span class="revisiones fontBold justificadorCentr">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        {{@$solicitud->Folio_servicio}}</span></td>
-                    <td style="text-align: right"><span class="revisiones">FO-13-001</span> <br> <span class="revisiones">Revisión 5</span></td>
-                </tr>                
+                    <td style="text-align: right;"><span class="revisiones">FO-13-001</span> <br> <span class="revisiones">Revisión 5</span></td>
+                </tr>
             </thead>                        
         </table>  
     </div> 

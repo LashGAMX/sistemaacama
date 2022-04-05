@@ -30,14 +30,15 @@
                                 ++ PROMEDIO PONDERADO DE 6 MUESTRAS SIMPLES DE GRASAS Y ACEITES. <br>
                                 1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACIÓN ema No. AG-057-025/12, CONTINUARÁ VIGENTE. <br>
                                 1 APROBACIÓN C.N.A. No CNA-GCA-2316, VIGENCIA A PARTIR DEL 18 DE NOVIEMBRE DE 2021 HASTA 18 DE NOVIEMBRE DEL 2023 <br>
-                                1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACIÓN EMA NO. A-0530-047/14, CONTINUARÁ VIGENTE.
+                                1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACIÓN EMA NO. A-0530-047/14, CONTINUARÁ VIGENTE.                                
                             </td>
                         </tr>
 
                         <tr>
                             <td class="justificadorCentr">
                                 @php
-                                    $url = url()->current();
+                                    /*$url = url()->current();*/
+                                    $url = "https://sistemaacama.com.mx/clientes/informeMensualSinComparacion/".@$solicitud->Id_solicitud;
                                     $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                                 @endphp
                                                                 

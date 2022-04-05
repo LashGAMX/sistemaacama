@@ -37,7 +37,8 @@
                         <tr>
                             <td class="justificadorCentr">
                                 @php
-                                    $url = url()->current();
+                                    /*$url = url()->current();*/
+                                    $url = "https://sistemaacama.com.mx/clientes/informeMensualSinComparacion/".@$solicitud->Id_solicitud;
                                     $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                                 @endphp
                                 
@@ -47,7 +48,8 @@
 
                             <td>
                                 @php
-                                    $url = url()->current();
+                                    /*$url = url()->current();*/
+                                    $url = "https://sistemaacama.com.mx/clientes/informeMensualSinComparacion/".@$comparacionEncontrada->Id_solicitud;
                                     $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                                 @endphp
                                 
