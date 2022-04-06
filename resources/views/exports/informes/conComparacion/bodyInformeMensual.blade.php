@@ -29,16 +29,42 @@
                         <td class="tableContentLeft bordesTablaBody">{{@$solicitudParametros[$i]->Parametro}}</td>
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Unidad}}</td>
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Clave_metodo}}</td>
-                        <td class="tableContent bordesTablaBody">{{@$limitesC[$i]}}</td>
-                        <td class="tableContent bordesTablaBody">{{@$limites2C[$i]}}</td>
                         <td class="tableContent bordesTablaBody">
-                            @if (@$limiteMostrar[$i] === true)
-                                {{@$limitesC[$i]}}
+                            @if (strpos(@$limitesC[$i], "< AUS") === 0)
+                                AUSENTE                                                            
                             @else
-                                SE CALCULA PROM
-                            @endif
+                                {{@$limitesC[$i]}}                                
+                            @endif                                                        
                         </td>
-                        <td class="tableContent bordesTablaBody">PROMEDIO MENSUAL</td>
+                        <td class="tableContent bordesTablaBody">
+                            @if (strpos(@$limites2C[$i], "< AUS") === 0)
+                                AUSENTE                                                            
+                            @else
+                                {{@$limites2C[$i]}}                                
+                            @endif                                                        
+                        </td>
+                        <td class="tableContent bordesTablaBody">
+                            @if (strpos(@$limitesC[$i], "< AUS") === 0)
+                                AUSENTE                                                            
+                            @else
+                                @if (@$limiteMostrar[$i] === true)
+                                    {{@$limitesC[$i]}}
+                                @else
+                                    SE CALCULA PROM
+                                @endif                                
+                            @endif                                                                                    
+                        </td>
+                        <td class="tableContent bordesTablaBody">
+                            @if (strpos(@$limitesC[$i], "< AUS") === 0)
+                                AUSENTE                                                            
+                            @else
+                                @if (@$limiteMostrar[$i] === true)
+                                    {{@$limitesC[$i]}}
+                                @else
+                                    SE CALCULA PROM
+                                @endif                                
+                            @endif                            
+                        </td>
                         <td class="tableContent bordesTablaBody">DIAGNOSTICO</td>
                     </tr>                
                 @endfor

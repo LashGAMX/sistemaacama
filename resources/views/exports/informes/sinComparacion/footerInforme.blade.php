@@ -62,7 +62,8 @@
                 <tr>                    
                     <td>
                         @php
-                            $url = url()->current();
+                            /* $url = url()->current(); */
+                            $url = "https://sistemaacama.com.mx/clientes/exportPdfSinComparacion/".@$solicitud->Id_solicitud;
                             $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                         @endphp
                                                         
