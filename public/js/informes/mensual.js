@@ -97,6 +97,7 @@ function getPreReporteMensual()
             });
             tab += '    </tbody>';
             tab += '</table>';
+            tab += '<h6>No hay datos para comparar</h6>';
             tabla.innerHTML = tab;
         }
     });  
