@@ -163,14 +163,14 @@ class CampoAppController extends Controller
         //     'Promedio' => $jsonConCal[0]["Promedio"]
         // ]);
 
-        // for ($i=0; $i < sizeof($jsonEviencia); $i++) { 
-        //     # code...
-        //     Evidencia::create([
-        //         'Id_solicitud' => $solModel->Id_solicitud,
-        //         'Id_punto' => $puntoModel->Id_muestreo,
-        //         'Base64' => $jsonEviencia[$i]["Codigo"],
-        //     ]);
-        // }
+        for ($i=0; $i < sizeof($jsonEviencia); $i++) { 
+            # code...
+            Evidencia::create([
+                'Id_solicitud' => $solModel->Id_solicitud,
+                'Id_punto' => $puntoModel->Id_muestreo,
+                'Base64' => $jsonEviencia[$i]["Codigo"],
+            ]);
+        }
         // Evidencia::create([
         //     'Id_solicitud' => $solModel->Id_solicitud,
         //     'Id_punto' => $puntoModel->Id_muestreo,
@@ -181,7 +181,6 @@ class CampoAppController extends Controller
             'response' => true,
             'solModel' => $solModel->Id_solicitud,
             'punto' => $puntoModel->Id_muestreo,
-            'jsonEvide' => $request->evidencia,
             // 'jsonEv' => $jsonEviencia[0]["Codigo"],
             
             //'jsonLong' => sizeof($jsonPhMuestra)
