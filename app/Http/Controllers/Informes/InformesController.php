@@ -984,7 +984,8 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$idSol)->first();
         
         $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->orderBy('Parametro', 'ASC')->get();
-        $paramResultadoLength = $paramResultado->count();          
+        $paramResultadoDistinct = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->orderBy('Parametro', 'ASC')->distinct()->get();
+        $paramResultadoLength = $paramResultado->count();                      
                 
         $gaMenorLimite = false;                
 
@@ -1116,16 +1117,39 @@ class InformesController extends Controller
 
         $gastoPromFinal = $gastoPromSuma / $gastosModelLength;
 
-        //Recupera los límites de cuantificación de los parámetros        
+        //----------------------------------------------------------------
+        $sumaRes = array();
+        $contadores = array();
+        $promedios = array();
+
+        //Inicializa el arreglo
+        foreach($paramResultadoDistinct as $item){
+            $sumaRes[$item->Id_parametro] = 0;
+            $contadores[$item->Id_parametro] = 0;
+            $promedios[$item->Id_parametro] = 0;
+        }
+
+        //Almacena los resultados y obtiene el número por el cuál se va a dividir para calcular el promedio
         foreach($paramResultado as $item){
-            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();                            
+            $sumaRes[$item->Id_parametro] += $item->Resultado;
+            $contadores[$item->Id_parametro] += 1;
+        }
+
+        //Calcula los promedios de cada parámetro
+        foreach($paramResultadoDistinct as $item){
+            $promedios[$item->Id_parametro] = $sumaRes[$item->Id_parametro] / $contadores[$item->Id_parametro];
+        }
+
+        //Recupera los límites de cuantificación de los parámetros        
+        foreach($promedios as $item){
+            $limiteC = DB::table('parametros')->where('Id_parametro', $paramResultadoDistinct[$item]->Id_parametro)->first();
             
-            if ($item->Resultado < $limiteC->Limite) {
+            if ($promedios[array_search($item, $promedios)] < $limiteC->Limite) {
                 $limC = "< " . $limiteC->Limite;
 
                 array_push($limitesC, $limC);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                $limC = $item->Resultado;
+                $limC = $promedios[array_search($item, $promedios)];
 
                 array_push($limitesC, $limC);
             }
@@ -1153,7 +1177,7 @@ class InformesController extends Controller
 
         $mpdf->showWatermarkImage = true;
 
-        $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', compact('model', 'paquete', 'paqueteLength', 'tipoMuestra', 'norma', 'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'responsables', 'promedioPonderadoGA', 'mAritmeticaColi', 'gastoPromFinal'));
+        $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', compact('model', 'paquete', 'paqueteLength', 'tipoMuestra', 'norma', 'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'responsables', 'promedioPonderadoGA', 'mAritmeticaColi', 'gastoPromFinal', 'promedios', 'contadores'));
 
         $mpdf->WriteHTML($htmlInforme);
 
