@@ -122,7 +122,7 @@ function getParametros()
 }
 function getDetalleAnalisis(idCodigo)
 {
-   
+    $("#resDes").val(0.0)
     $.ajax({ 
         type: 'POST',
         url: base_url + "/admin/supervicion/cadena/getDetalleAnalisis",
@@ -135,6 +135,7 @@ function getDetalleAnalisis(idCodigo)
         async: false,
         success: function (response) {      
             dataModel = response.model
+            $("#resDes").val(response.model.Resultado)
         } 
     });
 }

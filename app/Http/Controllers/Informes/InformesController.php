@@ -814,7 +814,7 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->Output('Informe de Resultados Sin Comparacion.pdf', 'D');
+        $mpdf->Output('Informe Mensual de Resultados Sin Comparacion.pdf', 'D');
     }
 
     public function pdfComparacionCliente($idSol){
@@ -841,8 +841,8 @@ class InformesController extends Controller
         $mpdf->showWatermarkImage = true;
 
         //Recupera el nombre de usuario y firma
-        $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
-        $firma = $usuario->firma;
+        /* $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
+        $firma = $usuario->firma; */
 
         //Formatea la fecha; Por adaptar para el informe sin comparacion
         $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
@@ -953,7 +953,7 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->Output('Informe de Resultados Con Comparacion.pdf', 'D');
+        $mpdf->Output('Informe Mensual de Resultados Con Comparacion.pdf', 'D');
     }
 
 
@@ -967,23 +967,23 @@ class InformesController extends Controller
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 22,
+            'margin_top' => 8,
             'margin_bottom' => 20,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
 
         //Establece la marca de agua del documento PDF
-        $mpdf->SetWatermarkImage(
+        /* $mpdf->SetWatermarkImage(
             asset('/public/storage/HojaMembretadaHorizontal.png'),
             1,
             array(215, 280),
             array(0, 0),
-        );
+        ); */
 
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$idSol)->first();
         
-        $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->get();
+        $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->orderBy('Parametro', 'ASC')->get();
         $paramResultadoLength = $paramResultado->count();          
                 
         $gaMenorLimite = false;                
@@ -1159,5 +1159,207 @@ class InformesController extends Controller
 
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->Output();
+    }
+
+    //***********************************************************SE ACCEDE A TRAVÉS DEL QR DESDE LA RUTA CLIENTES
+    public function custodiaInternaCli($idSol){
+        //Opciones del documento PDF
+        $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'L',
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 8,
+            'margin_bottom' => 20,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+
+        //Establece la marca de agua del documento PDF
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/HojaMembretadaHorizontal.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+
+        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$idSol)->first();
+        
+        $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->orderBy('Parametro', 'ASC')->get();
+        $paramResultadoLength = $paramResultado->count();          
+                
+        $gaMenorLimite = false;                
+
+        $limitesC = array();
+        $limiteGrasas = "";
+        $limiteCGrasa = DB::table('parametros')->where('Id_parametro', 14)->first();                            
+        $paramGrasasResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->first();        
+
+        if ($paramGrasasResultado->Resultado < $limiteCGrasa->Limite) {
+            $limC = "< " . $limiteCGrasa->Limite;
+
+            $limiteGrasas = $limC;
+
+            $gaMenorLimite = true;
+        } else {  //Si es mayor el resultado que el límite de cuantificación
+            $limC = $paramGrasasResultado->Resultado;
+
+            $limiteGrasas = $limC;
+        }
+
+        $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
+        $gastosModelLength = $gastosModel->count();
+
+        //Calcula el promedio ponderado de las grasas y aceites
+        if($gaMenorLimite === false){
+            $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();        
+            $modelParamGrasasLength = $modelParamGrasas->count();            
+
+            //Calcula promedio ponderado de G y A
+            $promPonderadoGaArray = 0;
+            //Arreglo que contiene los valores de GYA * GASTO por cada fila
+            $gaPorGastoArray = array();
+            //Contiene la suma de G(GYA * GASTO)
+            $sumaG = 0;
+            //Arreglo que contiene los valores de GYA * GASTO entre sumaG por cada fila
+            $gaPorGastoDivSumaArray = array();
+            //Arreglo que contiene los valores de GYA * (GYA*GASTO) / SUMAG
+            $gaPorgaGastoDivSumaG = array();
+
+            //Realiza las operaciones GYA * GASTO
+            for($i = 0; $i < $modelParamGrasasLength; $i++){
+                //Si no tiene un valor guardado lo toma como cero
+                if($gastosModel[$i]->Promedio === null){
+                    $gastos = 0;
+                }else{
+                    $gastos = $gastosModel[$i]->Promedio;
+                }
+
+                array_push($gaPorGastoArray, $modelParamGrasas[$i]->Resultado * $gastos);                                    
+            }
+
+            //Realiza la suma de G (GYA * GASTO)
+            for($i = 0; $i < $modelParamGrasasLength; $i++){
+                //Si no tiene un valor guardado lo toma como cero
+                $sumaG += $gaPorGastoArray[$i];
+            }
+
+            //Realiza las operaciones (GYA*GASTO)/SUMA DE G
+            for($i = 0; $i < $modelParamGrasasLength; $i++){                     
+                array_push($gaPorGastoDivSumaArray, $gaPorGastoArray[$i] / $sumaG);                                    
+            }
+
+            //Realiza las operaciones GYA * (GYA*GASTO) / SUMAG
+            for($i = 0; $i < $modelParamGrasasLength; $i++){      
+                $resultado = ($modelParamGrasas[$i]->Resultado * $gaPorGastoArray[$i]) / $sumaG;
+                array_push($gaPorgaGastoDivSumaG, $resultado);                                    
+            }
+
+            //Calcula el promedio ponderado de GA
+            for($i = 0; $i < $modelParamGrasasLength; $i++){      
+                $promPonderadoGaArray += $gaPorgaGastoDivSumaG[$i];
+            }
+        }
+
+        $promedioPonderadoGA = "";
+        if($gaMenorLimite === false){
+            $promedioPonderadoGA = number_format($promPonderadoGaArray, 2);
+        }else{
+            $promedioPonderadoGA = $limiteGrasas;
+        }
+
+        $limiteColiformes = "";
+        $limiteColiformes = DB::table('parametros')->where('Id_parametro', 13)->first();                            
+        $paramColiformesResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->first();
+        $coliformesMenorLimite = false;
+        $mediaAritmeticaColi = "";
+        $mAritmeticaColi = "";
+
+        if ($paramColiformesResultado->Resultado < $limiteColiformes->Limite) {
+            $limC = "< " . $limiteColiformes->Limite;
+
+            $limiteColiformes = $limC;
+
+            $coliformesMenorLimite = true;
+        } else {  //Si es mayor el resultado que el límite de cuantificación
+            $limC = $paramColiformesResultado->Resultado;
+
+            $limiteColiformes = $limC;
+        }
+
+        //Calcula la media aritmética de los coliformes
+        if($coliformesMenorLimite === false){
+            $modelParamColiformes = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();        
+            $modelParamColiformesLength = $modelParamColiformes->count();
+            $res = 0;
+
+            for($i = 0; $i < $modelParamColiformesLength; $i++){
+                $res += $modelParamColiformes[$i]->Resultado;                
+            }
+
+            $mediaAritmeticaColi = $res / $modelParamColiformesLength;
+        }
+        
+        if($coliformesMenorLimite === false){
+            $mAritmeticaColi = number_format($mediaAritmeticaColi, 2);
+        }else{
+            $mAritmeticaColi = $limiteColiformes;
+        }
+
+        //Calcula el promedio de los promedios del gasto
+        $gastoPromSuma = 0;
+        foreach($gastosModel as $item){
+            if($item->Promedio === null){
+                $gastoPromSuma += 0;
+            }else{
+                $gastoPromSuma += $item->Promedio;
+            }
+        }
+
+        $gastoPromFinal = $gastoPromSuma / $gastosModelLength;
+
+        //Recupera los límites de cuantificación de los parámetros        
+        foreach($paramResultado as $item){
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();                            
+            
+            if ($item->Resultado < $limiteC->Limite) {
+                $limC = "< " . $limiteC->Limite;
+
+                array_push($limitesC, $limC);
+            } else {  //Si es mayor el resultado que el límite de cuantificación
+                $limC = $item->Resultado;
+
+                array_push($limitesC, $limC);
+            }
+        }
+                
+        $paquete = DB::table('ViewPlanPaquete')->where('Id_paquete', $model->Id_subnorma)->distinct()->get();
+        $paqueteLength = $paquete->count();
+
+        $responsables = array();        
+
+        foreach($paquete as $item){
+            //INSTRUCCIÓN TEMPORAL
+            if(!is_null($item)){
+                $responsableArea = AreaLab::where('Area', $item->Area)->first();
+                $modelResponsable = DB::table('users')->where('id', $responsableArea->Id_responsable)->first();
+                $responsable = $modelResponsable->name;
+
+                array_push($responsables, $responsable);
+            }            
+        }    
+
+        $fechaEmision = \Carbon\Carbon::now();
+        $tipoMuestra = DB::table('tipo_descargas')->where('Id_tipo', $model->Id_muestreo)->first();
+        $norma = Norma::where('Id_norma', $model->Id_norma)->first();        
+
+        $mpdf->showWatermarkImage = true;
+
+        $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', compact('model', 'paquete', 'paqueteLength', 'tipoMuestra', 'norma', 'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'responsables', 'promedioPonderadoGA', 'mAritmeticaColi', 'gastoPromFinal'));
+
+        $mpdf->WriteHTML($htmlInforme);
+
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->Output('Cadena de Custodia Interna.pdf', 'D');
     }
 }

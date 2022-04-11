@@ -92,6 +92,12 @@
                         
                                 </tbody>
                             </table>
+                            <table>
+                                <tr>
+                                    <td>Resultado</td>
+                                    <td><input type="text" style="font-size: 20px;width: 100px;color:red;" id="resDes" value="0.0"></td>
+                                </tr>
+                            </table>
                         </div>
                     </div>
                 </div>

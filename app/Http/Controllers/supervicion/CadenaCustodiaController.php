@@ -42,7 +42,8 @@ class CadenaCustodiaController extends Controller
                 break;
         }
         $data = array(
-            'model' => $paraModel,
+            'paraModel' => $paraModel,
+            'model' => $model,
         );
         return response()->json($data);
     }

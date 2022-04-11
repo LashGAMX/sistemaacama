@@ -151,13 +151,37 @@
                                 
                                 @if ($paramResultadoLength >= 30)
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{@$paramResultado[$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11" style="padding: 0.4%">{{$limitesC[$i]}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11" style="padding: 0.4%">
+                                        @if (strpos(@$limitesC[$i], "< AUS") !== 0)
+                                            {{@$limitesC[$i]}}
+                                        @else
+                                            AUSENTE
+                                        @endif
+                                    </td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{@$paramResultado[$i+1]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{$limitesC[$i+1]}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">
+                                        @if (strpos(@$limitesC[$i+1], "< AUS") !== 0)
+                                            {{@$limitesC[$i+1]}}
+                                        @else
+                                            AUSENTE
+                                        @endif
+                                    </td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{@$paramResultado[$i+2]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{$limitesC[$i+2]}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">
+                                        @if (strpos(@$limitesC[$i+2], "< AUS") !== 0)
+                                            {{@$limitesC[$i+2]}}
+                                        @else
+                                            AUSENTE
+                                        @endif
+                                    </td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{@$paramResultado[$i+3]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{$limitesC[$i+3]}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">
+                                        @if (strpos(@$limitesC[$i+3], "< AUS") !== 0)
+                                            {{@$limitesC[$i+3]}}
+                                        @else
+                                            AUSENTE
+                                        @endif                                                                            
+                                    </td>
                                 @endif                                                                                     
                             </tr>
                         @endfor                        
@@ -182,10 +206,14 @@
                                 <td class="justifyCenter anchoColumna111"><img style="width: auto; height: auto; max-width: 60px; max-height: 40px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
                                 
                                 @php
-                                    $bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($model->Folio_servicio, "C39");
+                                    /*$bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($model->Folio_servicio, "C39");*/
+                                    /*$url = url()->current();*/
+
+                                    $url = "https://sistemaacama.com.mx/clientes/exportPdfCustodiaInterna/".@$model->Id_solicitud;
+                                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                                 @endphp
 
-                                <td class="justifyCenter anchoColumna111"><img style="width: 10%" src="{{$bar_code}}" alt="barcode" /> <br> {{@$model->Folio_servicio}}</td>
+                                <td class="justifyCenter anchoColumna111"><img style="width: 8%; height: 8%;" src="{{$qr_code}}" alt="barcode" /> <br> {{@$model->Folio_servicio}}</td>
                             </tr>
                         </table>
                     </div>                    

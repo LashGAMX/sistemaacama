@@ -36,6 +36,7 @@ Route::group(['prefix' => 'clientes'], function () {
     Route::get('informeMensualConComparacion/{idSol}', [InformesController::class, 'pdfComparacionCliente']);
     Route::get('exportPdfSinComparacion/{idSol}', [InformesController::class, 'pdfSinComparacionCli']);
     Route::get('exportPdfConComparacion/{idSol}', [InformesController::class, 'pdfConComparacionCli']);
+    Route::get('exportPdfCustodiaInterna/{idSol}', [InformesController::class, 'custodiaInternaCli']);
 });
 
 
