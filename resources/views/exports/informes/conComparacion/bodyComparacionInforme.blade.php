@@ -1,49 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/informes/conComparacion/conComparacionOr.css')}}">
+    <link rel="stylesheet" href="{{ asset('/public/css/informes/conComparacion/conComparacionOr.css') }}">
     <title>Informe Con Comparación</title>
 </head>
+
 <body>
     <div id="contenedorTabla">
-        <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+        <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0"
+            border-color="#000000" width="100%">
             <thead>
                 <tr>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" height="30">PARAMETRO &nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;METODO DE PRUEBA&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;UNIDAD&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION CUANTIFICADA&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PERMISIBLE&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION
+                        CUANTIFICADA&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PERMISIBLE&nbsp;&nbsp;
+                    </td>
                 </tr>
             </thead>
-    
+
             <tbody>
-                @for ($i = 0; $i < @$solicitudParametrosLength ; $i++)
+                @for ($i = 0; $i < @$solicitudParametrosLength; $i++)
                     <tr>
-                        <td class="tableContent bordesTablaBody" height="25">{{@$solicitudParametros[$i]->Parametro}}</td>
-                        <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Metodo_prueba}}</td>
-                        <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Unidad}}</td>
-                        <td class="tableContent bordesTablaBody">       
-                            @if (strpos(@$solicitudParametros[$i]->Unidad, "AUS") !== 0)
-                                {{@$limitesC[$i]}}
+                        <td class="tableContent bordesTablaBody" height="25">{{ @$solicitudParametros[$i]->Parametro }}
+                        </td>
+                        <td class="tableContent bordesTablaBody">{{ @$solicitudParametros[$i]->Metodo_prueba }}</td>
+                        <td class="tableContent bordesTablaBody">{{ @$solicitudParametros[$i]->Unidad }}</td>
+                        <td class="tableContent bordesTablaBody">
+                            @if (strpos(@$solicitudParametros[$i]->Unidad, 'AUS') !== 0)
+                                @if (@$solicitudParametros[$i]->Parametro == 'Grasas y Aceites ++')
+                                    @php
+                                        echo round(@$sumaCaudalesFinal, 3);
+                                    @endphp
+                                @elseif (@$solicitudParametros[$i]->Parametro == 'Coliformes Fecales +')
+                                    @php
+                                        echo round(@$resColi, 3);
+                                    @endphp
+                                @else
+                                    {{ @$limitesC[$i] }}
+                                @endif
                             @else
                                 AUSENTE
                             @endif
                         </td>
                         <td class="tableContent bordesTablaBody">
-                            @if (strpos(@$solicitudParametros[$i]->Unidad, "AUS") !== 0)
+                            @if (strpos(@$solicitudParametros[$i]->Unidad, 'AUS') !== 0)
                                 VALOR
                             @else
                                 AUSENTE
                             @endif
                         </td>
-                    </tr>                
+                    </tr>
                 @endfor
-            </tbody>        
-        </table>  
-    </div> 
+            </tbody>
+        </table>
+    </div>
 </body>
+
 </html>
