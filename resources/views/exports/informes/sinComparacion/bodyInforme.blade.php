@@ -27,7 +27,17 @@
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Unidad}}</td>
                         <td class="tableContent bordesTablaBody">
                             @if (strpos(@$solicitudParametros[$i]->Unidad, "AUS") !== 0)
-                                {{@$limitesC[$i]}}
+                                @if (@$solicitudParametros[$i]->Parametro == 'Grasas y Aceites ++')
+                                    @php
+                                        echo round(@$sumaCaudalesFinal, 3);
+                                    @endphp                                                                
+                                @elseif (@$solicitudParametros[$i]->Parametro == 'Coliformes Fecales +')
+                                    @php
+                                        echo round(@$resColi, 3);
+                                    @endphp
+                                @else
+                                    {{@$limitesC[$i]}}
+                                @endif                                    
                             @else
                                 AUSENTE
                             @endif

@@ -175,7 +175,7 @@ class CampoAppController extends Controller
         //     'Id_solicitud' => $solModel->Id_solicitud,
         //     'Id_punto' => $puntoModel->Id_muestreo,
         //     'Base64' => $jsonEviencia[0]["Codigo"],
-        // ]);
+        // ]);git
                 // $campoGenModel->Id_equipo = $jsonGeneral[0]["Id_equipo"]; 
         $data = array(
             'response' => true,

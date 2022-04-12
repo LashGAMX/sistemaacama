@@ -18,12 +18,7 @@
     </div>
     <table class="table table-sm">
         <thead class="">
-            <tr>
-                <th>Id</th>
-                <th>Laboratorio</th>
-                <th>Tipo fórmula</th>
-                <th>Area</th>
-                <th>Matriz</th>
+            <tr>/th>
                 <th>Rama</th>
                 <th>Parámetro</th>
                 <th>Unidad</th>
@@ -172,7 +167,7 @@
                             <label for="limite">Límite Cuantificación</label>
                            <input type="text" wire:model='limite' class="form-control" placeholder="Limite">
                            @error('limite') <span class="text-danger">{{ $message  }}</span> @enderror
-                          </div>
+                          </div>w
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
@@ -201,7 +196,7 @@
                             <label for="">Método</label>
                             <select class="form-control" wire:model='metodo' >
                             @foreach ($metodos as $item)
-                                <option value="{{$item->Id_metodo}}">{{$item->Metodo_prueba}}</option>
+                                <option value="{{$item->Id_metodo}}">{{$item->Clave_metodo}}</option>
                             @endforeach
                           </select>
                           @error('metodo') <span class="text-danger">{{ $message  }}</span> @enderror

@@ -44,18 +44,7 @@
                                 
                                 <br>
                                 <img style="width: 11%; height: 11%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solicitud->Folio_servicio}}</span>
-                            </td>
-
-                            <td>
-                                @php
-                                    /*$url = url()->current();*/
-                                    $url = "https://sistemaacama.com.mx/clientes/informeMensualSinComparacion/".@$comparacionEncontrada->Id_solicitud;
-                                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
-                                @endphp
-                                
-                                <br>
-                                <img style="width: 11%; height: 11%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold">&nbsp;&nbsp;&nbsp; {{@$comparacionEncontrada->Folio_servicio}}</span>
-                            </td>
+                            </td>                            
                         </tr>
                 </tbody>
             </table>

@@ -29,7 +29,7 @@ class Parametros extends Component
     public $alert = false;
     protected $queryString = ['search' => ['except' => '']];
     public $search;
-    public $sw = false;
+    public $sw = false; 
     public $idNorma = 0;
 
     public $parametro;

@@ -32,7 +32,7 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{{url('/assets/duallist/dist/bootstrap-duallistbox.min.css')}}">
+    <link rel="stylesheet" href="{{url('public/assets/duallist/dist/bootstrap-duallistbox.min.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" class="">
 
     <!-- Few Dynamic Styles -->
@@ -141,7 +141,7 @@ $(document).ready( function () {
 <script type="text/javascript" src="{{ voyager_asset('js/app.js') }}"></script>
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
-<script src="{{url('/assets/duallist/dist/jquery.bootstrap-duallistbox.min.js')}}"></script>
+<script src="{{url('public/assets/duallist/dist/jquery.bootstrap-duallistbox.min.js')}}?v=0.0.1"></script>
 {{-- <script src="{{url('/assets/js/jtable/jquery.jtable.min.js')}}"></script>
 <script src="{{url('/assets/js/jtable/themes/metro/blue/jtable.min.css')}}"></script> --}}
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
