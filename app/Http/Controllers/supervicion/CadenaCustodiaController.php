@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Supervicion;
 
 use App\Http\Controllers\Controller;
 use App\Models\LoteDetalleEspectro;
+use App\Models\LoteDetalleNitrogeno;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -36,6 +37,13 @@ class CadenaCustodiaController extends Controller
         switch ($paraModel->Id_area) {
             case 16: //Espectrofotometria
                 $model = LoteDetalleEspectro::where('Id_codigo',$codigoModel->Id_codigo)->first();
+                break;
+            case 14: //volmetria
+                if($codigoModel->Id_parametro == 12)
+                {
+                    $model = LoteDetalleNitrogeno::where('Id_codigo',$codigoModel->Id_codigo)->first();
+                    $nAmo = LoteDetalleNitrogeno::where('Id_')->first();
+                }
                 break;
             default:
                 # code... 

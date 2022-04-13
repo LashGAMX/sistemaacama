@@ -1211,11 +1211,7 @@ class InformesController extends Controller
             'margin_bottom' => 76,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
-        ]);
-
-        //Recupera el nombre de usuario y firma
-        $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
-        $firma = $usuario->firma;
+        ]);        
 
         //Formatea la fecha; Por adaptar para el informe sin comparacion
         $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
@@ -1224,10 +1220,13 @@ class InformesController extends Controller
         }
 
         $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
+        
+        //Obtiene la norma
         $norma = Norma::where('Id_norma', $solicitud->Id_norma)->first();
-        $fechaEmision = \Carbon\Carbon::now();
+        
+        //Obtiene la dirección del reporte
         $direccion = DireccionReporte::where('Id_direccion', $solicitud->Id_direccion)->first();
-
+        
         $folio = explode("-", $solicitud->Folio_servicio);
         $parte1 = strval($folio[0]);
         $parte2 = strval($folio[1]);
@@ -1347,9 +1346,10 @@ class InformesController extends Controller
         //************************************** CALCULO DE COLIFORMES FECALES PRIMERA MUESTRA ******************************************************
         //Consulta si existe el parámetro de Coliformes Fecales en la solicitud
         $solicitudParametroColiformesFe = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();
-        $solicitudParametroColiformesFeLength = $solicitudParametroColiformesFe->count();
+        $solicitudParametroColiformesFeLength = $solicitudParametroColiformesFe->count();        
+        $resColi = 0;
 
-        if (!is_null($solicitudParametroColiformesFe)) { //Encontró coliformes fecales
+        if ($solicitudParametroColiformesFeLength !== 0) { //Encontró coliformes fecales
             $productoColi = 1;
 
             //Paso 1: Multiplicación de todos los resultados de coliformes fecales
@@ -1368,94 +1368,6 @@ class InformesController extends Controller
             }
         }
         //************************************** FIN DE CALCULO DE COLIFORMES FECALES PRIMERA MUESTRA *********************************************** 
-
-        //************************************** CALCULO DE NITROGENO KJELDAHL PRIMERA MUESTRA **********************************************
-
-        //Consulta si existen los parámetros nitrogeno total y amoniacal para esta solicitud
-        $solParamAmoniacal = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 10)->first();
-        $solParamOrganico = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 11)->first();
-
-        //Sí existen los parámetros para el cálculo kjeldahl
-        if (!is_null($solParamAmoniacal) && !is_null($solParamOrganico)) {
-            //Verifica si el resultado es menor al límite de cuantificación del parámetro
-            $limiteAmoniacal = DB::table('parametros')->where('Id_parametro', $solParamAmoniacal->Id_parametro)->first();
-            $limiteOrganico = DB::table('parametros')->where('Id_parametro', $solParamOrganico->Id_parametro)->first();
-
-            $resKjeldahl = 0;
-            $resLimAmo = 0;
-            $resLimOrg = 0;
-
-            //Nitrogeno Amoniacal
-            if ($solParamAmoniacal->Resultado < $limiteAmoniacal->Limite) {
-                $resLimAmo = $limiteAmoniacal->Limite;
-            } else {
-                $resLimAmo = $solParamAmoniacal->Resultado;
-            }
-
-            //Nitrogeno Organico
-            if ($solParamOrganico->Resultado < $limiteOrganico->Limite) {
-                $resLimOrg = $limiteOrganico->Limite;
-            } else {
-                $resLimOrg = $solParamOrganico->Resultado;
-            }
-
-            $resKjeldahl = $resLimAmo + $resLimOrg;
-        }
-
-        //************************************** FIN DE CALCULO DE NITROGENO KJELDAHL PRIMERA MUESTRA ***************************************
-
-        //***************************************CALCULO DE NITROGENO TOTAL PRIMERA MUESTRA *************************************************
-        //Consulta si existen los parámetros nitrogeno total, amoniacal, nitritos y nitratos para esta solicitud
-        $solParamAmoniacal = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 10)->first();
-        $solParamOrganico = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 11)->first();
-        $solParamNitritos = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 9)->first();
-        $solParamNitratos = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 8)->first();
-
-        //Sí existen los parámetros para el cálculo kjeldahl
-        if (!is_null($solParamAmoniacal) && !is_null($solParamOrganico) && !is_null($solParamNitritos) && !is_null($solParamNitratos)) {
-            //Verifica si el resultado es menor al límite de cuantificación del parámetro
-            $limiteAmoniacal = DB::table('parametros')->where('Id_parametro', $solParamAmoniacal->Id_parametro)->first();
-            $limiteOrganico = DB::table('parametros')->where('Id_parametro', $solParamOrganico->Id_parametro)->first();
-            $limiteNitritos = DB::table('parametros')->where('Id_parametro', $solParamNitritos->Id_parametro)->first();
-            $limiteNitratos = DB::table('parametros')->where('Id_parametro', $solParamNitratos->Id_parametro)->first();
-
-            $resNitrogenoT = 0;
-            $resLimAmo = 0;
-            $resLimOrg = 0;
-            $resLimNitritos = 0;
-            $resLimNitratos = 0;
-
-            //Nitrogeno Amoniacal
-            if ($solParamAmoniacal->Resultado < $limiteAmoniacal->Limite) {
-                $resLimAmo = $limiteAmoniacal->Limite;
-            } else {
-                $resLimAmo = $solParamAmoniacal->Resultado;
-            }
-
-            //Nitrogeno Organico
-            if ($solParamOrganico->Resultado < $limiteOrganico->Limite) {
-                $resLimOrg = $limiteOrganico->Limite;
-            } else {
-                $resLimOrg = $solParamOrganico->Resultado;
-            }
-
-            //Nitritos
-            if ($solParamNitritos->Resultado < $limiteNitritos->Limite) {
-                $resLimNitritos = $limiteNitritos->Limite;
-            } else {
-                $resLimNitritos = $solParamNitritos->Resultado;
-            }
-
-            //Nitratos
-            if ($solParamNitratos->Resultado < $limiteNitratos->Limite) {
-                $resLimNitratos = $limiteNitratos->Limite;
-            } else {
-                $resLimNitratos = $solParamNitratos->Resultado;
-            }
-
-            $resNitrogenoT = $resLimAmo + $resLimOrg + $resLimNitritos + $resLimNitratos;
-        }
-        //*************************************** FIN DE CALCULO DE NITROGENO TOTAL PRIMERA MUESTRA*****************************************                
 
         $limiteMostrar = array();
         $limitesC = array();
@@ -1506,13 +1418,7 @@ class InformesController extends Controller
         $sumaCaudalesFinal2 = 0;
 
         //Cálculo de coliformes de la segunda solicitud
-        $resColi2 = 0;
-
-        //Cálculo kjeldahl de la segunda solicitud
-        $resKjeldahl2 = 0;
-        
-        //Cálculo NT de la segunda solicitud
-        $resNitrogenoT2 = 0;
+        $resColi2 = 0;        
 
         //Cálculo DQO de la segunda solicitud
         $dqoFinal2 = 0;
@@ -1615,95 +1521,7 @@ class InformesController extends Controller
                     $resColi2 = "< " . $limiteColi->Limite;
                 }
             }
-            //************************************** FIN DE CALCULO DE COLIFORMES FECALES SEGUNDA MUESTRA *********************************************** 
-
-            //************************************** CALCULO DE NITROGENO KJELDAHL SEGUNDA MUESTRA **********************************************
-
-            //Consulta si existen los parámetros nitrogeno total y amoniacal para esta solicitud
-            $solParamAmoniacal = DB::table('ViewCodigoParametro')->where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->where('Id_parametro', 10)->first();
-            $solParamOrganico = DB::table('ViewCodigoParametro')->where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->where('Id_parametro', 11)->first();
-
-            //Sí existen los parámetros para el cálculo kjeldahl
-            if (!is_null($solParamAmoniacal) && !is_null($solParamOrganico)) {
-                //Verifica si el resultado es menor al límite de cuantificación del parámetro
-                $limiteAmoniacal = DB::table('parametros')->where('Id_parametro', $solParamAmoniacal->Id_parametro)->first();
-                $limiteOrganico = DB::table('parametros')->where('Id_parametro', $solParamOrganico->Id_parametro)->first();
-
-                $resKjeldahl2 = 0;
-                $resLimAmo = 0;
-                $resLimOrg = 0;
-
-                //Nitrogeno Amoniacal
-                if ($solParamAmoniacal->Resultado < $limiteAmoniacal->Limite) {
-                    $resLimAmo = $limiteAmoniacal->Limite;
-                } else {
-                    $resLimAmo = $solParamAmoniacal->Resultado;
-                }
-
-                //Nitrogeno Organico
-                if ($solParamOrganico->Resultado < $limiteOrganico->Limite) {
-                    $resLimOrg = $limiteOrganico->Limite;
-                } else {
-                    $resLimOrg = $solParamOrganico->Resultado;
-                }
-
-                $resKjeldahl2 = $resLimAmo + $resLimOrg;
-            }
-
-            //************************************** FIN DE CALCULO DE NITROGENO KJELDAHL SEGUNDA MUESTRA ***************************************
-
-            //***************************************CALCULO DE NITROGENO TOTAL SEGUNDA MUESTRA *************************************************
-            //Consulta si existen los parámetros nitrogeno total, amoniacal, nitritos y nitratos para esta solicitud
-            $solParamAmoniacal = DB::table('ViewCodigoParametro')->where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->where('Id_parametro', 10)->first();
-            $solParamOrganico = DB::table('ViewCodigoParametro')->where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->where('Id_parametro', 11)->first();
-            $solParamNitritos = DB::table('ViewCodigoParametro')->where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->where('Id_parametro', 9)->first();
-            $solParamNitratos = DB::table('ViewCodigoParametro')->where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->where('Id_parametro', 8)->first();
-
-            //Sí existen los parámetros para el cálculo kjeldahl
-            if (!is_null($solParamAmoniacal) && !is_null($solParamOrganico) && !is_null($solParamNitritos) && !is_null($solParamNitratos)) {
-                //Verifica si el resultado es menor al límite de cuantificación del parámetro
-                $limiteAmoniacal = DB::table('parametros')->where('Id_parametro', $solParamAmoniacal->Id_parametro)->first();
-                $limiteOrganico = DB::table('parametros')->where('Id_parametro', $solParamOrganico->Id_parametro)->first();
-                $limiteNitritos = DB::table('parametros')->where('Id_parametro', $solParamNitritos->Id_parametro)->first();
-                $limiteNitratos = DB::table('parametros')->where('Id_parametro', $solParamNitratos->Id_parametro)->first();
-
-                $resNitrogenoT = 0;
-                $resLimAmo = 0;
-                $resLimOrg = 0;
-                $resLimNitritos = 0;
-                $resLimNitratos = 0;
-
-                //Nitrogeno Amoniacal
-                if ($solParamAmoniacal->Resultado < $limiteAmoniacal->Limite) {
-                    $resLimAmo = $limiteAmoniacal->Limite;
-                } else {
-                    $resLimAmo = $solParamAmoniacal->Resultado;
-                }
-
-                //Nitrogeno Organico
-                if ($solParamOrganico->Resultado < $limiteOrganico->Limite) {
-                    $resLimOrg = $limiteOrganico->Limite;
-                } else {
-                    $resLimOrg = $solParamOrganico->Resultado;
-                }
-
-                //Nitritos
-                if ($solParamNitritos->Resultado < $limiteNitritos->Limite) {
-                    $resLimNitritos = $limiteNitritos->Limite;
-                } else {
-                    $resLimNitritos = $solParamNitritos->Resultado;
-                }
-
-                //Nitratos
-                if ($solParamNitratos->Resultado < $limiteNitratos->Limite) {
-                    $resLimNitratos = $limiteNitratos->Limite;
-                } else {
-                    $resLimNitratos = $solParamNitratos->Resultado;
-                }
-
-                $resNitrogenoT2 = $resLimAmo + $resLimOrg + $resLimNitritos + $resLimNitratos;
-            }
-            //*************************************** FIN DE CALCULO DE NITROGENO TOTAL SEGUNDA MUESTRA*****************************************            
+            //************************************** FIN DE CALCULO DE COLIFORMES FECALES SEGUNDA MUESTRA ***********************************************             
 
             $modelProcesoAnalisis2 = ProcesoAnalisis::where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->first();
 
@@ -1763,28 +1581,27 @@ class InformesController extends Controller
 
         //*************************************** CÁLCULO DQO DE LA PRIMERA MUESTRA ********************************************************
         $solicitudParamDqo = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 7)->first();
-        
+        $dqoFinal1 = 0;
+
         if(!is_null($solicitudParamDqo)){
             //Calcula DQO de la primera solicitud
             $preCalculo = $gastoLPS1 / ($gastoLPS1 + $gastoLPS2);
             $dqoFinal1 = $solicitudParamDqo->Resultado * $preCalculo;
-        }        
 
-        //Verifica si el resultado es menor al límite de cuantificación del parámetro
-        $limiteDqo = DB::table('parametros')->where('Id_parametro', $solicitudParamDqo->Id_parametro)->first();
+            //Verifica si el resultado es menor al límite de cuantificación del parámetro
+            $limiteDqo = DB::table('parametros')->where('Id_parametro', $solicitudParamDqo->Id_parametro)->first();
 
-        if ($dqoFinal1 < $limiteDqo->Limite) {
-            $dqoFinal1 = "< " . $limiteDqo->Limite;
+            if ($dqoFinal1 < $limiteDqo->Limite) {
+                $dqoFinal1 = "< " . $limiteDqo->Limite;
+            }
         }
-        //*************************************** FIN DE CÁLCULO DQO DE LA PRIMERA MUESTRA *************************************************
-
-
+        //*************************************** FIN DE CÁLCULO DQO DE LA PRIMERA MUESTRA *************************************************        
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.sinComparacion.bodyInformeMensual',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'limites2C', 'limiteMostrar', 'limiteMostrar2', 'sumaCaudalesFinal', 'resColi', 'sumaCaudalesFinal2', 'resColi2', 'dqoFinal1', 'dqoFinal2'));
 
         //HEADER-FOOTER******************************************************************************************************************
-        $htmlHeader = view('exports.informes.sinComparacion.headerInformeMensual', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'comparacionEncontrada', 'data', 'modelProcesoAnalisis1', 'modelProcesoAnalisis2', 'fechaEmision', 'gastoLPS1', 'gastoLPS2'));
+        $htmlHeader = view('exports.informes.sinComparacion.headerInformeMensual', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'comparacionEncontrada', 'data', 'modelProcesoAnalisis1', 'modelProcesoAnalisis2', 'gastoLPS1', 'gastoLPS2'));
         $htmlFooter = view('exports.informes.sinComparacion.footerInformeMensual', compact('solicitud'/* 'usuario', 'firma' */));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);

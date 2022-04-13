@@ -81,6 +81,7 @@
                            </div>
                         </div>
                         <div class="col-md-3">
+                            <i class="fas fa-square-root-alt"></i>
                             <table id="tableDescricion" class="display compact cell-border" style="width:100%">
                                 <thead>
                                     <tr>                                     
@@ -109,5 +110,5 @@
 
 @endsection
 @section('javascript')
-<script src="{{ asset('js/supervicion/cadena/detalleCadena.js') }}?v=0.0.2"></script>
+<script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=0.0.2"></script>
 @stop
