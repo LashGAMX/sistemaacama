@@ -29,21 +29,21 @@ class InformesController extends Controller
     {
         $tipoReporte = TipoReporte::all();
         $model = DB::table('ViewSolicitud')->get();
-        return view('informes.informes',compact('tipoReporte','model'));
+        return view('informes.informes', compact('tipoReporte', 'model'));
     }
     public function getPuntoMuestro(Request $request)
     {
-        $model = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud',$request->id)->get();
+        $model = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud', $request->id)->get();
         $data = array(
             'model' => $model,
-        ); 
+        );
         return response()->json($data);
     }
     public function getSolParametro(Request $request)
     {
-        $model = DB::table('ViewSolicitudParametros')->where('Id_solicitud',$request->id)->get();
+        $model = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $request->id)->get();
         $data = array(
-            'model' => $model, 
+            'model' => $model,
         );
         return response()->json($data);
     }
@@ -51,19 +51,19 @@ class InformesController extends Controller
     public function mensual()
     {
         $model = DB::table('ViewSolicitud')->get();
-        return view('informes.mensual',compact('model'));  
+        return view('informes.mensual', compact('model'));
     }
     public function getPreReporteMensual(Request $res)
     {
-        $solModel = DB::table('ViewSolicitud')->where('Id_solicitud',$res->idSol)->first();
-        $solModel2 = DB::table('ViewSolicitud')->where('IdPunto',$solModel->IdPunto)->get();
+        $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $res->idSol)->first();
+        $solModel2 = DB::table('ViewSolicitud')->where('IdPunto', $solModel->IdPunto)->get();
 
         //ViewCodigoParametro
         $cont = (sizeof($solModel2) - 1);
-        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$solModel2[0]->Id_solicitud)->get();
-        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud',$solModel2[$cont]->Id_solicitud)->get();
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel2[0]->Id_solicitud)->get();
+        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel2[$cont]->Id_solicitud)->get();
 
-        $data = array( 
+        $data = array(
             'cont' => $cont,
             'solModel' => $solModel,
             'solModel2' => $solModel2,
@@ -74,9 +74,10 @@ class InformesController extends Controller
     }
 
     //todo Seccio de pdf
-    public function pdfSinComparacion($idSol){
+    public function pdfSinComparacion($idSol)
+    {
         //Opciones del documento PDF
-        $mpdf = new \Mpdf\Mpdf([ 
+        $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'P',
             'format' => 'letter',
             'margin_left' => 10,
@@ -85,7 +86,7 @@ class InformesController extends Controller
             'margin_bottom' => 125,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
-        ]);        
+        ]);
 
         //Recupera el nombre de usuario y firma
         /* $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
@@ -100,14 +101,16 @@ class InformesController extends Controller
         //Recupera los datos de la temperatura de la muestra compuesta
         $tempCompuesta = CampoCompuesto::where('Id_solicitud', $idSol);
 
-        $fechaEmision = \Carbon\Carbon::now();
+        //$fechaEmision = \Carbon\Carbon::now();
         $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
         $direccion = DireccionReporte::where('Id_direccion', $solicitud->Id_direccion)->first();
+        $horaMuestreo = null;
+
         $folio = explode("-", $solicitud->Folio_servicio);
         $parte1 = strval($folio[0]);
         $parte2 = strval($folio[1]);
 
-        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();
+        $numOrden = Solicitud::where('Folio_servicio', $parte1 . "-" . $parte2)->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
         $cliente = Clientes::where('Id_cliente', $solicitud->Id_cliente)->first();
@@ -119,7 +122,7 @@ class InformesController extends Controller
 
         //Recupera los parámetros
         $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
-        $solicitudParametrosLength = $solicitudParametros->count();        
+        $solicitudParametrosLength = $solicitudParametros->count();
 
 
         //*************************************CALCULO DE CONCENTRACIÓN CUANTIFICADA DE GRASAS *************************************
@@ -127,66 +130,69 @@ class InformesController extends Controller
         $solicitudParametroGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();
         $solicitudParametroGrasasLength = $solicitudParametroGrasas->count();
 
-        if(!is_null($solicitudParametroGrasas)){ //Encontró grasas
-            
+        if (!is_null($solicitudParametroGrasas)) { //Encontró grasas
+
             //Recupera los gastos (caudales) de la solicitud
             $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
             $gastosModelLength = $gastosModel->count();
             $sumaCaudales = 0;
             $sumaCaudalesFinal = 0;
-            
+
             //Arreglo que almacena el resultado de cada caudal entre la sumatoria de los caudales
             $divCaudalSuma = array();
 
             //Arreglo que almacena los resultados de las multiplicaciones de divCaudalSuma por el resultado de cada muestra del parámetro
-            $multResDivCaudal = array();            
+            $multResDivCaudal = array();
 
             //Paso 1: Sumatoria de los caudales
-            foreach($gastosModel as $item){                
-                if($item->Promedio === null){
+            foreach ($gastosModel as $item) {
+                if ($item->Promedio === null) {
                     $sumaCaudales += 0;
-                }else{
+                } else {
                     $sumaCaudales += $item->Promedio;
-                }                
+                }
             }
 
             //Paso 2: División de cada caudal entre la sumatoria de los caudales
-            foreach($gastosModel as $item){
-                if($item->Promedio === null){
+            foreach ($gastosModel as $item) {
+                if ($item->Promedio === null) {
                     $div = 0 / $sumaCaudales;
 
                     array_push(
-                        $divCaudalSuma, $div
+                        $divCaudalSuma,
+                        $div
                     );
-                }else{
+                } else {
                     $div = $item->Promedio / $sumaCaudales;
 
                     array_push(
-                        $divCaudalSuma, $div
+                        $divCaudalSuma,
+                        $div
                     );
-                }                
+                }
             }
 
             //Paso 3: Multiplicación de cada divCaudalSuma por el resultado del parametro                                    
-            for($i = 0; $i < $solicitudParametroGrasasLength; $i++){
+            for ($i = 0; $i < $solicitudParametroGrasasLength; $i++) {
                 $mult = $divCaudalSuma[$i] * $solicitudParametroGrasas[$i]->Resultado;
 
                 array_push(
-                    $multResDivCaudal, $mult
-                );                
+                    $multResDivCaudal,
+                    $mult
+                );
             }
 
             //Paso 4: Sumatoria de multResDivCaudal
-            foreach($multResDivCaudal as $item){
+            foreach ($multResDivCaudal as $item) {
                 $sumaCaudalesFinal += $item;
-            }            
+            }
 
             //Verifica si el resultado es menor al límite de cuantificación del parámetro
             $limiteGrasas = DB::table('parametros')->where('Id_parametro', $solicitudParametroGrasas[0]->Id_parametro)->first();
 
             if ($sumaCaudalesFinal < $limiteGrasas->Limite) {
                 $sumaCaudalesFinal = "< " . $limiteGrasas->Limite;
-            }            
+            }
         }
 
         //echo  implode(" , ", $multResDivCaudal);        
@@ -198,16 +204,16 @@ class InformesController extends Controller
         $solicitudParametroColiformesFe = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();
         $solicitudParametroColiformesFeLength = $solicitudParametroGrasas->count();
 
-        if(!is_null($solicitudParametroColiformesFe)){ //Encontró coliformes fecales
+        if (!is_null($solicitudParametroColiformesFe)) { //Encontró coliformes fecales
             $productoColi = 1;
 
             //Paso 1: Multiplicación de todos los resultados de coliformes fecales
-            foreach($solicitudParametroColiformesFe as $item){                
+            foreach ($solicitudParametroColiformesFe as $item) {
                 $productoColi *= $item->Resultado;
             }
 
             //Paso 2: Raíz a la N cantidad de resultados de coliformes
-            $resColi = pow($productoColi, 1/$solicitudParametroColiformesFeLength);
+            $resColi = pow($productoColi, 1 / $solicitudParametroColiformesFeLength);
 
             //Verifica si el resultado es menor al límite de cuantificación del parámetro
             $limiteColi = DB::table('parametros')->where('Id_parametro', $solicitudParametroColiformesFe[0]->Id_parametro)->first();
@@ -217,15 +223,15 @@ class InformesController extends Controller
             }
         }
         //************************************** FIN DE CALCULO DE COLIFORMES FECALES *********************************************** 
-        
+
         //************************************** CALCULO DE NITROGENO KJELDAHL **********************************************
-        
+
         //Consulta si existen los parámetros nitrogeno total y amoniacal para esta solicitud
         $solParamAmoniacal = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 10)->first();
-        $solParamOrganico = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 11)->first();        
+        $solParamOrganico = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 11)->first();
 
         //Sí existen los parámetros para el cálculo kjeldahl
-        if(!is_null($solParamAmoniacal) && !is_null($solParamOrganico)){
+        if (!is_null($solParamAmoniacal) && !is_null($solParamOrganico)) {
             //Verifica si el resultado es menor al límite de cuantificación del parámetro
             $limiteAmoniacal = DB::table('parametros')->where('Id_parametro', $solParamAmoniacal->Id_parametro)->first();
             $limiteOrganico = DB::table('parametros')->where('Id_parametro', $solParamOrganico->Id_parametro)->first();
@@ -237,18 +243,18 @@ class InformesController extends Controller
             //Nitrogeno Amoniacal
             if ($solParamAmoniacal->Resultado < $limiteAmoniacal->Limite) {
                 $resLimAmo = $limiteAmoniacal->Limite;
-            }else{
+            } else {
                 $resLimAmo = $solParamAmoniacal->Resultado;
             }
 
             //Nitrogeno Organico
             if ($solParamOrganico->Resultado < $limiteOrganico->Limite) {
                 $resLimOrg = $limiteOrganico->Limite;
-            }else{
+            } else {
                 $resLimOrg = $solParamOrganico->Resultado;
             }
 
-            $resKjeldahl = $resLimAmo + $resLimOrg;            
+            $resKjeldahl = $resLimAmo + $resLimOrg;
         }
 
         //************************************** FIN DE CALCULO DE NITROGENO KJELDAHL ***************************************
@@ -260,8 +266,8 @@ class InformesController extends Controller
         $solParamNitritos = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 9)->first();
         $solParamNitratos = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 8)->first();
 
-        //Sí existen los parámetros para el cálculo kjeldahl
-        if(!is_null($solParamAmoniacal) && !is_null($solParamOrganico) && !is_null($solParamNitritos) && !is_null($solParamNitratos)){
+        //Sí existen los parámetros para el cálculo de nitrógeno total
+        if (!is_null($solParamAmoniacal) && !is_null($solParamOrganico) && !is_null($solParamNitritos) && !is_null($solParamNitratos)) {
             //Verifica si el resultado es menor al límite de cuantificación del parámetro
             $limiteAmoniacal = DB::table('parametros')->where('Id_parametro', $solParamAmoniacal->Id_parametro)->first();
             $limiteOrganico = DB::table('parametros')->where('Id_parametro', $solParamOrganico->Id_parametro)->first();
@@ -277,41 +283,41 @@ class InformesController extends Controller
             //Nitrogeno Amoniacal
             if ($solParamAmoniacal->Resultado < $limiteAmoniacal->Limite) {
                 $resLimAmo = $limiteAmoniacal->Limite;
-            }else{
+            } else {
                 $resLimAmo = $solParamAmoniacal->Resultado;
             }
 
-            //Nitrogeno Organico
+            //Nitrogeno Orgánico
             if ($solParamOrganico->Resultado < $limiteOrganico->Limite) {
                 $resLimOrg = $limiteOrganico->Limite;
-            }else{
+            } else {
                 $resLimOrg = $solParamOrganico->Resultado;
             }
 
             //Nitritos
             if ($solParamNitritos->Resultado < $limiteNitritos->Limite) {
                 $resLimNitritos = $limiteNitritos->Limite;
-            }else{
+            } else {
                 $resLimNitritos = $solParamNitritos->Resultado;
             }
 
             //Nitratos
             if ($solParamNitratos->Resultado < $limiteNitratos->Limite) {
                 $resLimNitratos = $limiteNitratos->Limite;
-            }else{
+            } else {
                 $resLimNitratos = $solParamNitratos->Resultado;
             }
 
-            $resNitrogenoT = $resLimAmo + $resLimOrg + $resLimNitritos + $resLimNitratos;            
+            $resNitrogenoT = $resLimAmo + $resLimOrg + $resLimNitritos + $resLimNitratos;
         }
         //*************************************** FIN DE CALCULO DE NITROGENO TOTAL *****************************************
-                
+
         $limitesC = array();
 
         //Recupera los límites de cuantificación de los parámetros        
-        foreach($solicitudParametros as $item){
-            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();            
-            
+        foreach ($solicitudParametros as $item) {
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
+
             if ($item->Resultado < $limiteC->Limite) {
                 $limC = "< " . $limiteC->Limite;
 
@@ -323,13 +329,20 @@ class InformesController extends Controller
             }
         }
 
-        $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();    
+        $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
+
+        //Recupera el valor correcto de la hora de muestreo
+        if ($solicitud->Id_muestra !== 'COMPUESTA') {
+            $horaMuestreo = \Carbon\Carbon::parse($modelProcesoAnalisis->Hora_entrada)->format('H:i:s');
+        } else {
+            $horaMuestreo = 'COMPUESTA';
+        }
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'tempCompuesta', 'sumaCaudalesFinal', 'resColi'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
-        $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'fechaEmision', 'modelProcesoAnalisis'));
+        $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'modelProcesoAnalisis', 'horaMuestreo'));
         $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud'/* 'usuario', 'firma' */));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
@@ -338,10 +351,10 @@ class InformesController extends Controller
 
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');
+    }
 
-    } 
-
-    public function pdfConComparacion($idSol){
+    public function pdfConComparacion($idSol)
+    {
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'P',
@@ -352,7 +365,7 @@ class InformesController extends Controller
             'margin_bottom' => 125,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
-        ]);        
+        ]);
 
         //Recupera el nombre de usuario y firma
         /* $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
@@ -364,14 +377,14 @@ class InformesController extends Controller
             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
         }
 
-        $fechaEmision = \Carbon\Carbon::now();
+        //$fechaEmision = \Carbon\Carbon::now();
         $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
         $direccion = DireccionReporte::where('Id_direccion', $solicitud->Id_direccion)->first();
         $folio = explode("-", $solicitud->Folio_servicio);
         $parte1 = strval($folio[0]);
         $parte2 = strval($folio[1]);
 
-        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();
+        $numOrden = Solicitud::where('Folio_servicio', $parte1 . "-" . $parte2)->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
         $cliente = Clientes::where('Id_cliente', $solicitud->Id_cliente)->first();
@@ -382,74 +395,77 @@ class InformesController extends Controller
         $solicitudParametrosLength = $solicitudParametros->count(); */
 
         //Recupera los parámetros
-        $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();                
+        $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
         $solicitudParametrosLength = $solicitudParametros->count();
-                
-         //*************************************CALCULO DE CONCENTRACIÓN CUANTIFICADA DE GRASAS *************************************
+
+        //*************************************CALCULO DE CONCENTRACIÓN CUANTIFICADA DE GRASAS *************************************
         //Consulta si existe el parámetro de Grasas y Aceites en la solicitud
         $solicitudParametroGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();
         $solicitudParametroGrasasLength = $solicitudParametroGrasas->count();
 
-        if(!is_null($solicitudParametroGrasas)){ //Encontró grasas
-            
+        if (!is_null($solicitudParametroGrasas)) { //Encontró grasas
+
             //Recupera los gastos (caudales) de la solicitud
             $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
             $gastosModelLength = $gastosModel->count();
             $sumaCaudales = 0;
             $sumaCaudalesFinal = 0;
-            
+
             //Arreglo que almacena el resultado de cada caudal entre la sumatoria de los caudales
             $divCaudalSuma = array();
 
             //Arreglo que almacena los resultados de las multiplicaciones de divCaudalSuma por el resultado de cada muestra del parámetro
-            $multResDivCaudal = array();            
+            $multResDivCaudal = array();
 
             //Paso 1: Sumatoria de los caudales
-            foreach($gastosModel as $item){                
-                if($item->Promedio === null){
+            foreach ($gastosModel as $item) {
+                if ($item->Promedio === null) {
                     $sumaCaudales += 0;
-                }else{
+                } else {
                     $sumaCaudales += $item->Promedio;
-                }                
+                }
             }
 
             //Paso 2: División de cada caudal entre la sumatoria de los caudales
-            foreach($gastosModel as $item){
-                if($item->Promedio === null){
+            foreach ($gastosModel as $item) {
+                if ($item->Promedio === null) {
                     $div = 0 / $sumaCaudales;
 
                     array_push(
-                        $divCaudalSuma, $div
+                        $divCaudalSuma,
+                        $div
                     );
-                }else{
+                } else {
                     $div = $item->Promedio / $sumaCaudales;
 
                     array_push(
-                        $divCaudalSuma, $div
+                        $divCaudalSuma,
+                        $div
                     );
-                }                
+                }
             }
 
             //Paso 3: Multiplicación de cada divCaudalSuma por el resultado del parametro                                    
-            for($i = 0; $i < $solicitudParametroGrasasLength; $i++){
+            for ($i = 0; $i < $solicitudParametroGrasasLength; $i++) {
                 $mult = $divCaudalSuma[$i] * $solicitudParametroGrasas[$i]->Resultado;
 
                 array_push(
-                    $multResDivCaudal, $mult
-                );                
+                    $multResDivCaudal,
+                    $mult
+                );
             }
 
             //Paso 4: Sumatoria de multResDivCaudal
-            foreach($multResDivCaudal as $item){
+            foreach ($multResDivCaudal as $item) {
                 $sumaCaudalesFinal += $item;
-            }            
+            }
 
             //Verifica si el resultado es menor al límite de cuantificación del parámetro
             $limiteGrasas = DB::table('parametros')->where('Id_parametro', $solicitudParametroGrasas[0]->Id_parametro)->first();
 
             if ($sumaCaudalesFinal < $limiteGrasas->Limite) {
                 $sumaCaudalesFinal = "< " . $limiteGrasas->Limite;
-            }            
+            }
         }
 
         //echo  implode(" , ", $multResDivCaudal);        
@@ -461,16 +477,16 @@ class InformesController extends Controller
         $solicitudParametroColiformesFe = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();
         $solicitudParametroColiformesFeLength = $solicitudParametroGrasas->count();
 
-        if(!is_null($solicitudParametroColiformesFe)){ //Encontró coliformes fecales
+        if (!is_null($solicitudParametroColiformesFe)) { //Encontró coliformes fecales
             $productoColi = 1;
 
             //Paso 1: Multiplicación de todos los resultados de coliformes fecales
-            foreach($solicitudParametroColiformesFe as $item){                
+            foreach ($solicitudParametroColiformesFe as $item) {
                 $productoColi *= $item->Resultado;
             }
 
             //Paso 2: Raíz a la N cantidad de resultados de coliformes
-            $resColi = pow($productoColi, 1/$solicitudParametroColiformesFeLength);
+            $resColi = pow($productoColi, 1 / $solicitudParametroColiformesFeLength);
 
             //Verifica si el resultado es menor al límite de cuantificación del parámetro
             $limiteColi = DB::table('parametros')->where('Id_parametro', $solicitudParametroColiformesFe[0]->Id_parametro)->first();
@@ -480,15 +496,15 @@ class InformesController extends Controller
             }
         }
         //************************************** FIN DE CALCULO DE COLIFORMES FECALES *********************************************** 
-        
+
         //************************************** CALCULO DE NITROGENO KJELDAHL **********************************************
-        
+
         //Consulta si existen los parámetros nitrogeno total y amoniacal para esta solicitud
         $solParamAmoniacal = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 10)->first();
-        $solParamOrganico = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 11)->first();        
+        $solParamOrganico = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 11)->first();
 
         //Sí existen los parámetros para el cálculo kjeldahl
-        if(!is_null($solParamAmoniacal) && !is_null($solParamOrganico)){
+        if (!is_null($solParamAmoniacal) && !is_null($solParamOrganico)) {
             //Verifica si el resultado es menor al límite de cuantificación del parámetro
             $limiteAmoniacal = DB::table('parametros')->where('Id_parametro', $solParamAmoniacal->Id_parametro)->first();
             $limiteOrganico = DB::table('parametros')->where('Id_parametro', $solParamOrganico->Id_parametro)->first();
@@ -500,18 +516,18 @@ class InformesController extends Controller
             //Nitrogeno Amoniacal
             if ($solParamAmoniacal->Resultado < $limiteAmoniacal->Limite) {
                 $resLimAmo = $limiteAmoniacal->Limite;
-            }else{
+            } else {
                 $resLimAmo = $solParamAmoniacal->Resultado;
             }
 
             //Nitrogeno Organico
             if ($solParamOrganico->Resultado < $limiteOrganico->Limite) {
                 $resLimOrg = $limiteOrganico->Limite;
-            }else{
+            } else {
                 $resLimOrg = $solParamOrganico->Resultado;
             }
 
-            $resKjeldahl = $resLimAmo + $resLimOrg;            
+            $resKjeldahl = $resLimAmo + $resLimOrg;
         }
 
         //************************************** FIN DE CALCULO DE NITROGENO KJELDAHL ***************************************
@@ -524,7 +540,7 @@ class InformesController extends Controller
         $solParamNitratos = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 8)->first();
 
         //Sí existen los parámetros para el cálculo kjeldahl
-        if(!is_null($solParamAmoniacal) && !is_null($solParamOrganico) && !is_null($solParamNitritos) && !is_null($solParamNitratos)){
+        if (!is_null($solParamAmoniacal) && !is_null($solParamOrganico) && !is_null($solParamNitritos) && !is_null($solParamNitratos)) {
             //Verifica si el resultado es menor al límite de cuantificación del parámetro
             $limiteAmoniacal = DB::table('parametros')->where('Id_parametro', $solParamAmoniacal->Id_parametro)->first();
             $limiteOrganico = DB::table('parametros')->where('Id_parametro', $solParamOrganico->Id_parametro)->first();
@@ -540,41 +556,41 @@ class InformesController extends Controller
             //Nitrogeno Amoniacal
             if ($solParamAmoniacal->Resultado < $limiteAmoniacal->Limite) {
                 $resLimAmo = $limiteAmoniacal->Limite;
-            }else{
+            } else {
                 $resLimAmo = $solParamAmoniacal->Resultado;
             }
 
             //Nitrogeno Organico
             if ($solParamOrganico->Resultado < $limiteOrganico->Limite) {
                 $resLimOrg = $limiteOrganico->Limite;
-            }else{
+            } else {
                 $resLimOrg = $solParamOrganico->Resultado;
             }
 
             //Nitritos
             if ($solParamNitritos->Resultado < $limiteNitritos->Limite) {
                 $resLimNitritos = $limiteNitritos->Limite;
-            }else{
+            } else {
                 $resLimNitritos = $solParamNitritos->Resultado;
             }
 
             //Nitratos
             if ($solParamNitratos->Resultado < $limiteNitratos->Limite) {
                 $resLimNitratos = $limiteNitratos->Limite;
-            }else{
+            } else {
                 $resLimNitratos = $solParamNitratos->Resultado;
             }
 
-            $resNitrogenoT = $resLimAmo + $resLimOrg + $resLimNitritos + $resLimNitratos;            
+            $resNitrogenoT = $resLimAmo + $resLimOrg + $resLimNitritos + $resLimNitratos;
         }
         //*************************************** FIN DE CALCULO DE NITROGENO TOTAL *****************************************
 
         $limitesC = array();
 
         //Recupera los límites de cuantificación de los parámetros        
-        foreach($solicitudParametros as $item){
-            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();            
-            
+        foreach ($solicitudParametros as $item) {
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
+
             if ($item->Resultado < $limiteC->Limite) {
                 $limC = "< " . $limiteC->Limite;
 
@@ -586,13 +602,20 @@ class InformesController extends Controller
             }
         }
 
-        $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();                
+        $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
+
+        //Recupera el valor correcto de la hora de muestreo
+        if ($solicitud->Id_muestra !== 'COMPUESTA') {
+            $horaMuestreo = \Carbon\Carbon::parse($modelProcesoAnalisis->Hora_entrada)->format('H:i:s');
+        } else {
+            $horaMuestreo = 'COMPUESTA';
+        }
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
-        $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'fechaEmision', 'modelProcesoAnalisis'));
+        $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
         $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('solicitud'/* 'usuario', 'firma' */));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
@@ -600,14 +623,15 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->Output('Informe de resultados con comparacion.pdf', 'I');                
+        $mpdf->Output('Informe de resultados con comparacion.pdf', 'I');
     }
 
     //****************ESTAS FUNCIONES SE LLAMAN A TRAVÉS DE LA RUTA PÚBLICA HACIENDO USO DEL CÓDIGO QR
     //todo Seccio de pdf
-    public function pdfSinComparacionCli($idSol){
+    public function pdfSinComparacionCli($idSol)
+    {
         //Opciones del documento PDF
-        $mpdf = new \Mpdf\Mpdf([ 
+        $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'P',
             'format' => 'letter',
             'margin_left' => 10,
@@ -641,14 +665,14 @@ class InformesController extends Controller
         //Recupera los datos de la temperatura de la muestra compuesta
         $tempCompuesta = CampoCompuesto::where('Id_solicitud', $idSol);
 
-        $fechaEmision = \Carbon\Carbon::now();
+        //$fechaEmision = \Carbon\Carbon::now();
         $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
         $direccion = DireccionReporte::where('Id_direccion', $solicitud->Id_direccion)->first();
         $folio = explode("-", $solicitud->Folio_servicio);
         $parte1 = strval($folio[0]);
         $parte2 = strval($folio[1]);
 
-        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();
+        $numOrden = Solicitud::where('Folio_servicio', $parte1 . "-" . $parte2)->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
         $cliente = Clientes::where('Id_cliente', $solicitud->Id_cliente)->first();
@@ -659,15 +683,15 @@ class InformesController extends Controller
         $solicitudParametrosLength = $solicitudParametros->count(); */
 
         //Recupera los parámetros
-        $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();                
+        $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
         $solicitudParametrosLength = $solicitudParametros->count();
-                
+
         $limitesC = array();
 
         //Recupera los límites de cuantificación de los parámetros        
-        foreach($solicitudParametros as $item){
-            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();            
-            
+        foreach ($solicitudParametros as $item) {
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
+
             if ($item->Resultado < $limiteC->Limite) {
                 $limC = "< " . $limiteC->Limite;
 
@@ -679,13 +703,20 @@ class InformesController extends Controller
             }
         }
 
-        $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();    
+        $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
+
+        //Recupera el valor correcto de la hora de muestreo
+        if ($solicitud->Id_muestra !== 'COMPUESTA') {
+            $horaMuestreo = \Carbon\Carbon::parse($modelProcesoAnalisis->Hora_entrada)->format('H:i:s');
+        } else {
+            $horaMuestreo = 'COMPUESTA';
+        }
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'tempCompuesta'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
-        $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'fechaEmision', 'modelProcesoAnalisis'));
+        $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'modelProcesoAnalisis', 'horaMuestreo'));
         $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud'/* 'usuario', 'firma' */));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
@@ -694,10 +725,10 @@ class InformesController extends Controller
 
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->Output('Informe de resultados sin comparacion.pdf', 'D');
+    }
 
-    } 
-
-    public function pdfConComparacionCli($idSol){
+    public function pdfConComparacionCli($idSol)
+    {
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'P',
@@ -730,14 +761,14 @@ class InformesController extends Controller
             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
         }
 
-        $fechaEmision = \Carbon\Carbon::now();
+        //$fechaEmision = \Carbon\Carbon::now();
         $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
         $direccion = DireccionReporte::where('Id_direccion', $solicitud->Id_direccion)->first();
         $folio = explode("-", $solicitud->Folio_servicio);
         $parte1 = strval($folio[0]);
         $parte2 = strval($folio[1]);
 
-        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();
+        $numOrden = Solicitud::where('Folio_servicio', $parte1 . "-" . $parte2)->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
         $cliente = Clientes::where('Id_cliente', $solicitud->Id_cliente)->first();
@@ -748,15 +779,15 @@ class InformesController extends Controller
         $solicitudParametrosLength = $solicitudParametros->count(); */
 
         //Recupera los parámetros
-        $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();                
+        $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
         $solicitudParametrosLength = $solicitudParametros->count();
-                
+
         $limitesC = array();
 
         //Recupera los límites de cuantificación de los parámetros        
-        foreach($solicitudParametros as $item){
-            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();            
-            
+        foreach ($solicitudParametros as $item) {
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
+
             if ($item->Resultado < $limiteC->Limite) {
                 $limC = "< " . $limiteC->Limite;
 
@@ -768,13 +799,20 @@ class InformesController extends Controller
             }
         }
 
-        $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();                
+        $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
+
+        //Recupera el valor correcto de la hora de muestreo
+        if ($solicitud->Id_muestra !== 'COMPUESTA') {
+            $horaMuestreo = \Carbon\Carbon::parse($modelProcesoAnalisis->Hora_entrada)->format('H:i:s');
+        } else {
+            $horaMuestreo = 'COMPUESTA';
+        }
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
-        $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'fechaEmision', 'modelProcesoAnalisis'));
+        $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
         $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('solicitud'/* 'usuario', 'firma' */));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
@@ -782,12 +820,13 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->Output('Informe de resultados con comparacion.pdf', 'D');                
+        $mpdf->Output('Informe de resultados con comparacion.pdf', 'D');
     }
 
     //************************************************************************************************
 
-    public function pdfSinComparacion2($idSol){
+    public function pdfSinComparacion2($idSol)
+    {
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'L',
@@ -798,7 +837,7 @@ class InformesController extends Controller
             'margin_bottom' => 76,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
-        ]);        
+        ]);
 
         //Recupera el nombre de usuario y firma
         $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
@@ -814,12 +853,12 @@ class InformesController extends Controller
         $norma = Norma::where('Id_norma', $solicitud->Id_norma)->first();
         $fechaEmision = \Carbon\Carbon::now();
         $direccion = DireccionReporte::where('Id_direccion', $solicitud->Id_direccion)->first();
-        
+
         $folio = explode("-", $solicitud->Folio_servicio);
         $parte1 = strval($folio[0]);
         $parte2 = strval($folio[1]);
 
-        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();                 
+        $numOrden = Solicitud::where('Folio_servicio', $parte1 . "-" . $parte2)->first();
 
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
@@ -832,20 +871,20 @@ class InformesController extends Controller
         $data = array();
         $comparacionEncontrada = null;
 
-        foreach($comparacion as $item){
-            if(($item->Id_cliente == $solicitud->Id_cliente) && ($item->Folio_servicio !== $solicitud->Folio_servicio)){   
+        foreach ($comparacion as $item) {
+            if (($item->Id_cliente == $solicitud->Id_cliente) && ($item->Folio_servicio !== $solicitud->Folio_servicio)) {
                 $solicitudComparacionPunto = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
                 $puntoMuestreoComparacion = DB::table('puntos_muestreo')->where('Id_punto', $solicitudComparacionPunto->Id_punto)->first();
-                
+
                 //Si ambos titulos de consecion y anexos son los mismos entonces se almacena en la var.comparación encontrada la solicitud correspondiente
-                if(($puntoMuestreo->Titulo_consecion == $puntoMuestreoComparacion->Titulo_consecion) && ($puntoMuestreo->Anexo == $puntoMuestreoComparacion->Anexo)){
+                if (($puntoMuestreo->Titulo_consecion == $puntoMuestreoComparacion->Titulo_consecion) && ($puntoMuestreo->Anexo == $puntoMuestreoComparacion->Anexo)) {
                     $comparacionEncontrada = $item;
 
                     //Obtiene el número de orden para el informe; Ej si la comparación encontrada es 60-1/22-2 estas instrucciones devuelven 60-1/22
                     $folioComparacion = explode("-", $item->Folio_servicio);
                     $parte1C = strval($folio[0]);
                     $parte2C = strval($folio[1]);
-                    $folioC = $parte1."-".$parte2;
+                    $folioC = $parte1 . "-" . $parte2;
 
                     array_push($data, $comparacionEncontrada, $folioC);
                     break;
@@ -860,9 +899,9 @@ class InformesController extends Controller
         $limitesC = array();
 
         //Recupera los límites de cuantificación de los parámetros
-        foreach($solicitudParametros as $item){
+        foreach ($solicitudParametros as $item) {
             $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
-            
+
             if ($item->Resultado < $limiteC->Limite) {
                 $limC = "< " . $limiteC->Limite;
 
@@ -876,17 +915,58 @@ class InformesController extends Controller
             }
         }
 
+        //Recupera la fecha de recepción del primer y segundo folio
+        $modelProcesoAnalisis1 = ProcesoAnalisis::where('Id_solicitud', $solicitud->Id_solicitud)->first();
+        $modelProcesoAnalisis2 = null;
+
+        //Recupera el gasto LPS del folio 1        
+        $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
+        $gastosModelLength = $gastosModel->count();
+        $gastoSum1 = 0;
+
+        //Paso 1: Sumatoria de los caudales
+        foreach ($gastosModel as $item) {
+            if ($item->Promedio === null) {
+                $gastoSum1 += 0;
+            } else {
+                $gastoSum1 += $item->Promedio;
+            }
+        }
+
+        //Paso 2: División entre el total de gastos
+        $gastoLPS1 = $gastoSum1 / $gastosModelLength;
+        $gastoLPS2 = 0;
+
         $limiteMostrar2 = array();
         $limites2C = array();
+        
         //Recupera los resultados de los parámetros de la segunda muestra
-        if(!is_null($comparacionEncontrada)){
+        if (!is_null($comparacionEncontrada)) {
+            $modelProcesoAnalisis2 = ProcesoAnalisis::where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->first();
+
+            $gastosModel2 = GastoMuestra::where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->get();
+            $gastosModelLength2 = $gastosModel2->count();
+            $gastoSum2 = 0;
+
+            //Paso 1: Sumatoria de los caudales
+            foreach ($gastosModel2 as $item) {
+                if ($item->Promedio === null) {
+                    $gastoSum2 += 0;
+                } else {
+                    $gastoSum2 += $item->Promedio;
+                }
+            }
+
+            //Paso 2: División entre el total de gastos
+            $gastoLPS2 = $gastoSum2 / $gastosModelLength2;
+
             $solicitudParametros2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->where('Num_muestra', 1)->get();
             $solicitudParametros2Length = $solicitudParametros2->count();
 
             //Recupera los límites de cuantificación de los parámetros
-            foreach($solicitudParametros2 as $item){
+            foreach ($solicitudParametros2 as $item) {
                 $limite2C = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
-                
+
                 if ($item->Resultado < $limite2C->Limite) {
                     $lim2C = "< " . $limite2C->Limite;
 
@@ -905,7 +985,7 @@ class InformesController extends Controller
         $htmlInforme = view('exports.informes.sinComparacion.bodyInformeMensual',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'limites2C', 'limiteMostrar', 'limiteMostrar2'));
 
         //HEADER-FOOTER******************************************************************************************************************
-        $htmlHeader = view('exports.informes.sinComparacion.headerInformeMensual', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'fechaEmision', 'comparacionEncontrada', 'data'));
+        $htmlHeader = view('exports.informes.sinComparacion.headerInformeMensual', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'comparacionEncontrada', 'data', 'modelProcesoAnalisis1', 'modelProcesoAnalisis2', 'fechaEmision', 'gastoLPS1', 'gastoLPS2'));
         $htmlFooter = view('exports.informes.sinComparacion.footerInformeMensual', compact('solicitud'/* 'usuario', 'firma' */));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
@@ -916,7 +996,8 @@ class InformesController extends Controller
         $mpdf->Output('Informe de Resultados Sin Comparacion.pdf', 'I');
     }
 
-    public function pdfComparacion2($idSol){
+    public function pdfComparacion2($idSol)
+    {
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'L',
@@ -927,7 +1008,7 @@ class InformesController extends Controller
             'margin_bottom' => 80,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
-        ]);        
+        ]);
 
         //Recupera el nombre de usuario y firma
         $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
@@ -943,12 +1024,12 @@ class InformesController extends Controller
         $norma = Norma::where('Id_norma', $solicitud->Id_norma)->first();
         $fechaEmision = \Carbon\Carbon::now();
         $direccion = DireccionReporte::where('Id_direccion', $solicitud->Id_direccion)->first();
-        
+
         $folio = explode("-", $solicitud->Folio_servicio);
         $parte1 = strval($folio[0]);
         $parte2 = strval($folio[1]);
 
-        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();
+        $numOrden = Solicitud::where('Folio_servicio', $parte1 . "-" . $parte2)->first();
 
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
@@ -961,26 +1042,26 @@ class InformesController extends Controller
         $data = array();
         $comparacionEncontrada = null;
 
-        foreach($comparacion as $item){
-            if(($item->Id_cliente == $solicitud->Id_cliente) && ($item->Folio_servicio !== $solicitud->Folio_servicio)){   
+        foreach ($comparacion as $item) {
+            if (($item->Id_cliente == $solicitud->Id_cliente) && ($item->Folio_servicio !== $solicitud->Folio_servicio)) {
                 $solicitudComparacionPunto = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
                 $puntoMuestreoComparacion = DB::table('puntos_muestreo')->where('Id_punto', $solicitudComparacionPunto->Id_punto)->first();
-                
+
                 //Si ambos titulos de consecion y anexos son los mismos entonces se almacena en la var.comparación encontrada la solicitud correspondiente
-                if(($puntoMuestreo->Titulo_consecion == $puntoMuestreoComparacion->Titulo_consecion) && ($puntoMuestreo->Anexo == $puntoMuestreoComparacion->Anexo)){
-                    $comparacionEncontrada = $item;      
+                if (($puntoMuestreo->Titulo_consecion == $puntoMuestreoComparacion->Titulo_consecion) && ($puntoMuestreo->Anexo == $puntoMuestreoComparacion->Anexo)) {
+                    $comparacionEncontrada = $item;
 
                     //Obtiene el número de orden para el informe; Ej si la comparación encontrada es 60-1/22-2 estas instrucciones devuelven 60-1/22
                     $folioComparacion = explode("-", $item->Folio_servicio);
                     $parte1C = strval($folio[0]);
                     $parte2C = strval($folio[1]);
-                    $folioC = $parte1."-".$parte2;
+                    $folioC = $parte1 . "-" . $parte2;
 
                     array_push($data, $comparacionEncontrada, $folioC);
                     break;
-                }                
-            }            
-        }             
+                }
+            }
+        }
 
         //Recupera los resultados de los parámetros de la primera muestra
         $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->get();
@@ -989,9 +1070,9 @@ class InformesController extends Controller
         $limitesC = array();
 
         //Recupera los límites de cuantificación de los parámetros        
-        foreach($solicitudParametros as $item){
-            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();            
-            
+        foreach ($solicitudParametros as $item) {
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
+
             if ($item->Resultado < $limiteC->Limite) {
                 $limC = "< " . $limiteC->Limite;
 
@@ -1005,17 +1086,57 @@ class InformesController extends Controller
             }
         }
 
+        //Recupera la fecha de recepción del primer y segundo folio
+        $modelProcesoAnalisis1 = ProcesoAnalisis::where('Id_solicitud', $solicitud->Id_solicitud)->first();
+        $modelProcesoAnalisis2 = null;
+
+        //Recupera el gasto LPS del folio 1        
+        $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
+        $gastosModelLength = $gastosModel->count();
+        $gastoSum1 = 0;
+
+        //Paso 1: Sumatoria de los caudales
+        foreach ($gastosModel as $item) {
+            if ($item->Promedio === null) {
+                $gastoSum1 += 0;
+            } else {
+                $gastoSum1 += $item->Promedio;
+            }
+        }
+
+        //Paso 2: División entre el total de gastos
+        $gastoLPS1 = $gastoSum1 / $gastosModelLength;
+        $gastoLPS2 = 0;
+
         $limiteMostrar2 = array();
         $limites2C = array();
         //Recupera los resultados de los parámetros de la segunda muestra
-        if(!is_null($comparacionEncontrada)){
+        if (!is_null($comparacionEncontrada)) {
+            $modelProcesoAnalisis2 = ProcesoAnalisis::where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->first();
+
+            $gastosModel2 = GastoMuestra::where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->get();
+            $gastosModelLength2 = $gastosModel2->count();
+            $gastoSum2 = 0;
+
+            //Paso 1: Sumatoria de los caudales
+            foreach ($gastosModel2 as $item) {
+                if ($item->Promedio === null) {
+                    $gastoSum2 += 0;
+                } else {
+                    $gastoSum2 += $item->Promedio;
+                }
+            }
+
+            //Paso 2: División entre el total de gastos
+            $gastoLPS2 = $gastoSum2 / $gastosModelLength2;
+
             $solicitudParametros2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->where('Num_muestra', 1)->get();
-            $solicitudParametros2Length = $solicitudParametros2->count();            
+            $solicitudParametros2Length = $solicitudParametros2->count();
 
             //Recupera los límites de cuantificación de los parámetros        
-            foreach($solicitudParametros2 as $item){
-                $limite2C = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();            
-                
+            foreach ($solicitudParametros2 as $item) {
+                $limite2C = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
+
                 if ($item->Resultado < $limite2C->Limite) {
                     $lim2C = "< " . $limite2C->Limite;
 
@@ -1034,7 +1155,7 @@ class InformesController extends Controller
         $htmlInforme = view('exports.informes.conComparacion.bodyInformeMensual',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'limites2C', 'limiteMostrar', 'limiteMostrar2'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
-        $htmlHeader = view('exports.informes.conComparacion.headerInformeMensual', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'fechaEmision', 'comparacionEncontrada', 'data'));
+        $htmlHeader = view('exports.informes.conComparacion.headerInformeMensual', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'fechaEmision', 'comparacionEncontrada', 'data', 'modelProcesoAnalisis1', 'modelProcesoAnalisis2', 'gastoLPS1', 'gastoLPS2'));
         $htmlFooter = view('exports.informes.conComparacion.footerInformeMensual', compact('solicitud', 'comparacionEncontrada' /* 'usuario', 'firma' */));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
@@ -1047,7 +1168,8 @@ class InformesController extends Controller
 
 
     //SE ACCEDE A TRAVÉS DEL PREFIJO CLIENTES DE LA RUTA
-    public function pdfSinComparacionCliente($idSol){
+    public function pdfSinComparacionCliente($idSol)
+    {
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'L',
@@ -1084,12 +1206,12 @@ class InformesController extends Controller
         $norma = Norma::where('Id_norma', $solicitud->Id_norma)->first();
         $fechaEmision = \Carbon\Carbon::now();
         $direccion = DireccionReporte::where('Id_direccion', $solicitud->Id_direccion)->first();
-        
+
         $folio = explode("-", $solicitud->Folio_servicio);
         $parte1 = strval($folio[0]);
         $parte2 = strval($folio[1]);
 
-        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();                 
+        $numOrden = Solicitud::where('Folio_servicio', $parte1 . "-" . $parte2)->first();
 
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
@@ -1102,20 +1224,20 @@ class InformesController extends Controller
         $data = array();
         $comparacionEncontrada = null;
 
-        foreach($comparacion as $item){
-            if(($item->Id_cliente == $solicitud->Id_cliente) && ($item->Folio_servicio !== $solicitud->Folio_servicio)){   
+        foreach ($comparacion as $item) {
+            if (($item->Id_cliente == $solicitud->Id_cliente) && ($item->Folio_servicio !== $solicitud->Folio_servicio)) {
                 $solicitudComparacionPunto = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
                 $puntoMuestreoComparacion = DB::table('puntos_muestreo')->where('Id_punto', $solicitudComparacionPunto->Id_punto)->first();
-                
+
                 //Si ambos titulos de consecion y anexos son los mismos entonces se almacena en la var.comparación encontrada la solicitud correspondiente
-                if(($puntoMuestreo->Titulo_consecion == $puntoMuestreoComparacion->Titulo_consecion) && ($puntoMuestreo->Anexo == $puntoMuestreoComparacion->Anexo)){
+                if (($puntoMuestreo->Titulo_consecion == $puntoMuestreoComparacion->Titulo_consecion) && ($puntoMuestreo->Anexo == $puntoMuestreoComparacion->Anexo)) {
                     $comparacionEncontrada = $item;
 
                     //Obtiene el número de orden para el informe; Ej si la comparación encontrada es 60-1/22-2 estas instrucciones devuelven 60-1/22
                     $folioComparacion = explode("-", $item->Folio_servicio);
                     $parte1C = strval($folio[0]);
                     $parte2C = strval($folio[1]);
-                    $folioC = $parte1."-".$parte2;
+                    $folioC = $parte1 . "-" . $parte2;
 
                     array_push($data, $comparacionEncontrada, $folioC);
                     break;
@@ -1130,9 +1252,9 @@ class InformesController extends Controller
         $limitesC = array();
 
         //Recupera los límites de cuantificación de los parámetros
-        foreach($solicitudParametros as $item){
+        foreach ($solicitudParametros as $item) {
             $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
-            
+
             if ($item->Resultado < $limiteC->Limite) {
                 $limC = "< " . $limiteC->Limite;
 
@@ -1146,17 +1268,57 @@ class InformesController extends Controller
             }
         }
 
+        //Recupera la fecha de recepción del primer y segundo folio
+        $modelProcesoAnalisis1 = ProcesoAnalisis::where('Id_solicitud', $solicitud->Id_solicitud)->first();
+        $modelProcesoAnalisis2 = null;
+
+        //Recupera el gasto LPS del folio 1        
+        $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
+        $gastosModelLength = $gastosModel->count();
+        $gastoSum1 = 0;
+
+        //Paso 1: Sumatoria de los caudales
+        foreach ($gastosModel as $item) {
+            if ($item->Promedio === null) {
+                $gastoSum1 += 0;
+            } else {
+                $gastoSum1 += $item->Promedio;
+            }
+        }
+
+        //Paso 2: División entre el total de gastos
+        $gastoLPS1 = $gastoSum1 / $gastosModelLength;
+        $gastoLPS2 = 0;
+
         $limiteMostrar2 = array();
         $limites2C = array();
         //Recupera los resultados de los parámetros de la segunda muestra
-        if(!is_null($comparacionEncontrada)){
+        if (!is_null($comparacionEncontrada)) {
+            $modelProcesoAnalisis2 = ProcesoAnalisis::where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->first();
+
+            $gastosModel2 = GastoMuestra::where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->get();
+            $gastosModelLength2 = $gastosModel2->count();
+            $gastoSum2 = 0;
+
+            //Paso 1: Sumatoria de los caudales
+            foreach ($gastosModel2 as $item) {
+                if ($item->Promedio === null) {
+                    $gastoSum2 += 0;
+                } else {
+                    $gastoSum2 += $item->Promedio;
+                }
+            }
+
+            //Paso 2: División entre el total de gastos
+            $gastoLPS2 = $gastoSum2 / $gastosModelLength2;
+
             $solicitudParametros2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->where('Num_muestra', 1)->get();
             $solicitudParametros2Length = $solicitudParametros2->count();
 
             //Recupera los límites de cuantificación de los parámetros
-            foreach($solicitudParametros2 as $item){
+            foreach ($solicitudParametros2 as $item) {
                 $limite2C = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
-                
+
                 if ($item->Resultado < $limite2C->Limite) {
                     $lim2C = "< " . $limite2C->Limite;
 
@@ -1175,7 +1337,7 @@ class InformesController extends Controller
         $htmlInforme = view('exports.informes.sinComparacion.bodyInformeMensual',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'limites2C', 'limiteMostrar', 'limiteMostrar2'));
 
         //HEADER-FOOTER******************************************************************************************************************
-        $htmlHeader = view('exports.informes.sinComparacion.headerInformeMensual', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'fechaEmision', 'comparacionEncontrada', 'data'));
+        $htmlHeader = view('exports.informes.sinComparacion.headerInformeMensual', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'comparacionEncontrada', 'data', 'modelProcesoAnalisis1', 'modelProcesoAnalisis2', 'fechaEmision', 'gastoLPS1', 'gastoLPS2'));
         $htmlFooter = view('exports.informes.sinComparacion.footerInformeMensual', compact('solicitud'/* 'usuario', 'firma' */));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
@@ -1186,7 +1348,8 @@ class InformesController extends Controller
         $mpdf->Output('Informe Mensual de Resultados Sin Comparacion.pdf', 'D');
     }
 
-    public function pdfComparacionCliente($idSol){
+    public function pdfComparacionCliente($idSol)
+    {
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'L',
@@ -1223,12 +1386,12 @@ class InformesController extends Controller
         $norma = Norma::where('Id_norma', $solicitud->Id_norma)->first();
         $fechaEmision = \Carbon\Carbon::now();
         $direccion = DireccionReporte::where('Id_direccion', $solicitud->Id_direccion)->first();
-        
+
         $folio = explode("-", $solicitud->Folio_servicio);
         $parte1 = strval($folio[0]);
         $parte2 = strval($folio[1]);
 
-        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();
+        $numOrden = Solicitud::where('Folio_servicio', $parte1 . "-" . $parte2)->first();
 
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
@@ -1241,26 +1404,26 @@ class InformesController extends Controller
         $data = array();
         $comparacionEncontrada = null;
 
-        foreach($comparacion as $item){
-            if(($item->Id_cliente == $solicitud->Id_cliente) && ($item->Folio_servicio !== $solicitud->Folio_servicio)){   
+        foreach ($comparacion as $item) {
+            if (($item->Id_cliente == $solicitud->Id_cliente) && ($item->Folio_servicio !== $solicitud->Folio_servicio)) {
                 $solicitudComparacionPunto = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
                 $puntoMuestreoComparacion = DB::table('puntos_muestreo')->where('Id_punto', $solicitudComparacionPunto->Id_punto)->first();
-                
+
                 //Si ambos titulos de consecion y anexos son los mismos entonces se almacena en la var.comparación encontrada la solicitud correspondiente
-                if(($puntoMuestreo->Titulo_consecion == $puntoMuestreoComparacion->Titulo_consecion) && ($puntoMuestreo->Anexo == $puntoMuestreoComparacion->Anexo)){
-                    $comparacionEncontrada = $item;      
+                if (($puntoMuestreo->Titulo_consecion == $puntoMuestreoComparacion->Titulo_consecion) && ($puntoMuestreo->Anexo == $puntoMuestreoComparacion->Anexo)) {
+                    $comparacionEncontrada = $item;
 
                     //Obtiene el número de orden para el informe; Ej si la comparación encontrada es 60-1/22-2 estas instrucciones devuelven 60-1/22
                     $folioComparacion = explode("-", $item->Folio_servicio);
                     $parte1C = strval($folio[0]);
                     $parte2C = strval($folio[1]);
-                    $folioC = $parte1."-".$parte2;
+                    $folioC = $parte1 . "-" . $parte2;
 
                     array_push($data, $comparacionEncontrada, $folioC);
                     break;
-                }                
-            }            
-        }             
+                }
+            }
+        }
 
         //Recupera los resultados de los parámetros de la primera muestra
         $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->get();
@@ -1269,9 +1432,9 @@ class InformesController extends Controller
         $limitesC = array();
 
         //Recupera los límites de cuantificación de los parámetros        
-        foreach($solicitudParametros as $item){
-            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();            
-            
+        foreach ($solicitudParametros as $item) {
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
+
             if ($item->Resultado < $limiteC->Limite) {
                 $limC = "< " . $limiteC->Limite;
 
@@ -1285,17 +1448,57 @@ class InformesController extends Controller
             }
         }
 
+        //Recupera la fecha de recepción del primer y segundo folio
+        $modelProcesoAnalisis1 = ProcesoAnalisis::where('Id_solicitud', $solicitud->Id_solicitud)->first();
+        $modelProcesoAnalisis2 = null;
+
+        //Recupera el gasto LPS del folio 1        
+        $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
+        $gastosModelLength = $gastosModel->count();
+        $gastoSum1 = 0;
+
+        //Paso 1: Sumatoria de los caudales
+        foreach ($gastosModel as $item) {
+            if ($item->Promedio === null) {
+                $gastoSum1 += 0;
+            } else {
+                $gastoSum1 += $item->Promedio;
+            }
+        }
+
+        //Paso 2: División entre el total de gastos
+        $gastoLPS1 = $gastoSum1 / $gastosModelLength;
+        $gastoLPS2 = 0;
+
         $limiteMostrar2 = array();
         $limites2C = array();
         //Recupera los resultados de los parámetros de la segunda muestra
-        if(!is_null($comparacionEncontrada)){
+        if (!is_null($comparacionEncontrada)) {
+            $modelProcesoAnalisis2 = ProcesoAnalisis::where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->first();
+
+            $gastosModel2 = GastoMuestra::where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->get();
+            $gastosModelLength2 = $gastosModel2->count();
+            $gastoSum2 = 0;
+
+            //Paso 1: Sumatoria de los caudales
+            foreach ($gastosModel2 as $item) {
+                if ($item->Promedio === null) {
+                    $gastoSum2 += 0;
+                } else {
+                    $gastoSum2 += $item->Promedio;
+                }
+            }
+
+            //Paso 2: División entre el total de gastos
+            $gastoLPS2 = $gastoSum2 / $gastosModelLength2;
+
             $solicitudParametros2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $comparacionEncontrada->Id_solicitud)->where('Num_muestra', 1)->get();
-            $solicitudParametros2Length = $solicitudParametros2->count();            
+            $solicitudParametros2Length = $solicitudParametros2->count();
 
             //Recupera los límites de cuantificación de los parámetros        
-            foreach($solicitudParametros2 as $item){
-                $limite2C = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();            
-                
+            foreach ($solicitudParametros2 as $item) {
+                $limite2C = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
+
                 if ($item->Resultado < $limite2C->Limite) {
                     $lim2C = "< " . $limite2C->Limite;
 
@@ -1314,7 +1517,7 @@ class InformesController extends Controller
         $htmlInforme = view('exports.informes.conComparacion.bodyInformeMensual',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'limites2C', 'limiteMostrar', 'limiteMostrar2'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
-        $htmlHeader = view('exports.informes.conComparacion.headerInformeMensual', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'fechaEmision', 'comparacionEncontrada', 'data'));
+        $htmlHeader = view('exports.informes.conComparacion.headerInformeMensual', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'norma', 'fechaEmision', 'comparacionEncontrada', 'data', 'modelProcesoAnalisis1', 'modlProcesoAnalisis2', 'gastoLPS1', 'gastoLPS2'));
         $htmlFooter = view('exports.informes.conComparacion.footerInformeMensual', compact('solicitud', 'comparacionEncontrada' /* 'usuario', 'firma' */));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
@@ -1329,7 +1532,8 @@ class InformesController extends Controller
     //---------------------------------------
 
 
-    public function custodiaInterna($idSol){
+    public function custodiaInterna($idSol)
+    {
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'L',
@@ -1350,17 +1554,17 @@ class InformesController extends Controller
             array(0, 0),
         );
 
-        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$idSol)->first();
-        
+        $model = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol)->first();
+
         $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->orderBy('Parametro', 'ASC')->get();
-        $paramResultadoLength = $paramResultado->count();          
-                
-        $gaMenorLimite = false;                
+        $paramResultadoLength = $paramResultado->count();
+
+        $gaMenorLimite = false;
 
         $limitesC = array();
         $limiteGrasas = "";
-        $limiteCGrasa = DB::table('parametros')->where('Id_parametro', 14)->first();                            
-        $paramGrasasResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->first();        
+        $limiteCGrasa = DB::table('parametros')->where('Id_parametro', 14)->first();
+        $paramGrasasResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->first();
 
         if ($paramGrasasResultado->Resultado < $limiteCGrasa->Limite) {
             $limC = "< " . $limiteCGrasa->Limite;
@@ -1378,9 +1582,9 @@ class InformesController extends Controller
         $gastosModelLength = $gastosModel->count();
 
         //Calcula el promedio ponderado de las grasas y aceites
-        if($gaMenorLimite === false){
-            $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();        
-            $modelParamGrasasLength = $modelParamGrasas->count();            
+        if ($gaMenorLimite === false) {
+            $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();
+            $modelParamGrasasLength = $modelParamGrasas->count();
 
             //Calcula promedio ponderado de G y A
             $promPonderadoGaArray = 0;
@@ -1394,49 +1598,49 @@ class InformesController extends Controller
             $gaPorgaGastoDivSumaG = array();
 
             //Realiza las operaciones GYA * GASTO
-            for($i = 0; $i < $modelParamGrasasLength; $i++){
+            for ($i = 0; $i < $modelParamGrasasLength; $i++) {
                 //Si no tiene un valor guardado lo toma como cero
-                if($gastosModel[$i]->Promedio === null){
+                if ($gastosModel[$i]->Promedio === null) {
                     $gastos = 0;
-                }else{
+                } else {
                     $gastos = $gastosModel[$i]->Promedio;
                 }
 
-                array_push($gaPorGastoArray, $modelParamGrasas[$i]->Resultado * $gastos);                                    
+                array_push($gaPorGastoArray, $modelParamGrasas[$i]->Resultado * $gastos);
             }
 
             //Realiza la suma de G (GYA * GASTO)
-            for($i = 0; $i < $modelParamGrasasLength; $i++){
+            for ($i = 0; $i < $modelParamGrasasLength; $i++) {
                 //Si no tiene un valor guardado lo toma como cero
                 $sumaG += $gaPorGastoArray[$i];
             }
 
             //Realiza las operaciones (GYA*GASTO)/SUMA DE G
-            for($i = 0; $i < $modelParamGrasasLength; $i++){                     
-                array_push($gaPorGastoDivSumaArray, $gaPorGastoArray[$i] / $sumaG);                                    
+            for ($i = 0; $i < $modelParamGrasasLength; $i++) {
+                array_push($gaPorGastoDivSumaArray, $gaPorGastoArray[$i] / $sumaG);
             }
 
             //Realiza las operaciones GYA * (GYA*GASTO) / SUMAG
-            for($i = 0; $i < $modelParamGrasasLength; $i++){      
+            for ($i = 0; $i < $modelParamGrasasLength; $i++) {
                 $resultado = ($modelParamGrasas[$i]->Resultado * $gaPorGastoArray[$i]) / $sumaG;
-                array_push($gaPorgaGastoDivSumaG, $resultado);                                    
+                array_push($gaPorgaGastoDivSumaG, $resultado);
             }
 
             //Calcula el promedio ponderado de GA
-            for($i = 0; $i < $modelParamGrasasLength; $i++){      
+            for ($i = 0; $i < $modelParamGrasasLength; $i++) {
                 $promPonderadoGaArray += $gaPorgaGastoDivSumaG[$i];
             }
         }
 
         $promedioPonderadoGA = "";
-        if($gaMenorLimite === false){
+        if ($gaMenorLimite === false) {
             $promedioPonderadoGA = number_format($promPonderadoGaArray, 2);
-        }else{
+        } else {
             $promedioPonderadoGA = $limiteGrasas;
         }
 
         $limiteColiformes = "";
-        $limiteColiformes = DB::table('parametros')->where('Id_parametro', 13)->first();                            
+        $limiteColiformes = DB::table('parametros')->where('Id_parametro', 13)->first();
         $paramColiformesResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->first();
         $coliformesMenorLimite = false;
         $mediaAritmeticaColi = "";
@@ -1455,30 +1659,30 @@ class InformesController extends Controller
         }
 
         //Calcula la media aritmética de los coliformes
-        if($coliformesMenorLimite === false){
-            $modelParamColiformes = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();        
+        if ($coliformesMenorLimite === false) {
+            $modelParamColiformes = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();
             $modelParamColiformesLength = $modelParamColiformes->count();
             $res = 0;
 
-            for($i = 0; $i < $modelParamColiformesLength; $i++){
-                $res += $modelParamColiformes[$i]->Resultado;                
+            for ($i = 0; $i < $modelParamColiformesLength; $i++) {
+                $res += $modelParamColiformes[$i]->Resultado;
             }
 
             $mediaAritmeticaColi = $res / $modelParamColiformesLength;
         }
-        
-        if($coliformesMenorLimite === false){
+
+        if ($coliformesMenorLimite === false) {
             $mAritmeticaColi = number_format($mediaAritmeticaColi, 2);
-        }else{
+        } else {
             $mAritmeticaColi = $limiteColiformes;
         }
 
         //Calcula el promedio de los promedios del gasto
         $gastoPromSuma = 0;
-        foreach($gastosModel as $item){
-            if($item->Promedio === null){
+        foreach ($gastosModel as $item) {
+            if ($item->Promedio === null) {
                 $gastoPromSuma += 0;
-            }else{
+            } else {
                 $gastoPromSuma += $item->Promedio;
             }
         }
@@ -1486,9 +1690,9 @@ class InformesController extends Controller
         $gastoPromFinal = $gastoPromSuma / $gastosModelLength;
 
         //Recupera los límites de cuantificación de los parámetros        
-        foreach($paramResultado as $item){
-            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();                            
-            
+        foreach ($paramResultado as $item) {
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
+
             if ($item->Resultado < $limiteC->Limite) {
                 $limC = "< " . $limiteC->Limite;
 
@@ -1499,26 +1703,26 @@ class InformesController extends Controller
                 array_push($limitesC, $limC);
             }
         }
-                
+
         $paquete = DB::table('ViewPlanPaquete')->where('Id_paquete', $model->Id_subnorma)->distinct()->get();
         $paqueteLength = $paquete->count();
 
-        $responsables = array();        
+        $responsables = array();
 
-        foreach($paquete as $item){
+        foreach ($paquete as $item) {
             //INSTRUCCIÓN TEMPORAL
-            if(!is_null($item)){
+            if (!is_null($item)) {
                 $responsableArea = AreaLab::where('Area', $item->Area)->first();
                 $modelResponsable = DB::table('users')->where('id', $responsableArea->Id_responsable)->first();
                 $responsable = $modelResponsable->name;
 
                 array_push($responsables, $responsable);
-            }            
-        }    
+            }
+        }
 
         $fechaEmision = \Carbon\Carbon::now();
         $tipoMuestra = DB::table('tipo_descargas')->where('Id_tipo', $model->Id_muestreo)->first();
-        $norma = Norma::where('Id_norma', $model->Id_norma)->first();        
+        $norma = Norma::where('Id_norma', $model->Id_norma)->first();
 
         $mpdf->showWatermarkImage = true;
 
@@ -1527,11 +1731,12 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->Output('Cadena de Custodia Interna.pdf', 'I');    
+        $mpdf->Output('Cadena de Custodia Interna.pdf', 'I');
     }
 
     //***********************************************************SE ACCEDE A TRAVÉS DEL QR DESDE LA RUTA CLIENTES
-    public function custodiaInternaCli($idSol){
+    public function custodiaInternaCli($idSol)
+    {
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'L',
@@ -1552,17 +1757,17 @@ class InformesController extends Controller
             array(0, 0),
         );
 
-        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$idSol)->first();
-        
+        $model = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol)->first();
+
         $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->orderBy('Parametro', 'ASC')->get();
-        $paramResultadoLength = $paramResultado->count();          
-                
-        $gaMenorLimite = false;                
+        $paramResultadoLength = $paramResultado->count();
+
+        $gaMenorLimite = false;
 
         $limitesC = array();
         $limiteGrasas = "";
-        $limiteCGrasa = DB::table('parametros')->where('Id_parametro', 14)->first();                            
-        $paramGrasasResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->first();        
+        $limiteCGrasa = DB::table('parametros')->where('Id_parametro', 14)->first();
+        $paramGrasasResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->first();
 
         if ($paramGrasasResultado->Resultado < $limiteCGrasa->Limite) {
             $limC = "< " . $limiteCGrasa->Limite;
@@ -1580,9 +1785,9 @@ class InformesController extends Controller
         $gastosModelLength = $gastosModel->count();
 
         //Calcula el promedio ponderado de las grasas y aceites
-        if($gaMenorLimite === false){
-            $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();        
-            $modelParamGrasasLength = $modelParamGrasas->count();            
+        if ($gaMenorLimite === false) {
+            $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();
+            $modelParamGrasasLength = $modelParamGrasas->count();
 
             //Calcula promedio ponderado de G y A
             $promPonderadoGaArray = 0;
@@ -1596,49 +1801,49 @@ class InformesController extends Controller
             $gaPorgaGastoDivSumaG = array();
 
             //Realiza las operaciones GYA * GASTO
-            for($i = 0; $i < $modelParamGrasasLength; $i++){
+            for ($i = 0; $i < $modelParamGrasasLength; $i++) {
                 //Si no tiene un valor guardado lo toma como cero
-                if($gastosModel[$i]->Promedio === null){
+                if ($gastosModel[$i]->Promedio === null) {
                     $gastos = 0;
-                }else{
+                } else {
                     $gastos = $gastosModel[$i]->Promedio;
                 }
 
-                array_push($gaPorGastoArray, $modelParamGrasas[$i]->Resultado * $gastos);                                    
+                array_push($gaPorGastoArray, $modelParamGrasas[$i]->Resultado * $gastos);
             }
 
             //Realiza la suma de G (GYA * GASTO)
-            for($i = 0; $i < $modelParamGrasasLength; $i++){
+            for ($i = 0; $i < $modelParamGrasasLength; $i++) {
                 //Si no tiene un valor guardado lo toma como cero
                 $sumaG += $gaPorGastoArray[$i];
             }
 
             //Realiza las operaciones (GYA*GASTO)/SUMA DE G
-            for($i = 0; $i < $modelParamGrasasLength; $i++){                     
-                array_push($gaPorGastoDivSumaArray, $gaPorGastoArray[$i] / $sumaG);                                    
+            for ($i = 0; $i < $modelParamGrasasLength; $i++) {
+                array_push($gaPorGastoDivSumaArray, $gaPorGastoArray[$i] / $sumaG);
             }
 
             //Realiza las operaciones GYA * (GYA*GASTO) / SUMAG
-            for($i = 0; $i < $modelParamGrasasLength; $i++){      
+            for ($i = 0; $i < $modelParamGrasasLength; $i++) {
                 $resultado = ($modelParamGrasas[$i]->Resultado * $gaPorGastoArray[$i]) / $sumaG;
-                array_push($gaPorgaGastoDivSumaG, $resultado);                                    
+                array_push($gaPorgaGastoDivSumaG, $resultado);
             }
 
             //Calcula el promedio ponderado de GA
-            for($i = 0; $i < $modelParamGrasasLength; $i++){      
+            for ($i = 0; $i < $modelParamGrasasLength; $i++) {
                 $promPonderadoGaArray += $gaPorgaGastoDivSumaG[$i];
             }
         }
 
         $promedioPonderadoGA = "";
-        if($gaMenorLimite === false){
+        if ($gaMenorLimite === false) {
             $promedioPonderadoGA = number_format($promPonderadoGaArray, 2);
-        }else{
+        } else {
             $promedioPonderadoGA = $limiteGrasas;
         }
 
         $limiteColiformes = "";
-        $limiteColiformes = DB::table('parametros')->where('Id_parametro', 13)->first();                            
+        $limiteColiformes = DB::table('parametros')->where('Id_parametro', 13)->first();
         $paramColiformesResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->first();
         $coliformesMenorLimite = false;
         $mediaAritmeticaColi = "";
@@ -1657,30 +1862,30 @@ class InformesController extends Controller
         }
 
         //Calcula la media aritmética de los coliformes
-        if($coliformesMenorLimite === false){
-            $modelParamColiformes = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();        
+        if ($coliformesMenorLimite === false) {
+            $modelParamColiformes = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();
             $modelParamColiformesLength = $modelParamColiformes->count();
             $res = 0;
 
-            for($i = 0; $i < $modelParamColiformesLength; $i++){
-                $res += $modelParamColiformes[$i]->Resultado;                
+            for ($i = 0; $i < $modelParamColiformesLength; $i++) {
+                $res += $modelParamColiformes[$i]->Resultado;
             }
 
             $mediaAritmeticaColi = $res / $modelParamColiformesLength;
         }
-        
-        if($coliformesMenorLimite === false){
+
+        if ($coliformesMenorLimite === false) {
             $mAritmeticaColi = number_format($mediaAritmeticaColi, 2);
-        }else{
+        } else {
             $mAritmeticaColi = $limiteColiformes;
         }
 
         //Calcula el promedio de los promedios del gasto
         $gastoPromSuma = 0;
-        foreach($gastosModel as $item){
-            if($item->Promedio === null){
+        foreach ($gastosModel as $item) {
+            if ($item->Promedio === null) {
                 $gastoPromSuma += 0;
-            }else{
+            } else {
                 $gastoPromSuma += $item->Promedio;
             }
         }
@@ -1688,9 +1893,9 @@ class InformesController extends Controller
         $gastoPromFinal = $gastoPromSuma / $gastosModelLength;
 
         //Recupera los límites de cuantificación de los parámetros        
-        foreach($paramResultado as $item){
-            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();                            
-            
+        foreach ($paramResultado as $item) {
+            $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
+
             if ($item->Resultado < $limiteC->Limite) {
                 $limC = "< " . $limiteC->Limite;
 
@@ -1701,26 +1906,26 @@ class InformesController extends Controller
                 array_push($limitesC, $limC);
             }
         }
-                
+
         $paquete = DB::table('ViewPlanPaquete')->where('Id_paquete', $model->Id_subnorma)->distinct()->get();
         $paqueteLength = $paquete->count();
 
-        $responsables = array();        
+        $responsables = array();
 
-        foreach($paquete as $item){
+        foreach ($paquete as $item) {
             //INSTRUCCIÓN TEMPORAL
-            if(!is_null($item)){
+            if (!is_null($item)) {
                 $responsableArea = AreaLab::where('Area', $item->Area)->first();
                 $modelResponsable = DB::table('users')->where('id', $responsableArea->Id_responsable)->first();
                 $responsable = $modelResponsable->name;
 
                 array_push($responsables, $responsable);
-            }            
-        }    
+            }
+        }
 
         $fechaEmision = \Carbon\Carbon::now();
         $tipoMuestra = DB::table('tipo_descargas')->where('Id_tipo', $model->Id_muestreo)->first();
-        $norma = Norma::where('Id_norma', $model->Id_norma)->first();        
+        $norma = Norma::where('Id_norma', $model->Id_norma)->first();
 
         $mpdf->showWatermarkImage = true;
 

@@ -42,8 +42,8 @@
                     
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">GASTO LPS</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">GASTO LPS</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">GASTO LPS</td>
+                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{@$gastoLPS1}}</td>
+                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{@$gastoLPS2}}</td>
                 </tr>
 
                 <tr>
@@ -58,18 +58,22 @@
 
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">FECHA DE RECEPCION:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}}</td>
+                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{\Carbon\Carbon::parse(@$modelProcesoAnalisis1->Hora_entrada)->format('d/m/Y')}}</td>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
                         @if (!is_null(@$comparacionEncontrada))
-                            {{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}}
+                            {{\Carbon\Carbon::parse(@$modelProcesoAnalisis2->Hora_entrada)->format('d/m/Y')}}
                         @endif                                                
                     </td>
                 </tr>
 
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">FECHA DE EMISIÓN:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{\Carbon\Carbon::parse(@$fechaEmision)->format('d/m/Y')}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{\Carbon\Carbon::parse(@$fechaEmision)->format('d/m/Y')}}</td>
+                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
+                        {{\Carbon\Carbon::parse(@$modelProcesoAnalisis1->Hora_entrada)->addDays(7)->format('d/m/Y')}}
+                    </td>
+                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
+                        {{\Carbon\Carbon::parse(@$modelProcesoAnalisis2->Hora_entrada)->addDays(7)->format('d/m/Y')}}
+                    </td>
                 </tr>
                 
                 <tr>
