@@ -95,7 +95,7 @@
     </div>
 @endsection 
     @section('javascript')
-        <script src="{{ asset('/js/cotizacion/solicitud.js')}}?v=0.0.4"></script>        
+        <script src="{{ asset('public/js/cotizacion/solicitud.js')}}?v=0.0.4"></script>        
     @stop
 
 

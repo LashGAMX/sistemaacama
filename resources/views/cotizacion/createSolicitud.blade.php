@@ -405,5 +405,5 @@
 
 @endsection
 @section('javascript')
-<script src="{{asset('/public/js/cotizacion/createSolicitud.js')}}"></script>
+<script src="{{asset('public/js/cotizacion/createSolicitud.js')}}"></script>
 @stop

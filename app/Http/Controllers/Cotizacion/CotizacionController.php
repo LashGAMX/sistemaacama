@@ -472,16 +472,17 @@ class CotizacionController extends Controller
             $item->delete();
         }
 
-        $cotPunto = DB::table('cotizacion_puntos')->where('Id_cotizacion', $id)->get();
+        // $cotPunto = DB::table('cotizacion_puntos')->where('Id_cotizacion', $id)->get();
+        $cotPuntos =  DB::table('cotizacion_puntos')->where('Id_cotizacion', $id)->delete();
 
         //Elimina cada punto de la cotizacion existente
-        foreach($cotPunto as $item){
-            $item->delete();
-        }
+        // foreach($cotPunto as $item){
+        //     $item->delete();
+        // }  
 
         $parametro = $request->parametrosCotizacion;
         $parametro = explode(',', $parametro);
-
+ 
 
         foreach ($parametro as $item) {
             $subnorma = NormaParametros::where('Id_norma', $request->subnorma)->where('Id_parametro', $item)->get();
