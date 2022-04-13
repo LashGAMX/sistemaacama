@@ -89,7 +89,8 @@ function getPreReporteMensual()
                 tab += '<td>'+item.Clave_metodo+'</td>';
                 tab += '<td>'+item.Resultado+'</td>';
                 tab += '<td>'+response.model2[cont].Resultado+'</td>';
-                tab += '<td>'+((response.model2[cont].Resultado + item.Resultado) /2)+'</td>';
+                let prom = (parseFloat(response.model2[cont].Resultado) + parseFloat(item.Resultado)) / 2
+                tab += '<td>'+prom+'</td>';
                 tab += '<td></td>';
                 tab += '<td></td>';
                tab += '</tr>';

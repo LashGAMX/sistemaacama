@@ -168,7 +168,7 @@ class CampoAppController extends Controller
             Evidencia::create([
                 'Id_solicitud' => $solModel->Id_solicitud,
                 'Id_punto' => $puntoModel->Id_muestreo,
-                'Base64' => $jsonEviencia[$i]["Codigo"],
+                'Base64' => $request->pruebaCod,
             ]);
         }
         // Evidencia::create([

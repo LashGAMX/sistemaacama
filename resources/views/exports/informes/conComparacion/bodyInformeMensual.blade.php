@@ -30,17 +30,45 @@
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Unidad}}</td>
                         <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Clave_metodo}}</td>
                         <td class="tableContent bordesTablaBody">
-                            @if (strpos(@$limitesC[$i], "< AUS") === 0)
-                                AUSENTE                                                            
-                            @else
-                                {{@$limitesC[$i]}}                                
+                            @if (strpos(@$limitesC[$i], "< AUS") === 0 || strpos(@$solicitudParametros[$i]->Unidad, "AUS") === 0) 
+                                AUSENTE 
+                            @else 
+                                @if (@$solicitudParametros[$i]->Parametro == 'Grasas y Aceites ++')
+                                    @php
+                                        echo round(@$sumaCaudalesFinal, 2);
+                                    @endphp
+                                @elseif (@$solicitudParametros[$i]->Parametro == 'Coliformes Fecales +')
+                                    @php
+                                        echo round(@$resColi, 2);
+                                    @endphp 
+                                @elseif (@$solicitudParametros[$i]->Id_parametro === 7)
+                                    @php
+                                        echo round(@$dqoFinal1, 2);
+                                    @endphp
+                                @else
+                                    {{@$limitesC[$i]}}
+                                @endif
                             @endif                                                        
                         </td>
                         <td class="tableContent bordesTablaBody">
-                            @if (strpos(@$limites2C[$i], "< AUS") === 0)
-                                AUSENTE                                                            
-                            @else
-                                {{@$limites2C[$i]}}                                
+                            @if (strpos(@$limites2C[$i], "< AUS") === 0 || strpos(@$solicitudParametros[$i]->Unidad, "AUS") === 0) 
+                                AUSENTE 
+                            @else 
+                                @if (@$solicitudParametros[$i]->Parametro == 'Grasas y Aceites ++')
+                                    @php
+                                        echo round(@$sumaCaudalesFinal2, 2);
+                                    @endphp
+                                @elseif (@$solicitudParametros[$i]->Parametro == 'Coliformes Fecales +')
+                                    @php
+                                        echo round(@$resColi2, 2); 
+                                    @endphp
+                                @elseif (@$solicitudParametros[$i]->Id_parametro === 7)
+                                    @php
+                                        echo round(@$dqoFinal2, 2);
+                                    @endphp
+                                @else
+                                    {{@$limites2C[$i]}}
+                                @endif
                             @endif                                                        
                         </td>
                         <td class="tableContent bordesTablaBody">

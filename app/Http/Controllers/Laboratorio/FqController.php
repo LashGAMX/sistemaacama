@@ -1476,11 +1476,15 @@ class FqController extends Controller
             $sw = true;
             $model->save();
         }
+        $modelCod = CodigoParametros::find($model->Id_codigo);
+        $modelCod->Resultado = $model->Resultado;
+        $modelCod->save();
         
         $model = LoteDetalleGA::where('Id_lote',$request->idLote)->where('Liberado',1)->get();
         $loteModel = LoteAnalisis::find($request->idLote);
         $loteModel->Liberado = $model->count();
         $loteModel->save();
+
         
 
         $data = array(

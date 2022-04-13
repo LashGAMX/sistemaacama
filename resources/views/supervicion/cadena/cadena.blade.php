@@ -55,5 +55,5 @@
 
 @endsection
 @section('javascript')
-<script src="{{ asset('public/js/supervicion/cadena/cadena.js') }}?v=0.0.2"></script>
+<script src="{{ asset('js/supervicion/cadena/cadena.js') }}?v=0.0.2"></script>
 @stop

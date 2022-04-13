@@ -445,19 +445,18 @@ class VolController extends Controller
     public function getMuestraAsignadaVol(Request $request)
     {
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
-        $paraModel = Parametro::find($loteModel->Id_tecnica);
+       
         $model = array();
-        switch ($loteModel->Id_tecnica) {
-            case 7: //todo DQO
-                $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $request->idLote)->get();
-                break;
-            case 295: //todo CLORO RESIDUAL LIBRE
-                $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get();
-                break;
-            default:
-                # code...
-                $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get();
-                break;
+
+        if($loteModel->Id_tecnica == 7) //todo DQO
+        {
+            $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $request->idLote)->get();
+        } else if($loteModel->Id_tecnica == 295) //todo CLORO RESIDUAL LIBRE
+        {
+            $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get();
+        } else if($loteModel->Id_tecnica == 10 || $loteModel->Id_tecnica == 11 || $loteModel->Id_tecnica == 12) //todo Nitrógeno Total,
+        {
+            $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get();
         }
         $data = array(
             'model' => $model,
@@ -533,44 +532,42 @@ class VolController extends Controller
         $sw = false;
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         $paraModel = Parametro::find($loteModel->Id_tecnica);
-        switch ($loteModel->Id_tecnica) {
-            case 7: //todo DQO
-                $model = LoteDetalleDqo::create([
-                    'Id_lote' => $request->idLote,
-                    'Id_analisis' => $request->idAnalisis,
-                    'Id_codigo' => $request->idSol,
-                    'Id_parametro' => $loteModel->Id_tecnica,
-                    'Id_control' => 1,
-                ]);
-                $detModel = LoteDetalleDqo::where('Id_lote', $request->idLote)->get();
-                $sw = true;
-                break;
-            case 295: //todo CLORO RESIDUAL LIBRE
-                $model = LoteDetalleCloro::create([
-                    'Id_lote' => $request->idLote,
-                    'Id_analisis' => $request->idAnalisis,
-                    'Id_codigo' => $request->idSol,
-                    'Id_parametro' => $loteModel->Id_tecnica,
-                    'Id_control' => 1,
-                ]);
-                $detModel = LoteDetalleCloro::where('Id_lote', $request->idLote)->get();
-                $sw = true;
-                break;
-            case 12: //todo Nitrógeno Total 
-                $model = LoteDetalleNitrogeno::create([
-                    'Id_lote' => $request->idLote,
-                    'Id_analisis' => $request->idAnalisis,
-                    'Id_codigo' => $request->idSol,
-                    'Id_parametro' => $loteModel->Id_tecnica,
-                    'Id_control' => 1,
-                ]);
-                $detModel = LoteDetalleNitrogeno::where('Id_lote', $request->idLote)->get();
-                $sw = true;
-                break;
-            default:
-
-                break;
+        //!----------
+        if($loteModel->Id_tecnica == 7) //todo DQO
+        {
+            $model = LoteDetalleDqo::create([
+                'Id_lote' => $request->idLote,
+                'Id_analisis' => $request->idAnalisis,
+                'Id_codigo' => $request->idSol,
+                'Id_parametro' => $loteModel->Id_tecnica,
+                'Id_control' => 1,
+            ]);
+            $detModel = LoteDetalleDqo::where('Id_lote', $request->idLote)->get();
+            $sw = true;
+        } else if($loteModel->Id_tecnica == 295) //todo CLORO RESIDUAL LIBRE
+        {
+            $model = LoteDetalleCloro::create([
+                'Id_lote' => $request->idLote,
+                'Id_analisis' => $request->idAnalisis,
+                'Id_codigo' => $request->idSol,
+                'Id_parametro' => $loteModel->Id_tecnica,
+                'Id_control' => 1,
+            ]);
+            $detModel = LoteDetalleCloro::where('Id_lote', $request->idLote)->get();
+            $sw = true;
+        } else if($loteModel->Id_tecnica == 10 || $loteModel->Id_tecnica == 11 || $loteModel->Id_tecnica == 12) //todo Nitrógeno Total,
+        {
+            $model = LoteDetalleNitrogeno::create([
+                'Id_lote' => $request->idLote,
+                'Id_analisis' => $request->idAnalisis,
+                'Id_codigo' => $request->idSol,
+                'Id_parametro' => $loteModel->Id_tecnica,
+                'Id_control' => 1,
+            ]);
+            $detModel = LoteDetalleNitrogeno::where('Id_lote', $request->idLote)->get();
+            $sw = true;
         }
+     
 
 
         $solModel = CodigoParametros::find($request->idSol);
@@ -1004,19 +1001,15 @@ class VolController extends Controller
     }
     public function getLoteCapturaVol(Request $request)
     {
-        switch ($request->formulaTipo) {
-            case 7: //todo DQO
-                $detalle = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
-                break;
-            case 295: //todo CLORO RESIDUAL LIBRE 
-                $detalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
-                break;
-            case 12: //todo DQO
-                $detalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
-                break;
-            default:
-                # code...
-                break;
+        if($request->formulaTipo == 7) //todo DQO
+        {
+            $detalle = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+        } else if($request->formulaTipo == 295) //todo CLORO RESIDUAL LIBRE
+        {
+            $detalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+        } else if($request->formulaTipo == 10 || $request->formulaTipo == 11 || $request->formulaTipo == 12) //todo Nitrógeno Total,
+        {
+            $detalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
         }
         $data = array(
             'detalle' => $detalle,
@@ -1052,44 +1045,54 @@ class VolController extends Controller
     public function liberarMuestraVol(Request $request)
     {
         $sw = false;
-        
-        
-        switch ($request->formulaTipo) {
-            case 295: //todo Cloro
-                $$model = LoteDetalleCloro::find($request->idMuestra);
-                $model->Liberado = 1;
-                if ($model->Resultado != null) {
-                    $sw = true;
-                    $model->save();
-                }
 
-                $model = LoteDetalleCloro::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
-                break;
-            case 7: //todo DQO
-                $model = LoteDetalleDqo::find($request->idMuestra);
-                $model->Liberado = 1;
-                if ($model->Resultado != null) {
-                    $sw = true;
-                    $model->save();
-                }
+        if($request->formulaTipo == 7) //todo DQO
+        {
+            $model = LoteDetalleDqo::find($request->idMuestra);
+            $model->Liberado = 1;
+            if ($model->Resultado != null) {
+                $sw = true;
+                $model->save();
+            }
 
-                $model = LoteDetalleDqo::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
-                break;
-            case 12: //todo  Nitrogeno
-                $model = LoteDetalleNitrogeno::find($request->idMuestra);
-                $model->Liberado = 1;
-                if ($model->Resultado != null) {
-                    $sw = true;
-                    $model->save();
-                }
+            $modelCod = CodigoParametros::find($model->Id_codigo);
+            $modelCod->Resultado = $model->Resultado;
+            $modelCod->save();
+            
 
-                $model = LoteDetalleNitrogeno::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
-                break;
-            default:
-                # code...
-                break;
+            $model = LoteDetalleDqo::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
+        } else if($request->formulaTipo == 295) //todo CLORO RESIDUAL LIBRE
+        {
+            $model = LoteDetalleCloro::find($request->idMuestra);
+            $model->Liberado = 1;
+            if ($model->Resultado != null) {
+                $sw = true;
+                $model->save();
+            }
+
+            $modelCod = CodigoParametros::find($model->Id_codigo);
+            $modelCod->Resultado = $model->Resultado;
+            $modelCod->save();
+            
+
+            $model = LoteDetalleCloro::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
+        } else if($request->formulaTipo == 10 || $request->formulaTipo == 11 || $request->formulaTipo == 12) //todo Nitrógeno Total,
+        {
+            $model = LoteDetalleNitrogeno::find($request->idMuestra);
+            $model->Liberado = 1;
+            if ($model->Resultado != null) {
+                $sw = true;
+                $model->save();
+            }
+
+            $modelCod = CodigoParametros::find($model->Id_codigo);
+            $modelCod->Resultado = $model->Resultado;
+            $modelCod->save();
+            
+
+            $model = LoteDetalleNitrogeno::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
         }
-
+      
         $loteModel = LoteAnalisis::find($request->idLote);
         $loteModel->Liberado = $model->count();
         $loteModel->save();
