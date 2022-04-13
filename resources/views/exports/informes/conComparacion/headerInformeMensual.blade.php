@@ -80,10 +80,10 @@
                 
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">PERIODO DE ANALISIS:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">DE {{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}} A {{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->addDays(7)->format('d/m/Y')}}</td>
+                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">DE {{\Carbon\Carbon::parse(@$modelProcesoAnalisis1->Hora_entrada)->format('d/m/Y')}} A {{\Carbon\Carbon::parse(@$modelProcesoAnalisis1->Hora_entrada)->addDays(7)->format('d/m/Y')}}</td>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
                         @if (!is_null(@$comparacionEncontrada))
-                            DE {{\Carbon\Carbon::parse(@$comparacionEncontrada->Fecha_muestreo)->format('d/m/Y')}} A {{\Carbon\Carbon::parse(@$comparacionEncontrada->Fecha_muestreo)->addDays(7)->format('d/m/Y')}}
+                            DE {{\Carbon\Carbon::parse(@$modelProcesoAnalisis2->Hora_entrada)->format('d/m/Y')}} A {{\Carbon\Carbon::parse(@$modelProcesoAnalisis2->Hora_entrada)->addDays(7)->format('d/m/Y')}}
                         @endif                         
                     </td>
                 </tr>

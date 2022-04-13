@@ -461,7 +461,7 @@ class InformesController extends Controller
             }
 
             //Verifica si el resultado es menor al límite de cuantificación del parámetro
-            $limiteGrasas = DB::table('parametros')->where('Id_parametro', $solicitudParametroGrasas[0]->Id_parametro)->first();
+            $limiteGrasas = DB::table('parametros')->where('Id_parametro', 14)->first();
 
             if ($sumaCaudalesFinal < $limiteGrasas->Limite) {
                 $sumaCaudalesFinal = "< " . $limiteGrasas->Limite;
@@ -475,7 +475,9 @@ class InformesController extends Controller
         //************************************** CALCULO DE COLIFORMES FECALES ******************************************************
         //Consulta si existe el parámetro de Coliformes Fecales en la solicitud
         $solicitudParametroColiformesFe = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();
-        $solicitudParametroColiformesFeLength = $solicitudParametroGrasas->count();
+        $solicitudParametroColiformesFeLength = $solicitudParametroColiformesFe->count();
+
+        
 
         if (!is_null($solicitudParametroColiformesFe)) { //Encontró coliformes fecales
             $productoColi = 1;
