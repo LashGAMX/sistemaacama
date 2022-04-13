@@ -220,7 +220,7 @@ class Parametros extends Component
             'F_creacion' => $model->created_at,
             'Id_user_c' => $model->Id_user_c,
             'F_modificacion' => $model->updated_at,
-            'Id_user_m' => $this->idUser
+            'Id_user_m' => $this->idUser 
         ]);
     }
     public function clean()

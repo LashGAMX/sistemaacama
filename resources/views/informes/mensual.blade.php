@@ -76,6 +76,7 @@
                                     <thead>
                                         <tr>
                                             <th>Id</th>
+                                            <th>Folio</th>
                                             <th>Cliente</th>
                                             <th>Norma</th> 
                                             <th>Muestreo</th>
@@ -86,6 +87,7 @@
                                         @foreach ($model as $item)
                                             <tr>
                                                 <td>{{$item->Id_solicitud}}</td>
+                                                <td>{{$item->Folio_servicio}}</td>
                                                 <td>{{$item->Empresa_suc}}</td>
                                                 <td>{{$item->Clave_norma}}</td>
                                                 <td>{{$item->Fecha_muestreo}}</td>
