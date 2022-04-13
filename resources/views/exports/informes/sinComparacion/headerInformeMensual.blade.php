@@ -35,15 +35,15 @@
                 <tr>                    
                     <td class="filasIzq bordesTabla soloBordeDer" colspan="2" rowspan="9">&nbsp;</td>
                     <td class="filasIzq bordesTabla soloBordeDer paddingTopBotInter fontSize6">GASTO PROMEDIO</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup justificadorCentr fontSize6">GASTO</td>
-                    <td class="filasIzq bordesTabla bordeIzqSinSup fontSize6 fontBold bordeIzqDerSinSup justificadorCentr">UNIDAD</td>                                        
+                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup justificadorCentr fontSize6">{{@$gastoLPS1}}</td>
+                    <td class="filasIzq bordesTabla bordeIzqSinSup fontSize6 fontBold bordeIzqDerSinSup justificadorCentr">L/s</td>                                        
                     <td class="filasIzq bordesTabla soloBordeDer fontBold fontSize12 justificadorCentr" rowspan="9" width="13.05%">{{@$norma->Clave_norma}}</td>
                 </tr>
                     
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">GASTO LPS</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{@$gastoLPS1}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{@$gastoLPS2}}</td>
+                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">GASTO LPS</td>
+                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">GASTO LPS</td>
                 </tr>
 
                 <tr>
@@ -78,10 +78,10 @@
                 
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">PERIODO DE ANALISIS:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">DE {{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}} A {{\Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->addDays(7)->format('d/m/Y')}}</td>
+                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">DE {{\Carbon\Carbon::parse(@$modelProcesoAnalisis1->Hora_entrada)->format('d/m/Y')}} A {{\Carbon\Carbon::parse(@$modelProcesoAnalisis1->Hora_entrada)->addDays(7)->format('d/m/Y')}}</td>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
                         @if (!is_null(@$comparacionEncontrada))
-                            DE {{\Carbon\Carbon::parse(@$comparacionEncontrada->Fecha_muestreo)->format('d/m/Y')}} A {{\Carbon\Carbon::parse(@$comparacionEncontrada->Fecha_muestreo)->addDays(7)->format('d/m/Y')}}
+                            DE {{\Carbon\Carbon::parse(@$modelProcesoAnalisis2->Hora_entrada)->format('d/m/Y')}} A {{\Carbon\Carbon::parse(@$modelProcesoAnalisis2->Hora_entrada)->addDays(7)->format('d/m/Y')}}
                         @endif                         
                     </td>
                 </tr>
