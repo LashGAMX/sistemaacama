@@ -9,7 +9,7 @@
                                 ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
                                 DIA SOLEADO, EQUIPO UTILIZADO INVLAB 583 // NO HUBO DESCARGA EN LAS TOMAS 2, 5 Y 6 CONDICIONES AMBIENTALES: 
                                 DÍA SOLEADO, EQUIPO UTILIZADO INVLAB583, EN LAS TOMAS 4, 5 Y 6 NO HAY FLUJO POR LO CUAL NO SE TOMAN MUESTRAS.     --}}                            
-                                {{@$solicitud->Observacion}}</td>
+                                {{@$solModel->Observacion}}</td>
                         </tr>                
                 </tbody>         
             </table> 
@@ -38,12 +38,12 @@
                             <td class="justificadorCentr">
                                 @php
                                     /*$url = url()->current();*/
-                                    $url = "https://sistemaacama.com.mx/clientes/informeMensualConComparacion/".@$solicitud->Id_solicitud;
+                                    $url = "https://sistemaacama.com.mx/clientes/informeMensualConComparacion/".@$solModel->Id_solicitud;
                                     $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                                 @endphp
                                 
                                 <br>
-                                <img style="width: 11%; height: 11%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solicitud->Folio_servicio}}</span>
+                                <img style="width: 11%; height: 11%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold"> {{@$solModel->Folio_servicio}}</span>
                             </td>                            
                         </tr>
                 </tbody>
