@@ -1,4 +1,5 @@
   <div>
+    <h4>Parametro: {{$model[0]->Parametro}}</h4>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <a class="nav-link active" id="rios-tab" data-toggle="tab" href="#rios" role="tab" aria-controls="rios" aria-selected="true">Rios</a>
