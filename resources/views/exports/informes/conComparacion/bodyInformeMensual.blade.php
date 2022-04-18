@@ -33,32 +33,32 @@
                             @if (strpos(@$limitesC[$i], "< AUS") === 0 || strpos(@$model[$i]->Unidad, "AUS") === 0) 
                                 AUSENTE 
                             @else 
-                                @if ($model[$i]->Parametro == 'Grasas y Aceites ++')
+                                @if (@$model[$i]->Parametro == 'Grasas y Aceites ++')
                                     @php
-                                        if($limExceed1 === 1 || $limExceed2 === 1){
-                                            echo "< ".$limGras;
+                                        if(@$limExceed1 === 1 || @$limExceed2 === 1){
+                                            echo "< ".@$limGras;
                                         }else{
-                                            echo round($sumaCaudalesFinal, 2);
+                                            echo round(@$sumaCaudalesFinal, 2);
                                         }                                        
                                     @endphp
-                                @elseif ($model[$i]->Parametro == 'Coliformes Fecales +')
+                                @elseif (@$model[$i]->Parametro == 'Coliformes Fecales +')
                                     @php
-                                        if($limExceedColi1 === 1 || $limExceedColi2 === 1){
-                                            echo "< ".$limColi;
+                                        if(@$limExceedColi1 === 1 || @$limExceedColi2 === 1){
+                                            echo "< ".@$limColi;
                                         }else{
-                                            echo round($resColi, 2); 
+                                            echo round(@$resColi, 2); 
                                         }                                        
                                     @endphp 
-                                @elseif ($model[$i]->Id_parametro === 7)
+                                @elseif (@$model[$i]->Id_parametro === 7)
                                     @php
-                                        if($limExceedDqo1 === 1 || $limExceedDqo2 === 1){
-                                            echo "< ".$limDqo;
+                                        if(@$limExceedDqo1 === 1 || @$limExceedDqo2 === 1){
+                                            echo "< ".@$limDqo;
                                         }else{                                            
-                                            echo round($dqoFinal1, 2);
+                                            echo round(@$dqoFinal1, 2);
                                         }                                          
                                     @endphp
                                 @else
-                                    {{$limitesC[$i]}}
+                                    {{@$limitesC[$i]}}
                                 @endif
                             @endif                                                        
                         </td>
@@ -66,75 +66,75 @@
                             @if (strpos(@$limites2C[$i], "< AUS") === 0 || strpos(@$model[$i]->Unidad, "AUS") === 0) 
                                 AUSENTE 
                             @else 
-                                @if ($model2[$i]->Parametro == 'Grasas y Aceites ++')
+                                @if (@$model2[$i]->Parametro == 'Grasas y Aceites ++')
                                     @php
-                                        if($limExceed1 === 1 || $limExceed2 === 1){
-                                            echo "< ".$limGras;
+                                        if(@$limExceed1 === 1 || @$limExceed2 === 1){
+                                            echo "< ".@$limGras;
                                         }else{
-                                            echo round($sumaCaudalesFinal2, 2);
+                                            echo round(@$sumaCaudalesFinal2, 2);
                                         }                                          
                                     @endphp
-                                @elseif ($model2[$i]->Parametro == 'Coliformes Fecales +')
+                                @elseif (@$model2[$i]->Parametro == 'Coliformes Fecales +')
                                     @php
-                                        if($limExceedColi1 === 1 || $limExceedColi2 === 1){
-                                            echo "< ".$limColi;
+                                        if(@$limExceedColi1 === 1 || @$limExceedColi2 === 1){
+                                            echo "< ".@$limColi;
                                         }else{
-                                            echo round($resColi2, 2); 
+                                            echo round(@$resColi2, 2); 
                                         }                                        
                                     @endphp
-                                @elseif ($model2[$i]->Id_parametro === 7)
+                                @elseif (@$model2[$i]->Id_parametro === 7)
                                     @php
-                                        if($limExceedDqo1 === 1 || $limExceedDqo2 === 1){
-                                            echo "< ".$limDqo;
+                                        if(@$limExceedDqo1 === 1 || @$limExceedDqo2 === 1){
+                                            echo "< ".@$limDqo;
                                         }else{                                            
-                                            echo round($dqoFinal2, 2);
+                                            echo round(@$dqoFinal2, 2);
                                         }                                          
                                     @endphp
                                 @else
-                                    {{$limites2C[$i]}}
+                                    {{@$limites2C[$i]}}
                                 @endif
                             @endif                                                        
                         </td>
                         <td class="tableContent bordesTablaBody">
-                            @if (strpos($limitesC[$i], "< AUS") === 0 || strpos($model[$i]->Unidad, "AUS") === 0)
+                            @if (strpos(@$limitesC[$i], "< AUS") === 0 || strpos(@$model[$i]->Unidad, "AUS") === 0)
                                 AUSENTE 
                             @else 
-                                @if ($limiteMostrar[$i] === 1)
-                                    {{$limitesC[$i]}}
+                                @if (@$limiteMostrar[$i] === 1)
+                                    {{@$limitesC[$i]}}
                                 @elseif ($limiteMostrar2[$i] === 1)
-                                    {{$limites2C[$i]}}
+                                    {{@$limites2C[$i]}}
                                 @else
-                                    @if ($model[$i]->Parametro == 'Grasas y Aceites ++')
+                                    @if (@$model[$i]->Parametro == 'Grasas y Aceites ++')
                                         @php
-                                            if($limExceed1 === 1 || $limExceed2 === 1){
-                                                echo "< ".$limGras;
+                                            if(@$limExceed1 === 1 || @$limExceed2 === 1){
+                                                echo "< ".@$limGras;
                                             }else{
-                                                $promPonderado = ($sumaCaudalesFinal + $sumaCaudalesFinal2) / 2;
-                                                echo round($promPonderado, 3);
+                                                @$promPonderado = (@$sumaCaudalesFinal + @$sumaCaudalesFinal2) / 2;
+                                                echo round(@$promPonderado, 3);
                                             }                                            
                                         @endphp
-                                    @elseif ($model[$i]->Parametro == 'Coliformes Fecales +')
+                                    @elseif (@$model[$i]->Parametro == 'Coliformes Fecales +')
                                         @php
-                                            if($limExceedColi1 === 1 || $limExceedColi2 === 1){
-                                                echo "< ".$limColi;
+                                            if(@$limExceedColi1 === 1 || @$limExceedColi2 === 1){
+                                                echo "< ".@$limColi;
                                             }else{
-                                                $promPonderado = ($resColi + $resColi2) / 2;
-                                                echo round($promPonderado, 3); 
+                                                @$promPonderado = (@$resColi + @$resColi2) / 2;
+                                                echo round(@$promPonderado, 3); 
                                             }                                            
                                         @endphp
-                                    @elseif ($model[$i]->Id_parametro === 7)
+                                    @elseif (@$model[$i]->Id_parametro === 7)
                                         @php
-                                            if($limExceedDqo1 === 1 || $limExceedDqo2 === 1){
-                                                echo "< ".$limDqo;
+                                            if(@$limExceedDqo1 === 1 || @$limExceedDqo2 === 1){
+                                                echo "< ".@$limDqo;
                                             }else{
-                                                $promPonderado = ($dqoFinal1 + $dqoFinal2) / 2;
-                                                echo round($promPonderado, 3);
+                                                @$promPonderado = (@$dqoFinal1 + @$dqoFinal2) / 2;
+                                                echo round(@$promPonderado, 3);
                                             }                                            
                                         @endphp
                                     @else
                                         @php
-                                            $promPonderado = ($limitesC[$i] + $limites2C[$i]) / 2;
-                                            echo round($promPonderado, 3);
+                                            @$promPonderado = (@$limitesC[$i] + @$limites2C[$i]) / 2;
+                                            echo round(@$promPonderado, 3);
                                         @endphp                                        
                                     @endif                                    
                                 @endif 
