@@ -22,7 +22,7 @@ $('#btnAddComplemento').click(function () {
 
 function getPaquetes() {
 
-    let tabla = document.getElementById('divTablePaquetes');
+    let tabla = document.getElementById('divTablePaquetes'); 
     let tab = '';
     $.ajax({
         type: "POST",
