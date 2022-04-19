@@ -11,6 +11,7 @@ use App\Models\Cotizacion;
 use App\Models\CotizacionPunto;
 use App\Models\DireccionReporte;
 use App\Models\GastoMuestra;
+use App\Models\Limite001;
 use App\Models\Norma;
 use App\Models\Parametro;
 use App\Models\ProcesoAnalisis;
@@ -1549,9 +1550,9 @@ class InformesController extends Controller
         //************************************** FIN DE CALCULO DE COLIFORMES FECALES*********************************************** 
 
         $limiteMostrar = array();
-        $limitesC = array();
+        $limitesC = array();        
 
-        //Recupera los límites de cuantificación de los parámetros del primer folio
+        //Recupera los límites de cuantificación del laboratorio de los parámetros del primer folio y los límites de la norma
         foreach ($model as $item) {
             $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
 
@@ -1837,6 +1838,7 @@ class InformesController extends Controller
 
         //Límite de grasas
         $limGras = 0;
+        $limGrasas = DB::table('parametros')->where('Id_parametro', 14)->first();
 
         //Cálculo grasas de la segunda solicitud
         $sumaCaudalesFinal = 0;
@@ -2056,11 +2058,23 @@ class InformesController extends Controller
         //************************************** FIN DE CALCULO DE COLIFORMES FECALES*********************************************** 
 
         $limiteMostrar = array();
-        $limitesC = array();
+        $limitesC = array();  
+
+        //Almacena los límites de la Norma
+        $limitesNorma = array();
+        
+        //Almacena los resultados de los parametros
+        $resultsParam = array();
 
         //Recupera los límites de cuantificación de los parámetros del primer folio
         foreach ($model as $item) {
             $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
+            $paramLim = Limite001::where('Id_parametro', $item->Id_parametro)->first();
+
+            //
+            /* switch($item->Id_parametro){
+                case 14: 
+            } */
 
             if ($item->Resultado < $limiteC->Limite) {
                 $limC = "< " . round($limiteC->Limite, 3);
@@ -2096,11 +2110,14 @@ class InformesController extends Controller
                     $limC = round($item->Resultado, 2);
                 }else{
                     $limC = round($item->Resultado, 3);
-                }
-
+                }                
+                            
                 array_push($limiteMostrar, 0);
                 array_push($limitesC, $limC);
             }
+
+            array_push($limitesNorma, $paramLim->Prom_Mmax);
+            array_push($resultsParam, $item->Resultado);
         }
 
         //Recupera la fecha de recepción del primer y segundo folio
@@ -2150,7 +2167,8 @@ class InformesController extends Controller
         //*******************************************************************************************  
 
         $limiteMostrar2 = array();
-        $limites2C = array();                
+        $limites2C = array();  
+        $resultsParam2 = array();              
 
         /* $solicitudParametros2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel2[0]->Id_solicitud)->where('Num_muestra', 1)->get();
         $solicitudParametros2Length = $solicitudParametros2->count(); */
@@ -2194,10 +2212,11 @@ class InformesController extends Controller
                 }else{
                     $lim2C = round($item->Resultado, 3);
                 }
-
+                
                 array_push($limiteMostrar2, 0);
                 array_push($limites2C, $lim2C);
             }
+            array_push($resultsParam2, $item->Resultado);
         }  
 
         //*************************************** CÁLCULO DQO ********************************************************
@@ -2262,10 +2281,21 @@ class InformesController extends Controller
         $parte12 = strval($folio2[0]);
         $parte22 = strval($folio2[1]);
 
-        $numOrden2 = Solicitud::where('Folio_servicio', $parte12 . "-" . $parte22)->first();
+        $numOrden2 = Solicitud::where('Folio_servicio', $parte12 . "-" . $parte22)->first();           
+        
+        //Almacena el límite de grasas
+        $lGras = $limGrasas->Limite;
 
+        //Almacena el límite coliformes fecales
+        $limiteCuantiColi = DB::table('parametros')->where('Id_parametro', 13)->first();
+        $lColi = $limiteCuantiColi->Limite;
+
+        //Almacena el límite DQO
+        $limiteCuantiDqo = DB::table('parametros')->where('Id_parametro', 7)->first();
+        $lDqo = $limiteCuantiDqo->Limite;                    
+        
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
-        $htmlInforme = view('exports.informes.conComparacion.bodyInformeMensual',  compact('limitesC', 'limites2C', 'limiteMostrar', 'limiteMostrar2', 'sumaCaudalesFinal', 'resColi', 'sumaCaudalesFinal2', 'resColi2', 'dqoFinal1', 'dqoFinal2', 'modelLength', 'solModel', 'model', 'model2', 'limExceed1', 'limExceed2', 'limGras', 'limExceedColi1', 'limExceedColi2', 'limColi', 'limExceedDqo1', 'limExceedDqo2', 'limDqo'));
+        $htmlInforme = view('exports.informes.conComparacion.bodyInformeMensual',  compact('limitesC', 'limites2C', 'limiteMostrar', 'limiteMostrar2', 'sumaCaudalesFinal', 'resColi', 'sumaCaudalesFinal2', 'resColi2', 'dqoFinal1', 'dqoFinal2', 'modelLength', 'solModel', 'model', 'model2', 'limExceed1', 'limExceed2', 'limGras', 'limExceedColi1', 'limExceedColi2', 'limColi', 'limExceedDqo1', 'limExceedDqo2', 'limDqo', 'limitesNorma', 'lGras', 'lColi', 'lDqo', 'resultsParam', 'resultsParam2'));
 
         //HEADER-FOOTER******************************************************************************************************************
         $htmlHeader = view('exports.informes.conComparacion.headerInformeMensual', compact('solModel', 'solModel2', 'direccion', 'cliente', 'puntoMuestreo', 'norma', 'modelProcesoAnalisis1', 'modelProcesoAnalisis2', 'gastoLPS1', 'gastoLPS2', 'numOrden', 'numOrden2'));
@@ -2277,6 +2307,7 @@ class InformesController extends Controller
 
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->Output('Informe de Resultados Con Comparacion.pdf', 'I');                  
+        //echo $modelDiag;
         //echo implode(" , ", $limiteMostrar);
         //echo implode(" , ", $limiteMostrar2);
     }
@@ -2385,6 +2416,8 @@ class InformesController extends Controller
                     }
                 }
 
+                $sumaCaudales = round(($sumaCaudales), 2);
+
                 //Paso 2: División de cada caudal entre la sumatoria de los caudales
                 foreach ($gastosModel as $item) {
                     if ($item->Promedio === null) {
@@ -2395,7 +2428,7 @@ class InformesController extends Controller
                             $div
                         );
                     } else {
-                        $div = $item->Promedio / $sumaCaudales;
+                        $div = round(($item->Promedio / $sumaCaudales), 2);
 
                         array_push(
                             $divCaudalSuma,
@@ -2406,7 +2439,7 @@ class InformesController extends Controller
 
                 //Paso 3: Multiplicación de cada divCaudalSuma por el resultado del parametro                                    
                 for ($i = 0; $i < $solicitudParametroGrasasLength; $i++) {
-                    $mult = $divCaudalSuma[$i] * $solicitudParametroGrasas[$i]->Resultado;
+                    $mult = round(($divCaudalSuma[$i] * $solicitudParametroGrasas[$i]->Resultado), 2);
 
                     array_push(
                         $multResDivCaudal,
@@ -2417,7 +2450,9 @@ class InformesController extends Controller
                 //Paso 4: Sumatoria de multResDivCaudal
                 foreach ($multResDivCaudal as $item) {
                     $sumaCaudalesFinal += $item;
-                }                
+                }  
+                
+                $sumaCaudalesFinal = round($sumaCaudalesFinal, 2);
             }            
         }
 
@@ -2454,6 +2489,8 @@ class InformesController extends Controller
                     }
                 }
 
+                $sumaCaudales2 = round($sumaCaudales2, 2);
+
                 //Paso 2: División de cada caudal entre la sumatoria de los caudales
                 foreach ($gastosModel as $item) {
                     if ($item->Promedio === null) {
@@ -2464,7 +2501,7 @@ class InformesController extends Controller
                             $div
                         );
                     } else {
-                        $div = $item->Promedio / $sumaCaudales2;
+                        $div = round(($item->Promedio / $sumaCaudales2), 2);
 
                         array_push(
                             $divCaudalSuma,
@@ -2475,7 +2512,7 @@ class InformesController extends Controller
 
                 //Paso 3: Multiplicación de cada divCaudalSuma por el resultado del parametro                                    
                 for ($i = 0; $i < $solicitudParametroGrasasLength2; $i++) {
-                    $mult = $divCaudalSuma[$i] * $solicitudParametroGrasas2[$i]->Resultado;
+                    $mult = round(($divCaudalSuma[$i] * $solicitudParametroGrasas2[$i]->Resultado), 2);
 
                     array_push(
                         $multResDivCaudal,
@@ -2486,7 +2523,9 @@ class InformesController extends Controller
                 //Paso 4: Sumatoria de multResDivCaudal
                 foreach ($multResDivCaudal as $item) {
                     $sumaCaudalesFinal2 += $item;
-                }                
+                }  
+                
+                $sumaCaudalesFinal2 = round($sumaCaudalesFinal2, 2);
             }                                  
         }
 
@@ -2529,7 +2568,7 @@ class InformesController extends Controller
             }
 
             //Paso 2: Raíz a la N cantidad de resultados de coliformes
-            $resColi = pow($productoColi, 1 / $solicitudParametroColiformesFeLength);            
+            $resColi = round(pow($productoColi, 1 / $solicitudParametroColiformesFeLength), 2);
         }        
 
         //Verifica si el resultado es menor al límite de cuantificación del parámetro
@@ -2552,7 +2591,7 @@ class InformesController extends Controller
             }
 
             //Paso 2: Raíz a la N cantidad de resultados de coliformes
-            $resColi2 = pow($productoColi, 1 / $solicitudParametroColiformesFeLength2);            
+            $resColi2 = round(pow($productoColi, 1 / $solicitudParametroColiformesFeLength2), 2);
         }
 
         //Verifica si el resultado es menor al límite de cuantificación del parámetro
@@ -2675,7 +2714,7 @@ class InformesController extends Controller
         //Cálculo DQO del primer folio
         if(!is_null($solicitudParamDqo)){            
             $preCalculo = $gastoLPS1 / ($gastoLPS1 + $gastoLPS2);
-            $dqoFinal1 = $solicitudParamDqo->Resultado * $preCalculo;            
+            $dqoFinal1 = round(($solicitudParamDqo->Resultado * $preCalculo), 2);
         }
 
         //Verifica si el resultado es menor al límite de cuantificación del parámetro
@@ -2690,7 +2729,7 @@ class InformesController extends Controller
         //Cálculo DQO del segundo folio
         if(!is_null($solicitudParamDqo2)){            
             $preCalculo = $gastoLPS1 / ($gastoLPS1 + $gastoLPS2);
-            $dqoFinal2 = $solicitudParamDqo2->Resultado * $preCalculo;            
+            $dqoFinal2 = round(($solicitudParamDqo2->Resultado * $preCalculo), 2);
         }
 
         //Verifica si el resultado es menor al límite de cuantificación del parámetro
@@ -2807,6 +2846,7 @@ class InformesController extends Controller
 
         //Límite de grasas
         $limGras = 0;
+        $limGrasas = DB::table('parametros')->where('Id_parametro', 14)->first();
 
         //Cálculo grasas de la segunda solicitud
         $sumaCaudalesFinal = 0;
@@ -2837,6 +2877,8 @@ class InformesController extends Controller
                     }
                 }
 
+                $sumaCaudales = round($sumaCaudales, 2);
+
                 //Paso 2: División de cada caudal entre la sumatoria de los caudales
                 foreach ($gastosModel as $item) {
                     if ($item->Promedio === null) {
@@ -2847,7 +2889,7 @@ class InformesController extends Controller
                             $div
                         );
                     } else {
-                        $div = $item->Promedio / $sumaCaudales;
+                        $div = round(($item->Promedio / $sumaCaudales), 2);
 
                         array_push(
                             $divCaudalSuma,
@@ -2858,7 +2900,7 @@ class InformesController extends Controller
 
                 //Paso 3: Multiplicación de cada divCaudalSuma por el resultado del parametro                                    
                 for ($i = 0; $i < $solicitudParametroGrasasLength; $i++) {
-                    $mult = $divCaudalSuma[$i] * $solicitudParametroGrasas[$i]->Resultado;
+                    $mult = round(($divCaudalSuma[$i] * $solicitudParametroGrasas[$i]->Resultado), 2);
 
                     array_push(
                         $multResDivCaudal,
@@ -2870,6 +2912,8 @@ class InformesController extends Controller
                 foreach ($multResDivCaudal as $item) {
                     $sumaCaudalesFinal += $item;
                 }                
+
+                $sumaCaudalesFinal = round($sumaCaudalesFinal, 2);
             }            
         }
 
@@ -2906,6 +2950,8 @@ class InformesController extends Controller
                     }
                 }
 
+                $sumaCaudales2 = round($sumaCaudales2, 2);
+
                 //Paso 2: División de cada caudal entre la sumatoria de los caudales
                 foreach ($gastosModel as $item) {
                     if ($item->Promedio === null) {
@@ -2916,7 +2962,7 @@ class InformesController extends Controller
                             $div
                         );
                     } else {
-                        $div = $item->Promedio / $sumaCaudales2;
+                        $div = round(($item->Promedio / $sumaCaudales2), 2);
 
                         array_push(
                             $divCaudalSuma,
@@ -2927,7 +2973,7 @@ class InformesController extends Controller
 
                 //Paso 3: Multiplicación de cada divCaudalSuma por el resultado del parametro                                    
                 for ($i = 0; $i < $solicitudParametroGrasasLength2; $i++) {
-                    $mult = $divCaudalSuma[$i] * $solicitudParametroGrasas2[$i]->Resultado;
+                    $mult = round(($divCaudalSuma[$i] * $solicitudParametroGrasas2[$i]->Resultado), 2);
 
                     array_push(
                         $multResDivCaudal,
@@ -2938,7 +2984,9 @@ class InformesController extends Controller
                 //Paso 4: Sumatoria de multResDivCaudal
                 foreach ($multResDivCaudal as $item) {
                     $sumaCaudalesFinal2 += $item;
-                }                
+                }   
+                
+                $sumaCaudalesFinal2 = round(($sumaCaudalesFinal2), 2);
             }                                  
         }
 
@@ -2981,7 +3029,7 @@ class InformesController extends Controller
             }
 
             //Paso 2: Raíz a la N cantidad de resultados de coliformes
-            $resColi = pow($productoColi, 1 / $solicitudParametroColiformesFeLength);            
+            $resColi = round(pow($productoColi, 1 / $solicitudParametroColiformesFeLength), 2);
         }        
 
         //Verifica si el resultado es menor al límite de cuantificación del parámetro
@@ -3004,7 +3052,7 @@ class InformesController extends Controller
             }
 
             //Paso 2: Raíz a la N cantidad de resultados de coliformes
-            $resColi2 = pow($productoColi, 1 / $solicitudParametroColiformesFeLength2);            
+            $resColi2 = round(pow($productoColi, 1 / $solicitudParametroColiformesFeLength2), 2);
         }
 
         //Verifica si el resultado es menor al límite de cuantificación del parámetro
@@ -3018,11 +3066,23 @@ class InformesController extends Controller
         //************************************** FIN DE CALCULO DE COLIFORMES FECALES*********************************************** 
 
         $limiteMostrar = array();
-        $limitesC = array();
+        $limitesC = array();  
+
+        //Almacena los límites de la Norma
+        $limitesNorma = array();
+        
+        //Almacena los resultados de los parametros
+        $resultsParam = array();
 
         //Recupera los límites de cuantificación de los parámetros del primer folio
         foreach ($model as $item) {
             $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
+            $paramLim = Limite001::where('Id_parametro', $item->Id_parametro)->first();
+
+            //
+            /* switch($item->Id_parametro){
+                case 14: 
+            } */
 
             if ($item->Resultado < $limiteC->Limite) {
                 $limC = "< " . round($limiteC->Limite, 3);
@@ -3030,11 +3090,42 @@ class InformesController extends Controller
                 array_push($limiteMostrar, 1);
                 array_push($limitesC, $limC);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                $limC = round($item->Resultado, 3);
-
+                if($item->Id_parametro === 7){   //DQO
+                    $limC = round($item->Resultado, 2);
+                }else if($item->Id_parametro === 20){   //Cianuros
+                    $limC = round($item->Resultado, 3);
+                }else if($item->Id_parametro === 13){   //Coliformes fecales
+                    $limC = round($item->Resultado, 2);
+                }else if($item->Id_parametro === 22){   //Cromo total
+                    $limC = round($item->Resultado, 3);
+                }else if($item->Id_parametro === 72){   //DBO
+                    $limC = round($item->Resultado, 2);
+                }else if($item->Id_parametro === 7){   //DQO
+                    $limC = round($item->Resultado, 2);
+                }else if($item->Id_parametro === 16){   //Fosforo
+                    $limC = round($item->Resultado, 3);
+                }else if($item->Id_parametro === 14){   //Grasas y Aceites
+                    $limC = round($item->Resultado, 2);
+                }else if($item->Id_parametro === 17){   //Huevos de helminto
+                    $limC = round($item->Resultado, 0);
+                }else if($item->Id_parametro === 23){   //Mercurio
+                    $limC = round($item->Resultado, 4);
+                }else if($item->Id_parametro === 8){   //Nitratos
+                    $limC = round($item->Resultado, 3);
+                }else if($item->Id_parametro === 9){   //Nitritos
+                    $limC = round($item->Resultado, 3);
+                }else if($item->Id_parametro === 10 || $item->Id_parametro === 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
+                    $limC = round($item->Resultado, 2);
+                }else{
+                    $limC = round($item->Resultado, 3);
+                }                
+                            
                 array_push($limiteMostrar, 0);
                 array_push($limitesC, $limC);
             }
+
+            array_push($limitesNorma, $paramLim->Prom_Mmax);
+            array_push($resultsParam, $item->Resultado);
         }
 
         //Recupera la fecha de recepción del primer y segundo folio
@@ -3084,7 +3175,8 @@ class InformesController extends Controller
         //*******************************************************************************************  
 
         $limiteMostrar2 = array();
-        $limites2C = array();                
+        $limites2C = array();  
+        $resultsParam2 = array();              
 
         /* $solicitudParametros2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel2[0]->Id_solicitud)->where('Num_muestra', 1)->get();
         $solicitudParametros2Length = $solicitudParametros2->count(); */
@@ -3099,11 +3191,40 @@ class InformesController extends Controller
                 array_push($limiteMostrar2, 1);
                 array_push($limites2C, $lim2C);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                $lim2C = round($item->Resultado, 3);
-
+                if($item->Id_parametro === 7){   //DQO
+                    $lim2C = round($item->Resultado, 2);
+                }else if($item->Id_parametro === 20){   //Cianuros
+                    $lim2C = round($item->Resultado, 3);
+                }else if($item->Id_parametro === 13){   //Coliformes fecales
+                    $lim2C = round($item->Resultado, 2);
+                }else if($item->Id_parametro === 22){   //Cromo total
+                    $lim2C = round($item->Resultado, 3);
+                }else if($item->Id_parametro === 72){   //DBO
+                    $lim2C = round($item->Resultado, 2);
+                }else if($item->Id_parametro === 7){   //DQO
+                    $lim2C = round($item->Resultado, 2);
+                }else if($item->Id_parametro === 16){   //Fosforo
+                    $lim2C = round($item->Resultado, 3);
+                }else if($item->Id_parametro === 14){   //Grasas y Aceites
+                    $lim2C = round($item->Resultado, 2);
+                }else if($item->Id_parametro === 17){   //Huevos de helminto
+                    $lim2C = round($item->Resultado, 0);
+                }else if($item->Id_parametro === 23){   //Mercurio
+                    $lim2C = round($item->Resultado, 4);
+                }else if($item->Id_parametro === 8){   //Nitratos
+                    $lim2C = round($item->Resultado, 3);
+                }else if($item->Id_parametro === 9){   //Nitritos
+                    $lim2C = round($item->Resultado, 3);
+                }else if($item->Id_parametro === 10 || $item->Id_parametro === 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
+                    $limC2 = round($item->Resultado, 2);
+                }else{
+                    $lim2C = round($item->Resultado, 3);
+                }
+                
                 array_push($limiteMostrar2, 0);
                 array_push($limites2C, $lim2C);
             }
+            array_push($resultsParam2, $item->Resultado);
         }  
 
         //*************************************** CÁLCULO DQO ********************************************************
@@ -3127,7 +3248,7 @@ class InformesController extends Controller
         //Cálculo DQO del primer folio
         if(!is_null($solicitudParamDqo)){            
             $preCalculo = $gastoLPS1 / ($gastoLPS1 + $gastoLPS2);
-            $dqoFinal1 = $solicitudParamDqo->Resultado * $preCalculo;            
+            $dqoFinal1 = round(($solicitudParamDqo->Resultado * $preCalculo), 2);
         }
 
         //Verifica si el resultado es menor al límite de cuantificación del parámetro
@@ -3142,7 +3263,7 @@ class InformesController extends Controller
         //Cálculo DQO del segundo folio
         if(!is_null($solicitudParamDqo2)){            
             $preCalculo = $gastoLPS1 / ($gastoLPS1 + $gastoLPS2);
-            $dqoFinal2 = $solicitudParamDqo2->Resultado * $preCalculo;            
+            $dqoFinal2 = round(($solicitudParamDqo2->Resultado * $preCalculo), 2);
         }
 
         //Verifica si el resultado es menor al límite de cuantificación del parámetro
@@ -3168,10 +3289,21 @@ class InformesController extends Controller
         $parte12 = strval($folio2[0]);
         $parte22 = strval($folio2[1]);
 
-        $numOrden2 = Solicitud::where('Folio_servicio', $parte12 . "-" . $parte22)->first();
+        $numOrden2 = Solicitud::where('Folio_servicio', $parte12 . "-" . $parte22)->first();           
+        
+        //Almacena el límite de grasas
+        $lGras = $limGrasas->Limite;
 
+        //Almacena el límite coliformes fecales
+        $limiteCuantiColi = DB::table('parametros')->where('Id_parametro', 13)->first();
+        $lColi = $limiteCuantiColi->Limite;
+
+        //Almacena el límite DQO
+        $limiteCuantiDqo = DB::table('parametros')->where('Id_parametro', 7)->first();
+        $lDqo = $limiteCuantiDqo->Limite;                    
+        
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
-        $htmlInforme = view('exports.informes.conComparacion.bodyInformeMensual',  compact('limitesC', 'limites2C', 'limiteMostrar', 'limiteMostrar2', 'sumaCaudalesFinal', 'resColi', 'sumaCaudalesFinal2', 'resColi2', 'dqoFinal1', 'dqoFinal2', 'modelLength', 'solModel', 'model', 'model2', 'limExceed1', 'limExceed2', 'limGras', 'limExceedColi1', 'limExceedColi2', 'limColi', 'limExceedDqo1', 'limExceedDqo2', 'limDqo'));
+        $htmlInforme = view('exports.informes.conComparacion.bodyInformeMensual',  compact('limitesC', 'limites2C', 'limiteMostrar', 'limiteMostrar2', 'sumaCaudalesFinal', 'resColi', 'sumaCaudalesFinal2', 'resColi2', 'dqoFinal1', 'dqoFinal2', 'modelLength', 'solModel', 'model', 'model2', 'limExceed1', 'limExceed2', 'limGras', 'limExceedColi1', 'limExceedColi2', 'limColi', 'limExceedDqo1', 'limExceedDqo2', 'limDqo', 'limitesNorma', 'lGras', 'lColi', 'lDqo', 'resultsParam', 'resultsParam2'));
 
         //HEADER-FOOTER******************************************************************************************************************
         $htmlHeader = view('exports.informes.conComparacion.headerInformeMensual', compact('solModel', 'solModel2', 'direccion', 'cliente', 'puntoMuestreo', 'norma', 'modelProcesoAnalisis1', 'modelProcesoAnalisis2', 'gastoLPS1', 'gastoLPS2', 'numOrden', 'numOrden2'));
@@ -3182,9 +3314,7 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->Output('Informe de Resultados Con Comparacion.pdf', 'D');                  
-        //echo implode(" , ", $limiteMostrar);
-        //echo implode(" , ", $limiteMostrar2);
+        $mpdf->Output('Informe de Resultados Con Comparacion.pdf', 'D');
     }
 
 
@@ -3207,7 +3337,7 @@ class InformesController extends Controller
 
         //Establece la marca de agua del documento PDF
         $mpdf->SetWatermarkImage(
-            asset('/public/storage/HojaMembretadaHorizontal.png'),
+            asset('/storage/HojaMembretadaHorizontal.png'),
             1,
             array(215, 280),
             array(0, 0),

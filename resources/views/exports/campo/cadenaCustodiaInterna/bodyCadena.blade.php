@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/custodiaInterna/custodiaInterna.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/custodiaInterna/custodiaInterna.css')}}">
     <title>Cadena de custodia interna</title>
 </head>
 <body>
@@ -196,7 +196,7 @@
                     <div>
                         <table class="table-sm" width="100%">
                             <tr>
-                                <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/Ls</td>
+                                <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">{{@$promedioPonderadoGA}}</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">{{@$mAritmeticaColi}}</td>

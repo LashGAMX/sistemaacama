@@ -1347,7 +1347,7 @@ class CampoController extends Controller
     public function setComplemento(Request $res)
     {
         $model = DB::table('plan_complemento')->where('Id_paquete',$res->idSub)->where('Tipo',$res->tipo)->delete();
-        for ($i=0; $i < sizeof($res->complemento); $i++) { 
+        for ($i=0; $i < sizeof($res->complemento); $i++) {
             PlanComplemento::create([
                 'Id_paquete' => $res->idSub,
                 'Id_complemento' => $res->complemento[$i],

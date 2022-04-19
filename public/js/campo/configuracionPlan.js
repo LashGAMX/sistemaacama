@@ -1,7 +1,7 @@
 
 var idSub;
 $(document).ready(function () {
-    getPaquetes();
+    getPaquetes();    
 });
 
 $('#btnAddPlan').click(function () {
@@ -63,7 +63,9 @@ function getPaquetes() {
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 200,
+                "scrollCollapse": true
             });
 
 
@@ -130,7 +132,10 @@ function getEnvase(id) {
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 150,
+                "scrollCollapse": true,
+                "pageLength": 30
             });
 
 
@@ -315,7 +320,10 @@ function getMaterial(id) {
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 150,
+                "scrollCollapse": true,
+                "pageLength": 30
             });
 
         }
@@ -361,7 +369,10 @@ function getEquipo(id) {
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 150,
+                "scrollCollapse": true,
+                "pageLength": 30
             });
 
         }
@@ -406,14 +417,17 @@ function getComplementoCamp(id) {
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 150,
+                "scrollCollapse": true,
+                "pageLength": 30
             });
 
         }
     });
 }
 
-function getComplemento(tipo) {
+function getComplemento(tipo) {    
     let tab = '';
     let sw = false;
     let temp = 0;
@@ -482,9 +496,13 @@ function getComplemento(tipo) {
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",
                     "zeroRecords": "No hay datos encontrados",
-                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "info": "Mostrando resultados",
+                    /* "info": "Pagina _PAGE_ de _PAGES_", */
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 250,
+                "scrollCollapse": true,
+                "paging": false
             });
 
             $('#btnAllComplemento').click(function () {
@@ -498,6 +516,9 @@ function setComplemento(tipo) {
     let elementos = document.getElementsByName("ckComplemento");
     let com = new Array();
 
+    let table = $("#tableComplemento input:checked")
+
+    console.log("Valor de ckComplemento: " + elementos.length);
 
     for (var i = 0; i < elementos.length; i++) {
         if (elementos[i].checked) {

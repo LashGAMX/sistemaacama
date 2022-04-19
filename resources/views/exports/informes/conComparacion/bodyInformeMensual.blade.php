@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/informes/conComparacion/conComparacion.css')}}">
+    <link rel="stylesheet" href="{{asset('/css/informes/conComparacion/conComparacion.css')}}">
     <title>Informe Con Comparación</title>
 </head>
 <body>
@@ -142,7 +142,7 @@
                         </td>
 
                         <td class="tableContent bordesTablaBody">
-                            @if (strpos(@$limitesC[$i], "< AUS") === 0)
+                            {{-- @if (strpos(@$limitesC[$i], "< AUS") === 0)
                                 AUSENTE                                                            
                             @else
                                 @if (@$limiteMostrar[$i] === true)
@@ -150,10 +150,52 @@
                                 @else
                                     SE CALCULA PROM
                                 @endif                                
-                            @endif                            
+                            @endif --}}
+                            
+                            {{@$limitesNorma[$i]}}
                         </td>
                         
-                        <td class="tableContent bordesTablaBody">DIAGNOSTICO</td>
+                        <td class="tableContent bordesTablaBody">
+                            @if (@$model[$i]->Id_parametro === 14)
+                                @php
+                                    @$promPonderado = (@$sumaCaudalesFinal + @$sumaCaudalesFinal2) / 2;
+                                    
+                                    if(@$promPonderado <= @$lGras){
+                                        echo 'NO EXCEDE';
+                                    }else{
+                                        echo 'EXCEDE';
+                                    }
+                                @endphp
+                                @elseif (@$model[$i]->Id_parametro === 13)
+                                    @php
+                                        @$promPonderado = (@$resColi + @$resColi2) / 2;
+                                    
+                                        if(@$promPonderado <= @$lColi){
+                                            echo 'NO EXCEDE';
+                                        }else{
+                                            echo 'EXCEDE';
+                                        }
+                                @endphp
+                            @elseif (@$model[$i]->Id_parametro === 13)
+                                @php
+                                    @$promPonderado = (@$dqoFinal1 + @$dqoFinal2) / 2;
+                                    if(@$promPonderado <= @$lDqo){
+                                        echo 'NO EXCEDE';
+                                    }else{
+                                        echo 'EXCEDE';
+                                    }
+                                @endphp
+                            @else
+                                @php
+                                    $promPonderado = (@$resultsParam[$i] + @$resultsParam2[$i]) / 2;
+                                    if(@$promPonderado <= $limitesNorma[$i]){
+                                        echo 'NO EXCEDE';
+                                    }else{
+                                        echo 'EXCEDE';
+                                    }
+                                @endphp
+                            @endif
+                        </td>
                     </tr>                
                 @endfor
             </tbody>        
