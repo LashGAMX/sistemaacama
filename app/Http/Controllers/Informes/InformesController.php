@@ -3337,7 +3337,7 @@ class InformesController extends Controller
 
         //Establece la marca de agua del documento PDF
         $mpdf->SetWatermarkImage(
-            asset('/storage/HojaMembretadaHorizontal.png'),
+            asset('/public/storage/HojaMembretadaHorizontal.png'),
             1,
             array(215, 280),
             array(0, 0),

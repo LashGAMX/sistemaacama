@@ -239,7 +239,10 @@ function getPlanMuestreo() {
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 300,
+                "scrollCollapse": true,
+                "paging": false
             });
 
             $('#btnAllArea').click(function () {
@@ -256,12 +259,12 @@ function setPlanMuestreo() {
     let envase = new Array();
 
     for (var i = 0; i < elementos.length; i++) {
-        if (elementos[i].checked) {
+        if (elementos[i].checked) {            
             areas.push(elementos[i].value);
             cant.push($("#cantArea" + elementos[i].value).val())
-            envase.push($("#cantArea" + elementos[i].value).val())
+            envase.push($("#envArea" + elementos[i].value).val())
         }
-    }
+    }    
 
     $.ajax({
         type: "POST",
@@ -516,9 +519,7 @@ function setComplemento(tipo) {
     let elementos = document.getElementsByName("ckComplemento");
     let com = new Array();
 
-    let table = $("#tableComplemento input:checked")
-
-    console.log("Valor de ckComplemento: " + elementos.length);
+    let table = $("#tableComplemento input:checked")    
 
     for (var i = 0; i < elementos.length; i++) {
         if (elementos[i].checked) {
@@ -557,7 +558,7 @@ function setComplemento(tipo) {
 }
 function allSelectCheck(id) {
     let elementos = document.getElementsByName(id);
-    let sw = false;
+    let sw = false;      
 
     //comprobar estado
     for (var i = 0; i < elementos.length; i++) {
@@ -565,15 +566,15 @@ function allSelectCheck(id) {
             sw = true;
         }
     }
-    console.log("Sw:" + sw)
+    console.log("Sw:" + sw)    
 
     if (sw == true) {
         for (var i = 0; i < elementos.length; i++) {
-            elementos[i].checked = false;
+            elementos[i].checked = false;            
         }
     } else {
         for (var i = 0; i < elementos.length; i++) {
-            elementos[i].checked = true;
+            elementos[i].checked = true;            
         }
     }
 }

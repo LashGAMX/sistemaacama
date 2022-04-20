@@ -169,5 +169,5 @@ var dragging = false;
     });
 
 </script>
-    <script src="{{asset('js/informes/mensual.js')}}"></script>
+    <script src="{{asset('/public/js/informes/mensual.js')}}"></script>
 @stop 
