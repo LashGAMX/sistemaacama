@@ -19,8 +19,8 @@
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="7%">&nbsp;UNIDAD&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="14%">&nbsp;METODO DE
                         PRUEBA&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="9.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="9.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PROMEDIO MENSUAL
                         PONDERADO&nbsp;&nbsp;</td>
                 </tr>
@@ -101,49 +101,48 @@
                         </td>
 
                         <td class="tableContent bordesTablaBody">
-                            @if (strpos(@$limitesC[$i], "< AUS") === 0 || strpos(@$model[$i]->Unidad, "AUS") === 0)
-                                AUSENTE 
-                            @else 
-                                @if (@$limiteMostrar[$i] === 1)
-                                    {{@$limitesC[$i]}}
-                                @elseif (@$limiteMostrar2[$i] === 1)
-                                    {{@$limites2C[$i]}}
-                                @else
-                                    @if (@$model[$i]->Parametro == 'Grasas y Aceites ++')
-                                        @php
-                                            if(@$limExceed1 === 1 || @$limExceed2 === 1){
-                                                echo "< ".@$limGras;
-                                            }else{
-                                                @$promPonderado = (@$sumaCaudalesFinal + @$sumaCaudalesFinal2) / 2;
-                                                echo round(@$promPonderado, 3);
-                                            }                                            
-                                        @endphp
-                                    @elseif (@$model[$i]->Parametro == 'Coliformes Fecales +')
-                                        @php
-                                            if(@$limExceedColi1 === 1 || @$limExceedColi2 === 1){
-                                                echo "< ".@$limColi;
-                                            }else{
-                                                @$promPonderado = (@$resColi + @$resColi2) / 2;
-                                                echo round(@$promPonderado, 3); 
-                                            }                                            
-                                        @endphp
-                                    @elseif (@$model[$i]->Id_parametro === 7)
-                                        @php
-                                            if(@$limExceedDqo1 === 1 || @$limExceedDqo2 === 1){
-                                                echo "< ".@$limDqo;
-                                            }else{
-                                                @$promPonderado = (@$dqoFinal1 + @$dqoFinal2) / 2;
-                                                echo round(@$promPonderado, 3);
-                                            }                                            
-                                        @endphp
-                                    @else
-                                        @php
-                                            @$promPonderado = (@$limitesC[$i] + @$limites2C[$i]) / 2;
-                                            echo round(@$promPonderado, 3);
-                                        @endphp                                        
-                                    @endif                                    
-                                @endif 
-                            @endif 
+                            @if (@$model[$i]->Id_parametro === 14)
+                                @php
+                                    @$promPonderado = (@$sumaCaudalesFinal + @$sumaCaudalesFinal2) / 2;
+                                    
+                                    if(@$promPonderado < @$lGras){
+                                        echo "< ".@$lGras;
+                                    }else{
+                                        echo @$promPonderado;
+                                    }
+                                @endphp
+                                @elseif (@$model[$i]->Id_parametro === 13)
+                                    @php
+                                        @$promPonderado = (@$resColi + @$resColi2) / 2;
+                                    
+                                        if(@$promPonderado < @$lColi){
+                                            echo "< ".@$lColi;
+                                        }else{
+                                            echo @$promPonderado;
+                                        }
+                                @endphp
+                            @elseif (@$model[$i]->Id_parametro === 13)
+                                @php
+                                    @$promPonderado = (@$dqoFinal1 + @$dqoFinal2) / 2;
+                                    
+                                    if(@$promPonderado <= @$lDqo){
+                                        echo "< ".@$lDqo;
+                                    }else{
+                                        echo @$promPonderado;
+                                    }
+                                @endphp
+                            @else
+                                @php
+                                    $promPonderado = (@$resultsParam[$i] + @$resultsParam2[$i]) / 2;
+                                    $promPonderado = round(@$promPonderado, 2);
+
+                                    if(@$promPonderado < @$limitesNorma[$i]){
+                                        echo "< ".round(@$limitesNorma[$i], 3);
+                                    }else{
+                                        echo @$promPonderado;
+                                    }
+                                @endphp
+                            @endif
                         </td>
                     </tr>
                 @endfor

@@ -138,5 +138,8 @@ p{
     border-right-width: 0px;
     border-left-width: 0px;    
 }
+.divFlex{
+    display: flex;
+}
 
 /* @page{margin: 0.2in 0.5in 0.2in 0.5in;} */

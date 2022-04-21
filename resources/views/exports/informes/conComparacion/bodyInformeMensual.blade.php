@@ -138,7 +138,7 @@
                                         @endphp                                        
                                     @endif                                    
                                 @endif 
-                            @endif                                                                                    
+                            @endif
                         </td>
 
                         <td class="tableContent bordesTablaBody">

@@ -117,7 +117,7 @@ function getEnvase(id) {
                 tab += '<tr>';
                 tab += '<td>' + item.Area + '</td>';
                 tab += '<td>' + item.Cantidad + '</td>';
-                tab += '<td>' + item.Envase + '</td>';
+                tab += '<td>' + item.Envase + ' ' + item.Volumen + ' ' + item.Unidad +'</td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';
@@ -210,12 +210,12 @@ function getPlanMuestreo() {
                 $.each(response.envase, function (key, item2) {
                     if (sw == true) {
                         if (item2.Id_envase == response.datoModel[cont - 1].Id_recipiente) {
-                            tab += '<option value="' + item2.Id_envase + '" selected>' + item2.Nombre + '</option>';
+                            tab += '<option value="' + item2.Id_envase + '" selected>' + item2.Nombre + ' ' + item2.Volumen + ' ' + item2.Unidad + '</option>';
                         } else {
-                            tab += '<option value="' + item2.Id_envase + '">' + item2.Nombre + '</option>';
+                            tab += '<option value="' + item2.Id_envase + '">' + item2.Nombre + ' ' + item2.Volumen + ' ' + item2.Unidad + '</option>';
                         }
                     } else {
-                        tab += '<option value="' + item2.Id_envase + '">' + item2.Nombre + '</option>';
+                        tab += '<option value="' + item2.Id_envase + '">' + item2.Nombre + ' ' + item2.Volumen + ' ' + item2.Unidad + '</option>';
                     }
 
                 });
@@ -280,6 +280,8 @@ function setPlanMuestreo() {
         success: function (response) {
             console.log(response);
             getEnvase(idSub);
+            $('#modalAreas').modal('hide');
+            swal("Registro!", "Registro guardado correctamente!", "success");
         }
     });
 
@@ -541,7 +543,7 @@ function setComplemento(tipo) {
             console.log(response);
             switch (tipo) {
                 case 1:
-                    getMaterial(idSub)
+                    getMaterial(idSub)                    
                     break;
                 case 2:
                     getEquipo(idSub)
@@ -552,6 +554,9 @@ function setComplemento(tipo) {
                 default:
                     break;
             }
+
+            $('#modalComplemento').modal('hide');
+            swal("Registro!", "Registro guardado correctamente!", "success");
         }
     });
 

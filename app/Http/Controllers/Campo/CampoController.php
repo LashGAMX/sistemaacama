@@ -1279,7 +1279,8 @@ class CampoController extends Controller
     public function getPlanMuestreo(Request $res)
     {
         $model = AreaLab::all();
-        $envase = Envase::all();
+        //$envase = Envase::all();
+        $envase = DB::table('ViewEnvases')->get();
         $datoModel = DB::table('ViewPlanPaquete')->where('Id_paquete',$res->idSub)->get();
         
         $data = array(
