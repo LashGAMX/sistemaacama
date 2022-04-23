@@ -1279,7 +1279,8 @@ class CampoController extends Controller
     public function getPlanMuestreo(Request $res)
     {
         $model = AreaLab::all();
-        $envase = Envase::all();
+        //$envase = Envase::all();
+        $envase = DB::table('ViewEnvases')->get();
         $datoModel = DB::table('ViewPlanPaquete')->where('Id_paquete',$res->idSub)->get();
         
         $data = array(
@@ -1347,7 +1348,7 @@ class CampoController extends Controller
     public function setComplemento(Request $res)
     {
         $model = DB::table('plan_complemento')->where('Id_paquete',$res->idSub)->where('Tipo',$res->tipo)->delete();
-        for ($i=0; $i < sizeof($res->complemento); $i++) { 
+        for ($i=0; $i < sizeof($res->complemento); $i++) {
             PlanComplemento::create([
                 'Id_paquete' => $res->idSub,
                 'Id_complemento' => $res->complemento[$i],

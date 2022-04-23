@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('/public/css/custodiaInterna/custodiaInterna.css')}}">
+    {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> --}}
     <title>Cadena de custodia interna</title>
 </head>
 <body>
@@ -72,7 +73,7 @@
             </div>
 
             <div class="col-md-12">
-                <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}" cellpadding="0" cellspacing="0" width="100%">
+                <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}" cellpadding="0" cellspacing="0" width="100%" >
 
                     @php                        
                         $semaforo = 0;                        
@@ -123,9 +124,11 @@
                             @endif                            
                         </tr>
                     </thead>
-
-                    <tbody>                                                                                    
-                        @for ($i = 0; $i < $paramResultadoLength; $i+=$semaforo)
+                    @php
+                        $i = 0;
+                    @endphp
+                    <tbody>                                                                              
+                        @for ($cont = 0; $cont < $paramResultadoLength; $cont+=$semaforo)
                             <tr>                                
                                 @if ($paramResultadoLength < 10)
                                     <td class="bordesTablaInfIzqDer fontSize11 fontCalibri negrita">{{@$paramResultado[$i]->Parametro}}</td>
@@ -158,36 +161,40 @@
                                             AUSENTE
                                         @endif
                                     </td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[9+$i]->Parametro}}</td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">
-                                        @if (strpos(@$limitesC[$i+1], "< AUS") !== 0)
-                                            {{@$limitesC[$i+1]}}
+                                        @if (strpos(@$limitesC[9+$i], "< AUS") !== 0)
+                                            {{@$limitesC[9+$i]}}
                                         @else
                                             AUSENTE
                                         @endif
                                     </td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+2]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[18+$i]->Parametro}}</td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">
-                                        @if (strpos(@$limitesC[$i+2], "< AUS") !== 0)
-                                            {{@$limitesC[$i+2]}}
+                                        @if (strpos(@$limitesC[18+$i], "< AUS") !== 0)
+                                            {{@$limitesC[18+$i]}}
                                         @else
                                             AUSENTE
                                         @endif
                                     </td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+3]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[27+$i]->Parametro}}</td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">
-                                        @if (strpos(@$limitesC[$i+3], "< AUS") !== 0)
-                                            {{@$limitesC[$i+3]}}
+                                        @if (strpos(@$limitesC[27+$i], "< AUS") !== 0)
+                                            {{@$limitesC[27+$i]}}
                                         @else
                                             AUSENTE
                                         @endif                                                                            
                                     </td>
                                 @endif                                                                                     
                             </tr>
+                            @php
+                                $i++;
+                            @endphp
                         @endfor                        
                     </tbody>                    
                 </table>
             </div>
+  
 
             <br>
 
@@ -196,7 +203,7 @@
                     <div>
                         <table class="table-sm" width="100%">
                             <tr>
-                                <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/Ls</td>
+                                <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">{{@$promedioPonderadoGA}}</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">{{@$mAritmeticaColi}}</td>

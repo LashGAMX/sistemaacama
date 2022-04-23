@@ -15,8 +15,8 @@
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="35%">PARAMETRO &nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="7%">&nbsp;UNIDAD&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="14%">&nbsp;METODO DE PRUEBA&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="7.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="8.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PROMEDIO MENSUAL PONDERADO&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO MENSUAL&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;DIAGNOSTICO&nbsp;&nbsp;</td>
@@ -24,26 +24,38 @@
             </thead>
     
             <tbody>
-                @for ($i = 0; $i <@$solicitudParametrosLength ; $i++)
+                @for ($i = 0; $i <@$modelLength ; $i++)
                     <tr>
-                        <td class="tableContentLeft bordesTablaBody">{{@$solicitudParametros[$i]->Parametro}}</td>
-                        <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Unidad}}</td>
-                        <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->Clave_metodo}}</td>
+                        <td class="tableContentLeft bordesTablaBody">{{@$model[$i]->Parametro}}</td>
+                        <td class="tableContent bordesTablaBody">{{@$model[$i]->Unidad}}</td>
+                        <td class="tableContent bordesTablaBody">{{@$model[$i]->Clave_metodo}}</td>
                         <td class="tableContent bordesTablaBody">
-                            @if (strpos(@$limitesC[$i], "< AUS") === 0 || strpos(@$solicitudParametros[$i]->Unidad, "AUS") === 0) 
+                            @if (strpos(@$limitesC[$i], "< AUS") === 0 || strpos(@$model[$i]->Unidad, "AUS") === 0) 
                                 AUSENTE 
                             @else 
-                                @if (@$solicitudParametros[$i]->Parametro == 'Grasas y Aceites ++')
+                                @if (@$model[$i]->Parametro == 'Grasas y Aceites ++')
                                     @php
-                                        echo round(@$sumaCaudalesFinal, 2);
+                                        if(@$limExceed1 === 1 || @$limExceed2 === 1){
+                                            echo "< ".@$limGras;
+                                        }else{
+                                            echo round(@$sumaCaudalesFinal, 2);
+                                        }                                        
                                     @endphp
-                                @elseif (@$solicitudParametros[$i]->Parametro == 'Coliformes Fecales +')
+                                @elseif (@$model[$i]->Parametro == 'Coliformes Fecales +')
                                     @php
-                                        echo round(@$resColi, 2);
+                                        if(@$limExceedColi1 === 1 || @$limExceedColi2 === 1){
+                                            echo "< ".@$limColi;
+                                        }else{
+                                            echo round(@$resColi, 2); 
+                                        }                                        
                                     @endphp 
-                                @elseif (@$solicitudParametros[$i]->Id_parametro === 7)
+                                @elseif (@$model[$i]->Id_parametro === 7)
                                     @php
-                                        echo round(@$dqoFinal1, 2);
+                                        if(@$limExceedDqo1 === 1 || @$limExceedDqo2 === 1){
+                                            echo "< ".@$limDqo;
+                                        }else{                                            
+                                            echo round(@$dqoFinal1, 2);
+                                        }                                          
                                     @endphp
                                 @else
                                     {{@$limitesC[$i]}}
@@ -51,20 +63,32 @@
                             @endif                                                        
                         </td>
                         <td class="tableContent bordesTablaBody">
-                            @if (strpos(@$limites2C[$i], "< AUS") === 0 || strpos(@$solicitudParametros[$i]->Unidad, "AUS") === 0) 
+                            @if (strpos(@$limites2C[$i], "< AUS") === 0 || strpos(@$model[$i]->Unidad, "AUS") === 0) 
                                 AUSENTE 
                             @else 
-                                @if (@$solicitudParametros[$i]->Parametro == 'Grasas y Aceites ++')
+                                @if (@$model2[$i]->Parametro == 'Grasas y Aceites ++')
                                     @php
-                                        echo round(@$sumaCaudalesFinal2, 2);
+                                        if(@$limExceed1 === 1 || @$limExceed2 === 1){
+                                            echo "< ".@$limGras;
+                                        }else{
+                                            echo round(@$sumaCaudalesFinal2, 2);
+                                        }                                          
                                     @endphp
-                                @elseif (@$solicitudParametros[$i]->Parametro == 'Coliformes Fecales +')
+                                @elseif (@$model2[$i]->Parametro == 'Coliformes Fecales +')
                                     @php
-                                        echo round(@$resColi2, 2); 
+                                        if(@$limExceedColi1 === 1 || @$limExceedColi2 === 1){
+                                            echo "< ".@$limColi;
+                                        }else{
+                                            echo round(@$resColi2, 2); 
+                                        }                                        
                                     @endphp
-                                @elseif (@$solicitudParametros[$i]->Id_parametro === 7)
+                                @elseif (@$model2[$i]->Id_parametro === 7)
                                     @php
-                                        echo round(@$dqoFinal2, 2);
+                                        if(@$limExceedDqo1 === 1 || @$limExceedDqo2 === 1){
+                                            echo "< ".@$limDqo;
+                                        }else{                                            
+                                            echo round(@$dqoFinal2, 2);
+                                        }                                          
                                     @endphp
                                 @else
                                     {{@$limites2C[$i]}}
@@ -72,18 +96,53 @@
                             @endif                                                        
                         </td>
                         <td class="tableContent bordesTablaBody">
-                            @if (strpos(@$limitesC[$i], "< AUS") === 0)
-                                AUSENTE                                                            
-                            @else
-                                @if (@$limiteMostrar[$i] === true)
+                            @if (strpos(@$limitesC[$i], "< AUS") === 0 || strpos(@$model[$i]->Unidad, "AUS") === 0)
+                                AUSENTE 
+                            @else 
+                                @if (@$limiteMostrar[$i] === 1)
                                     {{@$limitesC[$i]}}
+                                @elseif ($limiteMostrar2[$i] === 1)
+                                    {{@$limites2C[$i]}}
                                 @else
-                                    SE CALCULA PROM
-                                @endif                                
-                            @endif                                                                                    
+                                    @if (@$model[$i]->Parametro == 'Grasas y Aceites ++')
+                                        @php
+                                            if(@$limExceed1 === 1 || @$limExceed2 === 1){
+                                                echo "< ".@$limGras;
+                                            }else{
+                                                @$promPonderado = (@$sumaCaudalesFinal + @$sumaCaudalesFinal2) / 2;
+                                                echo round(@$promPonderado, 3);
+                                            }                                            
+                                        @endphp
+                                    @elseif (@$model[$i]->Parametro == 'Coliformes Fecales +')
+                                        @php
+                                            if(@$limExceedColi1 === 1 || @$limExceedColi2 === 1){
+                                                echo "< ".@$limColi;
+                                            }else{
+                                                @$promPonderado = (@$resColi + @$resColi2) / 2;
+                                                echo round(@$promPonderado, 3); 
+                                            }                                            
+                                        @endphp
+                                    @elseif (@$model[$i]->Id_parametro === 7)
+                                        @php
+                                            if(@$limExceedDqo1 === 1 || @$limExceedDqo2 === 1){
+                                                echo "< ".@$limDqo;
+                                            }else{
+                                                @$promPonderado = (@$dqoFinal1 + @$dqoFinal2) / 2;
+                                                echo round(@$promPonderado, 3);
+                                            }                                            
+                                        @endphp
+                                    @else
+                                        @php
+                                            @$promPonderado = (@$limitesC[$i] + @$limites2C[$i]) / 2;
+                                            echo round(@$promPonderado, 3);
+                                        @endphp                                        
+                                    @endif                                    
+                                @endif 
+                            @endif
                         </td>
+
                         <td class="tableContent bordesTablaBody">
-                            @if (strpos(@$limitesC[$i], "< AUS") === 0)
+                            {{-- @if (strpos(@$limitesC[$i], "< AUS") === 0)
                                 AUSENTE                                                            
                             @else
                                 @if (@$limiteMostrar[$i] === true)
@@ -91,9 +150,52 @@
                                 @else
                                     SE CALCULA PROM
                                 @endif                                
-                            @endif                            
+                            @endif --}}
+                            
+                            {{@$limitesNorma[$i]}}
                         </td>
-                        <td class="tableContent bordesTablaBody">DIAGNOSTICO</td>
+                        
+                        <td class="tableContent bordesTablaBody">
+                            @if (@$model[$i]->Id_parametro === 14)
+                                @php
+                                    @$promPonderado = (@$sumaCaudalesFinal + @$sumaCaudalesFinal2) / 2;
+                                    
+                                    if(@$promPonderado <= @$lGras){
+                                        echo 'NO EXCEDE';
+                                    }else{
+                                        echo 'EXCEDE';
+                                    }
+                                @endphp
+                                @elseif (@$model[$i]->Id_parametro === 13)
+                                    @php
+                                        @$promPonderado = (@$resColi + @$resColi2) / 2;
+                                    
+                                        if(@$promPonderado <= @$lColi){
+                                            echo 'NO EXCEDE';
+                                        }else{
+                                            echo 'EXCEDE';
+                                        }
+                                @endphp
+                            @elseif (@$model[$i]->Id_parametro === 13)
+                                @php
+                                    @$promPonderado = (@$dqoFinal1 + @$dqoFinal2) / 2;
+                                    if(@$promPonderado <= @$lDqo){
+                                        echo 'NO EXCEDE';
+                                    }else{
+                                        echo 'EXCEDE';
+                                    }
+                                @endphp
+                            @else
+                                @php
+                                    $promPonderado = (@$resultsParam[$i] + @$resultsParam2[$i]) / 2;
+                                    if(@$promPonderado <= $limitesNorma[$i]){
+                                        echo 'NO EXCEDE';
+                                    }else{
+                                        echo 'EXCEDE';
+                                    }
+                                @endphp
+                            @endif
+                        </td>
                     </tr>                
                 @endfor
             </tbody>        

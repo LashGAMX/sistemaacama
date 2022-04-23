@@ -108,6 +108,6 @@
 
 @section('javascript')
     <script src="{{asset('/public/js/campo/configuracionPlan.js')}}?v=0.0.1"></script>
-@stop
-
+@stop  
+ 
  

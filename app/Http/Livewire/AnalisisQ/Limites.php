@@ -17,6 +17,9 @@ class Limites extends Component
         ->where('Parametro','LIKE',"%{$this->search}%")
         ->get();
         return view('livewire.analisis-q.limites',compact('model'));
+
+        
+       
     }
     public function details($idParametro)
     {

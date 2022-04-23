@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AnalisisQ\ImportarController;
 use App\Http\Controllers\AnalisisQ\LimitesController;
+use App\Http\Controllers\AnalisisQ\LimitesNormaController;
 use App\Http\Controllers\AnalisisQ\NormaController;
 use App\Http\Controllers\AnalisisQ\ParametroController;
 use App\Http\Controllers\AnalisisQ\FormulasController;
@@ -27,6 +28,9 @@ Route::group(['prefix' => 'analisisQ'], function () {
     Route::get('limites', [LimitesController::class,'index']);
     Route::get('limites/{idNorma}', [LimitesController::class,'show']); 
     Route::get('limites/{idNorma}/{idParametro}', [LimitesController::class,'details']); 
+
+    Route::get('LimitesNorma', [LimitesNormaController::class, 'index']);
+    Route::post('LimitesNorma/parametros', [LimitesNormaController::class, 'getParametros']);
 
     Route::get('importar', [ImportarController::class,'index']);
     Route::post('importar/create', [ImportarController::class,'create']); 

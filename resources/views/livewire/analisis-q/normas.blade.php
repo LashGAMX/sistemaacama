@@ -15,7 +15,7 @@
                 <th>Norma</th>
                 <th>Clave_norma</th>
                 <th>Ini Validez</th>
-                <th>Fin Validez</th>
+                <th>Fin Validez</th> 
                 <th>Acción</th> 
             </tr>
         </thead>

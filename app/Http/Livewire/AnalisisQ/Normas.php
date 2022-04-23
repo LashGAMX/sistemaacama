@@ -14,7 +14,7 @@ class Normas extends Component
     public $sw = false;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']]; 
-
+ 
     public $idNorma;
     public $norma;
     public $descarga;
@@ -82,7 +82,7 @@ class Normas extends Component
         $this->resetValidation();
         $this->alert = false;
         $this->clean();
-            $this->sw = true;
+        $this->sw = false;
     }
     public function setData($idNorma,$norma,$clave,$descarga,$inicio,$fin,$status)
     {

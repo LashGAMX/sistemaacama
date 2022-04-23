@@ -1,7 +1,7 @@
 
 var idSub;
 $(document).ready(function () {
-    getPaquetes();
+    getPaquetes();    
 });
 
 $('#btnAddPlan').click(function () {
@@ -22,7 +22,7 @@ $('#btnAddComplemento').click(function () {
 
 function getPaquetes() {
 
-    let tabla = document.getElementById('divTablePaquetes');
+    let tabla = document.getElementById('divTablePaquetes'); 
     let tab = '';
     $.ajax({
         type: "POST",
@@ -63,7 +63,9 @@ function getPaquetes() {
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 200,
+                "scrollCollapse": true
             });
 
 
@@ -115,7 +117,7 @@ function getEnvase(id) {
                 tab += '<tr>';
                 tab += '<td>' + item.Area + '</td>';
                 tab += '<td>' + item.Cantidad + '</td>';
-                tab += '<td>' + item.Envase + '</td>';
+                tab += '<td>' + item.Envase + ' ' + item.Volumen + ' ' + item.Unidad +'</td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';
@@ -130,7 +132,10 @@ function getEnvase(id) {
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 150,
+                "scrollCollapse": true,
+                "pageLength": 30
             });
 
 
@@ -205,12 +210,12 @@ function getPlanMuestreo() {
                 $.each(response.envase, function (key, item2) {
                     if (sw == true) {
                         if (item2.Id_envase == response.datoModel[cont - 1].Id_recipiente) {
-                            tab += '<option value="' + item2.Id_envase + '" selected>' + item2.Nombre + '</option>';
+                            tab += '<option value="' + item2.Id_envase + '" selected>' + item2.Nombre + ' ' + item2.Volumen + ' ' + item2.Unidad + '</option>';
                         } else {
-                            tab += '<option value="' + item2.Id_envase + '">' + item2.Nombre + '</option>';
+                            tab += '<option value="' + item2.Id_envase + '">' + item2.Nombre + ' ' + item2.Volumen + ' ' + item2.Unidad + '</option>';
                         }
                     } else {
-                        tab += '<option value="' + item2.Id_envase + '">' + item2.Nombre + '</option>';
+                        tab += '<option value="' + item2.Id_envase + '">' + item2.Nombre + ' ' + item2.Volumen + ' ' + item2.Unidad + '</option>';
                     }
 
                 });
@@ -234,7 +239,10 @@ function getPlanMuestreo() {
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 300,
+                "scrollCollapse": true,
+                "paging": false
             });
 
             $('#btnAllArea').click(function () {
@@ -251,12 +259,12 @@ function setPlanMuestreo() {
     let envase = new Array();
 
     for (var i = 0; i < elementos.length; i++) {
-        if (elementos[i].checked) {
+        if (elementos[i].checked) {            
             areas.push(elementos[i].value);
             cant.push($("#cantArea" + elementos[i].value).val())
-            envase.push($("#cantArea" + elementos[i].value).val())
+            envase.push($("#envArea" + elementos[i].value).val())
         }
-    }
+    }    
 
     $.ajax({
         type: "POST",
@@ -272,6 +280,8 @@ function setPlanMuestreo() {
         success: function (response) {
             console.log(response);
             getEnvase(idSub);
+            $('#modalAreas').modal('hide');
+            swal("Registro!", "Registro guardado correctamente!", "success");
         }
     });
 
@@ -315,7 +325,10 @@ function getMaterial(id) {
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 150,
+                "scrollCollapse": true,
+                "pageLength": 30
             });
 
         }
@@ -361,7 +374,10 @@ function getEquipo(id) {
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 150,
+                "scrollCollapse": true,
+                "pageLength": 30
             });
 
         }
@@ -406,14 +422,17 @@ function getComplementoCamp(id) {
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 150,
+                "scrollCollapse": true,
+                "pageLength": 30
             });
 
         }
     });
 }
 
-function getComplemento(tipo) {
+function getComplemento(tipo) {    
     let tab = '';
     let sw = false;
     let temp = 0;
@@ -482,9 +501,13 @@ function getComplemento(tipo) {
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",
                     "zeroRecords": "No hay datos encontrados",
-                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "info": "Mostrando resultados",
+                    /* "info": "Pagina _PAGE_ de _PAGES_", */
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 250,
+                "scrollCollapse": true,
+                "paging": false
             });
 
             $('#btnAllComplemento').click(function () {
@@ -498,6 +521,7 @@ function setComplemento(tipo) {
     let elementos = document.getElementsByName("ckComplemento");
     let com = new Array();
 
+    let table = $("#tableComplemento input:checked")    
 
     for (var i = 0; i < elementos.length; i++) {
         if (elementos[i].checked) {
@@ -519,7 +543,7 @@ function setComplemento(tipo) {
             console.log(response);
             switch (tipo) {
                 case 1:
-                    getMaterial(idSub)
+                    getMaterial(idSub)                    
                     break;
                 case 2:
                     getEquipo(idSub)
@@ -530,13 +554,16 @@ function setComplemento(tipo) {
                 default:
                     break;
             }
+
+            $('#modalComplemento').modal('hide');
+            swal("Registro!", "Registro guardado correctamente!", "success");
         }
     });
 
 }
 function allSelectCheck(id) {
     let elementos = document.getElementsByName(id);
-    let sw = false;
+    let sw = false;      
 
     //comprobar estado
     for (var i = 0; i < elementos.length; i++) {
@@ -544,15 +571,15 @@ function allSelectCheck(id) {
             sw = true;
         }
     }
-    console.log("Sw:" + sw)
+    console.log("Sw:" + sw)    
 
     if (sw == true) {
         for (var i = 0; i < elementos.length; i++) {
-            elementos[i].checked = false;
+            elementos[i].checked = false;            
         }
     } else {
         for (var i = 0; i < elementos.length; i++) {
-            elementos[i].checked = true;
+            elementos[i].checked = true;            
         }
     }
 }

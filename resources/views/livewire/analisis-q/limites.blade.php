@@ -29,7 +29,7 @@
       </tr>
   @endforeach
       @else
-          <h6>No hay resultados para la búsqueda "{{$search}}"</h6>
+          <h6>No hay resultados para la búsqueda "{{$search}}"</h6> 
       @endif
       </tbody>
   </table>

@@ -127,7 +127,7 @@
             <div class="col-md-6">
               <input type="date" id="fechaFin">
               
-            </div>
+            </div> 
           </div>
         </div>
         <div class="modal-footer">
