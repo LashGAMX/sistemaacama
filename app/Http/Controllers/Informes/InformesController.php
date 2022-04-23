@@ -88,6 +88,15 @@ class InformesController extends Controller
             'defaultheaderline' => '0'
         ]);
 
+        // Hace los filtros para realizar la comparacion
+        $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol)->first();
+        $solModel2 = DB::table('ViewSolicitud')->where('IdPunto', $solModel->IdPunto)->OrderBy('Id_solicitud', 'DESC')->get();
+
+        //ViewCodigoParametro
+        $cont = (sizeof($solModel2) - 1);
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->get();
+        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel2[0]->Id_solicitud)->get();
+
         //Recupera el nombre de usuario y firma
         /* $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
         $firma = $usuario->firma; */
