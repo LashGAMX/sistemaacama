@@ -62,6 +62,7 @@ class DetalleNorma extends Component
             SubNorma::find($this->idSub)->delete();   
         }
         $this->alert = true;
+        $model->save();
     }
     public function setData($idSub,$sub,$clave,$status)
     {
