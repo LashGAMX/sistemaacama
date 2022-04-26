@@ -12,12 +12,14 @@ class Limite002 extends Model
     use SoftDeletes;
 
     protected $table = 'limitepnorma_002';
-    protected $primaryKey = 'Id_nmx02';
+    protected $primaryKey = 'Id_limite';
     public $timestamps = true;
 
     protected $fillable = [
-        'Prom_intsmax',
-        'Prom_intsmin',        
+        'Id_parametro'      ,
+        'PromM',
+        'PromD',
+        'Instantaneo',
         'Id_user_c',
         'Id_user_m'
     ];

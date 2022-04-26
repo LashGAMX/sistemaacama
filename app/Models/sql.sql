@@ -105,8 +105,13 @@ INNER JOIN simbologia_parametros as sim
 ON p.Id_simbologia = sim.Id_simbologia
 
 /* Vista Lista View_limite001*/
-CREATE VIEW ViewLimite001 as SELECT lim.Id_limite,lim.Id_tipo,tipo.Detalle,lim.Id_parametro,pa.Parametro,lim.Prom_Mmax,lim.Prom_Mmin,lim.Prom_Dmax,lim.Prom_Dmin FROM limitepnorma_001 as lim 
-INNER JOIN detalle_tipoCuerpos as tipo ON lim.Id_tipo = tipo.Id_detalle INNER JOIN parametros as pa ON lim.Id_parametro = pa.Id_parametro
+CREATE VIEW ViewLimite001 as SELECT lim.*,tipo.Detalle,cla.Tipo_cuerpo FROM limitepnorma_001 as lim 
+INNER JOIN detalle_tipoCuerpos as tipo 
+ON lim.Id_categoria = tipo.Id_detalle 
+INNER JOIN parametros as pa 
+ON lim.Id_parametro = pa.Id_parametro
+INNER JOIN clasificaciones as cla
+ON lim.Id_tipo = cla.Id_clasificacion
 
 /*Vista   Lista precio catalgo*/
 CREATE VIEW ViewPrecioCat as SELECT cat.Id_precio,cat.Id_parametro,cat.Id_user_c,cat.Id_user_m,par.Parametro, par.Id_norma, par.Tipo_formula,par.Rama,par.Unidad,

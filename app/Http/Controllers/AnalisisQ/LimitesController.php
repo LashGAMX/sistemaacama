@@ -19,7 +19,8 @@ class LimitesController extends Controller
     }
     public function details($idNorma,$idParametro)
     {
-        return view('analisisQ.limites',compact('idNorma','idParametro'));
+        $sw = true;
+        return view('analisisQ.limites',compact('idNorma','idParametro','sw'));
     }   
 }
  

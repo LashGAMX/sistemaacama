@@ -17,6 +17,7 @@ class Limite001 extends Model
 
     protected $fillable = [
         'Id_tipo',
+        'Id_categoria',
         'Id_parametro',
         'Prom_Mmax',
         'Prom_Mmin',

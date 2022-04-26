@@ -25,12 +25,17 @@
             <div class="card"> 
                 <div class="card-body">
                     <h6>Limites</h6>
-                    @if (@$idNorma == 1)
-                       <h6>Limite Normas 001</h6>
-                        {{-- @livewire('analisis-q.limite-parametros001', ['idParametro' => @$idParametro]) --}}
-                    @endif
-                    @if (@$idNorma == 2)
-                        <h6>Esta es la norma 002</h6>
+                    @if (@$sw == true)
+                      @switch(@$idNorma)
+                          @case(1)
+                            @livewire('analisis-q.limite-parametros001', ['idParametro' => @$idParametro,'idNorma' => @$idNorma])        
+                              @break
+                          @case(2)
+                            @livewire('analisis-q.limite-parametros002', ['idParametro' => @$idParametro,'idNorma' => @$idNorma])        
+                              @break
+                          @default
+                              
+                      @endswitch
                     @endif
                 </div>
               </div>

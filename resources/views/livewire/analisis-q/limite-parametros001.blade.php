@@ -1,5 +1,5 @@
   <div>
-    <h4>Parametro: {{$model[0]->Parametro}}</h4>
+    <h4>Parametro: {{$parametro->}}</h4>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
           <a class="nav-link active" id="rios-tab" data-toggle="tab" href="#rios" role="tab" aria-controls="rios" aria-selected="true">Rios</a>
@@ -42,7 +42,7 @@
                       </tr>
                     @endfor
                     @else
-                        <h6>No hay resultados para la búsqueda "{{$search}}"</h6>
+                        <h6>No hay resultados para la búsqueda</h6>
                     @endif
                     </tbody>
                 </table>
@@ -75,7 +75,7 @@
                       </tr>
                     @endfor
                     @else
-                        <h6>No hay resultados para la búsqueda "{{$search}}"</h6>
+                        <h6>No hay resultados para la búsqueda</h6>
                     @endif
                     </tbody>
                 </table>
@@ -109,7 +109,7 @@
                       </tr>
                     @endfor
                     @else
-                        <h6>No hay resultados para la búsqueda "{{$search}}"</h6>
+                        <h6>No hay resultados para la búsqueda</h6>
                     @endif
                     </tbody>
                 </table>
@@ -143,7 +143,7 @@
                       </tr>
                     @endfor
                     @else
-                        <h6>No hay resultados para la búsqueda "{{$search}}"</h6>
+                        <h6>No hay resultados para la búsqueda</h6>
                     @endif
                     </tbody>
                 </table>
