@@ -3,7 +3,7 @@
 @section('content')
 
   @section('page_header')
- 
+  
   @stop
 
   <div class="container-fluid">
