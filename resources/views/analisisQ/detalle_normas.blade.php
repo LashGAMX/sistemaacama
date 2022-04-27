@@ -8,6 +8,7 @@
       <i class="voyager-person"></i>
       Detalle normas
   </h6>
+  {{asset('')}}
   <div class="row">
     <div class="col-md-5">
         <div class="card">
@@ -57,9 +58,9 @@
 
 
 @section('javascript')
-<script src="{{asset('js/analisisQ/detalle_normas.js')}}"></script>
-<script src="{{asset('js/libs/componentes.js')}}"></script>
-<script src="{{asset('js/libs/tablas.js')}}"></script>
+<script src="{{asset('public/js/analisisQ/detalle_normas.js')}}?v=0.0.1"></script>
+<script src="{{asset('public/js/libs/componentes.js')}}?v=0.0.1"></script>
+<script src="{{asset('public/js/libs/tablas.js')}}?v=0.0.1"></script>
 @stop
 
 
