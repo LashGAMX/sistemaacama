@@ -1,4 +1,3 @@
-
 var swParametros = 0;
 var sw = $("#sw").val();
 $(document).ready(function () {

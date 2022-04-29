@@ -34,14 +34,14 @@
                             <div class="col-md-1">
                                 <a href="{{url('admin/cotizacion/create')}}" class="btn btn-success btn-sm"><i class="voyager-plus"></i> Crear</a>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-2">
                                 <button id="btnEdit" class="btn btn-warning" ><i class="voyager-edit"></i> Editar</button>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-md-2">
                                 <button id="btnPrint" class="btn btn-info" ><i class="voyager-edit"></i> Imprimir</button>
                             </div>
 
-                            <div class="col-md-1">
+                            <div class="col-md-2">
                                 <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Cotización</button>
                             </div>
                         </div>

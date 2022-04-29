@@ -90,7 +90,7 @@ function getDatoIntermediario() {
         async: false,
         success: function (response) {
             console.log(response);
-            $("#nombreInter").val(response.intermediario.Nombres + "" + response.intermediario.A_paterno);
+            $("#nombreInter").val(response.intermediario.Nombres);
             $("#celularInter").val(response.intermediario.Celular1);
             $("#telefonoInter").val(response.intermediario.Tel_oficina);
         }
