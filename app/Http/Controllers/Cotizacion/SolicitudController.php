@@ -60,7 +60,7 @@ class SolicitudController extends Controller
             $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
 
             //Recupera los intermediarios registrados para esa cotización
-            $intermediario = DB::table('ViewIntermediarios')->where('Id_intermediario', $model->Id_intermedio)->get();
+            $intermediario = DB::table('ViewIntermediarios')->where('Id_cliente', $model->Id_intermedio)->get();
 
             //Recupera los contactos del cliente registrados para esa cotización
             $contactoCliente = ContactoCliente::where('Id_cliente', $model->Id_cliente)->get();
@@ -136,6 +136,7 @@ class SolicitudController extends Controller
         //$model = Solicitud::where('Id_cotizacion',$idCot)->first();
 
         $sw = false;
+        var_dump($intermediario);
         return view(
             'cotizacion.solicitudSinCot',
             compact(

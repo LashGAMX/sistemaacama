@@ -33,7 +33,7 @@ class DetalleNorma extends Component
 
     public function render()
     {
-        $model = SubNorma::withTrashed()->where('Id_norma',$this->idNorma)->get();
+        $model = SubNorma::withTrashed()->where('Id_norma',$this->idNorma)->orderBy('Id_subnorma','ASC')->get();
         return view('livewire.analisis-q.detalle-norma',compact('model'));
     }
     public function create()

@@ -70,7 +70,7 @@ function agregarParametros(idSub)
     async: false,
     success: function (response) {
       $.each(response.sqlParametro,function(key,item){
-        parametro.push("Pa: "+item.Parametro + '/ Mat:' + item.Matriz);
+        parametro.push("Id:"+item.Id_parametro+" Pa: "+item.Parametro + '/ Mat:' + item.Matriz);
         parametroId.push(item.Id_parametro);
       });
       $.each(response.sqlNorma,function(key,item){

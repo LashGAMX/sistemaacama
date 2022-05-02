@@ -107,6 +107,7 @@ class CampoController extends Controller
         // $conCampoCalidad = CampoConCalidad::where('Id_solicitud',$model->Id_solicitud)->first();
         // $frecuencia = DB::table('frecuencia001')->where('')
         //var_dump($phCampoTrazable);
+        var_dump($model);
         $data = array(
             'model' => $model,
             'general' => $general,
@@ -131,7 +132,7 @@ class CampoController extends Controller
             'puntos' => $puntos,
             //'phCampoCalidadMuestra' => $phCampoCalidadMuestra
         );
-        return view('campo.captura', $data);
+        // return view('campo.captura', $data);
     }
     public function setDataGeneral(Request $request)
     {

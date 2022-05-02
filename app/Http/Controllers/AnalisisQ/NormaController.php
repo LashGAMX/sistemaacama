@@ -57,6 +57,7 @@ class NormaController extends Controller
         $idSub = $_POST['idSub'];
         $model = DB::table('ViewNormaParametro')
         ->where('Id_norma',$idSub)
+        ->orderBy('Parametro','ASC')
         ->get();
         $data = array(
             'model' => $model,
@@ -68,7 +69,8 @@ class NormaController extends Controller
         $idSubNorma = $_POST['idSub'];
         $idNorma = $_POST['idNorma'];
         $normaModel = DB::table('ViewNormaParametro')->where('Id_norma',$idSubNorma)->get();
-        $parametroModel = DB::table('ViewParametros')->where('Id_norma',$idNorma)->get();
+        // $parametroModel = DB::table('ViewParametros')->where('Id_norma',$idNorma)->get();
+        $parametroModel = DB::table('ViewParametros')->get();
         $data = array('sqlNorma' => $normaModel,'sqlParametro' => $parametroModel);
         return response()->json($data);
     }
