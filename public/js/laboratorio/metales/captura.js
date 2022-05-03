@@ -16,7 +16,7 @@ $('#btnLiberar').click(function(){
     liberarMuestraMetal();
 });
 function getDataCaptura() {
-    cleanTable();
+    cleanTable(); 
     numMuestras = new Array();
     let tabla = document.getElementById('divLote');
     let tab = '';
@@ -148,14 +148,14 @@ function getLoteCaptura() {
                     tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
                 }
                 tab += '<td>'+item.Empresa_suc+'</td>';
-                tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+cont+'" value="50"></td>';
-                tab += '<td><input '+status+' style="width: 80px" id="abs1'+cont+'" value="'+item.Abs1+'"></td>';
-                tab += '<td><input '+status+' style="width: 80px" id="abs2'+cont+'" value="'+item.Abs2+'"></td>';
-                tab += '<td><input '+status+' style="width: 80px" id="abs3'+cont+'" value="'+item.Abs3+'"></td>';
-                tab += '<td><input '+status+' style="width: 80px" id="absPromedio'+cont+'" value="'+item.Abs_promedio+'"></td>';
-                tab += '<td><input '+status+' style="width: 80px" id="factorDilucion'+cont+'" value="'+item.Factor_dilucion+'"></td>';
-                tab += '<td><input '+status+' style="width: 80px" id="factorConversion'+cont+'" value="'+item.Factor_conversion+'"></td>';
-                tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+cont+'" value="'+item.Vol_disolucion+'"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="50"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="abs1'+item.Id_detalle+'" value="'+item.Abs1+'"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="abs2'+item.Id_detalle+'" value="'+item.Abs2+'"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="abs3'+item.Id_detalle+'" value="'+item.Abs3+'"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="absPromedio'+item.Id_detalle+'" value="'+item.Abs_promedio+'"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="factorDilucion'+item.Id_detalle+'" value="'+item.Factor_dilucion+'"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="factorConversion'+item.Id_detalle+'" value="'+item.Factor_conversion+'"></td>';
+                tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value="'+item.Vol_disolucion+'"></td>';
 
                 tab += '</tr>';
                 numMuestras.push(item.Id_detalle);
@@ -351,6 +351,29 @@ function generarControles()
                 let dato = $(this).find('td:first').html();
                 idMuestra = dato;
               });
+        }
+    });
+}
+function liberarMuestraMetal()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/liberarMuestraMetal",
+        data: {
+            idMuestra: idMuestra,
+            idLote:idLote,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response.sw == true)
+            {
+                getDataCaptura();
+                getLoteCaptura();
+            }else{
+                alert("La muestra no se pudo liberar");
+            }
         }
     });
 }

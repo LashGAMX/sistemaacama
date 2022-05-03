@@ -358,22 +358,23 @@ class MetalesController extends Controller
         $FD = $request->FD; 
         $suma = ($x + $y + $z);
         $promedio = $suma / 3; 
+        $resultado = "";
         
         if($parametroPurificada->count()){    //todo:: Verificar filtro con la norma!!!
             $paso1 = (($promedio - $curvaConstantes->B) /$curvaConstantes->M ) * $FD;
             $resultado = ($paso1 * 1)/1000;
         }else{
 
-        if($parametroModel->count())
-        {
-            if($detalleModel->Descripcion != "Resultado"){
-                $resultado = (($promedio - $curvaConstantes->B) /$curvaConstantes->M ) * $FD;                
+            if($parametroModel->count())
+            {
+                if($detalleModel->Descripcion != "Resultado"){
+                    $resultado = (($promedio - $curvaConstantes->B) /$curvaConstantes->M ) * $FD;         
+                }else{
+                    $resultado = ((($promedio - $curvaConstantes->B) /$curvaConstantes->M ) * $FD) / 1000;
+                }
             }else{
-                $resultado = ((($promedio - $curvaConstantes->B) /$curvaConstantes->M ) * $FD) / 1000;
+                $resultado = (($promedio - $curvaConstantes->B) /$curvaConstantes->M ) * $FD;
             }
-        }else{
-            $resultado = (($promedio - $curvaConstantes->B) /$curvaConstantes->M ) * $FD;
-        }
 
         }
  
@@ -381,7 +382,7 @@ class MetalesController extends Controller
         $detalle->Vol_muestra = $request->volMuestra;
         $detalle->Abs1 = $request->x;
         $detalle->Abs2 = $request->y;
-        $detalle->Abs3 = $request->z;
+        $detalle->Abs3 = $request->z; 
         $detalle->Abs_promedio = $promedio;
         $detalle->Factor_dilucion = $request->FD;
         $detalle->Factor_conversion = 0;
@@ -395,6 +396,33 @@ class MetalesController extends Controller
             'resultado' => $resultado
         );
 
+        return response()->json($data);
+    }
+    public function liberarMuestraMetal(Request $request)
+    {
+        $sw = false;
+        $model = LoteDetalle::find($request->idMuestra);
+        $model->Liberado = 1;
+        if($model->Vol_disolucion != null)
+        {
+            $sw = true;
+            $model->save();
+        }
+        $modelCod = CodigoParametros::find($model->Id_codigo);
+        $modelCod->Resultado = $model->Vol_disolucion;
+        $modelCod->save();
+        
+        $model = LoteDetalle::where('Id_lote',$request->idLote)->where('Liberado',1)->get();
+        $loteModel = LoteAnalisis::find($request->idLote);
+        $loteModel->Liberado = $model->count();
+        $loteModel->save();
+
+        
+
+        $data = array(
+            'model' => $model,
+            'sw' => $sw,
+        );
         return response()->json($data);
     }
 
@@ -628,31 +656,31 @@ class MetalesController extends Controller
         );
         return response()->json($data);
     }
-    public function liberarMuestraMetal(Request $request) 
-    {
+    // public function liberarMuestraMetal(Request $request) 
+    // {
         
-        $detalle = LoteDetalle::find($request->idDetalle);
-        $detalle->Liberado = 1;
-        $detalle->save();
+    //     $detalle = LoteDetalle::find($request->idDetalle);
+    //     $detalle->Liberado = 1;
+    //     $detalle->save();
 
-        $detalleModel = LoteDetalle::where('Id_lote',$detalle->Id_lote)->where('Liberado',1)->get();
+    //     $detalleModel = LoteDetalle::where('Id_lote',$detalle->Id_lote)->where('Liberado',1)->get();
         
-        $lote = LoteAnalisis::find($detalle->Id_lote);
-        $lote->Liberado = $detalleModel->count();
-        $lote->save();
+    //     $lote = LoteAnalisis::find($detalle->Id_lote);
+    //     $lote->Liberado = $detalleModel->count();
+    //     $lote->save();
 
-        $detalleModel = DB::table('ViewLoteDetalle')->where('Id_lote',$detalle->Id_lote)->get();
+    //     $detalleModel = DB::table('ViewLoteDetalle')->where('Id_lote',$detalle->Id_lote)->get();
         
-        $loteModel = LoteAnalisis::where('Id_lote',$detalle->Id_lote)->first();
+    //     $loteModel = LoteAnalisis::where('Id_lote',$detalle->Id_lote)->first();
 
 
-        $data = array(
-            'detalleModel' => $detalleModel,
-            'liberado' => $detalleModel->count(),
-            'lote' => $loteModel,
-        );
-        return response()->json($data);
-    }
+    //     $data = array(
+    //         'detalleModel' => $detalleModel,
+    //         'liberado' => $detalleModel->count(),
+    //         'lote' => $loteModel,
+    //     );
+    //     return response()->json($data);
+    // }
     //* Asignar parametro a lote
     public function asignarMuestraLote(Request $request)
     {

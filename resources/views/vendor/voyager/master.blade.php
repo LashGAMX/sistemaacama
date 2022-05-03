@@ -60,6 +60,7 @@
     @endif
     @livewireStyles
     @yield('head')
+    {{asset('')}}
 </head>
 
 
