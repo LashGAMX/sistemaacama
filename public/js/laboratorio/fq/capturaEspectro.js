@@ -14,7 +14,7 @@ $('#guardarSulfato').click(function () {
 
 $('#btnEjecutar').click(function () {
         // validacionModal(); 
-        operacion();
+        operacion(); 
 });
 $('#ejecutarModalSulfato').click(function () {
     operacionSulfatos(); 
@@ -637,6 +637,24 @@ function liberarMuestra()
             }else{
                 alert("La muestra no se pudo liberar");
             }
+        }
+    });
+}
+function createControlCalidad()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/createControlCalidadEspectro",
+        data: {
+            idMuestra: idMuestra,
+            idLote:idLote,
+            idControl: $("#controlCalidad").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getDataCaptura();
         }
     });
 }

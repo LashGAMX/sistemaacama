@@ -808,7 +808,7 @@ class SolicitudController extends Controller
     {
         $qr = new DNS2D();
         $model = DB::table('ViewSolicitud')->where('Id_cotizacion', $idOrden)->first();
-        $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $model->Id_solicitud)->get();
+        $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $model->Id_solicitud)->orderBy('Parametro','ASC')->get();
         $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion', $idOrden)->first();
 
         $mpdf = new \Mpdf\Mpdf([

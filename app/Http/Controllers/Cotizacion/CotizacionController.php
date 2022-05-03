@@ -592,6 +592,8 @@ class CotizacionController extends Controller
         $parametrosExtra = DB::table('ViewCotParam')->where('Id_cotizacion', $idCot)->where('Extra', 1)->orderBy('Parametro', 'ASC')->get();
         
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
+        $norma = Norma::where('Id_norma',$model->Id_norma)->first();
+        $puntos = CotizacionPunto::where('Id_cotizacion',$model->Id_cotizacion)->get();
 
         // $mpdf = new \Mpdf\Mpdf([
         //     'format' => 'letter',
@@ -619,7 +621,7 @@ class CotizacionController extends Controller
         );
       
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.cotizacion.cotizacion', compact('model','parametros', 'parametrosExtra'));
+        $html = view('exports.cotizacion.cotizacion', compact('model','parametros', 'parametrosExtra','norma','puntos'));
         $mpdf->CSSselectMedia = 'mpdf';
 
         $htmlFooter = view('exports.cotizacion.footerCotizacion');

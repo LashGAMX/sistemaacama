@@ -536,12 +536,12 @@ function dataSubnorma()
               {
                 if(modelCot.Id_subnorma == item.Id_paquete)
                 {
-                  tab += '<option value="'+item.Id_paquete+'" selected>'+item.Clave+'</option>';
+                  tab += '<option value="'+item.Id_paquete+'" selected>'+item.Norma+'</option>';
                 }else{
-                  tab += '<option value="'+item.Id_paquete+'">'+item.Clave+'</option>';
+                  tab += '<option value="'+item.Id_paquete+'">'+item.Norma+'</option>';
                 }
               }else{
-                  tab += '<option value="'+item.Id_paquete+'">'+item.Clave+'</option>';
+                  tab += '<option value="'+item.Id_paquete+'">'+item.Norma+'</option>';
               }
             
             });

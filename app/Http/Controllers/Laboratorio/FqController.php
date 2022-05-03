@@ -287,6 +287,7 @@ class FqController extends Controller
         $data = array(
             'resultado' => $resultado,
             'x' => $x,
+            'r1' => $r1,
             'd' => $d,
         );
         return response()->json($data);
@@ -770,7 +771,7 @@ class FqController extends Controller
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 5)->first();
             } else if ($parametro->Parametro == 'CROMO HEXAVALENTE (Cr+6)') {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 6)->first();
-            } else if ($parametro->Parametro == 'Fosforo-Total') {
+            } else if ($parametro->Id_parametro == 16) {
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 7)->first();
             } else if ($parametro->Parametro == 'Materia Flotante') { //POR VERIFICAR EN LA TABLA DE PARAMETROS
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 8)->first();
@@ -1902,7 +1903,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Parametro == 'Cianuros (CN)-') {
+            } else if ($parametro->Id_parametro == 20) {
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -1973,7 +1974,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Parametro == 'Fosforo-Total') {
+            } else if ($parametro->Id_parametro == 16) {
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2245,7 +2246,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Parametro == 'Cianuros (CN)-') {
+            } else if ($parametro->Id_parametro == 20) {
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2319,7 +2320,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Parametro == 'Fosforo-Total') {
+            } else if ($parametro->Id_parametro == 16) {
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2335,7 +2336,7 @@ class FqController extends Controller
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
                             $limC = $item->Resultado;
-
+ 
                             array_push($limites, $limC);
                         }
                     }
@@ -2574,7 +2575,7 @@ class FqController extends Controller
         if ($parametro->Parametro == 'BORO (B)') {
             $htmlHeader = view('exports.laboratorio.fq.espectro.boro.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.boro.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Parametro == 'Cianuros (CN)-') {
+        } else if ($parametro->Id_parametro == 20) {
             $htmlHeader = view('exports.laboratorio.fq.espectro.cianuros.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.cianuros.capturaFooter', compact('usuario', 'firma'));
         } else if ($parametro->Parametro == 'Conductividad') { //POR REVISAR EN LA TABLA DE DATOS
@@ -2583,7 +2584,7 @@ class FqController extends Controller
         } else if ($parametro->Parametro == 'CROMO HEXAVALENTE (Cr+6)') {
             $htmlHeader = view('exports.laboratorio.fq.espectro.cromoHex.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.cromoHex.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Parametro == 'Fosforo-Total') {
+        } else if ($parametro->Id_parametro == 16) { 
             $htmlHeader = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaFooter', compact('usuario', 'firma'));
         } else if ($parametro->Parametro == 'Materia flotante') { //POR REVISAR EN LA TABLA DE DATOS

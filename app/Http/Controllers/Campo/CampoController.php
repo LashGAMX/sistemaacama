@@ -845,7 +845,7 @@ class CampoController extends Controller
         $campoCompModel = CampoCompuesto::where('Id_solicitud', $request->idSolicitud)->get();
 
         if($campoCompModel->count()){
-            $campoComp = CampoCompuesto::find($request->idSolicitud);
+            $campoComp = CampoCompuesto::where('Id_solicitud',$request->idSolicitud)->first();
             
             $campoComp->Metodo_aforo = $request->aforoCompuesto;
             $campoComp->Con_tratamiento = $request->conTratamientoCompuesto;
@@ -881,7 +881,7 @@ class CampoController extends Controller
             $this->historialDatosCompuestos($request->idSolicitud, $nota, $campoComp->Id_campo);
         }
 
-        $data = array('sw' => true);
+        $data = array('sw' => true,'campoComp' => $campoComp);
         return response()->json($data);
     } 
 
@@ -1186,6 +1186,7 @@ class CampoController extends Controller
     {
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$idSolicitud)->first();
         $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+        // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
         $puntos = $puntoMuestreo->count();
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',

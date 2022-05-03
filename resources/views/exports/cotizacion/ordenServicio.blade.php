@@ -46,7 +46,11 @@
                     <tr>
                         <td style="width: 25%" style="height: 50px;">Servicio</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            {{$model->Servicio}}
+                            @if ($cotizacion->Tomas == 1)
+                            {{$cotizacion->Servicio}} {{$cotizacion->Tipo_muestra}}
+                            @else
+                            {{$cotizacion->Servicio}} ({{$cotizacion->Tipo_muestra}} de {{$cotizacion->Tomas}} tomas)
+                            @endif
                         </td>
                     </tr>
                     <tr>
@@ -59,8 +63,10 @@
                         <td style="width: 25%">Parametros</td>
                         <td style="height: 200px;border: 1px solid;" class="border">
                             @foreach ($parametros as $item)
+                                @if ($item->Extra == 0)
                                     {{$item->Parametro}}
-                                @endforeach 
+                                 @endif  
+                            @endforeach 
                         </td>
                     </tr>
                     <tr>
@@ -87,7 +93,7 @@
                     <tr>
                         <td style="width: 25%">Fecha de muestreo</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            {{$model->Fecha_muestreo}}
+                            {{\Carbon\Carbon::parse(@$model->Fecha_muestreo)->format('d/m/Y')}}
                         </td>
                     </tr>
                     <tr>

@@ -23,7 +23,7 @@ function datosGenerales(){
           _token: $('input[name="_token"]').val(),
         },
         dataType: 'json', 
-        async: false, 
+        async: false,  
         success: function (response) {
          console.log(response);
         if (response.sw == true) {
