@@ -525,7 +525,7 @@
                             {{-- <button class="btn btn-danger" id="btnCancelarMuestra"><i class="voyager-x"></i> Cancelar Muestra</button> --}}
                         </div>
                         <form>
-                            <input type="text" class="" id="numTomas" value={{ $model->Num_tomas }} >
+                            <input type="text" class="" id="numTomas" value={{ $model->Num_tomas }} hidden>
                             <div class="col-md-12">
                                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalProbar">Cancelar muestra</button>
                                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalProbar2">Revertir muestra</button>

@@ -70,7 +70,7 @@ class CampoController extends Controller
     public function listaMuestreo()
     {
         $equipo = DB::table('ViewCampoGenerales')->get();
-        $model = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', Auth::user()->id)->get();
+        $model = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud','DESC')->get();
         return view('campo.listaMuestreo', compact('model','equipo'));
     }
     public function captura($id)
@@ -107,7 +107,7 @@ class CampoController extends Controller
         // $conCampoCalidad = CampoConCalidad::where('Id_solicitud',$model->Id_solicitud)->first();
         // $frecuencia = DB::table('frecuencia001')->where('')
         //var_dump($phCampoTrazable);
-        var_dump($model);
+        // var_dump($model->Num_tomas);
         $data = array(
             'model' => $model,
             'general' => $general,
@@ -132,7 +132,7 @@ class CampoController extends Controller
             'puntos' => $puntos,
             //'phCampoCalidadMuestra' => $phCampoCalidadMuestra
         );
-        // return view('campo.captura', $data);
+        return view('campo.captura', $data);
     }
     public function setDataGeneral(Request $request)
     {

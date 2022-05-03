@@ -94,7 +94,7 @@ class CurvaController extends Controller
         $paraModel = Parametro::find($loteAnalisis->Id_tecnica);
         $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
 
-        $num = $numEstandares->Concentracion;
+        $num = $numEstandares->Concentracion; 
          if($model->count()){
              $sw = false; 
              $stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 

@@ -357,7 +357,7 @@ class MetalesController extends Controller
         $z = $request->z;
         $FD = $request->FD; 
         $suma = ($x + $y + $z);
-        $promedio = $suma / 3;
+        $promedio = $suma / 3; 
         
         if($parametroPurificada->count()){    //todo:: Verificar filtro con la norma!!!
             $paso1 = (($promedio - $curvaConstantes->B) /$curvaConstantes->M ) * $FD;
