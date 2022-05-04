@@ -62,17 +62,17 @@ class CurvaController extends Controller
     }
      public function buscar(Request $request){
         $lote = LoteAnalisis::where('Fecha', $request->fecha)->first();
-        $model = estandares::where('Id_Lote', $lote->Id_lote)->get(); 
+        $model = estandares::where('Id_lote', 68)->get(); 
         //$loteDetalle = LoteDetalle::where('Id_lote',$request->idLote)->first();
         $concent = ConcentracionParametro::where('Id_parametro',$request->parametro)->get();
         $bmr = CurvaConstantes::where('Id_lote', $lote->id_lote)->first();
 
         if($model->count()){
-            $sw = true;
+            $sw = true;  
         }else{
             $sw = false;
         }
-        if($bmr != "" ){
+        if($bmr != "" ){ 
             $valbmr = true;
         }else{
             $valbmr = false;
@@ -101,7 +101,7 @@ class CurvaController extends Controller
          }else{
             estandares::create([
                 'Id_lote' => $request->idLote,
-                'STD' => "Blanco",
+                'STD' => "Blanco", 
             ]);
             for ($i=0; $i < $num ; $i++) { 
                 estandares::create([

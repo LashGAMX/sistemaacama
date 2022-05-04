@@ -215,12 +215,12 @@ class LaboratorioController extends Controller
             //Falta campo de resultado
             $limites = array();
                     foreach ($datos as $item) {
-                        if ($item->Resultado < $limiteC->Limite) {  //Tira error debido a que no existe aún en la tabla el campo Resultado
+                        if ($item->Vol_disolucion < $limiteC->Limite) {  //Tira error debido a que no existe aún en la tabla el campo Resultado
                             $limC = "< " . $limiteC->Limite;
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = $item->Vol_disolucion;
 
                             array_push($limites, $limC);
                         }

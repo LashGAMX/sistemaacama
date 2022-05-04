@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html> 
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -149,7 +149,7 @@
 
                         <td id="tableContent"></td>
                         
-                        @for ($i = 1; ($i < 6); $i++)                            
+                        @for ($i = 1; ($i < $estandares->count()); $i++)                            
                             <td id="tableContent">{{$estandares[$i]->Concentracion}}</td>
                         @endfor
                         
@@ -161,7 +161,7 @@
                         
                         <td id="tableContent">{{$estandares[0]->ABS1}}</td>
 
-                        @for ($i = 1; ($i < 6); $i++)
+                        @for ($i = 1; ($i < $estandares->count()); $i++)                            
                             <td id="tableContent">{{$estandares[$i]->ABS1}}</td>
                         @endfor                                                
                         
@@ -173,7 +173,7 @@
 
                         <td id="tableContent">{{$estandares[0]->ABS2}}</td>
                         
-                        @for ($i = 1; ($i < 6); $i++)
+                        @for ($i = 1; ($i < $estandares->count()); $i++)                            
                             <td id="tableContent">{{$estandares[$i]->ABS2}}</td>
                         @endfor
 
@@ -185,7 +185,7 @@
 
                         <td id="tableContent">{{$estandares[0]->ABS3}}</td>
                         
-                        @for ($i = 1; ($i < 6); $i++)
+                        @for ($i = 1; ($i < $estandares->count()); $i++)                            
                             <td id="tableContent">{{$estandares[$i]->ABS3}}</td>
                         @endfor
 
@@ -197,7 +197,7 @@
 
                         <td id="tableContent">{{$estandares[0]->Promedio}}</td>
                         
-                        @for ($i = 1; ($i < 6); $i++)
+                        @for ($i = 1; ($i < $estandares->count()); $i++)                            
                             <td id="tableContent">{{$estandares[$i]->Promedio}}</td>
                         @endfor
 

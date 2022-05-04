@@ -110,7 +110,7 @@ function getDatalote()
             idLote:$("#idLoteHeader").val(),
             _token: $('input[name="_token"]').val(),
         },
-        dataType: "json",
+        dataType: "json", 
         async: false,
         success: function (response) {
             
