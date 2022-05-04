@@ -9,6 +9,8 @@ Route::group(['prefix' => 'supervicion'], function () {
         Route::get('detalleCadena/{id}', [CadenaCustodiaController::class, 'detalleCadena']);
         Route::post('getParametroCadena', [CadenaCustodiaController::class,'getParametroCadena']);
         Route::post('getDetalleAnalisis', [CadenaCustodiaController::class,'getDetalleAnalisis']);
+
+        Route::post('liberarSolicitud', [CadenaCustodiaController::class,'liberarSolicitud']);
     });
 });
      

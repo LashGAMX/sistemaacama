@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Supervicion;
 use App\Http\Controllers\Controller;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleNitrogeno;
+use App\Models\Solicitud;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -55,5 +56,25 @@ class CadenaCustodiaController extends Controller
         );
         return response()->json($data);
     }
+    public function liberarSolicitud(Request $res)
+    {
+        $sw = true;
+        $model = Solicitud::find($res->idSol);
+        if($res->liberado == true)
+        {
+            $model->Liberado = 1;
+            $sw = true;
+        }else{
+            $model->Liberado = 0;
+            $sw = false;
+        }
+        $model->save();
+
+        $data = array(
+            'sw' => $sw,
+        );
+        return response()->json($data);
+    }
+    
 }
    
