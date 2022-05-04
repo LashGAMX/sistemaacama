@@ -617,7 +617,7 @@ class MbController extends Controller
         }
         
         if($bandera === 'coli'){        
-            if($parametro->Parametro == 'COLIFORMES FECALES' || $parametro->Parametro == 'Coliformes Fecales +'){
+            if($parametro->Id_parametro === 13 || $parametro->Id_parametro === 51 || $parametro->Id_parametro === 141 || $parametro->Id_parametro === 143 || $parametro->Id_parametro === 145 || $parametro->Id_parametro === 164 || $parametro->Id_parametro === 279 || $parametro->Id_parametro === 280 || $parametro->Id_parametro === 281){ //Coliformes Fecales
                 $plantillaPredeterminada = ReportesMb::where('Id_reporte', 1)->first();
             }else if($parametro->Parametro == 'COLIFORMES TOTALES'){
                 $plantillaPredeterminada = ReportesMb::where('Id_reporte', 5)->first();
@@ -1136,7 +1136,7 @@ class MbController extends Controller
         if(!is_null($textProcedimiento)){
             $proced = true;
             if($bandera === 'coli'){
-                if($parametro->Parametro == 'COLIFORMES FECALES' || $parametro->Parametro == 'Coliformes Fecales +'){                    
+                if($parametro->Id_parametro === 13 || $parametro->Id_parametro === 51 || $parametro->Id_parametro === 141 || $parametro->Id_parametro === 143 || $parametro->Id_parametro === 145 || $parametro->Id_parametro === 164 || $parametro->Id_parametro === 279 || $parametro->Id_parametro === 280 || $parametro->Id_parametro === 281){ //Coliformes Fecales
                     $horizontal = 'P';                    
                     $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
 
