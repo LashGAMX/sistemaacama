@@ -27,11 +27,11 @@
                             <h6>Estado: <strong>Reporte</strong></h6>
                             <div class="form-check">
                               <label class="form-check-label" for="defaultCheck1">Supervisado</label>
-                              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                              <input class="form-check-input" id="ckSupervisado" type="checkbox" value="" id="defaultCheck1">
                             </div>
                             <div class="form-check">
                               <label class="form-check-label" for="defaultCheck1">Liberado</label>
-                              <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
+                              <input class="form-check-input" id="ckLiberado" type="checkbox" value="" id="defaultCheck1">
                             </div>
                         </div>
                     </div>

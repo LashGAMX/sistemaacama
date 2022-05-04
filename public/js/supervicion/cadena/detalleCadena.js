@@ -41,6 +41,14 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos encontrados",
         }
     });   
+    $('#ckLiberado').click(function (){
+        if( $('#ckLiberado').prop('checked') == true ) {
+            console.log("Seleccionado");
+            liberarSolicitud()
+        }else{
+            console.log("No Seleccionado");
+        }
+    });
 
 });
 
@@ -136,6 +144,28 @@ function getDetalleAnalisis(idCodigo)
         success: function (response) {      
             dataModel = response.model
             $("#resDes").val(response.model.Resultado)
+        } 
+    });
+}
+function liberarSolicitud()
+{
+    $.ajax({ 
+        type: 'POST',
+        url: base_url + "/admin/supervicion/cadena/liberarSolicitud",
+        data: {
+            idSol: $("#idSol").val(),
+            liberado:$('#ckLiberado').prop('checked'),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {      
+            if(response.sw == true)
+            {
+                swal("Registro!", "Solicitud liberada", "success");
+            }else{
+                swal("Registro!", "Liberacion modificada", "success");
+            }
         } 
     });
 }
