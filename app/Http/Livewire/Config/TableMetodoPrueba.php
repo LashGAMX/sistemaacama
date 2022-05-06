@@ -14,7 +14,6 @@ class TableMetodoPrueba extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']]; 
-    public $perPage = 50;
     public $show = false;
     public $alert = false;
 
@@ -36,7 +35,8 @@ class TableMetodoPrueba extends Component
     {
         $model = MetodoPrueba::where('Metodo_prueba','LIKE',"%{$this->search}%")
         ->orWhere('Clave_metodo','LIKE',"%{$this->search}%")
-        ->paginate($this->perPage);
+        ->get();
+
         return view('livewire.config.table-metodo-prueba',compact('model'));
     }
 

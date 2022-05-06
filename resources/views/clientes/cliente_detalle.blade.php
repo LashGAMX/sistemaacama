@@ -206,7 +206,7 @@
                       <div class="row">
                         <h6>Direccion</h6>
                         <div class="col-md-5">
-                          <input type="text" wire:model="direccion" value="{{@$sucursal->Direccion}}"/>
+                          <input type="text" id="direccion" value="{{@$sucursal->Direccion}}"/>
                         </div>
                       </div> 
                       <div class="row">
