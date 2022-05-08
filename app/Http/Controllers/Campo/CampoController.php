@@ -1047,6 +1047,7 @@ class CampoController extends Controller
     { 
       
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
+        $modelCompuesto = CampoCompuesto::where('Id_solicitud', $id)->first();
 
         $folio = explode("-", $model->Folio_servicio);
         $parte1 = strval($folio[0]);
@@ -1093,7 +1094,7 @@ class CampoController extends Controller
             array(0, 0),
         );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.hojaCampo',compact('model', 'numOrden', 'punto','phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'envasesArray', 'paramSolicitudLength', 'recepcion', 'firmaRes'));
+        $html = view('exports.campo.hojaCampo',compact('model', 'modelCompuesto', 'numOrden', 'punto','phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'envasesArray', 'paramSolicitudLength', 'recepcion', 'firmaRes'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output();

@@ -108,3 +108,29 @@
     font-size: 9;
     text-align: justify;
 }
+
+
+
+.cabeceraStdMuestra{
+    font-family: Calibri;
+    font-size: 9;
+    font-weight: bold; 
+}
+
+.bodyStdMuestra{
+    font-family: Calibri;
+    font-size: 9;
+}
+
+#tableCabecera{
+    text-align: center;
+    font-family: Calibri;
+    font-size: 9;
+    font-weight: bold;
+}
+
+#tableContent{
+    font-family: Calibri;
+    font-size: 9;
+    text-align: center;
+}

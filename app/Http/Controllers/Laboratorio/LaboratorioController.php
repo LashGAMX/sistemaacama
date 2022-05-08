@@ -181,9 +181,11 @@ class LaboratorioController extends Controller
         $formula = DB::table('ViewLoteDetalle')->where('Id_lote', $id_lote)->first();
         if(!is_null($formula)){
             $formulaSelected = $formula->Parametro;
+            $formulaSelectedComp = $formula->Parametro. " (".$formula->Tipo_formula.")";
         }else{
             $formula = DB::table('ViewLoteDetalle')->where('Id_lote', 0)->first();
             $formulaSelected = $formula->Parametro;
+            $formulaSelectedComp = $formula->Parametro. " (".$formula->Tipo_formula.")";
             $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
         }
 
@@ -195,11 +197,11 @@ class LaboratorioController extends Controller
         $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
         if(!is_null($fechaAnalisis)){
             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
-            $hora = date("h:j:s", strtotime($fechaAnalisis->created_at));
+            $hora = date("h:i", strtotime($fechaAnalisis->created_at));
         }else{
             $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
-            $hora = date("h:j:s", strtotime($fechaAnalisis->created_at));
+            $hora = date("h:i", strtotime($fechaAnalisis->created_at));
             $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
         }
 
@@ -233,7 +235,7 @@ class LaboratorioController extends Controller
             echo '<script> alert("Valores predeterminados para las ABS. Rellena este campo.") </script>';
         }
 
-        $loteModel = DB::table('observacion_muestra')->where('Id_analisis', 1)->first();
+        $loteModel = DB::table('observacion_muestra')->where('Id_analisis', 2)->first();
 
         /* if(!is_null($datos) && !is_null($loteModel)){
             //Hace referencia a la vista captura, misma que es el body del documento PDF
@@ -250,7 +252,7 @@ class LaboratorioController extends Controller
         } */
 
         //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
-        $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected', 'fechaConFormato', 'hora'));
+        $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected', 'formulaSelectedComp', 'fechaConFormato', 'hora'));
         //Establece el encabezado del documento PDF
         $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
 
@@ -265,11 +267,11 @@ class LaboratorioController extends Controller
 
         //if($semaforo === true){
             //Escribe el contenido HTML de la var.html en el documento PDF
-            $mpdf->WriteHTML($html);
+            
         //}
 
         //*************************************************Segundo juego de documentos PDF***************************************************
-        $mpdf->AddPage('', '', '1', '', '', '', '', 40, 35, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+        $mpdf->AddPage('', '', '', '', '', '', '', 40, 35, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
         $semaforoHoja1 = true;
 
@@ -288,7 +290,7 @@ class LaboratorioController extends Controller
         }
 
         //if(!is_null($formula) && !is_null($fechaAnalisis)){
-            $htmlCurvaHeader = view('exports.laboratorio.curvaHeader', compact('formulaSelected', 'fechaConFormato', 'hora'));
+            $htmlCurvaHeader = view('exports.laboratorio.curvaHeader', compact('formulaSelected', 'formulaSelectedComp', 'fechaConFormato', 'hora'));
             $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlCurvaHeader, 'O', 'E');
         //}
         
@@ -390,6 +392,10 @@ class LaboratorioController extends Controller
 
         
         //}
+
+        //Hoja 3
+        $mpdf->AddPage('', '', '', '', '', '', '', '', 45, '', '', '', '', '', '', '', '', '', '');
+        $mpdf->WriteHTML($html);
         
         $mpdf->Output();
     }

@@ -798,19 +798,19 @@ class FqController extends Controller
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 15)->first();
             } else if ($parametro->Id_parametro == 45) { //SDV
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 16)->first();
-            } else if ($parametro->Id_parametro === 4 || $parametro->Id_parametro === 95) { //S.S.
+            } else if ($parametro->Id_parametro == 4 || $parametro->Id_parametro == 95) { //S.S.
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 17)->first();
-            } else if ($parametro->Id_parametro === 46) { //ssf
+            } else if ($parametro->Id_parametro == 46) { //ssf
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 18)->first();
-            } else if ($parametro->Id_parametro === 5 || $parametro->Id_parametro === 93) { //sst
+            } else if ($parametro->Id_parametro == 5 || $parametro->Id_parametro == 93) { //sst
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 19)->first();
-            } else if ($parametro->Id_parametro === 47) { //ssv
+            } else if ($parametro->Id_parametro == 47) { //ssv
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 20)->first();
-            } else if ($parametro->Id_parametro === 91 || $parametro->Id_parametro === 94) { //st
+            } else if ($parametro->Id_parametro == 91 || $parametro->Id_parametro == 94) { //st
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 21)->first();
-            } else if ($parametro->Id_parametro === 48) { //stf
+            } else if ($parametro->Id_parametro == 48) { //stf
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 22)->first();
-            } else if ($parametro->Id_parametro === 49) { //stv
+            } else if ($parametro->Id_parametro == 49) { //stv
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 23)->first();
             }
         }
@@ -1874,7 +1874,7 @@ class FqController extends Controller
         if (!is_null($textProcedimiento)) {
             $proced = true;
             //Hoja1            
-            if ($parametro->Id_parametro === 231 || $parametro->Id_parametro === 126) { //Boro
+            if ($parametro->Id_parametro == 231 || $parametro->Id_parametro == 126) { //Boro
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -1902,7 +1902,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 20 || $parametro->Id_parametro === 100) { //Cianuros Totales
+            } else if ($parametro->Id_parametro == 20 || $parametro->Id_parametro == 100) { //Cianuros Totales
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -1930,7 +1930,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 68 || $parametro->Id_parametro === 69) { //POR REVISAR EN LA TABLA DE DATOS                
+            } else if ($parametro->Id_parametro == 68 || $parametro->Id_parametro == 69) { //POR REVISAR EN LA TABLA DE DATOS                
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -1945,7 +1945,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 70) { //Cromo Hex
+            } else if ($parametro->Id_parametro == 70) { //Cromo Hex
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -1973,7 +1973,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 16) { //Fósforo Total
+            } else if ($parametro->Id_parametro == 16) { //Fósforo Total
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2001,7 +2001,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 3) { //POR REVISAR EN LA TABLA DE DATOS; Materia Flotante
+            } else if ($parametro->Id_parametro == 3) { //POR REVISAR EN LA TABLA DE DATOS; Materia Flotante
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2016,7 +2016,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 88) { //Silice
+            } else if ($parametro->Id_parametro == 88) { //Silice
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2046,7 +2046,7 @@ class FqController extends Controller
                 }
 
                 //$htmlCaptura = view('exports.laboratorio.fq.espectro.silice.capturaBody', compact('textoProcedimiento'));                
-            } else if ($parametro->Id_parametro === 80) { // Fenoles Totales
+            } else if ($parametro->Id_parametro == 80) { // Fenoles Totales
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2074,7 +2074,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 81 || $parametro->Id_parametro == 114 || $parametro->Id_parametro == 130) { //Fluoruros
+            } else if ($parametro->Id_parametro == 81 || $parametro->Id_parametro == 114 || $parametro->Id_parametro == 130) { //Fluoruros
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2130,7 +2130,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro == 9 || $parametro->Id_parametro === 57 || $parametro->Id_parametro === 83 || $parametro->Id_parametro === 116 || $parametro->Id_parametro === 132 || $parametro->Id_parametro === 249) { // Nitritos
+            } else if ($parametro->Id_parametro == 9 || $parametro->Id_parametro == 57 || $parametro->Id_parametro == 83 || $parametro->Id_parametro == 116 || $parametro->Id_parametro == 132 || $parametro->Id_parametro == 249) { // Nitritos
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2158,7 +2158,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 97 || $parametro->Id_parametro === 123 || $parametro->Id_parametro === 133) { // SAAM
+            } else if ($parametro->Id_parametro == 97 || $parametro->Id_parametro == 123 || $parametro->Id_parametro == 133) { // SAAM
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2186,7 +2186,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 96 || $parametro->Id_parametro === 122 || $parametro->Id_parametro === 252) { // Sulfatos
+            } else if ($parametro->Id_parametro == 96 || $parametro->Id_parametro == 122 || $parametro->Id_parametro == 252) { // Sulfatos
                 $horizontal = 'L';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2216,7 +2216,7 @@ class FqController extends Controller
                 }
             }
         } else { //**************************
-            if ($parametro->Id_parametro === 231 || $parametro->Id_parametro === 126) { //Boro
+            if ($parametro->Id_parametro == 231 || $parametro->Id_parametro == 126) { //Boro
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2245,7 +2245,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 20 || $parametro->Id_parametro === 100) { //Cianuros Totales
+            } else if ($parametro->Id_parametro == 20 || $parametro->Id_parametro == 100) { //Cianuros Totales
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2290,7 +2290,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 70) { // Cromo Hex
+            } else if ($parametro->Id_parametro == 70) { // Cromo Hex
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2319,7 +2319,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 16) { //Fosforo Total
+            } else if ($parametro->Id_parametro == 16) { //Fosforo Total
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2348,7 +2348,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 3) { //POR REVISAR EN LA TABLA DE DATOS; Materia Flotante
+            } else if ($parametro->Id_parametro == 3) { //POR REVISAR EN LA TABLA DE DATOS; Materia Flotante
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2364,7 +2364,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 88) { // Silice
+            } else if ($parametro->Id_parametro == 88) { // Silice
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2393,7 +2393,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 80) { // Fenoles Totales
+            } else if ($parametro->Id_parametro == 80) { // Fenoles Totales
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2422,7 +2422,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 81) { // Fluoruros
+            } else if ($parametro->Id_parametro == 81) { // Fluoruros
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2480,7 +2480,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 9 || $parametro->Id_parametro === 57 || $parametro->Id_parametro === 83 || $parametro->Id_parametro === 116 || $parametro->Id_parametro === 132 || $parametro->Id_parametro === 249) { // Nitritos
+            } else if ($parametro->Id_parametro == 9 || $parametro->Id_parametro == 57 || $parametro->Id_parametro == 83 || $parametro->Id_parametro == 116 || $parametro->Id_parametro == 132 || $parametro->Id_parametro == 249) { // Nitritos
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2509,7 +2509,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 97 || $parametro->Id_parametro === 123 || $parametro->Id_parametro === 133) { // SAAM
+            } else if ($parametro->Id_parametro == 97 || $parametro->Id_parametro == 123 || $parametro->Id_parametro == 133) { // SAAM
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2538,7 +2538,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro === 96 || $parametro->Id_parametro === 122 || $parametro->Id_parametro === 252) { // Sulfatos
+            } else if ($parametro->Id_parametro == 96 || $parametro->Id_parametro == 122 || $parametro->Id_parametro == 252) { // Sulfatos
                 $horizontal = 'L';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->get();
 
@@ -2571,31 +2571,31 @@ class FqController extends Controller
         }
 
         //HEADER-FOOTER******************************************************************************************************************                      
-        if ($parametro->Id_parametro === 231 || $parametro->Id_parametro === 126) { // Boro
+        if ($parametro->Id_parametro == 231 || $parametro->Id_parametro == 126) { // Boro
             $htmlHeader = view('exports.laboratorio.fq.espectro.boro.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.boro.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro === 20 || $parametro->Id_parametro === 100) { // Cianuros
+        } else if ($parametro->Id_parametro == 20 || $parametro->Id_parametro == 100) { // Cianuros
             $htmlHeader = view('exports.laboratorio.fq.espectro.cianuros.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.cianuros.capturaFooter', compact('usuario', 'firma'));
         } else if ($parametro->Id_parametro == 68 || $parametro->Id_parametro == 69) { //POR REVISAR EN LA TABLA DE DATOS; // Cond Elec
             $htmlHeader = view('exports.laboratorio.fq.espectro.condElec.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.condElec.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro === 70) { // Cromo Hex
+        } else if ($parametro->Id_parametro == 70) { // Cromo Hex
             $htmlHeader = view('exports.laboratorio.fq.espectro.cromoHex.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.cromoHex.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro === 16) { //Fosforo Total
+        } else if ($parametro->Id_parametro == 16) { //Fosforo Total
             $htmlHeader = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro === 3) { //POR REVISAR EN LA TABLA DE DATOS; Materia Flotante
+        } else if ($parametro->Id_parametro == 3) { //POR REVISAR EN LA TABLA DE DATOS; Materia Flotante
             $htmlHeader = view('exports.laboratorio.fq.espectro.materiaF.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.materiaF.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro === 88) { // Silice
+        } else if ($parametro->Id_parametro == 88) { // Silice
             $htmlHeader = view('exports.laboratorio.fq.espectro.silice.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.silice.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro === 80) { // Fenoles Totales
+        } else if ($parametro->Id_parametro == 80) { // Fenoles Totales
             $htmlHeader = view('exports.laboratorio.fq.espectro.fenoles.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.fenoles.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro === 81) { // Fluoruros
+        } else if ($parametro->Id_parametro == 81) { // Fluoruros
             $htmlHeader = view('exports.laboratorio.fq.espectro.fluoruros.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.espectro.fluoruros.capturaFooter', compact('usuario', 'firma'));
         } else if ($parametro->Id_parametro == 8 || $parametro->Id_parametro == 56 || $parametro->Id_parametro == 115 || $parametro->Id_parametro == 131 || $parametro->Id_parametro == 272) { // Nitratos

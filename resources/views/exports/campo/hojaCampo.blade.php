@@ -182,18 +182,18 @@
                     </tr>
 
                     <tr>
-                        <td class="bordesTablaInfIzq">PH MUESTRA COMPUESTA:</td>
-                        <td class="bordesTablaInf">VOLUMEN MUESTRA COMPUESTA:</td>
-                        <td class="bordesTablaInfDer" colspan="2">TEMPERATURA MUESTRA COMPUESTA:</td>
+                        <td class="bordesTablaInfIzq">PH MUESTRA COMPUESTA: {{@$modelCompuesto->Ph_muestraComp}}</td>
+                        <td class="bordesTablaInf">VOLUMEN MUESTRA COMPUESTA: {{@$modelCompuesto->Volumen_calculado}}</td>
+                        <td class="bordesTablaInfDer" colspan="2">TEMPERATURA MUESTRA COMPUESTA: {{@$modelCompuesto->Temp_muestraComp}}</td>
                     </tr>
 
                     <tr>
-                        <td class="bordesTablaInfIzqDer" colspan="4">OBSERVACIONES:</td>
+                        <td class="bordesTablaInfIzqDer" colspan="4">OBSERVACIONES: {{@$modelCompuesto->Observaciones}}</td>
                     </tr>
 
-                    <tr class="bordesTablaInfIzqDer">
+                    {{-- <tr class="bordesTablaInfIzqDer">
                         <td colspan="4">{{@$model->Observacion}}</td>
-                    </tr>
+                    </tr> --}}
                 </table>
             </div>
             

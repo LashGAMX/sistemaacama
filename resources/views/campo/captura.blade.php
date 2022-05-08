@@ -53,9 +53,9 @@
                             <div class="col-md-2">
                                 {{-- <p>Captura: {{ $general->Captura }}</p> --}} 
                             </div>
-                            <div class="col-md-2">
+                            {{-- <div class="col-md-2">
                                 <p>Siralab: </p>
-                            </div>
+                            </div> --}}
                         </div>
 
                         <div class="col-md-12">
@@ -1084,13 +1084,13 @@
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <label for="">Temperatura muestra</label>
+                                    <label for="">Temperatura muestra compuesta</label>
                                     <input type="number" class="form-control" id="valTemp" placeholder="Temperatura muestra" onkeyup='valTempCompuesto("valTemp", "facTempApl");'>                                    
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
-                                    <p>Factor de corrección aplicado: </p>
+                                    <p>Redondeo de temperatura</p>
                                     <p id="facTempApl"></p>
                                 </div>
                             </div>
