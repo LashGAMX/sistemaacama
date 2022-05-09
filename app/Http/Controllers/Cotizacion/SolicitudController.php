@@ -653,6 +653,15 @@ class SolicitudController extends Controller
         );
         return response()->json($data);
     }
+    public function getParametroSol(Request $request)
+    {
+        $model = DB::table('ViewCotParam')->where('Id_cotizacion',$request->idCot)->get();
+        
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
     public function getReporteSir(Request $request)
     {
         if ($request->siralab != "true") {
@@ -813,7 +822,7 @@ class SolicitudController extends Controller
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
-            'margin_left' => 20,
+            'margin_left' => 20, 
             'margin_right' => 20,
             'margin_top' => 30,
             'margin_bottom' => 18
@@ -825,6 +834,7 @@ class SolicitudController extends Controller
             array(215, 280),
             array(0, 0),
         );
+
         $mpdf->showWatermarkImage = true;
         $html = view('exports.cotizacion.ordenServicio', compact('model', 'parametros', 'qr', 'cotizacion'));
         $mpdf->CSSselectMedia = 'mpdf';

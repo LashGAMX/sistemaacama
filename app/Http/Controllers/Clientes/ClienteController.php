@@ -35,13 +35,10 @@ class ClienteController extends Controller
          $model->save();
 
         $data = array(
-            'id' => $request->idUser,
             'sw' => true,
             'model' => $model
         );
         
         return response()->json($data);
-        
-      
     }
 } 

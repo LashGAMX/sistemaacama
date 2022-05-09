@@ -56,6 +56,8 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::post('storeContacto',[SolicitudController::class,'storeContacto']);
     Route::post('getDataContacto',[SolicitudController::class,'getDataContacto']);
     Route::post('getPuntoMuestro',[SolicitudController::class,'getPuntoMuestro']);
+    Route::post('getParametroSol',[SolicitudController::class,'getParametroSol']);
+
     Route::post('setSolicitud',[SolicitudController::class,'setSolicitud']);
 
     Route::get('buscarFecha/{inicio}/{fin}', [SolicitudController::class,'buscarFecha']); 

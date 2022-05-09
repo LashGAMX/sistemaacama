@@ -415,10 +415,11 @@ function tablaParametros()
 
   let tab = '';
   $.ajax({
-      url: base_url + '/admin/analisisQ/detalle_normas/getParametro', //archivo que recibe la peticion
+      url: base_url + '/admin/cotizacion/solicitud/getParametroSol', //archivo que recibe la peticion
       type: 'POST', //método de envio
       data: {
         idSub:idSub.value,
+        idCot:$("#idCotizacion").val(),
         _token: $('input[name="_token"]').val(),
       },
       dataType: 'json', 
@@ -437,9 +438,9 @@ function tablaParametros()
         tab += '    </thead>';
         tab += '    <tbody>';
         $.each(response.model, function (key, item) {
-          normaParametro.push(item.Id_parametro);
+          normaParametro.push(item.Id_subnorma);
             tab += '<tr>';
-          tab += '<td>'+item.Id_parametro+'</td>';
+          tab += '<td>'+item.Id_subnorma+'</td>';
           tab += '<td>'+item.Parametro+'<sup> ('+item.Simbologia+')</sup></td>';
           tab += '<td>'+item.Matriz+'</td>';
           tab += '</tr>';
@@ -482,9 +483,7 @@ function agregarParametros(idSub)
         matriz.push(item.Matriz);
         simbologia.push(item.Simbologia);
       });
-      // $.each(normaParametro,function(key,item){
-      //   normaId.push(item.Id_parametro);
-      // });
+ 
     }
   });
   let element = [
@@ -600,7 +599,7 @@ function btnAddPunto()
 
           t.row.add( [
             $("#puntoMuestreo").val(),
-            $("#puntoMuestreo").text(),
+            $('select[id="puntoMuestreo"] option:selected').text(),
           ] ).draw( false );
           setPuntoMuestro();
 }

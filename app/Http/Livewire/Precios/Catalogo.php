@@ -21,7 +21,6 @@ class Catalogo extends Component
     public $search = '';
     protected $queryString = ['search' => ['except' => '']];
     public $sw = false;
-    public $perPage = 30;
     public $alert = false;
     public $error = false;
 

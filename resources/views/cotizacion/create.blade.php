@@ -122,7 +122,7 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="correo">Correo</label>
-                                    <input type="email" class="form-control" placeholder="Correo electronico" id="correo"
+                                    <input type="text" class="form-control" placeholder="Correo electronico" id="correo"
                                         name="correo" value="{{ @$model->Correo }}">
                                 </div>
                             </div>
@@ -445,7 +445,7 @@
                                             value="{{ @$muestreo->Dias_muestreo }}">
                                     </div>
                                     <div class="col-md-2">
-                                        <label for=""># de muestreo:</label>
+                                        <label for=""># de servicio de muestreo:</label>
                                         <input type="number" class="form-control" name="numeroMuestreo"
                                             id="numeroMuestreo" value="{{ @$muestreo->Num_muestreo }}">
                                     </div>
@@ -493,7 +493,7 @@
                                             id="numeroServicio" value="{{ @$muestreo->Num_servicio }}">
                                     </div>
                                     <div class="col-md-3">
-                                        <label for="">Numero Muestreador:</label>
+                                        <label for=""># de muestreadores:</label>
                                         <input type="number" class="form-control" name="numMuestreador"
                                             id="numMuestreador" value="{{ @$muestreo->Num_muestreador }}">
                                     </div>
@@ -667,6 +667,6 @@
     @endsection
     @section('javascript')
 
-        <script src="{{ asset('/public/js/cotizacion/create.js') }}?v=0.0.1"></script>
+        <script src="{{ asset('/public/js/cotizacion/create.js') }}?v=0.0.2"></script>
         
     @stop

@@ -99,6 +99,7 @@ function precioCampo()
   let suma = 0;
   let sumatotal = 0;
   let iva = 0;
+
   $.ajax({
     url: base_url + '/admin/cotizacion/precioMuestreo', //archivo que recibe la peticion
     type: 'POST', //método de envio
@@ -131,7 +132,7 @@ function precioCampo()
         iva = (suma * 16) / 100;
         $('#subTotal').val(suma);
         sumatotal = suma + iva;
-        $('#precioTotal').val(suma.toFixed());
+        $('#precioTotal').val(sumatotal.toFixed());
     }
 });
 }
@@ -277,6 +278,7 @@ function addColPunto()
     else {
         t.$('tr.selected').removeClass('selected');
         $(this).addClass('selected');
+        counterPunto--;
     }
 } );
 
@@ -338,7 +340,7 @@ function getDatos2()
 
             $("#parametrosCotizacion").val(normaParametro);
             $("#puntosCotizacion").val(puntosMuestro);
-            precioAnalisis = response.precioTotal;
+            precioAnalisis = response.precioTotal * counterPunto;
             if(sw != 1)
             {
               $("#precioAnalisis").val(precioAnalisis.toFixed());
@@ -536,12 +538,12 @@ function dataSubnorma()
               {
                 if(modelCot.Id_subnorma == item.Id_paquete)
                 {
-                  tab += '<option value="'+item.Id_paquete+'" selected>'+item.Norma+'</option>';
+                  tab += '<option value="'+item.Id_paquete+'" selected>'+item.Clave+'</option>';
                 }else{
-                  tab += '<option value="'+item.Id_paquete+'">'+item.Norma+'</option>';
+                  tab += '<option value="'+item.Id_paquete+'">'+item.Clave+'</option>';
                 }
               }else{
-                  tab += '<option value="'+item.Id_paquete+'">'+item.Norma+'</option>';
+                  tab += '<option value="'+item.Id_paquete+'">'+item.Clave+'</option>';
               }
             
             });

@@ -129,19 +129,6 @@ class Parametros extends Component
             'Id_user_m' => $this->idUser,
         ]);
 
-        switch ($this->norma) {
-            case 1:
-                $detalle = DetallesTipoCuerpo::all();
-                foreach ($detalle as $item) {
-                    Limite001::create([
-                        'Id_tipo' => $item->Id_detalle,
-                        'Id_parametro' => $parametro->Id_parametro,
-                    ]);
-                }
-                break;
-            default:
-                break;
-        }
         if ($this->status != 1) {
             Parametro::find($parametro->Id_parametro)->delete();
         }

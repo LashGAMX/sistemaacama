@@ -62,9 +62,18 @@
                     <tr>
                         <td style="width: 25%">Parametros</td>
                         <td style="height: 200px;border: 1px solid;" class="border">
+                            @php
+                                $contP = 0;
+                            @endphp
                             @foreach ($parametros as $item)
-                                @if ($item->Extra == 0)
-                                    {{$item->Parametro}}
+                                @if ($item->Extra == 0) 
+                                    @if ($contP < 10)
+                                       
+                                        @php $contP++; @endphp
+                                    @else
+                                        @php $contP = 0; @endphp
+                                    @endif
+                                    {{$item->Parametro}},
                                  @endif  
                             @endforeach 
                         </td>

@@ -124,7 +124,7 @@
                   
                   @if(isset($contactoCliente))
                     <select name="contacto" id="contacto" class="form-control" onchange="getDataContacto()">
-                    
+                      <option value="1">N/A</option>
                       @foreach ($contactoCliente as $item)
                         <option value="{{$item->Id_contacto}}">{{$item->Nombres}} {{$item->A_paterno}} {{$item->A_materno}}</option>
                       @endforeach                    
