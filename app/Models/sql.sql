@@ -277,15 +277,15 @@ INNER JOIN ViewParametros as pa
 ON lo.Id_tecnica = pa.Id_parametro
 
 /* Lista ViewDetalleLote */ 
-CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro, tf.Tipo_formula, control.Control FROM lote_detalle as lote
+CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro, ar.Area_analisis, control.Control FROM lote_detalle as lote
 INNER JOIN ViewSolicitud as sol
 ON lote.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as pa
 ON lote.Id_parametro = pa.Id_parametro
 INNER JOIN control_calidad as control
 ON lote.Id_control = control.Id_control
-INNER JOIN tipo_formulas as tf
-ON pa.Id_tipo_formula = tf.Id_tipo_formula
+INNER JOIN area_analisis as ar
+ON pa.Id_area = ar.Id_area_analisis
 
 /* Lista ViewTipoFormulaAreas */
 CREATE VIEW ViewTipoFormulaAreas as SELECT tipo.Id_tVipo,tipo.Id_formula,form.Tipo_formula,form.Concentracion,tipo.Id_area,areas.Area_analisis,tipo.created_at,tipo.updated_at,tipo.deleted_at FROM tipo_formula_areas as tipo

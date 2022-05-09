@@ -181,11 +181,11 @@ class LaboratorioController extends Controller
         $formula = DB::table('ViewLoteDetalle')->where('Id_lote', $id_lote)->first();
         if(!is_null($formula)){
             $formulaSelected = $formula->Parametro;
-            $formulaSelectedComp = $formula->Parametro. " (".$formula->Tipo_formula.")";
+            $formulaSelectedComp = $formula->Parametro. " (".$formula->Area_analisis.")";
         }else{
             $formula = DB::table('ViewLoteDetalle')->where('Id_lote', 0)->first();
             $formulaSelected = $formula->Parametro;
-            $formulaSelectedComp = $formula->Parametro. " (".$formula->Tipo_formula.")";
+            $formulaSelectedComp = $formula->Parametro. " (".$formula->Area_analisis.")";
             $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
         }
 
@@ -197,11 +197,11 @@ class LaboratorioController extends Controller
         $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
         if(!is_null($fechaAnalisis)){
             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
-            $hora = date("h:i", strtotime($fechaAnalisis->created_at));
+            $hora = date("H:i", strtotime($fechaAnalisis->created_at));
         }else{
             $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
             $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
-            $hora = date("h:i", strtotime($fechaAnalisis->created_at));
+            $hora = date("H:i", strtotime($fechaAnalisis->created_at));
             $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
         }
 
@@ -235,14 +235,28 @@ class LaboratorioController extends Controller
             echo '<script> alert("Valores predeterminados para las ABS. Rellena este campo.") </script>';
         }
 
-        $loteModel = DB::table('observacion_muestra')->where('Id_analisis', 2)->first();
+        $loteModel = array();
+        $loteModelPh = array();
+        foreach($datos as $item){
+            $loteModelObs = DB::table('observacion_muestra')->where('Id_analisis', $item->Id_analisis)->first();
+
+            array_push(
+                $loteModel,
+                $loteModelObs->Observaciones
+            );
+
+            array_push(
+                $loteModelPh,
+                $loteModelObs->Ph
+            );
+        }        
 
         /* if(!is_null($datos) && !is_null($loteModel)){
             //Hace referencia a la vista captura, misma que es el body del documento PDF
             $html = view('exports.laboratorio.captura', compact('datos', 'datosLength', 'loteModel'));
         } */
 
-        $html = view('exports.laboratorio.captura', compact('datos', 'datosLength', 'loteModel', 'limites'));
+        $html = view('exports.laboratorio.captura', compact('datos', 'datosLength', 'loteModel', 'loteModelPh', 'limites'));
         
         /* if(!is_null($formula) && !is_null($fechaAnalisis)){
             //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
@@ -331,21 +345,23 @@ class LaboratorioController extends Controller
             $fechaPreparacion = date("d/m/Y", strtotime($tecnicaMetales->Fecha_preparacion));
 
             //Instancia Carbon
-            $fechaHora = Carbon::parse($tecnicaMetales->Fecha_hora_dig);        
+            $fechaHora = Carbon::parse($tecnicaMetales->Fecha_hora_dig);
 
             //Separa de la hora la fecha y aplica un formato DD/MM/AAAA
             $soloFecha = $fechaHora->toDateString();
             $soloFechaFormateada = date("d/m/Y", strtotime($soloFecha));
 
             //Separa la hora de la fecha dando un formato de HH:mm:ss
-            $soloHoraFormateada = $fechaHora->toTimeString();
+            $soloHoraFormateada = $fechaHora->format('H:i');
+            //$soloHoraFormateada = $fechaHora->toTimeString();
         }else{
             $tecnicaMetales = TecnicaLoteMetales::where('Id_lote', 0)->first();            
             $fechaPreparacion = date("d/m/Y", strtotime($tecnicaMetales->Fecha_preparacion));            
             $fechaHora = Carbon::parse($tecnicaMetales->Fecha_hora_dig);
             $soloFecha = $fechaHora->toDateString();
             $soloFechaFormateada = date("d/m/Y", strtotime($soloFecha));            
-            $soloHoraFormateada = $fechaHora->toTimeString();
+            $soloHoraFormateada = $fechaHora->format('H:i');
+            //$soloHoraFormateada = $fechaHora->toTimeString();
 
             echo '<script> alert("Valores predeterminados en la sección Flama/Generador de hidruros/Horno de grafito/Alimentos. Rellena estos datos.") </script>';
         }
@@ -386,7 +402,7 @@ class LaboratorioController extends Controller
             
             $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento', 'estandares', 'limiteCuantificacion', 'bmr', 
             'tecnicaMetales', 'blancoMetales', 'estandarMetales', 'verificacionMetales', 'fechaConFormato', 'soloFechaFormateada', 
-            'soloHoraFormateada', 'fechaPreparacion','sw'));
+            'soloHoraFormateada', 'fechaPreparacion','sw', 'hora'));
             $mpdf->WriteHTML($htmlCurva2);
 
 

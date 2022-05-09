@@ -26,16 +26,25 @@
                     <!-- <td id="tableCabecera">&nbsp;Resultado c/factor aplicado&nbsp;&nbsp;</td> -->
                     <td id="tableCabecera">&nbsp;[mg/L] Reportada&nbsp;&nbsp;</td>
                     <td id="tableCabecera">&nbsp;Observaciones&nbsp;</td>
-                    <td></td>
+                    <td id="tableCabecera"></td>
+                    <td id="tableCabecera"></td>
                 </tr>
             </thead>
     
             <tbody>
                 @for ($i = 0; $i < $datosLength ; $i++)
                     <tr>
-                        <td id="tableContent">{{$datos[$i]->Folio_servicio}}</td>
+                        <td id="tableContent">
+                            @if (@$datos[$i]->Control == 'Estandar')
+                                ESTANDAR
+                            @elseif(@$datos[$i]->Control == 'Blanco')
+                                BLANCO
+                            @else
+                                {{@$datos[$i]->Folio_servicio}}
+                            @endif 
+                        </td>
                         <td id="tableContent">{{$datos[$i]->Vol_muestra}}</td>
-                        <td id="tableContent">{{$loteModel->Ph}}</td>
+                        <td id="tableContent">{{$loteModelPh[$i]}}</td>
                         <td id="tableContent">{{$datos[$i]->Abs1}}</td>
                         <td id="tableContent">{{$datos[$i]->Abs2}}</td>
                         <td id="tableContent">{{$datos[$i]->Abs3}}</td>
@@ -45,8 +54,15 @@
                         <td id="tableContent">{{$datos[$i]->Factor_dilucion}}</td>
                         <!-- <td id="tableContent">PRUEBA</td> -->
                         <td id="tableContent">{{@$limites[$i]}}</td>
-                        <td id="tableContent">{{$loteModel->Observaciones}}</td>
-                        <td id="tableContent">{{$datos[$i]->Descripcion}}</td>                
+                        <td id="tableContent">{{$loteModel[$i]}}</td>                        
+                        <td id="tableContent">
+                            @if (@$datos[$i]->Liberado == 1)
+                                Liberado
+                            @elseif(@$datos[$i]->Liberado == 0)
+                                No liberado
+                            @endif
+                        </td>
+                        <td id="tableContent">{{@$datos[$i]->Control}}</td>
                     </tr>                
                 @endfor                        
             </tbody>        

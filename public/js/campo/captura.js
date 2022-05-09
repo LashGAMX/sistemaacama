@@ -2439,7 +2439,7 @@ let t;
 
 function valTempCompuesto(temp1, factTempAplicado){
     //Almacena el valor del ID del Input
-    t = parseInt(document.getElementById(temp1).value);
+    t = parseFloat(document.getElementById(temp1).value);
     let factAplicado = document.getElementById(factTempAplicado);
     //console.log("Valor de temperatura compuesta: " + t);
     
@@ -2467,8 +2467,8 @@ function valTempCompuesto(temp1, factTempAplicado){
             console.log(response.model);               
 
             $.each(response.model, function (key, item) {                                
-                item.Factor = parseInt(item.Factor);
-                item.Factor_aplicado= parseInt(item.Factor_aplicado);   
+                item.Factor = parseFloat(item.Factor);
+                item.Factor_aplicado= parseFloat(item.Factor_aplicado);   
 
                 /*console.log("Valor de Id_termometro: " + item.Id_termometro);
                 console.log("Valor De_c: " + item.De_c);
@@ -3109,7 +3109,7 @@ function cancelaMuestra(){
             $("#phl10").attr("disabled", true).val(null);
             $("#phl20").attr("disabled", true).val(null);
             $("#phl30").attr("disabled", true).val(null);
-            $("#phf0").attr("disabled", true).val(null);
+            $("#phf0").attr("disabled", true)/* .val(null) */;
             $("#phprom0").val(null);
             $("#phStatus10").val(0);
 
@@ -3146,7 +3146,7 @@ function cancelaMuestra(){
             $("#phl11").attr("disabled", true).val(null);
             $("#phl21").attr("disabled", true).val(null);
             $("#phl31").attr("disabled", true).val(null);
-            $("#phf1").attr("disabled", true).val(null);
+            $("#phf1").attr("disabled", true)/* .val(null) */;
             $("#phprom1").val(null);
             $("#phStatus11").val(0);
 
@@ -3183,7 +3183,7 @@ function cancelaMuestra(){
             $("#phl12").attr("disabled", true).val(null);
             $("#phl22").attr("disabled", true).val(null);
             $("#phl32").attr("disabled", true).val(null);
-            $("#phf2").attr("disabled", true).val(null);
+            $("#phf2").attr("disabled", true)/* .val(null) */;
             $("#phprom2").val(null);
             $("#phStatus12").val(0);
 
@@ -3220,7 +3220,7 @@ function cancelaMuestra(){
             $("#phl13").attr("disabled", true).val(null);
             $("#phl23").attr("disabled", true).val(null);
             $("#phl33").attr("disabled", true).val(null);
-            $("#phf3").attr("disabled", true).val(null);
+            $("#phf3").attr("disabled", true)/* .val(null) */;
             $("#phprom3").val(null);
             $("#phStatus13").val(0);
 
@@ -3257,7 +3257,7 @@ function cancelaMuestra(){
             $("#phl14").attr("disabled", true).val(null);
             $("#phl24").attr("disabled", true).val(null);
             $("#phl34").attr("disabled", true).val(null);
-            $("#phf4").attr("disabled", true).val(null);
+            $("#phf4").attr("disabled", true)/* .val(null) */;
             $("#phprom4").val(null);
             $("#phStatus14").val(0);
 
@@ -3294,7 +3294,7 @@ function cancelaMuestra(){
             $("#phl15").attr("disabled", true).val(null);
             $("#phl25").attr("disabled", true).val(null);
             $("#phl35").attr("disabled", true).val(null);
-            $("#phf5").attr("disabled", true).val(null);
+            $("#phf5").attr("disabled", true)/* .val(null) */;
             $("#phprom5").val(null);
             $("#phStatus15").val(0);
 
@@ -3341,7 +3341,7 @@ function revierteMuestra(){
             $("#phl10").attr("disabled", false).val(null);
             $("#phl20").attr("disabled", false).val(null);
             $("#phl30").attr("disabled", false).val(null);
-            $("#phf0").attr("disabled", false).val(null);
+            $("#phf0").attr("disabled", false)/* .val(null) */;
             $("#phprom0").val(null);
             $("#phStatus10").val(1);
 
@@ -3378,7 +3378,7 @@ function revierteMuestra(){
             $("#phl11").attr("disabled", false).val(null);
             $("#phl21").attr("disabled", false).val(null);
             $("#phl31").attr("disabled", false).val(null);
-            $("#phf1").attr("disabled", false).val(null);
+            $("#phf1").attr("disabled", false)/* .val(null) */;
             $("#phprom1").val(null);
             $("#phStatus11").val(1);
 
@@ -3415,7 +3415,7 @@ function revierteMuestra(){
             $("#phl12").attr("disabled", false).val(null);
             $("#phl22").attr("disabled", false).val(null);
             $("#phl32").attr("disabled", false).val(null);
-            $("#phf2").attr("disabled", false).val(null);
+            $("#phf2").attr("disabled", false)/* .val(null) */;
             $("#phprom2").val(null);
             $("#phStatus12").val(1);
 
@@ -3452,7 +3452,7 @@ function revierteMuestra(){
             $("#phl13").attr("disabled", false).val(null);
             $("#phl23").attr("disabled", false).val(null);
             $("#phl33").attr("disabled", false).val(null);
-            $("#phf3").attr("disabled", false).val(null);
+            $("#phf3").attr("disabled", false)/* .val(null) */;
             $("#phprom3").val(null);
             $("#phStatus13").val(1);
 
@@ -3489,7 +3489,7 @@ function revierteMuestra(){
             $("#phl14").attr("disabled", false).val(null);
             $("#phl24").attr("disabled", false).val(null);
             $("#phl34").attr("disabled", false).val(null);
-            $("#phf4").attr("disabled", false).val(null);
+            $("#phf4").attr("disabled", false)/* .val(null) */;
             $("#phprom4").val(null);
             $("#phStatus14").val(1);
 
@@ -3526,7 +3526,7 @@ function revierteMuestra(){
             $("#phl15").attr("disabled", false).val(null);
             $("#phl25").attr("disabled", false).val(null);
             $("#phl35").attr("disabled", false).val(null);
-            $("#phf5").attr("disabled", false).val(null);
+            $("#phf5").attr("disabled", false)/* .val(null) */;
             $("#phprom5").val(null);
             $("#phStatus15").val(1);
 

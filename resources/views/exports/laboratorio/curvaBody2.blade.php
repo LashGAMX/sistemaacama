@@ -18,7 +18,7 @@
 
         <div class="subContenedor">
             <span class="cabeceraStdMuestra">HORA DE ANÁLISIS: </span>
-            <span class="bodyStdMuestra">HORA DE ANÁLISIS</span>
+            <span class="bodyStdMuestra">{{@$hora}}</span>
         </div>
 
         <div class="subContenedor">
@@ -190,7 +190,7 @@
                         @endfor
 
                         <td id="tableContent"><span class="bmrTabla">Límite de cuantificación = </span></td>
-                        <td id="tableContent">{{$limiteCuantificacion->Limite}}</td>
+                        <td id="tableContent"><{{$limiteCuantificacion->Limite}}</td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA PROM.</td>

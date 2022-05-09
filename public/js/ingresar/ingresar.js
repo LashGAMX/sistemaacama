@@ -37,6 +37,7 @@ function setIngresar(){
         async: false,
         success: function (response) {            
             console.log(response);
+            swal("Registro!", "Esta muestra no puede ser asignada!", "error");
         }
     });
 }
