@@ -205,8 +205,8 @@
                                         <tr>
                                             <td>D</td>
                                             <td>Factor dilucion</td>
-                                            <td><input type="text" id="fDilucion1"></td>
-                                            <td><input type="text" id="fDilucion2"></td>
+                                            <td><input type="text" id="fDilucion1" disabled></td>
+                                            <td><input type="text" id="fDilucion2" disabled></td>
                                         </tr>
                                         <tr id="conPh">
                                             <td>P</td>
@@ -402,8 +402,8 @@
                                         <tr>
                                             <td>D</td>
                                             <td>Factor dilucion</td>
-                                            <td><input type="text" id="fDilucion1F"></td>
-                                            <td><input type="text" id="fDilucion2F"></td>
+                                            <td><input type="text" id="fDilucion1F" disabled></td>
+                                            <td><input type="text" id="fDilucion2F" disabled></td>
                                         </tr>
 
                                         <tr>

@@ -384,30 +384,30 @@ class VolController extends Controller
             $bandera = 'dqo';
         }
 
-        if ($bandera === 'dqo') {
-            if ($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))') {
+        if ($bandera == 'dqo') {
+            if ($parametro->Id_parametro == 7 || $parametro->Id_parametro == 77) { // DQO
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 29)->first();
-            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)') {
+            } else if ($parametro->Id_parametro == 73 || $parametro->Id_parametro == 75) { // DQO ALTA
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 25)->first();
-            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)') {
+            } else if ($parametro->Id_parametro == 74 || $parametro->Id_parametro == 76) { // DQO BAJA
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 26)->first();
-            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE (DQO)') {
+            } else if ($parametro->Id_parametro == 170) { // DQO SOLUBLE
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 29)->first();
-            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') { //POR VERIFICAR EN LA TABLA DE PARAMETROS
+            } else if ($parametro->Id_parametro == 168) { //DQO SOLUBLE ALTA
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 25)->first();
-            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
+            } else if ($parametro->Id_parametro == 169) { // DQO SOLUBLE BAJA
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 26)->first();
             }
-        } else if ($bandera === 'cloro') {
-            if ($parametro->Parametro == 'CLORO RESIDUAL LIBRE') {
+        } else if ($bandera == 'cloro') {
+            if ($parametro->Id_parametro == 34 || $parametro->Id_parametro == 128 || $parametro->Id_parametro == 295) { // CLORO RESIDUAL LIBRE
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 24)->first();
             }
-        }else if($bandera === 'nitrogeno'){            
-            if ($parametro->Parametro == 'Nitrógeno Total *') {
+        }else if($bandera == 'nitrogeno'){            
+            if ($parametro->Id_parametro == 12) { // NITROGENO TOTAL
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 30)->first();
-            }else if($parametro->Parametro == 'Nitrógeno Amoniacal'){
+            }else if($parametro->Id_parametro == 10 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296){ // NITROGENO AMONIACAL
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 27)->first();
-            }else if($parametro->Parametro == 'Nitrógeno Orgánico'){
+            }else if($parametro->Id_parametro == 11){ // NITROGENO ORGANICO
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 28)->first();
             }
         }        
@@ -1166,7 +1166,7 @@ class VolController extends Controller
         if (!is_null($textProcedimiento)) {
             //Hoja1    
             $proced = true;
-            if ($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))') {
+            if ($parametro->Id_parametro == 7 || $parametro->Id_parametro == 77) { // DQO
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1180,7 +1180,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') {
+            } else if ($parametro->Id_parametro == 73 || $parametro->Id_parametro == 75) { //DQO ALTA
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1194,7 +1194,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
+            } else if ($parametro->Id_parametro == 74 || $parametro->Id_parametro == 76) { // DQO BAJA
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1208,7 +1208,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE (DQO)') {
+            } else if ($parametro->Id_parametro == 170) { // DQO SOLUBLE
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1222,7 +1222,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') {
+            } else if ($parametro->Id_parametro == 168) { // DQO SOLUBLE ALTA
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1236,7 +1236,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
+            } else if ($parametro->Id_parametro == 169) { // DQO SOLUBLE BAJA
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1250,7 +1250,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'Nitrógeno Total *') {
+            } else if ($parametro->Id_parametro == 12) { // NITROGENO TOTAL
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1261,7 +1261,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'Nitrógeno Amoniacal') {
+            } else if ($parametro->Id_parametro == 10 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1272,7 +1272,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'Nitrógeno Orgánico') { //POR REVISAR EN LA TABLA DE DATOS                                  
+            } else if ($parametro->Id_parametro == 11) { //NITROGENO ORGANICO
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1283,7 +1283,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'CLORO RESIDUAL LIBRE') {
+            } else if ($parametro->Id_parametro == 34 || $parametro->Id_parametro == 128 || $parametro->Id_parametro == 295) { // CLORO RESIDUAL LIBRE
                 $data = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1299,7 +1299,7 @@ class VolController extends Controller
                 }
             }
         } else {   //---------------                     
-            if ($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))') {
+            if ($parametro->Id_parametro == 7 || $parametro->Id_parametro == 77) { // DQO
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1314,7 +1314,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') {
+            } else if ($parametro->Id_parametro == 73 || $parametro->Id_parametro == 75) { // DQO ALTA
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1329,7 +1329,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
+            } else if ($parametro->Id_parametro == 74 || $parametro->Id_parametro == 76) { // DQO BAJA
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1344,7 +1344,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE (DQO)') {
+            } else if ($parametro->Id_parametro == 170) { // DQO SOLUBLE
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1359,7 +1359,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') {
+            } else if ($parametro->Id_parametro == 168) { // DQO SOLUBLE ALTA
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1374,7 +1374,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
+            } else if ($parametro->Id_parametro == 169) { // DQO SOLUBLE BAJA
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1389,7 +1389,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'Nitrógeno Total *') {
+            } else if ($parametro->Id_parametro == 12) { // NITROGENO TOTAL
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1404,7 +1404,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'Nitrógeno Amoniacal') {
+            } else if ($parametro->Id_parametro == 10 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1417,7 +1417,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'Nitrógeno Orgánico') { //POR REVISAR EN LA TABLA DE DATOS                
+            } else if ($parametro->Id_parametro == 11) { // NITROGENO ORGANICO
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1430,7 +1430,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Parametro == 'CLORO RESIDUAL LIBRE') {
+            } else if ($parametro->Id_parametro == 34 || $parametro->Id_parametro == 128 || $parametro->Id_parametro == 295) { // CLORO RESIDUAL LIBRE
                 $data = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $id_lote)->get();
 
                 if (!is_null($data)) {
@@ -1450,34 +1450,34 @@ class VolController extends Controller
 
         //HEADER-FOOTER******************************************************************************************************************         
         if ($sw === true) {
-            if ($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))') {
+            if ($parametro->Id_parametro == 7 || $parametro->Id_parametro == 77) { // DQO
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqo.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.dqo.capturaFooter', compact('usuario', 'firma'));
-            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') {
+            } else if ($parametro->Id_parametro == 73 || $parametro->Id_parametro == 75) { // DQO ALTA Y DQO SOLUBLE ALTA
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoA.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoA.capturaFooter', compact('usuario', 'firma'));
-            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
+            } else if ($parametro->Id_parametro == 74 || $parametro->Id_parametro == 76) { // DQO BAJA
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoB.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoB.capturaFooter', compact('usuario', 'firma'));
-            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE (DQO)') {
+            } else if ($parametro->Id_parametro == 170) { // DQO SOLUBLE 
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoSoluble.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoSoluble.capturaFooter', compact('usuario', 'firma'));
-            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') {
+            } else if ($parametro->Id_parametro == 168) { //DQO SOLUBLE ALTA
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoSolubleAlta.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoSolubleAlta.capturaFooter', compact('usuario', 'firma'));
-            } else if ($parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
+            } else if ($parametro->Id_parametro == 169) { // DQO SOLUBLE BAJA
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoSolubleBaja.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoSolubleBaja.capturaFooter', compact('usuario', 'firma'));
-            } else if ($parametro->Parametro == 'Nitrógeno Amoniacal') {
+            } else if ($parametro->Id_parametro == 10 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaFooter', compact('usuario', 'firma'));
-            } else if ($parametro->Parametro == 'Nitrógeno Orgánico') { //POR REVISAR EN LA TABLA DE DATOS
+            } else if ($parametro->Id_parametro == 11) { // NITROGENO ORGANICO
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaFooter', compact('usuario', 'firma'));
-            } else if ($parametro->Parametro == 'CLORO RESIDUAL LIBRE') {
+            } else if ($parametro->Id_parametro == 34 || $parametro->Id_parametro == 128 || $parametro->Id_parametro == 295) { // CLORO RESIDUAL LIBRE 
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.cloroR.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.cloroR.capturaFooter', compact('usuario', 'firma'));
-            } else if ($parametro->Parametro == 'Nitrógeno Total *') {
+            } else if ($parametro->Id_parametro == 12) { // NITROGENO TOTAL
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaFooter', compact('usuario', 'firma'));
             }
@@ -1491,7 +1491,7 @@ class VolController extends Controller
             //Hoja 2
             $hoja2 = false;
 
-            if ($parametro->Parametro == 'Demanda Química de Oxigeno  (DQO))') {
+            if ($parametro->Id_parametro == 7 || $parametro->Id_parametro == 77) { // DQO
                 //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
@@ -1515,7 +1515,7 @@ class VolController extends Controller
 
                 //$hoja2 = true;
 
-            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO ALTA (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE ALTA (DQO)') {
+            } else if ($parametro->Id_parametro == 73 || $parametro->Id_parametro == 75 || $parametro->Id_parametro == 168) { // DQO ALTA Y DQO SOLUBLE ALTA
                 //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
@@ -1538,7 +1538,7 @@ class VolController extends Controller
                 }
 
                 //$hoja2 = true;
-            } else if ($parametro->Parametro == 'DEMANDA QUIMICA DE OXIGENO BAJAS (DQO)' || $parametro->Parametro == 'DEMANDA QUÍMICA DE OXIGENO SOLUBLE BAJA (DQO)') {
+            } else if ($parametro->Id_parametro == 74 || $parametro->Id_parametro == 76 || $parametro->Id_parametro == 169) { // DQO BAJA Y DQO SOLUBLE BAJA
                 //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
@@ -1561,7 +1561,7 @@ class VolController extends Controller
                 }
 
                 //$hoja2 = true;
-            } else if ($parametro->Parametro == 'Nitrógeno Total *') {
+            } else if ($parametro->Id_parametro == 12) { // NITROGENO TOTAL
                 //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
@@ -1584,7 +1584,7 @@ class VolController extends Controller
                 }
 
                 //$hoja2 = true;
-            } else if ($parametro->Parametro == 'Nitrógeno Amoniacal') {
+            } else if ($parametro->Id_parametro == 10 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
                 //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();
@@ -1607,7 +1607,7 @@ class VolController extends Controller
                 }
 
                 //$hoja2 = true;
-            } else if ($parametro->Parametro == 'Nitrógeno Orgánico') {
+            } else if ($parametro->Id_parametro == 11) { // NITROGENO ORGANICO
                 //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->get();

@@ -36,6 +36,8 @@ class TermometroCalibrado extends Component
     public $fa6;
     public $fa7;
     public $fa8;
+    public $fa9;
+    public $fa10;
     
     public $apl1;
     public $apl2;
@@ -45,6 +47,8 @@ class TermometroCalibrado extends Component
     public $apl6;
     public $apl7;
     public $apl8;
+    public $apl9;
+    public $apl10;
  
     public function render()
     {
@@ -76,7 +80,7 @@ class TermometroCalibrado extends Component
 
         $de = 0;
         $a = 5;
-        for ($i=0; $i < 8; $i++) { 
+        for ($i=0; $i < 10; $i++) { 
             # code...
             TermFactorCorreccionTemp::create([
                 'Id_termometro' => $termo->Id_termometro,
@@ -213,6 +217,35 @@ class TermometroCalibrado extends Component
         
         $termo->save();
 
+        $termo = TermFactorCorreccionTemp::find($model[8]->Id_factor);
+        $termo->Factor = $this->fa9;
+
+        if($this->fa9 >= 0.5){
+            $termo->Factor_aplicado = 1;
+        }else if($this->fa9 <= -0.5){
+            $termo->Factor_aplicado = -1;
+        }else{
+            $termo->Factor_aplicado = 0 /* $this->apl8 */;
+        }
+         
+        $termo->save();
+
+        $termo = TermFactorCorreccionTemp::find($model[9]->Id_factor);
+        $termo->Factor = $this->fa10;
+
+        if($this->fa10 >= 0.5){
+            $termo->Factor_aplicado = 1;
+        }else if($this->fa10 <= -0.5){
+            $termo->Factor_aplicado = -1;
+        }else{
+            $termo->Factor_aplicado = 0 /* $this->apl8 */;
+        }
+       
+        
+        $termo->save();
+
+
+
         $this->alert = true;
     }
     public function setData2($idTermo)
@@ -330,6 +363,28 @@ class TermometroCalibrado extends Component
             $this->apl8 = -1;
         }else{
             $this->apl8 = 0;
+        }
+
+        $termo = TermFactorCorreccionTemp::find($model[8]->Id_factor);
+        $this->fa9 = $termo->Factor;
+
+        if($this->fa9 >= 0.5){
+            $this->apl9 = 1;
+        }else if($this->fa9 <= -0.5){
+            $this->apl9 = -1;
+        }else{
+            $this->apl9 = 0;
+        }
+
+        $termo = TermFactorCorreccionTemp::find($model[9]->Id_factor);
+        $this->fa10 = $termo->Factor;
+
+        if($this->fa10 >= 0.5){
+            $this->apl10 = 1;
+        }else if($this->fa10 <= -0.5){
+            $this->apl10 = -1;
+        }else{
+            $this->apl10 = 0;
         }
 
         //$this->apl8 = $termo->Factor_aplicado ;

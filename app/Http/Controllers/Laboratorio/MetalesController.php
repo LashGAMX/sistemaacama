@@ -161,7 +161,7 @@ class MetalesController extends Controller
 
     public function captura()
     {
-        $parametro = Parametro::where('Id_tipo_formula', 20)
+        $parametro = DB::table('ViewParametros')->where('Id_tipo_formula', 20)
             ->orWhere('Id_tipo_formula', 21)
             ->orWhere('Id_tipo_formula', 22)
             ->orWhere('Id_tipo_formula', 23)

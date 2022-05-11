@@ -616,24 +616,24 @@ class MbController extends Controller
             $bandera = 'coli';
         }
         
-        if($bandera === 'coli'){        
-            if($parametro->Id_parametro === 13 || $parametro->Id_parametro === 51 || $parametro->Id_parametro === 141 || $parametro->Id_parametro === 143 || $parametro->Id_parametro === 145 || $parametro->Id_parametro === 164 || $parametro->Id_parametro === 279 || $parametro->Id_parametro === 280 || $parametro->Id_parametro === 281){ //Coliformes Fecales
+        if($bandera == 'coli'){        
+            if($parametro->Id_parametro == 13 || $parametro->Id_parametro == 51 || $parametro->Id_parametro == 141 || $parametro->Id_parametro == 143 || $parametro->Id_parametro == 145 || $parametro->Id_parametro == 164 || $parametro->Id_parametro == 279 || $parametro->Id_parametro == 280 || $parametro->Id_parametro == 281){ //COLIFORMES FECALES
                 $plantillaPredeterminada = ReportesMb::where('Id_reporte', 1)->first();
-            }else if($parametro->Parametro == 'COLIFORMES TOTALES'){
+            }else if($parametro->Id_parametro == 35 || $parametro->Id_parametro == 52 || $parametro->Id_parametro == 142 || $parametro->Id_parametro == 144 || $parametro->Id_parametro == 146 || $parametro->Id_parametro == 147){ // COLIFORMES TOTALES
                 $plantillaPredeterminada = ReportesMb::where('Id_reporte', 5)->first();
             }        
-        }else if($bandera === 'hh'){
-            if($parametro->Parametro == 'HUEVOS DE HELMINTO' || $parametro->Parametro == 'Huevos de Helminto'){
+        }else if($bandera == 'hh'){
+            if($parametro->Id_parametro == 17 || $parametro->Id_parametro == 82 || $parametro->Id_parametro == 173 || $parametro->Id_parametro == 282 || $parametro->Id_parametro == 283){ // HH
                 $plantillaPredeterminada = ReportesMb::where('Id_reporte', 0)->first();
             }
-        }else if($bandera === 'dbo'){
-            if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
+        }else if($bandera == 'dbo'){
+            if($parametro->Id_parametro == 6 || $parametro->Id_parametro == 72){ // DBO5    
                 $plantillaPredeterminada = ReportesMb::where('Id_reporte', 3)->first();
-            }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO CON INOCULO (DBO5)'){
+            }else if($parametro->Id_parametro == 71){ //DBO5 CON INOCULO
                 $plantillaPredeterminada = ReportesMb::where('Id_reporte', 2)->first();
             }
-        }else if($bandera === 'oxigeno'){
-            if($parametro->Parametro == 'OXIGENO DISUELTO'){
+        }else if($bandera == 'oxigeno'){
+            if($parametro->Id_parametro == 40 || $parametro->Id_parametro == 41){ // OXIGENO DISUELTO
                 $plantillaPredeterminada = ReportesMb::where('Id_reporte', 4)->first();
             }
         }else{
@@ -1135,8 +1135,8 @@ class MbController extends Controller
         $proced = false;
         if(!is_null($textProcedimiento)){
             $proced = true;
-            if($bandera === 'coli'){
-                if($parametro->Id_parametro === 13 || $parametro->Id_parametro === 51 || $parametro->Id_parametro === 141 || $parametro->Id_parametro === 143 || $parametro->Id_parametro === 145 || $parametro->Id_parametro === 164 || $parametro->Id_parametro === 279 || $parametro->Id_parametro === 280 || $parametro->Id_parametro === 281){ //Coliformes Fecales
+            if($bandera == 'coli'){
+                if($parametro->Id_parametro == 13 || $parametro->Id_parametro == 51 || $parametro->Id_parametro == 141 || $parametro->Id_parametro == 143 || $parametro->Id_parametro == 145 || $parametro->Id_parametro == 164 || $parametro->Id_parametro == 279 || $parametro->Id_parametro == 280 || $parametro->Id_parametro == 281){ //Coliformes Fecales
                     $horizontal = 'P';                    
                     $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
 
@@ -1161,7 +1161,7 @@ class MbController extends Controller
                     }else{
                         $sw = false;                        
                     }                                                            
-                }else if($parametro->Parametro == 'COLIFORMES TOTALES'){    
+                }else if($parametro->Id_parametro == 35 || $parametro->Id_parametro == 52 || $parametro->Id_parametro == 142 || $parametro->Id_parametro == 144 || $parametro->Id_parametro == 146 || $parametro->Id_parametro == 147){   // COLIFORMES TOTALES  
                     $horizontal = 'P';                    
                     $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
 
@@ -1187,8 +1187,8 @@ class MbController extends Controller
                         $sw = false;                        
                     }
                 }
-            }else if($bandera === 'hh'){
-                if($parametro->Parametro == 'HUEVOS DE HELMINTO' || $parametro->Parametro == 'Huevos de Helminto'){ //POR REVISAR EN LA TABLA DE DATOS
+            }else if($bandera == 'hh'){
+                if($parametro->Id_parametro == 17 || $parametro->Id_parametro == 82 || $parametro->Id_parametro == 173 || $parametro->Id_parametro == 282 || $parametro->Id_parametro == 283){ // HH
                     $horizontal = 'P';                    
                     $data = DB::table('ViewLoteDetalleHH')->where('Id_lote', $id_lote)->get();
      
@@ -1222,7 +1222,7 @@ class MbController extends Controller
                         $sw = false;                        
                     }
                 }
-            }else if($bandera === 'enteroCoco'){    //NO EXISTE BITÁCORA AÚN POR SER UN PARÁMETRO NUEVO
+            }else if($bandera == 'enteroCoco'){    //NO EXISTE BITÁCORA AÚN POR SER UN PARÁMETRO NUEVO
                 if($parametro->Parametro == 'ENTEROCOCO FECAL'){ //POR REVISAR EN LA TABLA DE DATOS
                     $horizontal = 'P';                    
                     $data = DB::table('ViewLoteDetalleMicro')->where('Id_lote', $id_lote)->get();
@@ -1235,8 +1235,8 @@ class MbController extends Controller
                         $sw = false;                        
                     }                                        
                 }
-            }else if($bandera === 'dbo'){
-                if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
+            }else if($bandera == 'dbo'){
+                if($parametro->Id_parametro == 6 || $parametro->Id_parametro == 72){ // DBO5
                     $horizontal = 'L';
                     $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
      
@@ -1251,7 +1251,7 @@ class MbController extends Controller
                     }else{
                         $sw = false;                        
                     }                
-                }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO CON INOCULO (DBO5)'){
+                }else if($parametro->Id_parametro == 71){ // DBO5 CON INOCULO
                     $horizontal = 'L';
                     $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
      
@@ -1269,8 +1269,8 @@ class MbController extends Controller
                 }
             }                                                     
         }else{  //----------------------
-            if($bandera === 'coli'){
-                if($parametro->Parametro == 'COLIFORMES FECALES' || $parametro->Parametro == 'Coliformes Fecales +'){                    
+            if($bandera == 'coli'){
+                if($parametro->Id_parametro == 13 || $parametro->Id_parametro == 51 || $parametro->Id_parametro == 141 || $parametro->Id_parametro == 143 || $parametro->Id_parametro == 145 || $parametro->Id_parametro == 164 || $parametro->Id_parametro == 279 || $parametro->Id_parametro == 280 || $parametro->Id_parametro == 281){ // COLIFORMES FECALES
                     $horizontal = 'P';
                     $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
      
@@ -1296,7 +1296,7 @@ class MbController extends Controller
                     }else{
                         $sw = false;
                     }
-                }else if($parametro->Parametro == 'COLIFORMES TOTALES'){
+                }else if($parametro->Id_parametro == 35 || $parametro->Id_parametro == 52 || $parametro->Id_parametro == 142 || $parametro->Id_parametro == 144 || $parametro->Id_parametro == 146 || $parametro->Id_parametro == 147){ // COLIFORMES TOTALES
                     $horizontal = 'P';
                     $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
      
@@ -1323,8 +1323,8 @@ class MbController extends Controller
                         $sw = false;
                     }
                 }
-            }else if($bandera === 'hh'){ 
-                if($parametro->Parametro == 'HUEVOS DE HELMINTO' || $parametro->Parametro == 'Huevos de Helminto'){                
+            }else if($bandera == 'hh'){ 
+                if($parametro->Id_parametro == 17 || $parametro->Id_parametro == 82 || $parametro->Id_parametro == 173 || $parametro->Id_parametro == 282 || $parametro->Id_parametro == 283){ // HH
                     $horizontal = 'P';
                     $data = DB::table('ViewLoteDetalleHH')->where('Id_lote', $id_lote)->get();
         
@@ -1357,7 +1357,7 @@ class MbController extends Controller
                         $sw = false;
                     }
                 }
-            }else if($bandera === 'enteroCoco'){ //NO EXISTE AÚN BITÁCORA DEBIDO A QUE ES NUEVO PARÁMETRO
+            }else if($bandera == 'enteroCoco'){ //NO EXISTE AÚN BITÁCORA DEBIDO A QUE ES NUEVO PARÁMETRO
                 if($parametro->Parametro == 'ENTEROCOCO FECAL'){ //POR REVISAR EN LA TABLA DE DATOS
                     $horizontal = 'P';
                     $data = DB::table('ViewLoteDetalleMicro')->where('Id_lote', $id_lote)->get();
@@ -1371,8 +1371,8 @@ class MbController extends Controller
                         $sw = false;
                     }
                 }
-            }else if($bandera === 'dbo'){
-                if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
+            }else if($bandera == 'dbo'){
+                if($parametro->Id_parametro == 6 || $parametro->Id_parametro == 72){ // DBO5
                     $horizontal = 'L';
                     $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
      
@@ -1388,7 +1388,7 @@ class MbController extends Controller
                     }else{
                         $sw = false;                        
                     }                                                
-                }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO CON INOCULO (DBO5)'){
+                }else if($parametro->Id_parametro == 71){ // DBO5 CON INOCULO
                     $horizontal = 'L';                
                     $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
      
@@ -1409,22 +1409,22 @@ class MbController extends Controller
  
          //HEADER-FOOTER******************************************************************************************************************         
                
-        if($parametro->Parametro == 'COLIFORMES FECALES' || $parametro->Parametro == 'Coliformes Fecales +'){
+        if($parametro->Id_parametro == 13 || $parametro->Id_parametro == 51 || $parametro->Id_parametro == 141 || $parametro->Id_parametro == 143 || $parametro->Id_parametro == 145 || $parametro->Id_parametro == 164 || $parametro->Id_parametro == 279 || $parametro->Id_parametro == 280 || $parametro->Id_parametro == 281){ // COLIFORMES FECALES
             $htmlHeader = view('exports.laboratorio.mb.coliformes.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.mb.coliformes.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'COLIFORMES TOTALES'){
+        }else if($parametro->Id_parametro == 35 || $parametro->Id_parametro == 52 || $parametro->Id_parametro == 142 || $parametro->Id_parametro == 144 || $parametro->Id_parametro == 146 || $parametro->Id_parametro == 147){ // COLIFORMES TOTALES
             $htmlHeader = view('exports.laboratorio.mb.espectro.coliformesTotales.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.mb.espectro.coliformesTotales.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'HUEVOS DE HELMINTO' || $parametro->Parametro == 'Huevos de Helminto'){
+        }else if($parametro->Id_parametro == 17 || $parametro->Id_parametro == 82 || $parametro->Id_parametro == 173 || $parametro->Id_parametro == 282 || $parametro->Id_parametro == 283){ // HH
             $htmlHeader = view('exports.laboratorio.mb.hh.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.mb.hh.capturaFooter', compact('usuario', 'firma'));
         }else if($parametro->Parametro == 'ENTEROCOCO FECAL'){ //POR REVISAR EN LA TABLA DE DATOS
             $htmlHeader = view('exports.laboratorio.mb.espectro.condElec.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.mb.espectro.condElec.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
+        }else if($parametro->Id_parametro == 6 || $parametro->Id_parametro == 72){ // DBO5
             $htmlHeader = view('exports.laboratorio.mb.dbo.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.mb.dbo.capturaFooter', compact('usuario', 'firma'));
-        }else if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO CON INOCULO (DBO5)'){
+        }else if($parametro->Id_parametro == 71){ // DBO5 CON INOCULO
             $htmlHeader = view('exports.laboratorio.mb.dboIn.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.mb.dboIn.capturaFooter', compact('usuario', 'firma'));
         }
@@ -1472,7 +1472,7 @@ class MbController extends Controller
         
         //Hoja 2
         $hoja2 = false;
-        if($parametro->Parametro == 'DEMANDA BIOQUIMICA DE OXIGENO (DBO5)'){
+        if($parametro->Id_parametro == 6 || $parametro->Id_parametro == 72){ // DBO5
             //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
             //$horizontal = 'P';
             $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
