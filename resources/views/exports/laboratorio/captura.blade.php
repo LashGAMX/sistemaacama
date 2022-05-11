@@ -32,7 +32,7 @@
             </thead>
     
             <tbody>
-                @for ($i = 0; $i < $datosLength ; $i++)
+                @for ($i = 0; $i < @$datosLength ; $i++)
                     <tr>
                         <td id="tableContent">
                             @if (@$datos[$i]->Control == 'Estandar')
@@ -43,18 +43,30 @@
                                 {{@$datos[$i]->Folio_servicio}}
                             @endif 
                         </td>
-                        <td id="tableContent">{{$datos[$i]->Vol_muestra}}</td>
-                        <td id="tableContent">{{$loteModelPh[$i]}}</td>
-                        <td id="tableContent">{{$datos[$i]->Abs1}}</td>
-                        <td id="tableContent">{{$datos[$i]->Abs2}}</td>
-                        <td id="tableContent">{{$datos[$i]->Abs3}}</td>
-                        <td id="tableContent">{{$datos[$i]->Abs_promedio}}</td>
-                        <td id="tableContent">{{$datos[$i]->Abs_promedio}}</td>
-                        <td id="tableContent">{{$datos[$i]->Vol_disolucion}}</td>
-                        <td id="tableContent">{{$datos[$i]->Factor_dilucion}}</td>
+                        <td id="tableContent">{{@$datos[$i]->Vol_muestra}}</td>
+                        <td id="tableContent">{{@$loteModelPh[$i]}}</td>
+                        <td id="tableContent">{{@$datos[$i]->Abs1}}</td>
+                        <td id="tableContent">{{@$datos[$i]->Abs2}}</td>
+                        <td id="tableContent">{{@$datos[$i]->Abs3}}</td>
+                        <td id="tableContent">                            
+                            @php
+                                echo round(@$datos[$i]->Abs_promedio, 3);
+                            @endphp
+                        </td>
+                        <td id="tableContent">
+                            @php
+                                echo round(@$datos[$i]->Abs_promedio, 3);
+                            @endphp
+                        </td>
+                        <td id="tableContent">
+                            @php
+                                echo round(@$datos[$i]->Vol_disolucion, 3);
+                            @endphp
+                        </td>
+                        <td id="tableContent">{{@$datos[$i]->Factor_dilucion}}</td>
                         <!-- <td id="tableContent">PRUEBA</td> -->
                         <td id="tableContent">{{@$limites[$i]}}</td>
-                        <td id="tableContent">{{$loteModel[$i]}}</td>                        
+                        <td id="tableContent">{{@$loteModel[$i]}}</td>                        
                         <td id="tableContent">
                             @if (@$datos[$i]->Liberado == 1)
                                 Liberado

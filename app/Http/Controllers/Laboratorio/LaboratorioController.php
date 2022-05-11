@@ -222,7 +222,7 @@ class LaboratorioController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Vol_disolucion;
+                            $limC = round($item->Vol_disolucion, 3);
 
                             array_push($limites, $limC);
                         }
