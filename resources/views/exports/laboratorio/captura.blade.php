@@ -50,17 +50,17 @@
                         <td id="tableContent">{{@$datos[$i]->Abs3}}</td>
                         <td id="tableContent">                            
                             @php
-                                echo round(@$datos[$i]->Abs_promedio, 3);
+                                echo round(@$datos[$i]->Abs_promedio, 4);
                             @endphp
                         </td>
                         <td id="tableContent">
                             @php
-                                echo round(@$datos[$i]->Abs_promedio, 3);
+                                echo round(@$datos[$i]->Abs_promedio, 4);
                             @endphp
                         </td>
                         <td id="tableContent">
                             @php
-                                echo round(@$datos[$i]->Vol_disolucion, 3);
+                                echo round(@$datos[$i]->Vol_disolucion / @$datos[$i]->Factor_dilucion, 4);
                             @endphp
                         </td>
                         <td id="tableContent">{{@$datos[$i]->Factor_dilucion}}</td>

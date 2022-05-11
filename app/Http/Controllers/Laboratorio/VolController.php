@@ -979,6 +979,10 @@ class VolController extends Controller
                 break;
             default:
                 # code...
+                      # Nitrogeno
+                      $muestra = LoteDetalleNitrogeno::where('Id_detalle', $request->idMuestra)->first();
+                      $model = $muestra->replicate();
+                      $model->Id_control = $request->idControl;
                 break;
         }
 

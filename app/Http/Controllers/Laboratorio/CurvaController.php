@@ -62,7 +62,7 @@ class CurvaController extends Controller
     }
      public function buscar(Request $request){
         $lote = LoteAnalisis::where('Fecha', $request->fecha)->first();
-        $model = estandares::where('Id_lote', 68)->get(); 
+        $model = estandares::where('Id_lote', 73)->get(); 
         //$loteDetalle = LoteDetalle::where('Id_lote',$request->idLote)->first();
         $concent = ConcentracionParametro::where('Id_parametro',$request->parametro)->get();
         $bmr = CurvaConstantes::where('Id_lote', $lote->id_lote)->first();

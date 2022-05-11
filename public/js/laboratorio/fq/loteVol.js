@@ -31,7 +31,7 @@ $('#btnDatosLote').click(function () {
             $("#secctionDqo").hide();
             break;
         default:
-            break;
+            break; 
     }
 });
 $('#btnEjecutarVal').click(function () {

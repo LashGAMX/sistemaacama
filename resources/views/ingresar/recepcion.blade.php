@@ -80,5 +80,5 @@
 @endsection
 
 @section('javascript')
-    <script src="{{ asset('/public/js/ingresar/ingresar.js') }}"></script>
+    <script src="{{ asset('/public/js/ingresar/ingresar.js') }}?v=0.0.1"></script>
 @stop
