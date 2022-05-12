@@ -56,7 +56,11 @@
                                     @foreach ($puntos as $item)
                                         <tr>
                                             <td>{{$item->Id_punto}}</td>
-                                            <td>{{$item->Punto_muestreo}}</td>
+                                            @if ($swSir == true)
+                                                <td>{{$item->Punto}}</td>
+                                            @else
+                                                <td>{{$item->Punto_muestreo}}</td>
+                                            @endif
                                         </tr>
                                     @endforeach
                                 </tbody>

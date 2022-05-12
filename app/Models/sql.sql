@@ -244,6 +244,12 @@ ON p.Cuerpo_receptor = t.Id_tipo
 INNER JOIN detalle_tipoCuerpos as d
 ON p.Uso_agua = d.Id_detalle
 
+/* Lista ViewPuntoMuestreoSolSir */
+CREATE VIEW ViewPuntoMuestreoSolSir as SELECT pu.Id_punto as Id_puntoSol,pu.Id_solicitud,pu.Id_muestreo,sir.Id_punto,sir.Id_sucursal,sir.Titulo_consecion,sir.Punto,sir.Anexo,sir.Siralab,sir.Pozos,sir.Cuerpo_receptor,sir.Uso_agua 
+FROM solicitud_puntos as pu
+INNER JOIN puntos_muestreo as sir
+ON pu.Id_muestreo = sir.Id_punto
+
 /* Lista ViewSolicitudGenerada */
 CREATE VIEW ViewSolicitudGenerada as SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,gen.Estado as StdSol, gen.Punto_muestreo, gen.Id_user_c, gen.Id_user_m FROM solicitudes_generadas as gen
 INNER JOIN ViewSolicitud as sol
