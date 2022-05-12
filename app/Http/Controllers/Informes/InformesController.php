@@ -399,7 +399,7 @@ class InformesController extends Controller
         $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');
     }
 
-    public function pdfConComparacion($idSol)
+    public function  paracion($idSol)
     {
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
