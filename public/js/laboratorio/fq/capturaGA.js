@@ -240,6 +240,7 @@ function operacionSimple() {
             $("#k1").val(fixk1);
             $("#c1").val(fixc1);
             $('#p').val(response.serie);
+            $('#resultado').val(response.res.toFixed(4));
 
             getLoteCapturaGA();
         }

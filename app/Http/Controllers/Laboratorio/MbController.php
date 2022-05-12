@@ -195,7 +195,7 @@ class MbController extends Controller
                     # code...
                     $detalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->get(); 
                 break;
-            case 72: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+            case 6: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
                         # code...
                     $detalle = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $request->idLote)->get(); 
                 break;
@@ -244,7 +244,7 @@ class MbController extends Controller
             case 13: // coliformes +
                 $muestra = LoteDetalleColiformes::where('Id_detalle', $request->idMuestra)->first();
                 break;
-            case 72:
+            case 6:
                 $muestra = LoteDetalleDbo::where('Id_detalle', $request->idMuestra)->first();
                 break;
             case 17:
@@ -358,7 +358,7 @@ class MbController extends Controller
                     // $model->save();
                     
                 break;
-            case 72: //todo Metodo electrometrico
+            case 6: //todo Metodo electrometrico
                     # DBO
                     $E = $request->D / $request->C;
                     $res = ($request->A - $request->B) / round($E,3); 
@@ -680,7 +680,7 @@ class MbController extends Controller
                     # code...
                     $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->where('Id_control',1)->get(); 
                 break;
-            case 72: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+            case 6: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
                         # code...
                     $model = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $request->idLote)->get(); 
                 break;
@@ -777,7 +777,7 @@ class MbController extends Controller
                 $detModel = LoteDetalleEspectro::where('Id_lote',$request->idLote)->get();
                 $sw = true;
                 break;
-            case 72: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
+            case 6: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
                         # code...
                         $model = LoteDetalleDbo::create([
                             'Id_lote' => $request->idLote,

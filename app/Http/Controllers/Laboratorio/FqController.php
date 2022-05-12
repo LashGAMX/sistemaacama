@@ -1348,7 +1348,7 @@ class FqController extends Controller
         $model->Blanco = $request->G;
         $model->F_conversion = $request->E;
         $model->Vol_muestra = $request->I;
-        $model->Resultado = $request->R;
+        $model->Resultado = ($request->R - $request->G);
         $model->save();
 
 
@@ -1360,6 +1360,7 @@ class FqController extends Controller
             'serie' => $matraz->Num_serie,
             'min' => $matraz->Min,
             'max' => $matraz->Max,
+            'res' => ($request->R - $request->G),
             //'potencia' => $potencia,
         );
         return response()->json($data);

@@ -78,7 +78,7 @@ $('#btnEjecutarVal').click(function () {
 
             prom = (parseFloat(titulado1) + parseFloat(titulado2) + parseFloat(titulado3)) / 3;
             res = (parseFloat(gramos) / (parseFloat(pm) * prom)) * factorN;
-            $("#molaridadResN").val(res.toFixed(4));
+            $("#molaridadResN").val(res.toFixed(3));
             // console.log(res)
             break;
         default:

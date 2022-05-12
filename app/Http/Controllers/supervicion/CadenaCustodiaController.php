@@ -42,6 +42,9 @@ class CadenaCustodiaController extends Controller
         $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo',$res->idCodigo)->first();
         $paraModel = DB::table('ViewParametros')->where('Id_parametro',$codigoModel->Id_parametro)->first();
         switch ($paraModel->Id_area) {
+            case 2:
+                $model = LoteDetalle::where('Id_codigo',$codigoModel->Id_codigo)->first();
+                break;
             case 16: //Espectrofotometria
                 $model = LoteDetalleEspectro::where('Id_codigo',$codigoModel->Id_codigo)->first();
                 break;

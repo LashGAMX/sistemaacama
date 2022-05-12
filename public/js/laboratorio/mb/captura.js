@@ -143,7 +143,7 @@ function getLoteCapturaMicro() {
                     case "262":
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleCol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                         break;
-                    case "72":
+                    case "6":
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleDbo('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaDbo">Capturar</button>';
                         break;
                     case "17":
