@@ -20,6 +20,8 @@ class Estandares extends Model
         'ABS1',
         'ABS2',
         'ABS3',
+        'Fecha_inicio',
+        'Fecha_fin',
         'Promedio',
         'Id_user_c',
         'Id_user_m'
