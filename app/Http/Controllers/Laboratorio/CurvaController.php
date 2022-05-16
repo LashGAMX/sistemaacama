@@ -108,6 +108,11 @@ class CurvaController extends Controller
                     'Id_lote' => $request->idLote,
                     'STD' => "STD".($i+1)."",
                 ]);
+
+                CurvaConstantes::create([
+                    'Fecha_inicio' => $request->fechaInicio,
+                    'Fecha_fin' => $request->fechaFin,
+                ]);
             }  
             $sw = true;
             
