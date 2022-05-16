@@ -31,12 +31,10 @@
                     <tr>
                         <td class="tableContent bordesTabla">{{@$data[$i]->Ph}}</td>
                         <td class="tableContent bordesTabla">
-                            @if (@$data[$i]->Control == 'Estandar')
-                                ESTANDAR
-                            @elseif(@$data[$i]->Control == 'Blanco')
-                                BLANCO
-                            @else
+                            @if (@$data[$i]->Control == 'Muestra Adicionada' @$data[$i]->Control == 'Duplicado' || @$data[$i]->Control == 'Resultado')
                                 {{@$data[$i]->Codigo}}
+                            @else
+                                {{@$data[$i]->Control}}
                             @endif    
                         </td>
                         <td class="tableContent bordesTabla">{{@$data[$i]->Id_matraz}}</td>

@@ -35,12 +35,10 @@
                 @for ($i = 0; $i < @$datosLength ; $i++)
                     <tr>
                         <td id="tableContent">
-                            @if (@$datos[$i]->Control == 'Estandar')
-                                ESTANDAR
-                            @elseif(@$datos[$i]->Control == 'Blanco')
-                                BLANCO
+                            @if (@$datos[$i]->Control == 'Muestra Adicionada' || @$datos[$i]->Control == 'Duplicado' || @$datos[$i]->Control == 'Resultado')
+                                {{@$datos[$i]->Folio_servicio}}                            
                             @else
-                                {{@$datos[$i]->Folio_servicio}}
+                                {{@$datos[$i]->Control}}    
                             @endif 
                         </td>
                         <td id="tableContent">{{@$datos[$i]->Vol_muestra}}</td>

@@ -328,10 +328,20 @@ class LaboratorioController extends Controller
         //}
                 
         $estandares = estandares::where('Id_lote', $id_lote)->get();
+        $topeEstandar = 0;
+
         if(is_null($estandares)){
             $estandares = estandares::where('Id_lote', 0)->get();
             echo '<script> alert("Valores predeterminados para los estándares. Rellena estos datos.") </script>';
-        }        
+        }else{
+            foreach($estandares as $item){
+                if($item->STD == 'STD4'){
+                    $topeEstandar = 4;
+                }else if($item->STD == 'STD5'){
+                    $topeEstandar = 5;
+                }
+            }
+        }
 
         $bmr = CurvaConstantes::where('Id_lote', $id_lote)->first();
         if(is_null($bmr)){
@@ -400,7 +410,7 @@ class LaboratorioController extends Controller
             //    $sw = false;
             //}
             
-            $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento', 'estandares', 'limiteCuantificacion', 'bmr', 
+            $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento', 'estandares', 'topeEstandar', 'limiteCuantificacion', 'bmr', 
             'tecnicaMetales', 'blancoMetales', 'estandarMetales', 'verificacionMetales', 'fechaConFormato', 'soloFechaFormateada', 
             'soloHoraFormateada', 'fechaPreparacion','sw', 'hora'));
             $mpdf->WriteHTML($htmlCurva2);

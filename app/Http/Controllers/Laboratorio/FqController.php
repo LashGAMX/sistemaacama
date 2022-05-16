@@ -2015,6 +2015,19 @@ class FqController extends Controller
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
+                    $limites = array();
+                    foreach ($data as $item) {
+                        if ($item->Resultado < $limiteC->Limite) {
+                            $limC = "< " . $limiteC->Limite;
+
+                            array_push($limites, $limC);
+                        } else {  //Si es mayor el resultado que el límite de cuantificación
+                            $limC = $item->Resultado;
+
+                            array_push($limites, $limC);
+                        }
+                    }
+
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
@@ -2361,6 +2374,19 @@ class FqController extends Controller
                 if (!is_null($data)) {
                     $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+
+                    $limites = array();
+                    foreach ($data as $item) {
+                        if ($item->Resultado < $limiteC->Limite) {
+                            $limC = "< " . $limiteC->Limite;
+
+                            array_push($limites, $limC);
+                        } else {  //Si es mayor el resultado que el límite de cuantificación
+                            $limC = $item->Resultado;
+ 
+                            array_push($limites, $limC);
+                        }
+                    }
 
                     $textProcedimiento = ReportesFq::where('Id_reporte', 8)->first();
                     $separador = "Valoración";

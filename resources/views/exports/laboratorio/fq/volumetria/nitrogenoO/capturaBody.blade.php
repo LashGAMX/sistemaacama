@@ -42,14 +42,10 @@
                 @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
                         <td class="tableContent">
-                            @if (@$data[$i]->Control == 'Estandar')
-                                ESTANDAR
-                            @elseif(@$data[$i]->Control == 'Blanco')
-                                BLANCO
-                            @elseif(@$data[$i]->Control == 'Blanco reactivo')
-                                BLANCO REACTIVO
-                            @else
+                            @if (@$data[$i]->Control == 'Muestra Adicionada' || @$data[$i]->Control == 'Duplicado' || @$data[$i]->Control == 'Resultado')
                                 {{@$data[$i]->Folio_servicio}}
+                            @else
+                                {{@$data[$i]->Control}}
                             @endif 
                         </td>
                         <td class="tableContent">{{@$data[$i]->Titulado_blanco}}</td>

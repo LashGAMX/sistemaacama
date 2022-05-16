@@ -130,17 +130,41 @@
 
             <table autosize="1" class="table table-borderless" id="tablaDatos">
                 <thead>
-                    <tr>
-                        <th id="tableCabecera">&nbsp;</th>
-                        <th id="tableCabecera">&nbsp;Blanco&nbsp;&nbsp;</th>
-                        <th id="tableCabecera">&nbsp;STD1&nbsp;&nbsp;</th>
-                        <th id="tableCabecera">&nbsp;STD2&nbsp;&nbsp;</th>
-                        <th id="tableCabecera">&nbsp;STD3&nbsp;&nbsp;</th>
-                        <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>
-                        <th id="tableCabecera">&nbsp;STD5&nbsp;&nbsp;</th>
-                        <th id="tableCabecera">&nbsp;<span class="bmrTabla">b = </span>&nbsp;&nbsp;</th>
-                        <th id="tableContent">&nbsp;<span class="bTabla">{{$bmr->B}}</span>&nbsp;&nbsp;</th>
-                    </tr>
+
+                    @if (@$topeEstandar == 4)                        
+                        <tr>
+                            <th id="tableCabecera">&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;Blanco&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD1&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD2&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD3&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>                            
+                            <th id="tableCabecera">&nbsp;<span class="bmrTabla">b = </span>&nbsp;&nbsp;</th>
+                            <th id="tableContent">&nbsp;<span class="bTabla">{{$bmr->B}}</span>&nbsp;&nbsp;</th>
+                        </tr>
+                    @elseif (@$topeEstandar == 5)
+                        <tr>
+                            <th id="tableCabecera">&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;Blanco&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD1&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD2&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD3&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD5&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;<span class="bmrTabla">b = </span>&nbsp;&nbsp;</th>
+                            <th id="tableContent">&nbsp;<span class="bTabla">{{$bmr->B}}</span>&nbsp;&nbsp;</th>
+                        </tr>
+                    @else
+                        <tr>
+                            <th id="tableCabecera">&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;Blanco&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD1&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD2&nbsp;&nbsp;</th>
+                            <th id="tableCabecera">&nbsp;STD3&nbsp;&nbsp;</th>                            
+                            <th id="tableCabecera">&nbsp;<span class="bmrTabla">b = </span>&nbsp;&nbsp;</th>
+                            <th id="tableContent">&nbsp;<span class="bTabla">{{$bmr->B}}</span>&nbsp;&nbsp;</th>
+                        </tr>
+                    @endif                    
                 </thead>
         
                 <tbody>
@@ -150,7 +174,10 @@
                         <td id="tableContent"></td>
                         
                         @for ($i = 1; ($i < $estandares->count()); $i++)                            
-                            <td id="tableContent">{{$estandares[$i]->Concentracion}}</td>
+                            @if(@$estandares[$i]->Concentracion != null){
+                                <td id="tableContent">{{$estandares[$i]->Concentracion}}</td>
+                            }
+                            @endif                            
                         @endfor
                         
                         <td id="tableContent"><span class="bmrTabla">m = </span></td>
@@ -206,21 +233,8 @@
                     </tr>
                 </tbody>        
             </table>
-        </div>
-
-        <div class="subContenedor6">
-            <span class="elementos">
-                NOTA: Ver condición para el cálculo del porcentaje de recuperación de la muestra 
-                adicionada (ma) en procedimiento PG-05-014, en apartado de "ACTIVIDADES DIARIAS, MENSUALES O 
-                SEMESTRALES" punto número 12.</span>
-        </div>                 
+        </div>                       
     </div>
-
-    <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: {{$estandares[0]->ABS1}}</span> <br>
-        <span>Absorbancia B2: {{$estandares[0]->ABS2}}</span> <br>
-        <span>Absorbancia B3: {{$estandares[0]->ABS3}}</span> <br>
-        <span>RESULTADO BLANCO: {{$estandares[0]->Promedio}}</span>
-    </div>
+    
 </body>
 </html>
