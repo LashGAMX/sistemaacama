@@ -48,12 +48,12 @@
                         <td id="tableContent">{{@$datos[$i]->Abs3}}</td>
                         <td id="tableContent">                            
                             @php
-                                echo round(@$datos[$i]->Abs_promedio, 4);
+                                echo number_format(@$datos[$i]->Abs_promedio, 3, ".", ".");                                
                             @endphp
                         </td>
                         <td id="tableContent">
                             @php
-                                echo round(@$datos[$i]->Abs_promedio, 4);
+                                echo number_format(@$datos[$i]->Abs_promedio, 3, ".", ".");                                
                             @endphp
                         </td>
                         <td id="tableContent">
@@ -84,7 +84,7 @@
     <div class="contenedorPadre">
         <div class="contenedorHijo1">            
             <span class="cabeceraStdMuestra"> ESTÁNDAR CONTROL <br> </span>
-                <span class="bodyStdMuestra">Criterio de aceptación para Std ctrl 95-105%. Fórmula; Recuperación(%) = C1/C2x100. Donde: C1 = Concentración leída.
+                <span class="bodyStdMuestra">Criterio de aceptación para Std ctrl 95-105%. Fórmula; Recuperación(%) = (C1/C2)x100. Donde: C1 = Concentración leída.
                     C2 = Concentración Real.
                 </span>
         </div>
@@ -92,14 +92,14 @@
         <div class="contenedorHijo1">
             <span class="cabeceraStdMuestra">MUESTRA DUPLICADA <br> </span>                                    
             <span class="bodyStdMuestra">DPR (DIFERENCIAL PORCENTUAL RELATIVA) MUESTRA DUPLICADA: La DPR de cada analito obtenido entre la muestra y la
-                duplicada debe ser: < 20%. Fórmula: DPR = (|C1-C2|)/[(C1+C2)*100]. Donde: C1 - Concentración de la primera muestra.
+                duplicada debe ser: < 20%. Fórmula: DPR = ((|C1-C2|)/(C1+C2)/2)*100. Donde: C1 - Concentración de la primera muestra.
                 C2 - Concentración de la segunda muestra (muestra duplicada).
             </span>                   
         </div>
 
         <div class="contenedorHijo1">
             <span class="cabeceraStdMuestra">MUESTRA ADICIONADA <br> </span>                    
-            <span class="bodyStdMuestra">Criterio de Aceptación para MA  85 - 115%. Fórmula: Recuperación n = [Cs(V+V1)-(Cr*V1)/Ca*V]100%. Donde: V = Volúmen del
+            <span class="bodyStdMuestra">Criterio de Aceptación para MA  85 - 115%. Fórmula: Recuperación n = ((Cg(V+V1)-Cr*V1/Ca*V))*100. Donde: V = Volúmen del
                 estándar usado para la muestra adicionada. Ca = Concentración del estándar. V1 = Volúmen de la muestra problema usada 
                 para la muestra adicionada. Cr = Concentración de muestra problema. Cs = Concentración de la muestra adicionada. Recuperación
                 n: porcentaje del analito adicionado que es medido.
