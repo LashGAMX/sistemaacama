@@ -13,7 +13,7 @@
     <div class="contenedorPrincipal">                                        
         <div class="subContenedor">                        
             <span class="cabeceraStdMuestra">FECHA DE ANÁLISIS: </span>
-            <span class="bodyStdMuestra">{{$fechaConFormato}}</span>
+            <span class="bodyStdMuestra">{{@$fechaConFormato}}</span>
         </div>
 
         <div class="subContenedor">
@@ -23,68 +23,68 @@
 
         <div class="subContenedor">
             <span class="cabeceraStdMuestra">FECHA DE DIGESTIÓN: </span>                    
-            <span class="bodyStdMuestra">{{$soloFechaFormateada}}</span>
+            <span class="bodyStdMuestra">{{@$soloFechaFormateada}}</span>
         </div>
 
         <div class="subContenedor">
             <span class="cabeceraStdMuestra">HORA DE DIGESTIÓN: </span>
-            <span class="bodyStdMuestra">{{$soloHoraFormateada}}</span>
+            <span class="bodyStdMuestra">{{@$soloHoraFormateada}}</span>
         </div>
     </div>
 
     <div class="contenedorSecundario">                        
         <div class="subContenedor2">            
             <span class="elementos"> ESPECTROFOTÓMETRO DE ABSORCIÓN ATÓMICA <span><br></span> PERKIN ELMER MODELO: </span>
-            <span class="subElementos">{{$tecnicaMetales->Equipo}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <span class="subElementos">{{@$tecnicaMetales->Equipo}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             &nbsp;
             </span>
         </div>
 
         <div class="subContenedor2">
             <span class="elementos">CORRIENTE DE LA LÁMPARA: </span>
-            <span class="subElementos">{{$tecnicaMetales->Corriente}}</span>
+            <span class="subElementos">{{@$tecnicaMetales->Corriente}}</span>
         </div>
 
         <div class="subContenedor2">
             <span class="elementos">No. DE INV. LÁMPARA: </span>                    
-            <span class="subElementos">{{$tecnicaMetales->Num_invent_lamp}}</span>
+            <span class="subElementos">{{@$tecnicaMetales->Num_invent_lamp}}</span>
         </div>
 
         <div class="subContenedor2">
             <span class="elementos">ENERGÍA DE LÁMPARA: </span>
-            <span class="subElementos">{{$tecnicaMetales->Energia}}</span>
+            <span class="subElementos">{{@$tecnicaMetales->Energia}}</span>
         </div>
     </div>
 
     <div class="contenedorTerciario">                        
         <div class="subContenedor3">            
             <span class="elementos"> No. DE INVENTARIO: </span>
-            <span class="subElementos">{{$tecnicaMetales->Num_inventario}}</span>
+            <span class="subElementos">{{@$tecnicaMetales->Num_inventario}}</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">LONGITUD DE ONDA: </span>
-            <span class="subElementos">{{$tecnicaMetales->Longitud_onda}}</span>
+            <span class="subElementos">{{@$tecnicaMetales->Longitud_onda}}</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">SLIT: </span>                    
-            <span class="subElementos">{{$tecnicaMetales->Slit}}</span>
+            <span class="subElementos">{{@$tecnicaMetales->Slit}}</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">ACETILENO: </span>
-            <span class="subElementos">{{$tecnicaMetales->Gas}}</span>
+            <span class="subElementos">{{@$tecnicaMetales->Gas}}</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">AIRE: </span>
-            <span class="subElementos">{{$tecnicaMetales->Aire}}</span>
+            <span class="subElementos">{{@$tecnicaMetales->Aire}}</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">ÓXIDO NITROSO: </span>
-            <span class="subElementos">{{$tecnicaMetales->Oxido_nitroso}}</span>
+            <span class="subElementos">{{@$tecnicaMetales->Oxido_nitroso}}</span>
         </div>
     </div>
 
@@ -94,31 +94,31 @@
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">STD.CAL. {{$verificacionMetales->STD_cal}} </span>            
+            <span class="elementos">STD.CAL. {{@$verificacionMetales->STD_cal}} </span>            
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS. TEÓRICA: {{$verificacionMetales->ABS_teorica}}</span>
+            <span class="elementos">ABS. TEÓRICA: {{@$verificacionMetales->ABS_teorica}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 1: {{$verificacionMetales->ABS1}}</span>
+            <span class="elementos">ABS 1: {{@$verificacionMetales->ABS1}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 2: {{$verificacionMetales->ABS2}}</span>
+            <span class="elementos">ABS 2: {{@$verificacionMetales->ABS2}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 3: {{$verificacionMetales->ABS3}}</span>
+            <span class="elementos">ABS 3: {{@$verificacionMetales->ABS3}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 4: {{$verificacionMetales->ABS4}}</span>
+            <span class="elementos">ABS 4: {{@$verificacionMetales->ABS4}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 5: {{$verificacionMetales->ABS5}}</span>
+            <span class="elementos">ABS 5: {{@$verificacionMetales->ABS5}}</span>
         </div>
     </div>
 
@@ -140,7 +140,11 @@
                             <th id="tableCabecera">&nbsp;STD3&nbsp;&nbsp;</th>
                             <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>                            
                             <th id="tableCabecera">&nbsp;<span class="bmrTabla">b = </span>&nbsp;&nbsp;</th>
-                            <th id="tableContent">&nbsp;<span class="bTabla">{{$bmr->B}}</span>&nbsp;&nbsp;</th>
+                            <th id="tableContent">&nbsp;<span class="bTabla">
+                                @php
+                                    echo number_format(@$bmr->B, 5, ".", ".");
+                                @endphp
+                            </span>&nbsp;&nbsp;</th>
                         </tr>
                     @elseif (@$topeEstandar == 5)
                         <tr>
@@ -152,7 +156,11 @@
                             <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>
                             <th id="tableCabecera">&nbsp;STD5&nbsp;&nbsp;</th>
                             <th id="tableCabecera">&nbsp;<span class="bmrTabla">b = </span>&nbsp;&nbsp;</th>
-                            <th id="tableContent">&nbsp;<span class="bTabla">{{$bmr->B}}</span>&nbsp;&nbsp;</th>
+                            <th id="tableContent">&nbsp;<span class="bTabla">
+                                @php
+                                    echo number_format(@$bmr->B, 5, ".", ".");
+                                @endphp                                
+                            </span>&nbsp;&nbsp;</th>
                         </tr>
                     @else
                         <tr>
@@ -162,7 +170,11 @@
                             <th id="tableCabecera">&nbsp;STD2&nbsp;&nbsp;</th>
                             <th id="tableCabecera">&nbsp;STD3&nbsp;&nbsp;</th>                            
                             <th id="tableCabecera">&nbsp;<span class="bmrTabla">b = </span>&nbsp;&nbsp;</th>
-                            <th id="tableContent">&nbsp;<span class="bTabla">{{$bmr->B}}</span>&nbsp;&nbsp;</th>
+                            <th id="tableContent">&nbsp;<span class="bTabla">
+                                @php
+                                    echo number_format(@$bmr->B, 5, ".", ".");
+                                @endphp
+                            </span>&nbsp;&nbsp;</th>
                         </tr>
                     @endif                    
                 </thead>
@@ -171,61 +183,96 @@
                     <tr>
                         <td id="tableContent">CONCENTRACIÓN EN mg/L</td>
 
-                        <td id="tableContent"></td>
+                        <td id="tableContent">{{@$estandares[0]->Concentracion}}</td>
                         
-                        @for ($i = 1; ($i < $estandares->count()); $i++)                            
-                            @if(@$estandares[$i]->Concentracion != null){
-                                <td id="tableContent">{{$estandares[$i]->Concentracion}}</td>
-                            }
+                        @for ($i = 1; ($i < @$estandares->count()); $i++)                            
+                            @if(@$estandares[$i]->Concentracion != null)
+                                <td id="tableContent">
+                                    @php
+                                        echo number_format(@$estandares[$i]->Concentracion, 3, ".", ".");
+                                    @endphp                                      
+                                </td>
                             @endif                            
                         @endfor
                         
                         <td id="tableContent"><span class="bmrTabla">m = </span></td>
-                        <td id="tableContent">{{$bmr->M}}</td>
+                        <td id="tableContent">
+                            @php
+                                echo number_format(@$bmr->M, 5, ".", ".");
+                            @endphp                            
+                        </td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA 1</td>
                         
-                        <td id="tableContent">{{$estandares[0]->ABS1}}</td>
+                        <td id="tableContent">{{@$estandares[0]->ABS1}}</td>
 
-                        @for ($i = 1; ($i < $estandares->count()); $i++)                            
-                            <td id="tableContent">{{$estandares[$i]->ABS1}}</td>
+                        @for ($i = 1; ($i < @$estandares->count()); $i++) 
+                            @if(@$estandares[$i]->ABS1 != null)                           
+                                <td id="tableContent">
+                                    @php
+                                        echo number_format(@$estandares[$i]->ABS1, 3, ".", ".");
+                                    @endphp                                    
+                                </td>
+                            @endif
                         @endfor                                                
                         
                         <td id="tableContent"><span class="bmrTabla">r = </span></td>
-                        <td id="tableContent">{{$bmr->R}}</td>
+                        <td id="tableContent">
+                            @php
+                                echo number_format(@$bmr->R, 5, ".", ".");
+                            @endphp
+                        </td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA 2</td>
 
-                        <td id="tableContent">{{$estandares[0]->ABS2}}</td>
+                        <td id="tableContent">{{@$estandares[0]->ABS2}}</td>
                         
-                        @for ($i = 1; ($i < $estandares->count()); $i++)                            
-                            <td id="tableContent">{{$estandares[$i]->ABS2}}</td>
+                        @for ($i = 1; ($i < @$estandares->count()); $i++)
+                            @if(@$estandares[$i]->ABS2 != null)
+                                <td id="tableContent">
+                                    @php
+                                        echo number_format(@$estandares[$i]->ABS2, 3, ".", ".");
+                                    @endphp                                      
+                                </td>
+                            @endif
                         @endfor
 
                         <td id="tableContent"><span class="bmrTabla">Fecha de preparación = </span></td>
-                        <td id="tableContent">{{$fechaPreparacion}}</td>
+                        <td id="tableContent">{{@$fechaPreparacion}}</td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA 3</td>
 
-                        <td id="tableContent">{{$estandares[0]->ABS3}}</td>
+                        <td id="tableContent">{{@$estandares[0]->ABS3}}</td>
                         
-                        @for ($i = 1; ($i < $estandares->count()); $i++)                            
-                            <td id="tableContent">{{$estandares[$i]->ABS3}}</td>
+                        @for ($i = 1; ($i < @$estandares->count()); $i++)
+                            @if(@$estandares[$i]->ABS3 != null)
+                                <td id="tableContent">
+                                    @php
+                                        echo number_format(@$estandares[$i]->ABS3, 3, ".", ".");
+                                    @endphp  
+                                </td>
+                            @endif
                         @endfor
 
                         <td id="tableContent"><span class="bmrTabla">Límite de cuantificación = </span></td>
-                        <td id="tableContent"><{{$limiteCuantificacion->Limite}}</td>
+                        <td id="tableContent"><{{@$limiteCuantificacion->Limite}}</td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA PROM.</td>
 
-                        <td id="tableContent">{{$estandares[0]->Promedio}}</td>
+                        <td id="tableContent">{{@$estandares[0]->Promedio}}</td>
                         
-                        @for ($i = 1; ($i < $estandares->count()); $i++)                            
-                            <td id="tableContent">{{$estandares[$i]->Promedio}}</td>
+                        @for ($i = 1; ($i < @$estandares->count()); $i++)                            
+                            @if(@$estandares[$i]->Promedio != null)
+                                <td id="tableContent">
+                                    @php
+                                        echo number_format(@$estandares[$i]->Promedio, 3, ".", ".");
+                                    @endphp
+                                </td>
+                            @endif
                         @endfor
 
                         <td id="tableContent"></td>
