@@ -22,6 +22,7 @@ class CurvaController extends Controller
         $lote = LoteAnalisis::all();
         $area = AreaAnalisis::all();
         $parametro = Parametro::all();
+        $fechaActual = Carbon::now();
 
         $model = "";
         return view('laboratorio/curva', compact('model','lote','area','parametro'));

@@ -15,6 +15,8 @@ class CurvaConstantes extends Model
 
     protected $fillable = [
         'Id_lote',
+        'Area',
+        'Parametro',
         'B',
         'M',
         'R',
