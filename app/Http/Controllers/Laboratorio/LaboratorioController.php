@@ -22,6 +22,7 @@ use App\Models\CurvaCalibracionMet;
 use App\Models\VerificacionMetales;
 use App\Models\EstandarVerificacionMet;
 use App\Models\GeneradorHidrurosMet;
+use App\Models\Tecnica;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
@@ -174,14 +175,21 @@ class LaboratorioController extends Controller
         
         $id_lote = $idLote;
         $semaforo = true;
+        $tecnicaUsada = null;
 
         //$curvaCalibracion = DB::table('curva_calibracion_met')->where('Id_lote', $id_lote)->first();
         //$generadorHidruros = DB::table('generador_hidruros_met')->where('Id_lote', $id_lote)->first();
         
         $formula = DB::table('ViewLoteDetalle')->where('Id_lote', $id_lote)->first();
         if(!is_null($formula)){
+            //Recupera el tipo de fórmula del parámetro
+            $paramDetected = Parametro::where('Id_parametro', $formula->Id_parametro)->first();
+            $tipoFormula = TipoFormula::where('Id_tipo_formula', $paramDetected->Id_tipo_formula)->first();
+            $loteAnalisis = LoteAnalisis::where('Id_lote', $id_lote)->first();
+            $tecnicaUsada = Tecnica::where('Id_tecnica', $loteAnalisis->Id_tecnica)->first();
+
             $formulaSelected = $formula->Parametro;
-            $formulaSelectedComp = $formula->Parametro. " (".$formula->Area_analisis.")";
+            $formulaSelectedComp = $formula->Parametro. " (".$tipoFormula->Tipo_formula.")";
         }else{
             $formula = DB::table('ViewLoteDetalle')->where('Id_lote', 0)->first();
             $formulaSelected = $formula->Parametro;
@@ -266,7 +274,7 @@ class LaboratorioController extends Controller
         } */
 
         //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
-        $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected', 'formulaSelectedComp', 'fechaConFormato', 'hora'));
+        $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected', 'formulaSelectedComp', 'tecnicaUsada', 'fechaConFormato', 'hora'));
         //Establece el encabezado del documento PDF
         $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
 
@@ -304,8 +312,8 @@ class LaboratorioController extends Controller
         }
 
         //if(!is_null($formula) && !is_null($fechaAnalisis)){
-            $htmlCurvaHeader = view('exports.laboratorio.curvaHeader', compact('formulaSelected', 'formulaSelectedComp', 'fechaConFormato', 'hora'));
-            $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlCurvaHeader, 'O', 'E');
+            $htmlCurvaHeader = view('exports.laboratorio.curvaHeader', compact('formulaSelected', 'formulaSelectedComp', 'tecnicaUsada', 'fechaConFormato', 'hora'));
+            $mpdf->SetHTMLHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlCurvaHeader, 'O', 'E');
         //}
         
         $htmlCurvaFooter = view('exports.laboratorio.curvaFooter', compact('usuario'));        

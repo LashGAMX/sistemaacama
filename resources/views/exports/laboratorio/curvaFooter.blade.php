@@ -14,8 +14,18 @@
     </div>
 
     <div id="revisiones">
-        <span>RE-12-001-18</span><br>
-        <span>2017-04-07</span><br>
-        <span>REV.9</span>
+
+        {{-- Intrucciones temporales debido a que tiene que ver con históricos--}}
+        
+            @if (@$tecnicaUsada->Id_tecnica == 20) 
+                <span>RE-12-001-19</span><br>
+                <span>2017-04-07</span><br>
+                <span>REV.9</span>
+            @elseif (@$tecnicaUsada->Id_tecnica == 21)
+                <span>RE-12-001-19</span><br>
+                <span>2017-04-07</span><br>
+                <span>REV.9</span>
+            @else
+            @endif                    
     </div>
 </footer>
