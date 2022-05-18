@@ -27,7 +27,7 @@
                     <tr>
                         <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr" height="25">{{@$paquete[$i]->Area}}</td>
                         <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">{{@$paquete[$i]->Cantidad * @$puntos}}</td>
-                        <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">{{@$paquete[$i]->Volumen}}</td>
+                        <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">{{@$paquete[$i]->Envase}} {{@$paquete[$i]->Volumen}} {{@$paquete[$i]->Unidad}}</td>
                     </tr>
                 @endfor
             </tbody>        

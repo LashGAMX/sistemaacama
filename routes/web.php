@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Beto\BetoController;
+use App\Http\Controllers\Campo\CampoController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Cotizacion\SolicitudController;
 use App\Http\Controllers\Home\HomeController;
@@ -37,6 +38,7 @@ Route::group(['prefix' => 'clientes'], function () {
     Route::get('exportPdfSinComparacion/{idSol}', [InformesController::class, 'pdfSinComparacionCli']);
     Route::get('exportPdfConComparacion/{idSol}', [InformesController::class, 'pdfConComparacionCli']);
     Route::get('exportPdfCustodiaInterna/{idSol}', [InformesController::class, 'custodiaInternaCli']);
+    Route::get('hojaCampo/{id}', [CampoController::class, 'hojaCampoCli']);
 });
 
 

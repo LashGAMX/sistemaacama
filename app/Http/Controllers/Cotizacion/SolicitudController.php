@@ -817,6 +817,7 @@ class SolicitudController extends Controller
     {
         $qr = new DNS2D();
         $model = DB::table('ViewSolicitud')->where('Id_cotizacion', $idOrden)->first();
+        $direccion = SucursalCliente::where('Id_sucursal', $model->Id_sucursal)->first();
         $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $model->Id_solicitud)->orderBy('Parametro','ASC')->get();
         $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion', $idOrden)->first();
 
@@ -836,7 +837,7 @@ class SolicitudController extends Controller
         );
 
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.cotizacion.ordenServicio', compact('model', 'parametros', 'qr', 'cotizacion'));
+        $html = view('exports.cotizacion.ordenServicio', compact('model', 'parametros', 'qr', 'cotizacion', 'direccion'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output();

@@ -30,10 +30,10 @@
                 </div>                                
             </div>
             <div class="col-md-12">
-                <table class="{{-- table table-borderless --}} table-sm {{-- colorBorde --}}">
+                <table class="{{-- table table-borderless --}} table-sm {{-- colorBorde --}}" width="100%">
                     <tr>
                         <td class="bordesTabla">Num. de muestra</td>
-                        <td class="negrita bordesTablaSupInfDer">{{$model->Folio_servicio}}</td>
+                        <td class="negrita bordesTablaSupInfDer">{{@$model->Folio_servicio}}</td>
                         <td class="bordesTablaSupInfDer">No DE ORDEN</td>
                         <td class="bordesTablaSupInfDer justifyCenter negrita">{{@$numOrden->Folio_servicio}}</td>
                         <td class="bordesTablaSupInfDer">FECHA DE MUESTREO</td>
@@ -42,24 +42,33 @@
 
                     <tr>
                         <td class="bordesTablaInfIzqDer">NORMA APLICABLE</td>
-                        <td class="negrita bordesTablaInfIzqDer" colspan="3">{{$model->Clave_norma}}</td>
+                        <td class="negrita bordesTablaInfIzqDer" colspan="3">{{@$model->Clave_norma}}</td>
                         <td class="bordesTablaInfIzqDer">MATRIZ</td>
-                        <td class="justifyCenter negrita bordesTablaInfIzqDer">{{$model->Descarga}}</td>
+                        <td class="justifyCenter negrita bordesTablaInfIzqDer">{{@$model->Descarga}}</td>
                     </tr>
 
                     <tr>
                         <td class="bordesTablaInfIzqDer">EMPRESA</td>
-                        <td class="negrita bordesTablaInfIzqDer" colspan="5">{{$model->Empresa_suc}}</td>
+                        <td class="negrita bordesTablaInfIzqDer" colspan="5">{{@$model->Empresa_suc}}</td>
                     </tr>
 
                     <tr>
                         <td class="bordesTablaInfIzqDer">DIRECCION</td>
-                        <td class="negrita bordesTablaInfIzqDer" colspan="5">{{$model->Direccion}}</td>
+                        <td class="negrita bordesTablaInfIzqDer" colspan="5">{{@$direccion->Direccion}}</td>
                     </tr>
 
                     <tr>
                         <td class="bordesTablaInfIzqDer">PUNTO DE MUESTREO</td>
-                        <td class="negrita bordesTablaInfIzqDer" colspan="5">{{$punto->Punto_muestreo}}</td>
+                        <td class="negrita bordesTablaInfIzqDer" colspan="5">
+                            @for ($i = 0; $i < @$puntos; $i++)
+                                @if (@$model->Siralab == 1)
+                                    {{@$puntoMuestreo[$i]->Punto}} (anexo {{@$puntoMuestreo[$i]->Anexo}})<br>  
+                                @else
+                                    {{@$puntoMuestreo[$i]->Punto_muestreo}} <br>
+                                @endif    
+                            
+                            @endfor
+                        </td>
                     </tr>
                 </table>
             </div>
@@ -75,7 +84,7 @@
                             <td class="negrita justifyCenter bordesTablaSupInfDer">PARAMETRO</td>
                             <td class="negrita justifyCenter bordesTablaSupInfDer">ENVASE</td>
                             <td class="negrita justifyCenter bordesTablaSupInfDer">VOLUMEN</td>
-                            <td class="negrita justifyCenter bordesTablaSupInfDer">VOLUMEN</td>
+                            <td class="negrita justifyCenter bordesTablaSupInfDer">UNIDAD</td>
                             <td class="negrita justifyCenter bordesTablaSupInfDer">PRESERVACION</td>
                             <td class="negrita justifyCenter bordesTablaSupInfDer">TEMPERATURA °C</td>
                             <td class="negrita justifyCenter bordesTablaSupInfDer">SI/NO</td>
@@ -83,7 +92,7 @@
                     </thead>
 
                     <tbody>                                           
-                        @for ($i = 0; $i < $paramSolicitudLength; $i++)
+                        @for ($i = 0; $i < @$paramSolicitudLength; $i++)
                             @if (@$envasesArray[$i] !== NULL)
                                 <tr>
                                     <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Id_env}}</td>
@@ -110,35 +119,77 @@
                     <tr>
                       <td class="bordesTabla justifyCenter">No DE MUESTRAS</td>
                       <td class="bordesTablaSupInfDer justifyCenter">FECHA Y HORA DE MUESTREO</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">GASTO</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">MAT. FLOT.</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">PH</td>
+                      <td class="bordesTablaSupInfDer justifyCenter">GASTO (L/s)</td>
+                      <td class="bordesTablaSupInfDer justifyCenter">MAT. FLOT. (AUS/PR)</td>
+                      <td class="bordesTablaSupInfDer justifyCenter">PH (Unidad)</td>
                       <td class="bordesTablaSupInfDer justifyCenter">PUNTO DE MUESTREO</td>
                       <td class="bordesTablaSupInfDer justifyCenter">TEMP AMB C°</td>
                       <td class="bordesTablaSupInfDer justifyCenter">TEMP AGUA C°</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">OLOR</td>
+                      <td class="bordesTablaSupInfDer justifyCenter">OLOR (SI/NO)</td>
                       <td class="bordesTablaSupInfDer justifyCenter">COLOR</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">COND</td>
+                      <td class="bordesTablaSupInfDer justifyCenter">COND (μs/cm)</td>
                     </tr>
-                    @for ($i = 0; $i < $model->Num_tomas; $i++)
+                    @for ($i = 0; $i < @$model->Num_tomas; $i++)
                         <tr>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter">{{$i + 1}}</td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter">{{\Carbon\Carbon::parse(@$phMuestra[$i]->Fecha)->format('d/m/Y')}} 
                                 @php
-                                    $fecha = $phMuestra[$i]->Fecha;
-                                    $hora = date("h:j:s", strtotime($fecha));
+                                    $fecha = @$phMuestra[$i]->Fecha;
+                                    $hora = date("H:i:s", strtotime($fecha));
                                     echo $hora
                                 @endphp
                             </td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">{{$gastoMuestra[$i]->Promedio}}</td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">{{$phMuestra[$i]->Materia}}</td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">{{$phMuestra[$i]->Promedio}}</td>
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter">
+                                @if (!is_null(@$gastoMuestra[$i]->Promedio))
+                                    {{@$gastoMuestra[$i]->Promedio}}
+                                @else
+                                    ---
+                                @endif                                
+                            </td>
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter">                                
+                                @if (!is_null(@$phMuestra[$i]->Materia))
+                                    {{@$phMuestra[$i]->Materia}}
+                                @else
+                                    ---
+                                @endif
+                            </td>
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter">                                
+                                @if (!is_null(@$phMuestra[$i]->Promedio))
+                                    {{@$phMuestra[$i]->Promedio}}
+                                @else
+                                    ---
+                                @endif
+                            </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter">{{$punto->Punto_muestreo}}</td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter">{{$tempMuestra[$i]->Promedio}}</td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">{{$tempMuestra[$i]->Promedio}}</td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">{{$phMuestra[$i]->Olor}}</td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">{{$phMuestra[$i]->Color}}</td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">{{$conMuestra[$i]->Promedio}}</td>
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter">                                
+                                @if (!is_null(@$tempMuestra[$i]->Promedio))
+                                    {{@$tempMuestra[$i]->Promedio}}
+                                @else
+                                    ---
+                                @endif
+                            </td>
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter">                                
+                                @if (!is_null(@$phMuestra[$i]->Olor))
+                                    {{@$phMuestra[$i]->Olor}}
+                                @else
+                                    ---
+                                @endif
+                            </td>
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter">                                
+                                @if (!is_null(@$phMuestra[$i]->Color))
+                                    {{@$phMuestra[$i]->Color}}
+                                @else
+                                    ---
+                                @endif
+                            </td>
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter">                                
+                                @if (!is_null(@$conMuestra[$i]->Promedio))
+                                    {{@$conMuestra[$i]->Promedio}}
+                                @else
+                                    ---
+                                @endif
+                            </td>
                         </tr>
                     @endfor
                 </table>
@@ -146,13 +197,13 @@
             <div class="col-md-12">
                 <table class="{{-- table table-borderless --}} table-sm {{-- colorBorde --}}" width="100%">
                     <tr>
-                        <td class="bordesTablaInfIzqDer justifyCenter" width="50%">SUPERVICIÓN DEL MUESTREO (NOMBRE Y FIRMA)</td>
-                        <td class="bordesTablaInfDer justifyCenter" width="50%">RESPONSABLE DEL MUESTREO (NOMBRE Y FIRMA)</td>                        
+                        <td class="bordesTablaInfIzqDer justifyCenter" width="50%">RESPONSABLE DEL MUESTREO (NOMBRE Y FIRMA)</td>
+                        <td class="bordesTablaInfDer justifyCenter" width="50%">SUPERVISIÓN DEL MUESTREO (NOMBRE Y FIRMA)</td>                        
                     </tr>
 
                     <tr>
-                        <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita">{{$muestreador->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
-                        <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">{{$muestreador->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png{{-- {{url("/public/storage")."/".$firmaRes->firma}} --}}"></td>
+                        <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita">{{@$muestreador->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
+                        <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">{{@$muestreador->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png{{-- {{url("/public/storage")."/".$firmaRes->firma}} --}}"></td>
                     </tr>                                        
                 </table>
             </div>
@@ -172,8 +223,8 @@
                     </tr>
 
                     <tr>
-                        <td colspan="2" class="bordesTablaInfIzqDer justifyCenter">{{$muestreador->name}} <br> <span class="fontSize7">Nombre y Firma</span></td>
-                        <td colspan="2" class="bordesTablaSupInfDer justifyCenter">{{$muestreador->name}} <br> <span class="fontSize7">Nombre y Firma</span></td>
+                        <td colspan="2" class="bordesTablaInfIzqDer justifyCenter">{{@$muestreador->name}} <br> <span class="fontSize7">Nombre y Firma</span></td>
+                        <td colspan="2" class="bordesTablaSupInfDer justifyCenter">{{@$muestreador->name}} <br> <span class="fontSize7">Nombre y Firma</span></td>
                     </tr>
 
                     <tr>
@@ -197,25 +248,17 @@
                 </table>
             </div>
             
-            <br>
+            <br><br>
 
-            <div class="col-md-12" style="border:1px solid">
+            <div class="col-12 ">
+                @php
+                    /* $url = url()->current(); */
+                    $url = "https://sistemaacama.com.mx/clientes/hojaCampo/".@$model->Id_solicitud;
+                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
+                @endphp
+                                                        
+                <img style="width: 12%; height: 12%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold">&nbsp; QR Hoja Campo</span>
             </div>
-
-            <div class="col-md-12">
-                <table class="table table-sm fontSize7" width="100%">
-                    <tr>
-                      <td class="anchoColumna">10 Sur No. 7301, Col. Loma linda C.P 72477</td>
-                      <td class="justifyCenter">PUEBLA, PUE.</td>
-                      <td class="justifyCenter">Email:labacama@prodigy.net.mx</td>
-                      <td class="justifyRight">Revisión, 8 Valido desde Mayo 15 01</td>                                            
-                    </tr>
-
-                    <tr>
-                        <td class="anchoColumna" style="border: 0">Tels (222) 2456972 / 7555005 / 7555014 Fax</td>
-                    </tr>
-                </table>
-            </div>                    
         </div>
     </div>
 </body>

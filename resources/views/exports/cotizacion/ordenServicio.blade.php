@@ -7,13 +7,13 @@
     <link rel="stylesheet" href="{{asset('css/bootstrap.min.css')}}">
     <link rel="stylesheet" href="{{asset('css/pdf/style.css')}}">
  
-    <title>Solicitud {{$model->Folio_servicio}}</title>
+    <title>Solicitud {{@$model->Folio_servicio}}</title>
 </head>
 <body> 
     <div class="container" id="pag">
         <div class="row">
             <div class="col align-self-end">
-                <p align="right">No DE SERVICIO: {{$model->Folio_servicio}}<p>
+                <p align="right">No DE SERVICIO: {{@$model->Folio_servicio}}<p>
             </div>
         </div>
         <div class="row">
@@ -22,41 +22,41 @@
                     <tr>
                         <td style="width: 25%" class="">Nombre de la empresa</td>
                         <td class="" style="height: 50px;border: 1px solid;">
-                            {{$model->Empresa}}
+                            {{@$direccion->Empresa}}
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 25%">Dirección</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            {{$model->Direccion}}
+                            {{@$direccion->Direccion}}
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 25%">Contacto</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            {{$model->Nom_con}} {{$model->Nom_pat}}
+                            {{@$direccion->Correo}}
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 25%">Teléfono</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            {{$cotizacion->Telefono}}
+                            {{@$direccion->Telefono}}
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 25%" style="height: 50px;">Servicio</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            @if ($cotizacion->Tomas == 1)
-                            {{$cotizacion->Servicio}} {{$cotizacion->Tipo_muestra}}
+                            @if (@$cotizacion->Tomas == 1)
+                            {{@$cotizacion->Servicio}} {{@$cotizacion->Tipo_muestra}}
                             @else
-                            {{$cotizacion->Servicio}} ({{$cotizacion->Tipo_muestra}} de {{$cotizacion->Tomas}} tomas)
+                            {{@$cotizacion->Servicio}} ({{@$cotizacion->Tipo_muestra}} de {{@$cotizacion->Tomas}} tomas)
                             @endif
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 25%">Norma</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            {{$model->Clave_norma}}
+                            {{@$model->Clave_norma}}
                         </td>
                     </tr>
                     <tr>
@@ -65,7 +65,7 @@
                             @php
                                 $contP = 0;
                             @endphp
-                            @foreach ($parametros as $item)
+                            @foreach (@$parametros as $item)
                                 @if ($item->Extra == 0) 
                                     @if ($contP < 10)
                                        
@@ -84,7 +84,7 @@
                                 @php
                                     $cont = 0;
                                 @endphp
-                                @foreach ($parametros as $item)
+                                @foreach (@$parametros as $item)
                                     @if ($item->Extra != 0)
                                         @php
                                         $cont++;    
@@ -108,7 +108,7 @@
                     <tr>
                         <td style="width: 25%">Observaciones</td>
                         <td style="height: 80px;border: 1px solid;" class="border">
-                                {{$model->Observacion}}
+                                {{@$model->Observacion}}
                         </td>
                     </tr>
                 </table>

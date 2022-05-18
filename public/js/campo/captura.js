@@ -2776,13 +2776,13 @@ function setPhTrazable2(idPh, nombre, marca, lote) {
             console.log(response);
             //console.log("holaaa");
 
-            /* nom.innerText = response.model.Ph;
+            nom.innerText = response.model.Ph;
             mar.innerText = response.model.Marca;
-            lot.innerText = response.model.Lote; */
+            lot.innerText = response.model.Lote;
 
-            nom.innerText = "";
+            /* nom.innerText = "";
             mar.innerText = "";
-            lot.innerText = "";
+            lot.innerText = ""; */
         },
     });
 }

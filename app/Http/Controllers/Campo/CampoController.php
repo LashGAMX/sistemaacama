@@ -40,6 +40,8 @@ use App\Models\PHTrazable;
 use App\Models\PlanComplemento;
 use App\Models\PlanPaquete;
 use App\Models\ProcedimientoAnalisis;
+use App\Models\PuntoMuestreoGen;
+use App\Models\PuntoMuestreoSir;
 use App\Models\SeguimientoAnalisis;
 use App\Models\Solicitud;
 use Facade\FlareClient\View;
@@ -48,6 +50,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\SolicitudesGeneradas;
 use App\Models\SolicitudPuntos;
 use App\Models\SubNorma;
+use App\Models\SucursalCliente;
 use App\Models\TemperaturaMuestra;
 use App\Models\TermFactorCorreccionTemp;
 use App\Models\TermometroCampo;
@@ -1047,6 +1050,19 @@ class CampoController extends Controller
     { 
       
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
+
+        $direccion = SucursalCliente::where('Id_sucursal', $model->Id_sucursal)->first();
+        
+        if($model->Siralab == 1){//Es cliente Siralab
+            $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $model->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }else{
+            $puntoMuestreo = PuntoMuestreoGen::where('Id_sucursal', $model->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }
+
         $modelCompuesto = CampoCompuesto::where('Id_solicitud', $id)->first();
 
         $folio = explode("-", $model->Folio_servicio);
@@ -1081,8 +1097,8 @@ class CampoController extends Controller
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
-            'margin_left' => 20,
-            'margin_right' => 20,
+            'margin_left' => 15,
+            'margin_right' => 15,
             'margin_top' => 30,
             'margin_bottom' => 18
         ]);
@@ -1094,15 +1110,89 @@ class CampoController extends Controller
             array(0, 0),
         );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.hojaCampo',compact('model', 'modelCompuesto', 'numOrden', 'punto','phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'envasesArray', 'paramSolicitudLength', 'recepcion', 'firmaRes'));
+        $html = view('exports.campo.hojaCampo',compact('model', 'modelCompuesto', 'numOrden', 'punto', 'puntos', 'puntoMuestreo', 'phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'envasesArray', 'paramSolicitudLength', 'recepcion', 'firmaRes', 'direccion'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
+        $htmlFooter = view('exports.campo.hojaCampoFooter');        
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->Output();
-    }  
+    }
+    
+    public function hojaCampoCli($id)
+    { 
+      
+        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
+        $modelCompuesto = CampoCompuesto::where('Id_solicitud', $id)->first();
+
+        $direccion = SucursalCliente::where('Id_sucursal', $model->Id_sucursal)->first();
+
+        $folio = explode("-", $model->Folio_servicio);
+        $parte1 = strval($folio[0]);
+        $parte2 = strval($folio[1]);
+
+        $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();
+
+        $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$id)->first();
+        $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud',$id)->first();
+
+        $phMuestra = PhMuestra::where('Id_solicitud',$id)->get();
+        $gastoMuestra = GastoMuestra::where('Id_solicitud',$id)->get();
+        $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
+        $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
+        $muestreador = Usuario::where('id',$solGen->Id_muestreador)->first();
+
+        $recepcion = SeguimientoAnalisis::where('Id_servicio', $id)->first();
+
+        $firmaRes = DB::table('users')->where('id',$solGen->Id_muestreador)->first();
+
+        //Recupera los parámetros de la solicitud
+        $paramSolicitud = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $id)->get();
+        $paramSolicitudLength = $paramSolicitud->count();
+        $envasesArray = array();
+
+        foreach($paramSolicitud as $item){
+            $modelEnvase = DB::table('ViewEnvaseParametro')->where('Id_parametro', $item->Id_parametro)->first();            
+
+            array_push($envasesArray, $modelEnvase);
+        }            
+
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => 'letter',
+            'margin_left' => 15,
+            'margin_right' => 15,
+            'margin_top' => 30,
+            'margin_bottom' => 18
+        ]);
+        
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/MembreteVertical.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+        $mpdf->showWatermarkImage = true;
+        $html = view('exports.campo.hojaCampo',compact('model', 'direccion', 'modelCompuesto', 'numOrden', 'punto','phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'envasesArray', 'paramSolicitudLength', 'recepcion', 'firmaRes'));
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->WriteHTML($html);
+        $htmlFooter = view('exports.campo.hojaCampoFooter');        
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        $mpdf->Output('Hoja de Campo.pdf', 'I');
+    }
 
     public function bitacoraCampo($id)
     {
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
+
+        if($model->Siralab == 1){//Es cliente Siralab
+            $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $model->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }else{
+            $puntoMuestreo = PuntoMuestreoGen::where('Id_sucursal', $model->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }
+
         $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$id)->first();
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud',$id)->first();
 
@@ -1170,7 +1260,7 @@ class CampoController extends Controller
         $mpdf->showWatermarkImage = true;
         $html = view('exports.campo.bitacoraCampo',compact('model','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra', 
         'gastoTotal', 'campoGen','tempMuestra','conMuestra','muestreador','phTrazable','campoConTrazable', 'metodoAforo', 'proceMuestreo', 
-        'conTratamiento', 'tipoTratamiento', 'campoCompuesto', 'factorCorreccion', 'factorCorreccionLength'));
+        'conTratamiento', 'tipoTratamiento', 'campoCompuesto', 'factorCorreccion', 'factorCorreccionLength', 'puntoMuestreo', 'puntos'));
         $mpdf->CSSselectMedia = 'mpdf';
 
         $htmlHeader = view('exports.campo.bitacoraCampoHeader', compact('model'));
@@ -1186,9 +1276,17 @@ class CampoController extends Controller
     public function planMuestreo($idSolicitud)
     {
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$idSolicitud)->first();
-        $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
-        // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
-        $puntos = $puntoMuestreo->count();
+
+        if($model->Siralab == 1){//Es cliente Siralab
+            $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $model->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }else{
+            $puntoMuestreo = PuntoMuestreoGen::where('Id_sucursal', $model->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }
+        
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
             'margin_left' => 20,
