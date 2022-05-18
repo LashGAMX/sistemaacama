@@ -91,26 +91,38 @@ class CurvaController extends Controller
      {
         
         $model = estandares::where('Id_Lote', $request->idLote)->get(); 
-        $loteAnalisis = LoteAnalisis::where('Id_lote',$request->idLote)->first();
+        $now = Carbon::now();
+        //$loteAnalisis = LoteAnalisis::where('Id_lote',$request->idLote)->first();
+        $estandares  = estandares::where('Id_area', $request->idAreaModal)
+            ->where('Id_parametro', $request->idParametroModal)
+            ->where('Fecha_inicio', '<', $now)
+            ->where('Fecha_Fin', '<', $now)->first();
+
         $paraModel = Parametro::find($loteAnalisis->Id_tecnica);
         $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
 
         $num = $numEstandares->Concentracion; 
-         if($model->count()){
+         if($estandares->count()){
              $sw = false; 
              $stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
          }else{
             estandares::create([
-                'Id_lote' => $request->idLote,
+                //'Id_lote' => $request->idLote,
+                'Id_area' => $request->idAreaModal,
+                'Id_parametro' => $request->idParametroModal,
                 'STD' => "Blanco", 
             ]);
             for ($i=0; $i < $num ; $i++) { 
                 estandares::create([
-                    'Id_lote' => $request->idLote,
+                    //'Id_lote' => $request->idLote,
+                    'Id_area' => $request->idAreaModal,
+                    'Id_parametro' => $request->idParametroModal,
                     'STD' => "STD".($i+1)."",
                 ]);
 
                 CurvaConstantes::create([
+                    'Id_area' => $request->idAreaModal,
+                    'Id_parameto' => $request->idParametroModal,
                     'Fecha_inicio' => $request->fechaInicio,
                     'Fecha_fin' => $request->fechaFin,
                 ]);

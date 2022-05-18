@@ -332,9 +332,10 @@ function createStd(){
         type: 'POST', //método de envio
         data: {
             idAreaModal:$("#idAreaModal").val(),
-             idLote:$("#idLoteModal").val(),
+            idParametro:$("#idParametroModal").val(),
+            fechaInicio:$("#fechaInicio").val(),
             fechaFin:$("#fechaFin").val(),
-          //idLote:$("#idLote").val(),
+    
           _token: $('input[name="_token"]').val(),
         },
         dataType: 'json', 

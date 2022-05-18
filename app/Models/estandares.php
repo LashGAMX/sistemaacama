@@ -15,8 +15,8 @@ class Estandares extends Model
 
     protected $fillable = [
         'Id_lote',
-        'Area',
-        'Parametro',
+        'Id_area',
+        'Id_parametro',
         'STD',
         'Concentracion',
         'ABS1',
