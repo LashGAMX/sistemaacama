@@ -12,13 +12,13 @@
 
     <div class="contenedorPrincipal">                                        
         <div class="subContenedor">                        
-            <span class="cabeceraStdMuestra">FECHA DE ANÁLISIS: </span>
-            <span class="bodyStdMuestra">{{@$fechaConFormato}}</span>
+            <span class="cabeceraStdMuestra">&nbsp;</span>
+            <span class="bodyStdMuestra">&nbsp;</span>
         </div>
 
         <div class="subContenedor">
-            <span class="cabeceraStdMuestra">HORA DE ANÁLISIS: </span>
-            <span class="bodyStdMuestra">{{@$hora}}</span>
+            <span class="cabeceraStdMuestra">&nbsp;</span>
+            <span class="bodyStdMuestra">&nbsp;</span>
         </div>
 
         <div class="subContenedor">

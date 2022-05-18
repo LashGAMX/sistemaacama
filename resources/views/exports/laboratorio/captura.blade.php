@@ -13,66 +13,133 @@
         <table autosize="1" class="table table-borderless" id="tablaDatos">
             <thead>
                 <tr>
-                    <td id="tableCabecera">No. de muestra &nbsp;</td>
-                    <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
-                    <td id="tableCabecera">&nbsp;Es pH < 2&nbsp;&nbsp;</td>
-                    <td id="tableCabecera">&nbsp;Abs 1&nbsp;&nbsp;</td>
-                    <td id="tableCabecera">&nbsp;Abs 2&nbsp;&nbsp;</td>
-                    <td id="tableCabecera">&nbsp;Abs 3&nbsp;&nbsp;</td>
-                    <td id="tableCabecera">&nbsp;Absorbancia Promedio&nbsp;&nbsp;</td>
-                    <td id="tableCabecera">&nbsp;Abs Muestra - Abs Blanco&nbsp;&nbsp;</td>
-                    <td id="tableCabecera">&nbsp;[mg/L] Obtenida&nbsp;&nbsp;</td>
-                    <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
-                    <!-- <td id="tableCabecera">&nbsp;Resultado c/factor aplicado&nbsp;&nbsp;</td> -->
-                    <td id="tableCabecera">&nbsp;[mg/L] Reportada&nbsp;&nbsp;</td>
-                    <td id="tableCabecera">&nbsp;Observaciones&nbsp;</td>
-                    <td id="tableCabecera"></td>
-                    <td id="tableCabecera"></td>
+                    @if (@$tecnicaUsada->Id_tecnica == 22)
+                        <td id="tableCabecera">No. de muestra &nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Es pH < 2&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Abs 1&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Abs 2&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Abs 3&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Absorbancia Promedio&nbsp;&nbsp;</td>                        
+                        <td id="tableCabecera">&nbsp;[μg/L] Obtenida&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;F.C.&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;[mg/L] Reportada&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Observaciones&nbsp;</td>
+                        <td id="tableCabecera"></td>
+                        <td id="tableCabecera"></td>    
+                    @else
+                        <td id="tableCabecera">No. de muestra &nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Es pH < 2&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Abs 1&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Abs 2&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Abs 3&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Absorbancia Promedio&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Abs Muestra - Abs Blanco&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;[mg/L] Obtenida&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
+                        <!-- <td id="tableCabecera">&nbsp;Resultado c/factor aplicado&nbsp;&nbsp;</td> -->
+                        <td id="tableCabecera">&nbsp;[mg/L] Reportada&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Observaciones&nbsp;</td>
+                        <td id="tableCabecera"></td>
+                        <td id="tableCabecera"></td>
+                    @endif                                        
                 </tr>
             </thead>
     
             <tbody>
                 @for ($i = 0; $i < @$datosLength ; $i++)
                     <tr>
-                        <td id="tableContent">
-                            @if (@$datos[$i]->Control == 'Muestra Adicionada' || @$datos[$i]->Control == 'Duplicado' || @$datos[$i]->Control == 'Resultado')
-                                {{@$datos[$i]->Folio_servicio}}                            
-                            @else
-                                {{@$datos[$i]->Control}}    
-                            @endif 
-                        </td>
-                        <td id="tableContent">{{@$datos[$i]->Vol_muestra}}</td>
-                        <td id="tableContent">{{@$loteModelPh[$i]}}</td>
-                        <td id="tableContent">{{@$datos[$i]->Abs1}}</td>
-                        <td id="tableContent">{{@$datos[$i]->Abs2}}</td>
-                        <td id="tableContent">{{@$datos[$i]->Abs3}}</td>
-                        <td id="tableContent">                            
-                            @php
-                                echo number_format(@$datos[$i]->Abs_promedio, 3, ".", ".");                                
-                            @endphp
-                        </td>
-                        <td id="tableContent">
-                            @php
-                                echo number_format(@$datos[$i]->Abs_promedio, 3, ".", ".");                                
-                            @endphp
-                        </td>
-                        <td id="tableContent">
-                            @php
-                                echo round(@$datos[$i]->Vol_disolucion / @$datos[$i]->Factor_dilucion, 4);
-                            @endphp
-                        </td>
-                        <td id="tableContent">{{@$datos[$i]->Factor_dilucion}}</td>
-                        <!-- <td id="tableContent">PRUEBA</td> -->
-                        <td id="tableContent">{{@$limites[$i]}}</td>
-                        <td id="tableContent">{{@$loteModel[$i]}}</td>                        
-                        <td id="tableContent">
-                            @if (@$datos[$i]->Liberado == 1)
-                                Liberado
-                            @elseif(@$datos[$i]->Liberado == 0)
-                                No liberado
-                            @endif
-                        </td>
-                        <td id="tableContent">{{@$datos[$i]->Control}}</td>
+                        @if (@$tecnicaUsada->Id_tecnica == 22)
+                            <td id="tableContent">
+                                @if (@$datos[$i]->Control == 'Muestra Adicionada' || @$datos[$i]->Control == 'Duplicado' || @$datos[$i]->Control == 'Resultado')
+                                    {{@$datos[$i]->Folio_servicio}}                            
+                                @else
+                                    {{@$datos[$i]->Control}}    
+                                @endif 
+                            </td>
+                            <td id="tableContent">{{@$datos[$i]->Vol_muestra}}</td>
+                            <td id="tableContent">{{@$loteModelPh[$i]}}</td>
+                            <td id="tableContent">                                
+                                @php
+                                    echo number_format(@$datos[$i]->Abs1, 4, ".", ".");
+                                @endphp
+                            </td>
+                            <td id="tableContent">                                
+                                @php
+                                    echo number_format(@$datos[$i]->Abs2, 4, ".", ".");
+                                @endphp
+                            </td>
+                            <td id="tableContent">
+                                @php
+                                    echo number_format(@$datos[$i]->Abs3, 4, ".", ".");
+                                @endphp
+                            </td>
+                            <td id="tableContent">                            
+                                @php
+                                    echo number_format(@$datos[$i]->Abs_promedio, 4, ".", ".");
+                                @endphp
+                            </td>                            
+                            <td id="tableContent">
+                                @php
+                                    echo number_format(@$datos[$i]->Vol_disolucion / @$datos[$i]->Factor_dilucion, 3, ".", ".");
+                                @endphp
+                            </td>
+                            <td id="tableContent">{{@$datos[$i]->Factor_dilucion}}</td>
+                            <td id="tableContent">{{@$datos[$i]->Factor_conversion}}</td>
+                            <!-- <td id="tableContent">PRUEBA</td> -->
+                            <td id="tableContent">{{@$limites[$i]}}</td>
+                            <td id="tableContent">{{@$loteModel[$i]}}</td>                        
+                            <td id="tableContent">
+                                @if (@$datos[$i]->Liberado == 1)
+                                    Liberado
+                                @elseif(@$datos[$i]->Liberado == 0)
+                                    No liberado
+                                @endif
+                            </td>
+                            <td id="tableContent">{{@$datos[$i]->Control}}</td>    
+                        @else
+                            <td id="tableContent">
+                                @if (@$datos[$i]->Control == 'Muestra Adicionada' || @$datos[$i]->Control == 'Duplicado' || @$datos[$i]->Control == 'Resultado')
+                                    {{@$datos[$i]->Folio_servicio}}                            
+                                @else
+                                    {{@$datos[$i]->Control}}    
+                                @endif 
+                            </td>
+                            <td id="tableContent">{{@$datos[$i]->Vol_muestra}}</td>
+                            <td id="tableContent">{{@$loteModelPh[$i]}}</td>
+                            <td id="tableContent">{{@$datos[$i]->Abs1}}</td>
+                            <td id="tableContent">{{@$datos[$i]->Abs2}}</td>
+                            <td id="tableContent">{{@$datos[$i]->Abs3}}</td>
+                            <td id="tableContent">                            
+                                @php
+                                    echo number_format(@$datos[$i]->Abs_promedio, 3, ".", ".");                                
+                                @endphp
+                            </td>
+                            <td id="tableContent">
+                                @php
+                                    echo number_format(@$datos[$i]->Abs_promedio, 3, ".", ".");                                
+                                @endphp
+                            </td>
+                            <td id="tableContent">
+                                @php
+                                    echo round(@$datos[$i]->Vol_disolucion / @$datos[$i]->Factor_dilucion, 4);
+                                @endphp
+                            </td>
+                            <td id="tableContent">{{@$datos[$i]->Factor_dilucion}}</td>
+                            <!-- <td id="tableContent">PRUEBA</td> -->
+                            <td id="tableContent">{{@$limites[$i]}}</td>
+                            <td id="tableContent">{{@$loteModel[$i]}}</td>                        
+                            <td id="tableContent">
+                                @if (@$datos[$i]->Liberado == 1)
+                                    Liberado
+                                @elseif(@$datos[$i]->Liberado == 0)
+                                    No liberado
+                                @endif
+                            </td>
+                            <td id="tableContent">{{@$datos[$i]->Control}}</td>
+                        @endif                                                
                     </tr>                
                 @endfor                        
             </tbody>        

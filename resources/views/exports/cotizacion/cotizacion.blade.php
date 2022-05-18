@@ -12,7 +12,7 @@
     {{-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/css/bootstrap.min.css" integrity="sha384-TX8t27EcRE3e/ihU7zmQxVncDAy5uIKz4rEkgIXeMed4M0jlfIDPvg6uqKI2xXr2" crossorigin="anonymous"> --}}
     {{-- <link rel="stylesheet" href="'.asset('css/pdf/style.css').'" media="mpdf"> --}}
 
-    <title>Cotizacion {{$model->Folio}}</title> 
+    <title>Cotizacion {{@$model->Folio}}</title> 
 </head>
 <body> 
     <div class="container" id="pag">
@@ -20,22 +20,22 @@
             <!-- <div class="col align-self-end"> -->
                 <p class="fontBold fontCalibri fontSize12" align="right">FOLIO COTIZACIÓN: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                {{$model->Folio}}<p>
+                {{@$model->Folio}}<p>
             <!-- </div> -->
         <!-- </div> -->
         
         <div class="row" style="display: block">
             <div class="col-12 fontBold fontCalibri fontSize12">
-                {{$model->Nombre}} <br>
-                {{$model->Direccion}}
+                {{@$model->Nombre}} <br>
+                {{@$model->Direccion}}
             </div>        
         </div> <br>
         
         <div class="row">
             <div class="col-md-12 fontBold fontCalibri fontSize12">
-                TELF: {{$model->Telefono}}<br>
-                email: {{$model->Correo}}<br>
-                AT'N: {{$model->Atencion}}<br>
+                TELF: {{@$model->Telefono}}<br>
+                email: {{@$model->Correo}}<br>
+                AT'N: {{@$model->Atencion}}<br>
             </div>
 
             <div class="col-md-12 fontNormal fontCalibri fontSize12">
@@ -47,11 +47,11 @@
                 <table class="table table-borderless" style="border:none" width="100%">
                     <tr>
                         <td class="fontNormal fontCalibri fontSize12">SERVICIO: </td>
-                        <td class="fontBold fontCalibri fontSize14">{{$model->Servicio}}</td>
+                        <td class="fontBold fontCalibri fontSize14">{{@$model->Servicio}}</td>
                         <td class="fontNormal fontCalibri fontSize12">NÚM NORMAS:</td>
                         <td class="fontBold fontCalibri fontSize14">1</td>
                         <td class="fontNormal fontCalibri fontSize12">PUNTOS MUESTREO:</td>
-                        <td class="fontBold fontCalibri fontSize14">{{$puntos->count()}}</td>
+                        <td class="fontBold fontCalibri fontSize14">{{@$puntos->count()}}</td>
                         <td class="fontNormal fontCalibri fontSize12">SERVICIOS:</td>
                         <td class="fontBold fontCalibri fontSize14">1</td>
                     </tr>
@@ -59,16 +59,16 @@
                 <table class="table table-borderless" style="border:none" width="100%">
                 <tr>
                     <td class="fontNormal fontCalibri fontSize12">TIPO MUESTRA: </td>
-                    <td class="fontBold fontCalibri fontSize14">{{$model->Tipo_muestra}}</td>
+                    <td class="fontBold fontCalibri fontSize14">{{@$model->Tipo_muestra}}</td>
                     <td class="fontNormal fontCalibri fontSize12">NORMA:</td>
-                    <td class="fontBold fontCalibri fontSize14">{{$model->Clave_norma}}</td>
+                    <td class="fontBold fontCalibri fontSize14">{{@$model->Clave_norma}}</td>
                 </tr>
             </table>
             </div>
 
             <div class="col-md-12 fontBold fontCalibri fontSize12">
                 {{-- <strong><p>QUE ESTABLECE LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES A LOS SISTEMAS DE ALCANTARILLADO URBANO O MUNICIPAL.</p></strong> --}}
-                <strong><p>{{$model->Norma}}</p></strong>
+                <strong><p>{{@$model->Norma}}</p></strong>
             </div>
         </div>
         
@@ -82,7 +82,7 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($parametros as $item)
+                @foreach (@$parametros as $item)
                 <tr>
                     <td class="fontNormal fontCalibri fontSize11 bordesTablaBody">{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
                     <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Clave_metodo}}</td>
@@ -100,11 +100,11 @@
                     <table class="table table-borderless" style="border:none" width="100%">
                         <tr>
                             <td class="fontNormal fontCalibri fontSize12">SERVICIO: </td>
-                            <td class="fontBold fontCalibri fontSize14">{{$model->Servicio}}</td>
+                            <td class="fontBold fontCalibri fontSize14">{{@$model->Servicio}}</td>
                             <td class="fontNormal fontCalibri fontSize12">NÚM NORMAS:</td>
                             <td class="fontBold fontCalibri fontSize14">1</td>
                             <td class="fontNormal fontCalibri fontSize12">PUNTOS MUESTREO:</td>
-                            <td class="fontBold fontCalibri fontSize14">{{$puntos->count()}}</td>
+                            <td class="fontBold fontCalibri fontSize14">{{@$puntos->count()}}</td>
                             <td class="fontNormal fontCalibri fontSize12">SERVICIOS:</td>
                             <td class="fontBold fontCalibri fontSize14">1</td>
                         </tr>
@@ -112,7 +112,7 @@
                     <table class="table table-borderless" style="border:none" width="100%">
                     <tr>
                         <td class="fontNormal fontCalibri fontSize12">TIPO MUESTRA: </td>
-                        <td class="fontBold fontCalibri fontSize14">{{$model->Tipo_muestra}}</td>
+                        <td class="fontBold fontCalibri fontSize14">{{@$model->Tipo_muestra}}</td>
                         <td class="fontNormal fontCalibri fontSize12">NORMA:</td>
                         <td class="fontBold fontCalibri fontSize14">TODOS LOS PARÁMETROS {{-- {{$model->Clave_norma}} --}}</td>
                     </tr>
@@ -130,7 +130,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    @foreach ($parametrosExtra as $item)
+                    @foreach (@$parametrosExtra as $item)
                     <tr>
                         <td class="fontNormal fontCalibri fontSize11 bordesTablaBody">{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
                         <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Clave_metodo}}</td>
@@ -147,16 +147,24 @@
                 <td class="fontBold fontCalibri fontSize10">CANTIDAD SERVICIOS: </td>
                 <td class="fontBold fontCalibri fontSize10">1.00</td>
                 <td class="fontBold fontCalibri fontSize10">COSTO UNITARIO</td>
-                <td class="fontBold fontCalibri fontSize10">${{$model->Sub_total}}</td>
+                <td class="fontBold fontCalibri fontSize10">$                    
+                    @php
+                        echo number_format(@$model->Sub_total, 2, ".", ",");
+                    @endphp
+                </td>
                 <td class="fontBold fontCalibri fontSize10">COSTO TOTAL SIN IVA</td>
-                <td class="fontBold fontCalibri fontSize10">${{$model->Sub_total}}</td>
+                <td class="fontBold fontCalibri fontSize10">$                    
+                    @php
+                        echo number_format(@$model->Sub_total, 2, ".", ",");
+                    @endphp
+                </td>
             </tr>
         </table>        
 
         <div class="col-md-12">
             <p class="fontBold fontCalibri fontSize9 bordeIzqDerSinSup justificadorCentr">Totales</p>
             <p class="fontBold fontCalibri fontSize9">OBSERVACIONES COTIZACIÓN</p>
-            <p class="fontBold fontCalibri fontSize14">{{$model->Observacion_cotizacion}}</p>
+            <p class="fontBold fontCalibri fontSize14">{{@$model->Observacion_cotizacion}}</p>
         </div><br>
 
         <div class="col-md-12">
@@ -164,19 +172,32 @@
                 <tr>
                     <td class="fontBold fontCalibri fontSize15" width="35%">SUBTOTAL</td>
                     <td width="20%">&nbsp;</td>
-                    <td class="fontBold fontCalibri fontSize15 justificadoDer bordeSup" width="35%">${{$model->Sub_total}}</td>
+                    <td class="fontBold fontCalibri fontSize15 justificadoDer bordeSup" width="35%">$                        
+                        @php
+                            echo number_format(@$model->Sub_total, 2, ".", ",");
+                        @endphp
+                    </td>
                 </tr>
 
                 <tr>
                     <td class="fontBold fontCalibri fontSize15">IVA</td>
                     <td>&nbsp;</td>
-                    <td class="fontBold fontCalibri fontSize15 justificadoDer">${{(($model->Sub_total * 16)/100)}}</td>
+                    <td class="fontBold fontCalibri fontSize15 justificadoDer">
+                        $
+                        @php
+                            echo number_format(((@$model->Sub_total * 16)/100), 2, ".", ",");
+                        @endphp
+                    </td>
                 </tr>
 
                 <tr>
                     <td class="fontBold fontCalibri fontSize15 bordeIzqDerSinSup">TOTAL CON IVA</td>
                     <td class="bordeIzqDerSinSup">&nbsp;</td>
-                    <td class="fontBold fontCalibri fontSize15 justificadoDer bordeIzqDerSinSup">${{$model->Sub_total + (($model->Sub_total * 16) / 100)}}</td>
+                    <td class="fontBold fontCalibri fontSize15 justificadoDer bordeIzqDerSinSup">$                        
+                        @php
+                            echo number_format(@$model->Sub_total + ((@$model->Sub_total * 16) / 100), 2, ".", ",");
+                        @endphp
+                    </td>
                 </tr>
 
                 <tr>

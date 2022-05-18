@@ -213,7 +213,7 @@ class LaboratorioController extends Controller
             $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
         }
 
-        $datos = DB::table('ViewLoteDetalle')->where('Id_lote', $id_lote)->get();
+        $datos = DB::table('ViewLoteDetalle')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
         if(!is_null($datos)){
             //Recupera el parámetro que se está utilizando
             $parametro = DB::table('ViewLoteDetalle')->where('Id_lote', $id_lote)->first();
@@ -264,7 +264,7 @@ class LaboratorioController extends Controller
             $html = view('exports.laboratorio.captura', compact('datos', 'datosLength', 'loteModel'));
         } */
 
-        $html = view('exports.laboratorio.captura', compact('datos', 'datosLength', 'loteModel', 'loteModelPh', 'limites'));
+        $html = view('exports.laboratorio.captura', compact('datos', 'datosLength', 'loteModel', 'loteModelPh', 'limites', 'tecnicaUsada'));
         
         /* if(!is_null($formula) && !is_null($fechaAnalisis)){
             //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
@@ -279,7 +279,7 @@ class LaboratorioController extends Controller
         $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
 
         //Hace referencia a la vista capturaPie
-        $htmlFooter = view('exports.laboratorio.capturaPie', compact('usuario', 'firma')); 
+        $htmlFooter = view('exports.laboratorio.capturaPie', compact('usuario', 'firma', 'tecnicaUsada')); 
         //Establece el pie de página del PDF                
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
 
@@ -316,7 +316,7 @@ class LaboratorioController extends Controller
             $mpdf->SetHTMLHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlCurvaHeader, 'O', 'E');
         //}
         
-        $htmlCurvaFooter = view('exports.laboratorio.curvaFooter', compact('usuario'));        
+        $htmlCurvaFooter = view('exports.laboratorio.curvaFooter', compact('usuario', 'tecnicaUsada'));        
         $mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E');
         
         /* if(is_null($textoProcedimiento) || is_null($formula) || is_null($fechaAnalisis)){
@@ -329,7 +329,7 @@ class LaboratorioController extends Controller
 
         //Hoja2
         $semaforoHoja2 = true;
-        $mpdf->AddPage('', '', '', '', '', '', '', 40, '', '', '', '', '', '', '', '', '', '', '');
+        $mpdf->AddPage('', '', '', '', '', '', '', 36, '', '', '', '', '', '', '', '', '', '', '');
         
         //if(!is_null($formula)){
             $limiteCuantificacion = DB::table('parametros')->where('Parametro', $formulaSelected)->first();
@@ -428,7 +428,7 @@ class LaboratorioController extends Controller
         //}
 
         //Hoja 3
-        $mpdf->AddPage('', '', '', '', '', '', '', '', 45, '', '', '', '', '', '', '', '', '', '');
+        $mpdf->AddPage('', '', '', '', '', '', '', 40, 45, '', '', '', '', '', '', '', '', '', '');
         $mpdf->WriteHTML($html);
         
         $mpdf->Output();
