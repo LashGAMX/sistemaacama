@@ -47,7 +47,7 @@ class TablePuntoSiralab extends Component
         $cuerpos = DB::table('tipo_cuerpo')->get();
         $uso = DB::table('detalle_tipoCuerpos')->where('Id_tipo',$this->cuerpo)->get();
         $titulos = TituloConsecionSir::where('Id_sucursal',$this->idSuc)->get();
-        $model = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal',$this->idSuc)->get();
+        $model = DB::table('ViewPuntoMuestreoSolSir')->where('Id_sucursal',$this->idSuc)->get();
         return view('livewire.clientes.table-punto-siralab',compact('model','titulos','cuerpos','uso'));
     }
 

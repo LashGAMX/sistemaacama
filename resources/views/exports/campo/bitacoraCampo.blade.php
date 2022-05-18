@@ -25,16 +25,19 @@
                             Calibración Analitica Interna del equipo</td>
                         <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="45%">MEDIDOR DE PH,
                             TEMPERATURA Y CONDUCTIVIDAD</td>
-                        <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">{{$campoGen->Marca}}
+                        <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">{{@$campoGen->Marca}}
                         </td>
-                        <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">{{$campoGen->Equipo}}
+                        <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">{{@$campoGen->Equipo}}
                         </td>
                     </tr>
                     <tr>
                         <td class="fontNormal justificadorIzq fontSize10 fontCalibri">Con No. serie:
-                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fontBold">{{$campoGen->Serie}}</span></td>
-                        <td class="fontNormal justificadorIzq fontSize10 fontCalibri">a una temperatura de <span
-                                class="fontBold">{{$campoGen->Temperatura_a}} °C.</span></td>
+                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="fontBold">{{@$campoGen->Serie}}</span></td>
+                        <td class="fontNormal justificadorIzq fontSize10 fontCalibri">a una temperatura de 
+                            <span class="fontBold">                                                                
+                                {{round(@$campoGen->Temperatura_a, 0)}}°C.
+                            </span>
+                        </td>
                         <td class="fontNormal justificadorIzq fontSize10 fontCalibri">&nbsp;</td>
                         <td class="fontBold justificadorIzq fontSize10 fontCalibri">&nbsp;</td>
                     </tr>
@@ -61,7 +64,7 @@
                                     <td class="fontCalibri fontBold fontSize8 justificadorCentr">+-0.05 unidades de pH y
                                         0.03 entre lecturas</td>
                                 </tr>
-                                @foreach ($phTrazable as $item)
+                                @foreach (@$phTrazable as $item)
                                 <tr>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Ph}}</td>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Marca}}
@@ -83,7 +86,7 @@
                             <table class="table border table-sm">
                                 <tr>
                                     <td colspan="7" class="fontCalibri fontBold fontSize12">
-                                        <center>pH (Control de calidad)</center>
+                                        <center>pH (Control de Calidad)</center>
                                     </td>
                                 </tr>
                                 <tr>
@@ -93,10 +96,9 @@
                                     <td class="fontCalibri fontBold fontSize12 justificadorCentr">1° Lectura</td>
                                     <td class="fontCalibri fontBold fontSize12 justificadorCentr">2° Lectura</td>
                                     <td class="fontCalibri fontBold fontSize12 justificadorCentr">3° Lectura</td>
-                                    <td class="fontCalibri fontBold fontSize8 justificadorCentr">+-0.05 unidades de pH y
-                                        0.03 entre lecturas</td>
+                                    <td class="fontCalibri fontBold fontSize8 justificadorCentr">+-2% de aceptación valor nominal</td>
                                 </tr>
-                                @foreach ($phCalidad as $item)
+                                @foreach (@$phCalidad as $item)
                                 <tr>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">
                                         {{$item->Ph_calidad}}</td>
@@ -140,9 +142,9 @@
                                     <td class="fontCalibri fontBold fontSize12 justificadorCentr">3° Lectura</td>
                                     <td class="fontCalibri fontBold fontSize8 justificadorCentr">+- 5% de
                                         aceptación valor
-                                        nominals</td>
+                                        nominal</td>
                                 </tr>
-                                @foreach ($campoConTrazable as $item)
+                                @foreach (@$campoConTrazable as $item)
                                 <tr>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">
                                         {{$item->Conductividad}}</td>
@@ -165,7 +167,7 @@
                             <table class="table border table-sm">
                                 <tr>
                                     <td colspan="7" class="fontCalibri fontBold fontSize12">
-                                        <center>CONDUCTIVIDAD (Calidad)</center>
+                                        <center>CONDUCTIVIDAD (Control de Calidad)</center>
                                     </td>
                                 </tr>
                                 <tr>
@@ -179,9 +181,9 @@
                                     <td class="fontCalibri fontBold fontSize12 justificadorCentr">3° Lectura</td>
                                     <td class="fontCalibri fontBold fontSize8 justificadorCentr">+- 5% de
                                         aceptación valor
-                                        nominales</td>
+                                        nominal</td>
                                 </tr>
-                                @foreach ($campoConCalidad as $item)
+                                @foreach (@$campoConCalidad as $item)
                                 <tr>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">
                                         {{$item->Conductividad}}</td>
@@ -209,11 +211,19 @@
             </div>
 
             <div class="col-12 fontCalibri fontSize12 fontNormal">
-                NOMBRE DE LA EMPRESA: <span class="fontBold">{{$model->Empresa_suc}}</span>
+                NOMBRE DE LA EMPRESA: <span class="fontBold">{{@$model->Empresa_suc}}</span>
             </div>
 
             <div class="col-12 fontCalibri fontSize12 fontNormal">
-                PUNTO DE MUESTREO: <span class="fontBold">{{$punto->Punto_muestreo}}</span>
+                PUNTO DE MUESTREO: <span class="fontBold">                    
+                    @for ($i = 0; $i < @$puntos; $i++)
+                        @if (@$model->Siralab == 1)
+                            {{@$puntoMuestreo[$i]->Punto}} (anexo {{@$puntoMuestreo[$i]->Anexo}})<br>                                    
+                        @else
+                            {{@$puntoMuestreo[$i]->Punto_muestreo}} <br>
+                        @endif                                
+                    @endfor
+                </span>
             </div>
 
             <br>
@@ -231,12 +241,12 @@
                         <td class="fontNormal fontCalibri fontSize12">NORMA A MUESTREAR</td>
                         <td class="fontBold fontCalibri fontSize12">{{@$model->Clave_norma}}</td>
                         <td class="fontNormal fontCalibri fontSize12">TIPO DE MUESTRA</td>
-                        <td class="fontBold fontCalibri fontSize12">{{@$model->Id_muestra}}</td>
+                        <td class="fontBold fontCalibri fontSize12">{{@$model->Descarga}}</td>
                     </tr>
 
                     <tr>
                         <td class="fontNormal fontCalibri fontSize12">TIPO DE MUESTREO</td>
-                        <td class="fontBold fontCalibri fontSize12">TIPO</td>
+                        <td class="fontBold fontCalibri fontSize12">{{@$model->Id_muestra}}</td>
                         <td class="fontNormal fontCalibri fontSize12">NUMERO DE MUESTRAS</td>
                         <td class="fontBold fontCalibri fontSize12">{{@$model->Num_tomas}}</td>
                     </tr>
@@ -423,7 +433,7 @@
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$tempMuestra[$i]->Temperatura1}}</td>
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$tempMuestra[$i]->Temperatura2}}</td>
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$tempMuestra[$i]->Temperatura3}}</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$tempMuestra[$i]->Promedio}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{round(@$tempMuestra[$i]->Promedio, 0)}}</td>
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$conMuestra[$i]->Conductividad1}}</td>
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$conMuestra[$i]->Conductividad2}}</td>
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$conMuestra[$i]->Conductividad3}}</td>
