@@ -894,6 +894,7 @@ class VolController extends Controller
         $res2 = ($res1 * $request->C);
         $res3 = ($res2 * $request->D);
         $res = ($res3 / $request->E);
+        
 
         $data = array(
             'res' => $res

@@ -47,9 +47,7 @@
                 <table class="table table-borderless" style="border:none" width="100%">
                     <tr>
                         <td class="fontNormal fontCalibri fontSize12">SERVICIO: </td>
-                        <td class="fontBold fontCalibri fontSize14">{{@$model->Servicio}}</td>
-                        <td class="fontNormal fontCalibri fontSize12">NÚM NORMAS:</td>
-                        <td class="fontBold fontCalibri fontSize14">1</td>
+                        <td class="fontBold fontCalibri fontSize14">{{@$model->Servicio}}</td>                        
                         <td class="fontNormal fontCalibri fontSize12">PUNTOS MUESTREO:</td>
                         <td class="fontBold fontCalibri fontSize14">{{@$puntos->count()}}</td>
                         <td class="fontNormal fontCalibri fontSize12">SERVICIOS:</td>
@@ -100,9 +98,7 @@
                     <table class="table table-borderless" style="border:none" width="100%">
                         <tr>
                             <td class="fontNormal fontCalibri fontSize12">SERVICIO: </td>
-                            <td class="fontBold fontCalibri fontSize14">{{@$model->Servicio}}</td>
-                            <td class="fontNormal fontCalibri fontSize12">NÚM NORMAS:</td>
-                            <td class="fontBold fontCalibri fontSize14">1</td>
+                            <td class="fontBold fontCalibri fontSize14">{{@$model->Servicio}}</td>                            
                             <td class="fontNormal fontCalibri fontSize12">PUNTOS MUESTREO:</td>
                             <td class="fontBold fontCalibri fontSize14">{{@$puntos->count()}}</td>
                             <td class="fontNormal fontCalibri fontSize12">SERVICIOS:</td>
