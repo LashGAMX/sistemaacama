@@ -1834,7 +1834,13 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
                                     fac1.innerHTML = parseFloat((l1 + factores[7])).toFixed(2);
                                     l1 = parseFloat(l1 + factores[7]);
                                 //}
-                            }                                                    
+                            }else if(l1 >= 40 && l1 < 45){
+                                fac1.innerHTML = parseFloat((l1 + factores[8])).toFixed(2);
+                                l1 = parseFloat(l1 + factores[8]);
+                            }else if(l1 >= 45 && l1 <= 50){
+                                fac1.innerHTML = parseFloat((l1 + factores[9])).toFixed(2);
+                                l1 = parseFloat(l1 + factores[9]);
+                            }
                             
                             //LECTURA 2---------------------------------------------
                             if((l2 >= 0 && l2 < 5)){
@@ -1877,7 +1883,13 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
                                     fac2.innerHTML = parseFloat((l2 + factores[7])).toFixed(2);
                                     l2 = parseFloat(l2 + factores[7]);
                                 //}
-                            }                                                    
+                            }else if(l2 >= 40 && l2 < 45){
+                                fac2.innerHTML = parseFloat((l2 + factores[8])).toFixed(2);
+                                l2 = parseFloat(l2 + factores[8]);
+                            }else if(l2 >= 45 && l2 <= 50){
+                                fac2.innerHTML = parseFloat((l2 + factores[9])).toFixed(2);
+                                l2 = parseFloat(l2 + factores[9]);
+                            }
                             
                             //LECTURA 3---------------------------------------------    
                             if((l3 >= 0 && l3 < 5)){
@@ -1920,7 +1932,13 @@ function valTempMuestra(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
                                     fac3.innerHTML = parseFloat((l3 + factores[7])).toFixed(2);
                                     l3 = parseFloat(l3 + factores[7]);
                                 //}
-                            }                        
+                            }else if(l3 >= 40 && l3 < 45){
+                                fac3.innerHTML = parseFloat((l3 + factores[8])).toFixed(2);
+                                l3 = parseFloat(l3 + factores[8]);
+                            }else if(l3 >= 45 && l3 <= 50){
+                                fac3.innerHTML = parseFloat((l3 + factores[9])).toFixed(2);
+                                l3 = parseFloat(l3 + factores[9]);
+                            }
                     //});
                 },
             });                                    
@@ -2462,6 +2480,8 @@ function valTempCompuesto(temp1, factTempAplicado){
             let sw7;
             let sw8;
             let sw9;
+            let sw10;
+            let sw11;
             let cont = 1;
             
             console.log(response.model);               
@@ -2493,6 +2513,8 @@ function valTempCompuesto(temp1, factTempAplicado){
                         sw7 = false;
                         sw8 = false;
                         sw9 = false;
+                        sw10 = false;
+                        sw11 = false;
                     }
                 }else if(t >= 5 && t < 10){
                     if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
@@ -2509,6 +2531,8 @@ function valTempCompuesto(temp1, factTempAplicado){
                         sw7 = false;
                         sw8 = false;
                         sw9 = false;
+                        sw10 = false;
+                        sw11 = false;
                     }
                 }else if(t >= 10 && t < 15){
                     if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
@@ -2524,7 +2548,9 @@ function valTempCompuesto(temp1, factTempAplicado){
                         sw6 = false;
                         sw7 = false;
                         sw8 = false;
-                        sw9 = false;                        
+                        sw9 = false; 
+                        sw10 = false;                       
+                        sw11 = false;
                     }
                 }else if(t >= 15 && t < 20){
                     if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
@@ -2541,6 +2567,8 @@ function valTempCompuesto(temp1, factTempAplicado){
                         sw7 = false;
                         sw8 = false;
                         sw9 = false;
+                        sw10 = false;                       
+                        sw11 = false;
                     }
                 }else if(t >= 20 && t < 25){
                     if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
@@ -2556,7 +2584,9 @@ function valTempCompuesto(temp1, factTempAplicado){
                         sw6 = false;
                         sw7 = false;
                         sw8 = false;
-                        sw9 = false
+                        sw9 = false;
+                        sw10 = false;                       
+                        sw11 = false;
                     }
                 }else if(t >= 25 && t < 30){
                     if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
@@ -2573,6 +2603,8 @@ function valTempCompuesto(temp1, factTempAplicado){
                         sw7 = false;
                         sw8 = false;
                         sw9 = false;
+                        sw10 = false;                       
+                        sw11 = false;
                     }
                 }else if(t >= 30 && t < 35){
                     if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
@@ -2589,6 +2621,8 @@ function valTempCompuesto(temp1, factTempAplicado){
                         sw1 = false;
                         sw8 = false;
                         sw9 = false;
+                        sw10 = false;                       
+                        sw11 = false;
                     }
                 }else if(t >= 35 && t < 40){
                     if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
@@ -2605,8 +2639,11 @@ function valTempCompuesto(temp1, factTempAplicado){
                         sw7 = false;
                         sw1 = false;
                         sw9 = false;
+                        sw10 = false;                       
+                        sw11 = false;
                     }
-                }else{
+                }else if(t >= 40 && t < 45){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){ 
                         sw9 = true;
                         sw1 = false;
                         sw2 = false;
@@ -2616,6 +2653,35 @@ function valTempCompuesto(temp1, factTempAplicado){
                         sw6 = false;
                         sw7 = false;
                         sw8 = false;
+                        sw10 = false;                       
+                        sw11 = false;
+                    }
+                }else if(t >= 45 && t <= 50){
+                    if((item.Factor >= 0.5 || item.Factor <= -0.5) ){
+                        sw10 = true;
+                        sw9 = false;
+                        sw1 = false;
+                        sw2 = false;
+                        sw3 = false;
+                        sw4 = false;
+                        sw5 = false;
+                        sw6 = false;
+                        sw7 = false;
+                        sw8 = false;                                           
+                        sw11 = false;
+                    }
+                }else{
+                    sw11 = true;
+                    sw9 = false;
+                    sw1 = false;
+                    sw2 = false;
+                    sw3 = false;
+                    sw4 = false;
+                    sw5 = false;
+                    sw6 = false;
+                    sw7 = false;
+                    sw8 = false;
+                    sw10 = false;                                           
                 }
 
                 if(sw1 == true && cont == 1){
@@ -2650,7 +2716,15 @@ function valTempCompuesto(temp1, factTempAplicado){
                     factAplicado.innerHTML = t + item.Factor_aplicado;
                     t = t + item.Factor_aplicado;
                     return false;
-                }else if(sw9 == true){
+                }else if(sw9 == true && cont == 9){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw10 == true && cont == 10){
+                    factAplicado.innerHTML = t + item.Factor_aplicado;
+                    t = t + item.Factor_aplicado;
+                    return false;
+                }else if(sw11 == true){
                     factAplicado.innerHTML = t;
                     cont--;
                     return false;                    

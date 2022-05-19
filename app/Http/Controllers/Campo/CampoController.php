@@ -1198,7 +1198,63 @@ class CampoController extends Controller
 
         $campoGen = DB::table('ViewCampoGenerales')->where('Id_solicitud',$id)->first();
 
+        $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
+
         $factorCorreccion = TermFactorCorreccionTemp::where('Id_termometro', $campoGen->Id_equipo)->get();
+
+        $factores = array();
+        $factoresAplicados = array();
+
+        $factorTemp = array();
+        $factorCorrTemp = array();
+
+        foreach($factorCorreccion as $item){            
+            array_push($factores, $item->Factor);
+            array_push($factoresAplicados, $item->Factor_aplicado);
+        }
+
+        foreach($tempMuestra as $item){
+            if(!is_null($item->Promedio)){
+                if($item->Promedio >= 0 && $item->Promedio < 5){
+                    array_push($factorTemp, $factores[0]);
+                    array_push($factorCorrTemp, $factoresAplicados[0]);
+                }else if($item->Promedio >= 5 && $item->Promedio < 10){
+                    array_push($factorTemp, $factores[1]);
+                    array_push($factorCorrTemp, $factoresAplicados[1]);
+                }else if($item->Promedio >= 10 && $item->Promedio < 15){
+                    array_push($factorTemp, $factores[2]);
+                    array_push($factorCorrTemp, $factoresAplicados[2]);
+                }else if($item->Promedio >= 15 && $item->Promedio < 20){
+                    array_push($factorTemp, $factores[3]);
+                    array_push($factorCorrTemp, $factoresAplicados[3]);
+                }else if($item->Promedio >= 20 && $item->Promedio < 25){
+                    array_push($factorTemp, $factores[4]);
+                    array_push($factorCorrTemp, $factoresAplicados[4]);
+                }else if($item->Promedio >= 25 && $item->Promedio < 30){
+                    array_push($factorTemp, $factores[5]);
+                    array_push($factorCorrTemp, $factoresAplicados[5]);
+                }else if($item->Promedio >= 30 && $item->Promedio < 35){
+                    array_push($factorTemp, $factores[6]);
+                    array_push($factorCorrTemp, $factoresAplicados[6]);
+                }else if($item->Promedio >= 35 && $item->Promedio < 40){
+                    array_push($factorTemp, $factores[7]);
+                    array_push($factorCorrTemp, $factoresAplicados[7]);
+                }else if($item->Promedio >= 40 && $item->Promedio < 45){
+                    array_push($factorTemp, $factores[8]);
+                    array_push($factorCorrTemp, $factoresAplicados[8]);
+                }else if($item->Promedio >= 45 && $item->Promedio <= 50){
+                    array_push($factorTemp, $factores[9]);
+                    array_push($factorCorrTemp, $factoresAplicados[9]);
+                }else{
+                    array_push($factorTemp, 0);
+                    array_push($factorCorrTemp, 0);
+                }
+            }else{
+                array_push($factorTemp, 0);
+                array_push($factorCorrTemp, 0);
+            }
+        }
+
         $factorCorreccionLength = $factorCorreccion->count();
 
         $phMuestra = PhMuestra::where('Id_solicitud',$id)->get();
@@ -1226,7 +1282,7 @@ class CampoController extends Controller
 
         //*************************************************************************************
 
-        $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
+        
         $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
         $muestreador = Usuario::where('id',$solGen->Id_muestreador)->first();
 
@@ -1248,7 +1304,7 @@ class CampoController extends Controller
             'margin_left' => 5,
             'margin_right' => 5,
             'margin_top' => 42,
-            'margin_bottom' => 50
+            'margin_bottom' => 45
         ]);
         
         $mpdf->SetWatermarkImage(
@@ -1260,7 +1316,7 @@ class CampoController extends Controller
         $mpdf->showWatermarkImage = true;
         $html = view('exports.campo.bitacoraCampo',compact('model','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra', 
         'gastoTotal', 'campoGen','tempMuestra','conMuestra','muestreador','phTrazable','campoConTrazable', 'metodoAforo', 'proceMuestreo', 
-        'conTratamiento', 'tipoTratamiento', 'campoCompuesto', 'factorCorreccion', 'factorCorreccionLength', 'puntoMuestreo', 'puntos'));
+        'conTratamiento', 'tipoTratamiento', 'campoCompuesto', 'factorCorreccion', 'factorCorreccionLength', 'puntoMuestreo', 'puntos', 'factores', 'factoresAplicados', 'factorTemp', 'factorCorrTemp'));
         $mpdf->CSSselectMedia = 'mpdf';
 
         $htmlHeader = view('exports.campo.bitacoraCampoHeader', compact('model'));
