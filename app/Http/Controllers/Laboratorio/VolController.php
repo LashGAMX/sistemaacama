@@ -1253,10 +1253,10 @@ class VolController extends Controller
                 } else {
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
-                }
+                } 
             } else if ($parametro->Id_parametro == 12) { // NITROGENO TOTAL
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
-
+                
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
@@ -1395,6 +1395,7 @@ class VolController extends Controller
                 }
             } else if ($parametro->Id_parametro == 12) { // NITROGENO TOTAL
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->get();
+                $model = DB::table('ViewParametros')->where('Id_parametro',12)->first();
 
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
@@ -1403,7 +1404,7 @@ class VolController extends Controller
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength','model'));
                 } else {
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');

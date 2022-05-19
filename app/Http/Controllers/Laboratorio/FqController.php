@@ -2704,7 +2704,7 @@ class FqController extends Controller
                 } else {  //Si es mayor el resultado que el límite de cuantificación
                     $limC = $item->Resultado;
 
-                    array_push($limites, $limC);
+                    array_push($limites, round($limC,2));
                 }
             }
 
@@ -3090,6 +3090,7 @@ class FqController extends Controller
             } else if ($parametro->Id_parametro == 5 || $parametro->Id_parametro == 93) { //SST
                 $horizontal = 'L';
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
+               
 
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
@@ -3238,6 +3239,7 @@ class FqController extends Controller
                 $horizontal = 'P';
             } else if ($parametro->Id_parametro == 5 || $parametro->Id_parametro == 93) { //sst
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->get();
+                $model = DB::table('ViewParametros')->where('Id_parametro',93)->first();
 
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->count();
@@ -3246,7 +3248,7 @@ class FqController extends Controller
                     $separador = "Valoración / Observación";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
-                    $htmlCaptura = view('exports.laboratorio.fq.ga.sst.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                    $htmlCaptura = view('exports.laboratorio.fq.ga.sst.capturaBody', compact('textoProcedimiento', 'data', 'dataLength','model'));
                 }
 
                 $horizontal = 'L';

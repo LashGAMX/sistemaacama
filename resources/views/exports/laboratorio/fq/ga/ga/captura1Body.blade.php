@@ -17,27 +17,27 @@
                     <td class="tableCabecera bordesTabla">&nbsp;No. de cartucho&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTabla">&nbsp;No. de matraz&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTabla">&nbsp;Masa inicial 3 g&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTabla">&nbsp;Vol. de la muestra(ml)&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTabla">&nbsp;Vol. de la muestra (mL)&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTabla">&nbsp;Masa con muestra g&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTabla">&nbsp;G y A mg/L&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTabla">&nbsp;Observaciones&nbsp;&nbsp;</td>                                                            
+                    <td class="tableCabecera bordesTabla">&nbsp;Observaciones&nbsp;&nbsp;</td>
                     <td class="bordesTabla"></td>
                     <td class="bordesTabla"></td>
                 </tr>
             </thead>
-    
+
             <tbody>
+                @php
+                    $cont = 1;
+                @endphp
+                {{-- Imprime primero los contorles de calidad --}}
                 @for ($i = 0; $i < @$dataLength ; $i++)
+                @if (@$data[$i]->Control != 'Resultado')
                     <tr>
-                        <td class="tableContent bordesTabla">{{@$data[$i]->Ph}}</td>
-                        <td class="tableContent bordesTabla">
-                            @if (@$data[$i]->Control == 'Muestra Adicionada' @$data[$i]->Control == 'Duplicado' || @$data[$i]->Control == 'Resultado')
-                                {{@$data[$i]->Codigo}}
-                            @else
-                                {{@$data[$i]->Control}}
-                            @endif    
-                        </td>
-                        <td class="tableContent bordesTabla">{{@$data[$i]->Id_matraz}}</td>
+                        {{-- <td class="tableContent bordesTabla">{{@$data[$i]->Ph}}</td> --}}
+                        <td class="tableContent bordesTabla">< 2</td>
+                        <td class="tableContent bordesTabla">{{@$data[$i]->Control}}</td>
+                        <td class="tableContent bordesTabla">{{$cont}}</td>
                         <td class="tableContent bordesTabla">{{@$data[$i]->Matraz}}</td>
                         <td class="tableContent bordesTabla">{{@$data[$i]->M_inicial3}}</td>
                         <td class="tableContent bordesTabla">{{@$data[$i]->Vol_muestra}}</td>
@@ -49,13 +49,42 @@
                                 Liberado
                             @elseif(@$data[$i]->Liberado == 0)
                                 No liberado
-                            @endif 
-                        </td>                        
-                        <td class="tableContent bordesTabla">{{@$data[$i]->Control}}</td>                        
-                    </tr>                
+                            @endif
+                        </td>
+                        <td class="tableContent bordesTabla">{{@$data[$i]->Control}}</td>
+                    </tr>
+                    @php $cont++; @endphp
+                @endif                    
+            
                 @endfor
-            </tbody>        
-        </table>  
-    </div>    
+                {{-- Imprimo el resto --}}
+                @for ($i = 0; $i < @$dataLength ; $i++)
+                    @if (@$data[$i]->Control == 'Resultado')
+                        <tr>
+                            {{-- <td class="tableContent bordesTabla">{{@$data[$i]->Ph}}</td> --}}
+                            <td class="tableContent bordesTabla">< 2</td>
+                            <td class="tableContent bordesTabla">{{@$data[$i]->Codigo}}</td>
+                            <td class="tableContent bordesTabla">{{$cont}}</td>
+                            <td class="tableContent bordesTabla">{{@$data[$i]->Matraz}}</td>
+                            <td class="tableContent bordesTabla">{{@$data[$i]->M_inicial3}}</td>
+                            <td class="tableContent bordesTabla">{{@$data[$i]->Vol_muestra}}</td>
+                            <td class="tableContent bordesTabla">{{@$data[$i]->M_final}}</td>
+                            <td class="tableContent bordesTabla">{{@$limites[$i]}}</td>
+                            <td class="tableContent bordesTabla">{{@$data[$i]->Observacion}}</td>
+                            <td class="tableContent bordesTabla">
+                                @if (@$data[$i]->Liberado == 1)
+                                    Liberado
+                                @elseif(@$data[$i]->Liberado == 0)
+                                    No liberado
+                                @endif
+                            </td>
+                            <td class="tableContent bordesTabla">{{@$data[$i]->Control}}</td>
+                        </tr>
+                        @php $cont++; @endphp
+                     @endif   
+                @endfor
+            </tbody>
+        </table>
+    </div>
 </body>
 </html>

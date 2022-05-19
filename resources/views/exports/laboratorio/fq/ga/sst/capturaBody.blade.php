@@ -47,7 +47,7 @@
                 @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
                         <td class="tableContent">
-                            @if (@$data[$i]->Control == 'Muestra Adicionada' || @$data[$i]->Control == 'Duplicado' || @$data[$i]->Control == 'Resultado')
+                            @if (@$data[$i]->Control != 'Resultado')
                                 {{@$data[$i]->Folio_servicio}}
                             @else
                                 {{@$data[$i]->Control}}
@@ -61,7 +61,11 @@
                         <td class="tableContent">{{@$data[$i]->Peso_muestra1}}</td>
                         <td class="tableContent">{{@$data[$i]->Peso_muestra2}}</td>
                         <td class="tableContent">{{@$data[$i]->Masa2}}</td>
-                        <td class="tableContent">{{@$data[$i]->Resultado}}</td>
+                        @if (@$data[$i]->Resultado <= @$model->Limite)
+                            <td class="tableContent"> < {{@$model->Limite}}</td>
+                        @else
+                            <td class="tableContent">{{@$data[$i]->Resultado}}</td>
+                        @endif
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
                         <td class="tableContent">
                             @if (@$data[$i]->Liberado == 1)

@@ -31,7 +31,7 @@
                     <th class="tableCabecera anchoColumna">VOL. TITULANTE BLANCO</th>
                     <th class="tableCabecera anchoColumna">VOL. MUESTRA</th>
                     <th class="tableCabecera anchoColumna">VOL. TITULANTE MUESTRA</th>
-                    <th class="tableCabecera anchoColumna">NITRÓGENO TOTAL mg/L</th>
+                    <th class="tableCabecera anchoColumna">{{@$model->Parametro}} mg/L</th> 
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
@@ -51,7 +51,11 @@
                         <td class="tableContent">{{@$data[$i]->Titulado_blanco}}</td>
                         <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
                         <td class="tableContent">{{@$data[$i]->Titulado_muestra}}</td>
-                        <td class="tableContent">{{@$data[$i]->Resultado}}</td>
+                        @if (@$data[$i]->Resultado < @$model->Limite)
+                            <td class="tableContent"> < {{ @$model->Limite}}</td>
+                        @else
+                            <td class="tableContent">{{@$data[$i]->Resultado}}</td>
+                        @endif
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
                         <td class="tableContent">
                             @if (@$data[$i]->Liberado == 1)

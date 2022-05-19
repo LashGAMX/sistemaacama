@@ -23,47 +23,47 @@
             </tr>
             
             <tr>
-                <th class="nombreHeader bordesTabla">
+                <th class="nombreHeader bordesTabla" style="font-size: 8px">
                     No. de muestra
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="nombreHeader bordesTabla" style="font-size: 8px">
                     Vol. de la Muestra (ml)
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="nombreHeader bordesTabla" style="font-size: 8px">
                     % de dilucion expresado en decimales
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="nombreHeader bordesTabla" style="font-size: 8px">
                     NO. DE BOTELLA INICIAL
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="nombreHeader bordesTabla" style="font-size: 8px">
                     OXIGENO DISUELTO INICIAL
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="nombreHeader bordesTabla" style="font-size: 8px">
                     NO. BOTELLA FINAL
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="nombreHeader bordesTabla" style="font-size: 8px">
                     OXIGENO DISUELTO AL 5to. DIA
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="nombreHeader bordesTabla" style="font-size: 8px">
                     PH INICIAL
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="nombreHeader bordesTabla" style="font-size: 8px">
                     PH FINAL
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="nombreHeader bordesTabla" style="font-size: 8px">
                     DBO5 mg/L
                 </th>
 
-                <th class="nombreHeader bordesTabla">
+                <th class="nombreHeader bordesTabla" style="font-size: 8px">
                     Observaciones
                 </th>
 
