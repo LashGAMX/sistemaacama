@@ -273,10 +273,16 @@
                     </thead>
 
                     <tbody>
-                        <tr>
-                            <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">1</td>
-                            <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">17</td>
-                        </tr>
+                        @for ($i = 0; $i < @$model->Num_tomas; $i++)
+                            <tr>
+                                @if (!is_null(@$tempMuestra[$i]->Promedio))
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{$i + 1}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">                                    
+                                        {{number_format(@$tempMuestra[$i]->Promedio, 1, ".", ",")}}
+                                    </td>
+                                @endif
+                            </tr>
+                        @endfor                        
                     </tbody>
                 </table>
             </div>
@@ -327,14 +333,26 @@
                         </thead>
 
                         <tbody>                            
-                            <tr>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">1</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr" colspan="2">
-                                    17.00</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0.00</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">0.00</td>
-                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">17</td>
-                            </tr>
+                            @for ($i = 0; $i < @$model->Num_tomas; $i++)
+                                <tr>
+                                    @if (!is_null(@$tempMuestra[$i]->Promedio))
+                                        <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{$i + 1}}</td>
+                                        <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr" colspan="2">
+                                            {{number_format(@$tempMuestra[$i]->Promedio, 1, ".", ",")}}
+                                        </td>
+                                        {{-- Bucle anidado; Mala práctica --}}                                        
+                                        <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                            {{@$factorTemp[$i]}}                       
+                                        </td>
+                                        <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                            {{@$factorCorrTemp[$i]}}
+                                        </td>
+                                        <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                            {{number_format(@$tempMuestra[$i]->Promedio, 1, ".", ",") + @$factorCorrTemp[$i]}}
+                                        </td>                                        
+                                    @endif                                        
+                                </tr>
+                            @endfor
                         </tbody>
                     </table>
                 </div>
@@ -419,7 +437,7 @@
                     </thead>
 
                     <tbody>
-                        @for ($i = 0; $i < $model->Num_tomas; $i++)                                                    
+                        @for ($i = 0; $i < @$model->Num_tomas; $i++)                                                    
                             @if (@$phMuestra[$i]->Activo != 0)
                                 <tr>
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$i+1}}</td>
@@ -506,7 +524,7 @@
 
                         <tr>
                             <td class="fontNormal fontCalibri fontSize12" width="25%">Temperatura muestra compuesta</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{@$campoCompuesto->Temp_muestraComp}} °C</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Temp_muestraComp, 1, ".", ",")}} °C</td>
                             <td class="fontNormal fontCalibri fontSize12" width="25%">pH muestra compuesta</td>
                             <td class="fontCalibri fontSize12 fontBold" width="25%">{{@$campoCompuesto->Ph_muestraComp}} UNIDADES</td>
                         </tr>
@@ -539,17 +557,20 @@
 
                             <tr>
                                 <td class="fontNormal fontCalibri fontSize12">VMSI = VMC x (Qi / QT)</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                 <td class="fontCalibri fontSize12 fontNormal" colspan="2">VOLUMEN CALCULADO</td>
                             </tr>
 
                             <tr>
                                 <td class="fontBold fontCalibri fontSize12">{{@$model->Clave_norma}}</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                 <td class="fontCalibri fontSize12 fontBold">{{@$campoCompuesto->Volumen_calculado}}</td>
                                 <td class="fontCalibri fontSize12 fontBold">L</td>
                             </tr>
 
                             <tr>
                                 <td class="fontBold fontCalibri fontSize12">QT (GASTO TOTAL)</td>
+                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
                                 <td class="fontCalibri fontSize12 fontBold">{{@$gastoTotal}}</td>
                                 <td class="fontCalibri fontSize12 fontBold">L/s</td>
                             </tr>
@@ -614,8 +635,28 @@
                                             @endphp                                            
                                         @endif
                                     </td>
-                                </tr>
+                                </tr>                                
                             @endfor
+                            <tr>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMSI = 
+                                    @php
+                                        $sumaVMSI = 0;
+
+                                        for($i = 0; $i < @$model->Num_tomas; $i++){
+                                            if (@$gastoMuestra[$i]->Promedio === NULL)
+                                                $sumaVMSI += 0;
+                                            else{                                            
+                                                $sumaVMSI += round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 4)) * $campoCompuesto->Volumen_calculado, 4);
+                                            }                                        
+                                        }
+                                        echo round($sumaVMSI, 1)."L";                                        
+                                    @endphp                                    
+                                </td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
