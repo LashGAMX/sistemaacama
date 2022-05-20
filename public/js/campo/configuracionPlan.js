@@ -58,6 +58,7 @@ function getPaquetes() {
 
             var t = $('#tablePaquetes').DataTable({
                 "ordering": false,
+                "pageLength": 100,
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",
                     "zeroRecords": "No hay datos encontrados",
