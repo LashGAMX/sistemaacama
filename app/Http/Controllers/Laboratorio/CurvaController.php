@@ -93,12 +93,9 @@ class CurvaController extends Controller
         $model = estandares::where('Id_Lote', $request->idLote)->get(); 
         $now = Carbon::now();
         //$loteAnalisis = LoteAnalisis::where('Id_lote',$request->idLote)->first();
-        $estandares  = estandares::where('Id_area', $request->idAreaModal)
-            ->where('Id_parametro', $request->idParametroModal)
-            ->where('Fecha_inicio', '<', $now)
-            ->where('Fecha_Fin', '<', $now)->first();
+        $estandares  = CurvaConstantes::where('Id_parametro', $request->idParametro)->get();
 
-        $paraModel = Parametro::find($loteAnalisis->Id_tecnica);
+        $paraModel = Parametro::find($request->idParametro);
         $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
 
         $num = $numEstandares->Concentracion; 
@@ -139,8 +136,10 @@ class CurvaController extends Controller
         $data = array(
             'num' => $num,
             'sw' => $sw, 
-            'concentracion' => $concent,
+            'estandares' => $estandares,
+            'concentraciones' => $concent,
             'stdModel' => $stdModel,
+            'parametro' => $request->idParametro,
         );
         return response()->json($data);
      }
