@@ -2,7 +2,7 @@
     <table class="table table-borderless table-sm">
         <tr>
             <td class="fontBold fontCalibri fontSize14">
-                <center>NORMA DE MUESTREO {{$model->Clave_norma}}</center>
+                <center>NORMA DE MUESTREO NMX-AA-003-1980</center>
             </td>
         </tr>
     </table>
