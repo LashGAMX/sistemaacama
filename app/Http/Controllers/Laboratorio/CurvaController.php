@@ -22,7 +22,7 @@ class CurvaController extends Controller
         $lote = LoteAnalisis::all();
         $area = AreaAnalisis::all();
         $parametro = Parametro::all();
-        $fechaActual = Carbon::now();
+     
 
         $model = "";
         return view('laboratorio/curva', compact('model','lote','area','parametro'));
@@ -90,10 +90,11 @@ class CurvaController extends Controller
      public function createStd(Request $request)
      {
         
-        $model = estandares::where('Id_Lote', $request->idLote)->get(); 
+       // $model = estandares::where('Id_Lote', $request->idLote)->get(); 
         $now = Carbon::now();
+        $now->toDateString();
         //$loteAnalisis = LoteAnalisis::where('Id_lote',$request->idLote)->first();
-        $estandares  = CurvaConstantes::where('Id_parametro', $request->idParametro)->get();
+        $estandares  = CurvaConstantes::where('Estado', 1)->first();
 
         $paraModel = Parametro::find($request->idParametro);
         $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
@@ -101,7 +102,10 @@ class CurvaController extends Controller
         $num = $numEstandares->Concentracion; 
          if($estandares->count()){
              $sw = false; 
-             $stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
+             $curva = CurvaConstantes::find($estandares->Id_curvaConst); 
+             $curva->Estado = 0; 
+             $curva->save();
+
          }else{
             estandares::create([
                 //'Id_lote' => $request->idLote,
@@ -122,23 +126,24 @@ class CurvaController extends Controller
                     'Id_parameto' => $request->idParametroModal,
                     'Fecha_inicio' => $request->fechaInicio,
                     'Fecha_fin' => $request->fechaFin,
+                    'Estado' => 0,
                 ]);
             }  
             $sw = true;
             
-            $stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
+            //$stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
         }
-        $loteDetalle = LoteDetalle::where('Id_lote', $request->idLote)->first();
-        $concent = ConcentracionParametro::where('Id_parametro',$loteDetalle->Id_parametro)->get();
+        //$loteDetalle = LoteDetalle::where('Id_lote', $request->idLote)->first();
+        $concent = ConcentracionParametro::where('Id_parametro',$request->idParametro)->get();
 
 
 
         $data = array(
+            'now' => $now,
             'num' => $num,
             'sw' => $sw, 
             'estandares' => $estandares,
             'concentraciones' => $concent,
-            'stdModel' => $stdModel,
             'parametro' => $request->idParametro,
         );
         return response()->json($data);

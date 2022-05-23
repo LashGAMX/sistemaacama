@@ -18,6 +18,7 @@ class CurvaConstantes extends Model
         'B',
         'M',
         'R',
+        'Estado',
         'Fecha_inicio',
         'Fecha_fin',
         'Id_area',
