@@ -324,12 +324,12 @@ class LaboratorioController extends Controller
         } */
 
         //if($semaforoHoja1 === true){ 
-            $mpdf->WriteHTML($htmlCurva);
+            //$mpdf->WriteHTML($htmlCurva);
         //}
 
         //Hoja2
         $semaforoHoja2 = true;
-        $mpdf->AddPage('', '', '', '', '', '', '', 36, '', '', '', '', '', '', '', '', '', '', '');
+        //$mpdf->AddPage('', '', '', '', '', '', '', 36, '', '', '', '', '', '', '', '', '', '', '');
         
         //if(!is_null($formula)){
             $limiteCuantificacion = DB::table('parametros')->where('Parametro', $formulaSelected)->first();
@@ -418,9 +418,9 @@ class LaboratorioController extends Controller
             //    $sw = false;
             //}
             
-            $htmlCurva2 = view('exports.laboratorio.curvaBody2', compact('textoProcedimiento', 'estandares', 'topeEstandar', 'limiteCuantificacion', 'bmr', 
+            $htmlCurva2 = view('exports.laboratorio.curvaBody', compact('textoProcedimiento', 'estandares', 'topeEstandar', 'limiteCuantificacion', 'bmr', 
             'tecnicaMetales', 'blancoMetales', 'estandarMetales', 'verificacionMetales', 'fechaConFormato', 'soloFechaFormateada', 
-            'soloHoraFormateada', 'fechaPreparacion','sw', 'hora'));
+            'soloHoraFormateada', 'fechaPreparacion','sw', 'hora', 'tecnicaUsada'));
             $mpdf->WriteHTML($htmlCurva2);
 
 

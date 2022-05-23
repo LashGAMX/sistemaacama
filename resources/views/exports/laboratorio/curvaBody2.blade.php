@@ -181,7 +181,11 @@
         
                 <tbody>
                     <tr>
-                        <td id="tableContent">CONCENTRACIÓN EN mg/L</td>
+                        @if (@$tecnicaUsada->Id_tecnica == 22)
+                            <td id="tableContent">CONCENTRACIÓN EN μg/L</td>
+                        @else
+                            <td id="tableContent">CONCENTRACIÓN EN mg/L</td>
+                        @endif                        
 
                         <td id="tableContent">{{@$estandares[0]->Concentracion}}</td>
                         

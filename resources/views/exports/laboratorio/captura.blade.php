@@ -16,11 +16,11 @@
                     @if (@$tecnicaUsada->Id_tecnica == 22)
                         <td id="tableCabecera">No. de muestra &nbsp;</td>
                         <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Es pH < 2&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Es pH<2&nbsp;&nbsp;</td>
                         <td id="tableCabecera">&nbsp;Abs 1&nbsp;&nbsp;</td>
                         <td id="tableCabecera">&nbsp;Abs 2&nbsp;&nbsp;</td>
                         <td id="tableCabecera">&nbsp;Abs 3&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Absorbancia Promedio&nbsp;&nbsp;</td>                        
+                        <td id="tableCabecera">&nbsp;Abs Promedio&nbsp;&nbsp;</td>                        
                         <td id="tableCabecera">&nbsp;[μg/L] Obtenida&nbsp;&nbsp;</td>
                         <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
                         <td id="tableCabecera">&nbsp;F.C.&nbsp;&nbsp;</td>
@@ -31,11 +31,11 @@
                     @else
                         <td id="tableCabecera">No. de muestra &nbsp;</td>
                         <td id="tableCabecera">&nbsp;Volumen de muestra (mL)&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Es pH < 2&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Es pH<2&nbsp;&nbsp;</td>
                         <td id="tableCabecera">&nbsp;Abs 1&nbsp;&nbsp;</td>
                         <td id="tableCabecera">&nbsp;Abs 2&nbsp;&nbsp;</td>
                         <td id="tableCabecera">&nbsp;Abs 3&nbsp;&nbsp;</td>
-                        <td id="tableCabecera">&nbsp;Absorbancia Promedio&nbsp;&nbsp;</td>
+                        <td id="tableCabecera">&nbsp;Abs Promedio&nbsp;&nbsp;</td>
                         <td id="tableCabecera">&nbsp;Abs Muestra - Abs Blanco&nbsp;&nbsp;</td>
                         <td id="tableCabecera">&nbsp;[mg/L] Obtenida&nbsp;&nbsp;</td>
                         <td id="tableCabecera">&nbsp;F.D.&nbsp;&nbsp;</td>
@@ -166,7 +166,7 @@
 
         <div class="contenedorHijo1">
             <span class="cabeceraStdMuestra">MUESTRA ADICIONADA <br> </span>                    
-            <span class="bodyStdMuestra">Criterio de Aceptación para MA  85 - 115%. Fórmula: Recuperación n = ((Cg(V+V1)-Cr*V1/Ca*V))*100. Donde: V = Volúmen del
+            <span class="bodyStdMuestra">Criterio de Aceptación para MA  85 - 115%. Fórmula: Recuperación n = ((Cs(V+V1)-Cr*V1/Ca*V))*100. Donde: V = Volúmen del
                 estándar usado para la muestra adicionada. Ca = Concentración del estándar. V1 = Volúmen de la muestra problema usada 
                 para la muestra adicionada. Cr = Concentración de muestra problema. Cs = Concentración de la muestra adicionada. Recuperación
                 n: porcentaje del analito adicionado que es medido.
