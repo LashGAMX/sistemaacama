@@ -17,6 +17,7 @@ class Estandares extends Model
         'Id_lote',
         'Id_area',
         'Id_parametro',
+        'Estado',
         'STD',
         'Concentracion',
         'ABS1',
