@@ -1097,8 +1097,8 @@ class CampoController extends Controller
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
-            'margin_left' => 15,
-            'margin_right' => 15,
+            'margin_left' => 2,
+            'margin_right' => 2,
             'margin_top' => 30,
             'margin_bottom' => 18
         ]);

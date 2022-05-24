@@ -75,18 +75,19 @@
             <div class="col-12 negrita">
                 2. RECIPIENTES UTILIZADOS
             </div>
+            <div class="col-12">
+                Todas las muestras se conservan en hielo a una temperatura de 4 +- 2°C
+            </div>
             <div class="col-md-12">
-                <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}">
+                <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}" width="100%">
                     <thead>
                         <tr>
                             <td class="negrita justifyCenter bordesTabla">#</td>
                             <td class="negrita justifyCenter bordesTablaSupInfDer">ANALISIS</td>
                             <td class="negrita justifyCenter bordesTablaSupInfDer">PARAMETRO</td>
                             <td class="negrita justifyCenter bordesTablaSupInfDer">ENVASE</td>
-                            <td class="negrita justifyCenter bordesTablaSupInfDer">VOLUMEN</td>
-                            <td class="negrita justifyCenter bordesTablaSupInfDer">UNIDAD</td>
-                            <td class="negrita justifyCenter bordesTablaSupInfDer">PRESERVACION</td>
-                            <td class="negrita justifyCenter bordesTablaSupInfDer">TEMPERATURA °C</td>
+                            <td class="negrita justifyCenter bordesTablaSupInfDer">VOLUMEN</td>                            
+                            <td class="negrita justifyCenter bordesTablaSupInfDer">PRESERVACION</td>                            
                             <td class="negrita justifyCenter bordesTablaSupInfDer">SI/NO</td>
                         </tr>
                     </thead>
@@ -98,11 +99,9 @@
                                     <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Id_env}}</td>
                                     <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Area}}</td>
                                     <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Parametro}}</td>
-                                    <td class="bordesTablaInfIzqDer">{{@$envasesArray[$i]->Nombre}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Volumen}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Unidad}}</td>
+                                    <td class="bordesTablaInfIzqDer">{{@$envasesArray[$i]->Nombre}} {{@$envasesArray[$i]->Volumen}} {{@$envasesArray[$i]->Unidad}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Volumen}}</td>                                    
                                     <td class="bordesTablaInfIzqDer">{{@$envasesArray[$i]->Preservacion}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Preservacion}}</td>                                                                    
                                     <td class="justifyCenter bordesTablaInfIzqDer">SI</td>                                    
                                 </tr>
                             @endif
@@ -117,73 +116,77 @@
             <div class="col-md-12">
                 <table class="{{-- table table-borderless --}} table-sm {{-- colorBorde --}}">
                     <tr>
-                      <td class="bordesTabla justifyCenter">No DE MUESTRAS</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">FECHA Y HORA DE MUESTREO</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">GASTO (L/s)</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">MAT. FLOT. (AUS/PR)</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">PH (Unidad)</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">PUNTO DE MUESTREO</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">TEMP AMB C°</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">TEMP AGUA C°</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">OLOR (SI/NO)</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">COLOR</td>
-                      <td class="bordesTablaSupInfDer justifyCenter">COND (μs/cm)</td>
+                      <td class="bordesTabla justifyCenter fontSize12">No DE MUESTRAS</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">FECHA Y HORA DE MUESTREO</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">GASTO (L/s)</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">MAT. FLOT. (AUS/PR)</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">pH (Unidad)</td>                      
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">TEMP AMB C°</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">TEMP AGUA C°</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">OLOR (SI/NO)</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">COLOR</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">COND (μs/cm)</td>
                     </tr>
                     @for ($i = 0; $i < @$model->Num_tomas; $i++)
                         <tr>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">{{$i + 1}}</td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">{{\Carbon\Carbon::parse(@$phMuestra[$i]->Fecha)->format('d/m/Y')}} 
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">{{$i + 1}}</td>
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">{{\Carbon\Carbon::parse(@$phMuestra[$i]->Fecha)->format('d/m/Y')}} 
                                 @php
                                     $fecha = @$phMuestra[$i]->Fecha;
                                     $hora = date("H:i:s", strtotime($fecha));
                                     echo $hora
                                 @endphp
                             </td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (!is_null(@$gastoMuestra[$i]->Promedio))
                                     {{@$gastoMuestra[$i]->Promedio}}
                                 @else
                                     ---
                                 @endif                                
                             </td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">                                
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (!is_null(@$phMuestra[$i]->Materia))
                                     {{@$phMuestra[$i]->Materia}}
                                 @else
                                     ---
                                 @endif
                             </td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">                                
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">                                
                                 @if (!is_null(@$phMuestra[$i]->Promedio))
                                     {{@$phMuestra[$i]->Promedio}}
                                 @else
                                     ---
                                 @endif
+                            </td>                            
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
+                                @php
+                                    echo number_format(@$tempMuestra[$i]->Promedio, 0, ".", ",");
+                                @endphp
                             </td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">{{$punto->Punto_muestreo}}</td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">{{$tempMuestra[$i]->Promedio}}</td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">                                
-                                @if (!is_null(@$tempMuestra[$i]->Promedio))
-                                    {{@$tempMuestra[$i]->Promedio}}
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
+                                @if (!is_null(@$tempMuestra[$i]->Promedio))                                    
+                                    @php
+                                        echo number_format(@$tempMuestra[$i]->Promedio, 0, ".", ",");
+                                    @endphp
                                 @else
                                     ---
                                 @endif
                             </td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">                                
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (!is_null(@$phMuestra[$i]->Olor))
                                     {{@$phMuestra[$i]->Olor}}
                                 @else
                                     ---
                                 @endif
                             </td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">                                
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (!is_null(@$phMuestra[$i]->Color))
                                     {{@$phMuestra[$i]->Color}}
                                 @else
                                     ---
                                 @endif
                             </td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter">                                
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (!is_null(@$conMuestra[$i]->Promedio))
                                     {{@$conMuestra[$i]->Promedio}}
                                 @else
@@ -233,9 +236,13 @@
                     </tr>
 
                     <tr>
-                        <td class="bordesTablaInfIzq">PH MUESTRA COMPUESTA: {{@$modelCompuesto->Ph_muestraComp}}</td>
-                        <td class="bordesTablaInf">VOLUMEN MUESTRA COMPUESTA: {{@$modelCompuesto->Volumen_calculado}}</td>
-                        <td class="bordesTablaInfDer" colspan="2">TEMPERATURA MUESTRA COMPUESTA: {{@$modelCompuesto->Temp_muestraComp}}</td>
+                        <td class="bordesTablaInfIzq">pH MUESTRA COMPUESTA:                             
+                            @php
+                                echo number_format(@$modelCompuesto->Ph_muestraComp, 2, ".", ",");
+                            @endphp
+                        </td>
+                        <td class="bordesTablaInf">VOLUMEN MUESTRA COMPUESTA: {{@$modelCompuesto->Volumen_calculado}} L</td>
+                        <td class="bordesTablaInfDer" colspan="2">TEMPERATURA MUESTRA COMPUESTA: {{@$modelCompuesto->Temp_muestraComp}} °C</td>
                     </tr>
 
                     <tr>
