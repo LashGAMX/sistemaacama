@@ -89,33 +89,34 @@
                 </tr>
                 @endforeach
             </tbody>
-        </table>        
+        </table>
+        
+        <table class="table" style="font-size: 9px;" width="100%">
+            <tr>
+                <td class="fontBold fontCalibri fontSize10">CANTIDAD SERVICIOS: </td>
+                <td class="fontBold fontCalibri fontSize10">1.00</td>
+                <td class="fontBold fontCalibri fontSize10">COSTO UNITARIO</td>
+                <td class="fontBold fontCalibri fontSize10">$                    
+                    @php
+                        echo number_format(@$model->Sub_total, 2, ".", ",");
+                    @endphp
+                </td>
+                <td class="fontBold fontCalibri fontSize10">COSTO TOTAL SIN IVA</td>
+                <td class="fontBold fontCalibri fontSize10">$                    
+                    @php
+                        echo number_format(@$model->Sub_total, 2, ".", ",");
+                    @endphp
+                </td>
+            </tr>
+        </table>
 
         @if (sizeof(@$parametrosExtra) > 0)
-            <br>
-
-            <div class="col-md-12">
-                    <table class="table table-borderless" style="border:none" width="100%">
-                        <tr>
-                            <td class="fontNormal fontCalibri fontSize12">SERVICIO: </td>
-                            <td class="fontBold fontCalibri fontSize14">{{@$model->Servicio}}</td>                            
-                            <td class="fontNormal fontCalibri fontSize12">PUNTOS MUESTREO:</td>
-                            <td class="fontBold fontCalibri fontSize14">{{@$puntos->count()}}</td>
-                            <td class="fontNormal fontCalibri fontSize12">SERVICIOS:</td>
-                            <td class="fontBold fontCalibri fontSize14">1</td>
-                        </tr>
-                    </table>
-                    <table class="table table-borderless" style="border:none" width="100%">
-                    <tr>
-                        <td class="fontNormal fontCalibri fontSize12">TIPO MUESTRA: </td>
-                        <td class="fontBold fontCalibri fontSize14">{{@$model->Tipo_muestra}}</td>
-                        <td class="fontNormal fontCalibri fontSize12">NORMA:</td>
-                        <td class="fontBold fontCalibri fontSize14">TODOS LOS PARÁMETROS {{-- {{$model->Clave_norma}} --}}</td>
-                    </tr>
-                </table>
+            <br><br><br>            
+            
+            <div class="col-md-12 fontNormal fontCalibri fontSize12">                
+                <p class="bordeSup justificadorCentr" style="font-weight: bold">PARAMETROS ADICIONALES</p>
             </div>
-
-            <br>
+            
             <table autosize="1" class="table table-bordered table-sm" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                 <thead>
                     <tr>

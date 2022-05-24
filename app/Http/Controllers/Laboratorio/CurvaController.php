@@ -105,12 +105,20 @@ class CurvaController extends Controller
              $curva = CurvaConstantes::find($estandares->Id_curvaConst); 
              $curva->Estado = 0; 
              $curva->save();
+             CurvaConstantes::create([
+                'Id_area' => $request->idAreaModal,
+                'Id_parameto' => $request->idParametroModal,
+                'Fecha_inicio' => $request->fechaInicio,
+                'Fecha_fin' => $request->fechaFin,
+                'Estado' => 1,
+            ]);
 
          }else{
             estandares::create([
                 //'Id_lote' => $request->idLote,
                 'Id_area' => $request->idAreaModal,
                 'Id_parametro' => $request->idParametroModal,
+                'Estado' => 1,
                 'STD' => "Blanco", 
             ]);
             for ($i=0; $i < $num ; $i++) { 
@@ -118,6 +126,7 @@ class CurvaController extends Controller
                     //'Id_lote' => $request->idLote,
                     'Id_area' => $request->idAreaModal,
                     'Id_parametro' => $request->idParametroModal,
+                    'Estado' => 1,
                     'STD' => "STD".($i+1)."",
                 ]);
 
@@ -126,7 +135,7 @@ class CurvaController extends Controller
                     'Id_parameto' => $request->idParametroModal,
                     'Fecha_inicio' => $request->fechaInicio,
                     'Fecha_fin' => $request->fechaFin,
-                    'Estado' => 0,
+                    'Estado' => 1,
                 ]);
             }  
             $sw = true;
@@ -143,7 +152,7 @@ class CurvaController extends Controller
             'num' => $num,
             'sw' => $sw, 
             'estandares' => $estandares,
-            'concentraciones' => $concent,
+            'concentracion' => $concent,
             'parametro' => $request->idParametro,
         );
         return response()->json($data);
