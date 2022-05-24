@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Supervicion;
 
 use App\Http\Controllers\Controller;
+use App\Models\LoteDetalle;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleNitrogeno;
 use App\Models\Solicitud;
@@ -31,12 +32,12 @@ class CadenaCustodiaController extends Controller
     }
     public function getParametroCadena(Request $res)
     {
-        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$res->idSol)->get();
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$res->idSol)->wuere('Num_muestra',1)->get();
         $data = array(
             'model' => $model,
         );
         return response()->json($data);
-    }
+    } 
     public function getDetalleAnalisis(Request $res)
     {
         $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo',$res->idCodigo)->first();
