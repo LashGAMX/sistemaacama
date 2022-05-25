@@ -29,14 +29,23 @@ class InformesController extends Controller
     public function index()
     {
         $tipoReporte = TipoReporte::all();
-        $model = DB::table('ViewSolicitud')->get();
+        $model = DB::table('ViewSolicitud')->orderBy('Id_solicitud','desc')->get();
         return view('informes.informes', compact('tipoReporte', 'model'));
     }
     public function getPuntoMuestro(Request $request)
     {
-        $model = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud', $request->id)->get();
+        $solModel = DB::table('ViewSolicitud')->where('Id_solicitud',$request->id)->first();
+        $siralab = false;
+        if($solModel->Siralab != 0)
+        {
+            $siralab = true;
+            $model = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $request->id)->get();
+        }else{
+            $model = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud', $request->id)->get();
+        }
         $data = array(
             'model' => $model,
+            'siralab' => $siralab,
         );
         return response()->json($data);
     }
@@ -3643,13 +3652,13 @@ class InformesController extends Controller
 
         foreach ($paquete as $item) {
             //INSTRUCCIÓN TEMPORAL
-            if (!is_null($item)) {
-                $responsableArea = AreaLab::where('Area', $item->Area)->first();
-                $modelResponsable = DB::table('users')->where('id', $responsableArea->Id_responsable)->first();
-                $responsable = $modelResponsable->name;
+            // if (!is_null($item)) {
+            //     $responsableArea = AreaLab::where('Area', $item->Area)->first();
+            //     $modelResponsable = DB::table('users')->where('id', $responsableArea->Id_responsable)->first();
+            //     $responsable = $modelResponsable->name;
 
-                array_push($responsables, $responsable);
-            }
+            //     array_push($responsables, $responsable);
+            // }
         }
 
         $fechaEmision = \Carbon\Carbon::now();

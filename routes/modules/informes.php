@@ -10,7 +10,7 @@ Route::group(['prefix' => 'informes'], function () {
     Route::post('/getSolParametro',[InformesController::class,'getSolParametro']);
     
     Route::get('exportPdfSinComparacion/{idSol}', [InformesController::class, 'pdfSinComparacion']);
-    Route::get('exportPdfConComparacion/{idSol}', [InformesController::class, 'pdfConComparacion']);
+    Route::get('exportPdfConComparacion/{idSol}', [InformesController::class, 'pdfConComparacionCli']);
 
     Route::get('/mensual', [InformesController::class, 'mensual']);
     Route::post('/getPreReporteMensual', [InformesController::class, 'getPreReporteMensual']);
