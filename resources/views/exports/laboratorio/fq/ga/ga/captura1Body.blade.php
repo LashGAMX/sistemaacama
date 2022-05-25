@@ -12,6 +12,12 @@
         <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000">
             <thead>
                 <tr>
+                    <th class="nombreHeader" colspan="10">
+                        Resultado de las muestras
+                    </th>                    
+                </tr>
+
+                <tr>
                     <td class="tableCabecera bordesTabla">pH de las muestras &nbsp;</td>
                     <td class="tableCabecera bordesTabla">&nbsp;No. de muestra&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTabla">&nbsp;No. de cartucho&nbsp;&nbsp;</td>
@@ -21,8 +27,8 @@
                     <td class="tableCabecera bordesTabla">&nbsp;Masa con muestra g&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTabla">&nbsp;G y A mg/L&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTabla">&nbsp;Observaciones&nbsp;&nbsp;</td>
-                    <td class="bordesTabla"></td>
-                    <td class="bordesTabla"></td>
+                    <td></td>
+                    <td></td>
                 </tr>
             </thead>
 
@@ -44,14 +50,14 @@
                         <td class="tableContent bordesTabla">{{@$data[$i]->M_final}}</td>
                         <td class="tableContent bordesTabla">{{@$limites[$i]}}</td>
                         <td class="tableContent bordesTabla">{{@$data[$i]->Observacion}}</td>
-                        <td class="tableContent bordesTabla">
+                        <td class="tableContent">
                             @if (@$data[$i]->Liberado == 1)
                                 Liberado
                             @elseif(@$data[$i]->Liberado == 0)
                                 No liberado
                             @endif
                         </td>
-                        <td class="tableContent bordesTabla">{{@$data[$i]->Control}}</td>
+                        <td class="tableContent">{{@$data[$i]->Control}}</td>
                     </tr>
                     @php $cont++; @endphp
                 @endif                    
@@ -71,14 +77,14 @@
                             <td class="tableContent bordesTabla">{{@$data[$i]->M_final}}</td>
                             <td class="tableContent bordesTabla">{{@$limites[$i]}}</td>
                             <td class="tableContent bordesTabla">{{@$data[$i]->Observacion}}</td>
-                            <td class="tableContent bordesTabla">
+                            <td class="tableContent">
                                 @if (@$data[$i]->Liberado == 1)
                                     Liberado
                                 @elseif(@$data[$i]->Liberado == 0)
                                     No liberado
                                 @endif
                             </td>
-                            <td class="tableContent bordesTabla">{{@$data[$i]->Control}}</td>
+                            <td class="tableContent">{{@$data[$i]->Control}}</td>
                         </tr>
                         @php $cont++; @endphp
                      @endif   

@@ -1465,7 +1465,7 @@ class MbController extends Controller
             $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
         }
         
-        $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
+        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->WriteHTML($htmlCaptura);
         $mpdf->CSSselectMedia = 'mpdf'; 

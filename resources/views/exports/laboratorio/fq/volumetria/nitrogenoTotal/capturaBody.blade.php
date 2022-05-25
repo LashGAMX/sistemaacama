@@ -31,7 +31,7 @@
                     <th class="tableCabecera anchoColumna">VOL. TITULANTE BLANCO</th>
                     <th class="tableCabecera anchoColumna">VOL. MUESTRA</th>
                     <th class="tableCabecera anchoColumna">VOL. TITULANTE MUESTRA</th>
-                    <th class="tableCabecera anchoColumna">{{@$model->Parametro}} mg/L</th> 
+                    <th class="tableCabecera anchoColumna">NITROGENO ORGANICO (N-ORG) mg/L</th> 
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>

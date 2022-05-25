@@ -1122,9 +1122,20 @@ class CampoController extends Controller
     { 
       
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
-        $modelCompuesto = CampoCompuesto::where('Id_solicitud', $id)->first();
 
         $direccion = SucursalCliente::where('Id_sucursal', $model->Id_sucursal)->first();
+        
+        if($model->Siralab == 1){//Es cliente Siralab
+            $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $model->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }else{
+            $puntoMuestreo = PuntoMuestreoGen::where('Id_sucursal', $model->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }
+
+        $modelCompuesto = CampoCompuesto::where('Id_solicitud', $id)->first();
 
         $folio = explode("-", $model->Folio_servicio);
         $parte1 = strval($folio[0]);
@@ -1158,8 +1169,8 @@ class CampoController extends Controller
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
-            'margin_left' => 15,
-            'margin_right' => 15,
+            'margin_left' => 2,
+            'margin_right' => 2,
             'margin_top' => 30,
             'margin_bottom' => 18
         ]);
@@ -1171,12 +1182,12 @@ class CampoController extends Controller
             array(0, 0),
         );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.hojaCampo',compact('model', 'direccion', 'modelCompuesto', 'numOrden', 'punto','phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'envasesArray', 'paramSolicitudLength', 'recepcion', 'firmaRes'));
+        $html = view('exports.campo.hojaCampo',compact('model', 'modelCompuesto', 'numOrden', 'punto', 'puntos', 'puntoMuestreo', 'phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'envasesArray', 'paramSolicitudLength', 'recepcion', 'firmaRes', 'direccion'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $htmlFooter = view('exports.campo.hojaCampoFooter');        
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-        $mpdf->Output('Hoja de Campo.pdf', 'I');
+        $mpdf->Output('Hoja Campo.pdf', 'I');
     }
 
     public function bitacoraCampo($id)

@@ -71,12 +71,12 @@
         </table>  
     </div>  
     
-    <div class="contenedorSexto">                
+    {{-- <div class="contenedorSexto">                
         <span><br> Absorbancia B1: {{@$data[0]->Blanco}}</span> <br>
         <span>Absorbancia B2: {{@$data[0]->Blanco}}</span> <br>
         <span>Absorbancia B3: {{@$data[0]->Blanco}}</span> <br>
         <span>RESULTADO BLANCO: {{@$data[0]->Blanco}}</span>
-    </div>    
+    </div>    --}}
 
     <div id="contenidoCurva">
         <span id="curvaProcedimiento">Valoración / Observación</span>

@@ -30,11 +30,11 @@
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
                     <th class="tableCabecera anchoColumna">No. Crisol</th>
                     <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
-                    <th class="tableCabecera anchoColumna">Peso cte 1</th>
-                    <th class="tableCabecera anchoColumna">Peso cte 2</th>
+                    <th class="tableCabecera anchoColumna">Masa cte 1</th>
+                    <th class="tableCabecera anchoColumna">Masa cte 2</th>
                     <th class="tableCabecera anchoColumna">Masa 2</th>
-                    <th class="tableCabecera anchoColumna">Peso cte c/muestra 1</th>
-                    <th class="tableCabecera anchoColumna">Peso cte c/muestra 2</th>
+                    <th class="tableCabecera anchoColumna">Masa cte c/muestra 1</th>
+                    <th class="tableCabecera anchoColumna">Masa cte c/muestra 2</th>
                     <th class="tableCabecera anchoColumna">Masa 6</th>
                     <th class="tableCabecera anchoColumna">SOLIDOS SUSPENDIDOS TOTALES (SST) mg/L</th>
                     <th class="tableCabecera anchoColumna">Observaciones</th>
@@ -47,8 +47,8 @@
                 @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
                         <td class="tableContent">
-                            @if (@$data[$i]->Control != 'Resultado')
-                                {{@$data[$i]->Folio_servicio}}
+                            @if (@$data[$i]->Control == 'Muestra Adicionada' || @$data[$i]->Control == 'Duplicado' || @$data[$i]->Control == 'Resultado')
+                                {{@$data[$i]->Folio_servicio}}                            
                             @else
                                 {{@$data[$i]->Control}}
                             @endif 
@@ -61,11 +61,7 @@
                         <td class="tableContent">{{@$data[$i]->Peso_muestra1}}</td>
                         <td class="tableContent">{{@$data[$i]->Peso_muestra2}}</td>
                         <td class="tableContent">{{@$data[$i]->Masa2}}</td>
-                        @if (@$data[$i]->Resultado <= @$model->Limite)
-                            <td class="tableContent"> < {{@$model->Limite}}</td>
-                        @else
-                            <td class="tableContent">{{@$data[$i]->Resultado}}</td>
-                        @endif
+                        <td class="tableContent">{{@$limites[$i]}}</td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
                         <td class="tableContent">
                             @if (@$data[$i]->Liberado == 1)
