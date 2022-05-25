@@ -62,6 +62,7 @@ class CurvaController extends Controller
         return response()->json($data);
     }
      public function buscar(Request $request){
+        $fecha = new Carbon($request=fecha);
         $lote = LoteAnalisis::where('Fecha', $request->fecha)->first();
         $model = estandares::where('Id_lote', 73)->get(); 
         //$loteDetalle = LoteDetalle::where('Id_lote',$request->idLote)->first();
