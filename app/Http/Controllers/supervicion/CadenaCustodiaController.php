@@ -32,7 +32,7 @@ class CadenaCustodiaController extends Controller
     }
     public function getParametroCadena(Request $res)
     {
-        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$res->idSol)->wuere('Num_muestra',1)->get();
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$res->idSol)->where('Num_muestra',1)->get();
         $data = array(
             'model' => $model,
         );

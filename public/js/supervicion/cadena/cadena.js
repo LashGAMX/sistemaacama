@@ -1,5 +1,6 @@
+var idSol;    
 $(document).ready(function () {
-    
+
     table = $('#tableCadena').DataTable({        
         "ordering": false,
         "language": {
@@ -11,8 +12,10 @@ $(document).ready(function () {
     });    
     $('#tableCadena tbody').on( 'dblclick', 'tr', function () {
         let dato = $(this).find('td:first').html();
+        idSol = dato;
       window.location = base_url+"/admin/supervicion/cadena/detalleCadena/"+dato
-    } );
+    });
+    
     $('#tableCadena tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
@@ -20,7 +23,13 @@ $(document).ready(function () {
         else {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
+            let dato = $(this).find('td:first').html();
+            idSol = dato;
         }
     } );
+
+    $('#btnCadena').click(function(){
+        window.location = base_url + "/admin/informes/exportPdfCustodiaInterna/"+idSol;
+    });
  
 });
