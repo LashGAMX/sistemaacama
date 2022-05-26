@@ -216,13 +216,13 @@
 
             <div class="col-12 fontCalibri fontSize12 fontNormal">
                 PUNTO DE MUESTREO: <span class="fontBold">                    
-                    @for ($i = 0; $i < @$puntos; $i++)
+                    {{-- @for ($i = 0; $i < @$puntos; $i++) --}}
                         @if (@$model->Siralab == 1)
-                            {{@$puntoMuestreo[$i]->Punto}} (anexo {{@$puntoMuestreo[$i]->Anexo}})<br>                                    
+                            {{@$puntoMuestreo[0]->Punto}} (anexo {{@$puntoMuestreo[0]->Anexo}}) {{-- <br> --}}                                    
                         @else
-                            {{@$puntoMuestreo[$i]->Punto_muestreo}} <br>
+                            {{@$puntoMuestreo[0]->Punto_muestreo}} {{-- <br> --}}
                         @endif                                
-                    @endfor
+                    {{-- @endfor --}}
                 </span>
             </div>
 
@@ -368,7 +368,7 @@
                 Datos de Campo
             </div>
 
-            <br>
+            {{-- <br> --}}
 
             <div class="contenidoTabla">
                 <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0" border-color="#000000">
@@ -609,7 +609,7 @@
                 </table>
             </div>
 
-            <br>
+            {{-- <br> --}}
 
             <div class="col-12 fontCalibri fontSize12 fontNormal">
                 <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
