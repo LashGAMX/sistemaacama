@@ -24,7 +24,7 @@
                         <table class="table-sm" width="100%">
                             <tr>
                                 <td>N° de Muestra &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="negrita">{{$model->Folio_servicio}}</span></td>                                
-                                <td>Tipo de Muestra: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="negrita">{{@$tipoMuestra->Descarga}}</span></td>
+                                <td>Tipo de Muestra: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="negrita">{{@$model->Descarga}}</span></td>
                                 <td>Norma Aplicable: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span class="negrita">{{@$norma->Clave_norma}}</span></td>                                
                             </tr>
                         </table>
@@ -55,7 +55,11 @@
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{@$paquete[$i]->Area}}                                    
                                 </td>
                                 <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$responsables[$i]}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paquete[$i]->Cantidad}}</td>
+                                @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 7 || @$paquete[$i]->Id_area == 16)
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$recibidos->count()}}</td>
+                                @else
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paquete[$i]->Cantidad}}</td>
+                                @endif
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$paquete[$i]->created_at)->format('d/m/Y')}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$paquete[$i]->created_at)->format('d/m/Y')}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$paquete[$i]->created_at)->addDays(rand(12,14))->format('d/m/Y')}}</td>
@@ -69,7 +73,7 @@
             </div>
 
             <div class="col-12">
-                3. RESULTADOS
+                3. RESULTADOS 
             </div>
 
             <div class="col-md-12">
@@ -204,11 +208,11 @@
                         <table class="table-sm" width="100%">
                             <tr>
                                 <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">{{@$promedioPonderadoGA}}</td>
+                                <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promedioPonderadoGA, 2)}}</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">{{@$mAritmeticaColi}}</td>
+                                <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$mAritmeticaColi, 2)}}</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">{{@$gastoPromFinal}}</td>
+                                <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$gastoPromFinal, 2)}}</td> 
                                 <td class="fontCalibri anchoColumna111 justifyCenter"><span class="fontSize7 negrita">FIRMA RESPONSABLE</span> <br> <span class="fontSize8">Q.F.B. RODRÍGUEZ BLANCO AGUEDA</span> &nbsp;&nbsp; </td>
                                 <td class="justifyCenter anchoColumna111"><img style="width: auto; height: auto; max-width: 60px; max-height: 40px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
                                 
@@ -232,24 +236,12 @@
 
             <div class="col-md-12">
                 <table class="table table-sm fontSize7" width="100%">
-                    <tr>
-                      <td class="anchoColumna">10 Sur No. 7301, Col. Loma linda C.P 72477</td>
-                      <td class="justifyCenter">PUEBLA, PUE.</td>
-                      <td class="justifyCenter">Email:labacama@prodigy.net.mx</td>
-                      <td class="justifyRight">RE-11-003-1</td>
-                    </tr>
+                
 
                     <tr>
-                        <td class="anchoColumna" style="border: 0">Tels (222) 2-45-69-72 / 7-55-50-05 / 7-55-50-14 / 6-37-94-04</td>
-                        <td>&nbsp;</td>
+                        <td class="anchoColumna" style="border: 0"></td>
                         <td>&nbsp;</td>
                         <td class="justifyRight">Rev. 9</td>
-                    </tr>
-
-                    <tr>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
-                        <td>&nbsp;</td>
                         <td class="justifyRight">Fecha ultima revisión: 01/04/2016</td>
                     </tr>
                 </table>

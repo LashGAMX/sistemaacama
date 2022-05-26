@@ -67,7 +67,7 @@ ON inter.Id_cliente = cli2.Id_cliente
 
 /* Vista Lista parametros */
 CREATE VIEW ViewParametros as SELECT param.Id_parametro,param.Id_laboratorio,lab.Sucursal,param.Id_tipo_formula,tipo.Tipo_formula,param.Id_area,area.Area_analisis ,param.Id_user_c,param.Id_user_m,param.Id_rama,ram.Rama,param.Parametro,
-param.Id_unidad,uni.Unidad,uni.Descripcion,param.Id_metodo,param.Id_norma,param.Limite,param.Id_procedimiento,pro.Procedimiento,param.Id_matriz,mat.Matriz,param.Id_simbologia,
+param.Id_unidad,uni.Unidad,uni.Descripcion,param.Id_metodo,param.Id_norma,param.Limite,param.Id_procedimiento,pro.Procedimiento,param.Id_matriz,mat.Matriz,param.Id_simbologia,param.Envase,
 sim.Simbologia,sim.Descripcion as Descripcion_sim
 ,nor.Norma,nor.Clave_norma,met.Metodo_prueba,met.Clave_metodo,param.Precio,param.F_inicio_vigencia,param.F_fin_vigencia,param.created_at,param.updated_at,
 param.deleted_at FROM parametros as param
@@ -382,10 +382,10 @@ ON en.Id_unidad = uni.Id_unidad
 
 /* Lista ViewEnvaseParametro */ 
 
-CREATE VIEW ViewEnvaseParametro as SELECT env.*,lab.Area,pa.Parametro,en.Nombre,en.Volumen,pre.Preservacion, uni.Unidad FROM envase_parametro as env
+CREATE VIEW ViewEnvaseParametro as SELECT env.*,lab.Area,pa.Parametro,pa.Rama,pa.Tipo_formula,en.Nombre,en.Volumen,pre.Preservacion, uni.Unidad,lab.Id_area FROM envase_parametro as env
 INNER JOIN areas_lab as lab
 ON env.Id_analisis = lab.Id_area
-INNER JOIN parametros as pa
+INNER JOIN ViewParametros as pa
 ON env.Id_parametro = pa.Id_parametro
 INNER JOIN envase as en
 ON env.Id_envase = en.Id_envase
@@ -393,7 +393,6 @@ INNER JOIN preservacion as pre
 ON env.Id_preservador = pre.Id_preservacion
 INNER JOIN unidades as uni
 ON en.Id_unidad = uni.Id_unidad
-
 /* Lista ViewLoteDetalleDqo */ 
 
 CREATE VIEW ViewLoteDetalleDqo as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_dqo as col
@@ -473,3 +472,8 @@ ON c.Id_conCalidad = con.Id_conductividad
 CREATE VIEW ViewCampoConTrazable as SELECT c.*,con.Conductividad,con.Marca,con.Lote,con.Inicio_caducidad,con.Fin_caducidad FROM campo_conTrazable as c
 INNER JOIN conductividad_trazable as con
 ON c.Id_conTrazable = con.Id_conductividad
+
+/* Vista ViewEnvaseParametroSol */
+CREATE VIEW ViewEnvaseParametroSol as SELECT env.Id_env,env.Id_analisis,env.Id_parametro,env.Id_envase,env.Id_preservador,env.Nombre,env.Volumen,env.Preservacion,env.Unidad as UniEnv,env.Id_area ,env.Area,pa.Id_solicitud,pa.Extra,pa.Parametro,pa.Area_analisis,pa.Id_tipo_formula,pa.Asignado,pa.Folio_servicio,pa.Metodo_prueba,pa.Unidad FROM ViewEnvaseParametro as env 
+INNER JOIN ViewSolicitudParametros as pa
+ON env.Id_parametro = pa.Id_parametro

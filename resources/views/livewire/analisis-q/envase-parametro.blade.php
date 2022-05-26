@@ -89,9 +89,9 @@
                                 <option value="0">Sin seleccionar</option>
                                 @foreach ($parametros as $item)
                                     @if ($item->Envase != 0)
-                                        <option value="{{$item->Id_parametro}}" style="color:crimson" disabled>{{$item->Parametro}}</option>
+                                        <option value="{{$item->Id_parametro}}" style="color:crimson" disabled>{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
                                     @else
-                                        <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
+                                        <option value="{{$item->Id_parametro}}">{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
                                     @endif
                                 @endforeach
                            </select>

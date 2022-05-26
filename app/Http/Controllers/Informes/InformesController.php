@@ -14,6 +14,8 @@ use App\Models\GastoMuestra;
 use App\Models\Limite001;
 use App\Models\Norma;
 use App\Models\Parametro;
+use App\Models\PhMuestra;
+use App\Models\TemperaturaMuestra;
 use App\Models\ProcesoAnalisis;
 use App\Models\PuntoMuestreoSir;
 use App\Models\Solicitud;
@@ -3500,6 +3502,27 @@ class InformesController extends Controller
         $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->orderBy('Parametro', 'ASC')->get();
         $paramResultadoLength = $paramResultado->count();
 
+        $recibidos = PhMuestra::where('Id_solicitud',$idSol)->where('Activo', 1)->get();
+        $recibidosLength = $recibidos->count();
+        $gastosModel2 = GastoMuestra::where('Id_solicitud', $idSol)->where('Activo', 1)->get();
+        $gastosModelLength2 = $gastosModel2->count();
+        $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
+        $gastosModelLength = $gastosModel->count();
+        $tempModel = TemperaturaMuestra::where('Id_solicitud', $idSol)->where('Activo', 1)->get();
+        $tempLength = $tempModel->count();
+        $promGastos = 0;
+
+        //Promedio temperatura
+        foreach($gastosModel2 as $item){
+            if($item->Promedio == NULL){
+                $promGastos += 0;
+            }else{
+                $promGastos += $item->Promedio;
+            }
+        }
+
+        $promGastos = $promGastos / $gastosModelLength2;
+
         $gaMenorLimite = false;
 
         $limitesC = array();
@@ -3513,14 +3536,10 @@ class InformesController extends Controller
             $limiteGrasas = $limC;
 
             $gaMenorLimite = true;
-        } else {  //Si es mayor el resultado que el límite de cuantificación
+        } else {  //Si es mayor el resultado que el límite de cuantificación            
             $limC = $paramGrasasResultado->Resultado;
-
-            $limiteGrasas = $limC;
-        }
-
-        $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
-        $gastosModelLength = $gastosModel->count();
+            $limiteGrasas = $limC;            
+        }        
 
         //Calcula el promedio ponderado de las grasas y aceites
         if ($gaMenorLimite === false) {
@@ -3593,10 +3612,9 @@ class InformesController extends Controller
             $limiteColiformes = $limC;
 
             $coliformesMenorLimite = true;
-        } else {  //Si es mayor el resultado que el límite de cuantificación
+        } else {  //Si es mayor el resultado que el límite de cuantificación            
             $limC = $paramColiformesResultado->Resultado;
-
-            $limiteColiformes = $limC;
+            $limiteColiformes = $limC;            
         }
 
         //Calcula la media aritmética de los coliformes
@@ -3630,21 +3648,55 @@ class InformesController extends Controller
 
         $gastoPromFinal = $gastoPromSuma / $gastosModelLength;
 
+        //Promedio de ph
+        $promPh = 0;
+
+        foreach($recibidos as $item){
+            $promPh += $item->Promedio;
+        }
+
+        $promPh /= $recibidosLength;
+
+        //Promedio de temperatura
+        $promTemp = 0;
+
+        foreach($tempModel as $item){
+            $promTemp += $item->Promedio;
+        }
+
+        $promTemp /= $tempLength;
+
         //Recupera los límites de cuantificación de los parámetros        
         foreach ($paramResultado as $item) {
             $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
 
             if ($item->Resultado < $limiteC->Limite) {
-                $limC = "< " . $limiteC->Limite;
+                if($item->Id_parametro == 27){
+                    $limC = number_format($promGastos, 2, ".", ",");
+                }else if($item->Id_parametro == 15){ //pH
+                    $limC = number_format($promPh, 2, ".", ",");
+                }else if($item->Id_parametro == 98){ //temperatura
+                    $limC = number_format($promTemp, 2, ".", ",");
+                }else{
+                    $limC = "< " . $limiteC->Limite;
+                }                
 
                 array_push($limitesC, $limC);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                $limC = $item->Resultado;
+                if($item->Id_parametro == 27){ //Gasto
+                    $limC = number_format($promGastos, 2, ".", ",");                    
+                }if($item->Id_parametro == 15){ //pH
+                    $limC = number_format($promPh, 2, ".", ",");                    
+                }else if($item->Id_parametro == 98){ //temperatura
+                    $limC = number_format($promTemp, 2, ".", ",");
+                }else{
+                    $limC = $item->Resultado;
+                }                                
 
                 array_push($limitesC, $limC);
             }
         }
-
+        
         $paquete = DB::table('ViewPlanPaquete')->where('Id_paquete', $model->Id_subnorma)->distinct()->get();
         $paqueteLength = $paquete->count();
 
@@ -3661,14 +3713,13 @@ class InformesController extends Controller
             // }
         }
 
-        $fechaEmision = \Carbon\Carbon::now();
-        $tipoMuestra = DB::table('tipo_descargas')->where('Id_tipo', $model->Id_muestreo)->first();
+        $fechaEmision = \Carbon\Carbon::now();        
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
 
         $mpdf->showWatermarkImage = true;
 
         $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', 
-        compact('model', 'paquete', 'paqueteLength', 'tipoMuestra', 'norma', 'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'responsables', 'promedioPonderadoGA', 'mAritmeticaColi', 'gastoPromFinal'));
+        compact('model', 'paquete', 'paqueteLength', 'norma','recibidos' ,'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'responsables', 'promedioPonderadoGA', 'mAritmeticaColi', 'gastoPromFinal'));
 
         $mpdf->WriteHTML($htmlInforme);
 
@@ -3704,6 +3755,27 @@ class InformesController extends Controller
         $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->orderBy('Parametro', 'ASC')->get();
         $paramResultadoLength = $paramResultado->count();
 
+        $recibidos = PhMuestra::where('Id_solicitud',$idSol)->where('Activo', 1)->get();
+        $recibidosLength = $recibidos->count();
+        $gastosModel2 = GastoMuestra::where('Id_solicitud', $idSol)->where('Activo', 1)->get();
+        $gastosModelLength2 = $gastosModel2->count();
+        $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
+        $gastosModelLength = $gastosModel->count();
+        $tempModel = TemperaturaMuestra::where('Id_solicitud', $idSol)->where('Activo', 1)->get();
+        $tempLength = $tempModel->count();
+        $promGastos = 0;
+
+        //Promedio temperatura
+        foreach($gastosModel2 as $item){
+            if($item->Promedio == NULL){
+                $promGastos += 0;
+            }else{
+                $promGastos += $item->Promedio;
+            }
+        }
+
+        $promGastos = $promGastos / $gastosModelLength2;
+
         $gaMenorLimite = false;
 
         $limitesC = array();
@@ -3717,14 +3789,10 @@ class InformesController extends Controller
             $limiteGrasas = $limC;
 
             $gaMenorLimite = true;
-        } else {  //Si es mayor el resultado que el límite de cuantificación
+        } else {  //Si es mayor el resultado que el límite de cuantificación            
             $limC = $paramGrasasResultado->Resultado;
-
-            $limiteGrasas = $limC;
-        }
-
-        $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
-        $gastosModelLength = $gastosModel->count();
+            $limiteGrasas = $limC;            
+        }        
 
         //Calcula el promedio ponderado de las grasas y aceites
         if ($gaMenorLimite === false) {
@@ -3797,10 +3865,9 @@ class InformesController extends Controller
             $limiteColiformes = $limC;
 
             $coliformesMenorLimite = true;
-        } else {  //Si es mayor el resultado que el límite de cuantificación
+        } else {  //Si es mayor el resultado que el límite de cuantificación            
             $limC = $paramColiformesResultado->Resultado;
-
-            $limiteColiformes = $limC;
+            $limiteColiformes = $limC;            
         }
 
         //Calcula la media aritmética de los coliformes
@@ -3834,21 +3901,55 @@ class InformesController extends Controller
 
         $gastoPromFinal = $gastoPromSuma / $gastosModelLength;
 
+        //Promedio de ph
+        $promPh = 0;
+
+        foreach($recibidos as $item){
+            $promPh += $item->Promedio;
+        }
+
+        $promPh /= $recibidosLength;
+
+        //Promedio de temperatura
+        $promTemp = 0;
+
+        foreach($tempModel as $item){
+            $promTemp += $item->Promedio;
+        }
+
+        $promTemp /= $tempLength;
+
         //Recupera los límites de cuantificación de los parámetros        
         foreach ($paramResultado as $item) {
             $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
 
             if ($item->Resultado < $limiteC->Limite) {
-                $limC = "< " . $limiteC->Limite;
+                if($item->Id_parametro == 27){
+                    $limC = number_format($promGastos, 2, ".", ",");
+                }else if($item->Id_parametro == 15){ //pH
+                    $limC = number_format($promPh, 2, ".", ",");
+                }else if($item->Id_parametro == 98){ //temperatura
+                    $limC = number_format($promTemp, 2, ".", ",");
+                }else{
+                    $limC = "< " . $limiteC->Limite;
+                }                
 
                 array_push($limitesC, $limC);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                $limC = $item->Resultado;
+                if($item->Id_parametro == 27){ //Gasto
+                    $limC = number_format($promGastos, 2, ".", ",");                    
+                }if($item->Id_parametro == 15){ //pH
+                    $limC = number_format($promPh, 2, ".", ",");                    
+                }else if($item->Id_parametro == 98){ //temperatura
+                    $limC = number_format($promTemp, 2, ".", ",");
+                }else{
+                    $limC = $item->Resultado;
+                }                                
 
                 array_push($limitesC, $limC);
             }
         }
-
+        
         $paquete = DB::table('ViewPlanPaquete')->where('Id_paquete', $model->Id_subnorma)->distinct()->get();
         $paqueteLength = $paquete->count();
 
@@ -3856,22 +3957,22 @@ class InformesController extends Controller
 
         foreach ($paquete as $item) {
             //INSTRUCCIÓN TEMPORAL
-            if (!is_null($item)) {
-                $responsableArea = AreaLab::where('Area', $item->Area)->first();
-                $modelResponsable = DB::table('users')->where('id', $responsableArea->Id_responsable)->first();
-                $responsable = $modelResponsable->name;
+            // if (!is_null($item)) {
+            //     $responsableArea = AreaLab::where('Area', $item->Area)->first();
+            //     $modelResponsable = DB::table('users')->where('id', $responsableArea->Id_responsable)->first();
+            //     $responsable = $modelResponsable->name;
 
-                array_push($responsables, $responsable);
-            }
+            //     array_push($responsables, $responsable);
+            // }
         }
 
-        $fechaEmision = \Carbon\Carbon::now();
-        $tipoMuestra = DB::table('tipo_descargas')->where('Id_tipo', $model->Id_muestreo)->first();
+        $fechaEmision = \Carbon\Carbon::now();        
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
 
         $mpdf->showWatermarkImage = true;
 
-        $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', compact('model', 'paquete', 'paqueteLength', 'tipoMuestra', 'norma', 'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'responsables', 'promedioPonderadoGA', 'mAritmeticaColi', 'gastoPromFinal'));
+        $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', 
+        compact('model', 'paquete', 'paqueteLength', 'norma','recibidos' ,'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'responsables', 'promedioPonderadoGA', 'mAritmeticaColi', 'gastoPromFinal'));
 
         $mpdf->WriteHTML($htmlInforme);
 

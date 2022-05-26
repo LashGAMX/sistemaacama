@@ -247,6 +247,9 @@
                                     <label for="tipoReporte">Tipo de reporte</label>
                                     <select name="tipoReporte" id="tipoReporte" class="form-control">
                                         <option value="0">Sin seleccionar</option>
+                                        @foreach ($categorias001 as $item)
+                                        <option value="{{$item->Id_categoria}}">{{$item->Categoria}}</option>
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -667,6 +670,6 @@
     @endsection
     @section('javascript')
 
-        <script src="{{ asset('/public/js/cotizacion/create.js') }}?v=0.0.2"></script>
+        <script src="{{ asset('/public/js/cotizacion/create.js') }}?v=0.0.3"></script>
         
     @stop

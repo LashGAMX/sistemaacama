@@ -75,9 +75,6 @@
             <div class="col-12 negrita">
                 2. RECIPIENTES UTILIZADOS
             </div>
-            <div class="col-12">
-                Todas las muestras se conservan en hielo a una temperatura de 4 +- 2°C
-            </div>
             <div class="col-md-12">
                 <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}" width="100%">
                     <thead>
@@ -92,23 +89,51 @@
                         </tr>
                     </thead>
 
-                    <tbody>                                           
-                        @for ($i = 0; $i < @$paramSolicitudLength; $i++)
-                            @if (@$envasesArray[$i] !== NULL)
-                                <tr>
-                                    <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Id_env}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Area}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Parametro}}</td>
-                                    <td class="bordesTablaInfIzqDer">{{@$envasesArray[$i]->Nombre}} {{@$envasesArray[$i]->Volumen}} {{@$envasesArray[$i]->Unidad}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer">{{@$envasesArray[$i]->Volumen}}</td>                                    
-                                    <td class="bordesTablaInfIzqDer">{{@$envasesArray[$i]->Preservacion}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer">SI</td>                                    
-                                </tr>
+                    <tbody>         
+                        
+                        @foreach (@$areaModel as $item)
+                            @php
+                            $cont = 0;
+                            $mod = DB::table('ViewEnvaseParametroSol')->where('Id_area',$item->Id_area)->where('Id_solicitud',$model->Id_solicitud)->orderBy('Parametro','asc')->get();       
+                            @endphp                                  
+                                @if ($mod->count())
+                                   @foreach ($mod as $item2)
+                                    @if ($cont == 0) 
+                                    <tr class="bordesTablaSup">
+                                        @if ($item2->Id_area == 2 || $item2->Id_area == 7 || $item2->Id_area == 16)
+                                            <td class="justifyCenter  fontSize7">{{$model->Num_tomas}}</td>
+                                        @else
+                                            <td class="justifyCenter  fontSize7">1</td>
+                                        @endif
+                                        <td class="justifyCenter  fontSize7">{{$item2->Area}}</td>
+                                        <td class="justifyCenter  fontSize7">{{$item2->Parametro}}</td>
+                                        <td class=" fontSize7">{{$item2->Nombre}} {{$item2->Volumen}} {{$item2->UniEnv}}</td>
+                                        <td class="justifyCenter  fontSize7">{{$item2->Volumen}} {{$item2->UniEnv}}</td>                                    
+                                        <td class=" fontSize7">{{$item2->Preservacion}}</td>
+                                        <td class="justifyCenter  fontSize7">SI</td>                                    
+                                    </tr>
+                                    @php $cont++; @endphp
+                                    @else
+                                    <tr>
+                                        <td class="justifyCenter  fontSize7"></td>
+                                        <td class="justifyCenter  fontSize7"></td>
+                                        <td class="justifyCenter  fontSize7">{{$item2->Parametro}}</td>
+                                        <td class=" fontSize7">{{$item2->Nombre}} {{$item2->Volumen}} {{$item2->UniEnv}}</td>
+                                        <td class="justifyCenter  fontSize7">{{$item2->Volumen}} {{$item2->UniEnv}}</td>                                    
+                                        <td class=" fontSize7">{{$item2->Preservacion}}</td>
+                                        <td class="justifyCenter  fontSize7">SI</td>                                    
+                                    </tr>
+                                    @endif
+                                   @endforeach
                             @endif
-                        @endfor                        
+                        @endforeach
+                                      
                     </tbody>
                     
                 </table>
+            </div>
+            <div class="col-12">
+                Todas las muestras se conservan en hielo a una temperatura de 4 +- 2°C
             </div>
             <div class="col-12 negrita">
                 3. DATOS DE CAMPO

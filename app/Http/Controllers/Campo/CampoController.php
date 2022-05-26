@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Campo;
 
 use App\Http\Controllers\Controller;
+use App\Models\AreaAnalisis;
 use App\Models\AreaLab;
 use App\Models\CampoCompuesto;
 use App\Models\CampoConCalidad;
@@ -17,6 +18,7 @@ use App\Models\ConductividadMuestra;
 use App\Models\ConductividadTrazable;
 use App\Models\ConTratamiento;
 use App\Models\Envase;
+use App\Models\Frecuencia001;
 use App\Models\Evidencia;
 use App\Models\GastoMuestra;
 use App\Models\HistorialCampoAsignar;
@@ -1085,16 +1087,11 @@ class CampoController extends Controller
         $firmaRes = DB::table('users')->where('id',$solGen->Id_muestreador)->first();
 
         //Recupera los parámetros de la solicitud
-        $paramSolicitud = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $id)->get();
+        $paramSolicitud = DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $id)->get();
         $paramSolicitudLength = $paramSolicitud->count();
-        $envasesArray = array();
-
-        foreach($paramSolicitud as $item){
-            $modelEnvase = DB::table('ViewEnvaseParametro')->where('Id_parametro', $item->Id_parametro)->first();            
-
-            array_push($envasesArray, $modelEnvase);
-        }            
-
+    
+        $areaModel = AreaLab::all();
+      
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
             'margin_left' => 2,
@@ -1110,7 +1107,7 @@ class CampoController extends Controller
             array(0, 0),
         );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.hojaCampo',compact('model', 'modelCompuesto', 'numOrden', 'punto', 'puntos', 'puntoMuestreo', 'phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'envasesArray', 'paramSolicitudLength', 'recepcion', 'firmaRes', 'direccion'));
+        $html = view('exports.campo.hojaCampo',compact('model', 'modelCompuesto', 'areaModel','numOrden', 'punto', 'puntos', 'puntoMuestreo', 'phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'paramSolicitudLength', 'recepcion', 'firmaRes', 'direccion'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $htmlFooter = view('exports.campo.hojaCampoFooter');        
@@ -1193,6 +1190,8 @@ class CampoController extends Controller
     public function bitacoraCampo($id)
     {
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
+        $modelCot = DB::table('ViewCotizacion')->where('Id_cotizacion', $model->Id_cotizacion)->first();
+        $frecuenciaMuestreo = Frecuencia001::where('Id_frecuencia', $modelCot->Frecuencia_muestreo)->first();
 
         if($model->Siralab == 1){//Es cliente Siralab
             $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $model->Id_sucursal)->get();
@@ -1203,6 +1202,7 @@ class CampoController extends Controller
             // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
             $puntos = $puntoMuestreo->count();
         }
+        $tipoReporte = DB::table('categorias001')->where('Id_categoria',$model->Id_reporte)->first();
 
         $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$id)->first();
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud',$id)->first();
@@ -1325,9 +1325,9 @@ class CampoController extends Controller
             array(0, 0), 
         );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.bitacoraCampo',compact('model','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra', 
+        $html = view('exports.campo.bitacoraCampo',compact('model','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra', 'tipoReporte',
         'gastoTotal', 'campoGen','tempMuestra','conMuestra','muestreador','phTrazable','campoConTrazable', 'metodoAforo', 'proceMuestreo', 
-        'conTratamiento', 'tipoTratamiento', 'campoCompuesto', 'factorCorreccion', 'factorCorreccionLength', 'puntoMuestreo', 'puntos', 'factores', 'factoresAplicados', 'factorTemp', 'factorCorrTemp'));
+        'conTratamiento', 'tipoTratamiento', 'campoCompuesto', 'factorCorreccion', 'factorCorreccionLength', 'puntoMuestreo', 'puntos', 'factores', 'factoresAplicados', 'factorTemp', 'factorCorrTemp', 'frecuenciaMuestreo'));
         $mpdf->CSSselectMedia = 'mpdf';
 
         $htmlHeader = view('exports.campo.bitacoraCampoHeader', compact('model'));

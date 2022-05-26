@@ -49,7 +49,7 @@
                             @if (@$cotizacion->Tomas == 1)
                             {{@$cotizacion->Servicio}} {{@$cotizacion->Tipo_muestra}}
                             @else
-                            {{@$cotizacion->Servicio}} ({{@$cotizacion->Tipo_muestra}} de {{@$cotizacion->Tomas}} tomas)
+                            {{@$cotizacion->Servicio}} ({{@$frecuenciaMuestreo->Frecuencia_muestreo}})
                             @endif
                         </td>
                     </tr>
@@ -80,7 +80,7 @@
                     </tr>
                     <tr>
                         <td style="width: 25%">Parametros especiales</td>
-                            <td style="height: 200px;border: 1px solid; color:red" class="border">
+                            <td style="height: 100px;border: 1px solid; color:red" class="border">
                                 @php
                                     $cont = 0;
                                 @endphp
@@ -89,7 +89,7 @@
                                         @php
                                         $cont++;    
                                         @endphp
-                                        {{$item->Parametro}}
+                                        {{$item->Parametro}},
                                     @endif    
                                 @endforeach
                                 @if ($cont == 0)

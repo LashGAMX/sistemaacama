@@ -13,6 +13,7 @@ use App\Models\CotizacionMuestreo;
 use App\Models\CotizacionParametros;
 use App\Models\CotizacionPunto;
 use App\Models\DireccionReporte;
+use App\Models\Frecuencia001;
 use App\Models\Intermediario;
 use App\Models\Norma;
 use App\Models\NormaParametros;
@@ -820,6 +821,7 @@ class SolicitudController extends Controller
         $direccion = SucursalCliente::where('Id_sucursal', $model->Id_sucursal)->first();
         $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $model->Id_solicitud)->orderBy('Parametro','ASC')->get();
         $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion', $idOrden)->first();
+        $frecuenciaMuestreo = Frecuencia001::where('Id_frecuencia', $cotizacion->Frecuencia_muestreo)->first();
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
@@ -837,7 +839,7 @@ class SolicitudController extends Controller
         );
 
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.cotizacion.ordenServicio', compact('model', 'parametros', 'qr', 'cotizacion', 'direccion'));
+        $html = view('exports.cotizacion.ordenServicio', compact('model', 'parametros', 'qr', 'cotizacion', 'direccion', 'frecuenciaMuestreo'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output();

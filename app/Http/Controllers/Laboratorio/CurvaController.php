@@ -95,7 +95,7 @@ class CurvaController extends Controller
         $now = Carbon::now();
         $now->toDateString();
         //$loteAnalisis = LoteAnalisis::where('Id_lote',$request->idLote)->first();
-        $estandares  = CurvaConstantes::where('Estado', 1)->first();
+        $estandares  = CurvaConstantes::whereDate('Fecha_fin', '>=', $now)->first();
 
         $paraModel = Parametro::find($request->idParametro);
         $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
