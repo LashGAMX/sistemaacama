@@ -435,7 +435,7 @@ function buscar(){
                 tab += '    <tbody>'; 
                 console.log('cont inicial:'+cont)
                 $.each(response.stdModel, function (key, item) {
-                    idLote = item.Id_lote;
+                    idLote = item.Id_std;
                   if(cont == 0) 
                   {
                     tab += '<tr>';
