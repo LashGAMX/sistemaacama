@@ -60,14 +60,14 @@
                     <tr>
                         <td class="bordesTablaInfIzqDer">PUNTO DE MUESTREO</td>
                         <td class="negrita bordesTablaInfIzqDer" colspan="5">
-                            @for ($i = 0; $i < @$puntos; $i++)
+                            {{-- @for ($i = 0; $i < @$puntos; $i++) --}}
                                 @if (@$model->Siralab == 1)
-                                    {{@$puntoMuestreo[$i]->Punto}} (anexo {{@$puntoMuestreo[$i]->Anexo}})<br>  
+                                    {{@$puntoMuestreo[0]->Punto}} (anexo {{@$puntoMuestreo[0]->Anexo}})<br>  
                                 @else
-                                    {{@$puntoMuestreo[$i]->Punto_muestreo}} <br>
+                                    {{@$puntoMuestreo[0]->Punto_muestreo}} <br>
                                 @endif    
                             
-                            @endfor
+                            {{-- @endfor --}}
                         </td>
                     </tr>
                 </table>
