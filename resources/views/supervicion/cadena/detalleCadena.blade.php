@@ -63,7 +63,7 @@
                                             @endif
                                         </tr>
                                     @endforeach
-                                </tbody>
+                                </tbody> 
                             </table>
                         </div>
                         <div class="col-md-6">
@@ -77,7 +77,7 @@
                                         <th>Liberado</th>
                                         <th>Nombre</th>
                                     </tr>
-                                </thead>
+                                </thead> 
                                 <tbody>
                         
                                 </tbody>
@@ -86,17 +86,19 @@
                         </div>
                         <div class="col-md-3">
                             <i class="fas fa-square-root-alt"></i>
-                            <table id="tableDescricion" class="display compact cell-border" style="width:100%">
-                                <thead>
-                                    <tr>                                     
-                                     <th>Descripcion</th>
-                                     <th>Valor</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                        
-                                </tbody>
-                            </table>
+                            <div id="divTabDescripcion">
+                                <table id="tableResultado" class="display compact cell-border" style="width:100%">
+                                    <thead>
+                                        <tr>                                     
+                                         <th>Descripcion</th>
+                                         <th>Valor</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                            
+                                    </tbody>
+                                </table>
+                            </div>
                             <table>
                                 <tr>
                                     <td>Resultado</td>
@@ -114,5 +116,5 @@
 
 @endsection
 @section('javascript')
-<script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=0.0.2"></script>
+<script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=0.0.3"></script>
 @stop

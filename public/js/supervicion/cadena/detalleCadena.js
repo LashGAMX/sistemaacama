@@ -32,7 +32,7 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos encontrados",
         }
     });   
-    $('#tableDescricion').DataTable({        
+    $('#tableResultado').DataTable({        
         "ordering": false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
@@ -130,6 +130,10 @@ function getParametros()
 }
 function getDetalleAnalisis(idCodigo)
 {
+    let tabla = document.getElementById('divTabDescripcion');
+    let tab = '';
+    tabla.innerHTML = tab;
+    
     $("#resDes").val(0.0)
     $.ajax({ 
         type: 'POST',
@@ -141,9 +145,61 @@ function getDetalleAnalisis(idCodigo)
         },
         dataType: "json",
         async: false,
-        success: function (response) {      
+        success: function (response) {     
+            console.log(response) 
             dataModel = response.model
+
+
+            if(response.paraModel.Id_area == 13)
+            {
+                tab += '<table id="tableResultado" class="table table-sm">';
+                tab += '    <thead class="thead-dark">';
+                tab += '        <tr>';
+                tab += '          <th>Descripcion</th>';
+                tab += '          <th>Valor</th>';
+                tab += '        </tr>';
+                tab += '    </thead>';
+                tab += '    <tbody>';
+                $.each(response.model, function (key, item) {
+                    tab += '<tr>'; 
+                    tab += '<td>'+response.paraModel.Parametro+'</td>';
+                    tab += '<td>'+item.Resultado+'</td>';
+                    tab += '</tr>';
+                });
+                tab += '    </tbody>';
+                tab += '</table>';
+                tabla.innerHTML = tab;
+            } else if(response.paraModel.Id_area == 6)
+            {
+                tab += '<table id="tableResultado" class="table table-sm">';
+                tab += '    <thead class="thead-dark">';
+                tab += '        <tr>';
+                tab += '          <th>Descripcion</th>';
+                tab += '          <th>Valor</th>';
+                tab += '        </tr>';
+                tab += '    </thead>';
+                tab += '    <tbody>';
+                $.each(response.model, function (key, item) {
+                    tab += '<tr>'; 
+                    tab += '<td>'+response.paraModel.Parametro+'</td>';
+                    tab += '<td>'+item.Resultado+'</td>';
+                    tab += '</tr>';
+                });
+                tab += '    </tbody>';
+                tab += '</table>';
+                tabla.innerHTML = tab;
+            }
             $("#resDes").val(response.model.Resultado)
+            let tableResultado = $('#tableResultado').DataTable({        
+                "ordering": false,
+                "language": {
+                    "lengthMenu": "# _MENU_ por pagina",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",
+                }
+            });  
+            
         } 
     });
 }

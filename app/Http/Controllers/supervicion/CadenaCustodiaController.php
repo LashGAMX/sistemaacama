@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Supervicion;
 
 use App\Http\Controllers\Controller;
 use App\Models\LoteDetalle;
+use App\Models\LoteDetalleColiformes;
 use App\Models\LoteDetalleEspectro;
+use App\Models\LoteDetalleGA;
 use App\Models\LoteDetalleNitrogeno;
 use App\Models\Solicitud;
 use Illuminate\Http\Request;
@@ -40,14 +42,23 @@ class CadenaCustodiaController extends Controller
     } 
     public function getDetalleAnalisis(Request $res)
     {
-        $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo',$res->idCodigo)->first();
+        $codigoModel = DB::table('ViewCodigoParametro')->where('Id_solicitud',$res->idSol)->where('Id_codigo',$res->idCodigo)->first();
         $paraModel = DB::table('ViewParametros')->where('Id_parametro',$codigoModel->Id_parametro)->first();
         switch ($paraModel->Id_area) {
             case 2:
                 $model = LoteDetalle::where('Id_codigo',$codigoModel->Id_codigo)->first();
                 break;
+            case 6: // Microbiologia
+                    if($codigoModel->Id_parametro == 13)
+                    {
+                        $model = LoteDetalleColiformes::where('Id_analisis',$res->idSol)->where('Id_control',1)->get();
+                    }
+                    break;
             case 16: //Espectrofotometria
                 $model = LoteDetalleEspectro::where('Id_codigo',$codigoModel->Id_codigo)->first();
+                break;
+            case 13: // G&A
+                $model = LoteDetalleGA::where('Id_analisis',$res->idSol)->where('Id_control',1)->get();
                 break;
             case 14: //volmetria
                 if($codigoModel->Id_parametro == 12)
