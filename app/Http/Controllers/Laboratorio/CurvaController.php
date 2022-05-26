@@ -64,10 +64,10 @@ class CurvaController extends Controller
      public function buscar(Request $request){
         $fecha = new Carbon($request->fecha);
         $lote = LoteAnalisis::where('Fecha', $request->fecha)->first();
-        $model = estandares::where('Estado', 1)->get(); 
+        $model = estandares::where('Estado', 1)->where('Id_parametro', $request->parametro)->get(); 
         //$loteDetalle = LoteDetalle::where('Id_lote',$request->idLote)->first();
         $concent = ConcentracionParametro::where('Id_parametro',$request->parametro)->get();
-        $bmr = CurvaConstantes::where('Id_lote', $lote->id_lote)->first();
+        $bmr = CurvaConstantes::where('Estado', 1)->first();
 
         if($model->count()){
             $sw = true;  
