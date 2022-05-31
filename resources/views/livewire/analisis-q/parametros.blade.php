@@ -167,7 +167,7 @@
                             <label for="limite">Límite Cuantificación</label>
                            <input type="text" wire:model='limite' class="form-control" placeholder="Limite">
                            @error('limite') <span class="text-danger">{{ $message  }}</span> @enderror
-                          </div>w
+                          </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">

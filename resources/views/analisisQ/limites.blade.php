@@ -33,6 +33,10 @@
                           @case(2)
                             @livewire('analisis-q.limite-parametros002', ['idParametro' => @$idParametro,'idNorma' => @$idNorma])        
                               @break
+                          @case(4) //Nom003
+                            @livewire('analisis-q.limite-parametros003', ['idParametro' => @$idParametro,'idNorma' => @$idNorma])        
+                              @break
+                                
                           @default
                               
                       @endswitch
