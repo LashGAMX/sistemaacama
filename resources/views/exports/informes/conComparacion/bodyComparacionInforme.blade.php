@@ -28,8 +28,7 @@
             <tbody>
                 @for ($i = 0; $i < @$solicitudParametrosLength; $i++)
                     <tr>
-                        <td class="tableContent bordesTablaBody" height="25">{{ @$solicitudParametros[$i]->Parametro }}
-                        </td>
+                        <td class="tableContent bordesTablaBody" height="25">{{ @$solicitudParametros[$i]->Parametro }}<sup>{{$sParam[$i]}}</sup></td>
                         <td class="tableContent bordesTablaBody">{{ @$solicitudParametros[$i]->Metodo_prueba }}</td>
                         <td class="tableContent bordesTablaBody">{{ @$solicitudParametros[$i]->Unidad }}</td>
                         <td class="tableContent bordesTablaBody">

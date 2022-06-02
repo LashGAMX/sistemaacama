@@ -29,7 +29,7 @@
             <tbody>
                 @for ($i = 0; $i <@$modelLength ; $i++) 
                     <tr>
-                        <td class="tableContentLeft bordesTablaBody">{{@$model[$i]->Parametro}}</td>
+                        <td class="tableContentLeft bordesTablaBody">{{@$model[$i]->Parametro}}<sup>{{@$sParam[$i]}}</sup></td>
                         <td class="tableContent bordesTablaBody">{{@$model[$i]->Unidad}}</td>
                         <td class="tableContent bordesTablaBody">{{@$model[$i]->Clave_metodo}}</td>
                         <td class="tableContent bordesTablaBody">

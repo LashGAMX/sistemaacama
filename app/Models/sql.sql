@@ -435,7 +435,7 @@ ON pu.Id_muestreo = gen.Id_punto
 
 /*Lista ViewCodigoParametro */
 
-CREATE VIEW ViewCodigoParametro AS  SELECT cod.*,sol.Folio_servicio,sub.Id_subnorma,sub.Id_norma,sub.Norma,sub.Clave,pa.Parametro,pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo FROM codigo_parametro as cod
+CREATE VIEW ViewCodigoParametro AS SELECT cod.*,sol.Folio_servicio,sub.Id_subnorma,sub.Id_norma,sub.Norma,sub.Clave,pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo FROM codigo_parametro as cod
 INNER JOIN solicitudes as sol
 ON cod.Id_solicitud = sol.Id_solicitud
 INNER JOIN sub_normas as sub
