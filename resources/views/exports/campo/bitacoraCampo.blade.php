@@ -246,7 +246,7 @@
 
                     <tr>
                         <td class="fontNormal fontCalibri fontSize12">TIPO DE MUESTREO</td>
-                        <td class="fontBold fontCalibri fontSize12">{{@$model->Id_muestra}}</td>
+                        <td class="fontBold fontCalibri fontSize12">{{@$model->Id_muestra}} ({{@$frecuenciaMuestreo->Frecuencia_muestreo}})</td>
                         <td class="fontNormal fontCalibri fontSize12">NUMERO DE MUESTRAS</td>
                         <td class="fontBold fontCalibri fontSize12">{{@$model->Num_tomas}}</td>
                     </tr>
@@ -254,9 +254,10 @@
                     <tr>
                         <td class="fontNormal fontCalibri fontSize12">MATERIAL USADO EN EL MUESTREO</td>
                         <td class="fontNormal fontCalibri fontSize10">Ver plan de muestreo RE-11-005</td>
-                        <td class="fontNormal fontCalibri fontSize12">&nbsp;</td>
-                        <td class="fontBold fontCalibri fontSize12">&nbsp;</td>
+                        <td class="fontBold fontCalibri fontSize12">{{$tipoReporte->Categoria}}</td>
+                        
                     </tr>
+                    
                 </table>
             </div>
 

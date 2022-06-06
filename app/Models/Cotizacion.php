@@ -46,7 +46,8 @@ class Cotizacion extends Model
         'Costo_total',
         'Estado_cotizacion', 
         'Creado_por',
-        'Actualizado_por'
+        'Actualizado_por',
+        'Hijo'
     ];
 
 }

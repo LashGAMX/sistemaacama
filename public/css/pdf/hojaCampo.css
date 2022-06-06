@@ -108,7 +108,15 @@ p{
     border-right-width: 0px;
     border-left-width: 0px;    
 }
-
+.bordesTablaSup{    
+    border: 1;
+    border-style: solid;
+    border-color: black ;
+    border-top-width: 0.1px;
+    border-bottom-width: 0px;
+    border-right-width: 0px;
+    border-left-width: 0px;    
+}
 /* @page{margin: 0.2in 0.5in 0.2in 0.5in;} */
 
 /*-----------------------------------------------*/

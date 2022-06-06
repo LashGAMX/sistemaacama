@@ -289,6 +289,7 @@ $('#delRow').click( function () {
 }
 var precioTotal = 0;
 var swUpdateParam = 0;
+var precioAnalisis = 0;
 function getDatos2()
 {
   let suma = 0;
@@ -341,8 +342,11 @@ function getDatos2()
             $("#parametrosCotizacion").val(normaParametro);
             $("#puntosCotizacion").val(puntosMuestro);
             precioAnalisis = response.precioTotal * counterPunto;
+            console.log(response.precioTotal)
+            console.log(precioAnalisis)
             if(sw != 1)
             {
+              console.log("sw = ") 
               $("#precioAnalisis").val(precioAnalisis.toFixed());
               suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed());
               iva = (suma * 16) / 100;
@@ -352,6 +356,7 @@ function getDatos2()
             }
             if(swUpdateParam == 1)
             {
+              console.log("sw = 0")
               $("#precioAnalisis").val(precioAnalisis.toFixed());
               suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed());
               iva = (suma * 16) / 100;

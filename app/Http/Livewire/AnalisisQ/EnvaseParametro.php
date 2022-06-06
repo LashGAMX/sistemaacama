@@ -24,7 +24,7 @@ class EnvaseParametro extends Component
     public $alert =  false;
     public function render()
     {
-        $parametros = Parametro::all();
+        $parametros = DB::table('ViewParametros')->get();
         $areaLab = AreaLab::all();
         $envases = DB::table('ViewEnvases')->get();
         $preservadores = Preservacion::all();

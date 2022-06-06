@@ -12,11 +12,13 @@ class ListaNorma extends Component
 
     public function render() 
     {
+        $norma = $this->idNorma;
+        $idNorma = $this->idNorma;
         $model = Norma::all();
-        return view('livewire.analisis-q.lista-norma',compact('model')); 
+        return view('livewire.analisis-q.lista-norma',compact('model','norma','idNorma')); 
     }
     public function show()
     {
-        return redirect()->to('admin/analisisQ/limites/'.$this->norma);
+        return redirect()->to('admin/analisisQ/limites/'.$this->idNorma);
     }
 }

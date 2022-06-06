@@ -42,14 +42,32 @@
                             N.A INTERPRETAR COMO NO APLICA. <br>
                             N.N INTERPRETAR COMO NO NORMADO. <br>
                             NOTA 2: LOS DATOS EXPRESADOS AVALAN ÚNICAMENTE LOS RESULTADOS DE LA MUESTRA ANALIZADA. <br> <br>
-                            * EL NT SE OBTIENE DE LA SUMA DE N-ORG,N-NH3,N-N-NO3,N-NO2 DE ACUERDO A SUS RESPECTIVAS NORMAS; NMX-AA-026-SCFI-2010, NMX-AA-079-SCFI-2001, STD-NMX-AA-099-SCFI-2021 <br>
-                            ** MALLA DE 3 mm, DE CLARO LIBRE. <br>
-                            *** LA DETERMINACION DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$tempCompuesta->Temp_muestraComp}} Y LA INCERTIDUMBRE DE PH ES DE +/- 0.02 <br>
-                            + MEDIA GEOMETRICA DE 6 MUESTRAS SIMPLES DE COLIFORMES. EL VALOR MINIMO CUANTIFICADO REPORTADO SERÁ DE 3, COMO CRITERIO CALCULADO PARA COLIFORMES EN SIRALAB Y EL LABORATORIO. <br>
-                            ++ PROMEDIO PONDERADO DE 6 MUESTRAS SIMPLES DE GRASAS Y ACEITES. <br>
-                            1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACIÓN ema No. AG-057-025/12, CONTINUARÁ VIGENTE. <br>
-                            1 APROBACIÓN C.N.A. No CNA-GCA-2316, VIGENCIA A PARTIR DEL 18 DE NOVIEMBRE DE 2021 HASTA 18 DE NOVIEMBRE DEL 2023 <br>
-                            1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACIÓN EMA NO. A-0530-047/14, CONTINUARÁ VIGENTE.
+                            @for ($i = 0; $i < sizeof(@$simbologiaParam); $i++)                                                            
+                                @switch(@$simbologiaParam[$i])
+                                    @case(9)
+                                        * EL NT SE OBTIENE DE LA SUMA DE N-ORG,N-NH3,N-N-NO3,N-NO2 DE ACUERDO A SUS RESPECTIVAS NORMAS; NMX-AA-026-SCFI-2010, NMX-AA-079-SCFI-2001, STD-NMX-AA-099-SCFI-2021 <br>
+                                        @break
+                                    @case(10)
+                                        ** MALLA DE 3 mm, DE CLARO LIBRE. <br>
+                                        @break
+                                    @case(11)
+                                        *** LA DETERMINACION DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$tempCompuesta->Temp_muestraComp}} Y LA INCERTIDUMBRE DE PH ES DE +/- 0.02 <br>
+                                        @break
+                                    @case(13)
+                                        + MEDIA GEOMETRICA DE 6 MUESTRAS SIMPLES DE COLIFORMES. EL VALOR MINIMO CUANTIFICADO REPORTADO SERÁ DE 3, COMO CRITERIO CALCULADO PARA COLIFORMES EN SIRALAB Y EL LABORATORIO. <br>
+                                        @break
+                                    @case(14)
+                                        ++ PROMEDIO PONDERADO DE 6 MUESTRAS SIMPLES DE GRASAS Y ACEITES. <br>
+                                        @break
+                                    @case(2)
+                                        1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACIÓN ema No. AG-057-025/12, CONTINUARÁ VIGENTE. <br>
+                                        1 APROBACIÓN C.N.A. No CNA-GCA-2316, VIGENCIA A PARTIR DEL 18 DE NOVIEMBRE DE 2021 HASTA 18 DE NOVIEMBRE DEL 2023 <br>
+                                        @break
+                                    @case(3)
+                                        1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACIÓN EMA NO. A-0530-047/14, CONTINUARÁ VIGENTE.
+                                        @break
+                                @endswitch
+                            @endfor
                         </td>
                     </tr>                
             </tbody>         
