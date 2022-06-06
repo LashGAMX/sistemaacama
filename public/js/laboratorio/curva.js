@@ -398,6 +398,7 @@ function buscar(){
         data: {
           idLote:$("#idLote").val(),
           fecha:$("#fecha").val(),
+          area:$('#area').val(),
           parametro: $("#parametro").val(),
           _token: $('input[name="_token"]').val()
         },
