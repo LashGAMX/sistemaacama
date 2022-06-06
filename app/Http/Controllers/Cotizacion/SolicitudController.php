@@ -160,7 +160,7 @@ class SolicitudController extends Controller
     public function setSolicitudSinCot(Request $request)
     {
 
-        //*************************************************CREACIÓN DE COTIZACIÓN**********************************************
+        //*************************************************CREACIÓN DE COTIZACION**********************************************
         //Representa el año con dos dígitos; ej: 99 (1999) o 03 (2003)
         $year = date("y");
 
@@ -479,6 +479,7 @@ class SolicitudController extends Controller
         $dayYear = date("z") + 1;
         $today = Carbon::now()->format('Y-m-d');
         $solicitudDay = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->count();
+        $solicitudDay = DB::table('solicitudes')->whereDate('created_at', $today)->where('Padre',1)->count();
 
         $numCot = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $request->clientes)->get();
         $firtsFol = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $request->clientes)->first();
