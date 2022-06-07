@@ -1112,6 +1112,7 @@ class MbController extends Controller
         }                           
         
         //Recupera el parámetro que se está utilizando****************************
+        $limiteC = null;
         $parametro = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->first();
 
         if(is_null($parametro)){
@@ -1119,14 +1120,17 @@ class MbController extends Controller
 
             if(!is_null($parametro)){
                 $bandera = 'hh';
+                $limiteC = DB::table('parametros')->where('Id_parametro', $parametro->Id_parametro)->first();
             }else{
                 $parametro = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->first();
                 if(!is_null($parametro)){
                     $bandera = 'dbo';
+                    $limiteC = DB::table('parametros')->where('Id_parametro', $parametro->Id_parametro)->first();
                 }
             }
         }else{
             $bandera = 'coli';
+            $limiteC = DB::table('parametros')->where('Id_parametro', $parametro->Id_parametro)->first();
         }        
         //************************************************************************        
   
@@ -1241,12 +1245,24 @@ class MbController extends Controller
                     $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
      
                     if(!is_null($data)){                                                 
-                        $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();               
+                        $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();
+
+                        $limites = array();
+                        foreach ($data as $item) {
+                            if ($item->Resultado < $limiteC->Limite) {
+                                $limC = "< " . $limiteC->Limite;
+                                array_push($limites, $limC);
+                        } else {  //Si es mayor el resultado que el límite de cuantificación
+                            $limC = $item->Resultado;
+
+                            array_push($limites, $limC);
+                        }
+                    }
                         
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
                         
-                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limites'));
 
                     }else{
                         $sw = false;                        
@@ -1378,12 +1394,24 @@ class MbController extends Controller
      
                     if(!is_null($data)){                        
                         $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();
+
+                        $limites = array();
+                        foreach ($data as $item) {
+                            if ($item->Resultado < $limiteC->Limite) {
+                                $limC = "< " . $limiteC->Limite;
+                                array_push($limites, $limC);
+                            } else {  //Si es mayor el resultado que el límite de cuantificación
+                                $limC = number_format($item->Resultado, 2, ".", ",");
+
+                                array_push($limites, $limC);
+                            }
+                        }
                         
                         $textProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
                         
-                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength'));
+                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limites'));
 
                     }else{
                         $sw = false;                        

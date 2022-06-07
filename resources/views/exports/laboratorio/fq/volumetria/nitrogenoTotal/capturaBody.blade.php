@@ -54,7 +54,7 @@
                         @if (@$data[$i]->Resultado < @$model->Limite)
                             <td class="tableContent"> < {{ @$model->Limite}}</td>
                         @else
-                            <td class="tableContent">{{@$data[$i]->Resultado}}</td>
+                            <td class="tableContent">{{@$limites[$i]}}</td>
                         @endif
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
                         <td class="tableContent">

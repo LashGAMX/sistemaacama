@@ -128,7 +128,7 @@
                 </td>
 
                 <td class="contenidoBody bordesTabla">
-                    {{@$data[$i]->Resultado}}
+                    {{@$limites[$i]}}
                 </td>
 
                 <td class="contenidoBody bordesTabla">

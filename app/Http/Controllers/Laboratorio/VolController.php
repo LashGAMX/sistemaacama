@@ -1189,7 +1189,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1453,7 +1453,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
