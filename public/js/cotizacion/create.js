@@ -270,15 +270,16 @@ function addColPunto()
       ] ).draw( false );
 
       counterPunto++;
+      $("#contPunto").val(counterPunto);
   } );
   $('#puntoMuestro tbody').on( 'click', 'tr', function () {
     if ( $(this).hasClass('selected') ) {
         $(this).removeClass('selected');
+        counterPunto--;
     }
     else {
         t.$('tr.selected').removeClass('selected');
         $(this).addClass('selected');
-        counterPunto--;
     }
 } );
 
@@ -338,7 +339,7 @@ function getDatos2()
 
             getDataParametros();
             getDataMuestreo();
-
+ 
             $("#parametrosCotizacion").val(normaParametro);
             $("#puntosCotizacion").val(puntosMuestro);
             precioAnalisis = response.precioTotal * counterPunto;

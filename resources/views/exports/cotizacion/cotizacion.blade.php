@@ -188,16 +188,29 @@
                     ${{number_format(@$analisisDesc, 2, ".", ",")}}
                 </td>
             </tr>
+                @if (@$model->Tipo_servicio != 3)
+                <tr>
+                    <td class="fontBold fontCalibri fontSize15">PRECIO MUESTREO</td>
+                    <td width="20%">&nbsp;</td>
+                    <td class="fontBold fontCalibri fontSize15 justificadoDer bordeSup" width="35%">$                        
+                        @php
+                            echo number_format(@$model->Precio_muestreo , 2, ".", ",");
+                        @endphp
+                    </td>
+                </tr> 
+                @endif    
+            @endif    
+            @if (@$model->Tipo_servicio != 3)
             <tr>
-                <td class="fontBold fontCalibri fontSize15" width="35%">PRECIO MUESTREO</td>
+                <td class="fontBold fontCalibri fontSize15">PRECIO MUESTREO</td>
                 <td width="20%">&nbsp;</td>
                 <td class="fontBold fontCalibri fontSize15 justificadoDer bordeSup" width="35%">$                        
                     @php
                         echo number_format(@$model->Precio_muestreo , 2, ".", ",");
                     @endphp
                 </td>
-            </tr>
-            @endif            
+            </tr> 
+            @endif        
             <tr>
                 <td class="fontBold fontCalibri fontSize15" width="35%">PARAMETROS ADICIONALES</td>
                 <td width="20%">&nbsp;</td>
@@ -213,7 +226,7 @@
                     <td width="20%">&nbsp;</td>
                     <td class="fontBold fontCalibri fontSize15 justificadoDer bordeSup" width="35%">$      
                         @php                     
-                             echo number_format($subTotal, 2, ".", ",");
+                             echo number_format(@$model->Sub_total, 2, ".", ",");
                         @endphp                  
                                                        
                     </td>
@@ -224,7 +237,7 @@
                     <td>&nbsp;</td>
                     <td class="fontBold fontCalibri fontSize15 justificadoDer">
                         @php                     
-                            echo number_format(((@$subTotal * 16)/100), 2, ".", ",");
+                            echo number_format(((@$model->Sub_total * 16)/100), 2, ".", ",");
                         @endphp
                     </td>
                 </tr>
@@ -234,7 +247,7 @@
                     <td class="bordeIzqDerSinSup">&nbsp;</td>
                     <td class="fontBold fontCalibri fontSize15 justificadoDer bordeIzqDerSinSup">$                        
                         @php
-                            echo number_format(@$subTotal + ((@$subTotal * 16) / 100), 2, ".", ",");
+                            echo number_format(@$model->Sub_total + ((@$model->Sub_total * 16) / 100), 2, ".", ",");
                         @endphp
                     </td>
                 </tr>

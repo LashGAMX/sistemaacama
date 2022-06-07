@@ -327,7 +327,7 @@ class CotizacionController extends Controller
             'Observacion_cotizacion' => $request->observacionCotizacion,
             'Folio' => $folio,
             'Metodo_pago' => $request->metodoPago,
-            'Precio_analisis' => $paquete->Precio,
+            'Precio_analisis' => $paquete->precioAnalisis,
             'Descuento' => $request->descuento,
             'Precio_muestreo' => $request->precioMuestra,
             'Sub_total' => $request->subTotal,
