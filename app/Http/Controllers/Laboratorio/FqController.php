@@ -1895,7 +1895,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1923,7 +1923,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1936,7 +1936,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro == 68 || $parametro->Id_parametro == 69) { //POR REVISAR EN LA TABLA DE DATOS                
+            } else if ($parametro->Id_parametro == 68 || $parametro->Id_parametro == 69) { //POR REVISAR EN LA TABLA DE DATOS; ConductividadElectrica                
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
@@ -1966,7 +1966,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1994,7 +1994,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2050,7 +2050,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2080,7 +2080,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2108,7 +2108,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2136,7 +2136,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2164,7 +2164,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2192,7 +2192,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2220,7 +2220,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2250,7 +2250,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2279,7 +2279,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2337,7 +2337,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2366,7 +2366,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
  
                             array_push($limites, $limC);
                         }
@@ -2424,7 +2424,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2453,7 +2453,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2482,7 +2482,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2511,7 +2511,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2540,7 +2540,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2569,7 +2569,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2598,7 +2598,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 3, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -2715,7 +2715,7 @@ class FqController extends Controller
 
                     array_push($limites, $limC);
                 } else {  //Si es mayor el resultado que el límite de cuantificación
-                    $limC = $item->Resultado;
+                    $limC = number_format($item->Resultado, 3, ".", ",");
 
                     array_push($limites, round($limC,2));
                 }
@@ -2750,7 +2750,7 @@ class FqController extends Controller
 
                         array_push($limites, $limC);
                     } else {  //Si es mayor el resultado que el límite de cuantificación
-                        $limC = $item->Resultado;
+                        $limC = number_format($item->Resultado, 3, ".", ",");
 
                         array_push($limites, $limC);
                     }
@@ -2786,7 +2786,7 @@ class FqController extends Controller
 
                         array_push($limites, $limC);
                     } else {  //Si es mayor el resultado que el límite de cuantificación
-                        $limC = $item->Resultado;
+                        $limC = number_format($item->Resultado, 3, ".", ",");
 
                         array_push($limites, $limC);
                     }
@@ -2813,7 +2813,7 @@ class FqController extends Controller
 
                         array_push($limites, $limC);
                     } else {  //Si es mayor el resultado que el límite de cuantificación
-                        $limC = $item->Resultado;
+                        $limC = number_format($item->Resultado, 3, ".", ",");
 
                         array_push($limites, $limC);
                     }
@@ -2840,7 +2840,7 @@ class FqController extends Controller
 
                         array_push($limites, $limC);
                     } else {  //Si es mayor el resultado que el límite de cuantificación
-                        $limC = $item->Resultado;
+                        $limC = number_format($item->Resultado, 3, ".", ",");
 
                         array_push($limites, $limC);
                     }
@@ -3050,7 +3050,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3076,7 +3076,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3103,7 +3103,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3130,7 +3130,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 0, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3155,7 +3155,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3210,7 +3210,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3237,7 +3237,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3265,7 +3265,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3293,7 +3293,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3321,7 +3321,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3350,7 +3350,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3380,7 +3380,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3405,7 +3405,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 0, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3430,7 +3430,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3488,7 +3488,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3515,7 +3515,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3544,7 +3544,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3570,7 +3570,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -3675,7 +3675,7 @@ class FqController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
