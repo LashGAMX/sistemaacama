@@ -1216,7 +1216,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1243,7 +1243,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1270,7 +1270,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1297,7 +1297,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1324,7 +1324,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1343,6 +1343,7 @@ class VolController extends Controller
                 
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+                    $valNitrogeno = ValoracionNitrogeno::where('Id_lote', $id_lote)->first();
 
                     $limites = array();
                     foreach ($data as $item) {
@@ -1351,13 +1352,13 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
                     }
 
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites', 'valNitrogeno'));
                 } else {
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
@@ -1367,6 +1368,7 @@ class VolController extends Controller
 
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+                    $valNitrogenoA = ValoracionNitrogeno::where('Id_lote', $id_lote)->first();
 
                     $limites = array();
                     foreach ($data as $item) {
@@ -1375,13 +1377,13 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
                     }
 
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites', 'valNitrogenoA'));
                 } else {
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
@@ -1399,7 +1401,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1423,7 +1425,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1481,7 +1483,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1509,7 +1511,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1537,7 +1539,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1565,7 +1567,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1593,7 +1595,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1614,6 +1616,7 @@ class VolController extends Controller
 
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
+                    $valNitrogeno = ValoracionNitrogeno::where('Id_lote', $id_lote)->first();
 
                     $limites = array();
                     foreach ($data as $item) {
@@ -1622,7 +1625,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1632,7 +1635,7 @@ class VolController extends Controller
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength','model', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength','model', 'limiteC', 'limites', 'valNitrogeno'));
                 } else {
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
@@ -1642,6 +1645,7 @@ class VolController extends Controller
 
                 if(!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
+                    $valNitrogenoA = ValoracionNitrogeno::where('Id_lote', $id_lote)->first();
 
                     $limites = array();
                     foreach ($data as $item) {
@@ -1650,7 +1654,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1660,7 +1664,7 @@ class VolController extends Controller
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textoProcedimiento->Texto);
 
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites', 'valNitrogenoA'));
                 } else {
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
@@ -1678,7 +1682,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1706,7 +1710,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1782,7 +1786,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1819,7 +1823,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1855,7 +1859,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1891,7 +1895,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1927,7 +1931,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1963,7 +1967,7 @@ class VolController extends Controller
 
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }

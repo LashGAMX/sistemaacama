@@ -1142,50 +1142,56 @@ class MbController extends Controller
             if($bandera == 'coli'){
                 if($parametro->Id_parametro == 13 || $parametro->Id_parametro == 51 || $parametro->Id_parametro == 141 || $parametro->Id_parametro == 143 || $parametro->Id_parametro == 145 || $parametro->Id_parametro == 164 || $parametro->Id_parametro == 279 || $parametro->Id_parametro == 280 || $parametro->Id_parametro == 281){ //Coliformes Fecales
                     $horizontal = 'P';                    
-                    $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
-
-                    //Formatea la fecha
-                    $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
-                    if(!is_null($fechaAnalisis)){
-                        $parametroDeterminar = $fechaAnalisis->Parametro;
-                        $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
-                        $hora = date("h:j:s", strtotime($fechaAnalisis->created_at));
-                    }
+                    $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();                    
      
                     if(!is_null($data)){                            
                         //Recupera el campo Resultado
                         $loteColi = LoteDetalleColiformes::where('Id_lote', $id_lote)->get();
 
+                        $sembrado = SembradoFq::where('Id_lote', $id_lote)->first();
+                        if(!is_null($sembrado)){
+                            $parametroDeterminar = $parametro->Parametro;
+                            $simbologiaParam = DB::table('ViewParametros')->where('Id_parametro', $parametro->Id_parametro)->first();
+                            $fechaConFormato = date("d/m/Y", strtotime($sembrado->Sembrado));
+                            $hora = date("H:i:s", strtotime($sembrado->Sembrado));
+                        }
+
+                        $pruebaPresun = PruebaPresuntivaFq::where('Id_lote', $id_lote)->first();
+                        $pruebaConf = PruebaConfirmativaFq::where('Id_lote', $id_lote)->first();
+
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);                        
                         
                         $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();                        
-                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar'));
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'sembrado', 'pruebaPresun', 'pruebaConf', 'simbologiaParam'));
 
                     }else{
                         $sw = false;                        
                     }                                                            
                 }else if($parametro->Id_parametro == 35 || $parametro->Id_parametro == 52 || $parametro->Id_parametro == 142 || $parametro->Id_parametro == 144 || $parametro->Id_parametro == 146 || $parametro->Id_parametro == 147){   // COLIFORMES TOTALES  
                     $horizontal = 'P';                    
-                    $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
-
-                    //Formatea la fecha
-                    $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
-                    if(!is_null($fechaAnalisis)){
-                        $parametroDeterminar = $fechaAnalisis->Parametro;
-                        $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
-                        $hora = date("h:j:s", strtotime($fechaAnalisis->created_at));
-                    }
+                    $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();                    
      
                     if(!is_null($data)){                                
                         //Recupera el campo Resultado
                         $loteColi = LoteDetalleColiformes::where('Id_lote', $id_lote)->get();
 
+                        $sembrado = SembradoFq::where('Id_lote', $id_lote)->first();
+                        if(!is_null($sembrado)){
+                            $parametroDeterminar = $parametro->Parametro;
+                            $simbologiaParam = DB::table('ViewParametros')->where('Id_parametro', $parametro->Id_parametro)->first();
+                            $fechaConFormato = date("d/m/Y", strtotime($sembrado->Sembrado));
+                            $hora = date("H:i:s", strtotime($sembrado->Sembrado));
+                        }
+
+                        $pruebaPresun = PruebaPresuntivaFq::where('Id_lote', $id_lote)->first();
+                        $pruebaConf = PruebaConfirmativaFq::where('Id_lote', $id_lote)->first();
+
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);                        
                         
                         $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();                        
-                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar'));
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'sembrado', 'pruebaPresun', 'pruebaConf', 'simbologiaParam'));
 
                     }else{
                         $sw = false;                        
@@ -1253,7 +1259,7 @@ class MbController extends Controller
                                 $limC = "< " . $limiteC->Limite;
                                 array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = $item->Resultado;
+                            $limC = number_format($item->Resultado, 2, ".", ",");
 
                             array_push($limites, $limC);
                         }
@@ -1291,13 +1297,16 @@ class MbController extends Controller
                     $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
      
                     if(!is_null($data)){                                                 
-                        //Formatea la fecha
-                        $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
-                        if(!is_null($fechaAnalisis)){
-                            $parametroDeterminar = $fechaAnalisis->Parametro;
-                            $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
-                            $hora = date("h:i:s", strtotime($fechaAnalisis->created_at));
+                        $sembrado = SembradoFq::where('Id_lote', $id_lote)->first();
+                        if(!is_null($sembrado)){
+                            $parametroDeterminar = $parametro->Parametro;
+                            $simbologiaParam = DB::table('ViewParametros')->where('Id_parametro', $parametro->Id_parametro)->first();
+                            $fechaConFormato = date("d/m/Y", strtotime($sembrado->Sembrado));
+                            $hora = date("H:i:s", strtotime($sembrado->Sembrado));
                         }
+
+                        $pruebaPresun = PruebaPresuntivaFq::where('Id_lote', $id_lote)->first();
+                        $pruebaConf = PruebaConfirmativaFq::where('Id_lote', $id_lote)->first();
                         
                         $textProcedimiento = ReportesMb::where('Id_reporte', 1)->first();                        
                         $separador = "Valoración";
@@ -1307,7 +1316,7 @@ class MbController extends Controller
                         //Recupera el campo Resultado
                         $loteColi = LoteDetalleColiformes::where('Id_lote', $id_lote)->get();
                         
-                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar'));
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'sembrado', 'pruebaPresun', 'pruebaConf', 'simbologiaParam'));
 
                     }else{
                         $sw = false;
@@ -1317,13 +1326,16 @@ class MbController extends Controller
                     $data = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
      
                     if(!is_null($data)){                                                 
-                        //Formatea la fecha
-                        $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
-                        if(!is_null($fechaAnalisis)){
-                            $parametroDeterminar = $fechaAnalisis->Parametro;
-                            $fechaConFormato = date("d/m/Y", strtotime($fechaAnalisis->Fecha));
-                            $hora = date("h:i:s", strtotime($fechaAnalisis->created_at));
+                        $sembrado = SembradoFq::where('Id_lote', $id_lote)->first();
+                        if(!is_null($sembrado)){
+                            $parametroDeterminar = $parametro->Parametro;
+                            $simbologiaParam = DB::table('ViewParametros')->where('Id_parametro', $parametro->Id_parametro)->first();
+                            $fechaConFormato = date("d/m/Y", strtotime($sembrado->Sembrado));
+                            $hora = date("H:i:s", strtotime($sembrado->Sembrado));
                         }
+
+                        $pruebaPresun = PruebaPresuntivaFq::where('Id_lote', $id_lote)->first();
+                        $pruebaConf = PruebaConfirmativaFq::where('Id_lote', $id_lote)->first();
                         
                         $textProcedimiento = ReportesMb::where('Id_reporte', 5)->first();                        
                         $separador = "Valoración";
@@ -1333,7 +1345,7 @@ class MbController extends Controller
                         //Recupera el campo Resultado
                         $loteColi = LoteDetalleColiformes::where('Id_lote', $id_lote)->get();
                         
-                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'resultadosPresuntivas', 'resultadosConfirmativas'));
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'resultadosPresuntivas', 'resultadosConfirmativas', 'sembrado', 'pruebaConf', 'pruebaPresun', 'simbologiaParam'));
 
                     }else{
                         $sw = false;

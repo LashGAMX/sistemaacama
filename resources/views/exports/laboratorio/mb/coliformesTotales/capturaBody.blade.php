@@ -56,13 +56,18 @@
 
                 <tr>
                     <td class="tableContent">Caldo lactosado se prepara el día: </td>                    
-                    <td class="tableContent">AQUÍ VA LA FECHA</td>
+                    <td class="tableContent">
+                        @php
+                            $fechaFormateada = date("d/m/Y", strtotime(@$pruebaPresun->Preparacion));
+                            echo $fechaFormateada;
+                        @endphp
+                    </td>
                     
                     <td></td>                  
                     
                     <td class="tableContent">El medio que se utiliza es:</td>
                     <td></td>
-                    <td class="tableContent">AQUÍ VA EL MEDIO</td>                    
+                    <td class="tableContent">{{@$pruebaConf->Medio}}</td>                    
                 </tr>
 
                 <tr>
@@ -73,18 +78,30 @@
                     
                     <td class="tableContent">Preparado:</td>
                     <td></td>
-                    <td class="tableContent">AQUÍ VA LA FECHA</td>                    
+                    <td class="tableContent">
+                        @php
+                            $fechaFormateadaPreparado = date("d/m/Y", strtotime(@$pruebaConf->Preparacion));
+                            echo $fechaFormateadaPreparado;
+                        @endphp
+                    </td>                    
                 </tr>
 
                 <tr>
                     <td class="tableContent">Fecha y hora de lectura, después <br> 24 hrs. y 48 hrs. de incubación: </td>                    
-                    <td class="tableContent">AQUÍ VA LA FECHA Y HORA</td>
+                    <td class="tableContent">
+                        @php
+                            $fechaHoraFormateadaP = date("d/m/Y H:i:s", strtotime(@$pruebaPresun->Lectura));
+                            echo $fechaHoraFormateadaP;
+                        @endphp
+                    </td>
                     
                     <td></td>                  
                     
                     <td class="tableContent">Para determinar: </td>
                     <td></td>
-                    <td class="tableContent">AQUÍ VA COLIFORMES FECALES</td>                    
+                    <td class="tableContent">
+                        {{@$parametroDeterminar}}<sup>{{@$simbologiaParam->Simbologia}}</sup>
+                    </td>                    
                 </tr>
 
                 <tr>
@@ -95,7 +112,12 @@
                     
                     <td class="tableContent">Fecha y hora de lectura para </td> 
                     <td></td>                   
-                    <td class="tableContent">AQUÍ VA LA FECHA Y HORA</td>                    
+                    <td class="tableContent">
+                        @php
+                            $fechaHoraFormateada = date("d/m/Y H:i:s", strtotime(@$pruebaConf->Lectura));
+                            echo $fechaHoraFormateada;
+                        @endphp
+                    </td>
                 </tr>
             </tbody>                      
         </table>  

@@ -80,42 +80,42 @@
                     <td class="tableContent2">MILILITROS TITULADOS DEL BLANCO</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">0.4</td>
+                    <td class="tableContent2">{{@$valNitrogeno->Gramos}}</td>
                 </tr>
 
                 <tr>
                     <td class="tableContent2">RESULTADO BLANCO</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">0.4</td>
+                    <td class="tableContent2">{{@$valNitrogeno->Blanco}}</td>
                 </tr>
 
                 <tr>
                     <td class="tableContent2">MILILITROS 1 TITULADOS DE H2SO4</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">26.7</td>
+                    <td class="tableContent2">{{@$valNitrogeno->Titulo1}}</td>
                 </tr>
 
                 <tr>
                     <td class="tableContent2">MILILITROS 2 TITULADOS DE H2SO4 2</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">26.7</td>
+                    <td class="tableContent2">{{@$valNitrogeno->Titulo2}}</td>
                 </tr>                
 
                 <tr>
                     <td class="tableContent2">MILILITROS 3 TITULADOS DE H2SO4 3</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">26.7</td>
+                    <td class="tableContent2">{{@$valNitrogeno->Titulo3}}</td>
                 </tr>
 
                 <tr>
                     <td class="tableContent2">RESULTADO MOLARIDAD REAL</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">0.011</td>
+                    <td class="tableContent2">{{@$valNitrogeno->Resultado}}</td>
                 </tr>
             </tbody>    
         </table>  

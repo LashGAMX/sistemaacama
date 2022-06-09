@@ -27,6 +27,7 @@
                 </tr>                
 
                 <tr>
+                    <th class="tableCabecera anchoColumna">pH</th>
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
                     <th class="tableCabecera anchoColumna">VOL. TITULANTE BLANCO</th>
                     <th class="tableCabecera anchoColumna">VOL. MUESTRA</th>
@@ -41,6 +42,7 @@
             <tbody>
                 @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
+                        <td class="tableContent"><2</td>
                         <td class="tableContent">
                             @if (@$data[$i]->Control == 'Muestra Adicionada' || @$data[$i]->Control == 'Duplicado' || @$data[$i]->Control == 'Resultado')
                                 {{@$data[$i]->Folio_servicio}}
@@ -66,6 +68,8 @@
             </tbody>        
         </table>  
     </div> 
+
+    <br>
     
     <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="">
@@ -74,50 +78,52 @@
                     <td class="tableContent2">MILILITROS TITULADOS DEL BLANCO</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">0.4</td>
+                    <td class="tableContent2">{{@$valNitrogenoA->Gramos}}</td>
                 </tr>
 
                 <tr>
                     <td class="tableContent2">RESULTADO BLANCO</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">0.4</td>
+                    <td class="tableContent2">{{@$valNitrogenoA->Blanco}}</td>
                 </tr>
 
                 <tr>
                     <td class="tableContent2">MILILITROS 1 TITULADOS DE H2SO4</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">26.7</td>
+                    <td class="tableContent2">{{@$valNitrogenoA->Titulo1}}</td>
                 </tr>
 
                 <tr>
                     <td class="tableContent2">MILILITROS 2 TITULADOS DE H2SO4 2</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">26.7</td>
+                    <td class="tableContent2">{{@$valNitrogenoA->Titulo2}}</td>
                 </tr>                
 
                 <tr>
                     <td class="tableContent2">MILILITROS 3 TITULADOS DE H2SO4 3</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">26.7</td>
+                    <td class="tableContent2">{{@$valNitrogenoA->Titulo3}}</td>
                 </tr>
 
                 <tr>
                     <td class="tableContent2">RESULTADO MOLARIDAD REAL</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">0.011</td>
+                    <td class="tableContent2">{{@$valNitrogenoA->Resultado}}</td>
                 </tr>
             </tbody>    
         </table>  
     </div>
 
+    <br>
+
     <div id="contenidoCurva">
         <span id="curvaProcedimiento">Valoración</span> <br>
-        VALORACIÓN <?php echo html_entity_decode($textoProcedimiento[1]);?>
+        <?php echo html_entity_decode($textoProcedimiento[1]);?>
     </div>
 </body>
 </html>

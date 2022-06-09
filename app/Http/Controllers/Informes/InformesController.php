@@ -13,11 +13,13 @@ use App\Models\CotizacionPunto;
 use App\Models\DireccionReporte;
 use App\Models\GastoMuestra;
 use App\Models\Limite001;
+use App\Models\Limite002;
 use App\Models\Norma;
 use App\Models\Parametro;
 use App\Models\PhMuestra;
 use App\Models\TemperaturaMuestra;
 use App\Models\ProcesoAnalisis;
+use App\Models\PuntoMuestreoGen;
 use App\Models\PuntoMuestreoSir;
 use App\Models\SimbologiaParametros;
 use App\Models\Solicitud;
@@ -104,12 +106,12 @@ class InformesController extends Controller
 
         // Hace los filtros para realizar la comparacion
         $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol)->first();
-        $solModel2 = DB::table('ViewSolicitud')->where('IdPunto', $solModel->IdPunto)->OrderBy('Id_solicitud', 'DESC')->get();
+        //$solModel2 = DB::table('ViewSolicitud')->where('IdPunto', $solModel->IdPunto)->OrderBy('Id_solicitud', 'DESC')->get();
 
         //ViewCodigoParametro
-        $cont = (sizeof($solModel2) - 1);
+        /* $cont = (sizeof($solModel2) - 1);
         $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->get();
-        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel2[0]->Id_solicitud)->get();
+        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel2[0]->Id_solicitud)->get(); */
 
         //Recupera sin duplicados las simbologías de los parámetros
         $simbolParam = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->get();
@@ -142,8 +144,18 @@ class InformesController extends Controller
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
         $cliente = Clientes::where('Id_cliente', $solicitud->Id_cliente)->first();
-        $solicitudPunto = SolicitudPuntos::where('Id_solicitud', $solicitud->Id_solicitud)->first();
-        $puntoMuestreo = DB::table('puntos_muestreo')->where('Id_punto', $solicitudPunto->Id_punto)->first();
+        //$solicitudPunto = SolicitudPuntos::where('Id_solicitud', $solicitud->Id_solicitud)->first();
+        $puntoMuestreo = null;
+
+        if($solicitud->Siralab == 1){//Es cliente Siralab
+            $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $solicitud->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }else{
+            $puntoMuestreo = PuntoMuestreoGen::where('Id_sucursal', $solicitud->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }
 
         /* $solicitudParametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $solicitud->Id_solicitud)->get();
         $solicitudParametrosLength = $solicitudParametros->count(); */
@@ -516,20 +528,40 @@ class InformesController extends Controller
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
         $cliente = Clientes::where('Id_cliente', $solicitud->Id_cliente)->first();
         $solicitudPunto = SolicitudPuntos::where('Id_solicitud', $solicitud->Id_solicitud)->first();
-        $puntoMuestreo = DB::table('puntos_muestreo')->where('Id_punto', $solicitudPunto->Id_punto)->first();
+        $puntoMuestreo = null;
+
+        if($solicitud->Siralab == 1){//Es cliente Siralab
+            $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $solicitud->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }else{
+            $puntoMuestreo = PuntoMuestreoGen::where('Id_sucursal', $solicitud->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }
 
         /* $solicitudParametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $solicitud->Id_solicitud)->get();
         $solicitudParametrosLength = $solicitudParametros->count(); */
 
+        //Sirve para recuperar los límites de cuantificación de la norma
+        //$promSol = $solicitud->Id_promedio; //Si es mensual o diario
+        
         //Recupera los parámetros
         $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
         $solicitudParametrosLength = $solicitudParametros->count();
         $sParam = array();
+        //$limNorm = array();
 
         foreach($solicitudParametros as $item){
             $paramModel = Parametro::where('Id_parametro', $item->Id_parametro)->first();
             $sP = SimbologiaParametros::where('Id_simbologia', $paramModel->Id_simbologia)->first();
             array_push($sParam, $sP->Simbologia);
+
+            /* if($solicitud->Id_norma == 1){ //Norma 001
+                Limite001::where('Id_parametro', $item->Id_parametro)->where('Id_')->first();
+            }else if($solicitud->Id_norma == 2){ //Norma 002
+                $param = Limite002::where('Id_parametro', $item->Id_parametro)->first();
+            } */
         }
 
         //Recupera sin duplicados las simbologías de los parámetros
@@ -539,7 +571,7 @@ class InformesController extends Controller
 
         foreach($simbolParam as $item){
             array_push($simbologiaParam, $item->Id_simbologia);
-        }
+        }        
 
         //*************************************CALCULO DE CONCENTRACIÓN CUANTIFICADA DE GRASAS *************************************
         //Consulta si existe el parámetro de Grasas y Aceites en la solicitud
@@ -845,7 +877,7 @@ class InformesController extends Controller
         }
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
-        $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam'));
+        $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
@@ -877,12 +909,12 @@ class InformesController extends Controller
 
         // Hace los filtros para realizar la comparacion
         $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol)->first();
-        $solModel2 = DB::table('ViewSolicitud')->where('IdPunto', $solModel->IdPunto)->OrderBy('Id_solicitud', 'DESC')->get();
+        //$solModel2 = DB::table('ViewSolicitud')->where('IdPunto', $solModel->IdPunto)->OrderBy('Id_solicitud', 'DESC')->get();
 
         //ViewCodigoParametro
-        $cont = (sizeof($solModel2) - 1);
+        /* $cont = (sizeof($solModel2) - 1);
         $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->get();
-        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel2[0]->Id_solicitud)->get();
+        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel2[0]->Id_solicitud)->get(); */
 
         //Recupera sin duplicados las simbologías de los parámetros
         $simbolParam = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->get();
@@ -915,8 +947,18 @@ class InformesController extends Controller
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
         $cliente = Clientes::where('Id_cliente', $solicitud->Id_cliente)->first();
-        $solicitudPunto = SolicitudPuntos::where('Id_solicitud', $solicitud->Id_solicitud)->first();
-        $puntoMuestreo = DB::table('puntos_muestreo')->where('Id_punto', $solicitudPunto->Id_punto)->first();
+        //$solicitudPunto = SolicitudPuntos::where('Id_solicitud', $solicitud->Id_solicitud)->first();
+        $puntoMuestreo = null;
+
+        if($solicitud->Siralab == 1){//Es cliente Siralab
+            $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $solicitud->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }else{
+            $puntoMuestreo = PuntoMuestreoGen::where('Id_sucursal', $solicitud->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }
 
         /* $solicitudParametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $solicitud->Id_solicitud)->get();
         $solicitudParametrosLength = $solicitudParametros->count(); */
@@ -1289,20 +1331,40 @@ class InformesController extends Controller
         //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
         $cliente = Clientes::where('Id_cliente', $solicitud->Id_cliente)->first();
         $solicitudPunto = SolicitudPuntos::where('Id_solicitud', $solicitud->Id_solicitud)->first();
-        $puntoMuestreo = DB::table('puntos_muestreo')->where('Id_punto', $solicitudPunto->Id_punto)->first();
+        $puntoMuestreo = null;
+
+        if($solicitud->Siralab == 1){//Es cliente Siralab
+            $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $solicitud->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }else{
+            $puntoMuestreo = PuntoMuestreoGen::where('Id_sucursal', $solicitud->Id_sucursal)->get();
+            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $puntos = $puntoMuestreo->count();
+        }
 
         /* $solicitudParametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $solicitud->Id_solicitud)->get();
         $solicitudParametrosLength = $solicitudParametros->count(); */
 
+        //Sirve para recuperar los límites de cuantificación de la norma
+        //$promSol = $solicitud->Id_promedio; //Si es mensual o diario
+        
         //Recupera los parámetros
         $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
         $solicitudParametrosLength = $solicitudParametros->count();
         $sParam = array();
+        //$limNorm = array();
 
         foreach($solicitudParametros as $item){
             $paramModel = Parametro::where('Id_parametro', $item->Id_parametro)->first();
             $sP = SimbologiaParametros::where('Id_simbologia', $paramModel->Id_simbologia)->first();
             array_push($sParam, $sP->Simbologia);
+
+            /* if($solicitud->Id_norma == 1){ //Norma 001
+                Limite001::where('Id_parametro', $item->Id_parametro)->where('Id_')->first();
+            }else if($solicitud->Id_norma == 2){ //Norma 002
+                $param = Limite002::where('Id_parametro', $item->Id_parametro)->first();
+            } */
         }
 
         //Recupera sin duplicados las simbologías de los parámetros
@@ -1312,7 +1374,7 @@ class InformesController extends Controller
 
         foreach($simbolParam as $item){
             array_push($simbologiaParam, $item->Id_simbologia);
-        }
+        }        
 
         //*************************************CALCULO DE CONCENTRACIÓN CUANTIFICADA DE GRASAS *************************************
         //Consulta si existe el parámetro de Grasas y Aceites en la solicitud
@@ -1618,7 +1680,7 @@ class InformesController extends Controller
         }
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
-        $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam'));
+        $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
