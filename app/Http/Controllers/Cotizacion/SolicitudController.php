@@ -478,15 +478,17 @@ class SolicitudController extends Controller
         $month = date("m");
         $dayYear = date("z") + 1;
         $today = Carbon::now()->format('Y-m-d');
-        $solicitudDay = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->count();
+        // $solicitudDay = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->count();
         $solicitudDay = DB::table('solicitudes')->whereDate('created_at', $today)->where('Padre',1)->count();
 
-        $numCot = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $request->clientes)->get();
+    
+        $numCot = DB::table('solicitudes')->whereDate('created_at', $today)->where('Id_cliente', $request->clientes)->get();
         $firtsFol = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $request->clientes)->first();
         $cantCot = $numCot->count();
+     
         if ($cantCot > 0) {
-
-            $folio = $firtsFol->Folio_servicio . '-' . ($cantCot + 1);
+            $hijo = 1;
+            $folio = $firtsFol->Folio . '-' . ($cantCot + 1);
         } else {
             $folio = $dayYear . "-" . ($solicitudDay + 1) . "/" . $year;
         }
@@ -523,14 +525,18 @@ class SolicitudController extends Controller
                 'Num_tomas' => $request->numTomas,
                 'Id_muestra' => $request->tipoMuestra,
                 'Id_promedio' => $request->promedio,
+                'Padre' => 1,
+                'Hijo' => 0,
             ]);
 
             // var_dump($model->Id_solicitud);
+            $contPuntos = 0;
             foreach ($puntos as $p) {
                 $puntoModel = SolicitudPuntos::create([
                     'Id_solicitud' => $model->Id_solicitud,
                     'Id_muestreo' => $p
                 ]);
+                $contPuntos++;
             }
             foreach ($parametros as $item) {
                 $subnorma = NormaParametros::where('Id_norma', $request->subnorma)->where('Id_parametro', $item)->get();
@@ -561,10 +567,62 @@ class SolicitudController extends Controller
                 'Id_servicio' => $model->Id_solicitud,
                 'Obs_solicitud' => '',
             ]);
+
+            if($contPuntos > 0)
+            {   for ($i=0; $i < $contPuntos; $i++) { 
+                    if ($request->siralab != NULL) {
+                        $siralab = 1;
+                    } else {
+                        $siralab = 0;
+                    }
+                    $model2 = Solicitud::create([
+                        'Id_cotizacion' => $request->idCotizacion,
+                        'Folio_servicio' => $folio.'-'.($i+1),
+                        'Id_intermediario' => $request->intermediario,
+                        'Id_cliente' => $request->clientes,
+                        'Siralab' => $siralab,
+                        'Id_sucursal' => $request->sucursal,
+                        'Id_direccion' => $request->direccionReporte,
+                        'Id_contacto' => $request->contacto,
+                        'Atencion' => $request->atencion,
+                        'Observacion' => $request->observacion,
+                        'Id_servicio' => $request->tipoServicio,
+                        'Id_descarga' => $request->tipoDescarga,
+                        'Id_norma' => $request->norma,
+                        'Id_subnorma' => $request->subnorma,
+                        'Fecha_muestreo' => $request->fechaMuestreo,
+                        'Id_muestreo' => $request->frecuencia,
+                        'Num_tomas' => $request->numTomas,
+                        'Id_muestra' => $request->tipoMuestra,
+                        'Id_promedio' => $request->promedio,
+                        'Padre' => 0,
+                        'Hijo' => $model->Id_solicitud
+                    ]);
+                    SolicitudPuntos::create([
+                        'Id_solicitud' => $model->Id_solicitud,
+                        'Id_muestreo' => $puntos[$i]
+                    ]);
+                    foreach ($parametros as $item) {
+                        $subnorma = NormaParametros::where('Id_norma', $request->subnorma)->where('Id_parametro', $item)->get();
+        
+                        $extra = 0;
+                        if ($subnorma->count() > 0) {
+                            $extra = 0;
+                        } else {
+                            $extra = 1;
+                        }
+        
+                        SolicitudParametro::create([
+                            'Id_solicitud' => $model2->Id_solicitud,
+                            'Id_subnorma' => $item,
+                            'Extra' => $extra,
+                        ]);
+                    }
+                }
+
+            }
         } else {
         }
-
-
 
         return redirect()->to('admin/cotizacion/solicitud');
     }
