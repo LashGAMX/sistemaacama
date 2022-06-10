@@ -2,7 +2,7 @@
     <div class="row">
         <form wire:submit.prevent="show">
             <div class="col-md-10">
-                <label for="normas"> Seleciona una norma</label>
+                <label for="normas"> Selecciona una norma</label>
                 <select class="form-control" wire:model='idNorma'>
                     <option value="0">Sin seleccionar</option>
                     @foreach ($model as $item)
