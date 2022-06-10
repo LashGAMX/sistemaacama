@@ -4414,6 +4414,8 @@ class InformesController extends Controller
 
         $model = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol)->first();
 
+        $recepcion = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
+
         $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->orderBy('Parametro', 'ASC')->get();
         $paramResultadoLength = $paramResultado->count();
 
@@ -4589,7 +4591,7 @@ class InformesController extends Controller
                 if($item->Id_parametro == 27){
                     $limC = number_format($promGastos, 2, ".", ",");
                 }else if($item->Id_parametro == 15){ //pH
-                    $limC = number_format($promPh, 2, ".", ",");
+                    $limC = number_format($promPh, 1, ".", ",");
                 }else if($item->Id_parametro == 98){ //temperatura
                     $limC = number_format($promTemp, 2, ".", ",");
                 }else{
@@ -4601,7 +4603,7 @@ class InformesController extends Controller
                 if($item->Id_parametro == 27){ //Gasto
                     $limC = number_format($promGastos, 2, ".", ",");                    
                 }if($item->Id_parametro == 15){ //pH
-                    $limC = number_format($promPh, 2, ".", ",");                    
+                    $limC = number_format($promPh, 1, ".", ",");                    
                 }else if($item->Id_parametro == 98){ //temperatura
                     $limC = number_format($promTemp, 2, ".", ",");
                 }else{
@@ -4628,13 +4630,13 @@ class InformesController extends Controller
             // }
         }
 
-        $fechaEmision = \Carbon\Carbon::now();        
+        //$fechaEmision = \Carbon\Carbon::now();        
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
 
         $mpdf->showWatermarkImage = true;
 
         $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', 
-        compact('model', 'paquete', 'paqueteLength', 'norma','recibidos' ,'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'responsables', 'promedioPonderadoGA', 'mAritmeticaColi', 'gastoPromFinal'));
+        compact('model', 'paquete', 'paqueteLength', 'norma','recibidos', 'recepcion', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'responsables', 'promedioPonderadoGA', 'mAritmeticaColi', 'gastoPromFinal'));
 
         $mpdf->WriteHTML($htmlInforme);
 
@@ -4842,19 +4844,19 @@ class InformesController extends Controller
                 if($item->Id_parametro == 27){
                     $limC = number_format($promGastos, 2, ".", ",");
                 }else if($item->Id_parametro == 15){ //pH
-                    $limC = number_format($promPh, 2, ".", ",");
+                    $limC = number_format($promPh, 1, ".", ",");
                 }else if($item->Id_parametro == 98){ //temperatura
                     $limC = number_format($promTemp, 2, ".", ",");
                 }else{
                     $limC = "< " . $limiteC->Limite;
-                }                
+                }
 
                 array_push($limitesC, $limC);
             } else {  //Si es mayor el resultado que el límite de cuantificación
                 if($item->Id_parametro == 27){ //Gasto
                     $limC = number_format($promGastos, 2, ".", ",");                    
                 }if($item->Id_parametro == 15){ //pH
-                    $limC = number_format($promPh, 2, ".", ",");                    
+                    $limC = number_format($promPh, 1, ".", ",");                    
                 }else if($item->Id_parametro == 98){ //temperatura
                     $limC = number_format($promTemp, 2, ".", ",");
                 }else{

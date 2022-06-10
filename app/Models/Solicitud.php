@@ -36,6 +36,8 @@ class Solicitud extends Model
       'Id_muestra',
       'Id_promedio',
       'Id_reporte',
+      'Padre',
+      'Hijo',
       'Liberado',
       'Id_user_c',
       'Id_user_m'
