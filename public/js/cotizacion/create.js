@@ -231,6 +231,8 @@ function update()
     success: function (response) {
         modelCot = response.model;
         // console.log(modelCot);
+        clienteSucursal();
+        $("#nombreCliente").val(modelCot.Nombre);
     }
 });
 dataNorma();
@@ -458,7 +460,15 @@ function clienteSucursal(){
         
             tab+= '<option value="">Selecciona cliente</option>';
             $.each(response.model, function (key, item) {
-                tab+= '<option value="'+item.Id_sucursal+'">'+item.Empresa+'</option>';
+                if (sw != 1) {
+                  tab+= '<option value="'+item.Id_sucursal+'">'+item.Empresa+'</option>';
+                } else {
+                  if (item.Id_sucursal == modelCot.Id_sucursal) {
+                    tab+= '<option value="'+item.Id_sucursal+'" selected>'+item.Empresa+'</option>';
+                  } else {
+                    tab+= '<option value="'+item.Id_sucursal+'">'+item.Empresa+'</option>'; 
+                  }
+                }
             });
             tab+= '</select>';
             div.innerHTML = tab;

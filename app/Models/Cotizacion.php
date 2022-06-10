@@ -16,6 +16,7 @@ class Cotizacion extends Model
     protected $fillable = [
         'Id_intermedio',
         'Id_cliente',
+        'Id_sucursal',
         'Nombre',
         'Direccion',
         'Atencion',

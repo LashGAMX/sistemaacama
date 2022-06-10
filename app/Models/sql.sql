@@ -152,7 +152,7 @@ ON pre.Id_catalogo = sub.Id_subnorma
 
 /* Lista cotizacion */
 CREATE VIEW ViewCotizacion as SELECT 
-cot.Id_cotizacion,cot.Id_intermedio,inter.Nombres as NomInter,inter.A_paterno as ApeInter,cot.Id_cliente,cot.Nombre,cot.Direccion,
+cot.Id_cotizacion,cot.Id_intermedio,inter.Nombres as NomInter,inter.A_paterno as ApeInter,cot.Id_cliente,cot.Id_sucursal,cot.Nombre,cot.Direccion,
 cot.Atencion,cot.Telefono,cot.Correo,cot.Tipo_servicio,ser.Servicio,cot.Tipo_descarga,des.Descarga,
 cot.Id_norma,nor.Norma,nor.Clave_norma,cot.Id_subnorma,cot.Fecha_muestreo,cot.Frecuencia_muestreo,cot.Tomas,
 cot.Tipo_muestra,cot.Promedio,cot.Numero_puntos,cot.Tipo_reporte,

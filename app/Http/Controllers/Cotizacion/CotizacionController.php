@@ -94,6 +94,7 @@ class CotizacionController extends Controller
         $descargas = DB::table('tipo_descargas')->get();
         $metodoPago = DB::table('metodo_pago')->get();
         $estados = DB::table('estados')->get();
+        $categorias001 = DB::table('categorias001')->get();
 
 
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $id)->first();
@@ -115,6 +116,7 @@ class CotizacionController extends Controller
             'cotizacionPuntos' => $cotizacionPuntos,
             'muestreo' => $cotizacionMuestreo,
             'idCotizacion' => $id,
+            'categorias001' => $categorias001,
             'sw' => 1,
         );
         return view('cotizacion.create', $data);
@@ -306,6 +308,7 @@ class CotizacionController extends Controller
         $cotizacion = Cotizacion::create([
             'Id_intermedio' => $request->intermediario,
             'Id_cliente' => $request->clientes,
+            'Id_sucursal' => $request->clienteSucursal,
             'Nombre' => $request->nombreCliente,
             'Direccion' => $request->direccion,
             'Atencion' => $request->atencion,

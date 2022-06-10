@@ -247,7 +247,7 @@
                                     <label for="tipoReporte">Tipo de reporte</label>
                                     <select name="tipoReporte" id="tipoReporte" class="form-control">
                                         <option value="0">Sin seleccionar</option>
-                                        @foreach ($categorias001 as $item)
+                                        @foreach (@$categorias001 as $item)
                                         <option value="{{$item->Id_categoria}}">{{$item->Categoria}}</option>
                                         @endforeach
                                     </select>
