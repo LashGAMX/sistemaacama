@@ -95,17 +95,15 @@ class CurvaController extends Controller
         $now = Carbon::now();
         $now->toDateString();
         //$loteAnalisis = LoteAnalisis::where('Id_lote',$request->idLote)->first();
-        $estandares  = CurvaConstantes::whereDate('Fecha_fin', '>=', $now)->first();
+        $estandares  = CurvaConstantes::where('Id_area', $request->area)->whereDate('Fecha_inicio', '>=', $now)->whereDate('Fecha_fin', '<=', $now)->first();
 
         $paraModel = Parametro::find($request->idParametro);
         $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
 
         $num = $numEstandares->Concentracion; 
-         if($estandares->count()){
+         if($estandares == null){
              $sw = false; 
-             $curva = CurvaConstantes::find($estandares->Id_curvaConst); 
-             $curva->Estado = 0; 
-             $curva->save();
+             echo("ya existe una curva activa para este parametro");
              CurvaConstantes::create([
                 'Id_area' => $request->idAreaModal,
                 'Id_parameto' => $request->idParametroModal,
