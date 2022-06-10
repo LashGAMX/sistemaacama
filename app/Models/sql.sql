@@ -152,7 +152,7 @@ ON pre.Id_catalogo = sub.Id_subnorma
 
 /* Lista cotizacion */
 CREATE VIEW ViewCotizacion as SELECT 
-cot.Id_cotizacion,cot.Id_intermedio,inter.Nombres as NomInter,inter.A_paterno as ApeInter,cot.Id_cliente,cot.Nombre,cot.Direccion,
+cot.Id_cotizacion,cot.Id_intermedio,inter.Nombres as NomInter,inter.A_paterno as ApeInter,cot.Id_cliente,cot.Id_sucursal,cot.Nombre,cot.Direccion,
 cot.Atencion,cot.Telefono,cot.Correo,cot.Tipo_servicio,ser.Servicio,cot.Tipo_descarga,des.Descarga,
 cot.Id_norma,nor.Norma,nor.Clave_norma,cot.Id_subnorma,cot.Fecha_muestreo,cot.Frecuencia_muestreo,cot.Tomas,
 cot.Tipo_muestra,cot.Promedio,cot.Numero_puntos,cot.Tipo_reporte,
@@ -189,7 +189,7 @@ ON param.Id_subnorma = p.Id_parametro
 CREATE VIEW ViewSolicitud as SELECT 
 sol.*,inter.Nombres,inter.A_paterno,gen.Empresa,suc.Empresa as Empresa_suc,suc.Estado,dir.Direccion,
 con.Nombres as Nom_con,con.A_paterno as Nom_pat,ser.Servicio,ser.Descripcion,
-des.Descarga,nor.Norma,nor.Clave_norma,sub.Norma as Nor_sub,sub.Clave,p.Id_muestreo as IdPunto,p.Punto_muestreo
+des.Descarga,nor.Norma,nor.Clave_norma,sub.Norma as Nor_sub,sub.Clave
 FROM solicitudes  as sol
 INNER JOIN ViewIntermediarios as inter
 ON inter.Id_cliente = sol.Id_intermediario
@@ -208,9 +208,9 @@ ON des.Id_tipo = sol.Id_descarga
 INNER JOIN normas as nor
 ON nor.Id_norma = sol.Id_norma
 INNER JOIN sub_normas as sub
-ON sub.Id_subnorma = sol.Id_subnorma
-INNER JOIN ViewPuntoMuestreoGen as p
-ON sol.Id_solicitud = p.Id_solicitud
+ON sub.Id_subnorma = sol.Id_subnorma  
+
+
 
 /* Lista Solicitud parametros */
 CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_parametro as Id_solParam,sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro,pa.Id_area,pa.Area_analisis,pa.Id_tipo_formula,sol.Asignado,s.Folio_servicio,pa.Metodo_prueba,pa.Unidad FROM solicitud_parametros as sol

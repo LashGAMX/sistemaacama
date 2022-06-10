@@ -119,6 +119,8 @@ class CurvaController extends Controller
                 //'Id_lote' => $request->idLote,
                 'Id_area' => $request->idAreaModal,
                 'Id_parametro' => $request->idParametroModal,
+                'Fecha_inicio' => $request->fechaInicio,
+                'Fecha_fin' => $request->fechaFin,
                 'Estado' => 1,
                 'STD' => "Blanco", 
             ]);
@@ -127,6 +129,8 @@ class CurvaController extends Controller
                     //'Id_lote' => $request->idLote,
                     'Id_area' => $request->idAreaModal,
                     'Id_parametro' => $request->idParametroModal,
+                    'Fecha_inicio' => $request->fechaInicio,
+                    'Fecha_fin' => $request->fechaFin,
                     'Estado' => 1,
                     'STD' => "STD".($i+1)."",
                 ]);
