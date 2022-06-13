@@ -322,7 +322,7 @@ function formula(){
     
 }
 
-
+//------Create----------------
 function createStd(){
     let tabla = document.getElementById('divTablaStd');
     let tab = '';
@@ -386,6 +386,7 @@ function createStd(){
         }
     });           
 }
+//---------buscar ----------------------------
 var res = new Array();
 var cont = 0;
 var idLote = 0;
