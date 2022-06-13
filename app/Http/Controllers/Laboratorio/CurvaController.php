@@ -101,18 +101,7 @@ class CurvaController extends Controller
         $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
 
         $num = $numEstandares->Concentracion; 
-         if($estandares == null){
-             $sw = false; 
-             echo("ya existe una curva activa para este parametro");
-             CurvaConstantes::create([
-                'Id_area' => $request->idAreaModal,
-                'Id_parameto' => $request->idParametroModal,
-                'Fecha_inicio' => $request->fechaInicio,
-                'Fecha_fin' => $request->fechaFin,
-                'Estado' => 1,
-            ]);
-
-         }else{
+        
             estandares::create([
                 //'Id_lote' => $request->idLote,
                 'Id_area' => $request->idAreaModal,
@@ -144,7 +133,7 @@ class CurvaController extends Controller
             $sw = true;
             
             //$stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
-        }
+        
         //$loteDetalle = LoteDetalle::where('Id_lote', $request->idLote)->first();
         $concent = ConcentracionParametro::where('Id_parametro',$request->idParametro)->get();
 
