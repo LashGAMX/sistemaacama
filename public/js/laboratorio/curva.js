@@ -322,7 +322,7 @@ function formula(){
     
 }
 
-
+//------Create----------------
 function createStd(){
     let tabla = document.getElementById('divTablaStd');
     let tab = '';
@@ -332,7 +332,7 @@ function createStd(){
         type: 'POST', //método de envio
         data: {
             idAreaModal:$("#idAreaModal").val(),
-            idParametro:$("#idParametroModal").val(),
+            idParametroModal:$("#idParametroModal").val(),
             fechaInicio:$("#fechaInicio").val(),
             fechaFin:$("#fechaFin").val(),
     
@@ -386,6 +386,7 @@ function createStd(){
         }
     });           
 }
+//---------buscar ----------------------------
 var res = new Array();
 var cont = 0;
 var idLote = 0;
@@ -396,7 +397,7 @@ function buscar(){
         url: base_url + '/admin/laboratorio/buscar', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
-          idLote:$("#idLote").val(),
+          //idLote:$("#idLote").val(),
           fecha:$("#fecha").val(),
           area:$('#area').val(),
           parametro: $("#parametro").val(),

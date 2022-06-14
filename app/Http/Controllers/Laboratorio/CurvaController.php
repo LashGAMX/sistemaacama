@@ -64,7 +64,9 @@ class CurvaController extends Controller
      public function buscar(Request $request){
         $fecha = new Carbon($request->fecha);
         $lote = LoteAnalisis::where('Fecha', $request->fecha)->first();
-        $model = estandares::where('Id_area', $request->area)->whereDate('Fecha_inicio', '>=', $fecha)->whereDate('Fecha_fin', '<=', $fecha)->get(); 
+
+        $model = estandares::whereDate('Fecha_fin', '>=', $request->fecha)->get(); 
+
         //$loteDetalle = LoteDetalle::where('Id_lote',$request->idLote)->first();
         $concent = ConcentracionParametro::where('Id_parametro',$request->parametro)->get();
         $bmr = CurvaConstantes::where('Id_area', $request->area)->whereDate('Fecha_inicio', '>=', $fecha)->whereDate('Fecha_fin', '<=', $fecha)->first();
@@ -85,6 +87,7 @@ class CurvaController extends Controller
             'valbmr' => $valbmr,
             'bmr' => $bmr,
             'sw' => $sw,
+            'fecha' => $fecha,
         );
         return response()->json($data);
      }
@@ -95,26 +98,13 @@ class CurvaController extends Controller
         $now = Carbon::now();
         $now->toDateString();
         //$loteAnalisis = LoteAnalisis::where('Id_lote',$request->idLote)->first();
-        $estandares  = CurvaConstantes::whereDate('Fecha_fin', '>=', $now)->first();
+        $estandares  = CurvaConstantes::where('Id_area', $request->area)->whereDate('Fecha_inicio', '>=', $now)->whereDate('Fecha_fin', '<=', $now)->first();
 
-        $paraModel = Parametro::find($request->idParametro);
+        $paraModel = Parametro::find($request->idParametroModal);
         $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
 
         $num = $numEstandares->Concentracion; 
-         if($estandares->count()){
-             $sw = false; 
-             $curva = CurvaConstantes::find($estandares->Id_curvaConst); 
-             $curva->Estado = 0; 
-             $curva->save();
-             CurvaConstantes::create([
-                'Id_area' => $request->idAreaModal,
-                'Id_parameto' => $request->idParametroModal,
-                'Fecha_inicio' => $request->fechaInicio,
-                'Fecha_fin' => $request->fechaFin,
-                'Estado' => 1,
-            ]);
-
-         }else{
+        
             estandares::create([
                 //'Id_lote' => $request->idLote,
                 'Id_area' => $request->idAreaModal,
@@ -123,6 +113,13 @@ class CurvaController extends Controller
                 'Fecha_fin' => $request->fechaFin,
                 'Estado' => 1,
                 'STD' => "Blanco", 
+            ]);
+            CurvaConstantes::create([
+                'Id_area' => $request->idAreaModal,
+                'Id_parameto' => $request->idParametroModal,
+                'Fecha_inicio' => $request->fechaInicio,
+                'Fecha_fin' => $request->fechaFin,
+                'Estado' => 1,
             ]);
             for ($i=0; $i < $num ; $i++) { 
                 estandares::create([
@@ -135,18 +132,12 @@ class CurvaController extends Controller
                     'STD' => "STD".($i+1)."",
                 ]);
 
-                CurvaConstantes::create([
-                    'Id_area' => $request->idAreaModal,
-                    'Id_parameto' => $request->idParametroModal,
-                    'Fecha_inicio' => $request->fechaInicio,
-                    'Fecha_fin' => $request->fechaFin,
-                    'Estado' => 1,
-                ]);
+               
             }  
             $sw = true;
             
             //$stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
-        }
+        
         //$loteDetalle = LoteDetalle::where('Id_lote', $request->idLote)->first();
         $concent = ConcentracionParametro::where('Id_parametro',$request->idParametro)->get();
 
