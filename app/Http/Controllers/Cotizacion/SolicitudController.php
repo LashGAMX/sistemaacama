@@ -599,7 +599,7 @@ class SolicitudController extends Controller
                         'Hijo' => $model->Id_solicitud
                     ]);
                     SolicitudPuntos::create([
-                        'Id_solicitud' => $model->Id_solicitud,
+                        'Id_solicitud' => $model2->Id_solicitud,
                         'Id_muestreo' => $puntos[$i]
                     ]);
                     foreach ($parametros as $item) {
