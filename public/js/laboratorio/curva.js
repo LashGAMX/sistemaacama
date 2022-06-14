@@ -332,7 +332,7 @@ function createStd(){
         type: 'POST', //método de envio
         data: {
             idAreaModal:$("#idAreaModal").val(),
-            idParametro:$("#idParametroModal").val(),
+            idParametroModal:$("#idParametroModal").val(),
             fechaInicio:$("#fechaInicio").val(),
             fechaFin:$("#fechaFin").val(),
     
@@ -397,7 +397,7 @@ function buscar(){
         url: base_url + '/admin/laboratorio/buscar', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
-          idLote:$("#idLote").val(),
+          //idLote:$("#idLote").val(),
           fecha:$("#fecha").val(),
           area:$('#area').val(),
           parametro: $("#parametro").val(),
