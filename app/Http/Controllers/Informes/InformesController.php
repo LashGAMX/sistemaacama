@@ -434,31 +434,29 @@ class InformesController extends Controller
 
                 array_push($limitesC, $limC);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                if($item->Id_parametro === 7){   //DQO
-                    $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 20){   //Cianuros
+                if($item->Id_parametro == 20){   //Cianuros
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 13){   //Coliformes fecales
+                }else if($item->Id_parametro == 13){   //Coliformes fecales
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 22){   //Cromo total
+                }else if($item->Id_parametro == 22){   //Cromo total
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 72){   //DBO
+                }else if($item->Id_parametro == 72){   //DBO
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 7){   //DQO
+                }else if($item->Id_parametro == 7){   //DQO
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 16){   //Fosforo
+                }else if($item->Id_parametro == 16){   //Fosforo
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 14){   //Grasas y Aceites
+                }else if($item->Id_parametro == 14){   //Grasas y Aceites
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 17){   //Huevos de helminto
+                }else if($item->Id_parametro == 17){   //Huevos de helminto
                     $limC = number_format($item->Resultado, 0, ".", ",");
-                }else if($item->Id_parametro === 23){   //Mercurio
+                }else if($item->Id_parametro == 23){   //Mercurio
                     $limC = number_format($item->Resultado, 4, ".", ",");
-                }else if($item->Id_parametro === 8){   //Nitratos
+                }else if($item->Id_parametro == 8){   //Nitratos
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 9){   //Nitritos
+                }else if($item->Id_parametro == 9){   //Nitritos
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 10 || $item->Id_parametro === 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
+                }else if($item->Id_parametro == 10 || $item->Id_parametro == 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
                     $limC = number_format($item->Resultado, 2, ".", ",");
                 }else{
                     $limC = number_format($item->Resultado, 3, ".", ",");
@@ -1237,31 +1235,29 @@ class InformesController extends Controller
 
                 array_push($limitesC, $limC);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                if($item->Id_parametro === 7){   //DQO
-                    $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 20){   //Cianuros
+                if($item->Id_parametro == 20){   //Cianuros
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 13){   //Coliformes fecales
+                }else if($item->Id_parametro == 13){   //Coliformes fecales
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 22){   //Cromo total
+                }else if($item->Id_parametro == 22){   //Cromo total
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 72){   //DBO
+                }else if($item->Id_parametro == 72){   //DBO
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 7){   //DQO
+                }else if($item->Id_parametro == 7){   //DQO
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 16){   //Fosforo
+                }else if($item->Id_parametro == 16){   //Fosforo
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 14){   //Grasas y Aceites
+                }else if($item->Id_parametro == 14){   //Grasas y Aceites
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 17){   //Huevos de helminto
+                }else if($item->Id_parametro == 17){   //Huevos de helminto
                     $limC = number_format($item->Resultado, 0, ".", ",");
-                }else if($item->Id_parametro === 23){   //Mercurio
+                }else if($item->Id_parametro == 23){   //Mercurio
                     $limC = number_format($item->Resultado, 4, ".", ",");
-                }else if($item->Id_parametro === 8){   //Nitratos
+                }else if($item->Id_parametro == 8){   //Nitratos
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 9){   //Nitritos
+                }else if($item->Id_parametro == 9){   //Nitritos
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 10 || $item->Id_parametro === 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
+                }else if($item->Id_parametro == 10 || $item->Id_parametro == 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
                     $limC = number_format($item->Resultado, 2, ".", ",");
                 }else{
                     $limC = number_format($item->Resultado, 3, ".", ",");
@@ -2080,31 +2076,29 @@ class InformesController extends Controller
                 array_push($limiteMostrar, 1);
                 array_push($limitesC, $limC);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                if($item->Id_parametro === 7){   //DQO
-                    $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 20){   //Cianuros
+                if($item->Id_parametro == 20){   //Cianuros
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 13){   //Coliformes fecales
+                }else if($item->Id_parametro == 13){   //Coliformes fecales
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 22){   //Cromo total
+                }else if($item->Id_parametro == 22){   //Cromo total
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 72){   //DBO
+                }else if($item->Id_parametro == 72){   //DBO
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 7){   //DQO
+                }else if($item->Id_parametro == 7){   //DQO
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 16){   //Fosforo
+                }else if($item->Id_parametro == 16){   //Fosforo
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 14){   //Grasas y Aceites
+                }else if($item->Id_parametro == 14){   //Grasas y Aceites
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 17){   //Huevos de helminto
+                }else if($item->Id_parametro == 17){   //Huevos de helminto
                     $limC = number_format($item->Resultado, 0, ".", ",");
-                }else if($item->Id_parametro === 23){   //Mercurio
+                }else if($item->Id_parametro == 23){   //Mercurio
                     $limC = number_format($item->Resultado, 4, ".", ",");
-                }else if($item->Id_parametro === 8){   //Nitratos
+                }else if($item->Id_parametro == 8){   //Nitratos
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 9){   //Nitritos
+                }else if($item->Id_parametro == 9){   //Nitritos
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 10 || $item->Id_parametro === 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
+                }else if($item->Id_parametro == 10 || $item->Id_parametro == 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
                     $limC = number_format($item->Resultado, 2, ".", ",");
                 }else{
                     $limC = number_format($item->Resultado, 3, ".", ",");
@@ -2242,31 +2236,29 @@ class InformesController extends Controller
                 array_push($limiteMostrar2, 1);
                 array_push($limites2C, $lim2C);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                if($item->Id_parametro === 7){   //DQO
-                    $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 20){   //Cianuros
+                if($item->Id_parametro == 20){   //Cianuros
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 13){   //Coliformes fecales
+                }else if($item->Id_parametro == 13){   //Coliformes fecales
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 22){   //Cromo total
+                }else if($item->Id_parametro == 22){   //Cromo total
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 72){   //DBO
+                }else if($item->Id_parametro == 72){   //DBO
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 7){   //DQO
+                }else if($item->Id_parametro == 7){   //DQO
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 16){   //Fosforo
+                }else if($item->Id_parametro == 16){   //Fosforo
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 14){   //Grasas y Aceites
+                }else if($item->Id_parametro == 14){   //Grasas y Aceites
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 17){   //Huevos de helminto
+                }else if($item->Id_parametro == 17){   //Huevos de helminto
                     $lim2C = number_format($item->Resultado, 0, ".", ",");
-                }else if($item->Id_parametro === 23){   //Mercurio
+                }else if($item->Id_parametro == 23){   //Mercurio
                     $lim2C = number_format($item->Resultado, 4, ".", ",");
-                }else if($item->Id_parametro === 8){   //Nitratos
+                }else if($item->Id_parametro == 8){   //Nitratos
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 9){   //Nitritos
+                }else if($item->Id_parametro == 9){   //Nitritos
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 10 || $item->Id_parametro === 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
+                }else if($item->Id_parametro == 10 || $item->Id_parametro == 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
                     $limC2 = number_format($item->Resultado, 2, ".", ",");
                 }else{
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
@@ -2752,31 +2744,29 @@ class InformesController extends Controller
                 array_push($limiteMostrar, 1);
                 array_push($limitesC, $limC);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                if($item->Id_parametro === 7){   //DQO
-                    $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 20){   //Cianuros
+                if($item->Id_parametro == 20){   //Cianuros
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 13){   //Coliformes fecales
+                }else if($item->Id_parametro == 13){   //Coliformes fecales
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 22){   //Cromo total
+                }else if($item->Id_parametro == 22){   //Cromo total
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 72){   //DBO
+                }else if($item->Id_parametro == 72){   //DBO
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 7){   //DQO
+                }else if($item->Id_parametro == 7){   //DQO
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 16){   //Fosforo
+                }else if($item->Id_parametro == 16){   //Fosforo
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 14){   //Grasas y Aceites
+                }else if($item->Id_parametro == 14){   //Grasas y Aceites
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 17){   //Huevos de helminto
+                }else if($item->Id_parametro == 17){   //Huevos de helminto
                     $limC = number_format($item->Resultado, 0, ".", ",");
-                }else if($item->Id_parametro === 23){   //Mercurio
+                }else if($item->Id_parametro == 23){   //Mercurio
                     $limC = number_format($item->Resultado, 4, ".", ",");
-                }else if($item->Id_parametro === 8){   //Nitratos
+                }else if($item->Id_parametro == 8){   //Nitratos
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 9){   //Nitritos
+                }else if($item->Id_parametro == 9){   //Nitritos
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 10 || $item->Id_parametro === 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
+                }else if($item->Id_parametro == 10 || $item->Id_parametro == 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
                     $limC = number_format($item->Resultado, 2, ".", ",");
                 }else{
                     $limC = number_format($item->Resultado, 3, ".", ",");
@@ -2911,31 +2901,29 @@ class InformesController extends Controller
                 array_push($limiteMostrar2, 1);
                 array_push($limites2C, $lim2C);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                if($item->Id_parametro === 7){   //DQO
-                    $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 20){   //Cianuros
+                if($item->Id_parametro == 20){   //Cianuros
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 13){   //Coliformes fecales
+                }else if($item->Id_parametro == 13){   //Coliformes fecales
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 22){   //Cromo total
+                }else if($item->Id_parametro == 22){   //Cromo total
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 72){   //DBO
+                }else if($item->Id_parametro == 72){   //DBO
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 7){   //DQO
+                }else if($item->Id_parametro == 7){   //DQO
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 16){   //Fosforo
+                }else if($item->Id_parametro == 16){   //Fosforo
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 14){   //Grasas y Aceites
+                }else if($item->Id_parametro == 14){   //Grasas y Aceites
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 17){   //Huevos de helminto
+                }else if($item->Id_parametro == 17){   //Huevos de helminto
                     $lim2C = number_format($item->Resultado, 0, ".", ",");
-                }else if($item->Id_parametro === 23){   //Mercurio
+                }else if($item->Id_parametro == 23){   //Mercurio
                     $lim2C = number_format($item->Resultado, 4, ".", ",");
-                }else if($item->Id_parametro === 8){   //Nitratos
+                }else if($item->Id_parametro == 8){   //Nitratos
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 9){   //Nitritos
+                }else if($item->Id_parametro == 9){   //Nitritos
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 10 || $item->Id_parametro === 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
+                }else if($item->Id_parametro == 10 || $item->Id_parametro == 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
                     $limC2 = number_format($item->Resultado, 2, ".", ",");
                 }else{
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
@@ -3426,31 +3414,29 @@ class InformesController extends Controller
                 array_push($limiteMostrar, 1);
                 array_push($limitesC, $limC);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                if($item->Id_parametro === 7){   //DQO
-                    $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 20){   //Cianuros
+                if($item->Id_parametro == 20){   //Cianuros
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 13){   //Coliformes fecales
+                }else if($item->Id_parametro == 13){   //Coliformes fecales
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 22){   //Cromo total
+                }else if($item->Id_parametro == 22){   //Cromo total
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 72){   //DBO
+                }else if($item->Id_parametro == 72){   //DBO
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 7){   //DQO
+                }else if($item->Id_parametro == 7){   //DQO
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 16){   //Fosforo
+                }else if($item->Id_parametro == 16){   //Fosforo
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 14){   //Grasas y Aceites
+                }else if($item->Id_parametro == 14){   //Grasas y Aceites
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 17){   //Huevos de helminto
+                }else if($item->Id_parametro == 17){   //Huevos de helminto
                     $limC = number_format($item->Resultado, 0, ".", ",");
-                }else if($item->Id_parametro === 23){   //Mercurio
+                }else if($item->Id_parametro == 23){   //Mercurio
                     $limC = number_format($item->Resultado, 4, ".", ",");
-                }else if($item->Id_parametro === 8){   //Nitratos
+                }else if($item->Id_parametro == 8){   //Nitratos
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 9){   //Nitritos
+                }else if($item->Id_parametro == 9){   //Nitritos
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 10 || $item->Id_parametro === 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
+                }else if($item->Id_parametro == 10 || $item->Id_parametro == 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
                     $limC = number_format($item->Resultado, 2, ".", ",");
                 }else{
                     $limC = number_format($item->Resultado, 3, ".", ",");
@@ -3588,31 +3574,29 @@ class InformesController extends Controller
                 array_push($limiteMostrar2, 1);
                 array_push($limites2C, $lim2C);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                if($item->Id_parametro === 7){   //DQO
-                    $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 20){   //Cianuros
+                if($item->Id_parametro == 20){   //Cianuros
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 13){   //Coliformes fecales
+                }else if($item->Id_parametro == 13){   //Coliformes fecales
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 22){   //Cromo total
+                }else if($item->Id_parametro == 22){   //Cromo total
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 72){   //DBO
+                }else if($item->Id_parametro == 72){   //DBO
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 7){   //DQO
+                }else if($item->Id_parametro == 7){   //DQO
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 16){   //Fosforo
+                }else if($item->Id_parametro == 16){   //Fosforo
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 14){   //Grasas y Aceites
+                }else if($item->Id_parametro == 14){   //Grasas y Aceites
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 17){   //Huevos de helminto
+                }else if($item->Id_parametro == 17){   //Huevos de helminto
                     $lim2C = number_format($item->Resultado, 0, ".", ",");
-                }else if($item->Id_parametro === 23){   //Mercurio
+                }else if($item->Id_parametro == 23){   //Mercurio
                     $lim2C = number_format($item->Resultado, 4, ".", ",");
-                }else if($item->Id_parametro === 8){   //Nitratos
+                }else if($item->Id_parametro == 8){   //Nitratos
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 9){   //Nitritos
+                }else if($item->Id_parametro == 9){   //Nitritos
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 10 || $item->Id_parametro === 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
+                }else if($item->Id_parametro == 10 || $item->Id_parametro == 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
                     $limC2 = number_format($item->Resultado, 2, ".", ",");
                 }else{
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
@@ -4098,31 +4082,29 @@ class InformesController extends Controller
                 array_push($limiteMostrar, 1);
                 array_push($limitesC, $limC);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                if($item->Id_parametro === 7){   //DQO
-                    $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 20){   //Cianuros
+                if($item->Id_parametro == 20){   //Cianuros
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 13){   //Coliformes fecales
+                }else if($item->Id_parametro == 13){   //Coliformes fecales
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 22){   //Cromo total
+                }else if($item->Id_parametro == 22){   //Cromo total
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 72){   //DBO
+                }else if($item->Id_parametro == 72){   //DBO
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 7){   //DQO
+                }else if($item->Id_parametro == 7){   //DQO
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 16){   //Fosforo
+                }else if($item->Id_parametro == 16){   //Fosforo
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 14){   //Grasas y Aceites
+                }else if($item->Id_parametro == 14){   //Grasas y Aceites
                     $limC = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 17){   //Huevos de helminto
+                }else if($item->Id_parametro == 17){   //Huevos de helminto
                     $limC = number_format($item->Resultado, 0, ".", ",");
-                }else if($item->Id_parametro === 23){   //Mercurio
+                }else if($item->Id_parametro == 23){   //Mercurio
                     $limC = number_format($item->Resultado, 4, ".", ",");
-                }else if($item->Id_parametro === 8){   //Nitratos
+                }else if($item->Id_parametro == 8){   //Nitratos
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 9){   //Nitritos
+                }else if($item->Id_parametro == 9){   //Nitritos
                     $limC = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 10 || $item->Id_parametro === 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
+                }else if($item->Id_parametro == 10 || $item->Id_parametro == 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
                     $limC = number_format($item->Resultado, 2, ".", ",");
                 }else{
                     $limC = number_format($item->Resultado, 3, ".", ",");
@@ -4257,31 +4239,29 @@ class InformesController extends Controller
                 array_push($limiteMostrar2, 1);
                 array_push($limites2C, $lim2C);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                if($item->Id_parametro === 7){   //DQO
-                    $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 20){   //Cianuros
+                if($item->Id_parametro == 20){   //Cianuros
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 13){   //Coliformes fecales
+                }else if($item->Id_parametro == 13){   //Coliformes fecales
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 22){   //Cromo total
+                }else if($item->Id_parametro == 22){   //Cromo total
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 72){   //DBO
+                }else if($item->Id_parametro == 72){   //DBO
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 7){   //DQO
+                }else if($item->Id_parametro == 7){   //DQO
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 16){   //Fosforo
+                }else if($item->Id_parametro == 16){   //Fosforo
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 14){   //Grasas y Aceites
+                }else if($item->Id_parametro == 14){   //Grasas y Aceites
                     $lim2C = number_format($item->Resultado, 2, ".", ",");
-                }else if($item->Id_parametro === 17){   //Huevos de helminto
+                }else if($item->Id_parametro == 17){   //Huevos de helminto
                     $lim2C = number_format($item->Resultado, 0, ".", ",");
-                }else if($item->Id_parametro === 23){   //Mercurio
+                }else if($item->Id_parametro == 23){   //Mercurio
                     $lim2C = number_format($item->Resultado, 4, ".", ",");
-                }else if($item->Id_parametro === 8){   //Nitratos
+                }else if($item->Id_parametro == 8){   //Nitratos
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 9){   //Nitritos
+                }else if($item->Id_parametro == 9){   //Nitritos
                     $lim2C = number_format($item->Resultado, 3, ".", ",");
-                }else if($item->Id_parametro === 10 || $item->Id_parametro === 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
+                }else if($item->Id_parametro == 10 || $item->Id_parametro == 11){   //Nitrogeno Amoniacal y Nitrogeno Organico
                     $limC2 = number_format($item->Resultado, 2, ".", ",");
                 }else{
                     $lim2C = number_format($item->Resultado, 3, ".", ",");

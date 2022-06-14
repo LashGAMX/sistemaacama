@@ -60,15 +60,20 @@
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paquete[$i]->Cantidad}}</td>
                                 @endif
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$recepcion->Hora_entrada)->format('d/m/Y')}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                    
+                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">                                    
                                     @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 9 || @$paquete[$i]->Id_area == 16)
                                         ---------------
                                     @else
                                         {{\Carbon\Carbon::parse(@$paquete[$i]->created_at)->format('d/m/Y')}}
                                     @endif
                                 </td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$paquete[$i]->created_at)->addDays(15)->format('d/m/Y')}}</td>
+                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
+                                    @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 9 || @$paquete[$i]->Id_area == 16)
+                                        ---------------
+                                    @else
+                                        {{\Carbon\Carbon::parse(@$paquete[$i]->created_at)->addDays(15)->format('d/m/Y')}}
+                                    @endif
+                                </td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$paquete[$i]->created_at)->addDays(10)->format('d/m/Y')}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer"><img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>                                
                             </tr>
