@@ -926,7 +926,7 @@ class SolicitudController extends Controller
             }
             $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $value->Id_solicitud)->get();
     
-            $phMuestra = PhMuestra::where('Id_solicitud',$value->Id_solicitud)->get();
+            $phMuestra = PhMuestra::where('Id_solicitud',$value->Id_solicitud)->where('Activo',1)->get();
     
             $cont = 0;
             $swCodigo = CodigoParametros::where('Id_solicitud',$value->Id_solicitud)->get();
@@ -936,7 +936,7 @@ class SolicitudController extends Controller
             }else{
              foreach ($solParam as $item) {
                  if ($item->Id_parametro == 14) { // Grasas y aceites
-                     for ($i = 0; $i < $phMuestra->count; $i++) {
+                     for ($i = 0; $i < $phMuestra->count(); $i++) {
                          $codigo = CodigoParametros::create([
                              'Id_solicitud' => $value->Id_solicitud,
                              'Id_parametro' => $item->Id_parametro,
@@ -946,7 +946,7 @@ class SolicitudController extends Controller
                          ]);
                      }
                  } else if ($item->Id_parametro == 13) { // Coliformes
-                     for ($i = 0; $i < $phMuestra->count; $i++) {
+                     for ($i = 0; $i < $phMuestra->count(); $i++) {
                          $codigo = CodigoParametros::create([
                              'Id_solicitud' => $value->Id_solicitud,
                              'Id_parametro' => $item->Id_parametro,
@@ -966,7 +966,7 @@ class SolicitudController extends Controller
                  }
              }
             }
-            $codigo = CodigoParametros::where('Id_solicitud', $model->Id_solicitud)->get();
+            // $codigo = CodigoParametros::where('Id_solicitud', $model->Id_solicitud)->get();
         }
       
       
@@ -978,7 +978,7 @@ class SolicitudController extends Controller
             'parametros' => $solParam,
             'ga' => $ga,
             'coliformes' => $coliforme,
-            'codigo' => $codigo,
+            // 'codigo' => $codigo,
             'model' => $model,
         );
 

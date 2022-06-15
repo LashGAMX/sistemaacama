@@ -35,7 +35,7 @@ class InformesController extends Controller
     public function index()
     {
         $tipoReporte = TipoReporte::all();
-        $model = DB::table('ViewSolicitud')->orderBy('Id_solicitud','desc')->get();
+        $model = DB::table('ViewSolicitud')->orderBy('Id_solicitud','desc')->where('Padre',1)->get();
         return view('informes.informes', compact('tipoReporte', 'model'));
     }
     public function getPuntoMuestro(Request $request)
