@@ -69,7 +69,7 @@ class CurvaController extends Controller
 
         //$loteDetalle = LoteDetalle::where('Id_lote',$request->idLote)->first();
         $concent = ConcentracionParametro::where('Id_parametro',$request->parametro)->get();
-        $bmr = CurvaConstantes::where('Id_area', $request->area)->whereDate('Fecha_inicio', '>=', $fecha)->whereDate('Fecha_fin', '<=', $fecha)->first();
+        $bmr = CurvaConstantes::whereDate('Fecha_fin', '>=', $fecha)->first();
 
         if($model->count()){
             $sw = true;  
