@@ -644,7 +644,7 @@
                             <td class="fontNormal fontCalibri fontSize12" width="25%">Temperatura muestra compuesta</td>
                             <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Temp_muestraComp, 1, ".", ",")}} °C</td>
                             <td class="fontNormal fontCalibri fontSize12" width="25%">pH muestra compuesta</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Ph_muestraComp, 2, ".", ",")}}</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Ph_muestraComp, 2, ".", ",")}} UNIDADES</td>
                         </tr>
                     </tbody>
                 </table>

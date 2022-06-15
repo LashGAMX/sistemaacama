@@ -473,14 +473,19 @@ class InformesController extends Controller
             $horaMuestreo = \Carbon\Carbon::parse($modelProcesoAnalisis->Hora_entrada)->format('H:i:s');
         } else {
             $horaMuestreo = 'COMPUESTA';
-        }        
+        }
+        
+
+
+        //Recupera la temperatura compuesta
+        $temperaturaC = CampoCompuesto::where('Id_solicitud', $idSol)->first();
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'tempCompuesta', 'sumaCaudalesFinal', 'resColi', 'sParam'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'modelProcesoAnalisis', 'horaMuestreo'));
-        $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam'));
+        $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam', 'temperaturaC'));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -4401,7 +4406,7 @@ class InformesController extends Controller
 
         $recibidos = PhMuestra::where('Id_solicitud',$idSol)->where('Activo', 1)->get();
         $recibidosLength = $recibidos->count();
-        $gastosModel2 = GastoMuestra::where('Id_solicitud', $idSol)->where('Activo', 1)->get();
+        $gastosModel2 = GastoMuestra::where('Id_solicitud', $idSol)->get();
         $gastosModelLength2 = $gastosModel2->count();
         $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
         $gastosModelLength = $gastosModel->count();
