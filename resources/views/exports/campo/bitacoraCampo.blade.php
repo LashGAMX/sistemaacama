@@ -254,7 +254,7 @@
                     <tr>
                         <td class="fontNormal fontCalibri fontSize12">MATERIAL USADO EN EL MUESTREO</td>
                         <td class="fontNormal fontCalibri fontSize10">Ver plan de muestreo RE-11-005</td>
-                        <td class="fontBold fontCalibri fontSize12">{{$tipoReporte->Categoria}}</td>
+                        {{-- <td class="fontBold fontCalibri fontSize12">{{$tipoReporte->Categoria}}</td> --}}
                         
                     </tr>
                     
