@@ -1,8 +1,8 @@
 
 var table;
 // var selectedRow = false;
+var idCot = 0; 
 $(document).ready(function () {
-    var idCot = 0; 
     table = $('#tablaSolicitud').DataTable({
         "ordering": false,
         "language": {
