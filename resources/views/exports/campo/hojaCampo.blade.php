@@ -83,8 +83,8 @@
                             <td class="negrita justifyCenter bordesTablaSupInfDer">ANALISIS</td>
                             <td class="negrita justifyCenter bordesTablaSupInfDer">PARAMETRO</td>
                             <td class="negrita justifyCenter bordesTablaSupInfDer">ENVASE</td>
-                            <td class="negrita justifyCenter bordesTablaSupInfDer">VOLUMEN</td>                            
-                            <td class="negrita justifyCenter bordesTablaSupInfDer">PRESERVACION</td>                            
+                            <td class="negrita justifyCenter bordesTablaSupInfDer">VOLUMEN</td>
+                            <td class="negrita justifyCenter bordesTablaSupInfDer">PRESERVACION</td>
                             <td class="negrita justifyCenter bordesTablaSupInfDer">SI/NO</td>
                         </tr>
                     </thead>
@@ -257,7 +257,9 @@
 
                     <tr>
                         <td colspan="2" class="bordesTablaInfIzqDer">Fecha y hora de recepción en Lab: {{\Carbon\Carbon::parse(@$recepcion->created_at)->format('d/m/Y')}}</td>
-                        <td colspan="2" class="bordesTablaSupInfDer">Fecha y hora de conformación de la muestra: </td>
+                        <td colspan="2" class="bordesTablaSupInfDer">Fecha y hora de conformación de la muestra: 
+                            {{\Carbon\Carbon::parse(@$phMuestra[@$model->Num_tomas - 1]->Fecha)->addMinutes(30)->format('d/m/Y H:i:s')}}
+                        </td>
                     </tr>
 
                     <tr>

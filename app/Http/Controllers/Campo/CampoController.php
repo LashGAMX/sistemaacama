@@ -160,7 +160,7 @@ class CampoController extends Controller
             $model->Id_user_m = Auth::user()->id;
 
             $nota = "Registro modificado";
-            $this->historialCampoGeneral($request->idSolicitud, $nota, $model->Id_general);
+            // $this->historialCampoGeneral($request->idSolicitud, $nota, $model->Id_general);
 
             $model->save();
         }else{
@@ -181,7 +181,7 @@ class CampoController extends Controller
             ]);
 
             $nota = "Creación de registro";
-            $this->historialCampoGeneral($request->idSolicitud, $nota, $model->Id_general);
+            // $this->historialCampoGeneral($request->idSolicitud, $nota, $model->Id_general);
         }                
 
         //Ph trazable
@@ -376,9 +376,9 @@ class CampoController extends Controller
                 $this->historialCondCalidad($request->idSolicitud, $nota, $campoConCalidad->Id_conductividad);
             }
 
-            $seguimiento = SeguimientoAnalisis::where('Id_servicio',$request->idSolicitud)->first();
-            $seguimiento->Muestreo = 1;
-            $seguimiento->save();
+            // $seguimiento = SeguimientoAnalisis::where('Id_servicio',$request->idSolicitud)->first();
+            // $seguimiento->Muestreo = 1;
+            // $seguimiento->save();
 
         $data = array('sw' => true, 'model' => $model);
         return response()->json($data);
