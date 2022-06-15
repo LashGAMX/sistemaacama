@@ -17,6 +17,7 @@ use App\Models\Frecuencia001;
 use App\Models\Intermediario;
 use App\Models\Norma;
 use App\Models\NormaParametros;
+use App\Models\PhMuestra;
 use App\Models\PuntoMuestreoGen;
 use App\Models\PuntoMuestreoSir;
 use App\Models\SeguimientoAnalisis;
@@ -906,68 +907,78 @@ class SolicitudController extends Controller
 
     public function setGenFolio(Request $request)
     {
+        
         $sw = false;
-        $model = DB::table('ViewSolicitud')->where('Id_cotizacion', $request->idCot)->first();
-        $coliforme = false;
-        $ga = false;
-
-        $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $model->Id_solicitud)->where('Id_parametro', 14)->get();
-        if ($solParam->count()) {
-            $ga = true;
-        }
-        $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $model->Id_solicitud)->where('Id_parametro', 13)->get();
-        if ($solParam->count()) {
-            $coliforme = true;
-        }
-        $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $model->Id_solicitud)->get();
-
-        $cont = 0;
-        $swCodigo = CodigoParametros::where('Id_solicitud',$model->Id_solicitud)->get();
-       if($swCodigo->count())
-       {
-        $sw = true;
-       }else{
-        foreach ($solParam as $item) {
-            if ($item->Id_parametro == 14) { // Grasas y aceites
-                for ($i = 0; $i < $model->Num_tomas; $i++) {
-                    $codigo = CodigoParametros::create([
-                        'Id_solicitud' => $model->Id_solicitud,
-                        'Id_parametro' => $item->Id_parametro,
-                        'Codigo' => $model->Folio_servicio . "-G-" . ($i + 1) . "",
-                        'Num_muestra' => $i + 1,
-                        'Asignado' => 0,
-                    ]);
-                }
-            } else if ($item->Id_parametro == 13) { // Coliformes
-                for ($i = 0; $i < $model->Num_tomas; $i++) {
-                    $codigo = CodigoParametros::create([
-                        'Id_solicitud' => $model->Id_solicitud,
-                        'Id_parametro' => $item->Id_parametro,
-                        'Codigo' => $model->Folio_servicio . "-C-" . ($i + 1) . "",
-                        'Num_muestra' => $i + 1,
-                        'Asignado' => 0,
-                    ]);
-                }
-            } else {
-                $codigo = CodigoParametros::create([
-                    'Id_solicitud' => $model->Id_solicitud,
-                    'Id_parametro' => $item->Id_parametro,
-                    'Codigo' => $model->Folio_servicio,
-                    'Num_muestra' => 1,
-                    'Asignado' => 0,
-                ]);
+        $modelPadre = DB::table('ViewSolicitud')->where('Id_cotizacion', $request->idCot)->where('Padre',1)->first();
+        $model = DB::table('ViewSolicitud')->where('Hijo',$modelPadre->Id_solicitud)->get();
+        foreach ($model as $value) {
+            # code...
+            $coliforme = false;
+            $ga = false;
+    
+            $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $value->Id_solicitud)->where('Id_parametro', 14)->get();
+            if ($solParam->count()) {
+                $ga = true;
             }
+            $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $value->Id_solicitud)->where('Id_parametro', 13)->get();
+            if ($solParam->count()) {
+                $coliforme = true;
+            }
+            $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $value->Id_solicitud)->get();
+    
+            $phMuestra = PhMuestra::where('Id_solicitud',$value->Id_solicitud)->where('Activo',1)->get();
+    
+            $cont = 0;
+            $swCodigo = CodigoParametros::where('Id_solicitud',$value->Id_solicitud)->get();
+            if($swCodigo->count())
+            {
+             $sw = true;
+            }else{
+             foreach ($solParam as $item) {
+                 if ($item->Id_parametro == 14) { // Grasas y aceites
+                     for ($i = 0; $i < $phMuestra->count(); $i++) {
+                         $codigo = CodigoParametros::create([
+                             'Id_solicitud' => $value->Id_solicitud,
+                             'Id_parametro' => $item->Id_parametro,
+                             'Codigo' => $value->Folio_servicio . "-G-" . ($i + 1) . "",
+                             'Num_muestra' => $i + 1,
+                             'Asignado' => 0,
+                         ]);
+                     }
+                 } else if ($item->Id_parametro == 13) { // Coliformes
+                     for ($i = 0; $i < $phMuestra->count(); $i++) {
+                         $codigo = CodigoParametros::create([
+                             'Id_solicitud' => $value->Id_solicitud,
+                             'Id_parametro' => $item->Id_parametro,
+                             'Codigo' => $value->Folio_servicio . "-C-" . ($i + 1) . "",
+                             'Num_muestra' => $i + 1,
+                             'Asignado' => 0,
+                         ]);
+                     }
+                 } else {
+                     $codigo = CodigoParametros::create([
+                         'Id_solicitud' => $value->Id_solicitud,
+                         'Id_parametro' => $item->Id_parametro,
+                         'Codigo' => $value->Folio_servicio,
+                         'Num_muestra' => 1,
+                         'Asignado' => 0,
+                     ]);
+                 }
+             }
+            }
+            // $codigo = CodigoParametros::where('Id_solicitud', $model->Id_solicitud)->get();
         }
-       }
+      
+      
 
-        $codigo = CodigoParametros::where('Id_solicitud', $model->Id_solicitud)->get();
+       
 
         $data = array(
             'sw' => $sw,
             'parametros' => $solParam,
             'ga' => $ga,
             'coliformes' => $coliforme,
-            'codigo' => $codigo,
+            // 'codigo' => $codigo,
             'model' => $model,
         );
 
