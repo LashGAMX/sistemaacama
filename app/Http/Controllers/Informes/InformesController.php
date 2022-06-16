@@ -4423,46 +4423,36 @@ class InformesController extends Controller
             }
         }
 
-        $promGastos = $promGastos / $gastosModelLength2;
-
-        $gaMenorLimite = false;
+        $promGastos = $promGastos / $gastosModelLength2;        
 
         $limitesC = array();
         $limiteGrasas = "";
-        $limiteCGrasa = DB::table('parametros')->where('Id_parametro', 14)->first();
-        $paramGrasasResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->first();
-
-        if ($paramGrasasResultado->Resultado < $limiteCGrasa->Limite) {
-            $limC = "< " . $limiteCGrasa->Limite;
-
-            $limiteGrasas = $limC;
-
-            $gaMenorLimite = true;
-        } else {  //Si es mayor el resultado que el límite de cuantificación            
-            $limC = $paramGrasasResultado->Resultado;
-            $limiteGrasas = $limC;            
-        }        
+        $limiteCGrasa = DB::table('parametros')->where('Id_parametro', 14)->first();              
 
         //Calcula el promedio ponderado de las grasas y aceites
-        if ($gaMenorLimite === false) {
+        //if ($gaMenorLimite == false) {
             $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();
             $modelParamGrasasLength = $modelParamGrasas->count();
 
             //Calcula promedio ponderado de G y A
             $promPonderadoGaArray = 0;
+
             //Arreglo que contiene los valores de GYA * GASTO por cada fila
             $gaPorGastoArray = array();
+
             //Contiene la suma de G(GYA * GASTO)
             $sumaG = 0;
+
             //Arreglo que contiene los valores de GYA * GASTO entre sumaG por cada fila
             $gaPorGastoDivSumaArray = array();
+
             //Arreglo que contiene los valores de GYA * (GYA*GASTO) / SUMAG
             $gaPorgaGastoDivSumaG = array();
 
             //Realiza las operaciones GYA * GASTO
             for ($i = 0; $i < $modelParamGrasasLength; $i++) {
                 //Si no tiene un valor guardado lo toma como cero
-                if ($gastosModel[$i]->Promedio === null) {
+                if ($gastosModel[$i]->Promedio == null) {
                     $gastos = 0;
                 } else {
                     $gastos = $gastosModel[$i]->Promedio;
@@ -4492,35 +4482,20 @@ class InformesController extends Controller
             for ($i = 0; $i < $modelParamGrasasLength; $i++) {
                 $promPonderadoGaArray += $gaPorgaGastoDivSumaG[$i];
             }
-        }
+        //}
 
-        $promedioPonderadoGA = "";
-        if ($gaMenorLimite === false) {
-            $promedioPonderadoGA = number_format($promPonderadoGaArray, 2);
-        } else {
-            $promedioPonderadoGA = $limiteGrasas;
-        }
+        $promedioPonderadoGA = "";        
+        if ($promPonderadoGaArray < $limiteCGrasa->Limite) {
+            $promedioPonderadoGA = "<". $limiteCGrasa->Limite;            
+        } else {            
+            $promedioPonderadoGA = number_format($promPonderadoGaArray, 2, ".", ",");
+        }                
 
         $limiteColiformes = "";
-        $limiteColiformes = DB::table('parametros')->where('Id_parametro', 13)->first();
-        $paramColiformesResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->first();
-        $coliformesMenorLimite = false;
-        $mediaAritmeticaColi = "";
-        $mAritmeticaColi = "";
-
-        if ($paramColiformesResultado->Resultado < $limiteColiformes->Limite) {
-            $limC = "< " . $limiteColiformes->Limite;
-
-            $limiteColiformes = $limC;
-
-            $coliformesMenorLimite = true;
-        } else {  //Si es mayor el resultado que el límite de cuantificación            
-            $limC = $paramColiformesResultado->Resultado;
-            $limiteColiformes = $limC;            
-        }
-
-        //Calcula la media aritmética de los coliformes
-        if ($coliformesMenorLimite === false) {
+        $limiteColiformes = DB::table('parametros')->where('Id_parametro', 13)->first();        
+        $mediaAritmeticaColi = 0;
+        $mAritmeticaColi = "";        
+        
             $modelParamColiformes = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();
             $modelParamColiformesLength = $modelParamColiformes->count();
             $res = 0;
@@ -4529,19 +4504,18 @@ class InformesController extends Controller
                 $res += $modelParamColiformes[$i]->Resultado;
             }
 
-            $mediaAritmeticaColi = $res / $modelParamColiformesLength;
-        }
+            $mediaAritmeticaColi = $res / $modelParamColiformesLength;        
 
-        if ($coliformesMenorLimite === false) {
-            $mAritmeticaColi = number_format($mediaAritmeticaColi, 2);
+        if ($mediaAritmeticaColi < $limiteColiformes->Limite){
+            $mAritmeticaColi = "<". $limiteColiformes->Limite;
         } else {
-            $mAritmeticaColi = $limiteColiformes;
-        }
+            $mAritmeticaColi = number_format($mediaAritmeticaColi, 2, ".", ",");
+        }        
 
         //Calcula el promedio de los promedios del gasto
         $gastoPromSuma = 0;
         foreach ($gastosModel as $item) {
-            if ($item->Promedio === null) {
+            if ($item->Promedio == null) {
                 $gastoPromSuma += 0;
             } else {
                 $gastoPromSuma += $item->Promedio;
