@@ -38,7 +38,7 @@
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup justificadorCentr fontSize6">
                         @php
                             $gastoLPS = ($gastoLPS1 + $gastoLPS2) / 2;
-                            echo $gastoLPS;
+                            echo number_format($gastoLPS, 2, ".", ",");
                         @endphp
                     </td>
                     <td class="filasIzq bordesTabla bordeIzqSinSup fontSize6 fontBold bordeIzqDerSinSup justificadorCentr">L/s</td>                                        
@@ -47,8 +47,8 @@
                     
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">GASTO LPS</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{@$gastoLPS1}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{@$gastoLPS2}}</td>
+                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{number_format(@$gastoLPS1, 2, ".", ",")}}</td>
+                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{number_format(@$gastoLPS2, 2, ".", ",")}}</td>
                 </tr>
 
                 <tr>

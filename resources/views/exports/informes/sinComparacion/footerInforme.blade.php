@@ -3,7 +3,7 @@
     <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
         <tbody>            
                 <tr>
-                    <td class="nombreHeader nom fontSize11 justificadorIzq" height="57">{{-- {{@$solicitud->Observacion}} --}} OBSERVACIONES: {{@$solicitud->Observacion}}   <!-- TEMPERATURA AMBIENTE PROMEDIO DE 25.97°C, LA MUESTRA PRESENTA OLOR Y COLOR TURBIO <br>
+                    <td class="nombreHeader nom fontSize11 justificadorIzq" height="57">{{-- {{@$solicitud->Observacion}} --}} OBSERVACIONES: {{@$obsCampo}}   <!-- TEMPERATURA AMBIENTE PROMEDIO DE 25.97°C, LA MUESTRA PRESENTA OLOR Y COLOR TURBIO <br>
                         EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
                         CONDICIONES AMBIENTALES: DÍA SOLEADO, EQUIPO UTILIZADO INVLAB583, EN LAS TOMAS 4,5 Y 6 NO HAY FLUJO POR LO CUAL NO SE TOMAN MUESTRAS. -->
                     </td>
@@ -51,7 +51,7 @@
                                         ** MALLA DE 3 mm, DE CLARO LIBRE. <br>
                                         @break
                                     @case(11)
-                                        *** LA DETERMINACION DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$tempCompuesta->Temp_muestraComp}} Y LA INCERTIDUMBRE DE PH ES DE +/- 0.02 <br>
+                                        *** LA DETERMINACION DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$temperaturaC->Temp_muestraComp}} Y LA INCERTIDUMBRE DE PH ES DE +/- 0.02 <br>
                                         @break
                                     @case(13)
                                         + MEDIA GEOMETRICA DE 6 MUESTRAS SIMPLES DE COLIFORMES. EL VALOR MINIMO CUANTIFICADO REPORTADO SERÁ DE 3, COMO CRITERIO CALCULADO PARA COLIFORMES EN SIRALAB Y EL LABORATORIO. <br>

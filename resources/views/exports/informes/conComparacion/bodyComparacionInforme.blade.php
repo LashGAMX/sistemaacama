@@ -20,8 +20,8 @@
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;UNIDAD&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION
                         CUANTIFICADA&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PERMISIBLE&nbsp;&nbsp;
-                    </td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PERMISIBLE&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr">ANALISTA</td>
                 </tr>
             </thead>
 
@@ -29,8 +29,8 @@
                 @for ($i = 0; $i < @$solicitudParametrosLength; $i++)
                     <tr>
                         <td class="tableContent bordesTablaBody" height="25">{{ @$solicitudParametros[$i]->Parametro }}<sup>{{$sParam[$i]}}</sup></td>
-                        <td class="tableContent bordesTablaBody">{{ @$solicitudParametros[$i]->Clave_metodo }}</td>
-                        <td class="tableContent bordesTablaBody">{{ @$solicitudParametros[$i]->Unidad }}</td>
+                        <td class="tableContent bordesTablaBody" width="16.6%">{{ @$solicitudParametros[$i]->Clave_metodo }}</td>
+                        <td class="tableContent bordesTablaBody" width="10.6%">{{ @$solicitudParametros[$i]->Unidad }}</td>
                         <td class="tableContent bordesTablaBody">
                             @if (strpos(@$solicitudParametros[$i]->Unidad, 'AUS') !== 0)
                                 @if (@$solicitudParametros[$i]->Parametro == 'Grasas y Aceites ++')
@@ -54,6 +54,9 @@
                             @else
                                 AUSENTE
                             @endif
+                        </td>
+                        <td class="tableContent bordesTablaBody" width="20.6%">
+                            NOMBRE_ANALISTA
                         </td>
                     </tr>
                 @endfor

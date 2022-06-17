@@ -17,7 +17,7 @@ class CadenaCustodiaController extends Controller
     //
     public function cadenaCustodia()
     {  
-        $model = DB::table('ViewSolicitud')->orderby('Id_solicitud','desc')->get();         
+        $model = DB::table('ViewSolicitud')->orderby('Id_solicitud','desc')->where('Padre',1)->get();         
         return view('supervicion.cadena.cadena',compact('model'));
     } 
     public function detalleCadena($id)
@@ -34,6 +34,7 @@ class CadenaCustodiaController extends Controller
     }
     public function getParametroCadena(Request $res)
     {
+        
         $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$res->idSol)->where('Num_muestra',1)->get();
         $data = array(
             'model' => $model,

@@ -70,11 +70,11 @@
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Marca}}
                                     </td>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lote}}</td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura1}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{number_format($item->Lectura1, 2, ".", ",")}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura2}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{number_format($item->Lectura2, 2, ".", ",")}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura3}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{number_format($item->Lectura3, 2, ".", ",")}}
                                     </td>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Estado}}
                                     </td>
@@ -105,11 +105,11 @@
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Marca}}
                                     </td>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lote}}</td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura1}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{number_format($item->Lectura1, 2, ".", ",")}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura2}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{number_format($item->Lectura2, 2, ".", ",")}}
                                     </td>
-                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Lectura3}}
+                                    <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{number_format($item->Lectura3, 2, ".", ",")}}
                                     </td>
                                     <td class="fontCalibri fontNormal fontSize12 justificadorCentr">{{$item->Estado}}
                                     </td>
@@ -644,7 +644,7 @@
                             <td class="fontNormal fontCalibri fontSize12" width="25%">Temperatura muestra compuesta</td>
                             <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Temp_muestraComp, 1, ".", ",")}} °C</td>
                             <td class="fontNormal fontCalibri fontSize12" width="25%">pH muestra compuesta</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Ph_muestraComp, 2, ".", ",")}}</td>
+                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Ph_muestraComp, 2, ".", ",")}} UNIDADES</td>
                         </tr>
                     </tbody>
                 </table>

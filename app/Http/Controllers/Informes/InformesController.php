@@ -35,7 +35,7 @@ class InformesController extends Controller
     public function index()
     {
         $tipoReporte = TipoReporte::all();
-        $model = DB::table('ViewSolicitud')->orderBy('Id_solicitud','desc')->get();
+        $model = DB::table('ViewSolicitud')->orderBy('Id_solicitud','desc')->where('Padre',1)->get();
         return view('informes.informes', compact('tipoReporte', 'model'));
     }
     public function getPuntoMuestro(Request $request)
@@ -473,14 +473,20 @@ class InformesController extends Controller
             $horaMuestreo = \Carbon\Carbon::parse($modelProcesoAnalisis->Hora_entrada)->format('H:i:s');
         } else {
             $horaMuestreo = 'COMPUESTA';
-        }        
+        }
+
+        //Recupera la temperatura compuesta
+        $temperaturaC = CampoCompuesto::where('Id_solicitud', $idSol)->first();
+
+        //Recupera la obs de campo
+        $obsCampo = $temperaturaC->Observaciones;
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'tempCompuesta', 'sumaCaudalesFinal', 'resColi', 'sParam'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'modelProcesoAnalisis', 'horaMuestreo'));
-        $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam'));
+        $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam', 'temperaturaC', 'obsCampo'));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -874,12 +880,16 @@ class InformesController extends Controller
             $horaMuestreo = 'COMPUESTA';
         }
 
+        //Recupera la obs de campo
+        $modelComp = CampoCompuesto::where('Id_solicitud', $idSol)->first();
+        $obsCampo = $modelComp->Observaciones;
+
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
-        $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('solicitud', 'simbologiaParam'));
+        $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('solicitud', 'simbologiaParam', 'obsCampo'));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -1276,12 +1286,16 @@ class InformesController extends Controller
             $horaMuestreo = 'COMPUESTA';
         }        
 
+        //Recupera la obs de campo
+        $modelComp = CampoCompuesto::where('Id_solicitud', $idSol)->first();
+        $obsCampo = $modelComp->Observaciones;
+
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'tempCompuesta', 'sumaCaudalesFinal', 'resColi', 'sParam'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'modelProcesoAnalisis', 'horaMuestreo'));
-        $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam'));
+        $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam', 'obsCampo'));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -1675,12 +1689,16 @@ class InformesController extends Controller
             $horaMuestreo = 'COMPUESTA';
         }
 
+        //Recupera la obs de campo
+        $modelComp = CampoCompuesto::where('Id_solicitud', $idSol)->first();
+        $obsCampo = $modelComp->Observaciones;
+
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
-        $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('solicitud', 'simbologiaParam'));
+        $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('solicitud', 'simbologiaParam', 'obsCampo'));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -4401,7 +4419,7 @@ class InformesController extends Controller
 
         $recibidos = PhMuestra::where('Id_solicitud',$idSol)->where('Activo', 1)->get();
         $recibidosLength = $recibidos->count();
-        $gastosModel2 = GastoMuestra::where('Id_solicitud', $idSol)->where('Activo', 1)->get();
+        $gastosModel2 = GastoMuestra::where('Id_solicitud', $idSol)->get();
         $gastosModelLength2 = $gastosModel2->count();
         $gastosModel = GastoMuestra::where('Id_solicitud', $idSol)->get();
         $gastosModelLength = $gastosModel->count();
@@ -4418,46 +4436,36 @@ class InformesController extends Controller
             }
         }
 
-        $promGastos = $promGastos / $gastosModelLength2;
-
-        $gaMenorLimite = false;
+        $promGastos = $promGastos / $gastosModelLength2;        
 
         $limitesC = array();
         $limiteGrasas = "";
-        $limiteCGrasa = DB::table('parametros')->where('Id_parametro', 14)->first();
-        $paramGrasasResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->first();
-
-        if ($paramGrasasResultado->Resultado < $limiteCGrasa->Limite) {
-            $limC = "< " . $limiteCGrasa->Limite;
-
-            $limiteGrasas = $limC;
-
-            $gaMenorLimite = true;
-        } else {  //Si es mayor el resultado que el límite de cuantificación            
-            $limC = $paramGrasasResultado->Resultado;
-            $limiteGrasas = $limC;            
-        }        
+        $limiteCGrasa = DB::table('parametros')->where('Id_parametro', 14)->first();              
 
         //Calcula el promedio ponderado de las grasas y aceites
-        if ($gaMenorLimite === false) {
+        //if ($gaMenorLimite == false) {
             $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();
             $modelParamGrasasLength = $modelParamGrasas->count();
 
             //Calcula promedio ponderado de G y A
             $promPonderadoGaArray = 0;
+
             //Arreglo que contiene los valores de GYA * GASTO por cada fila
             $gaPorGastoArray = array();
+
             //Contiene la suma de G(GYA * GASTO)
             $sumaG = 0;
+
             //Arreglo que contiene los valores de GYA * GASTO entre sumaG por cada fila
             $gaPorGastoDivSumaArray = array();
+
             //Arreglo que contiene los valores de GYA * (GYA*GASTO) / SUMAG
             $gaPorgaGastoDivSumaG = array();
 
             //Realiza las operaciones GYA * GASTO
             for ($i = 0; $i < $modelParamGrasasLength; $i++) {
                 //Si no tiene un valor guardado lo toma como cero
-                if ($gastosModel[$i]->Promedio === null) {
+                if ($gastosModel[$i]->Promedio == null) {
                     $gastos = 0;
                 } else {
                     $gastos = $gastosModel[$i]->Promedio;
@@ -4487,35 +4495,20 @@ class InformesController extends Controller
             for ($i = 0; $i < $modelParamGrasasLength; $i++) {
                 $promPonderadoGaArray += $gaPorgaGastoDivSumaG[$i];
             }
-        }
+        //}
 
-        $promedioPonderadoGA = "";
-        if ($gaMenorLimite === false) {
-            $promedioPonderadoGA = number_format($promPonderadoGaArray, 2);
-        } else {
-            $promedioPonderadoGA = $limiteGrasas;
-        }
+        $promedioPonderadoGA = "";        
+        if ($promPonderadoGaArray < $limiteCGrasa->Limite) {
+            $promedioPonderadoGA = "<". $limiteCGrasa->Limite;            
+        } else {            
+            $promedioPonderadoGA = number_format($promPonderadoGaArray, 2, ".", ",");
+        }                
 
         $limiteColiformes = "";
-        $limiteColiformes = DB::table('parametros')->where('Id_parametro', 13)->first();
-        $paramColiformesResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->first();
-        $coliformesMenorLimite = false;
-        $mediaAritmeticaColi = "";
-        $mAritmeticaColi = "";
-
-        if ($paramColiformesResultado->Resultado < $limiteColiformes->Limite) {
-            $limC = "< " . $limiteColiformes->Limite;
-
-            $limiteColiformes = $limC;
-
-            $coliformesMenorLimite = true;
-        } else {  //Si es mayor el resultado que el límite de cuantificación            
-            $limC = $paramColiformesResultado->Resultado;
-            $limiteColiformes = $limC;            
-        }
-
-        //Calcula la media aritmética de los coliformes
-        if ($coliformesMenorLimite === false) {
+        $limiteColiformes = DB::table('parametros')->where('Id_parametro', 13)->first();        
+        $mediaAritmeticaColi = 0;
+        $mAritmeticaColi = "";        
+        
             $modelParamColiformes = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();
             $modelParamColiformesLength = $modelParamColiformes->count();
             $res = 0;
@@ -4524,19 +4517,18 @@ class InformesController extends Controller
                 $res += $modelParamColiformes[$i]->Resultado;
             }
 
-            $mediaAritmeticaColi = $res / $modelParamColiformesLength;
-        }
+            $mediaAritmeticaColi = $res / $modelParamColiformesLength;        
 
-        if ($coliformesMenorLimite === false) {
-            $mAritmeticaColi = number_format($mediaAritmeticaColi, 2);
+        if ($mediaAritmeticaColi < $limiteColiformes->Limite){
+            $mAritmeticaColi = "<". $limiteColiformes->Limite;
         } else {
-            $mAritmeticaColi = $limiteColiformes;
-        }
+            $mAritmeticaColi = number_format($mediaAritmeticaColi, 2, ".", ",");
+        }        
 
         //Calcula el promedio de los promedios del gasto
         $gastoPromSuma = 0;
         foreach ($gastosModel as $item) {
-            if ($item->Promedio === null) {
+            if ($item->Promedio == null) {
                 $gastoPromSuma += 0;
             } else {
                 $gastoPromSuma += $item->Promedio;

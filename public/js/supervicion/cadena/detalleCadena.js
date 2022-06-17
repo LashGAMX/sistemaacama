@@ -1,5 +1,6 @@
 var idCodigo;
 var dataModel;
+var idPunto;
 $(document).ready(function () {
     
     let tablePunto = $('#tablePuntos').DataTable({        
@@ -19,6 +20,8 @@ $(document).ready(function () {
         else {
             tablePunto.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
+            let dato = $(this).find('td:first').html();
+            idPunto = dato;
             getParametros();
         }
     } );
