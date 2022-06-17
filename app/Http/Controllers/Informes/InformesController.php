@@ -474,18 +474,19 @@ class InformesController extends Controller
         } else {
             $horaMuestreo = 'COMPUESTA';
         }
-        
-
 
         //Recupera la temperatura compuesta
         $temperaturaC = CampoCompuesto::where('Id_solicitud', $idSol)->first();
+
+        //Recupera la obs de campo
+        $obsCampo = $temperaturaC->Observaciones;
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'tempCompuesta', 'sumaCaudalesFinal', 'resColi', 'sParam'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'modelProcesoAnalisis', 'horaMuestreo'));
-        $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam', 'temperaturaC'));
+        $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam', 'temperaturaC', 'obsCampo'));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -879,12 +880,16 @@ class InformesController extends Controller
             $horaMuestreo = 'COMPUESTA';
         }
 
+        //Recupera la obs de campo
+        $modelComp = CampoCompuesto::where('Id_solicitud', $idSol)->first();
+        $obsCampo = $modelComp->Observaciones;
+
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
-        $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('solicitud', 'simbologiaParam'));
+        $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('solicitud', 'simbologiaParam', 'obsCampo'));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -1281,12 +1286,16 @@ class InformesController extends Controller
             $horaMuestreo = 'COMPUESTA';
         }        
 
+        //Recupera la obs de campo
+        $modelComp = CampoCompuesto::where('Id_solicitud', $idSol)->first();
+        $obsCampo = $modelComp->Observaciones;
+
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'tempCompuesta', 'sumaCaudalesFinal', 'resColi', 'sParam'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'modelProcesoAnalisis', 'horaMuestreo'));
-        $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam'));
+        $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam', 'obsCampo'));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -1680,12 +1689,16 @@ class InformesController extends Controller
             $horaMuestreo = 'COMPUESTA';
         }
 
+        //Recupera la obs de campo
+        $modelComp = CampoCompuesto::where('Id_solicitud', $idSol)->first();
+        $obsCampo = $modelComp->Observaciones;
+
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
-        $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('solicitud', 'simbologiaParam'));
+        $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('solicitud', 'simbologiaParam', 'obsCampo'));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');

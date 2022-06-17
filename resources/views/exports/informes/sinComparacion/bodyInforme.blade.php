@@ -13,9 +13,10 @@
             <thead>
                 <tr>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" height="30">PARAMETRO &nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;METODO DE PRUEBA&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;UNIDAD&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;METODO DE PRUEBA&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;UNIDAD&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION CUANTIFICADA&nbsp;&nbsp;</td>                    
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">ANALISTA</td>
                 </tr>
             </thead>
     
@@ -41,7 +42,8 @@
                             @else
                                 AUSENTE
                             @endif
-                        </td>                        
+                        </td>
+                        <td class="tableContent bordesTablaBody">NOMBRE_ANALISTA</td>
                     </tr>                
                 @endfor
             </tbody>        
