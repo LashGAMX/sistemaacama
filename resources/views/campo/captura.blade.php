@@ -45,7 +45,7 @@
                                 <input type="text" id="idSolicitud" value="{{ $model->Id_solicitud }}" hidden>
                             </div>
                             <div class="col-md-2">
-                                <p>Id Ing campo: </p>
+                                <p>Id Ing campo: {{$model->Id_muestreador}} </p>
                             </div>
                             <div class="col-md-2">
                                 <p>Folio servicio: {{ $model->Folio_servicio }}</p>
