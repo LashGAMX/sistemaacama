@@ -53,7 +53,7 @@
                         @for ($i = 0; $i < @$paqueteLength; $i++)
                             <tr>
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{@$paquete[$i]->Area}}</td>
-                                <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$responsables[$i]}}</td>
+                                <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paquete[$i]->name}}</td>
                                 @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 7 || @$paquete[$i]->Id_area == 16)
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$recibidos->count()}}</td>
                                 @else

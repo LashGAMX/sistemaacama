@@ -435,23 +435,26 @@ ON pu.Id_muestreo = gen.Id_punto
 
 /*Lista ViewCodigoParametro */
 
-CREATE VIEW ViewCodigoParametro AS SELECT cod.*,sol.Folio_servicio,sub.Id_subnorma,sub.Id_norma,sub.Norma,sub.Clave,pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo FROM codigo_parametro as cod
+CREATE VIEW ViewCodigoParametro AS SELECT cod.*,us.name,sol.Folio_servicio,sub.Id_subnorma,sub.Id_norma,sub.Norma,sub.Clave,pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo FROM codigo_parametro as cod
 INNER JOIN solicitudes as sol
 ON cod.Id_solicitud = sol.Id_solicitud
 INNER JOIN sub_normas as sub
 ON sol.Id_subnorma = sub.Id_subnorma
 INNER JOIN ViewParametros as pa
 ON cod.Id_parametro = pa.Id_parametro
+INNER JOIN users as us
+ON cod.Analizo = us.id
 
 /* Lista ViewPlanPaquete */
-CREATE VIEW ViewPlanPaquete as SELECT p.*,lab.Area,e.Nombre as Envase,e.Volumen, u.Unidad FROM plan_paquete as p
+CREATE VIEW ViewPlanPaquete as SELECT p.*,lab.Area,lab.Id_responsable,us.name,e.Nombre as Envase,e.Volumen, u.Unidad FROM plan_paquete as p
 INNER JOIN areas_lab as lab
 ON p.Id_area = lab.Id_area
 INNER JOIN envase as e
 ON p.Id_recipiente = e.Id_envase
 INNER JOIN unidades as u
 ON u.Id_unidad = e.Id_unidad
-
+INNER JOIN users as us
+ON us.id = lab.Id_responsable
 /* Lista ViewPlanComplemento */
 CREATE VIEW ViewPlanComplemento as SELECT com.*,cam.Complemento FROM plan_complemento as com
 INNER JOIN complementos_campo as cam

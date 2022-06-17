@@ -43,7 +43,7 @@
                                 AUSENTE
                             @endif
                         </td>
-                        <td class="tableContent bordesTablaBody">NOMBRE_ANALISTA</td>
+                        <td class="tableContent bordesTablaBody">{{@$solicitudParametros[$i]->name}}</td>
                     </tr>                
                 @endfor
             </tbody>        

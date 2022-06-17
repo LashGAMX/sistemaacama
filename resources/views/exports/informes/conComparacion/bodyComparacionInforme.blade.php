@@ -56,7 +56,7 @@
                             @endif
                         </td>
                         <td class="tableContent bordesTablaBody" width="20.6%">
-                            NOMBRE_ANALISTA
+                            {{@$solicitudParametros[$i]->name}}
                         </td>
                     </tr>
                 @endfor
