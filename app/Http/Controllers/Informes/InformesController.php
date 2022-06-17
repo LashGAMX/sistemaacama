@@ -66,7 +66,7 @@ class InformesController extends Controller
 
     public function mensual()
     {
-        $model = DB::table('ViewSolicitud')->OrderBy('Id_solicitud', 'DESC')->get();
+        $model = DB::table('ViewSolicitud')->OrderBy('Id_solicitud', 'DESC')->where()->get();
         return view('informes.mensual', compact('model'));
     }
     public function getPreReporteMensual(Request $res)
