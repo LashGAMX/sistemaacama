@@ -66,7 +66,7 @@ class InformesController extends Controller
 
     public function mensual()
     {
-        $model = DB::table('ViewSolicitud')->OrderBy('Id_solicitud', 'DESC')->where()->get();
+        $model = DB::table('ViewSolicitud')->OrderBy('Id_solicitud', 'DESC')->where('Padre',0)->get();
         return view('informes.mensual', compact('model'));
     }
     public function getPreReporteMensual(Request $res)
@@ -111,7 +111,7 @@ class InformesController extends Controller
         $aux = true;
         foreach($model as $item)
         {
-            if($aux == true)
+            if($aux == true) 
             {
                 if($item->Siralab == 1)
                 {
@@ -515,7 +515,7 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        // $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');        
+        $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');        
     }
 
     public function pdfConComparacion($idSol)
@@ -2420,12 +2420,23 @@ class InformesController extends Controller
         
         // Hace los filtros para realizar la comparacion
         $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol)->first();
-        $solModel2 = DB::table('ViewSolicitud')->where('IdPunto', $solModel->IdPunto)->OrderBy('Id_solicitud', 'DESC')->get();
+        $idSol2 = 0;
+        $punto2 = 0;
+        if($solModel->Siralab == 1)
+        { 
+            $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud',$idSol)->first();
+            $punto2 = DB::table('ViewPuntoMuestreoSolSir')->where('Id_muestreo',$punto->Id_muestreo)->where('Id_solicitud','<',$idSol)->orderBy('Id_solicitud','DESC')->get();
+        }else{
+            $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud',$idSol)->first();
+            $punto2 = DB::table('ViewPuntoMuestreoGen')->where('Id_muestreo',$punto->Id_muestreo)->where('Id_solicitud','<',$idSol)->orderBy('Id_solicitud','DESC')->get();
+        }
+         $idSol2 = $punto2[1]->Id_solicitud;
+         $solModel2 = DB::table('ViewSolicitud')->where('Id_solicitud',$idSol2)->OrderBy('Id_solicitud', 'DESC')->get();
 
         //ViewCodigoParametro
         $cont = (sizeof($solModel2) - 1);
         
-        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->get();
         $modelLength = $model->count();
 
         $sParam = array();
@@ -2443,9 +2454,9 @@ class InformesController extends Controller
 
         foreach($simbolParam as $item){
             array_push($simbologiaParam, $item->Id_simbologia);
-        }
+        } 
 
-        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel2[0]->Id_solicitud)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
+        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
 
         //Formatea la fecha; Por adaptar para el informe sin comparacion
         $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
@@ -2471,7 +2482,7 @@ class InformesController extends Controller
         $solicitudParametroGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel->Id_solicitud)->where('Id_parametro', 14)->get();
         $solicitudParametroGrasasLength = $solicitudParametroGrasas->count();
 
-        $solicitudParametroGrasas2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel2[0]->Id_solicitud)->where('Id_parametro', 14)->get();
+        $solicitudParametroGrasas2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Id_parametro', 14)->get();
         $solicitudParametroGrasasLength2 = $solicitudParametroGrasas2->count();
 
         $sumaCaudales = 0;
@@ -2643,7 +2654,7 @@ class InformesController extends Controller
         $solicitudParametroColiformesFe = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel->Id_solicitud)->where('Id_parametro', 13)->get();
         $solicitudParametroColiformesFeLength = $solicitudParametroColiformesFe->count();
 
-        $solicitudParametroColiformesFe2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel2[0]->Id_solicitud)->where('Id_parametro', 13)->get();
+        $solicitudParametroColiformesFe2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Id_parametro', 13)->get();
         $solicitudParametroColiformesFeLength2 = $solicitudParametroColiformesFe2->count();
 
         //Establece si debe mostrarse o no el promedio ponderado de los coliformes
@@ -2822,7 +2833,7 @@ class InformesController extends Controller
 
         //Recupera la fecha de recepción del primer y segundo folio
         $modelProcesoAnalisis1 = ProcesoAnalisis::where('Id_solicitud', $solModel->Id_solicitud)->first();
-        $modelProcesoAnalisis2 = ProcesoAnalisis::where('Id_solicitud', $solModel2[0]->Id_solicitud)->first();
+        $modelProcesoAnalisis2 = ProcesoAnalisis::where('Id_solicitud', $idSol2)->first();
 
         //Calcula Gasto LPS1********************************************************************
         $gastosModel = GastoMuestra::where('Id_solicitud', $solModel->Id_solicitud)->get();
@@ -2846,7 +2857,7 @@ class InformesController extends Controller
 
         //Calcula Gasto LPS2*********************************************************************     
                 
-        $gastosModel2 = GastoMuestra::where('Id_solicitud', $solModel2[0]->Id_solicitud)->get();
+        $gastosModel2 = GastoMuestra::where('Id_solicitud', $idSol2)->get();
         $gastosModelLength2 = $gastosModel2->count();
         $gastoSum2 = 0;
         $gastoLPS2 = 0;
@@ -2868,7 +2879,7 @@ class InformesController extends Controller
 
         //Recupera el gasto promedio para la solicitud dada
                 
-        $gModel2 = GastoMuestra::where('Id_solicitud', $solModel2[0]->Id_solicitud)->get();        
+        $gModel2 = GastoMuestra::where('Id_solicitud', $idSol2)->get();        
         $gModelLength2 = $gastosModel->count();
         $gastosProm2 = 0;
 
@@ -2885,7 +2896,7 @@ class InformesController extends Controller
         }        
 
         //Recupera la temperatura promedio para la solicitud dada
-        $tModel2 = TemperaturaMuestra::where('Id_solicitud', $solModel2[0]->Id_solicitud)->get();
+        $tModel2 = TemperaturaMuestra::where('Id_solicitud', $idSol2)->get();
         $tModelLength2 = $tModel2->count();
         $tProm2 = 0;
 
@@ -2902,7 +2913,7 @@ class InformesController extends Controller
         }
 
         //Recupera el pH promedio para la solicitud dada
-        $phModel2 = PhMuestra::where('Id_solicitud', $solModel2[0]->Id_solicitud)->get();
+        $phModel2 = PhMuestra::where('Id_solicitud', $idSol2)->get();
         $phModelLength2 = $phModel2->count();
         $phProm2 = 0;
 
@@ -2978,7 +2989,7 @@ class InformesController extends Controller
         //*************************************** CÁLCULO DQO ********************************************************
         $solicitudParamDqo = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel->Id_solicitud)->where('Id_parametro', 7)->first();        
 
-        $solicitudParamDqo2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $solModel2[0]->Id_solicitud)->where('Id_parametro', 7)->first();        
+        $solicitudParamDqo2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Id_parametro', 7)->first();        
 
         //Establece si debe mostrarse o no el promedio ponderado de los DQO
         $limExceedDqo1  = 0;
@@ -3065,7 +3076,7 @@ class InformesController extends Controller
         $mpdf->Output('Informe de Resultados Con Comparacion.pdf', 'I');                  
         //echo $modelDiag;
         //echo implode(" , ", $limiteMostrar);
-        //echo implode(" , ", $limiteMostrar2);
+        //echo implode(" , ", $limiteMostrar2); 
     }
 
 
@@ -4400,7 +4411,7 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->Output('Informe de Resultados Con Comparacion.pdf', 'I');
+        // $mpdf->Output('Informe de Resultados Con Comparacion.pdf', 'I');
         //echo $modelDiag;
         //echo implode(" , ", $limiteMostrar);
         //echo implode(" , ", $limiteMostrar2);

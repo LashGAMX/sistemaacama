@@ -12,6 +12,9 @@
 <body> 
     <div class="container" id="pag">
         <div class="row">
+            <div class="">
+                <p align="center"><strong>SOLICITUD DE SERVICIO DE ANALISIS</strong><p>
+            </div>
             <div class="col align-self-end">
                 <p align="right">No DE SERVICIO: {{@$model->Folio_servicio}}<p>
             </div>

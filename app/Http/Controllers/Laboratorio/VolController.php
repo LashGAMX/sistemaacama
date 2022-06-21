@@ -309,7 +309,7 @@ class VolController extends Controller
                 $valoracion = ValoracionNitrogeno::where('Id_lote', $request->idLote)->first();
                 break;
             default:
-
+            $valoracion = ValoracionNitrogeno::where('Id_lote', $request->idLote)->first();
                 break;
         }
 
