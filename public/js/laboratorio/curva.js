@@ -88,7 +88,7 @@ function getParametroDetalle(){
 }
 function setConstantes()
 {
-    const fecha = new Date();
+   
     //fecha = fecha.toLocaleDateString();
     console.log(fecha);
 
@@ -96,8 +96,10 @@ function setConstantes()
         url: base_url + '/admin/laboratorio/setConstantes', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
-          idLote:$("#idLote").val(),
-          fecha:fecha,
+          
+          fecha:$("#fecha").val(),
+          area:$('#idArea').val(),
+          parametro: $("#parametro").val(),
           b:$("#b").val(),
           m:$("#m").val(),
           r:$("#r").val(),
@@ -214,7 +216,9 @@ function setCalcular()
         url: base_url + '/admin/laboratorio/setCalcular', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
-          idLote:idLote,
+            fecha:$("#fecha").val(),
+            area:$('#idArea').val(),
+            parametro: $("#parametro").val(),
           conArr:cont,
           arrCon:arrCon,
           _token: $('input[name="_token"]').val(),
