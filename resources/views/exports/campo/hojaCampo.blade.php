@@ -15,7 +15,7 @@
             <div class="col-md-12">
                 <table class="table table-borderless table-sm colorBorde">
                     <tr>
-                        <td class="negrita"><center>HOJA DE CAMPO Y CADENA DE CUSTODIA EXTERNA</center></td> 
+                        <td class="negrita"><center><h6>HOJA DE CAMPO Y CADENA DE CUSTODIA EXTERNA</h6></center></td>   
                     </tr>
                 </table>
             </div>

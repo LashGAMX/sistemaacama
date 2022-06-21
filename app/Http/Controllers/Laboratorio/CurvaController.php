@@ -256,11 +256,11 @@ class CurvaController extends Controller
     public function setCalcular(Request $request)
     {
 
-     //   $stdModel = estandares::where('Id_lote',$request->idLote)->get();
+     // $stdModel = estandares::where('Id_lote',$request->idLote)->get();
 
         $fecha = new Carbon($request->fecha);
         $today = $fecha->toDateString();
-        $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+        $stdModel = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
         ->where('Id_area', $request->area)
         ->where('Id_parametro', $request->parametro)->get(); 
 
@@ -268,7 +268,7 @@ class CurvaController extends Controller
         for ($i=0; $i < $request->conArr; $i++) { 
             $prom = ($request->arrCon[1][$i] + $request->arrCon[2][$i] + $request->arrCon[3][$i]) / 3;
 
-            $stdM = estandares::find($model[$i]->Id_std);
+            $stdM = estandares::find($stdModel[$i]->Id_std);
             $stdM->Concentracion = $request->arrCon[0][$i];
             $stdM->ABS1 = $request->arrCon[1][$i];
             $stdM->ABS2 = $request->arrCon[2][$i];
@@ -279,6 +279,10 @@ class CurvaController extends Controller
     
 
        // $model = estandares::where('Id_lote', $idLote)->get();
+       $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+       ->where('Id_area', $request->area)
+       ->where('Id_parametro', $request->parametro)->get(); 
+
         $c1 = 0;
         $b1 = 0;
         $bSuma = 0;
@@ -323,7 +327,10 @@ class CurvaController extends Controller
 
 
         $data = array(
-            'stdModel' => $model,
+            'stdModel' => $stdModel,
+            'a' => $a,
+            'conArra' => $request->conArr,
+            'arrCon' => $request->arrCon,
             
             'm' => $m,
             'b' => $b,

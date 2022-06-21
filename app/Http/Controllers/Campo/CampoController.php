@@ -1309,6 +1309,7 @@ class CampoController extends Controller
         $proceMuestreo = ProcedimientoAnalisis::where('Id_procedimiento', $campoCompuesto->Proce_muestreo)->first();
         $conTratamiento = ConTratamiento::where('Id_tratamiento', $campoCompuesto->Con_tratamiento)->first();
         $tipoTratamiento = TipoTratamiento::where('Id_tratamiento', $campoCompuesto->Tipo_tratamiento)->first();
+        
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
@@ -1333,7 +1334,7 @@ class CampoController extends Controller
         $htmlHeader = view('exports.campo.bitacoraCampoHeader', compact('model'));
         $mpdf->setHeader("<br><br>".$htmlHeader);
 
-        $htmlFooter = view('exports.campo.bitacoraCampoFooter');
+        $htmlFooter = view('exports.campo.bitacoraCampoFooter', compact('muestreador'));
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
 
         $mpdf->WriteHTML($html);
