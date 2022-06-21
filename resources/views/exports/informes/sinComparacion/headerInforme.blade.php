@@ -23,7 +23,11 @@
                 
                 <tr>
                     <td class="filasIzq bordesTabla anchoColumna7 bordeDerSinSup" rowspan="6">Punto de muestreo:</td>
-                    <td class="filasIzq bordesTabla fontBold anchoColumna60 bordeIzqDerSinSup" rowspan="6">{{@$puntoMuestreo[0]->Punto}}</td>
+                    <td class="filasIzq bordesTabla fontBold anchoColumna60 bordeIzqDerSinSup" rowspan="6">@if (@$solicitud->Siralab == 1)
+                        {{@$puntoMuestreo->Punto}}
+                    @else
+                        {{@$puntoMuestreo->Punto_muestreo}}
+                    @endif</td>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Fecha de Muestreo:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span class="fontBold"> {{ \Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}}</span>
@@ -76,7 +80,11 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="fontBold">TITULO DE CONCESIÓN: {{@$puntoMuestreo[0]->Titulo_consecion}}</span>
+                        <span class="fontBold"> @if (@$solicitud->Siralab == 1)
+                            TITULO DE CONCESIÓN: {{@$puntoMuestreo->Titulo_consecion}}
+                        @else
+                          
+                        @endif</span>
                     </td>                    
                 </tr>
         </tbody>         

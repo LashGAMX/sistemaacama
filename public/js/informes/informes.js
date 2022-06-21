@@ -27,13 +27,13 @@ $(document).ready(function () {
       });
 
     $('#btnImprimir').on('click', function(){
-
+ 
         console.log("Valor de tipoReporte: " + $("#tipoReporte").val());
 
         if($("#tipoReporte").val() == 1){
-            window.open(base_url+"/admin/informes/exportPdfConComparacion/"+idSol+"/"+$("#"));
+            window.open(base_url+"/admin/informes/exportPdfConComparacion/"+idSol+"/"+$("#puntoMuestreo").val());
         }else if($("#tipoReporte").val() == 2){
-            window.open(base_url+"/admin/informes/exportPdfSinComparacion/"+idSol+"/"+$("#"));
+            window.open(base_url+"/admin/informes/exportPdfSinComparacion/"+idSol+"/"+$("#puntoMuestreo").val());
         }        
     });
 

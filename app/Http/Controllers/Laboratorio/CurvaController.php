@@ -63,9 +63,10 @@ class CurvaController extends Controller
     }
      public function buscar(Request $request){
         $fecha = new Carbon($request->fecha);
+        $today = $fecha->toDateString();
         $lote = LoteAnalisis::where('Fecha', $request->fecha)->first();
 
-        $model = estandares::whereDate('Fecha_fin', '>=', $request->fecha)->get(); 
+        $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)->get(); 
 
         //$loteDetalle = LoteDetalle::where('Id_lote',$request->idLote)->first();
         $concent = ConcentracionParametro::where('Id_parametro',$request->parametro)->get();
@@ -82,12 +83,12 @@ class CurvaController extends Controller
             $valbmr = false;
         }
         $data = array(
-            'stdModel' => $model,
+            'model' => $model,
             'concentracion' => $concent,
             'valbmr' => $valbmr,
             'bmr' => $bmr,
             'sw' => $sw,
-            'fecha' => $fecha,
+            'fecha' => $today,
         );
         return response()->json($data);
      }
@@ -111,7 +112,6 @@ class CurvaController extends Controller
                 'Id_parametro' => $request->idParametroModal,
                 'Fecha_inicio' => $request->fechaInicio,
                 'Fecha_fin' => $request->fechaFin,
-                'Estado' => 1,
                 'STD' => "Blanco", 
             ]);
             CurvaConstantes::create([
@@ -119,7 +119,7 @@ class CurvaController extends Controller
                 'Id_parameto' => $request->idParametroModal,
                 'Fecha_inicio' => $request->fechaInicio,
                 'Fecha_fin' => $request->fechaFin,
-                'Estado' => 1,
+    
             ]);
             for ($i=0; $i < $num ; $i++) { 
                 estandares::create([
@@ -128,7 +128,6 @@ class CurvaController extends Controller
                     'Id_parametro' => $request->idParametroModal,
                     'Fecha_inicio' => $request->fechaInicio,
                     'Fecha_fin' => $request->fechaFin,
-                    'Estado' => 1,
                     'STD' => "STD".($i+1)."",
                 ]);
 
