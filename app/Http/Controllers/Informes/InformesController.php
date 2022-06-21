@@ -90,7 +90,7 @@ class InformesController extends Controller
     }
 
     //todo Seccio de pdf
-    public function pdfSinComparacion($idSol)
+    public function pdfSinComparacion($idSol,$idPunto)
     {
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
@@ -105,7 +105,33 @@ class InformesController extends Controller
         ]);        
 
         // Hace los filtros para realizar la comparacion
-        $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol)->first();
+
+        // $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol)->first();
+        $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
+        $aux = true;
+        foreach($model as $item)
+        {
+            if($aux == true)
+            {
+                if($item->Siralab == 1)
+                {
+                    $model2 = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud',$item->Id_solicitud)->where('Id_muestreo',$idPunto)->first();
+                    if($item->Id_solicitud == $model2->Id_solicitud){
+                       $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $item->Id_solicitud)->first();
+                       $aux = false;
+                    }
+                }else{
+                    $model2 = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud',$item->Id_solicitud)->where('Id_muestreo',$idPunto)->first();
+                    if($model2->Id_solicitud == $item->Id_solicitud){
+                       $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $item->Id_solicitud)->first();
+                       $aux = false;
+                    }
+                }
+            }
+        }
+        $idSol = $solModel->Id_solicitud;
+        echo $idSol;
+
         //$solModel2 = DB::table('ViewSolicitud')->where('IdPunto', $solModel->IdPunto)->OrderBy('Id_solicitud', 'DESC')->get();
 
         //ViewCodigoParametro
@@ -148,13 +174,9 @@ class InformesController extends Controller
         $puntoMuestreo = null;
 
         if($solicitud->Siralab == 1){//Es cliente Siralab
-            $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $solicitud->Id_sucursal)->get();
-            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
-            $puntos = $puntoMuestreo->count();
+            $puntoMuestreo = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $idSol)->first();
         }else{
-            $puntoMuestreo = PuntoMuestreoGen::where('Id_sucursal', $solicitud->Id_sucursal)->get();
-            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
-            $puntos = $puntoMuestreo->count();
+            $puntoMuestreo = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud', $idSol)->first();            
         }
 
         /* $solicitudParametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $solicitud->Id_solicitud)->get();
@@ -493,7 +515,7 @@ class InformesController extends Controller
         $mpdf->WriteHTML($htmlInforme);
 
         $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');        
+        // $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');        
     }
 
     public function pdfConComparacion($idSol)
