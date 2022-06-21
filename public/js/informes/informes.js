@@ -1,4 +1,5 @@
 var idSol = 0;
+var idPunto = 0;
 $(document).ready(function () {
 
     let table = $('#tableServicios').DataTable({        
@@ -26,7 +27,7 @@ $(document).ready(function () {
       });
 
     $('#btnImprimir').on('click', function(){
-
+ 
         console.log("Valor de tipoReporte: " + $("#tipoReporte").val());
 
         if($("#tipoReporte").val() == 1){
