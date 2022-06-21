@@ -66,11 +66,12 @@ class CurvaController extends Controller
         $today = $fecha->toDateString();
         $lote = LoteAnalisis::where('Fecha', $request->fecha)->first();
 
-        $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)->get(); 
+        $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+            ->where('Id_area', $request->area)
+            ->where('Id_parametro', $request->parametro)->get(); 
 
-        //$loteDetalle = LoteDetalle::where('Id_lote',$request->idLote)->first();
         $concent = ConcentracionParametro::where('Id_parametro',$request->parametro)->get();
-        $bmr = CurvaConstantes::whereDate('Fecha_fin', '>=', $fecha)->first();
+        $bmr = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)->where('Id_area', $request->area)->where('Id_parametro', $request->parametro)->first();
 
         if($model->count()){
             $sw = true;  
@@ -83,7 +84,7 @@ class CurvaController extends Controller
             $valbmr = false;
         }
         $data = array(
-            'model' => $model,
+            'stdModel' => $model,
             'concentracion' => $concent,
             'valbmr' => $valbmr,
             'bmr' => $bmr,
@@ -199,11 +200,16 @@ class CurvaController extends Controller
         return response()->json($data);
     }
 
-
+//-----------Formula para la BMR-----------------------------
     public function formula(Request $request){
 
+        $fecha = new Carbon($request->fecha);
+        $today = $fecha->toDateString();
         $idLote = $request->idLote;
-        $model = estandares::where('Id_lote', $idLote)->get();
+        $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+        ->where('Id_area', $request->area)
+        ->where('Id_parametro', $request->parametro)->get(); 
+
         $c1 = 0;
         $b1 = 0;
         $bSuma = 0;

@@ -297,6 +297,7 @@ function guardarSTd(){
     table = document.getElementById("tablaLote");
     
 }
+//------------------Formula BMR-----------------
 function formula(){
 
 
@@ -305,6 +306,9 @@ function formula(){
         type: 'POST', //método de envio
         data: {
           idLote:$("#idLote").val(),
+          fecha:$("#fecha").val(),
+          area:$('#idArea').val(),
+          parametro: $("#parametro").val(),
           _token: $('input[name="_token"]').val(),
         },
         dataType: 'json', 
@@ -399,7 +403,7 @@ function buscar(){
         data: {
           //idLote:$("#idLote").val(),
           fecha:$("#fecha").val(),
-          area:$('#area').val(),
+          area:$('#idArea').val(),
           parametro: $("#parametro").val(),
           _token: $('input[name="_token"]').val()
         },
@@ -437,7 +441,7 @@ function buscar(){
                 tab += '    <tbody>'; 
                 console.log('cont inicial:'+cont)
                 $.each(response.stdModel, function (key, item) {
-                    idLote = item.Id_std;
+                   //idLote = item.Id_std;
                   if(cont == 0) 
                   {
                     tab += '<tr>';
