@@ -943,6 +943,7 @@ class SolicitudController extends Controller
                              'Codigo' => $value->Folio_servicio . "-G-" . ($i + 1) . "",
                              'Num_muestra' => $i + 1,
                              'Asignado' => 0,
+                             'Analizo' => Auth::user()->id,
                          ]);
                      }
                  } else if ($item->Id_parametro == 13) { // Coliformes
@@ -953,6 +954,7 @@ class SolicitudController extends Controller
                              'Codigo' => $value->Folio_servicio . "-C-" . ($i + 1) . "",
                              'Num_muestra' => $i + 1,
                              'Asignado' => 0,
+                             'Analizo' => Auth::user()->id,
                          ]);
                      }
                  } else {
@@ -962,6 +964,7 @@ class SolicitudController extends Controller
                          'Codigo' => $value->Folio_servicio,
                          'Num_muestra' => 1,
                          'Asignado' => 0,
+                         'Analizo' => Auth::user()->id,
                      ]);
                  }
              }
@@ -975,7 +978,7 @@ class SolicitudController extends Controller
 
         $data = array(
             'sw' => $sw,
-            'parametros' => $solParam,
+            // 'parametros' => $solParam,
             'ga' => $ga,
             'coliformes' => $coliforme,
             // 'codigo' => $codigo,

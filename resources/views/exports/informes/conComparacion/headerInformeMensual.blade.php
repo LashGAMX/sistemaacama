@@ -7,7 +7,7 @@
         <tbody>            
                 <tr>
                     <td class="filasIzq bordesTabla anchoColumna7 bordeDer paddingTopBot">Empresa:</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzq" width="35%{{-- 460.8px --}}">{{@$cliente->Nombres}}</td>
+                    <td class="filasIzq bordesTabla fontBold bordeIzq" width="35%{{-- 460.8px --}}">{{@$solModel->Empresa_suc}}</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzq" width="137.3px">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzq" width="72.9px">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzq">&nbsp;</td>                    
@@ -55,16 +55,16 @@
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">FECHA DE MUESTREO:</td>
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{ \Carbon\Carbon::parse(@$solModel->Fecha_muestreo)->format('d/m/Y')}}</td>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
-                        {{ \Carbon\Carbon::parse($solModel2[0]->Fecha_muestreo)->format('d/m/Y')}}                      
+                        {{-- {{ \Carbon\Carbon::parse($solModel2->Fecha_muestreo)->format('d/m/Y')}}                       --}}
                     </td>
                 </tr>
 
                 <tr>
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">FECHA DE RECEPCION:</td>
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
-                        {{\Carbon\Carbon::parse(@$modelProcesoAnalisis1->Hora_entrada)->format('d/m/Y')}}
+                        {{-- {{\Carbon\Carbon::parse(@$modelProcesoAnalisis1->Hora_entrada)->format('d/m/Y')}} --}}
                     </td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{\Carbon\Carbon::parse(@$modelProcesoAnalisis2->Hora_entrada)->format('d/m/Y')}}  
+                    {{-- <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{\Carbon\Carbon::parse(@$modelProcesoAnalisis2->Hora_entrada)->format('d/m/Y')}}   --}}
                     </td>
                 </tr>
 
@@ -74,7 +74,7 @@
                         {{\Carbon\Carbon::parse(@$modelProcesoAnalisis1->Hora_entrada)->addDays(7)->format('d/m/Y')}}
                     </td>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
-                        {{\Carbon\Carbon::parse(@$modelProcesoAnalisis2->Hora_entrada)->addDays(7)->format('d/m/Y')}}
+                        {{-- {{\Carbon\Carbon::parse(@$modelProcesoAnalisis2->Hora_entrada)->addDays(7)->format('d/m/Y')}} --}}
                     </td>
                 </tr>
                 
@@ -82,7 +82,7 @@
                     <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">PERIODO DE ANALISIS:</td>
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize5 fontBold">DE {{\Carbon\Carbon::parse(@$modelProcesoAnalisis1->Hora_entrada)->format('d/m/Y')}} A {{\Carbon\Carbon::parse(@$modelProcesoAnalisis1->Hora_entrada)->addDays(7)->format('d/m/Y')}}</td>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize5 fontBold">
-                        DE {{\Carbon\Carbon::parse($modelProcesoAnalisis2->Hora_entrada)->format('d/m/Y')}} A {{\Carbon\Carbon::parse($modelProcesoAnalisis2->Hora_entrada)->addDays(7)->format('d/m/Y')}}
+                        {{-- DE {{\Carbon\Carbon::parse($modelProcesoAnalisis2->Hora_entrada)->format('d/m/Y')}} A {{\Carbon\Carbon::parse($modelProcesoAnalisis2->Hora_entrada)->addDays(7)->format('d/m/Y')}} --}}
                     </td>
                 </tr>
 
