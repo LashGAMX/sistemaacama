@@ -46,7 +46,7 @@ function getPaquetes() {
             $.each(response.model, function (key, item) {
                 tab += '<tr>';
                 tab += '<td>' + item.Id_subnorma + '</td>';
-                tab += '<td>' + item.Norma + '</td>';
+                tab += '<td style="width:50px;">' + item.Norma + '</td>';
                 tab += '<td>' + item.Clave + '</td>';
                 tab += '<td>Residual</td>';
                 tab += '</tr>';

@@ -456,7 +456,7 @@ function clienteSucursal(){
     success: function (response) { 
         console.log(response)
         tab+= ' <label for="clienteSucursal">Clientes Sucursal (Hijos) </label> ';
-        tab+= '<select onchange="DatosClienteSucursal()" class="form-control" id="clienteSucursal">';
+        tab+= '<select onchange="DatosClienteSucursal()" class="form-control" name="clienteSucursal" id="clienteSucursal">';
         
             tab+= '<option value="">Selecciona cliente</option>';
             $.each(response.model, function (key, item) {

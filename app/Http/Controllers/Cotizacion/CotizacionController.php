@@ -304,6 +304,7 @@ class CotizacionController extends Controller
         }
         
         $paquete = DB::table('precio_paquete')->where('Id_paquete',$request->subnorma)->first();
+      
 
         $cotizacion = Cotizacion::create([
             'Id_intermedio' => $request->intermediario,

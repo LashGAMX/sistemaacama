@@ -66,7 +66,7 @@ class CampoController extends Controller
 
     public function asignar()
     {
-        $model = DB::table('ViewSolicitud')->where('Padre',0)->where('Id_servicio', 1)->orWhere('Id_servicio', 3)->OrderBy('Id_solicitud','DESC')->get();
+        $model = DB::table('ViewSolicitud')->where('Padre',1)->where('Id_servicio', 1)->orWhere('Id_servicio', 3)->OrderBy('Id_solicitud','DESC')->get();
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', NULL)->get();
         $generadas = SolicitudesGeneradas::all();
         $usuarios = Usuario::all();
@@ -1388,7 +1388,7 @@ class CampoController extends Controller
 
 
         //Obtiene los parámetros de esta solicitud
-        $parametrosSolicitud = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSolicitud)->get();
+        $parametrosSolicitud = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $idSolicitud)->get();
         $parametrosSolicitudLength = $parametrosSolicitud->count();
 
         //Obtiene las preservaciones de los parámetros
@@ -1405,6 +1405,7 @@ class CampoController extends Controller
                 }                
             }
         }
+   
 
         $preservacionesArrayLength = sizeof($preservacionesArray);
 

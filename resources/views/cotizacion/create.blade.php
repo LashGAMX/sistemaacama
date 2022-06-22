@@ -83,7 +83,7 @@
                                     <label for="clienteSucursal">Clientes Sucursal (Hijos) </label> 
                                     <select onchange="DatosClienteSucursal()" name="clienteSucursal" id="clienteSucursal" class="form-control select2">
                                         <option value="0">Sin seleccionar</option>
-                                        
+                                            
                                     </select>
                                 </div>
                             </div>
