@@ -57,7 +57,7 @@
                 <table class="table table-borderless" style="border:none" width="100%">
                 <tr>
                     <td class="fontNormal fontCalibri fontSize12">TIPO MUESTRA: </td>
-                    <td class="fontBold fontCalibri fontSize14">{{@$model->Tipo_muestra}}</td>
+                    <td class="fontBold fontCalibri fontSize14">{{@$model->Tipo_muestra}} ({{@$model->Tomas}})</td>
                     <td class="fontNormal fontCalibri fontSize12">NORMA:</td>
                     <td class="fontBold fontCalibri fontSize14">{{@$model->Clave_norma}}</td>
                 </tr>
@@ -84,7 +84,11 @@
                 <tr>
                     <td class="fontNormal fontCalibri fontSize11 bordesTablaBody">{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
                     <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Clave_metodo}}</td>
+                    @if (is_numeric($item->Limite))
+                    <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr"> < {{$item->Limite}}</td>
+                    @else
                     <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Limite}}</td>
+                    @endif
                     <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Unidad}}</td>
                 </tr>
                 @endforeach
