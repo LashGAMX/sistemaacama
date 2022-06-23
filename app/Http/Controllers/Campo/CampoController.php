@@ -953,18 +953,31 @@ class CampoController extends Controller
         } else {                                //CREAR
             $this->idSol = $request->idSolicitud;
             $this->nota = "Creación de registro";
+            $solModel = Solicitud::where('Hijo',$request->Hijo)->get();
+
+            foreach($solModel as $item)
+            {
+                if($item->Siralab == 1)
+                {
+                    // $punto = 
+                }else{
+
+                }
+                SolicitudesGeneradas::create([
+                    'Id_solicitud' => $item->Id_solicitud,
+                    'Id_solPadre' => $request->idSolicitud,
+                    'Folio' => $item->Folio_servicio,
+                    // 'Punto_muestreo' => ,
+                    'Id_user_c' => Auth::user()->id,
+                    'Captura' => "Sin captura"
+                ]);
+                CampoGenerales::create([
+                    'Id_solicitud' => $request->idSolicitud,
+                ]);
+            }
+            
             //$this->historial();
             $this->alert = true;
-            $solGen = SolicitudesGeneradas::create([
-                'Id_solicitud' => $request->idSolicitud,
-                'Folio' => $request->folio,
-                'Id_user_c' => Auth::user()->id,
-                'Captura' => "Sin captura"
-            ]);
-            CampoGenerales::create([
-                'Id_solicitud' => $request->idSolicitud,
-            ]);
-
             $model = SolicitudesGeneradas::where('Id_solicitud', $solGen->Id_solicitud)->get();                        
         }                
 
