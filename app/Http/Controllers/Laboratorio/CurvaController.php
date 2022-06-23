@@ -323,14 +323,14 @@ class CurvaController extends Controller
         $r = ($m1 - $r2)/sqrt($rFinal);
 
        // $stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
-        
+       $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+       ->where('Id_area', $request->area)
+       ->where('Id_parametro', $request->parametro)->get(); 
 
 
         $data = array(
             'stdModel' => $stdModel,
-            'a' => $a,
-            'conArra' => $request->conArr,
-            'arrCon' => $request->arrCon,
+            'model' => $model,
             
             'm' => $m,
             'b' => $b,
