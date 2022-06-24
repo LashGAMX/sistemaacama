@@ -132,6 +132,7 @@ var folioAsignar;
         data: {
             idSolicitud:idSolicitud,
             folio:folio,
+            idUser:$("#idUsuarios").val(),
             _token: $('input[name="_token"]').val(),
           },
         dataType: 'json', 

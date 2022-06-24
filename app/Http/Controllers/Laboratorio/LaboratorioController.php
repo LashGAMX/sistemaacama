@@ -130,6 +130,7 @@ class LaboratorioController extends Controller
 
         $loteModel = array();
         $loteModelPh = array();
+        
         foreach($datos as $item){
             $loteModelObs = DB::table('observacion_muestra')->where('Id_analisis', $item->Id_analisis)->first();
 

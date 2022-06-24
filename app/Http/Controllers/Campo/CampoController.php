@@ -942,32 +942,40 @@ class CampoController extends Controller
 
     public function generar(Request $request) //Generar solicitud 
     {                
-        $sol = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->get();
+        $sol = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
         
         if ($sol->count()) {                    //ACTUALIZAR
-            $model = SolicitudesGeneradas::where('Id_solicitud', $request->idSolicitud)->get();
-            $this->idSol = $request->idSolicitud;
-            $this->nota = "Registro modificado";
-            //$this->historial();
-            $this->alert = true;                         
+            $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
+            foreach($model as $item)
+            {
+                $mod = SolicitudesGeneradas::find($item->Id_solicitudGen);
+                $mod->Id_muestreador = $request->idUser;
+                $mod->save();
+            }
+
+            $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();                   
         } else {                                //CREAR
             $this->idSol = $request->idSolicitud;
             $this->nota = "Creación de registro";
-            $solModel = Solicitud::where('Hijo',$request->Hijo)->get();
+            $solModel = Solicitud::where('Hijo',$request->idSolicitud)->get();
 
             foreach($solModel as $item)
             {
+                $idPunto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
                 if($item->Siralab == 1)
                 {
-                    // $punto = 
+                    $punto = PuntoMuestreoSir::where('Id_punto',$idPunto->Id_muestreo)->first();
+                    $puntoMuestreo = "".$punto->Punto ."(".$punto->Anexo.")";
                 }else{
-
+                    $punto = PuntoMuestreoGen::where('Id_punto',$idPunto->Id_muestreo)->first();
+                    $puntoMuestreo = $punto->PuntoMuestreo;
                 }
+                
                 SolicitudesGeneradas::create([
                     'Id_solicitud' => $item->Id_solicitud,
                     'Id_solPadre' => $request->idSolicitud,
                     'Folio' => $item->Folio_servicio,
-                    // 'Punto_muestreo' => ,
+                    'Punto_muestreo' => $puntoMuestreo,
                     'Id_user_c' => Auth::user()->id,
                     'Captura' => "Sin captura"
                 ]);
@@ -978,17 +986,15 @@ class CampoController extends Controller
             
             //$this->historial();
             $this->alert = true;
-            $model = SolicitudesGeneradas::where('Id_solicitud', $solGen->Id_solicitud)->get();                        
+            $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();                        
         }                
 
             $data = Array(
                 'model' => $model,
+                'diUser' => $request->idUser,
             );
 
-        return response()->json(
-            compact('model'),
-           // $data
-        );
+        return response()->json($data);
     }
 
     public function historial()

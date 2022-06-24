@@ -124,7 +124,7 @@
                             </td>
                             <td id="tableContent">
                                 @php
-                                    echo round(@$datos[$i]->Vol_disolucion / @$datos[$i]->Factor_dilucion, 4);
+                                    echo round(@$datos[$i]->Vol_disolucion / @$datos[$i]->Factor_dilucion, 3);
                                 @endphp
                             </td>
                             <td id="tableContent">{{@$datos[$i]->Factor_dilucion}}</td>
