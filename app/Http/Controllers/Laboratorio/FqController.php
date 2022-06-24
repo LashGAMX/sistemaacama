@@ -252,7 +252,7 @@ class FqController extends Controller
                 $r2 = 1000 / $request->E;
                 $resultado = $r1 * $r2;
                 $d = 0;
-
+ 
                 break;
             case 16:
                 # Fosforo-Total 
