@@ -545,7 +545,7 @@ class SolicitudController extends Controller
                 $extra = 0;
                 if ($subnorma->count() > 0) {
                     $extra = 0;
-                } else {
+                } else { 
                     $extra = 1;
                 }
 

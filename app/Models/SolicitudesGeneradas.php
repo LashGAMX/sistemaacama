@@ -17,6 +17,7 @@ class SolicitudesGeneradas extends Model
       'Id_solicitudGen',
       'Folio',
       'Id_solicitud',
+      'Id_solPadre',
       'Punto_muestreo',
       'Captura',
       'Id_muestreador',
