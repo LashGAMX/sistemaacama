@@ -84,14 +84,14 @@
                             <div class="form-group">
                                 <label for="">Temperatura ambiente</label>
                                 <input type="number" class="form-control" placeholder="Temperatura" id="tempAmbiente"
-                                    onkeyup='valTempAmbiente("tempAmbiente", "tempBuffer")' value="{{ $general->Temperatura_a }}" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='diferenciaTemperaturas("tempAmbiente", "tempBuffer", "tempAmbiente")' required>
+                                    onkeyup='valTempAmbiente("tempAmbiente", "tempBuffer")' value="{{ @$general->Temperatura_a }}" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='diferenciaTemperaturas("tempAmbiente", "tempBuffer", "tempAmbiente")' required>
                             </div>
                         </div>
                         <div class="col-md-3">
                             <div class="form-group">
                                 <label for="">Temperatura búffer</label>
                                 <input type="number" class="form-control" placeholder="Temperatura" id="tempBuffer"
-                                    onkeyup='valTempAmbiente("tempAmbiente", "tempBuffer")' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{ $general->Temperatura_b }}" onblur='diferenciaTemperaturas("tempAmbiente", "tempBuffer", "tempBuffer")'>
+                                    onkeyup='valTempAmbiente("tempAmbiente", "tempBuffer")' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{ @$general->Temperatura_b }}" onblur='diferenciaTemperaturas("tempAmbiente", "tempBuffer", "tempBuffer")'>
                             </div>
                         </div>
 

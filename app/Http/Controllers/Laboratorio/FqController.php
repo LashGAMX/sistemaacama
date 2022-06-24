@@ -1398,7 +1398,8 @@ class FqController extends Controller
     }
     public function capturaGA()
     {
-        $parametro = Parametro::where('Id_area', 13)->get();
+        // Parametro::where('Id_area', 13)->get()
+        $parametro = DB::table('ViewParametros')->where('Id_area',13)->get();
         $controlModel = ControlCalidad::all();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro); 
