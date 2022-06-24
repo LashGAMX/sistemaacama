@@ -98,6 +98,8 @@ function setConstantes()
         data: {
           idLote:$("#idLote").val(),
           fecha:$("#fecha").val(),
+          area:$('#idArea').val(),
+          parametro: $("#parametro").val(),
           b:$("#b").val(),
           m:$("#m").val(),
           r:$("#r").val(),

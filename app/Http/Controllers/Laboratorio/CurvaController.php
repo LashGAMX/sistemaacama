@@ -14,6 +14,7 @@ use App\Models\LoteAnalisis;
 use App\Models\CurvaConstantes;
 use App\Models\LoteDetalle;
 use App\Models\TipoFormula;
+use App\Models\DB;
 use Carbon\Carbon;
 
 class CurvaController extends Controller
@@ -41,10 +42,12 @@ class CurvaController extends Controller
     }
     public function getParametroModal(Request $request){ 
         $parametro = Parametro::where('Id_area', $request->idArea)->get();
+       // $parametro = DB::ViewParametros()->where('Id_area', $request->idArea)->get();
      
         $data = array(
             'parametro'=> $parametro,
-           
+          
+            
         );
         return response()->json($data);
     }
@@ -120,7 +123,7 @@ class CurvaController extends Controller
             ]);
             CurvaConstantes::create([
                 'Id_area' => $request->idAreaModal,
-                'Id_parameto' => $request->idParametroModal,
+                'Id_parametro' => $request->idParametroModal,
                 'Fecha_inicio' => $request->fechaInicio,
                 'Fecha_fin' => $request->fechaFin,
     
@@ -210,7 +213,7 @@ class CurvaController extends Controller
         $bSuma = 0;
         $cElevada = 0;
         $bc = 0;
-        $a = 0;
+        $a = 1;
 
         foreach ($model as $item){
             $a = $a + 1; //numero de estandares
@@ -294,11 +297,19 @@ class CurvaController extends Controller
             $a = $a + 1; //numero de estandares
             $c1 = $c1 + $item->Promedio; // suma de los promedios
             $bSuma = $bSuma + $item->Concentracion; //suma de concentración
-            $b1 += ($item->Concentracion * $item->Concentracion); //suma de concentración elevada al cuadrado
+            $b1 = $b1 + ($item->Concentracion * $item->Concentracion); //suma de concentración elevada al cuadrado
             $bc = $bc + $item->Concentracion * $item->Promedio; //Producto de b y c
             $cElevada = $cElevada + $item->Promedio * $item->Promedio; //Suma de c elevada a 2
-
         } 
+
+        if ($request->area != 16 || $request->parametro == 96){
+            $a = $a; //si contempla el blanco como número de estandares
+        }
+        else{
+            $a = $a - 1; //No contempla el blanco como número de estandares
+        }
+        
+        
         //todo:: b
         $s1 = $c1 * $b1;
         $s3 = $bc * $bSuma;
@@ -323,15 +334,24 @@ class CurvaController extends Controller
         $r = ($m1 - $r2)/sqrt($rFinal);
 
        // $stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
-       $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+       $stdModel = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
        ->where('Id_area', $request->area)
        ->where('Id_parametro', $request->parametro)->get(); 
 
 
         $data = array(
             'stdModel' => $stdModel,
+            's1' => $s1,
+            's3' => $s3,
+            's5' => $s5,
+            's6' => $s6,
             'model' => $model,
-            
+            'a' => $a,
+            'c1' => $c1,
+            'bsuma' => $bSuma,
+            'b1' => $b1,
+            'bc' => $bc,
+            'cElevada' => $cElevada, 
             'm' => $m,
             'b' => $b,
             'r' => $r,
