@@ -96,9 +96,11 @@ class CampoController extends Controller
         $frecuencia = DB::table('frecuencia001')->where('Id_frecuencia', $model->Id_muestreo)->first();
         $phCampoTrazable = CampoPhTrazable::where('Id_solicitud', $model->Id_solicitud)->get();
         $phCampoCalidad = CampoPhCalidad::where('Id_solicitud', $model->Id_solicitud)->get();
+        $conCampoTrazable = CampoConTrazable::where('Id_solicitud',$model->Id_solicitud)->first();
+        $conCampoCalidad = CampoConCalidad::where('Id_solicitud',$model->Id_solicitud)->first();
         $puntos = SolicitudPuntos::where('Id_solicitud',$id)->first();
         $evidencia = Evidencia::where('Id_punto',$puntos->Id_muestreo)->orderby('created_at','desc')->get();
-
+        $compuesto = CampoCompuesto::where('Id_solicitud',$id)->first();
 
         //Datos muestreo
         $phMuestra = PhMuestra::where('Id_solicitud', $id)->get();
@@ -106,7 +108,7 @@ class CampoController extends Controller
         $phCalidadCampo = PhCalidadCampo::where('Id_solicitud', $id)->get();
         $conductividadMuestra = ConductividadMuestra::where('Id_solicitud', $id)->get();
         $gastoMuestra = GastoMuestra::where('Id_solicitud', $id)->get();
-
+        
         //$phCampoCalidadMuestra = CampoPhCalidad::where('Id_solicitud', $model->Id_solicitud)->where('Id_phCalidad', $phControlCalidad->Id_ph)->first();
         // $conCampoTrazable = CampoConTrazable::where('Id_solicitud',$model->Id_solicitud)->first();
         // $conCampoCalidad = CampoConCalidad::where('Id_solicitud',$model->Id_solicitud)->first();
@@ -116,6 +118,7 @@ class CampoController extends Controller
         $data = array(
             'model' => $model,
             'general' => $general,
+            'compuesto' => $compuesto,
             'evidencia' => $evidencia,
             'frecuencia' => $frecuencia,
             'termometros' => $termometros,
@@ -128,6 +131,8 @@ class CampoController extends Controller
             'tipo' => $tipo,
             'phCampoTrazable' => $phCampoTrazable,
             'phCampoCalidad' => $phCampoCalidad,
+            'conCampoTrazable' => $conCampoTrazable,
+            'conCampoCalidad' => $conCampoCalidad,
             'phControlCalidad' => $phControlCalidad,
             'phMuestra' => $phMuestra,
             'tempMuestra' => $tempMuestra,
@@ -944,16 +949,16 @@ class CampoController extends Controller
     {                
         $sol = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
         
-        if ($sol->count()) {                    //ACTUALIZAR
+        if ($sol->count() > 0) {                    //ACTUALIZAR
             $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
-            foreach($model as $item)
-            {
-                $mod = SolicitudesGeneradas::find($item->Id_solicitudGen);
-                $mod->Id_muestreador = $request->idUser;
-                $mod->save();
-            }
+            // foreach($model as $item)
+            // {
+            //     $mod = SolicitudesGeneradas::find($item->Id_solicitudGen);
+            //     $mod->Id_muestreador = $request->idUser;
+            //     $mod->save();
+            // }
 
-            $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();                   
+            // $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();                   
         } else {                                //CREAR
             $this->idSol = $request->idSolicitud;
             $this->nota = "Creación de registro";
@@ -990,6 +995,7 @@ class CampoController extends Controller
         }                
 
             $data = Array(
+                'solPadre' => $sol->count(),
                 'model' => $model,
                 'diUser' => $request->idUser,
             );
@@ -1019,16 +1025,16 @@ class CampoController extends Controller
     public function getFolio(Request $request)
     {
         $idUser = $request->idUser;
-        $inge = Usuario::where('id', $idUser)->first();
+        $user = Usuario::where('id', $idUser)->first();
 
-        $folio = $request->folioAsignar;
-        $nombres = $inge->name;
-        $muestreador = $inge->id;
+        // $folio = $request->folioAsignar;
+        // $nombres = $inge->name;
+        // $muestreador = $inge->id;
 
-        $update = SolicitudesGeneradas::where('Folio', $folio)
+        $update = SolicitudesGeneradas::where('Id_solPadre', $request->idSol)
             ->update([
-                'Nombres' => $nombres,
-                'Id_muestreador' => $muestreador,
+                'Nombres' => $user->name,
+                'Id_muestreador' => $user->id,
             ]);
 
         return response()->json(

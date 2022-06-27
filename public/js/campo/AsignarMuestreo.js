@@ -82,7 +82,7 @@ var folioAsignar;
     });
     $('#btnGuardar').click( function () {
         
-        getFolio(folio);
+        getFolio(idSolicitud);
         swal("Registro!", "Registro guardado correctamente!", "success");
         $('#modalAsignar').modal('hide')
         generar(idSolicitud, folio);
@@ -166,14 +166,14 @@ var folioAsignar;
         }
     });  
 }
-function getFolio(folioAsignar)
+function getFolio(idSol)
 {
-    console.log(folioAsignar); 
+    // console.log(folioAsignar); 
     $.ajax({
         url: base_url + '/admin/campo/asignar/getFolio', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
-            folioAsignar:folioAsignar,
+            idSol:idSol,
             idUser:$("#idUsuarios").val(),
             _token: $('input[name="_token"]').val(),
           },

@@ -401,12 +401,16 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <select id="conTrazable">
+                                            <select id="conTrazable" name="conTrazable">
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach ($conTrazable as $item)
-                                                    <option value="{{ $item->Id_conductividad }}">
-                                                        {{ $item->Conductividad }}</option>
+                                                    @if (@$conCampoTrazable->Id_conTrazable == $item->Id_conductividad)
+                                                        <option value="{{ $item->Id_conductividad }}" selected> {{ $item->Conductividad }}</option>
+                                                    @else
+                                                        <option value="{{ $item->Id_conductividad }}"> {{ $item->Conductividad }}</option>
+                                                    @endif
                                                 @endforeach
+                                        </select>
                                             </select>
                                         </td>
                                         <td>
@@ -419,18 +423,18 @@
                                             <p id="conLote"></p>
                                         </td>
                                         <td>
-                                            <input type="number" step="any" class="" placeholder="L1" id="conT1"
+                                            <input type="number" step="any" class="" placeholder="L1" id="conT1" value="{{@$conCampoTrazable->Lectura1}}"
                                                 onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')" onblur='validacionConTrazable("conT1", "conT2", "conT3", "conT1")'>
                                         </td>
                                         <td>
-                                            <input type="number" step="any" class="" placeholder="L2" id="conT2"
+                                            <input type="number" step="any" class="" placeholder="L2" id="conT2" value="{{@$conCampoTrazable->Lectura2}}"
                                                 onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')" onblur='validacionConTrazable("conT1", "conT2", "conT3", "conT2")'>
                                         </td>
                                         <td>
-                                            <input type="number" step="any" class="" placeholder="L3" id="conT3"
+                                            <input type="number" step="any" class="" placeholder="L3" id="conT3" value="{{@$conCampoTrazable->Lectura3}}"
                                                 onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')" onblur='validacionConTrazable("conT1", "conT2", "conT3", "conT3")'>
                                         </td>
-                                        <td><input type="text" id="conTEstado" disabled></td>
+                                        <td><input type="text" id="conTEstado" disabled value="{{@$conCampoTrazable->Estado}}"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -454,11 +458,14 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <select id="conCalidad">
+                                            <select id="conCalidad" name="conCalidad">
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach ($conCalidad as $item)
-                                                    <option value="{{ $item->Id_conductividad }}">
-                                                        {{ $item->Conductividad }}</option>
+                                                    @if (@$conCampoCalidad->Id_conCalidad == $item->Id_conductividad)
+                                                        <option value="{{ $item->Id_conductividad }}" selected>{{ $item->Conductividad }}</option>
+                                                    @else
+                                                        <option value="{{ $item->Id_conductividad }}">{{ $item->Conductividad }}</option>
+                                                    @endif
                                                 @endforeach
                                             </select>
                                         </td>
@@ -472,19 +479,19 @@
                                             <p id="conCLote"></p>
                                         </td>
                                         <td>
-                                            <input type="number" step="any" class="" placeholder="L1" id="conCl1"
+                                            <input type="number" step="any" class="" placeholder="L1" id="conCl1" value="{{@$conCampoCalidad->Lectura1}}"
                                                 onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')" onblur='validacionConCalidad("conCl1", "conCl2", "conCl3", "conCl1")'>
                                         </td>
                                         <td>
-                                            <input type="number" step="any" class="" placeholder="L2" id="conCl2"
+                                            <input type="number" step="any" class="" placeholder="L2" id="conCl2" value="{{@$conCampoCalidad->Lectura2}}"
                                                 onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')" onblur='validacionConCalidad("conCl1", "conCl2", "conCl3", "conCl2")'>
                                         </td>
                                         <td>
-                                            <input type="number" step="any" class="" placeholder="L3" id="conCl3"
+                                            <input type="number" step="any" class="" placeholder="L3" id="conCl3" value="{{@$conCampoCalidad->Lectura3}}"
                                                 onkeyup="valConCalidad('conCl1','conCl2','conCl3','conCEstado','conCPromedio')" onblur='validacionConCalidad("conCl1", "conCl2", "conCl3", "conCl3")'>
                                         </td>
-                                        <td><input type="text" id="conCEstado" disabled></td>
-                                        <td><input type="text" id="conCPromedio" disabled></td>
+                                        <td><input type="text" id="conCEstado" value="{{@$conCampoCalidad->Estado}}" disabled></td>
+                                        <td><input type="text" id="conCPromedio" disabled value="{{@$conCampoCalidad->Promedio}}"></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -503,7 +510,7 @@
                                         <td><input type="number" step="any" id="pendiente" placeholder="% Valor"
                                                 value="{{ $general->Pendiente }}"
                                                 onkeyup="valPendiente('pendiente','criterioPendiente')" onblur='validacionValPendiente("pendiente")'></td>
-                                        <td><input type="text" id="criterioPendiente" disabled></td>
+                                        <td><input type="text" id="criterioPendiente" value="{{@$general->Criterio}}" disabled></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -511,7 +518,7 @@
 
                         <div class="col-md-12">
                             <p class="">Supervisor</p>
-                            <input type="text" id="nombreSupervisor" placeholder="Nombre Supervisor"></td>
+                            <input type="text" id="nombreSupervisor" value="{{@$general->Supervisor}}" placeholder="Nombre Supervisor"></td>
                             <br><br>
                         </div>
                                                 
@@ -1024,7 +1031,7 @@
                             </div>
                             <div class="col-md-6">
                                 <div class="form-group">
-                                    <textarea id="observacionCompuesto" class="form-group" style="width: 100%;"></textarea>
+                                    <textarea id="observacionCompuesto" class="form-group" style="width: 100%;">{{@$compuesto->Observaciones}}</textarea>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -1049,7 +1056,7 @@
                                     <tbody>
                                         <tr>
                                             <td>{{ $model->Clave_norma }}</td>
-                                            <td><input type="text" class="" id="volCalculado" placeholder="Volumen"></td>
+                                            <td><input type="text" class="" id="volCalculado" value="{{@$compuesto->Volumen_calculado}}" placeholder="Volumen"></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -1079,13 +1086,13 @@
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">PH Muestra compuesta</label>
-                                    <input type="number" id="phMuestraCompuesto" class="form-control" placeholder="PH muestra">
+                                    <input type="number" id="phMuestraCompuesto" value="{{@$compuesto->Ph_muestraComp}}" class="form-control" placeholder="PH muestra">
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="">Temperatura muestra compuesta</label>
-                                    <input type="number" class="form-control" id="valTemp" placeholder="Temperatura muestra" onkeyup='valTempCompuesto("valTemp", "facTempApl");'>                                    
+                                    <input type="number" class="form-control" id="valTemp" value="{{@$compuesto->Temp_muestraComp}}" placeholder="Temperatura muestra" onkeyup='valTempCompuesto("valTemp", "facTempApl");'>                                    
                                 </div>
                             </div>
                             <div class="col-md-4">
