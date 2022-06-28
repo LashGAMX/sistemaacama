@@ -199,6 +199,13 @@ class VolController extends Controller
         );
         return response()->json($data);
     }
+    public function setTipoDqo(Request $res)
+    {
+        $model = LoteDetalleDqo::where('Id_lote',$res->idLote)
+                ->update(['Tipo'=>$res->tipo]);
+
+        return response()->json($model);
+    }
 
     //RECUPERAR DATOS PARA ENVIARLOS A LA VENTANA MODAL > EQUIPO PARA RELLENAR LOS DATOS ALMACENADOS EN LA BD
     public function getDataloteVol(Request $request)
@@ -1004,6 +1011,7 @@ class VolController extends Controller
         );
         return response()->json($data);
     }
+
     public function getLoteCapturaVol(Request $request)
     {
         if($request->formulaTipo == 7) //todo DQO

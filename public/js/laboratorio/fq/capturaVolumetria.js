@@ -429,34 +429,53 @@ function getDetalleVol(idDetalle, caso) {
             console.log(response);
             switch (caso) {
                 case 1: // Cloro
-                    $("#cloroA1").val(response.model.Vol_muestra);
-                    $("#cloroE1").val(response.model.Ml_muestra);
-                    $("#calroH1").val(response.model.Ph_final);
-                    $("#cloroG1").val(response.model.Ph_inicial);
-                    $("#cloroB1").val(response.valoracion.Blanco);
-                    $("#cloroC1").val(response.valoracion.Resultado);
-                    $("#cloroD1").val(response.model.Factor_conversion);
-                    $("#resultadoCloro").val(response.model.Resultado);
-                    $("#observacionCloro").val(response.model.Observacion);
+                    if(response.model.Resultado != null)
+                    {
+                        $("#cloroA1").val(response.model.Vol_muestra);
+                        $("#cloroE1").val(response.model.Ml_muestra);
+                        $("#calroH1").val(response.model.Ph_final);
+                        $("#cloroG1").val(response.model.Ph_inicial);
+                        $("#cloroB1").val(response.valoracion.Blanco);
+                        $("#cloroC1").val(response.valoracion.Resultado);
+                        $("#cloroD1").val(response.model.Factor_conversion);
+                        $("#resultadoCloro").val(response.model.Resultado);
+                        $("#observacionCloro").val(response.model.Observacion);
+                    }else{
+                        $("#cloroB1").val(response.valoracion.Blanco);
+                        $("#cloroC1").val(response.valoracion.Resultado);
+                    }
                     break;
                 case 2: // DQO
-                    $("#tituladoDqo1").val(response.model.Titulo_muestra);
-                    $("#MolaridadDqo1").val(response.valoracion.Resultado);
-                    $("#blancoDqo1").val(response.valoracion.Blanco);
-                    $("#factorDqo1").val(response.model.Equivalencia);
-                    $("#volDqo1").val(response.model.Vol_muestra);
-                    $("#resultadoDqo").val(response.model.Resultado);
-                    $("#observacionDqo").val(response.model.Observacion);
+                    if(response.model.Resultado != null)
+                    {
+                        $("#tituladoDqo1").val(response.model.Titulo_muestra);
+                        $("#MolaridadDqo1").val(response.valoracion.Resultado);
+                        $("#blancoDqo1").val(response.valoracion.Blanco);
+                        $("#factorDqo1").val(response.model.Equivalencia);
+                        $("#volDqo1").val(response.model.Vol_muestra);
+                        $("#resultadoDqo").val(response.model.Resultado);
+                        $("#observacionDqo").val(response.model.Observacion);
+                        
+                    }else{
+                        $("#MolaridadDqo1").val(response.valoracion.Resultado);
+                        $("#blancoDqo1").val(response.valoracion.Blanco); 
+                    }
                     break;
                 case 3: // NITROGENO TOTAL
-                    $("#tituladosNitro1").val(response.model.Titulado_muestra);
-                    $("#blancoNitro1").val(response.valoracion.Blanco);
-                    $("#molaridadNitro1").val(response.valoracion.Resultado);
-                    $("#factorNitro1").val(response.model.Factor_equivalencia);
-                    $("#conversion1").val(response.model.Factor_conversion);
-                    $("#volNitro1").val(response.model.Vol_muestra);
-                    $("#observacionNitro").val(response.model.Observacion);
-                    $("#resultadoNitro").val(response.model.Resultado);
+                    if(response.model.Resultado != null)
+                    {
+                        $("#tituladosNitro1").val(response.model.Titulado_muestra);
+                        $("#blancoNitro1").val(response.valoracion.Blanco);
+                        $("#molaridadNitro1").val(response.valoracion.Resultado);
+                        $("#factorNitro1").val(response.model.Factor_equivalencia);
+                        $("#conversion1").val(response.model.Factor_conversion);
+                        $("#volNitro1").val(response.model.Vol_muestra);
+                        $("#observacionNitro").val(response.model.Observacion);
+                        $("#resultadoNitro").val(response.model.Resultado);
+                    }else{
+                        $("#blancoNitro1").val(response.valoracion.Blanco);
+                        $("#molaridadNitro1").val(response.valoracion.Resultado);
+                    }
 
                     break;
                 default:

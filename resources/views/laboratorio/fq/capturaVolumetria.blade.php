@@ -121,7 +121,7 @@
 
         <!-- Modal -->
         <div class="modal fade" id="modalDqo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="width: 70%">
                 <div class="modal-content">
                   <div class="modal-header">
                     <h5 class="modal-title" id="">Captura de resultados</h5>
@@ -169,6 +169,7 @@
                                     <th>Descripción</th>
                                     <th>Valor</th>
                                     <th>Valor2</th>
+                                    <th>Tipo-</th>
                                   </tr>
                                 </thead>
                                 <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
@@ -178,30 +179,35 @@
                                         <td>Mililitros Titulados Muestra</td>
                                         <td><input type="text" id="tituladoDqo1" value="0"></td>
                                         <td><input type="text" id="tituladoDqo2" value="0"></td>
+                                        <td>V</td>
                                     </tr>
                                     <tr>
                                         <td>C</td>
                                         <td>Molaridad del FAS</td>
-                                        <td><input type="text" id="MolaridadDqo1" value="0"></td>
+                                        <td><input type="text" id="MolaridadDqo1" value="0" disabled></td>
                                         <td><input type="text" id="MolaridadDqo2" value="0"></td>
+                                        <td>F</td>
                                     </tr>
                                     <tr>
                                         <td>CA</td>
                                         <td>Mililitros titulados del blanco</td>
-                                        <td><input type="text" id="blancoDqo1" value="0"></td>
+                                        <td><input type="text" id="blancoDqo1" value="0" disabled></td>
                                         <td><input type="text" id="blancoDqo2" value="0"></td>
+                                        <td>F</td>
                                     </tr>
                                     <tr>
                                         <td>D</td>
                                         <td>Factor de quivalencia</td>
-                                        <td><input type="text" id="factorDqo1" value="0"></td>
-                                        <td><input type="text" id="factorDqo2" value="0"></td>
+                                        <td><input type="text" id="factorDqo1" value="8000"></td>
+                                        <td><input type="text" id="factorDqo2" value="8000"></td> 
+                                        <td>C</td>
                                     </tr>
                                     <tr>
                                         <td>E</td>
                                         <td>Volumen de muestra</td>
                                         <td><input type="text" id="volDqo1" value="0"></td>
                                         <td><input type="text" id="volDqo2" value="0"></td>
+                                        <td>V</td>
                                     </tr>
                                     
                                 

@@ -118,7 +118,7 @@
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
-        <h5 class="modal-title" id="exampleModalLabel">FLAMA</h5>
+        <h5 class="modal-title" id="exampleModalLabel"></h5>
         
         <label>ID Lote: <input type="text" id="idLoteHeader" size=10 /> <button class="btn btn-info" onclick="getDatalote();">Buscar</button></label>
         <label>Fecha Lote: <input type="datetime-local" id="fechaLote"/></label>                
@@ -278,13 +278,15 @@
                           <th>Parametro</th>
                           <th>Descripción</th>
                           <th>Valor</th>
+                          <th>Tipo</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td>B</td>
-                          <td>Blanco</td>
+                          <td>Mililitros titulados</td>
                           <td><input type="text" id="blancoValD"></td>
+                          <td>V</td>
                         </tr>
                       </tbody>
                     </table>
@@ -294,38 +296,45 @@
                           <th>Parametro</th>
                           <th>Descripción</th>
                           <th>Valor</th>
+                          <th>Tipo</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td>A</td>
                           <td>Vol. de K2Cr207</td>
-                          <td><input type="number" id="volk2D"></td>
+                          <td><input type="number" id="volk2D" value="10"></td>
+                          <td>C</td>
                         </tr>
                         <tr>
                           <td>B</td>
                           <td>concentracion</td>
-                          <td><input type="number" id="concentracionD"></td>
+                          <td><input type="number" id="concentracionD" value="0.04"></td>
+                          <td>C</td>
                         </tr>
                         <tr>
                           <td>C</td>
                           <td>Factor de equivalentes</td>
-                          <td><input type="number" id="factorD"></td>
+                          <td><input type="number" id="factorD" value="6"></td>
+                          <td>C</td>
                         </tr>
                         <tr>
                           <td>D</td>
                           <td>Vol. titulado</td>
                           <td><input type="number" id="titulado1D"></td>
+                          <td>V</td>
                         </tr>
                         <tr>
                           <td>E</td>
                           <td>Vol. titulado 2</td>
                           <td><input type="number" id="titulado2D"></td>
+                          <td>V</td>
                         </tr>
                         <tr>
                           <td>G</td>
                           <td>Vol. titulado 3</td>
                           <td><input type="number" id="titulado3D"></td>
+                          <td>V</td>
                         </tr>
                       </tbody>
                     </table>
@@ -434,17 +443,24 @@
 
               {{-- DQO --}}
               <div class="tab-pane fade" id="dqo" role="tabpanel" aria-labelledby="dqo-tab">  
-              <h4>Tipo de Lote</h4>
+              <div class="row">
+                <div class="col-md-6">
+                  <h4>Tipo de Lote DQO</h4>
 
-              <select>
-                <option value="0">Selecionar</option>  
-                <option value="1">DQO ALTA</option>
-                <option value="2">DQO BAJA</option> 
-              </select>
+                  <select id="tipoDqo">
+                    <option value="0">Selecionar</option>  
+                    <option value="1">DQO ALTA</option>
+                    <option value="2">DQO BAJA</option> 
+                  </select>
+                </div>
+                <div class="col-md-6">
+                  <button class="btn btn-sm btn-success" id="btnGuardarTipoDqo">Guardar</button>
+                </div>
+              </div>
+
+              <hr>
 
                 <h4>Ebullición</h4>
-                <hr>
-
                 <label>Lote ID: <input type="text" id="ebullicion_loteId"></label> <br>
                 <label>Inicio: <input type="time" id="ebullicion_inicio"></label>
                 <label>Fin: <input type="time" id="ebullicion_fin"></label><br><br>
