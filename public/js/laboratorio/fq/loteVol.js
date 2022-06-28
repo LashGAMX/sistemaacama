@@ -25,13 +25,23 @@ $('#btnDatosLote').click(function () {
             $("#secctionCloro").hide();
             $("#secctionNitrogeno").hide();
             break;
-        case '12':
+        case '10': //Nitrogeno Total
+            $("#secctionNitrogeno").show();
+            $("#secctionCloro").hide();
+            $("#secctionDqo").hide();
+            break;
+        case '11': //Nitrogeno Amoniacal
+            $("#secctionNitrogeno").show();
+            $("#secctionCloro").hide();
+            $("#secctionDqo").hide();
+            break;
+        case '12': //Nitrogeno Organico
             $("#secctionNitrogeno").show();
             $("#secctionCloro").hide();
             $("#secctionDqo").hide();
             break;
         default:
-            break; 
+            break;
     }
 });
 $('#btnEjecutarVal').click(function () {
@@ -42,7 +52,7 @@ $('#btnEjecutarVal').click(function () {
     let titulado3 = 0;
     switch ($("#tipoFormula").val()) {
         case '295': // CLORO RESIDUAL LIBRE
-            $("#blancoResClo").val($("#blancoCloro").val()) 
+            $("#blancoResClo").val($("#blancoCloro").val())
             titulado1 = $("#tituladoClo1").val();
             titulado2 = $("#tituladoClo2").val();
             titulado3 = $("#tituladoClo3").val();
@@ -64,7 +74,7 @@ $('#btnEjecutarVal').click(function () {
 
             prom = (parseFloat(titulado1) + parseFloat(titulado2) + parseFloat(titulado3)) / 3;
             res = (parseFloat(volk2) * parseFloat(concentracion) * parseFloat(factor)) / prom;
-            $("#molaridadResD").val(res.toFixed(4));
+            $("#molaridadResD").val(res.toFixed(3));
             // console.log(res)
             break;
         case '12': // DQO
@@ -88,53 +98,53 @@ $('#btnEjecutarVal').click(function () {
 $('#btnGuardarVal').click(function () {
     switch ($("#tipoFormula").val()) {
         case '295': // CLORO RESIDUAL LIBRE
-        $.ajax({
-            type: 'POST',
-            url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
-            data: {
-                caso:1,
-                idParametro:$("#tipoFormula").val(),
-                blanco: $("#blancoResClo").val(),
-                idLote: $("#idLoteHeader").val(),
-                titulado1:$("#tituladoClo1").val(),
-                titulado2:$("#tituladoClo2").val(),
-                titulado3:$("#tituladoClo3").val(),
-                trazable:$("#trazableClo").val(),
-                normalidad:$("#normalidadClo").val(),
-                resultado:$("#normalidadResCloro").val(),
-                _token: $('input[name="_token"]').val(),
-            },
-            dataType: "json",
-            async: false,
-            success: function (response) {
-                console.log(response);
-            }
-        });
+            $.ajax({
+                type: 'POST',
+                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                data: {
+                    caso: 1,
+                    idParametro: $("#tipoFormula").val(),
+                    blanco: $("#blancoResClo").val(),
+                    idLote: $("#idLoteHeader").val(),
+                    titulado1: $("#tituladoClo1").val(),
+                    titulado2: $("#tituladoClo2").val(),
+                    titulado3: $("#tituladoClo3").val(),
+                    trazable: $("#trazableClo").val(),
+                    normalidad: $("#normalidadClo").val(),
+                    resultado: $("#normalidadResCloro").val(),
+                    _token: $('input[name="_token"]').val(),
+                },
+                dataType: "json",
+                async: false,
+                success: function (response) {
+                    console.log(response);
+                }
+            });
             break;
         case '7': // DQO
-        $.ajax({
-            type: 'POST',
-            url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
-            data: {
-                caso:2,
-                idParametro:$("#tipoFormula").val(),
-                blanco: $("#blancoResD").val(),
-                idLote: $("#idLoteHeader").val(),
-                volk2D:$("#volk2D").val(),
-                concentracion:$("#concentracionD").val(),
-                factor:$("#factorD").val(),
-                titulado1:$("#titulado1D").val(),
-                titulado2:$("#titulado2D").val(),
-                titulado3:$("#titulado3D").val(),
-                resultado: $("#molaridadResD").val(),
-                _token: $('input[name="_token"]').val(),
-            },
-            dataType: "json",
-            async: false,
-            success: function (response) {
-                console.log(response);
-            }
-        });
+            $.ajax({
+                type: 'POST',
+                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                data: {
+                    caso: 2,
+                    idParametro: $("#tipoFormula").val(),
+                    blanco: $("#blancoResD").val(),
+                    idLote: $("#idLoteHeader").val(),
+                    volk2D: $("#volk2D").val(),
+                    concentracion: $("#concentracionD").val(),
+                    factor: $("#factorD").val(),
+                    titulado1: $("#titulado1D").val(),
+                    titulado2: $("#titulado2D").val(),
+                    titulado3: $("#titulado3D").val(),
+                    resultado: $("#molaridadResD").val(),
+                    _token: $('input[name="_token"]').val(),
+                },
+                dataType: "json",
+                async: false,
+                success: function (response) {
+                    console.log(response);
+                }
+            });
             break;
         case '12': // NITROGENO TOTAL
             $.ajax({
@@ -166,6 +176,24 @@ $('#btnGuardarVal').click(function () {
     }
 });
 
+$('#btnGuardarTipoDqo').click(function () {
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/laboratorio/" + area + "/setTipoDqo",
+        data: {
+            idLote: $("#idLoteHeader").val(),
+            tipo: $("#tipoDqo").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+            swal("Registro!", "Lote creado correctamente!", "success");
+            $('#modalCrearLote').modal('hide')
+        }
+    });
+});
 
 function habilitarTabla(id1, id2) {
     $("#" + id1).show();
