@@ -195,6 +195,7 @@ function operacion()
         type: "POST",
         url: base_url + "/admin/laboratorio/"+area+"/operacion",
         data: {
+            idParametro:$("#formulaTipo").val(),
             idlote:$("#idLote").val(),
             idDetalle:$("#idDetalle"+idMuestra).val(),
             volMuestra:$("#volMuestra"+idMuestra).val(),

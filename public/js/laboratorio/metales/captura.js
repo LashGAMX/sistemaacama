@@ -211,6 +211,8 @@ function operacion()
         type: "POST",
         url: base_url + "/admin/laboratorio/metales/operacion",
         data: {
+            fecha:$("#fechaAnalisis").val(),
+            idParametro:$("#formulaTipo").val(),
             idlote:idLote,
             idDetalle:$("#idDetalle"+idMuestra).val(),
             volMuestra:$("#volMuestra"+idMuestra).val(),

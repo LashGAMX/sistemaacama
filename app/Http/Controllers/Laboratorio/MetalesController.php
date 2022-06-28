@@ -346,10 +346,17 @@ class MetalesController extends Controller
     } 
     public function operacion(Request $request)
     {
+         //! Cambio de busqueda de BMR de Lote a rango de fechas.
+        $fecha = new Carbon($request->fecha);
+        $today = $fecha->toDateString();
 
         $detalleModel = LoteDetalle::where('Id_detalle',$request->idDetalle)->first();
         $parametroModel = Parametro::where('Id_matriz',12)->where('Id_parametro',$detalleModel->Id_parametro)->get();
+        $parametro = Parametro::where('Id_parametro', $request->idParametro)->first();
+
         $curvaConstantes = CurvaConstantes::where('Id_lote', $request->idlote)->first();
+        $Constantes  = CurvaConstantes::where('Id_area', $parametro->Id_area)->where('Id_parametro', $parametro->Id_parametro)->whereDate('Fecha_inicio', '>=', $today)->whereDate('Fecha_fin', '<=', $today)->first();
+
         $parametroPurificada = Parametro::where('Id_matriz',9)->where('Id_parametro',$detalleModel->Id_parametro)->get();
 
         $x = $request->x;
@@ -393,7 +400,9 @@ class MetalesController extends Controller
             'idDeta' => $request->idDetalle,
             'curva' => $curvaConstantes,
             'promedio' => $promedio,
-            'resultado' => $resultado
+            'resultado' => $resultado,
+            'constantes' => $Constantes,
+          
         );
 
         return response()->json($data);
