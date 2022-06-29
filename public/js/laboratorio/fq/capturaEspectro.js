@@ -367,6 +367,8 @@ function getDetalleEspectro(idDetalle)
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getDetalleEspectro",
         data: {
+            formulaTipo: $("#formulaTipo").val(), 
+            fechaAnalisis: $("#fechaAnalisis").val(),
             idDetalle: idDetalle,
             _token: $('input[name="_token"]').val()
         },

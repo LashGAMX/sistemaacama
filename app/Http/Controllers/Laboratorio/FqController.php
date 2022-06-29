@@ -340,15 +340,20 @@ class FqController extends Controller
     }
     public function getDetalleEspectro(Request $request) //obtener cuerva
     {
+        $fecha = new Carbon($request->fechaAnalisis); 
+        $today = $fecha->toDateString();
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
-
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
+        $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+        ->where('Id_area', $parametro->Id_area)
+        ->where('Id_parametro', $parametro->Id_parametro)->first();
 
-        $curva = CurvaConstantes::where('Id_lote', $model->Id_lote)->first();
+        //$curva = CurvaConstantes::where('Id_lote', $model->Id_lote)->first();
 
         $data = array(
             'model' => $model,
             'curva' => $curva,
+            //'constantes' => $constantes,
         );
         return response()->json($data);
     }
