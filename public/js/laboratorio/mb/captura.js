@@ -301,6 +301,8 @@ function getDetalleDbo(idDetalle)
             
             $("#observacionDbo").val(response.model.Observacion);          
             $("#resDbo").val(response.model.Resultado);          
+            $('#resDqo').val(response.model2.Resultado);
+
         }
     });
 }
@@ -353,7 +355,12 @@ function operacionCol()
         success: function (response) {
             console.log(response);
             getLoteCapturaMicro();
-            $('#resultadoCol').val(response.res);
+            if(response.res == 0)
+            {
+                $('#resultadoCol').val("< 3");
+            }else{
+                $('#resultadoCol').val(response.res);
+            }
         }
     }); 
 }
