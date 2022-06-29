@@ -423,7 +423,7 @@
                         </tr>
                         <tr>
                           <td>D</td>
-                          <td>Mililitro 3 Titulado</td>
+                          <td>Mililitro 2 Titulado</td>
                           <td><input type="number" id="titulado2N"></td>
                           <td>V</td>
                         </tr>

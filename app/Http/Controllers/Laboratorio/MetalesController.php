@@ -352,10 +352,13 @@ class MetalesController extends Controller
 
         $detalleModel = LoteDetalle::where('Id_detalle',$request->idDetalle)->first();
         $parametroModel = Parametro::where('Id_matriz',12)->where('Id_parametro',$detalleModel->Id_parametro)->get();
-        $parametro = Parametro::where('Id_parametro', $request->idParametro)->first();
 
-        $curvaConstantes = CurvaConstantes::where('Id_lote', $request->idlote)->first();
-        $Constantes  = CurvaConstantes::where('Id_area', $parametro->Id_area)->where('Id_parametro', $parametro->Id_parametro)->whereDate('Fecha_inicio', '>=', $today)->whereDate('Fecha_fin', '<=', $today)->first();
+        //Buscar la BMR 
+        $parametro = Parametro::where('Id_parametro', $request->idParametro)->first();
+        //$curvaConstantes = CurvaConstantes::where('Id_lote', $request->idlote)->first();
+        $curvaConstantes  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+        ->where('Id_area', $parametro->Id_area)
+        ->where('Id_parametro', $parametro->Id_parametro)->first();
 
         $parametroPurificada = Parametro::where('Id_matriz',9)->where('Id_parametro',$detalleModel->Id_parametro)->get();
 
@@ -401,7 +404,8 @@ class MetalesController extends Controller
             'curva' => $curvaConstantes,
             'promedio' => $promedio,
             'resultado' => $resultado,
-            'constantes' => $Constantes,
+            //'constantes' => $constantes,
+           
           
         );
 

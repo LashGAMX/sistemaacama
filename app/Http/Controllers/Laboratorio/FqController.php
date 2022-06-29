@@ -338,9 +338,12 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
-    public function getDetalleEspectro(Request $request)
+    public function getDetalleEspectro(Request $request) //obtener cuerva
     {
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
+
+        $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
+
         $curva = CurvaConstantes::where('Id_lote', $model->Id_lote)->first();
 
         $data = array(
