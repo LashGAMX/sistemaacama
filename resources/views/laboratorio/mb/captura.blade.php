@@ -476,6 +476,9 @@
                                             class="voyager-check"></i> Aplicar</button>
                                 </div>
                                 <div class="col-md-12">
+                                    <h4>Resultado DQO <input type="text" id="resDqo" disabled></h4>
+                                </div>
+                                <div class="col-md-12">
                                     <table class="table" id="">
                                         <thead>
                                             <tr>

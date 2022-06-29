@@ -232,8 +232,10 @@ class MbController extends Controller
     public function getDetalleDbo(Request $request)
     {
         $model = DB::table('ViewLoteDetalleDbo')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
+        $model2 = DB::table('ViewLoteDetalleDqo')->where('Id_analisis',$model->Id_analisis)->first();
         $data = array(
             'model' => $model,
+            'model2' => $model2,
         );
         return response()->json($data);
     }

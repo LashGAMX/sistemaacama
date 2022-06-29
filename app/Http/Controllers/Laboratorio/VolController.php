@@ -1350,7 +1350,7 @@ class VolController extends Controller
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
                 
                 if (!is_null($data)) {
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+                    $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
                     $valNitrogeno = ValoracionNitrogeno::where('Id_lote', $id_lote)->first();
 
                     $limites = array();
@@ -1375,7 +1375,7 @@ class VolController extends Controller
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+                    $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
                     $valNitrogenoA = ValoracionNitrogeno::where('Id_lote', $id_lote)->first();
 
                     $limites = array();
@@ -1400,7 +1400,7 @@ class VolController extends Controller
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+                    $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
                     foreach ($data as $item) {
@@ -1681,7 +1681,7 @@ class VolController extends Controller
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
+                    $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
                     foreach ($data as $item) {

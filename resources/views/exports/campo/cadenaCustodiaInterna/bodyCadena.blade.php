@@ -146,25 +146,25 @@
                         @for ($cont = 0; $cont < $paramResultadoLength; $cont+=$semaforo)
                             <tr>                                
                                 @if ($paramResultadoLength < 10)
-                                    <td class="bordesTablaInfIzqDer fontSize11 fontCalibri negrita">{{@$paramResultado[$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11" style="padding: 0.4%">{{$limitesC[$i]}}</td>
+                                    <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{@$paramResultado[$i]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">{{$limitesC[$i]}}</td>
                                 @endif                                
                                                                 
                                 @if ($paramResultadoLength >= 10 && $paramResultadoLength < 20)                                    
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{@$paramResultado[$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11" style="padding: 0.4%">{{$limitesC[$i]}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{@$paramResultado[$i+1]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{$limitesC[$i+1]}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">{{$limitesC[$i]}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$limitesC[$i+1]}}</td>
 
                                 @endif                                
                                                                 
                                 @if ($paramResultadoLength >= 20 && $paramResultadoLength <= 30)
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{@$paramResultado[$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11" style="padding: 0.4%">{{$limitesC[$i]}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{@$paramResultado[$i+1]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">{{$limitesC[$i]}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Parametro}}</td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{$limitesC[$i+1]}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{@$paramResultado[$i+2]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{$limitesC[$i+2]}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+2]->Parametro}}</td>
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$limitesC[$i+2]}}</td>
                                 @endif                                
                                 
                                 @if ($paramResultadoLength >= 30)
@@ -177,7 +177,7 @@
                                         @endif
                                     </td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[9+$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
                                         @if (strpos(@$limitesC[9+$i], "< AUS") !== 0)
                                             {{@$limitesC[9+$i]}}
                                         @else
@@ -185,7 +185,7 @@
                                         @endif
                                     </td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[18+$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
                                         @if (strpos(@$limitesC[18+$i], "< AUS") !== 0)
                                             {{@$limitesC[18+$i]}}
                                         @else
@@ -193,7 +193,7 @@
                                         @endif
                                     </td>
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[27+$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">
+                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
                                         @if (strpos(@$limitesC[27+$i], "< AUS") !== 0)
                                             {{@$limitesC[27+$i]}}
                                         @else

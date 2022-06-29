@@ -4477,7 +4477,8 @@ class InformesController extends Controller
 
         //Calcula el promedio ponderado de las grasas y aceites
         //if ($gaMenorLimite == false) {
-            $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();
+            // $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();
+            $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', 6)->where('Id_parametro', 14)->get();
             $modelParamGrasasLength = $modelParamGrasas->count();
 
             //Calcula promedio ponderado de G y A

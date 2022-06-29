@@ -421,10 +421,12 @@ class MetalesController extends Controller
             $sw = true;
             $model->save();
         }
-        $modelCod = CodigoParametros::find($model->Id_codigo);
-        $modelCod->Resultado = $model->Vol_disolucion;
-        $modelCod->save();
+        // $modelCod = CodigoParametros::find($model->Id_codigo);
+        // $modelCod->Resultado = $model->Vol_disolucion;
+        // $modelCod->save();
         
+        $modelCod = DB::table('codigo_parametro')->where('Id_solicitud',$model->Id_analisis)->where('Id_parametro',$model->Id_parametro)->update(['Resultado' => $model->Vol_disolucion]);
+
         $model = LoteDetalle::where('Id_lote',$request->idLote)->where('Liberado',1)->get();
         $loteModel = LoteAnalisis::find($request->idLote);
         $loteModel->Liberado = $model->count();
