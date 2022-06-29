@@ -381,13 +381,15 @@
                           <th>Parametro</th>
                           <th>Descripción</th>
                           <th>Valor</th>
+                          <th>Tipo</th>
                         </tr>
                       </thead>
                       <tbody>
                         <tr>
                           <td>B</td>
-                          <td>Blanco</td>
+                          <td>Mililitros titulados</td>
                           <td><input type="text" id="blancoValN"></td>
+                          <td>V</td>
                         </tr>
                       </tbody>
                     </table>
@@ -397,6 +399,7 @@
                           <th>Parametro</th>
                           <th>Descripción</th>
                           <th>Valor</th>
+                          <th>Tipo</th>
                         </tr>
                       </thead>
                       <tbody>
@@ -404,31 +407,37 @@
                           <td>A</td>
                           <td>gramos de Na2CO3</td>
                           <td><input type="number" id="gramosN" value="0.0318"></td>
+                          <td>C</td>
                         </tr>
                         <tr>
                           <td>B</td>
                           <td>Factor conversion</td>
                           <td><input type="number" id="factorN" value="1000"></td>
+                          <td>C</td>
                         </tr>
                         <tr>
                           <td>C</td>
                           <td>Mililitro 1 Titulado</td>
-                          <td><input type="number" id="titulado1N"></td>
+                          <td><input type="number" id="titulado1N"></td> 
+                          <td>V</td>
                         </tr>
                         <tr>
                           <td>D</td>
                           <td>Mililitro 3 Titulado</td>
                           <td><input type="number" id="titulado2N"></td>
+                          <td>V</td>
                         </tr>
                         <tr>
                           <td>E</td>
                           <td>Mililitro 3 Titulado</td>
                           <td><input type="number" id="titulado3N"></td>
+                          <td>V</td>
                         </tr>
                         <tr>
                           <td>G</td>
                           <td>Pm del Na2CO3</td>
-                          <td><input type="number" id="PmN"></td>
+                          <td><input type="number" id="PmN" value="106"></td>
+                          <td>C</td>
                         </tr>
                       </tbody>
                     </table>

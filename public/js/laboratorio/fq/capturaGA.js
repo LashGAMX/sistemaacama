@@ -3,7 +3,7 @@ var numMuestras = new Array();
 var idMuestra = 0; 
 var idLote = 0;
 var tecnica = 0;
-
+var blanco = 0;
 $(document).ready(function () {
 
 });
@@ -137,6 +137,9 @@ function getLoteCapturaGA() {
             tab += '    <tbody>';
             $.each(response.detalle, function (key, item) {
                 tab += '<tr>';
+                if (item.Id_control == 5) {
+                  blanco = item.Resultado
+                } 
                 if (item.Liberado != 1) {
                     status = "";
                     color = "success";
@@ -317,7 +320,14 @@ function getDetalleGA(idDetalle)
             $("#c1").val(response.model.M_inicial3);
             $("#l1").val(response.model.Ph);
             $("#i1").val(response.model.Vol_muestra);
-            $("#g1").val(response.model.Blanco);
+            if(response.model.Id_control != 5)
+            {
+                $("#g1").val(blanco);   
+                $("#g2").val(blanco);
+            }else{
+                $("#g1").val(response.model.Blanco);   
+                $("#g2").val(response.model.Blanco);
+            }
             $("#e1").val(response.model.F_conversion);
             $("#observacion").val(response.model.Observacion);
 
@@ -328,7 +338,6 @@ function getDetalleGA(idDetalle)
             $("#c2").val(response.model.M_inicial3);
             $("#l2").val(response.model.Ph);
             $("#i2").val(response.model.Vol_muestra);
-            $("#g2").val(response.model.Blanco);
             $("#e2").val(response.model.F_conversion);
         }
     });

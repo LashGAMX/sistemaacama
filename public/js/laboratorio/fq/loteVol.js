@@ -50,6 +50,9 @@ $('#btnEjecutarVal').click(function () {
     let titulado1 = 0;
     let titulado2 = 0;
     let titulado3 = 0;
+    let gramos = 0;
+    let factorN = 0;
+    let pm = 0;
     switch ($("#tipoFormula").val()) {
         case '295': // CLORO RESIDUAL LIBRE
             $("#blancoResClo").val($("#blancoCloro").val())
@@ -77,14 +80,42 @@ $('#btnEjecutarVal').click(function () {
             $("#molaridadResD").val(res.toFixed(3));
             // console.log(res)
             break;
-        case '12': // DQO
+        case '10': // Nitrogeno
             $("#blancoResN").val($("#blancoValN").val())
             titulado1 = $("#titulado1N").val();
             titulado2 = $("#titulado2N").val();
             titulado3 = $("#titulado3N").val();
-            let gramos = $("#gramosN").val();
-            let factorN = $("#factorN").val();
-            let pm = $("#PmN").val();
+            gramos = $("#gramosN").val();
+            factorN = $("#factorN").val();
+            pm = $("#PmN").val();
+
+            prom = (parseFloat(titulado1) + parseFloat(titulado2) + parseFloat(titulado3)) / 3;
+            res = (parseFloat(gramos) / (parseFloat(pm) * prom)) * factorN;
+            $("#molaridadResN").val(res.toFixed(3));
+            // console.log(res)
+            break;
+        case '11': // Nitrogeno
+            $("#blancoResN").val($("#blancoValN").val())
+            titulado1 = $("#titulado1N").val();
+            titulado2 = $("#titulado2N").val();
+            titulado3 = $("#titulado3N").val();
+            gramos = $("#gramosN").val();
+            factorN = $("#factorN").val();
+            pm = $("#PmN").val();
+
+            prom = (parseFloat(titulado1) + parseFloat(titulado2) + parseFloat(titulado3)) / 3;
+            res = (parseFloat(gramos) / (parseFloat(pm) * prom)) * factorN;
+            $("#molaridadResN").val(res.toFixed(3));
+            // console.log(res)
+            break;
+        case '12': // Nitrogeno
+            $("#blancoResN").val($("#blancoValN").val())
+            titulado1 = $("#titulado1N").val();
+            titulado2 = $("#titulado2N").val();
+            titulado3 = $("#titulado3N").val();
+            gramos = $("#gramosN").val();
+            factorN = $("#factorN").val();
+            pm = $("#PmN").val();
 
             prom = (parseFloat(titulado1) + parseFloat(titulado2) + parseFloat(titulado3)) / 3;
             res = (parseFloat(gramos) / (parseFloat(pm) * prom)) * factorN;
@@ -137,6 +168,56 @@ $('#btnGuardarVal').click(function () {
                     titulado2: $("#titulado2D").val(),
                     titulado3: $("#titulado3D").val(),
                     resultado: $("#molaridadResD").val(),
+                    _token: $('input[name="_token"]').val(),
+                },
+                dataType: "json",
+                async: false,
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+            break;
+        case '10': // NITROGENO TOTAL
+            $.ajax({
+                type: 'POST',
+                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                data: {
+                    caso: 3,
+                    idParametro: $("#tipoFormula").val(),
+                    blanco: $("#blancoResN").val(),
+                    idLote: $("#idLoteHeader").val(),
+                    gramos: $("#gramosN").val(),
+                    factor: $("#factorN").val(),
+                    titulado1: $("#titulado1N").val(),
+                    titulado2: $("#titulado2N").val(),
+                    titulado3: $("#titulado3N").val(),
+                    pm: $("#PmN").val(),
+                    resultado: $("#molaridadResN").val(),
+                    _token: $('input[name="_token"]').val(),
+                },
+                dataType: "json",
+                async: false,
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+            break;
+        case '11': // NITROGENO TOTAL
+            $.ajax({
+                type: 'POST',
+                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                data: {
+                    caso: 3,
+                    idParametro: $("#tipoFormula").val(),
+                    blanco: $("#blancoResN").val(),
+                    idLote: $("#idLoteHeader").val(),
+                    gramos: $("#gramosN").val(),
+                    factor: $("#factorN").val(),
+                    titulado1: $("#titulado1N").val(),
+                    titulado2: $("#titulado2N").val(),
+                    titulado3: $("#titulado3N").val(),
+                    pm: $("#PmN").val(),
+                    resultado: $("#molaridadResN").val(),
                     _token: $('input[name="_token"]').val(),
                 },
                 dataType: "json",

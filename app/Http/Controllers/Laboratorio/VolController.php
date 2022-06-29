@@ -157,7 +157,7 @@ class VolController extends Controller
                     ]);
                 }
                 break;
-            case 3: // DQO
+            case 3: // Nitrogeno
                 # code...
                 $valoracionModel = ValoracionNitrogeno::where('Id_lote', $request->idLote)->get();
                 if ($valoracionModel->count()) {
