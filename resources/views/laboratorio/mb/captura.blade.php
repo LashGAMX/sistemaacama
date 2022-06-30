@@ -148,7 +148,7 @@
         <!-- Modal -->
         <div class="modal fade" id="modalCapturaCol" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog" style="width: 80%;">
                 <div class="modal-content">
                     <form wire:submit.prevent="create">
                         <div class="modal-header">
@@ -179,159 +179,115 @@
                                                 <th>Descripción</th>
                                                 <th>Valor</th>
                                                 <th>Valor2</th>
+                                                <th>Tipo</th>
                                             </tr>
                                         </thead>
                                         <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
                                         <tbody>
                                             <tr>
-                                                <td>D1</td>
-                                                <td>Dilucion 1</td>
-                                                <td><input type="text" id="dil1" value="0"></td>
-                                                <td><input type="text" id="dil12" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>D2</td>
-                                                <td>Dilucion 2</td>
-                                                <td><input type="text" id="dil2" value="0"></td>
-                                                <td><input type="text" id="dil22" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>D3</td>
-                                                <td>Dilucion 3</td>
-                                                <td><input type="text" id="dil3" value="0"></td>
-                                                <td><input type="text" id="dil32" value="0"></td>
+                                                <td>D1 | D2 | D3</td>
+                                                <td>Diluciones</td>
+                                                <td>
+                                                    <input type="text" id="dil1" value="0" style="width: 60px;">
+                                                    <input type="text" id="dil2" value="0" style="width: 60px;">
+                                                    <input type="text" id="dil3" value="0" style="width: 60px;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="dil12" value="0" style="width: 60px;">
+                                                    <input type="text" id="dil22" value="0" style="width: 60px;">
+                                                    <input type="text" id="dil32" value="0" style="width: 60px;">
+                                                </td>
+                                                <td>V</td>
                                             </tr>
                                             <tr>
                                                 <td>NMP</td>
                                                 <td>Indice NMP</td>
                                                 <td><input type="text" id="nmp1" value="0"></td>
                                                 <td><input type="text" id="nmp2" value="0"></td>
+                                                <td>V</td>
                                             </tr>
                                             <tr>
                                                 <td>G3</td>
                                                 <td>mL De muestra en todos los tubos</td>
                                                 <td><input type="text" id="todos1" value="0"></td>
                                                 <td><input type="text" id="todos2" value="0"></td>
+                                                <td>V</td>
                                             </tr>
                                             <tr>
                                                 <td>G2</td>
                                                 <td>mL De muestra en tubos negativos</td>
                                                 <td><input type="text" id="negativos1" value="0"></td>
                                                 <td><input type="text" id="negativos2" value="0"></td>
+                                                <td>V</td>
                                             </tr>
                                             <tr>
                                                 <td>G1</td>
                                                 <td># de tubos positivos</td>
-                                                <td><input type="text" id="positivo1" value="0"></td>
-                                                <td><input type="text" id="positivo2" value="0"></td>
+                                                <td><input type="text" id="positivos1" value="0"></td>
+                                                <td><input type="text" id="positivos2" value="0"></td>
+                                                <td>V</td>
                                             </tr>
                                             <tr>
-                                                <td>C1</td>
-                                                <td>Prueba confirmativa 1</td>
-                                                <td><input type="text" id="con1" value="0"></td>
-                                                <td><input type="text" id="con12" value="0"></td>
+                                                <td>C1 - C9</td>
+                                                <td>Prueba confirmativa</td>
+                                                <td>
+                                                    <input type="text" id="con1" value="0" style="width: 60px;">
+                                                    <input type="text" id="con4" value="0" style="width: 60px;">
+                                                    <input type="text" id="con7" value="0" style="width: 60px;">
+                                                    <br>
+                                                    <input type="text" id="con2" value="0" style="width: 60px;">
+                                                    <input type="text" id="con5" value="0" style="width: 60px;">
+                                                    <input type="text" id="con8" value="0" style="width: 60px;">
+                                                    <br>
+                                                    <input type="text" id="con3" value="0" style="width: 60px;">
+                                                    <input type="text" id="con6" value="0" style="width: 60px;">
+                                                    <input type="text" id="con9" value="0" style="width: 60px;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="con12" value="0" style="width: 60px">
+                                                    <input type="text" id="con42" value="0" style="width: 60px">
+                                                    <input type="text" id="con72" value="0" style="width: 60px">
+                                                    <br>
+                                                    <input type="text" id="con22" value="0" style="width: 60px">
+                                                    <input type="text" id="con52" value="0" style="width: 60px">
+                                                    <input type="text" id="con82" value="0" style="width: 60px">
+                                                    <br>
+                                                    <input type="text" id="con32" value="0" style="width: 60px">
+                                                    <input type="text" id="con62" value="0" style="width: 60px">
+                                                    <input type="text" id="con92" value="0" style="width: 60px">
+                                                </td>
+                                                <td>V</td>
                                             </tr>
                                             <tr>
-                                                <td>C2</td>
-                                                <td>Prueba confirmativa 2</td>
-                                                <td><input type="text" id="con2" value="0"></td>
-                                                <td><input type="text" id="con22" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>C3</td>
-                                                <td>Prueba confirmativa 3</td>
-                                                <td><input type="text" id="con3" value="0"></td>
-                                                <td><input type="text" id="con32" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>C4</td>
-                                                <td>Prueba confirmativa 4</td>
-                                                <td><input type="text" id="con4" value="0"></td>
-                                                <td><input type="text" id="con42" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>C5</td>
-                                                <td>Prueba confirmativa 5</td>
-                                                <td><input type="text" id="con5" value="0"></td>
-                                                <td><input type="text" id="con52" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>C6</td>
-                                                <td>Prueba confirmativa 6</td>
-                                                <td><input type="text" id="con6" value="0"></td>
-                                                <td><input type="text" id="con62" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>C7</td>
-                                                <td>Prueba confirmativa 7</td>
-                                                <td><input type="text" id="con7" value="0"></td>
-                                                <td><input type="text" id="con72" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>C8</td>
-                                                <td>Prueba confirmativa 8</td>
-                                                <td><input type="text" id="con8" value="0"></td>
-                                                <td><input type="text" id="con82" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>C9</td>
-                                                <td>Prueba confirmativa 9</td>
-                                                <td><input type="text" id="con9" value="0"></td>
-                                                <td><input type="text" id="con92" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>P1</td>
-                                                <td>Prueba Presuntiva 1</td>
-                                                <td><input type="text" id="pre1" value="0"></td>
-                                                <td><input type="text" id="pre12" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>P2</td>
-                                                <td>Prueba Presuntiva 2</td>
-                                                <td><input type="text" id="pre2" value="0"></td>
-                                                <td><input type="text" id="pre22" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>P3</td>
-                                                <td>Prueba Presuntiva 3</td>
-                                                <td><input type="text" id="pre3" value="0"></td>
-                                                <td><input type="text" id="pre32" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>P4</td>
-                                                <td>Prueba Presuntiva 4</td>
-                                                <td><input type="text" id="pre4" value="0"></td>
-                                                <td><input type="text" id="pre42" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>P5</td>
-                                                <td>Prueba Presuntiva 5</td>
-                                                <td><input type="text" id="pre5" value="0"></td>
-                                                <td><input type="text" id="pre52" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>P6</td>
-                                                <td>Prueba Presuntiva 6</td>
-                                                <td><input type="text" id="pre6" value="0"></td>
-                                                <td><input type="text" id="pre62" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>P7</td>
-                                                <td>Prueba Presuntiva 7</td>
-                                                <td><input type="text" id="pre7" value="0"></td>
-                                                <td><input type="text" id="pre72" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>P8</td>
-                                                <td>Prueba Presuntiva 8</td>
-                                                <td><input type="text" id="pre8" value="0"></td>
-                                                <td><input type="text" id="pre82" value="0"></td>
-                                            </tr>
-                                            <tr>
-                                                <td>P9</td>
-                                                <td>Prueba Presuntiva 9</td>
-                                                <td><input type="text" id="pre9" value="0"></td>
-                                                <td><input type="text" id="pre92" value="0"></td>
+                                                <td>P1 - P9</td>
+                                                <td>Prueba presuntiva</td>
+                                                <td>
+                                                    <input type="text" id="pre1" value="0" style="width: 60px;">
+                                                    <input type="text" id="pre4" value="0" style="width: 60px;">
+                                                    <input type="text" id="pre7" value="0" style="width: 60px;">
+                                                    <br>
+                                                    <input type="text" id="pre2" value="0" style="width: 60px;">
+                                                    <input type="text" id="pre5" value="0" style="width: 60px;">
+                                                    <input type="text" id="pre8" value="0" style="width: 60px;">
+                                                    <br>
+                                                    <input type="text" id="pre3" value="0" style="width: 60px;">
+                                                    <input type="text" id="pre6" value="0" style="width: 60px;">
+                                                    <input type="text" id="pre9" value="0" style="width: 60px;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="pre12" value="0" style="width: 60px">
+                                                    <input type="text" id="pre42" value="0" style="width: 60px">
+                                                    <input type="text" id="pre72" value="0" style="width: 60px">
+                                                    <br>
+                                                    <input type="text" id="pre22" value="0" style="width: 60px">
+                                                    <input type="text" id="pre52" value="0" style="width: 60px">
+                                                    <input type="text" id="pre82" value="0" style="width: 60px">
+                                                    <br>
+                                                    <input type="text" id="pre32" value="0" style="width: 60px">
+                                                    <input type="text" id="pre62" value="0" style="width: 60px">
+                                                    <input type="text" id="pre92" value="0" style="width: 60px">
+                                                </td>
+                                                <td>V</td>
                                             </tr>
                                         </tbody>
                                     </table>

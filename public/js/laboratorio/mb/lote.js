@@ -104,7 +104,6 @@ function setAsignar(id)
     window.location = base_url + "/admin/laboratorio/"+area+"/asgnarMuestraLote/"+id;
 }
 
-//Adaptando para FQ
 function getDatalote()
 {
     let tabla = document.getElementById('divTableFormulaGlobal');
@@ -376,6 +375,8 @@ function getDatalote()
 }
 
 
+
+
 function isSelectedProcedimiento(procedimientoTab){
     let valorProcedimientoTab = 'https://dev.sistemaacama.com.mx/admin/laboratorio/lote#procedimiento';
     let pestañaProcedimiento = document.getElementById(procedimientoTab);
@@ -423,7 +424,35 @@ function guardarTexto(idLote){
     });
 }
 
-//Función que guarda todos los input de la vista Lote > Modal > [Grasas, Coliformes, DBO, DQO, Metales]
+
+$('#guardarTodo').click(function() {
+   
+    //Guardado de datos
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/"+area+"/lote/setDetalleLote",
+        data: {
+            idLote: $('#idLoteHeader').val(),
+            sembrado: $("#sembrado_sembrado").val(),
+            fechaResiembra: $("#sembrado_fechaResiembra").val(),
+            numTubo: $("#sembrado_tuboN").val(),
+            bitacora: $("#sembrado_bitacora").val(),
+            preparacion: $("#pruebaPresuntiva_preparacion").val(),
+            lectura: $("#pruebaPresuntiva_lectura").val(),
+            medio: $("pruebaConfirmativa_medio").val(),
+            preparacionCon: $("#pruebaConfirmativa_preparacion").val(),
+            lecturaCon: $("#pruebaConfirmativa_lectura").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+            //swal("Registro!", "Datos guardados correctamente!", "success");            
+        }
+    });
+});
+
 $('#guardarTodo').click(function() {
     //console.log("Valor de IDLote: " + $('#idLoteHeader').val());
     

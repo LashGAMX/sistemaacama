@@ -10,7 +10,7 @@
  
 <div class="container-fluid">
   <div class="row"> 
-    <div class="col-md-12">
+    <div cla ss="col-md-12">
       <div class="row">   
          
         <div class="col-md-3">
@@ -125,7 +125,7 @@
           </label>
           <input class="form-check-input" type="checkbox" id="cierreCaptura">        
         </div> -->
-        <button type="button" class="btn btn-success" id="guardarTodo">Guardar</button>        
+        <button type="button" class="btn btn-success" id="btnGuardar">Guardar</button>        
         <!-- <button type="button" class="btn btn-danger">Salir</button> -->
         <div id="btnRefresh"></div>        
         <ul class="nav nav-tabs" id="myTab" role="tablist"> 
@@ -185,7 +185,7 @@
                 <h4>Sembrado</h4>
                 <hr>
 
-                <label>Lote ID: <input type="text" id="sembrado_loteId"></label> <br>
+                {{-- <label>Lote ID: <input type="text" id="sembrado_loteId"></label> <br> --}}
                 <label>Sembrado: <input type="datetime-local" id="sembrado_sembrado"></label><br>
                 <label>Fecha de resiembra de la cepa utilizada: <input type="date" id="sembrado_fechaResiembra"></label><br>
                 <label>Tubo N°: <input type="text" id="sembrado_tuboN"></label> <br>
