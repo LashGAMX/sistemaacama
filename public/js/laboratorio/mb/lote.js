@@ -433,6 +433,7 @@ $('#guardarTodo').click(function() {
         url: base_url + "/admin/laboratorio/"+area+"/lote/setDetalleLote",
         data: {
             idLote: $('#idLoteHeader').val(),
+            idParametro: $("#tipo").val(),
             sembrado: $("#sembrado_sembrado").val(),
             fechaResiembra: $("#sembrado_fechaResiembra").val(),
             numTubo: $("#sembrado_tuboN").val(),

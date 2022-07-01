@@ -182,6 +182,7 @@
 
               {{-- COLIFORMES --}}
               <div class="tab-pane fade" id="coliformes" role="tabpanel" aria-labelledby="coliformes-tab">  
+                <button id="btnColiformes" class="btn btn-succcess">Guardar</button>
                 <h4>Sembrado</h4>
                 <hr>
 

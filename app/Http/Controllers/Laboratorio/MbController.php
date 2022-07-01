@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\BitacoraColiformes;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
 use App\Models\LoteDetalleCloro;
@@ -38,6 +39,7 @@ use App\Models\SecadoCartucho;
 use App\Models\Tecnica;
 use App\Models\Nmp1Micro;
 use App\Models\TiempoReflujo;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -330,7 +332,8 @@ class MbController extends Controller
                     $op2 = sqrt($request->G2 * $request->G3);
                     $res = $op1 / $op2;
                     $tipo ="Formula 2";
-                    $numModel3 = Nmp1Micro::all()->orderByAsc('Nmp')->get();
+                    $numModel3 = Nmp1Micro::all();
+                   
                 }
 
 
@@ -883,7 +886,32 @@ class MbController extends Controller
 
     public function setDetalleLote(Request $res)
     {
+        if($res->idParametro == 13 || $res->idParametro == 35 || $res->idParametro == 51 || $res->idParametro == 52 || $res->idParametro == 141){ //Coliformes
+            $model = BitacoraColiformes::where('Id_lote',$res->idLote)->get();
+            if($model->count())
+            {
 
+            }else{
+                $model = BitacoraColiformes::create([
+                    'Id_lote' => $res->idLote,
+                    'Sembrado' => $res->sembrado,
+                    'Fecha_resiembra' => $res->fechaResiembra,
+                    'Num_tubo' => $res->numTubo,
+                    'Bitacora' => $res->bitacora,
+                    'Preparacion_pre' => $res->preparacion,
+                    'Lectura_pre' => $res->lectura,
+                    'Medio_con' => $res->medio,
+                    'Preparacion_con' => $res->preparacionCon,
+                    'Lectura_con' => $res->lecturaCon,
+                    'Id_user_c' => Auth::user()->id,
+                    'Id_user_m' => Auth::user()->id,
+                ]);
+            }
+        }
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
     }
 
     //*************************************GUARDA LOS DATOS DE LA VENTANA MODAL EN MÓDULO LOTE, PESTAÑA EQUIPO************* */
