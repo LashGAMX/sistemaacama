@@ -361,6 +361,7 @@ function operacionCol()
             }else{
                 $('#resultadoCol').val(response.res);
             }
+            $('#nmp1').val(response.res)
         }
     }); 
 }

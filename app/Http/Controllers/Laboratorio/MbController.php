@@ -305,6 +305,7 @@ class MbController extends Controller
     public function operacion(Request $request)
     {
         $res = 0;
+        $aux = 0;
         switch ($request->idParametro) {
             case 13: //todo Número más probable (NMP), en tubos múltiples
                 # Coliformes
@@ -330,10 +331,19 @@ class MbController extends Controller
                     //Formula 2
                     $op1 = $request->G1 * 100;
                     $op2 = sqrt($request->G2 * $request->G3);
-                    $res = $op1 / $op2;
+                    $res1 = $op1 / $op2;
                     $tipo ="Formula 2";
-                    $numModel3 = Nmp1Micro::all();
-                   
+                    $numModel3 = Nmp1Micro::orderBy('Nmp', 'asc')->get();
+
+                    foreach ($numModel3 as $item){
+                        if($item->Nmp <= $res1){
+                            $aux = $item->Nmp;
+                        }
+                        else
+                        {
+                            $res = $aux;
+                        }
+                    }                
                 }
 
 
@@ -421,6 +431,7 @@ class MbController extends Controller
                 break;
         }
         $data = array(
+            'res1' => $res1,
             'res' => $res,
             'tipo' => $tipo,
             'model3' => $numModel3,
