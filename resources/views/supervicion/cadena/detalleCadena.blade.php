@@ -16,13 +16,13 @@
             <div class="card" style="width: 100%;">
                 <div class="card-body">
                     <div class="row">
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <h6>Solicitud ID: <strong>{{$model->Id_solicitud}}</strong></h6>
                             <h6>Servicio: <strong>{{$model->Servicio}}</strong></h6>
                             <h6>Tipo descarga: <strong>{{$model->Servicio}}</strong></h6>
                             <h6>Norma: <strong>{{$model->Clave_norma}}</strong></h6>
                         </div>
-                        <div class="col-md-6">
+                        <div class="col-md-4">
                             <h6>Fecha muestro: <strong>{{$model->Fecha_muestreo}}</strong></h6>
                             <h6>Estado: <strong>Reporte</strong></h6>
                             <div class="form-check">
@@ -33,6 +33,9 @@
                               <label class="form-check-label" for="defaultCheck1">Liberado</label>
                               <input class="form-check-input" id="ckLiberado" type="checkbox" value="" id="defaultCheck1">
                             </div>
+                        </div>
+                        <div class="col-md-4">
+                            <button class="btn btn-success" id="btnCadena">Imprimir</button>
                         </div>
                     </div>
                 </div>
@@ -55,7 +58,7 @@
                                 <tbody>
                                     @foreach ($puntos as $item)
                                         <tr>
-                                            <td>{{$item->Id_punto}}</td>
+                                            <td>{{$item->Id_solicitud}}</td>
                                             @if ($swSir == true)
                                                 <td>{{$item->Punto}}</td>
                                             @else

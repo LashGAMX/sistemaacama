@@ -25,17 +25,17 @@ class CadenaCustodiaController extends Controller
         $swSir = false;
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();       
         if ($model->Siralab == 1) {
-            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud',$id)->get();  
+            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre',$id)->get();  
             $swSir = true;
         } else {
-            $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud',$id)->get();
+            $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre',$id)->get();
         }
         return view('supervicion.cadena.detalleCadena',compact('model','puntos','swSir'));
     }
     public function getParametroCadena(Request $res)
     {
-        
-        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$res->idSol)->where('Num_muestra',1)->get();
+
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$res->idPunto)->where('Num_muestra',1)->get();
         $data = array(
             'model' => $model,
         );

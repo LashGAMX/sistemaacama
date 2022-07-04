@@ -12,6 +12,9 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos encontrados",
         }
     });    
+    $('#btnCadena').click(function(){
+        window.location = base_url + "/admin/informes/exportPdfCustodiaInterna/"+idPunto;
+    });
 
     $('#tablePuntos tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
@@ -65,6 +68,7 @@ function getParametros()
         url: base_url + "/admin/supervicion/cadena/getParametroCadena",
         data: {
             idSol: $("#idSol").val(),
+            idPunto: idPunto,
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
