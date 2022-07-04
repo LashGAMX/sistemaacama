@@ -6,7 +6,7 @@
 
 <h6 class="page-title">
     <i class="fa fa-truck-pickup"></i>
-    Cadena de custodia
+    Cadena de custodia 
 </h6>
 @stop
 
