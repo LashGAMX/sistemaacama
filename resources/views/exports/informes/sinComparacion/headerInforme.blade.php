@@ -1,6 +1,6 @@
 <p id='header1'>
     INFORME DE RESULTADOS AGUA RESIDUAL <br> MUESTRA 
-    @if (@$solicitud->Id_muestra == 'COMPUESTA')
+    @if (@$solicitud->Id_muestra == 1)
         COMPUESTA
     @else
         INSTANTANEA
@@ -12,7 +12,7 @@
         <tbody>            
                 <tr>
                     <td class="filasIzq bordesTabla anchoColumna7 bordeDer paddingTopBot">Empresa:</td>
-                    <td class="filasIzq bordesTabla fontBold anchoColumna82 bordeIzq">{{@$cliente->Nombres}}</td>
+                    <td class="filasIzq bordesTabla fontBold anchoColumna82 bordeIzq" style="font-size: 10px">{{@$cliente->Nombres}}</td>
                     <td class="filasIzq bordesTabla fontBold anchoColumna11 bordeFinal justificadoDer">{{@$cliente->RFC}}</td>                    
                 </tr>
 
@@ -74,7 +74,7 @@
                 <tr>
                     <td class="filasIzq bordesTabla anchoColumna11 bordeDer">Periodo de análisis:</td>
                     <td class="filasIzq bordesTabla bordeSinIzqFinalSup anchoColumna28 fontBold" colspan="3">DE {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_entrada)->format('d/m/Y')}} 
-                        A {{ \Carbon\Carbon::parse(@$fechaEmision)->format('d/m/Y')}}
+                        A {{ \Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_entrada)->addDays(7)->format('d/m/Y')}}
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

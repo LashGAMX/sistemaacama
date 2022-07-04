@@ -425,7 +425,7 @@ function guardarTexto(idLote){
 }
 
 
-$('#guardarTodo').click(function() {
+$('#btnColiformes').click(function() {
    
     //Guardado de datos
     $.ajax({

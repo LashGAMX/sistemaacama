@@ -139,7 +139,7 @@ function getLoteCapturaMicro() {
                     case "13":
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleCol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                         console.log("Entro a 13");
-                        break;
+                        break; 
                     case "262":
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleCol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                         break;
@@ -159,7 +159,7 @@ function getLoteCapturaMicro() {
                 }else{
                     tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
                 } 
-                tab += '<td><input disabled style="width: 100px" value="'+item.Folio_servicio+'"></td>';
+                tab += '<td><input disabled style="width: 150px" value="'+item.Codigo+'"></td>';
                 // tab += '<td><input disabled style="width: 80px" value="-"></td>';
                 tab += '<td><input disabled style="width: 200px" value="'+item.Clave_norma+'"></td>';
                 if(item.Resultado != null){

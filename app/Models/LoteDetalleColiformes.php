@@ -19,6 +19,7 @@ class LoteDetalleColiformes extends Model
         'Id_codigo',
         'Id_parametro',
         'Id_control',
+        'Tipo',
         'Dilucion1',
         'Dilucion2',
         'Dilucion3',

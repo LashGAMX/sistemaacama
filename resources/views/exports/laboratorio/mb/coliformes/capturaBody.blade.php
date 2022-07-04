@@ -26,7 +26,7 @@
                     </td>                   
 
                     <td class="tableContent">
-                        {{@$fechaConFormato}}
+                        {{date("d/m/Y", strtotime(@$bitacora->Sembrado))}}
                     </td>
                     
                     <td></td>                                        
@@ -38,7 +38,7 @@
                     <td></td>
 
                     <td class="tableContent">
-                        {{@$hora}}
+                        {{date("H:i:s", strtotime(@$bitacora->Sembrado))}}
                     </td>
                 </tr>
 
@@ -197,7 +197,7 @@
                         @elseif(@$data[$i]->Control == 'Negativo')
                             NEGATIVO
                         @else
-                            {{@$data[$i]->Folio_servicio}}
+                            {{@$data[$i]->Codigo}}
                         @endif  
                     </td>
 
@@ -236,18 +236,60 @@
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Confirmativa1 + @$data[$i]->Confirmativa2 + @$data[$i]->Confirmativa3}}
                     </td>
-
-                    <td class="contenidoBody bordesTabla" rowspan="3">
-                        {{@$loteColi[$i]->Resultado}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla" rowspan="3">
-                        {{@$loteColi[$i]->Resultado}}
-                    </td>
-
-                    <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
-                        --
-                    </td>
+                    @switch($data[$i]->Tipo)
+                        @case(1)
+                            <td class="contenidoBody bordesTabla" rowspan="3">
+                                {{@$data[$i]->Resultado}}
+                            </td>
+        
+                            <td class="contenidoBody bordesTabla" rowspan="3">
+                                --
+                            </td>
+        
+                            <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
+                                --
+                            </td>
+                            @break
+                        @case(2)
+                            <td class="contenidoBody bordesTabla" rowspan="3">
+                                --
+                            </td>
+        
+                            <td class="contenidoBody bordesTabla" rowspan="3">
+                                {{@$data[$i]->Resultado}}
+                            </td>
+        
+                            <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
+                                --
+                            </td>
+                            @break
+                        @case(3)
+                            <td class="contenidoBody bordesTabla" rowspan="3">
+                                --
+                            </td>
+        
+                            <td class="contenidoBody bordesTabla" rowspan="3">
+                                --
+                            </td>
+        
+                            <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
+                                {{@$data[$i]->Resultado}}
+                            </td>
+                            @break
+                        @default
+                        <td class="contenidoBody bordesTabla" rowspan="3">
+                            --
+                        </td>
+    
+                        <td class="contenidoBody bordesTabla" rowspan="3">
+                            --
+                        </td>
+    
+                        <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
+                            --
+                        </td>
+                    @endswitch
+                  
 
                     <td class="contenidoBody" rowspan="3">
                         @if (@$data[$i]->Liberado == 1)
