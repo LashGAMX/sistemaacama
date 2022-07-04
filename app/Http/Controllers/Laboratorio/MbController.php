@@ -304,8 +304,11 @@ class MbController extends Controller
     // }
     public function operacion(Request $request)
     {
+        $res1 = 0;
         $res = 0;
         $aux = 0;
+        $numModel3 = 0;
+
         switch ($request->idParametro) {
             case 13: //todo Número más probable (NMP), en tubos múltiples
                 # Coliformes
@@ -321,18 +324,18 @@ class MbController extends Controller
                         //Formula escrita 1
                         $op1 = 10 / $request->D1;
                         $res = $op1 * $request->NMP;
-                        $tipo ="Formula 1";
+                        $tipo = 2; // Formula 1
                     } else {
                         //Formula comparación por tabla  
                         $res = $numModel->Nmp;
-                        $tipo ="Formula Tabla";
+                        $tipo =1; // Formula Tabla
                     }
                 } else {
                     //Formula 2
                     $op1 = $request->G1 * 100;
                     $op2 = sqrt($request->G2 * $request->G3);
                     $res1 = $op1 / $op2;
-                    $tipo ="Formula 2";
+                    $tipo = 3; //Formula 2
                     $numModel3 = Nmp1Micro::orderBy('Nmp', 'asc')->get();
 
                     foreach ($numModel3 as $item){
@@ -348,9 +351,10 @@ class MbController extends Controller
 
 
                 $model = LoteDetalleColiformes::find($request->idDetalle);
+                $model->Tipo = $tipo;
                 $model->Dilucion1 = $request->D1;
                 $model->Dilucion2 = $request->D2;
-                $model->Dilucion3 = $request->D3;
+                $model->Dilucion3 = $request->D3; 
                 $model->Indice = $res;
                 $model->Muestra_tubos = $request->G3;
                 $model->Tubos_negativos = $request->G2;
@@ -434,7 +438,7 @@ class MbController extends Controller
             'res1' => $res1,
             'res' => $res,
             'tipo' => $tipo,
-            'model3' => $numModel3,
+            'model' => $numModel3,
         );
 
         return response()->json($data);
@@ -1378,8 +1382,8 @@ class MbController extends Controller
                         $dataLength = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->count();
                         //Recupera el campo Resultado
                         $loteColi = LoteDetalleColiformes::where('Id_lote', $id_lote)->get();
-
-                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'hora', 'parametroDeterminar', 'sembrado', 'pruebaPresun', 'pruebaConf', 'simbologiaParam'));
+                        $bitacora = BitacoraColiformes::where('Id_lote',$id_lote)->first();
+                        $htmlCaptura = view('exports.laboratorio.mb.coliformes.capturaBody', compact('textoProcedimiento','bitacora', 'loteColi', 'data', 'dataLength', 'fechaConFormato', 'sembrado', 'pruebaPresun', 'pruebaConf'));
                     } else {
                         $sw = false;
                     }
