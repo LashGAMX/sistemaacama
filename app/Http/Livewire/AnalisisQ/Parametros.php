@@ -112,7 +112,6 @@ class Parametros extends Component
             'Parametro' => $this->parametro,
             'Id_unidad' => $this->unidad,
             'Id_metodo' => $this->metodo,
-            'Id_norma' => $this->norma,
             'Limite' => $this->limite,
             'Id_procedimiento' => $this->procedimiento,
             'Id_matriz' => $this->matriz,
@@ -149,7 +148,6 @@ class Parametros extends Component
         $model->Parametro = $this->parametro;
         $model->Id_unidad = $this->unidad;
         $model->Id_metodo = $this->metodo;
-        $model->Id_norma = $this->norma;
         $model->Limite = $this->limite;
         $model->Id_procedimiento = $this->procedimiento;
         $model->Id_matriz = $this->matriz;
@@ -162,7 +160,7 @@ class Parametros extends Component
         }
         $this->alert = true;
     }
-    public function setData($id, $laboratorio, $parametro, $unidad, $tipo,$area, $norma, $limite, $matriz, $simbologia, $rama, $metodo, $procedimiento, $status)
+    public function setData($id, $laboratorio, $parametro, $unidad, $tipo,$area, $limite, $matriz, $simbologia, $rama, $metodo, $procedimiento, $status)
     {
         $this->sw = true;
         $this->resetValidation();
@@ -172,7 +170,6 @@ class Parametros extends Component
         $this->unidad = $unidad;
         $this->tipo = $tipo;
         $this->area = $area;
-        $this->norma = $norma;
         $this->limite = $limite;
         $this->matriz = $matriz;
         $this->simbologia = $simbologia;

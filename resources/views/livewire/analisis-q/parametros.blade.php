@@ -18,7 +18,9 @@
     </div>
     <table class="table table-sm">
         <thead class="">
-            <tr>/th>
+            <tr>
+                <th>Id</th>
+                <th>Sucursal</th>
                 <th>Rama</th>
                 <th>Parámetro</th>
                 <th>Unidad</th>
@@ -41,22 +43,23 @@
             @endif
           <td>{{$item->Id_parametro}}</td>
           <td>{{$item->Sucursal}}</td>
-          <td>{{$item->Tipo_formula}}</td>
-          <td>{{$item->Area_analisis}}</td>
-          <td>{{$item->Matriz}}</td>
           <td>{{$item->Rama}}</td>
           <td>{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
           <td>{{$item->Unidad}}</td>
           <td>{{$item->Metodo_prueba}}</td>
           <td>{{$item->Clave_metodo}}</td>
-          <td>{{$item->Clave_norma}}</td>
+          <td>
+            @php $model2 = DB::table('ViewParametroNorma')->where('Id_parametro',$item->Id_parametro)->get(); @endphp
+            @foreach ($model2 as $item2)
+                {{$item2->Clave_norma}},
+            @endforeach
+          </td>
           <td>{{$item->Limite}}</td>
-          {{-- <td>{{$item->created_at}}</td>
-          <td>{{$item->updated_at}}</td> --}}
           <td>
             <button type="button" class="btn btn-warning" 
-            wire:click="setData('{{$item->Id_parametro}}','{{$item->Id_laboratorio}}','{{$item->Parametro}}','{{$item->Id_unidad}}','{{$item->Id_tipo_formula}}','{{$item->Id_area}}','{{$item->Id_norma}}','{{$item->Limite}}','{{$item->Id_matriz}}','{{$item->Id_simbologia}}','{{$item->Id_rama}}','{{$item->Id_metodo}}','{{$item->Id_procedimiento}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalParametro">
-            <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            wire:click="setData('{{$item->Id_parametro}}','{{$item->Id_laboratorio}}','{{$item->Parametro}}','{{$item->Id_unidad}}','{{$item->Id_tipo_formula}}','{{$item->Id_area}}','{{$item->Limite}}','{{$item->Id_matriz}}','{{$item->Id_simbologia}}','{{$item->Id_rama}}','{{$item->Id_metodo}}','{{$item->Id_procedimiento}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalParametro">
+            <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> 
+            </button>
           </td>  
         </tr>
     @endforeach
