@@ -68,8 +68,7 @@ ON inter.Id_cliente = cli2.Id_cliente
 /* Vista Lista parametros */
 CREATE VIEW ViewParametros as SELECT param.Id_parametro,param.Id_laboratorio,lab.Sucursal,param.Id_tipo_formula,tipo.Tipo_formula,param.Id_area,area.Area_analisis ,param.Id_user_c,param.Id_user_m,param.Id_rama,ram.Rama,param.Parametro,
 param.Id_unidad,uni.Unidad,uni.Descripcion,param.Id_metodo,param.Id_norma,param.Limite,param.Id_procedimiento,pro.Procedimiento,param.Id_matriz,mat.Matriz,param.Id_simbologia,param.Envase,
-sim.Simbologia,sim.Descripcion as Descripcion_sim
-,nor.Norma,nor.Clave_norma,met.Metodo_prueba,met.Clave_metodo,param.Precio,param.F_inicio_vigencia,param.F_fin_vigencia,param.created_at,param.updated_at,
+sim.Simbologia,sim.Descripcion as Descripcion_sim,met.Metodo_prueba,met.Clave_metodo,param.Precio,param.F_inicio_vigencia,param.F_fin_vigencia,param.created_at,param.updated_at,
 param.deleted_at FROM parametros as param
 INNER JOIN sucursales as lab
 ON param.Id_laboratorio = lab.Id_sucursal
@@ -81,8 +80,6 @@ INNER JOIN unidades as uni
 ON param.Id_unidad = uni.Id_unidad
 INNER JOIN metodo_prueba as met
 ON param.Id_metodo = met.Id_metodo
-INNER JOIN normas as nor
-ON param.Id_norma = nor.Id_norma
 INNER JOIN procedimiento_analisis as pro
 ON param.Id_procedimiento = pro.Id_procedimiento
 INNER JOIN matriz_parametros as mat
@@ -479,3 +476,10 @@ ON c.Id_conTrazable = con.Id_conductividad
 CREATE VIEW ViewEnvaseParametroSol as SELECT env.Id_env,env.Id_analisis,env.Id_parametro,env.Id_envase,env.Id_preservador,env.Nombre,env.Volumen,env.Preservacion,env.Unidad as UniEnv,env.Id_area ,env.Area,pa.Id_solicitud,pa.Extra,pa.Parametro,pa.Area_analisis,pa.Id_tipo_formula,pa.Asignado,pa.Folio_servicio,pa.Metodo_prueba,pa.Unidad FROM ViewEnvaseParametro as env 
 INNER JOIN ViewSolicitudParametros as pa
 ON env.Id_parametro = pa.Id_parametro
+
+/* ViewParametroNorma */
+CREATE VIEW ViewParametroNorma as SELECT p.*, n.Norma,n.Clave_norma,pa.Parametro FROM parametros_normas as p
+INNER JOIN normas as n
+ON p.Id_norma = n.Id_norma
+INNER JOIN parametros as pa
+ON p.Id_parametro = pa.Id_parametro

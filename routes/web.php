@@ -26,6 +26,7 @@ use App\Http\Controllers\Informes\InformesController;
 Route::get('/', function () {
  return redirect()->to('admin');
 });
+Route::get('/jsonParametros',[HomeController::class,'jsonParametros']);
 
 
 Route::group(['prefix' => 'admin'], function () {
