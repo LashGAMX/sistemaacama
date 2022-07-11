@@ -14,11 +14,6 @@ class HomeController extends Controller
     public function index($name)
     {
         
-
-        echo $name;
-        // $model = Sucursal::all();
-
-        // return view('home.index',compact('name','model'));
     }
     public function create(Request $request)
     {

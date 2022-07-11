@@ -4037,43 +4037,43 @@ function validacionFechaMuestreo(fechaLec){
         horas[0] = soloHora;
 
     }else if(fechaLec == "phf1"){
-        //fechas[1] = soloFecha;
-        //horas[1] = soloHora;
+        fechas[1] = soloFecha;
+        horas[1] = soloHora;
         
-        //let fecha1 = moment(fechas[0]);
-        //let fecha2 = moment(fechas[1]);
+        let fecha1 = moment(fechas[0]);
+        let fecha2 = moment(fechas[1]);
 
-        //console.log("Objeto moment: " + moment.isMoment(fechas[1]));
+        console.log("Objeto moment: " + moment.isMoment(fechas[1]));
 
-        //console.log("Valor de arreglo fechas[0]: " + fecha1);
-        //console.log("Valor de arreglo fechas[1]: " + fechas[1]);
+        console.log("Valor de arreglo fechas[0]: " + fecha1);
+        console.log("Valor de arreglo fechas[1]: " + fechas[1]);
 
-        /*if(moment(fecha1).isBefore(fechas[1])){
+        if(moment(fecha1).isBefore(fechas[1])){
             console.log("Lo conseguiste");
             t.rows[1].setAttribute("class", "bg-success");
-        }*/
+        }
 
     }else if(fechaLec == "phf2"){
-        //fechas[2] = soloFecha;
-        //horas[2] = soloHora;
+        fechas[2] = soloFecha;
+        horas[2] = soloHora;
 
     }else if(fechaLec == "phf3"){
-        //fechas[3] = soloFecha;
-        //horas[3] = soloHora;
+        fechas[3] = soloFecha;
+        horas[3] = soloHora;
 
     }else if(fechaLec == "phf4"){
-        //fechas[4] = soloFecha;
-        //horas[4] = soloHora;
+        fechas[4] = soloFecha;
+        horas[4] = soloHora;
 
     }else if(fechaLec == "phf5"){
-        //fechas[5] = soloFecha;
-        //horas[5] = soloHora;
+        fechas[5] = soloFecha;
+        horas[5] = soloHora;
     }
     //----------------------------------------------------------------------------------------------
 
     //console.log(soloFecha);
     //console.log(soloHora);
-    //t.rows[1].setAttribute("class", "bg-danger");    
+    t.rows[1].setAttribute("class", "bg-danger");    
 }
 
 //------------------------------------------------------------------------------------------------------------------------------
