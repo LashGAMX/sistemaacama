@@ -1540,7 +1540,7 @@ class FqController extends Controller
     {
         $detalle = DB::table('ViewLoteDetalleSolidos')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
         switch ($request->idParametro) {
-            case 89: // SDT
+            case 89: // SDT 
                 $nom1 = "ST";
                 $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 91)->first();
                 $nom2 = "SST";
