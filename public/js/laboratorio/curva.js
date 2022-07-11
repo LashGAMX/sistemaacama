@@ -419,6 +419,7 @@ function buscar(){
                 $("#b").val(response.bmr.B);
                 $("#m").val(response.bmr.M);
                 $("#r").val(response.bmr.R); 
+                $("#vigencia").text(response.bmr.Fecha_inicio + " / " + response.bmr.Fecha_fin)
             }else{ 
                 $("#b").val("");
                 $("#m").val("");
@@ -433,7 +434,6 @@ function buscar(){
                 tab += '    <thead class="thead-dark">';
                 tab += '        <tr>';
                 tab += '          <th>Id</th>';
-                tab += '          <th>Id Lote</th> ';
                 tab += '          <th>STD</th> ';
                 tab += '          <th>Concentracion</th> ';
                 tab += '          <th>ABS1</th> ';
@@ -450,7 +450,6 @@ function buscar(){
                   {
                     tab += '<tr>';
                     tab += '<td>'+item.Id_std+'</td>';
-                    tab += '<td>'+item.Id_lote+'</td>';
                     tab += '<td>'+item.STD+'</td>';
                     tab += '<td><input id="curCon'+cont+'" value="0"></td>';
                     tab += '<td><input id="curStd1'+cont+'" value="0.0"></td>'; 
@@ -463,7 +462,6 @@ function buscar(){
                   }else{
                     tab += '<tr>';
                     tab += '<td>'+item.Id_std+'</td>';
-                    tab += '<td>'+item.Id_lote+'</td>';
                     tab += '<td>'+item.STD+'</td>';
                     tab += '<td><input  id="curCon'+cont+'" value="'+response.concentracion[cont-1].Concentracion+'"></td>';
                     tab += '<td><input id="curStd1'+cont+'" value="'+item.ABS1+'"></td>'; 

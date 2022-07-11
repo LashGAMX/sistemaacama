@@ -48,7 +48,6 @@
             <thead class="">
                     <tr>
                       <th>Id</th>
-                        <th>Lote</th>
                         <th>STD</th>
                         <th>Concentración</th>
                         <th>ABS1</th>
@@ -83,6 +82,10 @@
     </div>
         
 
+    <div>
+      <label>Vigencia: </label>
+      <label id="vigencia"> </label>
+    </div>
 
     </div> 
 
