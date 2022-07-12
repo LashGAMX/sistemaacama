@@ -220,7 +220,7 @@ class FqController extends Controller
         $volumen = VolumenParametros::where('Id_parametro', $request->parametro)->first();
 
         switch ($request->parametro) {
-            case 96:
+            case 95:
                 // Sulfatos
                 $x = ($request->X + $request->Y + $request->Z + $request->ABS4 + $request->ABS5 + $request->ABS6 + $request->ABS7 + $request->ABS8) / 8;
                 $d =   100  / $request->E;
@@ -228,7 +228,7 @@ class FqController extends Controller
                 $res2 = $res1 / $request->CM;
                 $resultado = $res2 * round($d, 3);
                 break;
-            case 70:
+            case 69:
                 # Cromo Hexavalente
                 $d =  $request->CM;
                 $x = ($request->X + $request->Y + $request->Z) / 3;
@@ -237,7 +237,7 @@ class FqController extends Controller
                 $resultado = $r1 * $r2;
                 
                 break;
-            case 20:
+            case 297:
                 # Cianuros
                 $d = 500 * $request->E;
                 $x = ($request->X + $request->Y + $request->Z) / 3;
@@ -245,7 +245,7 @@ class FqController extends Controller
                 $resultado = ($r1 * 12500) / $d;
                 
                 break;
-            case 97:
+            case 96:
                 # Sustancias activas al Azul de Metileno
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $r1 = ($x - $request->CB) / $request->CM;
@@ -254,27 +254,27 @@ class FqController extends Controller
                 $d = 0;
  
                 break;
-            case 16:
+            case 15:
                 # Fosforo-Total 
                 $d = 100 / $request->E;
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $resultado = (($x - $request->CB) / $request->CM) * $d;
                 
                 break;
-            case 231:
+            case 222:
                 # Boro (B) 
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $resultado = (($x - $request->CB) / $request->CM) * 1;
                 $d = 0;
                 break;
-            case 8:
+            case 7:
                 # N-Nitratos
                 $d = 10 / $request->E;
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $resultado = (($x - $request->CB) / $request->CM) * $d;
                
                 break;
-            case 9:
+            case 8:
                 # N-nitritos
                 $d = 50 / $request->E; 
                 $x = ($request->X + $request->Y + $request->Z) / 3;

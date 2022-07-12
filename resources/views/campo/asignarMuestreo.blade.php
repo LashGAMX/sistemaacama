@@ -70,9 +70,7 @@
             <th>Tipo Descarga</th>
             <th>Fecha muestreo</th>
             <th>Observaciones</th>
-            {{-- <th>Creado por</th> --}}
             <th>Fecha Creación</th>
-            {{-- <th>Actualizado por</th> --}}
             <th>Fecha Actualización</th>
           </tr>
         </thead>
@@ -92,8 +90,6 @@
                   <td>{{$item->Observacion}}</td>
                   <td>{{$item->created_at}}</td>
                   <td>{{$item->updated_at}}</td>
-                  {{-- <td></td>
-                  <td></td> --}}
                 </tr>
               @endif
           @endforeach
@@ -110,17 +106,6 @@
           <div class="col-md-2">
             <button type="button" id="btnEliminar" class="btn btn-danger "><i class="fa fa-times"></i> Eliminar</button>
           </div>
-          {{-- <div class="col-md-2">
-              <label>Folio: {{ $folio }}</label>
-          </div>
-          <div class="col-md-2">
-            <select class="form-control" id="idUsuarios">
-              <option>Selecciona un usuario</option>
-              @foreach ($usuarios as $item)
-              <option value="{{$item->id}}">{{$item->name}}</option>
-              @endforeach
-              </select>
-          </div> --}}
         </div>
       </div>
     </div>

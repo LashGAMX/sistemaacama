@@ -36,6 +36,7 @@ class IngresarController extends Controller
         return response()->json($array);
     }
 
+    //pp 
     public function fechaFinSiralab(Request $request){        
         $siralab = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal', $request->sucursal)->first();
         return response()->json(compact('siralab'));
@@ -50,7 +51,7 @@ class IngresarController extends Controller
             $seguimiento->Recepcion = 1;
             $seguimiento->save();
             
-            ProcesoAnalisis::create([
+            ProcesoAnalisis::create([ 
                 'Id_solicitud' => $request->idSol,
                 'Folio' => $request->folio,
                 'Descarga' => $request->descarga,
@@ -66,32 +67,6 @@ class IngresarController extends Controller
         return response()->json($array);
         
     }
-
-    // public function setIngresar(Request $request){
-    //     $procModel = ProcesoAnalisis::where('Folio', $request->folio)->get();
-
-    //     //echo $request->ingreso;
-
-    //     if($procModel->count()){
-    //         $proceso = ProcesoAnalisis::find($request->folio);
-    //         //$proceso->Folio = $request->folio;
-    //         //$proceso->Descarga = $request->descarga;
-    //         //$proceso->Cliente = $request->cliente;
-    //         //$proceso->Empresa = $request->empresa;
-    //         //$proceso->Hora_entrada = $request->horaEntrada;
-    //         //$proceso->save();
-    //     }else{
-    //         ProcesoAnalisis::create([
-    //             'Folio' => $request->folio,
-    //             'Descarga' => $request->descarga,
-    //             'Cliente' => $request->cliente,
-    //             'Empresa' => $request->empresa,
-    //             'Ingreso' => $request->ingreso,
-    //             'Hora_entrada' => $request->horaEntrada,
-    //             'Id_solicitud' => $request->idSolicitud
-    //         ]);
-    //     }
-    // }
 
     //Método para obtener la fecha de conformación
     public function fechaConformacion(Request $request){

@@ -915,14 +915,19 @@ class SolicitudController extends Controller
             # code...
             $coliforme = false;
             $ga = false;
+            $dbo = false;
     
-            $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $value->Id_solicitud)->where('Id_parametro', 14)->get();
+            $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $value->Id_solicitud)->where('Id_parametro', 13)->get();
             if ($solParam->count()) {
                 $ga = true;
             }
-            $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $value->Id_solicitud)->where('Id_parametro', 13)->get();
+            $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $value->Id_solicitud)->where('Id_parametro', 12)->get();
             if ($solParam->count()) {
                 $coliforme = true;
+            }
+            $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $value->Id_solicitud)->where('Id_parametro', 5)->get();
+            if ($solParam->count()) {
+                $dbo = true;
             }
             $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $value->Id_solicitud)->get();
     
@@ -935,7 +940,7 @@ class SolicitudController extends Controller
              $sw = true;
             }else{
              foreach ($solParam as $item) {
-                 if ($item->Id_parametro == 14) { // Grasas y aceites
+                 if ($item->Id_parametro == 13) { // Grasas y aceites
                      for ($i = 0; $i < $phMuestra->count(); $i++) {
                          $codigo = CodigoParametros::create([
                              'Id_solicitud' => $value->Id_solicitud,
@@ -946,7 +951,7 @@ class SolicitudController extends Controller
                              'Analizo' => 1,
                          ]);
                      }
-                 } else if ($item->Id_parametro == 13) { // Coliformes
+                 } else if ($item->Id_parametro == 12) { // Coliformes
                      for ($i = 0; $i < $phMuestra->count(); $i++) {
                          $codigo = CodigoParametros::create([
                              'Id_solicitud' => $value->Id_solicitud,
@@ -957,17 +962,29 @@ class SolicitudController extends Controller
                              'Analizo' => 1,
                          ]);
                      }
+                    } else if ($item->Id_parametro == 5) { // DBO
+                        for ($i = 0; $i < 3; $i++) {
+                            $codigo = CodigoParametros::create([
+                                'Id_solicitud' => $value->Id_solicitud,
+                                'Id_parametro' => $item->Id_parametro,
+                                'Codigo' => $value->Folio_servicio . "-D-" . ($i + 1) . "",
+                                'Num_muestra' => $i + 1,
+                                'Asignado' => 0, 
+                                'Analizo' => 1,
+                            ]);
+                        }
                  } else {
-                     $codigo = CodigoParametros::create([
-                         'Id_solicitud' => $value->Id_solicitud,
-                         'Id_parametro' => $item->Id_parametro,
-                         'Codigo' => $value->Folio_servicio,
-                         'Num_muestra' => 1,
-                         'Asignado' => 0,
-                         'Analizo' => 1,
-                     ]);
+                    $codigo = CodigoParametros::create([
+                        'Id_solicitud' => $value->Id_solicitud,
+                        'Id_parametro' => $item->Id_parametro,
+                        'Codigo' => $value->Folio_servicio,
+                        'Num_muestra' => 1,
+                        'Asignado' => 0,
+                        'Analizo' => 1,
+                    ]);
                  }
              }
+             $sw = false;
             }
             // $codigo = CodigoParametros::where('Id_solicitud', $model->Id_solicitud)->get();
         }

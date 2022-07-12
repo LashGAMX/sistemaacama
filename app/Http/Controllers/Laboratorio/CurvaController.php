@@ -101,12 +101,15 @@ class CurvaController extends Controller
      }
      public function createStd(Request $request)
      {
-        
-       // $model = estandares::where('Id_Lote', $request->idLote)->get(); 
+
         $now = Carbon::now();
         $now->toDateString();
-        //$loteAnalisis = LoteAnalisis::where('Id_lote',$request->idLote)->first();
-        $estandares  = CurvaConstantes::where('Id_area', $request->area)->whereDate('Fecha_inicio', '>=', $now)->whereDate('Fecha_fin', '<=', $now)->first();
+        
+        //comprobacion de bmr para validar existencia
+        $estandares  = CurvaConstantes::where('Id_area', $request->idAreaModal)
+        ->where('Id_parametro' , $request->idParametroModal)
+        ->whereDate('Fecha_inicio', '>=', $now)
+        ->whereDate('Fecha_fin', '<=', $now)->first();
 
         $paraModel = Parametro::find($request->idParametroModal);
         $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
@@ -142,9 +145,6 @@ class CurvaController extends Controller
             }  
             $sw = true;
             
-            //$stdModel = estandares::where('Id_Lote', $request->idLote)->get(); 
-        
-        //$loteDetalle = LoteDetalle::where('Id_lote', $request->idLote)->first();
         $concent = ConcentracionParametro::where('Id_parametro',$request->idParametro)->get();
 
 

@@ -76,30 +76,12 @@ $(document).ready(function () {
             async: false,
             success: function (response) { 
                 console.log(response);
-                // if(response.sw == true)
-                // {
-                //     Swal("success","Esta solicitud ya tiene codigos registrados"); 
-                // }else{
-                //     Swal("success","Codigos creados satisfactoriamente");
-                // }
-                
-                // element[ult] = response.Folio_servicio;
-                // if(response.ga == true)
-                // {
-                //     for (let i  = 0; i  < response.Num_tomas ; i ++) {
-                //         ult++;
-                //         element[ult] = response.Folio_servicio + "-G-" + (i + 1);
-                //     }
-                // }
-                // if(response.coliforme == true)
-                // {
-                //     for (let i  = 0; i  < response.Num_tomas ; i ++) {
-                //         ult++;
-                //         element[ult] = response.Folio_servicio + "-C-" + (i + 1);
-                //     }
-                // }
-                // itemModal[0] = element;
-                // newModal('divModal', 'modalCodigo', 'Generar folios', '', 1, ult, 0, inputBtn('', '', 'Guardar', 'save', 'success', ''));
+                if(response.sw == true)
+                {
+                    Swal("success","Esta solicitud ya tiene codigos registrados"); 
+                }else{
+                    Swal("success","Codigos creados satisfactoriamente");
+                }
             }
         });
 
