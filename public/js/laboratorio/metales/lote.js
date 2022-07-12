@@ -60,7 +60,7 @@ function buscarLote()
         data: {
             tipo: $("#tipo").val(),
             fecha: $("#fecha").val(),
-            _token: $('input[name="_token"]').val(),
+            _token: $('input[name="_token"]').val(), 
         },
         dataType: "json",
         async: false,
@@ -80,7 +80,7 @@ function buscarLote()
             $.each(response.model, function (key, item) {
                 tab += '<tr>';
                 tab += '<td>'+item.Id_lote+'</td>';
-                tab += '<td>'+item.Tipo_formula+'</td>';
+                tab += '<td>'+item.Parametro+'</td>';
                 tab += '<td>'+item.Fecha+'</td>';
                 tab += '<td>'+item.created_at+'</td>';
                 tab += '<td><button type="button" id="btnAsignar" onclick="setAsignar('+item.Id_lote+')"  class="btn btn-primary">Agregar</button></td>';

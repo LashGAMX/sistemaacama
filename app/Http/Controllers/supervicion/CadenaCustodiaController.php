@@ -23,7 +23,7 @@ class CadenaCustodiaController extends Controller
     public function detalleCadena($id)
     {
         $swSir = false;
-        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();       
+        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();                  
         if ($model->Siralab == 1) {
             $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre',$id)->get();  
             $swSir = true;
@@ -43,7 +43,15 @@ class CadenaCustodiaController extends Controller
     } 
     public function getDetalleAnalisis(Request $res)
     {
-        $codigoModel = DB::table('ViewCodigoParametro')->where('Id_solicitud',$res->idSol)->where('Id_codigo',$res->idCodigo)->first();
+        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$res->idSol)->first();                  
+        if ($model->Siralab == 1) {
+            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre',$res->idSol)->get();  
+            $swSir = true;
+        } else {
+            $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre',$res->idSol)->get();
+        }
+
+        $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo',$res->idCodigo)->where('Id_codigo',$res->idCodigo)->first();
         $paraModel = DB::table('ViewParametros')->where('Id_parametro',$codigoModel->Id_parametro)->first();
         switch ($paraModel->Id_area) {
             case 2:

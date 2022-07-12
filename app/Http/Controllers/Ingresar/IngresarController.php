@@ -50,6 +50,8 @@ class IngresarController extends Controller
         }else{
             $seguimiento->Recepcion = 1;
             $seguimiento->save();
+
+            $solModel = Solicitud::where('Hijo',$request->idSol)->get();
             
             ProcesoAnalisis::create([ 
                 'Id_solicitud' => $request->idSol,
@@ -59,6 +61,17 @@ class IngresarController extends Controller
                 'Empresa' => $request->empresa,
                 'Hora_entrada' => $request->horaEntrada,
             ]);
+           foreach($solModel as $item)
+           {
+                ProcesoAnalisis::create([ 
+                    'Id_solicitud' => $item->Id_solicitud,
+                    'Folio' => $request->Folio_servicio,
+                    'Descarga' => $request->descarga,
+                    'Cliente' => $request->cliente,
+                    'Empresa' => $request->empresa,
+                    'Hora_entrada' => $request->horaEntrada,
+                ]);
+           }
         }
 
         $array = array(

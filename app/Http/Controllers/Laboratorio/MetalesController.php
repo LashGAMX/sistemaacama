@@ -671,31 +671,6 @@ class MetalesController extends Controller
         );
         return response()->json($data);
     }
-    // public function liberarMuestraMetal(Request $request) 
-    // {
-        
-    //     $detalle = LoteDetalle::find($request->idDetalle);
-    //     $detalle->Liberado = 1;
-    //     $detalle->save();
-
-    //     $detalleModel = LoteDetalle::where('Id_lote',$detalle->Id_lote)->where('Liberado',1)->get();
-        
-    //     $lote = LoteAnalisis::find($detalle->Id_lote);
-    //     $lote->Liberado = $detalleModel->count();
-    //     $lote->save();
-
-    //     $detalleModel = DB::table('ViewLoteDetalle')->where('Id_lote',$detalle->Id_lote)->get();
-        
-    //     $loteModel = LoteAnalisis::where('Id_lote',$detalle->Id_lote)->first();
-
-
-    //     $data = array(
-    //         'detalleModel' => $detalleModel,
-    //         'liberado' => $detalleModel->count(),
-    //         'lote' => $loteModel,
-    //     );
-    //     return response()->json($data);
-    // }
     //* Asignar parametro a lote
     public function asignarMuestraLote(Request $request)
     {

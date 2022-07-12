@@ -10,7 +10,10 @@ $(document).ready(function () {
             "zeroRecords": "No hay datos encontrados",
             "info": "Pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay datos encontrados",
-        }
+        },
+        "scrollY":        "300px",
+        "scrollCollapse": true,
+        "paging":         false
     });    
     $('#btnCadena').click(function(){
         window.location = base_url + "/admin/informes/exportPdfCustodiaInterna/"+idPunto;
