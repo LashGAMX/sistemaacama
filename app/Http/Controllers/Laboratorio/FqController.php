@@ -1540,31 +1540,31 @@ class FqController extends Controller
     {
         $detalle = DB::table('ViewLoteDetalleSolidos')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
         switch ($request->idParametro) {
-            case 89: // SDT 
+            case 112: // SDT 
                 $nom1 = "ST";
                 $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 91)->first();
                 $nom2 = "SST";
                 $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 93)->first();
                 break;
-            case 45: // SDV
+            case 44: // SDV
                 $nom1 = "STV";
                 $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 49)->first();
                 $nom2 = "SSV";
                 $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 47)->first();
                 break;
-            case 44: // SDF
+            case 43: // SDF
                 $nom1 = "SDT";
                 $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 89)->first();
                 $nom2 = "SDV";
                 $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 45)->first();
                 break;
-            case 46: // SSF
+            case 45: // SSF
                 $nom1 = "SST";
                 $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 93)->first();
                 $nom2 = "SSV";
                 $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 47)->first();
                 break;
-            case 48: // STF
+            case 47: // STF
                 $nom1 = "ST";
                 $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 91)->first();
                 $nom2 = "STV";
