@@ -68,7 +68,7 @@
                                 <select name="termometro" id="termometro" class="form-control">
                                     <option>Sin seleccionar</option>
                                     @foreach ($termometros as $item)
-                                        @if ($general->Id_equipo == $item->Id_termometro)
+                                        @if (@$general->Id_equipo == @$item->Id_termometro)
                                             <option value="{{ $item->Id_termometro }}" selected>{{ $item->Equipo }} /
                                                 {{ $item->Marca }} / {{ $item->Modelo }} / {{ $item->Serie }}</option>
                                         @else

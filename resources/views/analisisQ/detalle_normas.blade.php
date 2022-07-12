@@ -1,4 +1,4 @@
-/public/@extends('voyager::master')
+@extends('voyager::master')
 
 @section('content')
 
@@ -8,7 +8,7 @@
       <i class="voyager-person"></i>
       Detalle normas
   </h6>
-  {{asset('')}}
+
   <div class="row">
     <div class="col-md-5">
         <div class="card">

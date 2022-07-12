@@ -22,7 +22,7 @@
 
     <!-- App CSS --> 
     <link rel="stylesheet" href="{{ voyager_asset('css/app.css') }}">
-
+ 
     @yield('css')
     @if(__('voyager::generic.is_rtl') == 'true')
         {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-rtl/3.4.0/css/bootstrap-rtl.css"> --}}
@@ -32,7 +32,7 @@
 
     <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{{url('/public/assets/duallist/dist/bootstrap-duallistbox.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/assets/duallist/dist/bootstrap-duallistbox.min.css')}}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" class="">
     <!-- Few Dynamic Styles -->
     <style type="text/css">
@@ -141,14 +141,15 @@ $(document).ready( function () {
 
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 {{-- <script src="{{url('public/assets/duallist/dist/jquery.bootstrap-duallistbox.min.js')}}?v=0.0.1"></script>  --}}
-<script src="{{url('public/assets/duallist/dist/jquery.bootstrap-duallistbox.min.js')}}?v=0.0.2"></script> 
+<script src="{{asset('public/assets/duallist/dist/jquery.bootstrap-duallistbox.min.js')}}?v=0.0.2"></script> 
+
 {{-- <script src="{{url('/assets/js/jtable/jquery.jtable.min.js')}}"></script>
 <script src="{{url('/assets/js/jtable/themes/metro/blue/jtable.min.css')}}"></script> --}}
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
 <script src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js"></script>
 {{-- <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script> --}}
 
-
+ 
 
 <script>
     @if(Session::has('alerts'))

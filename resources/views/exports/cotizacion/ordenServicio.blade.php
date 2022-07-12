@@ -49,8 +49,8 @@
                     <tr>
                         <td style="width: 25%" style="height: 50px;">Servicio</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            @if (@$cotizacion->Tomas == 1)
-                            {{@$cotizacion->Servicio}} {{@$cotizacion->Tipo_muestra}}
+                            @if (@$cotizacion->Num_tomas == 1)
+                            {{@$cotizacion->Servicio}} {{@$cotizacion->Tipo_muestra}} 
                             @else
                             {{@$cotizacion->Servicio}} ({{@$frecuenciaMuestreo->Frecuencia_muestreo}})
                             @endif
