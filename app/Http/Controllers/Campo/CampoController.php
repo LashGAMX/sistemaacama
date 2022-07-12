@@ -109,12 +109,8 @@ class CampoController extends Controller
         $conductividadMuestra = ConductividadMuestra::where('Id_solicitud', $id)->get();
         $gastoMuestra = GastoMuestra::where('Id_solicitud', $id)->get();
         
-        //$phCampoCalidadMuestra = CampoPhCalidad::where('Id_solicitud', $model->Id_solicitud)->where('Id_phCalidad', $phControlCalidad->Id_ph)->first();
-        // $conCampoTrazable = CampoConTrazable::where('Id_solicitud',$model->Id_solicitud)->first();
-        // $conCampoCalidad = CampoConCalidad::where('Id_solicitud',$model->Id_solicitud)->first();
-        // $frecuencia = DB::table('frecuencia001')->where('')
-        //var_dump($phCampoTrazable);
-        // var_dump($model->Num_tomas);
+        // var_dump($general);
+
         $data = array(
             'model' => $model,
             'general' => $general,
@@ -950,20 +946,12 @@ class CampoController extends Controller
         $sol = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
         
         if ($sol->count() > 0) {                    //ACTUALIZAR
-            $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
-            // foreach($model as $item)
-            // {
-            //     $mod = SolicitudesGeneradas::find($item->Id_solicitudGen);
-            //     $mod->Id_muestreador = $request->idUser;
-            //     $mod->save();
-            // }
-
-            // $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();                   
+            $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();              
         } else {                                //CREAR
             $this->idSol = $request->idSolicitud;
             $this->nota = "Creación de registro";
             $solModel = Solicitud::where('Hijo',$request->idSolicitud)->get();
-
+            //
             foreach($solModel as $item)
             {
                 $idPunto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
@@ -985,7 +973,7 @@ class CampoController extends Controller
                     'Captura' => "Sin captura"
                 ]);
                 CampoGenerales::create([
-                    'Id_solicitud' => $request->idSolicitud,
+                    'Id_solicitud' => $item->Id_solicitud,
                 ]);
             }
             
