@@ -350,11 +350,21 @@ function createStd(){
         async: false, 
         success: function (response) { 
          console.log(response);
-         swal("Registro!", "Se crearon los estandares!", "success")
+        
          let i = 0;
+
+         if (response.swCon == false)
+            {
+               swal("Ups!","Este parametro no tiene concentraciones registradas","error");
+               $("#modalCrear").modal('hide');
+            }
+            else{
+
          if(response.sw == false){
-             alert("Este lote ya tiene estandare creados");
+             swal("Ups!","Ya existen valores BMR vigentes para este parametro.","error");
+             $("#modalCrear").modal('hide');
          }else{
+           
             tab += '<table id="tablaLote" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
@@ -390,8 +400,13 @@ function createStd(){
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
+            $("#modalCrear").modal('hide');
+            swal("Registro!", "Se crearon los estandares!", "success")
          }
+         
         }
+    }
+        
     });           
 }
 //---------buscar ----------------------------
@@ -428,7 +443,7 @@ function buscar(){
             res = response.concentracion;   
             cont = 0;
             if(response.sw == false){
-                alert("Necesitas generar estandares para este lote")
+                swal("Ups!","Necesitas generar estandares para este parametro","error");
             }else{
                 tab += '<table id="tablaLote" class="table table-sm">';
                 tab += '    <thead class="thead-dark">';

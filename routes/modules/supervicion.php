@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\supervicion\CadenaController;
+use App\Http\Controllers\Supervicion\CadenaController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'supervicion'], function () {
@@ -14,4 +14,4 @@ Route::group(['prefix' => 'supervicion'], function () {
         Route::post('liberarSolicitud', [CadenaController::class,'liberarSolicitud']);
     });
 });
-      
+       

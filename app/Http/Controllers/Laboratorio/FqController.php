@@ -1073,7 +1073,6 @@ class FqController extends Controller
             $texto = ReportesFq::where('Id_lote', $idLote)->where('Id_area', $request->idArea)->first();
             $texto->Texto = $textoPeticion;
             $texto->Id_user_m = Auth::user()->id;
-
             $texto->save();
         } else {
             $texto = ReportesFq::create([
@@ -1893,9 +1892,9 @@ class FqController extends Controller
             if ($parametro->Id_parametro == 222 || $parametro->Id_parametro == 126) { //Boro
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
-
+ 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -1923,7 +1922,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -1951,7 +1950,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $separador = "Valoración";
@@ -1966,7 +1965,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -1994,7 +1993,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2022,7 +2021,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2050,7 +2049,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2080,7 +2079,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2108,7 +2107,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2136,7 +2135,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2164,7 +2163,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2192,7 +2191,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2220,7 +2219,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2250,7 +2249,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2279,7 +2278,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2308,7 +2307,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2337,7 +2336,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2366,7 +2365,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2395,7 +2394,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2424,7 +2423,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2453,7 +2452,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2482,7 +2481,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2511,7 +2510,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2540,14 +2539,13 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
                     foreach ($data as $item) {
                         if ($item->Resultado < $limiteC->Limite) {
                             $limC = "< " . $limiteC->Limite;
-
                             array_push($limites, $limC);
                         } else {  //Si es mayor el resultado que el límite de cuantificación
                             $limC = number_format($item->Resultado, 3, ".", ",");
@@ -2569,7 +2567,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2598,7 +2596,7 @@ class FqController extends Controller
                 $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
-                    $curva = CurvaConstantes::where('Id_lote', $id_lote)->first();
+                    $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
                     $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                     $limites = array();
@@ -2814,7 +2812,6 @@ class FqController extends Controller
 
             if (!is_null($data)) {
                 $curva = CurvaConstantes::where('Id_parametro', $dataLote->Id_tecnica)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
-                var_dump($dataLote);
                 $dataLength = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->count();
 
                 $limites = array();

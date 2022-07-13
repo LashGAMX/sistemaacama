@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Supervicion;
 use App\Http\Controllers\Controller;
 use App\Models\CodigoParametros;
 use App\Models\LoteDetalle;
+use App\Models\LoteDetalleEspectro;
 use App\Models\Solicitud;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -13,62 +14,66 @@ class CadenaController extends Controller
 {
     //cadena  
     public function cadenaCustodia()
-    {  
-        $model = DB::table('ViewSolicitud')->orderby('Id_solicitud','desc')->where('Padre',1)->get();         
-        return view('supervicion.cadena.cadena',compact('model')); 
-    } 
+    {
+        $model = DB::table('ViewSolicitud')->orderby('Id_solicitud', 'desc')->where('Padre', 1)->get();
+        return view('supervicion.cadena.cadena', compact('model'));
+    }
     public function detalleCadena($id)
-    { 
-        $swSir = false; 
-        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();                  
+    {
+        $swSir = false;
+        $model = DB::table('ViewSolicitud')->where('Id_solicitud', $id)->first();
         if ($model->Siralab == 1) {
-            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre',$id)->get();  
+            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre', $id)->get();
             $swSir = true;
         } else {
-            $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre',$id)->get();
+            $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre', $id)->get();
         }
-        return view('supervicion.cadena.detalleCadena',compact('model','puntos','swSir'));
+        return view('supervicion.cadena.detalleCadena', compact('model', 'puntos', 'swSir'));
     }
     public function getParametroCadena(Request $res)
     {
-        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$res->idPunto)->where('Num_muestra',1)->get();
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $res->idPunto)->where('Num_muestra', 1)->get();
         $data = array(
             'model' => $model,
         );
         return response()->json($data);
-    } 
+    }
     public function getDetalleAnalisis(Request $res)
     {
 
-        $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo',$res->idCodigo)->first();
-        $paraModel = DB::table('ViewParametros')->where('Id_parametro',$codigoModel->Id_parametro)->first();
+        $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
+        $paraModel = DB::table('ViewParametros')->where('Id_parametro', $codigoModel->Id_parametro)->first();
         switch ($paraModel->Id_area) {
             case 2:
-                $model = LoteDetalle::where('Id_analisis',$codigoModel->Id_solicitud)
-                ->where('Id_parametro',$codigoModel->Id_parametro)->where('Id_control',1)->get();
+                $model = LoteDetalle::where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
                 break;
-            // case 6: // Microbiologia
-            //         if($codigoModel->Id_parametro == 13)
-            //         {
-            //             $model = LoteDetalleColiformes::where('Id_analisis',$res->idSol)->where('Id_control',1)->get();
-            //         }
-            //         break;
-            // case 16: //Espectrofotometria
-            //     $model = LoteDetalleEspectro::where('Id_codigo',$codigoModel->Id_codigo)->first();
-            //     break;
-            // case 13: // G&A
-            //     $model = LoteDetalleGA::where('Id_analisis',$res->idSol)->where('Id_control',1)->get();
-            //     break;
-            // case 14: //volmetria
-            //     if($codigoModel->Id_parametro == 12)
-            //     {
-            //         $model = LoteDetalleNitrogeno::where('Id_codigo',$codigoModel->Id_codigo)->first();
-            //         $nAmo = LoteDetalleNitrogeno::where('Id_')->first();
-            //     }
-            //     break;
-            default: 
+            case 16:
+                $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
+                break;
+                // case 6: // Microbiologia
+                //         if($codigoModel->Id_parametro == 13)
+                //         {
+                //             $model = LoteDetalleColiformes::where('Id_analisis',$res->idSol)->where('Id_control',1)->get();
+                //         }
+                //         break; 
+                // case 16: //Espectrofotometria 
+                //     $model = LoteDetalleEspectro::where('Id_codigo',$codigoModel->Id_codigo)->first();
+                //     break;
+                // case 13: // G&A
+                //     $model = LoteDetalleGA::where('Id_analisis',$res->idSol)->where('Id_control',1)->get();
+                //     break;
+                // case 14: //volmetria
+                //     if($codigoModel->Id_parametro == 12)
+                //     {
+                //         $model = LoteDetalleNitrogeno::where('Id_codigo',$codigoModel->Id_codigo)->first();
+                //         $nAmo = LoteDetalleNitrogeno::where('Id_')->first();
+                //     }
+                //     break;
+            default:
                 # code... 
-                $model = "Default" ;
+                $model = "Default2";
                 break;
         }
         $data = array(
@@ -79,14 +84,13 @@ class CadenaController extends Controller
     }
     public function regresarRes(Request $res)
     {
-        $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo',$res->idCodigo)->first();
-        $paraModel = DB::table('ViewParametros')->where('Id_parametro',$codigoModel->Id_parametro)->first();
+        $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
+        $paraModel = DB::table('ViewParametros')->where('Id_parametro', $codigoModel->Id_parametro)->first();
         switch ($paraModel->Id_area) {
             case 2:
-                $model = LoteDetalle::where('Id_analisis',$codigoModel->Id_solicitud)
-                ->where('Id_parametro',$codigoModel->Id_parametro)->where('Id_control',1)->get();
-                foreach($model as $item)
-                {
+                $model = LoteDetalle::where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
+                foreach ($model as $item) {
                     $mod = LoteDetalle::find($item->Id_detalle);
                     $mod->Liberado = 0;
                     $mod->save();
@@ -95,10 +99,21 @@ class CadenaController extends Controller
                     $mod2->save();
                 }
                 break;
-
-            default: 
+            case 16:
+                $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
+                foreach ($model as $item) {
+                    $mod = LoteDetalleEspectro::find($item->Id_detalle);
+                    $mod->Liberado = 0;
+                    $mod->save();
+                    $mod2 = CodigoParametros::find($codigoModel->Id_codigo);
+                    $mod2->Resultado = NULL;
+                    $mod2->save();
+                }
+                break;
+            default:
                 # code... 
-                $model = "Default" ;
+                $model = "Default";
                 break;
         }
         $data = array(
@@ -110,12 +125,11 @@ class CadenaController extends Controller
     public function liberarSolicitud(Request $res)
     {
         $sw = true;
-        $model = Solicitud::find($res->idSol); 
-        if($res->liberado == true)
-        {
+        $model = Solicitud::find($res->idSol);
+        if ($res->liberado == true) {
             $model->Liberado = 1;
             $sw = true;
-        }else{
+        } else {
             $model->Liberado = 0;
             $sw = false;
         }

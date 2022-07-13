@@ -10,7 +10,7 @@ $('#ejecutar').click(function(){
 });
 $('#btnLiberar').click(function(){
     // operacion();
-    liberarMuestraMetal();
+    liberarMuestra();
 }); 
 
 var numMuestras = new Array();
@@ -136,17 +136,17 @@ function getLoteCapturaMicro() {
                     status = "disabled";
                 }
                 switch ($("#formulaTipo").val()) {
-                    case "13":
+                    case "12":
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleCol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                         console.log("Entro a 13");
                         break; 
                     case "262":
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleCol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                         break;
-                    case "6":
+                    case "5":
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleDbo('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaDbo">Capturar</button>';
                         break;
-                    case "17":
+                    case "16":
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleHH('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaHH">Capturar</button>';
                         break;
                     default:
@@ -457,6 +457,29 @@ function createControlCalidad()
         success: function (response) {
             console.log(response);
             getLoteCapturaMicro();
+        }
+    });
+}
+function liberarMuestra()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/liberarMuestra",
+        data: {
+            idMuestra: idMuestra,
+            idLote:idLote,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response.sw == true)
+            {
+                getLoteMicro();
+                getLoteCapturaMicro();
+            }else{
+                alert("La muestra no se pudo liberar");
+            }
         }
     });
 }

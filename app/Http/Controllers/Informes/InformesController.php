@@ -4474,6 +4474,18 @@ class InformesController extends Controller
         $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->orderBy('Parametro', 'ASC')->get(); 
         $paramResultadoLength = $paramResultado->count();
 
+        // // $paramResultado1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_area',7)->orderBy('Parametro', 'ASC');
+        // $paramResultado = DB::select('
+        // SELECT * FROM ViewCodigoParametro WHERE Id_area = 7 AND Id_solicitud = :id UNION 
+        // SELECT * FROM ViewCodigoParametro WHERE Id_area = 14 AND Id_solicitud = :id UNION
+        // SELECT * FROM ViewCodigoParametro WHERE Id_area = 11 AND Id_solicitud = :id UNION
+        // SELECT * FROM ViewCodigoParametro WHERE Id_area = 16 AND Id_solicitud = :id UNION
+        // SELECT * FROM ViewCodigoParametro WHERE Id_area = 6 AND Id_solicitud = :id UNION
+        // SELECT * FROM ViewCodigoParametro WHERE Id_area = 2 AND Id_solicitud = :id
+        // ', ['id' => 2]);
+
+        // var_dump($paramResultado);
+
         $recibidos = PhMuestra::where('Id_solicitud',$idSol)->where('Activo', 1)->get();
         $recibidosLength = $recibidos->count();
         $gastosModel2 = GastoMuestra::where('Id_solicitud', $idSol)->get();

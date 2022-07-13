@@ -33,7 +33,6 @@ class HomeController extends Controller
             $parametro = Parametro::where('Parametro',$json["parametros"][$i]["Parametro"])
                 ->where('Id_tipo_formula',$json["parametros"][$i]["Id_tipo_formula"])
                 ->where('Id_metodo',$json["parametros"][$i]["Id_metodo"])
-                ->where('Id_tipo_formula',$json["parametros"][$i]["Id_tipo_formula"])
                 ->where('Id_matriz',$json["parametros"][$i]["Id_matriz"])
                 ->where('Id_laboratorio',$json["parametros"][$i]["Id_laboratorio"])
                 ->get();

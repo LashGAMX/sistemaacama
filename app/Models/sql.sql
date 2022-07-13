@@ -1,3 +1,4 @@
+-- SQLBook: Code
 /* Vista lista intermediario*/
 CREATE VIEW ViewIntermediarios as SELECT
 	inter.Id_intermediario,
@@ -269,7 +270,6 @@ ON obs.Id_analisis = sol.Id_solicitud
 CREATE VIEW ViewTipoFormula as SELECT t.Id_tipo_formula,t.Tipo_formula,t.Concentracion,t.Id_area,a.Area_analisis,t.Id_user_c,t.Id_user_m,t.created_at,t.updated_at,t.deleted_at FROM tipo_formulas as t 
 INNER JOIN area_analisis as a
 ON t.Id_area = a.Id_area_analisis
-2017
 
 /* Lista ViewLoteAnalisis */ 
 CREATE VIEW ViewLoteAnalisis as SELECT lo.*,a.Area_analisis,pa.Parametro,pa.Id_tipo_formula,pa.Tipo_formula FROM lote_analisis as  lo 
@@ -431,7 +431,7 @@ ON pu.Id_muestreo = gen.Id_punto
 
 /*Lista ViewCodigoParametro */
 
-CREATE VIEW ViewCodigoParametro AS SELECT cod.*,us.name,sol.Folio_servicio,sub.Id_subnorma,sub.Id_norma,sub.Norma,sub.Clave,pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo FROM codigo_parametro as cod
+CREATE VIEW ViewCodigoParametro AS SELECT cod.*,us.name,sol.Folio_servicio,sub.Id_subnorma,sub.Id_norma,sub.Norma,sub.Clave,pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_tipo_formula,pa.Tipo_formula, pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo , pa.Id_area FROM codigo_parametro as cod
 INNER JOIN solicitudes as sol
 ON cod.Id_solicitud = sol.Id_solicitud
 INNER JOIN sub_normas as sub

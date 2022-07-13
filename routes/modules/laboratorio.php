@@ -206,7 +206,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('createControlCalidadMb', [MbController::class, 'createControlCalidadMb']);
             
             
-            Route::post('liberarMuestraMetal', [MbController::class, 'liberarMuestraMetal']);
+            Route::post('liberarMuestra', [MbController::class, 'liberarMuestra']);
             Route::post('getDataLote/plantillaPredeterminada', [MbController::class, 'getPlantillaPred']);
             Route::post('lote/guardarDatos', [MbController::class, 'guardarDatos']);
             Route::post('lote/setDetalleLote', [MbController::class, 'setDetalleLote']);
