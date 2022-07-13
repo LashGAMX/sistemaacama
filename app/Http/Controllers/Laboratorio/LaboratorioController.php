@@ -66,6 +66,7 @@ class LaboratorioController extends Controller
         //$generadorHidruros = DB::table('generador_hidruros_met')->where('Id_lote', $id_lote)->first();
         
         $formula = DB::table('ViewLoteDetalle')->where('Id_lote', $id_lote)->first();
+        $dataLote = LoteAnalisis::find($id_lote);
         if(!is_null($formula)){
             //Recupera el tipo de fórmula del parámetro
             $paramDetected = Parametro::where('Id_parametro', $formula->Id_parametro)->first();
@@ -221,7 +222,7 @@ class LaboratorioController extends Controller
             $limiteCuantificacion = DB::table('parametros')->where('Parametro', $formulaSelected)->first();
         //}
                 
-        $estandares = estandares::where('Id_lote', $id_lote)->get();
+        $estandares = estandares::where('Id_parametro', $formula->Id_parametro)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->get();
         $topeEstandar = 0;
 
         if(is_null($estandares)){
@@ -237,7 +238,7 @@ class LaboratorioController extends Controller
             }
         }
 
-        $bmr = CurvaConstantes::where('Id_lote', $id_lote)->first();
+        $bmr = CurvaConstantes::where('Id_parametro', $formula->Id_parametro)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
         if(is_null($bmr)){
             $bmr = CurvaConstantes::where('Id_lote', 0)->first();
             echo '<script> alert("Valores predeterminados para las curvas. Rellena estos datos.") </script>';

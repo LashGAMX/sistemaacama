@@ -1,16 +1,17 @@
 <?php
 
-use App\Http\Controllers\Supervicion\CadenaCustodiaController;
+use App\Http\Controllers\supervicion\CadenaController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'supervicion'], function () {
     Route::group(['prefix' => 'cadena'], function () {
-        Route::get('cadenaCustodia', [CadenaCustodiaController::class, 'cadenaCustodia']);
-        Route::get('detalleCadena/{id}', [CadenaCustodiaController::class, 'detalleCadena']);
-        Route::post('getParametroCadena', [CadenaCustodiaController::class,'getParametroCadena']);
-        Route::post('getDetalleAnalisis', [CadenaCustodiaController::class,'getDetalleAnalisis']);
+        Route::get('cadenaCustodia', [CadenaController::class, 'cadenaCustodia']);
+        Route::get('detalleCadena/{id}', [CadenaController::class, 'detalleCadena']);
+        Route::post('getParametroCadena', [CadenaController::class,'getParametroCadena']);
+        Route::post('getDetalleAnalisis', [CadenaController::class,'getDetalleAnalisis']);
+        Route::post('regresarRes', [CadenaController::class,'regresarRes']);
 
-        Route::post('liberarSolicitud', [CadenaCustodiaController::class,'liberarSolicitud']);
+        Route::post('liberarSolicitud', [CadenaController::class,'liberarSolicitud']);
     });
 });
-     
+      

@@ -224,17 +224,6 @@ class MetalesController extends Controller
         $consultas = [
             'Id_lote' => $idLote
         ];
-        //*************************************
-
-        //ASIGNACIONES DE PRUEBA
-        //$tipoFormula = $request->formulaTipo;        
-        //$numeroMuestra = $request->numMuestra;
-        //$analisisFecha = $request->fechaAnalisis;
-
-        /*$consultas = [
-            'Folio_servicio' => $numeroMuestra,
-            'Parametro' => $tipoFormula
-        ];*/
 
         $loteDetail = DB::table('ViewLoteDetalle')->where($consultas)->first();
 
@@ -564,51 +553,6 @@ class MetalesController extends Controller
         return response()->json($plantillaPredeterminada);
     }
 
-
-    /* public function getDatalote(Request $request)
-    {            
-        $idLoteIf = $request->idLote;            
-        $reporte = Reportes::where('Id_lote',$request->idLote)->first();
-        $constantes = DB::table('constantes')->get();
-
-        $tecnicaLoteMet = DB::table('tecnica_lote_metales')->where('Id_lote', $request->idLote)->get();
-        $blancoCurvaMet = DB::table('blanco_curva_metales')->where('Id_lote', $request->idLote)->get();
-        $estandarVerificacionMet = DB::table('estandar_verificacion_met')->where('Id_lote', $request->idLote)->get();
-        $verificacionMet = DB::table('verificacion_metales')->where('Id_lote', $request->idLote)->get();
-        $curvaCalibracionMet = DB::table('curva_calibracion_met')->where('Id_lote', $request->idLote)->get();
-        $generadorHidrurosMet = DB::table('generador_hidruros_met')->where('Id_lote', $request->idLote)->get();
-
-        if($tecnicaLoteMet->count() && $blancoCurvaMet->count() && $estandarVerificacionMet->count() && $verificacionMet->count() && $curvaCalibracionMet->count() && $generadorHidrurosMet->count()){
-            $tecLotMet = TecnicaLoteMetales::where('Id_lote',$request->idLote)->first();
-            $blancCurvaMet = BlancoCurvaMetales::where('Id_lote',$request->idLote)->first();
-            $stdVerMet = EstandarVerificacionMet::where('Id_lote',$request->idLote)->first();
-            $verMet = VerificacionMetales::where('Id_lote',$request->idLote)->first();
-            $curMet = CurvaCalibracionMet::where('Id_lote',$request->idLote)->first();
-            $genMet = GeneradorHidrurosMet::where('Id_lote',$request->idLote)->first();
-
-            $data = array(
-                'reporte' => $reporte,
-                'constantes' => $constantes,
-                'tecLotMet' => $tecLotMet,
-                'blancCurvaMet' => $blancCurvaMet,
-                'stdVerMet' => $stdVerMet,
-                'verMet' => $verMet,
-                'curMet' => $curMet,
-                'genMet' => $genMet,
-                'idLote' => $idLoteIf
-            );
-            
-            return response()->json($data);
-        }else{
-            $data = array(
-                'reporte' => $reporte,
-                'constantes' => $constantes,
-                'idLote' => $idLoteIf
-            );
-
-            return response()->json($data);
-        }        
-    } */
 
     public function asignar()
     {

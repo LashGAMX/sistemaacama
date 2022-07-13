@@ -1,7 +1,7 @@
 var idCodigo;
 var dataModel;
 var idPunto;
-$(document).ready(function () {
+$(document).ready(function () { 
     
     let tablePunto = $('#tablePuntos').DataTable({        
         "ordering": false,
@@ -57,8 +57,7 @@ $(document).ready(function () {
         }else{
             console.log("No Seleccionado");
         }
-    });
-
+    }); 
 });
 
 function getParametros()
@@ -159,47 +158,42 @@ function getDetalleAnalisis(idCodigo)
             console.log(response) 
             dataModel = response.model
 
-
-            if(response.paraModel.Id_area == 13)
-            {
-                tab += '<table id="tableResultado" class="table table-sm">';
-                tab += '    <thead class="thead-dark">';
-                tab += '        <tr>';
-                tab += '          <th>Descripcion</th>';
-                tab += '          <th>Valor</th>';
-                tab += '        </tr>';
-                tab += '    </thead>';
-                tab += '    <tbody>';
-                $.each(response.model, function (key, item) {
-                    tab += '<tr>'; 
-                    tab += '<td>'+response.paraModel.Parametro+'</td>';
-                    tab += '<td>'+item.Resultado+'</td>';
-                    tab += '</tr>';
-                });
-                tab += '    </tbody>';
-                tab += '</table>';
-                tabla.innerHTML = tab;
-            } else if(response.paraModel.Id_area == 6)
-            {
-                tab += '<table id="tableResultado" class="table table-sm">';
-                tab += '    <thead class="thead-dark">';
-                tab += '        <tr>';
-                tab += '          <th>Descripcion</th>';
-                tab += '          <th>Valor</th>';
-                tab += '        </tr>';
-                tab += '    </thead>';
-                tab += '    <tbody>';
-                $.each(response.model, function (key, item) {
-                    tab += '<tr>'; 
-                    tab += '<td>'+response.paraModel.Parametro+'</td>';
-                    tab += '<td>'+item.Resultado+'</td>';
-                    tab += '</tr>';
-                });
-                tab += '    </tbody>';
-                tab += '</table>';
-                tabla.innerHTML = tab;
+            switch (response.paraModel.Id_area) {
+                case "2":
+                        console.log("entro a caso 2");
+                        tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                        tab += '<table id="tableResultado" class="table table-sm">';
+                        tab += '    <thead class="thead-dark">';
+                        tab += '        <tr>';
+                        tab += '          <th>Descripcion</th>';
+                        tab += '          <th>Valor</th>';
+                        tab += '        </tr>';
+                        tab += '    </thead>';
+                        tab += '    <tbody>';
+                        $.each(response.model, function (key, item) {
+                            tab += '<tr>'; 
+                            tab += '<td>'+response.paraModel.Parametro+'</td>';
+                            tab += '<td>'+item.Vol_disolucion+'</td>';
+                            tab += '</tr>';
+                        });
+                        tab += '    </tbody>';
+                        tab += '</table>';
+                        tabla.innerHTML = tab;
+                    break;
+            
+                default:
+                    console.log("entro a break");
+                    break;
             }
-            $("#resDes").val(response.model.Resultado)
+
+
+            $('#btnRegresar').click(function (){
+                if(confirm('Estas seguro de cancelar la muestra?')){
+                    regresarRes();
+                }
+            });
+
+
             let tableResultado = $('#tableResultado').DataTable({        
                 "ordering": false,
                 "language": {
@@ -210,6 +204,24 @@ function getDetalleAnalisis(idCodigo)
                 }
             });  
             
+        } 
+    });
+}
+function regresarRes()
+{
+    $.ajax({ 
+        type: 'POST',
+        url: base_url + "/admin/supervicion/cadena/regresarRes",
+        data: {
+            idSol: $("#idSol").val(),
+            idCodigo:idCodigo,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {      
+            swal("Analisis!", "Analisis regresado", "success");
+            getParametros();
         } 
     });
 }

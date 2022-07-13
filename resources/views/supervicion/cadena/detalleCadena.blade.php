@@ -80,7 +80,7 @@
                                         <th>Liberado</th>
                                         <th>Nombre</th>
                                     </tr>
-                                </thead> 
+                                </thead>    
                                 <tbody>
                         
                                 </tbody>
@@ -119,5 +119,5 @@
 
 @endsection
 @section('javascript')
-<script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=0.0.3"></script>
+<script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=0.0.4"></script>
 @stop
