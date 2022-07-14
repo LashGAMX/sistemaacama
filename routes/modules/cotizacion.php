@@ -6,11 +6,6 @@ use App\Http\Controllers\Cotizacion\SolicitudController;
 use App\Models\Solicitud;
 use Illuminate\Support\Facades\Route;
  
-// Route::get('cotizacion', [CotizacionController::class, 'index']);
-// Route::post('cotizacion/save', [CotizacionController::class, 'registrar'])->name('cotizacion.registrar');
-// Route::post('cotizacion/obtenerParametros', [CotizacionController::class, 'obtenerParametros'])->name('cotizacion.obtenerParametros');
-// Route::post('cotizacion/obtenerClasificacion', [CotizacionController::class, 'obtenerClasificacion'])->name('cotizacion.obtenerClasificacion');
-// Route::get('cotizacion/edit/{id}', [CotizacionController::class, 'edit']);
 
  
 Route::group(['prefix' => 'cotizacion'], function () {
@@ -32,6 +27,7 @@ Route::group(['prefix' => 'cotizacion'], function () {
     Route::post('cantidadGasolina', [CotizacionController::class,'cantidadGasolina']);
     Route::post('updateCotizacion', [CotizacionController::class,'updateCotizacion']);
     Route::get('duplicarCot/{idCot}', [CotizacionController::class, 'duplicar']);
+    Route::post('comprobarEdicion',[CotizacionController::class, 'comprobarEdicion']);
     
     Route::post('clienteSucursal', [CotizacionController::class, 'clienteSucursal']); 
     Route::post('DatosClienteSucursal', [CotizacionController::class, 'DatosClienteSucursal']);  

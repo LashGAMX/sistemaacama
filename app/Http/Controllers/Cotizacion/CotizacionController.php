@@ -129,7 +129,12 @@ class CotizacionController extends Controller
     public function getCotizacionId(Request $request)
     {
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $request->idCotizacion)->first();
-        return response()->json(compact('model'));
+        $modelMuestreo = CotizacionMuestreo::where('Id_cotizacion',$request->idCotizacion)->first();
+        $data = array(
+            'model' => $model,
+            'modelMuestreo' => $modelMuestreo,
+        );
+        return response()->json($data);
     }
     public function getCliente()
     {
@@ -397,18 +402,7 @@ class CotizacionController extends Controller
 
         return redirect()->to('admin/cotizacion');
     }
-    public function fecha()
-    {
-        // $year = date("y");
-        // $month = date("m");
-        // $dayYear = date("z") + 1;
-        // $today = Carbon::now()->format('Y-m-d');
-        // $cotizacionDay = DB::table('cotizacion')->where('created_at','LIKE',"%{$today}%")->count();
-        // $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
-        // var_dump($folio);
-        // $firtsFol = DB::table('cotizacion')->where('created_at','LIKE',"%{$today}%")->where('Id_cliente',$request->clientes)->first();
-        // var_dump($);
-    } //
+
 
     /**
      * Actualizar Cotización
@@ -417,17 +411,15 @@ class CotizacionController extends Controller
     {
         $id = $request->idCotizacion;
 
-        // var_dump($id);
-
         Cotizacion::where('Id_cotizacion', $id)
             ->update([
                 'Id_intermedio' => $request->intermediario,
                 'Id_cliente' => $request->clientes,
+                'Id_sucursal' => $request->clienteSucursal,
                 'Nombre' => $request->nombreCliente,
                 'Direccion' => $request->direccion,
                 'Atencion' => $request->atencion,
-                'Telefono' => $request->telefono,
-                'Correo' => $request->correo,
+                'Telefono' => $request->telefono, 
                 'Correo' => $request->correo,
                 'Tipo_servicio' => $request->tipoServicio,
                 'Tipo_descarga' => $request->tipoDescarga,
@@ -438,7 +430,7 @@ class CotizacionController extends Controller
                 'Tomas' => $request->tomas,
                 'Tipo_muestra' => $request->tipoMuestra,
                 'Promedio' => $request->promedio,
-                'Numero_puntos' => $request->promedio,
+                'Numero_puntos' => $request->contPunto,
                 'Tipo_reporte' => $request->tipoReporte,
                 'Tiempo_entrega' => $request->tiempoEntrega,
                 'Observacion_interna' => $request->observacionInterna,
@@ -450,6 +442,7 @@ class CotizacionController extends Controller
                 'Sub_total' => $request->subTotal,
                 'Costo_total' => $request->precioTotal,
                 'Estado_cotizacion' => 1,
+                'Creado_por' => Auth::user()->id,
                 'Actualizado_por' => Auth::user()->id,
             ]);
 
@@ -473,26 +466,15 @@ class CotizacionController extends Controller
                 'Total' => $request->totalMuestreo
             ]);
 
-
-        $cotParam = DB::table('cotizacion_parametros')->where('Id_cotizacion', $id)->get();
-
         //Elimina cada parámetro de la cotización existente
-        foreach($cotParam as $item){
-            $item->delete();
-        }
+        $cotParam = DB::table('cotizacion_parametros')->where('Id_cotizacion', $id)->delete();
 
         // $cotPunto = DB::table('cotizacion_puntos')->where('Id_cotizacion', $id)->get();
         $cotPuntos =  DB::table('cotizacion_puntos')->where('Id_cotizacion', $id)->delete();
 
-        //Elimina cada punto de la cotizacion existente
-        // foreach($cotPunto as $item){
-        //     $item->delete();
-        // }  
-
         $parametro = $request->parametrosCotizacion;
         $parametro = explode(',', $parametro);
  
-
         foreach ($parametro as $item) {
             $subnorma = NormaParametros::where('Id_norma', $request->subnorma)->where('Id_parametro', $item)->get();
 
@@ -503,18 +485,13 @@ class CotizacionController extends Controller
                 $extra = 1;
             }
 
-            /* CotizacionParametros::where('Id_cotizacion', $id)->update([
-                'Id_cotizacion' => $id,
-                'Id_subnorma' => $item,
-                'Extra' => $extra
-            ]); */
 
             CotizacionParametros::create([
                 'Id_cotizacion' => $id,
                 'Id_subnorma' => $item,
                 'Extra' => $extra,
             ]);
-            // echo $item;
+ 
         }
 
         $puntoMuestreo = $request->puntosCotizacion;
@@ -533,26 +510,27 @@ class CotizacionController extends Controller
     public function duplicar($idCot){
         
         //Duplica la Cotización
-        $cotOriginal = Cotizacion::where('Id_cotizacion', $idCot)->first();
-        $cotReplicada = $cotOriginal->replicate();
 
         $year = date("y");
         $month = date("m");
         $dayYear = date("z") + 1;
+        $hijo = 0;
         $today = Carbon::now()->format('Y-m-d');
-        $cotizacionDay = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->count();
+        $cotizacionDay = DB::table('cotizacion')->whereDate('created_at', $today)->where('Hijo',0)->count();
 
-        $numCot = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $cotOriginal->Id_cliente)->get();
-        $firtsFol = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $cotOriginal->Id_cliente)->first();
+        $numCot = DB::table('cotizacion')->whereDate('created_at', $today)->where('Id_cliente', $idCot)->get();
+        $firtsFol = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $idCot)->first();
         $cantCot = $numCot->count();
         if ($cantCot > 0) {
-
+            $hijo = 1;
             $folio = $firtsFol->Folio . '-' . ($cantCot + 1);
         } else {
             $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
         }
+        
+        $cotOriginal = Cotizacion::where('Id_cotizacion', $idCot)->first();
+        $cotReplicada = $cotOriginal->replicate();
 
-        //$cotReplicada->Id_cotizacion = $idCot;
         $cotReplicada->Folio_servicio = NULL;
         $cotReplicada->Folio = $folio;
         $cotReplicada->Creado_por = Auth::user()->id;
@@ -588,9 +566,24 @@ class CotizacionController extends Controller
         }        
 
         echo "<script>alert('Cotización duplicada exitosamente!');</script>";
-        return redirect()->to('admin/cotizacion/solicitud');
+        return redirect()->to('admin/cotizacion/cotizacion');
     }
 
+    public function comprobarEdicion(Request $res)
+    {
+        $sw = false;
+        $model = Cotizacion::find($res->id);
+        if($model->Folio_servicio != NULL)
+        {
+            $sw = true;
+        }else{
+            $sw = false;
+        }
+
+        $data = array('sw' => $sw);
+        return response()->json($data);
+    }
+    
     public function exportPdfOrden($idCot)
     {
         
@@ -619,15 +612,7 @@ class CotizacionController extends Controller
             $subTotal = $model->Precio_analisis + $sumaParamEspecial + $model->Precio_muestreo;
         }
 
-        // $mpdf = new \Mpdf\Mpdf([
-        //     'format' => 'letter',
-        //     'margin_left' => 0, 
-        //     'margin_right' => 0,
-        //     'margin_top' => 0,
-        //     'margin_bottom' => 0,
-        //     'margin_header' => 0,
-        //     'margin_footer' => 0,  
-        // ]); 
+
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
             'margin_left' => 5,
@@ -635,8 +620,6 @@ class CotizacionController extends Controller
             'margin_top' => 20, 
             'margin_bottom' => 25
         ]);
-        // var_dump(storage_path('public/HojaMembretada.png'));
-        // $mpdf->SetWatermarkImage();https://dev.sistemaacama.com.mx//storage/HojaMembretada.png
         $mpdf->SetWatermarkImage(
             asset('/public/storage/MembreteVertical.png'),
             1,
