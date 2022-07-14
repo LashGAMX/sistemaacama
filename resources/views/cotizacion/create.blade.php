@@ -4,7 +4,6 @@
 
     <div class="container-fluid">
         <input type="text" value="{{ @$sw }}" id="sw" hidden>
-        {{-- <input type="text" value="{{@$idCotizacion}}" id="idCotizacion" hidden> --}}
 
         <div class="row">
             <div class="col-md-12">
@@ -248,7 +247,11 @@
                                     <select name="tipoReporte" id="tipoReporte" class="form-control">
                                         <option value="0">Sin seleccionar</option>
                                         @foreach (@$categorias001 as $item)
-                                        <option value="{{$item->Id_categoria}}">{{$item->Categoria}}</option>
+                                            @if ($item->Id_categoria == @$model->Tipo_reporte)
+                                                <option value="{{$item->Id_categoria}}" selected>{{$item->Categoria}}</option>
+                                            @else
+                                                <option value="{{$item->Id_categoria}}">{{$item->Categoria}}</option>
+                                            @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -562,7 +565,7 @@
                             <!-- Tiempo de Entrega -->
                             <div class="col-md-6">
                                 <label for="">Tiempo de Entrega (Dias)</label>
-                                <input type="number" class="form-control" name="tiempoEntrega" id="tiempoEntrega"
+                                <input type="number" class="form-control" name="tiempoEntrega" id="tiempoEntrega" value="10"
                                     value="{{ @$model->Tiempo_entrega }}">
                             </div>
                             <div class="col-md-12">

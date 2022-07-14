@@ -4,6 +4,7 @@ $(document).ready(function () {
 
     $('#datos-tab').click();
 
+    //Recuperacion de datos modificados
     if(sw == 1)
     {
       update();
@@ -14,6 +15,7 @@ $(document).ready(function () {
         $("#activarDescuento").css("display", "");
       }
       swParametros == 1;
+      getLocalidad();
     }
 
     $('#parametro-tab').click(function () {
@@ -176,11 +178,6 @@ function aplicarTotal()
 }
 function getLocalidad()
 {
-
-    console.log("Dentro de getLocalidad");
-    console.log("ID Estado: " + $('#estado').val());
-
-
     let sub = document.getElementById('localidad');
     let tab = '';
     $.ajax({
@@ -193,18 +190,15 @@ function getLocalidad()
         dataType: 'json',
         async: false,
         success: function (response) {
-            // console.log(response)
-            // model = response;
             $.each(response.model, function (key, item) {              
-              if(sw == 1) //Si está actualizando el usuario
+              if(sw == 1) 
               {
-                /* if(model.Id_localidad == item.Id_localidad)
-                {
+                if (modelMu.Localidad == item.Id_localidad) {
                   tab += '<option value="'+item.Id_localidad+'" selected>'+item.Nombre+'</option>';
-                }else{ */
-                  tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>';
-                /* } */ 
-              }else{  //Si está creando el usuario
+                } else {
+                  tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>'; 
+                }
+              }else{ 
                 tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>';
               }
             });
@@ -217,6 +211,7 @@ function getLocalidad()
     }
 }
 var modelCot;
+var modelMu;
 function update()
 {
   $.ajax({
@@ -230,7 +225,7 @@ function update()
     async: false,
     success: function (response) {
         modelCot = response.model;
-        // console.log(modelCot);
+        modelMu = response.modelMuestreo;
         clienteSucursal();
         $("#nombreCliente").val(modelCot.Nombre);
     }
