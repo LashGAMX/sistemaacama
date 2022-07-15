@@ -26,6 +26,7 @@ class Parametro extends Model
         'Id_procedimiento',
         'Id_matriz',
         'Id_simbologia',
+        'Id_simbologia_info',
         'F_inicio_vigencia',
         'F_fin_vigencia',
         'Precio',

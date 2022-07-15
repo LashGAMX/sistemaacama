@@ -14,6 +14,7 @@ use App\Models\PrecioCatalogo;
 use App\Models\ProcedimientoAnalisis;
 use App\Models\Rama;
 use App\Models\SimbologiaParametros;
+use App\Models\SimbologiaInforme;
 use App\Models\Sucursal;
 use App\Models\TipoFormula;
 use App\Models\Unidad;
@@ -91,10 +92,11 @@ class Parametros extends Component
         $metodos = MetodoPrueba::all();
         $procedimientos = ProcedimientoAnalisis::all();
         $simbologias = SimbologiaParametros::all();
+        $simbologiaInforme= SimbologiaInforme::all();
 
         return view(
             'livewire.analisis-q.parametros',
-            compact('model', 'laboratorios', 'unidades', 'tipos','areas','normas', 'metrices', 'ramas', 'metodos', 'procedimientos', 'simbologias')
+            compact('model', 'laboratorios', 'unidades', 'tipos','areas','normas', 'metrices', 'ramas', 'metodos', 'procedimientos', 'simbologias','simbologiaInforme')
         );
     }
     public function setNorma()

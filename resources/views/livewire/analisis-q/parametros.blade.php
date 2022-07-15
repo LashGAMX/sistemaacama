@@ -218,8 +218,19 @@
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label for="">Simbología</label>
+                            <label for="">Simbología Oficial</label>
                             <select class="form-control" wire:model='simbologia' >
+                            @foreach ($simbologias as $item)
+                                <option value="{{$item->Id_simbologia}}">{{$item->Simbologia}}</option>
+                            @endforeach
+                          </select>
+                          @error('simbologia') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Simbología Informes</label>
+                            <select class="form-control" wire:model='simbologiaInformes'>
                             @foreach ($simbologias as $item)
                                 <option value="{{$item->Id_simbologia}}">{{$item->Simbologia}}</option>
                             @endforeach
