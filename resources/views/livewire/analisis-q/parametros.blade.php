@@ -231,8 +231,8 @@
                         <div class="form-group">
                             <label for="">Simbología Informes</label>
                             <select class="form-control" wire:model='simbologiaInformes'>
-                            @foreach ($simbologias as $item)
-                                <option value="{{$item->Id_simbologia}}">{{$item->Simbologia}}</option>
+                            @foreach ($simbologiaInforme as $item)
+                                <option value="{{$item->Id_simbologia_info}}">{{$item->Simbologia}}</option>
                             @endforeach
                           </select>
                           @error('simbologia') <span class="text-danger">{{ $message  }}</span> @enderror

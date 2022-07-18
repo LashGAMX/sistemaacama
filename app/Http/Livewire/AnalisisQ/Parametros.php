@@ -118,6 +118,7 @@ class Parametros extends Component
             'Id_procedimiento' => $this->procedimiento,
             'Id_matriz' => $this->matriz,
             'Id_simbologia' => $this->simbologia,
+            'Id_simbologia_info' => $this->simbologia_info,
             'Id_user_c' => $this->idUser,
             'Id_user_m' => $this->idUser,
         ]);
@@ -154,6 +155,7 @@ class Parametros extends Component
         $model->Id_procedimiento = $this->procedimiento;
         $model->Id_matriz = $this->matriz;
         $model->Id_simbologia = $this->simbologia;
+        $model->Id_simbologia_info = $this->simbologia_info;
         $model->Id_user_m = $this->idUser;
         $this->historial();
         $model->save();
@@ -162,7 +164,7 @@ class Parametros extends Component
         }
         $this->alert = true;
     }
-    public function setData($id, $laboratorio, $parametro, $unidad, $tipo,$area, $limite, $matriz, $simbologia, $rama, $metodo, $procedimiento, $status)
+    public function setData($id, $laboratorio, $parametro, $unidad, $tipo,$area, $limite, $matriz, $simbologia, $simbologiaInforme, $rama, $metodo, $procedimiento, $status)
     {
         $this->sw = true;
         $this->resetValidation();
@@ -175,6 +177,7 @@ class Parametros extends Component
         $this->limite = $limite;
         $this->matriz = $matriz;
         $this->simbologia = $simbologia;
+        $this->simbologiaInforme = $simbologiaInforme;
         $this->rama = $rama;
         $this->metodo = $metodo;
         $this->procedimiento = $procedimiento;
