@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class SimbologiaInforme extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'Simbologia_informe';
+    protected $table = 'simbologia_informe';
     protected $primaryKey = 'Id_simbologia_info';
     public $timestamps = true;
 
