@@ -57,7 +57,7 @@
           <td>{{$item->Limite}}</td>
           <td>
             <button type="button" class="btn btn-warning" 
-            wire:click="setData('{{$item->Id_parametro}}','{{$item->Id_laboratorio}}','{{$item->Parametro}}','{{$item->Id_unidad}}','{{$item->Id_tipo_formula}}','{{$item->Id_area}}','{{$item->Limite}}','{{$item->Id_matriz}}','{{$item->Id_simbologia}}','{{$item->Id_rama}}','{{$item->Id_metodo}}','{{$item->Id_procedimiento}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalParametro">
+            wire:click="setData('{{$item->Id_parametro}}','{{$item->Id_laboratorio}}','{{$item->Parametro}}','{{$item->Id_unidad}}','{{$item->Id_tipo_formula}}','{{$item->Id_area}}','{{$item->Limite}}','{{$item->Id_matriz}}','{{$item->Id_simbologia}}',{{$item->Id_simbologia_info}},'{{$item->Id_rama}}','{{$item->Id_metodo}}','{{$item->Id_procedimiento}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalParametro">
             <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> 
             </button>
           </td>  
@@ -154,12 +154,23 @@
                           @error('area') <span class="text-danger">{{ $message  }}</span> @enderror
                           </div>
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="">Norma</label>
-                            <select class="form-control" wire:model='norma' >
+                            <select class="form-control" id="norma" wire:model='norma' multiple>
                             @foreach ($normas as $item)
-                                <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
+                                @if ($sw != true)
+                                    <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
+                                @else
+                                    @php
+                                        $paraModel = DB::table("parametros_normas")->where('Id_norma',$item->Id_norma)->where('Id_parametro',$idParametro)->get();
+                                    @endphp
+                                    @if ($paraModel->count() > 0)
+                                    <option value="{{$item->Id_norma}}" selected>{{$item->Clave_norma}}</option>
+                                    @else
+                                    <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
+                                    @endif
+                                @endif
                             @endforeach
                           </select>
                           @error('norma') <span class="text-danger">{{ $message  }}</span> @enderror
@@ -231,11 +242,10 @@
                         <div class="form-group">
                             <label for="">Simbología Informes</label>
                             <select class="form-control" wire:model='simbologiaInformes'>
-                            @foreach ($simbologiaInforme as $item)
+                            @foreach ($simbologiaInf as $item)
                                 <option value="{{$item->Id_simbologia_info}}">{{$item->Simbologia}}</option>
                             @endforeach
-                          </select>
-                          @error('simbologia') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </select> 
                           </div>
                     </div>
                     @if ($sw == true)               
@@ -264,9 +274,8 @@
         swal("Registro!", "Registro guardado correctamente!", "success");
         $('#modalParametro').modal('hide')
       </script>
-      
       @endif
-
+    
   </div>
    
 

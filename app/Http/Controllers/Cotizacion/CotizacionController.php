@@ -566,7 +566,7 @@ class CotizacionController extends Controller
         }        
 
         echo "<script>alert('Cotización duplicada exitosamente!');</script>";
-        return redirect()->to('admin/cotizacion/cotizacion');
+        return redirect()->to('admin/cotizacion');
     }
 
     public function comprobarEdicion(Request $res)

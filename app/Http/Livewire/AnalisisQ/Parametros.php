@@ -10,6 +10,7 @@ use App\Models\MatrizParametro;
 use App\Models\MetodoPrueba;
 use App\Models\Norma;
 use App\Models\Parametro;
+use App\Models\ParametroNorma;
 use App\Models\PrecioCatalogo;
 use App\Models\ProcedimientoAnalisis;
 use App\Models\Rama;
@@ -46,6 +47,7 @@ class Parametros extends Component
     public $metodo;
     public $procedimiento;
     public $simbologia;
+    public $simbologiaInforme;
     public $status;
     public $nota;
 
@@ -65,7 +67,7 @@ class Parametros extends Component
         'simbologia' => 'required',
     ];
     protected $messages = [
-        'parametro.required' => 'El parametro es un dato requerido',
+        'parametro.required' => 'El parametro es un dato requerido', 
     ];
 
     public function render()
@@ -80,7 +82,7 @@ class Parametros extends Component
             $model = DB::table('ViewParametros')
             ->where('Parametro', 'LIKE', "%{$this->search}%") 
             ->get();
-        }
+        } 
         
         $laboratorios = Sucursal::all();
         $unidades = Unidad::all();
@@ -92,11 +94,12 @@ class Parametros extends Component
         $metodos = MetodoPrueba::all();
         $procedimientos = ProcedimientoAnalisis::all();
         $simbologias = SimbologiaParametros::all();
-        $simbologiaInforme= SimbologiaInforme::all();
+        $simbologiaInf= SimbologiaInforme::all();
+        $parametroNorma = ParametroNorma::all();
 
         return view(
             'livewire.analisis-q.parametros',
-            compact('model', 'laboratorios', 'unidades', 'tipos','areas','normas', 'metrices', 'ramas', 'metodos', 'procedimientos', 'simbologias','simbologiaInforme')
+            compact('model', 'laboratorios', 'unidades', 'tipos','areas','normas', 'metrices', 'ramas', 'metodos', 'procedimientos', 'simbologias','simbologiaInf','parametroNorma')
         );
     }
     public function setNorma()
@@ -181,7 +184,7 @@ class Parametros extends Component
         $this->rama = $rama;
         $this->metodo = $metodo;
         $this->procedimiento = $procedimiento;
-        if ($status != null) {
+        if ($status != NULL) {
             $this->status = 0;
         } else {
             $this->status = 1;
@@ -220,7 +223,6 @@ class Parametros extends Component
         $this->unidad = 1;
         $this->tipo = 1;
         $this->area = 1;
-        $this->norma = 1;
         $this->limite = '';
         $this->matriz = 1;
         $this->simbologia = 1;
