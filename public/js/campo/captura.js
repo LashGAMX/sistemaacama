@@ -4,10 +4,11 @@ $(document).ready(function () {
     $("#datosGenerales-tab").click();
     datosGenerales();
     datosMuestreo();
-
     //Llamada a función añadida
     valoresPhTrazables();    
-  
+    $(document).ready(function() {
+        $('#termometro').select2();
+    });
 });
 
 
@@ -3872,139 +3873,6 @@ function btnGenerar() {
     tabla.innerHTML = tab;    
 }
 
-/* //Función para generar la tabla Qi, Qt, Qi/Qt, Vmc, Vmsi
-function btnGenerar() 
-{
-    Number.prototype.toFixedDown = function (digits) {
-        var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
-            m = this.toString().match(re);
-        return m ? parseFloat(m[1]) : this.valueOf();
-    };  
-    
-    let tabla = document.getElementById('muestrasQi');
-    let tab = '';        
-    let qt;    
-    let qi_qt1;
-    let qi_qt2;
-    let qi_qt3;
-    let qi_qt4;
-    let qi_qt5;
-    let qi_qt6;
-    let vmsi1;
-    let vmsi2;
-    let vmsi3;
-    let vmsi4;
-    let vmsi5;
-    let vmsi6;
-    let volCalculado = parseFloat(document.getElementById('volCalculado').value);
-    //console.log("Valor de volCalculado: " + volCalculado);
-
-    tab += '<table class="table" id="muestrasQi">';
-          tab += '    <thead class="thead-dark">';
-          tab += '        <tr>';
-          tab += '            <th>Núm muestra</th>';
-          tab += '            <th>Qi</th>';
-          tab += '            <th>Qt</th>';
-          tab += '            <th>Qi/Qt</th>';
-          tab += '            <th>Vmc</th>';
-          tab += '            <th>Vmsi</th>';
-          tab += '        </tr>';
-          tab += '    </thead>';
-          tab += '    <tbody>';
-
-    qt = gasprom0 + gasprom1 + gasprom2 + gasprom3 + gasprom4 + gasprom5;
-
-    if(!isNaN(gasprom0) && !isNaN(gasprom1) && !isNaN(gasprom2) && !isNaN(gasprom3)){
-        
-        qi_qt1 = gasprom0 / qt;
-        vmsi1 = qi_qt1 * volCalculado;
-
-        qi_qt2 = gasprom1 / qt;
-        qi_qt3 = gasprom2 / qt;
-        qi_qt4 = gasprom3 / qt;
-
-        vmsi2 = qi_qt2 * volCalculado;
-        vmsi3 = qi_qt3 * volCalculado;
-        vmsi4 = qi_qt4 * volCalculado;
-            
-        //FILA 1
-        tab += '<tr>';
-        tab += '    <td>'+1+'</td>';
-        tab += '    <td>'+gasprom0+'</td>';
-        tab += '    <td>'+qt.toFixedDown(3)+'</td>';
-        tab += '    <td>'+qi_qt1.toFixedDown(3)+'</td>';
-        tab += '    <td>'+volCalculado+'</td>';  
-        tab += '    <td>'+vmsi1.toFixedDown(3)+'</td>';            
-        tab += '</tr>';
-
-        //FILA 2        
-        tab += '<tr>';
-        tab += '    <td>'+2+'</td>';
-        tab += '    <td>'+gasprom1+'</td>';
-        tab += '    <td>'+qt.toFixedDown(3)+'</td>';
-        tab += '    <td>'+qi_qt2.toFixedDown(3)+'</td>';
-        tab += '    <td>'+volCalculado+'</td>';  
-        tab += '    <td>'+vmsi2.toFixedDown(3)+'</td>';            
-        tab += '</tr>';
-
-        //FILA 3
-        tab += '<tr>';
-        tab += '    <td>'+3+'</td>';
-        tab += '    <td>'+gasprom2+'</td>';
-        tab += '    <td>'+qt.toFixedDown(3)+'</td>';
-        tab += '    <td>'+qi_qt3.toFixedDown(3)+'</td>';
-        tab += '    <td>'+volCalculado+'</td>';
-        tab += '    <td>'+vmsi3.toFixedDown(3)+'</td>';  
-        tab += '</tr>';
-
-        //FILA 4
-        tab += '<tr>';
-        tab += '    <td>'+4+'</td>';
-        tab += '    <td>'+gasprom3+'</td>';
-        tab += '    <td>'+qt.toFixedDown(3)+'</td>';
-        tab += '    <td>'+qi_qt4.toFixedDown(3)+'</td>';
-        tab += '    <td>'+volCalculado+'</td>';
-        tab += '    <td>'+vmsi4.toFixedDown(3)+'</td>';  
-        tab += '</tr>';
-    }
-
-    //console.log("valor de gasprom4: " + gasprom4);
-    //console.log("valor de gasprom5: " + gasprom5);
-    
-    //FILA 5
-    if(temp1 >= 0){
-        qi_qt5 = gasprom4 / qt;
-        vmsi5 = qi_qt5 * volCalculado;
-        
-        tab += '<tr>';
-        tab += '    <td>'+5+'</td>';
-        tab += '    <td>'+gasprom4+'</td>';
-        tab += '    <td>'+qt.toFixedDown(3)+'</td>';
-        tab += '    <td>'+qi_qt5.toFixedDown(3)+'</td>';
-        tab += '    <td>'+volCalculado+'</td>';
-        tab += '    <td>'+vmsi5.toFixedDown(3)+'</td>';  
-        tab += '</tr>';
-    }
-
-    //FILA 6
-    if(temp2 >=0){
-        qi_qt6 = gasprom5 / qt;
-        vmsi6 = qi_qt6 * volCalculado;
-        
-        tab += '<tr>';
-        tab += '    <td>'+6+'</td>';
-        tab += '    <td>'+gasprom5+'</td>';
-        tab += '    <td>'+qt.toFixedDown(3)+'</td>';
-        tab += '    <td>'+qi_qt6.toFixedDown(3)+'</td>';
-        tab += '    <td>'+volCalculado+'</td>';
-        tab += '    <td>'+vmsi6.toFixedDown(3)+'</td>';  
-        tab += '</tr>';
-    }
-
-    tab += '    </tbody>';
-    tab += '</table>';
-    tabla.innerHTML = tab;        
-} */
 
 //-----------------------------------------------------------------------------------------------------------------------------
 
@@ -4015,65 +3883,23 @@ let fechas = moment(new Array(6));
 let horas = new Array(6);
 
 //FUNCIÓN EN PROCESO
-function validacionFechaMuestreo(fechaLec){
-    let t = document.getElementById("phMuestra");
-    
-    //Obtiene el valor del input de fecha
-    let fecha = document.getElementById(fechaLec).value;        
+function validacionFechaMuestreo(f1,f2,sw){
 
-    let fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm:ss');
-    //console.log("Objeto moment fechaIngresada: " + moment.isMoment(fechaIngresada));
-    //console.log("Valor de fechaIngresada: " + fechaIngresada);
-
-    //let fechaIngresada = moment(fecha).format('YYYY-MM-DDTHH:mm:ss');
-    let soloFecha = moment(fechaIngresada).format('YYYY-MM-DD');
-    let soloHora = moment(fechaIngresada).format('HH:mm:ss');
-    
-    console.log("Valor de fechaLec: " + fechaLec);
-
-    //Llena los arreglos fechas y horas con los valores introducidos en los inputs date-local    
-    if(fechaLec == "phf0"){
-        fechas[0] = soloFecha;
-        horas[0] = soloHora;
-
-    }else if(fechaLec == "phf1"){
-        fechas[1] = soloFecha;
-        horas[1] = soloHora;
-        
-        let fecha1 = moment(fechas[0]);
-        let fecha2 = moment(fechas[1]);
-
-        console.log("Objeto moment: " + moment.isMoment(fechas[1]));
-
-        console.log("Valor de arreglo fechas[0]: " + fecha1);
-        console.log("Valor de arreglo fechas[1]: " + fechas[1]);
-
-        if(moment(fecha1).isBefore(fechas[1])){
-            console.log("Lo conseguiste");
-            t.rows[1].setAttribute("class", "bg-success");
+    if (sw == 1) {
+        let d1 = new Date($("#"+f1).val()); // Fecha original
+        inputBorderColor(f1, "verde");
+    } else {
+        let d1 = new Date($("#"+f1).val()); // Fecha original
+        let d2 = new Date($("#"+f2).val()); // Fecha comprobacion
+        if(d1 > d2){
+            inputBorderColor(f1, "verde");
+            console.log("Fecha mayor");
+        }else{
+            inputBorderColor(f1, "rojo");
+            console.log("Fecha menor");
         }
-
-    }else if(fechaLec == "phf2"){
-        fechas[2] = soloFecha;
-        horas[2] = soloHora;
-
-    }else if(fechaLec == "phf3"){
-        fechas[3] = soloFecha;
-        horas[3] = soloHora;
-
-    }else if(fechaLec == "phf4"){
-        fechas[4] = soloFecha;
-        horas[4] = soloHora;
-
-    }else if(fechaLec == "phf5"){
-        fechas[5] = soloFecha;
-        horas[5] = soloHora;
     }
-    //----------------------------------------------------------------------------------------------
-
-    //console.log(soloFecha);
-    //console.log(soloHora);
-    t.rows[1].setAttribute("class", "bg-danger");    
+    
 }
 
 //------------------------------------------------------------------------------------------------------------------------------

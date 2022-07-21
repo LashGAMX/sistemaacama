@@ -682,7 +682,13 @@
                                                         onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$phMuestra[$i]->Ph3}}" @if (@$sw == true) disabled @endif>
                                                 </td>                                                
                                                 <td><p id="phprom1{{ $i }}">{{@$phMuestra[$i]->Promedio}}</p></td>
-                                                <td><input type="datetime-local" step="1" id="phf{{ $i }}" onchange='validacionFechaMuestreo("phf{{$i}}");' value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif></td>
+                                                <td>
+                                                    @if ($i == 0)
+                                                        <input type="datetime-local" step="1" id="phf{{ $i }}" onchange='validacionFechaMuestreo("phf{{$i}}","phf{{$i-1}}",1);' value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif>
+                                                    @else
+                                                        <input type="datetime-local" step="1" id="phf{{ $i }}" onchange='validacionFechaMuestreo("phf{{$i}}","phf{{$i-1}}",2);' value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif>
+                                                    @endif
+                                                </td>
                                                 <td><input type="text" id="phprom{{ $i }}" value="{{@$phMuestra[$i]->Promedio}}" hidden></td>
                                                 
                                                 @if (!is_null(@$phMuestra[$i]->Activo))
