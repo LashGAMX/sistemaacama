@@ -1,25 +1,171 @@
+$(document).ready(function () {
 
-function buscarFolio(){ 
+    table = $('#codigos').DataTable({
+        "ordering": false,
+        "language": {
+            "lengthMenu": "# _MENU_ por pagina",
+            "zeroRecords": "No hay datos encontrados",
+            "info": "Pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay datos encontrados",
+        },
+        "scrollY": 400,
+        "scrollCollapse": true
+    });
+    $('#puntos').DataTable({
+        "ordering": false,
+        "pageLength": 500,
+        "language": {
+            "lengthMenu": "# _MENU_ por pagina",
+            "zeroRecords": "No hay datos encontrados",
+            "info": "Pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay datos encontrados",
+        },
+        "scrollY": 400,
+        "scrollCollapse": true
+    });
+
+
+});
+function buscarFolio() {
     $.ajax({
-        type: "POST", 
+        type: "POST",
         url: base_url + '/admin/ingresar/buscarFolio',
         data: {
             folioSol: $("#folioSol").val(),
         },
         dataType: "json",
         async: false,
-        success: function (response) {            
+        success: function (response) {
             console.log(response);
             //data = response;                         
-            $("#idSol").val(response.model.Id_solicitud);
-            $("#folio").val(response.model.Folio_servicio);
-            $("#descarga").val(response.model.Descarga);
-            $("#cliente").val(response.model.Nombres);
-            $("#empresa").val(response.model.Empresa);
+            $("#idSol").val(response.cliente.Id_solicitud);
+            $("#folio").val(response.cliente.Folio_servicio);
+            $("#descarga").val(response.cliente.Descarga);
+            $("#cliente").val(response.cliente.Nombres);
+            $("#empresa").val(response.cliente.Empresa);
+            tableCodigos(response.model);
+            tablePuntos(response.puntos, response.siralab)
         }
     });
 }
-function setIngresar(){
+function tableCodigos(model) {
+    let tabla = document.getElementById('divCodigos');
+    let tab = '';
+    tab += '<table id="codigos" class="table table-sm">';
+    tab += '    <thead class="thead-dark">';
+    tab += '        <tr>';
+    tab += '          <th>Tipo</th>';
+    tab += '          <th>Número Muestra</th>';
+    tab += '          <th>Cant. Total</th>';
+    tab += '    </thead>';
+    tab += '    <tbody>';
+    $.each(model, function (key, item) {
+        $.ajax({
+            type: "POST",
+            url: base_url + '/admin/ingresar/getCodigoRecepcion',
+            data: {
+                idSol: item.Id_solicitud,
+            },
+            dataType: "json",
+            async: false,
+            success: function (response) {
+
+                tab += '<tr>';
+                tab += '<td></td>';
+                tab += '<td>' + item.Folio_servicio + '</td>';
+                tab += '<td>' + response.model.length + '</td>';
+                tab += '</tr>';
+                $.each(response.model, function (key, item2) {
+                    tab += '<tr>';
+                    switch (item2.Id_parametro) {
+                        case "13": //GA
+                            tab += '<td>G</td>';
+                            break;
+                        case "12"://COLIFORMES
+                            tab += '<td>C</td>';
+                            break;
+                        case "5"://DBO
+                            tab += '<td>D</td>';
+                            break;
+                        default:
+                            tab += '<td></td>';
+                            break;
+                    }
+                    tab += '<td>' + item2.Codigo + '</td>';
+                    tab += '<td>' + item.Folio_servicio + '</td>';
+                    tab += '</tr>';
+                });
+            }
+        });
+    });
+    tab += '    </tbody>';
+    tab += '</table>';
+    tabla.innerHTML = tab;
+
+    $('#codigos').DataTable({
+        "ordering": false,
+        "pageLength": 500,
+        "language": {
+            "lengthMenu": "# _MENU_ por pagina",
+            "zeroRecords": "No hay datos encontrados",
+            "info": "Pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay datos encontrados",
+        },
+        "scrollY": 400,
+        "scrollCollapse": true
+    });
+
+}
+var idSol = 0;
+function tablePuntos(model, siralab) {
+    let tabla = document.getElementById('divPuntos');
+    let tab = '';
+    tab += '<table id="puntos" class="table table-sm">';
+    tab += '    <thead class="thead-dark">';
+    tab += '        <tr>';
+    tab += '          <th>Id</th>';
+    tab += '          <th>...</th>';
+    tab += '    </thead>';
+    tab += '    <tbody>';
+    $.each(model, function (key, item) {
+        tab += '<tr>'; 
+        tab += '<td>' + item.Id_solicitud + '</td>';
+        if (siralab == true) { 
+            tab += '<td>' + item.Punto + '</td>';
+        } else {
+            tab += '<td>' + item.Punto_muestreo + '</td>';
+        }
+        tab += '</tr>';
+    });
+    tab += '    </tbody>';
+    tab += '</table>';
+    tabla.innerHTML = tab;
+
+    $('#puntos').DataTable({
+        "ordering": false,
+        "pageLength": 500,
+        "language": {
+            "lengthMenu": "# _MENU_ por pagina",
+            "zeroRecords": "No hay datos encontrados",
+            "info": "Pagina _PAGE_ de _PAGES_",
+            "infoEmpty": "No hay datos encontrados",
+        },
+        "scrollY": 400,
+        "scrollCollapse": true
+    });
+    $('#puntos tbody').on( 'click', 'tr', function () { 
+        if ( $(this).hasClass('selected') ) {
+            $(this).removeClass('selected');
+            idSol = 0;
+        }
+        else {
+            table.$('tr.selected').removeClass('selected');
+            $(this).addClass('selected');
+        }
+    } );
+
+}
+function setIngresar() {
     console.log("Click en btnIngresar");
     $.ajax({
         type: "POST",
@@ -31,11 +177,11 @@ function setIngresar(){
             cliente: $("#cliente").val(),
             empresa: $("#empresa").val(),
             ingreso: "Establecido",
-            horaEntrada: $("#hora_recepcion1").val(), 
+            horaEntrada: $("#hora_recepcion1").val(),
         },
         dataType: "json",
         async: false,
-        success: function (response) {            
+        success: function (response) {
             console.log(response);
             swal("Registro!", "Muestra recibida satisfactoriamente!", "success");
         }

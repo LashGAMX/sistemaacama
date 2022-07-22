@@ -63,8 +63,8 @@
             <th>Id Solicitud</th>
             <th>Folio Servicio</th>
             <th>Nombre Cliente</th>
-            <th>Ap. Paterno</th>
-            <th>Ap. Materno</th>
+            {{-- <th>Ap. Paterno</th>
+            <th>Ap. Materno</th>7 --}}
             <th>Nombre</th>
             <th>Servicio</th>
             <th>Tipo Descarga</th>
@@ -81,8 +81,8 @@
                   <td>{{$item->Id_solicitud}}</td>
                   <td>{{$item->Folio_servicio}}</td>
                   <td>{{$item->Nombres}}</td>
-                  <td>{{$item->A_paterno}}</td>
-                  <td>{{$item->Nom_pat}}</td>
+                  {{-- <td>{{$item->A_paterno}}</td>
+                  <td>{{$item->Nom_pat}}</td> --}}
                   <td>{{$item->Nom_con}}</td>
                   <td>{{$item->Servicio}}</td>
                   <td>{{$item->Descarga}}</td>

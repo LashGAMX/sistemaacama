@@ -1358,16 +1358,8 @@ class CampoController extends Controller
     {
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$idSolicitud)->first();
 
-        if($model->Siralab == 1){//Es cliente Siralab
-            $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $model->Id_sucursal)->get();
-            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
-            $puntos = $puntoMuestreo->count();
-        }else{
-            $puntoMuestreo = PuntoMuestreoGen::where('Id_sucursal', $model->Id_sucursal)->get();
-            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
-            $puntos = $puntoMuestreo->count();
-        }
-        
+        $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+        $puntos = $puntoMuestreo->count();
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
             'margin_left' => 20,

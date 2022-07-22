@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Ingresar;
 
 use App\Http\Controllers\Controller;
+use App\Models\CodigoParametros;
+use App\Models\PhMuestra;
 use App\Models\ProcedimientoAnalisis;
 use App\Models\ProcesoAnalisis;
 use App\Models\SeguimientoAnalisis;
@@ -29,13 +31,32 @@ class IngresarController extends Controller
     }
 
     public function buscarFolio(Request $request){
-        $model = Db::table('ViewSolicitud')->where('Folio_servicio',$request->folioSol)->first();
+        $cliente = DB::table('ViewSolicitud')->where('Folio_servicio',$request->folioSol)->first();
+        $model = DB::table('ViewSolicitud')->where('Hijo',$cliente->Id_solicitud)->get();
+        $siralab = false;
+        if ($cliente->Siralab == 1) {
+            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud',$cliente->Id_solicitud)->get();
+            $siralab = true;
+        } else {
+            $puntos = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$cliente->Id_solicitud)->get();
+        }
+        
         $array = array(
-            'model' => $model,
+            'model' => $model, 
+            'cliente' => $cliente,
+            'puntos' => $puntos,
+            'siralab' => $siralab,
         );
         return response()->json($array);
     }
-
+    public function getCodigoRecepcion(Request $res)
+    {   
+        $model = CodigoParametros::where('Id_solicitud',$res->idSol)->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
     //pp 
     public function fechaFinSiralab(Request $request){        
         $siralab = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal', $request->sucursal)->first();

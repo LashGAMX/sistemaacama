@@ -78,9 +78,9 @@ $(document).ready(function () {
                 console.log(response);
                 if(response.sw == true)
                 {
-                    Swal("success","Esta solicitud ya tiene codigos registrados"); 
+                    swal("success","Esta solicitud ya tiene codigos registrados"); 
                 }else{
-                    Swal("success","Codigos creados satisfactoriamente");
+                    swal("success","Codigos creados satisfactoriamente");
                 }
             }
         });
