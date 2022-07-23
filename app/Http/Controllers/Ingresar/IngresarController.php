@@ -35,13 +35,13 @@ class IngresarController extends Controller
         $model = DB::table('ViewSolicitud')->where('Hijo',$cliente->Id_solicitud)->get();
         $siralab = false;
         if ($cliente->Siralab == 1) {
-            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud',$cliente->Id_solicitud)->get();
+            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre',$cliente->Id_solicitud)->get();
             $siralab = true;
         } else {
-            $puntos = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$cliente->Id_solicitud)->get();
+            $puntos = DB::table('ViewPuntoGenSol')->where('Id_solPadre',$cliente->Id_solicitud)->get();
         }
         
-        $array = array(
+        $array = array( 
             'model' => $model, 
             'cliente' => $cliente,
             'puntos' => $puntos,
@@ -57,6 +57,20 @@ class IngresarController extends Controller
         );
         return response()->json($data);
     }
+    public function getDataPuntoMuestreo(Request $res)
+    {
+        $sol = Solicitud::where('Id_solicitud',$res->idSol)->first();
+        $muestreo = DB::table('ViewCotizacionMuestreo')->where('Id_cotizacion',$sol->Id_cotizacion)->first();
+        $model = PhMuestra::where('Id_solicitud',$res->idSol)->orderBy('Id_ph','DESC')->first();
+        
+        $data = array(
+            'sol' => $sol,
+            'muestreo' => $muestreo,
+            'model' => $model,
+        );
+        return response()->json($data);
+        
+    }
     //pp 
     public function fechaFinSiralab(Request $request){        
         $siralab = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal', $request->sucursal)->first();
@@ -66,6 +80,7 @@ class IngresarController extends Controller
     public function setIngresar(Request $request){
         $model = ProcesoAnalisis::where('Id_solicitud',$request->idSol)->get();
         $seguimiento = SeguimientoAnalisis::where('Id_servicio',$request->idSol)->first();
+        $sw = false;
         if($model->count()){
 
         }else{
@@ -80,22 +95,30 @@ class IngresarController extends Controller
                 'Descarga' => $request->descarga,
                 'Cliente' => $request->cliente,
                 'Empresa' => $request->empresa,
+                'Ingreso' => 1,
+                'Hora_recepcion' => $request->horaRecepcion,
                 'Hora_entrada' => $request->horaEntrada,
+                'Liberado' => 0,
             ]);
            foreach($solModel as $item)
            {
                 ProcesoAnalisis::create([ 
                     'Id_solicitud' => $item->Id_solicitud,
-                    'Folio' => $request->Folio_servicio,
+                    'Folio' => $item->Folio_servicio,
                     'Descarga' => $request->descarga,
                     'Cliente' => $request->cliente,
                     'Empresa' => $request->empresa,
+                    'Ingreso' => 1,
+                    'Hora_recepcion' => $request->horaRecepcion,
                     'Hora_entrada' => $request->horaEntrada,
+                    'Liberado' => 0,
                 ]);
            }
+           $sw = true;
         }
 
         $array = array(
+            'sw' => $sw,
             'model' => $model,
         );
         return response()->json($array);

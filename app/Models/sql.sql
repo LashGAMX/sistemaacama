@@ -219,7 +219,7 @@ INNER JOIN solicitudes as s
 ON sol.Id_solicitud = s.Id_solicitud
 
 /* Lista Puntos Solicitud Generales */
-CREATE VIEW ViewPuntoGenSol as SELECT sol.Id_punto,sol.Id_solicitud,sol.Id_muestreo,puntos.Id_sucursal,puntos.Punto_muestreo FROM solicitud_puntos as sol
+CREATE VIEW ViewPuntoGenSol as SELECT sol.*,puntos.Id_sucursal,puntos.Punto_muestreo FROM solicitud_puntos as sol
 INNER JOIN puntos_muestreogen as puntos
 ON sol.Id_muestreo = puntos.Id_punto
 
@@ -484,3 +484,10 @@ INNER JOIN normas as n
 ON p.Id_norma = n.Id_norma
 INNER JOIN parametros as pa
 ON p.Id_parametro = pa.Id_parametro
+
+/* ViewCotizacionMuestreo */
+CREATE VIEW ViewCotizacionMuestreo as SELECT cot.*,est.Nombre as NomEstado ,loc.Nombre as NomLocalidad FROM cotizacion_muestreos as cot
+INNER JOIN localidades as loc
+ON cot.Localidad = loc.Id_localidad
+INNER JOIN estados as est
+ON cot.Estado = est.Id_estado

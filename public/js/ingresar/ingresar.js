@@ -117,6 +117,7 @@ function tableCodigos(model) {
 
 }
 var idSol = 0;
+var muestreo;
 function tablePuntos(model, siralab) {
     let tabla = document.getElementById('divPuntos');
     let tab = '';
@@ -161,6 +162,24 @@ function tablePuntos(model, siralab) {
         else {
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
+            let dato = $(this).find('td:first').html();
+            idSol = dato;
+            $.ajax({
+                type: "POST",
+                url: base_url + "/admin/ingresar/getDataPuntoMuestreo",
+                data: {
+                    idSol: idSol,
+                    _token: $('input[name="_token"]').val()
+                },
+                dataType: "json",
+                success: function (response) {
+                    let con = new Date(response.model.Fecha);
+                    $("#finMuestreo").val(con);
+                    con.setMinutes(con.getMinutes() + 30);
+                    $("#conformacion").val(con);
+                    $("#procedencia").val(response.muestreo.NomEstado);
+                }
+            });
         }
     } );
 
@@ -177,13 +196,18 @@ function setIngresar() {
             cliente: $("#cliente").val(),
             empresa: $("#empresa").val(),
             ingreso: "Establecido",
-            horaEntrada: $("#hora_recepcion1").val(),
+            horaRecepcion: $("#hora_recepcion1").val(),
+            horaEntrada: $("#hora_entrada").val(),
         },
         dataType: "json",
         async: false,
         success: function (response) {
             console.log(response);
-            swal("Registro!", "Muestra recibida satisfactoriamente!", "success");
+            if (response.sw == true) {
+                swal("Registro!", "Muestra recibida satisfactoriamente!", "success");   
+            } else {
+                swal("Error!", "Esta muestra ya se encuentra ingresada!", "danger");
+            }
         }
     });
 }

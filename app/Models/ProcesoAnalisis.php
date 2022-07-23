@@ -24,6 +24,7 @@ class ProcesoAnalisis extends Model
         'ClienteG',
         'Hora_recepcion',
         'Hora_entrada',
+        'Liberado',
         'Id_user_c',
         'Id_user_m'
     ];
