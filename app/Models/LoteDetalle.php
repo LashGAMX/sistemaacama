@@ -29,6 +29,7 @@ class LoteDetalle extends Model
         'Vol_disolucion',
         'Fecha',
         'Liberado',
+        'Analizo',
         'Id_user_c',
         'Id_user_m',
     ];

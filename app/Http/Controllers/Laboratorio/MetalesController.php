@@ -386,6 +386,7 @@ class MetalesController extends Controller
         $detalle->Factor_dilucion = $request->FD;
         $detalle->Factor_conversion = 0;
         $detalle->Vol_disolucion = $resultado; 
+        $detalle->Analizo = Auth::user()->id;
         $detalle->save();
 
         $data = array(
@@ -414,7 +415,7 @@ class MetalesController extends Controller
         // $modelCod->Resultado = $model->Vol_disolucion;
         // $modelCod->save();
         
-        $modelCod = DB::table('codigo_parametro')->where('Id_solicitud',$model->Id_analisis)->where('Id_parametro',$model->Id_parametro)->update(['Resultado' => $model->Vol_disolucion]);
+        $modelCod = DB::table('codigo_parametro')->where('Id_solicitud',$model->Id_analisis)->where('Id_parametro',$model->Id_parametro)->update(['Resultado' => $model->Vol_disolucion,'Analizo' => Auth::user()->id]);
 
         $model = LoteDetalle::where('Id_lote',$request->idLote)->where('Liberado',1)->get();
         $loteModel = LoteAnalisis::find($request->idLote);

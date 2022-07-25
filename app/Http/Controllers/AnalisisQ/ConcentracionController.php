@@ -23,8 +23,7 @@ class ConcentracionController extends Controller
 
     public function getParametroNorma(Request $request)
     {
-        $model = DB::table('ViewParametros')->where('Id_norma',$request->idNorma)->orderBy('Parametro','ASC')->get();
-
+        $model = DB::table('ViewParametroNorma')->where('Id_norma',$request->idNorma)->orderBy('Parametro','ASC')->get();
         $data = array(
             'model' => $model,
         );

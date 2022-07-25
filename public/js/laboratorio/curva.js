@@ -110,7 +110,7 @@ function setConstantes()
         success: function (response) {
          console.log(response);
         if (response.sw == true) {
-            swal("Good job!", "Guardado!", "success");
+            swal("Datos guardados!", "Guardado!", "success");
         }
         }
     });   

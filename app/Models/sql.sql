@@ -298,7 +298,7 @@ INNER JOIN area_analisis as areas
 ON tipo.Id_area = areas.Id_area_analisis
 
 /* Lista  ViewLoteDetalleEspectro */
-CREATE VIEW ViewLoteDetalleEspectro as SELECT det.*,sol.Folio_servicio,param.Parametro,control.Control,cod.Codigo,cod.Num_muestra
+CREATE VIEW ViewLoteDetalleEspectro as SELECT det.*,sol.Folio_servicio,sol.Id_norma,sol.Clave_norma,param.Parametro,control.Control,cod.Codigo,cod.Num_muestra
 FROM lote_detalle_espectro as det 
 INNER JOIN ViewSolicitud as sol
 ON det.Id_analisis = sol.Id_solicitud
@@ -479,10 +479,11 @@ INNER JOIN ViewSolicitudParametros as pa
 ON env.Id_parametro = pa.Id_parametro
 
 /* ViewParametroNorma */
-CREATE VIEW ViewParametroNorma as SELECT p.*, n.Norma,n.Clave_norma,pa.Parametro FROM parametros_normas as p
+CREATE VIEW ViewParametroNorma as SELECT p.*, n.Norma,n.Clave_norma,pa.Id_laboratorio,pa.Sucursal,pa.Id_tipo_formula,pa.Tipo_formula,pa.Id_area,pa.Area_analisis,pa.Id_rama,pa.Rama,pa.Parametro,pa.Id_unidad,pa.Unidad,pa.Descripcion,
+pa.Id_metodo,pa.Limite,pa.Id_procedimiento,pa.Id_matriz,pa.Matriz,pa.Id_simbologia,pa.Envase,pa.Simbologia,pa.Simbologia_inf,pa.Id_simbologia_info,pa.Descripcion_sim,pa.Metodo_prueba,pa.Clave_metodo FROM parametros_normas as p
 INNER JOIN normas as n
 ON p.Id_norma = n.Id_norma
-INNER JOIN parametros as pa
+INNER JOIN ViewParametros as pa
 ON p.Id_parametro = pa.Id_parametro
 
 /* ViewCotizacionMuestreo */

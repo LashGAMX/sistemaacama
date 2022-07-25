@@ -41,7 +41,8 @@ class LoteDetalleEspectro extends Model
         'Vol_aforo',
         'Vol_destilacion',
         'Vol_muestra',
-        'Liberado'
+        'Liberado',
+        'Analizo',
     ];
 
 }

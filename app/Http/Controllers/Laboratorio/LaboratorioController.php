@@ -146,20 +146,9 @@ class LaboratorioController extends Controller
             );
         }        
 
-        /* if(!is_null($datos) && !is_null($loteModel)){
-            //Hace referencia a la vista captura, misma que es el body del documento PDF
-            $html = view('exports.laboratorio.captura', compact('datos', 'datosLength', 'loteModel'));
-        } */
 
         $html = view('exports.laboratorio.captura', compact('datos', 'datosLength', 'loteModel', 'loteModelPh', 'limites', 'tecnicaUsada'));
         
-        /* if(!is_null($formula) && !is_null($fechaAnalisis)){
-            //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
-            $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected', 'fechaConFormato'));
-            //Establece el encabezado del documento PDF
-            $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
-        } */
-
         //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
         $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected', 'formulaSelectedComp', 'tecnicaUsada', 'fechaConFormato', 'hora'));
         //Establece el encabezado del documento PDF
@@ -169,16 +158,6 @@ class LaboratorioController extends Controller
         $htmlFooter = view('exports.laboratorio.capturaPie', compact('usuario', 'firma', 'tecnicaUsada')); 
         //Establece el pie de página del PDF                
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-
-        /* if(is_null($formula) || is_null($fechaAnalisis) || is_null($datos) || is_null($loteModel)){
-            $semaforo = false;
-        } */
-
-        //if($semaforo === true){
-            //Escribe el contenido HTML de la var.html en el documento PDF
-            
-        //}
-
         //*************************************************Segundo juego de documentos PDF***************************************************
         $mpdf->AddPage('', '', '', '', '', '', '', 40, 35, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 

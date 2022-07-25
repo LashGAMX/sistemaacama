@@ -120,7 +120,7 @@
         </div>
         <!-- Modal -->
         <div class="modal fade" id="modalCaptura" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Captura de resultados</h5>
@@ -169,6 +169,7 @@
                                             <th>Descripción</th>
                                             <th>Valor</th>
                                             <th>Valor2</th>
+                                            <th>Tipo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -177,90 +178,105 @@
                                             <td>ABS Promedio</td>
                                             <td><input type="text" id="abs1"></td>
                                             <td><input type="text" id="abs2"></td>
+                                            <td>C</td>
                                         </tr>
                                         <tr>
                                             <td>CA</td>
                                             <td>Blanco</td>
                                             <td><input name="campos" type="text" id="blanco1"></td>
                                             <td><input name="campos" type="text" id="blanco2"></td>
+                                            <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>CB</td>
                                             <td>b</td>
                                             <td><input name="campos" type="text" id="b1"></td>
                                             <td><input name="campos" type="text" id="b2"></td>
+                                            <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>CM</td>
                                             <td>m</td>
                                             <td><input name="campos" type="text" id="m1"></td>
                                             <td><input name="campos" type="text" id="m2"></td>
+                                            <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>CR</td>
                                             <td>r</td>
                                             <td><input name="campos" type="text" id="r1"></td>
                                             <td><input name="campos" type="text" id="r2"></td>
+                                            <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>D</td>
                                             <td>Factor dilucion</td>
                                             <td><input type="text" id="fDilucion1" disabled></td>
                                             <td><input type="text" id="fDilucion2" disabled></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr id="conPh">
                                             <td>P</td>
                                             <td>pH Final</td>
                                             <td><input name="campos" type="text" id="phFin1"></td>
                                             <td><input name="campos" type="text" id="phFin2"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr id="conPh2">
                                             <td>P2</td>
                                             <td>pH Inicial</td>
                                             <td><input name="campos" type="text" id="phIni1" value="0"></td>
                                             <td><input name="campos" type="text" id="phIni2" value="0"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr id="conN1">
                                             <td>N1</td>
                                             <td>Nitratos</td>
                                             <td><input name="campos" type="text" id="nitratos1" value="0"></td>
                                             <td><input name="campos" type="text" id="nitratos2" value="0"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr id="conN2">
                                             <td>N2</td>
                                             <td>Nitritos</td>
                                             <td><input name="campos" type="text" id="nitritos1" value="0"></td>
                                             <td><input name="campos" type="text" id="nitritos2" value="0"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr id="conN3">
                                             <td>N3</td>
                                             <td>Sulfuros</td>
                                             <td><input name="campos" type="text" id="sulfuros1" value="0"></td>
                                             <td><input name="campos" type="text" id="sulfuros2" value="0"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>E</td>
                                             <td>Vol de la muestra</td>
                                             <td><input name="campos" type="text" id="volMuestra1"></td>
                                             <td><input name="campos" type="text" id="volMuestra2"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>X</td>
                                             <td>Absorbancia1</td>
                                             <td><input name="campos" type="text" id="abs11"></td>
                                             <td><input name="campos" type="text" id="abs12"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>Y</td>
                                             <td>Absorbancia2</td>
                                             <td><input name="campos" type="text" id="abs21"></td>
                                             <td><input name="campos" type="text" id="abs22"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>Z</td>
                                             <td>Absorbancia3</td>
                                             <td><input name="campos" type="text" id="abs31"></td>
                                             <td><input name="campos" type="text" id="abs32"></td>
+                                            <td>V</td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -366,6 +382,7 @@
                                             <th>Descripción</th>
                                             <th>Valor</th>
                                             <th>Valor2</th>
+                                            <th>Tipo</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -374,12 +391,14 @@
                                             <td>ABS Promedio</td>
                                             <td><input type="text" id="abs1F"></td>
                                             <td><input type="text" id="abs2F"></td>
+                                            <td>C</td>
                                         </tr>
                                         <tr>
                                             <td>CA</td>
                                             <td>Blanco</td>
                                             <td><input name="campos" type="text" id="blanco1F"></td>
                                             <td><input name="campos" type="text" id="blanco2F"></td>
+                                            <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>CB</td>
@@ -404,6 +423,7 @@
                                             <td>Factor dilucion</td>
                                             <td><input type="text" id="fDilucion1F" disabled></td>
                                             <td><input type="text" id="fDilucion2F" disabled></td>
+                                            <td>V</td>
                                         </tr>
 
                                         <tr>
@@ -411,54 +431,63 @@
                                             <td>Vol de la muestra</td>
                                             <td><input name="campos" type="text" id="volMuestra1F" value="0"></td>
                                             <td><input name="campos" type="text" id="volMuestra2F" value="0"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS1</td>
                                             <td>Absorbancia1</td>
                                             <td><input name="campos" type="text" id="abs11F"></td>
                                             <td><input name="campos" type="text" id="abs12F"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS2</td>
                                             <td>Absorbancia2</td>
                                             <td><input name="campos" type="text" id="abs21F"></td>
                                             <td><input name="campos" type="text" id="abs22F"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS3</td>
                                             <td>Absorbancia3</td>
                                             <td><input name="campos" type="text" id="abs31F"></td>
                                             <td><input name="campos" type="text" id="abs32F"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS4</td>
                                             <td>Absorbancia4</td>
                                             <td><input name="campos" type="text" id="abs41F"></td>
                                             <td><input name="campos" type="text" id="abs42F"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS5</td>
                                             <td>Absorbancia5 </td>
                                             <td><input name="campos" type="text" id="abs51F"></td>
                                             <td><input name="campos" type="text" id="abs52F"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS6</td>
                                             <td>Absorbancia6</td>
                                             <td><input name="campos" type="text" id="abs61F"></td>
                                             <td><input name="campos" type="text" id="abs62F"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS7</td>
                                             <td>Absorbancia7</td>
                                             <td><input name="campos" type="text" id="abs71F"></td>
                                             <td><input name="campos" type="text" id="abs72F"></td>
+                                            <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS8</td>
                                             <td>Absorbancia8</td>
                                             <td><input name="campos" type="text" id="abs81F"></td>
                                             <td><input name="campos" type="text" id="abs82F"></td>
+                                            <td>V</td>
                                         </tr>
                                     </tbody>
                                 </table>
