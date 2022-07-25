@@ -202,6 +202,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('getDetalleHH', [MbController::class, 'getDetalleHH']);
             Route::post('getDetalleDbo', [MbController::class, 'getDetalleDbo']);
             Route::post('operacion', [MbController::class, 'operacion']);
+            Route::post('metodoCortoCol', [MbController::class, 'metodoCortoCol']);
             Route::post('updateObsMuestra', [MbController::class, 'updateObsMuestra']);
             Route::post('createControlCalidadMb', [MbController::class, 'createControlCalidadMb']);
             

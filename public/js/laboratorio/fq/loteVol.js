@@ -15,27 +15,27 @@ $(document).ready(function () {
 });
 $('#btnDatosLote').click(function () {
     switch ($("#tipoFormula").val()) {
-        case '295': // CLORO RESIDUAL LIBRE
+        case '33': // CLORO RESIDUAL LIBRE
             $("#secctionCloro").show();
             $("#secctionDqo").hide();
             $("#secctionNitrogeno").hide();
             break;
-        case '7': // DQO
+        case '6': // DQO
             $("#secctionDqo").show();
             $("#secctionCloro").hide();
             $("#secctionNitrogeno").hide();
             break;
-        case '10': //Nitrogeno Total
+        case '11': //Nitrogeno Total
             $("#secctionNitrogeno").show();
             $("#secctionCloro").hide();
             $("#secctionDqo").hide();
             break;
-        case '11': //Nitrogeno Amoniacal
+        case '9': //Nitrogeno Amoniacal
             $("#secctionNitrogeno").show();
             $("#secctionCloro").hide();
             $("#secctionDqo").hide();
             break;
-        case '12': //Nitrogeno Organico
+        case '10': //Nitrogeno Organico
             $("#secctionNitrogeno").show();
             $("#secctionCloro").hide();
             $("#secctionDqo").hide();
@@ -54,7 +54,7 @@ $('#btnEjecutarVal').click(function () {
     let factorN = 0;
     let pm = 0;
     switch ($("#tipoFormula").val()) {
-        case '295': // CLORO RESIDUAL LIBRE
+        case '33': // CLORO RESIDUAL LIBRE
             $("#blancoResClo").val($("#blancoCloro").val())
             titulado1 = $("#tituladoClo1").val();
             titulado2 = $("#tituladoClo2").val();
@@ -66,7 +66,7 @@ $('#btnEjecutarVal').click(function () {
             res = (parseFloat(trazable) * parseFloat(normalidad)) / prom;
             $("#normalidadResCloro").val(res.toFixed(4));
             break;
-        case '7': // DQO
+        case '6': // DQO
             $("#blancoResD").val($("#blancoValD").val())
             titulado1 = $("#titulado1D").val();
             titulado2 = $("#titulado2D").val();
@@ -80,7 +80,7 @@ $('#btnEjecutarVal').click(function () {
             $("#molaridadResD").val(res.toFixed(3));
             // console.log(res)
             break;
-        case '10': // Nitrogeno
+        case '11': // Nitrogeno Total
             $("#blancoResN").val($("#blancoValN").val())
             titulado1 = $("#titulado1N").val();
             titulado2 = $("#titulado2N").val();
@@ -94,7 +94,7 @@ $('#btnEjecutarVal').click(function () {
             $("#molaridadResN").val(res.toFixed(3));
             // console.log(res)
             break;
-        case '11': // Nitrogeno
+        case '9': // Nitrogeno amonicacal
             $("#blancoResN").val($("#blancoValN").val())
             titulado1 = $("#titulado1N").val();
             titulado2 = $("#titulado2N").val();
@@ -108,7 +108,7 @@ $('#btnEjecutarVal').click(function () {
             $("#molaridadResN").val(res.toFixed(3));
             // console.log(res)
             break;
-        case '12': // Nitrogeno
+        case '10': // Nitrogeno Organico
             $("#blancoResN").val($("#blancoValN").val())
             titulado1 = $("#titulado1N").val();
             titulado2 = $("#titulado2N").val();
@@ -152,7 +152,7 @@ $('#btnGuardarVal').click(function () {
                 }
             });
             break;
-        case '7': // DQO
+        case '6': // DQO
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
@@ -168,31 +168,6 @@ $('#btnGuardarVal').click(function () {
                     titulado2: $("#titulado2D").val(),
                     titulado3: $("#titulado3D").val(),
                     resultado: $("#molaridadResD").val(),
-                    _token: $('input[name="_token"]').val(),
-                },
-                dataType: "json",
-                async: false,
-                success: function (response) {
-                    console.log(response);
-                }
-            });
-            break;
-        case '10': // NITROGENO TOTAL
-            $.ajax({
-                type: 'POST',
-                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
-                data: {
-                    caso: 3,
-                    idParametro: $("#tipoFormula").val(),
-                    blanco: $("#blancoResN").val(),
-                    idLote: $("#idLoteHeader").val(),
-                    gramos: $("#gramosN").val(),
-                    factor: $("#factorN").val(),
-                    titulado1: $("#titulado1N").val(),
-                    titulado2: $("#titulado2N").val(),
-                    titulado3: $("#titulado3N").val(),
-                    pm: $("#PmN").val(),
-                    resultado: $("#molaridadResN").val(),
                     _token: $('input[name="_token"]').val(),
                 },
                 dataType: "json",
@@ -227,7 +202,32 @@ $('#btnGuardarVal').click(function () {
                 }
             });
             break;
-        case '12': // NITROGENO TOTAL
+        case '10': // NITROGENO TOTAL
+            $.ajax({
+                type: 'POST',
+                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                data: {
+                    caso: 3,
+                    idParametro: $("#tipoFormula").val(),
+                    blanco: $("#blancoResN").val(),
+                    idLote: $("#idLoteHeader").val(),
+                    gramos: $("#gramosN").val(),
+                    factor: $("#factorN").val(),
+                    titulado1: $("#titulado1N").val(),
+                    titulado2: $("#titulado2N").val(),
+                    titulado3: $("#titulado3N").val(),
+                    pm: $("#PmN").val(),
+                    resultado: $("#molaridadResN").val(),
+                    _token: $('input[name="_token"]').val(),
+                },
+                dataType: "json",
+                async: false,
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+            break;
+        case '9': // NITROGENO TOTAL
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",

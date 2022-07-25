@@ -8,6 +8,7 @@
     Captura de resultados Micro
 </h6>
 
+@stop
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-3">
@@ -84,8 +85,9 @@
                     <div class="col-md-1">
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad" id="btnGenControl">Generar
-                        controles</button>
+                        <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad"
+                            id="btnGenControl">Generar
+                            controles</button>
                     </div>
 
                     <div class="col-md-1">
@@ -109,50 +111,52 @@
                     </table>
                 </div>
             </div>
+
         </div>
-        
 
-    <!-- Modal -->
-    <div class="modal fade" id="modalCalidad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
+    </div>
+</div>
 
-                <div class="modal-header">
-                    <h5 class="modal-title" id="">Control de calidad</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label for="">Tipo</label>
-                                <select class="form-control" id="controlCalidad">
-                                    @foreach ($controlModel as $item)
-                                    <option value="{{$item->Id_control}}">{{$item->Control}}</option>
-                                    @endforeach
-                                </select>
+        <!-- Modal -->
+        <div class="modal fade" id="modalCalidad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="">Control de calidad</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Tipo</label>
+                                    <select class="form-control" id="controlCalidad">
+                                        @foreach ($controlModel as $item)
+                                        <option value="{{$item->Id_control}}">{{$item->Control}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" onclick="createControlCalidad()" id="guardar"
-                        class="btn btn-primary">Generar</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" onclick="createControlCalidad()" id="guardar"
+                            class="btn btn-primary">Generar</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
         <!-- Modal -->
-        <div class="modal fade" id="modalCapturaCol" tabindex="-1" aria-labelledby="exampleModalLabel"
-            aria-hidden="true">
+        <div class="modal fade" id="modalCapturaCol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" style="width: 80%;">
                 <div class="modal-content">
-                    <form wire:submit.prevent="create">
+                    <form >
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Captura coliformes</h5>
+                           <button type="button" id="metodoCortoCol"> <i class="voyager-window-list" ></i></button>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -308,15 +312,14 @@
                     </form>
                 </div>
             </div>
-
         </div>
-    </div>
+
 
     <!-- Modal -->
     <div class="modal fade" id="modalCapturaHH" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <form wire:submit.prevent="create">
+                <form>
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Captura HH</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -404,14 +407,93 @@
                 </form>
             </div>
         </div>
-
     </div>
+
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalCapturaDboBlanco" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <form >
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Captura Dbo</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Observación</label>
+                                    <input type="text" class="form-control" id="observacionDbo"
+                                        placeholder="Observacion de la muestra">
+                                </div>
+                                <div class="form-group">
+                                    {{-- <button class="btn btn-success" type="button"onclick="updateObsMuestra(2,'observacionDbo')"><i class="voyager-check"></i>Aplicar</button> --}}
+                                </div>
+                                <div class="col-md-12">
+                                    <table class="table" id="">
+                                        <thead>
+                                            <tr>
+                                                <th>Parametro</th>
+                                                <th>Descripción</th>
+                                                <th>Valor</th>
+                                                <th>Valor2</th>
+                                                <th>Tipo</th>
+                                            </tr>
+                                        </thead>
+                                        <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                                        <tbody>
+                                            <tr>
+                                                <td>OI</td>
+                                                <td>Oxigeno inicial</td>
+                                                <td><input type="text" id="oxigenoIncialB1" value="0"></td>
+                                                <td><input type="text" id="oxigenoIncialB2" value="0"></td>
+                                                <th>V</th>
+                                            </tr>
+                                            <tr>
+                                                <td>OF</td>
+                                                <td>Oxigeno final</td>
+                                                <td><input type="text" id="oxigenofinalB1" value="0"></td>
+                                                <td><input type="text" id="oxigenofinalB2" value="0"></td>
+                                                <th>V</th>
+                                            </tr>
+                                            <tr>
+                                                <td>V</td>
+                                                <td>Volumen de muestra</td>
+                                                <td><input type="text" id="volMuestraB1" value="0"></td>
+                                                <td><input type="text" id="volMuestraB2" value="0"></td>
+                                                <th>V</th>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div> 
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="resultado">Resultado</label>
+                                        <input type="text" id="resDboB" style="font-size: 20px;color:red;" placeholder="Resultado">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                            <button type="button" class="btn btn-primary" onclick="operacionDbo(2)">Guardar</button>
+                        </div>
+                        
+                </form>
+            </div>
+        </div>
+    </div>
+
 
     <!-- Modal -->
     <div class="modal fade" id="modalCapturaDbo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+        <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form wire:submit.prevent="create">
+                <form>
                     <div class="modal-header">
                         <h5 class="modal-title" id="exampleModalLabel">Captura Dbo</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -442,6 +524,7 @@
                                                 <th>Descripción</th>
                                                 <th>Valor</th>
                                                 <th>Valor2</th>
+                                                <th>Tipo</th>
                                             </tr>
                                         </thead>
                                         <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
@@ -451,54 +534,63 @@
                                                 <td>No De botella final</td>
                                                 <td><input type="text" id="botellaF1" value="0"></td>
                                                 <td><input type="text" id="botellaF2" value="0"></td>
+                                                <th>V</th>
                                             </tr>
                                             <tr>
                                                 <td>G</td>
                                                 <td>No De botella Od</td>
                                                 <td><input type="text" id="od1" value="0"></td>
                                                 <td><input type="text" id="od2" value="0"></td>
+                                                <th>V</th>
                                             </tr>
                                             <tr>
                                                 <td>B</td>
                                                 <td>Oxigeno disuelto final</td>
                                                 <td><input type="text" id="oxiFinal1" value="0"></td>
                                                 <td><input type="text" id="oxiFinal2" value="0"></td>
+                                                <th>V</th>
                                             </tr>
                                             <tr>
                                                 <td>A</td>
                                                 <td>Oxigeno disuelto inicial</td>
                                                 <td><input type="text" id="oxiInicial1" value="0"></td>
                                                 <td><input type="text" id="oxiInicial2" value="0"></td>
+                                                <th>V</th>
                                             </tr>
                                             <tr>
                                                 <td>J</td>
                                                 <td>pH Final</td>
                                                 <td><input type="text" id="phF1" value="0"></td>
                                                 <td><input type="text" id="phF2" value="0"></td>
+                                                <th>V</th>
                                             </tr>
                                             <tr>
                                                 <td>I</td>
                                                 <td>ph Inicial</td>
                                                 <td><input type="text" id="phIni1" value="0"></td>
                                                 <td><input type="text" id="phIni2" value="0"></td>
+                                                <th>V</th>
                                             </tr>
                                             <tr>
                                                 <td>D</td>
                                                 <td>Volumen de muestra</td>
                                                 <td><input type="text" id="volDbo1" value="0"></td>
                                                 <td><input type="text" id="volDbo2" value="0"></td>
+                                                <th>V</th>
                                             </tr>
                                             <tr>
                                                 <td>E</td>
                                                 <td>% dilucion (DBO5)</td>
                                                 <td><input type="text" id="dil1" value="0"></td>
                                                 <td><input type="text" id="dil2" value="0"></td>
+                                                <th>C</th>
                                             </tr>
                                             <tr>
                                                 <td>C</td>
                                                 <td>Vol botella winkler</td>
                                                 <td><input type="text" id="win1" value="300"></td>
                                                 <td><input type="text" id="win2" value="300"></td>
+                                                <th>C</th>
                                             </tr>
                                         </tbody>
                                     </table>
@@ -514,21 +606,17 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="operacionDbo()">Guardar</button>
+                            <button type="button" class="btn btn-primary" onclick="operacionDbo(1)">Guardar</button>
                         </div>
                 </form>
             </div>
         </div>
-
-
-    
+    </div>
 
 
 
-@stop
+    @section('javascript')
+    <script src="{{asset('/public/js/laboratorio/mb/captura.js')}}"></script>
+    @stop
 
-@section('javascript')
-<script src="{{asset('/public/js/laboratorio/mb/captura.js')}}"></script>
-@stop
-
-@endsection
+    @endsection

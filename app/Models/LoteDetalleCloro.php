@@ -29,6 +29,6 @@ class LoteDetalleCloro extends Model
         'Factor_conversion',
         'Resultado',
         'Liberado',
-        
+        'Analizo',
     ];
 }

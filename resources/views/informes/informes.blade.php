@@ -37,7 +37,7 @@
                                             <th>Cliente</th>
                                             <th>Norma</th>
                                             <th>Tipo servicio</th>
-                                            <th>Fecha impresion</th>
+                                            {{-- <th>Fecha impresion</th> --}}
                                             <th>Estado Reporte</th>
                                             <th>Causa reporte</th>
                                             <th>Usuario impresión</th>
@@ -51,8 +51,8 @@
                                             <td>{{$item->Folio_servicio}}</td>
                                             <td>{{$item->Empresa_suc}}</td>
                                             <td>{{$item->Clave_norma}}</td>
-                                            <td></td>
-                                            <td></td>
+                                            <td>{{$item->Servicio}}</td>
+                                            {{-- <td></td> --}}
                                             <td></td>
                                             <td></td>
                                             <td></td>

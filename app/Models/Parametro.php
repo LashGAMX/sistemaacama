@@ -32,6 +32,6 @@ class Parametro extends Model
         'Precio',
         'Envase',
         'Id_user_c',
-        'Id_user_m'
+        'Id_user_m',
     ];
 }

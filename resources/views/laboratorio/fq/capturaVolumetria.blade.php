@@ -227,7 +227,7 @@
 
               <!-- Modal -->
         <div class="modal fade" id="modalNitrogeno" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
+            <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                 
                   <div class="modal-header">
@@ -276,6 +276,7 @@
                                     <th>Descripción</th>
                                     <th>Valor</th>
                                     <th>Valor2</th>
+                                    <th>Tipo</th>
                                   </tr>
                                 </thead>
                                 <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
@@ -285,18 +286,21 @@
                                         <td>Mililitros Titulados Muestra</td>
                                         <td><input type="text" id="tituladosNitro1" value="0"></td>
                                         <td><input type="text" id="tituladosNitro2" value="0"></td>
+                                        <td>V</td>
                                     </tr>
                                     <tr>
                                         <td>B</td>
                                         <td>Mililitros titulados del blanco</td>
                                         <td><input type="text" id="blancoNitro1" value="0"></td>
                                         <td><input type="text" id="blancoNitro2" value="0"></td>
+                                        <td>F</td>
                                     </tr>
                                     <tr>
                                         <td>C</td>
                                         <td>Molaridad del FAS</td>
                                         <td><input type="text" id="molaridadNitro1" value="0"></td>
                                         <td><input type="text" id="molaridadNitro2" value="0"></td>
+                                        <td>F</td>
                                     </tr>
                                     
                                     <tr>
@@ -304,18 +308,21 @@
                                         <td>Factor de quivalencia</td>
                                         <td><input type="text" id="factorNitro1" value="0"></td>
                                         <td><input type="text" id="factorNitro2" value="0"></td>
+                                        <td>C</td>
                                     </tr>
                                     <tr>
                                         <td>E</td>
                                         <td>Factor de conversión</td>
                                         <td><input type="text" id="conversion1" value="0"></td>
                                         <td><input type="text" id="conversion2" value="0"></td>
+                                        <td>C</td>
                                     </tr>
                                     <tr>
                                         <td>G</td>
                                         <td>Volumen de muestra</td>
                                         <td><input type="text" id="volNitro1" value="0"></td>
                                         <td><input type="text" id="volNitro2" value="0"></td>
+                                        <td>V</td>
                                     </tr>
                                     
                                 

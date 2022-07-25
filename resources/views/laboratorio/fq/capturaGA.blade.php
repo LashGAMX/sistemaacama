@@ -167,6 +167,7 @@
                                     <th>Descripción</th>
                                     <th>Valor</th>
                                     <th>Valor2</th>
+                                    <th>Tipo</th>
                                   </tr>
                                 </thead>
                                 <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
@@ -176,48 +177,56 @@
                                         <td>Masa Final</td>
                                         <td><input type="text" id="h1" value="0"></td>
                                         <td><input type="text" id="h2" value="0"></td>
+                                        <td>V</td>
                                     </tr>
                                     <tr>
                                         <td>J</td>
                                         <td>Masa Inicial 1</td>
                                         <td><input type="text" id="j1" value="0"></td>
                                         <td><input type="text" id="j2" value="0"></td>
+                                        <td>V</td>
                                     </tr>
                                     <tr>
                                         <td>K</td>
                                         <td>Masa Inicial 2</td>
                                         <td><input type="text" id="k1" value="0"></td>
                                         <td><input type="text" id="k2" value="0"></td>
+                                        <td>V</td>
                                     </tr>
                                     <tr>
                                         <td>C</td>
                                         <td>Masa Inicial 3</td>
                                         <td><input type="text" id="c1" value="0"></td>
                                         <td><input type="text" id="c2" value="0"></td>
+                                        <td>V</td>
                                     </tr>
                                     <tr>
                                         <td>L</td>
                                         <td>Ph</td>
                                         <td><input type="text" id="l1" value="0"></td>
                                         <td><input type="text" id="l2" value="0"></td>
+                                        <td>V</td>
                                     </tr>
                                     <tr>
                                         <td>I</td>
                                         <td>Volumen</td>
                                         <td><input type="text" id="i1" value="0"></td>
                                         <td><input type="text" id="i2" value="0"></td>
+                                        <td>V</td>
                                     </tr>
                                     <tr>
                                         <td>G</td>
                                         <td>Blanco</td>
                                         <td><input type="text" id="g1" value="0"></td>
                                         <td><input type="text" id="g2" value="0"></td>
+                                        <td>F</td>
                                     </tr>
                                     <tr>
                                         <td>E</td>
                                         <td>Factor de conversión</td>
                                         <td><input type="text" id="e1" value="1000000"></td>
                                         <td><input type="text" id="e2" value="1000000"></td>
+                                        <td>C</td>
                                     </tr>
                                 </tbody>
                               </table>

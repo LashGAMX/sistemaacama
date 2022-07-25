@@ -28,5 +28,6 @@ class LoteDetalleDqo extends Model
         'Blanco',
         'Observacion',
         'Liberado',
+        'Analizo',
     ];
 }

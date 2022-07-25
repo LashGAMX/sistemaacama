@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Livewire\AnalisisQ\Parametros;
 use App\Models\AreaLab;
 use App\Models\CampoCompuesto;
+use App\Models\CampoGenerales;
 use App\Models\Clientes;
 use App\Models\CodigoParametros;
 use App\Models\Cotizacion;
@@ -57,10 +58,11 @@ class InformesController extends Controller
     }
     public function getSolParametro(Request $request)
     {
-        $model = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $request->id)->get();
+        $sol = SolicitudPuntos::where('Id_solPadre',$request->id)->where('Id_muestreo',$request->idPunto)->first();
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $sol->Id_solicitud)->get();
         $data = array(
             'model' => $model,
-        );
+        ); 
         return response()->json($data);
     }
 
@@ -522,16 +524,16 @@ class InformesController extends Controller
     public function pdfConComparacion($idSol,$idPunto)
     {
         //Opciones del documento PDF
-        $mpdf = new \Mpdf\Mpdf([
-            'orientation' => 'P',
-            'format' => 'letter',
-            'margin_left' => 10,
-            'margin_right' => 10,
-            'margin_top' => 76,
-            'margin_bottom' => 125,
-            'defaultheaderfontstyle' => ['normal'],
-            'defaultheaderline' => '0'
-        ]);
+        // $mpdf = new \Mpdf\Mpdf([
+        //     'orientation' => 'P',
+        //     'format' => 'letter',
+        //     'margin_left' => 10,
+        //     'margin_right' => 10,
+        //     'margin_top' => 76,
+        //     'margin_bottom' => 125,
+        //     'defaultheaderfontstyle' => ['normal'],
+        //     'defaultheaderline' => '0'
+        // ]);
 
         //Recupera el nombre de usuario y firma
         /* $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
@@ -929,20 +931,46 @@ class InformesController extends Controller
         //Recupera la obs de campo
         $modelComp = CampoCompuesto::where('Id_solicitud', $idSol)->first();
         $obsCampo = $modelComp->Observaciones;
+        $campoGeneral = CampoGenerales::where('Id_solicitud',$idSol)->first();
+        $phCampo = PhMuestra::where('Id_solicitud',$idSol)->get();
+        $swPh = false;
+        foreach($phCampo as $item)
+        {
+            if($item->Materia == "Presente"){
+                $swPh = true;
+            }else if($item->Olor == "Si"){
+                $swPh = true;
+            }
+        }
+       
+        // //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
+        // $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'tempCompuesta', 'sumaCaudalesFinal', 'resColi', 'sParam'));
 
-        //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
-        $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo'));
+        // //HEADER-FOOTER******************************************************************************************************************                 
+        // $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'modelProcesoAnalisis', 'horaMuestreo'));
+        // $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam', 'temperaturaC', 'obsCampo'));
 
-        //HEADER-FOOTER******************************************************************************************************************                 
-        $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
-        $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('solicitud', 'simbologiaParam', 'obsCampo'));
+        // $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
+        // $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        // $mpdf->WriteHTML($htmlInforme);
 
+        // $mpdf->CSSselectMedia = 'mpdf';
+        // $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');   
+
+        $mpdf = new \Mpdf\Mpdf([
+            'format' => 'letter',
+            'margin_left' => 20, 
+            'margin_right' => 20,
+            'margin_top' => 10,
+            'margin_bottom' => 18
+        ]);
+        $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'modelProcesoAnalisis', 'horaMuestreo'));
+        $htmlInforme = view('exports.informes.conComparacion.informeConComparacion',  
+        compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo','solicitud','direccion', 'cliente','numOrden', 'horaMuestreo', 'modelProcesoAnalisis','simbologiaParam', 'obsCampo','campoGeneral','swPh'));
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
-        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-        $mpdf->WriteHTML($htmlInforme);
-
         $mpdf->CSSselectMedia = 'mpdf';
-        $mpdf->Output('Informe de resultados con comparacion.pdf', 'I');
+        $mpdf->WriteHTML($htmlInforme);
+        $mpdf->Output();
     }
 
     //****************ESTAS FUNCIONES SE LLAMAN A TRAVÉS DE LA RUTA PÚBLICA HACIENDO USO DEL CÓDIGO QR

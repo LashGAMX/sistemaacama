@@ -201,8 +201,8 @@ class VolController extends Controller
     }
     public function setTipoDqo(Request $res)
     {
-        $model = LoteDetalleDqo::where('Id_lote',$res->idLote)
-                ->update(['Tipo'=>$res->tipo]);
+        $model = LoteDetalleDqo::where('Id_lote', $res->idLote)
+            ->update(['Tipo' => $res->tipo]);
 
         return response()->json($model);
     }
@@ -316,7 +316,7 @@ class VolController extends Controller
                 $valoracion = ValoracionNitrogeno::where('Id_lote', $request->idLote)->first();
                 break;
             default:
-            $valoracion = ValoracionNitrogeno::where('Id_lote', $request->idLote)->first();
+                $valoracion = ValoracionNitrogeno::where('Id_lote', $request->idLote)->first();
                 break;
         }
 
@@ -380,10 +380,10 @@ class VolController extends Controller
 
             if (!is_null($parametro)) {
                 $bandera = 'cloro';
-            }else{
+            } else {
                 $parametro = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->first();
 
-                if(!is_null($parametro)){
+                if (!is_null($parametro)) {
                     $bandera = 'nitrogeno';
                 }
             }
@@ -409,15 +409,15 @@ class VolController extends Controller
             if ($parametro->Id_parametro == 34 || $parametro->Id_parametro == 128 || $parametro->Id_parametro == 295) { // CLORO RESIDUAL LIBRE
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 24)->first();
             }
-        }else if($bandera == 'nitrogeno'){            
+        } else if ($bandera == 'nitrogeno') {
             if ($parametro->Id_parametro == 12) { // NITROGENO TOTAL
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 30)->first();
-            }else if($parametro->Id_parametro == 10 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296){ // NITROGENO AMONIACAL
+            } else if ($parametro->Id_parametro == 10 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 27)->first();
-            }else if($parametro->Id_parametro == 11){ // NITROGENO ORGANICO
+            } else if ($parametro->Id_parametro == 11) { // NITROGENO ORGANICO
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 28)->first();
             }
-        }        
+        }
 
         if (!is_null($plantillaPredeterminada)) {
             return response()->json($plantillaPredeterminada);
@@ -452,16 +452,16 @@ class VolController extends Controller
     public function getMuestraAsignadaVol(Request $request)
     {
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
-       
+
         $model = array();
 
-        if($loteModel->Id_tecnica == 7) //todo DQO
+        if ($loteModel->Id_tecnica == 6) //todo DQO
         {
             $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $request->idLote)->get();
-        } else if($loteModel->Id_tecnica == 295) //todo CLORO RESIDUAL LIBRE
+        } else if ($loteModel->Id_tecnica == 33) //todo CLORO RESIDUAL LIBRE
         {
             $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get();
-        } else if($loteModel->Id_tecnica == 10 || $loteModel->Id_tecnica == 11 || $loteModel->Id_tecnica == 12) //todo Nitrógeno Total,
+        } else if ($loteModel->Id_tecnica == 9 || $loteModel->Id_tecnica == 10 || $loteModel->Id_tecnica == 11) //todo Nitrógeno Total,
         {
             $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get();
         }
@@ -540,7 +540,7 @@ class VolController extends Controller
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         $paraModel = Parametro::find($loteModel->Id_tecnica);
         //!----------
-        if($loteModel->Id_tecnica == 7) //todo DQO
+        if ($loteModel->Id_tecnica == 6) //todo DQO
         {
             $model = LoteDetalleDqo::create([
                 'Id_lote' => $request->idLote,
@@ -551,7 +551,7 @@ class VolController extends Controller
             ]);
             $detModel = LoteDetalleDqo::where('Id_lote', $request->idLote)->get();
             $sw = true;
-        } else if($loteModel->Id_tecnica == 295) //todo CLORO RESIDUAL LIBRE
+        } else if ($loteModel->Id_tecnica == 33) //todo CLORO RESIDUAL LIBRE
         {
             $model = LoteDetalleCloro::create([
                 'Id_lote' => $request->idLote,
@@ -562,7 +562,7 @@ class VolController extends Controller
             ]);
             $detModel = LoteDetalleCloro::where('Id_lote', $request->idLote)->get();
             $sw = true;
-        } else if($loteModel->Id_tecnica == 10 || $loteModel->Id_tecnica == 11 || $loteModel->Id_tecnica == 12) //todo Nitrógeno Total,
+        } else if ($loteModel->Id_tecnica == 9 || $loteModel->Id_tecnica == 11 || $loteModel->Id_tecnica == 12) //todo Nitrógeno Total,
         {
             $model = LoteDetalleNitrogeno::create([
                 'Id_lote' => $request->idLote,
@@ -574,7 +574,7 @@ class VolController extends Controller
             $detModel = LoteDetalleNitrogeno::where('Id_lote', $request->idLote)->get();
             $sw = true;
         }
-     
+
 
 
         $solModel = CodigoParametros::find($request->idSol);
@@ -901,7 +901,7 @@ class VolController extends Controller
         $res2 = ($res1 * $request->C);
         $res3 = ($res2 * $request->D);
         $res = ($res3 / $request->E);
-        
+
 
         $data = array(
             'res' => $res
@@ -918,6 +918,7 @@ class VolController extends Controller
         $model->Equivalencia = $request->D;
         $model->Vol_muestra = $request->E;
         $model->Resultado = $request->resultado;
+        $model->analizo = Auth::user()->id;
         $model->save();
 
         $data = array(
@@ -936,6 +937,7 @@ class VolController extends Controller
         $model->Factor_conversion = $request->E;
         $model->Vol_muestra = $request->G;
         $model->Resultado = $request->resultado;
+        $model->analizo = Auth::user()->id;
         $model->save();
 
         $data = array(
@@ -955,6 +957,7 @@ class VolController extends Controller
         $model->Ph_final = $request->H;
         $model->Factor_conversion = $request->D;
         $model->Resultado = $request->Resultado;
+        $model->analizo = Auth::user()->id;
         $model->save();
 
         $data = array(
@@ -987,10 +990,10 @@ class VolController extends Controller
                 break;
             default:
                 # code...
-                      # Nitrogeno
-                      $muestra = LoteDetalleNitrogeno::where('Id_detalle', $request->idMuestra)->first();
-                      $model = $muestra->replicate();
-                      $model->Id_control = $request->idControl;
+                # Nitrogeno
+                $muestra = LoteDetalleNitrogeno::where('Id_detalle', $request->idMuestra)->first();
+                $model = $muestra->replicate();
+                $model->Id_control = $request->idControl;
                 break;
         }
 
@@ -1014,13 +1017,13 @@ class VolController extends Controller
 
     public function getLoteCapturaVol(Request $request)
     {
-        if($request->formulaTipo == 7) //todo DQO
+        if ($request->formulaTipo == 6) //todo DQO
         {
             $detalle = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
-        } else if($request->formulaTipo == 295) //todo CLORO RESIDUAL LIBRE
+        } else if ($request->formulaTipo == 33) //todo CLORO RESIDUAL LIBRE
         {
             $detalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
-        } else if($request->formulaTipo == 10 || $request->formulaTipo == 11 || $request->formulaTipo == 12) //todo Nitrógeno Total,
+        } else if ($request->formulaTipo == 9 || $request->formulaTipo == 10 || $request->formulaTipo == 11) //todo Nitrógeno Total,
         {
             $detalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
         }
@@ -1059,7 +1062,7 @@ class VolController extends Controller
     {
         $sw = false;
 
-        if($request->formulaTipo == 7) //todo DQO
+        if ($request->formulaTipo == 7) //todo DQO
         {
             $model = LoteDetalleDqo::find($request->idMuestra);
             $model->Liberado = 1;
@@ -1071,10 +1074,10 @@ class VolController extends Controller
             $modelCod = CodigoParametros::find($model->Id_codigo);
             $modelCod->Resultado = $model->Resultado;
             $modelCod->save();
-            
+
 
             $model = LoteDetalleDqo::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
-        } else if($request->formulaTipo == 295) //todo CLORO RESIDUAL LIBRE
+        } else if ($request->formulaTipo == 295) //todo CLORO RESIDUAL LIBRE
         {
             $model = LoteDetalleCloro::find($request->idMuestra);
             $model->Liberado = 1;
@@ -1086,10 +1089,10 @@ class VolController extends Controller
             $modelCod = CodigoParametros::find($model->Id_codigo);
             $modelCod->Resultado = $model->Resultado;
             $modelCod->save();
-            
+
 
             $model = LoteDetalleCloro::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
-        } else if($request->formulaTipo == 10 || $request->formulaTipo == 11 || $request->formulaTipo == 12) //todo Nitrógeno Total,
+        } else if ($request->formulaTipo == 10 || $request->formulaTipo == 11 || $request->formulaTipo == 12) //todo Nitrógeno Total,
         {
             $model = LoteDetalleNitrogeno::find($request->idMuestra);
             $model->Liberado = 1;
@@ -1101,11 +1104,11 @@ class VolController extends Controller
             $modelCod = CodigoParametros::find($model->Id_codigo);
             $modelCod->Resultado = $model->Resultado;
             $modelCod->save();
-            
+
 
             $model = LoteDetalleNitrogeno::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
         }
-      
+
         $loteModel = LoteAnalisis::find($request->idLote);
         $loteModel->Liberado = $model->count();
         $loteModel->save();
@@ -1167,13 +1170,13 @@ class VolController extends Controller
 
         //Recupera el parámetro que se está utilizando
         $parametro = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $id_lote)->first();
-        if(!is_null($parametro)){
+        if (!is_null($parametro)) {
             $limiteC = DB::table('parametros')->where('Id_parametro', $parametro->Id_parametro)->first();
-        }else{
+        } else {
             $parametro = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->first();
-            if(!is_null($parametro)){
+            if (!is_null($parametro)) {
                 $limiteC = DB::table('parametros')->where('Id_parametro', $parametro->Id_parametro)->first();
-            }else{
+            } else {
                 $parametro = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->first();
                 $limiteC = DB::table('parametros')->where('Id_parametro', $parametro->Id_parametro)->first();
             }
@@ -1184,86 +1187,60 @@ class VolController extends Controller
         if (!is_null($textProcedimiento)) {
             //Hoja1    
             $proced = true;
-            if ($parametro->Id_parametro == 7 || $parametro->Id_parametro == 77) { // DQO
-                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
+            if ($parametro->Id_parametro == 6 || $parametro->Id_parametro == 77) { // DQO
+                $valoracion = ValoracionDqo::where('Id_lote',$id_lote)->first();
+                if ($parametro->Tipo == 1) {
+                    $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
-                if (!is_null($data)) {
-                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
+                    if (!is_null($data)) {
+                        $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
-                    $limites = array();
-                    foreach ($data as $item) {
-                        if ($item->Resultado < $limiteC->Limite) {
-                            $limC = "< " . $limiteC->Limite;
+                        $limites = array();
+                        foreach ($data as $item) {
+                            if ($item->Resultado < $limiteC->Limite) {
+                                $limC = "< " . $limiteC->Limite;
 
-                            array_push($limites, $limC);
-                        } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = number_format($item->Resultado, 2, ".", ",");
+                                array_push($limites, $limC);
+                            } else {  //Si es mayor el resultado que el límite de cuantificación
+                                $limC = number_format($item->Resultado, 2, ".", ",");
 
-                            array_push($limites, $limC);
+                                array_push($limites, $limC);
+                            }
                         }
+
+                        $separador = "Valoración";
+                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                        $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody', compact('valoracion','textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
+                    } else {
+                        $sw = false;
+                        $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                     }
-
-                    $separador = "Valoración";
-                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
                 } else {
-                    $sw = false;
-                    $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
-                }
-            } else if ($parametro->Id_parametro == 73 || $parametro->Id_parametro == 75) { //DQO ALTA
-                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
+                    $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
-                if (!is_null($data)) {
-                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
+                    if (!is_null($data)) {
+                        $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
-                    $limites = array();
-                    foreach ($data as $item) {
-                        if ($item->Resultado < $limiteC->Limite) {
-                            $limC = "< " . $limiteC->Limite;
+                        $limites = array();
+                        foreach ($data as $item) {
+                            if ($item->Resultado < $limiteC->Limite) {
+                                $limC = "< " . $limiteC->Limite;
 
-                            array_push($limites, $limC);
-                        } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = number_format($item->Resultado, 2, ".", ",");
+                                array_push($limites, $limC);
+                            } else {  //Si es mayor el resultado que el límite de cuantificación
+                                $limC = number_format($item->Resultado, 2, ".", ",");
 
-                            array_push($limites, $limC);
+                                array_push($limites, $limC);
+                            }
                         }
+
+                        $separador = "Valoración";
+                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                        $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoB.capturaBody', compact('valoracion','textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
+                    } else {
+                        $sw = false;
+                        $mpdf->SetJS('print("No se han llenado llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                     }
-
-                    $separador = "Valoración";
-                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
-                } else {
-                    $sw = false;
-                    $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
-                }
-            } else if ($parametro->Id_parametro == 74 || $parametro->Id_parametro == 76) { // DQO BAJA
-                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
-
-                if (!is_null($data)) {
-                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach ($data as $item) {
-                        if ($item->Resultado < $limiteC->Limite) {
-                            $limC = "< " . $limiteC->Limite;
-
-                            array_push($limites, $limC);
-                        } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = number_format($item->Resultado, 2, ".", ",");
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
-                    $separador = "Valoración";
-                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoB.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
-                } else {
-                    $sw = false;
-                    $mpdf->SetJS('print("No se han llenado llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
             } else if ($parametro->Id_parametro == 170) { // DQO SOLUBLE
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
@@ -1345,10 +1322,10 @@ class VolController extends Controller
                 } else {
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
-                } 
-            } else if ($parametro->Id_parametro == 12) { // NITROGENO TOTAL
+                }
+            } else if ($parametro->Id_parametro == 11) { // NITROGENO TOTAL
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
-                
+
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
                     $valNitrogeno = ValoracionNitrogeno::where('Id_lote', $id_lote)->first();
@@ -1371,7 +1348,7 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Id_parametro == 10 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
+            } else if ($parametro->Id_parametro == 9 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
@@ -1396,9 +1373,9 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Id_parametro == 11) { //NITROGENO ORGANICO
+            } else if ($parametro->Id_parametro == 10) { //NITROGENO ORGANICO
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
-
+                $valoracion = ValoracionNitrogeno::where('Id_lote',$id_lote)->first(); 
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
 
@@ -1415,7 +1392,7 @@ class VolController extends Controller
                         }
                     }
 
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaBody', compact('valoracion','textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
                 } else {
                     $sw = false;
                     $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
@@ -1449,90 +1426,64 @@ class VolController extends Controller
                 }
             }
         } else {   //---------------                     
-            if ($parametro->Id_parametro == 7 || $parametro->Id_parametro == 77) { // DQO
-                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
-                $model = DB::table('ViewParametros')->where('Id_parametro',7)->first();
+            if ($parametro->Id_parametro == 6 || $parametro->Id_parametro == 77) { // DQO
+                $valoracion = ValoracionDqo::where('Id_lote',$id_lote)->first();
+                if ($parametro->Tipo == 1) {
+                    $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
-                if (!is_null($data)) {
-                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
+                    if (!is_null($data)) {
+                        $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
-                    $limites = array();
-                    foreach ($data as $item) {
-                        if ($item->Resultado < $limiteC->Limite) {
-                            $limC = "< " . $limiteC->Limite;
+                        $limites = array();
+                        foreach ($data as $item) {
+                            if ($item->Resultado < $limiteC->Limite) {
+                                $limC = "< " . $limiteC->Limite;
 
-                            array_push($limites, $limC);
-                        } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = number_format($item->Resultado, 2, ".", ",");
+                                array_push($limites, $limC);
+                            } else {  //Si es mayor el resultado que el límite de cuantificación
+                                $limC = number_format($item->Resultado, 2, ".", ",");
 
-                            array_push($limites, $limC);
+                                array_push($limites, $limC);
+                            }
                         }
+
+                        $textProcedimiento = ReportesFq::where('Id_reporte', 25)->first();
+                        $separador = "Valoración";
+                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
+                        $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody', compact('valoracion','textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
+                    } else {
+                        $sw = false;
+                        $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                     }
-
-                    $textProcedimiento = ReportesFq::where('Id_reporte', 29)->first();
-                    $separador = "Valoración";
-                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength','model', 'limiteC', 'limites'));
                 } else {
-                    $sw = false;
-                    $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
-                }
-            } else if ($parametro->Id_parametro == 73 || $parametro->Id_parametro == 75) { // DQO ALTA
-                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
+                    $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
-                if (!is_null($data)) {
-                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
+                    if (!is_null($data)) {
+                        $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
-                    $limites = array();
-                    foreach ($data as $item) {
-                        if ($item->Resultado < $limiteC->Limite) {
-                            $limC = "< " . $limiteC->Limite;
+                        $limites = array();
+                        foreach ($data as $item) {
+                            if ($item->Resultado < $limiteC->Limite) {
+                                $limC = "< " . $limiteC->Limite;
 
-                            array_push($limites, $limC);
-                        } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = number_format($item->Resultado, 2, ".", ",");
+                                array_push($limites, $limC);
+                            } else {  //Si es mayor el resultado que el límite de cuantificación
+                                $limC = number_format($item->Resultado, 2, ".", ",");
 
-                            array_push($limites, $limC);
+                                array_push($limites, $limC);
+                            }
                         }
+
+                        $textProcedimiento = ReportesFq::where('Id_reporte', 26)->first();
+                        $separador = "Valoración";
+                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+
+                        $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoB.capturaBody', compact('valoracion','textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
+                    } else {
+                        $sw = false;
+                        $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                     }
-
-                    $textProcedimiento = ReportesFq::where('Id_reporte', 25)->first();
-                    $separador = "Valoración";
-                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
-                } else {
-                    $sw = false;
-                    $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
-                }
-            } else if ($parametro->Id_parametro == 74 || $parametro->Id_parametro == 76) { // DQO BAJA
-                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
-
-                if (!is_null($data)) {
-                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach ($data as $item) {
-                        if ($item->Resultado < $limiteC->Limite) {
-                            $limC = "< " . $limiteC->Limite;
-
-                            array_push($limites, $limC);
-                        } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = number_format($item->Resultado, 2, ".", ",");
-
-                            array_push($limites, $limC);
-                        }
-                    }
-
-                    $textProcedimiento = ReportesFq::where('Id_reporte', 26)->first();
-                    $separador = "Valoración";
-                    $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoB.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
-                } else {
-                    $sw = false;
-                    $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
             } else if ($parametro->Id_parametro == 170) { // DQO SOLUBLE
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
@@ -1618,9 +1569,9 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Id_parametro == 12) { // NITROGENO TOTAL
+            } else if ($parametro->Id_parametro == 11) { // NITROGENO TOTAL
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
-                $model = DB::table('ViewParametros')->where('Id_parametro',12)->first();
+                $model = DB::table('ViewParametros')->where('Id_parametro', 12)->first();
 
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
@@ -1643,15 +1594,15 @@ class VolController extends Controller
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength','model', 'limiteC', 'limites', 'valNitrogeno'));
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'model', 'limiteC', 'limites', 'valNitrogeno'));
                 } else {
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Id_parametro == 10 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
+            } else if ($parametro->Id_parametro == 9 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
-                if(!is_null($data)) {
+                if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
                     $valNitrogenoA = ValoracionNitrogeno::where('Id_lote', $id_lote)->first();
 
@@ -1667,7 +1618,7 @@ class VolController extends Controller
                             array_push($limites, $limC);
                         }
                     }
-                    
+
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 27)->first();
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textoProcedimiento->Texto);
@@ -1677,9 +1628,9 @@ class VolController extends Controller
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
                 }
-            } else if ($parametro->Id_parametro == 11) { // NITROGENO ORGANICO
+            } else if ($parametro->Id_parametro == 10) { // NITROGENO ORGANICO
                 $data = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
-
+                $valoracion = ValoracionNitrogeno::where('Id_lote',$id_lote)->first(); 
                 if (!is_null($data)) {
                     $dataLength = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $id_lote)->count();
 
@@ -1700,7 +1651,7 @@ class VolController extends Controller
                     $separador = "Valoración";
                     $textoProcedimiento = explode($separador, $textoProcedimiento->Texto);
 
-                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
+                    $htmlCaptura = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaBody', compact('valoracion','textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
                 } else {
                     $sw = false;
                     $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
@@ -1738,15 +1689,14 @@ class VolController extends Controller
 
         //HEADER-FOOTER******************************************************************************************************************         
         if ($sw === true) {
-            if ($parametro->Id_parametro == 7 || $parametro->Id_parametro == 77) { // DQO
-                $htmlHeader = view('exports.laboratorio.fq.volumetria.dqo.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.fq.volumetria.dqo.capturaFooter', compact('usuario', 'firma'));
-            } else if ($parametro->Id_parametro == 73 || $parametro->Id_parametro == 75) { // DQO ALTA Y DQO SOLUBLE ALTA
-                $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoA.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoA.capturaFooter', compact('usuario', 'firma'));
-            } else if ($parametro->Id_parametro == 74 || $parametro->Id_parametro == 76) { // DQO BAJA
-                $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoB.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoB.capturaFooter', compact('usuario', 'firma'));
+            if ($parametro->Id_parametro == 6 || $parametro->Id_parametro == 77) { // DQO
+                if ($parametro->Tipo == 1) {
+                    $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoA.capturaHeader', compact('fechaConFormato'));
+                    $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoA.capturaFooter', compact('usuario', 'firma'));
+                } else {
+                    $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoB.capturaHeader', compact('fechaConFormato'));
+                    $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoB.capturaFooter', compact('usuario', 'firma'));
+                }
             } else if ($parametro->Id_parametro == 170) { // DQO SOLUBLE 
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoSoluble.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoSoluble.capturaFooter', compact('usuario', 'firma'));
@@ -1756,16 +1706,16 @@ class VolController extends Controller
             } else if ($parametro->Id_parametro == 169) { // DQO SOLUBLE BAJA
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoSolubleBaja.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoSolubleBaja.capturaFooter', compact('usuario', 'firma'));
-            } else if ($parametro->Id_parametro == 10 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
+            } else if ($parametro->Id_parametro == 9 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoA.capturaFooter', compact('usuario', 'firma'));
-            } else if ($parametro->Id_parametro == 11) { // NITROGENO ORGANICO
+            } else if ($parametro->Id_parametro == 10) { // NITROGENO ORGANICO
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoO.capturaFooter', compact('usuario', 'firma'));
             } else if ($parametro->Id_parametro == 34 || $parametro->Id_parametro == 128 || $parametro->Id_parametro == 295) { // CLORO RESIDUAL LIBRE 
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.cloroR.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.cloroR.capturaFooter', compact('usuario', 'firma'));
-            } else if ($parametro->Id_parametro == 12) { // NITROGENO TOTAL
+            } else if ($parametro->Id_parametro == 11) { // NITROGENO TOTAL
                 $htmlHeader = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaHeader', compact('fechaConFormato'));
                 $htmlFooter = view('exports.laboratorio.fq.volumetria.nitrogenoTotal.capturaFooter', compact('usuario', 'firma'));
             }
@@ -1779,116 +1729,75 @@ class VolController extends Controller
             //Hoja 2
             $hoja2 = false;
 
-            if ($parametro->Id_parametro == 7 || $parametro->Id_parametro == 77) { // DQO
-                //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+            if ($parametro->Id_parametro == 6 || $parametro->Id_parametro == 77) { // DQO
+                if ($parametro->Tipo == 1) {
+                    //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
-                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
+                    $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
-                if (!is_null($data)) {
-                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
+                    if (!is_null($data)) {
+                        $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
-                    $limites = array();
-                    foreach ($data as $item) {
-                        if ($item->Resultado < $limiteC->Limite) {
-                            $limC = "< " . $limiteC->Limite;
+                        $limites = array();
+                        foreach ($data as $item) {
+                            if ($item->Resultado < $limiteC->Limite) {
+                                $limC = "< " . $limiteC->Limite;
 
-                            array_push($limites, $limC);
-                        } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = number_format($item->Resultado, 2, ".", ",");
+                                array_push($limites, $limC);
+                            } else {  //Si es mayor el resultado que el límite de cuantificación
+                                $limC = number_format($item->Resultado, 2, ".", ",");
 
-                            array_push($limites, $limC);
+                                array_push($limites, $limC);
+                            }
                         }
-                    }
 
-                    if ($proced === true) {
-                        $separador = "Valoración";
-                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                    } else {
-                        $textProcedimiento = ReportesFq::where('Id_reporte', 29)->first();
-                        $separador = "Valoración";
-                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                    }
-
-                    $htmlCaptura1 = view('exports.laboratorio.fq.volumetria.dqo.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
-                    $htmlHeader = view('exports.laboratorio.fq.volumetria.dqo.capturaHeader', compact('fechaConFormato'));
-                    $htmlFooter = view('exports.laboratorio.fq.volumetria.dqo.capturaFooter', compact('usuario', 'firma'));
-                }
-
-                //$hoja2 = true;
-
-            } else if ($parametro->Id_parametro == 73 || $parametro->Id_parametro == 75 || $parametro->Id_parametro == 168) { // DQO ALTA Y DQO SOLUBLE ALTA
-                //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
-
-                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
-
-                if (!is_null($data)) {
-                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach ($data as $item) {
-                        if ($item->Resultado < $limiteC->Limite) {
-                            $limC = "< " . $limiteC->Limite;
-
-                            array_push($limites, $limC);
-                        } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = number_format($item->Resultado, 2, ".", ",");
-
-                            array_push($limites, $limC);
+                        if ($proced === true) {
+                            $separador = "Valoración";
+                            $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                        } else {
+                            $textProcedimiento = ReportesFq::where('Id_reporte', 25)->first();
+                            $separador = "Valoración";
+                            $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
                         }
+
+                        $htmlCaptura1 = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
+                        $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoA.capturaHeader', compact('fechaConFormato'));
+                        $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoA.capturaFooter', compact('usuario', 'firma'));
                     }
+                } else {
+                    $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
-                    if ($proced === true) {
-                        $separador = "Valoración";
-                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                    } else {
-                        $textProcedimiento = ReportesFq::where('Id_reporte', 25)->first();
-                        $separador = "Valoración";
-                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                    }
+                    if (!is_null($data)) {
+                        $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
 
-                    $htmlCaptura1 = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
-                    $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoA.capturaHeader', compact('fechaConFormato'));
-                    $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoA.capturaFooter', compact('usuario', 'firma'));
-                }
+                        $limites = array();
+                        foreach ($data as $item) {
+                            if ($item->Resultado < $limiteC->Limite) {
+                                $limC = "< " . $limiteC->Limite;
 
-                //$hoja2 = true;
-            } else if ($parametro->Id_parametro == 74 || $parametro->Id_parametro == 76 || $parametro->Id_parametro == 169) { // DQO BAJA Y DQO SOLUBLE BAJA
-                //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
+                                array_push($limites, $limC);
+                            } else {  //Si es mayor el resultado que el límite de cuantificación
+                                $limC = number_format($item->Resultado, 2, ".", ",");
 
-                $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
-
-                if (!is_null($data)) {
-                    $dataLength = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->count();
-
-                    $limites = array();
-                    foreach ($data as $item) {
-                        if ($item->Resultado < $limiteC->Limite) {
-                            $limC = "< " . $limiteC->Limite;
-
-                            array_push($limites, $limC);
-                        } else {  //Si es mayor el resultado que el límite de cuantificación
-                            $limC = number_format($item->Resultado, 2, ".", ",");
-
-                            array_push($limites, $limC);
+                                array_push($limites, $limC);
+                            }
                         }
-                    }
 
-                    if ($proced === true) {
-                        $separador = "Valoración";
-                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                    } else {
-                        $textProcedimiento = ReportesFq::where('Id_reporte', 26)->first();
-                        $separador = "Valoración";
-                        $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                    }
+                        if ($proced === true) {
+                            $separador = "Valoración";
+                            $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                        } else {
+                            $textProcedimiento = ReportesFq::where('Id_reporte', 26)->first();
+                            $separador = "Valoración";
+                            $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
+                        }
 
-                    $htmlCaptura1 = view('exports.laboratorio.fq.volumetria.dqoB.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
-                    $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoB.capturaHeader', compact('fechaConFormato'));
-                    $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoB.capturaFooter', compact('usuario', 'firma'));
+                        $htmlCaptura1 = view('exports.laboratorio.fq.volumetria.dqoB.capturaBody1', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
+                        $htmlHeader = view('exports.laboratorio.fq.volumetria.dqoB.capturaHeader', compact('fechaConFormato'));
+                        $htmlFooter = view('exports.laboratorio.fq.volumetria.dqoB.capturaFooter', compact('usuario', 'firma'));
+                    }
                 }
-
-                //$hoja2 = true;
-            } else if ($parametro->Id_parametro == 12) { // NITROGENO TOTAL
+            } else if ($parametro->Id_parametro == 11) { // NITROGENO TOTAL
                 //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
@@ -1924,7 +1833,7 @@ class VolController extends Controller
                 }
 
                 //$hoja2 = true;
-            } else if ($parametro->Id_parametro == 10 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
+            } else if ($parametro->Id_parametro == 9 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
                 //$mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
 
                 $data = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
@@ -1998,11 +1907,7 @@ class VolController extends Controller
                 //$hoja2 = true;
             }
 
-            /* if($hoja2 === true){
-                $mpdf->SetHTMLHeader('{PAGENO}<br><br>' . $htmlHeader, 'O', 'E');
-                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-                $mpdf->WriteHTML($htmlCaptura1);
-            } */
+
         }
 
         if ($sw === true) {

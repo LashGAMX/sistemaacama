@@ -72,42 +72,42 @@
                     <td class="tableContent2">MILILITROS TITULADOS</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">10</td>
+                    <td class="tableContent2">{{@$valoracion->Vol_k2}}</td>
                 </tr>
 
                 <tr>
                     <td class="tableContent2">RESULTADO BLANCO</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">10</td>
+                    <td class="tableContent2">{{@$valoracion->Blanco}}</td>
                 </tr>
 
                 <tr>
                     <td class="tableContent2">VOLUMEN TITULADO DE FAS 1</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">20.1</td>
+                    <td class="tableContent2">{{$valoracion->Vol_titulado1}}</td>
                 </tr>
 
                 <tr>
                     <td class="tableContent2">VOLUMEN TITULADO DE FAS 2</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">20.1</td>
+                    <td class="tableContent2">{{$valoracion->Vol_titulado2}}</td>
                 </tr>
 
                 <tr>
                     <td class="tableContent2">VOLUMEN TITULADO DE FAS 3</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">20</td>
+                    <td class="tableContent2">{{$valoracion->Vol_titulado3}}</td>
                 </tr>
 
                 <tr>
                     <td class="tableContent2">RESULTADO MOLARIDAD REAL</td>
                     <td class=""></td>
                     <td class=""></td>
-                    <td class="tableContent2">0.12</td>
+                    <td class="tableContent2">{{$valoracion->Resultado}}</td>
                 </tr>
             </tbody>    
         </table>  

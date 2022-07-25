@@ -81,6 +81,7 @@ function getSolParametro()
         type: 'POST', //método de envio
         data: {
             id: idSol,
+            idPunto:$("#puntoMuestreo").val(),
             _token: $('input[name="_token"]').val(),
           },
         dataType: 'json', 
@@ -94,27 +95,30 @@ function getSolParametro()
           tab += '          <th>Parametro</th>';
           tab += '          <th>Unidad</th>';
           tab += '          <th>Resultado</th>';
-          tab += '          <th>Concentracion</th>';
-          tab += '          <th>Diagnostico</th>';
+        //   tab += '          <th>Concentracion</th>';
+        //   tab += '          <th>Diagnostico</th>';
           tab += '          <th>Liberado</th>';
           tab += '          <th>#</th>';
           tab += '          <th># Muestra</th>';
-          tab += '          <th>Opc</th> ';
           tab += '        </tr>';
           tab += '    </thead>';
           tab += '    <tbody>';
           $.each(response.model, function (key, item) {
               tab += '<tr>';
-              tab += '<td></td>';
+              tab += '<td>'+item.Norma+'</td>';
               tab += '<td>'+item.Parametro+'</td>';
-              tab += '<td></td>';
-              tab += '<td></td>';
-              tab += '<td></td>';
-              tab += '<td></td>';
-              tab += '<td></td>';
-              tab += '<td></td>';
-              tab += '<td></td>';
-              tab += '<td></td>';
+              tab += '<td>'+item.Unidad+'</td>';
+              tab += '<td>'+item.Resultado+'</td>';
+            //   tab += '<td></td>';
+            //   tab += '<td></td>';
+            if (item.Resultado != "NULL") {
+                tab += '<td>Sin Liberar</td>';
+            } else {
+                tab += '<td>Liberado</td>';
+            }
+              
+            tab += '<td>'+item.Num_muestra+'</td>';
+            tab += '<td>'+item.Codigo+'</td>';
               tab += '</tr>';
           }); 
           tab += '    </tbody>';

@@ -1357,6 +1357,7 @@ class FqController extends Controller
         $model->F_conversion = $request->E;
         $model->Vol_muestra = $request->I;
         $model->Resultado = ($request->R - $request->G);
+        $model->Analizo = Auth::user()->id;
         $model->save();
 
 
@@ -1396,6 +1397,7 @@ class FqController extends Controller
         $model->F_conversion = $request->E;
         $model->Vol_muestra = $request->I;
         $model->Resultado = $res;
+        $model->Analizo = Auth::user()->id;
         $model->save();
 
         $data = array(
