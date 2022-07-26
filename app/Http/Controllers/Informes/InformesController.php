@@ -306,8 +306,8 @@ class InformesController extends Controller
         //************************************** CALCULO DE NITROGENO KJELDAHL **********************************************
 
         //Consulta si existen los parámetros nitrogeno total y amoniacal para esta solicitud
-        $solParamAmoniacal = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 10)->first();
-        $solParamOrganico = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 11)->first();
+        $solParamAmoniacal = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 9)->first();
+        $solParamOrganico = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 10)->first();
 
         //Sí existen los parámetros para el cálculo kjeldahl
         if (!is_null($solParamAmoniacal) && !is_null($solParamOrganico)) {
@@ -550,6 +550,8 @@ class InformesController extends Controller
         /* $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
         $firma = $usuario->firma; */
         $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
+        $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion',$model[0]->Id_cotizacion)->first();
+        $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle',$cotModel->Tipo_reporte)->first(); 
         $aux = true;
         foreach($model as $item)
         {
@@ -878,8 +880,9 @@ class InformesController extends Controller
 
             $phProm /= $phModelLength;
         }
-
+        $limitesN = array();
         $limitesC = array();
+      
 
         //Recupera los límites de cuantificación de los parámetros        
         foreach ($solicitudParametros as $item) {
@@ -928,8 +931,25 @@ class InformesController extends Controller
 
                 array_push($limitesC, $limC);
             }
+            $aux = 0;   
+            switch ($item->Id_norma) {
+                case 1:
+                    $limNo = DB::table('limitepnorma_001')->where('Id_categoria',$tipoReporte->Id_detalle)->where('Id_parametro',$item->Id_parametro)->get();
+                    if($limNo->count())
+                    {
+                        $aux = $limNo[0]->Prom_Mmax;
+                    }else{
+                        $aux = "N/A";
+                    }
+                    break;
+                
+                default:
+                    
+                    break;
+            }
+            array_push($limitesN, $aux);
         }
-
+    
         $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
 
         //Recupera el valor correcto de la hora de muestreo
@@ -939,10 +959,10 @@ class InformesController extends Controller
             $horaMuestreo = 'COMPUESTA';
         }
 
-        //Recupera la obs de campo
+        //Recupera la obs de campo 
         $modelComp = CampoCompuesto::where('Id_solicitud', $idSol)->first();
         $obsCampo = $modelComp->Observaciones;
-        $campoGeneral = CampoGenerales::where('Id_solicitud',$idSol)->first();
+        $campoGeneral = CampoGenerales::where('Id_solicitud',$idSol)->first(); 
         $phCampo = PhMuestra::where('Id_solicitud',$idSol)->get();
         $swPh = false;
         foreach($phCampo as $item)
@@ -956,10 +976,10 @@ class InformesController extends Controller
        
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
-        $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo'));
+        $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC','limitesN', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
-        $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
+        $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud','cotModel','tipoReporte', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
         $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('solicitud', 'simbologiaParam', 'obsCampo','swPh','phCampo','campoGeneral'));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
@@ -4478,7 +4498,6 @@ class InformesController extends Controller
 
     //---------------------------------------
 
-
     public function custodiaInterna($idSol)
     {
         //Opciones del documento PDF
@@ -4543,12 +4562,12 @@ class InformesController extends Controller
 
         $limitesC = array();
         $limiteGrasas = "";
-        $limiteCGrasa = DB::table('parametros')->where('Id_parametro', 14)->first();              
+        $limiteCGrasa = DB::table('parametros')->where('Id_parametro', 13)->first();              
 
         //Calcula el promedio ponderado de las grasas y aceites
         //if ($gaMenorLimite == false) {
             // $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 14)->get();
-            $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', 6)->where('Id_parametro', 14)->get();
+            $modelParamGrasas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();
             $modelParamGrasasLength = $modelParamGrasas->count();
 
             //Calcula promedio ponderado de G y A
@@ -4609,11 +4628,11 @@ class InformesController extends Controller
         }                
 
         $limiteColiformes = "";
-        $limiteColiformes = DB::table('parametros')->where('Id_parametro', 13)->first();        
+        $limiteColiformes = DB::table('parametros')->where('Id_parametro', 12)->first();        
         $mediaAritmeticaColi = 0;
         $mAritmeticaColi = "";        
         
-            $modelParamColiformes = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();
+            $modelParamColiformes = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 12)->get();
             $modelParamColiformesLength = $modelParamColiformes->count();
             $res = 0;
 
@@ -4664,11 +4683,11 @@ class InformesController extends Controller
             $limiteC = DB::table('parametros')->where('Id_parametro', $item->Id_parametro)->first();
 
             if ($item->Resultado < $limiteC->Limite) {
-                if($item->Id_parametro == 27){
+                if($item->Id_parametro == 26){
                     $limC = number_format($promGastos, 2, ".", ",");
-                }else if($item->Id_parametro == 15){ //pH
+                }else if($item->Id_parametro == 14){ //pH
                     $limC = number_format($promPh, 1, ".", ",");
-                }else if($item->Id_parametro == 98){ //temperatura
+                }else if($item->Id_parametro == 97){ //temperatura
                     $limC = number_format($promTemp, 2, ".", ",");
                 }else{
                     $limC = "< " . $limiteC->Limite;
@@ -4676,11 +4695,11 @@ class InformesController extends Controller
 
                 array_push($limitesC, $limC);
             } else {  //Si es mayor el resultado que el límite de cuantificación
-                if($item->Id_parametro == 27){ //Gasto
+                if($item->Id_parametro == 26){ //Gasto
                     $limC = number_format($promGastos, 2, ".", ",");                    
-                }if($item->Id_parametro == 15){ //pH
+                }if($item->Id_parametro == 24){ //pH
                     $limC = number_format($promPh, 1, ".", ",");                    
-                }else if($item->Id_parametro == 98){ //temperatura
+                }else if($item->Id_parametro == 97){ //temperatura
                     $limC = number_format($promTemp, 2, ".", ",");
                 }else{
                     $limC = $item->Resultado;
@@ -4694,7 +4713,7 @@ class InformesController extends Controller
         $paqueteLength = $paquete->count();
 
         $responsables = array();
-
+ 
         foreach ($paquete as $item) {
             //INSTRUCCIÓN TEMPORAL
             // if (!is_null($item)) {

@@ -133,28 +133,30 @@ function getLoteCapturaMicro() {
             tab += '    <tbody>';
             $.each(response.detalle, function (key, item) {
                 tab += '<tr>';
-                if (item.Liberado != 0) {
+                if (item.Liberado == 0) {
                     status = "";
+                    clase = "btn btn-success";
                 } else {
                     status = "disabled";
+                    clase = "btn btn-warning";
                 }
                 switch ($("#formulaTipo").val()) {
                     case "12":
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleCol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
-                        console.log("Entro a 13");
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleCol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
+                        console.log("Entro a 12");
                         break;
                     case "262":
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleCol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleCol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                         break;
                     case "5":
                         if (item.Id_control == 5) {
-                            tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleDbo(' + item.Id_detalle + ', 2);"data-toggle="modal" data-target="#modalCapturaDboBlanco">Capturar</button>';
+                            tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDbo(' + item.Id_detalle + ', 2);"data-toggle="modal" data-target="#modalCapturaDboBlanco">Capturar</button>';
                         } else {
-                            tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleDbo(' + item.Id_detalle + ', 1);" data-toggle="modal" data-target="#modalCapturaDbo">Capturar</button>';
+                            tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDbo(' + item.Id_detalle + ', 1);" data-toggle="modal" data-target="#modalCapturaDbo">Capturar</button>';
                         }
                         break;
                     case "16":
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleHH(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaHH">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleHH(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaHH">Capturar</button>';
                         break;
                     default:
                         console.log("Entro a al limbo");

@@ -492,3 +492,8 @@ INNER JOIN localidades as loc
 ON cot.Localidad = loc.Id_localidad
 INNER JOIN estados as est
 ON cot.Estado = est.Id_estado
+
+/* ViewDetalleCuerpos */
+CREATE VIEW ViewDetalleCuerpos as SELECT det.*,tipo.Cuerpo FROM detalle_tipoCuerpos as det
+INNER JOIN tipo_cuerpo as tipo
+ON det.Id_tipo = tipo.Id_tipo

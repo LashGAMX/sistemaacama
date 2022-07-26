@@ -49,11 +49,7 @@
                             @endif
                         </td>
                         <td class="tableContent bordesTablaBody">
-                            @if (strpos(@$solicitudParametros[$i]->Unidad, 'AUS') !== 0)
-                                VALOR
-                            @else
-                                AUSENTE
-                            @endif
+                            {{ @$limitesN[$i] }}
                         </td>
                         <td class="tableContent bordesTablaBody" width="20.6%">
                             {{@$solicitudParametros[$i]->name}}

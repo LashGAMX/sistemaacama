@@ -12,13 +12,11 @@ class Limites extends Component
     protected $queryString = ['search' => ['except' => '']];
     public function render()
     {
-        $model = DB::table('ViewParametros')
+        $model = DB::table('ViewNormaParametro')
         ->where('Id_norma',$this->idNorma)
         ->where('Parametro','LIKE',"%{$this->search}%")
         ->get();
         return view('livewire.analisis-q.limites',compact('model'));
-
-        
        
     }
     public function details($idParametro)

@@ -14,7 +14,6 @@
     <div class="row">
         <div class="col-md-12">
             <table id="tableCadena" class="display compact cell-border" style="width:100%">
-                <button class="btn btn-success" id="btnCadena">Imprimir</button>
                 <thead>
                     <tr>
                         <th>Id</th>

@@ -67,7 +67,7 @@ class CotizacionController extends Controller
         $descargas = DB::table('tipo_descargas')->get();
         $metodoPago = DB::table('metodo_pago')->get();
         $estados = DB::table('estados')->get();
-        $categorias001 = DB::table('categorias001')->get();
+        $categorias001 = DB::table('ViewDetalleCuerpos')->get();
 
         
 

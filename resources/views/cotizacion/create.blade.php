@@ -247,10 +247,10 @@
                                     <select name="tipoReporte" id="tipoReporte" class="form-control">
                                         <option value="0">Sin seleccionar</option>
                                         @foreach (@$categorias001 as $item)
-                                            @if ($item->Id_categoria == @$model->Tipo_reporte)
-                                                <option value="{{$item->Id_categoria}}" selected>{{$item->Categoria}}</option>
+                                            @if ($item->Id_detalle == @$model->Tipo_reporte)
+                                                <option value="{{$item->Id_detalle}}" selected>{{$item->Detalle}} ({{$item->Tipo}})</option>
                                             @else
-                                                <option value="{{$item->Id_categoria}}">{{$item->Categoria}}</option>
+                                                <option value="{{$item->Id_detalle}}">{{$item->Detalle}} ({{$item->Tipo}})</option>
                                             @endif
                                         @endforeach
                                     </select>

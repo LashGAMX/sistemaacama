@@ -9,7 +9,7 @@ use App\Models\LoteDetalleEspectro;
 use App\Models\Solicitud;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
-
+ 
 class CadenaController extends Controller
 {
     //cadena  
@@ -44,14 +44,52 @@ class CadenaController extends Controller
         $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
         $paraModel = DB::table('ViewParametros')->where('Id_parametro', $codigoModel->Id_parametro)->first();
         switch ($paraModel->Id_area) {
-            case 2:
+            case 2: // Metales
                 $model = LoteDetalle::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
                 break;
-            case 16:
-                $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
-                    ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
+            case 16: // Espectro
+                        $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
+                        ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();    
                 break;
+            case 14: // Volumetria
+                if ($codigoModel->Id_parametro == 11) {
+                    $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)
+                    ->orWhere('Id_parametro',9)
+                    ->orWhere('Id_parametro',10)
+                    ->orWhere('Id_parametro',83)
+                ->where('Id_control', 1)->get();
+                } else if ($codigoModel->Id_parametro == 6) {
+                    $model = DB::table('ViewLoteDetalleDqo')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)
+                    ->where('Id_control', 1)->get();
+                }
+                break;
+            case "13": // Grasas y Aceites
+                $model = DB::table('ViewLoteDetalleGA')->where('Id_analisis',$codigoModel->Id_solicitud)
+                ->where('Id_parametro',$codigoModel->Id_parametro)->get();
+                break;
+            case 6:
+                if ($codigoModel->Id_parametro == 5) {
+                    $model = DB::table('ViewLoteDetalleDbo')->where('Id_analisis',$codigoModel->Id_solicitud)
+                    ->where('Id_control',1)
+                    ->where('Id_parametro',$codigoModel->Id_parametro)->get();
+                } else if($codigoModel->Id_parametro == 12) {
+                    $model = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis',$codigoModel->Id_solicitud)
+                    ->where('Id_control',1)
+                    ->where('Id_parametro',$codigoModel->Id_parametro)->get();
+                } else if($codigoModel->Id_parametro == 16) {
+                    $model = DB::table('ViewLoteDetalleHH')->where('Id_analisis',$codigoModel->Id_solicitud)
+                    ->where('Id_control',1)
+                    ->where('Id_parametro',$codigoModel->Id_parametro)->get();
+                }
+                break;
+                case 15: // Solidos
+                        $model = DB::table('ViewLoteDetalleSolidos')->where('Id_analisis',$codigoModel->Id_solicitud)
+                        ->where('Id_control',1)
+                        ->where('Id_parametro',$codigoModel->Id_parametro)->get();
+                    break;
                 // case 6: // Microbiologia
                 //         if($codigoModel->Id_parametro == 13)
                 //         {
@@ -78,6 +116,7 @@ class CadenaController extends Controller
         }
         $data = array(
             'paraModel' => $paraModel,
+            'codigoModel' => $codigoModel,
             'model' => $model,
         );
         return response()->json($data);

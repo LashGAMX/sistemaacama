@@ -343,7 +343,7 @@ class MbController extends Controller
                     $metodoCorto = 1;
 
                     $model = LoteDetalleColiformes::find($request->idDetalle);
-                    $model->Tipo = $tipo;
+                    $model->Tipo = 1;
                     $model->Dilucion1 = $request->D1;
                     $model->Dilucion2 = $request->D2;
                     $model->Dilucion3 = $request->D3;
@@ -951,7 +951,17 @@ class MbController extends Controller
         $paraModel = LoteAnalisis::find($request->idLote);
         switch ($paraModel->Id_tecnica) {
             case 12: //todo Número más probable (NMP), en tubos múltiples
+                $model = LoteDetalleColiformes::find($request->idMuestra);
+                $model->Liberado = 1;
+                if ($model->Resultado != null) {
+                    $sw = true;
+                    $model->save();
+                }
 
+                $model = LoteDetalleColiformes::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
+                $loteModel = LoteAnalisis::find($request->idLote);
+                $loteModel->Liberado = $model->count();
+                $loteModel->save();
                 break;
             case 51: //todo Número más probable (NMP), en tubos múltiples
 

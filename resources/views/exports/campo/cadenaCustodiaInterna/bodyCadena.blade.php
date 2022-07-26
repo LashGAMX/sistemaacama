@@ -1,3 +1,4 @@
+
  <!DOCTYPE html>    
 <html lang="en">
 <head>
@@ -86,129 +87,99 @@
             <div class="col-12">
                 3. RESULTADOS 
             </div>
-
-            <div class="col-md-12">
+            <div class="divFlex">
                 <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}" cellpadding="0" cellspacing="0" width="100%" >
-
-                    @php                        
-                        $semaforo = 0;                        
-
-                        if($paramResultadoLength >= 0 && $paramResultadoLength < 10){
-                            $semaforo = 1;
-                        }else if($paramResultadoLength >= 10 && $paramResultadoLength < 20){
-                            $semaforo = 2;
-                        }else if($paramResultadoLength >= 20 && $paramResultadoLength < 30){
-                            $semaforo = 3;
-                        }else if($paramResultadoLength >= 30){
-                            $semaforo = 4;
-                        }
-                    @endphp
-
-                    <thead>
+                    <tbody>
                         <tr>
-                            @if ($paramResultadoLength >= 0 && $paramResultadoLength < 10)
-                                <td class="negrita bordesTabla anchoColumna125 fontSize8 fontCalibri">Parametro</td>
-                                <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
-                            @endif
-
-                            @if ($paramResultadoLength >= 10 && $paramResultadoLength < 20)
-                                <td class="negrita bordesTabla fontSize8 anchoColumna125">Parametro</td>
-                                <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
-                                <td class="negrita bordesTablaSupInfDer fontSize8 anchoColumna125">Parametro</td>
-                                <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
-                            @endif
-                            
-                            @if ($paramResultadoLength >= 20 && $paramResultadoLength < 30)
-                                <td class="negrita bordesTabla fontSize8 anchoColumna125">Parametro</td>
-                                <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
-                                <td class="negrita bordesTablaSupInfDer fontSize8 anchoColumna125">Parametro</td>
-                                <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
-                                <td class="negrita bordesTablaSupInfDer fontSize8 anchoColumna125">Parametro</td>
-                                <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
-                            @endif
-
-                            @if ($paramResultadoLength >= 30)
-                                <td class="negrita bordesTabla fontSize8 anchoColumna125">Parametro</td>
-                                <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
-                                <td class="negrita bordesTablaSupInfDer fontSize8 anchoColumna125">Parametro</td>
-                                <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
-                                <td class="negrita bordesTablaSupInfDer fontSize8 anchoColumna125">Parametro</td>
-                                <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
-                                <td class="negrita bordesTablaSupInfDer fontSize8 anchoColumna125">Parametro</td>
-                                <td class="negrita justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">Resultado</td>
-                            @endif                            
+                            <td style="width: 30%;">
+                                <table id="tabPara" class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}" cellpadding="0" cellspacing="0" width="100%"  border="1">
+                                    <thead>
+                                        <tr>
+                                            <th>Parametro</th>
+                                            <th>Resultado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for ($i = 0; $i < 9; $i++)
+                                        <tr>    
+                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}}</td>
+                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
+                                            @if (strpos(@$limitesC[$i], "< AUS") !== 0)
+                                                {{@$limitesC[$i]}}
+                                            @else
+                                                AUSENTE
+                                            @endif 
+                                            </td>
+                                        </tr>                             
+                                                                                                                     
+                                        </tr>
+                                   
+                                    @endfor     
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td style="width: 30%;">
+                                <table  id="tabPara" class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}" cellpadding="0" cellspacing="0" width="100%" border="1">
+                                    <thead>
+                                        <tr>
+                                            <th>Parametro</th>
+                                            <th>Resultado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for ($i = 10; $i < 19; $i++)
+                                        <tr>    
+                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}}</td>
+                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
+                                            @if (strpos(@$limitesC[$i], "< AUS") !== 0)
+                                                {{@$limitesC[$i]}}
+                                            @else
+                                                AUSENTE
+                                            @endif 
+                                            </td>
+                                        </tr>                             
+                                                                                                                     
+                                        </tr>
+                             
+                                    @endfor     
+                                    </tbody>
+                                </table>
+                            </td>
+                            <td style="width: 30%;">
+                                <table  id="tabPara" class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}" cellpadding="0" cellspacing="0" width="100%"  border="1">
+                                    <thead>
+                                        <tr>
+                                            <th>Parametro</th>
+                                            <th>Resultado</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for ($i = 19; $i < 30; $i++)
+                                            <tr>    
+                                                @if (@$paramResultado[$i]->Parametro == "")
+                                                   
+                                                @else
+                                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}}</td>
+                                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
+                                                    @if (strpos(@$limitesC[$i], "< AUS") !== 0)
+                                                        {{@$limitesC[$i]}}
+                                                    @else 
+                                                        AUSENTE
+                                                    @endif 
+                                                    </td>
+                                                @endif
+                                                </td>                                                                    
+                                            </tr>
+                                            
+                                        @endfor     
+                                    </tbody>
+                                </table>
+                            </td>
                         </tr>
-                    </thead>
-                    @php
-                        $i = 0;
-                    @endphp
-                    <tbody>                                                                              
-                        @for ($cont = 0; $cont < $paramResultadoLength; $cont+=$semaforo)
-                            <tr>                                
-                                @if ($paramResultadoLength < 10)
-                                    <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{@$paramResultado[$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">{{$limitesC[$i]}}</td>
-                                @endif                                
-                                                                
-                                @if ($paramResultadoLength >= 10 && $paramResultadoLength < 20)                                    
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">{{$limitesC[$i]}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$limitesC[$i+1]}}</td>
-
-                                @endif                                
-                                                                
-                                @if ($paramResultadoLength >= 20 && $paramResultadoLength <= 30)
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">{{$limitesC[$i]}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+1]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11">{{$limitesC[$i+1]}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i+2]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$limitesC[$i+2]}}</td>
-                                @endif                                
-                                
-                                @if ($paramResultadoLength >= 30)
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize11" style="padding: 0.4%">
-                                        @if (strpos(@$limitesC[$i], "< AUS") !== 0)
-                                            {{@$limitesC[$i]}}
-                                        @else
-                                            AUSENTE
-                                        @endif
-                                    </td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[9+$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                        @if (strpos(@$limitesC[9+$i], "< AUS") !== 0)
-                                            {{@$limitesC[9+$i]}}
-                                        @else
-                                            AUSENTE
-                                        @endif
-                                    </td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[18+$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                        @if (strpos(@$limitesC[18+$i], "< AUS") !== 0)
-                                            {{@$limitesC[18+$i]}}
-                                        @else
-                                            AUSENTE
-                                        @endif
-                                    </td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[27+$i]->Parametro}}</td>
-                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                        @if (strpos(@$limitesC[27+$i], "< AUS") !== 0)
-                                            {{@$limitesC[27+$i]}}
-                                        @else
-                                            AUSENTE
-                                        @endif                                                                            
-                                    </td>
-                                @endif                                                                                     
-                            </tr>
-                            @php
-                                $i++;
-                            @endphp
-                        @endfor                        
-                    </tbody>                    
+                    </tbody>
                 </table>
             </div>
+
   
 
             <br>
@@ -230,7 +201,6 @@
                                 @php
                                     /*$bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($model->Folio_servicio, "C39");*/
                                     /*$url = url()->current();*/
-
                                     $url = "https://sistemaacama.com.mx/clientes/exportPdfCustodiaInterna/".@$model->Id_solicitud;
                                     $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                                 @endphp
@@ -243,7 +213,7 @@
             </div>
 
             <div class="col-md-12" style="border:1px solid">
-            </div>
+            </div> 
 
             <div class="col-md-12">
                 <table class="table table-sm fontSize7" width="100%">
@@ -261,3 +231,4 @@
     </div>    
 </body>
 </html>
+
