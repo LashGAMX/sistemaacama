@@ -963,7 +963,7 @@ class MbController extends Controller
                 $loteModel->Liberado = $model->count();
                 $loteModel->save();
                 break;
-            case 51: //todo Número más probable (NMP), en tubos múltiples
+            case 51: //todo Número más probable (NMP), en tubos múltiples //coliformes totales
 
                 $sw = true;
                 break;

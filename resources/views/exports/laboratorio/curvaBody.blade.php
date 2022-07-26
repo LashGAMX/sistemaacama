@@ -134,7 +134,7 @@
         <div class="subContenedor5">            
             <span class="verifEspectro">CURVA DE CALIBRACIÓN</span>
             <br>
-            <span class="elementosCurvaCalib">Ver. RE-12-001-24-1 Bit.3 Folio: 378. (Bitacora para la preparación de estándares y curvas de calibración)</span>
+            <span class="elementosCurvaCalib">Ver. RE-12-001-24-1 Bit.3 Folio: 378. {{@$estandares}} (Bitacora para la preparación de estándares y curvas de calibración)</span>
 
             <table autosize="1" class="table table-borderless" id="tablaDatos">
                 <thead>

@@ -133,7 +133,7 @@ function getLoteCapturaMicro() {
             tab += '    <tbody>';
             $.each(response.detalle, function (key, item) {
                 tab += '<tr>';
-                if (item.Liberado == 0) {
+                if (item.Liberado == null) {
                     status = "";
                     clase = "btn btn-success";
                 } else {

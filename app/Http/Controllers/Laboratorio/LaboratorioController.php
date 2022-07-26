@@ -42,7 +42,7 @@ class LaboratorioController extends Controller
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 48,
-            'margin_bottom' => 45,
+            'margin_bottom' => 40,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
@@ -200,8 +200,20 @@ class LaboratorioController extends Controller
         //if(!is_null($formula)){
             $limiteCuantificacion = DB::table('parametros')->where('Parametro', $formulaSelected)->first();
         //}
+
+    //     $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+    //     ->where('Id_area', $request->area)
+    //     ->where('Id_parametro', $request->parametro)->get();
+
+    // $concent = ConcentracionParametro::where('Id_parametro', $request->parametro)->get();
+    // $bmr = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)
+    //     ->whereDate('Fecha_fin', '>=', $today)
+    //     ->where('Id_area', $request->area)
+    //     ->where('Id_parametro', $request->parametro)->first();
+        $fecha = new Carbon($dataLote->Fecha);
+        $today = $fecha->toDateString();
                 
-        $estandares = estandares::where('Id_parametro', $formula->Id_parametro)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->get();
+        $estandares = estandares::where('Id_parametro', $formula->Id_parametro)->whereDate('Fecha_inicio','>=',$today)->whereDate('Fecha_fin','<=',$today)->get();
         $topeEstandar = 0;
 
         if(is_null($estandares)){
@@ -217,7 +229,7 @@ class LaboratorioController extends Controller
             }
         }
 
-        $bmr = CurvaConstantes::where('Id_parametro', $formula->Id_parametro)->where('Fecha_inicio','>=',$dataLote->Fecha)->where('Fecha_fin','<=',$dataLote->Fecha)->first();
+        $bmr = CurvaConstantes::where('Id_parametro', $formula->Id_parametro)->whereDate('Fecha_inicio','>=',$today)->whereDate('Fecha_fin','<=',$today)->first();
         if(is_null($bmr)){
             $bmr = CurvaConstantes::where('Id_lote', 0)->first();
             echo '<script> alert("Valores predeterminados para las curvas. Rellena estos datos.") </script>';
@@ -269,21 +281,7 @@ class LaboratorioController extends Controller
             echo '<script> alert("Valores predeterminados para la sección Verificación del espectrofotómetro. Rellena estos datos.") </script>';
         }
 
-        /* if(is_null($estandares) || is_null($bmr) || is_null($tecnicaMetales) || is_null($blancoMetales) || is_null($estandarMetales) || is_null($verificacionMetales)){
-            $semaforoHoja2 = false;
-        } */
 
-        //if($semaforoHoja2 === true){
-
-            //if($semaforo === true && $semaforoHoja1 === true && $semaforoHoja2 === true){
-                //Crea el documento PDF final
-                $sw = true;
-            //}else{            
-                //echo "Fallo al generar el PDF, faltan valores por llenar o no se encontró un lote válido.";
-            //    echo '<script> alert("Faltan valores por llenar"); </script>';
-            //    $sw = false;
-            //}
-            
             $htmlCurva2 = view('exports.laboratorio.curvaBody', compact('textoProcedimiento', 'estandares', 'topeEstandar', 'limiteCuantificacion', 'bmr', 
             'tecnicaMetales', 'blancoMetales', 'estandarMetales', 'verificacionMetales', 'fechaConFormato', 'soloFechaFormateada', 
             'soloHoraFormateada', 'fechaPreparacion','sw', 'hora', 'tecnicaUsada'));

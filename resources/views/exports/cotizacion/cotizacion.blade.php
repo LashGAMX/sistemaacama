@@ -42,7 +42,6 @@
                 <p class="fontNormal fontCalibri fontSize12" align="right">{{\Carbon\Carbon::parse(@$model->created_at)->format('d/m/Y')}}</p>
                 <p>ME PERMITO SOMETER A SU AMABLE CONSIDERACIÓN LA SIGUIENTE COTIZACIÓN DEL SERVICIO DE MUESTREO Y ANÁLISIS DE AGUA DE ACUERDO A:</p>
             </div>
-
             <div class="col-md-12">
                 <table class="table table-borderless" style="border:none" width="100%">
                     <tr>
