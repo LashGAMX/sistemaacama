@@ -505,13 +505,24 @@ class InformesController extends Controller
 
         //Recupera la obs de campo
         $obsCampo = $temperaturaC->Observaciones;
+        $campoGeneral = CampoGenerales::where('Id_solicitud',$idSol)->first();
+        $phCampo = PhMuestra::where('Id_solicitud',$idSol)->get();
+        $swPh = false;
+        foreach($phCampo as $item)
+        {
+            if($item->Materia == "Presente"){
+                $swPh = true;
+            }else if($item->Olor == "Si"){
+                $swPh = true;
+            }
+        }
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'tempCompuesta', 'sumaCaudalesFinal', 'resColi', 'sParam'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'modelProcesoAnalisis', 'horaMuestreo'));
-        $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam', 'temperaturaC', 'obsCampo'));
+        $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam', 'temperaturaC', 'obsCampo','swPh','phCampo','campoGeneral'));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -524,16 +535,16 @@ class InformesController extends Controller
     public function pdfConComparacion($idSol,$idPunto)
     {
         //Opciones del documento PDF
-        // $mpdf = new \Mpdf\Mpdf([
-        //     'orientation' => 'P',
-        //     'format' => 'letter',
-        //     'margin_left' => 10,
-        //     'margin_right' => 10,
-        //     'margin_top' => 76,
-        //     'margin_bottom' => 125,
-        //     'defaultheaderfontstyle' => ['normal'],
-        //     'defaultheaderline' => '0'
-        // ]);
+        $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'P',
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 76,
+            'margin_bottom' => 105,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
 
         //Recupera el nombre de usuario y firma
         /* $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
@@ -943,34 +954,29 @@ class InformesController extends Controller
             }
         }
        
-        // //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
-        // $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'tempCompuesta', 'sumaCaudalesFinal', 'resColi', 'sParam'));
 
-        // //HEADER-FOOTER******************************************************************************************************************                 
-        // $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'modelProcesoAnalisis', 'horaMuestreo'));
-        // $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam', 'temperaturaC', 'obsCampo'));
+        //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
+        $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo'));
 
-        // $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
-        // $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-        // $mpdf->WriteHTML($htmlInforme);
+        //HEADER-FOOTER******************************************************************************************************************                 
+        $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
+        $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('solicitud', 'simbologiaParam', 'obsCampo','swPh','phCampo','campoGeneral'));
 
-        // $mpdf->CSSselectMedia = 'mpdf';
-        // $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');   
-
-        $mpdf = new \Mpdf\Mpdf([
-            'format' => 'letter',
-            'margin_left' => 20, 
-            'margin_right' => 20,
-            'margin_top' => 10,
-            'margin_bottom' => 18
-        ]);
-        $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'modelProcesoAnalisis', 'horaMuestreo'));
-        $htmlInforme = view('exports.informes.conComparacion.informeConComparacion',  
-        compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo','solicitud','direccion', 'cliente','numOrden', 'horaMuestreo', 'modelProcesoAnalisis','simbologiaParam', 'obsCampo','campoGeneral','swPh'));
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
-        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->WriteHTML($htmlInforme);
-        $mpdf->Output();
+
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');   
+
+    
+        // $htmlHeader = view('exports.informes.conComparacion.informeConComparacionHeader');
+        // $htmlInforme = view('exports.informes.conComparacion.informeConComparacion',  
+        // compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo','solicitud','direccion', 'cliente','numOrden', 'horaMuestreo', 'modelProcesoAnalisis','simbologiaParam', 'obsCampo','campoGeneral','swPh'));
+        // $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
+        // $mpdf->CSSselectMedia = 'mpdf';
+        // $mpdf->WriteHTML($htmlInforme);
+        // $mpdf->Output();
     }
 
     //****************ESTAS FUNCIONES SE LLAMAN A TRAVÉS DE LA RUTA PÚBLICA HACIENDO USO DEL CÓDIGO QR
@@ -984,7 +990,7 @@ class InformesController extends Controller
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 76,
-            'margin_bottom' => 125,
+            'margin_bottom' => 120,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);        
