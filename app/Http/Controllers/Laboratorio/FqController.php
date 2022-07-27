@@ -307,6 +307,11 @@ class FqController extends Controller
             $sw = true;
             $model->save();
         }
+        
+        $modelCod = CodigoParametros::find($model->Id_codigo);
+        $modelCod->Resultado = $model->Resultado;
+        $modelCod->Analizo = $model->Analizo;
+        $modelCod->save();
 
         $model = LoteDetalleEspectro::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
         $loteModel = LoteAnalisis::find($request->idLote);
@@ -1011,8 +1016,6 @@ class FqController extends Controller
                     'Peso_muestra2' => 0,
                     'Peso_constante1' => 0,
                     'Peso_constante2' => 0,
-                    'Vol_muestra' => 0,
-                    'Factor_conversion' => 0,
                     'Observacion' => '',
                 ]);
                 $detModel = LoteDetalleSolidos::where('Id_lote', $request->idLote)->get();
@@ -1494,6 +1497,7 @@ class FqController extends Controller
         }
         $modelCod = CodigoParametros::find($model->Id_codigo);
         $modelCod->Resultado = $model->Resultado;
+        $modelCod->Analizo = $model->Analizo;
         $modelCod->save();
 
         $model = LoteDetalleGA::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
@@ -1647,6 +1651,7 @@ class FqController extends Controller
         $model->Vol_muestra = $request->volumen;
         $model->Factor_conversion = $request->factor;
         $model->Resultado = $request->R;
+        $model->Analizo = Auth::user()->id;
         $model->save();
 
         $data = array(
@@ -1673,12 +1678,13 @@ class FqController extends Controller
         $model->Masa1 = $request->masa1;
         $model->Masa2 = $request->masa2;
         $model->Peso_muestra1 = $request->pesoConMuestra1;
-        $model->Peso_muestra2 = $request->PesoConMuestra2;
+        $model->Peso_muestra2 = $request->pesoConMuestra2;
         $model->Peso_constante1 = $request->pesoC1;
         $model->Peso_constante2 = $request->pesoC2;
         $model->Vol_muestra = $request->volumen;
         $model->Factor_conversion = $request->factor;
         $model->Resultado = $res;
+        $model->Analizo = Auth::user()->id;
         $model->save();
 
         $data = array(
@@ -1694,6 +1700,7 @@ class FqController extends Controller
         $model->Resultado = $request->resultado;
         $model->Masa1 = $request->val1;
         $model->Masa2 = $request->val2;
+        $model->Analizo = Auth::user()->id;
         $model->save();
 
         $data = array(
@@ -1751,6 +1758,10 @@ class FqController extends Controller
             $sw = true;
             $model->save();
         }
+        $modelCod = CodigoParametros::find($model->Id_codigo);
+        $modelCod->Resultado = $model->Resultado;
+        $modelCod->Analizo = $model->Analizo;
+        $modelCod->save();
 
         $model = LoteDetalleSolidos::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
         $loteModel = LoteAnalisis::find($request->idLote);
@@ -2558,7 +2569,7 @@ class FqController extends Controller
         if (!is_null($textProcedimiento)) {
             //Hoja1
             $proced = true;
-            if ($parametro->Id_parametro == 44) { //SDF
+            if ($parametro->Id_parametro == 43) { //SDF
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
@@ -2584,7 +2595,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro == 89 || $parametro->Id_parametro == 90 || $parametro->Id_parametro == 92 || $parametro->Id_parametro == 121) { //POR REVISAR EN LA TABLA DE DATOS; SDT
+            } else if ($parametro->Id_parametro == 88 || $parametro->Id_parametro == 91) { //POR REVISAR EN LA TABLA DE DATOS; SDT
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
@@ -2605,13 +2616,13 @@ class FqController extends Controller
                     }
 
                     //Recupera el nombre del parámetro solidos disueltos totales
-                    $paramSt = Parametro::where('Id_parametro', 91)->first();
+                    $paramSt = Parametro::where('Id_parametro', 98)->first();
 
                     $htmlCaptura = view('exports.laboratorio.fq.ga.sdt.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'paramSt', 'limiteC', 'limites'));
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro == 45) { //SDV
+            } else if ($parametro->Id_parametro == 44) { //SDV
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
@@ -2638,7 +2649,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro == 3 || $parametro->Id_parametro == 95) { //s.s.
+            } else if ($parametro->Id_parametro == 3 || $parametro->Id_parametro == 94 || $parametro->Id_parametro == 293) { //s.s.
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
@@ -2662,7 +2673,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro == 46) { //POR REVISAR EN LA TABLA DE DATOS; ssf
+            } else if ($parametro->Id_parametro == 45) { //POR REVISAR EN LA TABLA DE DATOS; ssf
                 $horizontal = 'P';
 
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
@@ -2690,7 +2701,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro == 4 || $parametro->Id_parametro == 93) { //SST
+            } else if ($parametro->Id_parametro == 3 || $parametro->Id_parametro == 92) { //SST
                 $horizontal = 'L';
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
@@ -2717,7 +2728,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro == 47) { //ssv
+            } else if ($parametro->Id_parametro == 46) { //ssv
                 $horizontal = true;
 
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
@@ -2745,7 +2756,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro == 91 || $parametro->Id_parametro == 94) { //st
+            } else if ($parametro->Id_parametro == 9 || $parametro->Id_parametro == 93) { //st
                 $horizontal = 'L';
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
@@ -2772,7 +2783,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro == 48) { //stf
+            } else if ($parametro->Id_parametro == 47) { //stf
                 $horizontal = 'P';
 
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
@@ -2800,7 +2811,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro == 49) { //stv
+            } else if ($parametro->Id_parametro == 48) { //stv
                 $horizontal = 'L';
 
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
@@ -2830,7 +2841,7 @@ class FqController extends Controller
                 }
             }
         } else { //****************************************************
-            if ($parametro->Id_parametro == 44) { //SDF
+            if ($parametro->Id_parametro == 43) { //SDF
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
@@ -2850,8 +2861,8 @@ class FqController extends Controller
                     }
 
                     //Recupera el nombre del parámetro solidos disueltos totales
-                    $paramSdt = Parametro::where('Id_parametro', 89)->first();
-                    $paramSdt2 = Parametro::where('Id_parametro', 45)->first();
+                    $paramSdt = Parametro::where('Id_parametro', 88)->first();
+                    $paramSdt2 = Parametro::where('Id_parametro', 44)->first();
 
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 14)->first();
 
@@ -2859,7 +2870,7 @@ class FqController extends Controller
                 }
 
                 $horizontal = 'P';
-            } else if ($parametro->Id_parametro == 89 || $parametro->Id_parametro == 90 || $parametro->Id_parametro == 92 || $parametro->Id_parametro == 121) { //SDT
+            } else if ($parametro->Id_parametro == 88 || $parametro->Id_parametro == 91) { //SDT
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
@@ -2879,8 +2890,8 @@ class FqController extends Controller
                     }
 
                     //Recupera el nombre del parámetro solidos disueltos totales
-                    $paramSt = Parametro::where('Id_parametro', 91)->first();
-                    $paramSt2 = Parametro::where('Id_parametro', 93)->first();
+                    $paramSt = Parametro::where('Id_parametro', 90)->first();
+                    $paramSt2 = Parametro::where('Id_parametro', 92)->first();
 
                     $textoProcedimiento = ReportesFq::where('Id_reporte', 15)->first();
 
@@ -2888,7 +2899,7 @@ class FqController extends Controller
                 }
 
                 $horizontal = 'P';
-            } else if ($parametro->Id_parametro == 45) { //SDV             
+            } else if ($parametro->Id_parametro == 44) { //SDV             
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
@@ -2914,7 +2925,7 @@ class FqController extends Controller
 
                     $htmlCaptura = view('exports.laboratorio.fq.ga.sdv.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
                 }
-            } else if ($parametro->Id_parametro == 3 || $parametro->Id_parametro == 95) { //S.S.
+            } else if ($parametro->Id_parametro == 3 || $parametro->Id_parametro == 94) { //S.S.
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
@@ -2939,7 +2950,7 @@ class FqController extends Controller
                 }
 
                 $horizontal = 'P';
-            } else if ($parametro->Id_parametro == 46) { //ssf
+            } else if ($parametro->Id_parametro == 45) { //ssf
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
@@ -2959,7 +2970,7 @@ class FqController extends Controller
                     }
 
                     //Recupera el nombre del parámetro solidos disueltos totales
-                    $paramSdt = Parametro::where('Id_parametro', 46)->first();
+                    $paramSdt = Parametro::where('Id_parametro', 45)->first();
 
                     $textProcedimiento = ReportesFq::where('Id_reporte', 18)->first();
                     $separador = "VALIDACION DEL SISTEMA";
@@ -2969,7 +2980,7 @@ class FqController extends Controller
                 }
 
                 $horizontal = 'P';
-            } else if ($parametro->Id_parametro == 4 || $parametro->Id_parametro == 93) { //sst
+            } else if ($parametro->Id_parametro == 4 || $parametro->Id_parametro == 92) { //sst
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
                 $model = DB::table('ViewParametros')->where('Id_parametro', 93)->first();
 
@@ -2997,7 +3008,7 @@ class FqController extends Controller
                 }
 
                 $horizontal = 'L';
-            } else if ($parametro->Id_parametro == 47) {   //ssv              
+            } else if ($parametro->Id_parametro == 46) {   //ssv              
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
@@ -3024,7 +3035,7 @@ class FqController extends Controller
                 }
 
                 $horizontal = 'L';
-            } else if ($parametro->Id_parametro == 91 || $parametro->Id_parametro == 94) { // st
+            } else if ($parametro->Id_parametro == 90 || $parametro->Id_parametro == 93) { // st
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
@@ -3051,7 +3062,7 @@ class FqController extends Controller
                 }
 
                 $horizontal = 'L';
-            } else if ($parametro->Id_parametro == 48) { //stf                         
+            } else if ($parametro->Id_parametro == 47) { //stf                         
                 $horizontal = 'P';
 
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
@@ -3078,7 +3089,7 @@ class FqController extends Controller
 
                     $htmlCaptura = view('exports.laboratorio.fq.ga.stf.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
                 }
-            } else if ($parametro->Id_parametro == 49) { //stv
+            } else if ($parametro->Id_parametro == 48) { //stv
                 $horizontal = 'L';
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
@@ -3108,34 +3119,34 @@ class FqController extends Controller
         }
 
         //HEADER-FOOTER******************************************************************************************************************         
-        if ($parametro->Id_parametro == 44) { //SDF
+        if ($parametro->Id_parametro == 43) { //SDF
             $htmlHeader = view('exports.laboratorio.fq.ga.sdf.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.ga.sdf.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro == 89 || $parametro->Id_parametro == 90 || $parametro->Id_parametro == 92 || $parametro->Id_parametro == 121) { //POR REVISAR EN LA TABLA DE DATOS; SDT
+        } else if ($parametro->Id_parametro == 88 || $parametro->Id_parametro == 91 ) { //POR REVISAR EN LA TABLA DE DATOS; SDT
             $htmlHeader = view('exports.laboratorio.fq.ga.sdt.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.ga.sdt.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro == 45) { //SDV
+        } else if ($parametro->Id_parametro == 44) { //SDV
             $htmlHeader = view('exports.laboratorio.fq.ga.sdv.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.ga.sdv.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro == 3 || $parametro->Id_parametro == 95) { // s.s.
+        } else if ($parametro->Id_parametro == 3 || $parametro->Id_parametro == 94) { // s.s.
             $htmlHeader = view('exports.laboratorio.fq.ga.ss.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.ga.ss.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro == 46) { //POR REVISAR EN LA TABLA DE DATOS; SSF
+        } else if ($parametro->Id_parametro == 45) { //POR REVISAR EN LA TABLA DE DATOS; SSF
             $htmlHeader = view('exports.laboratorio.fq.ga.ssf.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.ga.ssf.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro == 4 || $parametro->Id_parametro == 93) { //sst
+        } else if ($parametro->Id_parametro == 4 || $parametro->Id_parametro == 92) { //sst
             $htmlHeader = view('exports.laboratorio.fq.ga.sst.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.ga.sst.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro == 47) { //ssv
+        } else if ($parametro->Id_parametro == 46) { //ssv
             $htmlHeader = view('exports.laboratorio.fq.ga.ssv.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.ga.ssv.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro == 91 || $parametro->Id_parametro == 94) { //st
+        } else if ($parametro->Id_parametro == 90 || $parametro->Id_parametro == 93) { //st
             $htmlHeader = view('exports.laboratorio.fq.ga.st.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.ga.st.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro == 48) { // stf
+        } else if ($parametro->Id_parametro == 47) { // stf
             $htmlHeader = view('exports.laboratorio.fq.ga.stf.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.ga.stf.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro == 49) { //stv
+        } else if ($parametro->Id_parametro == 48) { //stv
             $htmlHeader = view('exports.laboratorio.fq.ga.stv.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.ga.stv.capturaFooter', compact('usuario', 'firma'));
         }
@@ -3183,7 +3194,7 @@ class FqController extends Controller
 
         //Hoja 2
         $hoja2 = false;
-        if ($parametro->Id_parametro == 91 || $parametro->Id_parametro == 94) { //st
+        if ($parametro->Id_parametro == 90 || $parametro->Id_parametro == 93) { //st
             $mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
             $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 

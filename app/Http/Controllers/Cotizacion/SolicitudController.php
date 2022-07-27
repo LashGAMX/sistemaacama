@@ -534,7 +534,6 @@ class SolicitudController extends Controller
             $contPuntos = 0;
             foreach ($puntos as $p) {
                 $puntoModel = SolicitudPuntos::create([
-                    'Id_solPadre' => 0,
                     'Id_solicitud' => $model->Id_solicitud,
                     'Id_muestreo' => $p
                 ]);

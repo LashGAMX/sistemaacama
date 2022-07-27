@@ -17,6 +17,7 @@ use App\Models\Rama;
 use App\Models\SimbologiaParametros;
 use App\Models\SimbologiaInforme;
 use App\Models\Sucursal;
+use App\Models\Tecnica;
 use App\Models\TipoFormula;
 use App\Models\Unidad;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -41,6 +42,7 @@ class Parametros extends Component
     public $area;
     public $unidad;
     public $norma;
+    public $tecnica;
     public $limite;
     public $matriz;
     public $rama;
@@ -58,7 +60,6 @@ class Parametros extends Component
         'tipo' => 'required',
         'area' => 'required',
         'unidad' => 'required',
-        'norma' => 'required',
         'limite' => 'required',
         'matriz' => 'required',
         'rama' => 'required',
@@ -72,23 +73,16 @@ class Parametros extends Component
 
     public function render()
     {
-        if($this->idNorma != 0)
-        {
-            $model = DB::table('ViewParametros')
-            ->where('Id_norma',$this->idNorma)
+        $model = DB::table('ViewParametros')
             ->where('Parametro', 'LIKE', "%{$this->search}%")
             ->get();
-        }else{
-            $model = DB::table('ViewParametros')
-            ->where('Parametro', 'LIKE', "%{$this->search}%") 
-            ->get();
-        } 
         
         $laboratorios = Sucursal::all();
         $unidades = Unidad::all();
         $tipos = TipoFormula::all();
         $areas = AreaAnalisis::all();
         $normas = Norma::all();
+        $tecnicas = Tecnica::all();
         $metrices = MatrizParametro::all();
         $ramas = Rama::all();
         $metodos = MetodoPrueba::all();
@@ -99,7 +93,7 @@ class Parametros extends Component
 
         return view(
             'livewire.analisis-q.parametros',
-            compact('model', 'laboratorios', 'unidades', 'tipos','areas','normas', 'metrices', 'ramas', 'metodos', 'procedimientos', 'simbologias','simbologiaInf','parametroNorma')
+            compact('model', 'laboratorios', 'unidades', 'tipos','areas','normas', 'metrices', 'ramas', 'metodos','tecnicas', 'procedimientos', 'simbologias','simbologiaInf','parametroNorma')
         );
     }
     public function setNorma()
@@ -117,11 +111,12 @@ class Parametros extends Component
             'Parametro' => $this->parametro,
             'Id_unidad' => $this->unidad,
             'Id_metodo' => $this->metodo,
+            'Id_tecnica' => $this->tecnica,
             'Limite' => $this->limite,
             'Id_procedimiento' => $this->procedimiento,
             'Id_matriz' => $this->matriz,
             'Id_simbologia' => $this->simbologia,
-            'Id_simbologia_info' => $this->simbologia_info,
+            'Id_simbologia_info' => $this->simbologiaInforme,
             'Id_user_c' => $this->idUser,
             'Id_user_m' => $this->idUser,
         ]);
@@ -154,11 +149,12 @@ class Parametros extends Component
         $model->Parametro = $this->parametro;
         $model->Id_unidad = $this->unidad;
         $model->Id_metodo = $this->metodo;
+        $model->Id_tecnica = $this->tecnica;
         $model->Limite = $this->limite;
         $model->Id_procedimiento = $this->procedimiento;
         $model->Id_matriz = $this->matriz;
         $model->Id_simbologia = $this->simbologia;
-        $model->Id_simbologia_info = $this->simbologia_info;
+        $model->Id_simbologia_info = $this->simbologiaInforme;
         $model->Id_user_m = $this->idUser;
         $this->historial();
         $model->save();
@@ -167,7 +163,7 @@ class Parametros extends Component
         }
         $this->alert = true;
     }
-    public function setData($id, $laboratorio, $parametro, $unidad, $tipo,$area, $limite, $matriz, $simbologia, $simbologiaInforme, $rama, $metodo, $procedimiento, $status)
+    public function setData($id, $laboratorio, $parametro, $unidad, $tipo,$area, $limite,$tecnica, $matriz, $simbologia, $simbologiaInforme, $rama, $metodo, $procedimiento, $status)
     {
         $this->sw = true;
         $this->resetValidation();
@@ -177,6 +173,7 @@ class Parametros extends Component
         $this->unidad = $unidad;
         $this->tipo = $tipo;
         $this->area = $area;
+        $this->tecnica = $tecnica;
         $this->limite = $limite;
         $this->matriz = $matriz;
         $this->simbologia = $simbologia;
@@ -203,7 +200,6 @@ class Parametros extends Component
             'Parametro' => $model->Parametro,
             'Unidad' => $model->Unidad,
             'Metodo' => $model->Id_metodo,
-            'Norma' => $model->Norma,
             'Limite' => $model->Limite,
             'Procedimiento' => $model->Procedimiento,
             'Matriz' => $model->Matriz,
@@ -227,6 +223,7 @@ class Parametros extends Component
         $this->matriz = 1;
         $this->simbologia = 1;
         $this->rama = 1;
+        $this->tecnica =1;
         $this->metodo = 1;
         $this->procedimiento = 1;
         $this->status = 1;

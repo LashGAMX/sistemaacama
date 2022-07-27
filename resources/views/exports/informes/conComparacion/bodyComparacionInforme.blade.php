@@ -52,7 +52,7 @@
                             {{ @$limitesN[$i] }}
                         </td>
                         <td class="tableContent bordesTablaBody" width="20.6%">
-                            {{@$solicitudParametros[$i]->name}}
+                            {{@$solicitudParametros[$i]->iniciales}}
                         </td>
                     </tr>
                 @endfor

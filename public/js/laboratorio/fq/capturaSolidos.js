@@ -149,19 +149,19 @@ function getLoteCapturaSolidos() {
                     color = "warning"
                 }
                 switch (parseInt($("#formulaTipo").val())) {
-                    case 89:
+                    case 88:
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
                         break;
-                    case 45:
+                    case 43:
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
                         break;
                     case 44:
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
                         break;
-                    case 46:
+                    case 45:
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
                         break;
-                    case 48:
+                    case 47:
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
                         break;
                     default:
@@ -305,7 +305,7 @@ function operacionSimple() {
         success: function (response) {
             console.log(response);
 
-            $('#p').val(response.serie);
+            $('#crisol').val(response.serie);
             $("#m11").val(response.masa1);
             $("#m21").val(response.masa2);
             $("#pcm11").val(response.pesoConMuestra1);

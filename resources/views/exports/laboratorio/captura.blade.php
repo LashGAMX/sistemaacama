@@ -8,7 +8,6 @@
     <title>Bitácora Metales</title>
 </head>
 <body>    
-
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos">
             <thead>

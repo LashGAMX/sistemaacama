@@ -231,7 +231,6 @@ function setCalcular()
          tab += '    <thead class="thead-dark">';
          tab += '        <tr>';
          tab += '          <th>Id</th>';
-         tab += '          <th>Id Lote</th> ';
          tab += '          <th>STD</th> ';
          tab += '          <th>Concentracion</th> ';
          tab += '          <th>ABS1</th> ';
@@ -244,7 +243,6 @@ function setCalcular()
          $.each(response.stdModel, function (key, item) {
              tab += '<tr>';
              tab += '<td>'+item.Id_std+'</td>';
-             tab += '<td>'+item.Id_lote+'</td>';
              tab += '<td>'+item.STD+'</td>';
                  tab += '<td><input value="'+item.Concentracion+'"></td>';
             

@@ -57,7 +57,7 @@
           <td>{{$item->Limite}}</td>
           <td>
             <button type="button" class="btn btn-warning" 
-            wire:click="setData('{{$item->Id_parametro}}','{{$item->Id_laboratorio}}','{{$item->Parametro}}','{{$item->Id_unidad}}','{{$item->Id_tipo_formula}}','{{$item->Id_area}}','{{$item->Limite}}','{{$item->Id_matriz}}','{{$item->Id_simbologia}}',{{$item->Id_simbologia_info}},'{{$item->Id_rama}}','{{$item->Id_metodo}}','{{$item->Id_procedimiento}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalParametro">
+            wire:click="setData('{{$item->Id_parametro}}','{{$item->Id_laboratorio}}','{{$item->Parametro}}','{{$item->Id_unidad}}','{{$item->Id_tipo_formula}}','{{$item->Id_area}}','{{$item->Limite}}','{{$item->Id_tecnica}}','{{$item->Id_matriz}}','{{$item->Id_simbologia}}',{{$item->Id_simbologia_info}},'{{$item->Id_rama}}','{{$item->Id_metodo}}','{{$item->Id_procedimiento}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalParametro">
             <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> 
             </button>
           </td>  
@@ -214,6 +214,17 @@
                             @endforeach
                           </select>
                           @error('metodo') <span class="text-danger">{{ $message  }}</span> @enderror
+                          </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="">Tecnica</label>
+                            <select class="form-control" wire:model='tecnica' >
+                            @foreach ($tecnicas as $item)
+                                <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
+                            @endforeach
+                          </select>
+                          @error('tecnica') <span class="text-danger">{{ $message  }}</span> @enderror
                           </div>
                     </div>
                     <div class="col-md-3">

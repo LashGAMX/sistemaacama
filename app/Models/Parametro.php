@@ -21,7 +21,7 @@ class Parametro extends Model
         'Parametro',
         'Id_unidad',
         'Id_metodo',
-        'Id_norma',
+        'Id_tecnica',
         'Limite',
         'Id_procedimiento',
         'Id_matriz',

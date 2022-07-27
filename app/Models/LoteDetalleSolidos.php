@@ -32,5 +32,6 @@ class LoteDetalleSolidos extends Model
         'Resultado',
         'Observacion',
         'Liberado',
+        'Analizo',
     ];
 }

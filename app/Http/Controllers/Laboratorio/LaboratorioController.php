@@ -67,12 +67,13 @@ class LaboratorioController extends Controller
         
         $formula = DB::table('ViewLoteDetalle')->where('Id_lote', $id_lote)->first();
         $dataLote = LoteAnalisis::find($id_lote);
+        $paramDetected = DB::table('ViewParametros')->where('Id_parametro', $formula->Id_parametro)->first();
+
+        $tecnica = $paramDetected->Tecnica;
         if(!is_null($formula)){
             //Recupera el tipo de fórmula del parámetro
-            $paramDetected = Parametro::where('Id_parametro', $formula->Id_parametro)->first();
             $tipoFormula = TipoFormula::where('Id_tipo_formula', $paramDetected->Id_tipo_formula)->first();
             $loteAnalisis = LoteAnalisis::where('Id_lote', $id_lote)->first();
-            $tecnicaUsada = Tecnica::where('Id_tecnica', $loteAnalisis->Id_tecnica)->first();
 
             $formulaSelected = $formula->Parametro;
             $formulaSelectedComp = $formula->Parametro. " (".$tipoFormula->Tipo_formula.")";
@@ -83,6 +84,7 @@ class LaboratorioController extends Controller
             $mpdf->SetJS('print("No se han llenado todos los datos del reporte. Verifica que todos los datos estén ingresados.");');
         }
 
+        // var_dump($paramDetected->Tecnica);
         //Recupera el nombre de usuario y firma
         $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
         $firma = $usuario->firma;
@@ -145,17 +147,17 @@ class LaboratorioController extends Controller
                 $loteModelObs->Ph
             );
         }        
+ 
 
-
-        $html = view('exports.laboratorio.captura', compact('datos', 'datosLength', 'loteModel', 'loteModelPh', 'limites', 'tecnicaUsada'));
+        $html = view('exports.laboratorio.captura', compact('datos','tecnica','paramDetected', 'datosLength', 'loteModel', 'loteModelPh', 'limites', 'tecnicaUsada'));
         
         //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
-        $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected', 'formulaSelectedComp', 'tecnicaUsada', 'fechaConFormato', 'hora'));
+        // $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected', 'tecnica','formulaSelectedComp','paramDetected', 'tecnicaUsada', 'fechaConFormato', 'hora'));
         //Establece el encabezado del documento PDF
-        $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
+        // $mpdf->setHeader("{PAGENO}<br><br>" . $htmlHeader);
 
         //Hace referencia a la vista capturaPie
-        $htmlFooter = view('exports.laboratorio.capturaPie', compact('usuario', 'firma', 'tecnicaUsada')); 
+        $htmlFooter = view('exports.laboratorio.capturaPie', compact('usuario', 'firma', 'tecnicaUsada','paramDetected')); 
         //Establece el pie de página del PDF                
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         //*************************************************Segundo juego de documentos PDF***************************************************
@@ -178,20 +180,12 @@ class LaboratorioController extends Controller
         }
 
         //if(!is_null($formula) && !is_null($fechaAnalisis)){
-            $htmlCurvaHeader = view('exports.laboratorio.curvaHeader', compact('formulaSelected', 'formulaSelectedComp', 'tecnicaUsada', 'fechaConFormato', 'hora'));
+            $htmlCurvaHeader = view('exports.laboratorio.curvaHeader', compact('formulaSelected', 'formulaSelectedComp','paramDetected', 'tecnicaUsada', 'fechaConFormato', 'hora'));
             $mpdf->SetHTMLHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlCurvaHeader, 'O', 'E');
         //}
         
         $htmlCurvaFooter = view('exports.laboratorio.curvaFooter', compact('usuario', 'tecnicaUsada'));        
         $mpdf->SetHTMLFooter($htmlCurvaFooter, 'O', 'E');
-        
-        /* if(is_null($textoProcedimiento) || is_null($formula) || is_null($fechaAnalisis)){
-            $semaforoHoja1 = false;
-        } */
-
-        //if($semaforoHoja1 === true){ 
-            //$mpdf->WriteHTML($htmlCurva);
-        //}
 
         //Hoja2
         $semaforoHoja2 = true;
@@ -201,19 +195,10 @@ class LaboratorioController extends Controller
             $limiteCuantificacion = DB::table('parametros')->where('Parametro', $formulaSelected)->first();
         //}
 
-    //     $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-    //     ->where('Id_area', $request->area)
-    //     ->where('Id_parametro', $request->parametro)->get();
-
-    // $concent = ConcentracionParametro::where('Id_parametro', $request->parametro)->get();
-    // $bmr = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)
-    //     ->whereDate('Fecha_fin', '>=', $today)
-    //     ->where('Id_area', $request->area)
-    //     ->where('Id_parametro', $request->parametro)->first();
         $fecha = new Carbon($dataLote->Fecha);
         $today = $fecha->toDateString();
                 
-        $estandares = estandares::where('Id_parametro', $formula->Id_parametro)->whereDate('Fecha_inicio','>=',$today)->whereDate('Fecha_fin','<=',$today)->get();
+        $estandares = estandares::whereDate('Fecha_inicio','<=',$today)->whereDate('Fecha_fin','>=',$today)->where('Id_parametro', $formula->Id_parametro)->get();
         $topeEstandar = 0;
 
         if(is_null($estandares)){
@@ -229,7 +214,7 @@ class LaboratorioController extends Controller
             }
         }
 
-        $bmr = CurvaConstantes::where('Id_parametro', $formula->Id_parametro)->whereDate('Fecha_inicio','>=',$today)->whereDate('Fecha_fin','<=',$today)->first();
+        $bmr = CurvaConstantes::where('Id_parametro', $formula->Id_parametro)->whereDate('Fecha_inicio','<=',$today)->whereDate('Fecha_fin','>=',$today)->first();
         if(is_null($bmr)){
             $bmr = CurvaConstantes::where('Id_lote', 0)->first();
             echo '<script> alert("Valores predeterminados para las curvas. Rellena estos datos.") </script>';
@@ -282,9 +267,9 @@ class LaboratorioController extends Controller
         }
 
 
-            $htmlCurva2 = view('exports.laboratorio.curvaBody', compact('textoProcedimiento', 'estandares', 'topeEstandar', 'limiteCuantificacion', 'bmr', 
+            $htmlCurva2 = view('exports.laboratorio.curvaBody', compact('textoProcedimiento','paramDetected', 'estandares', 'topeEstandar', 'limiteCuantificacion', 'bmr', 
             'tecnicaMetales', 'blancoMetales', 'estandarMetales', 'verificacionMetales', 'fechaConFormato', 'soloFechaFormateada', 
-            'soloHoraFormateada', 'fechaPreparacion','sw', 'hora', 'tecnicaUsada'));
+            'soloHoraFormateada', 'fechaPreparacion', 'hora', 'tecnicaUsada'));
             $mpdf->WriteHTML($htmlCurva2);
 
 

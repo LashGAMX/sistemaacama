@@ -605,11 +605,6 @@ class InformesController extends Controller
             $puntos = $puntoMuestreo->count();
         }
 
-        /* $solicitudParametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $solicitud->Id_solicitud)->get();
-        $solicitudParametrosLength = $solicitudParametros->count(); */
-
-        //Sirve para recuperar los límites de cuantificación de la norma
-        //$promSol = $solicitud->Id_promedio; //Si es mensual o diario
         
         //Recupera los parámetros
         $solicitudParametros = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();

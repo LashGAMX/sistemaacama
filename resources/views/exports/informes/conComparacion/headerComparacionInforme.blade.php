@@ -96,7 +96,7 @@
                                 @else
                                     INSTANTANEA
                                 @endif
-                                 TIPO "{{@$tipoReporte->Tipo}}", {{@$tipoReporte->Cuerpo}} - {{$tipoReporte->Detalle}} - <br> QUE ESTABLECE LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN AGUAS Y <br> BIENES NACIONALES.
+                                 TIPO "{{@$tipoReporte->Tipo}}", {{@$tipoReporte->Cuerpo}} - {{$tipoReporte->Detalle}}  QUE ESTABLECE LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN AGUAS Y <br> BIENES NACIONALES.
                                 @break
                             @case(2)
                                 DE ACUERDO A NOM-002-SEMARNAT-1996 PARA MUESTRA 
