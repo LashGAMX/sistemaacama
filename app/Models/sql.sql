@@ -325,7 +325,7 @@ INNER JOIN codigo_parametro as cod
 ON det.Id_codigo = cod.Id_codigo
 
 /* Lista ViewLoteDetalleHH */ 
-CREATE VIEW ViewLoteDetalleHH as SELECT det.*,sol.Folio_servicio,sol.Clave_norma,sol.Empresa_suc,param.Parametro,control.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_hh as det
+CREATE VIEW ViewLoteDetalleHH as SELECT det.*,sol.Folio_servicio,sol.Clave_norma,sol.Empresa_suc,param.Parametro,param.Limite,control.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_hh as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
 INNER JOIN  ViewSolicitud as sol

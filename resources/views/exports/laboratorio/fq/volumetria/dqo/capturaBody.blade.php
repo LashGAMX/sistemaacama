@@ -41,8 +41,8 @@
                 @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
                         <td class="tableContent">
-                            @if (@$data[$i]->Control == 'Muestra Adicionada' || @$data[$i]->Control == 'Duplicado' || @$data[$i]->Control == 'Resultado')
-                                {{@$data[$i]->Folio_servicio}}
+                            @if (@$data[$i]->Control == 'Muestra Adicionada' || @$data[$i]->Control == 'Duplicado' || @$data[$i]->Control == 'Resultado' || @$data[$i]->Control == "2° Estandar")
+                                {{@$data[$i]->Codigo}}
                             @else
                                 {{@$data[$i]->Control}}
                             @endif 

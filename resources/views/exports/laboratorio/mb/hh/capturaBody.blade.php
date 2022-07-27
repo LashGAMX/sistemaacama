@@ -49,7 +49,13 @@
                         <td class="tableContent">{{@$data[$i]->H_nana}}</td>
                         <td class="tableContent">{{@$data[$i]->T_trichiura}}</td>
                         <td class="tableContent">{{@$data[$i]->Taenia_sp}}</td>
-                        <td class="tableContent">{{@$data[$i]->Resultado}}</td>
+                        <td class="tableContent">
+                            @if (@$data[$i]->Resultado > @$data[$i]->Limite)
+                            {{@$data[$i]->Resultado}}    
+                            @else
+                                < {{@$data[$i]->Limite}}
+                            @endif
+                            </td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
                         <td class="tableContent">
                             @if (@$data[$i]->Liberado == 1)

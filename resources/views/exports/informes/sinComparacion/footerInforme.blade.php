@@ -15,11 +15,11 @@
 
     <div autosize="1" class="contenedorPadre12 paddingTop" cellpadding="0" cellspacing="0" border-color="#000000">
         <div class="contenedorHijo12 bordesTablaFirmasSupIzq">
-            <span><img style="width: auto; height: auto; max-width: 90px; max-height: 70px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"> <br></span>            
+            <span><img style="width: auto; height: auto; max-width: 90px; max-height: 70px;" src="{{url('public/storage/'.$firma1->firma)}}"> <br></span>            
         </div>
 
         <div class="contenedorHijo12 bordesTablaFirmasSupDer">            
-            <span><img style="width: auto; height: auto; max-width: 90px; max-height: 70px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"> <br></span>            
+            <span><img style="width: auto; height: auto; max-width: 90px; max-height: 70px;" src="{{url('public/storage/'.$firma2->firma)}}"> <br></span>            
         </div>  
 
         <div class="contenedorHijo12 bordesTablaFirmasInfIzq">            

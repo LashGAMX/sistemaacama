@@ -27,6 +27,7 @@ class LoteDetalleHH extends Model
         'Vol_muestra',
         'Resultado',
         'Observacion',
-        'Liberado'
+        'Liberado',
+        'Analizo'
     ];
 }

@@ -232,6 +232,37 @@
                                                 <td>V</td>
                                             </tr>
                                             <tr>
+                                                <td>P1 - P9</td>
+                                                <td>Prueba presuntiva</td>
+                                                <td>
+                                                    <input type="text" id="pre1" value="0" style="width: 60px;">
+                                                    <input type="text" id="pre4" value="0" style="width: 60px;">
+                                                    <input type="text" id="pre7" value="0" style="width: 60px;">
+                                                    <br>
+                                                    <input type="text" id="pre2" value="0" style="width: 60px;">
+                                                    <input type="text" id="pre5" value="0" style="width: 60px;">
+                                                    <input type="text" id="pre8" value="0" style="width: 60px;">
+                                                    <br>
+                                                    <input type="text" id="pre3" value="0" style="width: 60px;">
+                                                    <input type="text" id="pre6" value="0" style="width: 60px;">
+                                                    <input type="text" id="pre9" value="0" style="width: 60px;">
+                                                </td>
+                                                <td>
+                                                    <input type="text" id="pre12" value="0" style="width: 60px">
+                                                    <input type="text" id="pre42" value="0" style="width: 60px">
+                                                    <input type="text" id="pre72" value="0" style="width: 60px">
+                                                    <br>
+                                                    <input type="text" id="pre22" value="0" style="width: 60px">
+                                                    <input type="text" id="pre52" value="0" style="width: 60px">
+                                                    <input type="text" id="pre82" value="0" style="width: 60px">
+                                                    <br>
+                                                    <input type="text" id="pre32" value="0" style="width: 60px">
+                                                    <input type="text" id="pre62" value="0" style="width: 60px">
+                                                    <input type="text" id="pre92" value="0" style="width: 60px">
+                                                </td>
+                                                <td>V</td>
+                                            </tr> 
+                                            <tr>
                                                 <td>C1 - C9</td>
                                                 <td>Prueba confirmativa</td>
                                                 <td>
@@ -262,37 +293,7 @@
                                                 </td>
                                                 <td>V</td>
                                             </tr>
-                                            <tr>
-                                                <td>P1 - P9</td>
-                                                <td>Prueba presuntiva</td>
-                                                <td>
-                                                    <input type="text" id="pre1" value="0" style="width: 60px;">
-                                                    <input type="text" id="pre4" value="0" style="width: 60px;">
-                                                    <input type="text" id="pre7" value="0" style="width: 60px;">
-                                                    <br>
-                                                    <input type="text" id="pre2" value="0" style="width: 60px;">
-                                                    <input type="text" id="pre5" value="0" style="width: 60px;">
-                                                    <input type="text" id="pre8" value="0" style="width: 60px;">
-                                                    <br>
-                                                    <input type="text" id="pre3" value="0" style="width: 60px;">
-                                                    <input type="text" id="pre6" value="0" style="width: 60px;">
-                                                    <input type="text" id="pre9" value="0" style="width: 60px;">
-                                                </td>
-                                                <td>
-                                                    <input type="text" id="pre12" value="0" style="width: 60px">
-                                                    <input type="text" id="pre42" value="0" style="width: 60px">
-                                                    <input type="text" id="pre72" value="0" style="width: 60px">
-                                                    <br>
-                                                    <input type="text" id="pre22" value="0" style="width: 60px">
-                                                    <input type="text" id="pre52" value="0" style="width: 60px">
-                                                    <input type="text" id="pre82" value="0" style="width: 60px">
-                                                    <br>
-                                                    <input type="text" id="pre32" value="0" style="width: 60px">
-                                                    <input type="text" id="pre62" value="0" style="width: 60px">
-                                                    <input type="text" id="pre92" value="0" style="width: 60px">
-                                                </td>
-                                                <td>V</td>
-                                            </tr>
+                                           
                                         </tbody>
                                     </table>
                                 </div>
@@ -606,7 +607,7 @@
                         </div>
                         <div class="modal-footer">
                             <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="operacionDbo(1)">Guardar</button>
+                            <button type="button" class="btn btn-primary" onclick="operacionDbo(1)">Ejecutar y Guardar</button>
                         </div>
                 </form>
             </div>

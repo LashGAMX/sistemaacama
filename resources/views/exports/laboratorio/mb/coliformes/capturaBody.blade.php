@@ -239,7 +239,11 @@
                     @switch($data[$i]->Tipo)
                         @case(1)
                             <td class="contenidoBody bordesTabla" rowspan="3">
+                                @if (@$data[$i]->Resultado == 0)
+                                    < 3
+                                @else
                                 {{@$data[$i]->Resultado}}
+                                @endif
                             </td>
         
                             <td class="contenidoBody bordesTabla" rowspan="3">

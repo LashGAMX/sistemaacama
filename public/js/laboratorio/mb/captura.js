@@ -355,9 +355,7 @@ function metodoCortoCol(){
             // inicio metodo corto
           
                 let positivos = response.positivos;
-                $('#dil1').val(10);
-                $('#dil2').val(1);
-                $('#dil3').val(0.1);
+ 
                 $('#nmp1').val(response.convinacion.Nmp);
                 $('#positivos1').val(positivos);
                 $('#negativos1').val(9 - positivos);

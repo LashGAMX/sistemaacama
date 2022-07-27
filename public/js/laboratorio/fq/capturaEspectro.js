@@ -22,7 +22,7 @@ $('#ejecutarModalSulfato').click(function () {
 
 $('#btnGuardar').click(function (){
     guardar();
-    // alert('Guardado');
+    alert("Guardado");
 });
 $('#btnLiberar').click(function () {
     // operacion();
@@ -346,7 +346,7 @@ function getDetalleEspectro(idDetalle)
             $("#conN2").hide();
             $("#conN3").hide();
             break;
-        case 20:
+        case 19:
             $("#conN1").show();
             $("#conN2").show();
             $("#conN3").show();

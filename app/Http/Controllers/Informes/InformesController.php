@@ -27,6 +27,7 @@ use App\Models\Solicitud;
 use App\Models\SolicitudParametro;
 use App\Models\SolicitudPuntos;
 use App\Models\TipoReporte;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -110,6 +111,8 @@ class InformesController extends Controller
  
         // $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol)->first();
         $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
+        $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion',$model[0]->Id_cotizacion)->first();
+        $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle',$cotModel->Tipo_reporte)->first(); 
         $aux = true;
         foreach($model as $item)
         {
@@ -516,13 +519,14 @@ class InformesController extends Controller
                 $swPh = true;
             }
         }
-
+        $firma1 = User::find(14);
+        $firma2 = User::find(17);
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.sinComparacion.bodyInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'tempCompuesta', 'sumaCaudalesFinal', 'resColi', 'sParam'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
-        $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'modelProcesoAnalisis', 'horaMuestreo'));
-        $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('solicitud', 'simbologiaParam', 'temperaturaC', 'obsCampo','swPh','phCampo','campoGeneral'));
+        $htmlHeader = view('exports.informes.sinComparacion.headerInforme', compact('solicitud','cotModel','tipoReporte', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'modelProcesoAnalisis', 'horaMuestreo'));
+        $htmlFooter = view('exports.informes.sinComparacion.footerInforme', compact('firma1','firma2','solicitud', 'simbologiaParam', 'temperaturaC', 'obsCampo','swPh','phCampo','campoGeneral'));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -546,9 +550,6 @@ class InformesController extends Controller
             'defaultheaderline' => '0'
         ]);
 
-        //Recupera el nombre de usuario y firma
-        /* $usuario = DB::table('users')->where('id', auth()->user()->id)->first();
-        $firma = $usuario->firma; */
         $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion',$model[0]->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle',$cotModel->Tipo_reporte)->first(); 
@@ -968,14 +969,15 @@ class InformesController extends Controller
                 $swPh = true;
             }
         }
-       
+       $firma1 = User::find(14);
+       $firma2 = User::find(17);
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC','limitesN', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
         $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud','cotModel','tipoReporte', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
-        $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('solicitud', 'simbologiaParam', 'obsCampo','swPh','phCampo','campoGeneral'));
+        $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('firma1','firma2','solicitud', 'simbologiaParam', 'obsCampo','swPh','phCampo','campoGeneral'));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -984,14 +986,6 @@ class InformesController extends Controller
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');   
 
-    
-        // $htmlHeader = view('exports.informes.conComparacion.informeConComparacionHeader');
-        // $htmlInforme = view('exports.informes.conComparacion.informeConComparacion',  
-        // compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo','solicitud','direccion', 'cliente','numOrden', 'horaMuestreo', 'modelProcesoAnalisis','simbologiaParam', 'obsCampo','campoGeneral','swPh'));
-        // $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
-        // $mpdf->CSSselectMedia = 'mpdf';
-        // $mpdf->WriteHTML($htmlInforme);
-        // $mpdf->Output();
     }
 
     //****************ESTAS FUNCIONES SE LLAMAN A TRAVÉS DE LA RUTA PÚBLICA HACIENDO USO DEL CÓDIGO QR

@@ -59,6 +59,9 @@ $(document).ready(function () {
             console.log("No Seleccionado");
         }
     });
+    $('#btnLiberar').click(function () {
+       liberarResultado();
+    });
 });
 
 function getParametros() {
@@ -98,7 +101,7 @@ function getParametros() {
                 tab += '<td>' + item.Id_codigo + '</td>';
                 tab += '<td class="bg-' + color + '">' + item.Parametro + '</td>';
                 tab += '<td>' + item.Tipo_formula + '</td>';
-                tab += '<td>' + item.Resultado + '</td>';
+                tab += '<td>' + item.Resultado2 + '</td>';
                 // tab += '<td>'+item.Resultado+'</td>';
                 // tab += '<td>'+item.Resultado+'</td>';
                 tab += '</tr>';
@@ -320,6 +323,9 @@ function getDetalleAnalisis(idCodigo) {
 
         }
     });
+}
+function liberarResultado(){
+    
 }
 function regresarRes() {
     $.ajax({

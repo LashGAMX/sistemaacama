@@ -21,6 +21,7 @@ use App\Models\CalentamientoMatraz;
 use App\Models\CodigoParametros;
 use App\Models\ControlCalidad;
 use App\Models\CurvaCalibracionMet;
+use App\Models\DqoDetalle;
 use App\Models\VerificacionMetales;
 use App\Models\EstandarVerificacionMet;
 use App\Models\GeneradorHidrurosMet;
@@ -370,6 +371,7 @@ class MbController extends Controller
                     $model->Presuntiva8 = $request->pre8;
                     $model->Presuntiva9 = $request->pre9;
                     $model->Resultado = $request->resultadoCol;
+                    $model->Analizo = Auth::user()->id;
                     $model->save();
 
                 } else {
@@ -437,6 +439,7 @@ class MbController extends Controller
                 $model->Presuntiva8 = $request->pre8;
                 $model->Presuntiva9 = $request->pre9;
                 $model->Resultado = $res;
+                $model->Analizo = Auth::user()->id;
                 $model->save();
             }
 
@@ -490,10 +493,12 @@ class MbController extends Controller
                 }
 
                 break;
-            case 15: //todo Flotación de huevos de helminto
+            case 16: //todo Flotación de huevos de helminto
                 # code...
                 $suma = $request->lum1 + $request->na1 + $request->sp1 + $request->tri1 + $request->uni1;
-                $res = round($suma / $request->volH1);
+                $aux = $suma / $request->volH1;
+                $res = ceil($aux);
+                
 
                 $model = LoteDetalleHH::find($request->idDetalle);
                 $model->A_alumbricoides = $request->lum1;
@@ -503,6 +508,7 @@ class MbController extends Controller
                 $model->Uncinarias = $request->uni1;
                 $model->Vol_muestra = $request->volH1;
                 $model->Resultado = $res;
+                $model->Analizo = Auth::user()->id;
                 $model->save();
 
                 break;
@@ -511,7 +517,7 @@ class MbController extends Controller
                 break;
         }
         $data = array(
-            'res1' => $res1,
+            'res1' => $aux,
             'res' => $res,
             'tipo' => $tipo,
             'model' => $numModel3,
@@ -692,12 +698,12 @@ class MbController extends Controller
         //-------------------------------------
 
         /* Módulo DQO */
-        $dqoModel = DB::table('dqo_fq')->where('Id_lote', $request->idLote)->get();
-
-        if ($dqoModel->count()) {
-            $dqo = DqoFq::where('Id_lote', $request->idLote)->first();
-        } else {
-            $dqo = null;
+        $dqoModel = DqoDetalle::where('Id_lote',$request->idLote)->get();
+        if($dqoModel->count())
+        {
+            $dqo = DqoDetalle::where('Id_lote',$request->idLote)->first();
+        }else{
+            $dqo = "";
         }
 
 
@@ -957,6 +963,10 @@ class MbController extends Controller
                     $sw = true;
                     $model->save();
                 }
+                $modelCod = CodigoParametros::find($model->Id_codigo);
+                $modelCod->Resultado = $model->Resultado;
+                $modelCod->Analizo = $model->Analizo;
+                $modelCod->save();
 
                 $model = LoteDetalleColiformes::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
                 $loteModel = LoteAnalisis::find($request->idLote);
@@ -1290,6 +1300,35 @@ class MbController extends Controller
             compact('sembradoFqModel', 'pruebaPresuntivaModel', 'pruebaConfirmativaModel', 'dqoModel')
         );
     }
+    public function guardarDqo(Request $res) {
+
+        $model = DqoDetalle::where('Id_lote',$res->idLote)->get();
+        if($model->count())
+        {
+            $model = DqoDetalle::where('Id_lote',$res->idLote)->first();
+            $model->Cant_dilucion = $res->cantDilucion;
+            $model->De = $res->de;
+            $model->A = $res->a;
+            $model->Pag = $res->pag;
+            $model->N = $res->n;
+            $model->Dilucion = $res->dilucion;
+            $model->save();
+        }else{
+            $model = DqoDetalle::create([
+                'Id_lote' => $res->idLote,
+                'Cant_dilucion' => $res->cantDilucion,
+                'De' => $res->de,
+                'A' => $res->a,
+                'Pag' => $res->pag,
+                'N' => $res->n,
+                'Dilucion' => $res->dilucion
+            ]);
+        }
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
 
     // todo ************************************************
     // todo Fin de Lote
@@ -1453,7 +1492,7 @@ class MbController extends Controller
                 if ($parametro->Id_parametro == 5 || $parametro->Id_parametro == 62) { // DBO5
                     $horizontal = 'L';
                     $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
-
+                    $detalleLote = DqoDetalle::where('Id_lote',$id_lote)->first();
                     if (!is_null($data)) {
                         $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();
 
@@ -1472,7 +1511,7 @@ class MbController extends Controller
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
-                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limites'));
+                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('detalleLote','textoProcedimiento', 'data', 'dataLength', 'limites'));
                     } else {
                         $sw = false;
                     }
@@ -1604,7 +1643,7 @@ class MbController extends Controller
 
                     if (!is_null($data)) {
                         $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();
-
+                        $detalleLote = DqoDetalle::where('Id_lote',$id_lote)->first();
                         $limites = array();
                         foreach ($data as $item) {
                             if ($item->Resultado < $limiteC->Limite) {
@@ -1621,7 +1660,7 @@ class MbController extends Controller
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
-                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('textoProcedimiento', 'data', 'dataLength', 'limites'));
+                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('detalleLote','textoProcedimiento', 'data', 'dataLength', 'limites'));
                     } else {
                         $sw = false;
                     }

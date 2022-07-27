@@ -23,7 +23,7 @@
             </tr>
             
             <tr>
-                <th class="nombreHeader bordesTabla" style="font-size: 8px">
+                <th class="nombreHeader bordesTabla" style="font-size: 12px">
                     No. de muestra
                 </th>
 
@@ -39,15 +39,15 @@
                     NO. DE BOTELLA INICIAL
                 </th>
 
-                <th class="nombreHeader bordesTabla" style="font-size: 8px">
+                <th class="nombreHeader bordesTabla" style="font-size: 7px">
                     OXIGENO DISUELTO INICIAL
                 </th>
 
-                <th class="nombreHeader bordesTabla" style="font-size: 8px">
+                <th class="nombreHeader bordesTabla" style="font-size: 7px">
                     NO. BOTELLA FINAL
                 </th>
 
-                <th class="nombreHeader bordesTabla" style="font-size: 8px">
+                <th class="nombreHeader bordesTabla" style="font-size: 7px">
                     OXIGENO DISUELTO AL 5to. DIA
                 </th>
 
@@ -82,17 +82,11 @@
         @for ($i = 0; $i < @$dataLength ; $i++)
             <tr>
                 <td class="contenidoBody bordesTabla">
-                    @if (@$data[$i]->Control == 'Estandar')
-                        ESTANDAR
-                    @elseif(@$data[$i]->Control == 'Blanco')
-                        BLANCO
-                    @elseif(@$data[$i]->Control == 'Positivo')
-                        POSITIVO
-                    @elseif(@$data[$i]->Control == 'Negativo')
-                        NEGATIVO
+                    @if (@$data[$i]->Id_control == 5 || @$data[$i]->Id_control == 4 || @$data[$i]->Id_control == 7)
+                        {{@$data[$i]->Control}}
                     @else
-                        {{@$data[$i]->Folio_servicio}}
-                    @endif
+                        {{@$data[$i]->Codigo}}
+                    @endif 
                 </td>
 
                 <td class="contenidoBody bordesTabla">
@@ -175,32 +169,32 @@
                         Cantidad de agua de dilucion
                     </td>
 
-                    <td class="tableContent">AQUÍ VA LA CANTIDAD</td>
+                    <td class="tableContent">{{$detalleLote->Cant_dilucion}}</td>
                     
                     <td></td>
 
                     <td>
-                        <span class="tableContent nombreHeaderBold">DE</span> <span class="tableContent">AQUÍ VA LA HORA</span>
+                        <span class="tableContent nombreHeaderBold">DE</span> <span class="tableContent">{{$detalleLote->De}}</span>
                     </td>
 
                     <td>
-                        <span class="tableContent nombreHeaderBold">A</span> <span class="tableContent">AQUÍ VA LA HORA</span>
+                        <span class="tableContent nombreHeaderBold">A</span> <span class="tableContent">{{$detalleLote->A}}</span>
                     </td>
 
                     <td></td>
 
                     <td>
-                        <span class="tableContent nombreHeaderBold">PAG</span> <span class="tableContent">AQUÍ VA LA PAG</span>
+                        <span class="tableContent nombreHeaderBold">PAG</span> <span class="tableContent">{{$detalleLote->Pag}}</span>
                     </td>
 
                     <td>
-                        <span class="tableContent nombreHeaderBold">N.</span> <span class="tableContent">AQUÍ VA LA N</span>
+                        <span class="tableContent nombreHeaderBold">N.</span> <span class="tableContent">{{$detalleLote->N}}</span>
                     </td>                
                 </tr>                
 
                 <tr>                
                     <td>
-                        <span class="tableContent nombreHeaderBold">&nbsp;Disoluciones preparadas el día: </span> <span class="tableContent">AQUÍ VA EL DÍA</span>
+                        <span class="tableContent nombreHeaderBold">&nbsp;Disoluciones preparadas el día: </span> <span class="tableContent">{{$detalleLote->Dilucion}}</span>
                     </td>
                 </tr>
             </tbody>                      

@@ -128,7 +128,7 @@ function getLoteCaptura() {
             tab += '          <th>Absorción promedio</th>';
             tab += '          <th>Factor dilución D</th>';
             tab += '          <th>Factor conversion G</th>';
-            tab += '          <th>Vol. disolución digerida v</th>';
+            tab += '          <th>Resultado</th>';
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
@@ -289,7 +289,7 @@ function generarControles()
             tab2 += '          <th>Absorción promedio</th>';
             tab2 += '          <th>Factor dilución D</th>';
             tab2 += '          <th>Factor conversion G</th>';
-            tab2 += '          <th>Vol. disolución digerida v</th>';
+            tab2 += '          <th>Resultado</th>';
             tab2 += '        </tr>';
             tab2 += '    </thead>';
             tab2 += '    <tbody>';

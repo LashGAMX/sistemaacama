@@ -931,7 +931,7 @@ class SolicitudController extends Controller
                 $dbo = true;
             }
             $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $value->Id_solicitud)->get();
-    
+            
             $phMuestra = PhMuestra::where('Id_solicitud',$value->Id_solicitud)->where('Activo',1)->get();
     
             $cont = 0;
@@ -999,6 +999,7 @@ class SolicitudController extends Controller
             // 'parametros' => $solParam,
             'ga' => $ga,
             'coliformes' => $coliforme,
+            'dbo' => $dbo,
             // 'codigo' => $codigo,
             'model' => $model,
         );

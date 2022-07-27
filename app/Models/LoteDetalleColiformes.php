@@ -47,6 +47,7 @@ class LoteDetalleColiformes extends Model
         'Presuntiva9',
         'Resultado',
         'Observacion',
-        'Liberado' 
+        'Liberado',
+        'Analizo'
     ];
 }

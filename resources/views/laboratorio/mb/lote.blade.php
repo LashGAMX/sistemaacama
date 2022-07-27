@@ -213,7 +213,29 @@
 
               {{-- DBO --}}
               <div class="tab-pane fade" id="dbo" role="tabpanel" aria-labelledby="dbo-tab">  
-              
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Cantidad de dilucion: <input class="form-control" type="text" id="cantDilucion"></label>
+                    </div>
+                    <div class="col-md-4">
+                      <label>De: <input class="form-control" type="time" id="de"></label>
+                    </div>
+                    <div class="col-md-4">
+                      <label>A: <input class="form-control" type="time" id="a"></label>
+                    </div>
+                    <div class="col-md-4">
+                      <label>Pag: <input class="form-control" type="text" id="pag"></label>
+                    </div>
+                    <div class="col-md-4">
+                      <label>N: <input class="form-control" type="text" id="n"></label>
+                    </div>
+                    <div class="col-md-4">
+                      <label>Dilución: <input class="form-control" type="text" id="dilucion"></label>
+                    </div>
+                    <div class="col-md-12">
+                      <button class="btn btn-successs" id="btnGuardarDqo">Guardar</button>
+                    </div>
+                  </div>
               </div>
               {{-- DBO FIN --}}
 

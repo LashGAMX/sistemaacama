@@ -121,7 +121,7 @@
                             </th>
                             <th>Factor dilución D</th>
                             <th>Factor conversion G</th>
-                            <th>Vol. disolución digerida v</th> 
+                            <th>Resultado</th> 
                         </tr>
                     </thead>
                 </table>

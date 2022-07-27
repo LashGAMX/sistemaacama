@@ -177,6 +177,7 @@ class FqController extends Controller
         $model->Vol_dilucion = $request->D;
         $model->Vol_muestra = $request->E;
         $model->Blanco = $request->CA;
+        $model->Analizo = Auth::user()->id;
         $model->save();
 
         $data = array(
@@ -239,7 +240,7 @@ class FqController extends Controller
                 $resultado = $r1 * $r2;
 
                 break;
-            case 297:
+            case 19:
                 # Cianuros
                 $d = 500 * $request->E;
                 $x = ($request->X + $request->Y + $request->Z) / 3;

@@ -26,11 +26,37 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos encontrados",
         }
     });
+    $('#btnGuardarDqo').click(function() {
+   
+       guardarDqo();
+    });
 
     //quill = new Quill('#editor', options);
 
 });
 
+function guardarDqo(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/"+area+"/lote/guardarDqo",
+        data: {
+            idLote: $('#idLoteHeader').val(),
+            cantDilucion: $("#cantDilucion").val(),
+            de: $("#de").val(),
+            a: $("#a").val(),
+            pag: $("#pag").val(),
+            n: $("#n").val(),
+            dilucion: $("#dilucion").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+            // swal("Registro!", "Datos guardados correctamente!", "success");            
+        }
+    });
+}
 function createLote() 
 {
     $.ajax({
@@ -317,24 +343,19 @@ function getDatalote()
             
             //------------DQO------------
             if(response.dataDqo !== null){
-                $("#ebullicion_loteId").val(response.dataDqo.Id_lote);
-                
-                /* let fecha = response.dataDqo.Inicio;
-                let fechaIngresada = moment(fecha, 'DD-MM-YYYY');
-                let fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DD'); */
-                $("#ebullicion_inicio").val(response.dataDqo.Inicio);
-                
-                /* fecha = response.dataDqo.Fin;
-                fechaIngresada = moment(fecha, 'DD-MM-YYYY');
-                fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DD'); */
-                $("#ebullicion_fin").val(response.dataDqo.Fin);
-
-                $("#ebullicion_invlab").val(response.dataDqo.Invlab);
+                $('#cantDilucion').val(response.dataDqo.Cant_dilucion);    
+                $('#de').val(response.dataDqo.De);    
+                $('#a').val(response.dataDqo.A);    
+                $('#pag').val(response.dataDqo.Pag);    
+                $('#n').val(response.dataDqo.N);    
+                $('#dilucion').val(response.dataDqo.Dilucion);    
             }else{
-                $("#ebullicion_loteId").val('');
-                $("#ebullicion_inicio").val('');
-                $("#ebullicion_fin").val('');
-                $("#ebullicion_invlab").val('');
+                $('#cantDilucion').val('');    
+                $('#de').val('');    
+                $('#a').val('');    
+                $('#pag').val('');    
+                $('#n').val('');    
+                $('#dilucion').val('');    
             }
             //-----------------------------------------
 
@@ -423,6 +444,7 @@ function guardarTexto(idLote){
         }
     });
 }
+
 
 
 $('#btnColiformes').click(function() {
