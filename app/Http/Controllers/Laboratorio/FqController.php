@@ -30,6 +30,7 @@ use App\Models\SembradoFq;
 use App\Models\DqoFq;
 use App\Models\EnfriadoMatraces;
 use App\Models\EnfriadoMatraz;
+use App\Models\LoteDetalleDqo;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
 use App\Models\LoteDetalleSolidos;
@@ -311,12 +312,12 @@ class FqController extends Controller
         
         $modelCod = CodigoParametros::find($model->Id_codigo);
         $modelCod->Resultado = $model->Resultado;
-        $modelCod->Analizo = $model->Analizo;
+        $modelCod->Analizo = Auth::user()->id;
         $modelCod->save();
 
         $model = LoteDetalleEspectro::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
         $loteModel = LoteAnalisis::find($request->idLote);
-        $loteModel->Liberado = $model->count();
+        $loteModel->Liberado = Auth::user()->id;
         $loteModel->save();
 
 
@@ -907,7 +908,11 @@ class FqController extends Controller
                 # code...
                 break;
             case 15: //todo Volumetria
-                # code...
+                if($paraModel->Id_parametro == 6)
+                {
+                    $detModel = DB::table('lote_detalle_dqo')->where('Id_detalle', $request->idDetalle)->delete();
+                    $detModel = LoteDetalleDqo::where('Id_lote', $request->idLote)->get();   
+                }
                 break;
             default:
                 # code...
@@ -1498,7 +1503,7 @@ class FqController extends Controller
         }
         $modelCod = CodigoParametros::find($model->Id_codigo);
         $modelCod->Resultado = $model->Resultado;
-        $modelCod->Analizo = $model->Analizo;
+        $modelCod->Analizo =Auth::user()->id;
         $modelCod->save();
 
         $model = LoteDetalleGA::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
@@ -1761,7 +1766,7 @@ class FqController extends Controller
         }
         $modelCod = CodigoParametros::find($model->Id_codigo);
         $modelCod->Resultado = $model->Resultado;
-        $modelCod->Analizo = $model->Analizo;
+        $modelCod->Analizo = Auth::user()->id;
         $modelCod->save();
 
         $model = LoteDetalleSolidos::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();

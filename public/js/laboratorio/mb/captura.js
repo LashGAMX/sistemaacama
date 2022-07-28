@@ -6,6 +6,7 @@ $(document).ready(function () {
 
 $('#metodoCortoCol').click(function (){
     metodoCortoCol();
+    $('#indicador').val(1);
     console.log("metodo corto");
 });
 
@@ -15,6 +16,10 @@ $('#ejecutar').click(function () {
 $('#btnLiberar').click(function () {
     // operacion();
     liberarMuestra();
+});
+
+$('#limpiar').click(function () {
+    limpiar();
 });
 
 var numMuestras = new Array();
@@ -219,6 +224,7 @@ function getLoteCapturaMicro() {
     });
 }
 function getDetalleCol(idDetalle) {
+    $('#indicador').val("");
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getDetalleCol",
@@ -279,6 +285,8 @@ function getDetalleHH(idDetalle) {
             $("#uni1").val(response.model.Uncinarias);
             $("#volH1").val(response.model.Vol_muestra);
             $("#resultadoHH").val(response.model.Resultado);
+
+            
         }
     });
 }
@@ -343,6 +351,7 @@ function metodoCortoCol(){
         data: {
             tecnica: tecnica,
             idDetalle: idMuestra,
+            indicador: $('#indicador').val(), 
             resultadoCol: $("#resultadoCol").val(),
             idParametro: $('#formulaTipo').val(),
             NMP: $('#nmp1').val(),
@@ -353,6 +362,7 @@ function metodoCortoCol(){
             console.log(response);
             getLoteCapturaMicro();
             // inicio metodo corto
+        
           
                 let positivos = response.positivos;
  
@@ -387,7 +397,7 @@ function metodoCortoCol(){
                 let ran1 = Math.random() * response.convinacion.Col1;
                 let ran2 = Math.random() * response.convinacion.Col2;
                 let ran3 = Math.random() * response.convinacion.Col3;
-                for (var i = 0; i < ran1; i++){
+                for (var i = 0; i < 3; i++){
                     $('#pre'+c1).val(1);
                     console.log(ran1);
                     c1++; 
@@ -410,7 +420,7 @@ function metodoCortoCol(){
                 $('#resultadoCol').val(response.convinacion.Nmp);
             }
             $('#nmp1').val(response.convinacion.Nmp)
-        
+            
     }
     });
 }
@@ -467,6 +477,7 @@ function operacionCol() {
                 $('#resultadoCol').val(response.res);
             }
             $('#nmp1').val(response.res)
+            $('#indicador').val("");
         }
     }
     });
@@ -614,4 +625,34 @@ function cleanTable() {
     tab += '    </tbody>';
     tab += '</table>';
     tabla.innerHTML = tab;
+}
+function limpiar()
+{
+        $("#resultadoCol").val("")
+        $('#dil1').val("")
+        $('#dil2').val("")
+        $('#dil3').val("")
+        $('#nmp1').val("")
+        $('#todos1').val("")
+        $('#negativos1').val(0)
+        $('#positivos1').val(0)
+        $("#con3").val(0)
+        $("#con2").val(0)
+        $("#con1").val(0)
+        $("#con4").val(0)
+        $("#con5").val(0)
+        $("#con6").val(0)
+        $("#con7").val(0)
+        $("#con8").val(0)
+        $("#con9").val(0)
+        $("#pre1").val(0)
+        $("#pre2").val(0)
+        $("#pre3").val(0)
+        $("#pre4").val(0)
+        $("#pre5").val(0)
+        $("#pre6").val(0)
+        $("#pre7").val(0)
+        $("#pre8").val(0)
+        $("#pre9").val(0)
+        $("#indicador").val("")
 }

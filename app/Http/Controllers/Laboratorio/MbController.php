@@ -315,9 +315,10 @@ class MbController extends Controller
 
     // }3
     public function metodoCortoCol(Request $request){
-        $convinacion = Nmp1Micro::where('Nmp', $request->resultadoCol)->first();
+        $convinacion = Nmp1Micro::where('Nmp', $request->NMP)->first();
         $metodoCorto = 1;
         $positivos = $convinacion->Col1 + $convinacion->Col2 + $convinacion->Col3;
+
         $data = array(
             'convinacion' => $convinacion,
             'metodoCorto' => $metodoCorto,
@@ -339,10 +340,9 @@ class MbController extends Controller
         switch ($request->idParametro) {
             case 12: //todo Número más probable (NMP), en tubos múltiples
                 # Coliformes
-                if($request->resultadoCol != null) {
+                if($request->indicador == 1) {
                     //guarda datos del metodo corto
                     $metodoCorto = 1;
-
                     $model = LoteDetalleColiformes::find($request->idDetalle);
                     $model->Tipo = 1;
                     $model->Dilucion1 = $request->D1;
@@ -442,9 +442,7 @@ class MbController extends Controller
                 $model->Analizo = Auth::user()->id;
                 $model->save();
             }
-
-
-                
+  
 
                 break;
             case 262: //todo Número más probable (NMP), en tubos múltiples
@@ -522,6 +520,7 @@ class MbController extends Controller
             'tipo' => $tipo,
             'model' => $numModel3,
             'metodoCorto' => $metodoCorto,
+            
             
         );
 
@@ -954,6 +953,7 @@ class MbController extends Controller
     public function liberarMuestra(Request $request)
     {
         $sw = false;
+        $mensaje = "";
         $paraModel = LoteAnalisis::find($request->idLote);
         switch ($paraModel->Id_tecnica) {
             case 12: //todo Número más probable (NMP), en tubos múltiples
@@ -984,22 +984,41 @@ class MbController extends Controller
                 break;
             case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
                 # code...
+                $mensaje = "entro a dbo";
                 $model = LoteDetalleDbo::find($request->idMuestra);
                 $model->Liberado = 1;
                 if ($model->Resultado != null) {
                     $sw = true;
                     $model->save();
                 }
+                $modelCod = CodigoParametros::find($model->Id_codigo);
+                $modelCod->Resultado = $model->Resultado;
+                $modelCod->Analizo = $model->Analizo;
+                $modelCod->save();
 
                 $model = LoteDetalleDbo::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
                 $loteModel = LoteAnalisis::find($request->idLote);
                 $loteModel->Liberado = $model->count();
                 $loteModel->save();
+
                 break;
             case 16: //todo Huevos de Helminto 
-                # code...
+                $model = LoteDetalleHH::find($request->idMuestra);
+                $model->Liberado = 1;
+                if ($model->Resultado != null) {
+                    $sw = true;
+                    $model->save();
+                }
+                $modelCod = CodigoParametros::find($model->Id_codigo);
+                $modelCod->Resultado = $model->Resultado;
+                $modelCod->Analizo = Auth::user()->id;
+                $modelCod->save();
+
+                $model = LoteDetalleHH::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
+                $loteModel = LoteAnalisis::find($request->idLote);
+                $loteModel->Liberado = $model->count();
+                $loteModel->save();
      
-                $sw = true;
                 break;
             default:
                 # code...
@@ -1010,6 +1029,7 @@ class MbController extends Controller
 
         $data = array(
             'sw' => $sw,
+            'mensaje' => $mensaje,
         );
         return response()->json($data);
     }

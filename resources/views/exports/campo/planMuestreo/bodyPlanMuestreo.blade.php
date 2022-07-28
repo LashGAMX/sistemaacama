@@ -27,7 +27,7 @@
                     <tr>
                         <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr" height="25">{{@$paquete[$i]->Area}}</td>
                         <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">                            
-                            @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 7 || @$paquete[$i]->Id_area == 16)
+                            @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 7 || @$paquete[$i]->Id_area == 16 || @$paquete[$i]->Id_area == 17)
                                 {{@$paquete[$i]->Cantidad * @$model->Num_tomas * $puntos}}
                             @else
                                 {{@$paquete[$i]->Cantidad * $puntos}}

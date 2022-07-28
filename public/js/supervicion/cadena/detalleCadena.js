@@ -140,9 +140,13 @@ function getParametros() {
         }
     });
 }
+var resLiberado = 0;
+var idCod = idCodigo;
 function getDetalleAnalisis(idCodigo) {
     let tabla = document.getElementById('divTabDescripcion');
     let tab = '';
+    let aux = 0;
+    let cont = 0;
     tabla.innerHTML = tab;
 
     $("#resDes").val(0.0)
@@ -159,7 +163,7 @@ function getDetalleAnalisis(idCodigo) {
         success: function (response) {
             console.log(response)
             dataModel = response.model
-
+            idCod = idCodigo;
             switch (response.paraModel.Id_area) {
                 case "2": //Metales
                     console.log("entro a caso 2");
@@ -175,6 +179,7 @@ function getDetalleAnalisis(idCodigo) {
                     $.each(response.model, function (key, item) {
                         tab += '<tr>';
                         tab += '<td>' + response.paraModel.Parametro + '</td>';
+                        resLiberado = item.Vol_disolucion;
                         tab += '<td>' + item.Vol_disolucion + '</td>';
                         tab += '</tr>';
                     });
@@ -197,6 +202,7 @@ function getDetalleAnalisis(idCodigo) {
                         tab += '<tr>';
                         tab += '<td>' + response.paraModel.Parametro + '</td>';
                         tab += '<td>' + item.Resultado + '</td>';
+                        resLiberado = item.Resultado;
                         tab += '</tr>';
                     });
                     tab += '    </tbody>';
@@ -214,12 +220,24 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '        </tr>';
                     tab += '    </thead>';
                     tab += '    <tbody>';
-                    $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
-                        tab += '</tr>';
-                    });
+                    if (response.paraModeld_parametro == 11) {
+                        $.each(response.model, function (key, item) {
+                            tab += '<tr>';
+                            tab += '<td>' + item.Parametro + '</td>';
+                            tab += '<td>' + item.Resultado + '</td>';
+                            aux =  aux+parseFloat(item.Resultado);
+                            tab += '</tr>';
+                        });
+                        resLiberado = aux;
+                    } else if(response.paraModel.Id_parametro == 6){
+                        $.each(response.model, function (key, item) {
+                            tab += '<tr>';
+                            tab += '<td>' + item.Parametro + '</td>';
+                            tab += '<td>' + item.Resultado + '</td>';
+                            resLiberado = item.Resultado;
+                            tab += '</tr>';
+                        });
+                    }
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
@@ -236,11 +254,13 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '    </thead>';
                     tab += '    <tbody>';
                     $.each(response.model, function (key, item) {
+                        aux = aux + parseFloat(item.Resultado);
                         tab += '<tr>';
                         tab += '<td>' + item.Parametro + '</td>';
                         tab += '<td>' + item.Resultado + '</td>';
                         tab += '</tr>';
                     });
+                    resLiberado = (aux / cont);
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
@@ -256,18 +276,43 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '        </tr>';
                     tab += '    </thead>';
                     tab += '    <tbody>';
-                    $.each(response.model, function (key, item) {
-                        tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
-                        tab += '</tr>';
-                    });
+                    if (response.codigoModel.Id_parametro == 5) {
+                        $.each(response.model, function (key, item) {
+                            tab += '<tr>';
+                            tab += '<td>' + item.Parametro + '</td>';
+                            tab += '<td>' + item.Resultado + '</td>';
+                            tab += '</tr>';
+                            resLiberado = item.Resultado;
+                        });
+                    } else if(response.codigoModel.Id_parametro == 12) {
+                        aux = 1;
+                        $.each(response.model, function (key, item) {
+                            aux = aux * parseFloat(item.Resultado);
+                            tab += '<tr>';
+                            tab += '<td>' + item.Parametro + '</td>';
+                            tab += '<td>' + item.Resultado + '</td>';
+                            tab += '</tr>';
+                            cont++;
+                        });
+                        // resLiberado = (aux / cont);
+                        resLiberado = (Math.pow(aux,1/cont)); 
+                        console.log(resLiberado);
+                    } else if(response.codigoModel.Id_parametro == 16) {
+                        $.each(response.model, function (key, item) {
+                            tab += '<tr>';
+                            tab += '<td>' + item.Parametro + '</td>';
+                            tab += '<td>' + item.Resultado + '</td>';
+                            tab += '</tr>';
+                            resLiberado = item.Resultado;
+                        });
+                    }
+                    
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
                     case "15":// Solidos
-                        console.log("entro a caso 6");
+                        console.log("entro a caso 15");
                         tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                         tab += '<table id="tableResultado" class="table table-sm">';
                         tab += '    <thead class="thead-dark">';
@@ -282,6 +327,7 @@ function getDetalleAnalisis(idCodigo) {
                             tab += '<td>' + item.Parametro + '</td>';
                             tab += '<td>' + item.Resultado + '</td>';
                             tab += '</tr>';
+                            resLiberado = item.Resultado;
                         });
                         tab += '    </tbody>';
                         tab += '</table>';
@@ -314,7 +360,7 @@ function getDetalleAnalisis(idCodigo) {
                     $(this).removeClass('selected');
                 }
                 else {
-                    tablePunto.$('tr.selected').removeClass('selected');
+                    tableResultado.$('tr.selected').removeClass('selected');
                     $(this).addClass('selected');
                     let dato = $(this).find('td:first').html();
                     detPa = dato;
@@ -325,7 +371,23 @@ function getDetalleAnalisis(idCodigo) {
     });
 }
 function liberarResultado(){
-    
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/supervicion/cadena/liberarMuestra",
+        data: {
+            idSol: $("#idSol").val(),
+            idPunto: idPunto,
+            idCod:idCod,
+            resLiberado:resLiberado,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            // swal("Analisis!", "Analisis regresado", "success");
+            getParametros();
+        }
+    });
 }
 function regresarRes() {
     $.ajax({

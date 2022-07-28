@@ -156,7 +156,7 @@
                     <form >
                         <div class="modal-header">
                             <h5 class="modal-title" id="exampleModalLabel">Captura coliformes</h5>
-                           <button type="button" id="metodoCortoCol"> <i class="voyager-window-list" ></i></button>
+                            <input hidden type="text" id="indicador" value="">
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
@@ -173,6 +173,14 @@
                                         <button class="btn btn-success" type="button"
                                             onclick="updateObsMuestra(1,'observacionCol')"
                                             id="btnAplicarObsColiformes"><i class="voyager-check"></i> Aplicar</button>
+                                    </div>
+                                    <div class="col-md-3">
+                                    
+                                    <button type="button" id="metodoCortoCol"> <i class="voyager-window-list"></i></button>
+                                    </div>
+                                    <div class="col-md-3">
+                                    
+                                    <button type="button" id="limpiar" class="btn btn-success" class="voyager-fa-file-o" >Limpiar</button>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

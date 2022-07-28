@@ -38,6 +38,17 @@ class CadenaController extends Controller
         );
         return response()->json($data);
     }
+    public function liberarMuestra(Request $res)
+    {
+        $sw = true;
+        $model = CodigoParametros::where('Id_codigo', $res->idCod)->first();
+        $model->Resultado2 = round($res->resLiberado,3);
+        $model->save();
+        $data = array(
+            'sw' => $sw,
+        );
+        return response()->json($data);
+    }
     public function getDetalleAnalisis(Request $res)
     {
 
@@ -67,7 +78,8 @@ class CadenaController extends Controller
                 }
                 break;
             case "13": // Grasas y Aceites
-                $model = DB::table('ViewLoteDetalleGA')->where('Id_analisis',$codigoModel->Id_solicitud)
+                $model = DB::table('ViewLoteDetalleGA')
+                ->where('Id_analisis',$codigoModel->Id_solicitud)
                 ->where('Id_parametro',$codigoModel->Id_parametro)->get();
                 break;
             case 6:
@@ -90,25 +102,7 @@ class CadenaController extends Controller
                         ->where('Id_control',1)
                         ->where('Id_parametro',$codigoModel->Id_parametro)->get();
                     break;
-                // case 6: // Microbiologia
-                //         if($codigoModel->Id_parametro == 13)
-                //         {
-                //             $model = LoteDetalleColiformes::where('Id_analisis',$res->idSol)->where('Id_control',1)->get();
-                //         }
-                //         break; 
-                // case 16: //Espectrofotometria 
-                //     $model = LoteDetalleEspectro::where('Id_codigo',$codigoModel->Id_codigo)->first();
-                //     break;
-                // case 13: // G&A
-                //     $model = LoteDetalleGA::where('Id_analisis',$res->idSol)->where('Id_control',1)->get();
-                //     break;
-                // case 14: //volmetria
-                //     if($codigoModel->Id_parametro == 12)
-                //     {
-                //         $model = LoteDetalleNitrogeno::where('Id_codigo',$codigoModel->Id_codigo)->first();
-                //         $nAmo = LoteDetalleNitrogeno::where('Id_')->first();
-                //     }
-                //     break;
+          
             default:
                 # code... 
                 $model = "Default2";

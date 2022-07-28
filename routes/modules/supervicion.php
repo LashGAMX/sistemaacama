@@ -10,6 +10,7 @@ Route::group(['prefix' => 'supervicion'], function () {
         Route::post('getParametroCadena', [CadenaController::class,'getParametroCadena']);
         Route::post('getDetalleAnalisis', [CadenaController::class,'getDetalleAnalisis']);
         Route::post('regresarRes', [CadenaController::class,'regresarRes']);
+        Route::post('liberarMuestra', [CadenaController::class,'liberarMuestra']);
 
         Route::post('liberarSolicitud', [CadenaController::class,'liberarSolicitud']);
     });

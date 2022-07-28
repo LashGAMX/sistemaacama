@@ -483,7 +483,8 @@ class VolController extends Controller
                 # code...
                 break;
             case 15: //todo Volumetria
-                # code...
+                $detModel = DB::table('lote_detalle_espectro')->where('Id_detalle', $request->idDetalle)->delete();
+                $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
                 break;
             default:
                 # code...
@@ -562,7 +563,7 @@ class VolController extends Controller
             ]);
             $detModel = LoteDetalleCloro::where('Id_lote', $request->idLote)->get();
             $sw = true;
-        } else if ($loteModel->Id_tecnica == 9 || $loteModel->Id_tecnica == 11 || $loteModel->Id_tecnica == 12) //todo Nitrógeno Total,
+        } else if ($loteModel->Id_tecnica == 9 || $loteModel->Id_tecnica == 11 || $loteModel->Id_tecnica == 10) //todo Nitrógeno Total,
         {
             $model = LoteDetalleNitrogeno::create([
                 'Id_lote' => $request->idLote,
@@ -976,13 +977,15 @@ class VolController extends Controller
                 $model = $muestra->replicate();
                 $model->Id_control = $request->idControl;
                 break;
-            case 7:
+            case 6:
                 # DQO
                 $muestra = LoteDetalleDqo::where('Id_detalle', $request->idMuestra)->first();
                 $model = $muestra->replicate();
                 $model->Id_control = $request->idControl;
                 break;
-            case 12:
+            case 9:
+            case 10:
+            case 11:
                 # Nitrogeno
                 $muestra = LoteDetalleNitrogeno::where('Id_detalle', $request->idMuestra)->first();
                 $model = $muestra->replicate();
@@ -1061,8 +1064,9 @@ class VolController extends Controller
     public function liberarMuestraVol(Request $request)
     {
         $sw = false;
+        $model = 0;
 
-        if ($request->formulaTipo == 7) //todo DQO
+        if ($request->formulaTipo == 6) //todo DQO
         {
             $model = LoteDetalleDqo::find($request->idMuestra);
             $model->Liberado = 1;
@@ -1092,7 +1096,7 @@ class VolController extends Controller
 
 
             $model = LoteDetalleCloro::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
-        } else if ($request->formulaTipo == 10 || $request->formulaTipo == 11 || $request->formulaTipo == 12) //todo Nitrógeno Total,
+        } else if ($request->formulaTipo == 9 || $request->formulaTipo == 10 || $request->formulaTipo == 11) //todo Nitrógeno Total,
         {
             $model = LoteDetalleNitrogeno::find($request->idMuestra);
             $model->Liberado = 1;
@@ -1207,10 +1211,10 @@ class VolController extends Controller
                                 array_push($limites, $limC);
                             }
                         }
-
+                        $limiteDqo = Parametro::where('Id_parametro',72)->first();
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
-                        $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody', compact('valoracion','textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
+                        $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody', compact('limiteDqo','valoracion','textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
                     } else {
                         $sw = false;
                         $mpdf->SetJS('print("No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
@@ -1446,12 +1450,12 @@ class VolController extends Controller
                                 array_push($limites, $limC);
                             }
                         }
-
+                        $limiteDqo = Parametro::where('Id_parametro',72)->first();
                         $textProcedimiento = ReportesFq::where('Id_reporte', 25)->first();
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
-                        $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody', compact('valoracion','textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
+                        $htmlCaptura = view('exports.laboratorio.fq.volumetria.dqoA.capturaBody', compact('limiteDqo','valoracion','textoProcedimiento', 'data', 'dataLength', 'limiteC', 'limites'));
                     } else {
                         $sw = false;
                         $mpdf->SetJS('No se han llenado datos en el reporte. Verifica que todos los datos estén ingresados.");');
