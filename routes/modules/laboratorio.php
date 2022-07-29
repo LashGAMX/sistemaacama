@@ -46,6 +46,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         //? Modulo de captura de resultados
         Route::post('createControlCalidad', [MetalesController::class, 'createControlCalidad']);
         Route::post('operacion', [MetalesController::class, 'operacion']);
+        Route::post('enviarObservacion', [MetalesController::class, 'enviarObservacion']);
         Route::post('lote/equipo/guardarDatosGenerales', [MetalesController::class, 'guardarDatosGenerales']);
         Route::post('getDataLote/plantillaPredeterminada', [MetalesController::class, 'getPlantillaPred']);
         Route::post('lote/procedimiento/busquedaFiltros', [MetalesController::class, 'busquedaFiltros']);
@@ -114,6 +115,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('operacionSolidosSimple', [FqController::class, 'operacionSolidosSimple']);
         Route::post('operacionSolidosLarga', [FqController::class, 'operacionSolidosLarga']);
         Route::post('operacionSolidosDif', [FqController::class, 'operacionSolidosDif']);
+        Route::post('guardarDirecto', [FqController::class, 'guardarDirecto']);
         Route::post('createControlCalidadSolidos', [FqController::class, 'createControlCalidadSolidos']);
         Route::post('updateObsMuestraSolidos', [FqController::class, 'updateObsMuestraSolidos']);
         Route::post('updateObsMuestraSolidosDif', [FqController::class, 'updateObsMuestraSolidosDif']);

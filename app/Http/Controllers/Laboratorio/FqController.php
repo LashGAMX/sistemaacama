@@ -1715,6 +1715,15 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
+    public function guardarDirecto(Request $request){
+        $model = LoteDetalleSolidos::find($request->idMuestra);
+        $model->Resultado = $request->resultado;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+    }
 
 
     public function createControlCalidadSolidos(Request $request)

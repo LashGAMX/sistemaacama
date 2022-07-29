@@ -523,7 +523,16 @@
                                             class="voyager-check"></i> Aplicar</button>
                                 </div>
                                 <div class="col-md-12">
-                                    <h4>Resultado DQO <input type="text" id="resDqo" disabled></h4>
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <h4>Resultado DQO <input type="text" id="resDqo" disabled></h4>
+                                        </div>
+                                        <div class="col-md-6">
+                                            <div class="form-check">
+                                                <input class="form-check-input" type="checkbox" value="" id="sugeridoDbo">
+                                              </div>
+                                        </div>
+                                    </div>
                                 </div>
                                 <div class="col-md-12">
                                     <table class="table" id="">

@@ -4,12 +4,15 @@ namespace App\Http\Controllers\Supervicion;
 
 use App\Http\Controllers\Controller;
 use App\Models\CodigoParametros;
+use App\Models\GastoMuestra;
 use App\Models\LoteDetalle;
 use App\Models\LoteDetalleEspectro;
+use App\Models\PhMuestra;
 use App\Models\Solicitud;
+use App\Models\TemperaturaMuestra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
- 
+
 class CadenaController extends Controller
 {
     //cadena  
@@ -42,7 +45,8 @@ class CadenaController extends Controller
     {
         $sw = true;
         $model = CodigoParametros::where('Id_codigo', $res->idCod)->first();
-        $model->Resultado2 = round($res->resLiberado,3);
+        $model->Resultado2 = round($res->resLiberado, 3);
+        $model->Cadena = 1;
         $model->save();
         $data = array(
             'sw' => $sw,
@@ -51,7 +55,7 @@ class CadenaController extends Controller
     }
     public function getDetalleAnalisis(Request $res)
     {
-
+        $aux = 0;
         $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
         $paraModel = DB::table('ViewParametros')->where('Id_parametro', $codigoModel->Id_parametro)->first();
         switch ($paraModel->Id_area) {
@@ -60,55 +64,95 @@ class CadenaController extends Controller
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
                 break;
             case 16: // Espectro
-                        $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
-                        ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();    
+                $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
                 break;
             case 14: // Volumetria
                 if ($codigoModel->Id_parametro == 11) {
                     $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_analisis', $codigoModel->Id_solicitud)
-                    ->where('Id_parametro', $codigoModel->Id_parametro)
-                    ->orWhere('Id_parametro',9)
-                    ->orWhere('Id_parametro',10)
-                    ->orWhere('Id_parametro',83)
-                ->where('Id_control', 1)->get();
+                        ->where('Id_parametro', $codigoModel->Id_parametro)
+                        ->orWhere('Id_parametro', 9)
+                        ->orWhere('Id_parametro', 10)
+                        ->orWhere('Id_parametro', 83)
+                        ->where('Id_control', 1)->get();
                 } else if ($codigoModel->Id_parametro == 6) {
                     $model = DB::table('ViewLoteDetalleDqo')->where('Id_analisis', $codigoModel->Id_solicitud)
-                    ->where('Id_parametro', $codigoModel->Id_parametro)
-                    ->where('Id_control', 1)->get();
-                }
+                        ->where('Id_parametro', $codigoModel->Id_parametro)
+                        ->where('Id_control', 1)->get();
+                } else if ($codigoModel->Id_parametro == 9 || $codigoModel->Id_parametro == 10 ) {
+                    $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_analisis', $codigoModel->Id_solicitud)
+                        ->where('Id_control', 1)
+                        ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                } 
                 break;
             case "13": // Grasas y Aceites
                 $model = DB::table('ViewLoteDetalleGA')
-                ->where('Id_analisis',$codigoModel->Id_solicitud)
-                ->where('Id_parametro',$codigoModel->Id_parametro)->get();
+                    ->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                $gasto = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
+                    ->where('Activo', 1)->get();
+                $res1 = array();
+                $sumaRes1 = 0;
+                for ($i = 0; $i < sizeof($model); $i++) {
+                    array_push($res1, $model[$i]->Resultado * $gasto[$i]->Promedio);
+                    $sumaRes1 = $sumaRes1 + ($model[$i]->Resultado * $gasto[$i]->Promedio);
+                }
+                $res2 = array();
+                for ($i = 0; $i < sizeof($res1); $i++) {
+                    array_push($res2, $res1[$i] / $sumaRes1);
+                }
+                $promedio = 0;
+                for ($i = 0; $i < sizeof($res2); $i++) {
+                    $promedio = $promedio + ($res2[$i] * $model[$i]->Resultado);
+                }
+                $aux = $promedio;
                 break;
-            case 6:
+            case 6: // Micro
                 if ($codigoModel->Id_parametro == 5) {
-                    $model = DB::table('ViewLoteDetalleDbo')->where('Id_analisis',$codigoModel->Id_solicitud)
-                    ->where('Id_control',1)
-                    ->where('Id_parametro',$codigoModel->Id_parametro)->get();
-                } else if($codigoModel->Id_parametro == 12) {
-                    $model = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis',$codigoModel->Id_solicitud)
-                    ->where('Id_control',1)
-                    ->where('Id_parametro',$codigoModel->Id_parametro)->get();
-                } else if($codigoModel->Id_parametro == 16) {
-                    $model = DB::table('ViewLoteDetalleHH')->where('Id_analisis',$codigoModel->Id_solicitud)
-                    ->where('Id_control',1)
-                    ->where('Id_parametro',$codigoModel->Id_parametro)->get();
+                    $model = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $codigoModel->Id_solicitud)
+                        ->where('Id_control', 1)
+                        ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                } else if ($codigoModel->Id_parametro == 12) {
+                    $model = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $codigoModel->Id_solicitud)
+                        ->where('Id_control', 1)
+                        ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                } else if ($codigoModel->Id_parametro == 16) {
+                    $model = DB::table('ViewLoteDetalleHH')->where('Id_analisis', $codigoModel->Id_solicitud)
+                        ->where('Id_control', 1)
+                        ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                 }
                 break;
-                case 15: // Solidos
-                        $model = DB::table('ViewLoteDetalleSolidos')->where('Id_analisis',$codigoModel->Id_solicitud)
-                        ->where('Id_control',1)
-                        ->where('Id_parametro',$codigoModel->Id_parametro)->get();
-                    break;
-          
+            case 15: // Solidos
+                $model = DB::table('ViewLoteDetalleSolidos')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case 7: // Muestreo
+                if ($codigoModel->Id_parametro == 26) //Gasto
+                {
+                    $model = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
+                        ->where('Activo', 1)->get();
+                } else if ($codigoModel->Id_parametro == 2) //Materia flotante
+                {
+                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
+                        ->where('Activo', 1)->get();
+                } else if ($codigoModel->Id_parametro == 14) //Ph
+                {
+                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
+                        ->where('Activo', 1)->get();
+                } else if ($codigoModel->Id_parametro == 97) //Temperatura
+                {
+                    $model = TemperaturaMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
+                        ->where('Activo', 1)->get();
+                }
+                break;
             default:
                 # code... 
                 $model = "Default2";
                 break;
         }
         $data = array(
+            'aux' => $aux,
             'paraModel' => $paraModel,
             'codigoModel' => $codigoModel,
             'model' => $model,

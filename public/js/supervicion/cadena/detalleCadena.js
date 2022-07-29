@@ -237,12 +237,20 @@ function getDetalleAnalisis(idCodigo) {
                             resLiberado = item.Resultado;
                             tab += '</tr>';
                         });
+                    } else if(response.paraModel.Id_parametro == 9 || response.paraModel.Id_parametro == 10){
+                        $.each(response.model, function (key, item) {
+                            tab += '<tr>';
+                            tab += '<td>' + item.Parametro + '</td>';
+                            tab += '<td>' + item.Resultado + '</td>';
+                            resLiberado = item.Resultado;
+                            tab += '</tr>';
+                        });
                     }
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case "13":// Graasas 
+                case "13":// Graasas & Aceites
                     console.log("entro a caso 13");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -254,13 +262,12 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '    </thead>';
                     tab += '    <tbody>';
                     $.each(response.model, function (key, item) {
-                        aux = aux + parseFloat(item.Resultado);
                         tab += '<tr>';
                         tab += '<td>' + item.Parametro + '</td>';
                         tab += '<td>' + item.Resultado + '</td>';
                         tab += '</tr>';
                     });
-                    resLiberado = (aux / cont);
+                    resLiberado = (response.aux);
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
@@ -279,9 +286,15 @@ function getDetalleAnalisis(idCodigo) {
                     if (response.codigoModel.Id_parametro == 5) {
                         $.each(response.model, function (key, item) {
                             tab += '<tr>';
-                            tab += '<td>' + item.Parametro + '</td>';
+                            if(item.Sugerido == 1)
+                            {
+                                tab += '<td class="bg-success">';
+                            }else{
+                                tab += '<td>';
+                            }
+                            tab += '' + item.Parametro + '</td>';
                             tab += '<td>' + item.Resultado + '</td>';
-                            tab += '</tr>';
+                            tab += '</>';
                             resLiberado = item.Resultado;
                         });
                     } else if(response.codigoModel.Id_parametro == 12) {
@@ -333,10 +346,78 @@ function getDetalleAnalisis(idCodigo) {
                         tab += '</table>';
                         tabla.innerHTML = tab;
                         break;
+                        case "7":// Campo
+                            console.log("entro a caso 7");
+                            tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                            tab += '<table id="tableResultado" class="table table-sm">';
+                            tab += '    <thead class="thead-dark">';
+                            tab += '        <tr>';
+                            tab += '          <th>Descripcion</th>';
+                            tab += '          <th>Valor</th>';
+                            tab += '        </tr>';
+                            tab += '    </thead>';
+                            tab += '    <tbody>';
+                            if (response.codigoModel.Id_parametro == 26) { // Gasto
+                                aux = 0;
+                                cont = 0;
+                                $.each(response.model, function (key, item) {
+                                    tab += '<tr>';
+                                    tab += '<td>Gasto Campo - '+(cont+ 1)+'</td>';
+                                    tab += '<td>' + item.Promedio + '</td>';
+                                    tab += '</tr>';
+                                    aux = aux + parseFloat(item.Promedio);
+                                    cont++
+                                });
+                                resLiberado = (aux / cont);
+                            } else if(response.codigoModel.Id_parametro == 2) { // Materia flotante
+                                aux = 0;
+                                cont = 0;
+                                $.each(response.model, function (key, item) {
+                                    tab += '<tr>';
+                                    tab += '<td> Materia - '+(cont + 1)+'</td>';
+                                    tab += '<td>' + item.Materia + '</td>';
+                                    tab += '</tr>';
+                                    if(item.Materia == "Presente")
+                                    {
+                                        aux = 1;
+                                    }
+                                    cont++;
+                                });
+                                resLiberado = aux; 
+                            } else if(response.codigoModel.Id_parametro == 14) { // PH
+                                aux = 0;
+                                cont = 0;
+                                $.each(response.model, function (key, item) {
+                                    tab += '<tr>';
+                                    tab += '<td> pH - '+(cont + 1)+'</td>';
+                                    tab += '<td>' + item.Promedio + '</td>';
+                                    tab += '</tr>';
+                                    aux = aux + parseFloat(item.Promedio);
+                                    cont++;
+                                });
+                                resLiberado = (aux / cont);
+                            } else if(response.codigoModel.Id_parametro == 97) { // Temperatura
+                                aux = 0;
+                                cont = 0;
+                                $.each(response.model, function (key, item) {
+                                    tab += '<tr>';
+                                    tab += '<td> Temperatura - '+(cont + 1)+'</td>';
+                                    tab += '<td>' + item.Promedio + '</td>';
+                                    tab += '</tr>';
+                                    aux = aux + parseFloat(item.Promedio);
+                                    cont++;
+                                });
+                                resLiberado = (aux / cont);
+                            }
+                            tab += '    </tbody>';
+                            tab += '</table>';
+                            tabla.innerHTML = tab;
+                        break;
                 default:
                     console.log("entro a break");
                     break;
             }
+            $("#resDes").val(resLiberado);
 
 
             $('#btnRegresar').click(function () {
@@ -362,8 +443,9 @@ function getDetalleAnalisis(idCodigo) {
                 else {
                     tableResultado.$('tr.selected').removeClass('selected');
                     $(this).addClass('selected');
-                    let dato = $(this).find('td:first').html();
+                    let dato = $(this).find('td:eq(1)').html();
                     detPa = dato;
+                    resLiberado = detPa;
                 }
             });
 

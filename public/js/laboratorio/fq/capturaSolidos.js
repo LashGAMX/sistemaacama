@@ -23,6 +23,13 @@ $('#guardar').click(function () {
 $('#guardarDif').click(function () {
     operacionSolidosDif();
 });
+
+$('#guardarDirecto').click(function () {
+    guardarDirecto();
+    swal("Guardado", "Resultado Guardado", "success")
+    $("#modalDirecto").modal('hide');
+});
+
 $('#btnLiberar').click(function () {
     // operacion();
     liberarMuestra();
@@ -163,6 +170,9 @@ function getLoteCapturaSolidos() {
                         break;
                     case 47:
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
+                        break;
+                    case 3:
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDirecto">Capturar</button>';
                         break;
                     default:
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
@@ -364,6 +374,23 @@ function operacionSolidosDif() {
     });
 }
 
+function guardarDirecto() {
+
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/guardarDirecto",
+        data: {
+            idMuestra: idMuestra,
+            resultado: $("#resultadoModal").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+          
+        }
+    });
+}
 
 function getDetalleSolidos(idDetalle, num) {
     $.ajax({

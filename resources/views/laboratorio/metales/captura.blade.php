@@ -57,21 +57,66 @@
                           </table>
                     </div>
                 </div>
+                <div class="col-md-3">
+                    <p class="">Observacion Metales</p>
+                    </div>
                 <div class="col-md-6">
                     <div class="row">
-                        <div class="col-md-3">
-                            <p class="">Información global</p>
-                            <div id="infoGlobal">
-
+                        <div class="col-md-2">                                
+                            <div class="form-group">
+                                <label for="exampleFormControlSelect1">pH < 2</label>
+                                <select class="form-control" id="ph">
+                                    <option value="Sin seleccionar">Sin seleccionar</option>
+                                    <option value="SI">SI</option>
+                                    <option value="NO">NO</option>
+                                </select>
                             </div>
-                        </div>
-                        <div class="col-md-9">
-                            <p class="">Información</p>
-                            <div id="infoGen">
-                        </div>
-                    </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-group">
+                              <label for="exampleFormControlSelect1">Sólidos</label>
+                              <select class="form-control" id="solidos">
+                                <option value="Sin seleccionar">Sin seleccionar</option>
+                                <option value="SI">SI</option>
+                                <option value="NO">NO</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-group">
+                              <label for="exampleFormControlSelect1">Olor</label>
+                              <select class="form-control" id="olor">
+                                <option value="Sin seleccionar">Sin seleccionar</option>
+                                <option value="SI">SI</option>
+                                <option value="NO">NO</option>
+                              </select>
+                            </div>
+                          </div>
+              
+                          <div class="col-md-2">
+                            <div class="form-group">
+                              <label for="exampleFormControlSelect1">Color</label>
+                              <select class="form-control" id="color">
+                                <option value="Sin seleccionar">Sin seleccionar</option>
+                                <option value="SI">SI</option>
+                                <option value="NO">NO</option>
+                              </select>
+                            </div>
+                          </div>
+                          <div class="col-md-2">
+                            <div class="form-group">
+                              <label for="exampleFormControlTextarea1">Observaciones</label>
+                              <textarea class="form-control" id="observacion" rows="3"></textarea>
+                            </div>
+                          </div>
+              
+                          <div class="col-md-2">
+                            <button class="btn btn-success" id="enviarObservacion">Aplicar</button> 
+                          </div>
                 </div>
+               
             </div>
+           
         </div>
 
         <div class="col-md-12">

@@ -478,6 +478,7 @@ class MbController extends Controller
                     $model->Vol_botella = $request->C;
                     $model->Resultado = $res;
                     $model->Analizo = Auth::user()->id;
+                    $model->Sugerido = $request->S;
                     $model->save();
                 }else{
                     $res = ($request->OI - $request->OF);
@@ -487,6 +488,7 @@ class MbController extends Controller
                     $model->Vol_muestra = $request->V;
                     $model->Resultado = $res;
                     $model->Analizo = Auth::user()->id;
+                    $model->Sugerido = $request->S;
                     $model->save();
                 }
 

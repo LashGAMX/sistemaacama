@@ -376,6 +376,7 @@ class MetalesController extends Controller
             }
 
         }
+        $resultadoRound = round($resultado,3);
  
         $detalle = LoteDetalle::find($request->idDetalle);
         $detalle->Vol_muestra = $request->volMuestra;
@@ -385,7 +386,7 @@ class MetalesController extends Controller
         $detalle->Abs_promedio = $promedio;
         $detalle->Factor_dilucion = $request->FD;
         $detalle->Factor_conversion = 0;
-        $detalle->Vol_disolucion = $resultado; 
+        $detalle->Vol_disolucion = $resultadoRound; 
         $detalle->Analizo = Auth::user()->id;
         $detalle->save();
 
@@ -394,13 +395,28 @@ class MetalesController extends Controller
             'curva' => $curvaConstantes,
             'promedio' => $promedio,
             'resultado' => $resultado,
-            //'constantes' => $constantes,
+            'resultadoRound' => $resultadoRound,
            
           
         );
 
         return response()->json($data);
     }
+    public function enviarObservacion(Request $request) {
+        $detalle = LoteDetalle::find($request->idMuestra);
+        $detalle->Observacion = $request->observacion;
+        $detalle->Ph = $request->ph;
+        $detalle->Solidos = $request->solidos;
+        $detalle->Olor = $request->olor;
+        $detalle->Color = $request->color;
+        $detalle->save();
+
+        $data = array(
+            'idDetalle' => $request->idDetalle,
+            'model' => $detalle,
+        ); 
+    }
+
     public function liberarMuestraMetal(Request $request)
     {
         $sw = false;

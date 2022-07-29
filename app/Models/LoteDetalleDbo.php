@@ -30,6 +30,7 @@ class LoteDetalleDbo extends Model
         'Vol_botella',
         'Resultado',
         'Observacion',
+        'Sugerido',
         'Liberado',
         'Analizo',
     ];

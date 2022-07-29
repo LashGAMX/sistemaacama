@@ -155,7 +155,7 @@ function getLoteCapturaMicro() {
                         break;
                     case "5":
                         if (item.Id_control == 5) {
-                            tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDbo(' + item.Id_detalle + ', 2);"data-toggle="modal" data-target="#modalCapturaDboBlanco">Capturar</button>';
+                            tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDbo(' + item.Id_detalle + ', 1);"data-toggle="modal" data-target="#modalCapturaDboBlanco">Capturar</button>';
                         } else {
                             tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDbo(' + item.Id_detalle + ', 1);" data-toggle="modal" data-target="#modalCapturaDbo">Capturar</button>';
                         }
@@ -316,6 +316,12 @@ function getDetalleDbo(idDetalle, tipo) {
         
                     $("#observacionDbo").val(response.model.Observacion);
                     $("#resDbo").val(response.model.Resultado);
+                    if(response.model.Sugerido == 1)
+                    {
+                        document.getElementById("sugeridoDbo").checked = true;
+                    }else{
+                        document.getElementById("sugeridoDbo").checked = false;
+                    }
                     if (response.model2 == NULL) {
                         $('#resDqo').val("N/A");
                     } else {
@@ -485,6 +491,10 @@ function operacionCol() {
 
 
 function operacionDbo(tipo) {
+    let sug = 0;
+    if (document.getElementById("sugeridoDbo").checked == true) {
+        sug = 1;
+    }
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/operacion",
@@ -506,6 +516,7 @@ function operacionDbo(tipo) {
             OI: $('#oxigenoIncialB1').val(),
             OF: $('#oxigenofinalB1').val(),
             V: $('#volMuestraB1').val(),
+            S: sug,
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",

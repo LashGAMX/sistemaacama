@@ -24,7 +24,7 @@
         {{-- <div class="col-md-3"> 
             <div class="form-group">
                 <label for="">Núm. muestra</label>
-                <input type="text" style="width: " class="form-control" id="numeroMuestra">
+                <input type="text"  class="form-control" id="numeroMuestra">
             </div>
         </div> --}}
         <div class="col-md-3">
@@ -324,6 +324,37 @@
                 </div>
               </div>
              </div>
+
+              <!-- Modal Control S.S.-->
+        <div class="modal fade" id="modalDirecto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog">
+              <div class="modal-content">
+               <form wire:submit.prevent="create">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="">Solidos Sedimentables</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body"> 
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <label for="">Resultado</label>
+                             <input type="text" class="form-control" id="resultadoModal" placeholder="Resultado">
+
+                            </div>
+                      </div>
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button type="button"  id="guardarDirecto" class="btn btn-primary">Guardar</button>
+                </div>
+              </form>
+              </div>
+            </div>
+           </div>
              
 </div>
   @stop

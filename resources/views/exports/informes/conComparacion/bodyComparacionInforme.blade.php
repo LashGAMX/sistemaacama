@@ -32,21 +32,23 @@
                         <td class="tableContent bordesTablaBody" width="16.6%">{{ @$solicitudParametros[$i]->Clave_metodo }}</td>
                         <td class="tableContent bordesTablaBody" width="10.6%">{{ @$solicitudParametros[$i]->Unidad }}</td>
                         <td class="tableContent bordesTablaBody">
-                            @if (strpos(@$solicitudParametros[$i]->Unidad, 'AUS') !== 0)
-                                @if (@$solicitudParametros[$i]->Parametro == 'Grasas y Aceites ++')
-                                    @php
-                                        echo round(@$sumaCaudalesFinal, 3);
-                                    @endphp
-                                @elseif (@$solicitudParametros[$i]->Parametro == 'Coliformes Fecales +')
-                                    @php
-                                        echo round(@$resColi, 3);
-                                    @endphp
-                                @else
-                                    {{ @$limitesC[$i] }}
-                                @endif
-                            @else
-                                AUSENTE
-                            @endif
+                            @if (@$solicitudParametros[$i]->Id_parametro == 2)
+                                                @if (@$solicitudParametros[$i]->Resultado2 == 1)
+                                                    PRESENTE
+                                                @else
+                                                    AUSENTE
+                                                @endif
+                                              @else
+                                              @if (@$solicitudParametros[$i]->Id_parametro == 14)
+                                              {{@$solicitudParametros[$i]->Resultado2}}
+                                                @else
+                                                    @if (@$solicitudParametros[$i]->Resultado2 < @$solicitudParametros[$i]->Limite)
+                                                    < {{@$solicitudParametros[$i]->Limite}}
+                                                    @else
+                                                    {{@$solicitudParametros[$i]->Resultado2}}
+                                                    @endif
+                                                @endif
+                                              @endif
                         </td>
                         <td class="tableContent bordesTablaBody">
                             {{ @$limitesN[$i] }}

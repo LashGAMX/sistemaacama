@@ -61,12 +61,13 @@
                                 @else
                                     <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paquete[$i]->Cantidad}}</td>
                                 @endif
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$recepcion->Hora_entrada)->format('d/m/Y')}}</td>
+                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">                                    
                                     @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 9 || @$paquete[$i]->Id_area == 16)
                                         ---------------
                                     @else
-                                    {{\Carbon\Carbon::parse(@$recepcion->Hora_entrada)->format('d/m/Y')}}
+                                    {{-- {{\Carbon\Carbon::parse(@$recepcion->Hora_entrada)->format('d/m/Y')}} --}}
+                                    {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}
                                     @endif
                                 </td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
@@ -77,7 +78,7 @@
                                     @endif
                                 </td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{\Carbon\Carbon::parse(@$recepcion->Hora_entrada)->addDays(7)->format('d/m/Y')}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer"><img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>                                
+                                <td class="justifyCenter bordesTablaInfIzqDer"><img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="{{url('public/storage/'.@$paquete[$i]->firma)}}"></td>                                
                             </tr>
                             @endif
                         @endfor
@@ -103,29 +104,33 @@
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < 12; $i++)
-                                        @if (@$paramResultado[$i]->Id_parametro == 12 || @$paramResultado[$i]->Id_parametro == 13)
-                                        <tr>    
-                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
-                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                            @if (strpos(@$limitesC[$i], "< AUS") !== 0)
-                                                {{@$limitesC[$i]}}
+                                            @if (@$paramResultado[$i]->Id_parametro == 12 || @$paramResultado[$i]->Id_parametro == 13)
+                                            <tr>    
+                                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
+                                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
+                                                    @if (@$paramResultado[$i]->Resultado > @$paramResultado[$i]->Limite)
+                                                        {{@$paramResultado[$i]->Resultado}} 
+                                                    @else
+                                                    < {{@$paramResultado[$i]->Limite}}
+                                                    @endif
+                                                </td>
+                                            </tr>                             
                                             @else
-                                                AUSENTE
-                                            @endif 
-                                            </td>
-                                        </tr>                             
-                                        @else
-                                        <tr>    
-                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}</td>
-                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                            @if (strpos(@$limitesC[$i], "< AUS") !== 0)
-                                                {{@$limitesC[$i]}}
-                                            @else
-                                                AUSENTE
-                                            @endif 
-                                            </td>
-                                        </tr>                             
-                                        @endif
+                                                @if (@$paramResultado[$i]->Id_parametro == 2)
+                                                {{@$paramResultado[$i]->Resultado2}}
+                                                @else
+                                                    <tr>    
+                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}</td>
+                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
+                                                            @if (@$paramResultado[$i]->Resultado2 > @$paramResultado[$i]->Limite)
+                                                                {{@$paramResultado[$i]->Resultado2}}
+                                                            @else
+                                                                < {{@$paramResultado[$i]->Limite}}
+                                                            @endif
+                                                        </td>
+                                                    </tr>
+                                                @endif
+                                            @endif
                                     @endfor     
                                     </tbody>
                                 </table>
@@ -139,28 +144,38 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @for ($i = 12; $i < 24; $i++)
+                                        @for ($i = 12; $i < 25; $i++)
                                         @if (@$paramResultado[$i]->Id_parametro == 12 || @$paramResultado[$i]->Id_parametro == 13)
                                         <tr>    
                                             <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
                                             <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                            @if (strpos(@$limitesC[$i], "< AUS") !== 0)
-                                                {{@$limitesC[$i]}}
-                                            @else
-                                                AUSENTE
-                                            @endif 
+                                                @if (@$paramResultado[$i]->Resultado > @$paramResultado[$i]->Limite)
+                                                    {{@$paramResultado[$i]->Resultado}} 
+                                                @else
+                                                < {{@$paramResultado[$i]->Limite}}
+                                                @endif
                                             </td>
                                         </tr>                             
                                         @else
                                         <tr>    
                                             <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}</td>
                                             <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                            @if (strpos(@$limitesC[$i], "< AUS") !== 0)
-                                                {{@$limitesC[$i]}}
-                                            @else
-                                                AUSENTE
-                                            @endif 
+                                                @if (@$paramResultado[$i]->Id_parametro == 2)
+                                                @if (@$paramResultado[$i]->Resultado2 == 1)
+                                                    PRESENTE
+                                                @else
+                                                    AUSENTE
+                                                @endif
+                                              @else
+                                                  @if (@$paramResultado[$i]->Resultado2 > @$paramResultado[$i]->Limite)
+                                                      {{@$paramResultado[$i]->Resultado2}}
+                                                  @else
+                                                      < {{@$paramResultado[$i]->Limite}}
+                                                  @endif
+                                              @endif
                                             </td>
+                                        </tr>
+                                       
                                         @endif
                                     @endfor      
                                     </tbody>
@@ -175,23 +190,36 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @for ($i = 24; $i < 50; $i++)
+                                        @for ($i = 25; $i < sizeof(@$paramResultado); $i++)
+                                            @if (@$paramResultado[$i]->Cadena == 1)
+                                            @if (@$paramResultado[$i]->Id_parametro == 12 || @$paramResultado[$i]->Id_parametro == 13)
                                             <tr>    
-                                                @if (@$paramResultado[$i]->Parametro == "")
-                                                   
+                                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
+                                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
+                                                    @if (@$paramResultado[$i]->Resultado > @$paramResultado[$i]->Limite)
+                                                        {{@$paramResultado[$i]->Resultado}} 
+                                                    @else
+                                                    < {{@$paramResultado[$i]->Limite}}
+                                                    @endif
+                                                </td>
+                                            </tr>                             
+                                            @else
+                                                @if (@$paramResultado[$i]->Id_parametro == 2)
+                                                   {{@$paramResultado[$i]->Resultado2}}
                                                 @else
-                                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}</td>
-                                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                                    @if (strpos(@$limitesC[$i], "< AUS") !== 0)
-                                                        {{@$limitesC[$i]}}
-                                                    @else 
-                                                        AUSENTE
-                                                    @endif 
-                                                    </td>
+                                                    <tr>    
+                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}</td>
+                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
+                                                            @if (@$paramResultado[$i]->Resultado2 > @$paramResultado[$i]->Limite)
+                                                                {{@$paramResultado[$i]->Resultado2}}
+                                                            @else
+                                                                < {{@$paramResultado[$i]->Limite}}
+                                                            @endif
+                                                        </td>
+                                                    </tr>
                                                 @endif
-                                                </td>                                                                    
-                                            </tr>
-                                            
+                                            @endif
+                                    @endif
                                         @endfor     
                                     </tbody>
                                 </table>
@@ -211,13 +239,13 @@
                         <table class="table-sm" width="100%">
                             <tr>
                                 <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">{{@$promedioPonderadoGA}}</td>
+                                <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGra->Resultado2,2)}}</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">{{@$mAritmeticaColi}}</td>
+                                <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promCol->Resultado2,2)}}</td>
                                 <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$gastoPromFinal, 2)}}</td> 
+                                <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas->Resultado2, 2)}}</td> 
                                 <td class="fontCalibri anchoColumna111 justifyCenter"><span class="fontSize7 negrita">FIRMA RESPONSABLE</span> <br> <span class="fontSize8">Q.F.B. RODRÍGUEZ BLANCO AGUEDA</span> &nbsp;&nbsp; </td>
-                                <td class="justifyCenter anchoColumna111"><img style="width: auto; height: auto; max-width: 60px; max-height: 40px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
+                                <td class="justifyCenter anchoColumna111"><img style="width: auto; height: auto; max-width: 60px; max-height: 40px;" src="{{url('public/storage/'.@$firmaRes->firma)}}"></td>
                                 
                                 @php
                                     /*$bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($model->Folio_servicio, "C39");*/

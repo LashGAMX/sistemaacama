@@ -972,6 +972,7 @@ class SolicitudController extends Controller
                                 'Num_muestra' => $i + 1,
                                 'Asignado' => 0, 
                                 'Analizo' => 1,
+                                'Cadena' => 0,
                             ]);
                         }
                  } else {

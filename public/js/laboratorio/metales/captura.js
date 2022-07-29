@@ -7,6 +7,11 @@ $(document).ready(function () {
 
 });
 
+$('#enviarObservacion').click(function () {
+    enviarObservacion();
+    console.log("observacion")
+    swal("Observación enviada!", "Enviado!", "success");
+});
 
 $('#ejecutar').click(function(){
     operacion();
@@ -202,6 +207,31 @@ function getLoteCaptura() {
 function imprimir(){        
     window.open(base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote);
     //window.location = base_url + "/admin/laboratorio/captura/exportPdfCaptura/"+idLote;
+}
+
+
+function enviarObservacion(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/metales/enviarObservacion",
+        data: {
+            fecha:$("#fechaAnalisis").val(),
+            idParametro:$("#formulaTipo").val(),
+            idlote:idLote,
+            idMuestra:$("#idDetalle"+idMuestra).val(),
+            ph:$("#ph").val(),
+            solidos:$("#solidos").val(),
+            olor: $("#olor").val(),
+            color: $("#color").val(),
+            observacion:$("#observacion").val(),
+            _token: $('input[name="_token"]').val()
+        }, 
+        dataType: "json",
+        success: function (response) {            
+            console.log(response);
+           
+        }
+    });
 }
 
 function operacion()
