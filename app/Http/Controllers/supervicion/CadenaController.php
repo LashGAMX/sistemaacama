@@ -69,12 +69,12 @@ class CadenaController extends Controller
                 break;
             case 14: // Volumetria
                 if ($codigoModel->Id_parametro == 11) {
-                    $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_analisis', $codigoModel->Id_solicitud)
-                        ->where('Id_parametro', $codigoModel->Id_parametro)
-                        ->orWhere('Id_parametro', 9)
-                        ->orWhere('Id_parametro', 10)
-                        ->orWhere('Id_parametro', 83)
-                        ->where('Id_control', 1)->get();
+                    $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$codigoModel->Id_solicitud)
+                    ->where('Id_parametro',83)->first();
+                    $aux = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1) 
+                    ->get(); 
+
                 } else if ($codigoModel->Id_parametro == 6) {
                     $model = DB::table('ViewLoteDetalleDqo')->where('Id_analisis', $codigoModel->Id_solicitud)
                         ->where('Id_parametro', $codigoModel->Id_parametro)
@@ -83,6 +83,11 @@ class CadenaController extends Controller
                     $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_analisis', $codigoModel->Id_solicitud)
                         ->where('Id_control', 1)
                         ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                } else if ($codigoModel->Id_parametro == 83) {
+                    $model = DB::table('ViewLoteDetalleNitrogeno')
+                        ->where('Id_analisis', $codigoModel->Id_solicitud)
+                        ->where('Id_control', 1)
+                        ->get();
                 } 
                 break;
             case "13": // Grasas y Aceites

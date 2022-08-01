@@ -23,7 +23,7 @@
         </thead>
         <tbody>
         @if ($model->count())
-        @foreach ($model as $key => $item)
+        @foreach ($model as  $item)
             @if ($item->deleted_at != NULL)
                 <tr class="bg-danger text-white">
             @else

@@ -48,7 +48,7 @@
                             @endif 
                         </td>
                         <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$data[$i]->Titulo_blanco}}</td>
+                        <td class="tableContent">{{@$data[$i]->Titulo_muestra}}</td>
                         <td class="tableContent">{{@$data[$i]->Resultado}}</td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
                         <td class="tableContent">

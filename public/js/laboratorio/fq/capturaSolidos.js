@@ -382,6 +382,9 @@ function guardarDirecto() {
         data: {
             idMuestra: idMuestra,
             resultado: $("#resultadoModal").val(),
+            inmhoff: $("#inmhoff").val(),
+            temperaturaLlegada: $("#temperaturaLlegada").val(),
+            temperaturaAnalizada: $("#temperaturaAnalizada").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",

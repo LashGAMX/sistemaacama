@@ -54,8 +54,7 @@ class TermometroCalibrado extends Component
     {
         // $model = TermometroCampo::all();
         $muestreadores = Usuario::where('role_id',8)->orWhere('role_id',1)->get();
-        $model = TermometroCampo::join('users','users.id','=','termometro_campo.Id_muestreador')
-        ->get();
+        $model = TermometroCampo::withTrashed()->get();
         $factores = TermFactorCorreccionTemp::where('Id_termometro',$this->idTermo)->get();
         return view('livewire.config.campo.termometro-calibrado',compact('model','muestreadores','factores'));
     }

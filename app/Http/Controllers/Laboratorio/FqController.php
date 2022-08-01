@@ -1718,12 +1718,17 @@ class FqController extends Controller
     public function guardarDirecto(Request $request){
         $model = LoteDetalleSolidos::find($request->idMuestra);
         $model->Resultado = $request->resultado;
+        $model->Inmhoff = $request->inmhoff;
+        $model->Temp_muestraLlegada = $request->temperaturaLlegada;
+        $model->Temp_muestraAnalizada = $request->temperaturaAnalizada;
         $model->save();
 
         $data = array(
             'model' => $model,
         );
+        return response()->json($data);
     }
+    
 
 
     public function createControlCalidadSolidos(Request $request)

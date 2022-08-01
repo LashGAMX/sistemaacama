@@ -12,6 +12,7 @@ use App\Models\Solicitud;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class IngresarController extends Controller
 {    
@@ -80,7 +81,20 @@ class IngresarController extends Controller
     public function setIngresar(Request $request){
         $model = ProcesoAnalisis::where('Id_solicitud',$request->idSol)->get();
         $seguimiento = SeguimientoAnalisis::where('Id_servicio',$request->idSol)->first();
+        $muestra = PhMuestra::where('Id_solicitud', $request->idSol)->first();
         $sw = false;
+        $fecha_muestreo = new Carbon();
+        $fecha_ingreso = new Carbon();
+        $fecha_muestreo->toDateString($muestra->Fecha); 
+        $fecha_ingreso->toDateString($request->horaRecepcion);
+     
+        $validacion = false;
+        if($fecha_ingreso < $fecha_muestreo){
+            $validacion = true;
+        }else{
+            $validacion = false;
+        }
+
         if($model->count()){
 
         }else{
@@ -120,6 +134,7 @@ class IngresarController extends Controller
         $array = array(
             'sw' => $sw,
             'model' => $model,
+            'validacion' => $validacion,
         );
         return response()->json($array);
         

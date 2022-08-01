@@ -1,9 +1,9 @@
 <p id='header1'>
     INFORME DE RESULTADOS AGUA RESIDUAL <br> MUESTRA 
-    @if (@$solicitud->Id_muestra == 'COMPUESTA')
-        COMPUESTA
-    @else
+    @if (@$solicitud->Id_muestra == 1)
         INSTANTANEA
+    @else
+        COMPUESTA
     @endif
 </p>
 
@@ -11,9 +11,9 @@
     <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
         <tbody>            
                 <tr>
-                    <td class="filasIzq bordesTabla anchoColumna7 bordeDer paddingTopBot">Empresa:</td>
-                    <td class="filasIzq bordesTabla fontBold anchoColumna82 bordeIzq">{{@$cliente->Nombres}}</td>
-                    <td class="filasIzq bordesTabla fontBold anchoColumna11 bordeFinal justificadoDer">{{@$cliente->RFC}}</td>                    
+                    <td  class="filasIzq bordesTabla anchoColumna7 bordeDer paddingTopBot">Empresa:</td>
+                    <td  class="filasIzq bordesTabla fontBold anchoColumna82 bordeIzq">{{@$cliente->Nombres}}</td>
+                    <td  class="filasIzq bordesTabla fontBold anchoColumna11 bordeFinal justificadoDer">{{@$cliente->RFC}}</td>                    
                 </tr>
 
                 <tr>                    
@@ -33,7 +33,11 @@
                 <tr>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Hora de muestreo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="fontBold">{{@$horaMuestreo}}</span>
+                        @if (@$solicitud->Id_muestra == 1)
+                            <span class="fontBold">{{@$horaMuestreo}}</span>
+                        @else
+                            <span class="fontBold">COMPUESTA</span>
+                        @endif
                     </td>
                 </tr>
 
@@ -76,7 +80,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="fontBold">TITULO DE CONCESIÓN: {{@$puntoMuestreo[0]->Titulo_consecion}}</span>
+                        <span class="fontBold">TITULO DE CONCESIÓN: {{@$titulo->Titulo}}</span>
                     </td>                    
                 </tr>
         </tbody>         
@@ -91,10 +95,10 @@
                         @switch(@$solicitud->Id_norma)
                             @case(1)
                                 DE ACUERDO A NOM-001-SEMARNAT-1996 
-                                @if (@$solicitud->Id_muestra == 'COMPUESTA')
-                                    COMPUESTA
-                                @else
+                                @if (@$solicitud->Id_muestra == 1)
                                     INSTANTANEA
+                                @else
+                                    COMPUESTA
                                 @endif
                                  TIPO "{{@$tipoReporte->Tipo}}", {{@$tipoReporte->Cuerpo}} - {{$tipoReporte->Detalle}}  QUE ESTABLECE LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN AGUAS Y <br> BIENES NACIONALES.
                                 @break

@@ -578,7 +578,8 @@ $('#guardarTodo').click(function() {
         async: false,
         success: function (response) {
             console.log(response);
-            //swal("Registro!", "Datos guardados correctamente!", "success");            
+            //swal("Registro!", "Datos guardados correctamente!", "success");
+            alert("Datos guardados correctamente")             
         }
     });
 });

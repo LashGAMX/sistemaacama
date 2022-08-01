@@ -220,13 +220,20 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '        </tr>';
                     tab += '    </thead>';
                     tab += '    <tbody>';
-                    if (response.paraModeld_parametro == 11) {
-                        $.each(response.model, function (key, item) {
+                    if (response.paraModel.Id_parametro == 11) {
                             tab += '<tr>';
-                            tab += '<td>' + item.Parametro + '</td>';
-                            tab += '<td>' + item.Resultado + '</td>';
-                            aux =  aux+parseFloat(item.Resultado);
+                            tab += '<td>' + response.model.Parametro + '</td>';
+                            tab += '<td>' + response.model.Resultado2+ '</td>';
+                            aux =  aux+parseFloat(response.model.Resultado2);
                             tab += '</tr>';
+                        $.each(response.aux, function (key, item) {
+                            if (item.Id_parametro == 7 || item.Id_parametro == 8) {
+                                tab += '<tr>';
+                                tab += '<td>' + item.Parametro + '</td>';
+                                tab += '<td>' + item.Resultado + '</td>';
+                                aux =  aux+parseFloat(item.Resultado);
+                                tab += '</tr>';
+                            } 
                         });
                         resLiberado = aux;
                     } else if(response.paraModel.Id_parametro == 6){
@@ -243,6 +250,14 @@ function getDetalleAnalisis(idCodigo) {
                             tab += '<td>' + item.Parametro + '</td>';
                             tab += '<td>' + item.Resultado + '</td>';
                             resLiberado = item.Resultado;
+                            tab += '</tr>';
+                        });
+                    } else if(response.paraModel.Id_parametro == 83){
+                        $.each(response.model, function (key, item) {
+                            tab += '<tr>';
+                            tab += '<td>' + item.Parametro + '</td>';
+                            tab += '<td>' + item.Resultado + '</td>';
+                            resLiberado = resLiberado + parseFloat(item.Resultado);
                             tab += '</tr>';
                         });
                     }

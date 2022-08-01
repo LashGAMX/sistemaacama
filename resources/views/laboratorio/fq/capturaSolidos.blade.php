@@ -339,9 +339,21 @@
                 <div class="modal-body"> 
                   <div class="row">
                       <div class="col-md-12">
+                      <div class="form-group">
+                              <label for="">Inmhoff</label>
+                             <input type="text" class="form-control" id="inmhoff">
+                            </div>
                           <div class="form-group">
                               <label for="">Resultado</label>
-                             <input type="text" class="form-control" id="resultadoModal" placeholder="Resultado">
+                             <input type="text" class="form-control" id="resultadoModal">
+                            </div>
+                            <div class="form-group">
+                              <label for="">Temperatura de la muestra llegada</label>
+                             <input type="text" class="form-control" id="temperaturaLlegada">
+                            </div>
+                            <div class="form-group">
+                              <label for="">Temperatura de la muestra al analizar</label>
+                             <input type="text" class="form-control" id="temperaturaAnalizada">
 
                             </div>
                       </div>

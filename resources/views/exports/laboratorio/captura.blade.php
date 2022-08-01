@@ -107,7 +107,7 @@
                                 @endif 
                             </td>
                             <td id="tableContent">{{@$datos[$i]->Vol_muestra}}</td>
-                            <td id="tableContent">{{@$loteModelPh[$i]}}</td>
+                            <td id="tableContent">{{@$datos[$i]->Ph}}</td>
                             <td id="tableContent">{{@$datos[$i]->Abs1}}</td>
                             <td id="tableContent">{{@$datos[$i]->Abs2}}</td>
                             <td id="tableContent">{{@$datos[$i]->Abs3}}</td>

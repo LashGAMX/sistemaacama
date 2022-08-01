@@ -558,12 +558,14 @@ class InformesController extends Controller
                     if ($item->Id_solicitud == $model2->Id_solicitud) {
                         $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $item->Id_solicitud)->first();
                         $aux = false;
+                        $titulo = DB::table('titulo_concesion_sir')->where('Id_sucursal',$model2->Id_sucursal)->first();
                     }
                 } else {
                     $model2 = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud', $item->Id_solicitud)->where('Id_muestreo', $idPunto)->first();
                     if ($model2->Id_solicitud == $item->Id_solicitud) {
                         $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $item->Id_solicitud)->first();
                         $aux = false;
+                        $titulo = "N/A";
                     }
                 }
             }
@@ -968,7 +970,7 @@ class InformesController extends Controller
         $htmlInforme = view('exports.informes.conComparacion.bodyComparacionInforme',  compact('solicitudParametros', 'solicitudParametrosLength', 'limitesC', 'limitesN', 'sumaCaudalesFinal', 'resColi', 'sParam', 'puntoMuestreo'));
 
         //HEADER-FOOTER******************************************************************************************************************                 
-        $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('solicitud', 'cotModel', 'tipoReporte', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
+        $htmlHeader = view('exports.informes.conComparacion.headerComparacionInforme', compact('titulo','solicitud', 'cotModel', 'tipoReporte', 'direccion', 'cliente', 'puntoMuestreo', 'numOrden', 'horaMuestreo', 'modelProcesoAnalisis'));
         $htmlFooter = view('exports.informes.conComparacion.footerComparacionInforme', compact('firma1', 'firma2', 'solicitud', 'simbologiaParam', 'obsCampo', 'swPh', 'phCampo', 'campoGeneral'));
 
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
@@ -4486,7 +4488,7 @@ class InformesController extends Controller
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 15,
-            'margin_bottom' => 20,
+            'margin_bottom' => 15,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);

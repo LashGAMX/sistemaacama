@@ -48,7 +48,7 @@
                             @endif 
                         </td>
                         <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$data[$i]->Titulo_blanco}}</td>
+                        <td class="tableContent">{{@$data[$i]->Titulo_muestra}}</td>
                         <td class="tableContent">
                             @php
                                 if(@$data[$i]->Resultado > @$limiteDqo->Limite)
