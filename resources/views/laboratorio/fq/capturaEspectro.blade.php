@@ -77,7 +77,7 @@
                         <button class="btn btn-secondary" id="btnLiberar">Liberar</button>
                     </div>
                     <div class="col-md-1">
-                        {{-- <button class="btn btn-secondary">Liberar todo</button> --}}
+                        <button class="btn btn-secondary" id="btnLiberarTodo">Liberar todo</button>
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad"
@@ -91,10 +91,9 @@
                             </label>
                         </div> --}}
                     </div>
-                    {{-- <div class="col-md-2">
-                        <button class="btn btn-secondary" id="btnGenControl" onclick="generarControles();">Generar
-                            controles</button>
-                    </div> --}}
+                    <div class="col-md-2">
+                        <button class="btn btn-secondary" id="btnGenControles">Generar controles</button>
+                    </div>
 
                     <div class="col-md-1">
                         {{-- <button class="btn btn-secondary">Duplicar</button> --}}
@@ -138,6 +137,10 @@
                                     <button class="btn btn-success" type="button" onclick="updateObsMuestraEspectro()"
                                         id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
                                 </div>
+                                <div class="col-md-2">
+                                <label id="ph">pH</label>
+                                <input type="text" disabled class="form-control" id="phCampo">
+                                    </div>
                             </div>
                             <div class="col-md-2">
                                 <button class="btn btn-success" id="btnGuardar"><i class="voyager-upload"></i>
@@ -183,99 +186,99 @@
                                         <tr>
                                             <td>CA</td>
                                             <td>Blanco</td>
-                                            <td><input name="campos" type="text" id="blanco1"></td>
-                                            <td><input name="campos" type="text" id="blanco2"></td>
+                                            <td><input name="campos" type="number" id="blanco1"></td>
+                                            <td><input name="campos" type="number" id="blanco2"></td>
                                             <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>CB</td>
                                             <td>b</td>
-                                            <td><input name="campos" type="text" id="b1"></td>
-                                            <td><input name="campos" type="text" id="b2"></td>
+                                            <td><input name="campos" type="number" id="b1" disabled></td>
+                                            <td><input name="campos" type="number" id="b2"></td>
                                             <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>CM</td>
                                             <td>m</td>
-                                            <td><input name="campos" type="text" id="m1"></td>
-                                            <td><input name="campos" type="text" id="m2"></td>
+                                            <td><input name="campos" type="number" id="m1" disabled></td>
+                                            <td><input name="campos" type="number" id="m2"></td>
                                             <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>CR</td>
                                             <td>r</td>
-                                            <td><input name="campos" type="text" id="r1"></td>
-                                            <td><input name="campos" type="text" id="r2"></td>
+                                            <td><input name="campos" type="number" id="r1" disabled></td>
+                                            <td><input name="campos" type="number" id="r2"></td>
                                             <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>D</td>
                                             <td>Factor dilucion</td>
-                                            <td><input type="text" id="fDilucion1" disabled></td>
-                                            <td><input type="text" id="fDilucion2" disabled></td>
+                                            <td><input type="number" id="fDilucion1" disabled></td>
+                                            <td><input type="number" id="fDilucion2" disabled></td>
                                             <td>V</td>
                                         </tr>
                                         <tr id="conPh">
                                             <td>P</td>
                                             <td>pH Final</td>
-                                            <td><input name="campos" type="text" id="phFin1"></td>
-                                            <td><input name="campos" type="text" id="phFin2"></td>
+                                            <td><input name="campos" type="number" id="phFin1"></td>
+                                            <td><input name="campos" type="number" id="phFin2"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr id="conPh2">
                                             <td>P2</td>
                                             <td>pH Inicial</td>
-                                            <td><input name="campos" type="text" id="phIni1" value="0"></td>
-                                            <td><input name="campos" type="text" id="phIni2" value="0"></td>
+                                            <td><input name="campos" type="number" id="phIni1" value="0"></td>
+                                            <td><input name="campos" type="number" id="phIni2" value="0"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr id="conN1">
                                             <td>N1</td>
                                             <td>Nitratos</td>
-                                            <td><input name="campos" type="text" id="nitratos1" value="0"></td>
-                                            <td><input name="campos" type="text" id="nitratos2" value="0"></td>
+                                            <td><input name="campos" type="number" id="nitratos1" value="0"></td>
+                                            <td><input name="campos" type="number" id="nitratos2" value="0"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr id="conN2">
                                             <td>N2</td>
                                             <td>Nitritos</td>
-                                            <td><input name="campos" type="text" id="nitritos1" value="0"></td>
-                                            <td><input name="campos" type="text" id="nitritos2" value="0"></td>
+                                            <td><input name="campos" type="number" id="nitritos1" value="0"></td>
+                                            <td><input name="campos" type="number" id="nitritos2" value="0"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr id="conN3">
                                             <td>N3</td>
                                             <td>Sulfuros</td>
-                                            <td><input name="campos" type="text" id="sulfuros1" value="0"></td>
-                                            <td><input name="campos" type="text" id="sulfuros2" value="0"></td>
+                                            <td><input name="campos" type="number" id="sulfuros1" value="0"></td>
+                                            <td><input name="campos" type="number" id="sulfuros2" value="0"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>E</td>
                                             <td>Vol de la muestra</td>
-                                            <td><input name="campos" type="text" id="volMuestra1"></td>
-                                            <td><input name="campos" type="text" id="volMuestra2"></td>
+                                            <td><input name="campos" type="number" id="volMuestra1"></td>
+                                            <td><input name="campos" type="number" id="volMuestra2"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>X</td>
                                             <td>Absorbancia1</td>
-                                            <td><input name="campos" type="text" id="abs11"></td>
-                                            <td><input name="campos" type="text" id="abs12"></td>
+                                            <td><input name="campos" type="number" id="abs11"></td>
+                                            <td><input name="campos" type="number" id="abs12"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>Y</td>
                                             <td>Absorbancia2</td>
-                                            <td><input name="campos" type="text" id="abs21"></td>
-                                            <td><input name="campos" type="text" id="abs22"></td>
+                                            <td><input name="campos" type="number" id="abs21"></td>
+                                            <td><input name="campos" type="number" id="abs22"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>Z</td>
                                             <td>Absorbancia3</td>
-                                            <td><input name="campos" type="text" id="abs31"></td>
-                                            <td><input name="campos" type="text" id="abs32"></td>
+                                            <td><input name="campos" type="number" id="abs31"></td>
+                                            <td><input name="campos" type="number" id="abs32"></td>
                                             <td>V</td>
                                         </tr>
                                     </tbody>
@@ -396,97 +399,97 @@
                                         <tr>
                                             <td>CA</td>
                                             <td>Blanco</td>
-                                            <td><input name="campos" type="text" id="blanco1F"></td>
-                                            <td><input name="campos" type="text" id="blanco2F"></td>
+                                            <td><input name="campos" type="number" id="blanco1F"></td>
+                                            <td><input name="campos" type="number" id="blanco2F"></td>
                                             <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>CB</td>
                                             <td>b</td>
-                                            <td><input name="campos" type="text" id="b1F"></td>
-                                            <td><input name="campos" type="text" id="b2F"></td>
+                                            <td><input name="campos" type="number" id="b1F" disabled></td>
+                                            <td><input name="campos" type="number" id="b2F"></td>
                                         </tr>
                                         <tr>
                                             <td>CM</td>
                                             <td>m</td>
-                                            <td><input name="campos" type="text" id="m1F"></td>
-                                            <td><input name="campos" type="text" id="m2F"></td>
+                                            <td><input name="campos" type="number" id="m1F" disabled></td>
+                                            <td><input name="campos" type="number" id="m2F"></td>
                                         </tr>
                                         <tr>
                                             <td>CR</td>
                                             <td>r</td>
-                                            <td><input name="campos" type="text" id="r1F"></td>
-                                            <td><input name="campos" type="text" id="r2F"></td>
+                                            <td><input name="campos" type="number" id="r1F" disabled></td>
+                                            <td><input name="campos" type="number" id="r2F"></td>
                                         </tr>
                                         <tr>
                                             <td>D</td>
                                             <td>Factor dilucion</td>
-                                            <td><input type="text" id="fDilucion1F" disabled></td>
-                                            <td><input type="text" id="fDilucion2F" disabled></td>
+                                            <td><input type="number" id="fDilucion1F" disabled></td>
+                                            <td><input type="number" id="fDilucion2F" disabled></td>
                                             <td>V</td>
                                         </tr>
 
                                         <tr>
                                             <td>E</td>
                                             <td>Vol de la muestra</td>
-                                            <td><input name="campos" type="text" id="volMuestra1F" value="0"></td>
-                                            <td><input name="campos" type="text" id="volMuestra2F" value="0"></td>
+                                            <td><input name="campos" type="number" id="volMuestra1F" value="0"></td>
+                                            <td><input name="campos" type="number" id="volMuestra2F" value="0"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS1</td>
                                             <td>Absorbancia1</td>
-                                            <td><input name="campos" type="text" id="abs11F"></td>
-                                            <td><input name="campos" type="text" id="abs12F"></td>
+                                            <td><input name="campos" type="number" id="abs11F"></td>
+                                            <td><input name="campos" type="number" id="abs12F"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS2</td>
                                             <td>Absorbancia2</td>
-                                            <td><input name="campos" type="text" id="abs21F"></td>
-                                            <td><input name="campos" type="text" id="abs22F"></td>
+                                            <td><input name="campos" type="number" id="abs21F"></td>
+                                            <td><input name="campos" type="number" id="abs22F"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS3</td>
                                             <td>Absorbancia3</td>
-                                            <td><input name="campos" type="text" id="abs31F"></td>
-                                            <td><input name="campos" type="text" id="abs32F"></td>
+                                            <td><input name="campos" type="number" id="abs31F"></td>
+                                            <td><input name="campos" type="number" id="abs32F"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS4</td>
                                             <td>Absorbancia4</td>
-                                            <td><input name="campos" type="text" id="abs41F"></td>
-                                            <td><input name="campos" type="text" id="abs42F"></td>
+                                            <td><input name="campos" type="number" id="abs41F"></td>
+                                            <td><input name="campos" type="number" id="abs42F"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS5</td>
                                             <td>Absorbancia5 </td>
-                                            <td><input name="campos" type="text" id="abs51F"></td>
-                                            <td><input name="campos" type="text" id="abs52F"></td>
+                                            <td><input name="campos" type="number" id="abs51F"></td>
+                                            <td><input name="campos" type="number" id="abs52F"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS6</td>
                                             <td>Absorbancia6</td>
-                                            <td><input name="campos" type="text" id="abs61F"></td>
-                                            <td><input name="campos" type="text" id="abs62F"></td>
+                                            <td><input name="campos" type="number" id="abs61F"></td>
+                                            <td><input name="campos" type="number" id="abs62F"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS7</td>
                                             <td>Absorbancia7</td>
-                                            <td><input name="campos" type="text" id="abs71F"></td>
-                                            <td><input name="campos" type="text" id="abs72F"></td>
+                                            <td><input name="campos" type="number" id="abs71F"></td>
+                                            <td><input name="campos" type="number" id="abs72F"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>ABS8</td>
                                             <td>Absorbancia8</td>
-                                            <td><input name="campos" type="text" id="abs81F"></td>
-                                            <td><input name="campos" type="text" id="abs82F"></td>
+                                            <td><input name="campos" type="number" id="abs81F"></td>
+                                            <td><input name="campos" type="number" id="abs82F"></td>
                                             <td>V</td>
                                         </tr>
                                     </tbody>

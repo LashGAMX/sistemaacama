@@ -329,9 +329,9 @@ function generarControles()
                 tab2 += '<td>'+item.Folio_servicio+'</td>';
                 if(item.Descripcion != 'Resultado')
                     {
-                        tab2 += '<td>'+item.Empresa+' <br> <small class="text-danger">'+item.Descripcion+'</small></td>';
+                        tab2 += '<td>'+item.Empresa+' <br> <small class="text-danger"><strong>'+item.Descripcion+'/</strong></small></td>';
                     }else{
-                        tab2 += '<td>'+item.Empresa+' <br> <small class="text-info">'+item.Descripcion+'</small></td>';
+                        tab2 += '<td>'+item.Empresa+' <br> <small class="text-info"><strong>'+item.Descripcion+'/</strong></small></td>';
                     }
                     if(item.Liberado != 0){
                         tab2 += '<td><input disabled style="width: 80px" id="volMuestra'+cont+'" value="50"></td>';

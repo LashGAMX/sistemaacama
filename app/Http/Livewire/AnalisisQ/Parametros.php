@@ -121,6 +121,13 @@ class Parametros extends Component
             'Id_user_m' => $this->idUser,
         ]);
 
+        for ($i=0; $i < sizeof($this->norma); $i++) { 
+            $model = ParametroNorma::create([
+                'Id_norma' => $this->norma[$i],
+                'Id_parametro' => $this->idParametro,
+            ]);
+        }
+        
         $precioCatalogo = PrecioCatalogo::create([
             'Id_parametro' => $parametro->Id_parametro,
             'Id_laboratorio' => $this->laboratorio,
@@ -158,6 +165,16 @@ class Parametros extends Component
         $model->Id_user_m = $this->idUser;
         $this->historial();
         $model->save();
+
+        $model = DB::table('parametros_normas')->where('Id_parametro',$this->idParametro)->delete();
+
+        for ($i=0; $i < sizeof($this->norma); $i++) { 
+            $model = ParametroNorma::create([
+                'Id_norma' => $this->norma[$i],
+                'Id_parametro' => $this->idParametro,
+            ]);
+        }
+
         if ($this->status != 1) {
             Parametro::find($this->idParametro)->delete();
         }

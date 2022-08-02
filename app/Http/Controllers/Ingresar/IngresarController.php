@@ -87,13 +87,14 @@ class IngresarController extends Controller
         $fecha_ingreso = new Carbon();
         $fecha_muestreo->toDateString($muestra->Fecha); 
         $fecha_ingreso->toDateString($request->horaRecepcion);
-     
+        $phVacio = false;
         $validacion = false;
+
         if($fecha_ingreso < $fecha_muestreo){
             $validacion = true;
         }else{
             $validacion = false;
-        }
+        
 
         if($model->count()){
 
@@ -129,6 +130,7 @@ class IngresarController extends Controller
                 ]);
            }
            $sw = true;
+         }
         }
 
         $array = array(

@@ -327,6 +327,41 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
+    public function liberarTodo(Request $res)
+    {
+        $sw = false;
+
+        $muestras = LoteDetalleEspectro::where('Id_lote',$res->idLote)->where('Liberado',0)->get();
+        foreach ($muestras as $item) {
+            $model = LoteDetalleEspectro::find($item->Id_detalle);
+            $model->Liberado = 1;
+            if ($model->Resultado != null) {
+                $sw = true;
+                $model->save();
+            }   
+            if($item->Id_control == 1)
+            {
+                $modelCod = CodigoParametros::find($model->Id_codigo);
+                $modelCod->Resultado = $model->Resultado;
+                $modelCod->Analizo = Auth::user()->id;
+                $modelCod->save();
+            }
+        }
+        
+
+
+        $model = LoteDetalleEspectro::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+        $loteModel = LoteAnalisis::find($res->idLote);
+        $loteModel->Liberado = $model->count();
+        $loteModel->save();
+
+
+        $data = array(
+            'model' => $model,
+            'sw' => $sw,
+        );
+        return response()->json($data);
+    }
 
     public function getLoteEspectro(Request $request)
     {
@@ -401,7 +436,7 @@ class FqController extends Controller
     public function createControlCalidadEspectro(Request $request)
     {
         $muestra = LoteDetalleEspectro::where('Id_detalle', $request->idMuestra)->first();
-
+        
         $model = $muestra->replicate();
         $model->Id_control = $request->idControl;
         $model->save();
@@ -411,6 +446,37 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
+    public function createControlesCalidadEspectro(Request $res)
+    {
+        $muestra = LoteDetalleEspectro::where('Id_lote', $res->idLote)->first();
+
+        //? Blanco reactivo
+        $model = $muestra->replicate();
+        $model->Id_control = 9;
+        $model->Resultado = NULL;
+        $model->save();
+        //? Estandar
+        $model = $muestra->replicate();
+        $model->Id_control = 4;
+        $model->Resultado = NULL;
+        $model->save();
+        //? Muestra Adicionada  
+        $model = $muestra->replicate();
+        $model->Id_control = 3;
+        $model->Resultado = NULL;
+        $model->save();
+
+        $muestra = LoteDetalleEspectro::where('Id_lote',$res->idLote)->get();
+        $loteModel = LoteAnalisis::find($res->idLote);
+        $loteModel->Asignado = $muestra->count();
+        $loteModel->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+
 
     //NUEVA FUNCIÓN BUSQUEDA FILTROS > CAPTURA.JS
     public function busquedaFiltros(Request $request)
@@ -634,6 +700,7 @@ class FqController extends Controller
     {
         $sw = false;
         $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $request->tipo)->where('Id_area', 5)->where('Fecha', $request->fecha)->get();
+        $lotes = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $request->tipo)->get();
         if ($model->count()) {
             $sw = true;
         }
@@ -641,6 +708,7 @@ class FqController extends Controller
         $data = array(
             'model' => $model,
             'sw' => $sw,
+            'lotes' => $lotes->count(),
         );
         return response()->json($data);
     }
@@ -1979,7 +2047,8 @@ class FqController extends Controller
                 }
 
                 if ($textBitacora->count()) {
-                    $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
+                    // $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 4)->first();
                     $proced = true;
                 } else {
                     $textProcedimiento = ReportesFq::where('Id_reporte', 4)->first();
@@ -2286,7 +2355,8 @@ class FqController extends Controller
                 }
 
                 if ($textBitacora->count()) {
-                    $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
+                    // $textoProcedimiento = ReportesFq::where('Id_lote', $id_lote)->first();
+                    $textProcedimiento = ReportesFq::where('Id_reporte', 1)->first();
                     $proced = true;
                 } else {
                     $textProcedimiento = ReportesFq::where('Id_reporte', 1)->first();

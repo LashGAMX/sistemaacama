@@ -85,6 +85,7 @@ function buscarLote()
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
+            $("#numLotes").val(response.lotes);
         }
     });
 }

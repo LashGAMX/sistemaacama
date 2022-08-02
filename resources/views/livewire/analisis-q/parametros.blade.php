@@ -157,7 +157,7 @@
                     <div class="col-md-6">
                         <div class="form-group">
                             <label for="">Norma</label>
-                            <select class="form-control" id="norma" wire:model='norma' multiple>
+                            <select class="form-control" id="norma" wire:model='norma' size="5"  multiple >
                             @foreach ($normas as $item)
                                 @if ($sw != true)
                                     <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
@@ -165,8 +165,8 @@
                                     @php
                                         $paraModel = DB::table("parametros_normas")->where('Id_norma',$item->Id_norma)->where('Id_parametro',$idParametro)->get();
                                     @endphp
-                                    @if ($paraModel->count() > 0)
-                                    <option value="{{$item->Id_norma}}" selected>{{$item->Clave_norma}}</option>
+                                    @if ($paraModel->count())
+                                    <option value="{{$item->Id_norma}}"  selected>{{$item->Clave_norma}}</option>
                                     @else
                                     <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
                                     @endif

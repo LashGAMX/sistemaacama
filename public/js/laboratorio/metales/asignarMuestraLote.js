@@ -27,6 +27,7 @@ function muestraSinAsignar()
             tab += '        <tr>';
             tab += '          <th>Folio</th>';
             tab += '          <th>Parametros</th>';
+            tab += '          <th>Norma</th>';
             tab += '          <th>Opc</th> '; 
             tab += '        </tr>';
             tab += '    </thead>';

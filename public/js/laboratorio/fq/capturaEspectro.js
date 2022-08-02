@@ -5,7 +5,7 @@ var idLote = 0;
 var tecnica = 0;
 
 $(document).ready(function () {
-
+    $('#formulaTipo').select2();
 });
 $('#guardarSulfato').click(function () {
     guardarSulfatos(); 
@@ -28,6 +28,15 @@ $('#btnLiberar').click(function () {
     // operacion();
     liberarMuestra();
 });
+$('#btnLiberarTodo').click(function () {
+    // operacion();
+    liberarTodo();
+});
+$('#btnGenControles').click(function () {
+    // operacion();
+    createControlesCalidad();
+});
+
 
 
 function getDataCaptura() {
@@ -580,6 +589,7 @@ function updateObsMuestraEspectro()
         success: function (response) {
             console.log(response);
             getLoteCapturaEspectro();
+            alert("Observación Envidada!");
         }
     }); 
 }
@@ -642,6 +652,28 @@ function liberarMuestra()
         }
     });
 }
+function liberarTodo()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/liberarTodo",
+        data: {
+            idLote:idLote,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response.sw == true)
+            {
+                getDataCaptura();
+                getLoteCapturaEspectro();
+            }else{
+                alert("La muestra no se pudo liberar");
+            }
+        }
+    });
+}
 function createControlCalidad()
 {
     $.ajax({
@@ -657,6 +689,24 @@ function createControlCalidad()
         success: function (response) {
             console.log(response);
             getDataCaptura();
+            getLoteCapturaEspectro();
+        }
+    });
+}
+function createControlesCalidad()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/createControlesCalidadEspectro",
+        data: {
+            idLote:idLote,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getDataCaptura();
+            getLoteCapturaEspectro();
         }
     });
 }
@@ -685,3 +735,11 @@ function cleanTable() {
             tab += '</table>';
             tabla.innerHTML = tab;
 }
+
+document.addEventListener("keydown", function(event) {
+    if (event.altKey && event.code === "KeyB")
+    {
+        getDataCaptura();
+        event.preventDefault();
+    }
+});

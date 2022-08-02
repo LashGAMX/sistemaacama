@@ -46,7 +46,8 @@
           <button class="btn btn-success" data-toggle="modal" data-target="#modalProbar" class="btn btn-info">Datos lote</button>
         </div>
         <div class="col-md-3">
-          <button class="btn btn-success" data-toggle="modal" data-target="#modalFq2" class="btn btn-info">Nueva función</button>
+          {{-- <button class="btn btn-success" data-toggle="modal" data-target="#modalFq2" class="btn btn-info">Nueva función</button> --}}
+          # de lotes anteriores : <input type="text" id="numLotes">
         </div>
       </div>
       <div class="" id="divTable">

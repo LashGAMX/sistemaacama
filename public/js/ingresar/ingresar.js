@@ -203,11 +203,15 @@ function setIngresar() {
         async: false,
         success: function (response) {
             console.log(response);
+            if (response.validacion == true) {
+                swal("Error!", "La fecha de ingreso no puede ser menor a la de muestreo!", "danger");
+            } else{
             if (response.sw == true) {
                 swal("Registro!", "Muestra recibida satisfactoriamente!", "success");   
             } else {
                 swal("Error!", "Esta muestra ya se encuentra ingresada!", "danger");
             }
+        }
         }
     });
 }
