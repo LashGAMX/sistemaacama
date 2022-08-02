@@ -15,6 +15,7 @@ use App\Models\CurvaConstantes;
 use App\Models\LoteDetalle;
 use App\Models\TipoFormula;
 use App\Models\DB;
+use App\Models\VariablesFormula;
 use Carbon\Carbon;
 
 class CurvaController extends Controller
@@ -75,7 +76,7 @@ class CurvaController extends Controller
         $lote = LoteAnalisis::where('Fecha', $request->fecha)->first();
 
         $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-            ->where('Id_area', $request->area)
+            ->where('Id_area', $request->area) 
             ->where('Id_parametro', $request->parametro)->get();
 
         $concent = ConcentracionParametro::where('Id_parametro', $request->parametro)->get();
@@ -108,6 +109,7 @@ class CurvaController extends Controller
     {
         $swCon = false;
         $sw = false;
+        $valFecha = false;
 
         $inicio = new Carbon($request->fechaInicio);
         $fin = new Carbon($request->fechaFin);
@@ -119,6 +121,12 @@ class CurvaController extends Controller
             ->whereDate('Fecha_fin', "=", $fechaFin)
             ->where('Id_area', $request->idAreaModal)
             ->where('Id_parametro', $request->idParametroModal)->first();
+
+        if($request->fechaInicio == "" || $request->fechaFin == "" ){
+            $valFecha = true;
+        } else { 
+            $valFecha = false;
+        
 
         if ($estandares != null) {
 
@@ -143,6 +151,7 @@ class CurvaController extends Controller
                     'Fecha_fin' => $request->fechaFin,
                     'STD' => "Blanco",
                 ]);
+                
                 CurvaConstantes::create([
                     'Id_area' => $request->idAreaModal,
                     'Id_parametro' => $request->idParametroModal,
@@ -164,7 +173,7 @@ class CurvaController extends Controller
                 $swCon = true;
             }
         }
-
+    }
 
 
         $data = array(
@@ -173,6 +182,7 @@ class CurvaController extends Controller
             'estandares' => $estandares,
             //'concentracion' => $concent,
             'parametro' => $request->idParametro,
+            'valFecha' => $valFecha,
         );
         return response()->json($data);
     }
