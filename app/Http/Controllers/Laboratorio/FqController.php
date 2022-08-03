@@ -887,11 +887,11 @@ class FqController extends Controller
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 15)->first();
             } else if ($parametro->Id_parametro == 45) { //SDV
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 16)->first();
-            } else if ($parametro->Id_parametro == 4 || $parametro->Id_parametro == 95) { //S.S.
+            } else if ($parametro->Id_parametro == 3 || $parametro->Id_parametro == 95) { //S.S.
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 17)->first();
             } else if ($parametro->Id_parametro == 46) { //ssf
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 18)->first();
-            } else if ($parametro->Id_parametro == 5 || $parametro->Id_parametro == 93) { //sst
+            } else if ($parametro->Id_parametro == 4 || $parametro->Id_parametro == 93) { //sst
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 19)->first();
             } else if ($parametro->Id_parametro == 47) { //ssv
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 20)->first();
@@ -973,7 +973,8 @@ class FqController extends Controller
                 $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
                 break;
             case 10: //todo Gravimetia
-                # code...
+                $detModel = DB::table('lote_detalle_ga')->where('Id_detalle', $request->idDetalle)->delete();
+                $detModel = LoteDetalleGA::where('Id_lote', $request->idLote)->get();  
                 break;
             case 15: //todo Volumetria
                 if($paraModel->Id_parametro == 6)

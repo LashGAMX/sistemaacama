@@ -29,7 +29,7 @@
                 <tr>
                     <th class="tableCabecera anchoColumna">No. de muestras</th>
                     <th class="tableCabecera anchoColumna">No. de cono IMHOFF</th>
-                    <th class="tableCabecera anchoColumna">SOLIDOS SEDIMENTABLES (S.S)</th>
+                    <th class="tableCabecera anchoColumna">SOLIDOS SEDIMENTABLES (S.S) mL/L</th>
                     <th class="tableCabecera anchoColumna">LLEGADA 2°C a 8°C</th>
                     <th class="tableCabecera anchoColumna">TEMPERATURA DE LA MUESTRA °C AL ANALIZAR (Temp. Amb)</th>
                     <th class="tableCabecera anchoColumna">Observaciones</th>                                        

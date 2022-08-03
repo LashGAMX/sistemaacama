@@ -12,7 +12,7 @@ class Limites extends Component
     protected $queryString = ['search' => ['except' => '']];
     public function render()
     {
-        $model = DB::table('ViewNormaParametro')
+        $model = DB::table('ViewParametroNorma')
         ->where('Id_norma',$this->idNorma)
         ->where('Parametro','LIKE',"%{$this->search}%")
         ->get();

@@ -131,7 +131,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('loteVol', [VolController::class, 'loteVol']);
         // Route::post('createLote', [FqController::class, 'createLote']);
         // Route::post('buscarLote', [FqController::class, 'buscarLote']);
-        Route::post('getDataloteVol', [VolController::class, 'getDataloteVol']);
+        Route::post('getDataloteVol', [VolController::class, 'getDataloteVol']); 
         Route::post('guardarValidacionVol', [VolController::class, 'guardarValidacionVol']);
         Route::get('asgnarMuestraLoteVol/{id}', [VolController::class, 'asgnarMuestraLoteVol']);
         Route::post('muestraSinAsignarVol', [VolController::class, 'muestraSinAsignarVol']);
@@ -154,6 +154,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('guardarNitrogeno', [VolController::class, 'guardarNitrogeno']);
         Route::post('createControlCalidadVol', [VolController::class, 'createControlCalidadVol']);
         Route::post('liberarMuestraVol', [VolController::class, 'liberarMuestraVol']);
+        Route::post('getPlantillaPredVol', [VolController::class, 'getPlantillaPred']);
         
 
 //****************************************FIN VOLUMETRIA***********************************************

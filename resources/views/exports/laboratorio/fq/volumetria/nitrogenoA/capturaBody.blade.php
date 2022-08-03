@@ -27,7 +27,7 @@
                 </tr>                
 
                 <tr>
-                    <th class="tableCabecera anchoColumna">pH</th>
+                    {{-- <th class="tableCabecera anchoColumna">pH</th> --}}
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
                     <th class="tableCabecera anchoColumna">VOL. TITULANTE BLANCO</th>
                     <th class="tableCabecera anchoColumna">VOL. MUESTRA</th>
@@ -42,7 +42,7 @@
             <tbody>
                 @for ($i = 0; $i < @$dataLength ; $i++)
                     <tr>
-                        <td class="tableContent"><2</td>
+                        {{-- <td class="tableContent"><2</td> --}}
                         <td class="tableContent">
                             @if (@$data[$i]->Control == 'Muestra Adicionada' || @$data[$i]->Control == 'Duplicado' || @$data[$i]->Control == 'Resultado')
                                 {{@$data[$i]->Folio_servicio}}

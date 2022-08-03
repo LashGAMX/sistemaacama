@@ -306,13 +306,15 @@ class VolController extends Controller
         //? Obtiene los valores para llenar la valoracion
         $paraModel = LoteAnalisis::find($request->idLote);
         switch ($paraModel->Id_tecnica) {
-            case 7: //todo DQO
+            case 6: //todo DQO
                 $valoracion = ValoracionDqo::where('Id_lote', $request->idLote)->first();
                 break;
             case 295: //todo CLORO RESIDUAL LIBRE
                 $valoracion = ValoracionCloro::where('Id_lote', $request->idLote)->first();
                 break;
-            case 12: //todo NITROGENO TOTAL
+            case 10: 
+            case 9:
+            case 11: //todo NITROGENO TOTAL
                 $valoracion = ValoracionNitrogeno::where('Id_lote', $request->idLote)->first();
                 break;
             default:
@@ -392,11 +394,11 @@ class VolController extends Controller
         }
 
         if ($bandera == 'dqo') {
-            if ($parametro->Id_parametro == 7 || $parametro->Id_parametro == 77) { // DQO
+            if ($parametro->Id_parametro == 6 || $parametro->Id_parametro == 77) { // DQO
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 29)->first();
-            } else if ($parametro->Id_parametro == 73 || $parametro->Id_parametro == 75) { // DQO ALTA
+            } else if ($parametro->Id_parametro == 72 || $parametro->Id_parametro == 75) { // DQO ALTA
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 25)->first();
-            } else if ($parametro->Id_parametro == 74 || $parametro->Id_parametro == 76) { // DQO BAJA
+            } else if ($parametro->Id_parametro == 73 || $parametro->Id_parametro == 76) { // DQO BAJA
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 26)->first();
             } else if ($parametro->Id_parametro == 170) { // DQO SOLUBLE
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 29)->first();
@@ -410,11 +412,11 @@ class VolController extends Controller
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 24)->first();
             }
         } else if ($bandera == 'nitrogeno') {
-            if ($parametro->Id_parametro == 12) { // NITROGENO TOTAL
+            if ($parametro->Id_parametro == 11) { // NITROGENO TOTAL
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 30)->first();
-            } else if ($parametro->Id_parametro == 10 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
+            } else if ($parametro->Id_parametro == 9 || $parametro->Id_parametro == 117 || $parametro->Id_parametro == 296) { // NITROGENO AMONIACAL
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 27)->first();
-            } else if ($parametro->Id_parametro == 11) { // NITROGENO ORGANICO
+            } else if ($parametro->Id_parametro == 10) { // NITROGENO ORGANICO
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 28)->first();
             }
         }

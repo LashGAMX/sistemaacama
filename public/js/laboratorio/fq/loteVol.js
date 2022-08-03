@@ -528,7 +528,7 @@ function getDatalote() {
             } else {
                 $.ajax({
                     type: "POST",
-                    url: base_url + "/admin/laboratorio/" + area + "/getDataLote/plantillaPredeterminada",
+                    url: base_url + "/admin/laboratorio/" + area + "/getPlantillaPredVol",
                     data: {
                         idLote: $("#idLoteHeader").val(),
                         _token: $('input[name="_token"]').val(),
@@ -549,7 +549,7 @@ function getDatalote() {
             }
 
             switch ($("#tipoFormula").val()) {
-                case '295': // CLORO RESIDUAL LIBRE
+                case '33': // CLORO RESIDUAL LIBRE
                     $("#blancoResClo").val(response.valoracion.Blanco);
                     $("#blancoCloro").val(response.valoracion.Blanco);
                     $("#tituladoClo1").val(response.valoracion.Ml_titulado1);
@@ -559,7 +559,7 @@ function getDatalote() {
                     $("#normalidadClo").val(response.valoracion.Normalidad);
                     $("#normalidadResCloro").val(response.valoracion.Resultado);
                     break;
-                case '7': // DQO
+                case '6': // DQO
                     $("#blancoResD").val(response.valoracion.Blanco);
                     $("#blancoValD").val(response.valoracion.Blanco);
                     $("#volk2D").val(response.valoracion.Vol_k2);
@@ -570,7 +570,7 @@ function getDatalote() {
                     $("#titulado3D").val(response.valoracion.Vol_titulado3);
                     $("#molaridadResD").val(response.valoracion.Resultado);
                     break;
-                case '12': // NITROGENO TOTAL
+                case '9' || '10' || '11': // NITROGENO TOTAL
                     $("#blancoResN").val(response.valoracion.Blanco);
                     $("#blancoValN").val(response.valoracion.Blanco);
                     $("#gramosN").val(response.valoracion.Gramos);
