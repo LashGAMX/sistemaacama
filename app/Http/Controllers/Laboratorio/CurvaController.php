@@ -150,8 +150,8 @@ class CurvaController extends Controller
                     'Fecha_inicio' => $request->fechaInicio,
                     'Fecha_fin' => $request->fechaFin,
                     'STD' => "Blanco",
-                ]);
-                if ($request->idAreaModal = 2){
+                    ]);
+                
                     CurvaConstantes::create([
                         'Id_area' => $request->idAreaModal,
                         'Id_parametro' => $request->idParametroModal,
@@ -159,7 +159,7 @@ class CurvaController extends Controller
                         'Fecha_fin' => $request->fechaFin,
                 
                     ]);
-                }
+
                 for ($i = 0; $i < $num; $i++) {
                     estandares::create([
                         //'Id_lote' => $request->idLote,
