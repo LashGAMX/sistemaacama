@@ -14,6 +14,7 @@
           <tr>
               <th>Id</th>
               <th>Parametro</th>
+              <th>Sucursal</th>
               <th>Acción</th>
           </tr>
       </thead>
@@ -23,6 +24,7 @@
       <tr>
         <td>{{$item->Id_parametro}}</td>
         <td>{{$item->Parametro}}</td>
+        <td>{{$item->Sucursal}}</td>
         <td>
             <button class="btn btn-primary btn-sm" wire:click="details('{{$item->Id_parametro}}')"><i class="voyager-external"></i> Ver</button>
         </td>
