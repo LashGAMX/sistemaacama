@@ -72,6 +72,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('asgnarMuestraLote/{id}', [FqController::class, 'asgnarMuestraLote']);
         Route::post('muestraSinAsignar', [FqController::class, 'muestraSinAsignar']);
         Route::post('asignarMuestraLote', [FqController::class, 'asignarMuestraLote']);
+        Route::post('sendMuestrasLote', [FqController::class, 'sendMuestrasLote']);
         Route::post('getMuestraAsignada', [FqController::class, 'getMuestraAsignada']);
         Route::post('delMuestraLote', [FqController::class, 'delMuestraLote']);
 

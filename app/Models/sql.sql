@@ -428,7 +428,8 @@ ON col.Id_control = control.Id_control
 
 
 /* Lista ViewPuntoMuestreoGen */ 
-CREATE VIEW ViewPuntoMuestreoGen as SELECT pu.*,gen.Punto_muestreo FROM solicitud_puntos as pu
+CREATE VIEW ViewPuntoMuestreoGen as SELECT pu.Id_punto as Id_puntoSol,pu.Id_solPadre,pu.Id_solicitud,pu.Id_muestreo,gen.Id_sucursal,gen.Punto_muestreo 
+FROM solicitud_puntos as pu
 INNER JOIN puntos_muestreogen as gen
 ON pu.Id_muestreo = gen.Id_punto
 

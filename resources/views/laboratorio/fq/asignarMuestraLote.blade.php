@@ -18,12 +18,14 @@
     </div>
     <div class="col-md-6">
       <center><h5>Muestras sin asignar</h5></center>
+      &nbsp;&nbsp;<i  id="btnAddMuestra" class="fas fa-plus text-success"></i> &nbsp;&nbsp; <i class="fas fa-paper-plane" id="sendMuestras"></i>
       <div class="" id="divTable">
           <table class="table" id=""> 
             <thead>
               <tr>
+                <th>#</th>
                 <th>Folio</th>
-                <th>Parametros</th> 
+                <th>Parametros</th>  
               </tr>
             </thead>
             <tbody>

@@ -248,7 +248,7 @@ function getPlanMuestreo() {
 
             $('#btnAllArea').click(function () {
                 allSelectCheck("ckAreas");
-            });
+            }); 
         }
     });
 }

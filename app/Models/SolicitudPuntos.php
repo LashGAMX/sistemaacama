@@ -14,6 +14,7 @@ class SolicitudPuntos extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'Id_solPadre',
         'Id_solicitud',
         'Id_muestreo',
         'Id_user_c',

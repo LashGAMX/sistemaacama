@@ -24,7 +24,7 @@
        
         {{-- <input type="text" class="" id="idSol" hidden value="{{@$model->Id_solicitud}}"> --}}
        
-       
+        
         <div class="tab-content" id="myTabContent">
         {{-- Inicio Datos --}}
         <div class="tab-pane fade" id="datos" role="tabpanel" aria-labelledby="datos-tab">

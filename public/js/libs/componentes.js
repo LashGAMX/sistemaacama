@@ -235,3 +235,27 @@ var inputFiltroFecha = (function (idF1 = 'fInicio',idF2 = 'fFin',grupo ='filtroF
     input +='                </div>';
     return input;
 });
+
+var allSelectCheck = (function (nameCheck = "name"){
+        let elementos = document.getElementsByName(nameCheck);
+    let sw = false;      
+
+    //comprobar estado
+    for (var i = 0; i < elementos.length; i++) {
+        if (elementos[i].checked) {
+            sw = true;
+        }
+    }
+    console.log("Sw:" + sw)    
+
+    if (sw == true) {
+        for (var i = 0; i < elementos.length; i++) {
+            elementos[i].checked = false;            
+        }
+    } else {
+        for (var i = 0; i < elementos.length; i++) {
+            elementos[i].checked = true;            
+        }
+    }
+    return sw;
+});
