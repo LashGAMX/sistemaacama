@@ -41,6 +41,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('asignarMuestraLote', [MetalesController::class, 'asignarMuestraLote']);
         Route::post('getMuestraAsignada', [MetalesController::class, 'getMuestraAsignada']);
         Route::post('delMuestraLote', [MetalesController::class, 'delMuestraLote']);
+        Route::post('sendMuestrasLote', [MetalesController::class, 'sendMuestrasLote']);
 
         //Route::get('analisis/datos', [MetalesController::class, 'analisisDatos']);
         //? Modulo de captura de resultados

@@ -163,8 +163,8 @@
                                     <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
                                 @else
                                     @php
-                                        $paraModel = DB::table("parametros_normas")->where('Id_norma',$item->Id_norma)->where('Id_parametro',$idParametro)->get();
-                                    @endphp
+                                    @$paraModel = DB::table('parametros_normas')->get();
+                                    @endphp 
                                     @if ($paraModel->count())
                                     <option value="{{$item->Id_norma}}"  selected>{{$item->Clave_norma}}</option>
                                     @else
