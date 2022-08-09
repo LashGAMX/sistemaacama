@@ -17,7 +17,7 @@ class TableTipoFormula extends Component
     public $idUser;
     public $search = '';
     protected $queryString = ['search' => ['except' => '']];
-    public $perPage = 50;
+    public $perPage = 100;
     public $show = false;
     public $alert = false;
 
@@ -49,6 +49,7 @@ class TableTipoFormula extends Component
         $model = TipoFormula::create([
           'Tipo_formula' => $this->tipo,
           'Concentracion' => $this->std,
+          'Id_area' => 1,
           'Id_user_c' => $this->idUser,
           'Id_user_m' => $this->idUser, 
         ]);
