@@ -117,26 +117,20 @@ class CurvaController extends Controller
         $fechaFin = $fin->toDateString();
 
         //comprobacion de bmr para validar existencia
-        $estandares  = CurvaConstantes::whereDate('Fecha_inicio', "=", $fechaInicio)
-            ->whereDate('Fecha_fin', "=", $fechaFin)
+        $estandares  = CurvaConstantes::whereDate('Fecha_inicio', ">=", $fechaInicio)
+            ->whereDate('Fecha_fin', "<=", $fechaFin)
             ->where('Id_area', $request->idAreaModal)
             ->where('Id_parametro', $request->idParametroModal)->first();
 
-        if($request->fechaInicio == "" || $request->fechaFin == "" ){
+        if($request->fechaInicio = "" || $request->fechaFin = "" ){
             $valFecha = true;
-        } else { 
-            $valFecha = false;
-        
-
-        if ($estandares != null) {
-
+        } elseif ($estandares != null) {
             $sw = false;
         } else {
             $concent = ConcentracionParametro::where('Id_parametro', $request->idParametro)->get(); //valores de concentración
 
             if ($concent->count() < 0) {
-                $swCon = false;
-                $sw = false;
+                $swCon = true;
             } else {
                 $paraModel = Parametro::find($request->idParametroModal);
                 $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
@@ -170,12 +164,13 @@ class CurvaController extends Controller
                         'STD' => "STD" . ($i + 1) . "",
                     ]);
                 }
-                $sw = true;
-                $swCon = true;
+                $sw = false;
+                $swCon = false;
+                $valFecha = false;
             }
             
         }
-    }
+    
 
 
         $data = array(

@@ -348,25 +348,19 @@ function createStd(){
         async: false, 
         success: function (response) { 
          console.log(response);
-        
+        if(response.valFecha = true) {
+
+            $("#modalCrear").modal('hide');
+            swal("Ups!", "Olvidaste definir un rango de fechas", "error")
+        } else if (response.swCon = true) {
+            $("#modalCrear").modal('hide');
+            swal("Ups!", "Este parametro no tiene concentraciones registradas", "error")
+        } else if (response.sw = true){
+            $("#modalCrear").modal('hide');
+            swal("Ups!", "Ya existe una curva vigente para este parametro", "error")
+        } else {
+
          let i = 0;
-
-         if (response.valFecha = true){
-            $("#modalCrear").modal('hide');
-            swal("Ups!","Olvidaste definir un rango de fechas!","error");
-         } else {
-
-         if (response.swCon == false)
-            {
-                $("#modalCrear").modal('hide');
-               swal("Ups!","Este parametro no tiene concentraciones registradas","error");
-            }
-            else{
-
-         if(response.sw == false){
-            $("#modalCrear").modal('hide');
-             swal("Ups!","Ya existen valores BMR vigentes para este parametro.","error");         
-         }else{
            
             tab += '<table id="tablaLote" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
@@ -405,12 +399,11 @@ function createStd(){
             tabla.innerHTML = tab;
             $("#modalCrear").modal('hide');
             swal("Registro!", "Se crearon los estandares!", "success")
-         }
+         
          
         }
     }
-    }
-        
+  
     });           
 }
 //---------buscar ----------------------------
