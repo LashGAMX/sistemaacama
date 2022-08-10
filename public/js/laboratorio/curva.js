@@ -23,8 +23,11 @@ $(document).ready(function (){
 
 
   $("#CreateStd").click(function(){
-      console.log('btn creare estandares')
-        createStd();
+      if($("#fechaInicio").val() == "" || $("#fechaFin").val() == ""){
+        swal("Ups!", "Ingresa una fecha valida","error");
+      } else {
+       createStd();
+      }
     });
 
     $("#buscar").click(function(){
@@ -333,6 +336,8 @@ function createStd(){
     let tabla = document.getElementById('divTablaStd');
     let tab = '';
 
+    
+
     $.ajax({
         url: base_url + '/admin/laboratorio/createStd', //archivo que recibe la peticion
         type: 'POST', //método de envio
@@ -348,14 +353,13 @@ function createStd(){
         async: false, 
         success: function (response) { 
          console.log(response);
-        if(response.valFecha = true) {
-
+        if(response.valFecha == 1) {
             $("#modalCrear").modal('hide');
             swal("Ups!", "Olvidaste definir un rango de fechas", "error")
-        } else if (response.swCon = true) {
+        } else if (response.swCon == 1) {
             $("#modalCrear").modal('hide');
             swal("Ups!", "Este parametro no tiene concentraciones registradas", "error")
-        } else if (response.sw = true){
+        } else if (response.sw == 1){
             $("#modalCrear").modal('hide');
             swal("Ups!", "Ya existe una curva vigente para este parametro", "error")
         } else {

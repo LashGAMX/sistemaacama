@@ -107,9 +107,9 @@ class CurvaController extends Controller
     }
     public function createStd(Request $request)
     {
-        $swCon = false;
-        $sw = false;
-        $valFecha = false;
+        $swCon = 0;
+        $sw = 0;
+   
 
         $inicio = new Carbon($request->fechaInicio);
         $fin = new Carbon($request->fechaFin);
@@ -117,15 +117,13 @@ class CurvaController extends Controller
         $fechaFin = $fin->toDateString();
 
         //comprobacion de bmr para validar existencia
-        $estandares  = CurvaConstantes::whereDate('Fecha_inicio', ">=", $fechaInicio)
-            ->whereDate('Fecha_fin', "<=", $fechaFin)
-            ->where('Id_area', $request->idAreaModal)
-            ->where('Id_parametro', $request->idParametroModal)->first();
+        $estandares  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $fechaInicio)->whereDate('Fecha_fin', '>=', $fechaFin)
+        ->where('Id_area', $request->idAreaModal)
+        ->where('Id_parametro', $request->idParametroModal)->first();
 
-        if($request->fechaInicio = "" || $request->fechaFin = "" ){
-            $valFecha = true;
-        } elseif ($estandares != null) {
-            $sw = false;
+
+       if ($estandares != null) {
+            $sw = 1;
         } else {
             $concent = ConcentracionParametro::where('Id_parametro', $request->idParametro)->get(); //valores de concentración
 
@@ -140,17 +138,17 @@ class CurvaController extends Controller
                 estandares::create([
                     //'Id_lote' => $request->idLote,
                     'Id_area' => $request->idAreaModal,
-                    'Id_parametro' => $request->idParametroModal,
-                    'Fecha_inicio' => $request->fechaInicio,
-                    'Fecha_fin' => $request->fechaFin,
+                    'Id_parametro' => $request->idParametroModal, 
+                    'Fecha_inicio' => $fechaInicio,
+                    'Fecha_fin' => $fechaFin,
                     'STD' => "Blanco",
                     ]);
                 
                     CurvaConstantes::create([
                         'Id_area' => $request->idAreaModal,
                         'Id_parametro' => $request->idParametroModal,
-                        'Fecha_inicio' => $request->fechaInicio,
-                        'Fecha_fin' => $request->fechaFin,
+                        'Fecha_inicio' => $fechaInicio,
+                        'Fecha_fin' => $fechaFin,
                 
                     ]);
 
@@ -159,14 +157,14 @@ class CurvaController extends Controller
                         //'Id_lote' => $request->idLote,
                         'Id_area' => $request->idAreaModal,
                         'Id_parametro' => $request->idParametroModal,
-                        'Fecha_inicio' => $request->fechaInicio,
-                        'Fecha_fin' => $request->fechaFin,
+                        'Fecha_inicio' => $fechaInicio,
+                        'Fecha_fin' => $fechaFin,
                         'STD' => "STD" . ($i + 1) . "",
                     ]);
                 }
-                $sw = false;
-                $swCon = false;
-                $valFecha = false;
+                $sw = 0;
+                $swCon = 0;
+                $valFecha = 0;
             }
             
         }
@@ -177,9 +175,9 @@ class CurvaController extends Controller
             'sw' => $sw,
             'swCon' => $swCon,
             'estandares' => $estandares,
-            //'concentracion' => $concent,
-            'parametro' => $request->idParametro,
-            'valFecha' => $valFecha,
+            'parametro' => $request->idParametroModal,
+           
+           
         );
         return response()->json($data);
     }
