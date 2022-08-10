@@ -125,16 +125,25 @@ class CurvaController extends Controller
        if ($estandares != null) {
             $sw = 1;
         } else {
-            $concent = ConcentracionParametro::where('Id_parametro', $request->idParametro)->get(); //valores de concentración
+            $concent = ConcentracionParametro::where('Id_parametro', $request->idParametro)->first(); //valores de concentración
 
-            if ($concent->count() < 0) {
-                $swCon = true;
+            if ($concent == null) {
+                $swCon = 1;
             } else {
                 $paraModel = Parametro::find($request->idParametroModal);
                 $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
 
                 $num = $numEstandares->Concentracion;
 
+                CurvaConstantes::create([
+                    'Id_area' => $request->idAreaModal,
+                    'Id_parametro' => $request->idParametroModal,
+                    'Fecha_inicio' => $fechaInicio,
+                    'Fecha_fin' => $fechaFin,
+            
+                ]);
+                if ($request->idArea == 2 ){
+                    //Creacion del blanco
                 estandares::create([
                     //'Id_lote' => $request->idLote,
                     'Id_area' => $request->idAreaModal,
@@ -143,15 +152,8 @@ class CurvaController extends Controller
                     'Fecha_fin' => $fechaFin,
                     'STD' => "Blanco",
                     ]);
-                
-                    CurvaConstantes::create([
-                        'Id_area' => $request->idAreaModal,
-                        'Id_parametro' => $request->idParametroModal,
-                        'Fecha_inicio' => $fechaInicio,
-                        'Fecha_fin' => $fechaFin,
-                
-                    ]);
-
+                } 
+                    
                 for ($i = 0; $i < $num; $i++) {
                     estandares::create([
                         //'Id_lote' => $request->idLote,
@@ -176,6 +178,7 @@ class CurvaController extends Controller
             'swCon' => $swCon,
             'estandares' => $estandares,
             'parametro' => $request->idParametroModal,
+            'cencent' => $concent,
            
            
         );

@@ -24,7 +24,7 @@ $(document).ready(function (){
 
   $("#CreateStd").click(function(){
       if($("#fechaInicio").val() == "" || $("#fechaFin").val() == ""){
-        swal("Ups!", "Ingresa una fecha valida","error");
+        alert("Ingresa una fecha valida")
       } else {
        createStd();
       }
