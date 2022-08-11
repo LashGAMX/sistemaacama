@@ -142,7 +142,7 @@ class CurvaController extends Controller
                     'Fecha_fin' => $fechaFin,
             
                 ]);
-                if ($request->idArea == 2 ){
+                if ($request->idAreaModal == 2 || $request->idParametroModal == 95 || $request->idParametroModal == 243){
                     //Creacion del blanco
                 estandares::create([
                     //'Id_lote' => $request->idLote,
@@ -178,7 +178,7 @@ class CurvaController extends Controller
             'swCon' => $swCon,
             'estandares' => $estandares,
             'parametro' => $request->idParametroModal,
-            'cencent' => $concent,
+            
            
            
         );
