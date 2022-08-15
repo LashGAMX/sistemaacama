@@ -33,10 +33,20 @@
             @php
                 $idRol = Auth::user()->role->id;
             @endphp
+            @switch($idRol)
+                @case(1) 
+                <admin-menu :items="{{ menu('admin', '_json') }}"></admin-menu>
+                    @break
+                @case(4)
+                {{ menu('lab', 'bootstrap') }}
+                    @break
+                @default
+                    
+            @endswitch
             @if ($idRol == 10)
-            <admin-menu :items="{{ menu('lab', '_json') }}"></admin-menu>
+            
             @else
-            <admin-menu :items="{{ menu('admin', '_json') }}"></admin-menu>
+            
             @endif
         </div>
     </nav>

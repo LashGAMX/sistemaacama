@@ -19,7 +19,7 @@ use App\Models\PrecioCatalogo;
 use App\Models\PrecioPaquete;
 use App\Models\SeguimientoAnalsis;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Auth; 
 
 use PDF;
 use Mpdf\Mpdf;
@@ -31,7 +31,7 @@ class CotizacionController extends Controller
     public function index()
     {
         //Vista Cotización
-        $model = DB::table('ViewCotizacion')->orderBy('Id_cotizacion', 'DESC')->get();
+        $model = DB::table('ViewCotizacion')->orderBy('Id_cotizacion', 'DESC')->get(); 
         return view('cotizacion.cotizacion', compact('model'));
     }
     public function buscarFecha($inicio, $fin)

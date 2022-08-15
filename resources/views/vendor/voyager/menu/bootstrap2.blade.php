@@ -1,5 +1,5 @@
 @if(!isset($innerLoop))
-<ul class="dd-list">
+<ul class="nav navbar-nav">
 @else
 <ul class="dropdown-menu">
 @endif
@@ -8,9 +8,10 @@
 
     if (Voyager::translatable($items)) {
         $items = $items->load('translations');
-    } 
+    }
 
 @endphp
+
 @foreach ($items as $item)
 
     @php
@@ -52,37 +53,17 @@
         }
 
     @endphp
-<div class="accordion" id="accordionExample">
 
-    <div class="card">
-      <div class="card-header" id="headingTwo">
-        <h2 class="mb-0">
-          <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-            <a href="{{ url($item->link()) }}" target="{{ $item->target }}" style="{{ $styles }}" {!! $linkAttributes ?? '' !!}>
-                <i class="{{$item->icon_class}}"></i>&nbsp;{{ $item->title }}</span>
-            </a>
-          </button>
-        </h2>
-      </div>
-      @if(!$originalItem->children->isEmpty())
-        <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
-            <div class="card-body">
-                @foreach ($originalItem->children as $item2)
-                <div class="card">
-                    <div class="card-header" id="headingTwo">
-                      <h2 class="mb-0">
-                        <a href="{{ url($item2->link()) }}" style="font-size:50%"><i class="{{$item2->icon_class}}"></i>&nbsp;<span>{{ $item2->title }}</span></a>
-                      </h2>
-                    </div>
-                </div>
-                @endforeach
-            </div>
-        </div>
-      @endif
-    </div>
-
-</div>
+    <li class="{{ $listItemClass }}">
+        <a href="{{ url($item->link()) }}" target="{{ $item->target }}" style="{{ $styles }}" {!! $linkAttributes ?? '' !!}>
+            {!! $icon !!}
+            <span>{{ $item->title }}</span>
+            {!! $caret !!}
+        </a>
+        @if(!$originalItem->children->isEmpty())
+        @include('voyager::menu.bootstrap', ['items' => $originalItem->children, 'options' => $options, 'innerLoop' => true])
+        @endif
+    </li>
 @endforeach
 
 </ul>
-
