@@ -11,15 +11,7 @@ class UsuariosController extends Controller
     //
     public function index()
     {
-        $usuarios = Usuario::all();
-        return view('usuarios.usuarios', compact('usuarios'));
-    }
-
-    public function cambiarPassword(Request $request)
-    {
-        $usuario = Usuario::find($request->id_cliente);
-        $usuario->password = Hash::make($request->password);
-        $usuario->save();
-        return response()->json($usuario);
+        $model = Usuario::all();
+        return view('usuarios.lista_usuarios', compact('model'));
     }
 }
