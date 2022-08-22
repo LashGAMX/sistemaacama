@@ -163,7 +163,11 @@ function getLoteCapturaVol() {
                             tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
                             break;
                         case '6':
-                            tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDqo">Capturar</button>';
+                            if (item.Tecnica == 2) {
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDqo">Capturar</button>';
+                            } else {
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalEspectroDbo">Capturar</button>';
+                            }
                             break;
                         case '9':
                             tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',3);" data-toggle="modal" data-target="#modalNitrogeno">Capturar</button>';
@@ -422,6 +426,7 @@ function getDetalleVol(idDetalle, caso) {
             caso: caso,
             formulaTipo: $("#formulaTipo").val(),
             idDetalle: idDetalle,
+            fechaAnalisis: $('#fechaAnalisis').val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
@@ -446,19 +451,47 @@ function getDetalleVol(idDetalle, caso) {
                     }
                     break;
                 case 2: // DQO
-                    if(response.model.Resultado != null)
-                    {
-                        $("#tituladoDqo1").val(response.model.Titulo_muestra);
-                        $("#MolaridadDqo1").val(response.valoracion.Resultado);
-                        $("#blancoDqo1").val(response.valoracion.Blanco);
-                        $("#factorDqo1").val(response.model.Equivalencia);
-                        $("#volDqo1").val(response.model.Vol_muestra);
-                        $("#resultadoDqo").val(response.model.Resultado);
-                        $("#observacionDqo").val(response.model.Observacion);
-                        
+                    if(response.valoracion == ""){ // Tubo sellado
+                        $("#b1").val(response.curva.B);
+                        $("#m1").val(response.curva.M);
+                        $("#r1").val(response.curva.R);
+                        $("#b2").val(response.curva.B);
+                        $("#m2").val(response.curva.M);
+                        $("#r2").val(response.curva.R);
+                        $("#observacion").val(response.model.Observacion);
+                        $("#abs1").val(response.model.Promedio);
+                        $("#abs2").val(response.model.Promedio);
+                        $("#idMuestra").val(idDetalle);
+                        $("#blanco1").val(response.model.Blanco);
+                        $("#blanco2").val(response.model.Blanco);
+                        $("#fDilucion1").val(response.model.Vol_dilucion);
+                        $("#fDilucion2").val(response.model.Vol_dilucion);
+                        $("#volMuestra1").val(response.model.Vol_muestra);
+                        $("#volMuestra2").val(response.model.Vol_muestra);
+                        $("#abs11").val(response.model.Abs1);
+                        $("#abs21").val(response.model.Abs2);
+                        $("#abs31").val(response.model.Abs3);
+                        $("#abs12").val(response.model.Abs1);
+                        $("#abs22").val(response.model.Abs2);
+                        $("#abs32").val(response.model.Abs3);
+                        $("#resultado").val(response.model.Resultado);
+                        console.log("Tubo sellado");
                     }else{
-                        $("#MolaridadDqo1").val(response.valoracion.Resultado);
-                        $("#blancoDqo1").val(response.valoracion.Blanco); 
+                        if(response.model.Resultado != null)
+                        {
+                            $("#tituladoDqo1").val(response.model.Titulo_muestra);
+                            $("#MolaridadDqo1").val(response.valoracion.Resultado);
+                            $("#blancoDqo1").val(response.valoracion.Blanco);
+                            $("#factorDqo1").val(response.model.Equivalencia);
+                            $("#volDqo1").val(response.model.Vol_muestra);
+                            $("#resultadoDqo").val(response.model.Resultado);
+                            $("#observacionDqo").val(response.model.Observacion);
+                            
+                        }else{
+                            $("#MolaridadDqo1").val(response.valoracion.Resultado);
+                            $("#blancoDqo1").val(response.valoracion.Blanco); 
+                        }
+                        console.log("Tubo Reflujo");
                     }
                     break;
                 case 3: // NITROGENO TOTAL

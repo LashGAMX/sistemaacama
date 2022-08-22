@@ -99,8 +99,8 @@ class IngresarController extends Controller
         if($model->count()){
 
         }else{
-            $seguimiento->Recepcion = 1;
-            $seguimiento->save();
+            // $seguimiento->Recepcion = 1;
+            // $seguimiento->save();
 
             $solModel = Solicitud::where('Hijo',$request->idSol)->get();
             

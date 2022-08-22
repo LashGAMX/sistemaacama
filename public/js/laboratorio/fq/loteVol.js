@@ -264,6 +264,7 @@ $('#btnGuardarTipoDqo').click(function () {
         data: {
             idLote: $("#idLoteHeader").val(),
             tipo: $("#tipoDqo").val(),
+            tecnica: $('#tecnicaDqo').val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",

@@ -34,6 +34,9 @@
         <div class="col-md-2">
           <button class="btn btn-success" onclick="buscarLote()">Buscar</button>
         </div>        
+        <div class="col-md-4">
+          <h1>Datos cloruros</h1>
+        </div>
       </div>
     </div>
     
@@ -453,13 +456,24 @@
               {{-- DQO --}}
               <div class="tab-pane fade" id="dqo" role="tabpanel" aria-labelledby="dqo-tab">  
               <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-3">
                   <h4>Tipo de Lote DQO</h4>
 
                   <select id="tipoDqo">
                     <option value="0">Selecionar</option>  
                     <option value="1">DQO ALTA</option>
                     <option value="2">DQO BAJA</option> 
+                    <option value="3">DQO TUBO SELLADO ALTA</option> 
+                    <option value="4">DQO TUBO SELLADO BAJA</option> 
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <h4>Tecnica DQO</h4>
+
+                  <select id="tecnicaDqo">
+                    <option value="0">Selecionar</option>  
+                    <option value="1">Espectrofotometria</option>
+                    <option value="2">Volumetria</option> 
                   </select>
                 </div>
                 <div class="col-md-6">
