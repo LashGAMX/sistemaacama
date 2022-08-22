@@ -17,6 +17,7 @@ use App\Models\SolicitudesGeneradas;
 use App\Models\SolicitudPuntos;
 use App\Models\TermometroCampo;
 use App\Models\UsuarioApp;
+use App\Models\CampoCompuestos; 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -102,6 +103,8 @@ class CampoAppController extends Controller
         $campoGenModel->Pendiente = $jsonGeneral[0]["Pendiente"];
         $campoGenModel->Criterio = $jsonGeneral[0]["Criterio"];
         $campoGenModel->save();
+
+        //Guardar observacion 
 
         // $catPhTra = PHTrazable::where('Ph',$jsonPhTra[0]["Id_phTrazable"])->first();
         // CampoPhTrazable::create([
