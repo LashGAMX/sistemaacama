@@ -188,7 +188,7 @@ class VolController extends Controller
                     ]);
                 }
                 break;
-
+   
 
             default:
                 # code...
@@ -202,9 +202,16 @@ class VolController extends Controller
     public function setTipoDqo(Request $res)
     {
         $model = LoteDetalleDqo::where('Id_lote', $res->idLote)
-            ->update(['Tipo' => $res->tipo]);
+            ->update([
+                'Tipo' => $res->tipo,
+                'Tecnica' => $res->tecnica
+            ]);
 
-        return response()->json($model);
+        $data = array(
+            'tipo' => $res->tipo,
+            'tecnica' => $res->tecnica
+        );
+        return response()->json($data);
     }
 
     //RECUPERAR DATOS PARA ENVIARLOS A LA VENTANA MODAL > EQUIPO PARA RELLENAR LOS DATOS ALMACENADOS EN LA BD
@@ -1039,14 +1046,26 @@ class VolController extends Controller
     }
     public function getDetalleVol(Request $request)
     {
+        $curva = '';
+        $valoracion = '';
         switch ($request->caso) {
             case 1: //todo Cloro
                 $model = DB::table('ViewLoteDetalleCloro')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
                 $valoracion = ValoracionCloro::where('Id_lote', $model->Id_lote)->first();
                 break;
             case 2: //todo DQO
+                $fecha = new Carbon($request->fechaAnalisis);
+                $today = $fecha->toDateString();
                 $model = DB::table("ViewLoteDetalleDqo")->where('Id_detalle', $request->idDetalle)->first();
-                $valoracion = ValoracionDqo::where('Id_lote', $model->Id_lote)->first();
+                if($model->Tecnica == 1){
+                    if ($model->Tipo == 3) {
+                        $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)->where('Id_area', 16)->where('Id_parametro', 74)->first();
+                    } else {
+                        $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)->where('Id_area', 16)->where('Id_parametro', 75)->first();
+                    }
+                }else{ 
+                    $valoracion = ValoracionDqo::where('Id_lote', $model->Id_lote)->first();
+                }
                 break;
             case 3: //todo  Nitrogeno
                 $model = DB::table("ViewLoteDetalleNitrogeno")->where('Id_detalle', $request->idDetalle)->first();
@@ -1059,6 +1078,7 @@ class VolController extends Controller
 
         $data = array(
             'model' => $model,
+            'curva' => $curva,
             'valoracion' => $valoracion,
         );
         return response()->json($data);

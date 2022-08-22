@@ -489,7 +489,143 @@
               </div>
               
              </div>
-</div>
+
+                   <!-- Modal -->
+        <div class="modal fade" id="modalEspectroDbo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Captura de resultados</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Observación</label>
+                                    <input type="text" class="form-control" id="observacion"
+                                        placeholder="Observacion de la muestra">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="button" onclick="updateObsMuestraEspectro()"
+                                        id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-success" id="btnGuardar"><i class="voyager-upload"></i>
+                                    Guardar</button>&nbsp;&nbsp;
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary" id="btnEjecutar"><i class="voyager-play"></i>
+                                    Ejecutar</button>
+                            </div>
+                            {{-- <div class="col-md-2">
+                                <button class="btn btn-warning">Liberar</button>
+                            </div> --}}
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="resultado">Resultado</label>
+                                    <input type="text" id="resultado" style="font-size: 20px;color:red;"
+                                        placeholder="Resultado">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Parametro</th>
+                                            <th>Descripción</th>
+                                            <th>Valor</th>
+                                            <th>Valor2</th>
+                                            <th>Tipo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>ABS</td>
+                                            <td>ABS Promedio</td>
+                                            <td><input type="text" id="abs1"></td>
+                                            <td><input type="text" id="abs2"></td>
+                                            <td>C</td>
+                                        </tr>
+                                        <tr>
+                                            <td>CA</td>
+                                            <td>Blanco</td>
+                                            <td><input name="campos" type="number" id="blanco1"></td>
+                                            <td><input name="campos" type="number" id="blanco2"></td>
+                                            <td>F</td>
+                                        </tr>    
+                                        <tr>
+                                            <td>CB</td>
+                                            <td>b</td>
+                                            <td><input name="campos" type="number" id="b1" disabled></td>
+                                            <td><input name="campos" type="number" id="b2"></td>
+                                            <td>F</td>
+                                        </tr>
+                                        <tr>
+                                            <td>CM</td>
+                                            <td>m</td>
+                                            <td><input name="campos" type="number" id="m1" disabled></td>
+                                            <td><input name="campos" type="number" id="m2"></td>
+                                            <td>F</td>
+                                        </tr>
+                                        <tr>
+                                            <td>CR</td>
+                                            <td>r</td>
+                                            <td><input name="campos" type="number" id="r1" disabled></td>
+                                            <td><input name="campos" type="number" id="r2"></td>
+                                            <td>F</td>
+                                        </tr>          
+                                        <tr>
+                                            <td>D</td>
+                                            <td>Factor dilucion</td>
+                                            <td><input type="number" id="fDilucion1" disabled></td>
+                                            <td><input type="number" id="fDilucion2" disabled></td>
+                                            <td>V</td>
+                                        </tr>
+
+                                        <tr>
+                                            <td>E</td>
+                                            <td>Vol de la muestra</td>
+                                            <td><input name="campos" type="number" id="volMuestra1"></td>
+                                            <td><input name="campos" type="number" id="volMuestra2"></td>
+                                            <td>V</td>
+                                        </tr>
+                                        <tr>
+                                            <td>X</td>
+                                            <td>Absorbancia1</td>
+                                            <td><input name="campos" type="number" id="abs11"></td>
+                                            <td><input name="campos" type="number" id="abs12"></td>
+                                            <td>V</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Y</td>
+                                            <td>Absorbancia2</td>
+                                            <td><input name="campos" type="number" id="abs21"></td>
+                                            <td><input name="campos" type="number" id="abs22"></td>
+                                            <td>V</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Z</td>
+                                            <td>Absorbancia3</td>
+                                            <td><input name="campos" type="number" id="abs31"></td>
+                                            <td><input name="campos" type="number" id="abs32"></td>
+                                            <td>V</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        </div>
   @stop
 
   @section('javascript')
