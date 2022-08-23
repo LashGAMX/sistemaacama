@@ -489,9 +489,17 @@ class MetalesController extends Controller
     public function getLote(Request $request)
     {
         $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $request->formulaTipo)->where('Fecha', $request->fechaAnalisis)->get();
+        $fecha = new Carbon($request->fechaAnalisis);
+        $today = $fecha->toDateString();
+
+        $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
+        $curva  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+        ->where('Id_area', $parametro->Id_area)
+        ->where('Id_parametro', $parametro->Id_parametro)->first();
 
         $data = array(
             'lote' => $model,
+            'curva' => $curva,
         );
         return response()->json($data);
     }
@@ -672,20 +680,23 @@ class MetalesController extends Controller
 
         for ($i = 0; $i < sizeof($res->idCodigos); $i++) {
             $sol = CodigoParametros::where('Id_codigo', $res->idCodigos[$i])->first();
-            // LoteDetalle::create([
-            //     'Id_lote' => $request->idLote,
-            //     'Id_analisis' => $request->idAnalisis,
-            //     'Id_parametro' => $loteModel->Id_tecnica,
-            //     'Id_control' => 1,
-            //     'Factor_dilucion' => 1,
-            //     'Factor_conversion' => 0,
-            //     'Liberado' => 0,
-            // ]);
+            LoteDetalle::create([
+                'Id_lote' => $res->idLote,
+                'Id_analisis' => $sol->Id_solicitud,
+                'Id_codigo' => $res->idCodigos[$i],
+                'Id_parametro' => $loteModel->Id_tecnica,
+                'Id_control' => 1,
+                'Factor_dilucion' => 1,
+                'Factor_conversion' => 0,
+                'Liberado' => 0,
+                'Analisis' => 1,
+                
+            ]);
             $solModel = CodigoParametros::find($sol->Id_codigo);
             $solModel->Asignado = 1;
             $solModel->save();
         }
-        $detModel = LoteDetalleEspectro::where('Id_lote', $res->idLote)->get();
+        $detModel = LoteDetalle::where('Id_lote', $res->idLote)->get();
         $sw = true;
 
 
@@ -695,9 +706,8 @@ class MetalesController extends Controller
         $loteModel->save();
 
         $data = array(
-            'idArea' => $paraModel->Id_area,
             'sw' => $sw,
-            'model' => $paraModel,
+            'model' => $detModel,
         );
         return response()->json($data);
     }

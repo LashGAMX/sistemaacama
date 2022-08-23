@@ -915,7 +915,7 @@ class VolController extends Controller
             $res = ($res3 / $request->E);
     
         }else{
-            $d = 50 / $request->E;
+            $d = 2 / $request->E;
             $x = ($request->X + $request->Y + $request->Z) / 3;
             $res = ((($x - $request->CB) / $request->CM) * $d);
         }

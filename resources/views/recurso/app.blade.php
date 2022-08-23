@@ -11,7 +11,7 @@
     </div>    
 
     <div class="container-fluid h-100">         
-        <a href="https://dev.sistemaacama.com.mx//storage/Recursos/app-debug.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
+        <a href="https://sistemaacama.com.mx/public/storage/Recursos/MuestreoApp_v0.2.apk"><button class="btn btn-primary">DESCARGAR</button></a>            
     </div>   
     
     <br>
@@ -22,7 +22,7 @@
         <div class="col text-center">
             <div style="p font-size:100%"></div>
             <p style="color: red">Instrucciones para instalar la App Móvil</p>
-            <video src="https://dev.sistemaacama.com.mx//storage/Recursos/Instrucciones_App.mp4" width="640" height="480" controls autoplay></video>
+            <video src="https://sistemaacama.com.mx/public /storage/Recursos/Instrucciones_App.mp4" width="640" height="480" controls autoplay></video>
         </div>
     </div>
 @stop

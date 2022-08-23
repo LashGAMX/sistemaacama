@@ -62,45 +62,11 @@
                     </div>
                 <div class="col-md-6">
                     <div class="row">
-                        <div class="col-md-2">                                
+                        <div class="col-md-4">                                
                             <div class="form-group">
-                                <label for="exampleFormControlSelect1">pH < 2</label>
-                                <select class="form-control" id="ph">
-                                    <option value="Sin seleccionar">Sin seleccionar</option>
-                                    <option value="SI">SI</option>
-                                    <option value="NO">NO</option>
-                                </select>
-                            </div>
-                          </div>
-                          <div class="col-md-2">
-                            <div class="form-group">
-                              <label for="exampleFormControlSelect1">Sólidos</label>
-                              <select class="form-control" id="solidos">
-                                <option value="Sin seleccionar">Sin seleccionar</option>
-                                <option value="SI">SI</option>
-                                <option value="NO">NO</option>
-                              </select>
-                            </div>
-                          </div>
-                          <div class="col-md-2">
-                            <div class="form-group">
-                              <label for="exampleFormControlSelect1">Olor</label>
-                              <select class="form-control" id="olor">
-                                <option value="Sin seleccionar">Sin seleccionar</option>
-                                <option value="SI">SI</option>
-                                <option value="NO">NO</option>
-                              </select>
-                            </div>
-                          </div>
-              
-                          <div class="col-md-2">
-                            <div class="form-group">
-                              <label for="exampleFormControlSelect1">Color</label>
-                              <select class="form-control" id="color">
-                                <option value="Sin seleccionar">Sin seleccionar</option>
-                                <option value="SI">SI</option>
-                                <option value="NO">NO</option>
-                              </select>
+                                <h6>B <input placeholder="B" id="b"></h6>
+                                <h6>M <input placeholder="B" id="m"></h6>
+                                <h6>R <input placeholder="B" id="r"></h6>
                             </div>
                           </div>
                           <div class="col-md-2">
@@ -143,8 +109,8 @@
                         id="btnGenControlInd">Generar control</button>
                 </div>
 
-                <div class="col-md-1">
-                    {{-- <button class="btn btn-secondary">Duplicar</button> --}}
+                <div class="col-md-2">
+                    <h2><input placeholder="Resultado" style="color:red" id="resDato"></h2>
                 </div>
             </div>
         </div>

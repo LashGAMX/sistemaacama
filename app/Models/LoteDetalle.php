@@ -17,6 +17,7 @@ class LoteDetalle extends Model
         'Id_lote',
         'Id_analisis',
         'Id_parametro',
+        'Id_codigo',
         'Id_control',
         'Descripcion',
         'Vol_muestra',

@@ -67,6 +67,10 @@ function getDataCaptura() {
 
                 tecnica = response.tecnica;
 
+                $("#b").val(response.curva.B);
+                $("#m").val(response.curva.M);
+                $("#r").val(response.curva.R);
+
 
                 var t = $('#tablaLote').DataTable({        
                     "ordering": false, 
@@ -258,6 +262,7 @@ function operacion()
             let fix = response.resultado.toFixed(3); 
             $("#absPromedio"+idMuestra).val(response.promedio);
             $("#VolDisolucion"+idMuestra).val(fix);
+            $("#resDato").val(fix)
         }
     });
 }

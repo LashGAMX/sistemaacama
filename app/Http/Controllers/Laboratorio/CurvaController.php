@@ -126,11 +126,9 @@ class CurvaController extends Controller
        if ($estandares != null) {
             $sw = 1;
         } else {
-            $concent = ConcentracionParametro::where('Id_parametro', $request->idParametro)->first(); //valores de concentración
+            $concent = ConcentracionParametro::where('Id_parametro', $request->idParametroModal)->get(); //valores de concentración
 
-            if ($concent == null) {
-                $swCon = 1;
-            } else {
+            if ($concent->count()) {
                 $paraModel = Parametro::find($request->idParametroModal);
                 $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
 
@@ -168,6 +166,8 @@ class CurvaController extends Controller
                 $sw = 0;
                 $swCon = 0;
                 $valFecha = 0;
+            } else {
+                $swCon = 1;
             }
             
         }
@@ -179,6 +179,7 @@ class CurvaController extends Controller
             'swCon' => $swCon,
             'estandares' => $estandares,
             'parametro' => $request->idParametroModal,
+            'concentración' => $concent,
             
            
            

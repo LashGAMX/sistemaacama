@@ -447,7 +447,7 @@ class MbController extends Controller
   
 
                 break;
-                case 35:
+            case 35: 
             case 253: //todo Número más probable (NMP), en tubos múltiples
 
                     
@@ -461,8 +461,13 @@ class MbController extends Controller
                 if ($numModel2->count()) {
                     if ($request->D1 != 10 && $request->D2 != 1 && $request->D3 != 0.1) {
                         //Formula escrita 1
-                        $op1 = 10 / $request->D3;
-                        $res = $op1 * $request->NMP;
+                        if ($request->idParametro == 35) {
+                            $op1 = 10 / $request->D1;
+                            $res = $op1 * $request->NMP;
+                        } else {
+                    $res =  $request->NMP / $request->D3;
+                        }
+                    
                         $tipo = 2; // Formula 1
                     } else {
                         //Formula comparación por tabla  
@@ -483,6 +488,9 @@ class MbController extends Controller
                         } else {
                             $res = $aux;
                         }
+                    }
+                    if($request->idParametro ==35){
+                        $res = $aux;
                     }
                 }
                 $model = LoteDetalleEnterococos::find($request->idDetalle);

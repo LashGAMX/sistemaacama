@@ -19,7 +19,7 @@
         </div>
         <div class="clearfix container-fluid row">
             <div class="col-md-3">
-                <a href="https://dev.sistemaacama.com.mx/admin/recursos/ingCampo">
+                <a href="https://sistemaacama.com.mx/admin/recursos/ingCampo">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://dev.sistemaacama.com.mx//storage/ConfigurationBackground/fieldEngineering.jpg');">
                         <div class="dimmer"></div>
