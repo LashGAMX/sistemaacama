@@ -462,6 +462,21 @@ function buscar(){
                 console.log('cont inicial:'+cont)
                 $.each(response.stdModel, function (key, item) {
                    //idLote = item.Id_std;
+                   if (response.area == 16 )
+                   {
+                    tab += '<tr>';
+                    tab += '<td>'+item.Id_std+'</td>';
+                    tab += '<td>'+item.STD+'</td>';
+                    tab += '<td><input  id="curCon'+cont+'" value="'+response.concentracion[cont].Concentracion+'"></td>';
+                    tab += '<td><input id="curStd1'+cont+'" value="'+item.ABS1+'"></td>'; 
+                    tab += '<td><input id="curStd2'+cont+'" value="'+item.ABS2+'"></td>';
+                    tab += '<td><input id="curStd3'+cont+'" value="'+item.ABS3+'"></td>';
+                    tab += '<td><input id="curProm'+cont+'" value="'+item.Promedio+'" readonly></td>';
+                    tab += '</tr>';
+                    cont++;
+                    console.log('con:'+cont)
+                   }else{
+
                   if(cont == 0) 
                   {
                     tab += '<tr>';
@@ -488,6 +503,7 @@ function buscar(){
                     cont++;
                     console.log('con:'+cont)
                   }
+                }
                   
                 });
             

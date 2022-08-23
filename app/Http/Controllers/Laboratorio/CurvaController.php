@@ -96,6 +96,7 @@ class CurvaController extends Controller
             $valbmr = false;
         }
         $data = array(
+            'area' => $request->area,
             'stdModel' => $model,
             'concentracion' => $concent,
             'valbmr' => $valbmr,
