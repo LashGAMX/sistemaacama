@@ -14,7 +14,7 @@ $('#btnLiberar').click(function () {
 });
 
 $('#btnEjecutarDqo').click(function () {
-    operacionDqo();
+    // operacionDqo();
 })
 $('#btnEjecutarCloro').click(function () {
     operacionCloro();
@@ -28,7 +28,7 @@ $('#btnGuardarCloro').click(function () {
     guardarCloro();
 });
 $('#btnGuardarDqo').click(function () {
-    guardarDqo();
+    // guardarDqo();
 });
 $('#btnGuardarNitro').click(function () {
     guardarNitrogeno();
@@ -324,36 +324,71 @@ function guardarCloro() {
 }
 
 
-function operacionDqo() {
-
-    $.ajax({
-        type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/operacionVolumetriaDqo",
-        data: {
-            idDetalle: idMuestra,
-            B: $("#tituladoDqo1").val(),
-            C: $("#MolaridadDqo1").val(),
-            CA: $("#blancoDqo1").val(),
-            D: $("#factorDqo1").val(),
-            E: $("#volDqo1").val(),
-            resultado: $("#resultadoDqo").val(),
-            _token: $('input[name="_token"]').val()
-        },
-        dataType: "json",
-        success: function (response) {
-            console.log(response);
-            $("#resultadoDqo").val(response.res);
-            getLoteCapturaVol();
-        }
-    });
+function operacionDqo(sw) {
+    if (sw == 1) {
+        $.ajax({
+            type: "POST",
+            url: base_url + "/admin/laboratorio/" + area + "/operacionVolumetriaDqo",
+            data: {
+                sw:sw,
+                idDetalle: idMuestra,
+                B: $("#tituladoDqo1").val(),
+                C: $("#MolaridadDqo1").val(),
+                CA: $("#blancoDqo1").val(),
+                D: $("#factorDqo1").val(),
+                E: $("#volDqo1").val(),
+                resultado: $("#resultadoDqo").val(),
+                _token: $('input[name="_token"]').val()
+            },
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                $("#resultadoDqo").val(response.res);
+                getLoteCapturaVol();
+            }
+        });
+    } else {
+        $.ajax({
+            type: "POST",
+            url: base_url + "/admin/laboratorio/" + area + "/operacionVolumetriaDqo",
+            data: {
+                sw:sw,
+                parametro: $('#formulaTipo').val(),
+                ABS:$('#abs1').val(),
+                CA:$('#blanco1').val(),
+                CB:$('#b1').val(),
+                CM:$('#m1').val(),
+                CR:$('#r1').val(),
+                D:$('#fDilucion1').val(),
+                E:$('#volMuestra1').val(),
+                X:$('#abs11').val(),
+                Y:$('#abs21').val(),
+                Z:$('#abs31').val(),
+                _token: $('input[name="_token"]').val()
+            },
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+                let x = response.x.toFixed(3);
+              $("#abs1").val(x); 
+              $("#abs2").val(x); 
+              let resultado = response.res.toFixed(3);
+              $("#resultado").val(resultado); 
+              let d = response.d.toFixed(3);
+              $("#fDilucion1").val(d);
+              $("#fDilucion2").val(d);
+            }
+        });
+    }
 }
 
-function guardarDqo() {
-
+function guardarDqo(sw) {
+if (sw == 1) {
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/guardarDqo",
         data: {
+            sw:sw,
             idDetalle: idMuestra,
             B: $("#tituladoDqo1").val(),
             C: $("#MolaridadDqo1").val(),
@@ -369,6 +404,36 @@ function guardarDqo() {
             getLoteCapturaVol();
         }
     });
+} else {
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/guardarDqo",
+        data: {
+            sw:sw,
+            idDetalle: idMuestra,
+            fechaAnalisis: $("#fechaAnalisis").val(),
+            parametro: $('#formulaTipo').val(),
+            resultado: $('#resultado').val(),
+            observacion: $('#obs').val(),
+            ABS:$('#abs1').val(),
+            CA:$('#blanco1').val(),
+            CB:$('#b1').val(),
+            CM:$('#m1').val(),
+            CR:$('#r1').val(),
+            D:$('#fDilucion1').val(),
+            E:$('#volMuestra1').val(),
+            X:$('#abs11').val(),
+            Y:$('#abs21').val(),
+            Z:$('#abs31').val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) { 
+            console.log(response);
+            getLoteCapturaVol();   
+        }
+    });
+}
 }
 function guardarNitrogeno() {
 

@@ -283,7 +283,16 @@ class FqController extends Controller
                 $d = 50 / $request->E;
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $resultado = ((($x - $request->CB) / $request->CM) * $d);
-
+                break;
+            case 152:
+                $model = LoteDetalleEspectro::where('Id_detalle',$request->idMuestra)->first();
+                $d = 40 / $request->E;
+                $x = ($request->X + $request->Y + $request->Z) / 3;
+                if($model->Id_control == 14){
+                    $resultado = ((($x - $request->CB) / $request->CM) * $d);
+                } else{
+                    $resultado = ((($x - $request->CA) / $request->CM) * $d);
+                }
                 break;
             default:
                 # code...

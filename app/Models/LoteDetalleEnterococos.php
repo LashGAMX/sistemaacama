@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class LoteDetalleColiformes extends Model
+class LoteDetalleEnterococos extends Model
 {
     use HasFactory,SoftDeletes;
     protected $table = 'lote_detalle_enterococos';
@@ -36,7 +36,7 @@ class LoteDetalleColiformes extends Model
         'Presuntiva17',
         'Presuntiva18',
         'Presuntiva19',
-        'Presuntiva11',
+        'Presuntiva21',
         'Presuntiva22',
         'Presuntiva23',
         'Presuntiva24',

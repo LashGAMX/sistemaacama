@@ -33,6 +33,7 @@ use App\Models\EnfriadoMatraces;
 use App\Models\EnfriadoMatraz;
 use App\Models\LoteDetalleColiformes;
 use App\Models\LoteDetalleDbo;
+use App\Models\LoteDetalleEnterococos;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleHH;
 use App\Models\LoteTecnica;
@@ -191,9 +192,10 @@ class MbController extends Controller
             case 12: //todo Coliformes+
                 $detalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->get();
                 break;
-            case 262: //todo  ENTEROCOCO FECAL
+                case 35:
+            case 253: //todo  ENTEROCOCO FECAL
                 # code...
-                $detalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->get();
+                $detalle = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $request->idLote)->get();
                 break;
             case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
                 # code...
@@ -445,18 +447,96 @@ class MbController extends Controller
   
 
                 break;
-            case 262: //todo Número más probable (NMP), en tubos múltiples
+                case 35:
+            case 253: //todo Número más probable (NMP), en tubos múltiples
 
-                $n1 = $request->con1 + $request->con2 + $request->con3;
-                $n2 = $request->con4 + $request->con5 + $request->con6;
-                $n3 = $request->con7 + $request->con8 + $request->con9;
+                    
+                $n1 = $request->Confirmativa21 + $request->Confirmativa22 + $request->Confirmativa23;
+                $n2 = $request->Confirmativa24 + $request->Confirmativa25 + $request->Confirmativa26;
+                $n3 = $request->Confirmativa27 + $request->Confirmativa28 + $request->Confirmativa29;
 
                 $numModel = Nmp1Micro::where('Col1', $n1)->where('Col2', $n2)->where('Col3', $n3)->first();
-                $res = $numModel->Nmp;
+                $numModel2 = Nmp1Micro::where('Col1', $n1)->where('Col2', $n2)->where('Col3', $n3)->get();
+                $tipo =  "";
+                if ($numModel2->count()) {
+                    if ($request->D1 != 10 && $request->D2 != 1 && $request->D3 != 0.1) {
+                        //Formula escrita 1
+                        $op1 = 10 / $request->D3;
+                        $res = $op1 * $request->NMP;
+                        $tipo = 2; // Formula 1
+                    } else {
+                        //Formula comparación por tabla  
+                        $res = $numModel->Nmp;
+                        $tipo = 1; // Formula Tabla
+                    }
+                } else {
+                    //Formula 2
+                    $op1 = $request->G1 * 100;
+                    $op2 = sqrt($request->G2 * $request->G3);
+                    $res1 = $op1 / $op2;
+                    $tipo = 3; //Formula 2
+                    $numModel3 = Nmp1Micro::orderBy('Nmp', 'asc')->get();
 
-                // $model = LoteDetalleColiformes::find($request->idDetalle)->replicate();
-                // $model->Id_control = 2;
-                // $model->save();
+                    foreach ($numModel3 as $item) {
+                        if ($item->Nmp <= $res1) {
+                            $aux = $item->Nmp;
+                        } else {
+                            $res = $aux;
+                        }
+                    }
+                }
+                $model = LoteDetalleEnterococos::find($request->idDetalle);
+                $model->Tipo = $tipo;
+                $model->Dilucion1 = $request->D1;
+                $model->Dilucion2 = $request->D2;
+                $model->Dilucion3 = $request->D3;
+                $model->Indice = $res;
+                $model->Muestra_tubos = $request->G3;
+                $model->Tubos_negativos = $request->G2;
+                $model->Tubos_positivos = $request->G1;
+
+                $model->Presuntiva11 = $request->Presuntiva11;
+                $model->Presuntiva12 = $request->Presuntiva12;
+                $model->Presuntiva13 = $request->Presuntiva13;
+                $model->Presuntiva14 = $request->Presuntiva14;
+                $model->Presuntiva15 = $request->Presuntiva15;
+                $model->Presuntiva16 = $request->Presuntiva16;
+                $model->Presuntiva17 = $request->Presuntiva17;
+                $model->Presuntiva18 = $request->Presuntiva18;
+                $model->Presuntiva19 = $request->Presuntiva19;
+                $model->Presuntiva21 = $request->Presuntiva21;
+                $model->Presuntiva22 = $request->Presuntiva22;
+                $model->Presuntiva23 = $request->Presuntiva23;
+                $model->Presuntiva24 = $request->Presuntiva24;
+                $model->Presuntiva25 = $request->Presuntiva25;
+                $model->Presuntiva26 = $request->Presuntiva26;
+                $model->Presuntiva27 = $request->Presuntiva27;
+                $model->Presuntiva28 = $request->Presuntiva28;
+                $model->Presuntiva29 = $request->Presuntiva29;
+
+                $model->Confirmativa11 = $request->con11;
+                $model->Confirmativa12 = $request->con12;
+                $model->Confirmativa13 = $request->con13;
+                $model->Confirmativa14 = $request->con14;
+                $model->Confirmativa15 = $request->con15;
+                $model->Confirmativa16 = $request->con16;
+                $model->Confirmativa17 = $request->con17;
+                $model->Confirmativa18 = $request->con18;
+                $model->Confirmativa19 = $request->con19;
+
+                $model->Confirmativa21 = $request->con21;
+                $model->Confirmativa22 = $request->con22;
+                $model->Confirmativa23 = $request->con23;
+                $model->Confirmativa24 = $request->con24;
+                $model->Confirmativa25 = $request->con25;
+                $model->Confirmativa26 = $request->con26;
+                $model->Confirmativa27 = $request->con27;
+                $model->Confirmativa28 = $request->con28;
+                $model->Confirmativa29 = $request->con29;
+
+                $model->Resultado = $res;
+                $model->Analizo = Auth::user()->id;
+                $model->save();
 
                 break;
             case 5: //todo Metodo electrometrico
@@ -804,9 +884,10 @@ class MbController extends Controller
             case 12: //todo Coliformes+
                 $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->where('Id_control', 1)->get();
                 break;
-            case 262: //todo  ENTEROCOCO FECAL
+            case 35:
+            case 253: //todo  ENTEROCOCO FECAL
                 # code...
-                $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->where('Id_control', 1)->get();
+                $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $request->idLote)->where('Id_control', 1)->get();
                 break;
             case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
                 # code...
@@ -871,7 +952,7 @@ class MbController extends Controller
         $paraModel = Parametro::find($loteModel->Id_tecnica);
 
         switch ($paraModel->Id_parametro) {
-            case 12: //todo Número más probable (NMP), en tubos múltiples
+            case 12: //todo Coliformes Fecales
                 $model = LoteDetalleColiformes::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
@@ -882,7 +963,7 @@ class MbController extends Controller
                 $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
                 $sw = true;
                 break;
-            case 51: //todo Número más probable (NMP), en tubos múltiples
+            case 51: //todo Coliformes totales
                 $model = LoteDetalleColiformes::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
@@ -893,18 +974,30 @@ class MbController extends Controller
                 $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
                 $sw = true;
                 break;
-            case 262: //todo  ENTEROCOCO FECAL
+            case 253: //todo  ENTEROCOCO FECAL
                 # code...
-                $model = LoteDetalleColiformes::create([
+                $model = LoteDetalleEnterococos::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
                     'Id_codigo' => $request->idSol,
                     'Id_parametro' => $loteModel->Id_tecnica,
                     'Id_control' => 1,
                 ]);
-                $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
+                $detModel = LoteDetalleEnterococos::where('Id_lote', $request->idLote)->get();
                 $sw = true;
                 break;
+                case 35: //todo  E COLI
+                    # code...
+                    $model = LoteDetalleEnterococos::create([
+                        'Id_lote' => $request->idLote,
+                        'Id_analisis' => $request->idAnalisis,
+                        'Id_codigo' => $request->idSol,
+                        'Id_parametro' => $loteModel->Id_tecnica,
+                        'Id_control' => 1,
+                    ]);
+                    $detModel = LoteDetalleEnterococos::where('Id_lote', $request->idLote)->get();
+                    $sw = true;
+                    break;
             case 5: //todo DEMANDA BIOQUIMICA DE OXIGENO (DBO5) 
                 # code...
                 $model = LoteDetalleDbo::create([

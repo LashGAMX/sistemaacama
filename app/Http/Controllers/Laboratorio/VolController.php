@@ -906,30 +906,56 @@ class VolController extends Controller
     }
     public function operacionVolumetriaDqo(Request $request)
     {
-
-        $res1 = ($request->CA - $request->B);
-        $res2 = ($res1 * $request->C);
-        $res3 = ($res2 * $request->D);
-        $res = ($res3 / $request->E);
+        $x = 0;
+        $d = 0;
+        if($request->sw == 1){
+            $res1 = ($request->CA - $request->B);
+            $res2 = ($res1 * $request->C);
+            $res3 = ($res2 * $request->D);
+            $res = ($res3 / $request->E);
+    
+        }else{
+            $d = 50 / $request->E;
+            $x = ($request->X + $request->Y + $request->Z) / 3;
+            $res = ((($x - $request->CB) / $request->CM) * $d);
+        }
 
 
         $data = array(
-            'res' => $res
+            'd' => $d,
+            'x' => $x,
+             'res' => $res
         );
         return response()->json($data);
     }
     public function guardarDqo(Request $request)
     {
-
-        $model = LoteDetalleDqo::find($request->idDetalle);
-        $model->Titulo_muestra = $request->B;
-        $model->Molaridad = $request->C;
-        $model->Titulo_blanco = $request->CA;
-        $model->Equivalencia = $request->D;
-        $model->Vol_muestra = $request->E;
-        $model->Resultado = $request->resultado;
-        $model->analizo = Auth::user()->id;
-        $model->save();
+        if ($request->sw == 1) {
+            $model = LoteDetalleDqo::find($request->idDetalle);
+            $model->Titulo_muestra = $request->B;
+            $model->Molaridad = $request->C;
+            $model->Titulo_blanco = $request->CA;
+            $model->Equivalencia = $request->D;
+            $model->Vol_muestra = $request->E;
+            $model->Resultado = $request->resultado;
+            $model->analizo = Auth::user()->id;
+            $model->save();
+        } else {
+            $model = LoteDetalleDqo::find($request->idDetalle);
+            $model->Vol_muestra = $request->Vol_muestra;
+            $model->Abs_prom = $request->ABS;
+            $model->Blanco = $request->CA;
+            $model->Factor_dilucion = $request->D;
+            $model->Vol_muestra = $request->Vol_muestra;
+            $model->Abs1 = $request->X;
+            $model->Abs2 = $request->Y;
+            $model->Abs3 = $request->Z;
+            $model->Resultado = $request->resultado;
+            $model->analizo = Auth::user()->id;
+            $model->save();
+        }
+        
+        
 
         $data = array(
             'model' => $model,

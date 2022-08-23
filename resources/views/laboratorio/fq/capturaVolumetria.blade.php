@@ -141,11 +141,11 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <button class="btn btn-success" id="btnGuardarDqo"><i class="voyager-upload"></i>
+                                <button class="btn btn-success" id="btnGuardarDqo" onclick="guardarDqo(1)"><i class="voyager-upload"></i>
                                     Guardar</button>&nbsp;&nbsp;
                             </div>
                             <div class="col-md-2"> 
-                                <button class="btn btn-primary" id="btnEjecutarDqo"><i class="voyager-play"></i>
+                                <button class="btn btn-primary" id="btnEjecutarDqo" onclick="operacionDqo(1)"><i class="voyager-play"></i>
                                     Ejecutar</button>
                             </div>
                             {{-- <div class="col-md-2">
@@ -512,11 +512,11 @@
                                 </div>
                             </div>
                             <div class="col-md-2">
-                                <button class="btn btn-success" id="btnGuardar"><i class="voyager-upload"></i>
+                                <button class="btn btn-success" id="btnGuardar" onclick="guardarDqo(2)"><i class="voyager-upload"></i>
                                     Guardar</button>&nbsp;&nbsp;
                             </div>
                             <div class="col-md-2">
-                                <button class="btn btn-primary" id="btnEjecutar"><i class="voyager-play"></i>
+                                <button class="btn btn-primary" id="btnEjecutar" onclick="operacionDqo(2)"><i class="voyager-play"></i>
                                     Ejecutar</button>
                             </div>
                             {{-- <div class="col-md-2">

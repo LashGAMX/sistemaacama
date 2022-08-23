@@ -3,6 +3,7 @@ var numMuestras = new Array();
 var idMuestra = 0; 
 var idLote = 0;
 var tecnica = 0;
+var blanco = 0;
 
 $(document).ready(function () {
     $('#formulaTipo').select2();
@@ -159,11 +160,19 @@ function getLoteCapturaEspectro() {
                     color = "warning"
                 }
                 tab += '<tr>';
-                if($("#formulaTipo").val() != 96)
-                {
-                    tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
-                }else{
-                    tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectroSulfatos('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaSulfatos">Capturar</button>';
+                switch ($("#formulaTipo").val()) {
+                    case 96:
+                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectroSulfatos('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaSulfatos">Capturar</button>';    
+                        break;
+                    case "152":
+                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
+                        if(item.Id_control == "14"){
+                            blanco = item.Resultado;
+                        }
+                        break;
+                    default:
+                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
+                        break;
                 }
                 if (item.Id_control != 1) 
                 {
@@ -412,6 +421,9 @@ function getDetalleEspectro(idDetalle)
             $("#abs22").val(response.model.Abs2);
             $("#abs32").val(response.model.Abs3);
             $("#resultado").val(response.model.Resultado);
+            if($("#formulaTipo").val() == 152){
+                $("#blanco1").val(blanco);
+            }
         }
     });
 }
@@ -507,6 +519,7 @@ function operacion() {
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/operacionEspectro",
         data: {
+            idMuestra: idMuestra,
             parametro: $('#formulaTipo').val(),
             ABS:$('#abs1').val(),
             CA:$('#blanco1').val(),
@@ -531,6 +544,7 @@ function operacion() {
           let d = response.d.toFixed(3);
           $("#fDilucion1").val(d);
           $("#fDilucion2").val(d);
+          blanco = resultado;
         }
     });
 }

@@ -150,8 +150,9 @@ function getLoteCapturaMicro() {
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleCol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                         console.log("Entro a 12");
                         break;
-                    case "262":
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleCol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
+                        case "35":
+                    case "253":
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleCol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaEnt">Capturar</button>';
                         break;
                     case "5":
                         if (item.Id_control == 5) {
@@ -483,6 +484,86 @@ function operacionCol() {
                 $('#resultadoCol').val(response.res);
             }
             $('#nmp1').val(response.res)
+            $('#indicador').val("");
+        }
+    }
+    });
+}
+
+function operacionEnt() {
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacion",
+        data: {
+            tecnica: tecnica,
+            idDetalle: idMuestra,
+            resultadoCol: $("#resultadoEnt").val(),
+            idParametro: $('#formulaTipo').val(),
+            D1: $('#endil1').val(),
+            D2: $('#endil2').val(),
+            D3: $('#endil3').val(),
+            NMP: $('#ennmp1').val(),
+            G3: $('#entodos1').val(),
+            G2: $('#ennegativos1').val(),
+            G1: $('#enpositivos1').val(),
+            
+            Presuntiva11: $("#enPre1").val(),
+            Presuntiva12: $("#enPre2").val(),
+            Presuntiva13: $("#enPre3").val(),
+            Presuntiva14: $("#enPre4").val(),
+            Presuntiva15: $("#enPre5").val(),
+            Presuntiva16: $("#enPre6").val(),
+            Presuntiva17: $("#enPre7").val(),
+            Presuntiva18: $("#enPre8").val(),
+            Presuntiva19: $("#enPre9").val(),
+            
+            Presuntiva21: $("#enPre12").val(),
+            Presuntiva22: $("#enPre22").val(),
+            Presuntiva23: $("#enPre32").val(),
+            Presuntiva24: $("#enPre42").val(),
+            Presuntiva25: $("#enPre52").val(),
+            Presuntiva26: $("#enPre62").val(),
+            Presuntiva27: $("#enPre72").val(),
+            Presuntiva28: $("#enPre82").val(),
+            Presuntiva29: $("#enPre92").val(),
+
+            Confirmativa11: $("#enCon1").val(),
+            Confirmativa12: $("#enCon2").val(),
+            Confirmativa13: $("#enCon3").val(),
+            Confirmativa14: $("#enCon4").val(),
+            Confirmativa15: $("#enCon5").val(),
+            Confirmativa16: $("#enCon6").val(),
+            Confirmativa17: $("#enCon7").val(),
+            Confirmativa18: $("#enCon8").val(),
+            Confirmativa19: $("#enCon9").val(),
+            
+            Confirmativa21: $("#enCon12").val(),
+            Confirmativa22: $("#enCon22").val(),
+            Confirmativa23: $("#enCon32").val(),
+            Confirmativa24: $("#enCon42").val(),
+            Confirmativa25: $("#enCon52").val(),
+            Confirmativa26: $("#enCon62").val(),
+            Confirmativa27: $("#enCon72").val(),
+            Confirmativa28: $("#enCon82").val(),
+            Confirmativa29: $("#enCon92").val(),
+
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaMicro();
+            // inicio metodo corto
+            if (response.metodoCorto == 1) {
+                console.log("metodo corto hecho!");
+            } else {
+
+            if (response.res == 0) {
+                $('#resultadoEnt').val("< 3");
+            } else {
+                $('#resultadoEnt').val(response.res);
+            }
+            $('#ennmp1').val(response.res)
             $('#indicador').val("");
         }
     }
