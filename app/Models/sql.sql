@@ -121,6 +121,7 @@ pa.Tecnica,pa.Id_procedimiento,pa.Procedimiento,pa.Id_matriz,pa.Matriz,pa.Id_sim
 pa.Descripcion_sim,pa.Metodo_prueba,pa.Clave_metodo
 FROM `precio_catalogo` as cat
 INNER JOIN ViewParametros as pa
+ON pa.Id_parametro = cat.Id_parametro
 
 /* Lista precio paquete */
 CREATE VIEW ViewPrecioPaq as SELECT
