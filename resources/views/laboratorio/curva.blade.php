@@ -144,7 +144,7 @@
 @endsection  
 
 @section('javascript')
-    <script src="{{asset('/public/js/laboratorio/curva.js')}}"></script>
+    <script src="{{asset('/public/js/laboratorio/curva.js')}}?v=1.0.0"></script>
     <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
     <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
 @stop

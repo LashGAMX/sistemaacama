@@ -96,6 +96,7 @@ class CurvaController extends Controller
             $valbmr = false;
         }
         $data = array(
+            // 'parametro' => $model->parametro,
             'area' => $request->area,
             'stdModel' => $model,
             'concentracion' => $concent,
@@ -179,25 +180,10 @@ class CurvaController extends Controller
             'swCon' => $swCon,
             'estandares' => $estandares,
             'parametro' => $request->idParametroModal,
-            'concentración' => $concent,
+            'concentracion' => $concent,
             
            
            
-        );
-        return response()->json($data);
-    }
-
-    public function promedio(Request $request)
-    {
-        $promedio = $request->promedio;
-        $suma = $request->abs1 + $request->abs2 + $request->abs3;
-        $resultado = $suma / 3;
-
-
-        $data = array(
-            'resultado' => $promedio,
-            'suma' => $suma,
-            'resultado' => $resultado
         );
         return response()->json($data);
     }
@@ -229,63 +215,7 @@ class CurvaController extends Controller
     }
 
     //-----------Formula para la BMR-----------------------------
-    public function formula(Request $request)
-    {
-
-        $fecha = new Carbon($request->fecha);
-        $today = $fecha->toDateString();
-        $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-            ->where('Id_area', $request->area)
-            ->where('Id_parametro', $request->parametro)->get();
-
-        $c1 = 0;
-        $b1 = 0;
-        $bSuma = 0;
-        $cElevada = 0;
-        $bc = 0;
-        $a = 1;
-
-        foreach ($model as $item) {
-            $a = $a + 1; //numero de estandares
-            $c1 = $c1 + $item->Promedio; // suma de los promedios
-            $bSuma = $bSuma + $item->Concentracion; //suma de concentración
-            $b1 += ($item->Concentracion * $item->Concentracion); //suma de concentración elevada al cuadrado
-            $bc = $bc + $item->Concentracion * $item->Promedio; //Producto de b y c
-            $cElevada = $cElevada + $item->Promedio * $item->Promedio; //Suma de c elevada a 2
-
-        }
-        //todo:: b
-        $s1 = $c1 * $b1;
-        $s3 = $bc * $bSuma;
-        $s5 = $a * $b1;
-        $s6 = $bSuma * $bSuma; //elevacion al cuadrado
-        //todo:: m
-        $m1 = $a * $bc;
-        $m2 = $bSuma * $c1;
-        $m3 = $b1 * $a;
-        $m4 = $s6; // misma operación de s6
-        //todo:: r
-        $r2 = $c1 * $bSuma;
-        $r3 = $a * $b1;
-        //r4 es igual a s6
-        $r5 = $a * $cElevada;
-        $r6 = $c1 * $c1;
-        $rFinal = ($r3 - $s6) * ($r5 - $r6);
-
-        //todo:: Formulas finales
-        $b = ($s1 - $s3) / ($s5 - $s6);
-        $m = ($m1 - $m2) / ($m3 - $m4);
-        $r = ($m1 - $r2) / sqrt($rFinal);
-
-
-        $data = array(
-            'm' => $m,
-            'b' => $b,
-            'r' => $r,
-
-        );
-        return response()->json($data);
-    }
+   
     public function setCalcular(Request $request)
     {
 

@@ -115,14 +115,12 @@ INNER JOIN clasificaciones as cla
 ON lim.Id_tipo = cla.Id_clasificacion
 
 /*Vista   Lista precio catalgo*/
-CREATE VIEW ViewPrecioCat as SELECT cat.Id_precio,cat.Id_parametro,cat.Id_user_c,cat.Id_user_m,par.Parametro, par.Id_norma, par.Tipo_formula,par.Rama,par.Unidad,
-par.Descripcion,par.Limite,par.Procedimiento,par.Matriz,par.Metodo_prueba,cat.Id_laboratorio,lab.Sucursal,cat.Precio,
-cat.created_at,cat.updated_at,cat.deleted_at
-FROM precio_catalogo as cat
-INNER JOIN ViewParametros as par
-ON cat.Id_parametro = par.Id_parametro
-INNER JOIN sucursales as lab
-ON cat.Id_laboratorio = lab.Id_sucursal
+CREATE VIEW ViewPrecioCat as SELECT cat.*, pa.Id_laboratorio,pa.Sucursal,pa.Id_tipo_formula,pa.Tipo_formula,pa.Id_area,pa.Area_analisis,
+pa.Id_rama,pa.Rama,pa.Parametro,pa.Id_unidad,pa.Unidad,pa.Descripcion,pa.Id_metodo,pa.Limite,pa.Id_tecnica,
+pa.Tecnica,pa.Id_procedimiento,pa.Procedimiento,pa.Id_matriz,pa.Matriz,pa.Id_simbologia,pa.Envase,pa.Simbologia,pa.Simbologia_inf,
+pa.Descripcion_sim,pa.Metodo_prueba,pa.Clave_metodo
+FROM `precio_catalogo` as cat
+INNER JOIN ViewParametros as pa
 
 /* Lista precio paquete */
 CREATE VIEW ViewPrecioPaq as SELECT
