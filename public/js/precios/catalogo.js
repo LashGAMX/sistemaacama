@@ -2,6 +2,7 @@ $(document).ready(function() {
     $('#norma').select2();
     $('#lab').select2();
     $('#precios').DataTable();
+    getParametros();
 });
 
 function getParametros()
@@ -10,9 +11,8 @@ function getParametros()
     let tab = '';
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/"+area+"/muestraSinAsignarVol",
+        url: base_url + "/admin/precios/catalogo/getParametros",
         data: {
-            idLote:$("#idLote").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -27,22 +27,32 @@ function getParametros()
             tab += '          <th># Parametro</th> '; 
             tab += '          <th>Parametro</th>';
             tab += '          <th>Formula</th>';
-            tab += '          <th>Norma</th>';
             tab += '          <th>Precio</th>';
             tab += '        </tr>';
             tab += '    </thead>';
-            tab += '    <tbody>';
+            tab += '    <tbody>'; 
             $.each(response.model, function (key, item) {
                 tab += '<tr>';
-                tab += '<td>'+item.Id_+'</td>';
+                tab += '<td>'+item.Id_precio+'</td>';
+                tab += '<td>'+item.Sucursal+'</td>';
+                tab += '<td>'+item.Id_parametro+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
-                tab += '<td></td>';
+                tab += '<td>'+item.Tipo_formula+'</td>';
+                tab += '<td>'+item.Precio+'</td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
-            $('#precios').DataTable();
+            var t = $('#precios').DataTable({
+                "ordering": false,
+                "language": {
+                    "lengthMenu": "# _MENU_ por pagina",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",
+                }
+            });
          
         } 
     });

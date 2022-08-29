@@ -7,6 +7,7 @@ use App\Models\Laboratorio;
 use App\Models\Norma;
 use App\Models\Sucursal;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class CatalogoController extends Controller
