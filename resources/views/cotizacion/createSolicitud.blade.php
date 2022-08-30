@@ -285,52 +285,54 @@
             <hr>
           </div>
 
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="tipoMuestra">Tipo de muestra</label>
-              
-              @if (!is_null($model->Tipo_muestra))
-                <select name="tipoMuestra" id="tipoMuestra" class="form-control">
-                  <option value="0" selected>{{$model->Tipo_muestra}}</option>                  
-                </select>  
-              @else
-                <select name="tipoMuestra" id="tipoMuestra" class="form-control">
-                  <option>Sin seleccionar</option>
-                  <option value="0">INSTANTANEA</option>
-                  <option value="1">COMPUESTA</option>
-                </select>
-              @endif
-                            
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group">
-              <label for="promedio">Promedio</label>
 
-              @if (!is_null($model->Promedio))
-                <select name="promedio"  class="form-control" id="promedio">                  
-                  <option value="0">{{$model->Promedio}}</option>
+          <div class="col-md-6">
+            <div class="form-group">
+                <label for="tipoMuestra">Tipo de muestra</label>
+                <select name="tipoMuestra" id="tipoMuestra" class="form-control">                                        
+                    @foreach($tipoMuestraCot as $item)
+                        @if (@$model->Id_tipoMuestra == $item->Id_muestraCot)
+                            <option value="{{$item->Id_muestraCot}}" selected>{{$item->Tipo}}</option>    
+                        @else
+                            <option value="{{$item->Id_muestraCot}}">{{$item->Tipo}}</option>    
+                        @endif
+                    @endforeach
                 </select>
-              @else
-                <select name="promedio"  class="form-control" id="promedio">
-                  <option value="SIN SELECCIONAR" selected>SIN SELECCIONAR</option>
-                  <option value="MUESTREO INSTANTANEO">MUESTREO INSTANTANEO</option>
-                  <option value="MENSUAL">MENSUAL</option>
-                  <option value="DIARIO">DIARIO</option>
-                </select>
-              @endif              
             </div>
-          </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="promedio">Promedio</label>
+                <select name="promedio" class="form-control" id="promedio">
+                    @foreach($promedioCot as $item)
+                        @if (@$model->Id_promedio == $item->Id_promedioCot)
+                            <option value="{{$item->Id_promedioCot}}" selected>{{$item->Promedio}}</option>    
+                        @else
+                            <option value="{{$item->Id_promedioCot}}">{{$item->Promedio}}</option>    
+                        @endif 
+                    @endforeach
+                </select>
+            </div>
+        </div>
+
           
+
+
           <div class="col-md-12">
             <div class="form-group">
-              <label for="tipoReporte">Tipo de reporte</label>
-              <select name="tipoReporte" id="tipoReporte" class="form-control">
-                <option value="0">Sin seleccionar</option>
-
-              </select>
+                <label for="tipoReporte">Tipo de reporte</label>
+                <select name="tipoReporte" id="tipoReporte" class="form-control">
+                    <option value="0">Sin seleccionar</option>
+                    @foreach (@$categorias001 as $item)
+                        @if ($item->Id_detalle == @$model->Tipo_reporte)
+                            <option value="{{$item->Id_detalle}}" selected>{{$item->Detalle}} ({{$item->Tipo}})</option>
+                        @else
+                            <option value="{{$item->Id_detalle}}">{{$item->Detalle}} ({{$item->Tipo}})</option>
+                        @endif
+                    @endforeach
+                </select>
             </div>
-          </div>
+        </div>
 
           <div class="col-md-12">
             <label for="puntoMuestro">Punto de muestreo</label>

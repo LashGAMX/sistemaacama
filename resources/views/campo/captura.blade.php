@@ -62,7 +62,7 @@
                             <p>Punto de muestreo:</p>
                         </div>
 
-                        <div class="col-md-5">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <label for="">Equipo serie</label>
                                 <select name="termometro" id="termometro" class="form-control">
@@ -80,14 +80,33 @@
                                 </select>
                             </div>
                         </div>
+                        
                         <div class="col-md-4">
+                            <div class="form-group">
+                                <label for="">Equipo serie 2</label>
+                                <select name="termometro2" id="termometro2" class="form-control">
+                                    <option>Sin seleccionar</option>
+                                    @foreach ($termometros as $item)
+                                        @if (@$general->Id_equipo2 == @$item->Id_termometro)
+                                            <option value="{{ $item->Id_termometro }}" selected>{{ $item->Equipo }} /
+                                                {{ $item->Marca }} / {{ $item->Modelo }} / {{ $item->Serie }}</option>
+                                        @else
+                                            <option value="{{ $item->Id_termometro }}">{{ $item->Equipo }} /
+                                                {{ $item->Marca }} / {{ $item->Modelo }} / {{ $item->Serie }}
+                                            </option>
+                                        @endif
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label for="">Temperatura ambiente</label>
                                 <input type="number" class="form-control" placeholder="Temperatura" id="tempAmbiente"
                                     onkeyup='valTempAmbiente("tempAmbiente", "tempBuffer")' value="{{ @$general->Temperatura_a }}" oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" onblur='diferenciaTemperaturas("tempAmbiente", "tempBuffer", "tempAmbiente")' required>
                             </div>
                         </div>
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <div class="form-group">
                                 <label for="">Temperatura búffer</label>
                                 <input type="number" class="form-control" placeholder="Temperatura" id="tempBuffer"
@@ -682,15 +701,18 @@
                                                         onkeyup='valPhMuestra("phl1{{ $i }}","phl2{{ $i }}","phl3{{ $i }}","phprom{{ $i }}", "phprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$phMuestra[$i]->Ph3}}" @if (@$sw == true) disabled @endif>
                                                 </td>                                                
                                                 <td><p id="phprom1{{ $i }}">{{@$phMuestra[$i]->Promedio}}</p></td>
-                                                <td>
+                                                <td style="display:flex">
                                                     @if ($i == 0)
-                                                        <input type="datetime-local" step="1" id="phf{{ $i }}" onchange='validacionFechaMuestreo("phf{{$i}}","phf{{$i-1}}",1);' value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif>
+                                                        <input type="date"  id="phf{{ $i }}" value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif>
+                                                        <input type="text" id="phh{{ $i }}" value="@php echo $hr = explode(':',@$phMuestra[$i]->Hora); @endphp" maxlength="2" minlength="1"  size="2" placeholder="Hr" @if (@$sw == true) disabled @endif>
+                                                        <input type="text" id="phm{{ $i }}" value="@php echo $hr = explode(':',@$phMuestra[$i]->Hora); @endphp" maxlength="2" minlength="1"  size="2" placeholder="Min" @if (@$sw == true) disabled @endif>
                                                     @else
-                                                        <input type="datetime-local" step="1" id="phf{{ $i }}" onchange='validacionFechaMuestreo("phf{{$i}}","phf{{$i-1}}",2);' value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif>
+                                                        <input type="date" id="phf{{ $i }}"value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif>
+                                                        <input type="text" id="phh{{ $i }}" value="@php echo $hr = explode(':',@$phMuestra[$i]->Hora); @endphp" maxlength="2" minlength="1"  size="2" placeholder="Hr" @if (@$sw == true) disabled @endif>
+                                                        <input type="text" id="phm{{ $i }}" value="@php echo $hr = explode(':',@$phMuestra[$i]->Hora); @endphp" maxlength="2" minlength="1"  size="2" placeholder="Min" @if (@$sw == true) disabled @endif>
                                                     @endif
                                                 </td>
                                                 <td><input type="text" id="phprom{{ $i }}" value="{{@$phMuestra[$i]->Promedio}}" hidden></td>
-                                                
                                                 @if (!is_null(@$phMuestra[$i]->Activo))
                                                     <td><input type="text" id="phStatus1{{$i}}" value="{{@$phMuestra[$i]->Activo}}" hidden></td>
                                                 @else

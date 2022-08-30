@@ -17,6 +17,7 @@ class CampoGenerales extends Model
         'Id_solicitud',
         'Captura',
         'Id_equipo',
+        'Id_equipo2',
         'Temperatura_a',
         'Temperatura_b',
         'Latitud',

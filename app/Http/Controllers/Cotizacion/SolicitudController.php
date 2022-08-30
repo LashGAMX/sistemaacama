@@ -28,6 +28,8 @@ use App\Models\SubNorma;
 use App\Models\SucursalCliente;
 use App\Models\TipoDescarga;
 use App\Models\TipoServicios;
+use App\Models\TipoMuestraCot;
+use App\Models\PromedioCot;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -75,13 +77,18 @@ class SolicitudController extends Controller
             $normas = Norma::all();
             $frecuencia = DB::table('frecuencia001')->where('Id_frecuencia', $model->Frecuencia_muestreo)->first();
             $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->get();
-            //$model = Solicitud::where('Id_cotizacion',$idCot)->first();
+            $tipoMuestraCot = TipoMuestraCot::all();
+            $promedioCot = PromedioCot::all();
+            $categorias001 = DB::table('ViewDetalleCuerpos')->get();
             $sw = false;
 
             return view(
                 'cotizacion.createSolicitud',
                 compact(
                     'sw',
+                    'categorias001',
+                    'tipoMuestraCot',
+                    'promedioCot',
                     'model',
                     'idCot',
                     'intermediario',

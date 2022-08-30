@@ -23,6 +23,7 @@ class PhMuestra extends Model
         'Ph3',
         'Promedio',
         'Fecha',
+        'Hora',
         'Activo',
         'Id_user_c',
         'Id_user_m'

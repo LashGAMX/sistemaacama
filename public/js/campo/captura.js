@@ -8,8 +8,15 @@ $(document).ready(function () {
     valoresPhTrazables();    
     $(document).ready(function() {
         $('#termometro').select2();
+        $('#termometro2').select2();
+        var twelveHour = $('.timepicker-12-hr').wickedpicker();
+        $('input[name=timepicker]').wickedpicker({twentyFour: true});
+        
     });
 });
+
+
+
 
 
 function datosGenerales() {            
@@ -1222,7 +1229,7 @@ function valConCalidad(lec1, lec2, lec3, estado, prom) {
         t.rows[1].setAttribute("class", "bg-danger");
     }
 
-    p.value = ((l1 + l2 + l3) / 3).toFixed(2);
+    p.value = ((l1 + l2 + l3) / 3).toFixed();
 }
 
 function validacionConCalidad(lec1, lec2, lec3, activador){
@@ -2996,6 +3003,7 @@ function setDataGeneral() {
             idSolicitud: $("#idSolicitud").val(),
             Captura: "Sistema",
             equipo: $("#termometro").val(),
+            equipo2: $("#termometro2").val(),
             temp1: $("#tempAmbiente").val(),
             temp2: $("#tempBuffer").val(),
             latitud: $("#latitud").val(),
@@ -3057,6 +3065,7 @@ function setDataGeneral() {
 
 function setDataMuestreo() {
     let ph = new Array();
+    let hora = new Array();
     let temperatura = new Array();
     let phCalidad = new Array();
     let conductividad = new Array();
@@ -3085,14 +3094,17 @@ function setDataMuestreo() {
             row.push($("#color" + i + " option:selected").text());
         }
         
+
         row.push($("#phl1" + i).val());
         row.push($("#phl2" + i).val());
         row.push($("#phl3" + i).val());
         row.push($("#phprom" + i).val());
         row.push($("#phf" + i).val());
+        row.push( $("#phh" + i).val() + " : " + $("#phm" + i).val());
         row.push($("#phStatus1" + i).val());
         row.push($("#numTomas").val());
         ph.push(row);
+
     }
 
     //Temperatura muestra

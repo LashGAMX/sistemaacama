@@ -183,6 +183,9 @@ $(document).ready( function () {
 </script>
 <script src="{{asset('/public/js/libs/componentes.js')}}?v=0.0.1"></script>
 <script src="{{asset('/public/js/libs/tablas.js')}}?v=0.0.1"></script>
+{{-- Time picker --}}
+<script src="{{asset('/public/assets/timepicker/wickedpicker.min.js')}}?v=0.0.1"></script>
+<link rel="stylesheet" href="{{asset('/public/assets/timepicker/wickedpicker.min.css')}}">
 
 </body>
 </html>

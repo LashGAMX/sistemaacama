@@ -56,7 +56,7 @@
                 <table class="table table-borderless" style="border:none" width="100%">
                 <tr>
                     <td class="fontNormal fontCalibri fontSize12">TIPO MUESTRA: </td>
-                    <td class="fontBold fontCalibri fontSize14">{{@$model->Tipo_muestra}} ({{@$model->Tomas}})</td>
+                    <td class="fontBold fontCalibri fontSize14">{{@$model->Tipo}} ({{@$model->Tomas}})</td>
                     <td class="fontNormal fontCalibri fontSize12">NORMA:</td>
                     <td class="fontBold fontCalibri fontSize14">{{@$model->Clave_norma}}</td>
                 </tr>
@@ -364,7 +364,7 @@
 
                 <tr>
                     <td>&nbsp;</td>
-                    <td class="justificadorCentr"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
+                    <td class="justificadorCentr"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{asset('public/storage/'.$firma->firma)}}"></td>
                     <td>&nbsp;</td>
                 </tr>
 

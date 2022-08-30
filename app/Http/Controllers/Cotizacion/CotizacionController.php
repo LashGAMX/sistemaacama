@@ -18,6 +18,9 @@ use App\Models\NormaParametros;
 use App\Models\PrecioCatalogo;
 use App\Models\PrecioPaquete;
 use App\Models\SeguimientoAnalsis;
+use App\Models\TipoMuestraCot;
+use App\Models\PromedioCot;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth; 
 
@@ -68,11 +71,15 @@ class CotizacionController extends Controller
         $metodoPago = DB::table('metodo_pago')->get();
         $estados = DB::table('estados')->get();
         $categorias001 = DB::table('ViewDetalleCuerpos')->get();
+        $tipoMuestraCot = TipoMuestraCot::all();
+        $promedioCot = PromedioCot::all();
 
         
 
         $data = array(
             'categorias001' => $categorias001,
+            'tipoMuestraCot' => $tipoMuestraCot,
+            'promedioCot' => $promedioCot,
             'intermediarios' => $intermediarios,
             'generales' => $generales,
             'subNormas' => $subNormas,
@@ -101,11 +108,15 @@ class CotizacionController extends Controller
         $cotizacionParametros = CotizacionParametros::where('Id_cotizacion', $id)->get();
         $cotizacionPuntos = CotizacionPunto::where('Id_cotizacion', $id)->get();
         $cotizacionMuestreo = DB::table('cotizacion_muestreos')->where('Id_cotizacion', $id)->first();
+        $tipoMuestraCot = TipoMuestraCot::all();
+        $promedioCot = PromedioCot::all();
 
         $data = array(
             'intermediarios' => $intermediarios,
             'generales' => $generales,
             'subNormas' => $subNormas,
+            'tipoMuestraCot' => $tipoMuestraCot,
+            'promedioCot' => $promedioCot,
             'servicios' => $servicios,
             'descargas' => $descargas,
             'frecuencia' => $frecuencia,
@@ -614,7 +625,7 @@ class CotizacionController extends Controller
 
 
         $mpdf = new \Mpdf\Mpdf([
-            'format' => 'letter',
+            'format' => 'letter', 
             'margin_left' => 5,
             'margin_right' => 5,
             'margin_top' => 20, 
@@ -626,9 +637,10 @@ class CotizacionController extends Controller
             array(215, 280),
             array(0, 0), 
         );
-      
+
+        $firma = User::find(24); // Firma maribel
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.cotizacion.cotizacion', compact('model','parametros', 'parametrosExtra','norma','puntos', 'sumaParamEspecial','analisisDesc','subTotal'));
+        $html = view('exports.cotizacion.cotizacion', compact('model','parametros', 'parametrosExtra','norma','puntos', 'sumaParamEspecial','analisisDesc','subTotal','firma'));
         $mpdf->CSSselectMedia = 'mpdf';
 
         $htmlFooter = view('exports.cotizacion.footerCotizacion');

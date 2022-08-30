@@ -150,6 +150,7 @@ class CampoController extends Controller
 
             $model->Captura = "Sistema";
             $model->Id_equipo = $request->equipo;
+            $model->Id_quipo2 = $request->id_equipo2;
             $model->Temperatura_a = $request->temp1;
             $model->Temperatura_b = $request->temp2;
             $model->Latitud = $request->latitud;
@@ -169,6 +170,7 @@ class CampoController extends Controller
                 'Id_solicitud' => $request->idSolicitud,
                 'Captura' => "Sistema",
                 'Id_equipo' => $request->equipo,
+                'Id_quipo2' => $request->id_equipo2,
                 'Temperatura_a' => $request->temp1,
                 'Temperatura_b' => $request->temp2,
                 'Latitud' => $request->latitud,
@@ -541,8 +543,9 @@ class CampoController extends Controller
                 $ph->Ph3 = $request->ph[$i][5];
                 $ph->Promedio = $request->ph[$i][6];
                 $ph->Fecha = $request->ph[$i][7];
-                $ph->Activo = $request->ph[$i][8];
-                $ph->Num_toma = $request->ph[$i][9];
+                $ph->Hora = $request->ph[$i][8];
+                $ph->Activo = $request->ph[$i][9];
+                $ph->Num_toma = $request->ph[$i][10];
                 $ph->Id_user_m = Auth::user()->id;
                 
                 $nota = "Registro modificado";
@@ -563,8 +566,9 @@ class CampoController extends Controller
                     'Ph3' => $request->ph[$i][5],
                     'Promedio' => $request->ph[$i][6],
                     'Fecha' => $request->ph[$i][7],
-                    'Activo' => $request->ph[$i][8],
-                    'Num_toma' => $request->ph[$i][9],
+                    'Hora' => $request->ph[$i][8],
+                    'Activo' => $request->ph[$i][9],
+                    'Num_toma' => $request->ph[$i][10],
                     'Id_user_c' => Auth::user()->id,
                     'Id_user_m' => Auth::user()->id
                 ]);

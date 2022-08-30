@@ -48,14 +48,14 @@ $(document).ready(function () {
         window.location = base_url+"/admin/cotizacion/solicitud/createSinCot";
     });
 
-    $('#btnEdit').click( function () {
+    $('#btnEdit').click( function () {        
         window.location = base_url+"/admin/cotizacion/solicitud/update/"+idCot;
     } );
     $('#btnImprimir').click( function () {
         // alert("Imprimir PDF");
         window.open(base_url+"/admin/cotizacion/solicitud/exportPdfOrden/"+idCot);
         //window.location = base_url+"/admin/cotizacion/solicitud/exportPdfOrden/"+idCot;
-    } );
+    } ); 
 
     $('#btnDuplicar').click(function(){                
         window.location = base_url + "/admin/cotizacion/solicitud/duplicarSol/"+idCot;

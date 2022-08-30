@@ -222,9 +222,13 @@
                                 <div class="form-group">
                                     <label for="tipoMuestra">Tipo de muestra</label>
                                     <select name="tipoMuestra" id="tipoMuestra" class="form-control">                                        
-                                        <option>SIN SELECCIONAR</option>
-                                        <option>INSTANTANEA</option>
-                                        <option>COMPUESTA</option>
+                                        @foreach($tipoMuestraCot as $item)
+                                            @if (@$model->Id_tipoMuestra == $item->Id_muestraCot)
+                                                <option value="{{$item->Id_muestraCot}}" selected>{{$item->Tipo}}</option>    
+                                            @else
+                                                <option value="{{$item->Id_muestraCot}}">{{$item->Tipo}}</option>    
+                                            @endif
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
@@ -232,10 +236,13 @@
                                 <div class="form-group">
                                     <label for="promedio">Promedio</label>
                                     <select name="promedio" class="form-control" id="promedio">
-                                        <option value="SIN SELECCIONAR">SIN SELECCIONAR</option>
-                                        <option value="MUESTREO INSTANTANEO">MUESTREO INSTANTANEO</option>
-                                        <option value="MENSUAL">MENSUAL</option>
-                                        <option value="DIARIO">DIARIO</option>
+                                        @foreach($promedioCot as $item)
+                                            @if (@$model->Id_promedio == $item->Id_promedioCot)
+                                                <option value="{{$item->Id_promedioCot}}" selected>{{$item->Promedio}}</option>    
+                                            @else
+                                                <option value="{{$item->Id_promedioCot}}">{{$item->Promedio}}</option>    
+                                            @endif 
+                                        @endforeach
                                     </select>
                                 </div>
                             </div>
