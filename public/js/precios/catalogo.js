@@ -28,6 +28,7 @@ function getParametros()
             tab += '          <th>Parametro</th>';
             tab += '          <th>Formula</th>';
             tab += '          <th>Precio</th>';
+            tab += '          <th>Opc</th>';
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>'; 
@@ -38,7 +39,8 @@ function getParametros()
                 tab += '<td>'+item.Id_parametro+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
                 tab += '<td>'+item.Tipo_formula+'</td>';
-                tab += '<td>'+item.Precio+'</td>';
+                tab += '<td><input type="number" id="precio'+item.Id_precio+'" value="'+item.Precio+'"></td>';
+                tab += '<td><i class="fa fa-check text-success" onclick="savePrecioCat('+item.Id_precio+')"></i></td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';
@@ -54,6 +56,24 @@ function getParametros()
                 }
             });
          
+        } 
+    });
+}
+function savePrecioCat(id){
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/precios/catalogo/savePrecioCat",
+        data: {
+            id:id,
+            precio:$("#precio"+id).val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {      
+            console.log(response)
+            alert("Precio Modificado")
+            getParametros();
         } 
     });
 }

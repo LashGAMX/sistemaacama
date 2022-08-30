@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Precios;
 use App\Http\Controllers\Controller;
 use App\Models\Laboratorio;
 use App\Models\Norma;
+use App\Models\PrecioCatalogo;
 use App\Models\Sucursal;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -30,7 +31,19 @@ class CatalogoController extends Controller
         $model = DB::table('ViewPrecioCat')->get();
         $data = array(
             'model' => $model,
-         );
+         ); 
+        return response()->json($data);
+    }
+    public function savePrecioCat(Request $res)
+    {
+        $model = PrecioCatalogo::find($res->id);
+        $model->Precio = $res->precio;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+
         return response()->json($data);
     }
 }

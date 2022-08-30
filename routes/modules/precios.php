@@ -7,7 +7,9 @@ use Illuminate\Support\Facades\Route;
  
 Route::get('precios/catalogo', [CatalogoController::class,'index'] );
 Route::get('precios/catalogo/{idSucursal}/{idNorma}', [CatalogoController::class,'details'] );
+Route::post('precios/catalogo/savePrecioCat', [CatalogoController::class,'savePrecioCat']);
 Route::post('precios/catalogo/getParametros', [CatalogoController::class,'getParametros']);
+ 
 
 Route::get('precios/intermediario', [IntermediarioController::class,'index']);
 Route::get('precios/intermediario/details/{idCliente}', [IntermediarioController::class,'details']);
