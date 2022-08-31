@@ -5,7 +5,7 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-window-list"></i>
-    Captura de resultados 
+    Captura de resultados
   </h6>
   
 <div class="container-fluid">
@@ -60,8 +60,9 @@
                                 {{-- <button class="btn btn-secondary" id="btnGenControl" onclick="imprimir();">Imprimir</button> --}}
                             </div>
                         </div>
-                        <div class="col-md-9">
-                            <p class="">Información</p>
+                        
+                        <div class="col-md-3">
+                            <p class="">Tipo: </p>
                             <div id="infoGen">
                         </div>
                     </div>
