@@ -408,7 +408,7 @@ INNER JOIN unidades as uni
 ON en.Id_unidad = uni.Id_unidad
 /* Lista ViewLoteDetalleDqo */ 
 
-CREATE VIEW ViewLoteDetalleDqo as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_dqo as col
+CREATE VIEW ViewLoteDetalleDqo as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_dqo as col
 INNER JOIN ViewSolicitud as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param

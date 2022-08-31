@@ -62,8 +62,8 @@
                         </div>
                         
                         <div class="col-md-3">
-                            <p class="">Tipo: </p>
-                            <div id="infoGen">
+                            <label id="tipoInfo">Tipo: </label>
+                            <div >
                         </div>
                     </div>
                 </div>

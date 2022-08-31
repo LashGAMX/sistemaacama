@@ -177,6 +177,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
         Route::get('captura/exportPdfCapturaSolidos/{idLote}', [FqController::class, 'exportPdfCapturaSolidos']);
         Route::get('captura/exportPdfCapturaVolumetria/{idLote}', [VolController::class, 'exportPdfCapturaVolumetria']);
+        Route::get('captura/exportPdfBitacoraVol/{idLote}', [VolController::class, 'exportPdfBitacoraVol']);
     });
         // todo Modulo MicroBiologia
         Route::group(['prefix' => 'micro'], function () {

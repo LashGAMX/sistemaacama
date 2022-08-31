@@ -114,6 +114,7 @@ function getDataCaptura() {
 }
 
 function getLoteCapturaVol() {
+    $("#tipoInfo").text("Tipo: ")
     numMuestras = new Array();
     let tabla = document.getElementById('divTablaControles');
     let tab = '';
@@ -134,6 +135,7 @@ function getLoteCapturaVol() {
         dataType: "json",
         success: function (response) {
             console.log(response);
+            $("#tipoInfo").text("Tipo: "+response.tipo)
 
             tab += '<table id="tablaControles" class="table table-sm">';
             tab += '    <thead>';
