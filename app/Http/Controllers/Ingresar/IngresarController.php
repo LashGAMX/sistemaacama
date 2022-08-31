@@ -88,7 +88,7 @@ class IngresarController extends Controller
         $fecha_ingreso = new Carbon();
         $fecha_muestreo->toDateString($muestra->Fecha); 
         $fecha_ingreso->toDateString($request->horaRecepcion);
-        
+
         $phVacio = false;
         $validacion = false;
 
