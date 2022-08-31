@@ -81,12 +81,14 @@ class IngresarController extends Controller
     public function setIngresar(Request $request){
         $model = ProcesoAnalisis::where('Id_solicitud',$request->idSol)->get();
         $seguimiento = SeguimientoAnalisis::where('Id_servicio',$request->idSol)->first();
-        $muestra = PhMuestra::where('Id_solicitud', $request->idSol)->first();
+        $muestra2 = DB::table('ViewSolicitud')->where('Hijo',$request->idSol)->get();
+        $muestra = PhMuestra::where('Id_solicitud', $muestra2[0]->Id_solicitud)->first();
         $sw = false;
         $fecha_muestreo = new Carbon();
         $fecha_ingreso = new Carbon();
         $fecha_muestreo->toDateString($muestra->Fecha); 
         $fecha_ingreso->toDateString($request->horaRecepcion);
+        
         $phVacio = false;
         $validacion = false;
 
@@ -95,7 +97,6 @@ class IngresarController extends Controller
         }else{
             $validacion = false;
         
-
         if($model->count()){
 
         }else{
