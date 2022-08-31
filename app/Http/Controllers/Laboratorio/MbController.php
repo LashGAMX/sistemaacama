@@ -132,7 +132,58 @@ class MbController extends Controller
 
         return response()->json($data);
     }
+//--------------------CREACION DE CONTROLES DE CALIDAD AUTOMATICOS SEGUN EL PARAMETRO-----------------------------
+    public function createControlesCalidadMb(Request $request)
+    {
+        switch($request->idParametro){
+            case 12:
+            case 35:
+                $muestra = LoteDetalleColiformes::where('id_lote', $request->idLote)->first();
+                //positivo
+                $model = $muestra->replicate();
+                $model->Id_control = 8;
+                $model->Resultado = NULL;
+                $model->save();
+                //blanco 
+                $model = $muestra->replicate();
+                $model->Id_control = 5;
+                $model->Resultado = NULL;
+                $model->save();
+                //negativo
+                $model = $muestra->replicate();
+                $model->Id_control = 18;
+                $model->Resultado = NULL;
+                $model->save();
 
+                $muestra = LoteDetalleColiformes::where('id_lote', $request->idLote)->get();
+                $loteModel = LoteAnalisis::find($request->idLote);
+                $loteModel->Asignado = $muestra->count();
+                $loteModel->save();
+
+            break;
+            case 253:
+                $muestra = LoteDetalleColiformes::where('id_lote', $request->idLote)->first();
+                //blanco 
+                $$model = $muestra->replicate();
+                $model->Id_control = 5;
+                $model->Resultado = NULL;
+                $model->save();
+                //positivo
+                 $model = $muestra->replicate();
+                 $model->Id_control = 8;
+                 $model->Resultado = NULL;
+                 $model->save(); 
+            break;
+            default:
+
+            break;
+        }
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
 
     public function aplicarObservacion(Request $request)
     {
@@ -1807,7 +1858,7 @@ class MbController extends Controller
 
         //HEADER-FOOTER******************************************************************************************************************         
 
-        if ($parametro->Id_parametro == 12) { // COLIFORMES FECALES
+        if ($parametro->Id_parametro == 12 ) { // COLIFORMES FECALES
             $htmlHeader = view('exports.laboratorio.mb.coliformes.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.mb.coliformes.capturaFooter', compact('usuario', 'firma'));
         } else if ($parametro->Id_parametro == 35 || $parametro->Id_parametro == 52 || $parametro->Id_parametro == 142 || $parametro->Id_parametro == 144 || $parametro->Id_parametro == 146 || $parametro->Id_parametro == 147) { // COLIFORMES TOTALES

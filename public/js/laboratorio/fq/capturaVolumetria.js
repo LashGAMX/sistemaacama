@@ -33,6 +33,10 @@ $('#btnGuardarDqo').click(function () {
 $('#btnGuardarNitro').click(function () {
     guardarNitrogeno();
 });
+$('#btnGenControles').click(function () {
+    // operacion();
+    createControlesCalidad();
+});
 
 
 
@@ -607,6 +611,25 @@ function liberarMuestra() {
         }
     });
 }
+
+function createControlesCalidad()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/createControlesCalidadVol",
+        data: {
+            idLote:idLote,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getDataCaptura();
+            getLoteCapturaVol();
+        }
+    });
+}
+
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }

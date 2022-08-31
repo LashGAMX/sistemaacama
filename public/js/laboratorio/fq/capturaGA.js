@@ -154,7 +154,7 @@ function getLoteCapturaGA() {
                 }else{
                     tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
                 }
-                tab += '<td><input disabled style="width: 100px" value="'+item.Codigo+'"></td>';
+                tab += '<td><input disabled style="width: 120px" value="'+item.Codigo+'"></td>';
                 tab += '<td><input disabled style="width: 100px" value="'+item.Clave_norma+'"></td>';
                 if(item.Resultado != null){
                     tab += '<td><input disabled style="width: 100px" value="'+item.Resultado+'"></td>';
@@ -176,12 +176,15 @@ function getLoteCapturaGA() {
 
             var t2 = $('#tablaControles').DataTable({
                 "ordering": false,
+                "pageLength": 100,
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+                "scrollY": 400,
+                "scrollCollapse": true
             });
 
 

@@ -704,12 +704,12 @@
                                                 <td style="display:flex">
                                                     @if ($i == 0)
                                                         <input type="date"  id="phf{{ $i }}" value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif>
-                                                        <input type="text" id="phh{{ $i }}" value="@php echo $hr = explode(':',@$phMuestra[$i]->Hora); @endphp" maxlength="2" minlength="1"  size="2" placeholder="Hr" @if (@$sw == true) disabled @endif>
-                                                        <input type="text" id="phm{{ $i }}" value="@php echo $hr = explode(':',@$phMuestra[$i]->Hora); @endphp" maxlength="2" minlength="1"  size="2" placeholder="Min" @if (@$sw == true) disabled @endif>
+                                                        <input type="text" id="phh{{ $i }}"  maxlength="2" minlength="1"  size="2" placeholder="Hr" @if (@$sw == true) disabled @endif>
+                                                        <input type="text" id="phm{{ $i }}"  maxlength="2" minlength="1"  size="2" placeholder="Min" @if (@$sw == true) disabled @endif>
                                                     @else
                                                         <input type="date" id="phf{{ $i }}"value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif>
-                                                        <input type="text" id="phh{{ $i }}" value="@php echo $hr = explode(':',@$phMuestra[$i]->Hora); @endphp" maxlength="2" minlength="1"  size="2" placeholder="Hr" @if (@$sw == true) disabled @endif>
-                                                        <input type="text" id="phm{{ $i }}" value="@php echo $hr = explode(':',@$phMuestra[$i]->Hora); @endphp" maxlength="2" minlength="1"  size="2" placeholder="Min" @if (@$sw == true) disabled @endif>
+                                                        <input type="text" id="phh{{ $i }}"  maxlength="2" minlength="1"  size="2" placeholder="Hr" @if (@$sw == true) disabled @endif>
+                                                        <input type="text" id="phm{{ $i }}"  maxlength="2" minlength="1"  size="2" placeholder="Min" @if (@$sw == true) disabled @endif>
                                                     @endif
                                                 </td>
                                                 <td><input type="text" id="phprom{{ $i }}" value="{{@$phMuestra[$i]->Promedio}}" hidden></td>

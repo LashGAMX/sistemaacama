@@ -942,7 +942,7 @@ class SolicitudController extends Controller
                 $dqo = true;
             }
         }
-        $phMuestra = PhMuestra::where('Id_solicitud', $item->Id_solicitud)->where('Activo', 1)->get();
+        $phMuestra = PhMuestra::where('Id_solicitud', 37)->where('Activo', 1)->get(); 
 
         if ($phMuestra->count()) {
             foreach ($model as $value) {

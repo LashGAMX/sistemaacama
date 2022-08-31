@@ -150,7 +150,7 @@ class CampoController extends Controller
 
             $model->Captura = "Sistema";
             $model->Id_equipo = $request->equipo;
-            $model->Id_quipo2 = $request->id_equipo2;
+            // $model->Id_quipo2 = $request->id_equipo2;
             $model->Temperatura_a = $request->temp1;
             $model->Temperatura_b = $request->temp2;
             $model->Latitud = $request->latitud;

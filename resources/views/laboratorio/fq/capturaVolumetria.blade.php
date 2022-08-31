@@ -78,24 +78,16 @@
                 <div class="col-md-1">
                     <button class="btn btn-secondary" id="btnLiberar">Liberar</button>
                 </div>
+                <div class="col-md-1">
+                    <button class="btn btn-secondary" id="btnLiberarTodo">Liberar todo</button>
+                </div>
                 <div class="col-md-2">
                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad"
                         id="btnGenControlInd">Generar control</button>
                 </div>
-                <div class="col-md-1">
-                    {{-- <button class="btn btn-secondary">Liberar todo</button> --}}
+                <div class="col-md-2">
+                    <button class="btn btn-secondary" id="btnGenControles">Generar controles</button>
                 </div>
-                <div class="col-md-1">
-                    {{-- <div class="form-check">
-                        <input class="form-check-input" type="checkbox" value="" id="defaultCheck1">
-                        <label class="form-check-label" for="defaultCheck1">
-                          Blanco
-                        </label>
-                      </div> --}}
-                </div>
-                {{-- <div class="col-md-2">
-                    <button class="btn btn-secondary" id="btnGenControl" onclick="generarControles();">Generar controles</button>
-                </div> --}}
 
                 <div class="col-md-1">
                     {{-- <button class="btn btn-secondary">Duplicar</button> --}}

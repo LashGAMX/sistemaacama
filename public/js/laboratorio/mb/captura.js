@@ -345,6 +345,25 @@ function getDetalleDbo(idDetalle, tipo) {
     });
 }
 
+function createControlesCalidadMb()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/createControlesCalidadMb",
+        data: {
+            idLote:idLote,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getDataCaptura();
+            getLoteCapturaMicro();
+        }
+    });
+}
+
+
 //Función imprimir PDF
 function imprimir(id) {
     //ABRE LA RUTA ESPECÍFICADA EN UNA NUEVA PESTAÑA

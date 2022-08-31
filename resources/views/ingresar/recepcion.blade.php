@@ -19,7 +19,7 @@
         <div class="col-md-4">
            <div class="row">
             <div class="col-md-12">
-                <input type="text" id="idSol" hidden>
+                <input type="text" id="idSol" >
                 <label class="col col-sm-12 datosGenerales" >Folio: <input type="text" id="folio" disabled /></label>
                 <label class="datosGenerales">Descarga: <input type="text" id="descarga" disabled /></label>
                 <label class="datosGenerales">Cliente o Intermediario: <input type="text" size="50" id="cliente"  disabled /></label>

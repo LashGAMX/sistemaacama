@@ -4706,10 +4706,10 @@ class InformesController extends Controller
 
                 default:
                     # code...
-                    
+                    // $modelDet = DB::table('ViewLoteDetalle')->where('Id_analisis', $idSol)->where('Id_parametro', 17)->first();
                     break;
             }
-            array_push($fechasSalidas, $modelDet->created_at);
+            array_push($fechasSalidas, "");
         }
         $promGra = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->where('Num_muestra', 1)->first();
         $promCol = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 12)->where('Num_muestra', 1)->first();

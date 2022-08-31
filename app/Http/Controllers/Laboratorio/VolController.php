@@ -1042,6 +1042,60 @@ class VolController extends Controller
         );
         return response()->json($data);
     }
+    public function createControlesCalidadEspectro(Request $res)
+    {
+        $muestra = LoteDetalleEspectro::where('Id_lote', $res->idLote)->first();
+
+        switch ($request->idParametro) {
+            case 295:
+                # Cloro
+                
+                break;
+            case 6:
+                # DQO
+                //? Blanco reactivo
+                $muestra = LoteDetalleDqo::where('Id_lote', $res->idLote)->first();
+                $model = $muestra->replicate();
+                $model->Id_control = 9;
+                $model->Resultado = NULL;
+                $model->save();
+    
+                //? Estandar
+                $muestra = LoteDetalleDqo::where('Id_lote', $res->idLote)->first();
+                $model = $muestra->replicate();
+                $model->Id_control = 4;
+                $model->Resultado = NULL;
+                $model->save();
+
+                //? Muestra Adicionada  
+                $muestra = LoteDetalleDqo::where('Id_lote', $res->idLote)->first();
+                $model = $muestra->replicate();
+                $model->Id_control = 3;
+                $model->Resultado = NULL;
+                $model->save();
+
+                $muestra = LoteDetalleDqo::where('Id_lote',$res->idLote)->get();
+                $loteModel = LoteAnalisis::find($res->idLote);
+                $loteModel->Asignado = $muestra->count();
+                $loteModel->save();
+                break;
+            case 9:
+            case 10:
+            case 11:
+                # Nitrogeno
+
+                break;
+            default:
+                # code...
+
+                break;
+        }
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
 
     public function getLotevol(Request $request)
     {
@@ -1226,18 +1280,22 @@ class VolController extends Controller
                     case 3: // Dqo Tubo Sellado Alta
                     // case 4: // Dqo Tubo Sellado Baja
                         $textProcedimiento = DB::table('plantillas_fq')->where('Id_parametro', 74)->first();
+                        $textProcedimientoVol = DB::table('plantillas_fq')->where('Id_parametro', 75)->first();
                         $curva = CurvaConstantes::where('Id_parametro', 74)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
                         $data = array(
                             'lote' => $lote, 
                             'loteDetalle' => $loteDetalle,
                             'textProcedimiento' => $textProcedimiento,
+                            'textProcedimientoVol' => $textProcedimientoVol,
                             'curva' => $curva,
                         );
                         $htmlCaptura = view('exports.laboratorio.volumetria.dqo.dqoTuboSellado.bitacoraBody',$data);
+                        $htmlCaptura2 = view('exports.laboratorio.volumetria.dqo.dqoTuboSellado.bitacoraBodyVol',$data);
                         $htmlHeader = view('exports.laboratorio.volumetria.dqo.dqoTuboSellado.bitacoraHeader', $data);
                         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                         $mpdf->SetHTMLFooter("", 'O', 'E');
                         $mpdf->WriteHTML($htmlCaptura);
+                        
 
                         
                         break;

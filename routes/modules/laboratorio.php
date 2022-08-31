@@ -155,6 +155,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('guardarDqo', [VolController::class, 'guardarDqo']);
         Route::post('guardarNitrogeno', [VolController::class, 'guardarNitrogeno']);
         Route::post('createControlCalidadVol', [VolController::class, 'createControlCalidadVol']);
+        Route::post('createControlesCalidadVol', [VolController::class, 'createControlesCalidadVol']);
         Route::post('liberarMuestraVol', [VolController::class, 'liberarMuestraVol']);
         Route::post('getPlantillaPredVol', [VolController::class, 'getPlantillaPred']);
         
@@ -213,6 +214,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('metodoCortoCol', [MbController::class, 'metodoCortoCol']);
             Route::post('updateObsMuestra', [MbController::class, 'updateObsMuestra']);
             Route::post('createControlCalidadMb', [MbController::class, 'createControlCalidadMb']);
+            Route::post('createControlesCalidadMb', [MbController::class, 'createControlesCalidadMb']);
             
             
             Route::post('liberarMuestra', [MbController::class, 'liberarMuestra']);
