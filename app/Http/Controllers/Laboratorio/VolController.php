@@ -1295,6 +1295,8 @@ class VolController extends Controller
                         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                         $mpdf->SetHTMLFooter("", 'O', 'E');
                         $mpdf->WriteHTML($htmlCaptura);
+                        $mpdf->AddPage();
+                        $mpdf->WriteHTML($htmlCaptura2);
                         
 
                         
