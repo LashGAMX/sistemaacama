@@ -1292,14 +1292,15 @@ class VolController extends Controller
                         $htmlCaptura = view('exports.laboratorio.volumetria.dqo.dqoTuboSellado.bitacoraBody',$data);
                         $htmlCaptura2 = view('exports.laboratorio.volumetria.dqo.dqoTuboSellado.bitacoraBodyVol',$data);
                         $htmlHeader = view('exports.laboratorio.volumetria.dqo.dqoTuboSellado.bitacoraHeader', $data);
+                    
                         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                         $mpdf->SetHTMLFooter("", 'O', 'E');
                         $mpdf->WriteHTML($htmlCaptura);
-                        $mpdf->AddPage();
+                        $mpdf->CSSselectMedia = 'mpdf';
+                        $mpdf->SetHTMLHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader, 'O', 'E');
+                        $mpdf->SetHTMLFooter("", 'O', 'E');
                         $mpdf->WriteHTML($htmlCaptura2);
-                        
-
-                        
+     
                         break;
 
                 }
@@ -1312,7 +1313,7 @@ class VolController extends Controller
         }
 
 
-        $mpdf->CSSselectMedia = 'mpdf';
+        
         $mpdf->Output();
     }
     public function exportPdfCapturaVolumetria($idLote)

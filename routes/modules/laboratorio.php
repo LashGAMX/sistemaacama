@@ -229,6 +229,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::get('capturaMicro', [MbController::class, 'capturaMicro']);
                         
             Route::get('captura/exportPdfCaptura/{idLote}', [MbController::class, 'exportPdfCaptura']);
+            Route::get('captura/exportPdfCapturaMb/{idLote}', [MbController::class, 'exportPdfCapturaMb']);
         });
 
     //? Módulo curva - Creación de curva

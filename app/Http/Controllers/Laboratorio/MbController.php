@@ -1508,6 +1508,63 @@ class MbController extends Controller
     // todo Fin de Lote
     // todo ************************************************
 
+    public function exportPdfCapturaMb($idLote)
+    {
+        //Opciones del documento PDF
+        $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'P',
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 31,
+            'margin_bottom' => 45,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+        //Establece la marca de agua del documento PDF
+        // $mpdf->SetWatermarkImage(
+        //     asset('/public/storage/MembreteVertical.png'),
+        //     1, 
+        //     array(215, 280),
+        //     array(0, 0),
+        // );
+        // $mpdf->showWatermarkImage = true;
+
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
+        switch ($lote->Id_tecnica) {
+            case 35: // Escherichia Coli
+    
+                $loteDetalle = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $idLote)->get();
+                $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                
+                $data = array(  
+                    'loteDetalle' => $loteDetalle,
+                    'textoProcedimiento' => $textoProcedimiento,
+                );
+                
+                $mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);
+                $mpdf->SetWatermarkImage(
+                    asset('/public/storage/HojaMembretadaHorizontal.png'),
+                    1,
+                    array(215, 280),
+                    array(0, 0),
+                );
+
+                $htmlHeader = view('exports.laboratorio.mb.ecoli.bitacoraHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.mb.ecoli.bitacoraBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break; 
+            default:
+                # code...
+                break;
+        }
+
+
+        
+        $mpdf->Output();
+    }
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
     public function exportPdfCaptura($idLote)
     {

@@ -21,8 +21,8 @@
 
 
     <div class="contenedorTabla">
+        <p style="font-size: 10px">Resultado de las muestras</p>
         <table autosize="1" class="table table-borderless" id="tablaDatos">
-            <p style="font-size: 10px">Resultado de las muestras</p>
             <thead>
                 <tr>
                     <th class="tableCabecera anchoColumna">No. de muestras</th>
@@ -58,17 +58,9 @@
 
 
     <div class="contenedorTabla">
+        <p style="font-size: 10px">Datos de la curva de calibración</p>
         <table autosize="1" class="table table-borderless" id="tablaDatos" style="width: 60%">
-            <thead>
 
-                <tr>
-                    <th class="nombreHeader" colspan="4">
-                        Datos de la curva de calibración
-                    </th>                    
-                </tr>                
-                
-            </thead>
-    
             <tbody>
                 {{-- @for ($i = 0; $i < 100 ; $i++) --}}
                     <tr>

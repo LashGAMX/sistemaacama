@@ -42,7 +42,7 @@ $('#btnGenControles').click(function () {
 
 function getDataCaptura() {
     cleanTable();
-    numMuestras = new Array();
+    numMuestras = new Array(); 
     let tabla = document.getElementById('divLote');
     let tab = '';
 
@@ -146,7 +146,7 @@ function getLoteCapturaVol() {
             tab += '        <tr>';
             tab += '          <th>Opc</th>';
             tab += '          <th>Folio</th>';
-            // tab += '          <th># toma</th>';
+           // tab += '          <th>Tipo</th>';
             tab += '          <th>Norma</th>';
             tab += '          <th>Resultado</th>';
             tab += '          <th>Observación</th>';
@@ -407,6 +407,7 @@ if (sw == 1) {
         dataType: "json",
         success: function (response) {
             console.log(response);
+            alert("GUARDADO");
             getLoteCapturaVol();
         }
     });
@@ -429,13 +430,14 @@ if (sw == 1) {
             D:$('#fDilucion1').val(),
             E:$('#volMuestra1').val(),
             X:$('#abs11').val(),
-            Y:$('#abs21').val(),
+            Y:$('#abs21').val(), 
             Z:$('#abs31').val(),
-            _token: $('input[name="_token"]').val()
+            _token: $('input[name="_token"]').val() 
         },
         dataType: "json",
         success: function (response) { 
             console.log(response);
+            alert("¡GUARDADO!");
             getLoteCapturaVol();   
         }
     });
@@ -451,7 +453,7 @@ function guardarNitrogeno() {
             A: $("#tituladosNitro1").val(),
             B: $("#blancoNitro1").val(),
             C: $("#molaridadNitro1").val(),
-            D: $("#factorNitro1").val(),
+            D: $("#factorNitro1").val(),  
             E: $("#conversion1").val(),
             G: $("#volNitro1").val(),
             resultado: $("#resultadoNitro").val(),

@@ -26,6 +26,7 @@ var numMuestras = new Array();
 var idMuestra = 0;
 var idLote = 0;
 var tecnica = 0;
+
 function getLoteMicro() {
     cleanTable();
     numMuestras = new Array();
@@ -225,6 +226,7 @@ function getLoteCapturaMicro() {
     });
 }
 function getDetalleCol(idDetalle) {
+    limpiar();
     $('#indicador').val("");
     $.ajax({
         type: "POST",
@@ -740,9 +742,6 @@ function cleanTable() {
 function limpiar()
 {
         $("#resultadoCol").val("")
-        $('#dil1').val("")
-        $('#dil2').val("")
-        $('#dil3').val("")
         $('#nmp1').val("")
         $('#todos1').val("")
         $('#negativos1').val(0)
