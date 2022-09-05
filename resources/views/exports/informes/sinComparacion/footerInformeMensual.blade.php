@@ -9,7 +9,7 @@
                                 ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
                                 DIA SOLEADO, EQUIPO UTILIZADO INVLAB 583 // NO HUBO DESCARGA EN LAS TOMAS 2, 5 Y 6 CONDICIONES AMBIENTALES: 
                                 DÍA SOLEADO, EQUIPO UTILIZADO INVLAB583, EN LAS TOMAS 4, 5 Y 6 NO HAY FLUJO POR LO CUAL NO SE TOMAN MUESTRAS.     --}}                            
-                                {{@$solModel->Observacion}}</td>
+                                </td>
                         </tr>                
                 </tbody>         
             </table> 
@@ -23,32 +23,7 @@
                                 N.A INTERPRETAR COMO NO APLICA. <br>
                                 N.N INTERPRETAR COMO NO NORMADO. <br>
                                 NOTA 2: LOS DATOS EXPRESADOS AVALAN ÚNICAMENTE LOS RESULTADOS DE LA MUESTRA ANALIZADA. <br> <br>
-                                @for ($i = 0; $i < sizeof(@$simbologiaParam); $i++)                                                            
-                                    @switch(@$simbologiaParam[$i])
-                                        @case(9)
-                                            * EL NT SE OBTIENE DE LA SUMA DE N-ORG,N-NH3,N-N-NO3,N-NO2 DE ACUERDO A SUS RESPECTIVAS NORMAS; NMX-AA-026-SCFI-2010, NMX-AA-079-SCFI-2001, STD-NMX-AA-099-SCFI-2021 <br>
-                                            @break
-                                        @case(10)
-                                            ** MALLA DE 3 mm, DE CLARO LIBRE. <br>
-                                            @break
-                                        @case(11)
-                                            *** LA DETERMINACION DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$tempCompuesta->Temp_muestraComp}} Y LA INCERTIDUMBRE DE PH ES DE +/- 0.02 <br>
-                                            @break
-                                        @case(13)
-                                            + MEDIA GEOMETRICA DE 6 MUESTRAS SIMPLES DE COLIFORMES. EL VALOR MINIMO CUANTIFICADO REPORTADO SERÁ DE 3, COMO CRITERIO CALCULADO PARA COLIFORMES EN SIRALAB Y EL LABORATORIO. <br>
-                                            @break
-                                        @case(14)
-                                            ++ PROMEDIO PONDERADO DE 6 MUESTRAS SIMPLES DE GRASAS Y ACEITES. <br>
-                                            @break
-                                        @case(2)
-                                            1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACIÓN ema No. AG-057-025/12, CONTINUARÁ VIGENTE. <br>
-                                            1 APROBACIÓN C.N.A. No CNA-GCA-2316, VIGENCIA A PARTIR DEL 18 DE NOVIEMBRE DE 2021 HASTA 18 DE NOVIEMBRE DEL 2023 <br>
-                                            @break
-                                        @case(3)
-                                            1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACIÓN EMA NO. A-0530-047/14, CONTINUARÁ VIGENTE.
-                                            @break
-                                    @endswitch
-                                @endfor                                
+                         
                             </td>
                         </tr>
 
@@ -71,7 +46,7 @@
         <div class="contenedorSubPadre12" cellpadding="0" cellspacing="0" border-color="#000000" style="text-align:right;">
             <div class="contenedorHijo12 bordesTablaFirmasInfDer justificadorCentr" style="margin-left: 130px;margin-right:0px;">  
                 <br>                         
-                <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"> <br></span>
+                <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{url('public/storage/'.$firma1->firma1)}}"> <br></span>
                 <br>
                 <span class="bodyStdMuestra fontSize5"> BIOL. GUADALUPE GARCÍA PÉREZ{{-- {{@$usuario->name}} --}}</span> <br>
                 <span class="cabeceraStdMuestra fontNormal fontSize5"> REVISÓ SIGNATARIO</span>
@@ -79,7 +54,7 @@
 
             <div class="contenedorHijo12 bordesTablaFirmasInfDer justificadorCentr">            
                 <br>
-                <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"> <br></span>          
+                <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{url('public/storage/'.$firma2->firma2)}}"> <br></span>          
                 <br>
                 <span class="bodyStdMuestra fontSize5"> TSU. MARÍA IRENE REYES MORALES{{-- {{@$usuario->name}} --}} </span> <br>
                 <span class="cabeceraStdMuestra fontNormal fontSize5"> AUTORIZÓ SIGNATARIO</span>      

@@ -51,7 +51,7 @@
                                 <th>Total asignados</th>
                                 <th>Total liberados</th> 
                                 <th>Opc</th>
-                              </tr>
+                              </tr> 
                             </thead>
                             <!-- <button class="btn btn-success" id="btnImprimir"><i class="fas fa-file-download"></i></button> -->
                           </table>
@@ -65,8 +65,8 @@
                         <div class="col-md-4">                                
                             <div class="form-group">
                                 <h6>B <input placeholder="B" id="b"></h6>
-                                <h6>M <input placeholder="B" id="m"></h6>
-                                <h6>R <input placeholder="B" id="r"></h6>
+                                <h6>M <input placeholder="M" id="m"></h6>
+                                <h6>R <input placeholder="R" id="r"></h6>
                             </div>
                           </div>
                           <div class="col-md-2">

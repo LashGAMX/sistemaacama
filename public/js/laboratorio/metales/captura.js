@@ -67,6 +67,9 @@ function getDataCaptura() {
 
                 tecnica = response.tecnica;
 
+                if(response.curva == null ){
+                    alert("Este lote no tiene Curva de calibración")
+                }
                 $("#b").val(response.curva.B);
                 $("#m").val(response.curva.M);
                 $("#r").val(response.curva.R);

@@ -12,38 +12,29 @@ $(document).ready(function () {
     });    
 
     $('#tableServicios tbody').on( 'click', 'tr', function () {
-        if ( $(this).hasClass('selected') ) {
-            $(this).removeClass('selected');
-        }
-        else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
+        $(this).toggleClass('selected');
+        dato = table;
+    } );
+    
+    $('#buscaPreInforme').on('click', function(){
+        if(dato.rows('.selected').data().length > 2){
+           alert("No puedes seleccionar mas de dos elementos")  
+        }else{
             getPreReporteMensual();
         }
-    } );
-    $('#tableServicios tr').on('click', function(){
-        let dato = $(this).find('td:first').html();
-        idSol = dato;
-      });
-
-    $('#btnImprimir').on('click', function(){
-
-        console.log("Valor de tipoReporte: " + $("#tipoReporte").val());
-
-        if($("#tipoReporte").val() == 1){
-            window.open(base_url+"/admin/informes/exportPdfConComparacion/"+idSol);
-        }else if($("#tipoReporte").val() == 2){
-            window.open(base_url+"/admin/informes/exportPdfSinComparacion/"+idSol);
-        }        
     });
 
     $("#btnSC").click(function()
     {
-        window.open(base_url+"/admin/informes/informeMensualSinComparacion/"+idSol);
+        let id1 = dato.rows('.selected').data()[0][0]
+        let id2 = dato.rows('.selected').data()[1][0]
+        window.open(base_url+"/admin/informes/informeMensualSinComparacion/"+id1+"/"+id2);
     });
     $("#btnCc").click(function()
     {
-        window.open(base_url+"/admin/informes/informeMensualConComparacion/"+idSol);
+        let id1 = dato.rows('.selected').data()[0][0]
+        let id2 = dato.rows('.selected').data()[1][0]
+        window.open(base_url+"/admin/informes/informeMensualConComparacion/"+id1+"/"+id2);
     });
 }); 
 var model = new Array();
@@ -51,12 +42,14 @@ function getPreReporteMensual()
 {
     let tabla = document.getElementById('divReporte');
     let tab = '';
-
+    let id1 = dato.rows('.selected').data()[0][0]
+    let id2 = dato.rows('.selected').data()[1][0]
     $.ajax({
         url: base_url + '/admin/informes/getPreReporteMensual',
         type: 'POST', //método de envio
         data: {
-            idSol: idSol,
+            id1: id1,
+            id2: id2,
             _token: $('input[name="_token"]').val(),
           },
         dataType: 'json', 

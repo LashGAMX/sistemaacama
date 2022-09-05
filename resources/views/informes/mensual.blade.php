@@ -56,7 +56,7 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group"> 
-                        <button class="btn btn-sm btn-success"><i class="fas fa-search"></i> Buscar</button>
+                        <button class="btn btn-sm btn-success"><i class="fas fa-search"></i> Filtrar</button>
                     </div>
                 </div>
                 <div class="col-md-2">
@@ -71,6 +71,7 @@
                     <div class="row">
                         <!-- Primera sección de tablas -->
                         <div class="col-md-4">
+                            <button class="btn btn-primary" id="buscaPreInforme">Buscar</button>
                             <div style="width: 100%; overflow:scroll">
                                 <table id="tableServicios" class="table" style="width: 100%; font-size: 10px">
                                     <thead>
