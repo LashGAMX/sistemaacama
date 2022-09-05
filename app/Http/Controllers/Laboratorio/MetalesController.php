@@ -225,6 +225,45 @@ class MetalesController extends Controller
             compact('loteDetail')
         );
     }
+    public function createControlCalidadMetales(Request $request)
+    {
+        $muestra = LoteDetalle::where('id_Lote', $request->idLote)->first();
+
+        //blanco reactivo
+        $model = $muestra->replicate();
+        $model->Id_control = 9;
+        $model->Vol_disolucion = NULL;
+        $model->save();
+
+        //Estandar
+        $model = $muestra->replicate();
+        $model->Id_control = 4;
+        $model->Vol_disolucion = NULL;
+        $model->save();
+
+        //Estandar verificacioón
+        $model = $muestra->replicate();
+        $model->Id_control = 14;
+        $model->Vol_disolucion = NULL;
+        $model->save();
+
+        //Muestra adicionada
+        $model = $muestra->replicate();
+        $model->Id_control = 3;
+        $model->Vol_disolucion = NULL;
+        $model->save();
+
+        //Muestra Duplicada
+        $model = $muestra->replicate();
+        $model->Id_control = 2;
+        $model->Vol_disolucion = NULL;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
 
     public function setControlCalidad(Request $request)
     {
@@ -430,6 +469,42 @@ class MetalesController extends Controller
         $loteModel->Liberado = $model->count();
         $loteModel->save();
 
+
+
+        $data = array(
+            'model' => $model,
+            'sw' => $sw,
+        );
+        return response()->json($data);
+    }
+
+    public function liberarTodo(Request $res)
+    {
+        $sw = false;
+
+        $muestras = LoteDetalle::where('Id_lote',$res->idLote)->where('Liberado',0)->get();
+        foreach ($muestras as $item) {
+            $model = LoteDetalle::find($item->Id_detalle);
+            $model->Liberado = 1;
+            if ($model->Resultado != null) {
+                $sw = true;
+                $model->save();
+            }   
+            if($item->Id_control == 1)
+            {
+                $modelCod = CodigoParametros::find($model->Id_codigo);
+                $modelCod->Resultado = $model->Resultado;
+                $modelCod->Analizo = Auth::user()->id;
+                $modelCod->save();
+            }
+        }
+        
+
+
+        $model = LoteDetalle::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+        $loteModel = LoteAnalisis::find($res->idLote);
+        $loteModel->Liberado = $model->count();
+        $loteModel->save();
 
 
         $data = array(

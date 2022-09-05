@@ -1,10 +1,10 @@
 <p id='header1'>
     INFORME DE RESULTADOS AGUA RESIDUAL <br> MUESTRA 
-    @if (@$solicitud->Id_muestra == 1)
-        COMPUESTA
-    @else
+    @if (@$solModel->Id_muestra == 1)
         INSTANTANEA
-    @endif    
+    @else
+        COMPUESTA
+    @endif      
 </p>
 
 <div id="contenedorTabla">
@@ -23,14 +23,14 @@
                 
                 <tr>
                     <td class="filasIzq bordesTabla anchoColumna7 bordeDerSinSup" rowspan="6">Punto de muestreo:</td>
-                    <td class="filasIzq bordesTabla fontBold anchoColumna60 bordeIzqDerSinSup" rowspan="6">@if (@$solicitud->Siralab == 1)
+                    <td class="filasIzq bordesTabla fontBold anchoColumna60 bordeIzqDerSinSup" rowspan="6">@if (@$solModel->Siralab == 1)
                         {{@$puntoMuestreo->Punto}}
                     @else
                         {{@$puntoMuestreo->Punto_muestreo}}
                     @endif</td>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Fecha de Muestreo:  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="fontBold"> {{ \Carbon\Carbon::parse(@$solicitud->Fecha_muestreo)->format('d/m/Y')}}</span>
+                        <span class="fontBold"> {{ \Carbon\Carbon::parse(@$solModel->Fecha_muestreo)->format('d/m/Y')}}</span>
                     </td>                    
                 </tr>
                     
@@ -59,7 +59,7 @@
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">N° de Muestra: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;
-                        <span class="fontBold">{{@$solicitud->Folio_servicio}}</span>
+                        <span class="fontBold">{{@$solModel->Folio_servicio}}</span>
                     </td>                    
                 </tr>
 
@@ -80,7 +80,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="fontBold"> @if (@$solicitud->Siralab == 1)
+                        <span class="fontBold"> @if (@$solModel->Siralab == 1)
                             TITULO DE CONCESIÓN: {{@$puntoMuestreo->Titulo_consecion}}
                         @else
                           

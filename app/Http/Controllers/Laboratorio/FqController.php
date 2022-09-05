@@ -336,7 +336,7 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
-    public function liberarTodo(Request $res)
+    public function liberarTodoEspectro(Request $res) 
     {
         $sw = false;
 
@@ -462,8 +462,8 @@ class FqController extends Controller
         //? Blanco reactivo
         $muestra = LoteDetalleEspectro::where('Id_lote', $res->idLote)->first();
         $model = $muestra->replicate();
-        $model->Id_control = 9;
-        $model->Resultado = NULL;
+        $model->Ids_control = 9;
+        $model->Reultado = NULL;
         $model->save();
         $muestra = LoteDetalleEspectro::where('Id_lote', $res->idLote)->first();
         
@@ -1045,6 +1045,43 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
+
+    public function liberarTodoGA(Request $res) 
+    {
+        $sw = false;
+
+        $muestras = LoteDetalleGa::where('Id_lote',$res->idLote)->where('Liberado',0)->get();
+        foreach ($muestras as $item) {
+            $model = LoteDetalleGa::find($item->Id_detalle);
+            $model->Liberado = 1;
+            if ($model->Resultado != null) {
+                $sw = true;
+                $model->save();
+            }   
+            if($item->Id_control == 1)
+            {
+                $modelCod = CodigoParametros::find($model->Id_codigo);
+                $modelCod->Resultado = $model->Resultado;
+                $modelCod->Analizo = Auth::user()->id;
+                $modelCod->save();
+            }
+        }
+        
+
+
+        $model = LoteDetalleGa::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+        $loteModel = LoteAnalisis::find($res->idLote);
+        $loteModel->Liberado = $model->count();
+        $loteModel->save();
+
+
+        $data = array(
+            'model' => $model,
+            'sw' => $sw,
+        );
+        return response()->json($data);
+    }
+
     //* Asignar parametro a lote
     public function asignarMuestraLote(Request $request)
     {

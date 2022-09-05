@@ -13,6 +13,11 @@ $('#btnLiberar').click(function () {
     liberarMuestra();
 });
 
+$('#btnLiberarTodo').click(function () {
+    // operacion();
+    liberarTodo();
+});
+
 $('#btnEjecutarDqo').click(function () {
     // operacionDqo();
 })
@@ -608,6 +613,28 @@ function liberarMuestra() {
                 getDataCaptura();
                 getLoteCapturaVol();
             } else {
+                alert("La muestra no se pudo liberar");
+            }
+        }
+    });
+}
+function liberarTodo() 
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/liberarTodo",
+        data: {
+            idLote:idLote,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response.sw == true)
+            {
+                getDataCaptura();
+                getLoteCapturaVol();
+            }else{
                 alert("La muestra no se pudo liberar");
             }
         }

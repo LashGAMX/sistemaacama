@@ -129,17 +129,63 @@
     <table class="table table-sm table-bordered"> 
         <thead>
             <tr>
-                <th>No. De muestra</th>
-                <th>Dilucion empleadas</th>
-                <th>Prueba presuntiva</th>
-                <th>Resultado presuntiva</th>
-                <th>Prueba confirmativa</th>
-                <th>N.M.P obtenido</th>
-                <th>Resultado NMP/100 mL (Tabla)</th>
-                <th>Resultado NMP/100 mL (Formula 1 )</th>
-                <th>Resultado NMP/100 mL (Formula 2 ) mL (Formula 1 )</th>
+                <th  style="font-size: 10px">No. De muestra</th>
+                <th  style="font-size: 10px">Dilucion empleadas</th>
+                <th  style="font-size: 10px" colspan="3">Prueba presuntiva</th>
+                <th  style="font-size: 10px">Resultado presuntiva</th>
+                <th  style="font-size: 10px">Prueba confirmativa</th>
+                <th  style="font-size: 10px">N.M.P obtenido</th>
+                <th  style="font-size: 10px">Resultado NMP/100 mL (Tabla)</th>
+                <th  style="font-size: 10px">Resultado NMP/100 mL (Formula 1 )</th>
+                <th  style="font-size: 10px">Resultado NMP/100 mL (Formula 2 ) mL (Formula 1 )</th>
+            </tr>
+            <tr>
+                <tr>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
             </tr>
         </thead>
+        <tbody>
+            <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </tbody>
     </table>
 </body>
 </html>

@@ -31,7 +31,7 @@ $('#btnLiberar').click(function () {
 });
 $('#btnLiberarTodo').click(function () {
     // operacion();
-    liberarTodo();
+    liberarTodoEspectro();
 });
 $('#btnGenControles').click(function () {
     // operacion();
@@ -666,11 +666,11 @@ function liberarMuestra()
         }
     });
 }
-function liberarTodo()
+function liberarTodoEspectro()
 {
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/liberarTodo",
+        url: base_url + "/admin/laboratorio/" + area + "/liberarTodoEspectro",
         data: {
             idLote:idLote,
             _token: $('input[name="_token"]').val()

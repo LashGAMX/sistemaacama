@@ -28,6 +28,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getDataCaptura', [MetalesController::class, 'getDataCaptura']);
         Route::post('setControlCalidad', [MetalesController::class, 'setControlCalidad']);
         Route::post('liberarMuestraMetal', [MetalesController::class, 'liberarMuestraMetal']);
+        Route::post('liberarTodo', [MetalesController::class, 'liberarTodo']); //revisar método
 
         //? Modulo Lote - Creación  de lotes
         Route::get('lote', [MetalesController::class, 'lote']);
@@ -42,6 +43,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getMuestraAsignada', [MetalesController::class, 'getMuestraAsignada']);
         Route::post('delMuestraLote', [MetalesController::class, 'delMuestraLote']);
         Route::post('sendMuestrasLote', [MetalesController::class, 'sendMuestrasLote']);
+        Route::post('createControlCalidadMetales', [MetalesController::class, 'createControlCalidadMetales']);
 
         //Route::get('analisis/datos', [MetalesController::class, 'analisisDatos']);
         //? Modulo de captura de resultados
@@ -95,7 +97,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('createControlCalidadEspectro', [FqController::class, 'createControlCalidadEspectro']);
         Route::post('createControlesCalidadEspectro', [FqController::class, 'createControlesCalidadEspectro']);
         Route::post('liberarMuestraEspectro', [FqController::class, 'liberarMuestraEspectro']);
-        Route::post('liberarTodo', [FqController::class, 'liberarTodo']);
+        Route::post('liberarTodoEspectro', [FqController::class, 'liberarTodoEspectro']);
     
     //****************************************GA***********************************************
 
@@ -109,6 +111,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('createControlCalidad', [FqController::class, 'createControlCalidad']);
         Route::post('updateObsMuestraGA', [FqController::class, 'updateObsMuestraGA']);
         Route::post('liberarMuestraGa', [FqController::class, 'liberarMuestraGa']);
+        Route::post('liberarTodoGA', [FqController::class, 'liberarTodoGA']);
 
 //****************************************SOLIDOS***********************************************
         Route::get('capturaSolidos', [FqController::class, 'capturaSolidos']);
@@ -158,6 +161,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('createControlesCalidadVol', [VolController::class, 'createControlesCalidadVol']);
         Route::post('liberarMuestraVol', [VolController::class, 'liberarMuestraVol']);
         Route::post('getPlantillaPredVol', [VolController::class, 'getPlantillaPred']);
+        Route::post('liberarTodo', [VolController::class, 'liberarTodo']);
         
 
 //****************************************FIN VOLUMETRIA***********************************************

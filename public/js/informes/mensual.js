@@ -28,13 +28,13 @@ $(document).ready(function () {
     {
         let id1 = dato.rows('.selected').data()[0][0]
         let id2 = dato.rows('.selected').data()[1][0]
-        window.open(base_url+"/admin/informes/informeMensualSinComparacion/"+id1+"/"+id2);
+        window.open(base_url+"/admin/informes/exportPdfInformeMensual/"+id1+"/"+id2+"/2");
     });
     $("#btnCc").click(function()
     {
         let id1 = dato.rows('.selected').data()[0][0]
         let id2 = dato.rows('.selected').data()[1][0]
-        window.open(base_url+"/admin/informes/informeMensualConComparacion/"+id1+"/"+id2);
+        window.open(base_url+"/admin/informes/exportPdfInformeMensual/"+id1+"/"+id2+"/1");
     });
 }); 
 var model = new Array();
@@ -80,8 +80,8 @@ function getPreReporteMensual()
                 tab += '<td>'+item.Parametro+'</td>';
                 tab += '<td>'+item.Unidad+'</td>';
                 tab += '<td>'+item.Clave_metodo+'</td>';
-                tab += '<td>'+item.Resultado+'</td>';
-                tab += '<td>'+response.model2[cont].Resultado+'</td>';
+                tab += '<td>'+item.Resultado2+'</td>';
+                tab += '<td>'+response.model2[cont].Resultado2+'</td>';
                 let prom = (parseFloat(response.model2[cont].Resultado) + parseFloat(item.Resultado)) / 2
                 tab += '<td>'+prom+'</td>';
                 tab += '<td></td>';

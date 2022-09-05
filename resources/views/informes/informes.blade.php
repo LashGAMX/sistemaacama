@@ -135,5 +135,5 @@
 @endsection  
 
 @section('javascript')
-    <script src="{{asset('/public/js/informes/informes.js')}}"></script>
+    <script src="{{asset('/public/js/informes/informes.js')}}?v=0.0.1"></script>
 @stop

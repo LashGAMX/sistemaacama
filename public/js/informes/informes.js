@@ -16,7 +16,7 @@ $(document).ready(function () {
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
         }
-        else {
+        else { 
             table.$('tr.selected').removeClass('selected');
             $(this).addClass('selected');
         }
@@ -27,14 +27,7 @@ $(document).ready(function () {
       });
 
     $('#btnImprimir').on('click', function(){
- 
-        console.log("Valor de tipoReporte: " + $("#tipoReporte").val());
-
-        if($("#tipoReporte").val() == 1){
-            window.open(base_url+"/admin/informes/exportPdfConComparacion/"+idSol+"/"+$("#puntoMuestreo").val());
-        }else if($("#tipoReporte").val() == 2){
-            window.open(base_url+"/admin/informes/exportPdfSinComparacion/"+idSol+"/"+$("#puntoMuestreo").val());
-        }        
+        window.open(base_url+"/admin/informes/exportPdfInforme/"+idSol+"/"+$("#puntoMuestreo").val()+"/"+$("#tipoReporte").val());
     });
 
 }); 

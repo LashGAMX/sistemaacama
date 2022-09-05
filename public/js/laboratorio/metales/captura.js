@@ -13,6 +13,10 @@ $('#enviarObservacion').click(function () {
     swal("Observación enviada!", "Enviado!", "success");
 });
 
+$('#btnGenerarControles').click(function(){
+    createControlCalidadMetales();
+});
+
 $('#ejecutar').click(function(){
     operacion();
 });
@@ -20,6 +24,10 @@ $('#btnLiberar').click(function(){
     // operacion();
     liberarMuestraMetal();
 });
+('#btnLiberarTodo').click(function () {
+    liberarTodo();
+});
+
 function getDataCaptura() {
     cleanTable(); 
     numMuestras = new Array();
@@ -269,6 +277,25 @@ function operacion()
         }
     });
 }
+function createControlCalidadMetales()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/createControlCalidadMetales",
+        data: {
+            idLote: idLote,
+            idMuestra: idMuestra,
+            idControl: $("#controlCalidad").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCaptura()
+        }
+    });
+}
+
 function createControlCalidad()
 {
     $.ajax({
@@ -417,6 +444,29 @@ function liberarMuestraMetal()
         }
     });
 }
+function liberarTodo()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/liberarTodo",
+        data: {
+            idLote:idLote,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response.sw == true)
+            {
+                getDataCaptura();
+                getLoteCaptura();
+            }else{
+                alert("La muestra no se pudo liberar");
+            }
+        }
+    });
+}
+
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
 }

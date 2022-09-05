@@ -8,7 +8,9 @@ $(document).ready(function () {
 
 });
 
-
+$($'#btnLiberarTodo').click(function () {
+    liberarTodo();
+});
 $('#guardar').click(function () {
     if($("#resultado").val() != ''){
         console.log("Metodo corto");
@@ -402,6 +404,28 @@ function liberarMuestra()
             {
                 getDataCaptura();
                 getLoteCapturaGA();
+            }else{
+                alert("La muestra no se pudo liberar");
+            }
+        }
+    });
+}
+function liberarTodo() 
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/liberarTodoGA",
+        data: {
+            idLote:idLote,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response.sw == true)
+            {
+                getDataCaptura();
+                getLoteCapturaVol();
             }else{
                 alert("La muestra no se pudo liberar");
             }

@@ -94,6 +94,9 @@
                     <button class="btn btn-secondary" id="btnLiberar">Liberar</button>
                 </div>
                 <div class="col-md-1">
+                    <button class="btn btn-primary" id="btnLiberarTodo">Liberar Todo</button>
+                </div>
+                <div class="col-md-1">
                     {{-- <button class="btn btn-secondary">Liberar todo</button> --}}
                 </div>
                 <div class="col-md-1">
@@ -108,7 +111,9 @@
                     <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad"
                         id="btnGenControlInd">Generar control</button>
                 </div>
-
+                <div class="col-md-2">
+                    <button class="btn btn-primary" id="btnGenerarControles">Generar controles</button>
+                </div>
                 <div class="col-md-2">
                     <h2><input placeholder="Resultado" style="color:red" id="resDato"></h2>
                 </div>

@@ -11,6 +11,7 @@ Route::group(['prefix' => 'informes'], function () {
     
     Route::get('exportPdfSinComparacion/{idSol}/{idPunto}', [InformesController::class, 'pdfSinComparacion']);
     Route::get('exportPdfConComparacion/{idSol}/{idPunto}', [InformesController::class, 'pdfConComparacion']);
+    Route::get('exportPdfInforme/{idSol}/{idPunto}/{tipo}', [InformesController::class, 'exportPdfInforme']);
 
     Route::get('/mensual', [InformesController::class, 'mensual']);
     Route::post('/getPreReporteMensual', [InformesController::class, 'getPreReporteMensual']);
@@ -18,6 +19,7 @@ Route::group(['prefix' => 'informes'], function () {
     Route::get('exportPdfCustodiaInterna/{idSol}', [InformesController::class, 'custodiaInterna']);
 
 
+    Route::get('exportPdfInformeMensual/{idSol1}/{idsol2}/{tipo}', [InformesController::class, 'exportPdfInformeMensual']);
     Route::get('informeMensualSinComparacion/{idSol1}/{idsol2}', [InformesController::class, 'pdfSinComparacion2']);
     Route::get('informeMensualConComparacion/{idSol1}/{idsol2}', [InformesController::class, 'pdfComparacion2']);
 });
