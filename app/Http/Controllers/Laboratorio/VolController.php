@@ -519,31 +519,6 @@ class VolController extends Controller
 
         return response()->json($data);
     }
-    public function liberarMuestraMetal(Request $request)
-    {
-
-        $detalle = LoteDetalle::find($request->idDetalle);
-        $detalle->Liberado = 1;
-        $detalle->save();
-
-        $detalleModel = LoteDetalle::where('Id_lote', $detalle->Id_lote)->where('Liberado', 1)->get();
-
-        $lote = LoteAnalisis::find($detalle->Id_lote);
-        $lote->Liberado = $detalleModel->count();
-        $lote->save();
-
-        $detalleModel = DB::table('ViewLoteDetalle')->where('Id_lote', $detalle->Id_lote)->get();
-
-        $loteModel = LoteAnalisis::where('Id_lote', $detalle->Id_lote)->first();
-
-
-        $data = array(
-            'detalleModel' => $detalleModel,
-            'liberado' => $detalleModel->count(),
-            'lote' => $loteModel,
-        );
-        return response()->json($data);
-    }
     //* Asignar parametro a lote
     public function asignarMuestraLoteVol(Request $request)
     {
@@ -1178,6 +1153,27 @@ class VolController extends Controller
         );
         return response()->json($data);
     }
+    public function liberarTodo(Request $res)
+    {
+        $sw = false;
+
+        $muestras = LoteDetalleDqo::where('Id_lote',$res->idLote)->where('Liberado',0)->get();
+        foreach ($muestras as $item) {
+            $model = LoteDetalleDqo::find($item->Id_detalle);
+            $model->Liberado = 1;
+            if ($model->Resultado != null) {
+                $sw = true;
+                $model->save();
+            }   
+            if($item->Id_control == 1)
+            {
+                $modelCod = CodigoParametros::find($model->Id_codigo);
+                $modelCod->Resultado = $model->Resultado;
+                $modelCod->Analizo = Auth::user()->id;
+                $modelCod->save();
+            }
+        }
+    }  
     public function liberarMuestraVol(Request $request)
     {
         $sw = false;
