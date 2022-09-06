@@ -131,9 +131,9 @@
             <tr>
                 <th  style="font-size: 10px">No. De muestra</th>
                 <th  style="font-size: 10px">Dilucion empleadas</th>
-                <th  style="font-size: 10px" colspan="3">Prueba presuntiva</th>
+                <th  style="font-size: 10px" colspan="6">Prueba presuntiva</th>
                 <th  style="font-size: 10px">Resultado presuntiva</th>
-                <th  style="font-size: 10px">Prueba confirmativa</th>
+                <th  style="font-size: 10px" colspan="6">Prueba confirmativa</th>
                 <th  style="font-size: 10px">N.M.P obtenido</th>
                 <th  style="font-size: 10px">Resultado NMP/100 mL (Tabla)</th>
                 <th  style="font-size: 10px">Resultado NMP/100 mL (Formula 1 )</th>
@@ -143,19 +143,11 @@
                 <tr>
                     <th></th>
                     <th></th>
+                    <th style="font-size: 8px" colspan="3">24 horas</th>
+                    <th style="font-size: 8px" colspan="3">48 horas</th>
                     <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
-                    <th></th>
+                    <th style="font-size: 8px" colspan="3">Caldo E.C 24 horas</th>
+                    <th style="font-size: 8px" colspan="3">Agua triptona 24 horas</th>
                     <th></th>
                     <th></th>
                     <th></th>

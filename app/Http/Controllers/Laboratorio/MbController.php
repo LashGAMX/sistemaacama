@@ -1556,6 +1556,8 @@ class MbController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break; 
+            case 12
+                break;
             default:
                 # code...
                 break;
