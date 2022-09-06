@@ -145,6 +145,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('delMuestraLoteVol', [VolController::class, 'delMuestraLoteVol']);
         Route::post('updateObsVolumetria', [VolController::class, 'updateObsVolumetria']);
         Route::post('setTipoDqo',[VolController::class,'setTipoDqo']);
+        Route::post('sendMuestrasLote',[VolController::class,'sendMuestrasLote']);
 
         Route::get('capturaVolumetria', [VolController::class, 'capturaVolumetria']);
         Route::post('getLotevol', [VolController::class, 'getLotevol']);
@@ -178,6 +179,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('lote/procedimiento', [FqController::class, 'guardarTexto']);        
 
         //? Export PDF
+        Route::get('captura/exportPdfEspectro/{idLote}', [FqController::class, 'exportPdfEspectro']);
         Route::get('captura/exportPdfCapturaEspectro/{idLote}', [FqController::class, 'exportPdfCapturaEspectro']);
         Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
         Route::get('captura/exportPdfCapturaSolidos/{idLote}', [FqController::class, 'exportPdfCapturaSolidos']);
