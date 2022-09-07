@@ -2048,6 +2048,48 @@ class FqController extends Controller
     //todo Fin Seccion de Volumetria
     //todo *******************************************     
 
+    public function exportPdfEspectro($idLote)
+    {
+        //Opciones del documento PDF
+        $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'P',
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10, 
+            'margin_top' => 31,
+            'margin_bottom' => 45,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
+        switch ($lote->Id_tecnica) {
+            case 152: // COT
+    
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
+                // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                
+                $data = array(  
+                    'lote' => $lote,
+                    'model' => $model,
+                    // 'textoProcedimiento' => $textoProcedimiento,
+                );
+                
+                $htmlHeader = view('exports.laboratorio.fq.espectro.cot.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.cot.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break; 
+            default:
+                # code...
+                break;
+        }
+
+        // var_dump($model);
+        
+        $mpdf->Output();
+    }
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
     public function exportPdfCapturaEspectro($idLote)
     {

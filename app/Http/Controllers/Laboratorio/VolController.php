@@ -1237,6 +1237,53 @@ class VolController extends Controller
         );
         return response()->json($data);
     }
+public function sendMuestrasLote(Request $res)
+{
+    $sw = false;
+    $loteModel = LoteAnalisis::where('Id_lote', $res->idLote)->first();
+    $paraModel = Parametro::find($loteModel->Id_tecnica);
+
+   switch ($paraModel->id_area) {
+        case 14: //Volumetria
+            for ($i=0; $i < sizeof($res->idCodigos); $i++) { 
+                $sol = CodigoParametros::where('Id_codigo', $res->idCodigos[$i])->first();
+                $model = LoteDetalleDqo::create([
+                    'Id_lote' => $res->idLote,
+                    'Id_analisis' => $sol->Id_solicitud,
+                    'Id_codigo' => $res->idCodigos[$i],
+                    'Id_parametro' => $loteModel->Id_tecnica,
+                    'Id_control' => 1,
+                    'Analizo' => 1,
+                ]);   
+                $solModel = CodigoParametros::find($sol->Id_codigo);
+                $solModel->Asignado = 1;
+                $solModel->save();
+            }
+                $detModel = LoteDetalleDqo::where('Id_lote', $res->idLote)->get();
+                $sw = true;
+            break;
+        default: 
+                $sw = false;
+            break;
+    }
+    $loteModel = LoteAnalisis::find($res->idLote);
+    $loteModel->Asignado = $detModel->count();
+    $loteModel->Liberado = 0;
+    $loteModel->save();
+
+    $data = array(
+        'idArea' => $paraModel->Id_area,
+        'sw' => $sw,
+        'model' => $paraModel,
+    );
+    return response()->json($data);
+
+   }
+   
+
+
+
+
     //todo *******************************************
     //todo Fin Seccion de Volumetria
     //todo *******************************************     
