@@ -197,7 +197,7 @@
                     <td width="20%">&nbsp;</td>
                     <td class="fontBold fontCalibri fontSize15 justificadoDer bordeSup" width="35%">$                        
                         @php
-                            echo number_format(@$model->Precio_muestreo , 2, ".", ",");
+                            echo number_format(@$model->Precio_muestreo - $sumaParamEspecial , 2, ".", ",");
                         @endphp
                     </td>
                 </tr> 

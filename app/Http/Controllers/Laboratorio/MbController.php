@@ -1521,14 +1521,6 @@ class MbController extends Controller
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
-        //Establece la marca de agua del documento PDF
-        // $mpdf->SetWatermarkImage(
-        //     asset('/public/storage/MembreteVertical.png'),
-        //     1, 
-        //     array(215, 280),
-        //     array(0, 0),
-        // );
-        // $mpdf->showWatermarkImage = true;
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
         switch ($lote->Id_tecnica) {
@@ -1556,7 +1548,7 @@ class MbController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break; 
-            case 12
+            case 12:
                 break;
             default:
                 # code...

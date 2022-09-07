@@ -25,8 +25,7 @@
                         PRUEBA&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="9.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="9.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;C.P.M
-                        PONDERADO&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;C.P.M&nbsp;&nbsp;</td>
                     @if (@$tipo == 1)
                         <td class="tableCabecera bordesTablaBody justificadoCentr" width="9%">&nbsp;P.M&nbsp;&nbsp;</td>
                     @endif
@@ -51,7 +50,7 @@
                         </td>
 
                         <td class="tableContent bordesTablaBody">
-                            {{$item->Resultado2 / $model2[$cont]->Resultado2}} 
+                            {{($item->Resultado2 + $model2[$cont]->Resultado2) / 2}} 
                         </td>
                         @if (@$tipo == 1)
                             <td class="tableContent bordesTablaBody">

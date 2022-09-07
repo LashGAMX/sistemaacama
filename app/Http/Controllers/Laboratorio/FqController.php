@@ -2069,6 +2069,8 @@ class FqController extends Controller
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
                 
+        
+                
                 $data = array(  
                     'lote' => $lote,
                     'model' => $model,

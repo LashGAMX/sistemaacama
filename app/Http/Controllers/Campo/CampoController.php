@@ -543,9 +543,8 @@ class CampoController extends Controller
                 $ph->Ph3 = $request->ph[$i][5];
                 $ph->Promedio = $request->ph[$i][6];
                 $ph->Fecha = $request->ph[$i][7];
-                $ph->Hora = $request->ph[$i][8];
-                $ph->Activo = $request->ph[$i][9];
-                $ph->Num_toma = $request->ph[$i][10];
+                $ph->Activo = $request->ph[$i][8];
+                $ph->Num_toma = $request->ph[$i][9];
                 $ph->Id_user_m = Auth::user()->id;
                 
                 $nota = "Registro modificado";

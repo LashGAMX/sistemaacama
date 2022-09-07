@@ -82,7 +82,7 @@
         <span>Absorbancia B2: {{@$data[0]->Blanco}}</span> <br><br>
         <span>Absorbancia B3: {{@$data[0]->Blanco}}</span> <br><br>
         <span>RESULTADO BLANCO: {{@$data[0]->Blanco}}</span> --}}
-    </div>
+  
 
     <div id="contenidoCurva">
         <span id='curvaProcedimiento'>Valoración</span> 
@@ -126,6 +126,28 @@
                 {{-- @endfor --}}
             </tbody>        
         </table>  
-    </div>        
+    </div>
+    <br>
+    <div>
+      <textarea>
+        <textarea name="textarea" rows="8" cols="100">Ejemplo de calculo:</textarea>
+    </div>
+    <br>
+    <br>
+    <div class="contenedorTabla">
+        <table autosize="1" class="table table-borderless" id="tablaDatos" style="width: 60%">
+            <tbody>
+            <tr>
+                <th>
+                    <td>Realizó:_______________</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revisó:_______________</td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supervisó:_______________</td>
+                </th>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    
+</div>   
 </body>
 </html>
