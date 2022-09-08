@@ -481,26 +481,18 @@ class VolController extends Controller
         return response()->json($data);
     }
     //! Eliminar parametro muestra
-    public function delMuestraLote(Request $request)
+    public function delMuestraLoteVol(Request $request)
     {
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
-        switch ($loteModel->Id_tecnica) {
-            case 9: //todo Espectrofotometria
-                $detModel = DB::table('lote_detalle_espectro')->where('Id_detalle', $request->idDetalle)->delete();
-                $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
-                break;
-            case 10: //todo Gravimetia
-                # code...
-                break;
-            case 15: //todo Volumetria
-                $detModel = DB::table('lote_detalle_espectro')->where('Id_detalle', $request->idDetalle)->delete();
+        switch ($loteModel->Id_parametro) {
+            case 6: //DQO
+                $detModel = DB::table('lote_detalle_dqo')->where('Id_detalle', $request->idDetalle)->delete();
                 $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
                 break;
             default:
                 # code...
                 break;
         }
-
 
         $loteModel = LoteAnalisis::find($request->idLote);
         $loteModel->Asignado = $detModel->count();
@@ -1239,12 +1231,13 @@ class VolController extends Controller
     }
 public function sendMuestrasLote(Request $res)
 {
+    $mensaje = "";
     $sw = false;
     $loteModel = LoteAnalisis::where('Id_lote', $res->idLote)->first();
     $paraModel = Parametro::find($loteModel->Id_tecnica);
 
-   switch ($paraModel->id_area) {
-        case 14: //Volumetria
+   switch ($paraModel->Id_parametro) {
+        case 6: //Volumetria
             for ($i=0; $i < sizeof($res->idCodigos); $i++) { 
                 $sol = CodigoParametros::where('Id_codigo', $res->idCodigos[$i])->first();
                 $model = LoteDetalleDqo::create([
@@ -1259,13 +1252,16 @@ public function sendMuestrasLote(Request $res)
                 $solModel->Asignado = 1;
                 $solModel->save();
             }
-                $detModel = LoteDetalleDqo::where('Id_lote', $res->idLote)->get();
+            
                 $sw = true;
+                $mensaje = "case";
             break;
         default: 
                 $sw = false;
+                $mensaje = "default";
             break;
     }
+    $detModel = LoteDetalleDqo::where('Id_lote', $res->idLote)->get();
     $loteModel = LoteAnalisis::find($res->idLote);
     $loteModel->Asignado = $detModel->count();
     $loteModel->Liberado = 0;
@@ -1275,6 +1271,7 @@ public function sendMuestrasLote(Request $res)
         'idArea' => $paraModel->Id_area,
         'sw' => $sw,
         'model' => $paraModel,
+        'mensaje' => $mensaje,
     );
     return response()->json($data);
 

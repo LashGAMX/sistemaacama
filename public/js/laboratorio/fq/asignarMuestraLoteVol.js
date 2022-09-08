@@ -160,7 +160,7 @@ function sendMuestrasLote()
 function delMuestraLote(idLote,idDetalle,idSol,idParam){
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/"+area+"/delMuestraLote",
+        url: base_url + "/admin/laboratorio/"+area+"/delMuestraLoteVol",
         data: {
             idLote:idLote,
             idSol:idSol,

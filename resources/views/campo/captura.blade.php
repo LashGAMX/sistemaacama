@@ -532,7 +532,7 @@
                                         <td><input type="text" id="criterioPendiente" value="{{@$general->Criterio}}" disabled></td>
                                     </tr>
                                 </tbody>
-                            </table>
+                            </table> 
                         </div>
 
                         <div class="col-md-12">
@@ -541,8 +541,7 @@
                             <br><br>
                         </div>
                                                 
-                        <button type="button" class="btn btn-success" onclick="setDataGeneral()"><i
-                        class="fa fa-save"></i> Guardar</button>
+                        <button type="button" class="btn btn-success" onclick="setDataGeneral()"><i class="fa fa-save"></i> Guardar</button>
                     </form>
                 </div>
                 <div class="tab-pane fade" id="datosMuestreo" role="tabpanel" aria-labelledby="datosMuestreo-tab">
@@ -556,7 +555,8 @@
                                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalProbar">Cancelar muestra</button>
                                 <button type="button" class="btn btn-success" data-toggle="modal" data-target="#modalProbar2">Revertir muestra</button>
                                 <br><br>
-                                <p>PH</p>
+                                <p>PH : Fecha a empezar muestreo : {{ $model->Fecha_muestreo}}</p>
+                                <input type="text" value="{{ $model->Fecha_muestreo}}" id="FechaMuestreo" hidden>
                                 <table class="table" id="phMuestra">
                                     <thead>
                                         <tr>
@@ -706,7 +706,13 @@
                                                         {{-- <input type="date"  id="phf{{ $i }}" value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif>
                                                         <input type="text" id="phh{{ $i }}"  maxlength="2" minlength="1"  size="2" placeholder="Hr" @if (@$sw == true) disabled @endif>
                                                         <input type="text" id="phm{{ $i }}"  maxlength="2" minlength="1"  size="2" placeholder="Min" @if (@$sw == true) disabled @endif> --}}
-                                                        <input type="datetime-local" id="phf{{ $i }}" onchange='validacionFechaMuestreo("phf{{$i}}","phf{{$i-1}}",2);' value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif>
+                                                        <input type="datetime-local" id="phf{{ $i }}" onchange='validacionFechaMuestreo("phf{{$i}}","FechaMuestreo",1);' 
+                                                        value="
+                                                            @if (@$phMuestra[$i]->Fecha == '' || @$phMuestra[$i]->Fecha == NULL ) 
+                                                                {{@$phMuestra[$i]->Fecha}} 
+                                                            @else 
+                                                            {{\Carbon\Carbon::parse($model->Fecha_muestreo)}}
+                                                            @endif " @if (@$sw == true) disabled @endif>
                                                     @else
                                                         {{-- <input type="date" id="phf{{ $i }}"value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif>
                                                         <input type="text" id="phh{{ $i }}"  maxlength="2" minlength="1"  size="2" placeholder="Hr" @if (@$sw == true) disabled @endif>
@@ -797,6 +803,77 @@
                                     </tbody>
                                 </table>
                             </div>       
+
+                            <div class="col-md-12">
+                                <p>Temperatura del ambiente </p>
+                                <table class="table" id="tempAgua">
+                                    <thead>
+                                        <tr>
+                                            <th>Núm Muestra</th>
+                                            <th>Temperatura 1 (°C)</th>
+                                            <th>Temperatura corregida</th>
+                                            <th>Temperatura 2 (°C)</th>
+                                            <th>Temperatura corregida</th>
+                                            <th>Temperatura 3 (°C)</th>
+                                            <th>Temperatura corregida</th>
+                                            <th>Temperatura Promedio (°C)</th>
+                                            <th hidden>Estados</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @for ($i = 0; $i < $model->Num_tomas; $i++)
+                                        
+                                        @if (@$tempAmbiente[$i]->Activo == 1 || is_null(@$tempAmbiente[$i]->Activo)|| is_null(@$tempAmbiente[$i]))
+                                            @php                                                
+                                                $sw = false;                                                
+                                            @endphp
+                                        @elseif (@$tempAmbiente[$i]->Activo == 0)
+                                            @php
+                                                $sw = true;
+                                            @endphp
+                                        @endif
+                                                                                
+                                            <tr id="filaTemp{{$i}}">
+                                                <td>{{$i + 1}}</td>
+                                                
+                                                <td><input type="number" id="tempa1{{ $i }}"
+                                                        onkeyup='valTempMuestra("tempa1{{ $i }}","tempa2{{ $i }}","tempa3{{ $i }}","tempaprom{{ $i }}","factorTempa1{{ $i }}","factorTempa2{{ $i }}","factorTempa3{{ $i }}", "tempaprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$tempAmbiente[$i]->Temperatura1}}" @if (@$sw == true) disabled @endif>
+                                                </td>
+                                                
+                                                <td>
+                                                    <p id="factorTemp1{{ $i }}"></p>
+                                                </td>
+                                                
+                                                <td><input type="number" id="temp2{{ $i }}"
+                                                        onkeyup='valTempMuestra("tempa1{{ $i }}","tempa2{{ $i }}","tempa3{{ $i }}","tempaprom{{ $i }}","factorTempa1{{ $i }}","factorTempa2{{ $i }}","factorTempa3{{ $i }}", "tempaprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$tempAmbiente[$i]->Temperatura2}}" @if (@$sw == true) disabled @endif>
+                                                </td>
+                                                
+                                                <td>
+                                                    <p id="factorTemp2{{ $i }}"></p>
+                                                </td>
+                                                
+                                                <td><input type="number" id="temp3{{ $i }}"
+                                                        onkeyup='valTempMuestra("tempa1{{ $i }}","tempa2{{ $i }}","tempa3{{ $i }}","tempaprom{{ $i }}","factorTempa1{{ $i }}","factorTempa2{{ $i }}","factorTempa3{{ $i }}", "tempparom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$tempAmbiente[$i]->Temperatura3}}" @if (@$sw == true) disabled @endif>
+                                                </td>
+                                                
+                                                <td>
+                                                    <p id="factorTempa3{{ $i }}"></p>
+                                                </td>
+                                                
+                                                <td><p id="tempproma1{{ $i }}">{{@$tempAmbiente[$i]->Promedio}}</p></td>
+                                                
+                                                <td><input type="text" id="tempprom{{ $i }}" value="{{@$tempAmbiente[$i]->Promedio}}" hidden></td>
+                                                
+                                                @if (!is_null(@$tempAmbiente[$i]->Activo))
+                                                    <td><input type="text" id="tempaStatus1{{$i + 1}}" value="{{@$tempAmbiente[$i]->Activo}}" hidden></td>
+                                                @else
+                                                    <td><input type="text" id="tempaStatus1{{$i + 1}}" value= "1" hidden></td>
+                                                @endif
+                                            </tr>
+                                        @endfor
+                                    </tbody>
+                                </table>
+                            </div>    
                             
                             <div class="col-md-12">
                                 <p>PH control calidad</p>

@@ -53,6 +53,7 @@ use App\Models\SolicitudesGeneradas;
 use App\Models\SolicitudPuntos;
 use App\Models\SubNorma;
 use App\Models\SucursalCliente;
+use App\Models\TemperaturaAmbiente;
 use App\Models\TemperaturaMuestra;
 use App\Models\TermFactorCorreccionTemp;
 use App\Models\TermometroCampo;
@@ -105,11 +106,10 @@ class CampoController extends Controller
         //Datos muestreo
         $phMuestra = PhMuestra::where('Id_solicitud', $id)->get();
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud', $id)->get();
+        $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud', $id)->get();
         $phCalidadCampo = PhCalidadCampo::where('Id_solicitud', $id)->get();
         $conductividadMuestra = ConductividadMuestra::where('Id_solicitud', $id)->get();
         $gastoMuestra = GastoMuestra::where('Id_solicitud', $id)->get();
-        
-        // var_dump($general);
 
         $data = array(
             'model' => $model,
@@ -132,6 +132,7 @@ class CampoController extends Controller
             'phControlCalidad' => $phControlCalidad,
             'phMuestra' => $phMuestra,
             'tempMuestra' => $tempMuestra,
+            'tempAmbiente' => $tempAmbiente,
             'phCalidadCampo' => $phCalidadCampo,
             'conductividadMuestra' => $conductividadMuestra,
             'gastoMuestra' => $gastoMuestra,
@@ -150,7 +151,7 @@ class CampoController extends Controller
 
             $model->Captura = "Sistema";
             $model->Id_equipo = $request->equipo;
-            // $model->Id_quipo2 = $request->id_equipo2;
+            $model->Id_equipo2 = $request->equipo2;
             $model->Temperatura_a = $request->temp1;
             $model->Temperatura_b = $request->temp2;
             $model->Latitud = $request->latitud;
@@ -170,7 +171,7 @@ class CampoController extends Controller
                 'Id_solicitud' => $request->idSolicitud,
                 'Captura' => "Sistema",
                 'Id_equipo' => $request->equipo,
-                'Id_quipo2' => $request->id_equipo2,
+                'Id_equipo2' => $request->equipo2,
                 'Temperatura_a' => $request->temp1,
                 'Temperatura_b' => $request->temp2,
                 'Latitud' => $request->latitud,
@@ -504,27 +505,6 @@ class CampoController extends Controller
         ]);
     }
 
-    /* public function historialSegAnalisis($idSol, $nota, $campoSegAnalisis)
-    {
-        $idUser = Auth::user()->id;
-
-        $model = DB::table('seguimiento_analisis')->where('Id_seguimiento', $campoSegAnalisis->Id_seguimiento)->where('Id_servicio', $idSol)->first();
-        
-        HistorialCampoCapturaSegAnalisis::create([
-            'Id_seguimiento' => $model->Id_seguimiento,
-            'Id_servicio' => $model->Id_servicio,
-            'Obs_solicitud' => $model->Obs_solicitud,
-            'Muestreo' => $model->Muestreo,
-            'Obs_muestreo' => $model->Obs_muestreo,
-            'Recepcion' => $model->Recepcion,
-            'Obs_recepcion' => $model->Obs_recepcion,    
-            'Nota' => $nota,
-            'F_creacion' => $model->created_at,
-            'Id_user_c' => $model->Id_user_c,            
-            'F_modificacion' => $model->updated_at,
-            'Id_user_m' => $idUser,
-        ]);
-    } */
 
     public function setDataMuestreo(Request $request)
     {
@@ -565,9 +545,8 @@ class CampoController extends Controller
                     'Ph3' => $request->ph[$i][5],
                     'Promedio' => $request->ph[$i][6],
                     'Fecha' => $request->ph[$i][7],
-                    'Hora' => $request->ph[$i][8],
-                    'Activo' => $request->ph[$i][9],
-                    'Num_toma' => $request->ph[$i][10],
+                    'Activo' => $request->ph[$i][8],
+                    'Num_toma' => $request->ph[$i][9],
                     'Id_user_c' => Auth::user()->id,
                     'Id_user_m' => Auth::user()->id
                 ]);
@@ -613,6 +592,44 @@ class CampoController extends Controller
 
                 $nota = "Creación de registro";
                 $this->historialTempMuestra($request->idSolicitud, $nota, $tempMuestra->Id_temperatura);
+            }
+        }
+
+        $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud', $request->idSolicitud)->get();
+
+        if ($tempMuestra->count()) {
+            for ($i = 0; $i < $request->numTomas; $i++) {
+             
+                $temp = TemperaturaAmbiente::find($tempMuestra[$i]->Id_temperatura);
+                $temp->Id_solicitud = $request->idSolicitud;
+                $temp->Temperatura1 = $request->temperatura[$i][0];
+                $temp->Temperatura2 = $request->temperatura[$i][1];
+                $temp->Temperatura3 = $request->temperatura[$i][2];
+                $temp->Promedio = $request->temperatura[$i][3];
+                $temp->Activo = $request->temperatura[$i][4];
+                $temp->Id_user_m = Auth::user()->id;
+
+                $nota = "Registro modificado";
+                // $this->historialTempMuestra($request->idSolicitud, $nota, $temp->Id_temperatura);
+
+                $temp->save();
+            }
+        } else {
+            for ($i = 0; $i < $request->numTomas; $i++) {
+          
+                $tempAmbiente = TemperaturaAmbiente::create([
+                    'Id_solicitud' => $request->idSolicitud,
+                    'Temperatura1' => $request->temperatura[$i][0],
+                    'Temperatura2' => $request->temperatura[$i][1],
+                    'Temperatura3' => $request->temperatura[$i][2],
+                    'Promedio' => $request->temperatura[$i][3],
+                    'Activo' => $request->temperatura[$i][4],
+                    'Id_user_c' => Auth::user()->id,
+                    'Id_user_m' => Auth::user()->id
+                ]);
+
+                $nota = "Creación de registro";
+                // $this->historialTempMuestra($request->idSolicitud, $nota, $tempMuestra->Id_temperatura);
             }
         }
 
