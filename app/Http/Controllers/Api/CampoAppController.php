@@ -97,84 +97,86 @@ class CampoAppController extends Controller
         $campoGenModel = CampoGenerales::where('Id_solicitud',$solModel->Id_solicitud)->first();
         $campoGenModel->Captura = "Mobil";
         $campoGenModel->Id_equipo = $jsonGeneral[0]["Id_equipo"]; 
+        $campoGenModel->Id_equipo2 = $jsonGeneral[0]["Id_equipo2"]; 
         $campoGenModel->Temperatura_a = $jsonGeneral[0]["Temperatura_a"];
         $campoGenModel->Temperatura_b = $jsonGeneral[0]["Temperatura_b"];
         $campoGenModel->Latitud = $jsonGeneral[0]["Latitud"];
         $campoGenModel->Longitud = $jsonGeneral[0]["Longitud"];
         $campoGenModel->Pendiente = $jsonGeneral[0]["Pendiente"];
         $campoGenModel->Criterio = $jsonGeneral[0]["Criterio"];
+        $campoGenModel->Supervisor = $jsonGeneral[0]["Criterio"];
         $campoGenModel->save();
 
         //Guardar observacion 
 
-        // $catPhTra = PHTrazable::where('Ph',$jsonPhTra[0]["Id_phTrazable"])->first();
-        // CampoPhTrazable::create([
-        //     'Id_solicitud' => $solModel->Id_solicitud,
-        //     'Id_phTrazable' => $catPhTra->Id_ph,
-        //     'Lectura1' => $jsonPhTra[0]["Lectura1"],
-        //     'Lectura2' => $jsonPhTra[0]["Lectura2"],
-        //     'Lectura3' => $jsonPhTra[0]["Lectura3"],
-        //     'Estado' => $jsonPhTra[0]["Estado"]
-        // ]);
-        // $catPhTra = PHTrazable::where('Ph',$jsonPhTra[1]["Id_phTrazable"])->first();
-        // CampoPhTrazable::create([
-        //     'Id_solicitud' => $solModel->Id_solicitud,
-        //     'Id_phTrazable' => $catPhTra->Id_ph,
-        //     'Lectura1' => $jsonPhTra[1]["Lectura1"],
-        //     'Lectura2' => $jsonPhTra[1]["Lectura2"],
-        //     'Lectura3' => $jsonPhTra[1]["Lectura3"],
-        //     'Estado' => $jsonPhTra[1]["Estado"]
-        // ]);
+        $catPhTra = PHTrazable::where('Ph',$jsonPhTra[0]["Id_phTrazable"])->first();
+        CampoPhTrazable::create([
+            'Id_solicitud' => $solModel->Id_solicitud,
+            'Id_phTrazable' => $catPhTra->Id_ph,
+            'Lectura1' => $jsonPhTra[0]["Lectura1"],
+            'Lectura2' => $jsonPhTra[0]["Lectura2"],
+            'Lectura3' => $jsonPhTra[0]["Lectura3"],
+            'Estado' => $jsonPhTra[0]["Estado"]
+        ]);
+        $catPhTra = PHTrazable::where('Ph',$jsonPhTra[1]["Id_phTrazable"])->first();
+        CampoPhTrazable::create([
+            'Id_solicitud' => $solModel->Id_solicitud,
+            'Id_phTrazable' => $catPhTra->Id_ph,
+            'Lectura1' => $jsonPhTra[1]["Lectura1"],
+            'Lectura2' => $jsonPhTra[1]["Lectura2"],
+            'Lectura3' => $jsonPhTra[1]["Lectura3"],
+            'Estado' => $jsonPhTra[1]["Estado"]
+        ]);
 
-        // $catPhCal = PHCalidad::where('Ph_calidad',$jsonPhCal[0]["Id_phCalidad"])->first();
-        // CampoPhCalidad::create([
-        //     'Id_solicitud' => $solModel->Id_solicitud,
-        //     'Id_phCalidad' => $catPhCal->Id_ph,
-        //     'Lectura1' => $jsonPhCal[0]["Lectura1"],
-        //     'Lectura2' => $jsonPhCal[0]["Lectura2"],
-        //     'Lectura3' => $jsonPhCal[0]["Lectura3"],
-        //     'Estado' => $jsonPhCal[0]["Estado"],
-        //     'Promedio' => $jsonPhCal[0]["Promedio"]
-        // ]);
-        // $catPhCal = PHCalidad::where('Ph_calidad',$jsonPhCal[1]["Id_phCalidad"])->first();
-        // CampoPhCalidad::create([
-        //     'Id_solicitud' => $solModel->Id_solicitud,
-        //     'Id_phCalidad' => $catPhCal->Id_ph,
-        //     'Lectura1' => $jsonPhCal[1]["Lectura1"],
-        //     'Lectura2' => $jsonPhCal[1]["Lectura2"],
-        //     'Lectura3' => $jsonPhCal[1]["Lectura3"],
-        //     'Estado' => $jsonPhCal[1]["Estado"],
-        //     'Promedio' => $jsonPhCal[1]["Promedio"]
-        // ]);
+        $catPhCal = PHCalidad::where('Ph_calidad',$jsonPhCal[0]["Id_phCalidad"])->first();
+        CampoPhCalidad::create([
+            'Id_solicitud' => $solModel->Id_solicitud,
+            'Id_phCalidad' => $catPhCal->Id_ph,
+            'Lectura1' => $jsonPhCal[0]["Lectura1"],
+            'Lectura2' => $jsonPhCal[0]["Lectura2"],
+            'Lectura3' => $jsonPhCal[0]["Lectura3"],
+            'Estado' => $jsonPhCal[0]["Estado"],
+            'Promedio' => $jsonPhCal[0]["Promedio"]
+        ]);
+        $catPhCal = PHCalidad::where('Ph_calidad',$jsonPhCal[1]["Id_phCalidad"])->first();
+        CampoPhCalidad::create([
+            'Id_solicitud' => $solModel->Id_solicitud,
+            'Id_phCalidad' => $catPhCal->Id_ph,
+            'Lectura1' => $jsonPhCal[1]["Lectura1"],
+            'Lectura2' => $jsonPhCal[1]["Lectura2"],
+            'Lectura3' => $jsonPhCal[1]["Lectura3"],
+            'Estado' => $jsonPhCal[1]["Estado"],
+            'Promedio' => $jsonPhCal[1]["Promedio"]
+        ]);
 
-        // $catConTra = ConductividadTrazable::where('Conductividad',$jsonConTra[0]["Id_conTrazable"])->first();
-        // CampoConTrazable::create([
-        //     'Id_solicitud' => $solModel->Id_solicitud,
-        //     'Id_conTrazable' => $catConTra->Id_conductividad,
-        //     'Lectura1' => $jsonConTra[0]["Lectura1"],
-        //     'Lectura2' => $jsonConTra[0]["Lectura2"],
-        //     'Lectura3' => $jsonConTra[0]["Lectura3"],
-        //     'Estado' => $jsonConTra[0]["Estado"]
-        // ]);
-        // $catConCal = ConductividadCalidad::where('Conductividad',$jsonConCal[0]["Id_conCalidad"])->first();
-        // CampoConCalidad::create([ 
-        //     'Id_solicitud' => $solModel->Id_solicitud,
-        //     'Id_conCalidad' => $catConCal->Id_conductividad,
-        //     'Lectura1' => $jsonConCal[0]["Lectura1"],
-        //     'Lectura2' => $jsonConCal[0]["Lectura2"], 
-        //     'Lectura3' => $jsonConCal[0]["Lectura3"],
-        //     'Estado' => $jsonConCal[0]["Estado"],
-        //     'Promedio' => $jsonConCal[0]["Promedio"]
-        // ]);
+        $catConTra = ConductividadTrazable::where('Conductividad',$jsonConTra[0]["Id_conTrazable"])->first();
+        CampoConTrazable::create([
+            'Id_solicitud' => $solModel->Id_solicitud,
+            'Id_conTrazable' => $catConTra->Id_conductividad,
+            'Lectura1' => $jsonConTra[0]["Lectura1"],
+            'Lectura2' => $jsonConTra[0]["Lectura2"],
+            'Lectura3' => $jsonConTra[0]["Lectura3"],
+            'Estado' => $jsonConTra[0]["Estado"]
+        ]);
+        $catConCal = ConductividadCalidad::where('Conductividad',$jsonConCal[0]["Id_conCalidad"])->first();
+        CampoConCalidad::create([ 
+            'Id_solicitud' => $solModel->Id_solicitud,
+            'Id_conCalidad' => $catConCal->Id_conductividad,
+            'Lectura1' => $jsonConCal[0]["Lectura1"],
+            'Lectura2' => $jsonConCal[0]["Lectura2"], 
+            'Lectura3' => $jsonConCal[0]["Lectura3"],
+            'Estado' => $jsonConCal[0]["Estado"],
+            'Promedio' => $jsonConCal[0]["Promedio"]
+        ]);
 
-        for ($i=0; $i < sizeof($jsonEviencia); $i++) { 
-            # code...
-            Evidencia::create([
-                'Id_solicitud' => $solModel->Id_solicitud,
-                'Id_punto' => $puntoModel->Id_muestreo,
-                'Base64' => $request->pruebaCod,
-            ]);
-        }
+        // for ($i=0; $i < sizeof($jsonEviencia); $i++) { 
+        //     # code...
+        //     Evidencia::create([
+        //         'Id_solicitud' => $solModel->Id_solicitud,
+        //         'Id_punto' => $puntoModel->Id_muestreo,
+        //         'Base64' => $request->pruebaCod,
+        //     ]);
+        // }
         // Evidencia::create([
         //     'Id_solicitud' => $solModel->Id_solicitud,
         //     'Id_punto' => $puntoModel->Id_muestreo,
