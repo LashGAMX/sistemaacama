@@ -67,14 +67,12 @@ $(document).ready(function () {
         $('#tomas').val("1");
       } 
     });
-    // $('')
     addColPunto(); 
 
 });
 function cantGasolinaTeorico() 
 {
   let km = document.getElementById('km')
-  // console.log(km.value);
  if(km.value != '' && $('#kmExtra').val() != '')
  {
    $.ajax({
@@ -130,7 +128,7 @@ function precioCampo()
 
         $("#totalMuestreo").val(totalMuestreo.toFixed());
         $("#precioMuestra").val(totalMuestreo.toFixed());
-        suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed());
+        suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed()) + parseInt(precioCatalogo.toFixed());
         iva = (suma * 16) / 100;
         $('#subTotal').val(suma);
         sumatotal = suma + iva;
@@ -288,6 +286,8 @@ $('#delRow').click( function () {
 var precioTotal = 0;
 var swUpdateParam = 0;
 var precioAnalisis = 0;
+var precioCatalogo = 0;
+
 function getDatos2()
 {
   let suma = 0;
@@ -299,6 +299,7 @@ function getDatos2()
         data: {
             intermediario: $('#intermediario').val(),
             idSub:$('#subnorma').val(),
+            idFrecuencia: $('#frecuencia').val(),
             idParametros:normaParametro,
             idServicio:$('#tipoServicio').val(),
             idDescarga:$('#tipoDescarga').val(),
@@ -339,14 +340,13 @@ function getDatos2()
  
             $("#parametrosCotizacion").val(normaParametro);
             $("#puntosCotizacion").val(puntosMuestro);
-            precioAnalisis = response.precioTotal * counterPunto;
-            console.log(response.precioTotal)
-            console.log(precioAnalisis)
+            precioAnalisis = parseInt(response.precioAnalisis) * counterPunto;
+            precioCatalogo = parseInt(response.precioCat);
             if(sw != 1)
             {
-              console.log("sw = ") 
               $("#precioAnalisis").val(precioAnalisis.toFixed());
-              suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed());
+              $("#precioCat").val(precioCatalogo.toFixed());
+              suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed() + precioCatalogo.toFixed());
               iva = (suma * 16) / 100;
               sumaTotal = (suma + iva);
               $('#subTotal').val(suma);
@@ -356,7 +356,8 @@ function getDatos2()
             {
               console.log("sw = 0")
               $("#precioAnalisis").val(precioAnalisis.toFixed());
-              suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed());
+              $("#precioCat").val(precioCatalogo.toFixed());
+              suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed() + precioCatalogo.toFixed());
               iva = (suma * 16) / 100;
               sumaTotal = (suma + iva);
               $('#subTotal').val(suma);

@@ -523,3 +523,9 @@ ON cot.Estado = est.Id_estado
 CREATE VIEW ViewDetalleCuerpos as SELECT det.*,tipo.Cuerpo FROM detalle_tipoCuerpos as det
 INNER JOIN tipo_cuerpo as tipo
 ON det.Id_tipo = tipo.Id_tipo
+
+-- ViewPrecioPaquete
+
+CREATE VIEW ViewPrecioPaquete as SELECT paq.*, sub.Id_norma,sub.Clave FROM `precio_paquete` as paq
+INNER JOIN sub_normas as  sub
+ON paq.Id_paquete = sub.Id_subnorma

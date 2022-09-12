@@ -41,6 +41,7 @@ class Cotizacion extends Model
         'Fecha_cotizacion',
         'Metodo_pago',
         'Precio_analisis',
+        'Precio_catalogo',
         'Descuento',
         'Precio_muestreo',
         'Sub_total',

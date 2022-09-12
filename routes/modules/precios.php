@@ -15,3 +15,5 @@ Route::get('precios/intermediario', [IntermediarioController::class,'index']);
 Route::get('precios/intermediario/details/{idCliente}', [IntermediarioController::class,'details']);
 
 Route::get('precios/paquete', [PaqueteController::class,'index']);
+Route::post('precios/paquete/getPaquetes', [PaqueteController::class,'getPaquetes']);
+Route::post('precios/paquete/savePrecioPaq', [PaqueteController::class,'savePrecioPaq']);

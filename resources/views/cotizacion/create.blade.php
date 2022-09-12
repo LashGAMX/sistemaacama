@@ -610,6 +610,12 @@
                                                     value="{{ @$model->Precio_analisis }}"></td>
                                         </tr>
                                         <tr>
+                                            <td>Parametro Extra</td>
+                                            <td><input type="text" class="form-control" id="precioCat"
+                                                    name="precioCat" placeholder="Parametro Extra"
+                                                    value="{{ @$model->Precio_catalogo }}"></td>
+                                        </tr>
+                                        <tr>
                                             <td><code>Nota: El descuento solo aplica directamente al análisis</code></td>
                                             <td></td>
                                         </tr>

@@ -22,19 +22,19 @@ use App\Models\TipoMuestraCot;
 use App\Models\PromedioCot;
 use App\Models\User;
 use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth; 
+use Illuminate\Support\Facades\Auth;
 
 use PDF;
 use Mpdf\Mpdf;
 
- 
+
 class CotizacionController extends Controller
 {
     //
     public function index()
     {
         //Vista Cotización
-        $model = DB::table('ViewCotizacion')->orderBy('Id_cotizacion', 'DESC')->get(); 
+        $model = DB::table('ViewCotizacion')->orderBy('Id_cotizacion', 'DESC')->get();
         return view('cotizacion.cotizacion', compact('model'));
     }
     public function buscarFecha($inicio, $fin)
@@ -42,7 +42,8 @@ class CotizacionController extends Controller
         $model = DB::table('ViewCotizacion')->whereBetween('created_at', [$inicio, $fin])->get();
         return view('cotizacion.cotizacion', compact('model'));
     }
-    public function clienteSucursal(Request $request){
+    public function clienteSucursal(Request $request)
+    {
         $datosCliente = SucursalCliente::where('Id_cliente', $request->idCliente)->get();
 
         $data = array(
@@ -51,15 +52,16 @@ class CotizacionController extends Controller
         );
         return response()->json($data);
     }
-    public function DatosClienteSucursal(Request $request){ 
+    public function DatosClienteSucursal(Request $request)
+    {
         $info = SucursalCliente::where('Id_sucursal', $request->idSucursal)->first();
         $nombre = $info->Empresa;
 
         $data = array(
             'info' => $info,
         );
-        return response()->json($data); 
-    } 
+        return response()->json($data);
+    }
     public function create()
     {
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', null)->get();
@@ -74,7 +76,7 @@ class CotizacionController extends Controller
         $tipoMuestraCot = TipoMuestraCot::all();
         $promedioCot = PromedioCot::all();
 
-        
+
 
         $data = array(
             'categorias001' => $categorias001,
@@ -140,7 +142,7 @@ class CotizacionController extends Controller
     public function getCotizacionId(Request $request)
     {
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $request->idCotizacion)->first();
-        $modelMuestreo = CotizacionMuestreo::where('Id_cotizacion',$request->idCotizacion)->first();
+        $modelMuestreo = CotizacionMuestreo::where('Id_cotizacion', $request->idCotizacion)->first();
         $data = array(
             'model' => $model,
             'modelMuestreo' => $modelMuestreo,
@@ -155,18 +157,18 @@ class CotizacionController extends Controller
     }
     public function getSubNorma()
     {
-        if(isset($_POST['idCotizacion'])){            
+        if (isset($_POST['idCotizacion'])) {
             $id = $_POST['norma'];
-            $idCot = $_POST['idCotizacion'];                                    
+            $idCot = $_POST['idCotizacion'];
 
             $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
             $model = DB::table('ViewPrecioPaq')->where('Id_subnorma', $cotizacion->Id_subnorma)->get();
-            
+
             $data = array(
                 'model' => $model,
             );
             return response()->json($data);
-        }else{
+        } else {
             $id = $_POST['norma'];
             $model = DB::table('ViewPrecioPaq')->where('Id_norma', $id)->get();
             $data = array(
@@ -232,52 +234,70 @@ class CotizacionController extends Controller
         );
         return response()->json($data);
     }
-    public function getDatos2()
+    public function getDatos2(Request $res)
     {
-        $idIntermediario = $_POST['intermediario'];
-        $idSub = $_POST['idSub'];
-        $idParametros = $_POST['idParametros'];
-        $idServicio = $_POST['idServicio'];
-        $idDescarga = $_POST['idDescarga'];
 
         $parametroExtra = array();
 
-        $intermediarios = DB::table('ViewIntermediarios')->where('Id_cliente', $idIntermediario)->first();
-        $subnorma = DB::table('sub_normas')->where('Id_subnorma', $idSub)->first();
-        $servicio = DB::table('tipo_servicios')->where('Id_tipo', $idServicio)->first();
-        $descarga = DB::table('tipo_descargas')->where('Id_tipo', $idDescarga)->first();
-
+        $intermediarios = DB::table('ViewIntermediarios')->where('Id_cliente', $res->intermediario)->first();
+        $subnorma = DB::table('sub_normas')->where('Id_subnorma', $res->idSub)->first();
+        $servicio = DB::table('tipo_servicios')->where('Id_tipo', $res->idServicio)->first();
+        $descarga = DB::table('tipo_descargas')->where('Id_tipo', $res->idDescarga)->first();
+ 
         $contExtra = 0;
-        for ($i = 0; $i < sizeof($idParametros); $i++) {
-            $parPre = DB::table('norma_parametros')->where('Id_norma', $idSub)->where('Id_parametro', $idParametros[$i])->get();
+        for ($i = 0; $i < sizeof($res->idParametros); $i++) {
+            $parPre = DB::table('norma_parametros')->where('Id_norma', $res->idSub)->where('Id_parametro', $res->idParametros[$i])->get();
             if ($parPre->count()) {
             } else {
-                $parametroExtra[$contExtra] = $idParametros[$i];
+                $parametroExtra[$contExtra] = $res->idParametros[$i];
                 $contExtra++;
             }
         }
 
-        $precioTotal = 0;
+        $precioAnalisis = 0;
+        $precioCat = 0;
 
         # Obtiene el precio del paquete
-        $precioModel = DB::table('ViewPrecioPaqInter')->where('Id_intermediario', $idIntermediario)->where('Id_catalogo', $idSub)->first();
+        $precioModel = DB::table('ViewPrecioPaqInter')->where('Id_intermediario', $res->idIntermediario)->where('Id_catalogo', $res->idSub)->first();
         if ($precioModel != NULL) {
-            $precioTotal = $precioTotal + $precioModel->Precio;
+            $precioAnalisis = $precioModel->Precio;
         } else {
-            $precioModel = DB::table('ViewPrecioPaq')->where('Id_paquete', $idSub)->first();
-            $precioTotal = $precioTotal +  $precioModel->Precio;
+            $precioModel = DB::table('ViewPrecioPaquete')->where('Id_paquete', $res->idSub)->first();
+            switch ($res->idFrecuencia) {
+                case 1:
+                    $precioAnalisis =  $precioModel->Precio2;
+                    break;
+                case 2:
+                    $precioAnalisis =  $precioModel->Precio3;
+                    break;
+                case 3:
+                    $precioAnalisis =  $precioModel->Precio4;
+                    break;
+                case 4:
+                    $precioAnalisis =  $precioModel->Precio5;
+                    break;
+                case 5:
+                    $precioAnalisis =  $precioModel->Precio6;
+                    break;
+                case 6:
+                    $precioAnalisis =  $precioModel->Precio1;
+                    break;
+                default:
+                    $precioAnalisis =  0;
+                    break;
+            }
         }
         # Obtener el precio por parametro extra
 
         if (sizeof($parametroExtra) > 0) {
             for ($i = 0; $i < sizeof($parametroExtra); $i++) {
                 # code...
-                $precioModel = DB::table('ViewPrecioCatInter')->where('Id_intermediario', $idIntermediario)->where('Id_catalogo', $parametroExtra[$i])->first();
+                $precioModel = DB::table('ViewPrecioCatInter')->where('Id_intermediario', $res->idIntermediario)->where('Id_catalogo', $parametroExtra[$i])->first();
                 if ($precioModel != null) {
-                    $precioTotal += $precioModel->Precio;
+                    $precioCat += $precioModel->Precio;
                 } else {
                     $precioModel = DB::table('ViewPrecioCat')->where('Id_parametro', $parametroExtra[$i])->first();
-                    $precioTotal += $precioModel->Precio;
+                    $precioCat += $precioModel->Precio;
                 }
             }
         }
@@ -286,8 +306,9 @@ class CotizacionController extends Controller
         $data = array(
             'intermediarios' => $intermediarios,
             'subnorma' => $subnorma,
-            'idParametros' => $idParametros,
-            'precioTotal' => $precioTotal,
+            'idParametros' => $res->idParametros,
+            'precioAnalisis' => $precioAnalisis,
+            'precioCat' => $precioCat,
             'servicio' => $servicio,
             'descarga' => $descarga
         );
@@ -307,7 +328,7 @@ class CotizacionController extends Controller
         $dayYear = date("z") + 1;
         $hijo = 0;
         $today = Carbon::now()->format('Y-m-d');
-        $cotizacionDay = DB::table('cotizacion')->whereDate('created_at', $today)->where('Hijo',0)->count();
+        $cotizacionDay = DB::table('cotizacion')->whereDate('created_at', $today)->where('Hijo', 0)->count();
 
         $numCot = DB::table('cotizacion')->whereDate('created_at', $today)->where('Id_cliente', $request->clientes)->get();
         $firtsFol = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $request->clientes)->first();
@@ -318,9 +339,9 @@ class CotizacionController extends Controller
         } else {
             $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
         }
-        
-        $paquete = DB::table('precio_paquete')->where('Id_paquete',$request->subnorma)->first();
-      
+
+        $paquete = DB::table('precio_paquete')->where('Id_paquete', $request->subnorma)->first();
+
 
         $cotizacion = Cotizacion::create([
             'Id_intermedio' => $request->intermediario,
@@ -329,7 +350,7 @@ class CotizacionController extends Controller
             'Nombre' => $request->nombreCliente,
             'Direccion' => $request->direccion,
             'Atencion' => $request->atencion,
-            'Telefono' => $request->telefono, 
+            'Telefono' => $request->telefono,
             'Correo' => $request->correo,
             'Tipo_servicio' => $request->tipoServicio,
             'Tipo_descarga' => $request->tipoDescarga,
@@ -402,7 +423,7 @@ class CotizacionController extends Controller
 
         $puntoMuestreo = $request->puntosCotizacion;
         $puntoMuestreo = explode(',', $puntoMuestreo);
-        
+
         foreach ($puntoMuestreo as $item) {
             CotizacionPunto::create([
                 'Id_cotizacion' => $cotizacion->Id_cotizacion,
@@ -430,7 +451,7 @@ class CotizacionController extends Controller
                 'Nombre' => $request->nombreCliente,
                 'Direccion' => $request->direccion,
                 'Atencion' => $request->atencion,
-                'Telefono' => $request->telefono, 
+                'Telefono' => $request->telefono,
                 'Correo' => $request->correo,
                 'Tipo_servicio' => $request->tipoServicio,
                 'Tipo_descarga' => $request->tipoDescarga,
@@ -485,7 +506,7 @@ class CotizacionController extends Controller
 
         $parametro = $request->parametrosCotizacion;
         $parametro = explode(',', $parametro);
- 
+
         foreach ($parametro as $item) {
             $subnorma = NormaParametros::where('Id_norma', $request->subnorma)->where('Id_parametro', $item)->get();
 
@@ -502,7 +523,6 @@ class CotizacionController extends Controller
                 'Id_subnorma' => $item,
                 'Extra' => $extra,
             ]);
- 
         }
 
         $puntoMuestreo = $request->puntosCotizacion;
@@ -518,8 +538,9 @@ class CotizacionController extends Controller
         return redirect('admin/cotizacion');
     }
 
-    public function duplicar($idCot){
-        
+    public function duplicar($idCot)
+    {
+
         //Duplica la Cotización
 
         $year = date("y");
@@ -527,7 +548,7 @@ class CotizacionController extends Controller
         $dayYear = date("z") + 1;
         $hijo = 0;
         $today = Carbon::now()->format('Y-m-d');
-        $cotizacionDay = DB::table('cotizacion')->whereDate('created_at', $today)->where('Hijo',0)->count();
+        $cotizacionDay = DB::table('cotizacion')->whereDate('created_at', $today)->where('Hijo', 0)->count();
 
         $numCot = DB::table('cotizacion')->whereDate('created_at', $today)->where('Id_cliente', $idCot)->get();
         $firtsFol = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $idCot)->first();
@@ -538,7 +559,7 @@ class CotizacionController extends Controller
         } else {
             $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
         }
-        
+
         $cotOriginal = Cotizacion::where('Id_cotizacion', $idCot)->first();
         $cotReplicada = $cotOriginal->replicate();
 
@@ -548,7 +569,7 @@ class CotizacionController extends Controller
         $cotReplicada->Actualizado_por = Auth::user()->id;
         $cotReplicada->created_at = Carbon::now();
         $cotReplicada->updated_at = Carbon::now();
-        
+
         $cotReplicada->save();
 
         $cotMuestreoOriginal = CotizacionMuestreo::where('Id_cotizacion', $idCot)->first();
@@ -562,7 +583,7 @@ class CotizacionController extends Controller
 
         $cotParamOriginal = CotizacionParametros::where('Id_cotizacion', $idCot)->get();
 
-        foreach($cotParamOriginal as $item){
+        foreach ($cotParamOriginal as $item) {
             $cotParamDuplicada = $item->replicate();
             $cotParamDuplicada->Id_cotizacion = $cotReplicada->Id_cotizacion;
             $cotParamDuplicada->save();
@@ -570,11 +591,11 @@ class CotizacionController extends Controller
 
         $cotPuntoOriginal = CotizacionPunto::where('Id_cotizacion', $idCot)->get();
 
-        foreach($cotPuntoOriginal as $item){
+        foreach ($cotPuntoOriginal as $item) {
             $cotPuntoDuplicada = $item->replicate();
             $cotPuntoDuplicada->Id_cotizacion = $cotReplicada->Id_cotizacion;
             $cotPuntoDuplicada->save();
-        }        
+        }
 
         echo "<script>alert('Cotización duplicada exitosamente!');</script>";
         return redirect()->to('admin/cotizacion');
@@ -584,71 +605,67 @@ class CotizacionController extends Controller
     {
         $sw = false;
         $model = Cotizacion::find($res->id);
-        if($model->Folio_servicio != NULL)
-        {
+        if ($model->Folio_servicio != NULL) {
             $sw = true;
-        }else{
+        } else {
             $sw = false;
         }
 
         $data = array('sw' => $sw);
         return response()->json($data);
     }
-    
+
     public function exportPdfOrden($idCot)
     {
-        
+
         //Recupera los parámetros de la cotización
         $parametros = DB::table('ViewCotParam')->where('Id_cotizacion', $idCot)->where('Extra', 0)->orderBy('Parametro', 'ASC')->get();
- 
+
         //Recupera los parámetros extra de la cotización
         $parametrosExtra = DB::table('ViewCotParam')->where('Id_cotizacion', $idCot)->where('Extra', 1)->orderBy('Parametro', 'ASC')->get();
-        $sumaParamEspecial = 0;        
+        $sumaParamEspecial = 0;
 
-        foreach($parametrosExtra as $item){
+        foreach ($parametrosExtra as $item) {
             $precioEspecial = PrecioCatalogo::where('Id_parametro', $item->Id_subnorma)->first();
             $sumaParamEspecial += $precioEspecial->Precio;
         }
-        
+
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
-        $norma = Norma::where('Id_norma',$model->Id_norma)->first();
-        $puntos = CotizacionPunto::where('Id_cotizacion',$model->Id_cotizacion)->get();
-        
+        $norma = Norma::where('Id_norma', $model->Id_norma)->first();
+        $puntos = CotizacionPunto::where('Id_cotizacion', $model->Id_cotizacion)->get();
+
         $analisisDesc = $model->Precio_analisis - (($model->Precio_analisis * $model->Descuento) / 100);
-        
-        if($parametrosExtra->count() > 0)
-        {
+
+        if ($parametrosExtra->count() > 0) {
             $subTotal = $analisisDesc + $sumaParamEspecial + $model->Precio_muestreo;
-        }else{
+        } else {
             $subTotal = $model->Precio_analisis + $sumaParamEspecial + $model->Precio_muestreo;
         }
 
 
         $mpdf = new \Mpdf\Mpdf([
-            'format' => 'letter', 
+            'format' => 'letter',
             'margin_left' => 5,
             'margin_right' => 5,
-            'margin_top' => 20, 
+            'margin_top' => 20,
             'margin_bottom' => 25
         ]);
         $mpdf->SetWatermarkImage(
             asset('/public/storage/MembreteVertical.png'),
             1,
             array(215, 280),
-            array(0, 0), 
+            array(0, 0),
         );
 
         $firma = User::find(24); // Firma maribel
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.cotizacion.cotizacion', compact('model','parametros', 'parametrosExtra','norma','puntos', 'sumaParamEspecial','analisisDesc','subTotal','firma'));
+        $html = view('exports.cotizacion.cotizacion', compact('model', 'parametros', 'parametrosExtra', 'norma', 'puntos', 'sumaParamEspecial', 'analisisDesc', 'subTotal', 'firma'));
         $mpdf->CSSselectMedia = 'mpdf';
 
         $htmlFooter = view('exports.cotizacion.footerCotizacion');
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-        
+
         $mpdf->WriteHTML($html);
-        $mpdf->Output();        
-        
+        $mpdf->Output();
     }
- 
 }
