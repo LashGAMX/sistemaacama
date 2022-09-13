@@ -18,6 +18,10 @@ $('#btnLiberarTodo').click(function () {
     liberarTodo();
 });
 
+$('#enviarObservacion').click(function () {
+    enviarObsGeneralVol();
+}
+
 $('#btnEjecutarDqo').click(function () {
     // operacionDqo();
 })
@@ -489,6 +493,24 @@ function updateObsVolumetria(caso, obs) {
         }
     });
 
+}
+function enviarObsGeneralVol(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/obsGeneralVol",
+        data: {
+            idParametro: $("#formulaTipo").val(),
+            idDetalle: idMuestra,
+            idLote: idLote,
+            observacion: $("#observacion").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaVol();
+        }
+    });
 }
 
 function getDetalleVol(idDetalle, caso) {

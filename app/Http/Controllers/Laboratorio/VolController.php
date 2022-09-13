@@ -377,6 +377,25 @@ class VolController extends Controller
         return response()->json($data);
     }
 
+    public function enviarObsGeneralVol(Request $request){
+    
+        switch($request->idParametro){
+            case 6: //dqo
+                $model = LoteDetalleDqo::where('Id_lote', request->idLote)->get();
+                foreach ($model as $item) {
+                    $item->Observacion = $request->observacion;
+                    $item->save();
+                }
+                break;
+        }
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+
+    }
+
 
     public function getPlantillaPred(Request $request)
     {

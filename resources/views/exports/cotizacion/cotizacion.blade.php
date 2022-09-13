@@ -191,7 +191,7 @@
                     ${{number_format(@$analisisDesc, 2, ".", ",")}}
                 </td>
             </tr>
-                @if (@$model->Tipo_servicio != 3)
+                {{-- @if (@$model->Tipo_servicio != 3)
                 <tr>
                     <td class="fontBold fontCalibri fontSize15">PRECIO MUESTREO</td>
                     <td width="20%">&nbsp;</td>
@@ -201,7 +201,7 @@
                         @endphp
                     </td>
                 </tr> 
-                @endif    
+                @endif     --}}
             @endif    
             @if (@$model->Tipo_servicio != 3)
             <tr>
@@ -214,15 +214,17 @@
                 </td>
             </tr> 
             @endif        
-            <tr>
-                <td class="fontBold fontCalibri fontSize15" width="35%">PARAMETROS ADICIONALES</td>
-                <td width="20%">&nbsp;</td>
-                <td class="fontBold fontCalibri fontSize15 justificadoDer" width="35%">$                        
-                    @php
-                        echo number_format(@$sumaParamEspecial, 2, ".", ",");
-                    @endphp
-                </td>
-            </tr>
+            @if (@$model->Precio_catalogo > 0)
+                <tr>
+                    <td class="fontBold fontCalibri fontSize15" width="35%">PARAMETROS ADICIONALES</td>
+                    <td width="20%">&nbsp;</td>
+                    <td class="fontBold fontCalibri fontSize15 justificadoDer" width="35%">$                        
+                        @php
+                            echo number_format(@$model->Precio_catalogo, 2, ".", ",");
+                        @endphp
+                    </td>
+                </tr>
+            @endif
             
                 <tr>
                     <td class="fontBold fontCalibri fontSize15" width="35%">SUBTOTAL</td>

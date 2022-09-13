@@ -346,7 +346,7 @@ function getDatos2()
             {
               $("#precioAnalisis").val(precioAnalisis.toFixed());
               $("#precioCat").val(precioCatalogo.toFixed());
-              suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed() + precioCatalogo.toFixed());
+              suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed()) + parseInt(precioCatalogo.toFixed());
               iva = (suma * 16) / 100;
               sumaTotal = (suma + iva);
               $('#subTotal').val(suma);
@@ -357,7 +357,7 @@ function getDatos2()
               console.log("sw = 0")
               $("#precioAnalisis").val(precioAnalisis.toFixed());
               $("#precioCat").val(precioCatalogo.toFixed());
-              suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed() + precioCatalogo.toFixed());
+              suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed()) + parseInt(precioCatalogo.toFixed());
               iva = (suma * 16) / 100;
               sumaTotal = (suma + iva);
               $('#subTotal').val(suma);
