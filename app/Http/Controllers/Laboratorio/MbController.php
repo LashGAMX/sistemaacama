@@ -1560,7 +1560,39 @@ class MbController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';  
                 $mpdf->WriteHTML($htmlCaptura);
                 break; 
-            case 12:
+            case 253:
+                $mpdf = new \Mpdf\Mpdf([
+                    'orientation' => "L",
+                    'format' => 'letter',
+                    'margin_left' => 10,
+                    'margin_right' => 10,
+                    'margin_top' => 31,
+                    'margin_bottom' => 45,
+                    'defaultheaderfontstyle' => ['normal'],
+                    'defaultheaderline' => '0'
+                ]);
+                $mpdf->SetWatermarkImage(
+                    asset('/public/storage/HojaMembretadaHorizontal.png'),
+                    1,
+                    array(215, 280),
+                    array(0, 0),
+                );
+                $mpdf->showWatermarkImage = true;
+    
+                $loteDetalle = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $idLote)->get();
+                $procedimiento = ReportesMb::where('Id_lote', $idLote)->first();
+                
+                $data = array(  
+                    'lote' => $lote,
+                    'loteDetalle' => $loteDetalle,
+                    'procedimiento' => $procedimiento, 
+                );
+                
+                $htmlHeader = view('exports.laboratorio.mb.enterococos.bitacoraHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.mb.enterococos.bitacoraBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';  
+                $mpdf->WriteHTML($htmlCaptura); 
                 break;
             default:
                 # code...

@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/volumetria/dqoA/dqoAPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/exports/bitacoras.css')}}">>
     <title>Captura PDF</title>
 </head>
 <body>
-    <p id='curvaProcedimiento'>Procedimiento</p>
+    <p class='procedimiento'>Procedimiento</p>
 
-    <div id="contenidoCurva">
+    <div class="procedimiento">
         @php
             echo $textProcedimiento->Texto;
         @endphp
