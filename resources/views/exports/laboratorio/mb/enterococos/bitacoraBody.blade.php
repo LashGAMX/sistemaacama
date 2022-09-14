@@ -11,7 +11,7 @@
 
     <div class="procedimiento">
         @php
-            echo @$procedimiento->Texto;
+            echo @$procedimiento->Texto; 
         @endphp
     </div>
     <br>
@@ -40,8 +40,8 @@
                     <th style="font-size: 8px" colspan="3">24 horas</th>
                     <th style="font-size: 8px" colspan="3">48 horas</th>
                     <th></th>
-                    <th style="font-size: 8px" colspan="3">Caldo E.C 24 horas</th>
-                    <th style="font-size: 8px" colspan="3">Agua triptona 24 horas</th>
+                    <th style="font-size: 8px" colspan="3">Resultados con agar selectivo 24 horas, registra en las columnas el número de placas que presentan crecimiento de Enterococos (ver morfología colonial)</th>
+                    <th style="font-size: 8px" colspan="3">Caldo BHI 48 horas</th>
                     <th></th>
                     <th></thead>
                     <th></th>
