@@ -148,14 +148,14 @@ function getLoteCapturaVol() {
         dataType: "json",
         success: function (response) {
             console.log(response);
-            $("#tipoInfo").text("Tipo: "+response.tipo)
+            $("#tipoInfo").text("Tipo: "+response.tipo) //imprime el tipo de DQO
 
             tab += '<table id="tablaControles" class="table table-sm">';
             tab += '    <thead>';
             tab += '        <tr>';
             tab += '          <th>Opc</th>';
             tab += '          <th>Folio</th>';
-            tab += '          <th>Tipo</th>';
+            tab += '          <th>Tipo</th>'; 
             tab += '          <th>Norma</th>';
             tab += '          <th>Resultado</th>';
             tab += '          <th>Observación</th>';
@@ -204,9 +204,11 @@ function getLoteCapturaVol() {
                 } else {
                     tab += '<br> <small class="text-info">' + item.Control + '</small></td>';
                 }
-                tab += '<td><radio type="radio" id="radioTipo">ALTA</td>';
                 tab += '<td><input disabled style="width: 100px" value="' + item.Folio_servicio + '"></td>';
-                // tab += '<td><input disabled style="width: 80px" value="-"></td>';
+                //todo  --Sección de radioButtons --
+                tab += '<td><input type="radio" checked id="radioEspectro" name="tipo'+cont+'"><label>&nbspEspectro</label><br>';
+                tab += '<input type="radio" id="radioVolumetrico" name="tipo'+cont+'"><label>&nbspVolumetrico</label></td>';
+                //todo -- --
                 tab += '<td><input disabled style="width: 200px" value="' + item.Clave_norma + '"></td>';
                 if (item.Resultado != null) {
                     tab += '<td><input disabled style="width: 100px" value="' + item.Resultado + '"></td>';
