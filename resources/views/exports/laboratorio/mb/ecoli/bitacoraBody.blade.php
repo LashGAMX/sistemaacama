@@ -4,129 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    {{-- <link rel="stylesheet" href="{{asset('/public/css/laboratorio/mb/coliformesTotales/coliformesTotalesPDF.css')}}"> --}}
-    <link rel="stylesheet" href="{{asset('public/css/bootstrap.min.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/exports/bitacoras.css')}}">
     <title>Captura PDF</title>
 </head>
 <body>        
 
-    <p id='curvaProcedimiento'>Procedimiento</p>
- 
-    <div id="contenidoCurva">
-        
+    <div class="procedimiento">
+        @php
+            echo @$procedimiento->Texto;
+        @endphp
     </div>
-
     <br>
-
     <div id="contenedorTabla">
-        {{-- <table autosize="1" class="table table-borderless" id="tablaDatos">
-            <tbody>
-                <tr>
-                    <td class="nombreHeader nombreHeaderBold">
-                        Fecha de sembrado
-                    </td>                   
 
-                    <td class="tableContent">
-                        
-                    </td>
-                    
-                    <td></td>                                        
-
-                    <td class="nombreHeader nombreHeaderBold">
-                        Hora de sembrado
-                    </td>
-
-                    <td></td>
-
-                    <td class="tableContent">
-                        
-                    </td>
-                </tr>
-
-                <tr>
-                    <th class="nombreHeader" colspan="2">
-                        Prueba presuntiva
-                    </th>                    
-
-                    <td></td>                                      
-
-                    <th class="nombreHeader" colspan="3">
-                        Prueba confirmativa
-                    </th>
-                </tr>                
-
-                <tr>
-                    <td class="tableContent">Caldo lactosado se prepara el día: </td>                    
-                    <td class="tableContent">
-                
-                    </td>
-                    
-                    <td></td>                  
-                    
-                    <td class="tableContent">El medio que se utiliza es:</td>
-                    <td></td>
-                    <td class="tableContent"></td>                    
-                </tr>
-
-                <tr>
-                    <td class="tableContent">Para determinar: </td>                    
-                    <td class="tableContent"></td>
-                    
-                    <td></td>                  
-                    
-                    <td class="tableContent">Preparado:</td>
-                    <td></td>
-                    <td class="tableContent">
-
-                    </td>                    
-                </tr>
-
-                <tr>
-                    <td class="tableContent">Fecha y hora de lectura, después <br> 24 hrs. y 48 hrs. de incubación: </td>                    
-                    <td class="tableContent">
-    
-                    </td>
-                    
-                    <td></td>                  
-                    
-                    <td class="tableContent">Para determinar: </td>
-                    <td></td>
-                    <td class="tableContent">
-                       
-                    </td>                    
-                </tr>
-
-                <tr>
-                    <td class="tableContent"></td>     
-                    <td></td>               
-                    <td class="tableContent"></td>
-                                                          
-                    
-                    <td class="tableContent">Fecha y hora de lectura para </td> 
-                    <td></td>                   
-                    <td class="tableContent">
-
-                    </td>
-                </tr>
-            </tbody>                      
-        </table>   --}}
-    </div>
-    
-    <br>
-
-    <div id="contenidoCurva">
-        <p>Fecha de resiembra de la cepa utilizada: AQUÍ VA LA FECHA de la placa N° AQUÍ VA LA PLACA</p>
-        <p>Bitácora AQUÍ VA LA BITÁCORA</p> <br>
-    </div>
-
-    <div id="contenidoCurva">
-        <span id="curvaProcedimiento">Valoración</span>
-        
-    </div>
  
     <br>
 
-    <table class="table table-sm" border="1"> 
+    <table autosize="1" class="tabla" border="1">
         <thead>
             <tr>
                 <th  style="font-size: 10px">No. De muestra</th>
@@ -163,20 +57,78 @@
                     <td>{{$item->Presuntiva11}}</td>
                     <td>{{$item->Presuntiva14}}</td>
                     <td>{{$item->Presuntiva17}}</td>
+
                     <td>{{$item->Presuntiva21}}</td>
                     <td>{{$item->Presuntiva24}}</td>
                     <td>{{$item->Presuntiva27}}</td>
-                    <td>1</td>
+                    <td>
+                        {{($item->Presuntiva21 + $item->Presuntiva22 + $item->Presuntiva23)}}
+                    </td>
                     <td>{{$item->Confirmativa11}}</td>
                     <td>{{$item->Confirmativa14}}</td>
                     <td>{{$item->Confirmativa17}}</td>
+
                     <td>{{$item->Confirmativa21}}</td>
                     <td>{{$item->Confirmativa24}}</td>
                     <td>{{$item->Confirmativa27}}</td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td></td>
+                    <td>{{($item->Confirmativa21 + $item->Confirmativa22 + $item->Confirmativa23)}}</td>
+                    @switch($item->Tipo)
+                    @case(1)
+                        <td class="contenidoBody bordesTabla" rowspan="3">
+                            @if (@$item->Resultado == 0)
+                                < 3
+                            @else
+                            {{@$item->Resultado}}
+                            @endif
+                        </td>
+    
+                        <td class="contenidoBody bordesTabla" rowspan="3">
+                            --
+                        </td>
+    
+                        <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
+                            --
+                        </td>
+                        @break
+                    @case(2)
+                        <td class="contenidoBody bordesTabla" rowspan="3">
+                            --
+                        </td>
+    
+                        <td class="contenidoBody bordesTabla" rowspan="3">
+                            {{@$item->Resultado}}
+                        </td>
+    
+                        <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
+                            --
+                        </td>
+                        @break
+                    @case(3)
+                        <td class="contenidoBody bordesTabla" rowspan="3">
+                            --
+                        </td>
+    
+                        <td class="contenidoBody bordesTabla" rowspan="3">
+                            --
+                        </td>
+    
+                        <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
+                            {{@$item->Resultado}}
+                        </td>
+                        @break
+                    @default
+                    <td class="contenidoBody bordesTabla" rowspan="3">
+                        --
+                    </td>
+
+                    <td class="contenidoBody bordesTabla" rowspan="3">
+                        --
+                    </td>
+
+                    <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
+                        --
+                    </td>
+                @endswitch
                 </tr>
                 <tr>     
                     
@@ -184,17 +136,19 @@
                     <td>{{$item->Presuntiva12}}</td>
                     <td>{{$item->Presuntiva15}}</td>
                     <td>{{$item->Presuntiva18}}</td>
+
                     <td>{{$item->Presuntiva22}}</td>
                     <td>{{$item->Presuntiva25}}</td>
                     <td>{{$item->Presuntiva28}}</td>
-                    <td>2</td>
+
+                    <td>{{($item->Presuntiva22 + $item->Presuntiva25 + $item->Presuntiva26)}}</td>
                     <td>{{$item->Confirmativa12}}</td>
                     <td>{{$item->Confirmativa15}}</td>
                     <td>{{$item->Confirmativa18}}</td>
                     <td>{{$item->Confirmativa22}}</td>
                     <td>{{$item->Confirmativa25}}</td>
                     <td>{{$item->Confirmativa28}}</td>
-                    <td></td>
+                    <td>{{($item->Confirmativa23 + $item->Confirmativa24 + $item->Confirmativa25)}}</td>
                     <td></td>
                     <td></td>
                     <td></td>
@@ -205,17 +159,19 @@
                     <td>{{$item->Presuntiva19}}</td>
                     <td>{{$item->Presuntiva13}}</td>
                     <td>{{$item->Presuntiva16}}</td>
+                    
                     <td>{{$item->Presuntiva23}}</td>
                     <td>{{$item->Presuntiva26}}</td>
                     <td>{{$item->Presuntiva29}}</td>
-                    <td>3</td>
+                    
+                    <td>{{($item->Presuntiva27 + $item->Presuntiva28 + $item->Presuntiva29)}}</td>
                     <td>{{$item->Confirmativa19}}</td>
                     <td>{{$item->Confirmativa13}}</td> 
                     <td>{{$item->Confirmativa16}}</td>
                     <td>{{$item->Confirmativa29}}</td>
                     <td>{{$item->Confirmativa23}}</td>
                     <td>{{$item->Confirmativa26}}</td>
-                    <td></td>
+                    <td>{{($item->Confirmativa27 + $item->Confirmativa28 + $item->Confirmativa29)}}</td>
                     <td></td>
                     <td></td>
                     <td></td>

@@ -10,7 +10,14 @@ var area = "fq";
 
 $(document).ready(function () {
 
-
+$("#btnLimpiarVal").click(function () {
+    $("#titulado1D").val("")
+    $("#titulado2D").val("")
+    $("#titulado3D").val("")
+    $("#blancoResD").val("")
+    $("#molaridadResD").val("")
+console.log('Limpiar');
+});
 
 });
 $('#btnDatosLote').click(function () {

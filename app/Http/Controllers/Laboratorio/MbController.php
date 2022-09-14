@@ -482,6 +482,7 @@ class MbController extends Controller
                 $model->Confirmativa7 = $request->con7;
                 $model->Confirmativa8 = $request->con8;
                 $model->Confirmativa9 = $request->con9;
+                
                 $model->Presuntiva1 = $request->pre1;
                 $model->Presuntiva2 = $request->pre2;
                 $model->Presuntiva3 = $request->pre3;
@@ -563,6 +564,7 @@ class MbController extends Controller
                 $model->Presuntiva17 = $request->Presuntiva17;
                 $model->Presuntiva18 = $request->Presuntiva18;
                 $model->Presuntiva19 = $request->Presuntiva19;
+
                 $model->Presuntiva21 = $request->Presuntiva21;
                 $model->Presuntiva22 = $request->Presuntiva22;
                 $model->Presuntiva23 = $request->Presuntiva23;
@@ -573,25 +575,25 @@ class MbController extends Controller
                 $model->Presuntiva28 = $request->Presuntiva28;
                 $model->Presuntiva29 = $request->Presuntiva29;
 
-                $model->Confirmativa11 = $request->con11;
-                $model->Confirmativa12 = $request->con12;
-                $model->Confirmativa13 = $request->con13;
-                $model->Confirmativa14 = $request->con14;
-                $model->Confirmativa15 = $request->con15;
-                $model->Confirmativa16 = $request->con16;
-                $model->Confirmativa17 = $request->con17;
-                $model->Confirmativa18 = $request->con18;
-                $model->Confirmativa19 = $request->con19;
+                $model->Confirmativa11 = $request->Confirmativa11;
+                $model->Confirmativa12 = $request->Confirmativa12;
+                $model->Confirmativa13 = $request->Confirmativa13;
+                $model->Confirmativa14 = $request->Confirmativa14;
+                $model->Confirmativa15 = $request->Confirmativa15;
+                $model->Confirmativa16 = $request->Confirmativa16;
+                $model->Confirmativa17 = $request->Confirmativa17;
+                $model->Confirmativa18 = $request->Confirmativa18;
+                $model->Confirmativa19 = $request->Confirmativa19;
 
-                $model->Confirmativa21 = $request->con21;
-                $model->Confirmativa22 = $request->con22;
-                $model->Confirmativa23 = $request->con23;
-                $model->Confirmativa24 = $request->con24;
-                $model->Confirmativa25 = $request->con25;
-                $model->Confirmativa26 = $request->con26;
-                $model->Confirmativa27 = $request->con27;
-                $model->Confirmativa28 = $request->con28;
-                $model->Confirmativa29 = $request->con29;
+                $model->Confirmativa21 = $request->Confirmativa21;
+                $model->Confirmativa22 = $request->Confirmativa22;
+                $model->Confirmativa23 = $request->Confirmativa23;
+                $model->Confirmativa24 = $request->Confirmativa24;
+                $model->Confirmativa25 = $request->Confirmativa25;
+                $model->Confirmativa26 = $request->Confirmativa26;
+                $model->Confirmativa27 = $request->Confirmativa27;
+                $model->Confirmativa28 = $request->Confirmativa28;
+                $model->Confirmativa29 = $request->Confirmativa29;
 
                 $model->Resultado = $res;
                 $model->Analizo = Auth::user()->id;
@@ -1517,7 +1519,7 @@ class MbController extends Controller
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 31,
-            'margin_bottom' => 45,
+            'margin_bottom' => 45, 
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
@@ -1525,27 +1527,37 @@ class MbController extends Controller
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
         switch ($lote->Id_tecnica) {
             case 35: // Escherichia Coli
-    
-                $loteDetalle = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $idLote)->get();
-                $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
-                
-                $data = array(  
-                    'loteDetalle' => $loteDetalle,
-                    'textoProcedimiento' => $textoProcedimiento,
-                );
-                
-                $mpdf = new \Mpdf\Mpdf(['orientation' => 'L']);
+                $mpdf = new \Mpdf\Mpdf([
+                    'orientation' => "L",
+                    'format' => 'letter',
+                    'margin_left' => 10,
+                    'margin_right' => 10,
+                    'margin_top' => 31,
+                    'margin_bottom' => 45,
+                    'defaultheaderfontstyle' => ['normal'],
+                    'defaultheaderline' => '0'
+                ]);
                 $mpdf->SetWatermarkImage(
                     asset('/public/storage/HojaMembretadaHorizontal.png'),
                     1,
                     array(215, 280),
                     array(0, 0),
                 );
-
+                $mpdf->showWatermarkImage = true;
+    
+                $loteDetalle = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $idLote)->get();
+                $procedimiento = ReportesMb::where('Id_lote', $idLote)->first();
+                
+                $data = array(  
+                    'lote' => $lote,
+                    'loteDetalle' => $loteDetalle,
+                    'procedimiento' => $procedimiento, 
+                );
+                
                 $htmlHeader = view('exports.laboratorio.mb.ecoli.bitacoraHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.mb.ecoli.bitacoraBody', $data);
-                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->CSSselectMedia = 'mpdf';  
                 $mpdf->WriteHTML($htmlCaptura);
                 break; 
             case 12:

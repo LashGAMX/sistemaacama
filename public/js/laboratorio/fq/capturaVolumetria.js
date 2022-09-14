@@ -20,7 +20,7 @@ $('#btnLiberarTodo').click(function () {
 
 $('#enviarObservacion').click(function () {
     enviarObsGeneralVol();
-}
+})
 
 $('#btnEjecutarDqo').click(function () {
     // operacionDqo();
@@ -64,7 +64,7 @@ function getDataCaptura() {
             fechaAnalisis: $("#fechaAnalisis").val(),
             _token: $('input[name="_token"]').val()
         },
-        dataType: "json",
+        dataType: "json", 
         success: function (response) {
             console.log(response);
 
@@ -155,7 +155,7 @@ function getLoteCapturaVol() {
             tab += '        <tr>';
             tab += '          <th>Opc</th>';
             tab += '          <th>Folio</th>';
-           // tab += '          <th>Tipo</th>';
+            tab += '          <th>Tipo</th>';
             tab += '          <th>Norma</th>';
             tab += '          <th>Resultado</th>';
             tab += '          <th>Observación</th>';
@@ -204,6 +204,7 @@ function getLoteCapturaVol() {
                 } else {
                     tab += '<br> <small class="text-info">' + item.Control + '</small></td>';
                 }
+                tab += '<td><radio type="radio" id="radioTipo">ALTA</td>';
                 tab += '<td><input disabled style="width: 100px" value="' + item.Folio_servicio + '"></td>';
                 // tab += '<td><input disabled style="width: 80px" value="-"></td>';
                 tab += '<td><input disabled style="width: 200px" value="' + item.Clave_norma + '"></td>';
@@ -211,7 +212,7 @@ function getLoteCapturaVol() {
                     tab += '<td><input disabled style="width: 100px" value="' + item.Resultado + '"></td>';
                 } else {
                     tab += '<td><input disabled style="width: 80px" value=""></td>';
-                }
+                } 
                 if (item.Observacion != null) {
                     tab += '<td>' + item.Observacion + '</td>';
                 } else {
@@ -497,7 +498,7 @@ function updateObsVolumetria(caso, obs) {
 function enviarObsGeneralVol(){
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/obsGeneralVol",
+        url: base_url + "/admin/laboratorio/" + area + "/enviarObsGeneralVol",
         data: {
             idParametro: $("#formulaTipo").val(),
             idDetalle: idMuestra,

@@ -381,10 +381,11 @@ class VolController extends Controller
     
         switch($request->idParametro){
             case 6: //dqo
-                $model = LoteDetalleDqo::where('Id_lote', request->idLote)->get();
+                $model = LoteDetalleDqo::where('Id_lote', $request->idLote)->get();
                 foreach ($model as $item) {
-                    $item->Observacion = $request->observacion;
-                    $item->save();
+                    $update = LoteDetalleDqo::find($item->Id_detalle);
+                    $update->Observacion = $request->observacion; 
+                    $update->save();
                 }
                 break;
         }
@@ -1092,7 +1093,7 @@ class VolController extends Controller
         );
         return response()->json($data);
     }
-
+ 
     public function getLoteCapturaVol(Request $request)
     {
         $tipo = "";

@@ -153,6 +153,7 @@
                   <div class="col-md-12">
                     <button id="btnGuardarVal" class="btn btn-success">Guardar</button>
                     <button id="btnEjecutarVal" class="btn btn-success">Ejcutar</button>
+                    <button id="btnLimpiarVal" class="btn btn-success">Limpiar</button>
                   </div>
                 </div>
                       <!-- ***************************** --> 

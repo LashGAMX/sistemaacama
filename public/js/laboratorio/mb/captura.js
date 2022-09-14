@@ -130,7 +130,7 @@ function getLoteCapturaMicro() {
             tab += '        <tr>';
             tab += '          <th>Opc</th>';
             tab += '          <th>Folio</th>';
-            // tab += '          <th># toma</th>';
+            tab += '          <th>#Tipo</th>'; //agregado radio button
             tab += '          <th>Norma</th>';
             tab += '          <th>Resultado</th>';
             tab += '          <th>Observación</th>';
@@ -174,6 +174,8 @@ function getLoteCapturaMicro() {
                 } else {
                     tab += '<br> <small class="text-info">' + item.Control + '</small></td>';
                 }
+                // Radio para el tipo de la muestra
+                tab += '<td><radio type="radio" name="radio" id="radioTipo"></radio></td>';
                 tab += '<td><input disabled style="width: 200px" value="' + item.Codigo + '"></td>';
                 // tab += '<td><input disabled style="width: 80px" value="-"></td>';
                 tab += '<td><input disabled style="width: 200px" value="' + item.Clave_norma + '"></td>';
