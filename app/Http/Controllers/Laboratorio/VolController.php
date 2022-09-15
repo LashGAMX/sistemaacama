@@ -1357,7 +1357,7 @@ public function sendMuestrasLote(Request $res)
                         $mpdf->SetHTMLFooter("", 'O', 'E');
                         $mpdf->WriteHTML($htmlCaptura);
                         $mpdf->CSSselectMedia = 'mpdf';
-                        $mpdf->SetHTMLHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader, 'O', 'E');
+                        // $mpdf->SetHTMLHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader, 'O', 'E');
                         $mpdf->SetHTMLFooter("", 'O', 'E');
                         $mpdf->WriteHTML($htmlCaptura2);
      

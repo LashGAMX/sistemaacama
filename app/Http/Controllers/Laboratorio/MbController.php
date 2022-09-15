@@ -1560,7 +1560,7 @@ class MbController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';  
                 $mpdf->WriteHTML($htmlCaptura);
                 break; 
-            case 253:
+            case 253: // Enterococos
                 $mpdf = new \Mpdf\Mpdf([
                     'orientation' => "L",
                     'format' => 'letter',

@@ -261,7 +261,7 @@ function getLoteCapturaVol() {
 
 //Función imprimir PDF
 function imprimir(id) {
-    window.open(base_url + "/admin/laboratorio/" + area + "/captura/exportPdfCapturaVolumetria/" + id);
+    window.open(base_url + "/admin/laboratorio/" + area + "/captura/exportPdfBitacoraVol/" + id);
     //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCapturaVolumetria/"+idLote;
 }
 function operacionNitrogeno() {
