@@ -493,7 +493,7 @@
               
              </div>
 
-                   <!-- Modal -->
+                   <!-- Modal que se muestra en la sección de volumetria con DQO -->
         <div class="modal fade" id="modalEspectroDbo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -506,11 +506,11 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">Observación</label>
-                                    <input type="text" class="form-control" id="observacion"
+                                    <input type="text" class="form-control" id="observacionModal"
                                         placeholder="Observacion de la muestra">
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-success" type="button" onclick="updateObsMuestraEspectro()"
+                                    <button class="btn btn-success" type="button" onclick="updateObsVolumetria()"
                                         id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
                                 </div>
                             </div>

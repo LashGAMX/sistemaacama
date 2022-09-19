@@ -346,14 +346,14 @@ class VolController extends Controller
     #OBSERVACIONES
     public function updateObsVolumetria(Request $request)
     {
-        switch ($request->caso) {
+        switch ($request->idParametro) {
             case 1: // Cloro
                 # code...
                 $model = LoteDetalleCloro::find($request->idDetalle);
                 $model->Observacion = $request->observacion;
                 $model->save();
                 break;
-            case 2: // Dqo
+            case 6: // Dqo
                 # code...
                 $model = LoteDetalleDqo::find($request->idDetalle);
                 $model->Observacion = $request->observacion;

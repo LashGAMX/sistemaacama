@@ -479,19 +479,20 @@ function guardarNitrogeno() {
     });
 }
 
-function updateObsVolumetria(caso, obs) {
+function updateObsVolumetria() {
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/updateObsVolumetria",
         data: {
-            caso: caso,
+            idParametro: $("#formulaTipo").val(),
             idDetalle: idMuestra,
-            observacion: $("#" + obs).val(),
+            observacion: $("#observacionModal").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
+            alert("Observacion Aplicada");
             getLoteCapturaVol();
         }
     });
