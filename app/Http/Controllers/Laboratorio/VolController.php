@@ -392,7 +392,7 @@ class VolController extends Controller
         
 
         $data = array(
-            'mdoel' => update
+            'mdoel' => $update
         );
         return response()->json($data);
 
