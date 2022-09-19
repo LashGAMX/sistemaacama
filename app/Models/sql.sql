@@ -281,11 +281,12 @@ INNER JOIN area_analisis as a
 ON t.Id_area = a.Id_area_analisis
 
 /* Lista ViewLoteAnalisis */ 
-CREATE VIEW ViewLoteAnalisis as SELECT lo.*,a.Area_analisis,pa.Parametro,pa.Id_tipo_formula,pa.Tipo_formula FROM lote_analisis as  lo 
+CREATE VIEW ViewLoteAnalisis as SELECT lo.*,a.Area_analisis,pa.Parametro,pa.Id_tipo_formula,pa.Tipo_formula,pa.Limite FROM lote_analisis as  lo 
 INNER JOIN area_analisis as a
 ON lo.Id_area = a.Id_area_analisis
 INNER JOIN ViewParametros as pa
 ON lo.Id_tecnica = pa.Id_parametro
+
 
 /* Lista ViewDetalleLote */ 
 CREATE VIEW ViewLoteDetalle as SELECT lote.*,sol.Folio_servicio,sol.Empresa,sol.Empresa_suc,pa.Parametro, ar.Area_analisis, control.Control FROM lote_detalle as lote

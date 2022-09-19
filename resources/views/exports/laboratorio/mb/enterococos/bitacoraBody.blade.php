@@ -23,30 +23,21 @@
     <table autosize="1" class="tabla" border="1">
         <thead>
             <tr>
-                <th  style="font-size: 10px">No. De muestra</th>
-                <th  style="font-size: 10px">Dilucion empleadas</th>
+                <th  style="font-size: 10px" rowspan="2">No. De muestra</th>
+                <th  style="font-size: 10px" rowspan="2">Dilucion empleadas</th>
                 <th  style="font-size: 10px" colspan="6">Prueba presuntiva</th>
-                <th  style="font-size: 10px">Resultado presuntiva</th>
+                <th  style="font-size: 10px" rowspan="2">Resultado presuntiva</th>
                 <th  style="font-size: 10px" colspan="6">Prueba confirmativa</th>
-                <th  style="font-size: 10px">N.M.P obtenido</th>
-                <th  style="font-size: 10px">Resultado NMP/100 mL (Tabla)</th>
-                <th  style="font-size: 10px">Resultado NMP/100 mL (Formula 1 )</th>
-                <th  style="font-size: 10px">Resultado NMP/100 mL (Formula 2 ) mL (Formula 1 )</th>
+                <th  style="font-size: 10px" rowspan="2">N.M.P obtenido</th>
+                <th  style="font-size: 10px" rowspan="2">Resultado NMP/100 mL (Tabla)</th>
+                <th  style="font-size: 10px" rowspan="2">Resultado NMP/100 mL (Formula 1 )</th>
+                <th  style="font-size: 10px" rowspan="2">Resultado NMP/100 mL (Formula 2 ) mL (Formula 1 )</th>
             </tr>
             <tr>
-                <tr>
-                    <th></th>
-                    <th></th>
-                    <th style="font-size: 8px" colspan="3">24 horas</th>
-                    <th style="font-size: 8px" colspan="3">48 horas</th>
-                    <th></th>
-                    <th style="font-size: 8px" colspan="3">Resultados con agar selectivo 24 horas, registra en las columnas el número de placas que presentan crecimiento de Enterococos (ver morfología colonial)</th>
-                    <th style="font-size: 8px" colspan="3">Caldo BHI 48 horas</th>
-                    <th></th>
-                    <th></thead>
-                    <th></th>
-                    <th></th>
-                </tr>
+                <th style="font-size: 8px" colspan="3">24 horas</th>
+                <th style="font-size: 8px" colspan="3">48 horas</th>
+                <th style="font-size: 8px" colspan="3">Resultados con agar selectivo 24 horas, registra en las columnas el número de placas que presentan crecimiento de Enterococos (ver morfología colonial)</th>
+                <th style="font-size: 8px" colspan="3">Caldo BHI 48 horas</th>
             </tr>
         </thead>
         <tbody>

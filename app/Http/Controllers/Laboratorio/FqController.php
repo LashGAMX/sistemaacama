@@ -2068,12 +2068,11 @@ class FqController extends Controller
     
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
-                
-        
-                
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
                 $data = array(  
                     'lote' => $lote,
                     'model' => $model,
+                    'curva' => $curva,
                     // 'textoProcedimiento' => $textoProcedimiento,
                 );
                 

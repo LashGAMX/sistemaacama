@@ -371,7 +371,7 @@ function createControlesCalidadMb()
 //Función imprimir PDF
 function imprimir(id) {
     //ABRE LA RUTA ESPECÍFICADA EN UNA NUEVA PESTAÑA
-    window.open(base_url + "/admin/laboratorio/" + area + "/captura/exportPdfCaptura/" + id);
+    window.open(base_url + "/admin/laboratorio/" + area + "/captura/exportPdfCapturaMb/" + id);
     //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCaptura/" + idLote;    
 }
 function metodoCortoCol(){

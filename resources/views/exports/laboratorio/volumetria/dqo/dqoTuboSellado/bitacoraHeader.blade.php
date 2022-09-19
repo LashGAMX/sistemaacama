@@ -1,6 +1,6 @@
 
 <p id='titulo'>
-    MEDICION DE DEMANDA QUIMICA DE OXIGENO ALTA (DQO) (NMX-AA-030/1-SCFI-2012) PROCEDIMIENTO: PE-10-002-14
+    DETERMINACION DE LA DEMANDA QUÍMICA DE OXIGENO POR EL MÉTODO DE TUBO PROCEDIMIENTO: PE-10-002-41
 </p>
 
 <span class='textofecha'>Fecha de análisis </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;

@@ -20,25 +20,25 @@
 
     <div class="contenedorTabla">
         <p style="font-size: 10px">Resultado de las muestras</p>
-        <table autosize="1" class="table table-borderless" id="tablaDatos">
+        <table autosize="1" class="tabla" border="1">
             <thead>
                 <tr>
-                    <th class="tableCabecera anchoColumna">No. de muestras</th>
-                    <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
-                    <th class="tableCabecera anchoColumna">Abs 1</th>
-                    <th class="tableCabecera anchoColumna">Abs 2</th>
-                    <th class="tableCabecera anchoColumna">Abs 3</th>
-                    <th class="tableCabecera anchoColumna">Abs Promedio</th>
-                    <th class="tableCabecera anchoColumna">DEMANDA QUIMICA DE OXIGENO POR MÉTODO DE TUBO SELLADO DE ALTA CONCENTRACIÓN (DQO) mg/L</th>
-                    <th class="tableCabecera anchoColumna">Observaciones</th>                    
-                    <th class="anchoColumna"></th>
-                    <th class="anchoColumna"></th>
+                    <th>No. de muestras</th>
+                    <th>Volumen de muestra (mL)</th>
+                    <th>Abs 1</th>
+                    <th>Abs 2</th>
+                    <th>Abs 3</th>
+                    <th>Abs Promedio</th>
+                    <th>DEMANDA QUIMICA DE OXIGENO POR MÉTODO DE TUBO SELLADO DE ALTA CONCENTRACIÓN (DQO) mg/L</th>
+                    <th>Observaciones</th>                    
+                    <th></th>
+                    <th></th>
                 </tr>
             </thead>
     
             <tbody>
                 @foreach ($loteDetalle as $item)
-            
+                    @if ($item->Tecnica == 1)
                     <tr>
                         <td class="tableContent">{{$item->Codigo}}</td>
                         <td class="tableContent">{{$item->Vol_muestra}}</td>
@@ -55,6 +55,7 @@
                         @endif</td>
                         <td class="tableContent">{{$item->Control}}</td>
                     </tr>
+                    @endif
                 @endforeach
             </tbody>        
         </table>  

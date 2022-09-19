@@ -85,7 +85,7 @@
   
 
     <div id="contenidoCurva">
-        <span id='curvaProcedimiento'>Valoración</span> 
+        {{-- <span id='curvaProcedimiento'>Valoración</span>  --}}
         
     </div>
 
@@ -116,7 +116,7 @@
                         <td class="tableCabecera">m = </td>
                         <td class="tableContent">{{@$curva->M}}</td>                        
                         <td class="tableCabecera">Límite de cuantificación: </td>
-                        <td class="tableContent"> <{{@$limiteC->Limite}}</td>
+                        <td class="tableContent"> <{{@$lote->Limite}}</td>
                     </tr>
 
                     <tr>
