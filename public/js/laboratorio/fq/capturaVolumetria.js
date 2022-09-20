@@ -181,7 +181,7 @@ function getLoteCapturaVol() {
                             if (item.Tecnica == 2) {
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDqo">Capturar</button>';
                             } else {
-                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalEspectroDbo">Capturar</button>';
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',2);" data-toggle="modal" id="captura'+item.Id_detalle+'" data-target="#modalEspectroDbo">Capturar</button>';
                             }
                             break;
                         case '9':
@@ -206,8 +206,8 @@ function getLoteCapturaVol() {
                 }
                 tab += '<td><input disabled style="width: 100px" value="' + item.Folio_servicio + '"></td>';
                 //todo  --Sección de radioButtons --
-                tab += '<td><input type="radio" checked id="radioEspectro" name="tipo'+item.Id_detalle+'"><label>&nbspEspectro</label><br>';
-                tab += '<input type="radio" id="radioVolumetrico" name="tipo'+item.Id_detalle+'"><label>&nbspVolumetrico</label></td>';
+                tab += '<td><input type="radio" checked id="radioEspectro" value="1" name="tipo'+item.Id_detalle+'"><label>&nbspEspectro</label><br>';
+                tab += '<input type="radio" id="radioVolumetrico" value="2" name="tipo'+item.Id_detalle+'"><label>&nbspVolumetrico</label></td>';
                 //todo -- --
                 tab += '<td><input disabled style="width: 200px" value="' + item.Clave_norma + '"></td>';
                 if (item.Resultado != null) {
@@ -518,6 +518,13 @@ function enviarObsGeneralVol(){
 }
 
 function getDetalleVol(idDetalle, caso) {
+
+    var radio = $('input:radio[name=tipo'+idDetalle+']:checked').val();
+    if (radio == 2) {
+        $('#captura'+idDetalle+'').attr('data-target','#modalDqo')
+    } else if (radio == 1) {
+        $('#captura'+idDetalle+'').attr('data-target','#modalEspectroDbo')
+    }
     /*
         Caso 1 = Cloro
         caso 2 = DQO
