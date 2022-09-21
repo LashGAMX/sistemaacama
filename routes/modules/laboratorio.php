@@ -7,6 +7,7 @@ use App\Http\Controllers\Laboratorio\MbController;
 use App\Http\Controllers\Laboratorio\MetalesController;
 use App\Http\Controllers\laboratorio\MicroController;
 use App\Http\Controllers\Laboratorio\VolController;
+use App\Http\Controllers\Seguimiento\SeguimientoController;
 use App\Models\Laboratorio;
 use Illuminate\Support\Facades\Route;
 
@@ -237,6 +238,10 @@ Route::group(['prefix' => 'laboratorio'], function () {
                         
             Route::get('captura/exportPdfCaptura/{idLote}', [MbController::class, 'exportPdfCaptura']);
             Route::get('captura/exportPdfCapturaMb/{idLote}', [MbController::class, 'exportPdfCapturaMb']);
+            
+            //? Cliente seguimiento
+            Route::get('cliente/seguimiento',[SeguimientoController::class,'index']);
+      
         });
 
     //? Módulo curva - Creación de curva
