@@ -11,6 +11,11 @@ use App\Http\Controllers\Seguimiento\SeguimientoController;
 use App\Models\Laboratorio;
 use Illuminate\Support\Facades\Route;
 
+Route::group(['prefix' => 'admin'], function (){
+    //? Cliente seguimiento
+    Route::get('seguimiento',[SeguimientoController::class,'index']);
+});
+
 Route::group(['prefix' => 'laboratorio'], function () {
 
     //! Grupo de metales
@@ -239,9 +244,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::get('captura/exportPdfCaptura/{idLote}', [MbController::class, 'exportPdfCaptura']);
             Route::get('captura/exportPdfCapturaMb/{idLote}', [MbController::class, 'exportPdfCapturaMb']);
             
-            //? Cliente seguimiento
-            Route::get('cliente/seguimiento',[SeguimientoController::class,'index']);
-      
+          
         });
 
     //? Módulo curva - Creación de curva
