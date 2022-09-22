@@ -10,6 +10,7 @@ use App\Http\Middleware\Authenticate;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Informes\InformesController;
+use App\Http\Controllers\Seguimiento\SeguimientoController;
 
 
 /*
@@ -40,6 +41,11 @@ Route::group(['prefix' => 'clientes'], function () {
     Route::get('exportPdfConComparacion/{idSol}', [InformesController::class, 'pdfConComparacionCli']);
     Route::get('exportPdfCustodiaInterna/{idSol}', [InformesController::class, 'custodiaInternaCli']);
     Route::get('hojaCampo/{id}', [CampoController::class, 'hojaCampoCli']);
+});
+
+Route::group(['prefix' => 'admin'], function (){
+    //? Cliente seguimiento
+    Route::get('seguimiento',[SeguimientoController::class,'index']);
 });
 
 
