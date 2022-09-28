@@ -31,6 +31,7 @@ class Parametro extends Model
         'F_fin_vigencia',
         'Precio',
         'Envase',
+        'Curva',
         'Id_user_c',
         'Id_user_m',
     ];
