@@ -11,10 +11,6 @@ use App\Http\Controllers\Seguimiento\SeguimientoController;
 use App\Models\Laboratorio;
 use Illuminate\Support\Facades\Route;
 
-Route::group(['prefix' => 'admin'], function (){
-    //? Cliente seguimiento
-    Route::get('seguimiento',[SeguimientoController::class,'index']);
-});
 
 Route::group(['prefix' => 'laboratorio'], function () {
 

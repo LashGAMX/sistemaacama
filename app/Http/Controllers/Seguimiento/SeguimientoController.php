@@ -8,6 +8,6 @@ use Illuminate\Http\Request;
 class SeguimientoController extends Controller
 {
     public function index(){
-        return view('seguimiento/seguimeinto');
+        return view('seguimiento/seguimiento');
     }
 }
