@@ -29,7 +29,7 @@
             </div>
 
         </div>
-        <div id="adminmenu">
+        <div id="adminmenu" style="background: #353d47">
             @php
                 $idRol = Auth::user()->role->id;
             @endphp
@@ -43,11 +43,7 @@
                 @default
                     
             @endswitch
-            @if ($idRol == 10)
             
-            @else
-            
-            @endif
         </div>
     </nav>
 </div>

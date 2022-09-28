@@ -14,4 +14,8 @@ class UsuariosController extends Controller
         $model = Usuario::all();
         return view('usuarios.lista_usuarios', compact('model'));
     }
+    public function menuPerfil()
+    {
+        return view('usuarios.menuPerfil');
+    }
 }
