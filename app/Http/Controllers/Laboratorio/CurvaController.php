@@ -45,7 +45,7 @@ class CurvaController extends Controller
     }
     public function getParametroModal(Request $request) //obtiene los parametros segun el area (modal crear)
     {
-        $parametro = Parametro::where('Id_area', $request->idArea)->get();
+        $parametro = Parametro::where('Id_area', $request->idArea)->where('Curva', 1)->get();
         // $parametro = DB::ViewParametros()->where('Id_area', $request->idArea)->get();
 
         $data = array(
