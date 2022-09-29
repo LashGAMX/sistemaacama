@@ -50,15 +50,15 @@
         if(isset($options->icon) && $options->icon == true){
             $icon = '<i class="' . $item->icon_class . '"></i>';
         }
-
+ 
     @endphp
-<div class="accordion" id="accordionExample">
+<div class="accordion" id="accordionExample" style="background: #353d47">
 
-    <div class="card">
-      <div class="card-header" id="headingTwo">
+    <div class="card"> 
+      <div class="card-header" id="headingTwo" style="background: #353d47">
         <h2 class="mb-0">
           <button class="btn btn-link btn-block text-left collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-            <a href="{{ url($item->link()) }}" target="{{ $item->target }}" style="{{ $styles }}" {!! $linkAttributes ?? '' !!}>
+            <a href="{{ url($item->link()) }}" target="{{ $item->target }}" style="{{ $styles }} color:#fff" {!! $linkAttributes ?? '' !!}>
                 <i class="{{$item->icon_class}}"></i>&nbsp;{{ $item->title }}</span>
             </a>
           </button>
@@ -71,7 +71,7 @@
                 <div class="card">
                     <div class="card-header" id="headingTwo">
                       <h2 class="mb-0">
-                        <a href="{{ url($item2->link()) }}" style="font-size:50%"><i class="{{$item2->icon_class}}"></i>&nbsp;<span>{{ $item2->title }}</span></a>
+                        <a href="{{ url($item2->link()) }}" style="font-size:50%;color:#fff;"><i class="{{$item2->icon_class}}"></i>&nbsp;<span>{{ $item2->title }}</span></a>
                       </h2>
                     </div>
                 </div>

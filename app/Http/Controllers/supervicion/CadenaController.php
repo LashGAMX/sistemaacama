@@ -97,20 +97,18 @@ class CadenaController extends Controller
                 $gasto = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
                     ->where('Activo', 1)->get();
                 $res1 = array();
-                $sumaRes1 = 0;
+                $promTemp = 0;
+                foreach ($gastoas as $item){
+                    $promTemp = $promTemp + $item->Promedio;
+                }
+                $promGasto = $promTemp / $gasto->count();
+
+                $res = 0;
                 for ($i = 0; $i < sizeof($model); $i++) {
-                    array_push($res1, $model[$i]->Resultado * $gasto[$i]->Promedio);
-                    $sumaRes1 = $sumaRes1 + ($model[$i]->Resultado * $gasto[$i]->Promedio);
+                    $res = $res + (($model[$i]->Resultado * $gasto[$i]->Promedio) / $promGasto);
                 }
-                $res2 = array();
-                for ($i = 0; $i < sizeof($res1); $i++) {
-                    array_push($res2, $res1[$i] / $sumaRes1);
-                }
-                $promedio = 0;
-                for ($i = 0; $i < sizeof($res2); $i++) {
-                    $promedio = $promedio + ($res2[$i] * $model[$i]->Resultado);
-                }
-                $aux = $promedio;
+        
+                $aux = $res/$model->count();
                 break;
             case 6: // Micro
                 if ($codigoModel->Id_parametro == 5) {
@@ -157,7 +155,7 @@ class CadenaController extends Controller
                 break;
         }
         $data = array(
-            'aux' => $aux,
+            'aux' => $aux, 
             'paraModel' => $paraModel,
             'codigoModel' => $codigoModel,
             'model' => $model,
