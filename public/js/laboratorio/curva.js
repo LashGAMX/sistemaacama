@@ -445,22 +445,33 @@ function buscar() {
                 //todo Crea el blanco
                 $.each(response.stdModel, function (key, item) {
                     if (response.area == 2 || response.idParametroModal == 95 || response.idParametroModal == 243 ) {
-                        tab += '<tr>';
+                        if (cont == 0){
+                            tab += '<tr>';
+                            tab += '<td>' + item.Id_std + '</td>';
+                            tab += '<td>' + item.STD + '</td>';
+                            tab += '<td><input id="curCon' + cont + '" value="0"></td>';
+                            tab += '<td><input id="curStd1' + cont + '" value="0.0"></td>';
+                            tab += '<td><input id="curStd2' + cont + '" value="0.0"></td>'; 
+                            tab += '<td><input id="curStd3' + cont + '" value="0.0"></td>';
+                            tab += '<td><input id="curProm' + cont + '" value="0.0" readonly></td>';
+                            tab += '</tr>'; 
+                        } else {
+                            tab += '<tr>';
                         tab += '<td>' + item.Id_std + '</td>';
                         tab += '<td>' + item.STD + '</td>';
-                        tab += '<td><input id="curCon' + cont + '" value="0"></td>';
-                        tab += '<td><input id="curStd1' + cont + '" value="0.0"></td>';
-                        tab += '<td><input id="curStd2' + cont + '" value="0.0"></td>'; 
-                        tab += '<td><input id="curStd3' + cont + '" value="0.0"></td>';
-                        tab += '<td><input id="curProm' + cont + '" value="0.0" readonly></td>';
+                        tab += '<td><input  id="curCon' + cont + '" value="' + response.concentracion[cont -1].Concentracion + '"></td>';
+                        tab += '<td><input id="curStd1' + cont + '" value="' + item.ABS1 + '"></td>';
+                        tab += '<td><input id="curStd2' + cont + '" value="' + item.ABS2 + '"></td>';
+                        tab += '<td><input id="curStd3' + cont + '" value="' + item.ABS3 + '"></td>';
+                        tab += '<td><input id="curProm' + cont + '" value="' + item.Promedio + '" readonly></td>';
                         tab += '</tr>';
+                        }
+                        
                     }else{
                         tab += '<tr>';
                         tab += '<td>' + item.Id_std + '</td>';
                         tab += '<td>' + item.STD + '</td>';
-                        if (cont == 0) tab += '<td><input  id="curCon' + cont + '" value="' + response.concentracion[cont].Concentracion + '"></td>';
-                        else tab += '<td><input  id="curCon' + cont + '" value="' + response.concentracion[cont -1].Concentracion + '"></td>';   
-                        
+                        tab += '<td><input  id="curCon' + cont + '" value="' + response.concentracion[cont].Concentracion + '"></td>';
                         tab += '<td><input id="curStd1' + cont + '" value="' + item.ABS1 + '"></td>';
                         tab += '<td><input id="curStd2' + cont + '" value="' + item.ABS2 + '"></td>';
                         tab += '<td><input id="curStd3' + cont + '" value="' + item.ABS3 + '"></td>';

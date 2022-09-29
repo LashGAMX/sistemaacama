@@ -5,7 +5,7 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="fas fa-chart-area"></i>
-    Curva de calibración <input id="idVal" value="{{@$id}}" hidden>
+    Curva de calibración<input id="idVal" value="{{@$id}}" hidden>
   </h6>
 
   

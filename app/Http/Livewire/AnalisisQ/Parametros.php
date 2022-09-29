@@ -50,6 +50,7 @@ class Parametros extends Component
     public $procedimiento;
     public $simbologia;
     public $simbologiaInforme;
+    public $curva;
     public $status;
     public $nota;
 
@@ -102,6 +103,10 @@ class Parametros extends Component
     }
     public function create()
     {
+        $curv= 0;
+        if ($this->curva == true){
+            $curv = 1;
+        }
         $this->validate();
         $parametro = Parametro::create([
             'Id_laboratorio' => $this->laboratorio,
@@ -119,6 +124,8 @@ class Parametros extends Component
             'Id_simbologia_info' => $this->simbologiaInforme,
             'Id_user_c' => $this->idUser,
             'Id_user_m' => $this->idUser,
+            'Curva' => $curv,
+            
         ]);
 
         for ($i=0; $i < sizeof($this->norma); $i++) { 
@@ -146,6 +153,10 @@ class Parametros extends Component
     }
     public function store()
     {
+        $curv = 0;
+        if ($this->curva == true){
+            $curv = 1;
+        }
         $this->validate();
         Parametro::withTrashed()->find($this->idParametro)->restore();
         $model = Parametro::find($this->idParametro);
@@ -163,6 +174,7 @@ class Parametros extends Component
         $model->Id_simbologia = $this->simbologia;
         $model->Id_simbologia_info = $this->simbologiaInforme;
         $model->Id_user_m = $this->idUser;
+        $model->Curva = $curv;
         $this->historial();
         $model->save();
 

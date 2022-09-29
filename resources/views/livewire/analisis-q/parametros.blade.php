@@ -101,7 +101,11 @@
                                 <input wire:model='status' type="checkbox" class="custom-control-input" id="customSwitch1">
                                 <label class="custom-control-label" for="customSwitch1">Status</label>
                             </div>
-                        @endif            
+                        @endif     
+                        <div class="custom-control custom-switch">
+                            <input wire:model='curva' type="checkbox" class="custom-control-input" id="curva">
+                            <label class="custom-control-label" for="customSwitch1">Curva</label>
+                        </div>       
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
