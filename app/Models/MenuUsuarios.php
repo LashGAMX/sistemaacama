@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Model;
 
-class MetodoAforo extends Model
+class MenuUsuarios extends Model
 {
     
-    use HasFactory,SoftDeletes;
+    use HasFactory;
 
     protected $table = 'menu_usuarios';
     protected $primaryKey = 'Id_menu';

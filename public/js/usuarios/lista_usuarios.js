@@ -10,5 +10,9 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos encontrados",
         }
     });    
- 
+    $('#tableUser tbody').on( 'dblclick', 'tr', function () {
+        let dato = $(this).find('td:first').html();
+        window.location = base_url+"/admin/usuarios/menuUser/"+dato
+    });
+    
 });

@@ -530,3 +530,8 @@ ON det.Id_tipo = tipo.Id_tipo
 CREATE VIEW ViewPrecioPaquete as SELECT paq.*, sub.Id_norma,sub.Clave FROM `precio_paquete` as paq
 INNER JOIN sub_normas as  sub
 ON paq.Id_paquete = sub.Id_subnorma
+
+/* ViewMenuUsuarios */
+CREATE VIEW ViewMenuUsuarios as SELECT m.Id_menu,m.Id_user,m.Id_item,it.* FROM menu_usuarios as m
+INNER JOIN menu_items as it
+ON m.Id_item = it.id
