@@ -31,15 +31,13 @@ class CurvaController extends Controller
         return view('laboratorio/curva', compact('model', 'area', 'parametro'));
     }
 
-    public function getParametro(Request $request)
+    public function getParametro(Request $request) // Obtiene el parametro fuera de la modal
     {
-        $idLote = $request->idLote;
-        $model = LoteAnalisis::where('Id_lote', $idLote)->first();
-        $parametro = Parametro::where('Id_area', $request->idArea)->get();
+        
+        $parametro = Parametro::where('Id_area', $request->idArea)->where('Curva', 1)->get();
 
         $data = array(
             'parametro' => $parametro,
-            'idLote' => $idLote,
         );
         return response()->json($data);
     }
