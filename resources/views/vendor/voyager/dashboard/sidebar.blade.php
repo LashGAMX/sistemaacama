@@ -38,7 +38,7 @@
                 <admin-menu :items="{{ menu('admin', '_json') }}"></admin-menu>
                     @break
                 @case(4)
-                {{ menu('lab', 'bootstrap') }}
+                {{ menu('lab','bootstrap') }}
                     @break
                 @default
                     
