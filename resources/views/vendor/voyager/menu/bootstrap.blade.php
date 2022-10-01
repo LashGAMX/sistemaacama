@@ -8,24 +8,36 @@ $menuH = DB::table('ViewMenuUsuarios')
     ->get();
 @endphp
 
-<ul>
+<ul class="nav">
 
 
     @foreach ($menuP as $item)
 
 
-        <li class="">
-            <a href="{{ $item->route }}" target="{{ $item->target }}" >
-                t
-                <span>{{ $item->title }}</span>
+        <li class="nav-item">
+            <a target="{{ $item->target }}" data-toggle="collapse" href="#colls{{ $item->id }}" role="button" aria-expanded="false" aria-controls="colls{{ $item->id }}">
+                <i class="{{ $item->icon_class }}"></i><span> {{ $item->title }}</span>
             </a>
-            {{-- @if (!$originalItem->children->isEmpty())
-                @include('voyager::menu.default', [
-                    'items' => $originalItem->children,
-                    'options' => $options,
-                ])
-            @endif --}}
         </li>
+        <div class="collapse" id="colls{{ $item->id }}">
+            <div class="card card-body">
+                <ul class="nav">
+                @foreach ($menuH as $item2)
+                    @if ($item->id == $item2->parent_id)
+                        <li class="nav-item">
+                            <a href="@if ($item2->url != '')
+                                {{ url($item2->url) }}
+                            @else
+                                {{ route($item2->route) }}
+                            @endif" target="{{ $item->target }}">
+                                <i class="{{ $item2->icon_class }}"></i><span> {{ $item2->title }}</span>
+                            </a>
+                        </li>           
+                    @endif
+                @endforeach
+                </ul>
+            </div>
+        </div>
     @endforeach
 
 </ul>
