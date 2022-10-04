@@ -68,7 +68,7 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web', 'auth')
                 ->namespace($this->namespace)
                 ->prefix('admin')
-                ->group(base_path('routes/modules/analisisQ.php'));
+                ->group(base_path('routes/modules/analisisQ.php')); 
             Route::middleware('web', 'auth')
                 ->namespace($this->namespace)
                 ->prefix('admin')
@@ -99,13 +99,13 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->prefix('admin')
                 ->group(base_path('routes/modules/historial.php'));
-            Route::middleware('web', 'auth')
+            Route::middleware('web', 'auth') 
                 ->namespace($this->namespace)
                 ->prefix('admin')
                 ->group(base_path('routes/modules/recurso.php'));
             Route::middleware('web', 'auth')
                 ->namespace($this->namespace)
-                ->prefix('admin')
+                ->prefix('admin') 
                 ->group(base_path('routes/modules/ingresar.php'));
             Route::middleware('web', 'auth')
                 ->namespace($this->namespace)
@@ -119,6 +119,10 @@ class RouteServiceProvider extends ServiceProvider
                 ->namespace($this->namespace)
                 ->prefix('admin')
                 ->group(base_path('routes/modules/supervicion.php'));
+            Route::middleware('web', 'auth')
+                ->namespace($this->namespace)
+                ->prefix('admin')
+                ->group(base_path('routes/modules/seguimiento.php'));
         });
     }
 
