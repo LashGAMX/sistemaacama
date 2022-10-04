@@ -221,9 +221,13 @@ class MbController extends Controller
     //MÉTODO DE PRUEBA
     public function capturaMicro()
     {
-        $parametro = Parametro::where('Id_area', 6)->get();
+        $parametro = DB::table('ViewParametros')->where('Id_area','=', 6)->get();
+        $parametro1 = DB::table('ViewParametros')->where('Id_area','=', 3)->get();
+        $parametro2 = DB::table('ViewParametros')->where('Id_area','=', 12)->get();
+        
+
         $controlModel = ControlCalidad::all();
-        return view('laboratorio.mb.captura', compact('parametro', 'controlModel'));
+        return view('laboratorio.mb.captura', compact('parametro', 'parametro1', 'parametro2', 'controlModel'));
     }
 
     public function getLoteMicro(Request $request)
@@ -715,11 +719,13 @@ class MbController extends Controller
     {
         //* Tipo de formulas 
         $parametro = DB::table('ViewParametros')
-            ->orWhere('Id_area', 6)
+            ->Where('Id_area', 6)
             ->get();
+            $parametro1 = DB::table('ViewParametros')->where('Id_area',3)->get();
+            $parametro2 = DB::table('ViewParametros')->where('Id_area',12)->get();
 
         $textoRecuperadoPredeterminado = ReportesMb::where('Id_lote', 0)->first();
-        return view('laboratorio.mb.lote', compact('parametro', 'textoRecuperadoPredeterminado'));
+        return view('laboratorio.mb.lote', compact('parametro','parametro1','parametro2', 'textoRecuperadoPredeterminado'));
     }
 
     public function createLote(Request $request)
