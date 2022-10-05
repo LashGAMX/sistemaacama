@@ -6,7 +6,7 @@ use App\Models\Limite003;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 
-class LimiteParametros003 extends Component
+class LimiteParametros003 extends Component 
 {
     public $idParametro;
     public $alert = false;

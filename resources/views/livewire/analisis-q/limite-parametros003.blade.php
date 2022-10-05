@@ -13,7 +13,7 @@
            <tr>
                <td>{{$model->Serv_indirecto}}</td>
                <td>{{$model->Serv_directo}}</td>
-               <td><button type="button" class="btn btn-primary" wire:click="setData('{{$model->Id_limite}}','{{$model->PromM}}','{{$model->PromD}}','{{$model->Instantaneo}}')" data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
+               <td><button type="button" class="btn btn-primary" wire:click="setData('{{$model->Id_nmx03}}','{{$model->Serv_indirecto}}','{{$model->Serv_directo}}')" data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
             </tr> 
         </tbody>
     </table>
