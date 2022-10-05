@@ -270,6 +270,14 @@ class MbController extends Controller
         );
         return response()->json($data);
     }
+    public function getDetalleColiAlimentos(Request $request) 
+    {
+        $model = DB::table('ViewLoteDetalleColiformes')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
     public function getDetalleCol(Request $request) 
     {
         $model = DB::table('ViewLoteDetalleColiformes')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
@@ -949,6 +957,7 @@ class MbController extends Controller
         $model = array();
         switch ($loteModel->Id_tecnica) {
             case 12: //todo Coliformes+
+            case 134: //coliformes alimentos
                 $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->where('Id_control', 1)->get();
                 break;
             case 35:
@@ -1020,6 +1029,7 @@ class MbController extends Controller
 
         switch ($paraModel->Id_parametro) {
             case 12: //todo Coliformes Fecales
+            case 134:
                 $model = LoteDetalleColiformes::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,

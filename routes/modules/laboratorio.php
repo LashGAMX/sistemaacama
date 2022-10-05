@@ -216,6 +216,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::get('capturaMicro', [MbController::class, 'capturaMicro']);
             Route::post('getLoteMicro', [MbController::class, 'getLoteMicro']);
             Route::post('getLoteCapturaMicro', [MbController::class, 'getLoteCapturaMicro']);
+            Route::post('getDetalleColiAlimentos', [MbController::class, 'getDetalleColiAlimentos']);
             Route::post('getDetalleCol', [MbController::class, 'getDetalleCol']);
             Route::post('getDetalleHH', [MbController::class, 'getDetalleHH']);
             Route::post('getDetalleDbo', [MbController::class, 'getDetalleDbo']);
