@@ -4,16 +4,16 @@
     <table class="table table-hover table-striped">
         <thead class="thead-dark">
             <tr>
-                <th>Indirecto</th>
-                <th>Directo</th>
+                <th>Minimo</th>
+                <th>Maximo</th>
                 <th>Accion</th>
             </tr>
         </thead>
         <tbody>
            <tr>
-               <td>{{$model->Serv_indirecto}}</td>
-               <td>{{$model->Serv_directo}}</td>
-               <td><button type="button" class="btn btn-primary" wire:click="setData('{{$model->Id_nmx03}}','{{$model->Serv_indirecto}}','{{$model->Serv_directo}}')" data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
+               <td>{{$model->Per_min}}</td>
+               <td>{{$model->Per_max}}</td>
+               <td><button type="button" class="btn btn-primary" wire:click="setData('{{$model->Id_nmx127}}','{{$model->Per_min}}','{{$model->Per_max}}')" data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
             </tr> 
         </tbody>
     </table>

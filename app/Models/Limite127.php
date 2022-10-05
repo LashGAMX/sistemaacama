@@ -14,8 +14,9 @@ class Limite127 extends Model
     protected $table = 'limitepnorma_127';
     protected $primaryKey = 'Id_nmx127';
     public $timestamps = true;
-
+ 
     protected $fillable = [
+        'Id_parametro',
         'Per_min',
         'Per_max',        
         'Id_user_c',

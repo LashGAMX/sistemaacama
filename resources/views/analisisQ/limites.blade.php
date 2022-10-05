@@ -22,7 +22,7 @@
         </div>
  
         <div class="col-md-7">
-            <div class="card"> 
+            <div class="card">  
                 <div class="card-body">
                     <h6>Limites</h6>
                     @if (@$sw == true)
@@ -36,7 +36,9 @@
                           @case(4) //Nom003
                             @livewire('analisis-q.limite-parametros003', ['idParametro' => @$idParametro,'idNorma' => @$idNorma])        
                               @break
-                                
+                          @case(5) // Nom127
+                            @livewire('analisis-q.limite-parametros127', ['idParametro' => @$idParametro,'idNorma' => @$idNorma])        
+                              @break
                           @default
                               
                       @endswitch

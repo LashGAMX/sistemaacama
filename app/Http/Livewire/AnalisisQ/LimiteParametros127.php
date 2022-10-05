@@ -2,12 +2,13 @@
 
 namespace App\Http\Livewire\AnalisisQ;
 
-use App\Models\Limite003;
-use Illuminate\Support\Facades\DB;
+use App\Models\Limite127;
 use Livewire\Component;
+use Illuminate\Support\Facades\DB;
 
-class LimiteParametros003 extends Component 
+class LimiteParametros127 extends Component
 {
+    
     public $idParametro;
     public $alert = false;
 
@@ -18,22 +19,22 @@ class LimiteParametros003 extends Component
     public function render()
     {
         $parametro = DB::table('ViewParametros')->where('Id_parametro',$this->idParametro)->first();
-        $model = DB::table('limitepnorma_003')->where('Id_parametro',$this->idParametro)->get();
+        $model = DB::table('limitepnorma_127')->where('Id_parametro',$this->idParametro)->get();
         if($model->count())
         {
-            $model = DB::table('limitepnorma_003')->where('Id_parametro',$this->idParametro)->first();
+            $model = DB::table('limitepnorma_127')->where('Id_parametro',$this->idParametro)->first();
         }else{
             $this->createLimites($this->idParametro);
-            $model = DB::table('limitepnorma_003')->where('Id_parametro',$this->idParametro)->first();
+            $model = DB::table('limitepnorma_127')->where('Id_parametro',$this->idParametro)->first();
         }
 
-        return view('livewire.analisis-q.limite-parametros003',compact('model','parametro')); 
+        return view('livewire.analisis-q.limite-parametros127',compact('model','parametro')); 
     }
     public function store()
     {
-        $model = Limite003::find($this->idLimite);
-        $model->Serv_indirecto = $this->promM;
-        $model->Serv_directo = $this->promD;
+        $model = Limite127::find($this->idLimite);
+        $model->Per_min = $this->promM;
+        $model->Per_max = $this->promD;
         $model->save();
         $this->alert = true;
     }
@@ -46,7 +47,7 @@ class LimiteParametros003 extends Component
     }
     public function createLimites($id)
     {
-        Limite003::create([
+        Limite127::create([
             'Id_parametro' => $this->idParametro,
         ]);
     }
