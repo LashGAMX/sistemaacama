@@ -148,6 +148,7 @@ function getLoteCapturaMicro() {
                 }
                 switch ($("#formulaTipo").val()) {
                     case "12":
+                    
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleCol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                         console.log("Entro a 12");
                         break;

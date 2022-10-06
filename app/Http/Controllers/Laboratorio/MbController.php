@@ -245,6 +245,7 @@ class MbController extends Controller
         $detalle = array();
         switch ($loteModel->Id_tecnica) {
             case 12: //todo Coliformes+
+                case 134:
                 $detalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->get();
                 break;
                 case 35:

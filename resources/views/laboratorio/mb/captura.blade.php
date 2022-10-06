@@ -830,7 +830,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">Observación</label>
-                                    <input type="text" class="form-control" id="observacionDbo"
+                                    <input type="text" class="form-control" id="obsColAlimentos"
                                         placeholder="Observacion de la muestra">
                                 </div>
                                 <div class="form-group">
@@ -898,6 +898,7 @@
                 </form>
             </div>
         </div>
+    </div>
     </div>
 
 
