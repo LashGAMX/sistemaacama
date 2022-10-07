@@ -125,7 +125,7 @@ class CurvaController extends Controller
        if ($estandares != null) {
             $sw = 1;
         } else {
-            $concent = ConcentracionParametro::where('Id_parametro', $request->idParametroModal)->get(); //valores de concentración
+            $concent = DB::table('concentracion_parametro')->where('Id_parametro', $request->idParametroModal)->get(); //valores de concentración
 
             if ($concent->count()) {
                 $paraModel = Parametro::find($request->idParametroModal);

@@ -265,6 +265,7 @@ class FqController extends Controller
                 $resultado = (($x - $request->CB) / $request->CM) * $d;
 
                 break;
+            case 117:
             case 222:
                 # Boro (B) 
                 $x = ($request->X + $request->Y + $request->Z) / 3;
@@ -411,8 +412,13 @@ class FqController extends Controller
     }
     public function getDetalleEspectroSulfatos(Request $request)
     {
+        $fecha = new Carbon($request->fechaAnalisis);
+        $today = $fecha->toDateString();
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
-        $curva = CurvaConstantes::where('Id_lote', $model->Id_lote)->first();
+        $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
+        $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+            ->where('Id_area', $parametro->Id_area)
+            ->where('Id_parametro', $parametro->Id_parametro)->first();
 
         $data = array(
             'model' => $model,
@@ -866,7 +872,7 @@ class FqController extends Controller
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 1)->first();
             } else if ($parametro->Id_parametro == 8 || $parametro->Id_parametro == 56 || $parametro->Id_parametro == 115 || $parametro->Id_parametro == 131 || $parametro->Id_parametro == 272) { // Nitratos
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 2)->first();
-            } else if ($parametro->Id_parametro == 231 || $parametro->Id_parametro == 126) { // Boro
+            } else if ($parametro->Id_parametro == 231 || $parametro->Id_parametro == 117) { // Boro
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 3)->first();
             } else if ($parametro->Id_parametro == 20 || $parametro->Id_parametro == 100) { // Cianuros
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 4)->first();
@@ -2128,7 +2134,7 @@ class FqController extends Controller
         $textBitacora = ReportesFq::where('Id_lote', $id_lote)->get();
         $proced = false;
 
-        if ($parametro->Id_parametro == 222 || $parametro->Id_parametro == 126) { //Boro
+        if ($parametro->Id_parametro == 222 || $parametro->Id_parametro == 117) { //Boro
             $horizontal = 'P';
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
