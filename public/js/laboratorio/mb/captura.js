@@ -236,7 +236,7 @@ function operacionColAlimentos(){
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/operacionColAlimentos",
         data: {
-            idDetalle: idDetalle,
+           // idDetalle: idDetalle,
             confirmativa:$("#confir148").val(),
             _token: $('input[name="_token"]').val()
         },
