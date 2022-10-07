@@ -403,7 +403,7 @@ class MbController extends Controller
         }
         $data = array(
             'resultado' => $resultado,
-            'idDetalle' => $request->idDetalle,
+        
         );
 
         return response()->json($data);
