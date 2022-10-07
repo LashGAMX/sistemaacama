@@ -155,6 +155,97 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="modalColiformesAlimentos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="">Control de calidad</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table" id="">
+                                    <thead>
+                                        <tr>
+                                            <th>Parametro</th>
+                                            <th>Descripción</th>
+                                            <th>Valor</th>
+                                            <th>Valor2</th>
+                                            <th>Tipo</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                                    <tbody>
+                                        <tr>
+                                            <td>D</td>
+                                            <td>Oxigeno inicial</td>
+                                            <td><select type="text" id="dilusiones" value="0">
+                                                <option value="">1</option>
+                                                <option value="">10</option>
+                                                <option value="">100</option>
+                                                <option value="">1000</option>
+                                                <option value="">10000</option>
+                                                <option value="">100000</option>
+                                            </select></td>
+                                            <td><select type="text" id="dilusiones2" value="0">
+                                                <option value="">1</option>
+                                                <option value="">10</option>
+                                                <option value="">100</option>
+                                                <option value="">1000</option>
+                                                <option value="">10000</option>
+                                                <option value="">100000</option>
+                                            </select></td>
+                                            <th>V</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Presuntiva</td>
+                                            <td>24hrs</td>
+                                            <td><input type="text" id="oxigenofinalB1" value="0"></td>
+                                            <td><input type="text" id="oxigenofinalB2" value="0"></td>
+                                            <th>V</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Presuntiva</td>
+                                            <td>48hrs</td>
+                                            <td><input type="text" id="oxigenofinalB1" value="0"></td>
+                                            <td><input type="text" id="oxigenofinalB2" value="0"></td>
+                                            <th>V</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Confirmativa</td>
+                                            <td>24hrs</td>
+                                            <td><input type="text" id="oxigenofinalB1" value="0"></td>
+                                            <td><input type="text" id="oxigenofinalB2" value="0"></td>
+                                            <th>V</th>
+                                        </tr>
+                                        <tr>
+                                            <td>Confirmativa</td>
+                                            <td>48hrs</td>
+                                            <td><input type="text" id="oxigenofinalB1" value="0"></td>
+                                            <td><input type="text" id="oxigenofinalB2" value="0"></td>
+                                            <th>V</th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" onclick="createControlCalidad()" id="guardar"
+                            class="btn btn-primary">Generar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
         <!-- Modal -->
         <div class="modal fade" id="modalCapturaCol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" style="width: 80%;">
@@ -812,93 +903,6 @@
                 </form>
             </div>
         </div>
-    </div>
-
-    <!-- Modal -->
-    <div class="modal fade" id="modalColiformesAlimentos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <form >
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Coliformes Alimentos</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="">Observación</label>
-                                    <input type="text" class="form-control" id="obsColAlimentos"
-                                        placeholder="Observacion de la muestra">
-                                </div>
-                                <div class="form-group">
-                                    {{-- <button class="btn btn-success" type="button"onclick="updateObsMuestra(2,'observacionDbo')"><i class="voyager-check"></i>Aplicar</button> --}}
-                                </div>
-                                <div class="col-md-12">
-                                    <table class="table" id="">
-                                        <thead>
-                                            <tr>
-                                                <th>Parametro</th>
-                                                <th>Descripción</th>
-                                                <th>Valor</th>
-                                                <th>Valor2</th>
-                                                <th>Tipo</th>
-                                            </tr>
-                                        </thead>
-                                        <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
-                                        <tbody>
-                                            <tr>
-                                                <td>V</td>
-                                                <td>Dilusion</td>
-                                                <td><select type="text" id="dilusionAlimentos1" value="0">
-                                                    <option value="1">1</option>
-                                                    <option value="2">10</option>
-                                                    <option value="3">100</option>
-                                                    <option value="4">1000</option>
-                                                    <option value="5">10000</option>
-                                                    <option value="6">100000</option>
-                                                    <option value="7">1000000</option>
-                                                </select></td>
-                                                <td><select type="text" id="dilusionAlimentos2" value="0"></select></td>
-                                                <th>V</th>
-                                            </tr>
-                                            <tr>
-                                                <td>V</td>
-                                                <td></td>
-                                                <td><input type="text" id="oxigenofinalB1" value="0"></td>
-                                                <td><input type="text" id="oxigenofinalB2" value="0"></td>
-                                                <th>V</th>
-                                            </tr>
-                                            <tr>
-                                                <td>V</td>
-                                                <td>Volumen de muestra</td>
-                                                <td><input type="text" id="volMuestraB1" value="0"></td>
-                                                <td><input type="text" id="volMuestraB2" value="0"></td>
-                                                <th>V</th>
-                                            </tr>
-                                        </tbody>
-                                    </table>
-                                </div> 
-                                <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="resultado">Resultado</label>
-                                        <input type="text" id="resDboB" style="font-size: 20px;color:red;" placeholder="Resultado">
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                            <button type="button" class="btn btn-primary" onclick="operacionDbo(2)">Guardar</button>
-                        </div>
-                        
-                </form>
-            </div>
-        </div>
-    </div>
     </div>
 
 
