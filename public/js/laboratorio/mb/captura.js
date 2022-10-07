@@ -166,7 +166,7 @@ function getLoteCapturaMicro() {
                     case "16":
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleHH(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaHH">Capturar</button>';
                         break;
-                        case "134":
+                    case "134":
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalColiformesAlimentos">Capturar</button>';
                         break;
                     default:
@@ -231,8 +231,23 @@ function getLoteCapturaMicro() {
         }
     });
 }
-
-function getDetalleColiAlimentos(){
+function operacionColAlimentos(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionColAlimentos",
+        data: {
+            idDetalle: idDetalle,
+            confirmativa:$("#confir148").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+            $("#resultadoColAlimentos").val(response.resultado)
+        }
+    });
+}
+function getDetalleColiAlimentos(idDetalle){
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getDetalleColiAlimentos",

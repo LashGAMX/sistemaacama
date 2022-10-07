@@ -380,6 +380,36 @@ class MbController extends Controller
 
 
     // }3
+
+    public function operacionColAlimentos(Request $request){
+        $resultado = "";
+
+        switch($request->confirmativa){
+            case 1:
+                $resultado = "1.1";
+                break;
+                case 2:
+                    $resultado = "2.6";
+                    break;
+                    case 3:
+                        $resultado = "4.6";
+                        break;
+                        case 4:
+                            $resultado = "8.0";
+                            break;
+                            case 5:
+                                $resultado = ">8.0";
+                                break;
+        }
+        $data = array(
+            'resultado' => $resultado,
+            'idDetalle' => $request->idDetalle,
+        );
+
+        return response()->json($data);
+    }
+
+
     public function metodoCortoCol(Request $request){
         $convinacion = Nmp1Micro::where('Nmp', $request->NMP)->first();
         $metodoCorto = 1;

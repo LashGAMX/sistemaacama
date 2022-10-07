@@ -176,7 +176,7 @@
                                             <th>Descripción</th>
                                             <th>Valor</th>
                                             <th>Valor2</th>
-                                            <th>Tipo</th>
+                                            
                                         </tr>
                                     </thead>
                                     <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
@@ -200,44 +200,51 @@
                                                 <option value="">10000</option>
                                                 <option value="">100000</option>
                                             </select></td>
-                                            <th>V</th>
+                                            
                                         </tr>
                                         <tr>
-                                            <td>Presuntiva</td>
+                                            <td>Pres.</td>
                                             <td>24hrs</td>
-                                            <td><input type="text" id="oxigenofinalB1" value="0"></td>
-                                            <td><input type="text" id="oxigenofinalB2" value="0"></td>
-                                            <th>V</th>
+                                            <td><input type="text" id="pres124" value="0"></td>
+                                            <td><input type="text" id="pres224" value="0"></td>
+                                            
                                         </tr>
                                         <tr>
-                                            <td>Presuntiva</td>
+                                            <td>Pres.</td>
                                             <td>48hrs</td>
-                                            <td><input type="text" id="oxigenofinalB1" value="0"></td>
-                                            <td><input type="text" id="oxigenofinalB2" value="0"></td>
-                                            <th>V</th>
+                                            <td><input type="text" id="pres148" value="0"></td>
+                                            <td><input type="text" id="pres248" value="0"></td>
+                                            
                                         </tr>
                                         <tr>
-                                            <td>Confirmativa</td>
+                                            <td>Confirm.</td>
                                             <td>24hrs</td>
-                                            <td><input type="text" id="oxigenofinalB1" value="0"></td>
-                                            <td><input type="text" id="oxigenofinalB2" value="0"></td>
-                                            <th>V</th>
+                                            <td><input type="text" id="confir124" value="0"></td>
+                                            <td><input type="text" id="confir224" value="0"></td>
+                                           
                                         </tr>
                                         <tr>
-                                            <td>Confirmativa</td>
+                                            <td>Confir.</td>
                                             <td>48hrs</td>
-                                            <td><input type="text" id="oxigenofinalB1" value="0"></td>
-                                            <td><input type="text" id="oxigenofinalB2" value="0"></td>
-                                            <th>V</th>
+                                            <td><input type="text" id="confir148" value="0"></td>
+                                            <td><input type="text" id="confir248" value="0"></td>
+                                          
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
                     </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="resultado">Resultado</label>
+                            <input type="text" id="resultadoColAlimentos" style="font-size: 20px;color:red;"
+                                placeholder="Resultado">
+                        </div>
+                    </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" onclick="createControlCalidad()" id="guardar"
+                        <button type="button" onclick="operacionColAlimentos()" id="guardar"
                             class="btn btn-primary">Generar</button>
                     </div>
                 </div>
