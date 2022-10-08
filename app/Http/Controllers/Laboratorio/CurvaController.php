@@ -125,7 +125,7 @@ class CurvaController extends Controller
        if ($estandares != null) {
             $sw = 1;
         } else {
-            $concent = ConcentracionParametro::where('Id_parametro', $request->idParametroModal)->get(); //valores de concentración
+            $concent = ConcentracionParametro::where('Id_parametro', "=", $request->idParametroModal)->get(); //valores de concentración
 
             if ($concent->count()) {
                 $paraModel = Parametro::find($request->idParametroModal);
@@ -249,8 +249,11 @@ class CurvaController extends Controller
         $bSuma = 0;
         $cElevada = 0;
         $bc = 0;
-        $a = 0;
-
+        if ($request->area == 2){
+            $a = 0;
+        } else {
+        $a = 1;
+        }
         foreach ($model as $item) {
             $a = $a + 1; //numero de estandares
             $c1 = $c1 + $item->Promedio; // suma de los promedios
