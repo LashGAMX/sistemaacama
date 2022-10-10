@@ -160,8 +160,8 @@ function getLoteCapturaEspectro() {
                     color = "warning"
                 }
                 tab += '<tr>';
-                switch ($("#formulaTipo").val()) {
-                    case 96:
+                switch ($("#formulaTipo").val()) { 
+                    case '95':
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectroSulfatos('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaSulfatos">Capturar</button>';    
                         break;
                     case "152":
@@ -459,6 +459,8 @@ function getDetalleEspectroSulfatos(idDetalle)
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getDetalleEspectroSulfatos",
         data: {
+            formulaTipo: $("#formulaTipo").val(), 
+            fechaAnalisis: $("#fechaAnalisis").val(),
             idDetalle: idDetalle,
             _token: $('input[name="_token"]').val()
         },
