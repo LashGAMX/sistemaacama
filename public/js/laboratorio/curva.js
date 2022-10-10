@@ -444,7 +444,7 @@ function buscar() {
                 tab += '    <tbody>';
                 //todo Crea el blanco
                 $.each(response.stdModel, function (key, item) {
-                    if (response.area == 2 || response.idParametroModal == 95 || response.idParametroModal == 243 ) {
+                    if (response.area == 2 || response.parametro == 95 || response.parametro == 243 ) {
                         if (cont == 0){
                             tab += '<tr>';
                             tab += '<td>' + item.Id_std + '</td>';

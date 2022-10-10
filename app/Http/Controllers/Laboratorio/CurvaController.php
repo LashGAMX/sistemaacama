@@ -94,7 +94,7 @@ class CurvaController extends Controller
             $valbmr = false;
         }
         $data = array(
-            // 'parametro' => $model->parametro,
+            'parametro' => $request->parametro,
             'area' => $request->area,
             'stdModel' => $model,
             'concentracion' => $concent,
@@ -109,7 +109,7 @@ class CurvaController extends Controller
     {
         $swCon = 0;
         $sw = 0;
-   
+        $const = null;
 
         $inicio = new Carbon($request->fechaInicio);
         $fin = new Carbon($request->fechaFin);
@@ -121,11 +121,12 @@ class CurvaController extends Controller
         ->where('Id_area', $request->idAreaModal)
         ->where('Id_parametro', $request->idParametroModal)->first();
 
+        $concent = ConcentracionParametro::where('Id_parametro', "=", $request->idParametroModal)->get(); //valores de concentración
 
        if ($estandares != null) {
             $sw = 1;
-        } else {
-            $concent = ConcentracionParametro::where('Id_parametro', "=", $request->idParametroModal)->get(); //valores de concentración
+        } elseif($concent != null) {
+            
 
             if ($concent->count()) {
                 $paraModel = Parametro::find($request->idParametroModal);
