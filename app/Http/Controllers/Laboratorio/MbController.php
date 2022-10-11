@@ -385,6 +385,8 @@ class MbController extends Controller
         $resultado = "";
 
         switch($request->confirmativa){
+            case 0: $resultado = "0";
+            break;
             case 1:
                 $resultado = "1.1";
                 break;
@@ -401,8 +403,13 @@ class MbController extends Controller
                                 $resultado = ">8.0";
                                 break;
         }
+        $model = LoteDetalleColiformes::find($request->idDetalle);
+        $model->resultado = $resulultado;
+        $model->save();
+
         $data = array(
             'resultado' => $resultado,
+            'model' => $model,
         
         );
 

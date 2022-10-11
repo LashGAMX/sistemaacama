@@ -181,27 +181,7 @@
                                     </thead>
                                     <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
                                     <tbody>
-                                        <tr>
-                                            <td>D</td>
-                                            <td>Oxigeno inicial</td>
-                                            <td><select type="text" id="dilusiones" value="0">
-                                                <option value="">1</option>
-                                                <option value="">10</option>
-                                                <option value="">100</option>
-                                                <option value="">1000</option>
-                                                <option value="">10000</option>
-                                                <option value="">100000</option>
-                                            </select></td>
-                                            <td><select type="text" id="dilusiones2" value="0">
-                                                <option value="">1</option>
-                                                <option value="">10</option>
-                                                <option value="">100</option>
-                                                <option value="">1000</option>
-                                                <option value="">10000</option>
-                                                <option value="">100000</option>
-                                            </select></td>
-                                            
-                                        </tr>
+                                       
                                         <tr>
                                             <td>Pres.</td>
                                             <td>24hrs</td>
@@ -217,7 +197,7 @@
                                             
                                         </tr>
                                         <tr>
-                                            <td>Confirm.</td>
+                                            <td>Confir.</td>
                                             <td>24hrs</td>
                                             <td><input type="text" id="confir124" value="0"></td>
                                             <td><input type="text" id="confir224" value="0"></td>
