@@ -6,7 +6,7 @@
 <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <button></button>
+        <button class="btn btn-success"><i class="fas fa-plus"></i> Crear</button>
       </div>
         <div class="col-md-12" id="divTabla">
             <table class="table">
@@ -15,7 +15,7 @@
                 <th>Sucursal</th>
                 <th>Rama</th>
                 <th>Parámetro</th>
-                <th>Unidad</th>
+                <th>Unidad</th> 
                 <th>Método prueba</th>
                 <th>C. Metodo</th>
                 <th>Norma</th>
@@ -26,9 +26,175 @@
         </div>
       </div>
 </div>
+
+<div class="modal fade" id="modalParametro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Editar parámetro</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+          <div class="row">
+              <div class="col-md-3">
+                <div class="custom-control custom-switch">
+                  <input wire:model='status' type="checkbox" class="custom-control-input" id="customSwitch1">
+                  <label class="custom-control-label" for="customSwitch1">Status</label>
+                </div> 
+                  <div class="custom-control custom-switch">
+                      <input wire:model='curva' type="checkbox" class="custom-control-input" id="curva">
+                      <label class="custom-control-label" for="customSwitch1">Curva</label>
+                  </div>       
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="">Laboratorio</label>
+                          <select class="form-control">
+                          @foreach ($laboratorios as $item)
+                              <option value="{{$item->Id_sucursal}}">{{$item->Sucursal}}</option>
+                          @endforeach
+                        </select>
+                  </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="parametro">Nombre parámetro</label>
+                     <input type="text" class="form-control" placeholder="Parámetro">
+                    </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="">Unidad</label>
+                      <select class="form-control">
+                      @foreach ($unidades as $item)
+                          <option value="{{$item->Id_unidad}}">{{$item->Unidad}}</option>
+                      @endforeach
+                    </select>
+                    </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="">Tipo fórmula</label>
+                      <select class="form-control">
+                      @foreach ($tipos as $item)
+                          <option value="{{$item->Id_tipo_formula}}">{{$item->Tipo_formula}}</option>
+                      @endforeach
+                    </select>
+                    </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="">Area</label>
+                      <select class="form-control" wire:model='area' >
+                      @foreach ($areas as $item)
+                          <option value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
+                      @endforeach
+                    </select>
+                    </div>
+              </div>
+              <div class="col-md-6">
+                  <div class="form-group">
+                      <label for="">Norma</label>
+                      <select class="form-control" id="norma" size="5"  multiple >
+                      @foreach ($normas as $item)
+                        <option value="{{$item->Id_norma}}">{{$item->Clave_norma}}</option>
+                      @endforeach
+                    </select>
+                    </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="limite">Límite Cuantificación</label>
+                     <input type="text" class="form-control" placeholder="Limite">
+                    </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="">Matriz</label>
+                      <select class="form-control" wire:model='matriz' >
+                      @foreach ($matrices as $item)
+                          <option value="{{$item->Id_matriz_parametro}}">{{$item->Matriz}}</option>
+                      @endforeach
+                    </select>
+                    </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="">Rama</label>
+                      <select class="form-control">
+                      @foreach ($ramas as $item)
+                          <option value="{{$item->Id_rama}}">{{$item->Rama}}</option>
+                      @endforeach
+                    </select>
+                    </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="">Método</label>
+                      <select class="form-control">
+                      @foreach ($metodos as $item)
+                          <option value="{{$item->Id_metodo}}">{{$item->Clave_metodo}}</option>
+                      @endforeach
+                    </select>
+                    </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="">Tecnica</label>
+                      <select class="form-control">
+                      @foreach ($tecnicas as $item)
+                          <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
+                      @endforeach
+                    </select>
+                    </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="">Procedimiento análisis</label>
+                      <select class="form-control">
+                      @foreach ($procedimientos as $item)
+                          <option value="{{$item->Id_procedimiento}}">{{$item->Procedimiento}}</option>
+                      @endforeach
+                    </select>
+                    </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="">Simbología Oficial</label>
+                      <select class="form-control">
+                      @foreach ($simbologias as $item)
+                          <option value="{{$item->Id_simbologia}}">{{$item->Simbologia}}</option>
+                      @endforeach
+                    </select>
+                    </div>
+              </div>
+              <div class="col-md-3">
+                  <div class="form-group">
+                      <label for="">Simbología Informes</label>
+                      <select class="form-control">
+                      @foreach ($simbologiasInf as $item)
+                          <option value="{{$item->Id_simbologia_info}}">{{$item->Simbologia}}</option>
+                      @endforeach
+                    </select> 
+                    </div>
+              </div>
+          </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+      </div>
+    </form>
+    </div>
+  </div>
+</div>
+
+
   @stop
   @section('javascript')
-  <script src="{{asset('/public/js/analisisQ/parametro.js')}}?v=0.0.1"></script>
+  <script src="{{asset('/public/js/analisisQ/parametro.js')}}?v=0.0.2"></script>
 @stop  
 @endsection
  

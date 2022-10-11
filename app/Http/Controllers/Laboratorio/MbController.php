@@ -1649,6 +1649,40 @@ class MbController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';  
                 $mpdf->WriteHTML($htmlCaptura); 
                 break;
+            case 134:
+                $mpdf = new \Mpdf\Mpdf([
+                    'orientation' => "L",
+                    'format' => 'letter',
+                    'margin_left' => 10,
+                    'margin_right' => 10,
+                    'margin_top' => 31, 
+                    'margin_bottom' => 45,
+                    'defaultheaderfontstyle' => ['normal'],
+                    'defaultheaderline' => '0' 
+                ]);  
+                $mpdf->SetWatermarkImage(
+                    asset('/public/storage/HojaMembretadaHorizontal.png'),
+                    1,
+                    array(215, 280),
+                    array(0, 0),
+                );
+                $mpdf->showWatermarkImage = true;
+    
+                $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->get();
+                $procedimiento = ReportesMb::where('Id_lote', $idLote)->first();
+                
+                $data = array(  
+                    'lote' => $lote, 
+                    'loteDetalle' => $loteDetalle,
+                    'procedimiento' => $procedimiento, 
+                );
+                
+                $htmlHeader = view('exports.laboratorio.mb.127.coliformes.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.mb.127.coliformes.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';  
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
             default:
                 # code...
                 break;

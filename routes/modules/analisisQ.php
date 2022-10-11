@@ -12,10 +12,14 @@ use App\Http\Controllers\AnalisisQ\ConcentracionController;
 use Illuminate\Support\Facades\Route;
  
 
-
+ 
 Route::group(['prefix' => 'analisisQ'], function () {
 
     Route::get('parametros', [ParametroController::class,'index']); 
+    Route::post('getParametros',[ParametroController::class,'getParametros']);
+    Route::post('getDatoParametro',[ParametroController::class,'getDatoParametro']);
+    Route::post('getNormaParametro',[ParametroController::class,'getNormaParametro']);
+
     Route::get('normas', [NormaController::class,'index']);
 
     Route::get('detalle_normas/{id}', [NormaController::class,'show']);
