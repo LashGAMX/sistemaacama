@@ -403,12 +403,13 @@ class MbController extends Controller
                                 $resultado = ">8.0";
                                 break;
         }
+        $res = (int)$resultado;
         $model = LoteDetalleColiformes::find($request->idDetalle);
-        $model->resultado = $resulultado;
+        $model->Resultado = $res;
         $model->save();
 
         $data = array(
-            'resultado' => $resultado,
+            'resultado' => $res,
             'model' => $model,
         
         );
