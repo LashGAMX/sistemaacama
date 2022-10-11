@@ -236,32 +236,44 @@ function operacionColAlimentos(idDetalle){
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/operacionColAlimentos",
         data: {
-            idDetalle: idDetalle,
-            confirmativa:$("#confir148").val(),
+            idDetalle: idMuestra,
+            presuntiva1:$("#pres124").val(),
+            presuntiva2:$("#pres148").val(),
+            confirmativa1:$("#confir124").val(),
+            confirmativa2:$("#confir148").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response)
-            $("#resultadoColAlimentos").val(response.resultado)
+            if (response.resultado == 8.0){
+                $("#resultadoColAlimentos").val(">"+response.resultado)
+            } else {
+                $("#resultadoColAlimentos").val(response.resultado)
+            }
+            getLoteCapturaMicro();
         }
     });
 }
-function getDetalleColiAlimentos(idDetalle){
+function getDetalleColiAlimentos(idMuestra){
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getDetalleColiAlimentos",
         data: {
-            idDetalle: idDetalle,
+            idDetalle: idMuestra,
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
-
+            console.log(response)
+            $("#pres124").val(response.model.Presuntiva1)
+            $("#pres148").val(response.model.Presuntiva2)
+            $("#confir124").val(response.model.Confirmativa1)
+            $("#confir148").val(response.model.Confirmativa2)
+            $("#resultadoColAlimentos").val(response.model.Resultado)
         }
     });
 }
-
 
 function getDetalleCol(idDetalle) {
     limpiar();

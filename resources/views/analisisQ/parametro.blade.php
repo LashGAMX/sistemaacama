@@ -39,19 +39,19 @@
       <div class="modal-body">
           <div class="row">
               <div class="col-md-3">
-                <div class="custom-control custom-switch">
-                  <input wire:model='status' type="checkbox" class="custom-control-input" id="customSwitch1">
+                {{-- <div class="custom-control custom-switch">
+                  <input type="checkbox" class="custom-control-input" id="status">
                   <label class="custom-control-label" for="customSwitch1">Status</label>
-                </div> 
+                </div>  --}}
                   <div class="custom-control custom-switch">
-                      <input wire:model='curva' type="checkbox" class="custom-control-input" id="curva">
+                      <input type="checkbox" class="custom-control-input" id="curva">
                       <label class="custom-control-label" for="customSwitch1">Curva</label>
                   </div>       
               </div>
               <div class="col-md-3">
                   <div class="form-group">
                       <label for="">Laboratorio</label>
-                          <select class="form-control">
+                          <select class="form-control" id="sucursal">
                           @foreach ($laboratorios as $item)
                               <option value="{{$item->Id_sucursal}}">{{$item->Sucursal}}</option>
                           @endforeach
@@ -61,13 +61,13 @@
               <div class="col-md-3">
                   <div class="form-group">
                       <label for="parametro">Nombre parámetro</label>
-                     <input type="text" class="form-control" placeholder="Parámetro">
+                     <input type="text" class="form-control" placeholder="Parámetro" id="parametro">
                     </div>
               </div>
               <div class="col-md-3">
                   <div class="form-group">
                       <label for="">Unidad</label>
-                      <select class="form-control">
+                      <select class="form-control" id="unidad">
                       @foreach ($unidades as $item)
                           <option value="{{$item->Id_unidad}}">{{$item->Unidad}}</option>
                       @endforeach
@@ -77,7 +77,7 @@
               <div class="col-md-3">
                   <div class="form-group">
                       <label for="">Tipo fórmula</label>
-                      <select class="form-control">
+                      <select class="form-control" id="tipo">
                       @foreach ($tipos as $item)
                           <option value="{{$item->Id_tipo_formula}}">{{$item->Tipo_formula}}</option>
                       @endforeach
@@ -85,9 +85,9 @@
                     </div>
               </div>
               <div class="col-md-3">
-                  <div class="form-group">
+                  <div class="form-group"> 
                       <label for="">Area</label>
-                      <select class="form-control" wire:model='area' >
+                      <select class="form-control" id="area">
                       @foreach ($areas as $item)
                           <option value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
                       @endforeach
@@ -107,13 +107,13 @@
               <div class="col-md-3">
                   <div class="form-group">
                       <label for="limite">Límite Cuantificación</label>
-                     <input type="text" class="form-control" placeholder="Limite">
+                     <input type="text" class="form-control" placeholder="Limite" id="limite">
                     </div>
               </div>
               <div class="col-md-3">
                   <div class="form-group">
                       <label for="">Matriz</label>
-                      <select class="form-control" wire:model='matriz' >
+                      <select class="form-control" id="matriz">
                       @foreach ($matrices as $item)
                           <option value="{{$item->Id_matriz_parametro}}">{{$item->Matriz}}</option>
                       @endforeach
@@ -123,7 +123,7 @@
               <div class="col-md-3">
                   <div class="form-group">
                       <label for="">Rama</label>
-                      <select class="form-control">
+                      <select class="form-control" id="rama">
                       @foreach ($ramas as $item)
                           <option value="{{$item->Id_rama}}">{{$item->Rama}}</option>
                       @endforeach
@@ -133,7 +133,7 @@
               <div class="col-md-3">
                   <div class="form-group">
                       <label for="">Método</label>
-                      <select class="form-control">
+                      <select class="form-control" id="metodo">
                       @foreach ($metodos as $item)
                           <option value="{{$item->Id_metodo}}">{{$item->Clave_metodo}}</option>
                       @endforeach
@@ -143,7 +143,7 @@
               <div class="col-md-3">
                   <div class="form-group">
                       <label for="">Tecnica</label>
-                      <select class="form-control">
+                      <select class="form-control" id="tecnica">
                       @foreach ($tecnicas as $item)
                           <option value="{{$item->Id_tecnica}}">{{$item->Tecnica}}</option>
                       @endforeach
@@ -153,7 +153,7 @@
               <div class="col-md-3">
                   <div class="form-group">
                       <label for="">Procedimiento análisis</label>
-                      <select class="form-control">
+                      <select class="form-control" id="procedimiento">
                       @foreach ($procedimientos as $item)
                           <option value="{{$item->Id_procedimiento}}">{{$item->Procedimiento}}</option>
                       @endforeach
@@ -163,17 +163,17 @@
               <div class="col-md-3">
                   <div class="form-group">
                       <label for="">Simbología Oficial</label>
-                      <select class="form-control">
+                      <select class="form-control" id="simbologia">
                       @foreach ($simbologias as $item)
                           <option value="{{$item->Id_simbologia}}">{{$item->Simbologia}}</option>
                       @endforeach
                     </select>
                     </div>
               </div>
-              <div class="col-md-3">
+              <div class="col-md-3"> 
                   <div class="form-group">
                       <label for="">Simbología Informes</label>
-                      <select class="form-control">
+                      <select class="form-control" id="simbologiaInf">
                       @foreach ($simbologiasInf as $item)
                           <option value="{{$item->Id_simbologia_info}}">{{$item->Simbologia}}</option>
                       @endforeach
@@ -184,7 +184,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        <button type="submit" class="btn btn-primary" id="btnGuardar">Guardar cambios</button>
       </div>
     </form>
     </div>

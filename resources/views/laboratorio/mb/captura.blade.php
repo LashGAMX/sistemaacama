@@ -168,6 +168,18 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
+                        <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Observación</label>
+                                        <input type="text" class="form-control" id="observacionCol"
+                                            placeholder="Observacion de la muestra">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-success" type="button"
+                                            onclick="updateObsMuestra(1,'observacionCol')"
+                                            id="btnAplicarObsColiformes"><i class="voyager-check"></i> Aplicar</button>
+                                    </div>
+                                </div>
                             <div class="col-md-12">
                                 <table class="table" id="">
                                     <thead>

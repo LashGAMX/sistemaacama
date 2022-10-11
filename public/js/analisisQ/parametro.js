@@ -1,9 +1,9 @@
 $(document).ready(function()
 {
-    // $("#guardar").click(function()
-    // {
-    //     create(); 
-    // });
+    $("#btnGuardar").click(function()
+    {
+        // create(); 
+    });
     getParametros();
 
 }); 
@@ -48,7 +48,7 @@ function getParametros(){
             tab += '    <td>'+item.Clave_metodo+'</td>';
             tab += '    <td>'+response.norma[cont]+'</td>';
             tab += '    <td>'+item.Limite+'</td>';
-            tab += '    <td><button class="btn btn-warning" data-toggle="modal" data-target="#modalParametro" onclick="getNormasParametro('+item.Id_parametro+')"><i class="fas fa-edit"></i> Editar</button></td>';
+            tab += '    <td><button class="btn btn-warning" data-toggle="modal" data-target="#modalParametro" onclick="getDatoParametro('+item.Id_parametro+')"><i class="fas fa-edit"></i> Editar</button></td>';
             tab += '</tr>';
             cont++;
           }); 
@@ -70,10 +70,10 @@ function getParametros(){
     }); 
 }
 
-function getNormasParametro(id){
+function getDatoParametro(id){
   let model = '';
   $.ajax({
-    url: base_url + '/admin/analisisQ/getNormaParametro', //archivo que recibe la peticion
+    url: base_url + '/admin/analisisQ/getDatoParametro', //archivo que recibe la peticion
     type: 'POST', //método de envio
     data: { 
       id:id,
@@ -82,9 +82,43 @@ function getNormasParametro(id){
     dataType: 'json', 
     async:false,
     success: function (response) {
-      // var options = ["2", "3"];
-      // $("#norma ").val(options);
+      let temp = new Array();
+      $.each(response.norma, function(key,item){
+        temp.push(item.Id_norma)
+      });
+      
+      $('#curva').prop('checked', response.model.Curva);
+      
+      $("#sucursal option[value="+ response.model.Id_laboratorio +"]").attr("selected",true);
+      $("#parametro").val(response.model.Parametro)
+      $("#unidad option[value="+ response.model.Id_unidad +"]").attr("selected",true);
+      $("#tipo option[value="+ response.model.Id_tipo_formula +"]").attr("selected",true);
+      $("#area option[value="+ response.model.Id_area +"]").attr("selected",true);
+      $("#unidad option[value="+ response.model.Id_unidad +"]").attr("selected",true);  
+      $("#norma").val(temp);
+      $("#limite").val(response.model.Limite);
+      $("#matriz option[value="+ response.model.Id_matriz +"]").attr("selected",true);  
+      $("#rama option[value="+ response.model.Id_rama +"]").attr("selected",true);  
+      $("#metodo option[value="+ response.model.Id_metodo +"]").attr("selected",true);  
+      $("#tecnica option[value="+ response.model.Id_tecnica +"]").attr("selected",true);  
+      $("#procedimiento option[value="+ response.model.Id_procedimiento +"]").attr("selected",true);  
+      $("#simbologias option[value="+ response.model.Id_simbologia +"]").attr("selected",true);  
+      $("#simbologiaInf option[value="+ response.model.Id_simbologia_info +"]").attr("selected",true);  
     } 
 })
 }
- 
+ function updateParametro(){
+  $.ajax({
+    url: base_url + '/admin/analisisQ/updateParametro', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: { 
+      id:id,
+        _token: $('input[name="_token"]').val(),
+      },
+    dataType: 'json', 
+    async:false,
+    success: function (response) {
+      alert("Parametro modificado correctamente!", "success")
+    } 
+})
+ }

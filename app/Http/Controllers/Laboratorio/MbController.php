@@ -384,9 +384,7 @@ class MbController extends Controller
     public function operacionColAlimentos(Request $request){
         $resultado = "";
 
-        switch($request->confirmativa){
-            case 0: $resultado = "0";
-            break;
+        switch($request->confirmativa2){
             case 1:
                 $resultado = "1.1";
                 break;
@@ -400,16 +398,22 @@ class MbController extends Controller
                             $resultado = "8.0";
                             break;
                             case 5:
-                                $resultado = ">8.0";
+                                $resultado = "8.0";
+                                break;
+                                default:
+                                $resultado = "0";
                                 break;
         }
-        $res = (int)$resultado;
         $model = LoteDetalleColiformes::find($request->idDetalle);
-        $model->Resultado = $res;
+        $model->Presuntiva1 = $request->presuntiva1;
+        $model->Presuntiva2 = $request->presuntiva2;
+        $model->Confirmativa1 = $request->confirmativa1;
+        $model->Confirmativa2 = $request->confirmativa2;
+        $model->Resultado = $resultado;
         $model->save();
 
         $data = array(
-            'resultado' => $res,
+            'resultado' => $resultado,
             'model' => $model,
         
         );

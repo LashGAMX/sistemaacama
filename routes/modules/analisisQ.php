@@ -18,7 +18,7 @@ Route::group(['prefix' => 'analisisQ'], function () {
     Route::get('parametros', [ParametroController::class,'index']); 
     Route::post('getParametros',[ParametroController::class,'getParametros']);
     Route::post('getDatoParametro',[ParametroController::class,'getDatoParametro']);
-    Route::post('getNormaParametro',[ParametroController::class,'getNormaParametro']);
+    Route::post('updateParametro',[ParametroController::class,'updateParametro']);
 
     Route::get('normas', [NormaController::class,'index']);
 
