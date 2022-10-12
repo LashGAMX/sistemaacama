@@ -7,6 +7,7 @@ use App\Http\Controllers\Laboratorio\MbController;
 use App\Http\Controllers\Laboratorio\MetalesController;
 use App\Http\Controllers\laboratorio\MicroController;
 use App\Http\Controllers\Laboratorio\VolController;
+use App\Http\Controllers\Laboratorio\DirectosController;
 use App\Http\Controllers\Seguimiento\SeguimientoController;
 use App\Models\Laboratorio;
 use Illuminate\Support\Facades\Route;
@@ -170,6 +171,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
 //****************************************FIN VOLUMETRIA***********************************************
 
+
         Route::get('capturaGravi', [FqController::class, 'capturaGravi']);
         
         // Route::get('captura/exportPdfCapturaGA/{idLote}', [FqController::class, 'exportPdfCapturaGA']);
@@ -189,6 +191,24 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('captura/exportPdfCapturaVolumetria/{idLote}', [VolController::class, 'exportPdfCapturaVolumetria']);
         Route::get('captura/exportPdfBitacoraVol/{idLote}', [VolController::class, 'exportPdfBitacoraVol']);
     });
+    //******************************************DIRECTOS****************************************************
+
+    Route::group(['prefix' => 'directos'], function () {
+        Route::get('lote', [DirectosController::class, 'lote']);
+        Route::post('getLote',[DirectosController::class, 'getLote']); 
+        Route::post('setLote',[DirectosController::class, 'setLote']); 
+        Route::get('loteDetalle/{id}',[DirectosController::class, 'loteDetalle']);
+        Route::post('muestraSinAsignar', [DirectosController::class, 'muestraSinAsignar']);
+        Route::post('asignarMuestraLote', [DirectosController::class, 'asignarMuestraLote']);
+        Route::post('sendMuestrasLote', [DirectosController::class, 'sendMuestrasLote']);
+        Route::post('getMuestraAsignada', [DirectosController::class, 'getMuestraAsignada']);
+        Route::post('delMuestraLote', [DirectosController::class, 'delMuestraLote']);
+
+        Route::get('captura',[DirectosController::class, 'captura']);
+    });
+ 
+
+    //****************************************FIN DIRECTOS***********************************************
         // todo Modulo MicroBiologia
         Route::group(['prefix' => 'micro'], function () {
             //? Modulo Analisis -  Solo visualizar analisis pendientes

@@ -1,0 +1,76 @@
+@extends('voyager::master')
+
+@section('content')
+<link rel="stylesheet" href="{{asset('/public/assets/summer/summernote.min.css')}}">
+  @section('page_header')
+  <h6 class="page-title"> 
+    <i class="voyager-data"></i>    
+    Lote
+  </h6>
+ 
+<div class="container-fluid">
+  <div class="row"> 
+    <div class="col-md-12">
+      <div class="row">   
+         
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="exampleFormControSelect1">Tipo fórmula</label>
+              <select class="form-control" id="parametro">
+                @foreach($parametro as $item)
+                  <option value="{{$item->Id_parametro}}">{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
+                @endforeach
+              </select>
+          </div>
+        </div>
+
+        <div class="col-md-3">
+          <div class="form-group">
+            <label for="">Fecha lote</label>
+            <input type="date" id="fecha" class="form-control" placeholder="Fecha lote">
+          </div>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-success" id="btnCrear"><i class="fas fa-plus"></i> Crear</button>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-info" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>
+        </div>
+        <div class="col-md-1">
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearLote"><i class="fas fa-file-invoice"></i> Datos Lote</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-md-12">
+      <div class="" id="divTable">
+        
+      <table class="table" id="tablaLote"> 
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Tipo formula</th>
+            <th>Fecha lote</th>
+            <th>Fecha creacion</th>
+            <th>Opc</th>
+          </tr>
+        </thead>
+        <tbody>
+                  
+        </tbody>
+      </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  @stop
+  @section('javascript')
+  <!-- include summernote css/js -->
+  <script src="{{asset('/assets/summer/summernote.js')}}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+  <script src="{{asset('/public/js/laboratorio/directos/lote.js')}}"></script>
+@endsection
