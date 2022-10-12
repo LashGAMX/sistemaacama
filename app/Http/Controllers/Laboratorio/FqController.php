@@ -861,6 +861,7 @@ class FqController extends Controller
                     $bandera = 'solidos';
                 }
             } else {
+                
                 $bandera = 'ga';
             }
         } else {
