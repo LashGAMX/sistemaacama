@@ -9,6 +9,7 @@ use App\Models\MatrizParametro;
 use App\Models\MetodoPrueba;
 use App\Models\Norma;
 use App\Models\Parametro;
+use App\Models\ParametroNorma;
 use App\Models\ProcedimientoAnalisis;
 use App\Models\Rama; 
 use App\Models\Regla;
@@ -19,6 +20,7 @@ use App\Models\Tecnica;
 use App\Models\TipoFormula;
 use App\Models\Unidad;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class ParametroController extends Controller
@@ -85,8 +87,42 @@ class ParametroController extends Controller
         );
         return response()->json($data);
     }
-    public function updateParametro()
+    public function updateParametro(Request $res)
     {
-        
+        $curva = 0;
+        if($res->curva == "true"){
+            $curva = 1;
+        }
+        Parametro::withTrashed()->find($res->id)->restore();
+        $model = Parametro::find($res->id);
+        $model->Id_laboratorio = $res->sucursal;
+        $model->Id_tipo_formula = $res->tipo;
+        $model->Id_area = $res->area;
+        $model->Id_rama = $res->rama;
+        $model->Parametro = $res->parametro;
+        $model->Id_unidad = $res->unidad;
+        $model->Id_metodo = $res->metodo;
+        $model->Id_tecnica = $res->tecnica;
+        $model->Limite = $res->limite;
+        $model->Id_procedimiento = $res->procedimiento;
+        $model->Id_matriz = $res->matriz;
+        $model->Id_simbologia = $res->simbologia;
+        $model->Id_simbologia_info = $res->simbologiaInf;
+        $model->Id_user_m = Auth::user()->id;
+        $model->Curva = $curva;
+        $model->save();
+
+        $model = DB::table('parametros_normas')->where('Id_parametro',$res->id)->delete();
+
+        for ($i=0; $i < sizeof($res->norma); $i++) { 
+            $model = ParametroNorma::create([
+                'Id_norma' => $res->norma[$i],
+                'Id_parametro' => $res->id,
+            ]);
+        }
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
     }
 }

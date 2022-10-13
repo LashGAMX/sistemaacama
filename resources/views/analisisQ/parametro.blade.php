@@ -39,6 +39,7 @@
       <div class="modal-body">
           <div class="row">
               <div class="col-md-3">
+                <input type="text" id="idParametro" hidden>
                 {{-- <div class="custom-control custom-switch">
                   <input type="checkbox" class="custom-control-input" id="status">
                   <label class="custom-control-label" for="customSwitch1">Status</label>

@@ -995,7 +995,7 @@ class FqController extends Controller
                 $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
                 break;
             case 10: //todo Gravimetia
-                $detModel = DB::table('lote_detalle_ga')->where('Id_detalle', $request->idDetalle)->delete();
+                $detModel = DB::table('lote_detalle_ga')->where('Id_detaqlle', $request->idDetalle)->delete();
                 $detModel = LoteDetalleGA::where('Id_lote', $request->idLote)->get();  
                 break;
             case 15: //todo Volumetria

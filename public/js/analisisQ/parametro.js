@@ -3,6 +3,7 @@ $(document).ready(function()
     $("#btnGuardar").click(function()
     {
         // create(); 
+        updateParametro()
     });
     getParametros();
 
@@ -82,19 +83,19 @@ function getDatoParametro(id){
     dataType: 'json', 
     async:false,
     success: function (response) {
+      console.log(response);
       let temp = new Array();
       $.each(response.norma, function(key,item){
         temp.push(item.Id_norma)
       });
       
       $('#curva').prop('checked', response.model.Curva);
-      
+      $("#idParametro").val(response.model.Id_parametro)
       $("#sucursal option[value="+ response.model.Id_laboratorio +"]").attr("selected",true);
       $("#parametro").val(response.model.Parametro)
       $("#unidad option[value="+ response.model.Id_unidad +"]").attr("selected",true);
       $("#tipo option[value="+ response.model.Id_tipo_formula +"]").attr("selected",true);
       $("#area option[value="+ response.model.Id_area +"]").attr("selected",true);
-      $("#unidad option[value="+ response.model.Id_unidad +"]").attr("selected",true);  
       $("#norma").val(temp);
       $("#limite").val(response.model.Limite);
       $("#matriz option[value="+ response.model.Id_matriz +"]").attr("selected",true);  
@@ -102,7 +103,7 @@ function getDatoParametro(id){
       $("#metodo option[value="+ response.model.Id_metodo +"]").attr("selected",true);  
       $("#tecnica option[value="+ response.model.Id_tecnica +"]").attr("selected",true);  
       $("#procedimiento option[value="+ response.model.Id_procedimiento +"]").attr("selected",true);  
-      $("#simbologias option[value="+ response.model.Id_simbologia +"]").attr("selected",true);  
+      $("#simbologia option[value="+ response.model.Id_simbologia +"]").attr("selected",true);  
       $("#simbologiaInf option[value="+ response.model.Id_simbologia_info +"]").attr("selected",true);  
     } 
 })
@@ -112,7 +113,22 @@ function getDatoParametro(id){
     url: base_url + '/admin/analisisQ/updateParametro', //archivo que recibe la peticion
     type: 'POST', //método de envio
     data: { 
-      id:id,
+      id:$("#idParametro").val(),
+      curva:$('#curva').prop('checked'),
+      sucursal:$("#sucursal").val(),
+      parametro:$("#parametro").val(),
+      unidad:$("#unidad").val(),
+      tipo:$("#tipo").val(),
+      area:$("#area").val(),
+      norma:$("#norma").val(),
+      limite:$("#limite").val(),
+      matriz:$("#matriz").val(),
+      rama:$("#rama").val(),
+      metodo:$("#metodo").val(),
+      tecnica:$("#tecnica").val(),
+      procedimiento:$("#procedimiento").val(),
+      simbologia:$("#simbologia").val(),
+      simbologiaInf:$("#simbologiaInf").val(),
         _token: $('input[name="_token"]').val(),
       },
     dataType: 'json', 
