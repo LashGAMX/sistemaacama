@@ -75,9 +75,6 @@
             <div class="col-md-12">
                 <div class="row">
                     <div class="col-md-1">
-                        <button class="btn btn-secondary" id="ejecutar">Ejecutar</button>
-                    </div>
-                    <div class="col-md-1">
                         <button class="btn btn-secondary" id="btnLiberar">Liberar</button>
                     </div>
                     <div class="col-md-1">
@@ -129,37 +126,6 @@
                     </div>
                     <div class="modal-body">
                         <div class="row">
-                            <div class="col-md-12">
-                                <div class="form-group">
-                                    <label for="">Tipo</label>
-                                    <select class="form-control" id="controlCalidad">
-                                       
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" onclick="createControlCalidad()" id="guardar"
-                            class="btn btn-primary">Generar</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal -->
-        <div class="modal fade" id="modalColiformesAlimentos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="">Control de calidad</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="row">
                         <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Observación</label>
@@ -177,7 +143,7 @@
                                     <thead>
                                         <tr>
                                             <th>Parametro</th>
-                                            <th>Descripción</th>
+                                           
                                             <th>Valor</th>
                                             <th>Valor2</th>
                                             
@@ -187,31 +153,27 @@
                                     <tbody>
                                        
                                         <tr>
-                                            <td>Pres.</td>
-                                            <td>24hrs</td>
-                                            <td><input type="text" id="pres124" value="0"></td>
-                                            <td><input type="text" id="pres224" value="0"></td>
+                                            <td>L1.</td>
+                                            <td><input type="text" id="lecturaUno1" value="0"></td>
+                                            <td><input type="text" id="lecturaUno2" value="0"></td>
                                             
                                         </tr>
                                         <tr>
-                                            <td>Pres.</td>
-                                            <td>48hrs</td>
-                                            <td><input type="text" id="pres148" value="0"></td>
-                                            <td><input type="text" id="pres248" value="0"></td>
+                                            <td>L2.</td>
+                                            <td><input type="text" id="lecturaDos1" value="0"></td>
+                                            <td><input type="text" id="lecturaDos2" value="0"></td>
                                             
                                         </tr>
                                         <tr>
-                                            <td>Confir.</td>
-                                            <td>24hrs</td>
-                                            <td><input type="text" id="confir124" value="0"></td>
-                                            <td><input type="text" id="confir224" value="0"></td>
+                                            <td>L3.</td>                                         
+                                            <td><input type="text" id="lecturaTres1" value="0"></td>
+                                            <td><input type="text" id="lecturaTres2" value="0"></td>
                                            
                                         </tr>
                                         <tr>
-                                            <td>Confir.</td>
-                                            <td>48hrs</td>
-                                            <td><input type="text" id="confir148" value="0"></td>
-                                            <td><input type="text" id="confir248" value="0"></td>
+                                            <td>Temperatura.</td>
+                                            <td><input type="text" id="temperatura1" value="0"></td>
+                                            <td><input type="text" id="temperatura2" value="0"></td>
                                           
                                         </tr>
                                     </tbody>
@@ -222,13 +184,13 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="resultado">Resultado</label>
-                            <input type="text" id="resultadoColAlimentos" style="font-size: 20px;color:red;"
+                            <input type="text" id="resultado" style="font-size: 20px;color:red;"
                                 placeholder="Resultado">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" onclick="operacionColAlimentos()" id="guardar"
+                        <button type="button" onclick="operacion()" id="guardar"
                             class="btn btn-primary">Generar</button>
                     </div>
                 </div>

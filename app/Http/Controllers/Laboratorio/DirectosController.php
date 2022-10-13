@@ -20,9 +20,8 @@ class DirectosController extends Controller
     public function getLote(request $res)
     {
         $sw = false;
-        $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica',$res->id)->where('Fecha', $res->fecha)->get();
-        if($model->count())
-        {
+        $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $res->id)->where('Fecha', $res->fecha)->get();
+        if ($model->count()) {
             $sw = true;
         }
         $data = array(
@@ -39,7 +38,7 @@ class DirectosController extends Controller
             'Asignado' => 0,
             'Liberado' => 0,
             'Fecha' => $res->fecha,
-        ]); 
+        ]);
         $data = array(
             'model' => $model,
         );
@@ -47,7 +46,7 @@ class DirectosController extends Controller
     }
     public function loteDetalle($id)
     {
-        return view('laboratorio.directos.asignarMuestraLote',compact('id'));
+        return view('laboratorio.directos.asignarMuestraLote', compact('id'));
     }
     //* Muestra los parametros sin asignar a lote
     public function muestraSinAsignar(Request $request)
@@ -71,38 +70,110 @@ class DirectosController extends Controller
         );
         return response()->json($data);
     }
-        //! Eliminar parametro muestra1
-        public function delMuestraLote(Request $request)
-        {
-            $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
-            
-            $detModel = DB::table('lote_detalle_directos')->where('Id_detalle', $request->idDetalle)->delete();
-            $detModel = LoteDetalleDirectos::where('Id_lote', $request->idLote)->get();   
-    
-            $loteModel = LoteAnalisis::find($request->idLote);
-            $loteModel->Asignado = $detModel->count();
-            $loteModel->Liberado = 0;
-            $loteModel->save();
-    
-    
-            $solModel = CodigoParametros::where('Id_solicitud', $request->idSol)->where('Id_parametro', $request->idParametro)->first();
-            $solModel->Asignado = 0;
-            $solModel->save();
-    
-            $data = array(
-                'idDetalle' => $request->idDetalle,
-            );
-    
-            return response()->json($data);
-        }
+    //! Eliminar parametro muestra1
+    public function delMuestraLote(Request $request)
+    {
+        $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
 
-        //! Captura
-    public function captura(){
+        $detModel = DB::table('lote_detalle_directos')->where('Id_detalle', $request->idDetalle)->delete();
+        $detModel = LoteDetalleDirectos::where('Id_lote', $request->idLote)->get();
+
+        $loteModel = LoteAnalisis::find($request->idLote);
+        $loteModel->Asignado = $detModel->count();
+        $loteModel->Liberado = 0;
+        $loteModel->save();
+
+
+        $solModel = CodigoParametros::where('Id_solicitud', $request->idSol)->where('Id_parametro', $request->idParametro)->first();
+        $solModel->Asignado = 0;
+        $solModel->save();
+
+        $data = array(
+            'idDetalle' => $request->idDetalle,
+        );
+
+        return response()->json($data);
+    }
+    //* Asignar parametro a lote
+    public function asignarMuestraLote(Request $request)
+    {
+        $sw = false;
+        $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
+        $paraModel = Parametro::find($loteModel->Id_tecnica);
+
+        $model = LoteDetalleDirectos::create([
+            'Id_lote' => $request->idLote,
+            'Id_analisis' => $request->idAnalisis,
+            'Id_codigo' => $request->idSol,
+            'Id_parametro' => $loteModel->Id_tecnica,
+            'Id_control' => 1,
+            'Analizo' => 1,
+        ]);
+        $detModel = LoteDetalleDirectos::where('Id_lote', $request->idLote)->get();
+
+
+        $solModel = CodigoParametros::find($request->idSol);
+        $solModel->Asignado = 1;
+        $solModel->save();
+
+
+        $loteModel = LoteAnalisis::find($request->idLote);
+        $loteModel->Asignado = $detModel->count();
+        $loteModel->Liberado = 0;
+        $loteModel->save();
+
+        $data = array(
+            'idArea' => $paraModel->Id_area,
+            'sw' => $sw,
+            'model' => $paraModel,
+        );
+        return response()->json($data);
+    }
+    public function sendMuestrasLote(Request $res)
+    {
+        $sw = false;
+        $loteModel = LoteAnalisis::where('Id_lote', $res->idLote)->first();
+        $paraModel = Parametro::find($loteModel->Id_tecnica);
+
+        for ($i = 0; $i < sizeof($res->idCodigos); $i++) {
+            $sol = CodigoParametros::where('Id_codigo', $res->idCodigos[$i])->first();
+            $model = LoteDetalleDirectos::create([
+                'Id_lote' => $res->idLote,
+                'Id_analisis' => $sol->Id_solicitud,
+                'Id_codigo' => $res->idCodigos[$i],
+                'Id_parametro' => $loteModel->Id_tecnica,
+                'Id_control' => 1,
+                'Analizo' => 1,
+            ]);
+            $solModel = CodigoParametros::find($sol->Id_codigo);
+            $solModel->Asignado = 1;
+            $solModel->save();
+        }
+        $detModel = LoteDetalleDirectos::where('Id_lote', $res->idLote)->get();
+
+
+
+        $loteModel = LoteAnalisis::find($res->idLote);
+        $loteModel->Asignado = $detModel->count();
+        $loteModel->Liberado = 0;
+        $loteModel->save();
+
+        $data = array(
+            'idArea' => $paraModel->Id_area,
+            'sw' => $sw,
+            'model' => $paraModel,
+        );
+        return response()->json($data);
+    }
+    //! Captura
+    public function captura()
+    {
         $parametro = Parametro::where('id_area', 7)->get();
         return view('laboratorio.directos.captura', compact('parametro'));
     }
 
-    public function getLoteCapturaDirecto(Request $request){
+    public function getLoteCapturaDirecto(Request $request)
+    {
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         $detalle = DB::table('ViewLoteDetalleDirectos')->get();
 
@@ -110,6 +181,27 @@ class DirectosController extends Controller
             'detalle' => $detalle,
         );
 
+        return response()->json($data);
+    }
+    public function operacion(Request $request){
+        $res = "";
+
+        $promedio = $request->l1 + $request->l2 + $request->l3 / 3;
+        $res = round($promedio, 3);
+
+        $model = LoteDetalleDirectos::find($request->idDetalle);
+        $model->Resultado = $res;
+        $model->Lectura1 = $request->l1;
+        $model->Lectura2 = $request->l2;
+        $model->Lectura3 = $request->l3;
+        $model->temperatura = $request->temperatura1;
+        $model->save();
+
+
+        $data = array(
+            'res' => $res,
+            'model' =>  $model,
+        );
         return response()->json($data);
     }
 }

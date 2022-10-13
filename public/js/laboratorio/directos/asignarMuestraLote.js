@@ -84,7 +84,7 @@ function getMuestraAsignada()
             tab += '          <th>Folio</th>';
             tab += '          <th>Parametros</th>';
             tab += '          <th>Opc</th> ';
-            tab += '        </tr>';
+            tab += '        </tr>';q
             tab += '    </thead>';
             tab += '    <tbody>'; 
             $.each(response.model, function (key, item) {

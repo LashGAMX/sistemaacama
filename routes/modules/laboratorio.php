@@ -206,6 +206,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
         Route::get('captura',[DirectosController::class, 'captura']);
         Route::post('getLoteCapturaDirecto', [DirectosController::class, 'getLoteCapturaDirecto']);
+        Route::post('operacion', [DirectosController::class, 'operacion']);
         
     });
  

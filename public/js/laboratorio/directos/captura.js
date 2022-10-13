@@ -124,7 +124,8 @@ function getLoteCapturaDirecto() {
                     clase = "btn btn-warning";
                 }
                 switch ($("#formulaTipo").val()) {
-                    case "12":
+                    case "14":
+                    case "67":
                     
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modal">Capturar</button>';
                         console.log("Entro a directos");
@@ -185,10 +186,32 @@ function getLoteCapturaDirecto() {
             $('#tablaControles tr').on('click', function () {
                 let dato = $(this).find('td:first');
                 idMuestra = dato[0].firstElementChild.value;
-                // console.log(idMuestra);
             });
 
 
         }
     });
+}
+
+function operacion(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacion",
+        data: {
+            idDetalle: idMuestra,
+            id: $("#formulaTipo").val(),
+            fecha: $("#fechaAnalisis").val(),
+            l1: $("#lecturaUno1").val(),
+            l2: $("#lecturaDos1").val(),
+            l3: $("#lecturaTres1").val(),
+            temp: $("#temperatura1").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            $("#resultado").val(response.res)
+        }
+
+        });
 }
