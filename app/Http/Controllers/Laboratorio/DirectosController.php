@@ -95,9 +95,21 @@ class DirectosController extends Controller
     
             return response()->json($data);
         }
+
+        //! Captura
     public function captura(){
         $parametro = Parametro::where('id_area', 7)->get();
         return view('laboratorio.directos.captura', compact('parametro'));
     }
 
+    public function getLoteCapturaDirecto(Request $request){
+        $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
+        $detalle = DB::table('ViewLoteDetalleDirectos')->get();
+
+        $data = array(
+            'detalle' => $detalle,
+        );
+
+        return response()->json($data);
+    }
 }
