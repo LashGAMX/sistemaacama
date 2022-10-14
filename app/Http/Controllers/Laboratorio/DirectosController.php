@@ -220,24 +220,39 @@ class DirectosController extends Controller
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
         switch ($lote->Id_tecnica) {
-            case 152: // COT
+            case 14: // PH
     
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
-                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
                 $data = array(  
                     'lote' => $lote,
-                    'model' => $model,
-                    'curva' => $curva,
+                    'model' => $model, 
                     // 'textoProcedimiento' => $textoProcedimiento,
                 );
                 
-                $htmlHeader = view('exports.laboratorio.fq.espectro.cot.capturaHeader', $data);
+                $htmlHeader = view('exports.laboratorio.directos.ph.bitacoraHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                $htmlCaptura = view('exports.laboratorio.fq.espectro.cot.capturaBody', $data);
+                $htmlCaptura = view('exports.laboratorio.directos.ph.bitacoraBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break; 
+                case 97: // PH
+    
+                    $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
+                    // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                    $data = array(  
+                        'lote' => $lote,
+                        'model' => $model, 
+                        // 'textoProcedimiento' => $textoProcedimiento,
+                    );
+                    
+                    $htmlHeader = view('exports.laboratorio.directos.ph.bitacoraHeader', $data);
+                    $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                    $htmlCaptura = view('exports.laboratorio.directos.ph.bitacoraBody', $data);
+                    $mpdf->CSSselectMedia = 'mpdf';
+                    $mpdf->WriteHTML($htmlCaptura);
+                    break; 
+                
             default:
                 # code...
                 break;

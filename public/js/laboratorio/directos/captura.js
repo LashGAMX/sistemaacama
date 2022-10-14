@@ -130,6 +130,11 @@ function getLoteCapturaDirecto() {
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modal">Capturar</button>';
                         console.log("Entro a directos");
                         break;
+                    case "97":
+                    case "100":
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalTemperatura">Capturar</button>';
+                        console.log("Entro a temperatura");
+                        break;
                    
                     default:
                         console.log("Entro a al limbo");
@@ -214,4 +219,11 @@ function operacion(){
         }
 
         });
+}
+//Función imprimir PDF
+function imprimir(idLote){
+    console.log("Dentro de evento btnBuscar");
+    $('#btnImprimir').click(function() {
+        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfDirecto/"+idLote;
+    });
 }

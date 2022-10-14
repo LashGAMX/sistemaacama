@@ -37,7 +37,7 @@
             <button class="btn btn-info" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>
         </div>
         <div class="col-md-1">
-            <button class="btn btn-primary" data-toggle="modal" data-target="#modalCrearLote"><i class="fas fa-file-invoice"></i> Datos Lote</button>
+            <button class="btn btn-primary" data-toggle="modal" data-target="#modalLote"><i class="fas fa-file-invoice"></i> Datos Lote</button>
         </div>
       </div>
     </div>
@@ -59,6 +59,64 @@
                   
         </tbody>
       </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalLote" tabindex="-1" aria-labelledby="modalLoteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalLoteLabel">Datos lote</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-2">
+            <input type="number" class="form-control" placeholder="Id lote">
+          </div>
+          <div class="col-md-2">
+            <button class="btn btn-info"><i class="fas fa-search"></i> Buscar</button>
+          </div>
+          <div class="col-md-12">
+            <ul class="nav nav-tabs">
+              <li class="nav-item">
+                <a class="nav-link active" data-toggle="collapse" href="#formulaGeneral" role="button" aria-expanded="false" aria-controls="formulaGeneral">
+                  Formula general
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" data-toggle="collapse" href="#platilla" role="button" aria-expanded="false" aria-controls="platilla">
+                  Datos plantilla
+                </a>
+              </li>
+            </ul>
+
+            <div class="collapse" id="formulaGeneral">
+              <div class="card card-body">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Aliquam, fuga!
+              </div>
+            </div>
+            <div class="collapse" id="platilla">
+              <div class="card card-body">
+                <div id="divSummer">
+                  <div id="summernote">
+                       
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
