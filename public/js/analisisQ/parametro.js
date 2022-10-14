@@ -49,10 +49,10 @@ function getParametros(){
             tab += '    <td>'+item.Clave_metodo+'</td>';
             tab += '    <td>'+response.norma[cont]+'</td>';
             tab += '    <td>'+item.Limite+'</td>';
-            tab += '    <td><button class="btn btn-warning" data-toggle="modal" data-target="#modalParametro" onclick="getDatoParametro('+item.Id_parametro+')"><i class="fas fa-edit"></i> Editar</button></td>';
+            tab += '    <td><button class="btn btn-warning" data-toggle="modal" data-target="#modalParametro" onclick="getNormasParametro('+item.Id_parametro+')"><i class="fas fa-edit"></i> Editar</button></td>';
             tab += '</tr>';
             cont++;
-          }); 
+          });
           tab += '    </tbody>';
           tab += '</table>';
           tabla.innerHTML = tab;
@@ -71,10 +71,10 @@ function getParametros(){
     }); 
 }
 
-function getDatoParametro(id){
+function getNormasParametro(id){
   let model = '';
   $.ajax({
-    url: base_url + '/admin/analisisQ/getDatoParametro', //archivo que recibe la peticion
+    url: base_url + '/admin/analisisQ/getNormaParametro', //archivo que recibe la peticion
     type: 'POST', //método de envio
     data: { 
       id:id,
