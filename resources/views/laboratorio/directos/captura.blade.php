@@ -191,7 +191,7 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
                         <button type="button" onclick="operacion()" id="guardar"
-                            class="btn btn-primary">Generar</button>
+                            class="btn btn-primary">Calcular</button>
                     </div>
                 </div>
             </div>
@@ -237,20 +237,20 @@
                                        
                                         <tr>
                                             <td>L1.</td>
-                                            <td><input type="text" id="lecturaUno1" value="0"></td>
-                                            <td><input type="text" id="lecturaUno2" value="0"></td>
+                                            <td><input type="text" id="lecturaUno1T" value="0"></td>
+                                            <td><input type="text" id="lecturaUno2T" value="0"></td>
                                             
                                         </tr>
                                         <tr>
                                             <td>L2.</td>
-                                            <td><input type="text" id="lecturaDos1" value="0"></td>
-                                            <td><input type="text" id="lecturaDos2" value="0"></td>
+                                            <td><input type="text" id="lecturaDos1T" value="0"></td>
+                                            <td><input type="text" id="lecturaDos2T" value="0"></td>
                                             
                                         </tr>
                                         <tr>
                                             <td>L3.</td>                                         
-                                            <td><input type="text" id="lecturaTres1" value="0"></td>
-                                            <td><input type="text" id="lecturaTres2" value="0"></td>
+                                            <td><input type="text" id="lecturaTres1T" value="0"></td>
+                                            <td><input type="text" id="lecturaTres2T" value="0"></td>
                                            
                                         </tr>
                                     </tbody>
@@ -261,14 +261,14 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="resultado">Resultado</label>
-                            <input type="text" id="resultado" style="font-size: 20px;color:red;"
+                            <input type="text" id="resultadoT" style="font-size: 20px;color:red;"
                                 placeholder="Resultado">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" onclick="operacion()" id="guardar"
-                            class="btn btn-primary">Generar</button>
+                        <button type="button" onclick="operacionTemperatura()" id="guardar"
+                            class="btn btn-primary">Calcular</button>
                     </div>
                 </div>
             </div>
@@ -276,7 +276,7 @@
 
 
     @section('javascript')
-    <script src="{{asset('/public/js/laboratorio/directos/captura.js')}}"></script>
+    <script src="{{asset('/public/js/laboratorio/directos/captura.js')}}?v=0.0.1"></script>
     @stop
 
     @endsection

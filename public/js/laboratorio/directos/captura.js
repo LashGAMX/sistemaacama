@@ -131,7 +131,6 @@ function getLoteCapturaDirecto() {
                         console.log("Entro a directos");
                         break;
                     case "97":
-                    case "100":
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalTemperatura">Capturar</button>';
                         console.log("Entro a temperatura");
                         break;
@@ -216,6 +215,27 @@ function operacion(){
         success: function (response) {
             console.log(response);
             $("#resultado").val(response.res)
+        }
+
+        });
+}
+function operacionTemperatura(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacion",
+        data: {
+            idDetalle: idMuestra,
+            id: $("#formulaTipo").val(),
+            fecha: $("#fechaAnalisis").val(),
+            l1: $("#lecturaUno1T").val(),
+            l2: $("#lecturaDos1T").val(),
+            l3: $("#lecturaTres1T").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            $("#resultadoT").val(response.res)
         }
 
         });

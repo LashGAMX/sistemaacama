@@ -30,6 +30,13 @@ class DirectosController extends Controller
         );
         return response()->json($data);
     }
+    public function getDetalleLote($idLote,$idParametro)
+    {
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
     public function setLote(Request $res)
     {
         $model = LoteAnalisis::create([
@@ -97,7 +104,7 @@ class DirectosController extends Controller
     //* Asignar parametro a lote
     public function asignarMuestraLote(Request $request)
     {
-        $sw = false;
+        $sw = true;
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         $paraModel = Parametro::find($loteModel->Id_tecnica);
 
@@ -172,10 +179,9 @@ class DirectosController extends Controller
         return view('laboratorio.directos.captura', compact('parametro'));
     }
 
-    public function getLoteCapturaDirecto(Request $request)
+    public function getLoteCapturaDirecto(Request $res)
     {
-        $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
-        $detalle = DB::table('ViewLoteDetalleDirectos')->get();
+        $detalle = DB::table('ViewLoteDetalleDirectos')->where('Id_lote',$res->idLote)->get();
 
         $data = array(
             'detalle' => $detalle,
@@ -195,6 +201,26 @@ class DirectosController extends Controller
         $model->Lectura2 = $request->l2;
         $model->Lectura3 = $request->l3;
         $model->temperatura = $request->temperatura1;
+        $model->save();
+
+
+        $data = array(
+            'res' => $res,
+            'model' =>  $model,
+        );
+        return response()->json($data);
+    }
+    public function operacionTemperatura(Request $request){
+        $res = "";
+
+        $promedio = $request->l1 + $request->l2 + $request->l3 / 3;
+        $res = round($promedio, 3);
+
+        $model = LoteDetalleDirectos::find($request->idDetalle);
+        $model->Resultado = $res;
+        $model->Lectura1 = $request->l1;
+        $model->Lectura2 = $request->l2;
+        $model->Lectura3 = $request->l3;
         $model->save();
 
 

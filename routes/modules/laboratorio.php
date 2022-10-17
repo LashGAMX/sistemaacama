@@ -196,6 +196,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::group(['prefix' => 'directos'], function () {
         Route::get('lote', [DirectosController::class, 'lote']);
         Route::post('getLote',[DirectosController::class, 'getLote']); 
+        Route::post('getDetalleLote/{idLote}/{idParametro}',[DirectosController::class, 'getDetalleLote']); 
         Route::post('setLote',[DirectosController::class, 'setLote']); 
         Route::get('loteDetalle/{id}',[DirectosController::class, 'loteDetalle']);
         Route::post('muestraSinAsignar', [DirectosController::class, 'muestraSinAsignar']);

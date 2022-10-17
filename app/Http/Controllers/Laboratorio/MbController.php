@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
 use App\Models\BitacoraColiformes;
+use App\Models\BitacoraMb;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
 use App\Models\LoteDetalleCloro;
@@ -40,6 +41,7 @@ use App\Models\LoteTecnica;
 use App\Models\SecadoCartucho;
 use App\Models\Tecnica;
 use App\Models\Nmp1Micro;
+use App\Models\PlantillaMb;
 use App\Models\TiempoReflujo;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -815,7 +817,15 @@ class MbController extends Controller
         $idLoteIf = $request->idLote;
 
         //RECUPERA LA PLANTILLA DEL REPORTE
-        $reporte = ReportesMb::where('Id_lote', $request->idLote)->first();
+        $lote = LoteAnalisis::where('Id_lote',$request->idLote)->first();
+        $resporte = BitacoraMb::where('Id_lote', $request->idLote)->get();
+        if($resporte->count())
+        {
+
+        }else{
+            $reporte = PlantillaMb::where('Id_parametro', $lote->Id_tecnica)->first();
+        }
+        
 
         //RECUPERA EL APARTADO DE FÓRMULAS GLOBALES;
         $constantesModel = CurvaConstantes::where('Id_lote', $request->idLote)->get();

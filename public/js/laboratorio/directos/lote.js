@@ -62,7 +62,7 @@ function getLote(){
                         tab += '<td>'+item.Parametro+' ('+item.Tipo_formula+')</td>';
                         tab += '<td>'+item.Fecha+'</td>';
                         tab += '<td>'+item.created_at+'</td>';
-                        tab += '<td><button type="button" onclick="loteDetalle('+item.Id_lote+')" class="btn btn-primary">Agregar</button></td>';
+                        tab += '<td><button type="button" onclick="loteDetalle('+item.Id_lote+')" class="btn btn-primary">Agregar</button>&nbsp<button type="button" onclick="getDetalleLote('+item.Id_lote+','+item.Id_parametro+')" data-toggle="modal" data-target="#modalLote" class="btn btn-primary">Detalle</button></td>';
                       tab += '</tr>';
                     });
                 }else{
@@ -81,6 +81,23 @@ function getLote(){
                     "infoEmpty": "No hay datos encontrados",
                 }
             });
+        }
+    });
+}
+function getDetalleLote()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/"+area+"/getDetalleLote",
+        data: {
+            id:$("#parametro").val(),
+            fecha:$("#fecha").val(),
+            _token: $('input[name="_token"]').val()
+        }, 
+        dataType: "json",
+        success: function (response) {            
+            console.log(response);
+            getLote();
         }
     });
 }

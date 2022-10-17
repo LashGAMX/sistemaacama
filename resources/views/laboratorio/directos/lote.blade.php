@@ -76,12 +76,6 @@
       </div>
       <div class="modal-body">
         <div class="row">
-          <div class="col-md-2">
-            <input type="number" class="form-control" placeholder="Id lote">
-          </div>
-          <div class="col-md-2">
-            <button class="btn btn-info"><i class="fas fa-search"></i> Buscar</button>
-          </div>
           <div class="col-md-12">
             <ul class="nav nav-tabs">
               <li class="nav-item">
