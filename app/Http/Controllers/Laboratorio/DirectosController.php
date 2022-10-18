@@ -7,6 +7,7 @@ use App\Models\CodigoParametros;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalleDirectos;
 use App\Models\Parametro;
+use App\Models\PlantillaDirectos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -245,14 +246,16 @@ class DirectosController extends Controller
         ]);
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
+        $plantilla = PlantillaDirectos::where('Id_parametro',$lote->Id_tecnica)->first();
         switch ($lote->Id_tecnica) {
             case 14: // PH
-    
+                
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
                 $data = array(  
                     'lote' => $lote,
                     'model' => $model, 
+                    'plantilla' => $plantilla
                     // 'textoProcedimiento' => $textoProcedimiento,
                 );
                 

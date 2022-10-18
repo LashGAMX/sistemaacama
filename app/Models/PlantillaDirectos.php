@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class PlantillaDirectos extends Model
 {
     use HasFactory;
-    protected $table = 'plantilla_b';
+    protected $table = 'plantilla_directos';
     protected $primaryKey = 'Id_plantilla';
     public $timestamps = true;
 
