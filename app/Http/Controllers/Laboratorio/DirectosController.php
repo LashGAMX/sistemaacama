@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\BitacoraDirectos;
 use App\Models\CodigoParametros;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalleDirectos;
@@ -31,12 +32,36 @@ class DirectosController extends Controller
         );
         return response()->json($data);
     }
-    public function getDetalleLote($idLote,$idParametro)
+    public function getDetalleLote(Request $res)
     {
+        $model = BitacoraDirectos::where('Id_lote',$res->idLote)->get();
+        if($model->count()){
+            $model = BitacoraDirectos::where('Id_lote',$res->idLote)->first();
+        }else{
+            $model = PlantillaDirectos::where('Id_parametro',$res->idParametro)->first();
+        }
         $data = array(
             'model' => $model,
         );
         return response()->json($data);
+    }
+    public function setPlantilla(Request $res)
+    {
+        $model = BitacoraDirectos::where('Id_lote',$res->idLote)->get();
+        if($model->count()){
+            $model = BitacoraDirectos::where('Id_lote',$res->idLote)->first();
+            $model->Texto = $res->texto;
+            $model->save();
+        }else{
+            $model = BitacoraDirectos::create([
+                'Id_lote' => $res->idLote,
+                'Texto' => $res->texto,
+            ]);
+        }
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data); 
     }
     public function setLote(Request $res)
     {
