@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 
 class IncidenciasController extends Controller
 {
-    public function index(){
+    public function lista(){
+        return view('seguimiento.listaIncidencias'); 
+    }
+    public function incidencias(){
         return view('seguimiento.incidencias'); 
     }
 }
