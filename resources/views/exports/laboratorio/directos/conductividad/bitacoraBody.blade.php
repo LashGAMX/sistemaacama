@@ -8,15 +8,15 @@
     <link rel="stylesheet" href="{{asset('/public/css/exports/bitacoras.css')}}">
     <title>Captura PDF</title>
 </head>
-
+ 
 <body>
 
-    <div class="procedimiento">
+    <div class="procedimiento"> 
         @php
         echo @$plantilla->Texto;
         @endphp
     </div>
-    <br>
+    <br> 
     <div id="contenedorTabla">
 
 
@@ -27,10 +27,10 @@
                 <tr>
                     <th style="font-size: 10px">No. De muestra</th>
                     <th style="font-size: 8px">TEMP DE<br> LA MUESTRA</th>
-                    <th style="font-size: 10px">pH 1</th>
-                    <th style="font-size: 10px">pH 2</th>
-                    <th style="font-size: 10px">pH 3</th>
-                    <th style="font-size: 8px">PROMEDIO DE POTENCIAL<br>DE HIDROGENO (pH) UNIDAD</th>
+                    <th style="font-size: 10px">Lectura 1</th>
+                    <th style="font-size: 10px">Lectura 2</th>
+                    <th style="font-size: 10px">Lectura 3</th>
+                    <th style="font-size: 8px">PROMEDIO DE <br> CONDUCTIVIDAD <br> ELECTRICA UNIDAD</th>
                     <th style="font-size: 10px">Observaciones</th>
                     <th style="font-size: 10px"></th>
                     <th style="font-size: 10px"></th>

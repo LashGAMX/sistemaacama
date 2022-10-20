@@ -34,11 +34,11 @@ class DirectosController extends Controller
     }
     public function getDetalleLote(Request $res)
     {
-        $model = BitacoraDirectos::where('Id_lote',$res->idLote)->get();
-        if($model->count()){
-            $model = BitacoraDirectos::where('Id_lote',$res->idLote)->first();
-        }else{
-            $model = PlantillaDirectos::where('Id_parametro',$res->idParametro)->first();
+        $model = BitacoraDirectos::where('Id_lote', $res->idLote)->get();
+        if ($model->count()) {
+            $model = BitacoraDirectos::where('Id_lote', $res->idLote)->first();
+        } else {
+            $model = PlantillaDirectos::where('Id_parametro', $res->idParametro)->first();
         }
         $data = array(
             'model' => $model,
@@ -47,12 +47,12 @@ class DirectosController extends Controller
     }
     public function setPlantilla(Request $res)
     {
-        $model = BitacoraDirectos::where('Id_lote',$res->idLote)->get();
-        if($model->count()){
-            $model = BitacoraDirectos::where('Id_lote',$res->idLote)->first();
+        $model = BitacoraDirectos::where('Id_lote', $res->idLote)->get();
+        if ($model->count()) {
+            $model = BitacoraDirectos::where('Id_lote', $res->idLote)->first();
             $model->Texto = $res->texto;
             $model->save();
-        }else{
+        } else {
             $model = BitacoraDirectos::create([
                 'Id_lote' => $res->idLote,
                 'Texto' => $res->texto,
@@ -61,7 +61,7 @@ class DirectosController extends Controller
         $data = array(
             'model' => $model,
         );
-        return response()->json($data); 
+        return response()->json($data);
     }
     public function setLote(Request $res)
     {
@@ -207,7 +207,7 @@ class DirectosController extends Controller
 
     public function getLoteCapturaDirecto(Request $res)
     {
-        $detalle = DB::table('ViewLoteDetalleDirectos')->where('Id_lote',$res->idLote)->get();
+        $detalle = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $res->idLote)->get();
 
         $data = array(
             'detalle' => $detalle,
@@ -215,7 +215,8 @@ class DirectosController extends Controller
 
         return response()->json($data);
     }
-    public function operacion(Request $request){
+    public function operacion(Request $request)
+    {
         $res = "";
 
         $promedio = $request->l1 + $request->l2 + $request->l3 / 3;
@@ -236,7 +237,8 @@ class DirectosController extends Controller
         );
         return response()->json($data);
     }
-    public function operacionTemperatura(Request $request){
+    public function operacionTemperatura(Request $request)
+    {
         $res = "";
 
         $promedio = $request->l1 + $request->l2 + $request->l3 / 3;
@@ -263,7 +265,7 @@ class DirectosController extends Controller
             'orientation' => 'P',
             'format' => 'letter',
             'margin_left' => 10,
-            'margin_right' => 10, 
+            'margin_right' => 10,
             'margin_top' => 31,
             'margin_bottom' => 45,
             'defaultheaderfontstyle' => ['normal'],
@@ -271,49 +273,63 @@ class DirectosController extends Controller
         ]);
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
-        $plantilla = PlantillaDirectos::where('Id_parametro',$lote->Id_tecnica)->first();
+        $plantilla = PlantillaDirectos::where('Id_parametro', $lote->Id_tecnica)->first();
         switch ($lote->Id_tecnica) {
             case 14: // PH
-                
-                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
+                $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
                 // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
-                $data = array(  
+                $data = array(
                     'lote' => $lote,
-                    'model' => $model, 
+                    'model' => $model,
                     'plantilla' => $plantilla
-                    // 'textoProcedimiento' => $textoProcedimiento,
                 );
-                
+
                 $htmlHeader = view('exports.laboratorio.directos.ph.bitacoraHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.directos.ph.bitacoraBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
-                break; 
-                case 97: // PH
-    
-                    $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                    // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
-                    $data = array(  
-                        'lote' => $lote,
-                        'model' => $model, 
-                        // 'textoProcedimiento' => $textoProcedimiento,
-                    );
-                    
-                    $htmlHeader = view('exports.laboratorio.directos.ph.bitacoraHeader', $data);
-                    $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                    $htmlCaptura = view('exports.laboratorio.directos.ph.bitacoraBody', $data);
-                    $mpdf->CSSselectMedia = 'mpdf';
-                    $mpdf->WriteHTML($htmlCaptura);
-                    break; 
-                
+                break;
+            case 67: // Conductividad
+
+                $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
+                $data = array(
+                    'lote' => $lote, 
+                    'model' => $model,
+                    'plantilla' => $plantilla
+                );
+
+                $htmlHeader = view('exports.laboratorio.directos.conductividad.bitacoraHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.directos.conductividad.bitacoraBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
+
+            case 97: // PH
+
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
+                // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                $data = array(
+                    'lote' => $lote,
+                    'model' => $model,
+                    // 'textoProcedimiento' => $textoProcedimiento,
+                );
+
+                $htmlHeader = view('exports.laboratorio.directos.ph.bitacoraHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.directos.ph.bitacoraBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
+
             default:
                 # code...
                 break;
         }
 
         // var_dump($model);
-        
+
         $mpdf->Output();
     }
 }

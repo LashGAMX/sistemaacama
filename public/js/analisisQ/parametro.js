@@ -74,7 +74,7 @@ function getParametros(){
 function getNormasParametro(id){
   let model = '';
   $.ajax({
-    url: base_url + '/admin/analisisQ/getNormaParametro', //archivo que recibe la peticion
+    url: base_url + '/admin/analisisQ/getDatoParametro', //archivo que recibe la peticion
     type: 'POST', //método de envio
     data: { 
       id:id,
@@ -135,6 +135,7 @@ function getNormasParametro(id){
     async:false,
     success: function (response) {
       alert("Parametro modificado correctamente!", "success")
+      getParametros();
     } 
 })
  }

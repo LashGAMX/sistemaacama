@@ -51,7 +51,7 @@ Route::group(['prefix' => 'analisisQ'], function () {
     Route::get('envases',[EnvasesController::class, 'index']);
     Route::get('envasesParametro',[EnvasesController::class, 'envase']);
     // Route::get('analisis',[AnalisisController::class, 'index']);
-
+ 
     Route::get('formulas/constantes',[FormulasController::class,'constantes']); 
     Route::post('formulas/constante_create',[FormulasController::class,'constante_create']); 
 

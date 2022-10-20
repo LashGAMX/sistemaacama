@@ -81,7 +81,7 @@ class ParametroController extends Controller
     {
         $model = DB::table('ViewParametros')->where('Id_parametro',$res->id)->first();
         $norma = DB::table('ViewParametroNorma')->where('Id_parametro', $res->id)->get();
-        $data = array(
+        $data = array( 
             'model' => $model,
             'norma' => $norma,
         );

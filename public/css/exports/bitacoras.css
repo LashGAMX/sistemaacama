@@ -27,6 +27,11 @@
     border-color: #2E2E2E ;
     width: 100%;
 }
+.tabla2{
+    border-collapse: collapse;
+    border-color: #2E2E2E ;
+    width: 100%;
+}
 th{
     font-size: 10px;
 }
