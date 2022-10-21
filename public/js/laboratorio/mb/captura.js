@@ -232,6 +232,7 @@ function getLoteCapturaMicro() {
     });
 }
 function operacionColAlimentos(idDetalle){
+<<<<<<< HEAD
     if ($("#pres224").val() > $("#pres124").val()) {
         inputBor
     }
@@ -254,10 +255,46 @@ function operacionColAlimentos(idDetalle){
                 $("#resultadoColAlimentos").val(">"+response.resultado)
             } else {
                 $("#resultadoColAlimentos").val(response.resultado)
+=======
+    var presuntiva1 = $("#pres124").val();
+    var presuntiva2 = $("#pres148").val();
+    var confir1 = $("#confir124").val();
+    var confir2 = $("#confir148").val();
+    if (presuntiva2 > presuntiva1)
+    {
+        alert("La presuntiva de 48hrs no puede ser mayor a la de 24hrs")
+    }else if (confir2 > confir1)
+    {
+        alert("La confirmativas de 48hrs no puede ser mayor a la de 24hrs")
+    }
+    else{
+
+        $.ajax({
+            type: "POST",
+            url: base_url + "/admin/laboratorio/" + area + "/operacionColAlimentos",
+            data: {
+                idDetalle: idMuestra,
+                presuntiva1:$("#pres124").val(),
+                presuntiva2:$("#pres148").val(),
+                confirmativa1:$("#confir124").val(),
+                confirmativa2:$("#confir148").val(),
+                _token: $('input[name="_token"]').val()
+            },
+            dataType: "json",
+            success: function (response) {
+                console.log(response)
+                if (response.resultado == 8.0){
+                    $("#resultadoColAlimentos").val(">"+response.resultado)
+                } else {
+                    $("#resultadoColAlimentos").val(response.resultado)
+                }
+                getLoteCapturaMicro();
+>>>>>>> 18dcb0b35179cf44455dd55d1eb3c75971fb279d
             }
-            getLoteCapturaMicro();
-        }
-    });
+        });
+    
+    }
+    
 }
 function getDetalleColiAlimentos(idMuestra){
     $.ajax({

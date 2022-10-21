@@ -82,7 +82,9 @@
     </div>
 </div>
  
-  
+@section('javascript')
+<script src="{{asset('/public/js/seguimiento/insidencias.js')}}?v=0.0.1"></script>
+@stop
 
 @endsection
  
