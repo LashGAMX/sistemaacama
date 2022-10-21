@@ -41,7 +41,7 @@
         </div>
         <div class = "col-md-3">
             <div class = "form-group">
-                <button type="button" class="btn btn-success" id="buscar">Nueva incidencia</button>
+                <button type="button" class="btn btn-success" id="nueva">Nueva incidencia</button>
             </div>
         </div>
     </div>
