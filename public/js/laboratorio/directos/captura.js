@@ -134,7 +134,10 @@ function getLoteCapturaDirecto() {
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalTemperatura">Capturar</button>';
                         console.log("Entro a temperatura");
                         break;
-                   
+                    case "102":
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalColor">Capturar</button>';
+                        console.log("Entro a temperatura");
+                        break;
                     default:
                         console.log("Entro a al limbo");
                         break;
@@ -196,6 +199,43 @@ function getLoteCapturaDirecto() {
         }
     });
 }
+function getDetalleDirecto(idMuestra)
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/getDetalleDirecto",
+        data: {
+            idDetalle: idMuestra,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            let model = response.model
+            // Directos
+            $("#lecturaUno1").val(model.Lectura1)
+            $("#lecturaDos1").val(model.Lectura2)
+            $("#lecturaTres1").val(model.Lectura3)
+            $("#temperatura1").val(model.Temperatura)
+            $("#resultado").val(model.Resultado)
+
+            //Temperatura
+            $("#lecturaUno1T").val(model.Lectura1)
+            $("#lecturaDos1T").val(model.Lectura2)
+            $("#lecturaTres1T").val(model.Lectura3)
+            $("#resultadoT").val(model.Resultado)
+            //Color
+            $("#aparente1").val(model.Color_a)
+            $("#verdadero1").val(model.Color_v)
+            $("#dilusion1").val(model.Factor_dilucion)
+            $("#volumen1").val(model.Vol_muestra)
+            $("#ph1").val(model.Ph)
+            $("#factor1").val(model.Factor_correcion)
+            $("#resultadoColor").val(model.Resultado)
+        }
+
+        }); 
+}
 
 function operacion(){
     $.ajax({
@@ -222,7 +262,7 @@ function operacion(){
 function operacionTemperatura(){
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/operacion",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionTemperatura",
         data: {
             idDetalle: idMuestra,
             id: $("#formulaTipo").val(),
@@ -236,6 +276,31 @@ function operacionTemperatura(){
         success: function (response) {
             console.log(response);
             $("#resultadoT").val(response.res)
+        }
+
+        });
+}
+function operacionColor(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionColor",
+        data: {
+            idDetalle: idMuestra,
+            id: $("#formulaTipo").val(),
+            fecha: $("#fechaAnalisis").val(),
+            aparente: $("#aparente1").val(),
+            verdadero: $("#verdadero1").val(),
+            dilusion: $("#dilusion1").val(),
+            volumen: $("#volumen1").val(),
+            ph: $("#ph1").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            $("#resultadoColor").val(response.resultado)
+            $("#dilusion1").val(response.dilusion)
+            $("#factor1").val(response.factor)
         }
 
         });

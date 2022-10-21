@@ -273,6 +273,106 @@
                 </div>
             </div>
         </div>
+        <!-- Modal para temperatura -->
+        <div class="modal fade" id="modalColor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="">Color</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Observación</label>
+                                        <input type="text" class="form-control" id="observacionCol"
+                                            placeholder="Observacion de la muestra">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-success" type="button"
+                                            onclick="updateObsMuestra(1,'observacionCol')"
+                                            id="btnAplicarObsColiformes"><i class="voyager-check"></i> Aplicar</button>
+                                    </div>
+                                </div>
+                            <div class="col-md-12">
+                                <table class="table" id="">
+                                    <thead>
+                                        <tr>
+                                            <th>Parametro</th>
+                                           
+                                            <th>Valor</th>
+                                            <th>Valor2</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                                    <tbody>
+                                       
+                                        <tr>
+                                            <td>A.</td>
+                                            <td>Color aparente.</td>
+                                            <td><input type="text" id="aparente1" ></td>
+                                            <td><input type="text" id="" ></td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>B.</td>
+                                            <td>Color verdadero.</td>
+                                            <td><input type="text" id="verdadero1" ></td>
+                                            <td><input type="text" id="" ></td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>C.</td>
+                                            <td>Factor dilusión.</td>                                         
+                                            <td><input type="text" id="dilusion1" ></td>
+                                            <td><input type="text" id="" ></td>
+                                           
+                                        </tr>
+                                        <tr>
+                                            <td>D.</td>
+                                            <td>Volumen muestra.</td>
+                                            <td><input type="text" id="volumen1" ></td>
+                                            <td><input type="text" id="" ></td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>E.</td>
+                                            <td>ph.</td>
+                                            <td><input type="text" id="ph1" ></td>
+                                            <td><input type="text" id="" ></td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>G.</td>
+                                            <td>Facor de correción.</td>                                         
+                                            <td><input type="text" id="factor1" ></td>
+                                            <td><input type="text" id="" ></td>
+                                           
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="resultado">Resultado</label>
+                            <input type="text" id="resultadoColor" style="font-size: 20px;color:red;"
+                                placeholder="Resultado">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" onclick="operacionColor()" id="guardar"
+                            class="btn btn-primary">Calcular</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
 
     @section('javascript')

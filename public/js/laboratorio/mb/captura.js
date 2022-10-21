@@ -140,9 +140,9 @@ function getLoteCapturaMicro() {
             $.each(response.detalle, function (key, item) {
                 tab += '<tr>';
                 if (item.Liberado == null) {
-                    status = "";
+                    status = ""; 
                     clase = "btn btn-success";
-                } else {
+                } else { 
                     status = "disabled";
                     clase = "btn btn-warning";
                 }
@@ -232,6 +232,10 @@ function getLoteCapturaMicro() {
     });
 }
 function operacionColAlimentos(idDetalle){
+    if ($("#pres224").val() > $("#pres124").val()) {
+        inputBor
+    }
+
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/operacionColAlimentos",

@@ -157,7 +157,15 @@ class FqController extends Controller
     public function capturaEspectro()
     {
 
-        $parametro = DB::table('ViewParametros')->where("Id_area", 16)->get();
+        // $parametro = DB::table('ViewParametros')->where("Id_area", 16)->get();
+        $parametro = DB::table('ViewParametros')
+        ->orWhere('Id_area', 5)
+        ->orWhere('Id_area', 16)
+        ->orWhere('Id_area', 13)
+        ->orWhere('Id_area', 15)
+        ->orWhere('Id_area', 14)
+        ->get();
+
         $controlModel = ControlCalidad::all();
 
         return view('laboratorio.fq.capturaEspectro', compact('parametro', 'controlModel'));

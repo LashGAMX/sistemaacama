@@ -1,5 +1,5 @@
 <p class='titulo'>
-    COLIFORMES FECALES
+    COLIFORMES TOTALES
 </p>
 
 <span class='textofecha'>Fecha de análisis </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;

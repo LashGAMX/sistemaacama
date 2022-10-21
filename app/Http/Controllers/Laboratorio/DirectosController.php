@@ -9,6 +9,7 @@ use App\Models\LoteAnalisis;
 use App\Models\LoteDetalleDirectos;
 use App\Models\Parametro;
 use App\Models\PlantillaDirectos;
+use App\Models\Promedio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -16,7 +17,7 @@ class DirectosController extends Controller
 {
     public function lote()
     {
-        $parametro = DB::table('ViewParametros')->where('Id_area', 7)->get();
+        $parametro = DB::table('ViewParametros')->where('Id_area', 7)->orWhere('Id_tecnica',4)->get();
         return view('laboratorio.directos.lote', compact('parametro'));
     }
     public function getLote(request $res)
@@ -201,7 +202,7 @@ class DirectosController extends Controller
     //! Captura
     public function captura()
     {
-        $parametro = Parametro::where('id_area', 7)->get();
+        $parametro = Parametro::where('Id_area', 7)->orWhere('Id_tecnica',4)->get();
         return view('laboratorio.directos.captura', compact('parametro'));
     }
 
@@ -219,7 +220,7 @@ class DirectosController extends Controller
     {
         $res = "";
 
-        $promedio = $request->l1 + $request->l2 + $request->l3 / 3;
+        $promedio = ($request->l1 + $request->l2 + $request->l3) / 3;
         $res = round($promedio, 3);
 
         $model = LoteDetalleDirectos::find($request->idDetalle);
@@ -241,7 +242,7 @@ class DirectosController extends Controller
     {
         $res = "";
 
-        $promedio = $request->l1 + $request->l2 + $request->l3 / 3;
+        $promedio = ($request->l1 + $request->l2 + $request->l3) / 3;
         $res = round($promedio, 3);
 
         $model = LoteDetalleDirectos::find($request->idDetalle);
@@ -256,6 +257,51 @@ class DirectosController extends Controller
             'res' => $res,
             'model' =>  $model,
         );
+        return response()->json($data);
+    }
+    public function operacionColor(Request $res){
+        $resultado = 0;
+        $factor = 0;
+        $dilusion = 50/$res->volumen;
+        $promedio = ($res->aparente + $res->verdadero) * $res->dilusion;
+        if($res->verdadero!=0){
+            
+            if($promedio >= 1 && $promedio <= 50){
+                $factor = $factor + 1;
+            } else if($promedio >= 51 && $promedio <= 100){
+                $factor = $factor + 5;
+            } else if($promedio >= 101 && $promedio <= 250){
+                $factor = $factor + 10;
+            } else if($promedio >= 251 && $promedio <= 500){
+                $factor = $factor + 20;
+            }
+        }
+        $resultado = $promedio + $factor;
+        
+        $model = LoteDetalleDirectos::find($res->idDetalle);
+        $model->Resultado = $resultado;
+        $model->Color_a = $res->aparente;
+        $model->Color_v = $res->verdadero;
+        $model->Factor_dilucion = $dilusion;
+        $model->Vol_muestra = $res->volumen;
+        $model->Ph = $res->ph;
+        $model->Factor_correcion = $factor;
+        $model->save();
+        
+        $data = array(
+            'resultado' => $resultado,
+            'dilusion' => $dilusion,
+            'factor' => $factor,
+            'promedio' => $promedio
+        );
+
+        return response()->json($data);
+        
+    }
+    public function getDetalleDirecto(Request $res)
+    {
+        $model = LoteDetalleDirectos::where("Id_detalle",$res->idDetalle)->first();
+        $data = array('model' => $model);
         return response()->json($data);
     }
     public function exportPdfDirecto($idLote)
@@ -278,7 +324,7 @@ class DirectosController extends Controller
             case 14: // PH
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
                 // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
-                $data = array(
+                $data = array( 
                     'lote' => $lote,
                     'model' => $model,
                     'plantilla' => $plantilla
@@ -308,21 +354,31 @@ class DirectosController extends Controller
 
             case 97: // PH
 
-                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
-                    // 'textoProcedimiento' => $textoProcedimiento,
+                    'plantilla' => $plantilla
                 );
-
                 $htmlHeader = view('exports.laboratorio.directos.ph.bitacoraHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.directos.ph.bitacoraBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
-
+                case 102: // COLOR VERDADERO
+                    $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
+                    $data = array(
+                        'lote' => $lote,
+                        'model' => $model,
+                        'plantilla' => $plantilla
+                    );
+                    $htmlHeader = view('exports.laboratorio.directos.color.bitacoraHeader', $data);
+                    $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                    $htmlCaptura = view('exports.laboratorio.directos.color.bitacoraBody', $data);
+                    $mpdf->CSSselectMedia = 'mpdf';
+                    $mpdf->WriteHTML($htmlCaptura);
+                    break;
             default:
                 # code...
                 break;
