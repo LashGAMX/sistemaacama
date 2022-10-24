@@ -131,12 +131,13 @@ function getLoteCapturaDirecto() {
                         console.log("Entro a directos");
                         break;
                     case "97":
+                    case "33":
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalTemperatura">Capturar</button>';
                         console.log("Entro a temperatura");
                         break;
                     case "102":
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalColor">Capturar</button>';
-                        console.log("Entro a temperatura");
+                        console.log("Entro a color");
                         break;
                     default:
                         console.log("Entro a al limbo");
