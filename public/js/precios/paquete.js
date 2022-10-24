@@ -1,5 +1,8 @@
 $(document).ready(function() {
     getPaquetes();
+    $("#btnCrear").click(function (){
+        setPrecioPaquete()
+    })
 });
 
 
@@ -87,6 +90,27 @@ function savePrecioPaq(id){
         success: function (response) {      
             console.log(response)
             alert("Precio Modificado")
+            getPaquetes();
+        } 
+    });
+}
+function setPrecioPaquete(){
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/precios/paquete/setPrecioPaquete",
+        data: {
+            id:$("#paquete").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {      
+            console.log(response)
+            if (response.sw == true) {
+                alert("Paquete creado")   
+            } else {
+                alert("El paquete ya se encuentra creado")
+            }
             getPaquetes();
         } 
     });

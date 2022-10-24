@@ -17,7 +17,8 @@ class PaqueteController extends Controller
     {
         $idUser = Auth::user()->id;
         $norma = Norma::all();
-        return view('precios.paquete', compact('norma','idUser'));
+        $paquete = SubNorma::all();
+        return view('precios.paquete', compact('norma','idUser','paquete'));
     }
     public function getPaquetes(Request $res)
     {
@@ -47,6 +48,24 @@ class PaqueteController extends Controller
             'model' => $model,
         );
 
+        return response()->json($data);
+    }
+    public function setPrecioPaquete(Request $res)
+    {
+        $model = PrecioPaquete::where('Id_paquete')->get();
+        if($model->count())
+        { 
+            $sw = false;
+        }else{
+            $model = PrecioPaquete::create([
+                'Id_paquete' => $res->id,
+            ]);
+            $sw = true;
+        }
+        $data = array(
+            'sw' => $sw,
+            'model' => $model,
+        );
         return response()->json($data);
     }
 }
