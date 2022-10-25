@@ -54,19 +54,19 @@
                 </div>
                 <div class="col-md-6">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <p class="">Información global</p>
                             <div id="infoGlobal">
                                 {{-- <button class="btn btn-secondary" id="btnGenControl" onclick="imprimir();">Imprimir</button> --}}
                             </div>
                         </div>
                         
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <label id="tipoInfo">Tipo: </label>
                             <div >
                         </div>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-3">
                         <div class="form-group">
                           <label for="exampleFormControlTextarea1">Observaciones</label>
                           <textarea class="form-control" id="observacion" rows="3"></textarea>

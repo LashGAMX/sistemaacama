@@ -216,45 +216,60 @@ class DirectosController extends Controller
 
         return response()->json($data);
     }
-    public function operacion(Request $request)
+    public function operacion(Request $res)
     {
-        $res = "";
+        $resultado = ""; 
 
-        $promedio = ($request->l1 + $request->l2 + $request->l3) / 3;
-        $res = round($promedio, 3);
+        $promedio = ($res->l1 + $res->l2 + $res->l3) / 3;
 
-        $model = LoteDetalleDirectos::find($request->idDetalle);
-        $model->Resultado = $res;
-        $model->Lectura1 = $request->l1;
-        $model->Lectura2 = $request->l2;
-        $model->Lectura3 = $request->l3;
-        $model->temperatura = $request->temperatura1;
+        switch ($res->id) {
+            case 110:
+            case 14:
+                $resultado = round($promedio, 1);
+                break;
+            case 67:
+            case 68:
+                $resultado = round($promedio, 0);
+                    break;
+            default:
+                $resultado = round($promedio, 3); 
+                break;
+        }
+        
+        $model = LoteDetalleDirectos::find($res->idDetalle);
+        $model->Resultado = $resultado;
+        $model->Lectura1 = $res->l1;
+        $model->Lectura2 = $res->l2;
+        $model->Lectura3 = $res->l3;
+        $model->Temperatura = $res->temp;
+        $model->Promedio = $res->promedio;
         $model->save();
 
 
         $data = array(
-            'res' => $res,
+            'resultado' => $resultado,
             'model' =>  $model,
         );
         return response()->json($data);
     }
     public function operacionTemperatura(Request $request)
     {
-        $res = "";
+        $resultado = "";
 
         $promedio = ($request->l1 + $request->l2 + $request->l3) / 3;
-        $res = round($promedio, 3);
+        $resultado = round($promedio, 3);
 
         $model = LoteDetalleDirectos::find($request->idDetalle);
-        $model->Resultado = $res;
+        $model->Resultado = $resultado;
         $model->Lectura1 = $request->l1;
         $model->Lectura2 = $request->l2;
         $model->Lectura3 = $request->l3;
+        $model->Promedio = $request->promedio;
         $model->save();
 
 
         $data = array(
-            'res' => $res,
+            'res' => $resultado,
             'model' =>  $model,
         );
         return response()->json($data);
@@ -298,6 +313,34 @@ class DirectosController extends Controller
         return response()->json($data);
         
     }
+    public function enviarObsGeneral(Request $request){
+
+            
+                $model = LoteDetalleDirectos::where('Id_lote', $request->idLote)->get();
+                foreach ($model as $item) {
+                    $update = LoteDetalleDirectos::find($item->Id_detalle);
+                    $update->Observacion = $request->observacion; 
+                    $update->save();
+                }
+                
+        $data = array(
+            'model' => $update
+        );
+        return response()->json($data);
+    
+    }
+    public function updateObsMuestra(Request $request){
+
+            $update = LoteDetalleDirectos::find($request->idDetalle);
+            $update->Observacion = $request->observacion; 
+            $update->save();
+
+$data = array(
+    'model' => $update
+);
+return response()->json($data);
+
+}
     public function getDetalleDirecto(Request $res)
     {
         $model = LoteDetalleDirectos::where("Id_detalle",$res->idDetalle)->first();
@@ -321,6 +364,7 @@ class DirectosController extends Controller
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
         $plantilla = PlantillaDirectos::where('Id_parametro', $lote->Id_tecnica)->first();
         switch ($lote->Id_tecnica) {
+            case 110:
             case 14: // PH
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
                 // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
@@ -333,6 +377,8 @@ class DirectosController extends Controller
                 $htmlHeader = view('exports.laboratorio.directos.ph.bitacoraHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.directos.ph.bitacoraBody', $data);
+                $htmlFooter = view('exports.laboratorio.directos.ph.bitacoraFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
@@ -348,9 +394,11 @@ class DirectosController extends Controller
                 $htmlHeader = view('exports.laboratorio.directos.conductividad.bitacoraHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.directos.conductividad.bitacoraBody', $data);
+                $htmlFooter = view('exports.laboratorio.directos.ph.bitacoraFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
-                break;
+                break; 
 
             case 97: // PH
 
@@ -363,6 +411,8 @@ class DirectosController extends Controller
                 $htmlHeader = view('exports.laboratorio.directos.ph.bitacoraHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.directos.ph.bitacoraBody', $data);
+                $htmlFooter = view('exports.laboratorio.directos.ph.bitacoraFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;

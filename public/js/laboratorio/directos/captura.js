@@ -126,7 +126,7 @@ function getLoteCapturaDirecto() {
                 switch ($("#formulaTipo").val()) {
                     case "14":
                     case "67":
-                    
+                    case "110":
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modal">Capturar</button>';
                         console.log("Entro a directos");
                         break;
@@ -255,7 +255,7 @@ function operacion(){
         dataType: "json",
         success: function (response) {
             console.log(response);
-            $("#resultado").val(response.res)
+            $("#resultado").val(response.resultado)
         }
 
         });
@@ -305,6 +305,48 @@ function operacionColor(){
         }
 
         });
+}
+function enviarObsGeneral(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/enviarObsGeneral",
+        data: {
+            idParametro: $("#formulaTipo").val(),
+            idDetalle: idMuestra,
+            idLote: idLote,
+            observacion: $("#observacion").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response != null){
+                alert("Observacion acttualizada")
+                getLoteCapturaDirecto()
+            }
+        }
+    });
+}
+function updateObsMuestra(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestra",
+        data: {
+            idParametro: $("#formulaTipo").val(),
+            idDetalle: idMuestra,
+            idLote: idLote,
+            observacion: $("#obsMuestra").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response != null){
+                alert("Observacion acttualizada")
+                getLoteCapturaDirecto()
+            }
+        }
+    });
 }
 //Función imprimir PDF
 function imprimir(idLote){

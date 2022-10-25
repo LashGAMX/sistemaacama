@@ -38,7 +38,7 @@
         </div>
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-8">
+                <div class="col-md-6">
                     <div id="divLote">
                         <table class="table" id="">
                             <thead>
@@ -55,20 +55,25 @@
                         </table>
                     </div>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="row">
-                        <div class="col-md-3">
+                        <div class="col-md-2">
                             <p class="">Información global</p>
-                            <div id="infoGlobal">
-
-                            </div>
+            
                         </div>
-                        <div class="col-md-9">
-                            <p class="">Información</p>
-                            <div id="infoGen">
+                            <div class="col-md-2">
+                                <p class="">Información</p>
+                                
+                            </div>
+                            <div class="col-md-3">
+                                <textarea id="observacion"></textarea>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-success" id="enviar" onclick="enviarObsGeneral()">enviar</button>
                             </div>
                         </div>
                     </div>
+                
                 </div>
             </div>
 
@@ -129,13 +134,13 @@
                         <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Observación</label>
-                                        <input type="text" class="form-control" id="observacionCol"
+                                        <input type="text" class="form-control" id="obsMuestra"
                                             placeholder="Observacion de la muestra">
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-success" type="button"
-                                            onclick="updateObsMuestra(1,'observacionCol')"
-                                            id="btnAplicarObsColiformes"><i class="voyager-check"></i> Aplicar</button>
+                                            onclick="updateObsMuestra()"
+                                            id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
                                     </div>
                                 </div>
                             <div class="col-md-12">
@@ -212,13 +217,13 @@
                         <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Observación</label>
-                                        <input type="text" class="form-control" id="observacionCol"
+                                        <input type="text" class="form-control" id="obsMuestra"
                                             placeholder="Observacion de la muestra">
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-success" type="button"
-                                            onclick="updateObsMuestra(1,'observacionCol')"
-                                            id="btnAplicarObsColiformes"><i class="voyager-check"></i> Aplicar</button>
+                                            onclick="updateObsMuestra()"
+                                            id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
                                     </div>
                                 </div>
                             <div class="col-md-12">
@@ -288,13 +293,13 @@
                         <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Observación</label>
-                                        <input type="text" class="form-control" id="observacionCol"
+                                        <input type="text" class="form-control" id="obsMuestra"
                                             placeholder="Observacion de la muestra">
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-success" type="button"
-                                            onclick="updateObsMuestra(1,'observacionCol')"
-                                            id="btnAplicarObsColiformes"><i class="voyager-check"></i> Aplicar</button>
+                                            onclick="updateObsMuestra()"
+                                            id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
                                     </div>
                                 </div>
                             <div class="col-md-12">

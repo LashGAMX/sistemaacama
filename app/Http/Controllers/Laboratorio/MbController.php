@@ -1687,6 +1687,7 @@ class MbController extends Controller
                     array(0, 0),
                 );
                 $mpdf->showWatermarkImage = true;
+        
 
                 $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->get();
                 $bitacora = PlantillaMb::where('Id_parametro', 134)->first();
@@ -1700,6 +1701,8 @@ class MbController extends Controller
                 $htmlHeader = view('exports.laboratorio.mb.127.coliformes.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.mb.127.coliformes.capturaBody', $data);
+                $htmlFooter = view('exports.laboratorio.mb.127.coliformes.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;

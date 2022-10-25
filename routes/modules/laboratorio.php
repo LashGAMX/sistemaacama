@@ -212,6 +212,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('operacion', [DirectosController::class, 'operacion']);
         Route::post('operacionTemperatura', [DirectosController::class, 'operacionTemperatura']);
         Route::post('operacionColor', [DirectosController::class, 'operacionColor']);
+        Route::post('enviarObsGeneral', [DirectosController::class, 'enviarObsGeneral']);
+        Route::post('updateObsMuestra', [DirectosController::class, 'updateObsMuestra']);
         Route::get('captura/exportPdfDirecto/{idLote}', [DirectosController::class, 'exportPdfDirecto']);
         
     });
