@@ -148,7 +148,6 @@ function getLoteCapturaMicro() {
                 }
                 switch ($("#formulaTipo").val()) {
                     case "12":
-                    
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleCol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                         console.log("Entro a 12");
                         break;
@@ -166,6 +165,9 @@ function getLoteCapturaMicro() {
                     case "16":
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleHH(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaHH">Capturar</button>';
                         break;
+                    case "135":
+                    case "133":
+                    case "132":
                     case "134":
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalColiformesAlimentos">Capturar</button>';
                         break;
