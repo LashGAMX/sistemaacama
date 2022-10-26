@@ -1034,7 +1034,7 @@ class VolController extends Controller
     {
         $muestra = LoteDetalleEspectro::where('Id_lote', $res->idLote)->first();
 
-        switch ($request->idParametro) {
+        switch ($res->idParametro) {
             case 295:
                 # Cloro
                 

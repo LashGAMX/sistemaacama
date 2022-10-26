@@ -247,6 +247,9 @@ class MbController extends Controller
         $detalle = array();
         switch ($loteModel->Id_tecnica) {
             case 12: //todo Coliformes+
+            case 132:
+            case 133:
+            case 135:
             case 134:
                 $detalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->get();
                 break;
@@ -1005,7 +1008,10 @@ class MbController extends Controller
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         $model = array();
         switch ($loteModel->Id_tecnica) {
-            case 12: //todo Coliformes+
+            case 132: //todo Coliformes +
+            case 133:
+            case 135:
+            case 12:
             case 134: //coliformes alimentos
                 $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $request->idLote)->where('Id_control', 1)->get();
                 break;
@@ -1077,6 +1083,9 @@ class MbController extends Controller
         $paraModel = Parametro::find($loteModel->Id_tecnica);
 
         switch ($paraModel->Id_parametro) {
+            case 135:
+            case 132:
+            case 133:
             case 12: //todo Coliformes Fecales
             case 134:
                 $model = LoteDetalleColiformes::create([
@@ -1660,6 +1669,7 @@ class MbController extends Controller
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
             case 134:
+            case 132: //Coliformes fecales
                 $mpdf = new \Mpdf\Mpdf([
                     'orientation' => "L",
                     'format' => 'letter',
@@ -1677,6 +1687,7 @@ class MbController extends Controller
                     array(0, 0),
                 );
                 $mpdf->showWatermarkImage = true;
+        
 
                 $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->get();
                 $bitacora = PlantillaMb::where('Id_parametro', 134)->first();
@@ -1690,10 +1701,13 @@ class MbController extends Controller
                 $htmlHeader = view('exports.laboratorio.mb.127.coliformes.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.mb.127.coliformes.capturaBody', $data);
+                $htmlFooter = view('exports.laboratorio.mb.127.coliformes.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
-            case 134:
+            case 135:
+            case 133: //Coliformes totales
                 $mpdf = new \Mpdf\Mpdf([
                     'orientation' => "L",
                     'format' => 'letter',
