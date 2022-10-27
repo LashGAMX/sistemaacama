@@ -8,6 +8,7 @@ use App\Http\Controllers\Laboratorio\MetalesController;
 use App\Http\Controllers\laboratorio\MicroController;
 use App\Http\Controllers\Laboratorio\VolController;
 use App\Http\Controllers\Laboratorio\DirectosController;
+use App\Http\Controllers\Laboratorio\PotableController;
 use App\Http\Controllers\Seguimiento\SeguimientoController;
 use App\Models\Laboratorio;
 use Illuminate\Support\Facades\Route;
@@ -214,12 +215,41 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('operacionColor', [DirectosController::class, 'operacionColor']);
         Route::post('enviarObsGeneral', [DirectosController::class, 'enviarObsGeneral']);
         Route::post('updateObsMuestra', [DirectosController::class, 'updateObsMuestra']);
+        Route::post('liberarMuestra', [DirectosController::class, 'liberarMuestra']);
         Route::get('captura/exportPdfDirecto/{idLote}', [DirectosController::class, 'exportPdfDirecto']);
         
     });
  
 
     //****************************************FIN DIRECTOS***********************************************
+        //******************************************POTABLE****************************************************
+
+        Route::group(['prefix' => 'potable'], function () {
+            Route::get('lote', [PotableController::class, 'lote']);
+            Route::post('getLote',[PotableController::class, 'getLote']); 
+            Route::post('getDetalleLote',[PotableController::class, 'getDetalleLote']); 
+            Route::post('setLote',[PotableController::class, 'setLote']); 
+            Route::post('setPlantilla',[PotableController::class, 'setPlantilla']); 
+            Route::get('loteDetalle/{id}',[PotableController::class, 'loteDetalle']);
+            Route::post('muestraSinAsignar', [PotableController::class, 'muestraSinAsignar']);
+            Route::post('asignarMuestraLote', [PotableController::class, 'asignarMuestraLote']);
+            Route::post('sendMuestrasLote', [PotableController::class, 'sendMuestrasLote']);
+            Route::post('getMuestraAsignada', [PotableController::class, 'getMuestraAsignada']);
+            Route::post('delMuestraLote', [PotableController::class, 'delMuestraLote']);
+    
+            Route::get('captura',[PotableController::class, 'captura']);
+            Route::post('getLoteCapturaPotable', [PotableController::class, 'getLoteCapturaPotable']);
+            Route::post('getDetallePotable', [PotableController::class, 'getDetallePotable']);
+            Route::post('operacion', [PotableController::class, 'operacion']);
+            Route::post('enviarObsGeneral', [PotableController::class, 'enviarObsGeneral']);
+            Route::post('updateObsMuestra', [PotableController::class, 'updateObsMuestra']);
+            Route::post('liberarMuestra', [PotableController::class, 'liberarMuestra']);
+            Route::get('captura/exportPdfPotable/{idLote}', [PotableController::class, 'exportPdfPotable']);
+            
+        }); 
+     
+    
+        //****************************************FIN POTABLE***********************************************
         // todo Modulo MicroBiologia
         Route::group(['prefix' => 'micro'], function () {
             //? Modulo Analisis -  Solo visualizar analisis pendientes

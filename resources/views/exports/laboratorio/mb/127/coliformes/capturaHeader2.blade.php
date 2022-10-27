@@ -1,5 +1,5 @@
 <p class='titulo'>
-    COLIFORMES TOTALES
+    DETERMINACIÓN DE NMP PARA COLIFORMES FECALES (NOM-210-SSA1-2014 APENDICE H NORMATIVO) (PEA-10-002-2) 
 </p>
 
 <span class='textofecha'>Fecha de análisis </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;

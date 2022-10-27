@@ -1,5 +1,6 @@
 <p class='titulo'>
-    DETERMINACIÓN DE NMP PARA COLIFORMES TOTALES (NOM-210-SSA1-2014 APENDICE H NORMATIVO) (PEA-10-002-2) 
+    MEDICIÓN DEL POTENCIAL DE HIDROGENO (pH) NMX-AA-008-SCFI-2016
+    PROCEDIMIENTO: PE-10-002-3
 </p>
 
 <span class='textofecha'>Fecha de análisis </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
@@ -20,3 +21,4 @@
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+ 

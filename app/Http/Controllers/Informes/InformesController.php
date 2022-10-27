@@ -3284,16 +3284,7 @@ class InformesController extends Controller
         $promGastos = 0;
 
         //Promedio temperatura
-        foreach ($gastosModel2 as $item) {
-            if ($item->Promedio == NULL) {
-                $promGastos += 0;
-            } else {
-                $promGastos += $item->Promedio;
-            }
-        }
-
-        $promGastos = $promGastos / $gastosModelLength2;
-
+    
         $limitesC = array();
 
         $paquete = DB::table('ViewPlanPaquete')->where('Id_paquete', $model->Id_subnorma)->distinct()->get();

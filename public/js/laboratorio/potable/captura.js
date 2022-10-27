@@ -1,6 +1,7 @@
-var area = "directos"
+var area = "potable"
 $(document).ready(function () {
 
+    $('#formulaTipo').select2();
     $('#btnLiberar').click(function () {
         // operacion();
         liberarMuestra();
@@ -26,7 +27,7 @@ function getLote() {
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
-        success: function (response) {
+        success: function (response) { 
             console.log(response);
             tab += '<table id="tablaLote" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
@@ -80,23 +81,23 @@ function getLote() {
             $('#tablaLote tr').on('click', function () {
                 let dato = $(this).find('td:first').html();
                 idLote = dato;
-                getLoteCapturaDirecto();
+                getLoteCapturaPotable();
             });
         }
     });
 }
 
-function getLoteCapturaDirecto() {
+function getLoteCapturaPotable() {
     numMuestras = new Array();
     let tabla = document.getElementById('divTablaControles');
     let tab = '';
     let cont = 1;
 
-    let status = "";
+    let status = ""; 
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/getLoteCapturaDirecto",
+        url: base_url + "/admin/laboratorio/" + area + "/getLoteCapturaPotable",
         data: {
             idLote: idLote,
             formulaTipo: $("#formulaTipo").val(),
@@ -129,21 +130,12 @@ function getLoteCapturaDirecto() {
                     clase = "btn btn-warning";
                 }
                 switch ($("#formulaTipo").val()) {
-                    case "14":
-                    case "67":
-                    case "110":
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modal">Capturar</button>';
+                    case "77":
+                    case "251":
+                    case "252":
+                    case "103":
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetallePotable(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDureza">Capturar</button>';
                         console.log("Entro a directos");
-                        break;
-                    case "97":
-                    case "33":
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalTemperatura">Capturar</button>';
-                        console.log("Entro a temperatura");
-                        break;
-                    case "102":
-                    case "66":
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalColor">Capturar</button>';
-                        console.log("Entro a color");
                         break;
                     default:
                         console.log("Entro a al limbo");
@@ -206,11 +198,11 @@ function getLoteCapturaDirecto() {
         }
     });
 }
-function getDetalleDirecto(idMuestra)
+function getDetallePotable(idMuestra)
 {
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/getDetalleDirecto",
+        url: base_url + "/admin/laboratorio/" + area + "/getDetallePotable",
         data: {
             idDetalle: idMuestra,
             _token: $('input[name="_token"]').val()
@@ -252,69 +244,22 @@ function operacion(){
             idDetalle: idMuestra,
             id: $("#formulaTipo").val(),
             fecha: $("#fechaAnalisis").val(),
-            l1: $("#lecturaUno1").val(),
-            l2: $("#lecturaDos1").val(),
-            l3: $("#lecturaTres1").val(),
-            temp: $("#temperatura1").val(),
+            edta: $("#edta1").val(),
+            ph: $("#ph1").val(),
+            vol: $("#vol1").val(),
+            real: $("#real1").val(),
+            conversion: $("#conversion1").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
             $("#resultado").val(response.resultado)
-            getLoteCapturaDirecto()
         }
 
         });
 }
-function operacionTemperatura(){
-    $.ajax({
-        type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/operacionTemperatura",
-        data: {
-            idDetalle: idMuestra,
-            id: $("#formulaTipo").val(),
-            fecha: $("#fechaAnalisis").val(),
-            l1: $("#lecturaUno1T").val(),
-            l2: $("#lecturaDos1T").val(),
-            l3: $("#lecturaTres1T").val(),
-            _token: $('input[name="_token"]').val()
-        },
-        dataType: "json",
-        success: function (response) {
-            console.log(response);
-            $("#resultadoT").val(response.res)
-            getLoteCapturaDirecto()
-        }
 
-        });
-}
-function operacionColor(){
-    $.ajax({
-        type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/operacionColor",
-        data: {
-            idDetalle: idMuestra,
-            id: $("#formulaTipo").val(),
-            fecha: $("#fechaAnalisis").val(),
-            aparente: $("#aparente1").val(),
-            verdadero: $("#verdadero1").val(),
-            dilusion: $("#dilusion1").val(),
-            volumen: $("#volumen1").val(),
-            ph: $("#ph1").val(),
-            _token: $('input[name="_token"]').val()
-        },
-        dataType: "json",
-        success: function (response) {
-            console.log(response);
-            $("#resultadoColor").val(response.resultado)
-            $("#dilusion1").val(response.dilusion)
-            $("#factor1").val(response.factor)
-            getLoteCapturaDirecto()
-        }
-
-        });
-}
 function enviarObsGeneral(){
     $.ajax({
         type: "POST",
@@ -362,6 +307,7 @@ function liberarMuestra() {
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/liberarMuestra",
         data: {
+            idParametro: $("#formulaTipo").val(),
             idMuestra: idMuestra,
             idLote: idLote,
             _token: $('input[name="_token"]').val()
@@ -371,7 +317,7 @@ function liberarMuestra() {
             console.log(response);
             if (response.sw == true) {
                 getLote()
-                getLoteCapturaDirecto()
+                getLoteCapturaPotable()
 
             } else {
                 alert("La muestra no se pudo liberar");
@@ -383,6 +329,5 @@ function liberarMuestra() {
 function imprimir(idLote){
     console.log("Dentro de evento btnBuscar");
     $('#btnImprimir').click(function() {
-        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfDirecto/"+idLote;
-    });
-}
+        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfPotable/"+idLote;
+    });}

@@ -171,6 +171,17 @@ function getLoteCapturaMicro() {
                     case "134":
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalColiformesAlimentos">Capturar</button>';
                         break;
+                   case "78": //E.coli
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '">';
+                        tab +='<div class="row">'
+                        tab +='<div class="col-md-12">'
+                        tab += '<button type="button" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
+                        tab += '<select>'
+                        tab += '<option value="0">Obs generica 1</option>';
+                        tab +='</select>';
+                        tab += '</div>';
+                        tab += '</div">';
+                        break;
                     default:
                         console.log("Entro a al limbo");
                         break;

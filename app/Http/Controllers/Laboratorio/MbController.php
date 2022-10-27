@@ -34,6 +34,7 @@ use App\Models\EnfriadoMatraces;
 use App\Models\EnfriadoMatraz;
 use App\Models\LoteDetalleColiformes;
 use App\Models\LoteDetalleDbo;
+use App\Models\LoteDetalleEcoli;
 use App\Models\LoteDetalleEnterococos;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleHH;
@@ -244,6 +245,7 @@ class MbController extends Controller
     public function getLoteCapturaMicro(Request $request)
     {
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
+      //  $positivos = LoteDetalleColiformes::where();
         $detalle = array();
         switch ($loteModel->Id_tecnica) {
             case 12: //todo Coliformes+
@@ -266,12 +268,16 @@ class MbController extends Controller
                 # code...
                 $detalle = DB::table('ViewLoteDetalleHH')->where('Id_lote', $request->idLote)->get();
                 break;
+            case 78: // E. coli
+                $detalle = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $request->idLote)->get();
+                break;
             default:
                 # code...
                 break;
         }
 
         $data = array(
+            
             'detalle' => $detalle,
         );
         return response()->json($data);
@@ -1157,6 +1163,16 @@ class MbController extends Controller
                 $detModel = LoteDetalleHH::where('Id_lote', $request->idLote)->get();
                 $sw = true;
                 break;
+            case 78:
+                $model = LoteDetalleEcoli::create([
+                    'Id_lote' => $request->idLote,
+                    'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
+                    'Id_parametro' => $loteModel->Id_tecnica,
+                    'Id_control' => 1,
+                ]);
+                $detModel = LoteDetalleEcoli::where('Id_lote', $request->idLote)->get();
+                break;
             default:
                 # code...
                 $sw  = false;
@@ -1186,7 +1202,12 @@ class MbController extends Controller
         $mensaje = "";
         $paraModel = LoteAnalisis::find($request->idLote);
         switch ($paraModel->Id_tecnica) {
-            case 12: //todo Número más probable (NMP), en tubos múltiples
+            case 12:
+            case 132:
+            case 133:
+            case 134:
+            case 135:
+            case 137:     //todo Número más probable (NMP), en tubos múltiples
                 $model = LoteDetalleColiformes::find($request->idMuestra);
                 $model->Liberado = 1;
                 if ($model->Resultado != null) {

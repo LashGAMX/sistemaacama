@@ -11,13 +11,14 @@ use App\Models\Parametro;
 use App\Models\PlantillaDirectos;
 use App\Models\Promedio;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
 class DirectosController extends Controller
 {
     public function lote()
     {
-        $parametro = DB::table('ViewParametros')->where('Id_area', 7)->orWhere('Id_tecnica',4)->get();
+        $parametro = DB::table('ViewParametros')->where('Id_area', 7)->orWhere('Id_tecnica', 4)->get();
         return view('laboratorio.directos.lote', compact('parametro'));
     }
     public function getLote(request $res)
@@ -202,7 +203,7 @@ class DirectosController extends Controller
     //! Captura
     public function captura()
     {
-        $parametro = Parametro::where('Id_area', 7)->orWhere('Id_tecnica',4)->get();
+        $parametro = Parametro::where('Id_area', 7)->orWhere('Id_tecnica', 4)->get();
         return view('laboratorio.directos.captura', compact('parametro'));
     }
 
@@ -218,7 +219,7 @@ class DirectosController extends Controller
     }
     public function operacion(Request $res)
     {
-        $resultado = ""; 
+        $resultado = "";
 
         $promedio = ($res->l1 + $res->l2 + $res->l3) / 3;
 
@@ -230,12 +231,12 @@ class DirectosController extends Controller
             case 67:
             case 68:
                 $resultado = round($promedio, 0);
-                    break;
+                break;
             default:
-                $resultado = round($promedio, 3); 
+                $resultado = round($promedio, 3);
                 break;
         }
-        
+
         $model = LoteDetalleDirectos::find($res->idDetalle);
         $model->Resultado = $resultado;
         $model->Lectura1 = $res->l1;
@@ -274,25 +275,26 @@ class DirectosController extends Controller
         );
         return response()->json($data);
     }
-    public function operacionColor(Request $res){
+    public function operacionColor(Request $res)
+    {
         $resultado = 0;
         $factor = 0;
-        $dilusion = 50/$res->volumen;
+        $dilusion = 50 / $res->volumen;
         $promedio = ($res->aparente + $res->verdadero) * $res->dilusion;
-        if($res->verdadero!=0){
-            
-            if($promedio >= 1 && $promedio <= 50){
+        if ($res->verdadero != 0) {
+
+            if ($promedio >= 1 && $promedio <= 50) {
                 $factor = $factor + 1;
-            } else if($promedio >= 51 && $promedio <= 100){
+            } else if ($promedio >= 51 && $promedio <= 100) {
                 $factor = $factor + 5;
-            } else if($promedio >= 101 && $promedio <= 250){
+            } else if ($promedio >= 101 && $promedio <= 250) {
                 $factor = $factor + 10;
-            } else if($promedio >= 251 && $promedio <= 500){
+            } else if ($promedio >= 251 && $promedio <= 500) {
                 $factor = $factor + 20;
             }
         }
         $resultado = $promedio + $factor;
-        
+
         $model = LoteDetalleDirectos::find($res->idDetalle);
         $model->Resultado = $resultado;
         $model->Color_a = $res->aparente;
@@ -302,7 +304,7 @@ class DirectosController extends Controller
         $model->Ph = $res->ph;
         $model->Factor_correcion = $factor;
         $model->save();
-        
+
         $data = array(
             'resultado' => $resultado,
             'dilusion' => $dilusion,
@@ -311,43 +313,71 @@ class DirectosController extends Controller
         );
 
         return response()->json($data);
-        
     }
-    public function enviarObsGeneral(Request $request){
+    public function enviarObsGeneral(Request $request)
+    {
 
-            
-                $model = LoteDetalleDirectos::where('Id_lote', $request->idLote)->get();
-                foreach ($model as $item) {
-                    $update = LoteDetalleDirectos::find($item->Id_detalle);
-                    $update->Observacion = $request->observacion; 
-                    $update->save();
-                }
-                
+
+        $model = LoteDetalleDirectos::where('Id_lote', $request->idLote)->get();
+        foreach ($model as $item) {
+            $update = LoteDetalleDirectos::find($item->Id_detalle);
+            $update->Observacion = $request->observacion;
+            $update->save();
+        }
+
         $data = array(
             'model' => $update
         );
         return response()->json($data);
-    
     }
-    public function updateObsMuestra(Request $request){
+    public function updateObsMuestra(Request $request)
+    {
 
-            $update = LoteDetalleDirectos::find($request->idDetalle);
-            $update->Observacion = $request->observacion; 
-            $update->save();
+        $update = LoteDetalleDirectos::find($request->idDetalle);
+        $update->Observacion = $request->observacion;
+        $update->save();
 
-$data = array(
-    'model' => $update
-);
-return response()->json($data);
-
-}
+        $data = array(
+            'model' => $update
+        );
+        return response()->json($data);
+    }
     public function getDetalleDirecto(Request $res)
     {
-        $model = LoteDetalleDirectos::where("Id_detalle",$res->idDetalle)->first();
+        $model = LoteDetalleDirectos::where("Id_detalle", $res->idDetalle)->first();
         $data = array('model' => $model);
         return response()->json($data);
     }
-    public function exportPdfDirecto($idLote)
+
+    public function liberarMuestra(Request $request)
+    {
+        $sw = false;
+        $mensaje = "";
+        $model = LoteDetalleDirectos::find($request->idMuestra);
+        $model->Liberado = 1;
+        if ($model->Resultado != null) {
+            $sw = true;
+            $model->save();
+        }
+        $modelCod = CodigoParametros::find($model->Id_codigo);
+        $modelCod->Resultado = $model->Resultado;
+        $modelCod->Analizo = Auth::user()->id;
+        $modelCod->save();
+
+        $model = LoteDetalleDirectos::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
+        $loteModel = LoteAnalisis::find($request->idLote);
+        $loteModel->Liberado = $model->count();
+        $loteModel->save();
+
+
+        $data = array(
+            'sw' => $sw,
+            'mensaje' => $mensaje,
+        );
+        return response()->json($data);
+    }
+
+    public function exportPdfPotable($idLote)
     {
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
@@ -368,7 +398,7 @@ return response()->json($data);
             case 14: // PH
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
                 // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
-                $data = array( 
+                $data = array(
                     'lote' => $lote,
                     'model' => $model,
                     'plantilla' => $plantilla
@@ -386,7 +416,7 @@ return response()->json($data);
 
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
                 $data = array(
-                    'lote' => $lote, 
+                    'lote' => $lote,
                     'model' => $model,
                     'plantilla' => $plantilla
                 );
@@ -398,7 +428,7 @@ return response()->json($data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
-                break; 
+                break;
 
             case 97: // PH
 
@@ -416,19 +446,19 @@ return response()->json($data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
-                case 102: // COLOR VERDADERO
-                    $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
-                    $data = array(
-                        'lote' => $lote,
-                        'model' => $model,
-                        'plantilla' => $plantilla
-                    );
-                    $htmlHeader = view('exports.laboratorio.directos.color.bitacoraHeader', $data);
-                    $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                    $htmlCaptura = view('exports.laboratorio.directos.color.bitacoraBody', $data);
-                    $mpdf->CSSselectMedia = 'mpdf';
-                    $mpdf->WriteHTML($htmlCaptura);
-                    break;
+            case 102: // COLOR VERDADERO
+                $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
+                $data = array(
+                    'lote' => $lote,
+                    'model' => $model,
+                    'plantilla' => $plantilla
+                );
+                $htmlHeader = view('exports.laboratorio.directos.color.bitacoraHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.directos.color.bitacoraBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
             default:
                 # code...
                 break;

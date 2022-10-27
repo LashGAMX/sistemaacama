@@ -523,7 +523,8 @@ class CampoController extends Controller
                 $ph->Ph3 = $request->ph[$i][5];
                 $ph->Promedio = $request->ph[$i][6];
                 $ph->Fecha = $request->ph[$i][7];
-                $ph->Activo = $request->ph[$i][8];
+                // $ph->Activo = $request->ph[$i][8];
+                $ph->Activo = 1;
                 $ph->Num_toma = $request->ph[$i][9];
                 $ph->Id_user_m = Auth::user()->id;
                 
@@ -595,7 +596,7 @@ class CampoController extends Controller
             }
         }
 
-        $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud', $request->idSolicitud)->get();
+        // $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud', $request->idSolicitud)->get();
 
         if ($tempMuestra->count()) {
             for ($i = 0; $i < $request->numTomas; $i++) {
@@ -690,7 +691,7 @@ class CampoController extends Controller
                 $conduc->Id_user_m = Auth::user()->id;
                 
                 $nota = "Registro modificado";
-                $this->historialConductividad($request->idSolicitud, $nota, $conduc->Id_conductividad);
+                // $this->historialConductividad($request->idSolicitud, $nota, $conduc->Id_conductividad);
 
                 $conduc->save();
             }
