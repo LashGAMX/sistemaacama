@@ -250,6 +250,7 @@ class FqController extends Controller
 
                 break;
             case 19:
+            case 99:
                 # Cianuros
                 $d = 500 * $request->E;
                 $x = ($request->X + $request->Y + $request->Z) / 3;
@@ -288,6 +289,7 @@ class FqController extends Controller
 
                 break;
             case 8:
+            case 107:
                 # N-nitritos
                 $d = 50 / $request->E;
                 $x = ($request->X + $request->Y + $request->Z) / 3;

@@ -4,11 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class LoteDetallePotable extends Model
 {
-    use HasFactory;
-    protected $table = 'lote_detalle_nitrogeno';
+    use HasFactory,SoftDeletes;
+    protected $table = 'lote_detalle_potable';
     protected $primaryKey = 'Id_detalle';
     public $timestamps = true;
 
@@ -18,12 +19,12 @@ class LoteDetallePotable extends Model
         'Id_codigo',
         'Id_parametro',
         'Id_control',
-        'Titulado_muestra',
-        'Titulado_blanco',
-        'Molaridad',
-        'Factor_equivalencia',
-        'Factor_conversion',
+        'Factor_dilucion',
+        'Lectura1',
+        'Lectura2',
+        'Lectura3',
         'Vol_muestra',
+        'Promedio',
         'Resultado',
         'Observacion',
         'Liberado',

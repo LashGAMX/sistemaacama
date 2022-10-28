@@ -245,7 +245,7 @@ class MbController extends Controller
     public function getLoteCapturaMicro(Request $request)
     {
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
-      //  $positivos = LoteDetalleColiformes::where();
+        $positivosArray = array();
         $detalle = array();
         switch ($loteModel->Id_tecnica) {
             case 12: //todo Coliformes+
@@ -275,6 +275,7 @@ class MbController extends Controller
                 # code...
                 break;
         }
+        
 
         $data = array(
             

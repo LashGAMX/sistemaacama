@@ -7,6 +7,7 @@ use App\Models\CodigoParametros;
 use App\Models\ControlCalidad;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalleDureza;
+use App\Models\LoteDetallePotable;
 use App\Models\Parametro;
 use App\Models\PlantillaPotable;
 use Illuminate\Http\Request;
@@ -79,7 +80,7 @@ class PotableController extends Controller
                 break;
             default:
                 # code...
-                $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $res->idLote)->where('Id_control', 1)->get();
+                $model = DB::table('ViewLoteDetallePotable')->where('Id_lote', $res->idLote)->where('Id_control', 1)->get();
                 break;
         }
         $data = array(
@@ -91,9 +92,21 @@ class PotableController extends Controller
     public function delMuestraLote(Request $request)
     {
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
-
-        $detModel = DB::table('lote_detalle_directos')->where('Id_detalle', $request->idDetalle)->delete();
-        $detModel = LoteDetalleDureza::where('Id_lote', $request->idLote)->get();
+        switch ($loteModel->Id_tecnica) {
+            //Dureza
+        case 77:
+        case 251:
+        case 252:
+        case 103:
+            $detModel = DB::table('lote_detalle_directos')->where('Id_detalle', $request->idDetalle)->delete();
+            $detModel = LoteDetalleDureza::where('Id_lote', $request->idLote)->get();
+            break;
+        default:
+            # code...
+            $detModel = DB::table('lote_detalle_potable')->where('Id_detalle', $request->idDetalle)->delete();
+            $detModel = LoteDetallePotable::where('Id_lote', $request->idLote)->get();
+            break;
+    }
 
         $loteModel = LoteAnalisis::find($request->idLote);
         $loteModel->Asignado = $detModel->count();
@@ -135,7 +148,15 @@ class PotableController extends Controller
                 break;
             default:
                 # code...
-
+                $model = LoteDetallePotable::create([
+                    'Id_lote' => $request->idLote,
+                    'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
+                    'Id_parametro' => $loteModel->Id_tecnica,
+                    'Id_control' => 1,
+                    'Analizo' => 1,
+                ]);
+                $detModel = LoteDetallePotable::where('Id_lote', $request->idLote)->get();
                 break;
         }
 
@@ -161,24 +182,47 @@ class PotableController extends Controller
         $sw = false;
         $loteModel = LoteAnalisis::where('Id_lote', $res->idLote)->first();
         $paraModel = Parametro::find($loteModel->Id_tecnica);
-
-        for ($i = 0; $i < sizeof($res->idCodigos); $i++) {
-            $sol = CodigoParametros::where('Id_codigo', $res->idCodigos[$i])->first();
-            $model = LoteDetalleDureza::create([
-                'Id_lote' => $res->idLote,
-                'Id_analisis' => $sol->Id_solicitud,
-                'Id_codigo' => $res->idCodigos[$i],
-                'Id_parametro' => $loteModel->Id_tecnica,
-                'Id_control' => 1,
-                'Analizo' => 1,
-            ]);
-            $solModel = CodigoParametros::find($sol->Id_codigo);
-            $solModel->Asignado = 1;
-            $solModel->save();
+        
+        switch ($paraModel->Id_parametro) {
+            case 77: //Dureza
+            case 103:
+            case 251:
+            case 252:
+                for ($i = 0; $i < sizeof($res->idCodigos); $i++) {
+                    $sol = CodigoParametros::where('Id_codigo', $res->idCodigos[$i])->first();
+                    $model = LoteDetalleDureza::create([
+                        'Id_lote' => $res->idLote,
+                        'Id_analisis' => $sol->Id_solicitud,
+                        'Id_codigo' => $res->idCodigos[$i],
+                        'Id_parametro' => $loteModel->Id_tecnica,
+                        'Id_control' => 1,
+                        'Analizo' => 1,
+                    ]);
+                    $solModel = CodigoParametros::find($sol->Id_codigo);
+                    $solModel->Asignado = 1;
+                    $solModel->save();
+                }
+                $detModel = LoteDetalleDureza::where('Id_lote', $res->idLote)->get();
+                break;
+            default:
+                # code...
+                for ($i = 0; $i < sizeof($res->idCodigos); $i++) {
+                    $sol = CodigoParametros::where('Id_codigo', $res->idCodigos[$i])->first();
+                    $model = LoteDetallePotable::create([
+                        'Id_lote' => $res->idLote,
+                        'Id_analisis' => $sol->Id_solicitud,
+                        'Id_codigo' => $res->idCodigos[$i],
+                        'Id_parametro' => $loteModel->Id_tecnica,
+                        'Id_control' => 1,
+                        'Analizo' => 1,
+                    ]);
+                    $solModel = CodigoParametros::find($sol->Id_codigo);
+                    $solModel->Asignado = 1;
+                    $solModel->save();
+                }
+                $detModel = LoteDetallePotable::where('Id_lote', $res->idLote)->get();
+                break;
         }
-        $detModel = LoteDetalleDureza::where('Id_lote', $res->idLote)->get();
-
-
 
         $loteModel = LoteAnalisis::find($res->idLote);
         $loteModel->Asignado = $detModel->count();
@@ -218,9 +262,9 @@ class PotableController extends Controller
             case 252:
                 $detalle = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $request->idLote)->get();
                 break;
-            default:
+            default: 
                 # code...
-
+                $detalle = DB::table('ViewLoteDetallePotable')->where('Id_lote', $request->idLote)->get();
                 break;
         }
 
@@ -251,7 +295,16 @@ class PotableController extends Controller
                 break;
             default:
                 # code...
-
+                $resultado = (($res->lectura1 + $res->lectura2 + $res->lectura3)/3);
+                $model = LoteDetallePotable::find($res->idDetalle);
+                $model->Factor_dilucion = $res->dilucion;
+                $model->Lectura1 = $res->lectura1;
+                $model->Lectura2 = $res->lectura2;
+                $model->Lectura3 = $res->lectura3;
+                $model->Vol_muestra = $res->vol;
+                $model->Promedio = $res->promedion;
+                $model->Resultado = $resultado;
+                $model->save();
                 break;
         }
         $data = array(
@@ -331,7 +384,14 @@ class PotableController extends Controller
                 break;
             default:
                 # code...
-
+                $model = LoteDetallePotable::find($res->idMuestra);
+                $model->Liberado = 1;
+                if ($model->Resultado != null) {
+                    $sw = true;
+                    $model->save();
+                }
+                $temp = $model;
+                $model = LoteDetallePotable::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
                 break;
         }
 
@@ -384,6 +444,23 @@ class PotableController extends Controller
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.potable.durezaTotal.bitacoraBody', $data);
                 $htmlFooter = view('exports.laboratorio.potable.durezaTotal.bitacoraFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break; 
+            case 98:
+                $model = DB::table('ViewLoteDetallePotable')->where('Id_lote', $idLote)->get();
+                // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                $data = array(
+                    'lote' => $lote,
+                    'model' => $model,
+                    'plantilla' => $plantilla
+                );
+
+                $htmlHeader = view('exports.laboratorio.potable.turbiedad.bitacoraHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.potable.turbiedad.bitacoraBody', $data);
+                $htmlFooter = view('exports.laboratorio.potable.turbiedad.bitacoraFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);

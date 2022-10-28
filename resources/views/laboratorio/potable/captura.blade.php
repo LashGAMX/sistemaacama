@@ -119,7 +119,7 @@
     </div>
 </div>
 
-        <!-- Modal -->
+        <!-- Modal Dureza-->
         <div class="modal fade" id="modalDureza" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -139,7 +139,7 @@
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-success" type="button"
-                                            onclick="updateObsMuestra()"
+                                            onclick="updateObsMuestra(1)"
                                             id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
                                     </div>
                                 </div>
@@ -208,14 +208,113 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" onclick="operacion()" id="guardar"
+                        <button type="button" onclick="operacion(1)" id="guardar"
                             class="btn btn-primary">Calcular</button>
                     </div>
                 </div>
             </div>
         </div>
 
-
+        <!-- Modal Potable -->
+        <div class="modal fade" id="modalPotable" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="">Potable</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Observación</label>
+                                        <input type="text" class="form-control" id="obsMuestra"
+                                            placeholder="Observacion de la muestra">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-success" type="button"
+                                            onclick="updateObsMuestra(2)"
+                                            id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
+                                    </div>
+                                </div>
+                            <div class="col-md-12">
+                                <table class="table" id="">
+                                    <thead>
+                                        <tr>
+                                            <th>Parametro</th>
+                                            <th>Descripción</th>
+                                            <th>Valor1</th>
+                                            <th>Valor2</th>
+                                            <th>Tipo</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                                    <tbody>
+                                       
+                                        <tr>
+                                            <td>B</td>
+                                            <td>Factor de dilución</td>
+                                            <td><input type="text" id="dilucion1"></td>
+                                            <td><input type="text" id="dilucion2"></td>
+                                            <td>V</td>
+                                        </tr>
+                                        <tr>
+                                            <td>X</td>
+                                            <td>Lectura 1</td>
+                                            <td><input type="text" id="lectura11"></td>
+                                            <td><input type="text" id="lectura12"></td>
+                                            <td>V</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Y</td>
+                                            <td>Lectura 2</td>
+                                            <td><input type="text" id="lectura21"></td>
+                                            <td><input type="text" id="lectura22"></td>
+                                            <td>V</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Z</td>
+                                            <td>Lectura 3</td>
+                                            <td><input type="text" id="lectura31"></td>
+                                            <td><input type="text" id="lectura32"></td>
+                                            <td>V</td>
+                                        </tr>
+                                        <tr>
+                                            <td>C</td>
+                                            <td>Volumen de muestra</td>
+                                            <td><input type="text" id="volM1"></td>
+                                            <td><input type="text" id="volM2"></td>
+                                            <td>C</td>
+                                        </tr>
+                                        <tr>
+                                            <td>A</td>
+                                            <td>Promedio</td>
+                                            <td><input type="text" id="prom1"></td>
+                                            <td><input type="text" id="prom2"></td>
+                                            <td>C</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="resultado">Resultado</label>
+                            <input type="text" id="resultadoPotable" style="font-size: 20px;color:red;"
+                                placeholder="Resultado">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" onclick="operacion(2)" id="guardar"
+                            class="btn btn-primary">Calcular</button>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     @section('javascript')
     <script src="{{asset('/public/js/laboratorio/potable/captura.js')}}?v=0.0.1"></script>

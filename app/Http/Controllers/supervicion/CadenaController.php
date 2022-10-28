@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CodigoParametros;
 use App\Models\GastoMuestra;
 use App\Models\LoteDetalle;
+use App\Models\LoteDetalleDureza;
 use App\Models\LoteDetalleEspectro;
 use App\Models\PhMuestra;
 use App\Models\Solicitud;
@@ -69,17 +70,16 @@ class CadenaController extends Controller
                 break;
             case 14: // Volumetria
                 if ($codigoModel->Id_parametro == 11) {
-                    $model = DB::table('ViewCodigoParametro')->where('Id_solicitud',$codigoModel->Id_solicitud)
-                    ->where('Id_parametro',83)->first();
+                    $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $codigoModel->Id_solicitud)
+                        ->where('Id_parametro', 83)->first();
                     $aux = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $codigoModel->Id_solicitud)
-                    ->where('Id_control', 1) 
-                    ->get(); 
-
+                        ->where('Id_control', 1)
+                        ->get();
                 } else if ($codigoModel->Id_parametro == 6) {
                     $model = DB::table('ViewLoteDetalleDqo')->where('Id_analisis', $codigoModel->Id_solicitud)
                         ->where('Id_parametro', $codigoModel->Id_parametro)
                         ->where('Id_control', 1)->get();
-                } else if ($codigoModel->Id_parametro == 9 || $codigoModel->Id_parametro == 10 ) {
+                } else if ($codigoModel->Id_parametro == 9 || $codigoModel->Id_parametro == 10) {
                     $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_analisis', $codigoModel->Id_solicitud)
                         ->where('Id_control', 1)
                         ->where('Id_parametro', $codigoModel->Id_parametro)->get();
@@ -88,7 +88,7 @@ class CadenaController extends Controller
                         ->where('Id_analisis', $codigoModel->Id_solicitud)
                         ->where('Id_control', 1)
                         ->get();
-                } 
+                }
                 break;
             case "13": // Grasas y Aceites
                 $model = DB::table('ViewLoteDetalleGA')
@@ -98,7 +98,7 @@ class CadenaController extends Controller
                     ->where('Activo', 1)->get();
                 $res1 = array();
                 $promTemp = 0;
-                foreach ($gastoas as $item){
+                foreach ($gasto as $item) {
                     $promTemp = $promTemp + $item->Promedio;
                 }
                 $promGasto = $promTemp / $gasto->count();
@@ -107,8 +107,8 @@ class CadenaController extends Controller
                 for ($i = 0; $i < sizeof($model); $i++) {
                     $res = $res + (($model[$i]->Resultado * $gasto[$i]->Promedio) / $promGasto);
                 }
-        
-                $aux = $res/$model->count();
+
+                $aux = $res / $model->count();
                 break;
             case 6: // Micro
                 if ($codigoModel->Id_parametro == 5) {
@@ -149,13 +149,30 @@ class CadenaController extends Controller
                         ->where('Activo', 1)->get();
                 }
                 break;
+            case 8:
+
+                switch ($res->idParametro) {
+                    case 77: //Dureza
+                    case 103:
+                    case 251:
+                    case 252:
+                        $update = LoteDetalleDureza::find($res->idDetalle);
+                        $update->Observacion = $res->observacion;
+                        $update->save(); 
+                        break;
+                    default:
+                        # code...
+
+                        break;
+                }
+                break;
             default:
                 # code... 
                 $model = "Default2";
                 break;
         }
         $data = array(
-            'aux' => $aux, 
+            'aux' => $aux,
             'paraModel' => $paraModel,
             'codigoModel' => $codigoModel,
             'model' => $model,
