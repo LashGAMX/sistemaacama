@@ -2181,7 +2181,7 @@ class FqController extends Controller
             } else {
                 $sw = false;
             }
-        } else if ($parametro->Id_parametro == 19 || $parametro->Id_parametro == 298) { //Cianuros Totales
+        } else if ($parametro->Id_parametro == 19 || $parametro->Id_parametro == 99) { //Cianuros Totales
             $horizontal = 'P';
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 

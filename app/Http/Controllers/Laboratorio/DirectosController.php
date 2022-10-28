@@ -377,7 +377,7 @@ class DirectosController extends Controller
         return response()->json($data);
     }
 
-    public function exportPdfPotable($idLote)
+    public function exportPdfDirecto($idLote)
     {
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
@@ -446,10 +446,11 @@ class DirectosController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
+            case 66:
             case 102: // COLOR VERDADERO
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
                 $data = array(
-                    'lote' => $lote,
+                    'lote' => $lote, 
                     'model' => $model,
                     'plantilla' => $plantilla
                 );

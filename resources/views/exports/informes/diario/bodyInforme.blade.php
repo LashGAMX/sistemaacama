@@ -30,21 +30,23 @@
             <tbody>
                 @php $i = 0; @endphp
                 @foreach ($model as $item)
-                <tr> 
-                    <td class="tableContent bordesTablaBody" height="25">{{@$item->Parametro}}<sup>{{$item->Simbologia}}</sup></td>
-                    <td class="tableContent bordesTablaBody">{{@$item->Clave_metodo}}</td>
-                    <td class="tableContent bordesTablaBody">{{@$item->Unidad}}</td>
-                    <td class="tableContent bordesTablaBody">
-                        {{@$limitesC[$i]}}
-                    </td>
-                    @if ($tipo == 1)
-                        <td class="tableContent bordesTablaBody">
-                            {{ @$limitesN[$i] }}
-                        </td>
+                    @if (@$item->Id_area != 9)
+                        <tr> 
+                            <td class="tableContent bordesTablaBody" height="25">{{@$item->Parametro}}<sup>{{$item->Simbologia}}</sup></td>
+                            <td class="tableContent bordesTablaBody">{{@$item->Clave_metodo}}</td>
+                            <td class="tableContent bordesTablaBody">{{@$item->Unidad}}</td>
+                            <td class="tableContent bordesTablaBody">
+                                {{@$limitesC[$i]}}
+                            </td>
+                            @if ($tipo == 1)
+                                <td class="tableContent bordesTablaBody">
+                                    {{ @$limitesN[$i] }}
+                                </td>
+                            @endif
+                            <td class="tableContent bordesTablaBody">{{@$item->iniciales}}</td>
+                        </tr>   
+                        @php $i++; @endphp
                     @endif
-                    <td class="tableContent bordesTablaBody">{{@$item->iniciales}}</td>
-                </tr>   
-                @php $i++; @endphp
                 @endforeach
 
             </tbody>        

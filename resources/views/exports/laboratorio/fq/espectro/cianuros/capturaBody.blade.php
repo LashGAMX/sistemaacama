@@ -27,6 +27,10 @@
                 </tr>                
 
                 <tr>
+                    <th colspan="6"></th>
+                    <th colspan="3" style="border: 1px">Interferencias</th>
+                </tr>
+                <tr>
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
                     <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
                     <th class="tableCabecera anchoColumna">Abs 1</th>

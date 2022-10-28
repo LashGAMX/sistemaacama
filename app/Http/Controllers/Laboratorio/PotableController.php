@@ -282,7 +282,7 @@ class PotableController extends Controller
             case 103:
             case 251:
             case 252:
-                $resultado = (($res->edta * $res->conversion * $res->real) / $res->vol);
+                $resultado = (($res->edta * $res->conversion * $res->real) / $res->vol) * 1000;
 
                 $model = LoteDetalleDureza::find($res->idDetalle);
                 $model->Resultado = $resultado;
@@ -409,7 +409,7 @@ class PotableController extends Controller
             'sw' => $sw,
             'mensaje' => $mensaje,
         );
-        return response()->json($data);
+        return response()->json($data); 
     }
     public function exportPdfPotable($idLote)
     {

@@ -1,6 +1,6 @@
 <p class='titulo'>
-    MEDICIÓN DEL POTENCIAL DE HIDROGENO (pH) NMX-AA-008-SCFI-2016
-    PROCEDIMIENTO: PE-10-002-3
+    DETERMINACION DE DUREZA TOTAL (DT) (como CaCO3) (NMX-AA-072-SCFI-2001)
+    PROCEDIMIENTO: PE-10-002-16
 </p>
 
 <span class='textofecha'>Fecha de análisis </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;

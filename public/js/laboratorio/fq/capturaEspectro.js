@@ -161,6 +161,7 @@ function getLoteCapturaEspectro() {
                 }
                 tab += '<tr>';
                 switch ($("#formulaTipo").val()) { 
+         
                     case '95':
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectroSulfatos('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaSulfatos">Capturar</button>';    
                         break;

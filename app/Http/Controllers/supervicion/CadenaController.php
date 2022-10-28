@@ -8,6 +8,7 @@ use App\Models\GastoMuestra;
 use App\Models\LoteDetalle;
 use App\Models\LoteDetalleDureza;
 use App\Models\LoteDetalleEspectro;
+use App\Models\LoteDetallePotable;
 use App\Models\PhMuestra;
 use App\Models\Solicitud;
 use App\Models\TemperaturaMuestra;
@@ -60,6 +61,9 @@ class CadenaController extends Controller
         $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
         $paraModel = DB::table('ViewParametros')->where('Id_parametro', $codigoModel->Id_parametro)->first();
         switch ($paraModel->Id_area) {
+            case 8: // Potable
+                $model = "Potable";
+                break;
             case 2: // Metales
                 $model = LoteDetalle::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
@@ -141,34 +145,30 @@ class CadenaController extends Controller
                         ->where('Activo', 1)->get();
                 } else if ($codigoModel->Id_parametro == 14) //Ph
                 {
-                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
+                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud) 
                         ->where('Activo', 1)->get();
                 } else if ($codigoModel->Id_parametro == 97) //Temperatura
                 {
                     $model = TemperaturaMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
                         ->where('Activo', 1)->get();
                 }
-                break;
-            case 8:
-
-                switch ($res->idParametro) {
+                break;  
+ 
+            default:    
+                # code...  
+                switch ($codigoModel->Id_parametro) { 
                     case 77: //Dureza
                     case 103:
                     case 251:
                     case 252:
-                        $update = LoteDetalleDureza::find($res->idDetalle);
-                        $update->Observacion = $res->observacion;
-                        $update->save(); 
+                        $model = LoteDetalleDureza::where('Id_solicitud', $codigoModel->Id_solicitud)
+                        ->where('Activo', 1)->get();
                         break;
                     default:
-                        # code...
-
-                        break;
+                        $model = LoteDetallePotable::where('Id_solicitud', $codigoModel->Id_solicitud)
+                    ->where('Activo', 1)->get();
+                        break; 
                 }
-                break;
-            default:
-                # code... 
-                $model = "Default2";
                 break;
         }
         $data = array(

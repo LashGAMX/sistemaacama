@@ -923,7 +923,7 @@ class SolicitudController extends Controller
         $modelPadre = DB::table('ViewSolicitud')->where('Id_cotizacion', $request->idCot)->where('Padre', 1)->first();
         $model = DB::table('ViewSolicitud')->where('Hijo', $modelPadre->Id_solicitud)->get();
 
-
+ 
         foreach ($model as $item) {
             $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro', 13)->get();
             if ($solParam->count()) {
@@ -941,8 +941,8 @@ class SolicitudController extends Controller
             if ($solParam->count()) {
                 $dqo = true;
             }
-        }
-        $phMuestra = PhMuestra::where('Id_solicitud', 37)->where('Activo', 1)->get(); 
+        } 
+        $phMuestra = PhMuestra::where('Id_solicitud', 6)->where('Activo', 1)->get(); 
 
         if ($phMuestra->count()) {
             foreach ($model as $value) {
@@ -998,7 +998,7 @@ class SolicitudController extends Controller
                                     ]);
                                 }
                                 break;
-                            case 6:
+                            case 6: 
                                 // DQO
                                 CodigoParametros::create([
                                     'Id_solicitud' => $value->Id_solicitud,

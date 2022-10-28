@@ -332,7 +332,7 @@
                                         </tr>
                                         <tr>
                                             <td>C.</td>
-                                            <td>Factor dilusión.</td>                                         
+                                            <td>Factor dilución.</td>                                         
                                             <td><input type="text" id="dilusion1" ></td>
                                             <td><input type="text" id="" ></td>
                                            

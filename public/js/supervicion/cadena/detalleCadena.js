@@ -422,11 +422,33 @@ function getDetalleAnalisis(idCodigo) {
                                     aux = aux + parseFloat(item.Promedio);
                                     cont++;
                                 });
-                                resLiberado = (aux / cont);
+                                resLiberado = (aux / cont); 
                             }
                             tab += '    </tbody>';
                             tab += '</table>';
                             tabla.innerHTML = tab;
+                        break;
+                        case "8":// Potable
+                        console.log("entro a caso 8");
+                        tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                        tab += '<table id="tableResultado" class="table table-sm">';
+                        tab += '    <thead class="thead-dark">';
+                        tab += '        <tr>';
+                        tab += '          <th>Descripcion</th>';
+                        tab += '          <th>Valor</th>';
+                        tab += '        </tr>';
+                        tab += '    </thead>';
+                        tab += '    <tbody>';
+                        $.each(response.model, function (key, item) {
+                            tab += '<tr>';
+                            tab += '<td>' + item.Parametro + '</td>';
+                            tab += '<td>' + item.Resultado + '</td>';
+                            tab += '</tr>';
+                            resLiberado = item.Resultado;
+                        });
+                        tab += '    </tbody>';
+                        tab += '</table>';
+                        tabla.innerHTML = tab;
                         break;
                 default:
                     console.log("entro a break");

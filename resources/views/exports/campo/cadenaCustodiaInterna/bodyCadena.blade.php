@@ -104,31 +104,33 @@
                                     </thead>
                                     <tbody>
                                         @for ($i = 0; $i < 12; $i++)
-                                            @if (@$paramResultado[$i]->Id_parametro == 12 || @$paramResultado[$i]->Id_parametro == 13)
-                                            <tr>    
-                                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
-                                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                                    @if (@$paramResultado[$i]->Resultado > @$paramResultado[$i]->Limite)
-                                                        {{@$paramResultado[$i]->Resultado}} 
-                                                    @else
-                                                    < {{@$paramResultado[$i]->Limite}}
-                                                    @endif
-                                                </td>
-                                            </tr>                             
-                                            @else
-                                                @if (@$paramResultado[$i]->Id_parametro == 2)
-                                                {{@$paramResultado[$i]->Resultado2}}
+                                            @if (@$paramResultado[$i]->Id_area != 9)
+                                                @if (@$paramResultado[$i]->Id_parametro == 12 || @$paramResultado[$i]->Id_parametro == 13)
+                                                <tr>    
+                                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
+                                                    <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
+                                                        @if (@$paramResultado[$i]->Resultado > @$paramResultado[$i]->Limite)
+                                                            {{@$paramResultado[$i]->Resultado}} 
+                                                        @else
+                                                        < {{@$paramResultado[$i]->Limite}}
+                                                        @endif
+                                                    </td>
+                                                </tr>                             
                                                 @else
-                                                    <tr>    
-                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}</td>
-                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                                            @if (@$paramResultado[$i]->Resultado2 > @$paramResultado[$i]->Limite)
-                                                                {{@$paramResultado[$i]->Resultado2}}
-                                                            @else
-                                                                < {{@$paramResultado[$i]->Limite}}
-                                                            @endif
-                                                        </td>
-                                                    </tr>
+                                                    @if (@$paramResultado[$i]->Id_parametro == 2)
+                                                    {{@$paramResultado[$i]->Resultado2}}
+                                                    @else
+                                                        <tr>    
+                                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}</td>
+                                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
+                                                                @if (@$paramResultado[$i]->Resultado2 > @$paramResultado[$i]->Limite)
+                                                                    {{@$paramResultado[$i]->Resultado2}}
+                                                                @else
+                                                                    < {{@$paramResultado[$i]->Limite}}
+                                                                @endif
+                                                            </td>
+                                                        </tr>
+                                                    @endif
                                                 @endif
                                             @endif
                                     @endfor     
@@ -145,37 +147,39 @@
                                     </thead>
                                     <tbody>
                                         @for ($i = 12; $i < 25; $i++)
-                                        @if (@$paramResultado[$i]->Id_parametro == 12 || @$paramResultado[$i]->Id_parametro == 13)
-                                        <tr>    
-                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
-                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                                @if (@$paramResultado[$i]->Resultado > @$paramResultado[$i]->Limite)
-                                                    {{@$paramResultado[$i]->Resultado}} 
+                                        @if (@$paramResultado[$i]->Id_area != 9)
+                                            @if (@$paramResultado[$i]->Id_parametro == 12 || @$paramResultado[$i]->Id_parametro == 13)
+                                            <tr>    
+                                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
+                                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
+                                                    @if (@$paramResultado[$i]->Resultado > @$paramResultado[$i]->Limite)
+                                                        {{@$paramResultado[$i]->Resultado}} 
+                                                    @else
+                                                    < {{@$paramResultado[$i]->Limite}}
+                                                    @endif
+                                                </td>
+                                            </tr>                             
+                                            @else
+                                            <tr>    
+                                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}</td>
+                                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
+                                                    @if (@$paramResultado[$i]->Id_parametro == 2)
+                                                    @if (@$paramResultado[$i]->Resultado2 == 1)
+                                                        PRESENTE
+                                                    @else
+                                                        AUSENTE
+                                                    @endif
                                                 @else
-                                                < {{@$paramResultado[$i]->Limite}}
+                                                    @if (@$paramResultado[$i]->Resultado2 > @$paramResultado[$i]->Limite)
+                                                        {{@$paramResultado[$i]->Resultado2}}
+                                                    @else
+                                                        < {{@$paramResultado[$i]->Limite}}
+                                                    @endif
                                                 @endif
-                                            </td>
-                                        </tr>                             
-                                        @else
-                                        <tr>    
-                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}</td>
-                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                                @if (@$paramResultado[$i]->Id_parametro == 2)
-                                                @if (@$paramResultado[$i]->Resultado2 == 1)
-                                                    PRESENTE
-                                                @else
-                                                    AUSENTE
-                                                @endif
-                                              @else
-                                                  @if (@$paramResultado[$i]->Resultado2 > @$paramResultado[$i]->Limite)
-                                                      {{@$paramResultado[$i]->Resultado2}}
-                                                  @else
-                                                      < {{@$paramResultado[$i]->Limite}}
-                                                  @endif
-                                              @endif
-                                            </td>
-                                        </tr>
-                                       
+                                                </td>
+                                            </tr>
+                                        
+                                            @endif
                                         @endif
                                     @endfor      
                                     </tbody>
@@ -191,7 +195,7 @@
                                     </thead>
                                     <tbody>
                                         @for ($i = 25; $i < sizeof(@$paramResultado); $i++)
-                                            
+                                           @if (@$paramResultado[$i]->Id_area != 9)
                                             @if (@$paramResultado[$i]->Id_parametro == 12 || @$paramResultado[$i]->Id_parametro == 13)
                                             <tr>    
                                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
@@ -208,7 +212,7 @@
                                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}</td>
                                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
                                                 @if (@$paramResultado[$i]->Id_parametro == 2 || @$paramResultado[$i]->Id_parametro == 14)
-                                                   {{@$paramResultado[$i]->Resultado2}}
+                                                    {{@$paramResultado[$i]->Resultado2}}
                                                 @else
 
                                                             @if (@$paramResultado[$i]->Resultado2 > @$paramResultado[$i]->Limite)
@@ -220,7 +224,7 @@
                                                 </td>
                                             </tr>
                                             @endif
-                                    
+                                           @endif
                                         @endfor     
                                     </tbody>
                                 </table>
