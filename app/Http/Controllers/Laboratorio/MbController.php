@@ -245,7 +245,7 @@ class MbController extends Controller
     public function getLoteCapturaMicro(Request $request)
     {
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
-        $positivos = array();
+        $indice = array();
         $detalle = array();
         switch ($loteModel->Id_tecnica) {
             case 12: //todo Coliformes+
@@ -273,9 +273,9 @@ class MbController extends Controller
                 foreach($detalle as $item){
                     $values = LoteDetalleColiformes::where('Id_codigo', $item->Id_codigo)->first();
                     if($values != null){
-                        array_push($positivos, $values->Resultado);
+                        array_push($indice, $values->indice);
                     } else {
-                        $positivos = null;
+                        $indice = null;
                         break;
                     }                      
                 }
@@ -286,7 +286,7 @@ class MbController extends Controller
         }
 
         $data = array(
-            'positivos' => $positivos, 
+            'indice' => $indice, 
             'detalle' => $detalle,
         );
         return response()->json($data);
@@ -431,6 +431,7 @@ class MbController extends Controller
         $model->Confirmativa1 = $request->confirmativa1;
         $model->Confirmativa2 = $request->confirmativa2;
         $model->Resultado = $resultado;
+        $model->Indice = $request->confirmativa2;
         $model->save();
 
         $data = array(

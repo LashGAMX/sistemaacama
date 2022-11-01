@@ -108,7 +108,7 @@ function getLoteCapturaMicro() {
     numMuestras = new Array();
     let tabla = document.getElementById('divTablaControles');
     let tab = '';
-    let cont = 1;
+    let cont = 0;
 
     let status = "";
 
@@ -173,14 +173,17 @@ function getLoteCapturaMicro() {
                         break;
                    case "78": //E.coli
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '">';
-                        tab +='<div class="row">'
-                        tab +='<div class="col-md-12">'
-                        tab += '<button type="button" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
-                        tab += '<select>'
-                        tab += '<option value="0">Obs generica 1</option>';
-                        tab +='</select>';
-                        tab += '</div>';
-                        tab += '</div">';
+                        for (let i = 0; i < response.indice[cont]; i++){
+                            tab +='<div class="row">'
+                            tab +='<div class="col-md-12">'
+                            tab += '<button type="button" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
+                            tab += '<select>'
+                            tab += '<option value="0">Obs generica 1</option>';
+                            tab +='</select>';
+                            tab += '</div>';
+                            tab += '</div">';
+                        }
+                      
                         break;
                     default:
                         console.log("Entro a al limbo");
