@@ -596,9 +596,9 @@ class CampoController extends Controller
             }
         }
 
-        // $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud', $request->idSolicitud)->get();
+        $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud', $request->idSolicitud)->get();
 
-        if ($tempMuestra->count()) {
+        if ($tempAmbiente->count()) {
             for ($i = 0; $i < $request->numTomas; $i++) {
              
                 $temp = TemperaturaAmbiente::find($tempMuestra[$i]->Id_temperatura);
@@ -1315,17 +1315,6 @@ class CampoController extends Controller
             }
         }
 
-        //*****************************Qt (Sumatoria de caudales) *****************************
-        /* $qt = 0;
-
-        foreach($gastoMuestra as $item){
-            if($item->Promedio === NULL){
-
-            }
-            $qt += $item->Promedio;
-        } */
-
-        //*************************************************************************************
 
         
         $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
