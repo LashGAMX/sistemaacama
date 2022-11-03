@@ -243,6 +243,96 @@
             </div>
         </div>
 
+        <!-- Modal E. coli-->
+        <div class="modal fade" id="modalEcoli" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="">Control de calidad</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Observación</label>
+                                        <select type="text" class="form-control" id="observacionCol"
+                                            placeholder="Seleciona uno">
+                                            <option value="0">Seleccione uno</option>
+                                            <option value="1">Colonias circulares con centro negro, planas con brillo metálico</option>
+                                            <option value="2">Colonias irregulares con centro negro, planas con brillo metálico</option>
+                                            <option value="3">Colonias irregulares con centro negro, planas sin brillo metálico</option>
+                                            <option value="4">Colonias circulares con centro negro, planas sin brillo metálico</option>
+                                            <option value="5">Colonias incoloras, mucoides, irregulares</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-success" type="button"
+                                            onclick="updateObsMuestra(1,'observacionCol')"
+                                            id="btnAplicarObsColiformes"><i class="voyager-check"></i> Aplicar</button>
+                                    </div>
+                                </div>
+                            <div class="col-md-12">
+                                <table class="table" id="">
+                                    <thead>
+                                        <tr>
+                                            <th>Reactivo</th>
+                                            <th>Colonia 1</th>
+                                            <th>Colonia 2</th>
+                                        </tr>
+                                    </thead>
+                                    <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                                    <tbody>
+                                       
+                                        <tr>
+                                            <td>Indol</td>
+                                            <td><input type="text" id="indol1" value=""></td>
+                                            <td><input type="text" id="indol2" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>RM</td>
+                                            <td><input type="text" id="rm1" value=""></td>
+                                            <td><input type="text" id="rm2" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>VP</td>
+                                            <td><input type="text" id="vp1" value=""></td>
+                                            <td><input type="text" id="vp2" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Citrato</td>
+                                            <td><input type="text" id="citrato1" value=""></td>
+                                            <td><input type="text" id="citrato2" value=""></td>
+                                        </tr>
+                                        <tr>
+                                            <td>BGN</td>
+                                            <td><input type="text" id="bgn1" value=""></td>
+                                            <td><input type="text" id="bgn2" value=""></td>
+                                        </tr>
+                                     
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="resultado">Resultado</label>
+                            <input type="text" id="resultadoEcoli" style="font-size: 20px;color:red;"
+                                placeholder="Resultado">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" onclick="operacionEcoli()" id="guardar"
+                            class="btn btn-primary">Generar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
 
 
         <!-- Modal -->

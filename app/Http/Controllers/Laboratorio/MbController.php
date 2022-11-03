@@ -273,7 +273,7 @@ class MbController extends Controller
                 foreach($detalle as $item){
                     $values = LoteDetalleColiformes::where('Id_codigo', $item->Id_codigo)->first();
                     if($values != null){
-                        array_push($indice, $values->indice);
+                        array_push($indice, $values->Indice);
                     } else {
                         $indice = null;
                         break;
@@ -400,7 +400,40 @@ class MbController extends Controller
 
 
     // }3
+    public function operacionEcoli(Request $request){
+        $colonia1 = 0;
+        $muestra = 0;
+        $temp1 ="";
+        $temp1 = $request->rm1 ."". $request->vp1 ."".  $request->citrato1 ."". $request->bgn1;
+        switch($temp1){
+            case "+--BGN":
+                $colonia1 = 1;
+                break;
+            default:
+                $muestra = 0;
+                break;
+        }
+        if ($colonia1 == 1){
+            $muestra = 1;
+        } else {
+            $temp2 = $request->rm2 . $request->vp2 . $request->citrato2 . $request->bgn2;
+        switch($temp2){
+            case "+--BGN":
+                $muestra = 1;
+                break;
+            default:
+                $muestra = 0;
+                break;
+        }
+        }
 
+        $data = array(
+            'nm' => $request->rm1,
+            'muestra' => $muestra,
+            'string' => $temp1,
+        );
+        return response()->json($data);
+    }
     public function operacionColAlimentos(Request $request)
     {
         $resultado = "";

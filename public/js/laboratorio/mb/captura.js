@@ -177,13 +177,13 @@ function getLoteCapturaMicro() {
                             tab +='<div class="row">'
                             tab +='<div class="col-md-12">'
                             tab += '<button type="button" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
-                            tab += '<select>'
-                            tab += '<option value="0">Obs generica 1</option>';
-                            tab +='</select>';
+                            tab += '<label>'
+                            tab += "&nbsp Colonia &nbsp" +(i+1);
+                            tab +='</label>';
                             tab += '</div>';
                             tab += '</div">';
                         }
-                      
+                      cont++;
                         break;
                     default:
                         console.log("Entro a al limbo");
@@ -247,6 +247,38 @@ function getLoteCapturaMicro() {
         }
     });
 }
+function operacionEcoli(idDetalle){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionEcoli",
+        data: {
+            idDetalle: idMuestra,
+            indol1:$("#indol1").val(),
+            rm1:$("#rm1").val(),
+            vp1:$("#vp1").val(),
+            citrato1:$("#citrato1").val(),
+            bgn1:$("#bgn1").val(),
+
+            indol2:$("#indol2").val(),
+            rm2:$("#rm2").val(),
+            vp2:$("#vp2").val(),
+            citrato2:$("#citrato2").val(),
+            bgn2:$("#bgn2").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+            if (response.muestra == 1){
+                $("#resultadoEcoli").val("Positivo para E. coli")
+            } else {
+                $("#resultadoEcoli").val("Negativo para E. coli")
+            }
+            getLoteCapturaMicro();
+        }
+    });
+
+}                  
 function operacionColAlimentos(idDetalle){
                 
     var presuntiva1 = $("#pres124").val();
