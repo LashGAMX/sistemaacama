@@ -561,7 +561,9 @@
                                     <thead>
                                         <tr>
                                             <th>Núm Muestra</th>
-                                            <th>Materia flotante</th>
+                                            @if (@$model->Id_norma != 5)
+                                                <th>Materia flotante</th>
+                                            @endif
                                             <th>Olor</th>
                                             <th>Color</th>
                                             <th>pH 1</th>
@@ -588,6 +590,7 @@
                                                 
                                                 <td>{{$i + 1}}</td> 
 
+                                                @if (@$model->Id_norma != 5)
                                                 <td>
                                                     <select id="materia{{ $i }}" @if (@$sw == true) disabled @endif>
                                                         @if (@$phMuestra[$i]->Materia == 'Presente')
@@ -621,6 +624,7 @@
                                                         >Ausente</option>
                                                     </select>
                                                 </td>
+                                                @endif
                                                 <td>
                                                     <select id="olor{{ $i }}" @if (@$sw == true) disabled @endif>
                                                         @if (@$phMuestra[$i]->Olor == 'Si')

@@ -22,9 +22,9 @@
                     </li>
                 </ul>
                 @if (@$sw != 1)
-                    <form action="{{ url('admin/cotizacion/setCotizacion') }}" method="post">
+                    <form action="{{ url('admin/cotizacion/setCotizacion') }}" method="post" onsubmit="valDatos()">
                     @else
-                        <form action="{{ url('admin/cotizacion/updateCotizacion') }}" method="post">
+                        <form action="{{ url('admin/cotizacion/updateCotizacion') }}" method="post"  onsubmit="valDatos()">
                             <input type="text" class="" name="idCotizacion" id="idCotizacion"
                                 value="{{ $idCotizacion }}" hidden>
                 @endif
@@ -100,7 +100,7 @@
                                 <div class="form-group">
                                     <label for="direccion">Dirección</label>
                                     <input type="text" class="form-control" placeholder="Dirección" id="direccion"
-                                        name="direccion" value="{{ @$model->Direccion }}">
+                                        name="direccion" value="{{ @$model->Direccion }}" required>
                                 </div>
                             </div>
 
@@ -108,27 +108,27 @@
                                 <div class="form-group">
                                     <label for="atencion">Con atención a</label>
                                     <input type="text" class="form-control" placeholder="Con atención a" id="atencion"
-                                        name="atencion" value="{{ @$model->Atencion }}">
+                                        name="atencion" value="{{ @$model->Atencion }}" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="telefono">Teléfono</label>
                                     <input type="number" class="form-control" placeholder="Teléfono" id="telefono"
-                                        name="telefono" value="{{ @$model->Telefono }}">
+                                        name="telefono" value="{{ @$model->Telefono }}" required>
                                 </div>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-group">
                                     <label for="correo">Correo</label>
                                     <input type="text" class="form-control" placeholder="Correo electronico" id="correo"
-                                        name="correo" value="{{ @$model->Correo }}">
+                                        name="correo" value="{{ @$model->Correo }}" required>
                                 </div>
                             </div>
 
                             <div class="col-md-12">
                                 <h6>Datos generales</h6>
-                                <hr>
+                                <hr> 
                             </div>
 
                             <div class="col-md-6">

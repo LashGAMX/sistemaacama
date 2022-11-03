@@ -776,3 +776,19 @@ function agregarParametros(idSub)
   });
 }
 
+function valDatos(){
+  // if($("#direccion").val() == ""){
+  //   alert("La dirección del cliente no puede estar vacia")
+  // }
+  // if($("#atencion").val() == ""){
+  //   alert("El campo atencion del cliente no puede estar vacia")
+  // }
+  // if($("#telefono").val() == ""){
+  //   alert("El telefono del cliente no puede estar vacia")
+  // }
+  // if($("#correo").val() == ""){
+  //   alert("El correo del cliente no puede estar vacia")
+  // }
+  alert("Datos")
+  return false
+}
