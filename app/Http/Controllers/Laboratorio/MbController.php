@@ -428,7 +428,6 @@ class MbController extends Controller
         }
 
         $data = array(
-            'nm' => $request->rm1,
             'muestra' => $muestra,
             'string' => $temp1,
         );

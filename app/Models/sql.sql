@@ -359,6 +359,18 @@ ON col.Id_control = control.Id_control
 INNER JOIN codigo_parametro as cod
 ON col.Id_codigo = cod.Id_codigo
 
+/* Lista ViewLoteDetalleEcoli */ 
+
+CREATE VIEW ViewLoteDetalleEcoli as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_Ecoli as col
+INNER JOIN ViewSolicitud as sol
+ON col.Id_analisis = sol.Id_solicitud
+INNER JOIN parametros as param
+ON col.Id_parametro = param.Id_parametro
+INNER JOIN control_calidad as control
+ON col.Id_control = control.Id_control
+INNER JOIN codigo_parametro as cod
+ON col.Id_codigo = cod.Id_codigo
+
 /* Lista ViewLoteDetalleEnterococos */
 CREATE VIEW ViewLoteDetalleEnterococos as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_enterococos as col
 INNER JOIN ViewSolicitud as sol
