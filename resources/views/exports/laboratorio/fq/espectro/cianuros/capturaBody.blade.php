@@ -28,7 +28,7 @@
 
                 <tr>
                     <th colspan="6"></th>
-                    <th colspan="3" style="border: 1px">Interferencias</th>
+                    <th colspan="3" style="border: 1px;font-size: 8px;">Interferencias</th>
                 </tr>
                 <tr>
                     <th class="tableCabecera anchoColumna">No. de muestra</th>

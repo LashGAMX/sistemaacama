@@ -3,7 +3,7 @@ $(document).ready(function () {
 
     $('#formulaTipo').select2();
     $('#btnLiberar').click(function () {
-        // operacion();
+        // operacion(); 
         liberarMuestra();
     });
     

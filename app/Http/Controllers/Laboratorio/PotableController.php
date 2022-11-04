@@ -282,13 +282,13 @@ class PotableController extends Controller
             case 103:
             case 251:
             case 252:
-                $resultado = (($res->edta * $res->conversion * $res->real) / $res->vol) * 1000;
+                $resultado = (($res->edta * $res->conversion * $res->real) / $res->vol);
 
                 $model = LoteDetalleDureza::find($res->idDetalle);
                 $model->Resultado = $resultado;
                 $model->Edta = $res->edta;
                 $model->Ph_muestra = $res->ph;
-                $model->Vol_muestra = $res->vol;
+                $model->Vol_muestra = $res->vol; 
                 $model->Factor_real = $res->real;
                 $model->Factor_conversion = $res->conversion;
                 $model->save();
