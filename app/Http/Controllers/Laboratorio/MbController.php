@@ -395,11 +395,6 @@ class MbController extends Controller
         );
     }
 
-    // public function setControlCalidad(Request $request)
-    // {
-
-
-    // }3
     public function operacionEcoli(Request $request){
         $colonia1 = 0;
         $muestra = 0;
@@ -426,6 +421,16 @@ class MbController extends Controller
                 break;
         }
         }
+        $model = LoteDetalle::find($request->IdDetalle);
+        $model->Indol  = $request->indol;
+        $model->Rm = $request->rm;
+        $model->Vp = $request->vp;
+        $model->Citrato = $request->citrato;
+        $model->Bgn = $request->bgn;
+        $model->Id_detalle = $request->IdDetalle;
+        // comprobar si todas las colonias tiene resulado
+        $model2 = LoteDetalleEcoli::where('id_detalle', $request->idDetalle)->first();
+        
 
         $data = array(
             'muestra' => $muestra,
