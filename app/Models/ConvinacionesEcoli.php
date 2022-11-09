@@ -21,6 +21,7 @@ class ConvinacionesEcoli extends Model
         'Vp',
         'Citraro',
         'BGN',
+        'Observacion'
         
     ];
 }

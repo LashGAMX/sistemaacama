@@ -176,7 +176,7 @@ function getLoteCapturaMicro() {
                         for (let i = 0; i < response.indice[cont]; i++){
                             tab +='<div class="row">'
                             tab +='<div class="col-md-12">'
-                            tab += '<button type="button" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
+                            tab += '<button type="button" id="'+i+'" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
                             tab += '<label>'
                             tab += "&nbsp Colonia &nbsp" +(i+1);
                             tab +='</label>';

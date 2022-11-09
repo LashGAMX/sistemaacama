@@ -396,6 +396,7 @@ class MbController extends Controller
     }
 
     public function operacionEcoli(Request $request){
+        $muestra = LoteDetalleColiformes::where('Id_detalle', $request->idMuestra)->first();
         $colonia1 = 0;
         $muestra = 0;
         $temp1 ="";
@@ -428,8 +429,9 @@ class MbController extends Controller
         $model->Citrato = $request->citrato;
         $model->Bgn = $request->bgn;
         $model->Id_detalle = $request->IdDetalle;
+        $model->save();
         // comprobar si todas las colonias tiene resulado
-        $model2 = LoteDetalleEcoli::where('id_detalle', $request->idDetalle)->first();
+        
         
 
         $data = array(
