@@ -146,7 +146,8 @@ function getLoteCapturaDirecto() {
                         console.log("Entro a color");
                         break;
                     default:
-                        console.log("Entro a al limbo");
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modal">Capturar</button>';
+                        console.log("Entro a directos");
                         break;
                 }
                 if (item.Id_control != 1) {

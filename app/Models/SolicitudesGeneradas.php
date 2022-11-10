@@ -24,6 +24,7 @@ class SolicitudesGeneradas extends Model
       'A_paterno',
       'A_materno',
       'Nombres',
+      'Observacion',
       'Estado',
       'Id_user_c',
       'Id_user_m'

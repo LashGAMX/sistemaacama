@@ -65,6 +65,9 @@
                     <div class="col-md-2">
                         <button id="btnBitacora" class="btn btn-secundary"><i class="fa fa-print"></i> Bitacora</button>
                     </div>
+                    <div class="col-md-2">
+                        <button id="btnBitacora" class="btn btn-secundary" data-toggle="modal" data-target="#modalObs"><i class="fa fa-add"></i> Observacion</button>
+                    </div>
                 </div>
                 
                 <table class="table table-sm" id="listaServicio">
@@ -133,6 +136,33 @@
             </div>
         </div>
     </div>
+
+    
+<!-- Modal -->
+<div class="modal fade" id="modalObs" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Observacion plan de muestreo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+       <div class="input-group">
+  <div class="input-group-prepend">
+    <span class="input-group-text">Observaciónde plan de muestreo</span>
+  </div>
+  <textarea class="form-control" aria-label="With textarea"></textarea>
+</div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="button" class="btn btn-primary">Save changes</button>
+        </div>
+      </div>
+    </div>
+  </div>
 @endsection   
 
 
