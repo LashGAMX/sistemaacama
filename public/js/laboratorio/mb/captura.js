@@ -22,6 +22,8 @@ $('#limpiar').click(function () {
     limpiar();
 });
 
+
+
 var numMuestras = new Array();
 var idMuestra = 0;
 var idLote = 0;
@@ -184,7 +186,7 @@ function getLoteCapturaMicro() {
                         for (let i = 0; i < response.indice[cont]; i++){
                             tab +='<div class="row">'
                             tab +='<div class="col-md-12">'
-                            tab += '<button type="button" id="'+i+'" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
+                            tab += '<button type="button" id="col'+i+'" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
                             tab += '<label>'
                             tab += "&nbsp Colonia &nbsp" +(i+1) +'&nbsp';
                             tab +='</label>';
@@ -261,6 +263,7 @@ function operacionEcoli(idDetalle){
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/operacionEcoli",
         data: {
+            numColonia: $numColonia,
             idDetalle: idMuestra,
             indol1:$("#indol1").val(),
             rm1:$("#rm1").val(),
