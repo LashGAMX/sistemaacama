@@ -21,6 +21,7 @@ use App\Models\BlancoCurvaMetales;
 use App\Models\CalentamientoMatraz;
 use App\Models\CodigoParametros;
 use App\Models\ControlCalidad;
+use App\Models\ConvinacionesEcoli;
 use App\Models\CurvaCalibracionMet;
 use App\Models\DqoDetalle;
 use App\Models\VerificacionMetales;
@@ -422,19 +423,23 @@ class MbController extends Controller
                 break;
         }
         }
-        $model = LoteDetalle::find($request->IdDetalle);
-        $model->Indol  = $request->indol;
-        $model->Rm = $request->rm;
-        $model->Vp = $request->vp;
-        $model->Citrato = $request->citrato;
-        $model->Bgn = $request->bgn;
-        $model->Id_detalle = $request->IdDetalle;
-        $model->save();
+        
+        $model = ConvinacionesEcoli::create([
+            'Id_detalle' => $request->idDetalle,
+            'Indol' => $request->indol1,
+            'Rm' => $request->rm1,
+            'Vp' => $request->vp1,
+            'Citrato' => $request->citrato1,
+            'BGN' => $request->bgn1,
+            'Observacion' => $request->observacion,    
+        ]);
+       
         // comprobar si todas las colonias tiene resulado
         
         
 
         $data = array(
+            'model' => $model,
             'muestra' => $muestra,
             'string' => $temp1,
         );

@@ -173,13 +173,22 @@ function getLoteCapturaMicro() {
                         break;
                    case "78": //E.coli
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '">';
+                        tab +='<div class="row">'
+                            tab +='<div class="col-md-12">'
+                           // tab += '<button type="button" id="'+i+'" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
+                            tab += '<label>'
+                            tab += "&nbsp Colonias &nbsp";
+                            tab +='</label>';
+                            tab += '</div>';
+                            tab += '</div">';
                         for (let i = 0; i < response.indice[cont]; i++){
                             tab +='<div class="row">'
                             tab +='<div class="col-md-12">'
                             tab += '<button type="button" id="'+i+'" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
                             tab += '<label>'
-                            tab += "&nbsp Colonia &nbsp" +(i+1);
+                            tab += "&nbsp Colonia &nbsp" +(i+1) +'&nbsp';
                             tab +='</label>';
+                            tab += '<input type="text" id="resultColonia">'
                             tab += '</div>';
                             tab += '</div">';
                         }
@@ -258,6 +267,7 @@ function operacionEcoli(idDetalle){
             vp1:$("#vp1").val(),
             citrato1:$("#citrato1").val(),
             bgn1:$("#bgn1").val(),
+            observacion: $("#observacionEcoli").val(),
 
             indol2:$("#indol2").val(),
             rm2:$("#rm2").val(),

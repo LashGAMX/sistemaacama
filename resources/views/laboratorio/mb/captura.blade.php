@@ -258,7 +258,7 @@
                         <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Observación</label>
-                                        <select type="text" class="form-control" id="observacionCol"
+                                        <select type="text" class="form-control" id="observacionEcoli"
                                             placeholder="Seleciona uno">
                                             <option value="0">Seleccione uno</option>
                                             <option value="1">Colonias circulares con centro negro, planas con brillo metálico</option>
