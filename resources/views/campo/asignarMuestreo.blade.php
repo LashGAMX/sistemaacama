@@ -49,8 +49,11 @@
         <div class="col-md-1">
           <button type="button" id="btnGenerar" class="btn btn-success"><i class="fa fa-plus"></i> Generar</button>
         </div>
-        <div class="col-md-1">
+        <div class="col-md-2">
           <button type="button" id="btnPlanMuestreo" class="btn btn-primary"><i class="fa fa-tools" ></i> Plan de muestreo</button>
+        </div>
+        <div class="col-md-2">
+          <button type="button" id="btnObservacion" class="btn btn-primary" data-toggle="modal" data-target="#modalObs"><i class="fa fa-tools" ></i> Observacion</button>
         </div>
       </div>
     </div>
@@ -64,7 +67,7 @@
             <th>Folio Servicio</th>
             <th>Nombre Cliente</th>
             {{-- <th>Ap. Paterno</th>
-            <th>Ap. Materno</th>7 --}}
+            <th>Ap. Materno</th>7 --}}           
             <th>Nombre</th>
             <th>Servicio</th>
             <th>Tipo Descarga</th>
@@ -155,6 +158,30 @@
       </div>
     </div>
   </div>
+
+  <!-- Modal -->
+<div class="modal fade" id="modalObs" tabindex="-1" aria-labelledby="modalObs" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Observacion</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="exampleFormControlTextarea1">Observación de muestreo</label>
+          <textarea class="form-control" id="txtObervacion" rows="3"></textarea>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="btnGuardarObservacion" class="btn btn-primary">Guardar Observación</button>
+      </div>
+    </div>
+  </div>
+</div>
 
 @endsection  
 

@@ -26,6 +26,7 @@ class Solicitud extends Model
       'Id_contacto',
       'Atencion',
       'Observacion',
+      'Observacion_plan',
       'Id_servicio',
       'Id_descarga',
       'Id_norma',

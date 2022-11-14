@@ -79,6 +79,16 @@ class CampoController extends Controller
         $model = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud','DESC')->get();
         return view('campo.listaMuestreo', compact('model','equipo'));
     }
+    public function setObservacion(Request $res)
+    {
+        $model = Solicitud::where('Id_solicitud',$res->idSol)->first();
+        $model->Observacion_plan = $res->obs;
+        $model->save();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
     public function captura($id)
     {        
         $phControlCalidad = PHCalidad::where('Ph_calidad', 7)->first();

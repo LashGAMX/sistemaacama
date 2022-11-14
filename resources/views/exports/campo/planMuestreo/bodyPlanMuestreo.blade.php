@@ -120,5 +120,12 @@
             </table>
         </div>
     </div>
+    <div width="100%">
+        <p style="font-style: normal">Observaciones: @if (@$model->Observacion_plan == null)
+            N/A
+        @else
+            {{@$model->Observacion_plan}}
+        @endif</p>
+    </div>
 </body>
 </html>

@@ -87,7 +87,30 @@ var folioAsignar;
         $('#modalAsignar').modal('hide')
         generar(idSolicitud, folio);
     });
+    $('#btnGuardarObservacion').click( function () {
+        
+        setObservacion(idSolicitud)
+    });
+    
  }
+ function setObservacion(idSol)
+{
+    $.ajax({
+        url: base_url + '/admin/campo/setObservacion', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            idSol:idSol,
+            obs:$("#txtObervacion").val(),
+            _token: $('input[name="_token"]').val(),
+          },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {            
+            console.log(response);
+            alert("Observacion guardada correctamente");
+        }
+    });  
+}
  function solicitudGenerada()
  {
     tableAsignar = $("#solicitudGenerada").DataTable ({
