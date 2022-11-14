@@ -21,6 +21,7 @@ use App\Models\BlancoCurvaMetales;
 use App\Models\CalentamientoMatraz;
 use App\Models\CodigoParametros;
 use App\Models\ControlCalidad;
+use App\Models\ConvinacionEcoli;
 use App\Models\ConvinacionesEcoli;
 use App\Models\CurvaCalibracionMet;
 use App\Models\DqoDetalle;
@@ -300,6 +301,16 @@ class MbController extends Controller
         );
         return response()->json($data);
     }
+    public function getDetalleEcoli(Request $request) //tambien para E. coli
+    {
+        $model = DB::table('ViewLoteDetalleEcoli')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
+        $convinaciones = ConvinacionesEcoli::where('Id_detalle', $request->idDetalle)->where('Colonia', $request->colonia)->first();
+        $data = array(
+            'model' => $model,
+            'convinaciones' => $convinaciones,
+        );
+        return response()->json($data);
+    }
     public function getDetalleCol(Request $request)
     {
         $model = DB::table('ViewLoteDetalleColiformes')->where('Id_detalle', $request->idDetalle)->first(); // Asi se hara con las otras
@@ -397,7 +408,7 @@ class MbController extends Controller
     }
 
     public function operacionEcoli(Request $request){
-        $muestra = LoteDetalleColiformes::where('Id_detalle', $request->idMuestra)->first();
+        $muestra = LoteDetalleColiformes::where('Id_detalle', $request->idDetalle)->first();
         $colonia1 = 0;
         $muestra = 0;
         $temp1 ="";
@@ -423,25 +434,46 @@ class MbController extends Controller
                 break;
         }
         }
-        
-        $model = ConvinacionesEcoli::create([
-            'Id_detalle' => $request->idDetalle,
-            'Indol' => $request->indol1,
-            'Rm' => $request->rm1,
-            'Vp' => $request->vp1,
-            'Citrato' => $request->citrato1,
-            'BGN' => $request->bgn1,
-            'Observacion' => $request->observacion,    
-        ]);
-       
-        // comprobar si todas las colonias tiene resulado
-        
+
+        $validacion = ConvinacionesEcoli::where('Id_detalle', $request->idDetalle)
+        ->where('Colonia', $request->colonia)->first();
+
+        if ($validacion == null){
+            $model = ConvinacionesEcoli::create([
+                'Id_detalle' => $request->idDetalle,
+                'Colonia' => $request->colonia,
+                'Indol' => $request->indol1,
+                'Rm' => $request->rm1,
+                'Vp' => $request->vp1,
+                'Citrato' => $request->citrato1,
+                'BGN' => $request->bgn1,
+                'Resultado' => $muestra,
+                'Observacion' => $request->observacion,    
+            ]);
+        } else {
+            $model = ConvinacionesEcoli::where('Id_detalle', $request->idDetalle)
+            ->where('Colonia', $request->colonia)->first();
+            $model->Indol = $request->indol1;
+            $model->Rm = $request->rm1;
+            $model->Vp = $request->vp1;
+            $model->Citrato = $request->citrato1;
+            $model->BGN = $request->bgn1;
+            $model->Resultado = $muestra;
+            $model->Observacion = $request->observacion;
+            $model->save();
+        }
+
+     
+        // $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)
+        // ->where('Colonia', $request->colonia)->first();
         
 
         $data = array(
             'model' => $model,
             'muestra' => $muestra,
             'string' => $temp1,
+            'colonia' => $request->colonia,
+            'validacion' => $validacion,
         );
         return response()->json($data);
     }

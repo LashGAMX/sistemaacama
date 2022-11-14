@@ -105,7 +105,7 @@ function getLoteMicro() {
     });
 }
 
-
+var numColonia = 0;
 function getLoteCapturaMicro() {
     numMuestras = new Array();
     let tabla = document.getElementById('divTablaControles');
@@ -186,7 +186,7 @@ function getLoteCapturaMicro() {
                         for (let i = 0; i < response.indice[cont]; i++){
                             tab +='<div class="row">'
                             tab +='<div class="col-md-12">'
-                            tab += '<button type="button" id="col'+i+'" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
+                            tab += '<button type="button" id="col'+i+'" '+status+' class="'+clase+'" onclick="getDetalleEcoli(' + item.Id_detalle + ', '+(i+1)+');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
                             tab += '<label>'
                             tab += "&nbsp Colonia &nbsp" +(i+1) +'&nbsp';
                             tab +='</label>';
@@ -263,7 +263,7 @@ function operacionEcoli(idDetalle){
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/operacionEcoli",
         data: {
-            numColonia: $numColonia,
+            colonia: numColonia,
             idDetalle: idMuestra,
             indol1:$("#indol1").val(),
             rm1:$("#rm1").val(),
@@ -333,11 +333,13 @@ function operacionColAlimentos(idDetalle){
     }
     
 }
-function getDetalleColiAlimentos(idMuestra){
+function getDetalleColiAlimentos(idMuestra,colonia){
+    numColonia = colonia;
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getDetalleColiAlimentos",
         data: {
+            colonia:colonia,
             idDetalle: idMuestra,
             _token: $('input[name="_token"]').val()
         },
@@ -349,6 +351,27 @@ function getDetalleColiAlimentos(idMuestra){
             $("#confir124").val(response.model.Confirmativa1)
             $("#confir148").val(response.model.Confirmativa2)
             $("#resultadoColAlimentos").val(response.model.Resultado)
+        }
+    });
+}
+function getDetalleEcoli(idMuestra,colonia){
+    numColonia = colonia;
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/getDetalleEcoli",
+        data: {
+            colonia:colonia,
+            idDetalle: idMuestra,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+            $("#indol1").val(response.convinaciones.Indol)
+            $("#rm1").val(response.convinaciones.Rm)
+            $("#vp1").val(response.convinaciones.Vp)
+            $("#citrato1").val(response.convinaciones.Citrato)
+            $("#bgn1").val(response.convinaciones.BGN)
         }
     });
 }
