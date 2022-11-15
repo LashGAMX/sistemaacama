@@ -230,6 +230,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('getDetalleLote',[PotableController::class, 'getDetalleLote']); 
             Route::post('setLote',[PotableController::class, 'setLote']); 
             Route::post('setPlantilla',[PotableController::class, 'setPlantilla']); 
+            Route::post('valoracionDureza',[PotableController::class, 'valoracionDureza']); 
             Route::get('loteDetalle/{id}',[PotableController::class, 'loteDetalle']);
             Route::post('muestraSinAsignar', [PotableController::class, 'muestraSinAsignar']);
             Route::post('asignarMuestraLote', [PotableController::class, 'asignarMuestraLote']);

@@ -1,17 +1,12 @@
- 
-var area = "potable";
+ var area = "potable";
 
 $(document).ready(function () {
-
-
     $('#summernote').summernote({
         placeholder: '', 
         tabsize: 2, 
         height: 100,
-
       });
     $('#parametro').select2();
-
     $('#tablaLote').DataTable({        
         "ordering": false,
         "language": {
@@ -21,8 +16,6 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos encontrados",
         }
     });
-     
-
     $('#btnBuscar').click(function(){
         getLote()
     })
@@ -33,7 +26,32 @@ $(document).ready(function () {
         setPlantilla()
     })
 });
- 
+
+function valoracionDureza(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/"+area+"/valoracionDureza",
+        data: {
+            idLote: idLote,
+             
+            fecha:$("#fecha").val(),
+            _token: $('input[name="_token"]').val()
+        }, 
+        dataType: "json",
+        async: false,
+        success: function (response) {            
+            console.log(response);
+            summer.innerHTML = '<div id="summernote">'+response.model.Texto+'</div>';
+            $('#summernote').summernote({
+                placeholder: '',
+                tabsize: 2,
+                height: 100,
+        
+            });
+        }
+    });
+}
+
 function getLote(){
     let tabla = document.getElementById('divTable');
     let tab = '';

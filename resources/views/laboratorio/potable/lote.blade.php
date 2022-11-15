@@ -75,7 +75,7 @@
         </button>
       </div>
       <div class="modal-body">
-        <input type="text" id="idLote" hidden>
+        {{-- <input type="text" id="idLote" hidden> --}}
         <div class="row">
           <div class="col-md-12">
             <ul class="nav nav-tabs">
@@ -100,21 +100,20 @@
                             <tr>
                               <th style="width: 10px">Id Lote</th>
                               <th>Formula</th>
-                              <th>Expresión</th>
-                              <th>Resultado</th>
+                              <th style="width: 10px">Resultado</th>
                             </tr>
-                          </thead>
-                          <tbody>
+                          </thead> 
+                          <tbody> 
                             <tr>
-                              <td><input style="width: 100px" id="idVal" disabled></td>
-                              <td><input value="FACTOR REAL DUREZA" disabled></td>
-                              <td><input value="FORMULA" disabled></td>
-                              <td><input id="resVal" disabled></td>
+                              <td><input style="width: 100px" id="idLote" disabled></td>
+                              <td><input value="A/D + B/D + C/D" disabled></td>
+                              <td><input style="width: 100px;" id="resVal" disabled></td>
                             </tr>                            
                           </tbody>
                       </table>
                     </div>
                     <div class="col-md-6">
+                      <button id="btnValoracion" class="btn btn-success"><i class="fas fa-square-root-alt"></i></button> <br>
                       <table class="table" style="width: 100%">
                         <thead>
                           <tr>
@@ -126,25 +125,25 @@
                         </thead>
                         <tbody>
                           <tr>
-                            <td>A</td>
+                            <td>D</td>
                             <td>mg CaCO0 EN LA SOLUCIÓN</td>
                             <td><input type="number" id="solA"></td>
                             <td>C</td>
                           </tr>
                           <tr>
-                            <td>B</td>
+                            <td>A</td>
                             <td>ml DE LA DISOLUCIÓN</td>
                             <td><input type="number" id="d1"></td>
                             <td>V</td>
                           </tr>
                           <tr>
-                            <td>C</td>
+                            <td>B</td>
                             <td>ml DE LA DISOLUCIÓN</td>
                             <td><input type="number" id="d2"></td>
                             <td>V</td>
                           </tr>
                           <tr>
-                            <td>D</td>
+                            <td>C</td>
                             <td>ml DE LA DISOLUCIÓN</td>
                             <td><input type="number" id="d3"></td>
                             <td>V</td>
