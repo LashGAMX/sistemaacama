@@ -21,6 +21,12 @@ class ConvinacionesEcoli extends Model
         'Vp',
         'Citrato',
         'BGN',
+        'Indol2',
+        'Rm2',
+        'Vp2',
+        'Citrato2',
+        'BGN2',
+        'Resultado',
         'Observacion'
         
     ];
