@@ -409,6 +409,7 @@ class MbController extends Controller
 
     public function operacionEcoli(Request $request){
         $muestra = LoteDetalleColiformes::where('Id_detalle', $request->idDetalle)->first();
+        $loteDetalle = "";
         $colonia1 = 0;
         $muestra = 0;
         $temp1 ="";
@@ -462,11 +463,31 @@ class MbController extends Controller
             $model->Observacion = $request->observacion;
             $model->save();
         }
-
-     
-        // $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)
-        // ->where('Colonia', $request->colonia)->first();
-        
+        switch ($request->colonia) {
+            case 1:
+                $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
+                $loteDetalle->Colonia1 = $request->colonia;
+                $loteDetalle->save();
+                break;
+            case 2:
+                $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)
+                ->where('Colonia2', $request->colonia)->first();
+                break;
+            case 3:
+                $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)
+                ->where('Colonia3', $request->colonia)->first();
+                break;
+            case 4:
+                $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)
+                ->where('Colonia4', $request->colonia)->first();
+                break;
+            case 5:
+                $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)
+                ->where('Colonia5', $request->colonia)->first();
+                break;
+                default:
+                $loteDetalle = "default";
+        }
 
         $data = array(
             'model' => $model,
@@ -474,6 +495,7 @@ class MbController extends Controller
             'string' => $temp1,
             'colonia' => $request->colonia,
             'validacion' => $validacion,
+            'loteDetalle' => $loteDetalle,
         );
         return response()->json($data);
     }
