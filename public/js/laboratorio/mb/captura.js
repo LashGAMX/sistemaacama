@@ -190,7 +190,7 @@ function getLoteCapturaMicro() {
                             tab += '<label>'
                             tab += "&nbsp Colonia &nbsp" +(i+1) +'&nbsp';
                             tab +='</label>';
-                            tab += '<input type="text" id="resultColonia">'
+                            tab += '<input type="text" id="resultColonia" value="">'
                             tab += '</div>';
                             tab += '</div">';
                         }
