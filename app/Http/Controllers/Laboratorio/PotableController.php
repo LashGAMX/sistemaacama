@@ -283,7 +283,6 @@ class PotableController extends Controller
             case 251:
             case 252:
                 $resultado = (($res->edta * $res->conversion * $res->real) / $res->vol);
-
                 $model = LoteDetalleDureza::find($res->idDetalle);
                 $model->Resultado = $resultado;
                 $model->Edta = $res->edta;
@@ -291,6 +290,36 @@ class PotableController extends Controller
                 $model->Vol_muestra = $res->vol; 
                 $model->Factor_real = $res->real;
                 $model->Factor_conversion = $res->conversion;
+                $model->save();
+                break;
+            case 58:
+            case 98:
+                $resultado = (($res->lectura1 + $res->lectura2 + $res->lectura3)/3);
+
+                if($resultado >= 0 || $resultado <= 1){
+                    $resultado = $resultado + 0.05;
+                }else if($resultado > 1 || $resultado <= 10){
+                    $resultado = $resultado + 0.1;
+                }else if($resultado > 10 || $resultado <= 40){
+                    $resultado = $resultado + 1;
+                }else if($resultado > 40 || $resultado <= 100){
+                    $resultado = $resultado + 5;
+                }else if($resultado > 100 || $resultado <= 400){
+                    $resultado = $resultado + 10;
+                }else if($resultado > 400 || $resultado <= 1000){
+                    $resultado = $resultado + 50;
+                }else if($resultado > 1000){
+                    $resultado = $resultado + 100;
+                }
+                
+                $model = LoteDetallePotable::find($res->idDetalle);
+                $model->Factor_dilucion = $res->dilucion;
+                $model->Lectura1 = $res->lectura1;
+                $model->Lectura2 = $res->lectura2;
+                $model->Lectura3 = $res->lectura3;
+                $model->Vol_muestra = $res->vol;
+                $model->Promedio = $res->promedion;
+                $model->Resultado = $resultado;
                 $model->save();
                 break;
             default:
