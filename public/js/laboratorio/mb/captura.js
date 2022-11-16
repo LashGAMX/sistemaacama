@@ -11,7 +11,7 @@ $('#metodoCortoCol').click(function (){
 });
 
 $('#ejecutar').click(function () {
-    operacion();
+    operacionEcoliFinal();
 });
 $('#btnLiberar').click(function () {
     // operacion();
@@ -126,6 +126,7 @@ function getLoteCapturaMicro() {
         dataType: "json",
         success: function (response) {
             console.log(response);
+            data = response;
 
             tab += '<table id="tablaControles" class="table table-sm">';
             tab += '    <thead>';
@@ -174,6 +175,7 @@ function getLoteCapturaMicro() {
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalColiformesAlimentos">Capturar</button>';
                         break;
                    case "78": //E.coli
+                   let data = [item.Colonia1, item.Colonia2, item.Colonia3,item.Colonia4,item.Colonia5];
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '">';
                         tab +='<div class="row">'
                             tab +='<div class="col-md-12">'
@@ -190,7 +192,7 @@ function getLoteCapturaMicro() {
                             tab += '<label>'
                             tab += "&nbsp Colonia &nbsp" +(i+1) +'&nbsp';
                             tab +='</label>';
-                            tab += '<input type="text" id="resultColonia" value="">'
+                            tab += '<input type="text" id="resultColonia" value="'+data[i]+'">'
                             tab += '</div>';
                             tab += '</div">';
                         }
@@ -257,6 +259,24 @@ function getLoteCapturaMicro() {
 
         }
     });
+}
+function operacionEcoliFinal(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionEcoliFinal",
+        data: {
+            
+            idDetalle: idMuestra,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+            $("#resultadoEcoli").val(response.Resultado);
+            getLoteCapturaMicro();
+        }
+    });
+
 }
 function operacionEcoli(idDetalle){
     $.ajax({

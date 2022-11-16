@@ -249,6 +249,7 @@ class MbController extends Controller
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         $indice = array();
         $detalle = array();
+        $resultados = array();
         switch ($loteModel->Id_tecnica) {
             case 12: //todo Coliformes+
             case 132:
@@ -290,6 +291,7 @@ class MbController extends Controller
         $data = array(
             'indice' => $indice, 
             'detalle' => $detalle,
+            'resul' => $resultados,
         );
         return response()->json($data);
     }
@@ -406,6 +408,41 @@ class MbController extends Controller
             compact('loteDetail')
         );
     }
+    public function operacionEcoliFinal(Request $request){
+        $muestra = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
+        $res = $muestra->Colonia1+$muestra->Colonia2+$muestra->Colonia3+$muestra->Colonia4+$muestra->Colonia5;
+        switch($res){
+            case 1:
+                $resultado = "1.1";
+                break;
+            case 2:
+                $resultado = "2.6";
+                break;
+            case 3:
+                $resultado = "4.6";
+                break;
+            case 4:
+                $resultado = "8.0";
+                break;
+            case 5:
+                $resultado = "8.0";
+                break;
+            default:
+                $resultado = "0";
+                break;
+        }
+
+        $model = LoteDetalleEcoli::find( $request->idDetalle);
+        $model->resultado = $resultado;
+        $model->save();
+
+        $data = array(
+            'res' => $res,
+            'muestra' => $muestra,
+            'resultado' => $resultado,
+        );
+        return response()->json($data);
+    }
 
     public function operacionEcoli(Request $request){
         $muestra = LoteDetalleColiformes::where('Id_detalle', $request->idDetalle)->first();
@@ -459,6 +496,11 @@ class MbController extends Controller
             $model->Vp = $request->vp1;
             $model->Citrato = $request->citrato1;
             $model->BGN = $request->bgn1;
+            $model->Indol2 = $request->indol2;
+            $model->Rm2 = $request->rm2;
+            $model->Vp2 = $request->vp2;
+            $model->Citrato2 = $request->citrato2;
+            $model->BGN2 = $request->bgn2;
             $model->Resultado = $muestra;
             $model->Observacion = $request->observacion;
             $model->save();
@@ -466,24 +508,28 @@ class MbController extends Controller
         switch ($request->colonia) {
             case 1:
                 $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
-                $loteDetalle->Colonia1 = $request->colonia;
+                $loteDetalle->Colonia1 = 1;
                 $loteDetalle->save();
                 break;
             case 2:
-                $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)
-                ->where('Colonia2', $request->colonia)->first();
+                $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
+                $loteDetalle->Colonia2 = 1;
+                $loteDetalle->save();
                 break;
             case 3:
-                $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)
-                ->where('Colonia3', $request->colonia)->first();
+                $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
+                $loteDetalle->Colonia3 = 1;
+                $loteDetalle->save();
                 break;
             case 4:
-                $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)
-                ->where('Colonia4', $request->colonia)->first();
+                $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
+                $loteDetalle->Colonia4 = 1;
+                $loteDetalle->save();
                 break;
             case 5:
-                $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)
-                ->where('Colonia5', $request->colonia)->first();
+                $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
+                $loteDetalle->Colonia5 = 1;
+                $loteDetalle->save();
                 break;
                 default:
                 $loteDetalle = "default";
