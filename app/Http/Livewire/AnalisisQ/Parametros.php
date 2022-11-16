@@ -53,6 +53,7 @@ class Parametros extends Component
     public $curva;
     public $status;
     public $nota;
+    public $parametroPadre;
 
 
     protected $rules = [

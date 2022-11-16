@@ -40,6 +40,8 @@ class ParametroController extends Controller
         $procedimientos = ProcedimientoAnalisis::all();
         $simbologias = SimbologiaParametros::all();
         $simbologiasInf = SimbologiaInforme::all();
+        $parametroPadre = Parametro::where('Curva', 1)->get();
+
 
         $data = array(
             'laboratorios' => $laboratorios,
@@ -54,6 +56,7 @@ class ParametroController extends Controller
             'procedimientos' => $procedimientos,
             'simbologias' => $simbologias,
             'simbologiasInf' => $simbologiasInf,
+            'parametroPadre' => $parametroPadre,
         );
         return view('analisisQ.parametro', $data);
     }
