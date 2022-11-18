@@ -73,6 +73,8 @@ class CurvaController extends Controller
         $today = $fecha->toDateString();
         $lote = LoteAnalisis::where('Fecha', $request->fecha)->first();
 
+        $hijos = Parametro::where('Padre', $request->parametro)->first();
+
         $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
             ->where('Id_area', $request->area) 
             ->where('Id_parametro', $request->parametro)->get();
@@ -102,6 +104,7 @@ class CurvaController extends Controller
             'bmr' => $bmr,
             'sw' => $sw,
             'fecha' => $today,
+            'hijos' => $hijos,
         );
         return response()->json($data);
     }
@@ -120,6 +123,8 @@ class CurvaController extends Controller
         $estandares  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $fechaInicio)->whereDate('Fecha_fin', '>=', $fechaFin)
         ->where('Id_area', $request->idAreaModal)
         ->where('Id_parametro', $request->idParametroModal)->first();
+
+        $hijos = Parametro::where('Padre', $request->idParametroModal)->get();
 
         $concent = ConcentracionParametro::where('Id_parametro', "=", $request->idParametroModal)->get(); //valores de concentración
 

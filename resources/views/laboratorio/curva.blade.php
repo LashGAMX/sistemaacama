@@ -79,15 +79,14 @@
 <div class="col-md-3">
   <button class="btn btn-success" id="setConstantes" ><i class="far fa-save"></i> Guardar</button> 
 </div>
-    </div>
-        
+  
 
-    <div>
-      <label>Vigencia: </label>
-      <label id="vigencia"> </label>
-    </div>
 
-    </div> 
+      <div class="col-md-6">
+        <label>Vigencia: </label>
+        <label id="vigencia"> </label>
+      </div>
+
 
 
      <!-- Modal -->
