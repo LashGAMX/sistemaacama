@@ -32,6 +32,7 @@ class Parametro extends Model
         'Precio',
         'Envase',
         'Curva',
+        'Padre',
         'Id_user_c',
         'Id_user_m',
     ];

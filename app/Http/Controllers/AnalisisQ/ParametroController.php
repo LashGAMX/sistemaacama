@@ -113,6 +113,7 @@ class ParametroController extends Controller
         $model->Id_simbologia_info = $res->simbologiaInf;
         $model->Id_user_m = Auth::user()->id;
         $model->Curva = $curva;
+        $model->Padre = $res->padre;
         $model->save();
 
         $model = DB::table('parametros_normas')->where('Id_parametro',$res->id)->delete();

@@ -129,6 +129,7 @@ function getNormasParametro(id){
       procedimiento:$("#procedimiento").val(),
       simbologia:$("#simbologia").val(),
       simbologiaInf:$("#simbologiaInf").val(),
+      padre:$("#CurvaPadre").val(),
         _token: $('input[name="_token"]').val(),
       },
     dataType: 'json', 

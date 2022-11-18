@@ -184,7 +184,7 @@
               <div class="col-md-3"> 
                 <div class="form-group">
                     <label for="">Curva Padre</label>
-                    <select class="form-control" id="simbologiaInf">
+                    <select class="form-control" id="CurvaPadre">
                       <option value="0">Sin seleccionar</option>
                     @foreach ($parametroPadre as $item)
                         <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
