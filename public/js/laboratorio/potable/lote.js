@@ -20,10 +20,13 @@ $(document).ready(function () {
         getLote()
     })
     $("#btnCrear").click(function(){
-        setLote()
+        setLote() 
     })
     $("#btnGuardarPlantilla").click(function(){
         setPlantilla()
+    })
+    $("#btnValoracion").click(function(){
+        valoracionDureza()
     })
 });
 
@@ -32,22 +35,20 @@ function valoracionDureza(){
         type: "POST",
         url: base_url + "/admin/laboratorio/"+area+"/valoracionDureza",
         data: {
-            idLote: idLote,
-             
+            idLote: $("#idLote").val(),
+            idParametro: $("#parametro").val(),
             fecha:$("#fecha").val(),
+            solA:$("#solA").val(),
+            d1:$("#d1").val(),
+            d2:$("#d2").val(),
+            d3:$("#d3").val(),
             _token: $('input[name="_token"]').val()
         }, 
         dataType: "json",
         async: false,
         success: function (response) {            
             console.log(response);
-            summer.innerHTML = '<div id="summernote">'+response.model.Texto+'</div>';
-            $('#summernote').summernote({
-                placeholder: '',
-                tabsize: 2,
-                height: 100,
-        
-            });
+            $("#resVal").val(response.res)
         }
     });
 }

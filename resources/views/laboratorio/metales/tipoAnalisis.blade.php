@@ -25,6 +25,17 @@
                   </div>
               </a>
           </div>
+          <div class="col-md-3">
+            <a href="{{url('')}}/admin/laboratorio/metales/capturaIcp">
+                <div class="panel widget center bgimage">
+                    <div class="dimmer"></div>
+                    <div class="panel-content">
+                      <i class="fab fa-buffer"></i>
+                        <h4>METALES ICP</h4>
+                    </div>
+                </div>
+            </a>
+        </div>
                       
         
       </div>

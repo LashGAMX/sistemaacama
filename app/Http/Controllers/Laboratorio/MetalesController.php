@@ -168,6 +168,10 @@ class MetalesController extends Controller
         $controlModel = ControlCalidad::all();
         return view('laboratorio.metales.captura', compact('parametro', 'controlModel'));
     }
+    public function capturaIcp()
+    {
+        return view('laboratorio.metales.capturaIcp');
+    }
     public function getDataCaptura(Request $request)
     {
         //$parametro = Parametro::where('Id_parametro',$request->formulaTipo)->first();
