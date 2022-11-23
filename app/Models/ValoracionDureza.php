@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class ValoracionDureza extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'valoracion_dqo';
+    protected $table = 'valoracion_dureza';
     protected $primaryKey = 'Id_valoracion';
     public $timestamps = true;
 

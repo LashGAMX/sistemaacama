@@ -70,21 +70,21 @@ class PotableController extends Controller
     }
     public function valoracionDureza(Request $res)
     {
-        $result = (($res->d1 / $res->solA)  + ($res->d2 / $res->solA)  + ($res->d3 / $res->solA)) / 3;   
-        $model = ValoracionDureza::where($res->idLote,'Id_lote')->get();
-        if($model->count()){
-            $model = ValoracionDureza::where($res->idLote,'Id_lote')->first();
+        $result = (($res->d1 / $res->solA)  + ($res->d2 / $res->solA)  + ($res->d3 / $res->solA)) / 3;
+        $model = ValoracionDureza::where('Id_lote', $res->idLote)->get();
+        if ($model->count()) {
+            $model = ValoracionDureza::where('Id_lote', $res->idLote)->first();
             $model->Solucion = $res->solA;
             $model->Disolucion1 = $res->d1;
             $model->Disolucion2 = $res->d2;
             $model->Disolucion3 = $res->d3;
             $model->Resultado = $result;
             $model->save();
-        }else{
+        } else {
             $model = ValoracionDureza::create([
                 'Id_lote' => $res->idLote,
                 'Id_parametro' => $res->idParametro,
-                'Solucion' =>$res->solA,
+                'Solucion' => $res->solA,
                 'Disolucion1' => $res->d1,
                 'Disolucion2' => $res->d2,
                 'Disolucion3' => $res->d3,
@@ -122,20 +122,20 @@ class PotableController extends Controller
     {
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         switch ($loteModel->Id_tecnica) {
-            //Dureza
-        case 77:
-        case 251:
-        case 252:
-        case 103:
-            $detModel = DB::table('lote_detalle_directos')->where('Id_detalle', $request->idDetalle)->delete();
-            $detModel = LoteDetalleDureza::where('Id_lote', $request->idLote)->get();
-            break;
-        default:
-            # code...
-            $detModel = DB::table('lote_detalle_potable')->where('Id_detalle', $request->idDetalle)->delete();
-            $detModel = LoteDetallePotable::where('Id_lote', $request->idLote)->get();
-            break;
-    }
+                //Dureza
+            case 77:
+            case 251:
+            case 252:
+            case 103:
+                $detModel = DB::table('lote_detalle_directos')->where('Id_detalle', $request->idDetalle)->delete();
+                $detModel = LoteDetalleDureza::where('Id_lote', $request->idLote)->get();
+                break;
+            default:
+                # code...
+                $detModel = DB::table('lote_detalle_potable')->where('Id_detalle', $request->idDetalle)->delete();
+                $detModel = LoteDetallePotable::where('Id_lote', $request->idLote)->get();
+                break;
+        }
 
         $loteModel = LoteAnalisis::find($request->idLote);
         $loteModel->Asignado = $detModel->count();
@@ -211,7 +211,7 @@ class PotableController extends Controller
         $sw = false;
         $loteModel = LoteAnalisis::where('Id_lote', $res->idLote)->first();
         $paraModel = Parametro::find($loteModel->Id_tecnica);
-        
+
         switch ($paraModel->Id_parametro) {
             case 77: //Dureza
             case 103:
@@ -276,8 +276,33 @@ class PotableController extends Controller
 
     public function getDetallePotable(Request $res)
     {
-        $model = LoteDetalleDureza::where("Id_detalle", $res->idDetalle)->first();
-        $data = array('model' => $model);
+        $d1 = "";
+        $d2 = "";
+        $valoracion = "";
+        $detalle = array();
+        switch ($res->formulaTipo) {
+            case 77: //Dureza 
+            case 103:
+            case 251:
+                $model = LoteDetalleDureza::where("Id_detalle", $res->idDetalle)->first();
+                $valoracion = ValoracionDureza::where('Id_lote',$model->Id_lote)->first();
+                break;
+            case 252:
+                $model = DB::table('ViewLoteDetalleDureza')->where('Id_detalle', $res->idDetalle)->first();
+                $d1 = DB::table('ViewLoteDetalleDureza')->where('Codigo', $model->Folio_servicio)->where('Id_parametro', 251)->first();
+                $d2 = DB::table('ViewLoteDetalleDureza')->where('Codigo', $model->Folio_servicio)->where('Id_parametro', 77)->first();
+                break;
+            default:
+                # code...
+                $model = DB::table('ViewLoteDetallePotable')->where('Id_lote', $res->idLote)->get();
+                break;
+        }
+        $data = array(
+            'model' => $model,
+            'd1' => $d1,
+            'd2' => $d2,
+            'valoracion' => $valoracion,
+        );
         return response()->json($data);
     }
     public function getLoteCapturaPotable(Request $request)
@@ -291,7 +316,7 @@ class PotableController extends Controller
             case 252:
                 $detalle = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $request->idLote)->get();
                 break;
-            default: 
+            default:
                 # code...
                 $detalle = DB::table('ViewLoteDetallePotable')->where('Id_lote', $request->idLote)->get();
                 break;
@@ -310,37 +335,36 @@ class PotableController extends Controller
             case 77: //Dureza
             case 103:
             case 251:
-            case 252:
                 $resultado = (($res->edta * $res->conversion * $res->real) / $res->vol);
                 $model = LoteDetalleDureza::find($res->idDetalle);
                 $model->Resultado = $resultado;
                 $model->Edta = $res->edta;
                 $model->Ph_muestra = $res->ph;
-                $model->Vol_muestra = $res->vol; 
+                $model->Vol_muestra = $res->vol;
                 $model->Factor_real = $res->real;
                 $model->Factor_conversion = $res->conversion;
                 $model->save();
                 break;
             case 58:
             case 98:
-                $resultado = (($res->lectura1 + $res->lectura2 + $res->lectura3)/3);
+                $resultado = (($res->lectura1 + $res->lectura2 + $res->lectura3) / 3);
 
-                if($resultado >= 0 || $resultado <= 1){
+                if ($resultado >= 0 || $resultado <= 1) {
                     $resultado = $resultado + 0.05;
-                }else if($resultado > 1 || $resultado <= 10){
+                } else if ($resultado > 1 || $resultado <= 10) {
                     $resultado = $resultado + 0.1;
-                }else if($resultado > 10 || $resultado <= 40){
+                } else if ($resultado > 10 || $resultado <= 40) {
                     $resultado = $resultado + 1;
-                }else if($resultado > 40 || $resultado <= 100){
+                } else if ($resultado > 40 || $resultado <= 100) {
                     $resultado = $resultado + 5;
-                }else if($resultado > 100 || $resultado <= 400){
+                } else if ($resultado > 100 || $resultado <= 400) {
                     $resultado = $resultado + 10;
-                }else if($resultado > 400 || $resultado <= 1000){
+                } else if ($resultado > 400 || $resultado <= 1000) {
                     $resultado = $resultado + 50;
-                }else if($resultado > 1000){
+                } else if ($resultado > 1000) {
                     $resultado = $resultado + 100;
                 }
-                
+
                 $model = LoteDetallePotable::find($res->idDetalle);
                 $model->Factor_dilucion = $res->dilucion;
                 $model->Lectura1 = $res->lectura1;
@@ -351,9 +375,17 @@ class PotableController extends Controller
                 $model->Resultado = $resultado;
                 $model->save();
                 break;
+            case 252:
+                $resultado = ($res->durezaT - $res->durezaC);
+                $model = LoteDetalleDureza::find($res->idDetalle);
+                $model->Resultado = $resultado;
+                $model->Factor_real = $res->durezaT;
+                $model->Factor_conversion = $res->durezaC;
+                $model->save();
+                break;
             default:
                 # code...
-                $resultado = (($res->lectura1 + $res->lectura2 + $res->lectura3)/3);
+                $resultado = (($res->lectura1 + $res->lectura2 + $res->lectura3) / 3);
                 $model = LoteDetallePotable::find($res->idDetalle);
                 $model->Factor_dilucion = $res->dilucion;
                 $model->Lectura1 = $res->lectura1;
@@ -467,14 +499,14 @@ class PotableController extends Controller
             'sw' => $sw,
             'mensaje' => $mensaje,
         );
-        return response()->json($data); 
+        return response()->json($data);
     }
     public function exportPdfPotable($idLote)
     {
         //Opciones del documento PDF
         $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'P',
-            'format' => 'letter', 
+            'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 31,
@@ -505,7 +537,7 @@ class PotableController extends Controller
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
-                break; 
+                break;
             case 98:
                 $model = DB::table('ViewLoteDetallePotable')->where('Id_lote', $idLote)->get();
                 // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();

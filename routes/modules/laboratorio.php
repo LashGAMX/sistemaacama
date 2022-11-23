@@ -59,6 +59,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('lote/procedimiento/busquedaFiltros', [MetalesController::class, 'busquedaFiltros']);
         //Almacena el texto en la table reportes, campo Texto, el texto introducido en el editor de texto > Procedimiento/Validación
         Route::post('lote/procedimiento', [MetalesController::class, 'guardarTexto']);
+        
+        Route::get('capturaIcp', [MetalesController::class, 'capturaIcp']);
     });
 
     // todo Modulo FisicoQuimicos
