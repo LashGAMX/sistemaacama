@@ -109,7 +109,7 @@
                               <td><input value="A/D + B/D + C/D" disabled></td>
                               <td><input style="width: 100px;" id="resVal" disabled></td>
                             </tr>                            
-                          </tbody>
+                          </tbody> 
                       </table>
                     </div>
                     <div class="col-md-6">

@@ -10,6 +10,7 @@ use App\Models\LoteDetalleDureza;
 use App\Models\LoteDetallePotable;
 use App\Models\Parametro;
 use App\Models\PlantillaPotable;
+use App\Models\ValoracionDureza;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -64,6 +65,34 @@ class PotableController extends Controller
         $data = array(
             'model' => $model,
             'lote' => $lote,
+        );
+        return response()->json($data);
+    }
+    public function valoracionDureza(Request $res)
+    {
+        $result = (($res->d1 / $res->solA)  + ($res->d2 / $res->solA)  + ($res->d3 / $res->solA)) / 3;   
+        $model = ValoracionDureza::where($res->idLote,'Id_lote')->get();
+        if($model->count()){
+            $model = ValoracionDureza::where($res->idLote,'Id_lote')->first();
+            $model->Solucion = $res->solA;
+            $model->Disolucion1 = $res->d1;
+            $model->Disolucion2 = $res->d2;
+            $model->Disolucion3 = $res->d3;
+            $model->Resultado = $result;
+            $model->save();
+        }else{
+            $model = ValoracionDureza::create([
+                'Id_lote' => $res->idLote,
+                'Id_parametro' => $res->idParametro,
+                'Solucion' =>$res->solA,
+                'Disolucion1' => $res->d1,
+                'Disolucion2' => $res->d2,
+                'Disolucion3' => $res->d3,
+                'Resultado' => $result,
+            ]);
+        }
+        $data = array(
+            'res' => $result,
         );
         return response()->json($data);
     }
