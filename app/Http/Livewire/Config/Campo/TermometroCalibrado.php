@@ -115,40 +115,17 @@ class TermometroCalibrado extends Component
         $termo = TermFactorCorreccionTemp::find($model[0]->Id_factor);
         $termo->Factor = $this->fa1;
 
-        if($this->fa1 >= 0.5){
-            $termo->Factor_aplicado = 1;
-        }else if($this->fa1 <= -0.5){
-            $termo->Factor_aplicado = -1;
-        }else{
-            $termo->Factor_aplicado = 0 /* $this->apl1 */;
-        }
-
+        $termo->Factor_aplicado = $this->apl1;
         $termo->save();
 
         $termo = TermFactorCorreccionTemp::find($model[1]->Id_factor);
         $termo->Factor = $this->fa2;
 
-        if($this->fa2 >= 0.5){
-            $termo->Factor_aplicado = 1;
-        }else if($this->fa2 <= -0.5){
-            $termo->Factor_aplicado = -1;
-        }else{
-            $termo->Factor_aplicado = 0 /* $this->apl2 */;
-        }
-        
         $termo->save();
 
         $termo = TermFactorCorreccionTemp::find($model[2]->Id_factor);
         $termo->Factor = $this->fa3;
-
-        if($this->fa3 >= 0.5){
-            $termo->Factor_aplicado = 1;
-        }else if($this->fa3 <= -0.5){
-            $termo->Factor_aplicado = -1;
-        }else{
-            $termo->Factor_aplicado = 0 /* $this->apl3 */;
-        }
-        
+        $termo->Factor = $this->fa3;
         $termo->save();
 
         $termo = TermFactorCorreccionTemp::find($model[3]->Id_factor);
