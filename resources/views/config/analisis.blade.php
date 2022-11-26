@@ -41,6 +41,9 @@
     <li class="nav-item" role="menu">
       <a class="nav-link" id="crisolGA-tab" data-toggle="tab" href="#crisolGA" role="tab" aria-controls="crisolGA" aria-selected="false">Crisol GA</a>
     </li>
+    <li class="nav-item" role="menu">
+      <a class="nav-link" id="crisolGA-tab" data-toggle="tab" href="#capsulas" role="tab" aria-controls="capsulas" aria-selected="false">Capsulas</a>
+    </li>
   </ul>
   <div class="tab-content" id="myTabContent">
     <div class="tab-pane fade  active" id="Tipo" role="tabpanel" aria-labelledby="Tipo-tab">  
@@ -72,6 +75,9 @@
     </div>
     <div class="tab-pane fade" id="crisolGA" role="tabpanel" aria-labelledby="crisolGA-tab">
       @livewire('config.crisol-g-a',['idUser'=>$idUser])
+    </div>
+    <div class="tab-pane fade" id="capsulas" role="tabpanel" aria-labelledby="capsulas-tab">
+      @livewire('config.capsulas',['idUser'=>$idUser])
     </div>
   </div>
 @endsection   
