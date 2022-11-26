@@ -102,7 +102,7 @@ function setPrecioPaquete(){
             id:$("#paquete").val(),
             _token: $('input[name="_token"]').val(),
         },
-        dataType: "json",qr
+        dataType: "json",
         async: false,
         success: function (response) {      
             console.log(response)
