@@ -146,7 +146,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th># {{$idTermo}}</th>
                                     <th>De C°</th>
                                     <th>A C°</th>
                                     <th>Factor de corrección</th>
@@ -155,7 +155,7 @@
                             </thead>
                             <tbody>
                                 @php
-                                    $contF = 0;q
+                                    $contF = 0;
                                 @endphp
                                 @foreach ($factores as $item)
                                     <tr>
