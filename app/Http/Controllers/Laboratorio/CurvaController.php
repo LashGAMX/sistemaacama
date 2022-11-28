@@ -202,6 +202,7 @@ class CurvaController extends Controller
     //------------Guardar BMR-----------
     public function setConstantes(Request $request)
     {
+        $model = 0;
 
         $fecha = new Carbon($request->fecha);
         $today = $fecha->toDateString();
