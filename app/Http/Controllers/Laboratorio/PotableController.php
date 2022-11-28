@@ -327,6 +327,30 @@ class PotableController extends Controller
         );
         return response()->json($data);
     }
+    public function createControlCalidad(Request $res)
+    {
+        switch ($res->idParametro) {
+            case 103:# DurezaTotal
+                $muestra = LoteDetalleDureza::where('Id_detalle', $res->idMuestra)->first();
+                $model = $muestra->replicate();
+                $model->Id_control = $res->idControl;
+                break;
+            default:
+                # code...
+                # Potable
+                $muestra = LoteDetallePotable::where('Id_detalle', $res->idMuestra)->first();
+                $model = $muestra->replicate();
+                $model->Id_control = $res->idControl;
+                break;
+        }
+
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
     public function operacion(Request $res)
     {
         $resultado = "";

@@ -67,7 +67,7 @@
                     <tr>
                         <th>Folio</th>
                         <th>Parametro</th>
-                        <th>Abs Prom</th>
+                        <th>CPS Prom</th>
                         <th>Resultado</th>
                         <th>F/H Analisis </th>
                         <th>Tipo</th>

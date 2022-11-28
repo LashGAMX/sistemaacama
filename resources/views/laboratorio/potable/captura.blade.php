@@ -17,7 +17,7 @@
                 <select class="form-control" name="formulaTipo" id="formulaTipo">
                     <option value="0">Sin seleccionar</option>
                     @foreach ($parametro as $parametros)
-                    <option value={{$parametros->Id_parametro}}>{{$parametros->Id_parametro}}/{{$parametros->Parametro}} / {{$parametros->Tipo_formula}}</option> 
+                    <option value={{$parametros->Id_parametro}}>({{$parametros->Id_parametro}}) {{$parametros->Parametro}} ({{$parametros->Tipo_formula}})</option> 
                     @endforeach
                 </select>
             </div> 
@@ -84,7 +84,9 @@
                     </div>
                     <div class="col-md-1">
                     </div>
-                    <div class="col-md-1">
+                    <div class="col-md-2">
+                        <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad"
+                            id="btnGenControlInd">Generar control</button>
                     </div>
                     <div class="col-md-2">
                         <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad"
@@ -381,6 +383,45 @@
                 </div>
             </div>
         </div>
+
+                <!-- Modal Control Calidad-->
+                <div class="modal fade" id="modalCalidad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="">Control de calidad</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    <div class="row">
+                                        {{-- <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="">Formula</label>
+                                                <input type="text" id="mFormula" disabled value="Forms">
+                                            </div>
+                                        </div> --}}
+                                        <div class="col-md-12">
+                                            <div class="form-group">
+                                                <label for="">Tipo</label>
+                                                <select class="form-control" id="controlCalidad">
+                                                    @foreach ($controlModel as $item)
+                                                    <option value="{{$item->Id_control}}">{{$item->Control}}</option>
+                                                    @endforeach
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                                    <button type="button" onclick="createControlCalidad()"
+                                        class="btn btn-primary">Generar</button>
+                                </div>
+                        </div>
+                    </div>
+                </div>
 
     @section('javascript')
     <script src="{{asset('/public/js/laboratorio/potable/captura.js')}}?v=0.0.1"></script>

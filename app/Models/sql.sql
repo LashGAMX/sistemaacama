@@ -482,7 +482,7 @@ INNER JOIN proceso_analisis as pro
 ON sol.Id_solicitud = pro.Id_solicitud
 
 /* Lista ViewPlanPaquete */
-CREATE VIEW ViewPlanPaquete as SELECT p.*,lab.Area,lab.Id_responsable,us.name,us.firma,us.iniciales,e.Nombre as Envase,e.Volumen, u.Unidad FROM plan_paquete as p
+CREATE VIEW ViewPlanPaquete as SELECT p.*,lab.Area,lab.Id_responsable,lab.Reportes,us.name,us.firma,us.iniciales,e.Nombre as Envase,e.Volumen, u.Unidad FROM plan_paquete as p
 INNER JOIN areas_lab as lab
 ON p.Id_area = lab.Id_area
 INNER JOIN envase as e
@@ -491,6 +491,7 @@ INNER JOIN unidades as u
 ON u.Id_unidad = e.Id_unidad
 INNER JOIN users as us
 ON us.id = lab.Id_responsable
+
 /* Lista ViewPlanComplemento */
 CREATE VIEW ViewPlanComplemento as SELECT com.*,cam.Complemento FROM plan_complemento as com
 INNER JOIN complementos_campo as cam

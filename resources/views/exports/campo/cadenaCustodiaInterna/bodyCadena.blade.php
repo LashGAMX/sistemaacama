@@ -52,7 +52,7 @@
 
                     <tbody>                                           
                         @for ($i = 0; $i < @$paqueteLength; $i++)
-                            @if (@$paquete[$i]->Id_area != 15)
+                            @if (@$paquete[$i]->Reportes == 1)
                             <tr>
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{@$paquete[$i]->Area}}</td>
                                 <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paquete[$i]->name}}</td>

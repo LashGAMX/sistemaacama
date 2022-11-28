@@ -17,6 +17,7 @@ class AreaLab extends Model
         'Area',
         'Descripcion',
         'Id_responsable',
+        'Reportes',
         'Id_user_c',
         'Id_user_m'
     ];

@@ -9,6 +9,8 @@ $(document).ready(function () {
         height: 100,
 
       });
+      
+      $('#parametro').select2();
 
     $('#tablaLote').DataTable({        
         "ordering": false,

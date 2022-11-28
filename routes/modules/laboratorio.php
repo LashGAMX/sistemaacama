@@ -248,6 +248,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('updateObsMuestra', [PotableController::class, 'updateObsMuestra']);
             Route::post('liberarMuestra', [PotableController::class, 'liberarMuestra']);
             Route::get('captura/exportPdfPotable/{idLote}', [PotableController::class, 'exportPdfPotable']);
+            Route::post('createControlCalidad', [PotableController::class, 'createControlCalidad']);
             
         }); 
      

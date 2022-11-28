@@ -63,9 +63,27 @@
                         <td class="tableContent">{{@$data[$i]->Abs2}}</td>
                         <td class="tableContent">{{@$data[$i]->Abs3}}</td>
                         <td class="tableContent">{{@$data[$i]->Promedio}}</td>
-                        <td class="tableContent">{{@$data[$i]->Sulfuros}}</td>
-                        <td class="tableContent">{{@$data[$i]->Nitratos}}</td>
-                        <td class="tableContent">{{@$data[$i]->Nitritos}}</td>
+                        <td class="tableContent">
+                            @if (@$data[$i]->Sulfuros == NULL)
+                                -----        
+                            @else
+                                {{@$data[$i]->Sulfuros}}
+                            @endif
+                        </td>
+                        <td class="tableContent">
+                            @if (@$data[$i]->Nitratos == NULL)
+                            -----        
+                            @else
+                                {{@$data[$i]->Nitratos}}
+                            @endif
+                        </td>
+                        <td class="tableContent">
+                            @if (@$data[$i]->Nitritos == NULL)
+                            -----        
+                            @else
+                                {{@$data[$i]->Nitritos}}
+                            @endif
+                        </td>
                         <td class="tableContent">{{@$limites[$i]}}</td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
                         <td class="tableContent">

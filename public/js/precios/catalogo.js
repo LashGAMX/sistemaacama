@@ -3,7 +3,30 @@ $(document).ready(function() {
     $('#lab').select2();
     $('#precios').DataTable();
     getParametros();
+    $('#btnSetPrecioAnual').click(function () {
+        setPrecioAnual();
+    });
 });
+
+function setPrecioAnual()
+{
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/precios/catalogo/setPrecioAnual",
+        data: {
+            id:id,
+            porcentaje:$("#porcentaje").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {      
+            console.log(response)
+            alert("Precios Modificado")
+            getParametros();
+        } 
+    });
+}
 
 function getParametros()
 {
@@ -75,5 +98,22 @@ function savePrecioCat(id){
             alert("Precio Modificado")
             getParametros();
         } 
+    });
+}
+
+function confirmar() {
+    swal({
+    title: "¿Estas seguro de realizar el incremento anual?",
+    text: "Se ajustaran automaticamente todos los precios al laboratorio asignado",
+    icon: "warning",
+    buttons: true,
+    dangerMode: false,
+    })
+    .then((willDelete) => {
+    if (willDelete) {
+        $('#modalPrecioAnual').modal('show')
+    } else {
+
+    }
     });
 }
