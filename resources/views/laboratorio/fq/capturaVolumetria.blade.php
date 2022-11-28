@@ -16,7 +16,7 @@
                 <select class="form-control" name="formulaTipo" id="formulaTipo">
                     <option value="0">Sin seleccionar</option>
                     @foreach ($parametro as $item)
-                        <option value= {{$item->Id_parametro}}>{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
+                        <option value= {{$item->Id_parametro}}>({{$item->Id_parametro}}) {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
                     @endforeach
                   </select>
             </div>
@@ -135,7 +135,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">Observación</label>
-                                    <input type="text" class="form-control" id="observacionDqo"
+                                    <input type="text" class="form-control" id="observacionModal"
                                         placeholder="Observacion de la muestra">
                                 </div>
                                 <div class="form-group">
@@ -242,7 +242,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">Observación</label>
-                                    <input type="text" class="form-control" id="observacionNitro"
+                                    <input type="text" class="form-control" id="observacionModal"
                                         placeholder="Observacion de la muestra">
                                 </div>
                                 <div class="form-group">

@@ -17,7 +17,7 @@
                 <select class="form-control" name="formulaTipo" id="formulaTipo">
                     <option value="0">Sin seleccionar</option>
                     @foreach ($parametro as $parametros)
-                    <option value={{$parametros->Id_parametro}}>{{$parametros->Id_parametro}}/{{$parametros->Parametro}} / {{$parametros->Tipo_formula}}</option> 
+                    <option value={{$parametros->Id_parametro}}>({{$parametros->Id_parametro}}) {{$parametros->Parametro}} ({{$parametros->Tipo_formula}})</option> 
                     @endforeach
                 </select>
             </div>

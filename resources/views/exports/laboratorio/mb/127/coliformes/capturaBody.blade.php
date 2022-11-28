@@ -53,7 +53,13 @@
                         <td>{{ $item->Presuntiva2 }}</td>
                         <td>{{ $item->Confirmativa1 }}</td>
                         <td>{{ $item->Confirmativa2 }}</td>
-                        <td>{{ $item->Resultado }}</td>
+                        <td>
+                            @if ($item->Resultado > $item->Limite)
+                                {{ $item->Resultado }}
+                            @else
+                                {{ $item->Limite }}
+                            @endif
+                        </td>
                         <td>{{ $item->Observacion }}</td>
                         <td>{{ $item->Control }}</td>
                     </tr>

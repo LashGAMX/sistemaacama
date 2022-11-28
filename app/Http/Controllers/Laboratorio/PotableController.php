@@ -553,10 +553,11 @@ class PotableController extends Controller
             case 251:
             case 252:
                 $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $idLote)->get();
-                // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                $textoProcedimiento = PlantillaPotable::where('Id_parametro', 77)->first();
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
+                    'textoProcedimiento' => $textoProcedimiento,
                     'plantilla' => $plantilla
                 );
                 

@@ -2,25 +2,31 @@
     font-family: Calibri;
 }
 .titulo{
+    font-family: Calibri;
     font-size: 11; 
     text-align: center;  
     font-weight: bold;
 }
 .textofecha{
+    font-family: Calibri;
     font-size: 9;
     font-weight: bold;
-    text-align: center;    
 }
 
 .fecha{
-    font-size: 9;    
-    text-align: center;
+    font-family: Calibri;
+    font-size: 9;
+    font-weight: bold;
 }
 .procedimiento{
+    font-family: Calibri;
     font-size: 9;
     margin-top: 15%;
 }
 .tabla{
+    font-family: Calibri;
+    font-size: 9;
+    font-weight: bold;
     border: 1;
     border-width: 0.1;
     border-collapse: collapse;
@@ -28,19 +34,24 @@
     width: 100%;
 }
 .tabla2{
+    font-family: Calibri;
     border-collapse: collapse;
     border-color: #2E2E2E ;
     width: 100%;
 }
 td{
+    font-family: Calibri;
     text-align: center;
 }
 th{
+    font-family: Calibri;
     font-size: 10px;
 }
 td{
+    font-family: Calibri;
     font-size: 10px;
 }
 .footer{
+    font-family: Calibri;
     top: 50px;
 }

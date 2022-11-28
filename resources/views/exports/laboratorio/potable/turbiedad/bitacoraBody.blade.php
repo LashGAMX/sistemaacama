@@ -46,7 +46,13 @@
                         <td>{{ $item->Lectura1 }}</td>
                         <td>{{ $item->Lectura2 }}</td>
                         <td>{{ $item->Lectura3 }}</td>
-                        <td>{{ $item->Resultado }}</td>
+                        <td>
+                            @if ($item->Resultado > $item->Limite)
+                                {{$item->Resultado}}
+                            @else
+                                {{$item->Limite}}
+                            @endif
+                        </td>
                         <td>{{ $item->Observacion }}</td>
                         @if ($item->Liberado != NULL)
                             <td>LIBERADO</td>

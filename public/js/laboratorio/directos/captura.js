@@ -5,6 +5,7 @@ $(document).ready(function () {
         // operacion();
         liberarMuestra();
     });
+    $('#formulaTipo').select2();
     
 
 });

@@ -274,7 +274,7 @@ class MbController extends Controller
             case 78: // E. coli
                 $detalle = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $request->idLote)->get();
                 foreach($detalle as $item){
-                    $values = LoteDetalleColiformes::where('Id_codigo', $item->Id_codigo)->first();
+                    $values = LoteDetalleColiformes::where('Id_analisis', $item->Id_analisis)->first();
                     if($values != null){
                         array_push($indice, $values->Indice);
                     } else {

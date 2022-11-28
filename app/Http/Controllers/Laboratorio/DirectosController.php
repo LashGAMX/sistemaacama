@@ -390,6 +390,13 @@ class DirectosController extends Controller
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/MembreteVertical.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+        $mpdf->showWatermarkImage = true;
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
         $plantilla = PlantillaDirectos::where('Id_parametro', $lote->Id_tecnica)->first();
@@ -397,7 +404,7 @@ class DirectosController extends Controller
             case 110:
             case 14: // PH
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
-                // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                $plantilla = PlantillaDirectos::where('Id_parametro', 14)->first();
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,

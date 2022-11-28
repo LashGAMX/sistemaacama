@@ -13,7 +13,7 @@
 
     <div class="procedimiento">
         @php
-        echo @$plantilla->Texto;
+        echo @$textoProcedimiento->Texto;
         @endphp
     </div>
     <br>
