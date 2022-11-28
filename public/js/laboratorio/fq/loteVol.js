@@ -73,7 +73,7 @@ $('#btnEjecutarVal').click(function () {
 
             prom = (parseFloat(titulado1) + parseFloat(titulado2) + parseFloat(titulado3)) / 3;
             res = (parseFloat(trazable) * parseFloat(normalidad)) / prom;
-            $("#normalidadResCloro").val(res.toFixed(4));
+            $("#normalidadResCloro").val(res.toFixed(2));
             break;
         case '6': // DQO
             $("#blancoResD").val($("#blancoValD").val())

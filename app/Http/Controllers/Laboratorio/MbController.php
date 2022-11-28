@@ -448,7 +448,7 @@ class MbController extends Controller
         $muestra = LoteDetalleColiformes::where('Id_detalle', $request->idDetalle)->first();
         $loteDetalle = "";
         $colonia1 = 0;
-        $muestra = 0;
+        $muestraR = 0;
         $temp1 ="";
         $temp1 = $request->rm1 ."". $request->vp1 ."".  $request->citrato1 ."". $request->bgn1;
         switch($temp1){
@@ -456,19 +456,19 @@ class MbController extends Controller
                 $colonia1 = 1;
                 break;
             default:
-                $muestra = 0;
+                $muestraR = 0;
                 break;
         }
         if ($colonia1 == 1){
-            $muestra = 1;
+            $muestraR = 1;
         } else {
             $temp2 = $request->rm2 . $request->vp2 . $request->citrato2 . $request->bgn2;
         switch($temp2){
             case "+--BGN":
-                $muestra = 1;
+                $muestraR = 1;
                 break;
             default:
-                $muestra = 0;
+                $muestraR = 0;
                 break;
         }
         }
@@ -485,7 +485,7 @@ class MbController extends Controller
                 'Vp' => $request->vp1,
                 'Citrato' => $request->citrato1,
                 'BGN' => $request->bgn1,
-                'Resultado' => $muestra,
+                'Resultado' => $muestraR,
                 'Observacion' => $request->observacion,    
             ]);
         } else {
@@ -501,34 +501,35 @@ class MbController extends Controller
             $model->Vp2 = $request->vp2;
             $model->Citrato2 = $request->citrato2;
             $model->BGN2 = $request->bgn2;
-            $model->Resultado = $muestra;
+            $model->Resultado = $muestraR;
             $model->Observacion = $request->observacion;
             $model->save();
         }
+
         switch ($request->colonia) {
             case 1:
                 $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
-                $loteDetalle->Colonia1 = 1;
+                $loteDetalle->Colonia1 = $muestraR;
                 $loteDetalle->save();
                 break;
             case 2:
                 $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
-                $loteDetalle->Colonia2 = 1;
+                $loteDetalle->Colonia2 = $muestraR;
                 $loteDetalle->save();
                 break;
             case 3:
                 $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
-                $loteDetalle->Colonia3 = 1;
+                $loteDetalle->Colonia3 = $muestraR;
                 $loteDetalle->save();
                 break;
             case 4:
                 $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
-                $loteDetalle->Colonia4 = 1;
+                $loteDetalle->Colonia4 = $muestraR;
                 $loteDetalle->save();
                 break;
             case 5:
                 $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
-                $loteDetalle->Colonia5 = 1;
+                $loteDetalle->Colonia5 = $muestraR;
                 $loteDetalle->save();
                 break;
                 default:
@@ -537,7 +538,7 @@ class MbController extends Controller
 
         $data = array(
             'model' => $model,
-            'muestra' => $muestra,
+            'Resultado' => $muestraR,
             'string' => $temp1,
             'colonia' => $request->colonia,
             'validacion' => $validacion,
@@ -548,6 +549,7 @@ class MbController extends Controller
     public function operacionColAlimentos(Request $request)
     {
         $resultado = "";
+
 
         switch ($request->confirmativa2) {
             case 1:

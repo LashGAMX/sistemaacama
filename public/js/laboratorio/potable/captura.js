@@ -6,13 +6,13 @@ $(document).ready(function () {
         // operacion(); 
         liberarMuestra();
     });
-    
+
 
 });
 
 
 function getLote() {
-  
+
     numMuestras = new Array();
     let tabla = document.getElementById('divLote');
     let tab = '';
@@ -27,7 +27,7 @@ function getLote() {
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
-        success: function (response) { 
+        success: function (response) {
             console.log(response);
             tab += '<table id="tablaLote" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
@@ -39,12 +39,12 @@ function getLote() {
             tab += '          <th>Total liberados</th> ';
             tab += '          <th>Opc</th> ';
             tab += '        </tr>';
-            tab += '    </thead>';  
+            tab += '    </thead>';
             tab += '    <tbody>';
             $.each(response.model, function (key, item) {
                 tab += '<tr>';
                 tab += '<td>' + item.Id_lote + '</td>';
-                tab += '<td>'+item.Parametro +' (' + item.Tipo_formula + ')</td>';
+                tab += '<td>' + item.Parametro + ' (' + item.Tipo_formula + ')</td>';
                 tab += '<td>' + item.Fecha + '</td>';
                 tab += '<td>' + item.Asignado + '</td>';
                 tab += '<td>' + item.Liberado + '</td>';
@@ -93,7 +93,7 @@ function getLoteCapturaPotable() {
     let tab = '';
     let cont = 1;
 
-    let status = ""; 
+    let status = "";
 
     $.ajax({
         type: "POST",
@@ -121,7 +121,7 @@ function getLoteCapturaPotable() {
             tab += '    </thead>';
             tab += '    <tbody>';
             $.each(response.detalle, function (key, item) {
-                tab += '<tr>'; 
+                tab += '<tr>';
                 if (item.Liberado == null) {
                     status = "";
                     clase = "btn btn-success";
@@ -132,13 +132,15 @@ function getLoteCapturaPotable() {
                 switch ($("#formulaTipo").val()) {
                     case "77":
                     case "251":
-                    case "252":
                     case "103":
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetallePotable(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalDureza">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" ' + status + ' class="' + clase + '" onclick="getDetallePotable(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalDureza">Capturar</button>';
                         console.log("Entro a directos");
                         break;
+                    case "252":
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" ' + status + ' class="' + clase + '" onclick="getDetallePotable(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDurezaDif">Capturar</button>';
+                        break;
                     default:
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetallePotable(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalPotable">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" ' + status + ' class="' + clase + '" onclick="getDetallePotable(' + item.Id_detalle + ',3);" data-toggle="modal" data-target="#modalPotable">Capturar</button>';
                         console.log("Entro a Potable");
                         break;
                 }
@@ -199,52 +201,50 @@ function getLoteCapturaPotable() {
         }
     });
 }
-function getDetallePotable(idMuestra)
-{
+function getDetallePotable(idMuestra,sw) {
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getDetallePotable",
         data: {
             idDetalle: idMuestra,
+            formulaTipo: $("#formulaTipo").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
-            let model = response.model
-            // Directos
-            $("#lecturaUno1").val(model.Lectura1)
-            $("#lecturaDos1").val(model.Lectura2)
-            $("#lecturaTres1").val(model.Lectura3)
-            $("#temperatura1").val(model.Temperatura)
-            $("#resultado").val(model.Resultado)
+            switch (sw) {
+                case 1:
+                    $("#edta1").val(response.model.Edta);
+                    $("#ph1").val(response.model.Ph_muestra);
+                    $("#vol1").val(response.model.Vol_muestra);
+                    $("#real1").val(response.valoracion.Resultado);
+                    $("#conversion1").val(response.model.Factor_conversion);
+                    $("#resultado").val(response.model.Resultado);
+                    break;
+                case 2:
+                    $("#resultadoDurezaM").val(response.model.Resultado);
+                    $("#durezaT").val(response.d1.Resultado);
+                    $("#durezaC").val(response.d2.Resultado);
+                    break;
+                case 3:
 
-            //Temperatura
-            $("#lecturaUno1T").val(model.Lectura1)
-            $("#lecturaDos1T").val(model.Lectura2)
-            $("#lecturaTres1T").val(model.Lectura3)
-            $("#resultadoT").val(model.Resultado)
-            //Color
-            $("#aparente1").val(model.Color_a)
-            $("#verdadero1").val(model.Color_v)
-            $("#dilusion1").val(model.Factor_dilucion)
-            $("#volumen1").val(model.Vol_muestra)
-            $("#ph1").val(model.Ph)
-            $("#factor1").val(model.Factor_correcion)
-            $("#resultadoColor").val(model.Resultado)
+                default:
+                    break;
+            }
         }
 
-        }); 
+    });
 }
 
-function operacion(sw){
+function operacion(sw) {
     switch (sw) {
         case 1:
             $.ajax({
                 type: "POST",
                 url: base_url + "/admin/laboratorio/" + area + "/operacion",
-                data: {        
-                    sw:sw,    
+                data: {
+                    sw: sw,
                     idDetalle: idMuestra,
                     id: $("#formulaTipo").val(),
                     fecha: $("#fechaAnalisis").val(),
@@ -260,14 +260,14 @@ function operacion(sw){
                     console.log(response);
                     $("#resultado").val(response.resultado)
                 }
-                });
+            });
             break;
         case 2:
             $.ajax({
                 type: "POST",
                 url: base_url + "/admin/laboratorio/" + area + "/operacion",
-                data: {        
-                    sw:sw,    
+                data: {
+                    sw: sw,
                     idDetalle: idMuestra,
                     id: $("#formulaTipo").val(),
                     fecha: $("#fechaAnalisis").val(),
@@ -282,9 +282,29 @@ function operacion(sw){
                 dataType: "json",
                 success: function (response) {
                     console.log(response);
-                    $("#resultadoPotable").val(response.resultado)
+                    $("#resultadoPotable").val(response.resultado.toFixed(2))
                 }
-                });
+            });
+            break;
+        case 3:
+            $.ajax({
+                type: "POST",
+                url: base_url + "/admin/laboratorio/" + area + "/operacion",
+                data: {
+                    sw: sw,
+                    idDetalle: idMuestra,
+                    id: $("#formulaTipo").val(),
+                    fecha: $("#fechaAnalisis").val(),
+                    durezaT: $("#durezaT").val(),
+                    durezaC: $("#durezaC").val(),
+                    _token: $('input[name="_token"]').val()
+                },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    $("#resultadoDurezaM").val(response.resultado)
+                }
+            });
             break;
         default:
             break;
@@ -294,7 +314,7 @@ function operacion(sw){
 
 }
 
-function enviarObsGeneral(){
+function enviarObsGeneral() {
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/enviarObsGeneral",
@@ -308,14 +328,14 @@ function enviarObsGeneral(){
         dataType: "json",
         success: function (response) {
             console.log(response);
-            if(response != null){
+            if (response != null) {
                 alert("Observacion acttualizada")
                 getLoteCapturaDirecto()
             }
         }
     });
 }
-function updateObsMuestra(){
+function updateObsMuestra() {
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestra",
@@ -329,7 +349,7 @@ function updateObsMuestra(){
         dataType: "json",
         success: function (response) {
             console.log(response);
-            if(response != null){
+            if (response != null) {
                 alert("Observacion acttualizada")
                 getLoteCapturaDirecto()
             }
@@ -360,8 +380,9 @@ function liberarMuestra() {
     });
 }
 //Función imprimir PDF
-function imprimir(idLote){
+function imprimir(idLote) {
     console.log("Dentro de evento btnBuscar");
-    $('#btnImprimir').click(function() {
-        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfPotable/"+idLote;
-    });}
+    $('#btnImprimir').click(function () {
+        window.location = base_url + "/admin/laboratorio/" + area + "/captura/exportPdfPotable/" + idLote;
+    });
+}

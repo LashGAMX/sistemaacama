@@ -62,7 +62,9 @@ class CadenaController extends Controller
         $paraModel = DB::table('ViewParametros')->where('Id_parametro', $codigoModel->Id_parametro)->first();
         switch ($paraModel->Id_area) {
             case 8: // Potable
-                $model = "Potable";
+                $model = DB::table('ViewLoteDetalleDureza')->where('Id_analisis', $codigoModel->Id_solicitud)
+                ->where('Id_parametro', $codigoModel->Id_parametro)
+                ->where('Id_control', 1)->get();
                 break;
             case 2: // Metales
                 $model = LoteDetalle::where('Id_analisis', $codigoModel->Id_solicitud)

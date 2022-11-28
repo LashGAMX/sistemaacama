@@ -146,7 +146,7 @@
                         <table class="table">
                             <thead>
                                 <tr>
-                                    <th>#</th>
+                                    <th># {{$idTermo}}</th>
                                     <th>De C°</th>
                                     <th>A C°</th>
                                     <th>Factor de corrección</th>
@@ -164,12 +164,12 @@
                                         <td>{{$item->A_c}}</td>
                                         <td> 
                                             <div class="form-group">
-                                                <input type="number" class="form-control" placeholder="Factor de correccion" wire:model="fa{{$contF}}" value="{{$item->Factor}}">
+                                                <input type="text" class="form-control" placeholder="Factor de correccion" wire:model="fa{{$contF}}" value="{{$item->Factor}}">
                                             </div>
                                         </td>
                                         <td>
                                             <div class="form-group">
-                                                <input type="number" class="form-control" placeholder="Factor de correccion aplicado" wire:model="apl{{$contF}}" value="{{$item->Factor_aplicado}}">
+                                                <input type="text" class="form-control" placeholder="Factor de correccion aplicado" wire:model="apl{{$contF}}" value="{{$item->Factor_aplicado}}">
                                             </div>
                                         </td>
                                     </tr>

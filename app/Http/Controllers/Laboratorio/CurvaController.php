@@ -146,6 +146,14 @@ class CurvaController extends Controller
                     'Fecha_fin' => $fechaFin,
             
                 ]);
+                for($i=0; $i < sizeof($hijos); $i++){
+                    CurvaConstantes::create([
+                        'Id_area' => $request->idAreaModal,
+                        'Id_parametro' => $hijos[$i]->Id_parametro,
+                        'Fecha_inicio' => $fechaInicio,
+                        'Fecha_fin' => $fechaFin,
+                    ]);
+                }
                 if ($request->idAreaModal == 2 || $request->idParametroModal == 95 || $request->idParametroModal == 243){
                     //Creacion del blanco
                 estandares::create([
@@ -156,7 +164,7 @@ class CurvaController extends Controller
                     'Fecha_fin' => $fechaFin,
                     'STD' => "Blanco",
                     ]);
-                } 
+                }   
                     
                 for ($i = 0; $i < $num; $i++) {
                     estandares::create([
@@ -202,6 +210,15 @@ class CurvaController extends Controller
             ->where('Id_area', $request->area)
             ->where('Id_parametro', $request->parametro)->first();
 
+        $hijos = CurvaConstantes::where('Id_parametroPadre',$request->parametro)->get();
+        for($i = 0; $i < sizeof($hijos); $i++){
+        $model = CurvaConstantes::where('Id_parametroPadre',$hijos[0]->Id_parametroPadre)->first();
+            $model->B = $request->b;
+            $model->M = $request->m;
+            $model->R = $request->r;
+            $model->save();
+        }
+
         $const = CurvaConstantes::find($curvaModel->Id_curvaConst);
         $const->B = $request->b;
         $const->M = $request->m;
@@ -212,8 +229,10 @@ class CurvaController extends Controller
 
         $sw = true;
         $data = array(
-            'model' => $curvaModel,
+            'CurvaModel' => $curvaModel,
             'sw' => $sw,
+            'hijos' => $hijos,
+            'model' => $model,
         );
         return response()->json($data);
     }

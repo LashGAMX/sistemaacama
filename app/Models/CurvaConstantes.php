@@ -23,6 +23,7 @@ class CurvaConstantes extends Model
         'Fecha_fin',
         'Id_area',
         'Id_parametro',
+        'Id_parametroPadre',
         'Id_user_c',
         'Id_user_m'
     ];

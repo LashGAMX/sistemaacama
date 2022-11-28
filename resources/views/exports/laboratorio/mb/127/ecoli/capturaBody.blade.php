@@ -12,8 +12,8 @@
 <body>
 
     <div class="procedimiento">
-        @php 
-            echo @$bitacora->Texto;
+        @php
+        //echo @$bitacora->Texto;
         @endphp
     </div> 
     <br>
