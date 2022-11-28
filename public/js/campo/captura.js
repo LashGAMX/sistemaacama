@@ -3292,7 +3292,7 @@ function setDataMuestreo() {
         row.push($("#phl3" + i).val());
         row.push($("#phprom" + i).val());
         row.push($("#phf" + i).val());
-        row.push( $("#phh" + i).val() + " : " + $("#phm" + i).val());
+        // row.push( $("#phh" + i).val() + " : " + $("#phm" + i).val());
         row.push($("#phStatus1" + i).val());
         row.push($("#numTomas").val());
         ph.push(row);

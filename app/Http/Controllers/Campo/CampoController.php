@@ -532,7 +532,7 @@ class CampoController extends Controller
                 $ph->Ph2 = $request->ph[$i][4];
                 $ph->Ph3 = $request->ph[$i][5];
                 $ph->Promedio = $request->ph[$i][6];
-                // $ph->Fecha = $request->ph[$i][6];
+                $ph->Fecha = $request->ph[$i][6];
                 // $ph->Activo = $request->ph[$i][8];
                 $ph->Activo = 1;
                 $ph->Num_toma = $request->ph[$i][9];

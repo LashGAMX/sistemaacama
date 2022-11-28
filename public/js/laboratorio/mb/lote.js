@@ -16,6 +16,7 @@ $(document).ready(function () {
         height: 100,
 
       });
+      $('#tipo').select2();
 
     table = $('#table').DataTable({        
         "ordering": false,

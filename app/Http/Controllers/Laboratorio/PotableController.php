@@ -482,6 +482,12 @@ class PotableController extends Controller
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/MembreteVertical.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
         $plantilla = PlantillaPotable::where('Id_parametro', $lote->Id_tecnica)->first();
@@ -497,6 +503,7 @@ class PotableController extends Controller
                     'model' => $model,
                     'plantilla' => $plantilla
                 );
+                
 
                 $htmlHeader = view('exports.laboratorio.potable.durezaTotal.bitacoraHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
@@ -529,7 +536,7 @@ class PotableController extends Controller
         }
 
         // var_dump($model);
-
+        $mpdf->showWatermarkImage = true;
         $mpdf->Output();
     }
 }

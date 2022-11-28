@@ -11,7 +11,7 @@ $(document).ready(function () {
       });
 
       $('#tipo').select2();
-      $('#tipoFormula').select2();
+    //   $('#tipoFormula').select2();
       
 
     table = $('#table').DataTable({        

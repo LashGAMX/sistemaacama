@@ -18,13 +18,13 @@
             <label for="exampleFormControSelect1">Tipo fórmula</label>
               <select class="form-control" id="tipo">
                 @foreach($parametro as $item)
-                  <option value="{{$item->Id_parametro}}">{{$item->Id_parametro}}/{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
+                  <option value="{{$item->Id_parametro}}">({{$item->Id_parametro}}) {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
                 @endforeach
                 @foreach($parametro1 as $item)
-                  <option value="{{$item->Id_parametro}}">{{$item->Id_parametro}}/{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
+                  <option value="{{$item->Id_parametro}}">({{$item->Id_parametro}}) {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
                 @endforeach
                 @foreach($parametro2 as $item)
-                  <option value="{{$item->Id_parametro}}">{{$item->Id_parametro}}/{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
+                  <option value="{{$item->Id_parametro}}">({{$item->Id_parametro}}) {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
                 @endforeach
               </select>
           </div>

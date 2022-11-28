@@ -12,15 +12,44 @@
 <body>
 
     <div class="procedimiento">
-        @php
-        echo @$bitacora->Texto;
+        @php 
+            echo @$bitacora->Texto;
         @endphp
-    </div>
+    </div> 
     <br>
     <div id="contenedorTabla">
-
-
         <br>
+
+        <table autosize="1" class="tabla" border="1">
+            <thead>
+                <tr>
+                    <th colspan="4">Presuntiva</th>
+                    <th colspan="3">Confirmativa</th>
+                </tr>
+                <tr>
+                    <th></th> 
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                    <th></th>
+                </tr>
+            </thead>
+        </table>
 
  
 </body>

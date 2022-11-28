@@ -1,7 +1,7 @@
 var area = "micro";
 
 $(document).ready(function () {
-
+    $('#formulaTipo').select2();
 });
 
 $('#metodoCortoCol').click(function (){

@@ -18,7 +18,7 @@
             <label for="exampleFormControSelect1">Tipo fórmula</label>
             <select class="form-control" id="tipoFormula">
               @foreach($parametro as $item)
-                <option value="{{$item->Id_parametro}}">{{$item->Parametro}} ({{$item->Tipo_formula}})</option>
+                <option value="{{$item->Id_parametro}}">({{$item->Id_parametro}}) {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
               @endforeach
             </select>
           </div>
@@ -91,7 +91,7 @@
               <label for="exampleFormControSelect1">Tipo fórmula</label>
               <select class="form-control" id="tipoFormula">
                 @foreach($parametro as $item)
-                  <option value="{{$item->Id_parametro}}"> {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
+                  <option value="{{$item->Id_parametro}}">({{$item->Id_parametro}}) {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
                 @endforeach
               </select>
             </div>

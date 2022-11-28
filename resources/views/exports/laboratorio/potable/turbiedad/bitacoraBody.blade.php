@@ -22,19 +22,19 @@
 
         <br>
 
-        <table autosize="1" class="tabla1">
+        <table autosize="1" class="tabla" align="center">
             <thead> 
                 <tr>
-                    <th style="font-size: 10px">No. De muestra</th>
-                    <th style="font-size: 10px">Vol. de la Muestra(ml)</th>
-                    <th style="font-size: 10px">Factor de dilución</th>
-                    <th style="font-size: 10px">Lectura 1</th>
-                    <th style="font-size: 10px">Lectura 2</th>
-                    <th style="font-size: 10px">Lectura 3</th>
-                    <th style="font-size: 10px">Turbiedad (UNT)</th>
-                    <th style="font-size: 10px">Observaciones</th>
-                    <th style="font-size: 10px"></th> 
-                    <th style="font-size: 10px"></th>
+                    <th>No. De muestra</th>
+                    <th>Vol. Muestra(ml)</th>
+                    <th>Factor de dilución</th>
+                    <th>Lectura 1</th>
+                    <th>Lectura 2</th>
+                    <th>Lectura 3</th>
+                    <th>Turbiedad (UNT)</th>
+                    <th>Observaciones</th>
+                    <th></th> 
+                    <th></th>
                 </tr>
             </thead>
             <tbody>

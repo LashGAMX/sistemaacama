@@ -10,6 +10,8 @@ var area = "fq";
 
 $(document).ready(function () {
 
+    $('#tipoFormula').select2();
+
 $("#btnLimpiarVal").click(function () {
     $("#titulado1D").val("")
     $("#titulado2D").val("")

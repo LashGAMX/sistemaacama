@@ -9,12 +9,13 @@ use Illuminate\Database\Eloquent\Model;
 class PhMuestra extends Model
 {
     use HasFactory,SoftDeletes;
-    protected $table = 'ph_muestra'; 
+    protected $table = 'ph_muestra';  
     protected $primaryKey = 'Id_ph';
     public $timestamps = true;
 
     protected $fillable = [
         'Id_solicitud',
+        'Num_toma',
         'Materia',
         'Olor',
         'Color',
@@ -23,7 +24,7 @@ class PhMuestra extends Model
         'Ph3',
         'Promedio',
         'Fecha',
-        'Hora',
+        // 'Hora',
         'Activo',
         'Id_user_c',
         'Id_user_m'

@@ -489,7 +489,7 @@ class VolController extends Controller
         if ($loteModel->Id_tecnica == 6) //todo DQO
         {
             $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $request->idLote)->get();
-        } else if ($loteModel->Id_tecnica == 33) //todo CLORO RESIDUAL LIBRE
+        } else if ($loteModel->Id_tecnica == 33 || $loteModel->Id_tecnica == 218) //todo CLORO RESIDUAL LIBRE
         {
             $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get();
         } else if ($loteModel->Id_tecnica == 9 || $loteModel->Id_tecnica == 10 || $loteModel->Id_tecnica == 11) //todo Nitrógeno Total,
@@ -550,7 +550,7 @@ class VolController extends Controller
             ]);
             $detModel = LoteDetalleDqo::where('Id_lote', $request->idLote)->get();
             $sw = true;
-        } else if ($loteModel->Id_tecnica == 33) //todo CLORO RESIDUAL LIBRE
+        } else if ($loteModel->Id_tecnica == 33 || $loteModel->Id_tecnica == 218) //todo CLORO RESIDUAL LIBRE
         {
             $model = LoteDetalleCloro::create([
                 'Id_lote' => $request->idLote,
