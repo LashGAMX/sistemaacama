@@ -40,7 +40,13 @@
                         <td>{{ $item->Codigo }}</td>
                         <td>{{ $item->Vol_muestra }}</td>
                         <td>{{ $item->Edta }}</td>
-                        <td>{{ $item->Resultado }}</td>
+                        <td>
+                            @if ($item->Resultado > $item->Limite)
+                                {{$item->Resultado}}
+                            @else
+                                < {{$item->Limite}}
+                            @endif
+                        </td>
                         <td>{{ $item->Observacion }}</td>
                         @if ($item->Liberado != NULL)
                             <td>LIBERADO</td>

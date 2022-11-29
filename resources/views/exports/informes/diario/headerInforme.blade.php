@@ -162,6 +162,16 @@
                     PRODUCTOS Y SERVICIOS. AGUA Y HIELO PARA CONSUMO HUMANO, ENVASADOS A GRANEL. ESPECIFICACIONES
                     SANITARIAS.
                     @break
+                    @case(30)
+                    DE ACUERDO A MODIFICACIÓN A LA NORMA OFICIAL MEXICANA NOM-127-SSA1-1994, PARA MUESTRA
+                    @if (@$solModel->Id_muestra == 1)
+                    INSTANTANEA
+                    @else
+                    COMPUESTA
+                    @endif
+                    SALUD AMBIENTAL. AGUA PARA USO Y CONSUMO HUMANO. LÍMITES PERMISIBLES DE CALIDAD Y TRATAMIENTOS A QUE
+                    DEBE <br> SOMETERSE EL AGUA PARA SU POTABILIZACION.
+                    @break
                     @endswitch
                 </td>
             </tr>

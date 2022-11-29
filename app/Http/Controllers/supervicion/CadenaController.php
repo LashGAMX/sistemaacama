@@ -155,9 +155,7 @@ class CadenaController extends Controller
                         ->where('Activo', 1)->get();
                 }
                 break;  
- 
-            default:    
-                # code...  
+            case 8:
                 switch ($codigoModel->Id_parametro) { 
                     case 77: //Dureza
                     case 103:
@@ -171,6 +169,10 @@ class CadenaController extends Controller
                     ->where('Activo', 1)->get();
                         break; 
                 }
+                break;
+            default:    
+                # code...  
+
                 break;
         }
         $data = array(
