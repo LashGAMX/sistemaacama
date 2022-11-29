@@ -19,3 +19,4 @@ Route::get('precios/paquete', [PaqueteController::class,'index']);
 Route::post('precios/paquete/getPaquetes', [PaqueteController::class,'getPaquetes']);
 Route::post('precios/paquete/savePrecioPaq', [PaqueteController::class,'savePrecioPaq']);
 Route::post('precios/paquete/setPrecioPaquete', [PaqueteController::class,'setPrecioPaquete']);
+Route::post('precios/paquete/setPrecioAnual', [PaqueteController::class,'setPrecioAnual']);

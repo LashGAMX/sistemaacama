@@ -260,6 +260,14 @@ function getDetalleAnalisis(idCodigo) {
                             resLiberado = resLiberado + parseFloat(item.Resultado);
                             tab += '</tr>';
                         });
+                    } else if(response.paraModel.Id_parametro == 218){
+                        $.each(response.model, function (key, item) {
+                            tab += '<tr>';
+                            tab += '<td>' + item.Parametro + '</td>';
+                            tab += '<td>' + item.Resultado + '</td>';
+                            resLiberado = resLiberado + parseFloat(item.Resultado);
+                            tab += '</tr>';
+                        });
                     }
                     tab += '    </tbody>';
                     tab += '</table>';
@@ -312,7 +320,7 @@ function getDetalleAnalisis(idCodigo) {
                             tab += '</>';
                             resLiberado = item.Resultado;
                         });
-                    } else if(response.codigoModel.Id_parametro == 12) {
+                    } else if(response.codigoModel.Id_parametro == 12 || response.codigoModel.Id_parametro == 134) {
                         aux = 1;
                         $.each(response.model, function (key, item) {
                             aux = aux * parseFloat(item.Resultado);
@@ -333,8 +341,15 @@ function getDetalleAnalisis(idCodigo) {
                             tab += '</tr>';
                             resLiberado = item.Resultado;
                         });
+                    } else if(response.codigoModel.Id_parametro == 78) {
+                        $.each(response.model, function (key, item) {
+                            tab += '<tr>';
+                            tab += '<td>' + item.Parametro + '</td>';
+                            tab += '<td>' + item.Resultado + '</td>';
+                            tab += '</tr>'; 
+                            resLiberado = item.Resultado;
+                        });
                     }
-                    
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
@@ -445,7 +460,7 @@ function getDetalleAnalisis(idCodigo) {
                             tab += '<td>' + item.Resultado + '</td>';
                             tab += '</tr>';
                             resLiberado = item.Resultado;
-                        });
+                        }); 
                         tab += '    </tbody>';
                         tab += '</table>';
                         tabla.innerHTML = tab;

@@ -14,7 +14,6 @@ function setPrecioAnual()
         type: 'POST',
         url: base_url + "/admin/precios/catalogo/setPrecioAnual",
         data: {
-            id:id,
             porcentaje:$("#porcentaje").val(),
             _token: $('input[name="_token"]').val(),
         },
@@ -41,7 +40,7 @@ function getParametros()
         dataType: "json",
         async: false,
         success: function (response) {      
-
+            console.log(response)
             tab += '<table id="precios" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
@@ -50,21 +49,29 @@ function getParametros()
             tab += '          <th># Parametro</th> '; 
             tab += '          <th>Parametro</th>';
             tab += '          <th>Formula</th>';
+            tab += '          <th>Precio Ant.</th>';
             tab += '          <th>Precio</th>';
             tab += '          <th>Opc</th>';
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>'; 
-            $.each(response.model, function (key, item) {
+            let cont  = 0;
+            $.each(response.model, function (key, item) { 
                 tab += '<tr>';
                 tab += '<td>'+item.Id_precio+'</td>';
                 tab += '<td>'+item.Sucursal+'</td>';
                 tab += '<td>'+item.Id_parametro+'</td>';
                 tab += '<td>'+item.Parametro+'</td>';
                 tab += '<td>'+item.Tipo_formula+'</td>';
+                if (response.model2.length > 0) {
+                    tab += '<td class="bg-info">'+response.model2[cont].Precio+'</td>';   
+                } else {
+                    tab += '<td class="bg-info"></td>';
+                }
                 tab += '<td><input type="number" id="precio'+item.Id_precio+'" value="'+item.Precio+'"></td>';
                 tab += '<td><i class="fa fa-check text-success" onclick="savePrecioCat('+item.Id_precio+')"></i></td>';
                 tab += '</tr>';
+                cont++;
             });
             tab += '    </tbody>';
             tab += '</table>';
@@ -76,9 +83,9 @@ function getParametros()
                     "zeroRecords": "No hay datos encontrados",
                     "info": "Pagina _PAGE_ de _PAGES_",
                     "infoEmpty": "No hay datos encontrados",
-                }
+                },
+   
             });
-         
         } 
     });
 }

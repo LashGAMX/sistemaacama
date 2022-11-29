@@ -69,7 +69,6 @@
 <div  class="modal fade" id="modalPrecioAnual"  tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-        <form wire:submit.prevent="createPrecio">
       <div class="modal-header">
           <h5 class="modal-title" id="exampleModalLabel">Incrementar precio anual</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -86,7 +85,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-        <button type="submit" id="btnSetPrecioAnual" class="btn btn-primary">Guardar cambios</button>
+        <button type="button" id="btnSetPrecioAnual" class="btn btn-primary">Guardar cambios</button>
       </div>
     </form>
     </div>

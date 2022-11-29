@@ -28,9 +28,11 @@ class CatalogoController extends Controller
     }
     public function getParametros()
     {
-        $model = DB::table('ViewPrecioCat')->get();
+        $model = DB::table('ViewPrecioCat')->where('deleted_at',NULL)->get();
+        $model2 = DB::table('ViewPrecioCat')->where('Revision',($model[0]->Revision-1))->get();
         $data = array(
             'model' => $model,
+            'model2' => $model2,
         );
         return response()->json($data);
     }
@@ -52,10 +54,17 @@ class CatalogoController extends Controller
         foreach ($model as $item) {
             $desc = 0;
             $desc = ($item->Precio * $res->porcentaje) / 100;
-
+            $precio = $item->Precio + $desc;
             $precioModel = PrecioCatalogo::find($item->Id_precio);
-            $precioModel->Precio = $item->Precio + $desc;
-            $precioModel->save();
+
+            $mod = $precioModel->replicate();
+            $mod->Precio = round($precio);
+            $mod->Revision = $precioModel->Revision + 1;
+            $mod->Id_user_c = Auth::user()->id;
+            $mod->Id_user_m = Auth::user()->id;
+            $mod->save();
+
+            $precioModel->delete();
         }
 
         $data = array(

@@ -228,7 +228,14 @@ class InformesController extends Controller
                         $aux = "N/A";
                     }
                     break;
-
+                case 30:
+                    $limNo = DB::table('limitepnorma_127')->where('Id_parametro', $item->Id_parametro)->get();
+                    if ($limNo->count()) {
+                        $aux = $limNo[0]->Per_max;
+                    } else {
+                        $aux = "N/A";
+                    }
+                    break;
                 default:
 
                     break;
