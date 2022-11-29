@@ -3,8 +3,29 @@ $(document).ready(function() {
     $("#btnCrear").click(function (){
         setPrecioPaquete()
     })
+    $('#btnSetPrecioAnual').click(function () {
+        setPrecioAnual();
+    });
 });
 
+function setPrecioAnual()
+{
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/precios/paquete/setPrecioAnual",
+        data: {
+            porcentaje:$("#porcentaje").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {      
+            console.log(response)
+            alert("Precios Modificado")
+            getPaquetes();
+        } 
+    });
+}
 
 function getPaquetes()
 {
@@ -113,5 +134,21 @@ function setPrecioPaquete(){
             }
             getPaquetes();
         } 
+    });
+}
+function confirmar() {
+    swal({
+    title: "¿Estas seguro de realizar el incremento anual?",
+    text: "Se ajustaran automaticamente todos los precios al laboratorio asignado",
+    icon: "warning",
+    buttons: true,
+    dangerMode: false,
+    })
+    .then((willDelete) => {
+    if (willDelete) {
+        $('#modalPrecioAnual').modal('show')
+    } else {
+
+    }
     });
 }

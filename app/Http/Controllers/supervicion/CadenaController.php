@@ -58,14 +58,10 @@ class CadenaController extends Controller
     public function getDetalleAnalisis(Request $res)
     {
         $aux = 0;
+        $model = "Model vacio";
         $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
         $paraModel = DB::table('ViewParametros')->where('Id_parametro', $codigoModel->Id_parametro)->first();
         switch ($paraModel->Id_area) {
-            case 8: // Potable
-                $model = DB::table('ViewLoteDetalleDureza')->where('Id_analisis', $codigoModel->Id_solicitud)
-                ->where('Id_parametro', $codigoModel->Id_parametro)
-                ->where('Id_control', 1)->get();
-                break;
             case 2: // Metales
                 $model = LoteDetalle::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
@@ -74,27 +70,43 @@ class CadenaController extends Controller
                 $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
                 break;
-            case 14: // Volumetria
-                if ($codigoModel->Id_parametro == 11) {
-                    $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $codigoModel->Id_solicitud)
-                        ->where('Id_parametro', 83)->first();
-                    $aux = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $codigoModel->Id_solicitud)
-                        ->where('Id_control', 1)
-                        ->get();
-                } else if ($codigoModel->Id_parametro == 6) {
-                    $model = DB::table('ViewLoteDetalleDqo')->where('Id_analisis', $codigoModel->Id_solicitud)
-                        ->where('Id_parametro', $codigoModel->Id_parametro)
-                        ->where('Id_control', 1)->get();
-                } else if ($codigoModel->Id_parametro == 9 || $codigoModel->Id_parametro == 10) {
-                    $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_analisis', $codigoModel->Id_solicitud)
-                        ->where('Id_control', 1)
-                        ->where('Id_parametro', $codigoModel->Id_parametro)->get();
-                } else if ($codigoModel->Id_parametro == 83) {
-                    $model = DB::table('ViewLoteDetalleNitrogeno')
+            case "14": // Volumetria
+                switch ($codigoModel->Id_parametro) {
+                    case 11:
+                        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $codigoModel->Id_solicitud)
+                            ->where('Id_parametro', 83)->first();
+                        $aux = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $codigoModel->Id_solicitud)
+                            ->where('Id_control', 1)
+                            ->get();
+                        break;
+                    case 6:
+                        $model = DB::table('ViewLoteDetalleDqo')->where('Id_analisis', $codigoModel->Id_solicitud)
+                            ->where('Id_parametro', $codigoModel->Id_parametro)
+                            ->where('Id_control', 1)->get();
+                        break;
+                    case 9:
+                    case 10:
+                        $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_analisis', $codigoModel->Id_solicitud)
+                            ->where('Id_control', 1)
+                            ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                        break;
+                    case 83:
+                        $model = DB::table('ViewLoteDetalleNitrogeno')
+                            ->where('Id_analisis', $codigoModel->Id_solicitud)
+                            ->where('Id_control', 1)
+                            ->get();
+                        break;
+                    case 218: //Cloro
+                        $model = DB::table('ViewLoteDetalleCloro')
                         ->where('Id_analisis', $codigoModel->Id_solicitud)
                         ->where('Id_control', 1)
                         ->get();
-                }
+                        break;
+                    default: 
+                        # code...
+                        break;
+                    } 
+
                 break;
             case "13": // Grasas y Aceites
                 $model = DB::table('ViewLoteDetalleGA')
@@ -102,7 +114,7 @@ class CadenaController extends Controller
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                 $gasto = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
                     ->where('Activo', 1)->get();
-                $res1 = array();
+                $res1 = array(); 
                 $promTemp = 0;
                 foreach ($gasto as $item) {
                     $promTemp = $promTemp + $item->Promedio;
@@ -117,18 +129,31 @@ class CadenaController extends Controller
                 $aux = $res / $model->count();
                 break;
             case 6: // Micro
-                if ($codigoModel->Id_parametro == 5) {
-                    $model = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $codigoModel->Id_solicitud)
+                switch ($codigoModel) {
+                    case 5:
+                        $model = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $codigoModel->Id_solicitud)
                         ->where('Id_control', 1)
                         ->where('Id_parametro', $codigoModel->Id_parametro)->get();
-                } else if ($codigoModel->Id_parametro == 12) {
-                    $model = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $codigoModel->Id_solicitud)
+                        break;
+                    case 12:
+                    case 134:
+                        $model = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $codigoModel->Id_solicitud)
                         ->where('Id_control', 1)
                         ->where('Id_parametro', $codigoModel->Id_parametro)->get();
-                } else if ($codigoModel->Id_parametro == 16) {
-                    $model = DB::table('ViewLoteDetalleHH')->where('Id_analisis', $codigoModel->Id_solicitud)
+                        break;
+                    case 16:
+                        $model = DB::table('ViewLoteDetalleHH')->where('Id_analisis', $codigoModel->Id_solicitud)
                         ->where('Id_control', 1)
                         ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                        break;
+                    case 78:
+                        $model = DB::table('ViewLoteDetalleEcoli')->where('Id_analisis', $codigoModel->Id_solicitud)
+                        ->where('Id_control', 1)
+                        ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                        break;
+                    default:
+                        
+                        break;
                 }
                 break;
             case 15: // Solidos
@@ -147,40 +172,48 @@ class CadenaController extends Controller
                         ->where('Activo', 1)->get();
                 } else if ($codigoModel->Id_parametro == 14) //Ph
                 {
-                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud) 
+                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
                         ->where('Activo', 1)->get();
                 } else if ($codigoModel->Id_parametro == 97) //Temperatura
                 {
                     $model = TemperaturaMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
                         ->where('Activo', 1)->get();
                 }
-                break;  
-            case 8:
-                switch ($codigoModel->Id_parametro) { 
-                    case 77: //Dureza
+                break;
+            case "8":
+                switch ($codigoModel->Id_parametro) {
+                     //Dureza
+                    case 77:
                     case 103:
                     case 251:
-                    case 252:
-                        $model = LoteDetalleDureza::where('Id_solicitud', $codigoModel->Id_solicitud)
-                        ->where('Activo', 1)->get();
-                        break;
-                    default:
-                        $model = LoteDetallePotable::where('Id_solicitud', $codigoModel->Id_solicitud)
-                    ->where('Activo', 1)->get();
+                    case 252: 
+                        $model = DB::table('ViewLoteDetalleDureza')->where('Id_analisis', $codigoModel->Id_solicitud)
+                        ->where('Id_control', 1)
+                        ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                         break; 
+                    case 66:
+                        $model = DB::table('ViewLoteDetalleDirectos')->where('Id_analisis', $codigoModel->Id_solicitud)
+                        ->where('Id_control', 1)
+                        ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                        break;
+                    default: 
+                    $model = DB::table('ViewLoteDetallePotable')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                        break;
                 }
-                break;
-            default:    
+                break; 
+            default:
                 # code...  
-
+                $model = "No encontro area";
                 break;
-        }
+        } 
         $data = array(
             'aux' => $aux,
             'paraModel' => $paraModel,
-            'codigoModel' => $codigoModel,
+            'codigoModel' => $codigoModel, 
             'model' => $model,
-        );
+        ); 
         return response()->json($data);
     }
     public function regresarRes(Request $res)

@@ -25,8 +25,8 @@
             </tr>
 
             <tr>
-                <td class="filasIzq bordesTabla anchoColumna7 bordeDerSinSup" rowspan="6">Punto de muestreo:</td>
-                <td class="filasIzq bordesTabla fontBold anchoColumna60 bordeIzqDerSinSup" rowspan="6">@if (@$solModel->Siralab == 1)
+                <td class="filasIzq bordesTabla anchoColumna7 bordeDerSinSup" rowspan="6" style="font-size: 9px">Punto de muestreo:</td>
+                <td class="filasIzq bordesTabla fontBold anchoColumna60 bordeIzqDerSinSup" rowspan="6" style="font-size: 10px;">@if (@$solModel->Siralab == 1)
                     {{@$puntoMuestreo->Punto}}
                     @else
                     {{@$puntoMuestreo->Punto_muestreo}}

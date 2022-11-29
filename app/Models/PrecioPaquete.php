@@ -21,6 +21,7 @@ class PrecioPaquete extends Model
         'Precio4',
         'Precio5',
         'Precio6',
+        'Revision',
         'Id_user_c',
         'Id_user_m',
     ];

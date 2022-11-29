@@ -243,18 +243,26 @@
                     <div>
                         <table class="table-sm" width="100%">
                             <tr>
-                                <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGra->Resultado2,2)}}</td>
                                 @switch(@$norma->Id_norma)
                                     @case(2)
-                                        
+                                    <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L</td>
+                                    <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGra->Resultado2,2)}}</td>
+
+                                    <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
+                                    <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas->Resultado2, 2)}}</td> 
+                                        @break
+                                    @case(30)
                                         @break
                                     @default
+                                        <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L</td>
+                                        <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGra->Resultado2,2)}}</td>
+
                                         <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
                                         <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promCol->Resultado2,2)}}</td>
+
+                                        <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
+                                        <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas->Resultado2, 2)}}</td> 
                                 @endswitch
-                                <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas->Resultado2, 2)}}</td> 
                                 <td class="fontCalibri anchoColumna111 justifyCenter"><span class="fontSize7 negrita">FIRMA RESPONSABLE</span> <br> <span class="fontSize8">Q.F.B. RODRÍGUEZ BLANCO AGUEDA</span> &nbsp;&nbsp; </td>
                                 <td class="justifyCenter anchoColumna111"><img style="width: auto; height: auto; max-width: 60px; max-height: 40px;" src="{{url('public/storage/'.@$firmaRes->firma)}}"></td>
                                 

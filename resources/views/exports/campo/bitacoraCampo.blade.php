@@ -641,10 +641,19 @@
                         </tr>
 
                         <tr>
-                            <td class="fontNormal fontCalibri fontSize12" width="25%">Temperatura muestra compuesta</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Temp_muestraComp, 1, ".", ",")}} °C</td>
-                            <td class="fontNormal fontCalibri fontSize12" width="25%">pH muestra compuesta</td>
-                            <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Ph_muestraComp, 2, ".", ",")}} UNIDADES</td>
+                            @switch(@$model->Id_norma)
+                                @case(30)
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    <td></td>
+                                    @break
+                                @default
+                                <td class="fontNormal fontCalibri fontSize12" width="25%">Temperatura muestra compuesta</td>
+                                <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Temp_muestraComp, 1, ".", ",")}} °C</td>
+                                <td class="fontNormal fontCalibri fontSize12" width="25%">pH muestra compuesta</td>
+                                <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Ph_muestraComp, 2, ".", ",")}} UNIDADES</td>
+                            @endswitch
                         </tr>
                     </tbody>
                 </table>
@@ -663,122 +672,132 @@
 
             <br>
 
-            <div class="contenedorPadre12">
-                <div class="contenedorHijo131">
-                    <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
-                        <tbody>
-                            <tr>
-                                <td class="fontBold fontCalibri fontSize12 justificadorIzq" colspan="3">
-                                    Calculo de muestra compuesta
-                                </td>
-                            </tr>
+            @switch(@$model->Id_norma)
+                @case(30)
+                    
+                    @break
 
-                            <tr>
-                                <td class="fontNormal fontCalibri fontSize12">VMSI = VMC x (Qi / QT)</td>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <td class="fontCalibri fontSize12 fontNormal" colspan="2">VOLUMEN CALCULADO</td>
-                            </tr>
-
-                            <tr>
-                                <td class="fontBold fontCalibri fontSize12">{{@$model->Clave_norma}}</td>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <td class="fontCalibri fontSize12 fontBold">{{@$campoCompuesto->Volumen_calculado}}</td>
-                                <td class="fontCalibri fontSize12 fontBold">L</td>
-                            </tr>
-
-                            <tr>
-                                <td class="fontBold fontCalibri fontSize12">QT (GASTO TOTAL)</td>
-                                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-                                <td class="fontCalibri fontSize12 fontBold">{{@$gastoTotal}}</td>
-                                <td class="fontCalibri fontSize12 fontBold">L/s</td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-
-                <div class="contenedorHijo132">
-                    <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
-                        <tbody>
-                            <tr>
-                                <td colspan="5">&nbsp;</td>
-                            </tr>
-                        
-                            <tr>
-                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">&nbsp;</td>
-                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">(Qi / QT)</td>
-                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">x</td>
-                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMC</td>
-                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMSI</td>
-                            </tr>
-                            
-                            @for ($i = 0; $i < @$model->Num_tomas; $i++)                                                             
+                @default
+                <div class="contenedorPadre12">
+                    <div class="contenedorHijo131">
+                        <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
+                            <tbody>
                                 <tr>
-                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">{{$i+1}}</td>
-                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
-                                            ---
-                                        @else
-                                            {{@$gastoMuestra[$i]->Promedio}}
-                                        @endif                                                                                
-                                        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
-                                        
-                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
-                                            ---
-                                        @else
-                                            {{@$gastoTotal}}
-                                        @endif                                        
-                                        &nbsp;&nbsp;&nbsp; =</td>
-                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">
-                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
-                                            ---
-                                        @else
-                                            @php
-                                                echo round($gastoMuestra[$i]->Promedio / $gastoTotal, 4);
-                                            @endphp                                            
-                                        @endif                                        
+                                    <td class="fontBold fontCalibri fontSize12 justificadorIzq" colspan="3">
+                                        Calculo de muestra compuesta
                                     </td>
-                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">
-                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
-                                            ---
-                                        @else
-                                            {{@$campoCompuesto->Volumen_calculado}}
-                                        @endif                                        
+                                </tr>
+    
+                                <tr>
+                                    <td class="fontNormal fontCalibri fontSize12">VMSI = VMC x (Qi / QT)</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td class="fontCalibri fontSize12 fontNormal" colspan="2">VOLUMEN CALCULADO</td>
+                                </tr>
+    
+                                <tr>
+                                    <td class="fontBold fontCalibri fontSize12">{{@$model->Clave_norma}}</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td class="fontCalibri fontSize12 fontBold">{{@$campoCompuesto->Volumen_calculado}}</td>
+                                    <td class="fontCalibri fontSize12 fontBold">L</td>
+                                </tr>
+    
+                                <tr>
+                                    <td class="fontBold fontCalibri fontSize12">QT (GASTO TOTAL)</td>
+                                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                                    <td class="fontCalibri fontSize12 fontBold">{{@$gastoTotal}}</td>
+                                    <td class="fontCalibri fontSize12 fontBold">L/s</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+    
+                    <div class="contenedorHijo132">
+                        <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
+                            <tbody>
+                                <tr>
+                                    <td colspan="5">&nbsp;</td>
+                                </tr>
+                            
+                                <tr>
+                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">&nbsp;</td>
+                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">(Qi / QT)</td>
+                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">x</td>
+                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMC</td>
+                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMSI</td>
+                                </tr>
+                                
+                                @for ($i = 0; $i < @$model->Num_tomas; $i++)                                                             
+                                    <tr>
+                                        <td class="fontCalibri fontSize12 fontBold justificadorCentr">{{$i+1}}</td>
+                                        <td class="fontCalibri fontSize12 fontNormal justificadorCentr">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                            @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                                ---
+                                            @else
+                                                {{@$gastoMuestra[$i]->Promedio}}
+                                            @endif                                                                                
+                                            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; / &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 
+                                            
+                                            @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                                ---
+                                            @else
+                                                {{@$gastoTotal}}
+                                            @endif                                        
+                                            &nbsp;&nbsp;&nbsp; =</td>
+                                        <td class="fontCalibri fontSize12 fontBold justificadorCentr">
+                                            @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                                ---
+                                            @else
+                                                @php
+                                                    echo round($gastoMuestra[$i]->Promedio / $gastoTotal, 4);
+                                                @endphp                                            
+                                            @endif                                        
+                                        </td>
+                                        <td class="fontCalibri fontSize12 fontBold justificadorCentr">
+                                            @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                                ---
+                                            @else
+                                                {{@$campoCompuesto->Volumen_calculado}}
+                                            @endif                                        
+                                        </td>
+                                        <td class="fontCalibri fontSize12 fontBold justificadorCentr">
+                                            @if (@$gastoMuestra[$i]->Promedio === NULL)
+                                                ---
+                                            @else
+                                                @php
+                                                    echo round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 4)) * $campoCompuesto->Volumen_calculado, 4);
+                                                @endphp                                            
+                                            @endif
+                                        </td>
+                                    </tr>                                
+                                @endfor
+                                <tr>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td>&nbsp;</td>
+                                    <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMSI = 
+                                        @php
+                                            $sumaVMSI = 0;
+    
+                                            for($i = 0; $i < @$model->Num_tomas; $i++){
+                                                if (@$gastoMuestra[$i]->Promedio === NULL)
+                                                    $sumaVMSI += 0;
+                                                else{                                            
+                                                    $sumaVMSI += round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 4)) * $campoCompuesto->Volumen_calculado, 4);
+                                                }                                        
+                                            }
+                                            echo round($sumaVMSI, 1)."L";                                        
+                                        @endphp                                    
                                     </td>
-                                    <td class="fontCalibri fontSize12 fontBold justificadorCentr">
-                                        @if (@$gastoMuestra[$i]->Promedio === NULL)
-                                            ---
-                                        @else
-                                            @php
-                                                echo round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 4)) * $campoCompuesto->Volumen_calculado, 4);
-                                            @endphp                                            
-                                        @endif
-                                    </td>
-                                </tr>                                
-                            @endfor
-                            <tr>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td>&nbsp;</td>
-                                <td class="fontCalibri fontSize12 fontNormal justificadorCentr">VMSI = 
-                                    @php
-                                        $sumaVMSI = 0;
-
-                                        for($i = 0; $i < @$model->Num_tomas; $i++){
-                                            if (@$gastoMuestra[$i]->Promedio === NULL)
-                                                $sumaVMSI += 0;
-                                            else{                                            
-                                                $sumaVMSI += round((round($gastoMuestra[$i]->Promedio / $gastoTotal, 4)) * $campoCompuesto->Volumen_calculado, 4);
-                                            }                                        
-                                        }
-                                        echo round($sumaVMSI, 1)."L";                                        
-                                    @endphp                                    
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
-            </div>
+    
+            @endswitch
+
+
         </div>
     </div>
 </body>

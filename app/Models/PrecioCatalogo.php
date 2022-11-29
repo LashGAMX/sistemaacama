@@ -17,7 +17,8 @@ class PrecioCatalogo extends Model
         'Id_parametro',
         'Id_laboratorio',
         'Precio',
+        'Revision',
         'Id_user_c',
-        'Id_user_m'
+        'Id_user_m',
     ];
 }
