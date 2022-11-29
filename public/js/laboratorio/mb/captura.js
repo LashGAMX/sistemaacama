@@ -195,8 +195,9 @@ function getLoteCapturaMicro() {
                             tab += '<input type="text" id="resultColonia" value="'+data[i]+'">'
                             tab += '</div>';
                             tab += '</div">';
+                            cont++;
                         }
-                      cont++;
+                        cont = -1;
                         break;
                     default:
                         console.log("Entro a al limbo");
