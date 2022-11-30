@@ -65,7 +65,6 @@
                 </tr>
             </thead>
             <tbody>
-                @foreach ($loteDetalle as $detalle)
                 @foreach ($convinaciones as $item)
                 <tr>
                     <td>{{$detalle->Codigo}}</td>
@@ -78,7 +77,6 @@
                     <td>{{$item->BGN}}</td>
                     <td>{{$item->Resultado}}</td>
                 </tr>
-                @endforeach
                 @endforeach
             </tbody>
         </table>

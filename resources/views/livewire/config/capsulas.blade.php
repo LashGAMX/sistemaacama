@@ -43,14 +43,14 @@
                         @else
                             <tr>
                         @endif
-                            <td>{{$item->Id_crisol}}</td>
+                            <td>{{$item->Id_capsula}}</td>
                             <td>{{$item->Num_serie}}</td>
                             <td>{{$item->Peso}}</td> 
                             <td>{{$item->Min}}</td>
                             <td>{{$item->Max}}</td>
                             <td><button class="btn btn-warning"
-                                wire:click="setData('{{$item->Id_crisol}}','{{$item->Num_serie}}','{{$item->Peso}}','{{$item->Min}}','{{$item->Max}}')"
-                                data-toggle="modal" data-target="#modalCrisol"> <i class="voyager-edit"></i> Editar</button></td>
+                                wire:click="setData('{{$item->Id_capsula}}','{{$item->Num_serie}}','{{$item->Peso}}','{{$item->Min}}','{{$item->Max}}')"
+                                data-toggle="modal" data-target="#modalCapsulas"> <i class="voyager-edit"></i> Editar</button></td>
                         </tr>
                     @endforeach
                 </tbody>
@@ -60,7 +60,7 @@
 
 
        
-    <div wire:ignore.self class="modal fade" id="modalCrisol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div wire:ignore.self class="modal fade" id="modalCapsulas" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
             <form wire:submit.prevent="store">
@@ -102,7 +102,7 @@
     @if ($alert == true)
         <script>
             swal("Registro!","Registros guardado correctamente","success");
-            $('#modalCrisol').modal('hide');
+            $('#modalCapsulas').modal('hide');
         </script>
     @endif
 
