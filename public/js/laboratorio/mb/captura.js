@@ -284,6 +284,7 @@ function operacionEcoli(idDetalle){
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/operacionEcoli",
         data: {
+            idLote: idLote,
             colonia: numColonia,
             idDetalle: idMuestra,
             indol1:$("#indol1").val(),
@@ -303,7 +304,7 @@ function operacionEcoli(idDetalle){
         dataType: "json",
         success: function (response) {
             console.log(response)
-            if (response.muestra == 1){
+            if (response.Resultado == 1){
                 $("#resultadoEcoli").val("Positivo para E. coli")
             } else {
                 $("#resultadoEcoli").val("Negativo para E. coli")
