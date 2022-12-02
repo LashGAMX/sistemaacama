@@ -1013,4 +1013,6 @@ class MetalesController extends Controller
     // todo ************************************************
     // todo Fin de Lote
     // todo ************************************************
+
+    
 }
