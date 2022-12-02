@@ -270,7 +270,7 @@
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-success" type="button"
-                                            onclick="updateObsMuestra(1,'observacionCol')"
+                                            onclick="updateObsMuestraEcoli(1,'observacionCol')"
                                             id="btnAplicarObsColiformes"><i class="voyager-check"></i> Aplicar</button>
                                     </div>
                                 </div>

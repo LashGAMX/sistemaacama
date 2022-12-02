@@ -296,6 +296,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('operacion', [MbController::class, 'operacion']);
             Route::post('metodoCortoCol', [MbController::class, 'metodoCortoCol']);
             Route::post('updateObsMuestra', [MbController::class, 'updateObsMuestra']);
+            Route::post('updateObsMuestraEcoli', [MbController::class, 'updateObsMuestraEcoli']);
             Route::post('createControlCalidadMb', [MbController::class, 'createControlCalidadMb']);
             Route::post('createControlesCalidadMb', [MbController::class, 'createControlesCalidadMb']);
             
