@@ -450,6 +450,8 @@ class MbController extends Controller
     public function operacionEcoli(Request $request){
         $muestra = LoteDetalleColiformes::where('Id_detalle', $request->idDetalle)->first();
         $loteDetalle = "";
+        $res1 = "";
+        $res2 = "";
         $colonia1 = 0;
         $muestraR = 0;
         $temp1 ="";
@@ -466,16 +468,24 @@ class MbController extends Controller
             $muestraR = 1;
         } else {
             $temp2 = $request->rm2 . $request->vp2 . $request->citrato2 . $request->bgn2;
-        switch($temp2){
-            case "+--BGN":
-                $muestraR = 1;
-                break;
-            default:
-                $muestraR = 0;
-                break;
-        }
+            switch($temp2){
+                case "+--BGN":
+                    $muestraR = 1;
+                    break;
+                default:
+                    $muestraR = 0;
+                    break;
+            }
         }
 
+        if ($temp1 == "+--BGN"){
+            $res1 = "Positivo"; 
+        } elseif ($temp2 == "+--BGN"){ 
+            $res2 = "Positivo";
+        } else {
+            $res1 = "Negativo";
+            $res2 = "Negativo";
+        } 
         $validacion = ConvinacionesEcoli::where('Id_detalle', $request->idDetalle)
         ->where('Colonia', $request->colonia)->first();
 
@@ -493,6 +503,8 @@ class MbController extends Controller
                 'Vp2' => $request->vp2,
                 'Citrato2' => $request->citrato2,
                 'BGN2' => $request->bgn2,
+                'ResUno' => $res1,
+                'ResDos' => $res2,
                 'Resultado' => $muestraR,
                 'Observacion' => $request->observacion,    
             ]);
@@ -509,6 +521,8 @@ class MbController extends Controller
             $model->Vp2 = $request->vp2;
             $model->Citrato2 = $request->citrato2;
             $model->BGN2 = $request->bgn2;
+            $model->ResUno = $res1;
+            $model->ResDos = $res2;
             $model->Resultado = $muestraR;
             $model->Observacion = $request->observacion;
             $model->save();
@@ -551,6 +565,7 @@ class MbController extends Controller
             'colonia' => $request->colonia,
             'validacion' => $validacion,
             'loteDetalle' => $loteDetalle,
+            'IdLote' => $response->idLote,
         );
         return response()->json($data);
     }

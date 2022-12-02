@@ -7,6 +7,7 @@ use App\Imports\AnalisisQ\ParametrosImport;
 use Illuminate\Http\Request;
 use Maatwebsite\Excel\Facades\Excel;
 
+
 class ImportarController extends Controller
 { 
     //

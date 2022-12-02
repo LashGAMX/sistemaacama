@@ -27,6 +27,8 @@ class ConvinacionesEcoli extends Model
         'Vp2',
         'Citrato2',
         'BGN2',
+        'ResUno',
+        'ResDos',
         'Resultado',
         'Observacion'
         
