@@ -2,6 +2,7 @@
 
 namespace App\Imports\AnalisisQ;
 
+use App\Models\LoteDetalleIcp;
 use App\Models\Parametro;
 use App\Models\Unidad;
 use Maatwebsite\Excel\Concerns\ToCollection;
@@ -14,6 +15,16 @@ class IcpImport implements ToCollection
 {
     public function collection(Collection $rows)
     {
-        var_dump($rows)
+        
+        foreach ($rows as $row) {
+
+            LoteDetalleIcp::create([
+                'Id_lote' => 69,
+                'Cps' => $row[36],
+                'Resultado' => $row[32],
+                'Fecha' => $row[11],
+            ]); 
+
+        }
     }
 }
