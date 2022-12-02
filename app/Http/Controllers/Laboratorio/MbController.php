@@ -488,6 +488,11 @@ class MbController extends Controller
                 'Vp' => $request->vp1,
                 'Citrato' => $request->citrato1,
                 'BGN' => $request->bgn1,
+                'Indol2' => $request->indol2,
+                'Rm2' => $request->rm2,
+                'Vp2' => $request->vp2,
+                'Citrato2' => $request->citrato2,
+                'BGN2' => $request->bgn2,
                 'Resultado' => $muestraR,
                 'Observacion' => $request->observacion,    
             ]);
