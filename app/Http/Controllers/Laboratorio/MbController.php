@@ -449,6 +449,7 @@ class MbController extends Controller
 
     public function operacionEcoli(Request $request){
         $muestra = LoteDetalleColiformes::where('Id_detalle', $request->idDetalle)->first();
+        $view = DB::table('ViewLoteDetalleEcoli')->where('Id_detalle', $request->idDetalle)->first();
         $loteDetalle = "";
         $res1 = "";
         $res2 = "";
@@ -456,6 +457,7 @@ class MbController extends Controller
         $muestraR = 0;
         $temp1 ="";
         $temp1 = $request->rm1 ."". $request->vp1 ."".  $request->citrato1 ."". $request->bgn1;
+        $temp2 = $request->rm2 . $request->vp2 . $request->citrato2 . $request->bgn2;
         switch($temp1){
             case "+--BGN":
                 $colonia1 = 1;
@@ -467,7 +469,7 @@ class MbController extends Controller
         if ($colonia1 == 1){
             $muestraR = 1;
         } else {
-            $temp2 = $request->rm2 . $request->vp2 . $request->citrato2 . $request->bgn2;
+           
             switch($temp2){
                 case "+--BGN":
                     $muestraR = 1;
@@ -480,18 +482,22 @@ class MbController extends Controller
 
         if ($temp1 == "+--BGN"){
             $res1 = "Positivo"; 
-        } elseif ($temp2 == "+--BGN"){ 
-            $res2 = "Positivo";
         } else {
             $res1 = "Negativo";
+        }
+        if ($temp2 == "+--BGN"){
+            $res2 = "Positivo";
+        } else {
             $res2 = "Negativo";
-        } 
+        }
         $validacion = ConvinacionesEcoli::where('Id_detalle', $request->idDetalle)
         ->where('Colonia', $request->colonia)->first();
 
         if ($validacion == null){
             $model = ConvinacionesEcoli::create([
                 'Id_detalle' => $request->idDetalle,
+                'Id_lote' => $request->idLote,
+                'Codigo' => $view->Codigo,
                 'Colonia' => $request->colonia,
                 'Indol' => $request->indol1,
                 'Rm' => $request->rm1,
@@ -506,11 +512,12 @@ class MbController extends Controller
                 'ResUno' => $res1,
                 'ResDos' => $res2,
                 'Resultado' => $muestraR,
-                'Observacion' => $request->observacion,    
+                
             ]);
         } else {
             $model = ConvinacionesEcoli::where('Id_detalle', $request->idDetalle)
             ->where('Colonia', $request->colonia)->first();
+            $model->Codigo = $view->Codigo;
             $model->Indol = $request->indol1;
             $model->Rm = $request->rm1;
             $model->Vp = $request->vp1;
@@ -524,7 +531,7 @@ class MbController extends Controller
             $model->ResUno = $res1;
             $model->ResDos = $res2;
             $model->Resultado = $muestraR;
-            $model->Observacion = $request->observacion;
+            
             $model->save();
         }
 
@@ -565,7 +572,8 @@ class MbController extends Controller
             'colonia' => $request->colonia,
             'validacion' => $validacion,
             'loteDetalle' => $loteDetalle,
-            'IdLote' => $response->idLote,
+            'Codigo' => $muestra,
+            
         );
         return response()->json($data);
     }
@@ -913,7 +921,16 @@ class MbController extends Controller
 
         return response()->json($data);
     }
+    public function updateObsMuestraEcoli(Request $request){
+        $model = LoteDetalleEcoli::find($request->idMuestra);
+        $model->Observacion = $request->observacion;
+        $model->save();
 
+        $data = array (
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
     public function updateObsMuestra(Request $request)
     {
 
