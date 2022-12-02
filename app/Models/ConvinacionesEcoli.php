@@ -15,6 +15,7 @@ class ConvinacionesEcoli extends Model
 
     protected $fillable = [
         'Id_detalle',
+        'Id_lote',
         'Colonia',
         'Indol',
         'Rm',

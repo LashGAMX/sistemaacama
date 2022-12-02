@@ -363,6 +363,9 @@ class MbController extends Controller
             case 16:
                 $muestra = LoteDetalleHH::where('Id_detalle', $request->idMuestra)->first();
                 break;
+            case 78:
+                $muestra = LoteDetalleEcoli::where('Id_detalle', $request->idMuestra)->first();
+                break;
             default:
                 # code...
                 break;
@@ -485,6 +488,11 @@ class MbController extends Controller
                 'Vp' => $request->vp1,
                 'Citrato' => $request->citrato1,
                 'BGN' => $request->bgn1,
+                'Indol2' => $request->indol2,
+                'Rm2' => $request->rm2,
+                'Vp2' => $request->vp2,
+                'Citrato2' => $request->citrato2,
+                'BGN2' => $request->bgn2,
                 'Resultado' => $muestraR,
                 'Observacion' => $request->observacion,    
             ]);
@@ -1972,11 +1980,13 @@ class MbController extends Controller
                     $mpdf->showWatermarkImage = true;
     
                     $loteDetalle = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $idLote)->get();
+                    $convinaciones = ConvinacionesEcoli::where('Id_lote', $idLote)->get(); 
                     $bitacora = PlantillaMb::where('Id_parametro', 78)->first();
     
                     $data = array(
                         'lote' => $lote,
                         'loteDetalle' => $loteDetalle,
+                        'convinaciones' => $convinaciones,
                         'bitacora' => $bitacora,
                     );
     
