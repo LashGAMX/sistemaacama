@@ -61,6 +61,9 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('lote/procedimiento', [MetalesController::class, 'guardarTexto']);
         
         Route::get('capturaIcp', [MetalesController::class, 'capturaIcp']);
+        Route::post('createLoteIcp', [MetalesController::class, 'createLoteIcp']);
+        Route::post('buscarLoteIcp', [MetalesController::class, 'buscarLoteIcp']);
+        Route::post('importCvs', [MetalesController::class, 'importCvs']);
     });
 
     // todo Modulo FisicoQuimicos

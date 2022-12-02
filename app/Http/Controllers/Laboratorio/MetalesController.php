@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Imports\AnalisisQ\IcpImport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
@@ -29,6 +30,8 @@ use App\Models\EstandarVerificacionMet;
 use App\Models\GeneradorHidrurosMet;
 use App\Models\Tecnica;
 use Carbon\Carbon;
+use Maatwebsite\Excel\Facades\Excel;
+
 
 class MetalesController extends Controller
 {
@@ -1013,4 +1016,39 @@ class MetalesController extends Controller
     // todo ************************************************
     // todo Fin de Lote
     // todo ************************************************
+
+    public function createLoteIcp(Request $res)
+    {
+        $model = LoteAnalisis::create([
+            'Id_area' => 17,
+            'Id_tecnica' => 1,
+            'Asignado' => 0,
+            'Liberado' => 0,
+            'Fecha' => $res->fecha,
+        ]);
+        $data = array(
+            'model' => $model,
+        );
+
+        return response()->json($data);
+    }
+    public function buscarLoteIcp(Request $res)
+    {
+        $sw = false;
+        $model = DB::table('ViewLoteAnalisis')->where('Id_area', 17)->where('Fecha', $res->fecha)->get();
+        if ($model->count()) {
+            $sw = true;
+        }
+
+        $data = array(
+            'model' => $model,
+            'sw' => $sw,
+        );
+        return response()->json($data);
+    }
+    public function importCvs(Request $res)
+    {
+        Excel::import(new IcpImport,$res->file('file')); 
+    }
+
 }

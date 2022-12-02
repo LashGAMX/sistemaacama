@@ -36,7 +36,6 @@ function createLote()
         type: 'POST',
         url: base_url + "/admin/laboratorio/metales/createLote",
         data: {
-            tipo: $("#tipoFormula").val(),
             fecha: $("#fechaLote").val(),
             _token: $('input[name="_token"]').val(),
         },

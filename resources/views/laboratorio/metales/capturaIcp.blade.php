@@ -11,7 +11,7 @@
 
   <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6" id="divLote">
             <table class="table table-sm"> 
                 <thead>
                   <tr>
@@ -23,7 +23,7 @@
                   </tr> 
                 </thead>
                 <tbody>
-                    <tr>
+                    {{-- <tr>
                         <td>1315</td>
                         <td>18/11/2022</td>
                         <td>
@@ -38,7 +38,7 @@
                             <button class="btn btn-info"><i class="fas fa-print"></i></button>
                             <button class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-file-word"></i></button>
                         </td> 
-                    </tr>
+                    </tr> --}}
                 </tbody>
             </table>
         </div>
@@ -51,10 +51,10 @@
                     </div>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-info"><i class="fas fa-search"></i> Buscar</button>
+                    <button class="btn btn-info" id="btnBuscarLote"><i class="fas fa-search"></i> Buscar</button>
                 </div>
                 <div class="col-md-2">
-                    <button class="btn btn-success"><i class="fas fa-plus"></i> Crear</button>
+                    <button class="btn btn-success" id="btnCrearLote"><i class="fas fa-plus"></i> Crear</button>
                 </div>
             </div>
         </div>
