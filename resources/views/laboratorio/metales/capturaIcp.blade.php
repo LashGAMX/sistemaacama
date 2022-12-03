@@ -11,7 +11,7 @@
 
   <div class="container-fluid">
     <div class="row">
-        <div class="col-md-6" id="divLote">
+        <div class="col-md-4" id="divLote">
             <table class="table table-sm"> 
                 <thead>
                   <tr>
@@ -23,28 +23,13 @@
                   </tr> 
                 </thead>
                 <tbody>
-                    {{-- <tr>
-                        <td>1315</td>
-                        <td>18/11/2022</td>
-                        <td>
-                            <div class="custom-file">
-                                <input type="file" class="custom-file-input" id="customFile">
-                            </div>
-                        </td>
-                        <td>
-                            <button class="btn btn-success"><i class="fas fa-file-import"></i> Datos</button>
-                        </td>
-                        <td>
-                            <button class="btn btn-info"><i class="fas fa-print"></i></button>
-                            <button class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-file-word"></i></button>
-                        </td> 
-                    </tr> --}}
+        
                 </tbody>
             </table>
         </div>
-        <div class="col-md-6">
+        <div class="col-md-8">
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <div class="form-group">
                         <label for="fechaLote">Fecha de lote</label>
                         <input type="date" class="form-control" id="fechaLote">
@@ -56,12 +41,20 @@
                 <div class="col-md-2">
                     <button class="btn btn-success" id="btnCrearLote"><i class="fas fa-plus"></i> Crear</button>
                 </div>
+                <div class="col-md-3">
+                  <form enctype="multipart/form-data" id="formuploadajax" >
+                    @csrf
+                    <input type="file" class="custom-file-input" id="file" name="file">
+                    <input type="text" id="idLote" name="idLote" hidden>
+                    <button type="submit" class="btn btn-success"><i class="fas fa-file-import"></i> Datos</button>
+                  </form>
+                </div>
             </div>
         </div>
     </div>
 
     <div class="row">
-        <div class="col-md-12">
+        <div class="col-md-12" id="divTablaControles">
             <table class="table" id="tablaControles">
                 <thead>
                     <tr>

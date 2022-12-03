@@ -1,3 +1,5 @@
+var idMuestra = 0; 
+var idLote = 0;
 $(document).ready(function () {
     $('#summernote').summernote({
         placeholder: '', 
@@ -12,6 +14,26 @@ $(document).ready(function () {
       $('#btnBuscarLote').click(function () {
         buscarLote();
       });
+});
+
+$(function(){
+  $("#formuploadajax").on("submit", function(e){
+      e.preventDefault();
+      var f = $(this);
+      $.ajax({
+          url: base_url + "/admin/laboratorio/metales/importCvs",
+          type: "post",
+          dataType: "html",
+          data: new FormData(this),
+          cache: false,
+          contentType: false,
+          processData: false
+      })
+          .done(function(res){
+            console.log(res)
+            alert("Datos importados correctamente") 
+          });
+  });
 });
 
 
@@ -41,6 +63,7 @@ function buscarLote()
         type: 'POST',
         url: base_url + "/admin/laboratorio/metales/buscarLoteIcp",
         data: {
+          idLote:idLote,
             fecha: $("#fechaLote").val(),
             _token: $('input[name="_token"]').val(), 
         },
@@ -53,26 +76,96 @@ function buscarLote()
             tab += '        <tr>';
             tab += '          <th># Lote</th>';
             tab += '          <th>Fecha lote</th>';
-            tab += '          <th>Opc</th> ';
             tab += '          <th></th> ';
             tab += '          <th></th> ';
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
             $.each(response.model, function (key, item) {
-              tab += '<form action="'+base_url+'/admin/laboratorio/metales/importCvs" method="POST" enctype="multipart/form-data" >'
-                tab += '<tr><input name="_token" hidden>';
+                tab += '<tr>';
                 tab += '<td>'+item.Id_lote+'</td>';
                 tab += '<td>'+item.Fecha+'</td>';
-                tab += '<td><div class="custom-file"><input type="file" class="custom-file-input" id="customFile"></div></td>';
-                tab += '<td><button type="submit" class="btn btn-success"><i class="fas fa-file-import"></i> Datos</button></td>';
-                tab += '<td><button class="btn btn-info"><i class="fas fa-print"></i></button><button class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-file-word"></i></button></td>';
-              tab += '</tr>';
-              tab += '</form>';
+                tab += '<td><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-file-word"></i></button></td>';
+                tab += '<td><button type="button" class="btn btn-info"><i class="fas fa-print"></i></button></td>';
+                tab += '</tr>';
             });
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
+
+            var t = $('#tablaLote').DataTable({        
+              "ordering": false, 
+              "language": {
+                  "lengthMenu": "# _MENU_ por pagina",
+                  "zeroRecords": "No hay datos encontrados", 
+                  "info": "Pagina _PAGE_ de _PAGES_",
+                  "infoEmpty": "No hay datos encontrados",
+              }
+          });
+            $('#tablaLote tbody').on( 'click', 'tr', function () {
+              if ( $(this).hasClass('selected') ) {
+                  $(this).removeClass('selected');
+              }
+              else {
+                  t.$('tr.selected').removeClass('selected');
+                  $(this).addClass('selected');
+              }
+          } );
+          $('#tablaLote tr').on('click', function(){
+              let dato = $(this).find('td:first').html();
+              idLote = dato;
+              $("#idLote").val(idLote);
+              // getLoteCapturaVol();
+              getLoteCaptura()
+            });
         }
     });
+}
+
+function getLoteCaptura() {
+  numMuestras = new Array();
+  let tabla = document.getElementById('divTablaControles');
+  let tab = '';
+
+  $.ajax({
+      type: "POST",
+      url: base_url + "/admin/laboratorio/metales/getLoteCapturaIcp",
+      data: {
+          idLote: idLote,
+          _token: $('input[name="_token"]').val() 
+      },
+      dataType: "json",
+      success: function (response) {
+          console.log(response);
+
+          tab += '<table id="tablaControles" class="table table-sm">';
+          tab += '    <thead>';
+          tab += '        <tr>';
+          tab += '          <th>Folio</th>';
+          tab += '          <th>Parametro</th>';
+          tab += '          <th>CPS Prom</th>';
+          tab += '          <th>Resultado</th>';
+          tab += '          <th>F/H Análisis</th>';
+          tab += '          <th>Tipo</th>';
+          tab += '        </tr>';
+          tab += '    </thead>';
+          tab += '    <tbody>';
+          $.each(response.model, function (key, item) {
+              tab += '<tr>';
+              tab += '  <td>'+item.Id_lote+'</td>';
+              tab += '  <td>'+item.Id_parametro+'</td>';
+              tab += '  <td>'+item.Cps+'</td>';
+              tab += '  <td>'+item.Resultado+'</td>';
+              tab += '  <td>'+item.Fecha+'</td>';
+              tab += '  <td>'+item.Id_control+'</td>';
+              tab += '</tr>';
+       
+          }); 
+          tab += '    </tbody>';
+          tab += '</table>';
+          tabla.innerHTML = tab;
+
+
+      }
+  });
 }

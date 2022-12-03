@@ -28,6 +28,7 @@ use App\Models\CurvaCalibracionMet;
 use App\Models\VerificacionMetales;
 use App\Models\EstandarVerificacionMet;
 use App\Models\GeneradorHidrurosMet;
+use App\Models\LoteDetalleIcp;
 use App\Models\Tecnica;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
@@ -1021,13 +1022,13 @@ class MetalesController extends Controller
     {
         $model = LoteAnalisis::create([
             'Id_area' => 17,
-            'Id_tecnica' => 1,
+            'Id_tecnica' => 2,
             'Asignado' => 0,
             'Liberado' => 0,
             'Fecha' => $res->fecha,
         ]);
         $data = array(
-            'model' => $model,
+            'model' => $model, 
         );
 
         return response()->json($data);
@@ -1042,13 +1043,24 @@ class MetalesController extends Controller
 
         $data = array(
             'model' => $model,
-            'sw' => $sw,
+            'sw' => $sw, 
         );
         return response()->json($data);
     }
     public function importCvs(Request $res)
     {
+        $model = DB::table('lote_detalle_icp')->where('Id_lote',$res->idLote)->delete();
+        $data = array("data" => $res->idLote);
         Excel::import(new IcpImport,$res->file('file')); 
+        return response()->json($data);
+    }
+    public function getLoteCapturaIcp(Request $res)
+    {
+        $model = LoteDetalleIcp::where('Id_lote',$res->idLote)->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
     }
 
 }

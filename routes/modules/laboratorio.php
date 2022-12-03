@@ -42,7 +42,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getLoteCaptura', [MetalesController::class, 'getLoteCaptura']);
         // Route::post('getDatalote', [MetalesController::class, 'getDatalote']);
         Route::get('asgnarMuestraLote/{id}', [MetalesController::class, 'asgnarMuestraLote']);
-        Route::post('muestraSinAsignar', [MetalesController::class, 'muestraSinAsignar']);
+        Route::post('muestraSinAsignar', [MetalesController::class, 'muestraSinAsignar']); 
         Route::post('asignarMuestraLote', [MetalesController::class, 'asignarMuestraLote']);
         Route::post('getMuestraAsignada', [MetalesController::class, 'getMuestraAsignada']);
         Route::post('delMuestraLote', [MetalesController::class, 'delMuestraLote']);
@@ -64,6 +64,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('createLoteIcp', [MetalesController::class, 'createLoteIcp']);
         Route::post('buscarLoteIcp', [MetalesController::class, 'buscarLoteIcp']);
         Route::post('importCvs', [MetalesController::class, 'importCvs']);
+        Route::post('getLoteCapturaIcp', [MetalesController::class, 'getLoteCapturaIcp']);
     });
 
     // todo Modulo FisicoQuimicos
