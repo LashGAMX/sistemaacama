@@ -394,11 +394,12 @@ function getDetalleEcoli(idMuestra,colonia){
             $("#vp1").val(response.convinaciones.Vp)
             $("#citrato1").val(response.convinaciones.Citrato)
             $("#bgn1").val(response.convinaciones.BGN)
-            $("#indol1").val(response.convinaciones.Indol2)
-            $("#rm1").val(response.convinaciones.Rm2)
-            $("#vp1").val(response.convinaciones.Vp2)
-            $("#citrato1").val(response.convinaciones.Citrato2)
-            $("#bgn1").val(response.convinaciones.BGN2)
+            $("#indol2").val(response.convinaciones.Indol2)
+            $("#rm2").val(response.convinaciones.Rm2)
+            $("#vp2").val(response.convinaciones.Vp2)
+            $("#citrato2").val(response.convinaciones.Citrato2)
+            $("#bgn2").val(response.convinaciones.BGN2)
+            $("#observacionEcoli").val(response.model.observacion)
         }
     });
 }
