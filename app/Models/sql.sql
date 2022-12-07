@@ -361,7 +361,7 @@ ON col.Id_codigo = cod.Id_codigo
 
 /* Lista ViewLoteDetalleEcoli */ 
 
-CREATE VIEW ViewLoteDetalleEcoli as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_Ecoli as col
+CREATE VIEW ViewLoteDetalleEcoli as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_Ecoli as col
 INNER JOIN ViewSolicitud as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param

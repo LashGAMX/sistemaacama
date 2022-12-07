@@ -47,7 +47,3 @@ Route::group(['prefix' => 'admin'], function (){
     //? Cliente seguimiento
     Route::get('seguimiento',[SeguimientoController::class,'index']);
 });
-
-
-
-// Route::get('animacion', [BetoController::class,'animacion']);

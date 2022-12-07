@@ -45,7 +45,11 @@
                         <td>{{$item->Colonia4}}</td>
                         <td>{{$item->Colonia5}}</td>
                         <td>{{$item->Observacion}}</td>
-                        <td>{{$item->Resultado}}</td>
+                        @if ($item->Limite > $item->Resultado)
+                            <td>< 1.1</td>    
+                        @else
+                            <td>{{$item->Resultado}}</td>
+                        @endif
                     </tr>
                 @endforeach
                 </tbody>
