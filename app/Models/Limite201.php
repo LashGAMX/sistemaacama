@@ -16,6 +16,7 @@ class Limite201 extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'Id_parametro', 
         'Per_min',
         'Per_max',
         'Id_user_c',

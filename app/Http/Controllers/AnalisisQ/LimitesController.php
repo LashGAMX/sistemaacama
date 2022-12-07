@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\DB;
 
 class LimitesController extends Controller
 {
-    public function index()
+    public function index() 
     {
         return view('analisisQ.limites');
     }
