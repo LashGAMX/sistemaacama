@@ -123,7 +123,7 @@ function getParametro() {
             tab += '<select class="form-control" id="parametro">';
             tab += '<option value="">Selecciona Parametro</option>';
             $.each(response.parametro, function (key, item) {
-                tab += '<option value="' + item.Id_parametro + '">' + item.Parametro + '</option>';
+                tab += '<option value="' + item.Id_parametro + '">('+item.Id_parametro+') '+ item.Parametro + ' / '+item.Tipo_formula+'</option>';
             });
             tab += '</select>';
             div.innerHTML = tab;
@@ -152,7 +152,7 @@ function getParametroModal() {
             tab += '<select class="form-control" id="idParametroModal">';
             tab += '<option value="">Selecciona Parametro</option>';
             $.each(response.parametro, function (key, item) {
-                tab += '<option value="' + item.Id_parametro + '">' + item.Parametro + '</option>';
+                tab += '<option value="' + item.Id_parametro + '">('+item.Id_parametro+') '+ item.Parametro + ' / '+item.Tipo_formula+'</option>';
             });
             tab += '</select>';
             div.innerHTML = tab;

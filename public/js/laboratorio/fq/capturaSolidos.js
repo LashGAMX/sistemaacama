@@ -299,6 +299,7 @@ function operacionSimple() {
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/operacionSolidosSimple",
         data: {
+            tipoFormula: $("#formulaTipo").val(),
             idMuestra: idMuestra,
             R: $("#resultado").val(),
             masa1: $("#m11").val(),

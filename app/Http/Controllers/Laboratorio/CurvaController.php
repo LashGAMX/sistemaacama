@@ -14,7 +14,7 @@ use App\Models\LoteAnalisis;
 use App\Models\CurvaConstantes;
 use App\Models\LoteDetalle;
 use App\Models\TipoFormula;
-use App\Models\DB;
+use Illuminate\Support\Facades\DB;
 use App\Models\VariablesFormula;
 use Carbon\Carbon;
 
@@ -33,8 +33,8 @@ class CurvaController extends Controller
 
     public function getParametro(Request $request) // Obtiene el parametro fuera de la modal
     {
-        
-        $parametro = Parametro::where('Id_area', $request->idArea)->where('Curva', 1)->get();
+        $parametro = DB::table('ViewParametros')->where('Id_area', $request->idArea)->where('Curva', 1)->get();
+       // $parametro = Parametro::where('Id_area', $request->idArea)->where('Curva', 1)->get();
 
         $data = array(
             'parametro' => $parametro,
@@ -43,9 +43,9 @@ class CurvaController extends Controller
     }
     public function getParametroModal(Request $request) //obtiene los parametros segun el area (modal crear)
     {
-        $parametro = Parametro::where('Id_area', $request->idArea)->where('Curva', 1)->get();
-        // $parametro = DB::ViewParametros()->where('Id_area', $request->idArea)->get();
-
+        $parametro = DB::table('ViewParametros')->where('Id_area', $request->idArea)->where('Curva', 1)->get();
+       // $parametro = Parametro::where('Id_area', $request->idArea)->where('Curva', 1)->get();
+        
         $data = array(
             'parametro' => $parametro,
 

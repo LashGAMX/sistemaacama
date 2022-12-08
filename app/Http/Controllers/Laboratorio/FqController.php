@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\Capsulas;
 use App\Models\VolumenParametros;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
@@ -41,6 +42,7 @@ use App\Models\SecadoCartucho;
 use App\Models\Tecnica;
 use App\Models\TiempoReflujo;
 use Carbon\Carbon;
+use COM;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -1810,17 +1812,34 @@ class FqController extends Controller
 
     public function operacionSolidosSimple(Request $request)
     {
-        $modelCrisol = CrisolesGA::all();
-        //? Aplica la busqueda de crisol hasta encontrar un crisol desocupado
-        $cont = $modelCrisol->count();
+        switch ($request->tipoFormula){
+            case 4: 
+                $modelCapsula = Capsulas::all();
+                $cont = $modelCapsula->count();
+                
+                for ($i = 0; $i < $cont; $i++) {
+                    # code...
+                    $id = rand(0, $modelCapsula->count());
+                    $crisol = Capsulas::where('Id_crisol', $id)->first();
+                    if ($crisol->Estado == 0) {
+                        break;
+                    } 
+                }
+            break;
+            default: 
+                $modelCrisol = CrisolesGA::all();
+                //? Aplica la busqueda de crisol hasta encontrar un crisol desocupado
+                $cont = $modelCrisol->count();
 
-        for ($i = 0; $i < $cont; $i++) {
-            # code...
-            $id = rand(0, $modelCrisol->count());
-            $crisol = CrisolesGA::where('Id_crisol', $id)->first();
-            if ($crisol->Estado == 0) {
-                break;
-            }
+                for ($i = 0; $i < $cont; $i++) {
+                    # code...
+                    $id = rand(0, $modelCrisol->count());
+                    $crisol = CrisolesGA::where('Id_crisol', $id)->first();
+                    if ($crisol->Estado == 0) {
+                        break;
+                    }
+                }
+             break;
         }
 
         $mf = ((($request->R / $request->factor) * $request->volumen) + $crisol->Peso);
