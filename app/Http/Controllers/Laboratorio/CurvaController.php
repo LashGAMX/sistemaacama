@@ -33,7 +33,7 @@ class CurvaController extends Controller
 
     public function getParametro(Request $request) // Obtiene el parametro fuera de la modal
     {
-        $parametro = DB::table('ViewParametros')->where('Id_area', $request->idArea)->where('Curva', 1)->get();
+        $parametro = DB::table('ViewParametros')->where('Curva', 1)->get();
        // $parametro = Parametro::where('Id_area', $request->idArea)->where('Curva', 1)->get();
 
         $data = array(
@@ -43,7 +43,7 @@ class CurvaController extends Controller
     }
     public function getParametroModal(Request $request) //obtiene los parametros segun el area (modal crear)
     {
-        $parametro = DB::table('ViewParametros')->where('Id_area', $request->idArea)->where('Curva', 1)->get();
+        $parametro = DB::table('ViewParametros')->where('Curva', 1)->get();
        // $parametro = Parametro::where('Id_area', $request->idArea)->where('Curva', 1)->get();
         
         $data = array(
@@ -113,6 +113,7 @@ class CurvaController extends Controller
         $swCon = 0;
         $sw = 0;
         $const = null;
+        $valFecha = 0;
 
         $inicio = new Carbon($request->fechaInicio);
         $fin = new Carbon($request->fechaFin);
@@ -132,7 +133,6 @@ class CurvaController extends Controller
             $sw = 1;
         } elseif($concent != null) {
             
-
             if ($concent->count()) {
                 $paraModel = Parametro::find($request->idParametroModal);
                 $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
@@ -146,14 +146,14 @@ class CurvaController extends Controller
                     'Fecha_fin' => $fechaFin,
             
                 ]);
-                for($i=0; $i < sizeof($hijos); $i++){
-                    CurvaConstantes::create([
-                        'Id_area' => $request->idAreaModal,
-                        'Id_parametro' => $hijos[$i]->Id_parametro,
-                        'Fecha_inicio' => $fechaInicio,
-                        'Fecha_fin' => $fechaFin,
-                    ]);
-                }
+                // for($i=0; $i < sizeof($hijos); $i++){
+                //     CurvaConstantes::create([
+                //         'Id_area' => $request->idAreaModal,
+                //         'Id_parametro' => $hijos[$i]->Id_parametro,
+                //         'Fecha_inicio' => $fechaInicio,
+                //         'Fecha_fin' => $fechaFin,
+                //     ]);
+                // }
                 if ($request->idAreaModal == 2 || $request->idParametroModal == 95 || $request->idParametroModal == 243){
                     //Creacion del blanco
                 estandares::create([
@@ -164,7 +164,7 @@ class CurvaController extends Controller
                     'Fecha_fin' => $fechaFin,
                     'STD' => "Blanco",
                     ]);
-                }   
+                } else {  
                     
                 for ($i = 0; $i < $num; $i++) {
                     estandares::create([
@@ -176,9 +176,10 @@ class CurvaController extends Controller
                         'STD' => "STD" . ($i + 1) . "",
                     ]);
                 }
+            }
                 $sw = 0;
                 $swCon = 0;
-                $valFecha = 0;
+                $valFecha = "entro a create";
             } else {
                 $swCon = 1;
             }
@@ -193,7 +194,7 @@ class CurvaController extends Controller
             'estandares' => $estandares,
             'parametro' => $request->idParametroModal,
             'concentracion' => $concent,
-            
+            'valFecha' => $valFecha,
            
            
         );
