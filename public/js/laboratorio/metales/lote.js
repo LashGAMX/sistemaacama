@@ -25,7 +25,7 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos encontrados",
         }
     });
-
+    $('#tipo').select2();
     //quill = new Quill('#editor', options);
 
 });
@@ -37,6 +37,7 @@ function createLote()
         url: base_url + "/admin/laboratorio/metales/createLote",
         data: {
             fecha: $("#fechaLote").val(),
+            tipo: $("#tipoFormula").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",

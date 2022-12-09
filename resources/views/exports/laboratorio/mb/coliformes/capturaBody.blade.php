@@ -260,7 +260,11 @@
                             </td>
         
                             <td class="contenidoBody bordesTabla" rowspan="3">
-                                {{@$data[$i]->Resultado}}
+                                @if (@$data[$i]->Resultado == 0)
+                                < 3
+                            @else
+                            {{@$data[$i]->Resultado}}
+                            @endif
                             </td>
         
                             <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
@@ -277,7 +281,11 @@
                             </td>
         
                             <td class="contenidoBody bordesTabla" rowspan="3" style="font-weight: bold">
-                                {{@$data[$i]->Resultado}}
+                                @if (@$data[$i]->Resultado == 0)
+                                < 3
+                            @else
+                            {{@$data[$i]->Resultado}}
+                            @endif
                             </td>
                             @break
                         @default

@@ -166,6 +166,7 @@ class MetalesController extends Controller
             ->orWhere('Id_tipo_formula', 22)
             ->orWhere('Id_tipo_formula', 23)
             ->orWhere('Id_tipo_formula', 24) 
+            ->orWhere('Id_area',2)
             ->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get(); 
         // var_dump($parametro);
@@ -397,7 +398,8 @@ class MetalesController extends Controller
         $z = $request->z;
         $FD = $request->FD;
         $suma = ($x + $y + $z);
-        $promedio = $suma / 3;
+        $promedio = round(($suma / 3),3);
+        
         $resultado = "";
 
         if ($parametroPurificada->count()) {    //todo:: Verificar filtro con la norma!!!

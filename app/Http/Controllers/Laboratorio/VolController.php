@@ -1333,12 +1333,13 @@ public function sendMuestrasLote(Request $res)
                 $loteDetalle = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $idLote)->get();
                 switch ($loteDetalle[0]->Tipo) {
                     case 1: // Dqo Alta
-
+                        
                         break;
                     case 2: // Dqo Baja
 
                         break;
-                    case 3: // Dqo Tubo Sellado Alta
+                    case 3:
+                    // Dqo Tubo Sellado Alta
                     // case 4: // Dqo Tubo Sellado Baja
                         $textProcedimiento = DB::table('plantillas_fq')->where('Id_parametro', 74)->first();
                         $textProcedimientoVol = DB::table('plantillas_fq')->where('Id_parametro', 75)->first();
@@ -1384,6 +1385,8 @@ public function sendMuestrasLote(Request $res)
                     $mpdf->CSSselectMedia = 'mpdf';
                 break;
                 case 287:
+                case 9:
+                case 10:
                     $loteDetalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $idLote)->get();
                     $textProcedimiento = DB::table('plantilla_volumetria')->where('Id_parametro', 287)->first();
                     $data = array(

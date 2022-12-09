@@ -8,7 +8,7 @@ $(document).ready(function () {
 
 });
 
-$($'#btnLiberarTodo').click(function () {
+$('#btnLiberarTodo').click(function () {
     liberarTodo();
 });
 $('#guardar').click(function () {

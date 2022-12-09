@@ -108,6 +108,9 @@ class CurvaController extends Controller
         );
         return response()->json($data);
     }
+    public function duplicarHijos(){
+
+    }
     public function createStd(Request $request)
     {
         $swCon = 0;
@@ -164,7 +167,7 @@ class CurvaController extends Controller
                     'Fecha_fin' => $fechaFin,
                     'STD' => "Blanco",
                     ]);
-                } else {  
+                } 
                     
                 for ($i = 0; $i < $num; $i++) {
                     estandares::create([
@@ -176,10 +179,10 @@ class CurvaController extends Controller
                         'STD' => "STD" . ($i + 1) . "",
                     ]);
                 }
-            }
+                $valFecha = "entro a create";
                 $sw = 0;
                 $swCon = 0;
-                $valFecha = "entro a create";
+                //$valFecha = "entro a create";
             } else {
                 $swCon = 1;
             }

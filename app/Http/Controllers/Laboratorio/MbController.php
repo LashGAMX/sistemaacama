@@ -1886,7 +1886,7 @@ class MbController extends Controller
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
             case 134:
-            case 132: //Coliformes fecales
+            case 132://Coliformes fecales
                 $mpdf = new \Mpdf\Mpdf([
                     'orientation' => "L",
                     'format' => 'letter',
@@ -2025,6 +2025,30 @@ class MbController extends Controller
                     $htmlHeader = view('exports.laboratorio.mb.127.ecoli.capturaHeader', $data);
                     $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                     $htmlCaptura = view('exports.laboratorio.mb.127.ecoli.capturaBody', $data);
+                    $mpdf->CSSselectMedia = 'mpdf';
+                    $mpdf->WriteHTML($htmlCaptura);
+                    break;
+                case 5:
+                    $mpdf->SetWatermarkImage(
+                        asset('/public/storage/HojaMembretadaHorizontal.png'),
+                        1,
+                        array(215, 280),
+                        array(0, 0),
+                    );
+                    $mpdf->showWatermarkImage = true;
+    
+                    $loteDetalle = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $idLote)->get();
+                    $bitacora = PlantillaMb::where('Id_parametro', 5)->first();
+    
+                    $data = array(
+                        'lote' => $lote,
+                        'loteDetalle' => $loteDetalle,
+                        'bitacora' => $bitacora,
+                    );
+    
+                    $htmlHeader = view('exports.laboratorio.mb.dbo.capturaHeader', $data);
+                    $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                    $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', $data);
                     $mpdf->CSSselectMedia = 'mpdf';
                     $mpdf->WriteHTML($htmlCaptura);
                     break;

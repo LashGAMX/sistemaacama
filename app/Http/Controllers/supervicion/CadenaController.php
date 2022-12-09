@@ -129,7 +129,7 @@ class CadenaController extends Controller
                 $aux = $res / $model->count();
                 break;
             case 6: // Micro
-                switch ($codigoModel) {
+                switch ($codigoModel->Id_parametro) {
                     case 5:
                         $model = DB::table('ViewLoteDetalleDbo')->where('Id_analisis', $codigoModel->Id_solicitud)
                         ->where('Id_control', 1)

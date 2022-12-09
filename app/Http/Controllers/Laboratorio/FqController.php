@@ -1813,20 +1813,20 @@ class FqController extends Controller
     public function operacionSolidosSimple(Request $request)
     {
         switch ($request->tipoFormula){
-            case 4: 
+            case 1: 
                 $modelCapsula = Capsulas::all();
                 $cont = $modelCapsula->count();
                 
                 for ($i = 0; $i < $cont; $i++) {
                     # code...
                     $id = rand(0, $modelCapsula->count());
-                    $crisol = Capsulas::where('Id_crisol', $id)->first();
+                    $crisol = Capsulas::where('Id_capsula', $id)->first();
                     if ($crisol->Estado == 0) {
                         break;
                     } 
                 }
             break;
-            default: 
+            default:  
                 $modelCrisol = CrisolesGA::all();
                 //? Aplica la busqueda de crisol hasta encontrar un crisol desocupado
                 $cont = $modelCrisol->count();

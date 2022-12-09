@@ -4,9 +4,13 @@ var idMuestra = 0;
 var idLote = 0;
 var tecnica = 0;
 $(document).ready(function () {
-
+    $('#formulaTipo').select2();
+    
 });
 
+$("#formulaTipo").click(function () {
+    $("#resDato").val("");
+});
 $('#enviarObservacion').click(function () {
     enviarObservacion();
     console.log("observacion")
