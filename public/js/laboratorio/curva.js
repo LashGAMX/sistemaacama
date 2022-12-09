@@ -192,7 +192,9 @@ function getLote() {  // motodo para obtener el lote en la modal
     });
 
 }
-
+function curvaHijos(){
+    
+}
 
 function setCalcular() {
     getMatriz();

@@ -108,8 +108,27 @@ class CurvaController extends Controller
         );
         return response()->json($data);
     }
-    public function duplicarHijos(){
+    public function curvaHijos(Request $request){
+        $hijos = Parametro::where('Padre', $request->idParametroModal)->get();
 
+        $inicio = new Carbon($request->fechaInicio);
+        $fin = new Carbon($request->fechaFin);
+        $fechaInicio = $inicio->toDateString();
+        $fechaFin = $fin->toDateString(); 
+
+        for($i=0; $i < sizeof($hijos); $i++){
+                    CurvaConstantes::create([
+                        'Id_area' => $request->idAreaModal,
+                        'Id_parametro' => $hijos[$i]->Id_parametro,
+                        'Fecha_inicio' => $fechaInicio,
+                        'Fecha_fin' => $fechaFin,
+                    ]);
+                }
+
+        $data = array(
+            'hijos' => $hijos,
+        );
+        return response()->json($data);
     }
     public function createStd(Request $request)
     {
@@ -128,7 +147,7 @@ class CurvaController extends Controller
         ->where('Id_area', $request->idAreaModal)
         ->where('Id_parametro', $request->idParametroModal)->first();
 
-        $hijos = Parametro::where('Padre', $request->idParametroModal)->get();
+       
 
         $concent = ConcentracionParametro::where('Id_parametro', "=", $request->idParametroModal)->get(); //valores de concentración
 
@@ -149,14 +168,7 @@ class CurvaController extends Controller
                     'Fecha_fin' => $fechaFin,
             
                 ]);
-                // for($i=0; $i < sizeof($hijos); $i++){
-                //     CurvaConstantes::create([
-                //         'Id_area' => $request->idAreaModal,
-                //         'Id_parametro' => $hijos[$i]->Id_parametro,
-                //         'Fecha_inicio' => $fechaInicio,
-                //         'Fecha_fin' => $fechaFin,
-                //     ]);
-                // }
+               
                 if ($request->idAreaModal == 2 || $request->idParametroModal == 95 || $request->idParametroModal == 243){
                     //Creacion del blanco
                 estandares::create([
