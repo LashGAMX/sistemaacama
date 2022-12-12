@@ -12,10 +12,15 @@
   <div class="container-fluid"> 
     <div class="row">
       <div class="col-md-3">
-        <button type="button"class="btn btn-success"  data-toggle="modal" data-target="#modalCrear"id="btnCrear"><i class="voyager-plus"></i> Crear</button>
-        {{-- <button type="button" class="btn btn-warning" id="editar" data-toggle="modal" data-target="#modalCrear"> <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
---}}
+        <label>Fecha Inicio</label> 
+        <input type="date" id="fechaInicio">
       </div> 
+      <div class="col-md-3">
+        <label>Fecha fin</label> 
+        <input type="date" id="fechaFin">
+      </div> 
+    </div>
+    <div class="row">
 
         <div class="col-md-2">
              <select class="form-control" id="idArea">
@@ -29,7 +34,7 @@
       <div class="col-md-2">
         <input type="date" class="form-control" id="fecha" >
         
-</div>
+      </div>
         <div class="col-md-2" id="divParametro">
           <select class="form-control" id="parametro">
             <option value="">Selecciona Parametro</option>
@@ -39,9 +44,12 @@
       <div class="col-md-1">
         <button class="btn btn-info" id="buscar"><i class="voyager-serch"></i> Buscar</button>
       </div>
+      <div class="col-md-2">
+        <button type="button"class="btn btn-success"  data-toggle="modal" data-target="#modalCrear"id="btnCrear"><i class="voyager-plus"></i> Crear</button>
+      </div> 
       
       
-  
+
       <div class="col-md-12">
         <div id="divTablaStd">
           <table class="table" id="tableStd">
@@ -122,12 +130,10 @@
             <div class="col-md-6">
               <label>Fecha Inicio</label> 
               <input type="date" id="fechaInicio">
-              
             </div> 
             <div class="col-md-6">
               <label>Fecha fin</label> 
               <input type="date" id="fechaFin">
-              
             </div> 
           </div>
         </div>

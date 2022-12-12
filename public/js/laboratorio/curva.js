@@ -193,7 +193,22 @@ function getLote() {  // motodo para obtener el lote en la modal
 
 }
 function curvaHijos(){
-    
+    $.ajax({
+        url: base_url + '/admin/laboratorio/curvaHijos', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            parametro: $("#parametro").val(),
+            idArea: $("#idAreaModal").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            console.log(response);
+
+        }
+    });
+
 }
 
 function setCalcular() {
