@@ -416,7 +416,9 @@ var cont = 0;
 var idLote = 0;
 function buscar() {
     let tabla = document.getElementById('divTablaStd');
+    let tablaHijos = document.getElementById('divTablaHijos');
     let tab = '';
+    let tabH = '';
     $.ajax({
         url: base_url + '/admin/laboratorio/buscar', //archivo que recibe la peticion
         type: 'POST', //método de envio
@@ -501,11 +503,26 @@ function buscar() {
                 tab += '    </tbody>';
                 tab += '</table>';
                 tabla.innerHTML = tab;
+
+                tabH += '<table id="tablaHijos" class="table">';
+                tabH += '    <thead class="thead-dark">';
+                tabH += '        <tr>';
+                tabH += '          <th>Id</th>';
+                tabH += '          <th>Parametro</th> ';
+                tabH += '        </tr>';
+                tabH += '    </thead>';
+                tabH += '    <tbody>';
+                $.each(response.hijos, function (key, items) {
+                            tabH += '<tr>';
+                            tabH += '<td>' + items.Id_parametro + '</td>';
+                            tabH += '<td>' + items.Parametro + '</td>';
+                            tabH += '</tr>'; 
+                });
+                tabH += '    </tbody>';
+                tabH += '</table>';
+                tablaHijos.innerHTML = tabH;
+
             }
-
-
-
-
 
         }
 
