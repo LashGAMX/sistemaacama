@@ -31,6 +31,9 @@ $(document).ready(function () {
     $("#buscar").click(function () {
         buscar();
     });
+    $("#replicar").click(function () {
+        curvaHijos();  
+    });
   
     $('#setConstantes').click(function () {
         setConstantes();
@@ -142,7 +145,7 @@ function getParametroModal() {
         type: 'POST', //método de envio
         data: {
 
-            idArea: $("#idAreaModal").val(),
+            idArea: $("#idArea").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: 'json',
@@ -172,7 +175,7 @@ function getLote() {  // motodo para obtener el lote en la modal
         type: 'POST', //método de envio
         data: {
             //idLote:$("#idLote").val(),
-            idArea: $("#idAreaModal").val(),
+            idArea: $("#idArea").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: 'json',
@@ -198,14 +201,15 @@ function curvaHijos(){
         type: 'POST', //método de envio
         data: {
             parametro: $("#parametro").val(),
-            idArea: $("#idAreaModal").val(),
+            idArea: $("#idArea").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: 'json',
         async: false,
         success: function (response) {
             console.log(response);
-
+            swal("Correcto!", "Se replicó BMR!", "success")
+            $("#replicar".atr('"class="btn btn-success"'))
         }
     });
 
@@ -342,8 +346,8 @@ function createStd() {
         url: base_url + '/admin/laboratorio/createStd', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
-            idAreaModal: $("#idAreaModal").val(),
-            idParametroModal: $("#idParametroModal").val(),
+            idArea: $("#idArea").val(),
+            idParametro: $("#parametro").val(),
             fechaInicio: $("#fechaInicio").val(),
             fechaFin: $("#fechaFin").val(),
 
@@ -499,28 +503,48 @@ function buscar() {
                     }
                     cont++;
                 });
+                
+                        if (response.hijos != null) {
+                            tab += '    </tbody>';
+                            tab += '</table>';
+                            tabla.innerHTML = tab;
 
-                tab += '    </tbody>';
-                tab += '</table>';
-                tabla.innerHTML = tab;
+                            tabH += '<table id="tablaHijos" class="table">';
+                            tabH += '    <thead class="thead-dark">';
+                            tabH += '        <tr>';
+                            tabH += '          <th>Id</th>';
+                            tabH += '          <th>Parametro</th> ';
+                            tabH += '        </tr>';
+                            tabH += '    </thead>';
+                            tabH += '    <tbody>';
+                            $.each(response.hijos, function (key, items) {
+                                        tabH += '<tr>';
+                                        tabH += '<td>' + items.Id_parametro + '</td>';
+                                        tabH += '<td>' + items.Parametro + '</td>';
+                                        tabH += '</tr>'; 
+                            });
+                            tabH += '    </tbody>';
+                            tabH += '</table>';
+                            tablaHijos.innerHTML = tabH;
+                        } else {
+                            tab += '    </tbody>';
+                            tab += '</table>';
+                            tabla.innerHTML = tab;
 
-                tabH += '<table id="tablaHijos" class="table">';
-                tabH += '    <thead class="thead-dark">';
-                tabH += '        <tr>';
-                tabH += '          <th>Id</th>';
-                tabH += '          <th>Parametro</th> ';
-                tabH += '        </tr>';
-                tabH += '    </thead>';
-                tabH += '    <tbody>';
-                $.each(response.hijos, function (key, items) {
-                            tabH += '<tr>';
-                            tabH += '<td>' + items.Id_parametro + '</td>';
-                            tabH += '<td>' + items.Parametro + '</td>';
-                            tabH += '</tr>'; 
-                });
-                tabH += '    </tbody>';
-                tabH += '</table>';
-                tablaHijos.innerHTML = tabH;
+                            tabH += '<table id="tablaHijos" class="table">';
+                            tabH += '    <thead class="thead-dark">';
+                            tabH += '        <tr>';
+                            tabH += '          <th>Id</th>';
+                            tabH += '          <th>Parametro</th> ';
+                            tabH += '        </tr>';
+                            tabH += '    </thead>';
+                            tabH += '    <tbody>';
+                                        tabH += '<tr>';
+                                        tabH += '</tr>'; 
+                            tabH += '    </tbody>';
+                            tabH += '</table>';
+                            tablaHijos.innerHTML = tabH;
+                        }   
 
             }
 
