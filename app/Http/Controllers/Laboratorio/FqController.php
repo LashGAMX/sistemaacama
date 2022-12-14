@@ -891,7 +891,7 @@ class FqController extends Controller
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 4)->first();
             } else if ($parametro->Id_parametro == 68) { //POR VERIFICAR EN LA TABLA DE PARAMETROS; Conductividad
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 5)->first();
-            } else if ($parametro->Id_parametro == 70) { // Cromo Hex
+            } else if ($parametro->Id_parametro == 69) { // Cromo Hex
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 6)->first();
             } else if ($parametro->Id_parametro = 16) { // Fosforo Total
                 $plantillaPredeterminada = ReportesFq::where('Id_reporte', 7)->first();
@@ -2136,6 +2136,20 @@ class FqController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
+            case 69: //Cromo Hexa
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $data = array(
+                    'lote' => $lote,
+                    'model' => $model,
+                    'curva' => $curva,
+                );
+                $htmlHeader = view('exports.laboratorio.fq.espectro.cromoHex.capturaHeaader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.cromoHex.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+            break;
             default:
                 # code...
                 break;
