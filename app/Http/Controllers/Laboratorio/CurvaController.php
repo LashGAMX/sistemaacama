@@ -73,7 +73,7 @@ class CurvaController extends Controller
         $today = $fecha->toDateString();
         $lote = LoteAnalisis::where('Fecha', $request->fecha)->first();
 
-        $hijos = Parametro::where('Padre', $request->parametro)->first();
+        $hijos = Parametro::where('Padre', $request->parametro)->get();
 
         $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
             ->where('Id_area', $request->area) 
@@ -154,8 +154,7 @@ class CurvaController extends Controller
        if ($estandares != null) {
             $sw = 1;
         } elseif($concent != null) {
-            
-            if ($concent->count()) {
+        
                 $paraModel = Parametro::find($request->idParametroModal);
                 $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
 
@@ -183,7 +182,6 @@ class CurvaController extends Controller
                     
                 for ($i = 0; $i < $num; $i++) {
                     estandares::create([
-                        //'Id_lote' => $request->idLote,
                         'Id_area' => $request->idAreaModal,
                         'Id_parametro' => $request->idParametroModal,
                         'Fecha_inicio' => $fechaInicio,
@@ -195,10 +193,12 @@ class CurvaController extends Controller
                 $sw = 0;
                 $swCon = 0;
                 //$valFecha = "entro a create";
-            } else {
-                $swCon = 1;
-            }
+           
+               // $swCon = 1;
             
+            
+        } else {
+            $swCon = 1;
         }
     
 

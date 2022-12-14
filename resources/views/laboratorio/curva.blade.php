@@ -13,11 +13,11 @@
     <div class="row">
       <div class="col-md-3">
         <label>Fecha Inicio</label> 
-        <input type="date" id="fechaInicio">
+        <input type="date" id="fechaInicioNuevo">
       </div> 
       <div class="col-md-3">
         <label>Fecha fin</label> 
-        <input type="date" id="fechaFin">
+        <input type="date" id="fechaFinNuevo">
       </div> 
     </div>
     <div class="row">
@@ -96,6 +96,29 @@
       </div>
 
 
+  <div class="row">
+    <div class="col-md-6">
+      <h5>PARAMETROS HIJOS</h5>
+      <button class="btn btn-danger">replicar</button>
+      <div id="divTablaHijos">
+      <table class="table" id="tablaHijos">
+        <thead>
+          <tr>
+            <th>Id</th>
+            <th>Parametro</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td></td>
+            <td></td>
+          </tr>
+        </tbody>
+      </table>
+      
+    </div>
+  </div>
+</div>
 
      <!-- Modal -->
   <div class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
