@@ -41,7 +41,7 @@
                 {{ menu('lab','bootstrap') }}
                     @break
                 @default
-                    
+                {{ menu('lab','bootstrap') }}
             @endswitch
             
         </div>
