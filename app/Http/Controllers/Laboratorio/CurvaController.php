@@ -33,27 +33,19 @@ class CurvaController extends Controller
 
     public function getParametro(Request $request) // Obtiene el parametro fuera de la modal
     {
+<<<<<<< HEAD
         $parametro = DB::table('ViewParametros')->where('Id_area', $request->idArea )->where('Curva', 1)->get();
        // $parametro = Parametro::where('Id_area', $request->idArea)->where('Curva', 1)->get();
+=======
+        $parametro = DB::table('parametros')->where('Curva', 1)->get();
+        //$parametro = Parametro::where('Id_area', $request->idArea)->where('Curva', 1)->get();
+>>>>>>> dce69e02ed82aff0fa1e1691fa088f4d8fe8e016
 
         $data = array(
             'parametro' => $parametro,
         );
         return response()->json($data);
     }
-    public function getParametroModal(Request $request) //obtiene los parametros segun el area (modal crear)
-    {
-        $parametro = DB::table('ViewParametros')->where('Curva', 1)->get();
-       // $parametro = Parametro::where('Id_area', $request->idArea)->where('Curva', 1)->get();
-        
-        $data = array(
-            'parametro' => $parametro,
-
-
-        );
-        return response()->json($data);
-    }
-
 
     public function getLote(Request $request)
     {
