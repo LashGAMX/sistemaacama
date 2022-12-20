@@ -28,7 +28,7 @@ $('#btnLiberar').click(function(){
     // operacion();
     liberarMuestraMetal();
 });
-('#btnLiberarTodo').click(function () {
+$('#btnLiberarTodo').click(function () {
     liberarTodo();
 });
 
@@ -119,6 +119,7 @@ function getDataCaptura() {
 var numMuestras = new Array();
 function getLoteCaptura() {
     numMuestras = new Array();
+    idMuestra = 0;
     let tabla = document.getElementById('divTablaControles');
     let tab = '';
     let cont = 1;
@@ -153,6 +154,7 @@ function getLoteCaptura() {
             tab += '          <th>Factor dilución D</th>';
             tab += '          <th>Factor conversion G</th>';
             tab += '          <th>Resultado</th>';
+            tab += '          <th>Observacion</th>';
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
@@ -180,7 +182,7 @@ function getLoteCaptura() {
                 tab += '<td><input '+status+' style="width: 80px" id="factorDilucion'+item.Id_detalle+'" value="'+item.Factor_dilucion+'"></td>';
                 tab += '<td><input '+status+' style="width: 80px" id="factorConversion'+item.Id_detalle+'" value="'+item.Factor_conversion+'"></td>';
                 tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value="'+item.Vol_disolucion+'"></td>';
-
+                tab += '<td><input '+status+' style="width: 80px" id="VolDisolucion'+item.Id_detalle+'" value="'+item.Observacion+'"></td>';
                 tab += '</tr>';
                 numMuestras.push(item.Id_detalle);
                 cont++; 
@@ -248,6 +250,7 @@ function enviarObservacion(){
         dataType: "json",
         success: function (response) {            
             console.log(response);
+            getLoteCaptura();
            
         }
     });
