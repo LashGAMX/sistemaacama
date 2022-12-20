@@ -109,7 +109,7 @@ class CurvaController extends Controller
         return response()->json($data);
     }
     public function curvaHijos(Request $request){
-        $hijos = Parametro::where('Padre', $request->idParametroModal)->get();
+        $hijos = Parametro::where('Padre', $request->idParametro)->get();
 
         $inicio = new Carbon($request->fechaInicio);
         $fin = new Carbon($request->fechaFin);
@@ -118,7 +118,7 @@ class CurvaController extends Controller
 
         for($i=0; $i < sizeof($hijos); $i++){
                     CurvaConstantes::create([
-                        'Id_area' => $request->idAreaModal,
+                        'Id_area' => $request->idArea,
                         'Id_parametro' => $hijos[$i]->Id_parametro,
                         'Fecha_inicio' => $fechaInicio,
                         'Fecha_fin' => $fechaFin,
@@ -144,36 +144,36 @@ class CurvaController extends Controller
 
         //comprobacion de bmr para validar existencia
         $estandares  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $fechaInicio)->whereDate('Fecha_fin', '>=', $fechaFin)
-        ->where('Id_area', $request->idAreaModal)
-        ->where('Id_parametro', $request->idParametroModal)->first();
+        ->where('Id_area', $request->idArea)
+        ->where('Id_parametro', $request->idParametro)->first();
 
        
 
-        $concent = ConcentracionParametro::where('Id_parametro', "=", $request->idParametroModal)->get(); //valores de concentración
+        $concent = ConcentracionParametro::where('Id_parametro', "=", $request->idParametro)->get(); //valores de concentración
 
        if ($estandares != null) {
             $sw = 1;
         } elseif($concent != null) {
         
-                $paraModel = Parametro::find($request->idParametroModal);
+                $paraModel = Parametro::find($request->idParametro);
                 $numEstandares = TipoFormula::where('Id_tipo_formula', $paraModel->Id_tipo_formula)->first();
 
                 $num = $numEstandares->Concentracion;
 
                 CurvaConstantes::create([
-                    'Id_area' => $request->idAreaModal,
-                    'Id_parametro' => $request->idParametroModal,
+                    'Id_area' => $request->idArea,
+                    'Id_parametro' => $request->idParametro,
                     'Fecha_inicio' => $fechaInicio,
                     'Fecha_fin' => $fechaFin,
             
                 ]);
                
-                if ($request->idAreaModal == 2 || $request->idParametroModal == 95 || $request->idParametroModal == 243){
+                if ($request->idArea == 2 || $request->idParametro == 95 || $request->idParametro == 243){
                     //Creacion del blanco
                 estandares::create([
                     //'Id_lote' => $request->idLote,
-                    'Id_area' => $request->idAreaModal,
-                    'Id_parametro' => $request->idParametroModal, 
+                    'Id_area' => $request->idArea,
+                    'Id_parametro' => $request->idParametro, 
                     'Fecha_inicio' => $fechaInicio,
                     'Fecha_fin' => $fechaFin,
                     'STD' => "Blanco",
@@ -182,8 +182,8 @@ class CurvaController extends Controller
                     
                 for ($i = 0; $i < $num; $i++) {
                     estandares::create([
-                        'Id_area' => $request->idAreaModal,
-                        'Id_parametro' => $request->idParametroModal,
+                        'Id_area' => $request->idArea,
+                        'Id_parametro' => $request->idParametro,
                         'Fecha_inicio' => $fechaInicio,
                         'Fecha_fin' => $fechaFin,
                         'STD' => "STD" . ($i + 1) . "",
@@ -207,7 +207,7 @@ class CurvaController extends Controller
             'sw' => $sw,
             'swCon' => $swCon,
             'estandares' => $estandares,
-            'parametro' => $request->idParametroModal,
+            'parametro' => $request->idParametro,
             'concentracion' => $concent,
             'valFecha' => $valFecha,
            

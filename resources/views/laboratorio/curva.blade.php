@@ -13,11 +13,11 @@
     <div class="row">
       <div class="col-md-3">
         <label>Fecha Inicio</label> 
-        <input type="date" id="fechaInicioNuevo">
+        <input type="date" id="fechaInicio">
       </div> 
       <div class="col-md-3">
         <label>Fecha fin</label> 
-        <input type="date" id="fechaFinNuevo">
+        <input type="date" id="fechaFin">
       </div> 
     </div>
     <div class="row">
@@ -45,7 +45,7 @@
         <button class="btn btn-info" id="buscar"><i class="voyager-serch"></i> Buscar</button>
       </div>
       <div class="col-md-2">
-        <button type="button"class="btn btn-success"  data-toggle="modal" data-target="#modalCrear"id="btnCrear"><i class="voyager-plus"></i> Crear</button>
+        <button type="button"class="btn btn-success" id="CreateStd"><i class="voyager-plus"></i> Crear</button>
       </div> 
       
       
@@ -121,7 +121,7 @@
 </div>
 
      <!-- Modal -->
-  <div class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  {{-- <div class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -144,9 +144,6 @@
             <div class="col-md-6" id="divParametroModal">
               <select class="form-control" id="idParametroModal">
                 <option>Selecciona parametro</option>
-                {{-- @foreach ($parametro as $item)
-                <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
-                @endforeach --}}
                 </select>
             </div>
 
@@ -166,7 +163,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> --}}
 
   @stop
 @endsection  
