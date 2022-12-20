@@ -89,7 +89,8 @@ function getNormasParametro(id){
         temp.push(item.Id_norma)
       });
       
-      $('#curva').prop('checked', response.model.Curva);
+      let c = response.model.Curva
+      $('#curva').prop('checked', parseInt(c));
       $("#idParametro").val(response.model.Id_parametro)
       $("#sucursal option[value="+ response.model.Id_laboratorio +"]").attr("selected",true);
       $("#parametro").val(response.model.Parametro)
@@ -105,6 +106,7 @@ function getNormasParametro(id){
       $("#procedimiento option[value="+ response.model.Id_procedimiento +"]").attr("selected",true);  
       $("#simbologia option[value="+ response.model.Id_simbologia +"]").attr("selected",true);  
       $("#simbologiaInf option[value="+ response.model.Id_simbologia_info +"]").attr("selected",true);  
+      $("#CurvaPadre option[value="+ response.model.Padre +"]").attr("selected",true);  
     } 
 })
 }

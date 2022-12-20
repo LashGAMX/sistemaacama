@@ -410,7 +410,7 @@ class FqController extends Controller
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
         $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-            ->where('Id_area', $parametro->Id_area)
+            ->where('Id_area', 16)
             ->where('Id_parametro', $parametro->Id_parametro)->first();
 
         //$curva = CurvaConstantes::where('Id_lote', $model->Id_lote)->first();
@@ -1105,7 +1105,7 @@ class FqController extends Controller
         $sw = false;
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         $paraModel = Parametro::find($loteModel->Id_tecnica);
-
+        
         switch ($paraModel->Id_area) {
             case 16: //todo Espectrofotometria
                 $model = LoteDetalleEspectro::create([
@@ -1144,7 +1144,17 @@ class FqController extends Controller
                 $sw = true;
                 break;
             default:
-                $sw = false;
+                // $sw = false;
+                $model = LoteDetalleEspectro::create([
+                    'Id_lote' => $request->idLote,
+                    'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
+                    'Id_parametro' => $loteModel->Id_tecnica,
+                    'Id_control' => 1,
+                    'Analizo' => 1,
+                ]);
+                $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
+                $sw = true;
                 # code...
                 break;
         }

@@ -187,7 +187,7 @@
                     <select class="form-control" id="CurvaPadre">
                       <option value="0">Sin seleccionar</option>
                     @foreach ($parametroPadre as $item)
-                        <option value="{{$item->Id_parametro}}">{{$item->Parametro}}</option>
+                        <option value="{{$item->Id_parametro}}">({{$item->Id_parametro}}) {{$item->Parametro}}</option>
                     @endforeach
                   </select> 
                   </div>

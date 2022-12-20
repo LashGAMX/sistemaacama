@@ -33,7 +33,7 @@ class CurvaController extends Controller
 
     public function getParametro(Request $request) // Obtiene el parametro fuera de la modal
     {
-        $parametro = DB::table('ViewParametros')->where('Curva', 1)->get();
+        $parametro = DB::table('ViewParametros')->where('Id_area', $request->idArea )->where('Curva', 1)->get();
        // $parametro = Parametro::where('Id_area', $request->idArea)->where('Curva', 1)->get();
 
         $data = array(
