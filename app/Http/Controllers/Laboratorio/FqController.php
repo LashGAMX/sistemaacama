@@ -207,7 +207,7 @@ class FqController extends Controller
         $model->Abs2 = $request->Y;
         $model->Abs3 = $request->Z;
         $model->Promedio = $request->ABS;
-        if ($request->parametro == 70) {
+        if ($request->parametro == 70 || $request->parametro == 69) {
             $model->Ph_ini = $request->phIni;
             $model->Ph_fin = $request->phFin;
         }

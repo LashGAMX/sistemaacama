@@ -13,33 +13,33 @@ use App\Models\ConcentracionParametro;
 use App\Models\LoteAnalisis;
 use App\Models\CurvaConstantes;
 use App\Models\LoteDetalle;
+use App\Models\ParametroUsuario;
 use App\Models\TipoFormula;
 use Illuminate\Support\Facades\DB;
 use App\Models\VariablesFormula;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class CurvaController extends Controller
 {
     public function index()
     {
-
+        $idUser = Auth::user()->id;
         $area = AreaAnalisis::where('Id_area_analisis', 2)->orWhere('Id_area_analisis', 16)->get();
         $parametro = Parametro::all();
 
 
         $model = "";
-        return view('laboratorio/curva', compact('model', 'area', 'parametro'));
+        return view('laboratorio/curva', compact('model', 'area', 'parametro','idUser'));
     }
 
     public function getParametro(Request $request) // Obtiene el parametro fuera de la modal
     {
-<<<<<<< HEAD
-        $parametro = DB::table('ViewParametros')->where('Id_area', $request->idArea )->where('Curva', 1)->get();
-       // $parametro = Parametro::where('Id_area', $request->idArea)->where('Curva', 1)->get();
-=======
-        $parametro = DB::table('parametros')->where('Curva', 1)->get();
-        //$parametro = Parametro::where('Id_area', $request->idArea)->where('Curva', 1)->get();
->>>>>>> dce69e02ed82aff0fa1e1691fa088f4d8fe8e016
+        //*? funcion para obtener parametro por ususarios -------------------------------------
+            
+            $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', $request->idUser)->where('Curva', 1)->get();
+           
+        //*?-----------------------------------------------------------------------------------
 
         $data = array(
             'parametro' => $parametro,

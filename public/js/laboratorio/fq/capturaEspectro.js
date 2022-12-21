@@ -357,6 +357,14 @@ function validacionModal(){
 function getDetalleEspectro(idDetalle)
 {
     switch (parseInt($("#formulaTipo").val())) {
+        case 69:
+            $("#conPh").show();
+            $("#conPh2").show();
+
+            $("#conN1").hide();
+            $("#conN2").hide();
+            $("#conN3").hide();
+        break;
         case 70:
             $("#conPh").show();
             $("#conPh2").show();

@@ -69,7 +69,7 @@ ON inter.Id_cliente = cli2.Id_cliente
 /* Vista Lista parametros */
 CREATE VIEW ViewParametros as SELECT param.Id_parametro,param.Id_laboratorio,lab.Sucursal,param.Id_tipo_formula,tipo.Tipo_formula,param.Id_area,area.Area_analisis ,param.Id_user_c,param.Id_user_m,param.Id_rama,ram.Rama,param.Parametro,
 param.Id_unidad,uni.Unidad,uni.Descripcion,param.Id_metodo,param.Limite,param.Id_tecnica,tec.Tecnica,param.Id_procedimiento,pro.Procedimiento,param.Id_matriz,mat.Matriz,param.Id_simbologia,param.Envase,param.Curva,
-sim.Simbologia,inf.Simbologia as Simbologia_inf, inf.Id_simbologia_info,sim.Descripcion as Descripcion_sim,met.Metodo_prueba,met.Clave_metodo,param.Precio,param.Padre,param.F_inicio_vigencia,param.F_fin_vigencia,param.created_at,param.updated_at,
+sim.Simbologia,inf.Simbologia as Simbologia_inf, inf.Id_simbologia_info,sim.Descripcion as Descripcion_sim,met.Metodo_prueba,met.Clave_metodo,param.Precio,param.F_inicio_vigencia,param.F_fin_vigencia,param.created_at,param.updated_at,
 param.deleted_at FROM parametros as param
 INNER JOIN sucursales as lab
 ON param.Id_laboratorio = lab.Id_sucursal
@@ -349,7 +349,7 @@ ON det.Id_codigo = cod.Id_codigo
 
 /* Lista ViewLoteDetalleColiformes */ 
 
-CREATE VIEW ViewLoteDetalleColiformes as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra,param.Limite FROM lote_detalle_coliformes as col
+CREATE VIEW ViewLoteDetalleColiformes as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_coliformes as col
 INNER JOIN ViewSolicitud as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
@@ -361,7 +361,7 @@ ON col.Id_codigo = cod.Id_codigo
 
 /* Lista ViewLoteDetalleEcoli */ 
 
-CREATE VIEW ViewLoteDetalleEcoli as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,param.Limite,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_Ecoli as col
+CREATE VIEW ViewLoteDetalleEcoli as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_Ecoli as col
 INNER JOIN ViewSolicitud as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
@@ -425,7 +425,7 @@ INNER JOIN codigo_parametro as cod
 ON col.Id_codigo = cod.Id_codigo
 
 /* Lista ViewLoteDetalleCloro */ 
-CREATE VIEW ViewLoteDetalleCloro as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra,param.Limite FROM lote_detalle_cloro as col
+CREATE VIEW ViewLoteDetalleCloro as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_cloro as col
 INNER JOIN ViewSolicitud as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
@@ -435,9 +435,10 @@ ON col.Id_control = control.Id_control
 INNER JOIN codigo_parametro as cod
 ON col.Id_codigo = cod.Id_codigo
 
+
 /* Lista ViewLoteDetalleNitrogeno */ 
 
-CREATE VIEW ViewLoteDetalleNitrogeno as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,param.Limite,control.Control,control.Descripcion FROM lote_detalle_nitrogeno as col
+CREATE VIEW ViewLoteDetalleNitrogeno as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion FROM lote_detalle_nitrogeno as col
 INNER JOIN ViewSolicitud as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
@@ -481,7 +482,7 @@ INNER JOIN proceso_analisis as pro
 ON sol.Id_solicitud = pro.Id_solicitud
 
 /* Lista ViewPlanPaquete */
-CREATE VIEW ViewPlanPaquete as SELECT p.*,lab.Area,lab.Id_responsable,lab.Reportes,us.name,us.firma,us.iniciales,e.Nombre as Envase,e.Volumen, u.Unidad FROM plan_paquete as p
+CREATE VIEW ViewPlanPaquete as SELECT p.*,lab.Area,lab.Id_responsable,us.name,us.firma,us.iniciales,e.Nombre as Envase,e.Volumen, u.Unidad FROM plan_paquete as p
 INNER JOIN areas_lab as lab
 ON p.Id_area = lab.Id_area
 INNER JOIN envase as e
@@ -490,7 +491,6 @@ INNER JOIN unidades as u
 ON u.Id_unidad = e.Id_unidad
 INNER JOIN users as us
 ON us.id = lab.Id_responsable
-
 /* Lista ViewPlanComplemento */
 CREATE VIEW ViewPlanComplemento as SELECT com.*,cam.Complemento FROM plan_complemento as com
 INNER JOIN complementos_campo as cam

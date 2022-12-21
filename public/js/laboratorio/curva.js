@@ -1,5 +1,6 @@
-
+var idUser = $("#idUser").val();
 $(document).ready(function () {
+    getParametro();
 
     tabla = $("#tableStd").DataTable({
         "responsive": true,
@@ -14,6 +15,7 @@ $(document).ready(function () {
         }
     });
 
+    
     //* Acciones para los botones
     $('#btnEdit tr').on('click', function () {
         let dato = $(this).find('td:first').html();
@@ -115,6 +117,7 @@ function getParametro() {
         url: base_url + '/admin/laboratorio/getParametro', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
+            idUser:idUser,
             idLote: $("#idLote").val(),
             idArea: $("#idArea").val(),
             _token: $('input[name="_token"]').val(),
@@ -126,7 +129,7 @@ function getParametro() {
             tab += '<select class="form-control" id="parametro">';
             tab += '<option value="">Selecciona Parametro</option>';
             $.each(response.parametro, function (key, item) {
-                tab += '<option value="' + item.Id_parametro + '">('+item.Id_parametro+') '+ item.Parametro + ' / '+item.Tipo_formula+' / '+item.Id_area+'</option>';
+                tab += '<option value="' + item.Id_parametro + '">('+item.Id_parametro+') '+ item.Parametro + ' / '+item.Tipo_formula+' / '+item.Area_analisis+'</option>';
             });
             tab += '</select>';
             div.innerHTML = tab;

@@ -5,10 +5,11 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="fas fa-chart-area"></i>
-    Curva de calibración<input id="idVal" value="{{@$id}}" hidden>
+    Curva de calibración<input id="idUser" value="{{@$idUser}}" hidden>
   </h6>
 
-  
+  <br>
+  <h4 style="margin-left: 15px">Limites de vigencia</h4>
   <div class="container-fluid"> 
     <div class="row">
       <div class="col-md-3">
@@ -20,9 +21,10 @@
         <input type="date" id="fechaFin">
       </div> 
     </div>
+    <hr>
     <div class="row">
 
-        <div class="col-md-2">
+        <div class="col-md-2" hidden>
              <select class="form-control" id="idArea">
               <option value="">Selecciona Area</option>
               @foreach ($area as $item)
