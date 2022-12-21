@@ -6,6 +6,7 @@ use App\Models\Usuario;
 use App\Http\Controllers\Controller;
 use App\Models\MenuRol;
 use App\Models\MenuUsuarios;
+use App\Models\ParametroUsuario;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
@@ -17,6 +18,7 @@ class UsuariosController extends Controller
         $model = Usuario::all();
         return view('usuarios.lista_usuarios', compact('model'));
     }
+    
     public function menuUser($id)
     {
         $model = DB::table('menu_usuarios')->where('Id_user',$id)->get();
@@ -85,6 +87,32 @@ class UsuariosController extends Controller
         }
         $data = array(
             'res' => $res->menus,
+        );
+        return response()->json($data);
+    }
+    public function listaxparam()
+    {
+        $model = Usuario::all();
+        return view('usuarios.lista_x_usuarios', compact('model'));
+    }
+    public function parametroUser($id)
+    {
+        $model = DB::table('ViewParametros')->get();
+        $parametros = ParametroUsuario::where('Id_user',$id)->get();
+        $user = DB::table('users')->where('id',$id)->first();
+        return view('usuarios.parametroUser',compact('model','user','parametros'));
+    }
+    public function setParametroUser(Request $res)
+    {
+        DB::table('parametro_usuarios')->where('Id_user',$res->idUser)->delete();
+        for ($i=0; $i < sizeof($res->parametros); $i++) { 
+            ParametroUsuario::create([
+                'Id_user' => $res->idUser,
+                'Id_parametro' => $res->parametros[$i],
+            ]);
+        }
+        $data = array(
+            'res' => $res->parametros,
         );
         return response()->json($data);
     }

@@ -83,6 +83,25 @@ function getNormasParametro(id){
     dataType: 'json', 
     async:false,
     success: function (response) {
+
+      $("#idParametro").val(""),
+      $('#curva').prop('checked',0),
+      $("#sucursal").val(""),
+      $("#parametro").val(""),
+      $("#unidad").val(""),
+      $("#tipo").val(""),
+      $("#area").val(""),
+      $("#norma").val(""),
+      $("#limite").val(""),
+      $("#matriz").val(""),
+      $("#rama").val(""),
+      $("#metodo").val(""),
+      $("#tecnica").val(""),
+      $("#procedimiento").val(""),
+      $("#simbologia").val(""),
+      $("#simbologiaInf").val(""),
+      $("#CurvaPadre").val(""),
+
       console.log(response);
       let temp = new Array();
       $.each(response.norma, function(key,item){
@@ -92,21 +111,21 @@ function getNormasParametro(id){
       let c = response.model.Curva
       $('#curva').prop('checked', parseInt(c));
       $("#idParametro").val(response.model.Id_parametro)
-      $("#sucursal option[value="+ response.model.Id_laboratorio +"]").attr("selected",true);
+      $("#sucursal").val(response.model.Id_laboratorio)
       $("#parametro").val(response.model.Parametro)
-      $("#unidad option[value="+ response.model.Id_unidad +"]").attr("selected",true);
-      $("#tipo option[value="+ response.model.Id_tipo_formula +"]").attr("selected",true);
-      $("#area option[value="+ response.model.Id_area +"]").attr("selected",true);
+      $("#unidad").val(response.model.Id_unidad)
+      $("#tipo").val(response.model.Id_tipo_formula)
+      $("#area").val(response.model.Id_area)
       $("#norma").val(temp);
       $("#limite").val(response.model.Limite);
-      $("#matriz option[value="+ response.model.Id_matriz +"]").attr("selected",true);  
-      $("#rama option[value="+ response.model.Id_rama +"]").attr("selected",true);  
-      $("#metodo option[value="+ response.model.Id_metodo +"]").attr("selected",true);  
-      $("#tecnica option[value="+ response.model.Id_tecnica +"]").attr("selected",true);  
-      $("#procedimiento option[value="+ response.model.Id_procedimiento +"]").attr("selected",true);  
-      $("#simbologia option[value="+ response.model.Id_simbologia +"]").attr("selected",true);  
-      $("#simbologiaInf option[value="+ response.model.Id_simbologia_info +"]").attr("selected",true);  
-      $("#CurvaPadre option[value="+ response.model.Padre +"]").attr("selected",true);  
+      $("#matriz").val(response.model.Id_matriz);
+      $("#rama").val(response.model.Id_rama);
+      $("#metodo").val(response.model.Id_metodo);
+      $("#tecnica").val(response.model.Id_tecnica);
+      $("#procedimiento").val(response.model.Id_procedimiento);
+      $("#simbologia").val(response.model.Id_simbologia);
+      $("#simbologiaInf").val(response.model.Id_simbologia_info);
+      $("#CurvaPadre").val(response.model.Padre);
     } 
 })
 }

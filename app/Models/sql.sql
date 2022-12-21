@@ -589,3 +589,9 @@ INNER JOIN control_calidad as con
 ON det.Id_control = con.Id_control
 INNER JOIN codigo_parametro as cod
 ON det.Id_codigo = cod.Id_codigo
+
+/* ViewParametroUsuarios */
+
+CREATE VIEW ViewParametroUsuarios as SELECT paraUser.Id_user,pa.* FROM parametro_usuarios as paraUser
+INNER JOIN ViewParametros as pa
+ON paraUser.Id_parametro = pa.Id_parametro

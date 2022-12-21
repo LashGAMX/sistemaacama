@@ -11,4 +11,8 @@ Route::post('usuarios/menuUser/setMenuUser',[UsuariosController::class,'setMenuU
 Route::get('usuarios/menuPerfil',[UsuariosController::class,'menuPerfil']);
 Route::post('usuarios/setMenuPerfil',[UsuariosController::class,'setMenuPerfil']);
 Route::post('usuarios/getMenuPerfil',[UsuariosController::class,'getMenuPerfil']);
+
+Route::get('usuarios/listaxparam', [UsuariosController::class, 'listaxparam']);
+Route::get('usuarios/parametroUser/{id}',[UsuariosController::class,'parametroUser']);
+Route::post('usuarios/menuUser/setParametroUser',[UsuariosController::class,'setParametroUser']);
  

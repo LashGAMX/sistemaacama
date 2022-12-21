@@ -542,12 +542,7 @@ class MetalesController extends Controller
 
     public function lote()
     {
-        $idUser = Auth::user();
-        // $parametro = DB::table('ViewParametros')
-        //     ->orWhere('Id_area', 2)
-        //     ->get();
-
-        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', $idUser->id)->where('Id_area', 2)->get();
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user',Auth::user()->id)->get();
 
         $textoRecuperadoPredeterminado = Reportes::where('Id_reporte', 0)->first();
         return view('laboratorio.metales.lote', compact('parametro', 'textoRecuperadoPredeterminado', 'idUser'));
