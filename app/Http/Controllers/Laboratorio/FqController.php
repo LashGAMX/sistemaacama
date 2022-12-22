@@ -150,7 +150,7 @@ class FqController extends Controller
         return response()->json($data);
     }
 
-    //*****************************************CAPTURA****************************************************************** */
+    //*****************************************inicio de CAPTURA****************************************************************** */
     public function tipoAnalisis()
     {
         return view('laboratorio.fq.tipoAnalisis');
@@ -159,14 +159,21 @@ class FqController extends Controller
     public function capturaEspectro()
     {
 
-        // $parametro = DB::table('ViewParametros')->where("Id_area", 16)->get();
-        $parametro = DB::table('ViewParametros')
-            ->orWhere('Id_area', 5)
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
+            ->Where('Id_area', 5)
             ->orWhere('Id_area', 16)
             ->orWhere('Id_area', 13)
             ->orWhere('Id_area', 15)
             ->orWhere('Id_area', 14)
             ->get();
+
+        // $parametro = DB::table('ViewParametros')
+        //     ->orWhere('Id_area', 5)
+        //     ->orWhere('Id_area', 16)
+        //     ->orWhere('Id_area', 13)
+        //     ->orWhere('Id_area', 15)
+        //     ->orWhere('Id_area', 14)
+        //     ->get();
 
         $controlModel = ControlCalidad::all();
 
@@ -701,8 +708,8 @@ class FqController extends Controller
     public function lote()
     {
         //* Tipo de formulas  
-        $parametro = DB::table('ViewParametros')
-            ->orWhere('Id_area', 5)
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
+            ->Where('Id_area', 5)
             ->orWhere('Id_area', 16)
             ->orWhere('Id_area', 13)
             ->orWhere('Id_area', 15)

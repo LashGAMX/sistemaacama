@@ -494,13 +494,16 @@ class SolicitudController extends Controller
         $firtsFol = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $request->clientes)->first();
         $cantCot = $numCot->count();
 
+        //var_dump($numCot);
         if ($cantCot > 0) {
+            echo "Entro a if <br>";
             $hijo = 1;
-            $folio = $firtsFol->Folio . '-' . ($cantCot + 1);
+            $folio = $firtsFol->Folio_servicio . '-' . ($cantCot + 1);
         } else {
+            echo "Entro a else <br>";
             $folio = $dayYear . "-" . ($solicitudDay + 1) . "/" . $year;
         }
-        // var_dump($folio);
+         //var_dump($folio);
         // Convertir cadena a array de datos
 
         if ($request->idCotizacion > 0) {
