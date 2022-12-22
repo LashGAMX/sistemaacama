@@ -132,24 +132,9 @@ class LaboratorioController extends Controller
         }
 
         $loteModel = array();
-        $loteModelPh = array();
-        
-        foreach($datos as $item){
-            $loteModelObs = DB::table('observacion_muestra')->where('Id_analisis', $item->Id_analisis)->first();
 
-            array_push(
-                $loteModel,
-                $loteModelObs->Observaciones
-            );
 
-            array_push(
-                $loteModelPh,
-                $loteModelObs->Ph
-            );
-        }        
- 
-
-        $html = view('exports.laboratorio.captura', compact('datos','tecnica','paramDetected', 'datosLength', 'loteModel', 'loteModelPh', 'limites', 'tecnicaUsada'));
+        $html = view('exports.laboratorio.captura', compact('datos','tecnica','paramDetected', 'datosLength', 'loteModel', 'limites', 'tecnicaUsada'));
         
         //Hace referencia a la vista capturaHeader y posteriormente le envía el valor de la var.formulaSelected
         // $htmlHeader = view('exports.laboratorio.capturaHeader', compact('formulaSelected', 'tecnica','formulaSelectedComp','paramDetected', 'tecnicaUsada', 'fechaConFormato', 'hora'));

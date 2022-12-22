@@ -57,8 +57,8 @@ class VolController extends Controller
     public function loteVol()
     {
         //* Tipo de formulas  
-        $parametro = DB::table('ViewParametros')
-            ->orWhere('Id_area', 14)
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
+            ->Where('Id_area', 14)
             ->get();
 
         $textoRecuperadoPredeterminado = ReportesFq::where('Id_reporte', 0)->first();
@@ -858,7 +858,9 @@ class VolController extends Controller
     //todo *******************************************
     public function capturaVolumetria()
     {
-        $parametro = DB::table("ViewParametros")->where('Id_area', 14)->get();
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
+            ->Where('Id_area', 14)
+            ->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro); 
         $controlModel = ControlCalidad::all();

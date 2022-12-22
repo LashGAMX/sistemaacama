@@ -164,8 +164,14 @@ function getDetalleAnalisis(idCodigo) {
             console.log(response)
             dataModel = response.model
             idCod = idCodigo;
-            switch (response.paraModel.Id_area) {
-                case "2": //Metales
+            switch (response.paraModel.Id_parametro) {
+                case "17": // Arsenico
+                case "20": // Cobre
+                case "22": //Mercurio
+                case "25": //Zinc
+                case "24": //Plomo
+                case "21": //Cromoa
+                case "18": //Cadmio
                     console.log("entro a caso 2");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -187,7 +193,10 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case "16": //Espectro
+                    case "15": // fosforo
+                    case "19": // Cianuros
+                    case "7": //Nitrats
+                    case "8": //Nitritos
                     console.log("entro a caso 16");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -354,7 +363,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                    case "15":// Solidos
+                    case "1":// Solidos
                         console.log("entro a caso 15");
                         tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                         tab += '<table id="tableResultado" class="table table-sm">';
@@ -376,7 +385,11 @@ function getDetalleAnalisis(idCodigo) {
                         tab += '</table>';
                         tabla.innerHTML = tab;
                         break;
-                        case "7":// Campo
+                        //Campo
+                        case "26"://Gasto
+                        case "2": //Materia flotante
+                        case "14": //ph
+                        case "97": //Temperatura
                             console.log("entro a caso 7");
                             tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                             tab += '<table id="tableResultado" class="table table-sm">';

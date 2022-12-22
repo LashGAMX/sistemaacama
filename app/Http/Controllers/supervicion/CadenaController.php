@@ -61,15 +61,25 @@ class CadenaController extends Controller
         $model = "Model vacio";
         $codigoModel = DB::table('ViewCodigoParametro')->where('Id_codigo', $res->idCodigo)->first();
         $paraModel = DB::table('ViewParametros')->where('Id_parametro', $codigoModel->Id_parametro)->first();
-        switch ($paraModel->Id_area) {
-            case 2: // Metales
+        switch ($paraModel->Id_parametro) {
+            // Metales
+            case 17: // Arsenico
+            case 20: // Cobre
+            case 22: //Mercurio
+            case 25: //Zinc
+            case 24: //Plomo
+            case 21: //Cromoa
+            case 18: //Cadmio
                 $model = LoteDetalle::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
                 break;
-            case 16: // Espectro
+            case "15": // fosforo
+            case "19": // Cianuros
+            case "7": //Nitrats
+            case "8": //Nitritos
                 $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
-                break;
+                break; 
             case "14": // Volumetria
                 switch ($codigoModel->Id_parametro) {
                     case 11:
@@ -154,32 +164,31 @@ class CadenaController extends Controller
                     default:
                         
                         break;
-                }
+                } 
                 break;
-            case 15: // Solidos
+            case 3: // Solidos
+            case 4:
                 $model = DB::table('ViewLoteDetalleSolidos')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                 break;
-            case 7: // Muestreo
-                if ($codigoModel->Id_parametro == 26) //Gasto
-                {
-                    $model = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
+            case "26"://Gasto
+                $model = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
                         ->where('Activo', 1)->get();
-                } else if ($codigoModel->Id_parametro == 2) //Materia flotante
-                {
-                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
-                        ->where('Activo', 1)->get();
-                } else if ($codigoModel->Id_parametro == 14) //Ph
-                {
-                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
-                        ->where('Activo', 1)->get();
-                } else if ($codigoModel->Id_parametro == 97) //Temperatura
-                {
-                    $model = TemperaturaMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
-                        ->where('Activo', 1)->get();
-                }
+            break;
+            case "2": //Materia flotante
+                $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
+                ->where('Activo', 1)->get();
                 break;
+            case "14": //ph
+                $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
+                        ->where('Activo', 1)->get();
+                break;
+            case "97": //Temperatura
+                $model = TemperaturaMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
+                ->where('Activo', 1)->get(); 
+                break;
+
             case "8":
                 switch ($codigoModel->Id_parametro) {
                      //Dureza

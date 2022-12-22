@@ -391,7 +391,6 @@ class MetalesController extends Controller
         $parametro = Parametro::where('Id_parametro', $request->idParametro)->first();
         //$curvaConstantes = CurvaConstantes::where('Id_lote', $request->idlote)->first();
         $curvaConstantes  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-            ->where('Id_area', $parametro->Id_area)
             ->where('Id_parametro', $parametro->Id_parametro)->first();
 
         $parametroPurificada = Parametro::where('Id_matriz', 9)->where('Id_parametro', $detalleModel->Id_parametro)->get();
@@ -545,10 +544,10 @@ class MetalesController extends Controller
 
     public function lote()
     {
-        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user',Auth::user()->id)->get();
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user',Auth::user()->id)->get(); 
 
         $textoRecuperadoPredeterminado = Reportes::where('Id_reporte', 0)->first();
-        return view('laboratorio.metales.lote', compact('parametro', 'textoRecuperadoPredeterminado', 'idUser'));
+        return view('laboratorio.metales.lote', compact('parametro', 'textoRecuperadoPredeterminado'));
     }
     public function createLote(Request $request)
     {
@@ -588,7 +587,6 @@ class MetalesController extends Controller
 
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
         $curva  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-        ->where('Id_area', $parametro->Id_area)
         ->where('Id_parametro', $parametro->Id_parametro)->first();
 
         $data = array(
@@ -746,6 +744,7 @@ class MetalesController extends Controller
             'Factor_dilucion' => 1,
             'Factor_conversion' => 0,
             'Liberado' => 0,
+            'Analizo' => 1,
         ]);
         $detModel = LoteDetalle::where('Id_lote', $request->idLote)->get();
         $sw = true;
@@ -783,7 +782,7 @@ class MetalesController extends Controller
                 'Factor_dilucion' => 1,
                 'Factor_conversion' => 0,
                 'Liberado' => 0,
-                'Analisis' => 1,
+                'Analizo' => 1,
                 
             ]);
             $solModel = CodigoParametros::find($sol->Id_codigo);

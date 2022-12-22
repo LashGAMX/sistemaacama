@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Supervicion\CadenaController;
+use App\Http\Controllers\supervicion\CadenaController;
 use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'supervicion'], function () {
