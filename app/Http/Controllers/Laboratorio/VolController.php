@@ -61,6 +61,7 @@ class VolController extends Controller
             ->Where('Id_area', 14)
             ->orWhere('Id_parametro', 9)
             ->orWhere('Id_parametro', 10)
+            ->orWhere('Id_parametro',64)
             ->get();
  
         $textoRecuperadoPredeterminado = ReportesFq::where('Id_reporte', 0)->first();
@@ -320,6 +321,7 @@ class VolController extends Controller
                 $valoracion = ValoracionDqo::where('Id_lote', $request->idLote)->first();
                 break;
             case 295: //todo CLORO RESIDUAL LIBRE
+            case 64:
                 $valoracion = ValoracionCloro::where('Id_lote', $request->idLote)->first();
                 break;
             case 10:
@@ -348,21 +350,20 @@ class VolController extends Controller
     #OBSERVACIONES
     public function updateObsVolumetria(Request $request)
     {
-        switch ($request->idParametro) {
+        switch ($request->caso) {
             case 1: // Cloro
                 # code...
                 $model = LoteDetalleCloro::find($request->idDetalle);
                 $model->Observacion = $request->observacion;
                 $model->save();
                 break;
-            case 6: // Dqo
+            case 2: // Dqo
                 # code...
                 $model = LoteDetalleDqo::find($request->idDetalle);
                 $model->Observacion = $request->observacion;
                 $model->save();
                 break;
             case 3:
-            case 287: // Nitrogeno
                 # code...
                 $model = LoteDetalleNitrogeno::find($request->idDetalle);
                 $model->Observacion = $request->observacion;
@@ -487,17 +488,28 @@ class VolController extends Controller
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
 
         $model = array();
-
-        if ($loteModel->Id_tecnica == 6) //todo DQO
-        {
-            $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $request->idLote)->get();
-        } else if ($loteModel->Id_tecnica == 33 || $loteModel->Id_tecnica == 218) //todo CLORO RESIDUAL LIBRE
-        {
-            $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get();
-        } else if ($loteModel->Id_tecnica == 9 || $loteModel->Id_tecnica == 10 || $loteModel->Id_tecnica == 11 || $loteModel->Id_tecnica == 287 || $loteModel->Id_tecnica == 83) //todo Nitrógeno Total,
-        {
-            $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get();
+        switch ($loteModel->Id_tecnica) {
+            case 6:
+                $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $request->idLote)->get();
+                break;
+            case 33:
+            case 218:
+            case 64:
+                $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get();
+                break;
+            case 9:
+            case 10:
+            case 11:
+            case 287:
+            case 83:
+                $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get();
+                break;
+            default:
+                # code...
+                break;
         }
+
+
         $data = array(
             'model' => $model,
         );
@@ -552,7 +564,7 @@ class VolController extends Controller
             ]);
             $detModel = LoteDetalleDqo::where('Id_lote', $request->idLote)->get();
             $sw = true;
-        } else if ($loteModel->Id_tecnica == 33 || $loteModel->Id_tecnica == 218) //todo CLORO RESIDUAL LIBRE
+        } else if ($loteModel->Id_tecnica == 33 || $loteModel->Id_tecnica == 218 || $loteModel->Id_tecnica == 64) //todo CLORO RESIDUAL LIBRE
         {
             $model = LoteDetalleCloro::create([
                 'Id_lote' => $request->idLote,
@@ -864,6 +876,7 @@ class VolController extends Controller
             ->Where('Id_area', 14)
             ->orWhere('Id_parametro',9)
             ->orWhere('Id_parametro',10)
+            ->orWhere('Id_parametro',64)
             ->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro); 
@@ -986,7 +999,7 @@ class VolController extends Controller
         $model->Ph_inicial = $request->G;
         $model->Ph_final = $request->H;
         $model->Factor_conversion = $request->D;
-        $model->Resultado = $request->Resultado;
+        $model->Resultado = round($request->Resultado);
         $model->analizo = Auth::user()->id;
         $model->save();
 
@@ -1001,6 +1014,7 @@ class VolController extends Controller
 
         switch ($request->idParametro) {
             case 295:
+            case 64:
                 # Cloro
                 $muestra = LoteDetalleCloro::where('Id_detalle', $request->idMuestra)->first();
                 $model = $muestra->replicate();
@@ -1119,7 +1133,7 @@ class VolController extends Controller
             } else {
                 $tipo = "";
             }
-        } else if ($request->formulaTipo == 33 || $request->formulaTipo == 218) //todo CLORO RESIDUAL LIBRE
+        } else if ($request->formulaTipo == 33 || $request->formulaTipo == 218 || $request->formulaTipo == 64) //todo CLORO RESIDUAL LIBRE
         {
             $detalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
         } else if ($request->formulaTipo == 9 || $request->formulaTipo == 10 || $request->formulaTipo == 11 || $request->formulaTipo == 287) //todo Nitrógeno Total,
@@ -1198,9 +1212,9 @@ class VolController extends Controller
         $sw = false;
         $model = 0;
 
-        if ($request->formulaTipo == 6) //todo DQO
-        {
-            $model = LoteDetalleDqo::find($request->idMuestra);
+        switch ($request->formulaTipo) {
+            case 6:
+                $model = LoteDetalleDqo::find($request->idMuestra);
             $model->Liberado = 1;
             if ($model->Resultado != null) {
                 $sw = true;
@@ -1213,9 +1227,11 @@ class VolController extends Controller
 
 
             $model = LoteDetalleDqo::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
-        } else if ($request->formulaTipo == 295) //todo CLORO RESIDUAL LIBRE
-        {
-            $model = LoteDetalleCloro::find($request->idMuestra);
+                break;
+            //Cloruros y cloro
+            case 295:
+            case 64:
+                $model = LoteDetalleCloro::find($request->idMuestra);
             $model->Liberado = 1;
             if ($model->Resultado != null) {
                 $sw = true;
@@ -1228,9 +1244,11 @@ class VolController extends Controller
 
 
             $model = LoteDetalleCloro::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
-        } else if ($request->formulaTipo == 9 || $request->formulaTipo == 10 || $request->formulaTipo == 11) //todo Nitrógeno Total,
-        {
-            $model = LoteDetalleNitrogeno::find($request->idMuestra);
+            break; 
+            case 10:
+            case 9:
+            case 11:
+                $model = LoteDetalleNitrogeno::find($request->idMuestra);
             $model->Liberado = 1;
             if ($model->Resultado != null) {
                 $sw = true;
@@ -1243,6 +1261,10 @@ class VolController extends Controller
 
 
             $model = LoteDetalleNitrogeno::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
+            break;
+            default:
+                # code...
+                break;
         }
 
         $loteModel = LoteAnalisis::find($request->idLote);
@@ -1413,6 +1435,24 @@ public function sendMuestrasLote(Request $res)
 
                 }
                 break;
+                case 64:
+                    $loteDetalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $idLote)->get();
+                    $textProcedimiento = DB::table('plantilla_volumetria')->where('Id_parametro', 64)->get();
+                    $valoracion = ValoracionCloro::where('Id_lote',$idLote)->first();
+                    $data = array(
+                        'lote' => $lote, 
+                        'valoracion' => $valoracion,
+                        'loteDetalle' => $loteDetalle,
+                        'textProcedimiento' => $textProcedimiento, 
+                    );
+                    $htmlCaptura = view('exports.laboratorio.volumetria.cloruros.capturaBody',$data);
+                    $htmlHeader = view('exports.laboratorio.volumetria.cloruros.capturaHeader', $data);
+                
+                    $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                    $mpdf->SetHTMLFooter("", 'O', 'E');
+                    $mpdf->WriteHTML($htmlCaptura);
+                    $mpdf->CSSselectMedia = 'mpdf';
+                    break;
                 case 33:
                 case 218:
                     $loteDetalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $idLote)->get();
@@ -1432,13 +1472,14 @@ public function sendMuestrasLote(Request $res)
                 break;
                 case 287:
                 case 9:
-                case 10:
                     $loteDetalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $idLote)->get();
                     $textProcedimiento = DB::table('plantilla_volumetria')->where('Id_parametro', 287)->first();
+                    $valNitrogenoA = ValoracionNitrogeno::where('Id_lote',$idLote)->first();
                     $data = array(
                         'lote' => $lote, 
                         'loteDetalle' => $loteDetalle,
                         'textProcedimiento' => $textProcedimiento, 
+                        'valNitrogenoA' => $valNitrogenoA,
                     );
                     $htmlCaptura = view('exports.laboratorio.volumetria.nitrogenoA.capturaBody',$data);
                     $htmlHeader = view('exports.laboratorio.volumetria.nitrogenoA.capturaHeader', $data);
@@ -1447,6 +1488,24 @@ public function sendMuestrasLote(Request $res)
                     $mpdf->SetHTMLFooter("", 'O', 'E');
                     $mpdf->WriteHTML($htmlCaptura);
                     $mpdf->CSSselectMedia = 'mpdf';
+                break;
+            case 10:
+                $loteDetalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $idLote)->get();
+                $textProcedimiento = DB::table('plantilla_volumetria')->where('Id_parametro', 10)->get();
+                $valoracion = ValoracionNitrogeno::where('Id_lote',$idLote)->first();
+                $data = array(
+                    'lote' => $lote, 
+                    'loteDetalle' => $loteDetalle,
+                    'textProcedimiento' => $textProcedimiento, 
+                    'valoracion' => $valoracion,
+                ); 
+                $htmlCaptura = view('exports.laboratorio.volumetria.nitrogenoO.capturaBody',$data);
+                $htmlHeader = view('exports.laboratorio.volumetria.nitrogenoO.capturaHeader', $data);
+            
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $mpdf->SetHTMLFooter("", 'O', 'E');
+                $mpdf->WriteHTML($htmlCaptura);
+                $mpdf->CSSselectMedia = 'mpdf';
                 break;
             default:
                 # code...

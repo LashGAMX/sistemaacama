@@ -19,8 +19,10 @@
                         <div class="col-md-4">
                             <h6>Solicitud ID: <strong>{{$model->Id_solicitud}}</strong></h6>
                             <h6>Servicio: <strong>{{$model->Servicio}}</strong></h6>
-                            <h6>Tipo descarga: <strong>{{$model->Servicio}}</strong></h6>
-                            <h6>Norma: <strong>{{$model->Clave_norma}}</strong></h6>
+                            <h6>Tipo descarga: <strong>{{$model->Descarga}}</strong></h6>
+                            <h6>Norma: <strong>{{$model->Clave}}</strong></h6>
+                            <h6>Cliente: <strong>{{$model->Empresa_suc}}</strong></h6>
+                            <h6>Intermediario: <strong>{{$intermediario->Nombres}}</strong></h6>
                         </div>
                         <div class="col-md-4">
                             <h6>Fecha muestro: <strong>{{$model->Fecha_muestreo}}</strong></h6>
@@ -120,5 +122,5 @@
 
 @endsection
 @section('javascript')
-<script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=0.0.4"></script>
+<script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=0.0.5"></script>
 @stop

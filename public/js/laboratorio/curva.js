@@ -436,7 +436,7 @@ function tablaVigencias(){
         async: false,
         success: function (response) {
             console.log(response);
-            if (response.model =! null) {
+            if (response.model != null) {
                 tab += '<table id="tablaVigencias" class="table table-sm">';
                 tab += '    <thead class="thead-dark">';
                 tab += '        <tr>';
@@ -517,7 +517,53 @@ function buscar() {
             res = response.concentracion;
             cont = 0;
             if (response.sw == false) {
+                /////////////////////////////// en caso de que no se encuentre ningun registro se limpia la tabla de registros anteriores.
+               
+                tab += '<table id="tablaLote" class="table table-sm">';
+                tab += '    <thead class="thead-dark">';
+                tab += '        <tr>';
+                tab += '          <th>Id</th>';
+                tab += '          <th>STD</th> ';
+                tab += '          <th>Concentracion</th> ';
+                tab += '          <th>ABS1</th> ';
+                tab += '          <th>ABS2</th> ';
+                tab += '          <th>ABS3</th> ';
+                tab += '          <th>Promedio</th> ';
+                tab += '        </tr>';
+                tab += '    </thead>';
+                tab += '    <tbody>';
+                tab += '<tr>';
+                tab += '<td></td>';
+                tab += '<td></td>';
+                tab += '<td></td>';
+                tab += '<td></td>';
+                tab += '<td></td>';
+                tab += '<td></td>';
+                tab += '<td></td>';
+                tab += '</tr>';
+                tab += '    </tbody>';
+                tab += '</table>';
+                tabla.innerHTML = tab;
+                tab += '    </tbody>';
+                tab += '</table>';
+                tabla.innerHTML = tab;
+                // tabla Hijos---------------------------------------
+                tabH += '<table id="tablaHijos" class="table">';
+                tabH += '    <thead class="thead-dark">';
+                tabH += '        <tr>';
+                tabH += '          <th>Id</th>';
+                tabH += '          <th>Parametro</th> ';
+                tabH += '        </tr>';
+                tabH += '    </thead>';
+                tabH += '    <tbody>';
+                            tabH += '<tr>';
+                            tabH += '</tr>'; 
+                tabH += '    </tbody>';
+                tabH += '</table>';
+                tablaHijos.innerHTML = tabH;
                 swal("Ups!", "Necesitas generar estandares para este parametro", "error");
+
+                /////////////////////////////////////////////////////////////////
             } else {
                 tab += '<table id="tablaLote" class="table table-sm">';
                 tab += '    <thead class="thead-dark">';
@@ -532,6 +578,7 @@ function buscar() {
                 tab += '        </tr>';
                 tab += '    </thead>';
                 tab += '    <tbody>';
+                
                 //todo Crea el blanco
                 $.each(response.stdModel, function (key, item) {
                     if (response.area == 2 || response.parametro == 95 || response.parametro == 243 ) {

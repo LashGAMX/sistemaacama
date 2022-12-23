@@ -175,6 +175,7 @@ function getLoteCapturaVol() {
                 switch ($("#formulaTipo").val()) {
                         case '218':
                         case '33': // CLORO RESIDUAL LIBRE
+                        case '64':
                             // tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button type="button" class="btn btn-success" onclick="getDetalleVol('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';    
                             tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
                             break;
@@ -481,23 +482,51 @@ function guardarNitrogeno() {
     });
 }
 
-function updateObsVolumetria() {
-    $.ajax({
-        type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/updateObsVolumetria",
-        data: {
-            idParametro: $("#formulaTipo").val(),
-            idDetalle: idMuestra,
-            observacion: $("#observacionModal").val(),
-            _token: $('input[name="_token"]').val()
-        },
-        dataType: "json",
-        success: function (response) {
-            console.log(response);
-            alert("Observacion Aplicada");
-            getLoteCapturaVol();
-        }
-    });
+function updateObsVolumetria(caso) {
+    switch (caso) {
+        //Cloro
+        case 1:
+                $.ajax({
+                type: "POST",
+                url: base_url + "/admin/laboratorio/" + area + "/updateObsVolumetria",
+                data: {
+                    idParametro: $("#formulaTipo").val(),
+                    idDetalle: idMuestra,
+                    caso:1,
+                    observacion: $("#observacionCloro").val(),
+                    _token: $('input[name="_token"]').val()
+                },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    alert("Observacion Aplicada");
+                    getLoteCapturaVol();
+                }
+            });
+            break; 
+        case 3:
+            $.ajax({
+                type: "POST",
+                url: base_url + "/admin/laboratorio/" + area + "/updateObsVolumetria",
+                data: {
+                    idParametro: $("#formulaTipo").val(),
+                    idDetalle: idMuestra,
+                    caso:3,
+                    observacion: $("#observacionNitro").val(),
+                    _token: $('input[name="_token"]').val()
+                },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    alert("Observacion Aplicada");
+                    getLoteCapturaVol();
+                }
+            });
+            break;
+        default:
+            return
+    }
+
 
 }
 function enviarObsGeneralVol(){
@@ -551,7 +580,7 @@ function getDetalleVol(idDetalle, caso) {
                     {
                         $("#cloroA1").val(response.model.Vol_muestra);
                         $("#cloroE1").val(response.model.Ml_muestra);
-                        $("#calroH1").val(response.model.Ph_final);
+                        $("#cloroH1").val(response.model.Ph_final);
                         $("#cloroG1").val(response.model.Ph_inicial);
                         $("#cloroB1").val(response.valoracion.Blanco);
                         $("#cloroC1").val(response.valoracion.Resultado);

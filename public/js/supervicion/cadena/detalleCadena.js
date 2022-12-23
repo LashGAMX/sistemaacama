@@ -85,6 +85,7 @@ function getParametros() {
             tab += '          <th>Id</th>';
             tab += '          <th>Parametro</th>';
             tab += '          <th>Tipo formula</th>';
+            tab += '          <th>Res. Sin. Sup</th> ';
             tab += '          <th>Resultado</th> ';
             // tab += '          <th>Liberado</th> '; 
             // tab += '          <th>Nombre</th> '; 
@@ -101,6 +102,7 @@ function getParametros() {
                 tab += '<td>' + item.Id_codigo + '</td>';
                 tab += '<td class="bg-' + color + '">' + item.Parametro + '</td>';
                 tab += '<td>' + item.Tipo_formula + '</td>';
+                tab += '<td>' + item.Resultado + '</td>';
                 tab += '<td>' + item.Resultado2 + '</td>';
                 // tab += '<td>'+item.Resultado+'</td>';
                 // tab += '<td>'+item.Resultado+'</td>';
@@ -219,7 +221,17 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 //Volumnetria
-                case 11:
+
+                case "11":
+                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                    tab += '<table id="tableResultado" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += '        <tr>';
+                    tab += '          <th>Descripcion</th>';
+                    tab += '          <th>Valor</th>';
+                    tab += '        </tr>';
+                    tab += '    </thead>';
+                    tab += '    <tbody>';
                     tab += '<tr>';
                     tab += '<td>' + response.model.Parametro + '</td>';
                     tab += '<td>' + response.model.Resultado2 + '</td>';
@@ -235,6 +247,9 @@ function getDetalleAnalisis(idCodigo) {
                         }
                     });
                     resLiberado = aux;
+                    tab += '    </tbody>';
+                    tab += '</table>';
+                    tabla.innerHTML = tab;
                     break;
                 case 9:
                 case 10:
@@ -279,7 +294,8 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case 83:
+                case "83":
+                    console.log("Entro a kendal")
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -288,7 +304,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '          <th>Valor</th>';
                     tab += '        </tr>';
                     tab += '    </thead>';
-                    tab += '    <tbody>';
+                    tab += '    <tbody>'; 
                     $.each(response.model, function (key, item) {
                         tab += '<tr>';
                         tab += '<td>' + item.Parametro + '</td>';
@@ -301,6 +317,7 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 case 218:
+                case 64:
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';

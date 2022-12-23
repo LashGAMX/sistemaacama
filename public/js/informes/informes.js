@@ -101,7 +101,7 @@ function getSolParametro()
               tab += '<td>'+item.Norma+'</td>';
               tab += '<td>'+item.Parametro+'</td>';
               tab += '<td>'+item.Unidad+'</td>';
-              tab += '<td>'+item.Resultado+'</td>';
+              tab += '<td>'+item.Resultado2+'</td>';
             //   tab += '<td></td>';
             //   tab += '<td></td>';
             if (item.Resultado != "NULL") {

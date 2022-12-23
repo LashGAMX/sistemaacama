@@ -25,6 +25,7 @@ console.log('Limpiar');
 $('#btnDatosLote').click(function () {
     switch ($("#tipoFormula").val()) {
         case '33': // CLORO RESIDUAL LIBRE
+        case '64':
             $("#secctionCloro").show();
             $("#secctionDqo").hide();
             $("#secctionNitrogeno").hide();
@@ -64,6 +65,7 @@ $('#btnEjecutarVal').click(function () {
     let pm = 0;
     switch ($("#tipoFormula").val()) {
         case '33': // CLORO RESIDUAL LIBRE
+        case '64':
             $("#blancoResClo").val($("#blancoCloro").val())
             titulado1 = $("#tituladoClo1").val();
             titulado2 = $("#tituladoClo2").val();
@@ -73,7 +75,7 @@ $('#btnEjecutarVal').click(function () {
 
             prom = (parseFloat(titulado1) + parseFloat(titulado2) + parseFloat(titulado3)) / 3;
             res = (parseFloat(trazable) * parseFloat(normalidad)) / prom;
-            $("#normalidadResCloro").val(res.toFixed(2));
+            $("#normalidadResCloro").val(res.toFixed(4));
             break;
         case '6': // DQO
             $("#blancoResD").val($("#blancoValD").val())
@@ -138,6 +140,7 @@ $('#btnEjecutarVal').click(function () {
 $('#btnGuardarVal').click(function () {
     switch ($("#tipoFormula").val()) {
         case '295': // CLORO RESIDUAL LIBRE
+        case '64':
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
@@ -560,6 +563,7 @@ function getDatalote() {
 
             switch ($("#tipoFormula").val()) {
                 case '33': // CLORO RESIDUAL LIBRE
+                case '64':
                     $("#blancoResClo").val(response.valoracion.Blanco);
                     $("#blancoCloro").val(response.valoracion.Blanco);
                     $("#tituladoClo1").val(response.valoracion.Ml_titulado1);

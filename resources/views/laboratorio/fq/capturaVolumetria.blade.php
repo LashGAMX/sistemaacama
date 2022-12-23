@@ -242,7 +242,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">Observación</label>
-                                    <input type="text" class="form-control" id="observacionModal"
+                                    <input type="text" class="form-control" id="observacionNitro"
                                         placeholder="Observacion de la muestra">
                                 </div>
                                 <div class="form-group">

@@ -27,13 +27,14 @@ class CadenaController extends Controller
     {
         $swSir = false;
         $model = DB::table('ViewSolicitud')->where('Id_solicitud', $id)->first();
+        $intermediario = DB::table('ViewIntermediarios')->where('Id_intermediario',$model->Id_intermediario)->first();
         if ($model->Siralab == 1) {
             $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre', $id)->get();
             $swSir = true;
         } else {
             $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre', $id)->get();
         }
-        return view('supervicion.cadena.detalleCadena', compact('model', 'puntos', 'swSir'));
+        return view('supervicion.cadena.detalleCadena', compact('model', 'puntos', 'swSir','intermediario'));
     }
     public function getParametroCadena(Request $res)
     {
@@ -105,15 +106,16 @@ class CadenaController extends Controller
                     ->get();
                 break;
             case 218: //Cloro
+            case 64:
                 $model = DB::table('ViewLoteDetalleCloro')
                     ->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->get();
                 break;
-            case "13": // Grasas y Aceites
+            case 13: // Grasas y Aceites
                 $model = DB::table('ViewLoteDetalleGA')
                     ->where('Id_analisis', $codigoModel->Id_solicitud)
-                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                    ->where('Id_control',1)->get();
                 $gasto = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
                     ->where('Activo', 1)->get();
                 $res1 = array();
