@@ -32,6 +32,7 @@ $(document).ready(function () {
 
     $("#buscar").click(function () {
         buscar();
+        tablaVigencias();
     });
     $("#replicar").click(function () {
         curvaHijos();  
@@ -42,6 +43,7 @@ $(document).ready(function () {
     });
     $("#formula").click(function () {
         setCalcular();
+        buscar();
     });
     
     $("#idArea").on("change", function () {
@@ -62,6 +64,7 @@ $(document).ready(function () {
 
 
 });
+
 function getParametroDetalle() {
     $.ajax({
         url: base_url + '/admin/laboratorio/getParametroDetalle', //archivo que recibe la peticion
@@ -129,7 +132,7 @@ function getParametro() {
             tab += '<select class="form-control" id="parametro">';
             tab += '<option value="">Selecciona Parametro</option>';
             $.each(response.parametro, function (key, item) {
-                tab += '<option value="' + item.Id_parametro + '">('+item.Id_parametro+') '+ item.Parametro + ' / '+item.Tipo_formula+' / '+item.Area_analisis+'</option>';
+                tab += '<option value="' + item.Id_parametro + '">('+item.Id_parametro+') '+ item.Parametro + ' / '+item.Tipo_formula+' / '+item.Area_analisis+' ('+item.Id_area+')</option>';
             });
             tab += '</select>';
             div.innerHTML = tab;
@@ -158,7 +161,7 @@ function getParametroModal() {
             tab += '<select class="form-control" id="idParametroModal">';
             tab += '<option value="">Selecciona Parametro</option>';
             $.each(response.parametro, function (key, item) {
-                tab += '<option value="' + item.Id_parametro + '">('+item.Id_parametro+') '+ item.Parametro + ' / '+item.Tipo_formula+'</option>';
+                tab += '<option value="' + item.Id_parametro + '">('+item.Id_parametro+') '+ item.Parametro + ' / '+item.Tipo_formula+' / '+item.Id_area+'</option>';
             });
             tab += '</select>';
             div.innerHTML = tab;
@@ -415,6 +418,67 @@ function createStd() {
             }
         }
 
+    });
+}
+function tablaVigencias(){
+    let tabla = document.getElementById('divTablaVigencias');
+    let tab = '';
+    $.ajax({
+        url: base_url + '/admin/laboratorio/tablaVigencias', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            fecha: $("#fecha").val(),
+            area: $('#idArea').val(),
+            parametro: $("#parametro").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            console.log(response);
+            if (response.model =! null) {
+                tab += '<table id="tablaVigencias" class="table table-sm">';
+                tab += '    <thead class="thead-dark">';
+                tab += '        <tr>';
+                tab += '          <th>ID Parametro</th>';
+                tab += '          <th>Fecha inicio</th> ';
+                tab += '          <th>Fecha fin</th> ';
+                tab += '        </tr>';
+                tab += '    </thead>';
+                tab += '    <tbody>';
+                $.each(response.model, function (key, items) {
+                    tab += '<tr>';
+                    tab += '<td>' + items.Id_parametro + '</td>';
+                    tab += '<td>' + items.Fecha_inicio + '</td>';
+                    tab += '<td>' + items.Fecha_fin + '</td>';
+                    tab += '</tr>'; 
+                });
+                    tab += '    </tbody>';
+                    tab += '</table>';
+                    tabla.innerHTML = tab;
+            } else {
+                tab += '<table id="tablaVigencias" class="table table-sm">';
+                tab += '    <thead class="thead-dark">';
+                tab += '        <tr>';
+                tab += '          <th>ID Parametro</th>';
+                tab += '          <th>Fecha inicio</th> ';
+                tab += '          <th>Fecha fin</th> ';
+                tab += '        </tr>';
+                tab += '    </thead>';
+                tab += '    <tbody>';
+
+                    tab += '<tr>';
+                    tab += '<td></td>';
+                    tab += '<td></td>';
+                    tab += '<td></td>';
+                    tab += '</tr>'; 
+
+                    tab += '    </tbody>';
+                    tab += '</table>';
+                    tabla.innerHTML = tab;
+            }
+           
+        }
     });
 }
 //---------buscar ----------------------------

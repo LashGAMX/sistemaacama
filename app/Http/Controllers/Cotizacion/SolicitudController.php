@@ -893,6 +893,7 @@ class SolicitudController extends Controller
         $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion', $idOrden)->first();
         $frecuenciaMuestreo = Frecuencia001::where('Id_frecuencia', $cotizacion->Frecuencia_muestreo)->first();
 
+
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
             'margin_left' => 20,

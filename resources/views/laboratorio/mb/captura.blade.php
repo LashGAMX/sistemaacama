@@ -19,12 +19,6 @@
                     @foreach ($parametro as $parametros)
                     <option value={{$parametros->Id_parametro}}>({{$parametros->Id_parametro}}) {{$parametros->Parametro}} / {{$parametros->Tipo_formula}}</option> 
                     @endforeach
-                    @foreach ($parametro1 as $parametros)
-                    <option value={{$parametros->Id_parametro}}>({{$parametros->Id_parametro}}) {{$parametros->Parametro}} / {{$parametros->Tipo_formula}}</option> 
-                    @endforeach
-                    @foreach ($parametro2 as $parametros)
-                    <option value={{$parametros->Id_parametro}}>({{$parametros->Id_parametro}}) {{$parametros->Parametro}} / {{$parametros->Tipo_formula}}</option> 
-                    @endforeach
                 </select>
             </div>
         </div>
@@ -996,7 +990,7 @@
 
 
     @section('javascript')
-    <script src="{{asset('/public/js/laboratorio/mb/captura.js')}}"></script>
+    <script src="{{asset('/public/js/laboratorio/mb/captura.js')}}?v=0.0.1"></script>
     @stop
 
     @endsection

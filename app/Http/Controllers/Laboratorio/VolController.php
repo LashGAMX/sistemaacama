@@ -59,8 +59,10 @@ class VolController extends Controller
         //* Tipo de formulas  
         $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
             ->Where('Id_area', 14)
+            ->orWhere('Id_parametro', 9)
+            ->orWhere('Id_parametro', 10)
             ->get();
-
+ 
         $textoRecuperadoPredeterminado = ReportesFq::where('Id_reporte', 0)->first();
         return view('laboratorio.fq.loteVol', compact('parametro', 'textoRecuperadoPredeterminado'));
     }
@@ -492,7 +494,7 @@ class VolController extends Controller
         } else if ($loteModel->Id_tecnica == 33 || $loteModel->Id_tecnica == 218) //todo CLORO RESIDUAL LIBRE
         {
             $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get();
-        } else if ($loteModel->Id_tecnica == 9 || $loteModel->Id_tecnica == 10 || $loteModel->Id_tecnica == 11 || $loteModel->Id_tecnica == 287) //todo Nitrógeno Total,
+        } else if ($loteModel->Id_tecnica == 9 || $loteModel->Id_tecnica == 10 || $loteModel->Id_tecnica == 11 || $loteModel->Id_tecnica == 287 || $loteModel->Id_tecnica == 83) //todo Nitrógeno Total,
         {
             $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get();
         }
@@ -561,7 +563,7 @@ class VolController extends Controller
             ]);
             $detModel = LoteDetalleCloro::where('Id_lote', $request->idLote)->get();
             $sw = true;
-        } else if ($loteModel->Id_tecnica == 9 || $loteModel->Id_tecnica == 11 || $loteModel->Id_tecnica == 10 || $loteModel->Id_tecnica == 287) //todo Nitrógeno Total,
+        } else if ($loteModel->Id_tecnica == 9 || $loteModel->Id_tecnica == 10 || $loteModel->Id_tecnica == 11 || $loteModel->Id_tecnica == 287 || $loteModel->Id_tecnica == 83) //todo Nitrógeno Total,
         {
             $model = LoteDetalleNitrogeno::create([
                 'Id_lote' => $request->idLote,
@@ -860,6 +862,8 @@ class VolController extends Controller
     {
         $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
             ->Where('Id_area', 14)
+            ->orWhere('Id_parametro',9)
+            ->orWhere('Id_parametro',10)
             ->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro); 
@@ -1335,10 +1339,50 @@ public function sendMuestrasLote(Request $res)
                 $loteDetalle = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $idLote)->get();
                 switch ($loteDetalle[0]->Tipo) {
                     case 1: // Dqo Alta
-                        
+                        $textProcedimiento = DB::table('plantillas_fq')->where('Id_parametro', 74)->first();
+                        $textProcedimientoVol = DB::table('plantillas_fq')->where('Id_parametro', 75)->first();
+                        $curva = CurvaConstantes::where('Id_parametro', 74)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                        $data = array(
+                            'lote' => $lote, 
+                            'loteDetalle' => $loteDetalle,
+                            'textProcedimiento' => $textProcedimiento,
+                            'textProcedimientoVol' => $textProcedimientoVol,
+                            'curva' => $curva,
+                        );
+                        $htmlCaptura = view('exports.laboratorio.volumetria.dqo.dqoTuboSellado.bitacoraBody',$data);
+                        $htmlCaptura2 = view('exports.laboratorio.volumetria.dqo.dqoTuboSellado.bitacoraBodyVol',$data);
+                        $htmlHeader = view('exports.laboratorio.volumetria.dqo.dqoTuboSellado.bitacoraHeader', $data);
+                    
+                        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                        $mpdf->SetHTMLFooter("", 'O', 'E');
+                        $mpdf->WriteHTML($htmlCaptura);
+                        $mpdf->CSSselectMedia = 'mpdf';
+                        // $mpdf->SetHTMLHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader, 'O', 'E');
+                        $mpdf->SetHTMLFooter("", 'O', 'E');
+                        $mpdf->WriteHTML($htmlCaptura2);
                         break;
                     case 2: // Dqo Baja
-
+                        $textProcedimiento = DB::table('plantillas_fq')->where('Id_parametro', 74)->first();
+                        $textProcedimientoVol = DB::table('plantillas_fq')->where('Id_parametro', 75)->first();
+                        $curva = CurvaConstantes::where('Id_parametro', 74)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                        $data = array(
+                            'lote' => $lote, 
+                            'loteDetalle' => $loteDetalle,
+                            'textProcedimiento' => $textProcedimiento,
+                            'textProcedimientoVol' => $textProcedimientoVol,
+                            'curva' => $curva,
+                        );
+                        $htmlCaptura = view('exports.laboratorio.volumetria.dqo.dqoTuboSellado.bitacoraBody',$data);
+                        $htmlCaptura2 = view('exports.laboratorio.volumetria.dqo.dqoTuboSellado.bitacoraBodyVol',$data);
+                        $htmlHeader = view('exports.laboratorio.volumetria.dqo.dqoTuboSellado.bitacoraHeader', $data);
+                    
+                        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                        $mpdf->SetHTMLFooter("", 'O', 'E');
+                        $mpdf->WriteHTML($htmlCaptura);
+                        $mpdf->CSSselectMedia = 'mpdf';
+                        // $mpdf->SetHTMLHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader, 'O', 'E');
+                        $mpdf->SetHTMLFooter("", 'O', 'E');
+                        $mpdf->WriteHTML($htmlCaptura2);
                         break;
                     case 3:
                     // Dqo Tubo Sellado Alta

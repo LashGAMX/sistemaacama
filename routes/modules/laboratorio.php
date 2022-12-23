@@ -331,6 +331,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::post('getLote', [CurvaController::class, 'getLote']);
     Route::post('setCalcular', [CurvaController::class, 'setCalcular']);
     Route::post('setConstantes', [CurvaController::class, 'setConstantes']);
+    Route::post('tablaVigencias', [CurvaController::class, 'tablaVigencias']); 
    
 
 

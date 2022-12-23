@@ -24,6 +24,7 @@
     
             <tbody>    
                 @for ($i = 0; $i < $paqueteLength; $i++)
+                    @if (@$paquete[$i]->Reportes == 1)
                     <tr>
                         <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr" height="25">{{@$paquete[$i]->Area}}</td>
                         <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">                            
@@ -35,6 +36,7 @@
                         </td>
                         <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">{{@$paquete[$i]->Envase}} {{@$paquete[$i]->Volumen}} {{@$paquete[$i]->Unidad}}</td>
                     </tr>
+                    @endif
                 @endfor
             </tbody>        
         </table>        

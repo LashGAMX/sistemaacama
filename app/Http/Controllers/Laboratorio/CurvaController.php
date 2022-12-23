@@ -18,6 +18,7 @@ use App\Models\TipoFormula;
 use Illuminate\Support\Facades\DB;
 use App\Models\VariablesFormula;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 
 class CurvaController extends Controller
@@ -97,6 +98,14 @@ class CurvaController extends Controller
             'sw' => $sw,
             'fecha' => $today,
             'hijos' => $hijos,
+        );
+        return response()->json($data);
+    }
+    public function tablaVigencias(Request $request){
+        $model = CurvaConstantes::where('Id_parametro', $request->parametro)->get(); 
+
+        $data  = array(
+            'model' => $model,
         );
         return response()->json($data);
     }

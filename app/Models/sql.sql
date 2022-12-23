@@ -595,3 +595,6 @@ ON det.Id_codigo = cod.Id_codigo
 CREATE VIEW ViewParametroUsuarios as SELECT paraUser.Id_user,pa.* FROM parametro_usuarios as paraUser
 INNER JOIN ViewParametros as pa
 ON paraUser.Id_parametro = pa.Id_parametro
+
+
+CREATE VIEW ViewLoteDetalleMatraz as SELECT mat.*,lot.Id_detalle,lot.Id_analisis, lot.Id_lote FROM matraz_GA as mat, lote_detalle_ga as lot where mat.Id_matraz = lot.Id_matraz

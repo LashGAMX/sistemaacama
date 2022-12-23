@@ -504,7 +504,7 @@ function getDetalleDbo(idDetalle, tipo) {
                     }else{
                         document.getElementById("sugeridoDbo").checked = false;
                     }
-                    if (response.model2 == NULL) {
+                    if (response.model2 == "NULL") {
                         $('#resDqo').val("N/A");
                     } else {
                         $('#resDqo').val(response.model2.Resultado);

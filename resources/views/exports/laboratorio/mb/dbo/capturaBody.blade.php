@@ -11,7 +11,7 @@
     <p id='curvaProcedimiento'>Procedimiento</p> 
 
     <div id="contenidoCurva">
-        <?php echo html_entity_decode(@$textoProcedimiento[0]);?>
+        <?php echo html_entity_decode(@$bitacora->Texto);?>
     </div>
 
     <table cellpadding="0" cellspacing="0" border-color="#000000">

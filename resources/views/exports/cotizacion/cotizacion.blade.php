@@ -231,7 +231,7 @@
                     <td width="20%">&nbsp;</td>
                     <td class="fontBold fontCalibri fontSize15 justificadoDer bordeSup" width="35%">$      
                         @php                     
-                             echo number_format(@$model->Sub_total, 2, ".", ",");
+                             echo number_format(@$subTotal, 2, ".", ","); 
                         @endphp                  
                                                        
                     </td>

@@ -710,6 +710,7 @@ class FqController extends Controller
         //* Tipo de formulas  
         $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
             ->Where('Id_area', 5)
+            ->orWhere('Id_parametro', 3)
             ->orWhere('Id_area', 16)
             ->orWhere('Id_area', 13)
             ->orWhere('Id_area', 15)
@@ -981,32 +982,19 @@ class FqController extends Controller
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         $paraModel = Parametro::find($loteModel->Id_tecnica);
         $model = array();
-        switch ($paraModel->Id_parametro) {
-            case 15: // fosforo
-            case 19: // Cianuros
-            case 7: //Nitrats
-            case 8: //Nitritos
+        switch ($paraModel->Id_area) {
+            case 16: //todo Espectrofotometria
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->get();
                 break;
-            case 13: //G&A
+            case 13: //todo Gr
                 $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $request->idLote)->get();
                 break;
-            case 3: // S.S
-            case 4: //S.S.T
+            case 15:
                 $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $request->idLote)->get();
                 break;
-                // case 16: //todo Espectrofotometria
-                //     $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->get();
-                //     break;
-                // case 13: //todo Gr
-                //     $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $request->idLote)->get();
-                //     break;
-                // case 15:
-                //     $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $request->idLote)->get();
-                //     break;
-                // case 14: //todo Volumetria
-                //     # code...
-                //     break;
+            case 14: //todo Volumetria
+                # code...
+                break;
             default:
                 # code...
                 break;
@@ -1021,34 +1009,21 @@ class FqController extends Controller
     {
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         $paraModel = Parametro::find($loteModel->Id_tecnica);
-        switch ($paraModel->Id_parametro) {
-            case 15:
-            case 19:
+        switch ($paraModel->Id_area) {
+            case 16: //todo Espectrofotometria
                 $detModel = DB::table('lote_detalle_espectro')->where('Id_detalle', $request->idDetalle)->delete();
                 $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
                 break;
-            case 13: //G&A
+            case 10: //todo Gravimetia
                 $detModel = DB::table('lote_detalle_ga')->where('Id_detaqlle', $request->idDetalle)->delete();
                 $detModel = LoteDetalleGA::where('Id_lote', $request->idLote)->get();
                 break;
-            case 3: // S.S
-            case 4: //S.S.T
-                // $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $request->idLote)->get();
+            case 15: //todo Volumetria
+                if ($paraModel->Id_parametro == 6) {
+                    $detModel = DB::table('lote_detalle_dqo')->where('Id_detalle', $request->idDetalle)->delete();
+                    $detModel = LoteDetalleDqo::where('Id_lote', $request->idLote)->get();
+                }
                 break;
-                // case 16: //todo Espectrofotometria
-                //     $detModel = DB::table('lote_detalle_espectro')->where('Id_detalle', $request->idDetalle)->delete();
-                //     $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
-                //     break;
-                // case 10: //todo Gravimetia
-                //     $detModel = DB::table('lote_detalle_ga')->where('Id_detaqlle', $request->idDetalle)->delete();
-                //     $detModel = LoteDetalleGA::where('Id_lote', $request->idLote)->get();
-                //     break;
-                // case 15: //todo Volumetria
-                //     if ($paraModel->Id_parametro == 6) {
-                //         $detModel = DB::table('lote_detalle_dqo')->where('Id_detalle', $request->idDetalle)->delete();
-                //         $detModel = LoteDetalleDqo::where('Id_lote', $request->idLote)->get();
-                //     }
-                //     break;
             default:
                 # code...
                 break;
@@ -1138,12 +1113,9 @@ class FqController extends Controller
         $sw = false;
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         $paraModel = Parametro::find($loteModel->Id_tecnica);
-
-        switch ($paraModel->Id_parametro) {
-            case 15: // fosforo
-            case 19: // Cianuros
-            case 7: //Nitrats
-            case 8: //Nitritos
+        
+        switch ($paraModel->Id_area) {
+            case 16: //todo Espectrofotometria
                 $model = LoteDetalleEspectro::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
@@ -1155,7 +1127,7 @@ class FqController extends Controller
                 $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
                 $sw = true;
                 break;
-            case 13: //G&A
+            case 13: //todo G&A
                 $model = LoteDetalleGA::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
@@ -1167,8 +1139,7 @@ class FqController extends Controller
                 $detModel = LoteDetalleGA::where('Id_lote', $request->idLote)->get();
                 $sw = true;
                 break;
-            case 3: // S.S
-            case 4: //S.S.T
+            case 15: //todo Solidos
                 $model = LoteDetalleSolidos::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
@@ -1180,42 +1151,6 @@ class FqController extends Controller
                 $detModel = LoteDetalleSolidos::where('Id_lote', $request->idLote)->get();
                 $sw = true;
                 break;
-                // case 16: //todo Espectrofotometria
-                //     $model = LoteDetalleEspectro::create([
-                //         'Id_lote' => $request->idLote,
-                //         'Id_analisis' => $request->idAnalisis,
-                //         'Id_codigo' => $request->idSol,
-                //         'Id_parametro' => $loteModel->Id_tecnica,
-                //         'Id_control' => 1,
-                //         'Analizo' => 1,
-                //     ]);
-                //     $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
-                //     $sw = true;
-                //     break;
-                // case 13: //todo G&A
-                //     $model = LoteDetalleGA::create([
-                //         'Id_lote' => $request->idLote,
-                //         'Id_analisis' => $request->idAnalisis,
-                //         'Id_codigo' => $request->idSol,
-                //         'Id_parametro' => $loteModel->Id_tecnica,
-                //         'Id_control' => 1,
-                //         'Analizo' => 1,
-                //     ]);
-                //     $detModel = LoteDetalleGA::where('Id_lote', $request->idLote)->get();
-                //     $sw = true;
-                //     break;
-                // case 15: //todo Solidos
-                //     $model = LoteDetalleSolidos::create([
-                //         'Id_lote' => $request->idLote,
-                //         'Id_analisis' => $request->idAnalisis,
-                //         'Id_codigo' => $request->idSol,
-                //         'Id_parametro' => $loteModel->Id_tecnica,
-                //         'Id_control' => 1,
-                //         'Analizo' => 1,
-                //     ]);
-                //     $detModel = LoteDetalleSolidos::where('Id_lote', $request->idLote)->get();
-                //     $sw = true;
-                //     break;
             default:
                 // $sw = false;
                 $model = LoteDetalleEspectro::create([
@@ -1255,11 +1190,8 @@ class FqController extends Controller
         $loteModel = LoteAnalisis::where('Id_lote', $res->idLote)->first();
         $paraModel = Parametro::find($loteModel->Id_tecnica);
 
-        switch ($paraModel->Id_area) {
-            case 15: // fosforo
-                case 19: // Cianuros
-                case 7: //Nitrats
-                case 8: //Nitritos
+        switch ($paraModel->Id_parametro) {
+            case 16: //todo Espectrofotometria
                 for ($i = 0; $i < sizeof($res->idCodigos); $i++) {
                     $sol = CodigoParametros::where('Id_codigo', $res->idCodigos[$i])->first();
                     $model = LoteDetalleEspectro::create([
@@ -1277,7 +1209,7 @@ class FqController extends Controller
                 $detModel = LoteDetalleEspectro::where('Id_lote', $res->idLote)->get();
                 $sw = true;
                 break;
-            case 13: //G&A
+            case 13: //todo G&A
                 for ($i = 0; $i < sizeof($res->idCodigos); $i++) {
                     $sol = CodigoParametros::where('Id_codigo', $res->idCodigos[$i])->first();
                     $model = LoteDetalleGA::create([
@@ -1295,8 +1227,7 @@ class FqController extends Controller
                 $detModel = LoteDetalleEspectro::where('Id_lote', $res->idLote)->get();
                 $sw = true;
                 break;
-            case 3: // S.S
-            case 4: //S.S.T
+            case 15: //todo Solidos
                 $sw = true;
                 for ($i = 0; $i < sizeof($res->idCodigos); $i++) {
                     $sol = CodigoParametros::where('Id_codigo', $res->idCodigos[$i])->first();
@@ -1315,66 +1246,10 @@ class FqController extends Controller
                 $detModel = LoteDetalleEspectro::where('Id_lote', $res->idLote)->get();
                 $sw = true;
                 break;
-                break;
-                // case 16: //todo Espectrofotometria
-                //     for ($i = 0; $i < sizeof($res->idCodigos); $i++) {
-                //         $sol = CodigoParametros::where('Id_codigo', $res->idCodigos[$i])->first();
-                //         $model = LoteDetalleEspectro::create([
-                //             'Id_lote' => $res->idLote,
-                //             'Id_analisis' => $sol->Id_solicitud,
-                //             'Id_codigo' => $res->idCodigos[$i],
-                //             'Id_parametro' => $loteModel->Id_tecnica,
-                //             'Id_control' => 1,
-                //             'Analizo' => 1,
-                //         ]);
-                //         $solModel = CodigoParametros::find($sol->Id_codigo);
-                //         $solModel->Asignado = 1;
-                //         $solModel->save();
-                //     }
-                //     $detModel = LoteDetalleEspectro::where('Id_lote', $res->idLote)->get();
-                //     $sw = true;
-                //     break;
-                // case 13: //todo G&A
-                //     for ($i = 0; $i < sizeof($res->idCodigos); $i++) {
-                //         $sol = CodigoParametros::where('Id_codigo', $res->idCodigos[$i])->first();
-                //         $model = LoteDetalleGA::create([
-                //             'Id_lote' => $res->idLote,
-                //             'Id_analisis' => $sol->Id_solicitud,
-                //             'Id_codigo' => $res->idCodigos[$i],
-                //             'Id_parametro' => $loteModel->Id_tecnica,
-                //             'Id_control' => 1,
-                //             'Analizo' => 1,
-                //         ]);
-                //         $solModel = CodigoParametros::find($sol->Id_codigo);
-                //         $solModel->Asignado = 1;
-                //         $solModel->save();
-                //     }
-                //     $detModel = LoteDetalleEspectro::where('Id_lote', $res->idLote)->get();
-                //     $sw = true;
-                //     break;
-                // case 15: //todo Solidos
-                //     $sw = true;
-                //     for ($i = 0; $i < sizeof($res->idCodigos); $i++) {
-                //         $sol = CodigoParametros::where('Id_codigo', $res->idCodigos[$i])->first();
-                //         $model = LoteDetalleSolidos::create([
-                //             'Id_lote' => $res->idLote,
-                //             'Id_analisis' => $sol->Id_solicitud,
-                //             'Id_codigo' => $res->idCodigos[$i],
-                //             'Id_parametro' => $loteModel->Id_tecnica,
-                //             'Id_control' => 1,
-                //             'Analizo' => 1,
-                //         ]);
-                //         $solModel = CodigoParametros::find($sol->Id_codigo);
-                //         $solModel->Asignado = 1;
-                //         $solModel->save();
-                //     }
-                //     $detModel = LoteDetalleEspectro::where('Id_lote', $res->idLote)->get();
-                //     $sw = true;
-                //     break;
-                // case 15: //todo Volumetria
-                //     # code...
+            case 15: //todo Volumetria
+                # code...
 
-                //     break;
+                break;
             default:
                 $sw = false;
                 # code...
@@ -1955,21 +1830,21 @@ class FqController extends Controller
 
     public function operacionSolidosSimple(Request $request)
     {
-        switch ($request->tipoFormula) {
-            case 1:
+        switch ($request->tipoFormula){
+            case 1: 
                 $modelCapsula = Capsulas::all();
                 $cont = $modelCapsula->count();
-
+                
                 for ($i = 0; $i < $cont; $i++) {
                     # code...
                     $id = rand(0, $modelCapsula->count());
                     $crisol = Capsulas::where('Id_capsula', $id)->first();
                     if ($crisol->Estado == 0) {
                         break;
-                    }
+                    } 
                 }
-                break;
-            default:
+            break;
+            default:  
                 $modelCrisol = CrisolesGA::all();
                 //? Aplica la busqueda de crisol hasta encontrar un crisol desocupado
                 $cont = $modelCrisol->count();
@@ -1982,7 +1857,7 @@ class FqController extends Controller
                         break;
                     }
                 }
-                break;
+             break;
         }
 
         $mf = ((($request->R / $request->factor) * $request->volumen) + $crisol->Peso);
@@ -1992,10 +1867,10 @@ class FqController extends Controller
         $model->Crisol = $crisol->Num_serie;
         $model->Masa1 = $crisol->Peso;
         $model->Masa2 = $mf;
-        $model->Peso_muestra1 = ($crisol->Peso + 0.0002);
-        $model->Peso_muestra2 = ($crisol->Peso + 0.0004);
-        $model->Peso_constante1 = $mf + 0.0002;
-        $model->Peso_constante2 = $mf + 0.0004;
+        $model->Peso_muestra1 = ($crisol->Peso + 0.0001);
+        $model->Peso_muestra2 = ($crisol->Peso + 0.0002);
+        $model->Peso_constante1 = $mf + 0.0001;
+        $model->Peso_constante2 = $mf + 0.0002;
         $model->Vol_muestra = $request->volumen;
         $model->Factor_conversion = $request->factor;
         $model->Resultado = $request->R;
@@ -2005,10 +1880,10 @@ class FqController extends Controller
         $data = array(
             'masa1' => $crisol->Peso,
             'masa2' => $mf,
-            'pesoConMuestra1' => ($crisol->Peso + 0.0002),
-            'pesoConMuestra2' => ($crisol->Peso + 0.0004),
-            'pesoC1' => $mf + 0.0002,
-            'pesoC2' => $mf + 0.0004,
+            'pesoConMuestra1' => ($crisol->Peso + 0.0001),
+            'pesoConMuestra2' => ($crisol->Peso + 0.0002),
+            'pesoC1' => $mf + 0.0001,
+            'pesoC2' => $mf + 0.0002,
             'serie' => $crisol->Num_serie,
             //'potencia' => $potencia,
         );
@@ -2244,7 +2119,7 @@ class FqController extends Controller
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
         switch ($lote->Id_tecnica) {
             case 152: // COT
-
+ 
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
                 $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
@@ -2292,7 +2167,7 @@ class FqController extends Controller
                 $htmlCaptura = view('exports.laboratorio.fq.espectro.cromoHex.capturaBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
-                break;
+            break;
             default:
                 # code...
                 break;
@@ -2900,7 +2775,8 @@ class FqController extends Controller
             $data = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
             $dataLength = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->count();
 
-            $matraces = MatrazGA::all();
+            // $matraces = MatrazGA::all();
+            $matraces = DB::table('ViewLoteDetalleMatraz')->where('Id_lote',$id_lote)->get();
             $matracesLength = sizeof($matraces);
 
             $calMatraces = CalentamientoMatraz::where('Id_lote', $id_lote)->get();
@@ -2935,7 +2811,9 @@ class FqController extends Controller
 
             $dataLength = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->count();
 
-            $matraces = MatrazGA::all();
+            // $matraces = MatrazGA::all();
+            $matraces = DB::table('ViewLoteDetalleMatraz')->where('Id_lote',$id_lote)->get();
+            
             $matracesLength = sizeof($matraces);
 
             $calMatraces = CalentamientoMatraz::where('Id_lote', $id_lote)->get();

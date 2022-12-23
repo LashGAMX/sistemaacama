@@ -35,8 +35,8 @@ class MatrizGA extends Component
       $model = MatrazGA::create([
           'Num_serie' => $this->serie,
           'Peso' => $this->peso,
-          'Min' => ($this->peso - 0.001),
-          'Max' => ($this->peso + 0.001),
+          'Min' => ($this->peso - 0.0005),
+          'Max' => ($this->peso + 0.0005),
         //   'Id_user_c' => $this->idUser,  
         //   'Id_user_m' => $this->idUser,
       ]);
@@ -51,8 +51,8 @@ class MatrizGA extends Component
       $model = MatrazGA::find($this->idMat);
       $model->Num_serie = $this->serie;
       $model->Peso = $this->peso;
-      $model->Min = ($this->peso - 0.001);
-      $model->Max = ($this->peso + 0.001);
+      $model->Min = ($this->peso - 0.0005);
+      $model->Max = ($this->peso + 0.0005);
       $model->save();
       $this->alert = true;
   }

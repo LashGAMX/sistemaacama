@@ -7,6 +7,26 @@
     <i class="fas fa-chart-area"></i>
     Curva de calibración<input id="idUser" value="{{@$idUser}}" hidden>
   </h6>
+  <div class="row">
+    <div class="col-md-6">
+      <div id="divTablaVigencias">
+        <table class="table" id="tablaVigencias">
+          <thead>
+            <tr>
+              <th>ID Parametro</th>
+              <th>Fecha inicio</th>
+              <th>Fecha final</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
 
   <br>
   <h4 style="margin-left: 15px">Limites de vigencia</h4>
@@ -24,12 +44,12 @@
     <hr>
     <div class="row">
 
-        <div class="col-md-2" hidden>
+        <div class="col-md-2" >
              <select class="form-control" id="idArea">
               <option value="">Selecciona Area</option>
               @foreach ($area as $item)
                 <option value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
-              @endforeach
+              @endforeach 
             </select>
       </div>
 

@@ -641,7 +641,7 @@ class CotizacionController extends Controller
         if ($parametrosExtra->count() > 0) {
             $subTotal = $analisisDesc + $sumaParamEspecial + $model->Precio_muestreo;
         } else {
-            $subTotal = $model->Precio_analisis + $sumaParamEspecial + $model->Precio_muestreo;
+            $subTotal = $analisisDesc + $sumaParamEspecial + $model->Precio_muestreo;
         }
 
 
