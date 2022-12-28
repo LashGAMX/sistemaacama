@@ -10,31 +10,37 @@
   @stop
 <div class = "container-fluid">
     <div class = "row">
-        <div class = "col-md-3">
-            <div class = "form-group">
-                <label for="exampleFormControlSelect1">Módulo</label>
-                <select class="form-control" name="modulo" id="modulo">
-                    <option value="0">Sin seleccionar</option>
-                </select>
+        <div class="col-md-6">
+            <div class = "col-md-3">
+                <div class = "form-group">
+                    <label for="exampleFormControlSelect1">Módulo</label>
+                    <select class="form-control" name="modulo" id="modulo">
+                        <option value="0">Sin seleccionar</option>
+                    </select>
+                </div>
+            </div>
+            <div class = "col-md-3">
+                <div class = "form-group">
+                    <label for="exampleFormControlSelect1">Submódulo</label>
+                    <select class="form-control" name="submodulo" id="submodulo">
+                        <option value="0">Sin seleccionar</option>
+                    </select>
+                </div>
+            </div>
+            <div class = "col-md-3">
+                <div class = "form-group">
+                    <label for="exampleFormControlSelect1">Prioridad</label>
+                    <select class="form-control" name="prioridad" id="prioridad">
+                        <option value="0">Sin seleccionar</option>
+                        <option value="5">Urgente</option>
+                        <option value="4">Alta</option>
+                        <option value="3">Mediar</option>
+                        <option value="2">Baja</option>
+                        <option value="1">Puede esperar</option>
+                    </select>
+                </div>
             </div>
         </div>
-        <div class = "col-md-3">
-            <div class = "form-group">
-                <label for="exampleFormControlSelect1">Submódulo</label>
-                <select class="form-control" name="submodulo" id="submodulo">
-                    <option value="0">Sin seleccionar</option>
-                </select>
-            </div>
-        </div>
-        <div class = "col-md-3">
-            <div class = "form-group">
-                <label for="exampleFormControlSelect1">Prioridad</label>
-                <select class="form-control" name="prioridad" id="prioridad">
-                    <option value="0">Sin seleccionar</option>
-                </select>
-            </div>
-        </div>
-
     </div>
 </div>
 
