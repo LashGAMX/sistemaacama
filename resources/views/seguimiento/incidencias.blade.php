@@ -14,17 +14,25 @@
             <div class = "col-md-3">
                 <div class = "form-group">
                     <label for="exampleFormControlSelect1">Módulo</label>
-                    <select class="form-control" name="modulo" id="modulo">
+                    <select class="form-control" name="modulo" id="modulo" >
                         <option value="0">Sin seleccionar</option>
+                        @foreach ($modulos as $item)
+                        <option value="{{$item->Id_modulo}}">{{$item->Modulo}}</option>
+                        @endforeach
+                        
                     </select>
                 </div>
             </div>
             <div class = "col-md-3">
                 <div class = "form-group">
                     <label for="exampleFormControlSelect1">Submódulo</label>
-                    <select class="form-control" name="submodulo" id="submodulo">
-                        <option value="0">Sin seleccionar</option>
-                    </select>
+                    <div id="divSubmodulo">
+                        <select class="form-control" name="submodulo" id="submodulo">
+                            <option value="0">Sin seleccionar</option>
+                            
+                        </select>
+                    </div>
+                    
                 </div>
             </div>
             <div class = "col-md-3">
@@ -89,7 +97,7 @@
 </div>
  
 @section('javascript')
-<script src="{{asset('/public/js/seguimiento/insidencias.js')}}?v=0.0.1"></script>
+<script src="{{asset('/public/js/seguimiento/incidencias.js')}}"></script>
 @stop
 
 @endsection
