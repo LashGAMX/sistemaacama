@@ -15,15 +15,21 @@
                 <label for="exampleFormControlSelect1">Módulo</label>
                 <select class="form-control" name="modulo" id="modulo">
                     <option value="0">Sin seleccionar</option>
+                    @foreach ($modulos as $item)
+                        <option value="{{$item->id}}">{{$item->title}}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
         <div class = "col-md-2">
             <div class = "form-group">
                 <label for="exampleFormControlSelect1">Submódulo</label>
-                <select class="form-control" name="submodulo" id="submodulo">
-                    <option value="0">Sin seleccionar</option>
-                </select>
+                <div id="divSubmodulo">
+                    <select class="form-control" name="submodulo" id="submodulo">
+                        <option value="0">Sin seleccionar</option>
+                    </select>
+                </div>
+                
             </div>
         </div>
         <div class = "col-md-2">
@@ -31,6 +37,11 @@
                 <label for="exampleFormControlSelect1">Prioridad</label>
                 <select class="form-control" name="prioridad" id="prioridad">
                     <option value="0">Sin seleccionar</option>
+                    <option style="background-color:rgb(151, 7, 7)" value="5">Urgente</option>
+                    <option style="background-color:orange" value="4">Alta</option>
+                    <option style="background-color:yellow"value="3">Mediar</option>
+                    <option style="background-color:rgb(39, 114, 39)"value="2">Baja</option>
+                    <option style="background-color:blue" value="1">Puede esperar</option>
                 </select>
             </div>
         </div>
@@ -57,10 +68,22 @@
                         <th>Módulo</th>
                         <th>Submódulo</th>
                         <th>Prioridad</th>
+                        <th>Estado</th>
+                        <th>Descripcion</th>
                     </tr>
             </thead>
 
                     <tbody>
+                        <tr>
+                            @foreach ($model as $item)
+                                <td>{{$item->Id_incidencia}}</td>
+                                <td>{{$item->Modulo}}</td>
+                                <td>{{$item->Submodulo}}</td>
+                                <td>{{$item->Prioridad}}</td>
+                                <td>{{$item->Estado}}</td>
+                                <td>{{$item->Descripcion}}</td>
+                            @endforeach
+                        </tr>
                    
                     </tbody>
            </table>

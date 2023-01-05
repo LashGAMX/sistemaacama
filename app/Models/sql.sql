@@ -598,3 +598,8 @@ ON paraUser.Id_parametro = pa.Id_parametro
 
 
 CREATE VIEW ViewLoteDetalleMatraz as SELECT mat.*,lot.Id_detalle,lot.Id_analisis, lot.Id_lote FROM matraz_GA as mat, lote_detalle_ga as lot where mat.Id_matraz = lot.Id_matraz
+
+/* ViewIncidencias */
+CREATE VIEW ViewIncidencias AS SELECT inci.*, est.Estado as Estado, menu.title as Modulo, menu2.title as Submodulo FROM incidencias as inci INNER JOIN menu_items as menu ON inci.id_modulo = menu.id INNER JOIN menu_items as menu2 On inci.Id_submodulo = menu2.id
+INNER JOIN incidencias_estado AS est
+ON inci.Id_estado = est.Id_estado

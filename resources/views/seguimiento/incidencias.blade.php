@@ -8,6 +8,8 @@
     Incidencias
 </h6>
   @stop
+<form action="{{url("seguimiento/incidencias/create")}}" method="POST">
+    @csrf
 <div class = "container-fluid">
     <div class = "row">
         <div class="col-md-6">
@@ -17,7 +19,7 @@
                     <select class="form-control" name="modulo" id="modulo" >
                         <option value="0">Sin seleccionar</option>
                         @foreach ($modulos as $item)
-                        <option value="{{$item->Id_modulo}}">{{$item->Modulo}}</option>
+                        <option value="{{$item->id}}">{{$item->title}}</option>
                         @endforeach
                         
                     </select>
@@ -40,11 +42,11 @@
                     <label for="exampleFormControlSelect1">Prioridad</label>
                     <select class="form-control" name="prioridad" id="prioridad">
                         <option value="0">Sin seleccionar</option>
-                        <option value="5">Urgente</option>
-                        <option value="4">Alta</option>
-                        <option value="3">Mediar</option>
-                        <option value="2">Baja</option>
-                        <option value="1">Puede esperar</option>
+                        <option style="background-color:rgb(151, 7, 7)" value="5">Urgente</option>
+                        <option style="background-color:orange" value="4">Alta</option>
+                        <option style="background-color:yellow"value="3">Mediar</option>
+                        <option style="background-color:rgb(39, 114, 39)"value="2">Baja</option>
+                        <option style="background-color:blue" value="1">Puede esperar</option>
                     </select>
                 </div>
             </div>
@@ -73,12 +75,12 @@
     <div class = "row">
         <div class = "col-md-6">
             <div class = "form-group">
-                <button class="btn btn-success" type="button" id="enviar">enviar</button>
+                <button class="btn btn-success" type="submit" id="enviar">enviar</button>
             </div>
         </div>
     </div>
 </div>
-
+</form>
 
 <!--Preguntas frecuentes-->
 <div class="container-fluid">
