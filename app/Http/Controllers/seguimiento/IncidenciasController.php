@@ -16,12 +16,13 @@ class IncidenciasController extends Controller
         $user = Auth::user()->id;
         $model = db::table('ViewIncidencias')->where('Id_user', $user)->get();
         $modulos = DB::table('menu_items')->where('parent_id', null)->get();
-        return view('seguimiento.listaIncidencias', compact('model', 'user', 'modulos')); 
+        $prioridad = DB::table('incidencias_prioridad')->get();
+        return view('seguimiento.listaIncidencias', compact('prioridad', 'model', 'user', 'modulos')); 
     }
     public function incidencias(){
         $modulos = DB::table('menu_items')->where('parent_id', null)->get();
-
-        return view('seguimiento.incidencias', compact('modulos')); 
+        $prioridad = DB::table('incidencias_prioridad')->get();
+        return view('seguimiento.incidencias', compact('modulos', 'prioridad')); 
     }
     public function getsubmodulos(Request $request){
         $submodulos = DB::table('menu_items')->where('parent_id', $request->modulo)->get();

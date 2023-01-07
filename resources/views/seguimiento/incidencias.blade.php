@@ -42,11 +42,9 @@
                     <label for="exampleFormControlSelect1">Prioridad</label>
                     <select class="form-control" name="prioridad" id="prioridad">
                         <option value="0">Sin seleccionar</option>
-                        <option style="background-color:rgb(151, 7, 7)" value="5">Urgente</option>
-                        <option style="background-color:orange" value="4">Alta</option>
-                        <option style="background-color:yellow"value="3">Mediar</option>
-                        <option style="background-color:rgb(39, 114, 39)"value="2">Baja</option>
-                        <option style="background-color:blue" value="1">Puede esperar</option>
+                        @foreach ($prioridad as $item)
+                       <option class="{{$item->Id_prioridad}}">{{$item->Prioridad}}</option>
+                   @endforeach
                     </select>
                 </div>
             </div>
