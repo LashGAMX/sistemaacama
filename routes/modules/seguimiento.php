@@ -9,5 +9,5 @@ Route::group(['prefix' => '/seguimiento'], function () {
     Route::get('/incidencias/lista',[IncidenciasController::class,'lista']);
     Route::get('/incidencias',[IncidenciasController::class,'incidencias']);
     Route::post('/incidencias/getsubmodulos',[IncidenciasController::class,'getsubmodulos']);
-    
+    Route::post('/incidencias/create',[IncidenciasController::class,'create']);
 });   

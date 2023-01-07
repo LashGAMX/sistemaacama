@@ -14,17 +14,18 @@ class IncidenciasController extends Controller
 
     public function lista(){
         $user = Auth::user()->id;
-        $model = db::table('incidencias')->where('Id_user', $user)->get();
-
-        return view('seguimiento.listaIncidencias', compact('model', 'user')); 
+        $model = db::table('ViewIncidencias')->where('Id_user', $user)->get();
+        $modulos = DB::table('menu_items')->where('parent_id', null)->get();
+        $prioridad = DB::table('incidencias_prioridad')->get();
+        return view('seguimiento.listaIncidencias', compact('prioridad', 'model', 'user', 'modulos')); 
     }
     public function incidencias(){
-        $modulos = ModulosSistema::all();
-
-        return view('seguimiento.incidencias', compact('modulos')); 
+        $modulos = DB::table('menu_items')->where('parent_id', null)->get();
+        $prioridad = DB::table('incidencias_prioridad')->get();
+        return view('seguimiento.incidencias', compact('modulos', 'prioridad')); 
     }
     public function getsubmodulos(Request $request){
-        $submodulos = SubmodulosSistema::where('Id_modulo', $request->modulo)->get();
+        $submodulos = DB::table('menu_items')->where('parent_id', $request->modulo)->get();
 
         $data = array(
             'submodulos' => $submodulos

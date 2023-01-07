@@ -24,11 +24,10 @@ function getSubmodulos(){
         tab += '<select class="form-control" id="submodulo">';
         tab += '<option value="">Sin selecionar</option>';
         $.each(response.submodulos, function (key, item) {
-            tab += '<option value="' + item.Id_submodulo + '">'+item.Submodulo+'</option>';
+            tab += '<option value="' + item.id + '">'+item.title+'</option>';
         });
         tab += '</select>';
         div.innerHTML = tab;
-
        
     }
 });
