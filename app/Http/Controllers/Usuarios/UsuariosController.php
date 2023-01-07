@@ -22,7 +22,7 @@ class UsuariosController extends Controller
     public function menuUser($id)
     {
         $model = DB::table('menu_usuarios')->where('Id_user',$id)->get();
-        $padre = DB::table('menu_items')->where('parent_id',NULL)->get();
+        $padre = DB::table('menu_items')->where('parent_id',NULL)->where('menu_id',1)->get();
         $hijo = DB::table('menu_items')->get();
         $user = DB::table('users')->where('id',$id)->first();
         return view('usuarios.menuUser',compact('model','padre','hijo','user'));
@@ -61,13 +61,13 @@ class UsuariosController extends Controller
     {
         $roles = DB::table('roles')->get();
         $model = DB::table('menu_items')->get();
-        $padre = DB::table('menu_items')->where('parent_id',NULL)->get();
+        $padre = DB::table('menu_items')->where('parent_id',NULL)->where('menu_id',1)->get();
         return view('usuarios.menuPerfil',compact('roles','model','padre'));
     }
     public function getMenuPerfil(Request $res)
-    {
+    { 
         $model = DB::table('menu_rol')->where('Id_rol',$res->perfil)->get();
-        $padre = DB::table('menu_items')->where('parent_id',NULL)->get();
+        $padre = DB::table('menu_items')->where('parent_id',NULL)->where('menu_id',1)->get();
         $hijo = DB::table('menu_items')->get();
         $data = array(
             'model' => $model,

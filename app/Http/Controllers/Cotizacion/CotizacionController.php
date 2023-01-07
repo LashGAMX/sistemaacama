@@ -90,6 +90,7 @@ class CotizacionController extends Controller
             'frecuencia' => $frecuencia,
             'estados' => $estados,
             'metodoPago' => $metodoPago,
+            'version' => $this->version,
         );
         return view('cotizacion.create', $data);
     }

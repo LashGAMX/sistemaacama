@@ -36,7 +36,7 @@
                     <div class="tab-pane fade" id="datos" role="tabpanel" aria-labelledby="datos-tab">
                         <div class="row">
                             <div class="col-md-12">
-                                <h6>Intermediario</h6>
+                                <h6>Intermediario</h6> {{$version}}
                                 <hr>
                             </div>
                             <div class="col-md-12">
