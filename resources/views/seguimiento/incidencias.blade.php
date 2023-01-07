@@ -43,7 +43,7 @@
                     <select class="form-control" name="prioridad" id="prioridad">
                         <option value="0">Sin seleccionar</option>
                         @foreach ($prioridad as $item)
-                       <option class="{{$item->Id_prioridad}}">{{$item->Prioridad}}</option>
+                       <option value="{{$item->Id_prioridad}}">{{$item->Prioridad}}</option>
                    @endforeach
                     </select>
                 </div>

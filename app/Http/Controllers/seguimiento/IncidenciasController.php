@@ -45,4 +45,20 @@ class IncidenciasController extends Controller
         ]);
         return response()->json($model);
     }
+    public function buscar(Request $request){
+        $model = DB::table('ViewIncidencias')->where('Id_modulo', $request->modulo)
+        ->where('Id_submodulo', $request->submodulo)
+        ->where('Id_prioridad', $request->prioridad)
+        ->get();
+
+        $data = array(
+            'modulo' => $request->modulo,
+            'Submodulo' => $request->submodulo,
+            'prioridad' => $request->prioridad,
+            'model' => $model,
+        );
+
+        return response()->json($data);
+    }
+    
 }

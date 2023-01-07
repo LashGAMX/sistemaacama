@@ -38,14 +38,14 @@
                 <select class="form-control" name="prioridad" id="prioridad">
                     <option value="0">Sin seleccionar</option>
                    @foreach ($prioridad as $item)
-                       <option class="{{$item->Id_prioridad}}">{{$item->Prioridad}}</option>
+                       <option value="{{$item->Id_prioridad}}">{{$item->Prioridad}}</option>
                    @endforeach
                 </select>
             </div>
         </div>
         <div class = "col-md-3">
             <div class = "form-group">
-                <button type="button" class="btn btn-info" id="buscar">buscar</button>
+                <button type="button" class="btn btn-info" id="buscar" onclick="buscar()">buscar</button>
             </div>
         </div>
         <div class = "col-md-3">
@@ -69,6 +69,7 @@
                                 <th>Prioridad</th>
                                 <th>Estado</th>
                                 <th>Descripcion</th>
+                                <th>Fecha</th>
                             </tr>
                     </thead>
         
@@ -81,6 +82,7 @@
                                         <td>{{$item->Prioridad}}</td>
                                         <td>{{$item->Estado}}</td>
                                         <td>{{$item->Descripcion}}</td>
+                                        <td>{{$item->created_at}}</td>
                                     @endforeach
                                 </tr>
                            
