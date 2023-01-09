@@ -226,12 +226,7 @@ class MbController extends Controller
     //MÉTODO DE PRUEBA
     public function capturaMicro()
     {
-        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
-            ->where('Id_area', 3)
-            ->orWhere('Id_area', 12)
-            ->orWhere('Id_area', 6)
-            ->get();
-       
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
 
         $controlModel = ControlCalidad::all();
         return view('laboratorio.mb.captura', compact('parametro', 'controlModel'));
@@ -978,11 +973,7 @@ class MbController extends Controller
     public function lote()
     {
         //* Tipo de formulas 
-        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
-            ->where('Id_area', 3)
-            ->orWhere('Id_area', 12)
-            ->orWhere('Id_area', 6)
-            ->get();
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
        
         $textoRecuperadoPredeterminado = ReportesMb::where('Id_lote', 0)->first();
         return view('laboratorio.mb.lote', compact('parametro', 'textoRecuperadoPredeterminado'));

@@ -57,13 +57,7 @@ class VolController extends Controller
     public function loteVol()
     {
         //* Tipo de formulas  
-        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
-            ->Where('Id_area', 14)
-            ->orWhere('Id_parametro', 9)
-            ->orWhere('Id_parametro', 10)
-            ->orWhere('Id_parametro',64)
-            ->get();
- 
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
         $textoRecuperadoPredeterminado = ReportesFq::where('Id_reporte', 0)->first();
         return view('laboratorio.fq.loteVol', compact('parametro', 'textoRecuperadoPredeterminado'));
     }
@@ -553,41 +547,50 @@ class VolController extends Controller
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         $paraModel = Parametro::find($loteModel->Id_tecnica);
         //!----------
-        if ($loteModel->Id_tecnica == 6) //todo DQO
-        {
-            $model = LoteDetalleDqo::create([
-                'Id_lote' => $request->idLote,
-                'Id_analisis' => $request->idAnalisis,
-                'Id_codigo' => $request->idSol,
-                'Id_parametro' => $loteModel->Id_tecnica,
-                'Id_control' => 1,
-            ]);
-            $detModel = LoteDetalleDqo::where('Id_lote', $request->idLote)->get();
-            $sw = true;
-        } else if ($loteModel->Id_tecnica == 33 || $loteModel->Id_tecnica == 218 || $loteModel->Id_tecnica == 64) //todo CLORO RESIDUAL LIBRE
-        {
-            $model = LoteDetalleCloro::create([
-                'Id_lote' => $request->idLote,
-                'Id_analisis' => $request->idAnalisis,
-                'Id_codigo' => $request->idSol,
-                'Id_parametro' => $loteModel->Id_tecnica,
-                'Id_control' => 1,
-            ]);
-            $detModel = LoteDetalleCloro::where('Id_lote', $request->idLote)->get();
-            $sw = true;
-        } else if ($loteModel->Id_tecnica == 9 || $loteModel->Id_tecnica == 10 || $loteModel->Id_tecnica == 11 || $loteModel->Id_tecnica == 287 || $loteModel->Id_tecnica == 83) //todo Nitrógeno Total,
-        {
-            $model = LoteDetalleNitrogeno::create([
-                'Id_lote' => $request->idLote,
-                'Id_analisis' => $request->idAnalisis,
-                'Id_codigo' => $request->idSol,
-                'Id_parametro' => $loteModel->Id_tecnica,
-                'Id_control' => 1,
-            ]);
-            $detModel = LoteDetalleNitrogeno::where('Id_lote', $request->idLote)->get();
-            $sw = true;
+        switch ($loteModel->Id_tecnica) {
+            case 6:
+                $model = LoteDetalleDqo::create([
+                    'Id_lote' => $request->idLote,
+                    'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
+                    'Id_parametro' => $loteModel->Id_tecnica,
+                    'Id_control' => 1,
+                ]);
+                $detModel = LoteDetalleDqo::where('Id_lote', $request->idLote)->get();
+                $sw = true;
+                break;
+            case 33:
+            case 218:
+            case 64:
+                $model = LoteDetalleCloro::create([
+                    'Id_lote' => $request->idLote,
+                    'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
+                    'Id_parametro' => $loteModel->Id_tecnica,
+                    'Id_control' => 1,
+                ]);
+                $detModel = LoteDetalleCloro::where('Id_lote', $request->idLote)->get();
+                $sw = true;
+                break;
+            case 9:
+            case 10:
+            case 11:
+            case 287:
+            case 83:
+                $model = LoteDetalleNitrogeno::create([
+                    'Id_lote' => $request->idLote,
+                    'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
+                    'Id_parametro' => $loteModel->Id_tecnica,
+                    'Id_control' => 1,
+                ]);
+                $detModel = LoteDetalleNitrogeno::where('Id_lote', $request->idLote)->get();
+                $sw = true;
+                        break;
+            default:
+                # code...
+                break;
         }
-
 
 
         $solModel = CodigoParametros::find($request->idSol);
@@ -872,12 +875,7 @@ class VolController extends Controller
     //todo *******************************************
     public function capturaVolumetria()
     {
-        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
-            ->Where('Id_area', 14)
-            ->orWhere('Id_parametro',9)
-            ->orWhere('Id_parametro',10)
-            ->orWhere('Id_parametro',64)
-            ->get();
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro); 
         $controlModel = ControlCalidad::all();

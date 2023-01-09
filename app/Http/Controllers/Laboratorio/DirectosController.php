@@ -18,10 +18,7 @@ class DirectosController extends Controller
 {
     public function lote()
     {
-        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
-        ->where('Id_area', 7)
-        ->orWhere('Id_tecnica', 4)
-        ->get();
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
 
         return view('laboratorio.directos.lote', compact('parametro'));
     }
@@ -207,10 +204,7 @@ class DirectosController extends Controller
     //! Captura
     public function captura()
     {
-        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
-        ->where('Id_area', 7)
-        ->orWhere('Id_tecnica', 4)
-        ->get();
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
         return view('laboratorio.directos.captura', compact('parametro'));
     }
 

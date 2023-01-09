@@ -159,14 +159,7 @@ class FqController extends Controller
     public function capturaEspectro()
     {
 
-        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
-            ->Where('Id_area', 5)
-            ->orWhere('Id_area', 16)
-            ->orWhere('Id_area', 13)
-            ->orWhere('Id_area', 15)
-            ->orWhere('Id_area', 14)
-            ->get();
-
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
         // $parametro = DB::table('ViewParametros')
         //     ->orWhere('Id_area', 5)
         //     ->orWhere('Id_area', 16)
@@ -708,15 +701,7 @@ class FqController extends Controller
     public function lote()
     {
         //* Tipo de formulas  
-        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)
-            ->Where('Id_area', 5)
-            ->orWhere('Id_parametro', 3)
-            ->orWhere('Id_area', 16)
-            ->orWhere('Id_area', 13)
-            ->orWhere('Id_area', 15)
-            ->orWhere('Id_area', 14)
-            ->get();
-
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
         $textoRecuperadoPredeterminado = ReportesFq::where('Id_reporte', 0)->first();
         return view('laboratorio.fq.lote', compact('parametro', 'textoRecuperadoPredeterminado'));
     }
@@ -1618,7 +1603,7 @@ class FqController extends Controller
     public function capturaGA()
     {
         // Parametro::where('Id_area', 13)->get()
-        $parametro = DB::table('ViewParametros')->where('Id_area', 13)->get();
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
         $controlModel = ControlCalidad::all();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro); 
@@ -1729,7 +1714,7 @@ class FqController extends Controller
 
     public function capturaSolidos()
     {
-        $parametro = Parametro::where('Id_area', 15)->get();
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
         $controlModel = ControlCalidad::all();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro); 
@@ -2024,7 +2009,7 @@ class FqController extends Controller
     //todo *******************************************
     public function capturaVolumetria()
     {
-        $parametro = Parametro::where('Id_area', 14)->get();
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get();
         // var_dump($parametro); 
         return view('laboratorio.fq.capturaVolumetria', compact('parametro'));

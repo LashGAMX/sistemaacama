@@ -53,6 +53,20 @@
                 <button type="button" class="btn btn-success" id="nueva">Nueva incidencia</button>
             </div>
         </div>
+        <div id="btnSuperUsuario">
+            @php
+                if ($user == 1) { @endphp
+
+                    <div class = "col-md-3">
+                        <div class = "form-group">
+                            <button type="button" class="btn btn-success" id="administrar">Administrar</button>
+                        </div>
+                    </div>
+            @php        
+                }
+            @endphp
+            <!-- Se pinta el boton de super usuario -->
+        </div>
     </div>
 </div>
 
@@ -60,7 +74,7 @@
     <div class = "row">
         <div class = "col-md-12">
             <div id="tabla">
-                <table class="table" id="lista">
+                <table class="table" id="lista"> 
                     <thead>
                             <tr>
                                 <th>ID</th>
@@ -74,8 +88,8 @@
                     </thead>
         
                             <tbody>
+                                @foreach ($model as $item)
                                 <tr>
-                                    @foreach ($model as $item)
                                         <td>{{$item->Id_incidencia}}</td>
                                         <td>{{$item->Modulo}}</td>
                                         <td>{{$item->Submodulo}}</td>
@@ -83,9 +97,8 @@
                                         <td>{{$item->Estado}}</td>
                                         <td>{{$item->Descripcion}}</td>
                                         <td>{{$item->created_at}}</td>
-                                    @endforeach
                                 </tr>
-                           
+                                @endforeach
                             </tbody>
                    </table>
             </div>

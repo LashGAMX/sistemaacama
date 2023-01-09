@@ -20,7 +20,7 @@ class PotableController extends Controller
     //
     public function lote()
     {
-        $parametro = DB::table('ViewParametros')->where('Id_area', 8)->orWhere('Id_tecnica', 4)->get();
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
         return view('laboratorio.potable.lote', compact('parametro'));
     }
     public function getLote(request $res)
@@ -267,7 +267,7 @@ class PotableController extends Controller
     }
     public function captura()
     {
-        $parametro = DB::table('ViewParametros')->where('Id_area', '=', 8)->get();
+        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
 
 
         $controlModel = ControlCalidad::all();

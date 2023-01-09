@@ -8,7 +8,7 @@
     Incidencias
 </h6>
   @stop
-<form action="{{url("seguimiento/incidencias/create")}}" method="POST">
+<form action="{{url("admin/seguimiento/incidencias/create")}}" method="POST" enctype="multipart/form-data">
     @csrf
 <div class = "container-fluid">
     <div class = "row">
@@ -57,14 +57,14 @@
         <div class = "col-md-6">
             <div class = "form-group">
                 <label for="exampleFormControlTextarea1">Descripcion</label>
-                <textarea class="form-control" name="description" id="description">
+                <textarea class="form-control" name="descripcion" id="descripcion">
                 </textarea>
             </div>
         </div>
         <div class = "col-md-6">
             <div class = "form-group">
                 <label for="exampleFormControlTextarea1">Imagen de apoyo</label>
-                <input type="file" id="imagen">
+                <input type="file" name="file" id="" accept="image/*" required>
             </div>
         </div>
     </div>
@@ -73,12 +73,12 @@
     <div class = "row">
         <div class = "col-md-6">
             <div class = "form-group">
-                <button class="btn btn-success" type="submit" id="enviar">enviar</button>
+                <button class="btn btn-success" type="submit">enviar</button>
             </div>
         </div>
     </div>
 </div>
-</form>
+</form> 
 
 <!--Preguntas frecuentes-->
 <div class="container-fluid">
@@ -97,7 +97,7 @@
 </div>
  
 @section('javascript')
-<script src="{{asset('/public/js/seguimiento/incidencias.js')}}"></script>
+<script src="{{asset('/public/js/seguimiento/incidencias.js')}}?v=0.0.1"></script>
 @stop
 
 @endsection
