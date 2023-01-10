@@ -1467,199 +1467,15 @@ function valPhMuestra(lec1, lec2, lec3, prom, prom1) {
     }
     return sw;
 }
-function valTempMuestraAmbiente(lec1, lec2, lec3, prom, f1, f2, f3, prom1) {
+function valTempMuestraAmbiente(lec1, lec2, lec3, prom1 ,prom2) {
     Number.prototype.toFixedDown = function (digits) {
         var re = new RegExp("(\\d+\\.\\d{" + digits + "})(\\d)"),
             m = this.toString().match(re);
         return m ? parseFloat(m[1]) : this.valueOf();
     };        
 
-    let fac1 = document.getElementById(f1);    
-    let fac2 = document.getElementById(f2);
-    let fac3 = document.getElementById(f3);
-    let sw = true;
-    let sw1 = false;
-    let sw2 = false;
-    let sw3 = false;
-    let p = document.getElementById(prom);
-    let p1 = document.getElementById(prom1);
-    let t = document.getElementById("tempAgua");
-
-        $.ajax({
-                url: base_url + "/admin/campo/captura/getFactorAplicado",
-                type: "POST",
-                data: {
-                    idFactor: $("#termometro").val(),
-                    _token: $('input[name="_token"]').val(),
-                },
-                dataType: "json",
-                async: false,
-                success: function (response) {                                                                                          
-                    let factores = new Array(8);
-                    let i = 0;                    
-
-                    //console.log(response.model);
-                    
-                    $.each(response.model, function (key, item) { 
-                        factores[i] = parseInt(item.Factor_aplicado);
-                        i++;
-                    });                                        
-    
-                    //$.each(response.model, function (key, item) {
-                        //item.Factor = parseInt(item.Factor);                        
-                                                    
-                            //LECTURA 1-----------------------------------------------
-                            if((l1 >= 0 && l1 < 5)){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
-                                    fac1.innerHTML = parseFloat((l1 + factores[0])).toFixed(2);
-                                    l1 = parseFloat(l1 + factores[0]);                                    
-                                //}
-                            }else if(l1 >= 5 && l1 < 10){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){
-                                    fac1.innerHTML = parseFloat((l1 + factores[1])).toFixed(2);
-                                    l1 = parseFloat(l1 + factores[1]);                                                                                                            
-                                //}
-                            }else if((l1 >= 10 && l1 < 15)){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
-                                    fac1.innerHTML = parseFloat((l1 + factores[2])).toFixed(2);
-                                    l1 = parseFloat(l1 + factores[2]);
-                                //}
-                            }else if(l1 >= 15 && l1 < 20){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
-                                    fac1.innerHTML = parseFloat((l1 + factores[3])).toFixed(2);
-                                    l1 = parseFloat(l1 + factores[3]);
-                                //}
-                            }else if(l1 >= 20 && l1 < 25){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
-                                    fac1.innerHTML = parseFloat((l1 + factores[4])).toFixed(2);
-                                    l1 = parseFloat(l1 + factores[4]);
-                                //}
-                            }else if(l1 >= 25 && l1 < 30){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
-                                    fac1.innerHTML = parseFloat((l1 + factores[5])).toFixed(2);
-                                    l1 = parseFloat(l1 + factores[5]);
-                                //}
-                            }else if(l1 >= 30 && l1 < 35){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
-                                    fac1.innerHTML = parseFloat((l1 + factores[6])).toFixed(2);
-                                    l1 = parseFloat(l1 + factores[6]);
-                                //}
-                            }else if(l1 >= 35 && l1 < 40){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
-                                    fac1.innerHTML = parseFloat((l1 + factores[7])).toFixed(2);
-                                    l1 = parseFloat(l1 + factores[7]);
-                                //}
-                            }else if(l1 >= 40 && l1 < 45){
-                                fac1.innerHTML = parseFloat((l1 + factores[8])).toFixed(2);
-                                l1 = parseFloat(l1 + factores[8]);
-                            }else if(l1 >= 45 && l1 <= 50){
-                                fac1.innerHTML = parseFloat((l1 + factores[9])).toFixed(2);
-                                l1 = parseFloat(l1 + factores[9]);
-                            }
-                            
-                            //LECTURA 2---------------------------------------------
-                            if((l2 >= 0 && l2 < 5)){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
-                                    fac2.innerHTML = parseFloat((l2 + factores[0])).toFixed(2);
-                                    l2 = parseFloat(l2 + factores[0]);
-                                //}
-                            }else if(l2 >= 5 && l2 < 10){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){
-                                    fac2.innerHTML = parseFloat((l2 + factores[1])).toFixed(2);
-                                    l2 = parseFloat(l2 + factores[1]);
-                                //}
-                            }else if((l2 >= 10 && l2 < 15)){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
-                                    fac2.innerHTML = parseFloat((l2 + factores[2])).toFixed(2);
-                                    l2 = parseFloat(l2 + factores[2]);
-                                //}
-                            }else if(l2 >= 15 && l2 < 20){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
-                                    fac2.innerHTML = parseFloat((l2 + factores[3])).toFixed(2);
-                                    l2 = parseFloat(l2 + factores[3]);
-                                //}
-                            }else if(l2 >= 20 && l2 < 25){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
-                                    fac2.innerHTML = parseFloat((l2 + factores[4])).toFixed(2);
-                                    l2 = parseFloat(l2 + factores[4]);
-                                //}
-                            }else if(l2 >= 25 && l2 < 30){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
-                                    fac2.innerHTML = parseFloat((l2 + factores[5])).toFixed(2);
-                                    l2 = parseFloat(l2 + factores[5]);
-                                //}
-                            }else if(l2 >= 30 && l2 < 35){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
-                                    fac2.innerHTML = parseFloat((l2 + factores[6])).toFixed(2);
-                                    l2 = parseFloat(l2 + factores[6]);
-                                //}
-                            }else if(l2 >= 35 && l2 < 40){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
-                                    fac2.innerHTML = parseFloat((l2 + factores[7])).toFixed(2);
-                                    l2 = parseFloat(l2 + factores[7]);
-                                //}
-                            }else if(l2 >= 40 && l2 < 45){
-                                fac2.innerHTML = parseFloat((l2 + factores[8])).toFixed(2);
-                                l2 = parseFloat(l2 + factores[8]);
-                            }else if(l2 >= 45 && l2 <= 50){
-                                fac2.innerHTML = parseFloat((l2 + factores[9])).toFixed(2);
-                                l2 = parseFloat(l2 + factores[9]);
-                            }
-                            
-                            //LECTURA 3---------------------------------------------    
-                            if((l3 >= 0 && l3 < 5)){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                                                
-                                    fac3.innerHTML = parseFloat((l3 + factores[0])).toFixed(2);
-                                    l3 = parseFloat(l3 + factores[0]);                                    
-                                //}
-                            }else if(l3 >= 5 && l3 < 10){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){
-                                    fac3.innerHTML = parseFloat((l3 + factores[1])).toFixed(2);
-                                    l3 = parseFloat(l3 + factores[1]);
-                                //}
-                            }else if((l3 >= 10 && l3 < 15)){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
-                                    fac3.innerHTML = parseFloat((l3 + factores[2])).toFixed(2);
-                                    l3 = parseFloat(l3 + factores[2]);                        
-                                //}
-                            }else if(l3 >= 15 && l3 < 20){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                        
-                                    fac3.innerHTML = parseFloat((l3 + factores[3])).toFixed(2);
-                                    l3 = parseFloat(l3 + factores[3]);
-                                //}
-                            }else if(l3 >= 20 && l3 < 25){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
-                                    fac3.innerHTML = parseFloat((l3 + factores[4])).toFixed(2);
-                                    l3 = parseFloat(l3 + factores[4]);
-                                //}
-                            }else if(l3 >= 25 && l3 < 30){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
-                                    fac3.innerHTML = parseFloat((l3 + factores[5])).toFixed(2);
-                                    l3 = parseFloat(l3 + factores[5]);
-                                //}
-                            }else if(l3 >= 30 && l3 < 35){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                                     
-                                    fac3.innerHTML = parseFloat((l3 + factores[6])).toFixed(2);
-                                    l3 = parseFloat(l3 + factores[6]);
-                                //}
-                            }else if(l3 >= 35 && l3 < 40){
-                                //if((item.Factor >= 0.5 || item.Factor <= -0.5) ){                                                
-                                    fac3.innerHTML = parseFloat((l3 + factores[7])).toFixed(2);
-                                    l3 = parseFloat(l3 + factores[7]);
-                                //}
-                            }else if(l3 >= 40 && l3 < 45){
-                                fac3.innerHTML = parseFloat((l3 + factores[8])).toFixed(2);
-                                l3 = parseFloat(l3 + factores[8]);
-                            }else if(l3 >= 45 && l3 <= 50){
-                                fac3.innerHTML = parseFloat((l3 + factores[9])).toFixed(2);
-                                l3 = parseFloat(l3 + factores[9]);
-                            }
-                    //});
-                },
-            });                                    
-        
-        p.value = parseFloat(((l1 + l2 + l3) / 3)).toFixed(2);
-        p1.innerHTML = parseFloat(((l1 + l2 + l3) / 3)).toFixed(0);
+   
+     
 
     return sw;
 }
@@ -3257,8 +3073,8 @@ function setDataGeneral() {
 
 function setDataMuestreo() {
     let ph = new Array();
-    let hora = new Array();
     let temperatura = new Array();
+    let temperaturaAmbiente = new Array();
     let phCalidad = new Array();
     let conductividad = new Array();
     let gasto = new Array();
@@ -3298,6 +3114,7 @@ function setDataMuestreo() {
         ph.push(row);
 
     }
+    console.log(ph);
 
     //Temperatura muestra
     for (let i = 0; i < $("#numTomas").val(); i++) {
@@ -3308,6 +3125,16 @@ function setDataMuestreo() {
         row.push($("#tempprom" + i).val());
         row.push($("#tempStatus1" + (i+1)).val());
         temperatura.push(row);
+    }
+    //Temperatura ambiente
+    for (let i = 0; i < $("#numTomas").val(); i++) {
+        row = new Array();
+        row.push($("#tempa1" + i).val());
+        row.push($("#temp2" + i).val());
+        row.push($("#temp3" + i).val());
+        row.push($("#temppromAmb" + i).val());
+        row.push($("#tempStatus1" + (i+1)).val());
+        temperaturaAmbiente.push(row);
     }
 
     //Ph calidad muestra
@@ -3359,6 +3186,7 @@ function setDataMuestreo() {
             numTomas: $("#numTomas").val(),
             ph: ph,
             temperatura: temperatura,
+            temperatura2:temperaturaAmbiente,
             phCalidad: phCalidad,
             conductividad: conductividad,
             gasto: gasto,

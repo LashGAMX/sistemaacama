@@ -1,124 +1,71 @@
 @extends('voyager::master')
 
 @section('content')
-
-  @section('page_header')
-  <h6 class="page-title"> 
-    <i class="far fa-eye"></i>
-    Observación
-  </h6>
  
   <div class="container-fluid">
+
     <div class="row">
       <div class="col-md-12">
-          <div class="row">
-              
-            <div class="col-md-2">
-              <div class="form-group">
-                <label>Tipo fórmula</label>                
-
-                <select class="form-control" id="tipoFormula">
-                  @foreach($formulas as $formula)
-                    <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
-                  @endforeach 
-                </select>                    
-
-              </div>                
-            </div>                          
-
-            <div class="col-md-1">
-              <button type="button" id="btnBuscar" class="btn btn-success">Buscar</button>
-            </div>
-
-            <div class="col-md-2">                                
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">PH < 2</label>
-                <select class="form-control" id="condicionPh">
-                  <option value="Sin seleccionar">Sin seleccionar</option>
-                  <option value="SI">SI</option>
-                  <option value="NO">NO</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-md-1">
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Sólidos</label>
-                <select class="form-control" id="solidos">
-                  <option value="Sin seleccionar">Sin seleccionar</option>
-                  <option value="SI">SI</option>
-                  <option value="NO">NO</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-md-1">
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Olor</label>
-                <select class="form-control" id="olor">
-                  <option value="Sin seleccionar">Sin seleccionar</option>
-                  <option value="SI">SI</option>
-                  <option value="NO">NO</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-md-1">
-              <div class="form-group">
-                <label for="exampleFormControlSelect1">Color</label>
-                <select class="form-control" id="color">
-                  <option value="Sin seleccionar">Sin seleccionar</option>
-                  <option value="SI">SI</option>
-                  <option value="NO">NO</option>
-                </select>
-              </div>
-            </div>
-
-            <div class="col-md-2">
-              <div class="form-group">
-                <label for="exampleFormControlTextarea1">Observaciones</label>
-                <textarea class="form-control" id="observacionesGenerales" rows="3"></textarea>
-              </div>
-            </div>
-
-            <div class="col-md-2">
-              <button class="btn btn-success" id="btnAplicar" onclick="aplicar();">Aplicar</button> 
-            </div>
-
+        <div class="row">
+          <div class="col-md-2">
+            <label for="tipoFormula">Tipo fórmula</label>                
+            <select class="form-control" id="tipoFormula">
+              @foreach($formulas as $formula)
+                <option value="{{$formula->Id_tipo_formula}}">{{$formula->Tipo_formula}}</option>
+              @endforeach 
+            </select>         
           </div>
-      </div>
-    
-      <div class="col-md-12">
-
-        <div id="contenedorGeneral">
-            
-          <div id="contenedorIzq">
-            <table class="table tableObservacion" id="solicitudGenerada"> 
-              <thead>
-                <tr>
-                  <th>Folio servicio</th>
-                  <th>Nombre cliente</th>
-                  <th scope="col">Fecha recepción</th>
-                  <th>FechaCreación</th>       
-                  <th>Punto de muestreo</th>
-                  <th>Norma</th>
-                  <th>Parámetros</th>
-                  <th>Observaciones</th>
-                  <th>Es pH < 2</th>
-                  <th>Sólidos</th>           
-                </tr>
-              </thead>
-              <tbody>
-                             
-              </tbody>
-            </table>
-          </div>            
-          
+          <div class="col-md-1">
+            <br><button class="btn btn-info" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>
+          </div>
+          <div class="col-md-3">
+            <label for="exampleFormControlSelect1">PH < 2</label>
+            <select class="form-control" id="condicionPh">
+              <option value="Sin seleccionar">Sin seleccionar</option>
+              <option value="SI">SI</option>
+              <option value="NO">NO</option>
+            </select>
+          </div>
+          <div class="col-md-4">
+            <label for="exampleFormControlTextarea1">Observaciones</label>
+            <textarea class="form-control" id="observacionesGenerales" rows="3"></textarea>
+          </div>
+          <div class="col-md-2">
+            <br><button class="btn btn-success" id="btnAplicar" onclick="aplicar();"><i class="fas fa-check"></i> Aplicar</button> 
+          </div>
         </div>
       </div>
     </div>
+
+    <div class="row">
+      <div class="col-md-6" id="divClientes">
+        <table id="tablaClientes" class="table">
+          <thead>
+            <tr> 
+              <th>Folio</th>
+              <th>Cliente</th>
+              <th>Recepción</th>
+              <th>Creación</th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+      <div class="col-md-6" id="divPuntos">
+        <table id="tablaPuntos" class="table">
+          <thead>
+            <tr>
+              <th>Punto Muestreo</th>
+              <th>Norma</th>
+              <th>Parametros</th>
+              <th>Observacion</th>
+              <th>pH <2 </th>
+            </tr>
+          </thead>
+        </table>
+      </div>
+    </div>
+  
   </div>
-@stop
 
   @section('css')
   <link rel="stylesheet" href="{{ asset('public/css/laboratorio/metales/observacion.css')}}">

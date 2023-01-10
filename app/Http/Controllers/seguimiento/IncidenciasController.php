@@ -56,7 +56,7 @@ class IncidenciasController extends Controller
         return redirect('admin/seguimiento/incidencias/lista');
     }
     public function update(Request $request){
-        $model = Incidencias::find($request->Id_incidencia);
+        $model = Incidencias::find($request->id);
         $model->Observacion = $request->observacion;
         $model->Id_Estado = $request->estado;
         $model->save();

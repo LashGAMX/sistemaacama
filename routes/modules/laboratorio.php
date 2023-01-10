@@ -24,6 +24,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         //? Modulo Observacion - Agregar observaciones a analisis
         Route::get('observacion', [MetalesController::class, 'observacion']);
         Route::post('getObservacionanalisis', [MetalesController::class, 'getObservacionanalisis']);
+        Route::post('getPuntoAnalisis', [MetalesController::class, 'getPuntoAnalisis']);
         Route::post('aplicarObservacion', [MetalesController::class, 'aplicarObservacion']);
 
         //? Modulo captura de datos analisis

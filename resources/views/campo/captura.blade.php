@@ -715,12 +715,10 @@
                                                             @if (@$phMuestra[$i]->Fecha == '' || @$phMuestra[$i]->Fecha == NULL ) 
                                                                 {{@$phMuestra[$i]->Fecha}} 
                                                             @else 
-                                                            {{\Carbon\Carbon::parse($model->Fecha_muestreo)}}
+                                                            {{\Carbon\Carbon::parse($model->Fecha)}}
                                                             @endif " @if (@$sw == true) disabled @endif>
                                                     @else
-                                                        {{-- <input type="date" id="phf{{ $i }}"value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif>
-                                                        <input type="text" id="phh{{ $i }}"  maxlength="2" minlength="1"  size="2" placeholder="Hr" @if (@$sw == true) disabled @endif>
-                                                        <input type="text" id="phm{{ $i }}"  maxlength="2" minlength="1"  size="2" placeholder="Min" @if (@$sw == true) disabled @endif> --}}
+                                                        
                                                         <input type="datetime-local" id="phf{{ $i }}" onchange='validacionFechaMuestreo("phf{{$i}}","phf{{$i-1}}",2);' value="{{@$phMuestra[$i]->Fecha}}" @if (@$sw == true) disabled @endif>
                                                     @endif
                                                 </td>
@@ -841,7 +839,7 @@
                                                 <td>{{$i + 1}}</td>
                                                 
                                                 <td><input type="number" id="tempa1{{ $i }}"
-                                                        onkeyup='valTempMuestra("tempa1{{ $i }}","tempa2{{ $i }}","tempa3{{ $i }}","tempaprom{{ $i }}","factorTempa1{{ $i }}","factorTempa2{{ $i }}","factorTempa3{{ $i }}", "tempaprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$tempAmbiente[$i]->Temperatura1}}" @if (@$sw == true) disabled @endif>
+                                                        onkeyup='valTempMuestraAmbiente("tempa1{{ $i }}","tempa2{{ $i }}","tempa3{{ $i }}","temppromAmb{{ $i }}","factorTempa1{{ $i }}","factorTempa2{{ $i }}","factorTempa3{{ $i }}", "tempaprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$tempAmbiente[$i]->Temperatura1}}" @if (@$sw == true) disabled @endif>
                                                 </td>
                                                 
                                                 <td>
@@ -849,7 +847,7 @@
                                                 </td>
                                                 
                                                 <td><input type="number" id="temp2{{ $i }}"
-                                                        onkeyup='valTempMuestra("tempa1{{ $i }}","tempa2{{ $i }}","tempa3{{ $i }}","tempaprom{{ $i }}","factorTempa1{{ $i }}","factorTempa2{{ $i }}","factorTempa3{{ $i }}", "tempaprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$tempAmbiente[$i]->Temperatura2}}" @if (@$sw == true) disabled @endif>
+                                                        onkeyup='valTempMuestraAmbiente("tempa1{{ $i }}","tempa2{{ $i }}","tempa3{{ $i }}","temppromAmb{{ $i }}","factorTempa1{{ $i }}","factorTempa2{{ $i }}","factorTempa3{{ $i }}", "tempaprom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$tempAmbiente[$i]->Temperatura2}}" @if (@$sw == true) disabled @endif>
                                                 </td>
                                                 
                                                 <td>
@@ -857,16 +855,16 @@
                                                 </td>
                                                 
                                                 <td><input type="number" id="temp3{{ $i }}"
-                                                        onkeyup='valTempMuestra("tempa1{{ $i }}","tempa2{{ $i }}","tempa3{{ $i }}","tempaprom{{ $i }}","factorTempa1{{ $i }}","factorTempa2{{ $i }}","factorTempa3{{ $i }}", "tempparom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$tempAmbiente[$i]->Temperatura3}}" @if (@$sw == true) disabled @endif>
+                                                        onkeyup='valTempMuestraAmbiente("tempa1{{ $i }}","tempa2{{ $i }}","tempa3{{ $i }}","temppromAmb{{ $i }}","factorTempa1{{ $i }}","factorTempa2{{ $i }}","factorTempa3{{ $i }}", "tempparom1{{ $i }}");' oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="5" value="{{@$tempAmbiente[$i]->Temperatura3}}" @if (@$sw == true) disabled @endif>
                                                 </td>
                                                 
                                                 <td>
                                                     <p id="factorTempa3{{ $i }}"></p>
                                                 </td>
                                                 
-                                                <td><p id="tempproma1{{ $i }}">{{@$tempAmbiente[$i]->Promedio}}</p></td>
+                                                <td><p id="tempproma1Amb{{ $i }}">{{@$tempAmbiente[$i]->Promedio}}</p></td>
                                                 
-                                                <td><input type="text" id="tempprom{{ $i }}" value="{{@$tempAmbiente[$i]->Promedio}}" hidden></td>
+                                                <td><input type="text" id="temppromAmb{{ $i }}" value="{{@$tempAmbiente[$i]->Promedio}}" hidden></td>
                                                 
                                                 @if (!is_null(@$tempAmbiente[$i]->Activo))
                                                     <td><input type="text" id="tempaStatus1{{$i + 1}}" value="{{@$tempAmbiente[$i]->Activo}}" hidden></td>

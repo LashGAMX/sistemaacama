@@ -611,13 +611,13 @@ class CampoController extends Controller
         if ($tempAmbiente->count()) {
             for ($i = 0; $i < $request->numTomas; $i++) {
              
-                $temp = TemperaturaAmbiente::find($tempMuestra[$i]->Id_temperatura);
+                $temp = TemperaturaAmbiente::find($tempAmbiente[$i]->Id_temperatura);
                 $temp->Id_solicitud = $request->idSolicitud;
-                $temp->Temperatura1 = $request->temperatura[$i][0];
-                $temp->Temperatura2 = $request->temperatura[$i][1];
-                $temp->Temperatura3 = $request->temperatura[$i][2];
-                $temp->Promedio = $request->temperatura[$i][3];
-                $temp->Activo = $request->temperatura[$i][4];
+                $temp->Temperatura1 = $request->temperatura2[$i][0];
+                $temp->Temperatura2 = $request->temperatura2[$i][1];
+                $temp->Temperatura3 = $request->temperatura2[$i][2];
+                $temp->Promedio = $request->temperatura2[$i][3];
+                $temp->Activo = $request->temperatura2[$i][4];
                 $temp->Id_user_m = Auth::user()->id;
 
                 $nota = "Registro modificado";
@@ -630,11 +630,11 @@ class CampoController extends Controller
           
                 $tempAmbiente = TemperaturaAmbiente::create([
                     'Id_solicitud' => $request->idSolicitud,
-                    'Temperatura1' => $request->temperatura[$i][0],
-                    'Temperatura2' => $request->temperatura[$i][1],
-                    'Temperatura3' => $request->temperatura[$i][2],
-                    'Promedio' => $request->temperatura[$i][3],
-                    'Activo' => $request->temperatura[$i][4],
+                    'Temperatura1' => $request->temperatura2[$i][0],
+                    'Temperatura2' => $request->temperatura2[$i][1],
+                    'Temperatura3' => $request->temperatura2[$i][2],
+                    'Promedio' => $request->temperatura2[$i][3],
+                    'Activo' => $request->temperatura2[$i][4],
                     'Id_user_c' => Auth::user()->id,
                     'Id_user_m' => Auth::user()->id
                 ]);

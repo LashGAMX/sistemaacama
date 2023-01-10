@@ -145,7 +145,6 @@ class SolicitudController extends Controller
         //$model = Solicitud::where('Id_cotizacion',$idCot)->first();
 
         $sw = false;
-        var_dump($intermediario);
         return view(
             'cotizacion.solicitudSinCot',
             compact(

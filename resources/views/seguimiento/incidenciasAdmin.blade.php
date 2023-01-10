@@ -96,48 +96,48 @@
     </div>
 </div>
 
-
-        <div class="modal fade" id="modalIncidencia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-lg">
-              <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="">Detalle Incidencia. </h5>
+<div class="modal fade" id="modalIncidencia" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width: 70%">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Detalle Incidencia</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                      <span aria-hidden="true">&times;</span>
                     </button>
-                </div>
-                <div class="modal-body">
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Modulo</label>
-                                <div id="divModulo"></div>
-                                </select>
-                            </div>
+                  </div>
+                  <div id="divIdIncidencia"></div>
+                  <div class="modal-body"> 
+                      <div class="row">
+                            <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Modulo</label>
+                                        <div id="divModulo"></div>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Submodulo</label>
+                                        <div id="divSubmoduloModal"></div>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Prioridad</label>
+                                        <div id="divPrioridad"></div>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="form-group">
+                                        <label for="">Fecha</label>
+                                        <div id="divFecha"></div>
+                                        </select>
+                                    </div>
+                            </div> 
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Submodulo</label>
-                                <div id="divSubmoduloModal"></div>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Prioridad</label>
-                                <div id="divPrioridad"></div>
-                                </select>
-                            </div>
-                        </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label for="">Fecha</label>
-                                <div id="divFecha"></div>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
+                        <div class="row">
                         <div class="col-md-6">
                             <label for="">Descripcion</label>
                             <div id="divDescripcion"></div>
@@ -159,16 +159,18 @@
                                         <div id="divImagen"></div>    
                                     </div>
                             </div>
-                        </div>
-                    </div>
+                  </div>
+                  <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" onclick="update()" id="update" class="btn btn-primary">Guardar</button>
+                  </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                    <button type="button" onclick="update()" id="update" class="btn btn-primary">Guardar</button>
-                </div>
-               
+              </div>
+              
+            </div>     
         </div>
-      
+
+
 
                 <style>
                     .zoom {

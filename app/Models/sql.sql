@@ -605,3 +605,9 @@ INNER JOIN menu_items as menu ON inci.id_modulo = menu.id
 INNER JOIN menu_items as menu2 On inci.Id_submodulo = menu2.id 
 INNER JOIN incidencias_estado AS est ON inci.Id_estado = est.Id_estado 
 INNER JOIN incidencias_prioridad as pri ON inci.Id_prioridad = pri.Id_prioridad
+
+/* ViewProcesoAnalisis */
+
+CREATE VIEW ViewProcesoAnalisis as SELECT pr.*,sol.Padre,sol.Hijo FROM proceso_analisis as pr
+INNER JOIN ViewSolicitud as sol
+ON pr.Id_solicitud = sol.Id_solicitud

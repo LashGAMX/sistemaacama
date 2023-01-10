@@ -85,43 +85,58 @@ class MetalesController extends Controller
         return view('laboratorio.metales.observacion', compact('formulas'));
     }
 
-    public function getObservacionanalisis(Request $request)
+    public function getObservacionanalisis(Request $res)
     {
-        $solicitudModel = DB::table('ViewSolicitud')->get();
-        $sw = false;
-        foreach ($solicitudModel as $item) {
-            $paramModel = DB::table('ViewCodigoParametro')->where('Id_solicitud', $item->Id_solicitud)->where('Id_tipo_formula', $request->id)->get();
-            $sw = false;
-            foreach ($paramModel as $item2) {
-                $areaModel = DB::table('ViewTipoFormulaAreas')->where('Id_formula', $item2->Id_tipo_formula)->where('Id_area', 2)->get();
-                if ($areaModel->count()) {
-                    $sw = true;
-                }
-            }
-            if ($sw == true) {
-                $model = DB::table('ViewObservacionMuestra')->where('Id_area', 2)->where('Id_analisis', $item->Id_solicitud)->get();
-                if ($model->count()) {
-                } else {
-                    ObservacionMuestra::create([
-                        'Id_analisis' => $item->Id_solicitud,
-                        'Id_area' => 2,
-                        'Id_tipo' => $request->id,
-                        'Ph' => '',
-                        'Solido' => '',
-                        'Olor' => '',
-                        'Color' => '',
-                        'Observacion' => '',
-                    ]);
-                }
-                $sw = false;
-            }
+        
+        switch ($res->tipo) {
+            case 1:
+                $model = DB::table('ViewProcesoAnalisis')->where('Padre',1)->orderBy('Id_solicitud','asc')->get();
+                break;
+            
+            default:
+                # code...
+                break;
         }
-        $model = DB::table('ViewObservacionMuestra')->where('Id_area', 2)->where('Id_tipo', $request->id)->get();
 
         $data = array(
             'model' => $model,
         );
 
+        return response()->json($data);
+    }
+    public function getPuntoAnalisis(Request $res)
+    {
+        $solModel = DB::table('ViewSolicitud')->where('Id_solicitud',$res->idSol)->first();
+        if ($solModel->Siralab == 1) {
+            $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre',$res->idSol)->get();
+        } else {
+            $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre',$res->idSol)->get();
+        }
+
+        $model = array();
+        $temp = array();
+        foreach($punto as $item)
+        {
+            $obs = ObservacionMuestra::where('Id_analisis',$item->Id_solicitud)->get();
+            if ($obs->count()) {
+                if ($solModel->Siralab == 1) {
+                    array_push($model,$item->Punto);
+                } else {
+                    array_push($model,$item->Punto_muestreo);   
+                }
+                array_push($model,$item->Clave_);
+                array_push($model,$obs[0]->Ph);
+                array_push($model,$obs[0]->Observacion);
+            }else{
+                array_push($model,"");
+                array_push($model,"");
+            }
+        }
+        
+        $data = array(
+            'solModel' => $solModel,
+            'model' => $model,
+        );
         return response()->json($data);
     }
 

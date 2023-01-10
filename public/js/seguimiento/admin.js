@@ -40,6 +40,7 @@ function getSubmodulos(){
     let divDescripcion = document.getElementById("divDescripcion");
     let divObservacion = document.getElementById("divObservacion");
     let divImagen = document.getElementById("divImagen");
+    let divIdIncidencia = document.getElementById("divIdIncidencia");
 
     $.ajax({
         type: "POST",
@@ -78,6 +79,9 @@ function getSubmodulos(){
             tab = "";
             tab+= '<img class="zoom" src="data:image/gif;base64,'+response.model.Imagen+'" style="width: 100px;height: auto;">'
             divImagen.innerHTML = tab;
+            tab = "";
+            tab += '<input id="idIncidencia" hidden value="'+response.model.Id_incidencia+'">'
+            divIdIncidencia.innerHTML = tab;
         }
     });
   }
@@ -86,7 +90,8 @@ function getSubmodulos(){
         type: "POST",
         url: base_url + "/admin/seguimiento/incidencias/update",
         data: {
-              observacion:$("#modulo").val(),
+              id:$("#idIncidencia").val(),
+              observacion:$("#observacionModal").val(),
               estado: $("#estadoModal").val(),
             _token: $('input[name="_token"]').val()
         }, 
