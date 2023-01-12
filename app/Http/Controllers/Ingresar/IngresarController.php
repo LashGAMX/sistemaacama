@@ -37,6 +37,11 @@ class IngresarController extends Controller
     {
         $cliente = DB::table('ViewSolicitud')->where('Folio_servicio', $request->folioSol)->first();
         $model = DB::table('ViewSolicitud')->where('Hijo', $cliente->Id_solicitud)->get();
+        $proceso = ProcesoAnalisis::where('Id_solicitud',$cliente->Id_solicitud)->get();
+        $std = false;
+        if ($proceso->count()) {
+            $std = true;
+        }
         $siralab = false;
         if ($cliente->Siralab == 1) {
             $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre', $cliente->Id_solicitud)->get();
@@ -46,6 +51,8 @@ class IngresarController extends Controller
         }
 
         $array = array(
+            'std' => $std,
+            'proceso' => $proceso,
             'model' => $model,
             'cliente' => $cliente,
             'puntos' => $puntos,

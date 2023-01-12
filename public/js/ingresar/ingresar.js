@@ -27,6 +27,8 @@ $(document).ready(function () {
 
 });
 function buscarFolio() {
+    let std = document.getElementById("stdMuestra")
+    let temp = ''
     $.ajax({
         type: "POST",
         url: base_url + '/admin/ingresar/buscarFolio',
@@ -43,6 +45,14 @@ function buscarFolio() {
             $("#descarga").val(response.cliente.Descarga);
             $("#cliente").val(response.cliente.Nombres);
             $("#empresa").val(response.cliente.Empresa);
+            $("#hora_recepcion1").val(response.proceso[0].Hora_recepcion);
+            $("#hora_entrada").val(response.proceso[0].Hora_entrada);
+            if (response.std == true) {
+                temp = '<p class="text-success">Muestra ingresada</p>'
+            } else {
+                temp = '<p class="text-warning">Falta ingreso</p>'
+            }
+            std.innerHTML = temp
             tableCodigos(response.model);
             tablePuntos(response.puntos, response.siralab)
         }

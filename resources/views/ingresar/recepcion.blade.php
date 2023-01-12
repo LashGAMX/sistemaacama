@@ -7,7 +7,8 @@
     <div class="col-md-12">
         <br>
         <div class="form-group">
-            <input type="text" class="form-control" style="width: 30%" onkeyup="buscarFolio();" placeholder="Buscar folio" id="folioSol" autofocus>
+            <input type="text" class="form-control" style="width: 30%" onkeyup="buscarFolio();" placeholder="Buscar folio" id="folioSol" autofocus> 
+            <div id="stdMuestra"></div>
             <button id="btnIngresar" class="btn btn-info" onclick="setIngresar()"><i class="fas fa-arrow-right"></i> Ingresar</button>
         </div>
     </div>
@@ -19,7 +20,7 @@
         <div class="col-md-4">
            <div class="row">
             <div class="col-md-12">
-                <input type="text" id="idSol" >
+                <input type="text" id="idSol" hidden>
                 <label class="col col-sm-12 datosGenerales" >Folio: <input type="text" id="folio" disabled /></label>
                 <label class="datosGenerales">Descarga: <input type="text" id="descarga" disabled /></label>
                 <label class="datosGenerales">Cliente o Intermediario: <input type="text" size="50" id="cliente"  disabled /></label>

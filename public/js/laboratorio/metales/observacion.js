@@ -113,18 +113,15 @@ function getPuntoAnalisis(id)
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
-            $.each(response.model, function (key, item) {
+            for (let i = 0; i < response.model.length; i++) {
                 tab += '<tr>';
-                if (response.solModel.Siralab == 1) {
-                    tab += '<td>' + item.Punto + '</td>';   
-                } else {
-                    tab += '<td>' + item.Punto_muestreo + '</td>';   
-                }
-                tab += '<td>' + response.solModel.Clave_norma + '</td>';
+                tab += '<td>' + response.model[i][0] + '</td>';
+                tab += '<td>' + response.model[i][1] + '</td>';
                 tab += '<td></td>';
-                tab += '<td></td>';
+                tab += '<td>' + response.model[i][2] + '</td>';
+                tab += '<td>' + response.model[i][3] + '</td>';
                 tab += '</tr>';
-            });
+            }
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
@@ -146,11 +143,9 @@ function aplicar() {
         url: base_url + '/admin/laboratorio/metales/aplicarObservacion',
         data: {
             idTipo: $("#tipoFormula").val(),
-            folioActual: folioSel,
-            ph: $('#condicionPh').val(),
-            solidos: $('#solidos').val(),
-            olor: $('#olor').val(),
-            color: $('#color').val(),
+            id: idServicio,
+            obs: obs,
+            ph: $('#ph').val(),
             observacionGeneral: $('#observacionesGenerales').val()
         },
         dataType: "json",

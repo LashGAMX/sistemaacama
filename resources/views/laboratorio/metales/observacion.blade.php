@@ -20,7 +20,7 @@
           </div>
           <div class="col-md-3">
             <label for="exampleFormControlSelect1">PH < 2</label>
-            <select class="form-control" id="condicionPh">
+            <select class="form-control" id="ph">
               <option value="Sin seleccionar">Sin seleccionar</option>
               <option value="SI">SI</option>
               <option value="NO">NO</option>
@@ -28,7 +28,7 @@
           </div>
           <div class="col-md-4">
             <label for="exampleFormControlTextarea1">Observaciones</label>
-            <textarea class="form-control" id="observacionesGenerales" rows="3"></textarea>
+            <textarea class="form-control" id="obs" rows="3"></textarea>
           </div>
           <div class="col-md-2">
             <br><button class="btn btn-success" id="btnAplicar" onclick="aplicar();"><i class="fas fa-check"></i> Aplicar</button> 

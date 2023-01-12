@@ -64,7 +64,7 @@
         <div class = "col-md-6">
             <div class = "form-group">
                 <label for="exampleFormControlTextarea1">Imagen de apoyo</label>
-                <input type="file" name="file" id="" accept="image/*" required>
+                <input type="file" name="file" id="" accept="image/*" >
             </div>
         </div>
     </div>

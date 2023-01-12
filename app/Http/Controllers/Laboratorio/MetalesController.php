@@ -120,17 +120,24 @@ class MetalesController extends Controller
             $obs = ObservacionMuestra::where('Id_analisis',$item->Id_solicitud)->get();
             if ($obs->count()) {
                 if ($solModel->Siralab == 1) {
-                    array_push($model,$item->Punto);
+                    array_push($temp,$item->Punto);
                 } else {
-                    array_push($model,$item->Punto_muestreo);   
+                    array_push($temp,$item->Punto_muestreo);   
                 }
-                array_push($model,$item->Clave_);
-                array_push($model,$obs[0]->Ph);
-                array_push($model,$obs[0]->Observacion);
+                array_push($temp,$solModel->Clave_norma);
+                array_push($temp,$obs[0]->Observacion);
+                array_push($temp,$obs[0]->Ph);
             }else{
-                array_push($model,"");
-                array_push($model,"");
+                if ($solModel->Siralab == 1) {
+                    array_push($temp,$item->Punto);
+                } else {
+                    array_push($temp,$item->Punto_muestreo);   
+                }
+                array_push($temp,$solModel->Clave_norma);
+                array_push($temp,"");
+                array_push($temp,"");
             }
+            array_push($model,$temp); 
         }
         
         $data = array(
@@ -140,25 +147,20 @@ class MetalesController extends Controller
         return response()->json($data);
     }
 
-    public function aplicarObservacion(Request $request)
+    public function aplicarObservacion(Request $res)
     {
-        $viewObservacion = DB::table('ViewObservacionMuestra')->where('Id_area', 2)->where('Folio', 'LIKE', "%{$request->folioActual}%")->first();
+        $solModel = DB::table('ViewSolicitud')->where('Id_solicitud',$res->idSol)->first();
+        if ($solModel->Siralab == 1) {
+            $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre',$res->idSol)->get();
+        } else {
+            $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre',$res->idSol)->get();
+        }
 
-
-        $observacion = ObservacionMuestra::find($viewObservacion->Id_observacion);
-        $observacion->Ph = $request->ph;
-        $observacion->Solido = $request->solidos;
-        $observacion->Olor = $request->olor;
-        $observacion->Color = $request->color;
-        $observacion->Observaciones = $request->observacionGeneral;
-        $observacion->save();
-
-
-        $model = DB::table('ViewObservacionMuestra')->where('Id_area', 2)->get();
-
+        
+  
+        
         $data = array(
-            'model' => $model,
-            'view' => $viewObservacion,
+            
         );
         return response()->json($data);
     }
@@ -176,8 +178,8 @@ class MetalesController extends Controller
 
     public function captura()
     {
-        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
-
+        // $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
+        $parametro = DB::table('ViewParametros')->where('Id_area',2)->get();
         // $formulas = DB::table('ViewTipoFormula')->where('Id_area',2)->get(); 
         // var_dump($parametro);
         $controlModel = ControlCalidad::all();
@@ -552,7 +554,8 @@ class MetalesController extends Controller
 
     public function lote()
     {
-        $parametro = DB::table('ViewParametroUsuarios')->where('Id_user',Auth::user()->id)->get();
+        // $parametro = DB::table('ViewParametroUsuarios')->where('Id_user',Auth::user()->id)->get();
+        $parametro = DB::table('ViewParametros')->where('Id_area',2)->get();
 
         $textoRecuperadoPredeterminado = Reportes::where('Id_reporte', 0)->first();
         return view('laboratorio.metales.lote', compact('parametro', 'textoRecuperadoPredeterminado'));
