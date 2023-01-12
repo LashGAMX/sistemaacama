@@ -99,6 +99,7 @@ function getSubmodulos(){
         success: function (response) {            
             console.log(response);
             alert("Guardado!");
+            
         }
     });
   }
