@@ -43,7 +43,7 @@ $(document).ready(function () {
     });
     $("#formula").click(function () {
         setCalcular();
-        buscar();
+        
     });
     
     $("#idArea").on("change", function () {
@@ -104,7 +104,7 @@ function setConstantes() {
         async: false,
         success: function (response) {
             console.log(response);
-            if (response.sw == true) {
+            if (response) {
                 swal("Datos guardados!", "Guardado!", "success");
             }
         }
@@ -223,8 +223,6 @@ function curvaHijos(){
 
 function setCalcular() {
     getMatriz();
-    let tabla = document.getElementById('divTablaStd');
-    let tab = '';
     $.ajax({
         url: base_url + '/admin/laboratorio/setCalcular', //archivo que recibe la peticion
         type: 'POST', //método de envio
@@ -240,39 +238,10 @@ function setCalcular() {
         async: false,
         success: function (response) {
             console.log(response);
-            tab += '<table id="tablaLote" class="table table-sm">';
-            tab += '    <thead class="thead-dark">';
-            tab += '        <tr>';
-            tab += '          <th>Id</th>';
-            tab += '          <th>STD</th> ';
-            tab += '          <th>Concentracion</th> ';
-            tab += '          <th>ABS1</th> ';
-            tab += '          <th>ABS2</th> ';
-            tab += '          <th>ABS3</th> ';
-            tab += '          <th>Promedio</th> ';
-            tab += '        </tr>';
-            tab += '    </thead>';
-            tab += '    <tbody>';
-            $.each(response.stdModel, function (key, item) {
-                tab += '<tr>';
-                tab += '<td>' + item.Id_std + '</td>';
-                tab += '<td>' + item.STD + '</td>';
-                tab += '<td><input value="' + item.Concentracion + '"></td>';
-
-                tab += '<td><input value="' + item.ABS1 + '"></td>';
-                tab += '<td><input value="' + item.ABS2 + '"></td>';
-                tab += '<td><input value="' + item.ABS3 + '"></td>';
-                tab += '<td><input value="' + item.Promedio + '"></td>';
-                tab += '</tr>';
-            });
-
-            tab += '    </tbody>';
-            tab += '</table>';
-            tabla.innerHTML = tab;
-
             $("#b").val(response.b.toFixed(5));
             $("#m").val(response.m.toFixed(5));
             $("#r").val(response.r.toFixed(5));
+            
         }
     });
 }
@@ -486,6 +455,9 @@ var res = new Array();
 var cont = 0;
 var idLote = 0;
 function buscar() {
+    $("#b").val("");
+    $("#m").val("");
+    $("#r").val("");
     let tabla = document.getElementById('divTablaStd');
     let tablaHijos = document.getElementById('divTablaHijos');
     let tab = '';
@@ -509,11 +481,7 @@ function buscar() {
                 $("#m").val(response.bmr.M);
                 $("#r").val(response.bmr.R);
                 $("#vigencia").text(response.bmr.Fecha_inicio + " / " + response.bmr.Fecha_fin)
-            } else {
-                $("#b").val("");
-                $("#m").val("");
-                $("#r").val("");
-            }
+            } 
             res = response.concentracion;
             cont = 0;
             if (response.sw == false) {

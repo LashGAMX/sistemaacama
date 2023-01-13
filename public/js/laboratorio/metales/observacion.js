@@ -18,11 +18,11 @@ $(document).ready(function () {
 });
 
 document.addEventListener("keydown", function(event) {
-    if (event.ctrlKey && event.code === "KeyA")
+    if (event.altKey && event.code === "KeyA")
     {
-        alert("Obs Aplicada")
+        aplicar()
     }
-    if (event.ctrlKey && event.code === "KeyB"){
+    if (event.altKey && event.code === "KeyB"){
         alert("Buscar")
     }
 });
@@ -135,69 +135,20 @@ function getPuntoAnalisis(id)
 
 //Debe ir función AJAX
 function aplicar() {
-    let tabla = document.getElementById('solicitudGenerada');
-    let tab = '';
 
     $.ajax({
         type: "POST",
         url: base_url + '/admin/laboratorio/metales/aplicarObservacion',
         data: {
-            idTipo: $("#tipoFormula").val(),
-            id: idServicio,
-            obs: obs,
+            idSol: idServicio,
+            obs: $('#obs').val(),
             ph: $('#ph').val(),
-            observacionGeneral: $('#observacionesGenerales').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
-            tab += '<table id="solicitudGenerada" class="table table-sm">';
-            tab += '    <thead class="thead-dark">';
-            tab += '        <tr>';
-            tab += '          <th>Folio servicio</th>';
-            tab += '          <th>Nombre cliente</th>';
-            tab += '          <th scope="col">Fecha recepción</th>';
-            tab += '          <th>FechaCreación</th>       ';
-            // tab += '          <th>Punto de muestreo</th>';
-            tab += '          <th>Norma</th>';
-            // tab += '          <th>Parámetros</th>';
-            tab += '          <th>Es pH < 2</th>';
-            tab += '          <th>Sólidos</th> ';
-            tab += '          <th>Olor</th> ';
-            tab += '          <th>Color</th> ';
-            tab += '          <th>Observaciones</th>';
-            tab += '        </tr>';
-            tab += '    </thead>';
-            tab += '    <tbody>';
-            $.each(response.model, function (key, item) {
-                tab += '<tr>';
-                tab += '<td>' + item.Folio + '</td>';
-                tab += '<td>' + item.Empresa + '</td>';
-                tab += '<td>' + item.Hora_entrada + '</td>';
-                tab += '<td>'+item.created_at+'</td>';
-                // tab += '<td></td>';
-                tab += '<td>'+item.Clave_norma+'</td>';
-                // tab += '<td></td>';
-                tab += '<td>' + item.Ph + '</td>';
-                tab += '<td>' + item.Solido + '</td>';
-                tab += '<td>' + item.Olor + '</td>';
-                tab += '<td>' + item.Color + '</td>';
-                tab += '<td>' + item.Observaciones + '</td>';
-                tab += '</tr>';
-            });
-            tab += '    </tbody>';
-            tab += '</table>';
-            tabla.innerHTML = tab;
-
-            var table = $('#solicitudGenerada').DataTable();
-
-            $('#solicitudGenerada tbody').on('click', 'tr', function () {
-                $(this).toggleClass('selected');
-            });
-
-            $('#button').click(function () {
-                alert(table.rows('.selected').data().length + ' row(s) selected');
-            });
+            alert("Observacion aplicada")
+            getPuntoAnalisis(idServicio)
         }
     });
 

@@ -112,19 +112,21 @@ class CurvaController extends Controller
     public function curvaHijos(Request $request){
         $hijos = Parametro::where('Padre', $request->idParametro)->get();
 
-        $inicio = new Carbon($request->fechaInicio);
-        $fin = new Carbon($request->fechaFin);
-        $fechaInicio = $inicio->toDateString();
-        $fechaFin = $fin->toDateString(); 
-
+      
         for($i=0; $i < sizeof($hijos); $i++){
-                    CurvaConstantes::create([
-                        'Id_area' => $request->idArea,
-                        'Id_parametro' => $hijos[$i]->Id_parametro,
-                        'Fecha_inicio' => $fechaInicio,
-                        'Fecha_fin' => $fechaFin,
-                    ]);
-                }
+                    // CurvaConstantes::create([
+                    //     'Id_area' => $request->idArea,
+                    //     'Id_parametro' => $hijos[$i]->Id_parametro,
+                    //     'Fecha_inicio' => $fechaInicio,
+                    //     'Fecha_fin' => $fechaFin,
+                    // ]);
+                    $curva = CurvaConstantes::where('Id_parametro', $request->idParametro)->first();
+
+                    $model = $curva->replicate();
+                    $model->Id_parametro = $hijos[$i]->Id_parametro;
+                    $model->save();
+            
+        }
 
         $data = array(
             'hijos' => $hijos,
@@ -169,7 +171,7 @@ class CurvaController extends Controller
             
                 ]);
                
-                if ($request->idArea == 2 || $request->idParametro == 95 || $request->idParametro == 243){
+                if ($request->idArea == 2 || $request->idParametro == 95 || $request->idParametro == 243 || $request->idParametro == 113){
                     //Creacion del blanco
                 estandares::create([
                     //'Id_lote' => $request->idLote,

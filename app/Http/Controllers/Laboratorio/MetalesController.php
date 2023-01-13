@@ -125,7 +125,7 @@ class MetalesController extends Controller
                     array_push($temp,$item->Punto_muestreo);   
                 }
                 array_push($temp,$solModel->Clave_norma);
-                array_push($temp,$obs[0]->Observacion);
+                array_push($temp,$obs[0]->Observaciones);
                 array_push($temp,$obs[0]->Ph);
             }else{
                 if ($solModel->Siralab == 1) {
@@ -141,6 +141,7 @@ class MetalesController extends Controller
         }
         
         $data = array(
+            'punto' => $punto,
             'solModel' => $solModel,
             'model' => $model,
         );
@@ -156,11 +157,29 @@ class MetalesController extends Controller
             $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre',$res->idSol)->get();
         }
 
-        
-  
+        foreach($punto as $item)
+        {
+            $obs = ObservacionMuestra::where('Id_analisis',$item->Id_solicitud)->get();
+            if ($obs->count()) {
+                $temp = ObservacionMuestra::where('Id_analisis',$item->Id_solicitud)->first();
+                $temp->Ph = $res->ph;
+                $temp->Observaciones = $res->obs;
+                $temp->Id_user_m = Auth::user()->id;
+                $temp->save();                
+            }else{
+                ObservacionMuestra::create([
+                    'Id_analisis' => $item->Id_solicitud,
+                    'Ph' => $res->ph,
+                    'Observaciones' => $res->obs,
+                    'Id_user_c' => Auth::user()->id,
+                    'Id_user_m' => Auth::user()->id,
+                ]);
+            }
+        }
         
         $data = array(
-            
+            'punto' => $punto,
+            'solModel' => $solModel,
         );
         return response()->json($data);
     }
@@ -555,10 +574,18 @@ class MetalesController extends Controller
     public function lote()
     {
         // $parametro = DB::table('ViewParametroUsuarios')->where('Id_user',Auth::user()->id)->get();
-        $parametro = DB::table('ViewParametros')->where('Id_area',2)->get();
+        $tipo = DB::table('tipo_formulas')
+        ->where('Id_tipo_formula',20)
+        ->orWhere('Id_tipo_formula',21)
+        ->orWhere('Id_tipo_formula',22)
+        ->orWhere('Id_tipo_formula',23)
+        ->orWhere('Id_tipo_formula',24)
+        ->get();
 
-        $textoRecuperadoPredeterminado = Reportes::where('Id_reporte', 0)->first();
-        return view('laboratorio.metales.lote', compact('parametro', 'textoRecuperadoPredeterminado'));
+        $data = array(
+            'tipo'=> $tipo 
+        );
+        return view('laboratorio.metales.lote',$data);
     }
     public function createLote(Request $request)
     {
@@ -590,20 +617,16 @@ class MetalesController extends Controller
         return response()->json($data);
     }
 
-    public function getLote(Request $request)
+    public function getLote(Request $res)
     {
-        $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica', $request->formulaTipo)->where('Fecha', $request->fechaAnalisis)->get();
-        $fecha = new Carbon($request->fechaAnalisis);
-        $today = $fecha->toDateString();
-
-        $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
-        $curva  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-        ->where('Id_area', $parametro->Id_area)
-        ->where('Id_parametro', $parametro->Id_parametro)->first();
-
+       $model = DB::table('ViewParametros')
+        ->where('Id_tipo_formula',$res->tipo)
+        ->where('Id_tecnica',20)
+        ->orWhere('Id_tecnica',21)
+        ->orWhere('Id_tecnica',22)
+        ->get();
         $data = array(
-            'lote' => $model,
-            'curva' => $curva,
+            'model' => $model,
         );
         return response()->json($data);
     }

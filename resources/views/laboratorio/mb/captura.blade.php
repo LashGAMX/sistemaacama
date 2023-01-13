@@ -725,16 +725,16 @@
                                             <td><input type="text" id="lum2" value="0"></td>
                                         </tr>
                                         <tr>
+                                            <td>B</td>
+                                            <td>Unicinarias</td>
+                                            <td><input type="text" id="uni1" value="0"></td>
+                                            <td><input type="text" id="uni2" value="0"></td>
+                                        </tr>
+                                        <tr>
                                             <td>C</td>
                                             <td>H. NANA</td>
                                             <td><input type="text" id="na1" value="0"></td>
                                             <td><input type="text" id="na2" value="0"></td>
-                                        </tr>
-                                        <tr>
-                                            <td>E</td>
-                                            <td>TAENIA SP</td>
-                                            <td><input type="text" id="sp1" value="0"></td>
-                                            <td><input type="text" id="sp2" value="0"></td>
                                         </tr>
                                         <tr>
                                             <td>D</td>
@@ -743,11 +743,12 @@
                                             <td><input type="text" id="tri2" value="0"></td>
                                         </tr>
                                         <tr>
-                                            <td>B</td>
-                                            <td>Unicinarias</td>
-                                            <td><input type="text" id="uni1" value="0"></td>
-                                            <td><input type="text" id="uni2" value="0"></td>
+                                            <td>E</td>
+                                            <td>TAENIA SP</td>
+                                            <td><input type="text" id="sp1" value="0"></td>
+                                            <td><input type="text" id="sp2" value="0"></td>
                                         </tr>
+                                       
                                         <tr>
                                             <td>G</td>
                                             <td>Vol. Muestra</td>
@@ -904,18 +905,11 @@
                                         </thead>
                                         <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
                                         <tbody>
-                                            <tr>
-                                                <td>H</td>
-                                                <td>No De botella final</td>
-                                                <td><input type="text" id="botellaF1" value="0"></td>
-                                                <td><input type="text" id="botellaF2" value="0"></td>
-                                                <th>V</th>
-                                            </tr>
-                                            <tr>
-                                                <td>G</td>
-                                                <td>No De botella Od</td>
-                                                <td><input type="text" id="od1" value="0"></td>
-                                                <td><input type="text" id="od2" value="0"></td>
+                                        <tr>
+                                                <td>A</td>
+                                                <td>Oxigeno disuelto inicial</td>
+                                                <td><input type="text" id="oxiInicial1" value="0"></td>
+                                                <td><input type="text" id="oxiInicial2" value="0"></td>
                                                 <th>V</th>
                                             </tr>
                                             <tr>
@@ -926,25 +920,11 @@
                                                 <th>V</th>
                                             </tr>
                                             <tr>
-                                                <td>A</td>
-                                                <td>Oxigeno disuelto inicial</td>
-                                                <td><input type="text" id="oxiInicial1" value="0"></td>
-                                                <td><input type="text" id="oxiInicial2" value="0"></td>
-                                                <th>V</th>
-                                            </tr>
-                                            <tr>
-                                                <td>J</td>
-                                                <td>pH Final</td>
-                                                <td><input type="text" id="phF1" value="0"></td>
-                                                <td><input type="text" id="phF2" value="0"></td>
-                                                <th>V</th>
-                                            </tr>
-                                            <tr>
-                                                <td>I</td>
-                                                <td>ph Inicial</td>
-                                                <td><input type="text" id="phIni1" value="0"></td>
-                                                <td><input type="text" id="phIni2" value="0"></td>
-                                                <th>V</th>
+                                                <td>C</td>
+                                                <td>Vol botella winkler</td>
+                                                <td><input type="text" id="win1" value="300"></td>
+                                                <td><input type="text" id="win2" value="300"></td>
+                                                <th>C</th>
                                             </tr>
                                             <tr>
                                                 <td>D</td>
@@ -961,12 +941,35 @@
                                                 <th>C</th>
                                             </tr>
                                             <tr>
-                                                <td>C</td>
-                                                <td>Vol botella winkler</td>
-                                                <td><input type="text" id="win1" value="300"></td>
-                                                <td><input type="text" id="win2" value="300"></td>
-                                                <th>C</th>
+                                                <td>G</td>
+                                                <td>No De botella Od</td>
+                                                <td><input type="text" id="od1" value="0"></td>
+                                                <td><input type="text" id="od2" value="0"></td>
+                                                <th>V</th>
                                             </tr>
+                                            <tr>
+                                                <td>H</td>
+                                                <td>No De botella final</td>
+                                                <td><input type="text" id="botellaF1" value="0"></td>
+                                                <td><input type="text" id="botellaF2" value="0"></td>
+                                                <th>V</th>
+                                            </tr>
+                                            <tr>
+                                                <td>I</td>
+                                                <td>ph Inicial</td>
+                                                <td><input type="text" id="phIni1" value="0"></td>
+                                                <td><input type="text" id="phIni2" value="0"></td>
+                                                <th>V</th>
+                                            </tr>
+                                            <tr>
+                                                <td>J</td>
+                                                <td>pH Final</td>
+                                                <td><input type="text" id="phF1" value="0"></td>
+                                                <td><input type="text" id="phF2" value="0"></td>
+                                                <th>V</th>
+                                            </tr>
+                                            
+                                           
                                         </tbody>
                                     </table>
                                 </div>

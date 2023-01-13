@@ -22,7 +22,7 @@
             <label for="exampleFormControlSelect1">PH < 2</label>
             <select class="form-control" id="ph">
               <option value="Sin seleccionar">Sin seleccionar</option>
-              <option value="SI">SI</option>
+              <option value="SI" selected>SI</option>
               <option value="NO">NO</option>
             </select>
           </div>
@@ -72,7 +72,7 @@
   @endsection
 
   @section('javascript')
-  <script src="{{asset('public/js/laboratorio/metales/observacion.js')}}"></script>
+  <script src="{{asset('public/js/laboratorio/metales/observacion.js')}}?v=0.0.1"></script>
   @stop
 
 @endsection

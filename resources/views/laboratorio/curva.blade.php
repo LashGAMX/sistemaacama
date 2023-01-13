@@ -96,15 +96,15 @@
       </div>
       <div class="col-md-3">
         <label for="">b</label>
-        <input  type="text" id='b' class="form-control" placeholder="b" disabled>
+        <input  type="number" id='b' class="form-control" placeholder="b" >
     </div>
     <div class="col-md-3">
       <label for="">m</label>
-      <input type="text" id='m' class="form-control" placeholder="m" disabled>
+      <input type="number" id='m' class="form-control" placeholder="m" >
   </div>
   <div class="col-md-3">
     <label for="">r</label>
-    <input type="text" id='r' class="form-control" placeholder="r" disabled>
+    <input type="number" id='r' class="form-control" placeholder="r" >
 </div>
 <div class="col-md-3">
   <button class="btn btn-success" id="setConstantes" ><i class="far fa-save"></i> Guardar</button> 
@@ -121,7 +121,7 @@
   <div class="row">
     <div class="col-md-6">
       <h5>PARAMETROS HIJOS</h5>
-      <button class="btn btn-danger">replicar</button>
+      <button class="btn btn-danger" id="replicar">replicar</button>
       <div id="divTablaHijos">
       <table class="table" id="tablaHijos">
         <thead>
@@ -191,7 +191,7 @@
 @endsection  
 
 @section('javascript')
-    <script src="{{asset('/public/js/laboratorio/curva.js')}}?v=1.0.0"></script>
+    <script src="{{asset('/public/js/laboratorio/curva.js')}}?v=1.2.0"></script>
     <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
     <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
 @stop
