@@ -20,6 +20,7 @@ class LoteAnalisis extends Model
         'Asignado',
         'Liberado',
         'Fecha',
+        'Hora',
         'Id_user_c',
         'Id_user_m',
         'Libero',

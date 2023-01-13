@@ -611,7 +611,7 @@ class MetalesController extends Controller
         }
 
         $data = array(
-            'model' => $model,
+            'model' => $model, 
             'sw' => $sw,
         );
         return response()->json($data);
@@ -619,12 +619,20 @@ class MetalesController extends Controller
 
     public function getLote(Request $res)
     {
-       $model = DB::table('ViewParametros')
+       $parametros = DB::table('ViewParametros')
         ->where('Id_tipo_formula',$res->tipo)
         ->where('Id_tecnica',20)
         ->orWhere('Id_tecnica',21)
         ->orWhere('Id_tecnica',22)
         ->get();
+
+        $model = array();
+        $temp = array();
+        foreach($parametros as $item)
+        {
+            push
+        }
+
         $data = array(
             'model' => $model,
         );
