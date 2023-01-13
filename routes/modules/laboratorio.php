@@ -333,6 +333,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
     Route::post('setCalcular', [CurvaController::class, 'setCalcular']);
     Route::post('setConstantes', [CurvaController::class, 'setConstantes']);
     Route::post('tablaVigencias', [CurvaController::class, 'tablaVigencias']); 
+    Route::post('curvaHijos', [CurvaController::class, 'curvaHijos']); 
    
 
 

@@ -142,50 +142,7 @@
   </div>
 </div>
 
-     <!-- Modal -->
-  {{-- <div class="modal fade" id="modalCrear" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-          <h5 class="modal-title" id="exampleModalLabel">Crear Curva</h5>
-        </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-6">
-              <select class="form-control" id="idAreaModal">
-                <option>Selecciona area</option>
-                @foreach ($area as $item)
-                <option value="{{$item->Id_area_analisis}}">{{$item->Area_analisis}}</option>
-              @endforeach
-                </select>
-            </div>
-           
-            <div class="col-md-6" id="divParametroModal">
-              <select class="form-control" id="idParametroModal">
-                <option>Selecciona parametro</option>
-                </select>
-            </div>
-
-            <div class="col-md-6">
-              <label>Fecha Inicio</label> 
-              <input type="date" id="fechaInicio">
-            </div> 
-            <div class="col-md-6">
-              <label>Fecha fin</label> 
-              <input type="date" id="fechaFin">
-            </div> 
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-          <button type="button" class="btn btn-success" id="CreateStd">Crear</button>
-        </div>
-      </div>
-    </div>
-  </div> --}}
+   
 
   @stop
 @endsection  
