@@ -33,11 +33,19 @@ document.addEventListener("keydown", function(event) {
     if (event.altKey && event.code === "KeyB"){
         getLote()
     }
+    if (event.altKey && event.code === "KeyC"){
+        alert("Crear Lote")
+    }
 });
+function createLote()
+{
+    
+}
 function getLote()
 {
     let tabla = document.getElementById('divLotes');
     let tab = '';
+    let model = new Array()
     $.ajax({
         type: 'POST',
         url: base_url + "/admin/laboratorio/metales/getLote",
@@ -50,6 +58,7 @@ function getLote()
         async: false,
         success: function (response) {            
             console.log(response);
+            model = response.model
             tab += '<table id="tablaLote" class="table table-sm">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
@@ -63,17 +72,21 @@ function getLote()
             tab += '        </tr>';
             tab += '    </thead>';
             tab += '    <tbody>';
-            $.each(response.model, function (key, item) {
-                tab += '<tr>';
+            for (let i = 0; i < model.length; i++) {
+                tab += '<tr>'; 
+                if (model[i][0] == "N/A") {
+                    tab += '    <td><input type="checkbox" name="std"></td>';
+                } else {
+                    tab += '    <td><input type="checkbox" name="std" checked></td>';   
+                }
                 tab += '    <td></td>';
-                tab += '    <td></td>';
-                tab += '    <td></td>';
-                tab += '    <td>('+item.Id_parametro+') '+item.Parametro+'</td>';
-                tab += '    <td>'+item.Tipo_formula+'</td>';
-                tab += '    <td></td>';
-                tab += '    <td></td>';
+                tab += '    <td>'+model[i][0]+'</td>';
+                tab += '    <td>('+model[i][1]+') '+model[i][2]+'</td>';
+                tab += '    <td>'+model[i][3]+'</td>';
+                tab += '    <td><input type="date" name="fechas" value="'+model[i][4]+'"></td>';
+                tab += '    <td><input type="time" name="horas" value="'+model[i][5]+'"></td>';
                 tab += '</tr>';
-            });
+            }
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;

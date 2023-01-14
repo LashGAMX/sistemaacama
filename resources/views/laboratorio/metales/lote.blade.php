@@ -21,8 +21,11 @@
     </div>
     
     <div class="col-md-2">
-      <button class="btn btn-success" id="btnBuscar">Buscar</button>
+      <button class="btn btn-success" id="btnBuscar"><i class="fas fa-search"></i> Buscar</button>
     </div>        
+    <div class="col align-self-end">
+      <button class="btn btn-info" id="btnCrear"><i class="fas fa-check"></i> Crear</button>
+    </div>
   </div>
   <div class="row">
     <div class="col-md-12" id="divLotes">
