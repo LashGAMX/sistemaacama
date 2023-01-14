@@ -112,7 +112,7 @@ class CadenaController extends Controller
                     ->where('Id_control', 1)
                     ->get();
                 break;
-            case 13: // Grasas y Aceites
+            case "13": // Grasas y Aceites
                 $model = DB::table('ViewLoteDetalleGA')
                     ->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control',1)->get();

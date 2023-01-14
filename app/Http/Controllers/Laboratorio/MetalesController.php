@@ -117,6 +117,7 @@ class MetalesController extends Controller
         $temp = array();
         foreach($punto as $item)
         {
+            $temp = array();
             $obs = ObservacionMuestra::where('Id_analisis',$item->Id_solicitud)->get();
             if ($obs->count()) {
                 if ($solModel->Siralab == 1) {
@@ -630,7 +631,24 @@ class MetalesController extends Controller
         $temp = array();
         foreach($parametros as $item)
         {
-            push
+            $temp = array();
+            $lote = LoteAnalisis::where('Id_tecnica',$item->Id_parametro)->where('Fecha',$res->fecha)->get();
+            if ($lote->count()) {
+                array_push($temp,$lote[0]->Id_lote);
+                array_push($temp,$item->Id_parametro);
+                array_push($temp,$item->Parametro);
+                array_push($temp,$item->Tipo_formula);
+                array_push($temp,$res->fecha);
+                array_push($temp,$lote[0]->Hora);
+            } else { 
+                array_push($temp,"N/A");
+                array_push($temp,$item->Id_parametro);
+                array_push($temp,$item->Parametro);
+                array_push($temp,$item->Tipo_formula);
+                array_push($temp,$res->fecha);
+                array_push($temp,"");
+            }
+            array_push($model,$temp); 
         }
 
         $data = array(
