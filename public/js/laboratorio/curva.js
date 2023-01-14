@@ -1,4 +1,5 @@
 var idUser = $("#idUser").val();
+var idBMR = 0;
 $(document).ready(function () {
     getParametro();
 
@@ -208,14 +209,14 @@ function curvaHijos(){
         data: {
             parametro: $("#parametro").val(),
             idArea: $("#idArea").val(),
+            idBMR: idBMR,
             _token: $('input[name="_token"]').val(),
         },
         dataType: 'json',
         async: false,
         success: function (response) {
             console.log(response);
-            swal("Correcto!", "Se replicó BMR!", "success")
-            $("#replicar".atr('"class="btn btn-success"'))
+                swal("Correcto!", "Se replicó BMR!", "success")
         }
     });
 
@@ -333,13 +334,13 @@ function createStd() {
         success: function (response) {
             console.log(response);
             if (response.valFecha == 1) {
-                $("#modalCrear").modal('hide');
+                
                 swal("Ups!", "Olvidaste definir un rango de fechas", "error")
             } else if (response.swCon == 1) {
-                $("#modalCrear").modal('hide');
+               
                 swal("Ups!", "Este parametro no tiene concentraciones registradas", "error")
             } else if (response.sw == 1) {
-                $("#modalCrear").modal('hide');
+               
                 swal("Ups!", "Ya existe una curva vigente para este parametro", "error")
             } else {
 
@@ -476,6 +477,7 @@ function buscar() {
         async: false,
         success: function (response) {
             console.log(response);
+
             if (response.valbmr != false) {
                 $("#b").val(response.bmr.B);
                 $("#m").val(response.bmr.M);
@@ -596,6 +598,7 @@ function buscar() {
                             tabH += '        <tr>';
                             tabH += '          <th>Id</th>';
                             tabH += '          <th>Parametro</th> ';
+                            tabH += '          <th>Parametro Padre</th> ';
                             tabH += '        </tr>';
                             tabH += '    </thead>';
                             tabH += '    <tbody>';
@@ -603,6 +606,7 @@ function buscar() {
                                         tabH += '<tr>';
                                         tabH += '<td>' + items.Id_parametro + '</td>';
                                         tabH += '<td>' + items.Parametro + '</td>';
+                                        tabH += '<td>' + items.Padre + '</td>';
                                         tabH += '</tr>'; 
                             });
                             tabH += '    </tbody>';
@@ -629,6 +633,7 @@ function buscar() {
                         }   
 
             }
+            idBMR = response.idBMR;
 
         }
 

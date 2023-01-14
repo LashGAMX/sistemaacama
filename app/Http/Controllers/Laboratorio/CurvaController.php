@@ -23,6 +23,8 @@ use Illuminate\Support\Facades\Auth;
 
 class CurvaController extends Controller
 {
+    public $idBMR = 0;
+
     public function index()
     {
         $idUser = Auth::user()->id;
@@ -85,9 +87,12 @@ class CurvaController extends Controller
         }
         if ($bmr != "") {
             $valbmr = true;
+            $idBMR = $bmr->Id_curvaConst;
         } else {
             $valbmr = false;
         }
+      
+        
         $data = array(
             'parametro' => $request->parametro,
             'area' => $request->area,
@@ -109,27 +114,31 @@ class CurvaController extends Controller
         );
         return response()->json($data);
     }
-    public function curvaHijos(Request $request){
-        $hijos = Parametro::where('Padre', $request->idParametro)->get();
-
-      
+    public function curvaHijos(Request $request){  
+        $hijos = Parametro::where('Padre', $request->parametro)->get();
+        $curva = CurvaConstantes::where('Id_curvaConst', $request->idBMR)->first();
         for($i=0; $i < sizeof($hijos); $i++){
-                    // CurvaConstantes::create([
-                    //     'Id_area' => $request->idArea,
-                    //     'Id_parametro' => $hijos[$i]->Id_parametro,
-                    //     'Fecha_inicio' => $fechaInicio,
-                    //     'Fecha_fin' => $fechaFin,
-                    // ]);
-                    $curva = CurvaConstantes::where('Id_parametro', $request->idParametro)->first();
-
-                    $model = $curva->replicate();
+                    $exist = CurvaConstantes::where('Id_parametro', $hijos[$i]->Id_parametro)->get();
+                    if ($exist->count()){
+                        $update = CurvaConstantes::where('Id_parametro', $hijos[$i]->Id_parametro)->first();
+                        $update->B = $curva->B;
+                        $update->M = $curva->M;
+                        $update->R = $curva->R;
+                        $update->save();
+                    } else {
+                        $model = $curva->replicate(); 
                     $model->Id_parametro = $hijos[$i]->Id_parametro;
+                    $model->Id_parametroPadre = $request->parametro;
                     $model->save();
-            
+                    }
+                
         }
 
         $data = array(
-            'hijos' => $hijos,
+            'curva' => $curva,
+            //'model' => $model,
+            //'exist' => $exist,
+            
         );
         return response()->json($data);
     }
