@@ -333,59 +333,128 @@ function createStd() {
         async: false,
         success: function (response) {
             console.log(response);
-            if (response.valFecha == 1) {
+
+///////////////////////////////Inicio de comparación del parametro 95 con 9 ABS/////////////////////////////////////////////////
+
+            if (response.parametro == 113){
+                if (response.valFecha == 1) {
+                        
+                    swal("Ups!", "Olvidaste definir un rango de fechas", "error")
+                } else if (response.swCon == 1) {
                 
-                swal("Ups!", "Olvidaste definir un rango de fechas", "error")
-            } else if (response.swCon == 1) {
-               
-                swal("Ups!", "Este parametro no tiene concentraciones registradas", "error")
-            } else if (response.sw == 1) {
-               
-                swal("Ups!", "Ya existe una curva vigente para este parametro", "error")
+                    swal("Ups!", "Este parametro no tiene concentraciones registradas", "error")
+                } else if (response.sw == 1) {
+                
+                    swal("Ups!", "Ya existe una curva vigente para este parametro", "error")
+                } else {
+
+                    let i = 0;
+
+                    tab += '<table id="tablaLote" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += '        <tr>';
+                    tab += '          <th>Id</th>';
+                    tab += '          <th>Id Lote</th> ';
+                    tab += '          <th>STD</th> ';
+                    tab += '          <th>Concentracion</th> ';
+                    tab += '          <th>ABS1</th> ';
+                    tab += '          <th>ABS2</th> ';
+                    tab += '          <th>ABS3</th> ';
+                    tab += '          <th>ABS4</th> ';
+                    tab += '          <th>ABS5</th> ';
+                    tab += '          <th>ABS6</th> ';
+                    tab += '          <th>ABS7</th> ';
+                    tab += '          <th>ABS8</th> ';
+                    tab += '          <th>Promedio</th> ';
+                    tab += '        </tr>';
+                    tab += '    </thead>';
+                    tab += '    <tbody>';
+                    $.each(response.stdModel, function (key, item) {
+                        tab += '<tr>';
+                        tab += '<td>' + item.Id_std + '</td>';
+                        tab += '<td>' + item.Id_lote + '</td>';
+                        tab += '<td>' + item.STD + '</td>';
+                        if (item.Concentracion != '') {
+                            tab += '<td><input value="' + response.concentracion[i].Concentracion + '"></td>';
+                        } else {
+                            tab += '<td><input value="' + item.Concentracion + '"></td>';
+                        }
+                        tab += '<td><input value="' + item.ABS1 + '"></td>';
+                        tab += '<td><input value="' + item.ABS2 + '"></td>';
+                        tab += '<td><input value="' + item.ABS3 + '"></td>';
+                        tab += '<td><input value="' + item.ABS4 + '"></td>';
+                        tab += '<td><input value="' + item.ABS5 + '"></td>';
+                        tab += '<td><input value="' + item.ABS6 + '"></td>';
+                        tab += '<td><input value="' + item.ABS7 + '"></td>';
+                        tab += '<td><input value="' + item.ABS8 + '"></td>';
+                        tab += '<td><input value="' + item.Promedio + '"></td>';
+                        tab += '</tr>';
+                        i++;
+                    });
+
+                    tab += '    </tbody>';
+                    tab += '</table>';
+                    tabla.innerHTML = tab;
+                    $("#modalCrear").modal('hide');
+                    swal("Registro!", "Se crearon los estandares!", "success")
+                }
+////////////////////////////////////////////// Fin de condicion de sulfatos 95/////////////////////////////////////////////////////////////
             } else {
-
-                let i = 0;
-
-                tab += '<table id="tablaLote" class="table table-sm">';
-                tab += '    <thead class="thead-dark">';
-                tab += '        <tr>';
-                tab += '          <th>Id</th>';
-                tab += '          <th>Id Lote</th> ';
-                tab += '          <th>STD</th> ';
-                tab += '          <th>Concentracion</th> ';
-                tab += '          <th>ABS1</th> ';
-                tab += '          <th>ABS2</th> ';
-                tab += '          <th>ABS3</th> ';
-                tab += '          <th>Promedio</th> ';
-                tab += '        </tr>';
-                tab += '    </thead>';
-                tab += '    <tbody>';
-                $.each(response.stdModel, function (key, item) {
-                    tab += '<tr>';
-                    tab += '<td>' + item.Id_std + '</td>';
-                    tab += '<td>' + item.Id_lote + '</td>';
-                    tab += '<td>' + item.STD + '</td>';
-                    if (item.Concentracion != '') {
-                        tab += '<td><input value="' + response.concentracion[i].Concentracion + '"></td>';
+                    if (response.valFecha == 1) {
+                        
+                        swal("Ups!", "Olvidaste definir un rango de fechas", "error")
+                    } else if (response.swCon == 1) {
+                    
+                        swal("Ups!", "Este parametro no tiene concentraciones registradas", "error")
+                    } else if (response.sw == 1) {
+                    
+                        swal("Ups!", "Ya existe una curva vigente para este parametro", "error")
                     } else {
-                        tab += '<td><input value="' + item.Concentracion + '"></td>';
+
+                        let i = 0;
+
+                        tab += '<table id="tablaLote" class="table table-sm">';
+                        tab += '    <thead class="thead-dark">';
+                        tab += '        <tr>';
+                        tab += '          <th>Id</th>';
+                        tab += '          <th>Id Lote</th> ';
+                        tab += '          <th>STD</th> ';
+                        tab += '          <th>Concentracion</th> ';
+                        tab += '          <th>ABS1</th> ';
+                        tab += '          <th>ABS2</th> ';
+                        tab += '          <th>ABS3</th> ';
+                        tab += '          <th>Promedio</th> ';
+                        tab += '        </tr>';
+                        tab += '    </thead>';
+                        tab += '    <tbody>';
+                        $.each(response.stdModel, function (key, item) {
+                            tab += '<tr>';
+                            tab += '<td>' + item.Id_std + '</td>';
+                            tab += '<td>' + item.Id_lote + '</td>';
+                            tab += '<td>' + item.STD + '</td>';
+                            if (item.Concentracion != '') {
+                                tab += '<td><input value="' + response.concentracion[i].Concentracion + '"></td>';
+                            } else {
+                                tab += '<td><input value="' + item.Concentracion + '"></td>';
+                            }
+                            tab += '<td><input value="' + item.ABS1 + '"></td>';
+                            tab += '<td><input value="' + item.ABS2 + '"></td>';
+                            tab += '<td><input value="' + item.ABS3 + '"></td>';
+                            tab += '<td><input value="' + item.Promedio + '"></td>';
+                            tab += '</tr>';
+                            i++;
+                        });
+
+                        tab += '    </tbody>';
+                        tab += '</table>';
+                        tabla.innerHTML = tab;
+                        $("#modalCrear").modal('hide');
+                        swal("Registro!", "Se crearon los estandares!", "success")
+
+
                     }
-                    tab += '<td><input value="' + item.ABS1 + '"></td>';
-                    tab += '<td><input value="' + item.ABS2 + '"></td>';
-                    tab += '<td><input value="' + item.ABS3 + '"></td>';
-                    tab += '<td><input value="' + item.Promedio + '"></td>';
-                    tab += '</tr>';
-                    i++;
-                });
-
-                tab += '    </tbody>';
-                tab += '</table>';
-                tabla.innerHTML = tab;
-                $("#modalCrear").modal('hide');
-                swal("Registro!", "Se crearon los estandares!", "success")
-
-
             }
+
         }
 
     });
@@ -477,7 +546,8 @@ function buscar() {
         async: false,
         success: function (response) {
             console.log(response);
-
+            idBMR = response.idBMR;
+            console.log(idBMR);
             if (response.valbmr != false) {
                 $("#b").val(response.bmr.B);
                 $("#m").val(response.bmr.M);
@@ -486,162 +556,332 @@ function buscar() {
             } 
             res = response.concentracion;
             cont = 0;
-            if (response.sw == false) {
-                /////////////////////////////// en caso de que no se encuentre ningun registro se limpia la tabla de registros anteriores.
-               
-                tab += '<table id="tablaLote" class="table table-sm">';
-                tab += '    <thead class="thead-dark">';
-                tab += '        <tr>';
-                tab += '          <th>Id</th>';
-                tab += '          <th>STD</th> ';
-                tab += '          <th>Concentracion</th> ';
-                tab += '          <th>ABS1</th> ';
-                tab += '          <th>ABS2</th> ';
-                tab += '          <th>ABS3</th> ';
-                tab += '          <th>Promedio</th> ';
-                tab += '        </tr>';
-                tab += '    </thead>';
-                tab += '    <tbody>';
-                tab += '<tr>';
-                tab += '<td></td>';
-                tab += '<td></td>';
-                tab += '<td></td>';
-                tab += '<td></td>';
-                tab += '<td></td>';
-                tab += '<td></td>';
-                tab += '<td></td>';
-                tab += '</tr>';
-                tab += '    </tbody>';
-                tab += '</table>';
-                tabla.innerHTML = tab;
-                tab += '    </tbody>';
-                tab += '</table>';
-                tabla.innerHTML = tab;
-                // tabla Hijos---------------------------------------
-                tabH += '<table id="tablaHijos" class="table">';
-                tabH += '    <thead class="thead-dark">';
-                tabH += '        <tr>';
-                tabH += '          <th>Id</th>';
-                tabH += '          <th>Parametro</th> ';
-                tabH += '        </tr>';
-                tabH += '    </thead>';
-                tabH += '    <tbody>';
-                            tabH += '<tr>';
-                            tabH += '</tr>'; 
-                tabH += '    </tbody>';
-                tabH += '</table>';
-                tablaHijos.innerHTML = tabH;
-                swal("Ups!", "Necesitas generar estandares para este parametro", "error");
-
-                /////////////////////////////////////////////////////////////////
-            } else {
-                tab += '<table id="tablaLote" class="table table-sm">';
-                tab += '    <thead class="thead-dark">';
-                tab += '        <tr>';
-                tab += '          <th>Id</th>';
-                tab += '          <th>STD</th> ';
-                tab += '          <th>Concentracion</th> ';
-                tab += '          <th>ABS1</th> ';
-                tab += '          <th>ABS2</th> ';
-                tab += '          <th>ABS3</th> ';
-                tab += '          <th>Promedio</th> ';
-                tab += '        </tr>';
-                tab += '    </thead>';
-                tab += '    <tbody>';
-                
-                //todo Crea el blanco
-                $.each(response.stdModel, function (key, item) {
-                    if (response.area == 2 || response.parametro == 95 || response.parametro == 243 ) {
-                        if (cont == 0){
+            if (response.parametro == 113) {
+                if (response.sw == false) {
+                    /////////////////////////////// en caso de que no se encuentre ningun registro se limpia la tabla de registros anteriores.
+                   
+                    tab += '<table id="tablaLote" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += '        <tr>';
+                    tab += '          <th>Id</th>';
+                    tab += '          <th>STD</th> ';
+                    tab += '          <th>Concentracion</th> ';
+                    tab += '          <th>ABS1</th> ';
+                    tab += '          <th>ABS2</th> ';
+                    tab += '          <th>ABS3</th> ';
+                    tab += '          <th>Promedio</th> ';
+                    tab += '        </tr>';
+                    tab += '    </thead>';
+                    tab += '    <tbody>';
+                    tab += '<tr>';
+                    tab += '<td></td>';
+                    tab += '<td></td>';
+                    tab += '<td></td>';
+                    tab += '<td></td>';
+                    tab += '<td></td>';
+                    tab += '<td></td>';
+                    tab += '<td></td>';
+                    tab += '</tr>';
+                    tab += '    </tbody>';
+                    tab += '</table>';
+                    tabla.innerHTML = tab;
+                    tab += '    </tbody>';
+                    tab += '</table>';
+                    tabla.innerHTML = tab;
+                    // tabla Hijos---------------------------------------
+                    tabH += '<table id="tablaHijos" class="table">';
+                    tabH += '    <thead class="thead-dark">';
+                    tabH += '        <tr>';
+                    tabH += '          <th>Id</th>';
+                    tabH += '          <th>Parametro</th> ';
+                    tabH += '        </tr>';
+                    tabH += '    </thead>';
+                    tabH += '    <tbody>';
+                                tabH += '<tr>';
+                                tabH += '</tr>'; 
+                    tabH += '    </tbody>';
+                    tabH += '</table>';
+                    tablaHijos.innerHTML = tabH;
+                    swal("Ups!", "Necesitas generar estandares para este parametro", "error");
+    
+                    /////////////////////////////////////////////////////////////////
+                } else {
+                    tab += '<table id="tablaLote" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += '        <tr>';
+                    tab += '          <th>Id</th>';
+                    tab += '          <th>STD</th> ';
+                    tab += '          <th>Concentracion</th> ';
+                    tab += '          <th>ABS1</th> ';
+                    tab += '          <th>ABS2</th> ';
+                    tab += '          <th>ABS3</th> ';
+                    tab += '          <th>ABS4</th> ';
+                    tab += '          <th>ABS5</th> ';
+                    tab += '          <th>ABS6</th> ';
+                    tab += '          <th>ABS7</th> ';
+                    tab += '          <th>ABS8</th> ';
+                    tab += '          <th>Promedio</th> ';
+                    tab += '        </tr>';
+                    tab += '    </thead>';
+                    tab += '    <tbody>';
+                    
+                    //todo Crea el blanco
+                    $.each(response.stdModel, function (key, item) {
+                        if (response.area == 2 || response.parametro == 113 || response.parametro == 243 ) {
+                            if (cont == 0){
+                                tab += '<tr>';
+                                tab += '<td>' + item.Id_std + '</td>';
+                                tab += '<td>' + item.STD + '</td>';
+                                tab += '<td><input id="curCon' + cont + '" value="0"></td>';
+                                tab += '<td><input id="curStd1' + cont + '" value="0.0"></td>';
+                                tab += '<td><input id="curStd2' + cont + '" value="0.0"></td>'; 
+                                tab += '<td><input id="curStd3' + cont + '" value="0.0"></td>';
+                                tab += '<td><input id="curStd4' + cont + '" value="0.0"></td>';
+                                tab += '<td><input id="curStd5' + cont + '" value="0.0"></td>';
+                                tab += '<td><input id="curStd6' + cont + '" value="0.0"></td>';
+                                tab += '<td><input id="curStd7' + cont + '" value="0.0"></td>';
+                                tab += '<td><input id="curStd8' + cont + '" value="0.0"></td>';
+                                tab += '<td><input id="curProm' + cont + '" value="0.0" readonly></td>';
+                                tab += '</tr>'; 
+                            } else {
+                                tab += '<tr>';
+                            tab += '<td>' + item.Id_std + '</td>';
+                            tab += '<td>' + item.STD + '</td>';
+                            tab += '<td><input  id="curCon' + cont + '" value="' + response.concentracion[cont -1].Concentracion + '"></td>';
+                            tab += '<td><input id="curStd1' + cont + '" value="' + item.ABS1 + '"></td>';
+                            tab += '<td><input id="curStd2' + cont + '" value="' + item.ABS2 + '"></td>';
+                            tab += '<td><input id="curStd3' + cont + '" value="' + item.ABS3 + '"></td>';
+                            tab += '<td><input id="curStd4' + cont + '" value="' + item.ABS4 + '"></td>';
+                            tab += '<td><input id="curStd5' + cont + '" value="' + item.ABS5 + '"></td>';
+                            tab += '<td><input id="curStd6' + cont + '" value="' + item.ABS6 + '"></td>';
+                            tab += '<td><input id="curStd7' + cont + '" value="' + item.ABS7 + '"></td>';
+                            tab += '<td><input id="curStd8' + cont + '" value="' + item.ABS8 + '"></td>';
+                            tab += '<td><input id="curProm' + cont + '" value="' + item.Promedio + '" readonly></td>';
+                            tab += '</tr>';
+                            }
+                            
+                        }else{
                             tab += '<tr>';
                             tab += '<td>' + item.Id_std + '</td>';
                             tab += '<td>' + item.STD + '</td>';
-                            tab += '<td><input id="curCon' + cont + '" value="0"></td>';
-                            tab += '<td><input id="curStd1' + cont + '" value="0.0"></td>';
-                            tab += '<td><input id="curStd2' + cont + '" value="0.0"></td>'; 
-                            tab += '<td><input id="curStd3' + cont + '" value="0.0"></td>';
-                            tab += '<td><input id="curProm' + cont + '" value="0.0" readonly></td>';
-                            tab += '</tr>'; 
-                        } else {
-                            tab += '<tr>';
-                        tab += '<td>' + item.Id_std + '</td>';
-                        tab += '<td>' + item.STD + '</td>';
-                        tab += '<td><input  id="curCon' + cont + '" value="' + response.concentracion[cont -1].Concentracion + '"></td>';
-                        tab += '<td><input id="curStd1' + cont + '" value="' + item.ABS1 + '"></td>';
-                        tab += '<td><input id="curStd2' + cont + '" value="' + item.ABS2 + '"></td>';
-                        tab += '<td><input id="curStd3' + cont + '" value="' + item.ABS3 + '"></td>';
-                        tab += '<td><input id="curProm' + cont + '" value="' + item.Promedio + '" readonly></td>';
-                        tab += '</tr>';
+                            tab += '<td><input  id="curCon' + cont + '" value="' + response.concentracion[cont].Concentracion + '"></td>';
+                            tab += '<td><input id="curStd1' + cont + '" value="' + item.ABS1 + '"></td>';
+                            tab += '<td><input id="curStd2' + cont + '" value="' + item.ABS2 + '"></td>';
+                            tab += '<td><input id="curStd3' + cont + '" value="' + item.ABS3 + '"></td>';
+                            tab += '<td><input id="curStd4' + cont + '" value="' + item.ABS4 + '"></td>';
+                            tab += '<td><input id="curStd5' + cont + '" value="' + item.ABS5 + '"></td>';
+                            tab += '<td><input id="curStd6' + cont + '" value="' + item.ABS6 + '"></td>';
+                            tab += '<td><input id="curStd7' + cont + '" value="' + item.ABS7 + '"></td>';
+                            tab += '<td><input id="curStd8' + cont + '" value="' + item.ABS8 + '"></td>';
+                            tab += '<td><input id="curProm' + cont + '" value="' + item.Promedio + '" readonly></td>';
+                            tab += '</tr>';
                         }
-                        
-                    }else{
-                        tab += '<tr>';
-                        tab += '<td>' + item.Id_std + '</td>';
-                        tab += '<td>' + item.STD + '</td>';
-                        tab += '<td><input  id="curCon' + cont + '" value="' + response.concentracion[cont].Concentracion + '"></td>';
-                        tab += '<td><input id="curStd1' + cont + '" value="' + item.ABS1 + '"></td>';
-                        tab += '<td><input id="curStd2' + cont + '" value="' + item.ABS2 + '"></td>';
-                        tab += '<td><input id="curStd3' + cont + '" value="' + item.ABS3 + '"></td>';
-                        tab += '<td><input id="curProm' + cont + '" value="' + item.Promedio + '" readonly></td>';
-                        tab += '</tr>';
-                    }
-                    cont++;
-                });
+                        cont++;
+                    });
+                    
+                            if (response.hijos != null) {
+                                tab += '    </tbody>';
+                                tab += '</table>';
+                                tabla.innerHTML = tab;
+    
+                                tabH += '<table id="tablaHijos" class="table">';
+                                tabH += '    <thead class="thead-dark">';
+                                tabH += '        <tr>';
+                                tabH += '          <th>Id</th>';
+                                tabH += '          <th>Parametro</th> ';
+                                tabH += '          <th>Parametro Padre</th> ';
+                                tabH += '        </tr>';
+                                tabH += '    </thead>';
+                                tabH += '    <tbody>';
+                                $.each(response.hijos, function (key, items) {
+                                            tabH += '<tr>';
+                                            tabH += '<td>' + items.Id_parametro + '</td>';
+                                            tabH += '<td>' + items.Parametro + '</td>';
+                                            tabH += '<td>' + items.Padre + '</td>';
+                                            tabH += '</tr>'; 
+                                });
+                                tabH += '    </tbody>';
+                                tabH += '</table>';
+                                tablaHijos.innerHTML = tabH;
+                            } else {
+                                tab += '    </tbody>';
+                                tab += '</table>';
+                                tabla.innerHTML = tab;
+    
+                                tabH += '<table id="tablaHijos" class="table">';
+                                tabH += '    <thead class="thead-dark">';
+                                tabH += '        <tr>';
+                                tabH += '          <th>Id</th>';
+                                tabH += '          <th>Parametro</th> ';
+                                tabH += '        </tr>';
+                                tabH += '    </thead>';
+                                tabH += '    <tbody>';
+                                            tabH += '<tr>';
+                                            tabH += '</tr>'; 
+                                tabH += '    </tbody>';
+                                tabH += '</table>';
+                                tablaHijos.innerHTML = tabH;
+                            }   
+    
+                }
                 
-                        if (response.hijos != null) {
-                            tab += '    </tbody>';
-                            tab += '</table>';
-                            tabla.innerHTML = tab;
+            } else {
+                if (response.sw == false) {
+                    /////////////////////////////// en caso de que no se encuentre ningun registro se limpia la tabla de registros anteriores.
+                
+                    tab += '<table id="tablaLote" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += '        <tr>';
+                    tab += '          <th>Id</th>';
+                    tab += '          <th>STD</th> ';
+                    tab += '          <th>Concentracion</th> ';
+                    tab += '          <th>ABS1</th> ';
+                    tab += '          <th>ABS2</th> ';
+                    tab += '          <th>ABS3</th> ';
+                    tab += '          <th>Promedio</th> ';
+                    tab += '        </tr>';
+                    tab += '    </thead>';
+                    tab += '    <tbody>';
+                    tab += '<tr>';
+                    tab += '<td></td>';
+                    tab += '<td></td>';
+                    tab += '<td></td>';
+                    tab += '<td></td>';
+                    tab += '<td></td>';
+                    tab += '<td></td>';
+                    tab += '<td></td>';
+                    tab += '</tr>';
+                    tab += '    </tbody>';
+                    tab += '</table>';
+                    tabla.innerHTML = tab;
+                    tab += '    </tbody>';
+                    tab += '</table>';
+                    tabla.innerHTML = tab;
+                    // tabla Hijos---------------------------------------
+                    tabH += '<table id="tablaHijos" class="table">';
+                    tabH += '    <thead class="thead-dark">';
+                    tabH += '        <tr>';
+                    tabH += '          <th>Id</th>';
+                    tabH += '          <th>Parametro</th> ';
+                    tabH += '        </tr>';
+                    tabH += '    </thead>';
+                    tabH += '    <tbody>';
+                                tabH += '<tr>';
+                                tabH += '</tr>'; 
+                    tabH += '    </tbody>';
+                    tabH += '</table>';
+                    tablaHijos.innerHTML = tabH;
+                    swal("Ups!", "Necesitas generar estandares para este parametro", "error");
 
-                            tabH += '<table id="tablaHijos" class="table">';
-                            tabH += '    <thead class="thead-dark">';
-                            tabH += '        <tr>';
-                            tabH += '          <th>Id</th>';
-                            tabH += '          <th>Parametro</th> ';
-                            tabH += '          <th>Parametro Padre</th> ';
-                            tabH += '        </tr>';
-                            tabH += '    </thead>';
-                            tabH += '    <tbody>';
-                            $.each(response.hijos, function (key, items) {
-                                        tabH += '<tr>';
-                                        tabH += '<td>' + items.Id_parametro + '</td>';
-                                        tabH += '<td>' + items.Parametro + '</td>';
-                                        tabH += '<td>' + items.Padre + '</td>';
-                                        tabH += '</tr>'; 
-                            });
-                            tabH += '    </tbody>';
-                            tabH += '</table>';
-                            tablaHijos.innerHTML = tabH;
-                        } else {
-                            tab += '    </tbody>';
-                            tab += '</table>';
-                            tabla.innerHTML = tab;
+                    /////////////////////////////////////////////////////////////////
+                } else {
+                    tab += '<table id="tablaLote" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += '        <tr>';
+                    tab += '          <th>Id</th>';
+                    tab += '          <th>STD</th> ';
+                    tab += '          <th>Concentracion</th> ';
+                    tab += '          <th>ABS1</th> ';
+                    tab += '          <th>ABS2</th> ';
+                    tab += '          <th>ABS3</th> ';
+                    tab += '          <th>Promedio</th> ';
+                    tab += '        </tr>';
+                    tab += '    </thead>';
+                    tab += '    <tbody>';
+                    
+                    //todo Crea el blanco
+                    $.each(response.stdModel, function (key, item) {
+                        if (response.area == 2 || response.parametro == 95 || response.parametro == 243 ) {
+                            if (cont == 0){
+                                tab += '<tr>';
+                                tab += '<td>' + item.Id_std + '</td>';
+                                tab += '<td>' + item.STD + '</td>';
+                                tab += '<td><input id="curCon' + cont + '" value="0"></td>';
+                                tab += '<td><input id="curStd1' + cont + '" value="0.0"></td>';
+                                tab += '<td><input id="curStd2' + cont + '" value="0.0"></td>'; 
+                                tab += '<td><input id="curStd3' + cont + '" value="0.0"></td>';
+                                tab += '<td><input id="curProm' + cont + '" value="0.0" readonly></td>';
+                                tab += '</tr>'; 
+                            } else {
+                                tab += '<tr>';
+                            tab += '<td>' + item.Id_std + '</td>';
+                            tab += '<td>' + item.STD + '</td>';
+                            tab += '<td><input  id="curCon' + cont + '" value="' + response.concentracion[cont -1].Concentracion + '"></td>';
+                            tab += '<td><input id="curStd1' + cont + '" value="' + item.ABS1 + '"></td>';
+                            tab += '<td><input id="curStd2' + cont + '" value="' + item.ABS2 + '"></td>';
+                            tab += '<td><input id="curStd3' + cont + '" value="' + item.ABS3 + '"></td>';
+                            tab += '<td><input id="curProm' + cont + '" value="' + item.Promedio + '" readonly></td>';
+                            tab += '</tr>';
+                            }
+                            
+                        }else{
+                            tab += '<tr>';
+                            tab += '<td>' + item.Id_std + '</td>';
+                            tab += '<td>' + item.STD + '</td>';
+                            tab += '<td><input  id="curCon' + cont + '" value="' + response.concentracion[cont].Concentracion + '"></td>';
+                            tab += '<td><input id="curStd1' + cont + '" value="' + item.ABS1 + '"></td>';
+                            tab += '<td><input id="curStd2' + cont + '" value="' + item.ABS2 + '"></td>';
+                            tab += '<td><input id="curStd3' + cont + '" value="' + item.ABS3 + '"></td>';
+                            tab += '<td><input id="curProm' + cont + '" value="' + item.Promedio + '" readonly></td>';
+                            tab += '</tr>';
+                        }
+                        cont++;
+                    });
+                    
+                            if (response.hijos != null) {
+                                tab += '    </tbody>';
+                                tab += '</table>';
+                                tabla.innerHTML = tab;
 
-                            tabH += '<table id="tablaHijos" class="table">';
-                            tabH += '    <thead class="thead-dark">';
-                            tabH += '        <tr>';
-                            tabH += '          <th>Id</th>';
-                            tabH += '          <th>Parametro</th> ';
-                            tabH += '        </tr>';
-                            tabH += '    </thead>';
-                            tabH += '    <tbody>';
-                                        tabH += '<tr>';
-                                        tabH += '</tr>'; 
-                            tabH += '    </tbody>';
-                            tabH += '</table>';
-                            tablaHijos.innerHTML = tabH;
-                        }   
+                                tabH += '<table id="tablaHijos" class="table">';
+                                tabH += '    <thead class="thead-dark">';
+                                tabH += '        <tr>';
+                                tabH += '          <th>Id</th>';
+                                tabH += '          <th>Parametro</th> ';
+                                tabH += '          <th>Parametro Padre</th> ';
+                                tabH += '        </tr>';
+                                tabH += '    </thead>';
+                                tabH += '    <tbody>';
+                                $.each(response.hijos, function (key, items) {
+                                            tabH += '<tr>';
+                                            tabH += '<td>' + items.Id_parametro + '</td>';
+                                            tabH += '<td>' + items.Parametro + '</td>';
+                                            tabH += '<td>' + items.Padre + '</td>';
+                                            tabH += '</tr>'; 
+                                });
+                                tabH += '    </tbody>';
+                                tabH += '</table>';
+                                tablaHijos.innerHTML = tabH;
+                            } else {
+                                tab += '    </tbody>';
+                                tab += '</table>';
+                                tabla.innerHTML = tab;
 
-            }
-            idBMR = response.idBMR;
+                                tabH += '<table id="tablaHijos" class="table">';
+                                tabH += '    <thead class="thead-dark">';
+                                tabH += '        <tr>';
+                                tabH += '          <th>Id</th>';
+                                tabH += '          <th>Parametro</th> ';
+                                tabH += '        </tr>';
+                                tabH += '    </thead>';
+                                tabH += '    <tbody>';
+                                            tabH += '<tr>';
+                                            tabH += '</tr>'; 
+                                tabH += '    </tbody>';
+                                tabH += '</table>';
+                                tablaHijos.innerHTML = tabH;
+                            }   
 
+                }
+                
+        }
+    
         }
 
     });
 }
 
 var arrCon = new Array();
-
 var conArrCon = new Array();
 var conArrStd1 = new Array();
 var conArrStd2 = new Array();
@@ -650,24 +890,55 @@ var conArrStdProm = new Array();
 
 function getMatriz() {
     arrCon = new Array();
-
     conArrCon = new Array();
     conArrStd1 = new Array();
     conArrStd2 = new Array();
     conArrStd3 = new Array();
+    conArrStd4 = new Array();
+    conArrStd5 = new Array();
+    conArrStd6 = new Array();
+    conArrStd7 = new Array();
+    conArrStd8 = new Array();
     conArrStdProm = new Array();
+    
+    if ($("#parametro").val() == 113){
+       
+        for (let i = 0; i < B; i++) {
+            conArrCon.push($("#curCon" + i).val());
+            conArrStd1.push($("#curStd1" + i).val());
+            conArrStd2.push($("#curStd2" + i).val());
+            conArrStd3.push($("#curStd3" + i).val());
+            conArrStd4.push($("#curStd4" + i).val());
+            conArrStd5.push($("#curStd5" + i).val());
+            conArrStd6.push($("#curStd6" + i).val());
+            conArrStd7.push($("#curStd7" + i).val());
+            conArrStd8.push($("#curStd8" + i).val());
+            conArrStdProm.push($("#curProm" + i).val());
+        }
+    
+        arrCon.push(conArrCon);
+        arrCon.push(conArrStd1);
+        arrCon.push(conArrStd2);
+        arrCon.push(conArrStd3);
+        arrCon.push(conArrStd4);
+        arrCon.push(conArrStd5);
+        arrCon.push(conArrStd6);
+        arrCon.push(conArrStd7);
+        arrCon.push(conArrStd8);
+        arrCon.push(conArrStdProm);
+    } else {
+        for (let i = 0; i < cont; i++) {
+            conArrCon.push($("#curCon" + i).val());
+            conArrStd1.push($("#curStd1" + i).val());
+            conArrStd2.push($("#curStd2" + i).val());
+            conArrStd3.push($("#curStd3" + i).val());
+            conArrStdProm.push($("#curProm" + i).val());
+        }
 
-    for (let i = 0; i < cont; i++) {
-        conArrCon.push($("#curCon" + i).val());
-        conArrStd1.push($("#curStd1" + i).val());
-        conArrStd2.push($("#curStd2" + i).val());
-        conArrStd3.push($("#curStd3" + i).val());
-        conArrStdProm.push($("#curProm" + i).val());
+        arrCon.push(conArrCon);
+        arrCon.push(conArrStd1);
+        arrCon.push(conArrStd2);
+        arrCon.push(conArrStd3);
+        arrCon.push(conArrStdProm);
     }
-
-    arrCon.push(conArrCon);
-    arrCon.push(conArrStd1);
-    arrCon.push(conArrStd2);
-    arrCon.push(conArrStd3);
-    arrCon.push(conArrStdProm);
 }

@@ -24,6 +24,9 @@ $(document).ready(function () {
     $('#btnBuscar').click(function () {
         getLote()
     });
+    $('#btnCrear').click(function () {
+        createLote()
+    });
 });
 document.addEventListener("keydown", function(event) {
     if (event.altKey && event.code === "KeyA")
@@ -34,11 +37,40 @@ document.addEventListener("keydown", function(event) {
         getLote()
     }
     if (event.altKey && event.code === "KeyC"){
-        alert("Crear Lote")
+        createLote()
     }
 });
 function createLote()
 {
+    let muestra = document.getElementsByName("std")
+    let ids = new Array();
+    let fechas = new Array();
+    let horas = new Array();
+
+    for(let i = 0; i < muestra.length;i++){
+        if (muestra[i].checked) {
+            ids.push(muestra[i].value);
+            fechas.push($("#fecha"+muestra[i].value).val())
+            horas.push($("#hora"+muestra[i].value).val())
+        }
+    }
+   
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/laboratorio/metales/createLote",
+        data: {
+            ids:ids,
+            fechas:fechas,
+            horas:horas,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {            
+            console.log(response);
+           
+        }
+    });
     
 }
 function getLote()
@@ -75,16 +107,16 @@ function getLote()
             for (let i = 0; i < model.length; i++) {
                 tab += '<tr>'; 
                 if (model[i][0] == "N/A") {
-                    tab += '    <td><input type="checkbox" name="std"></td>';
+                    tab += '    <td><input type="checkbox" name="std"  value="'+model[i][1]+'"></td>';
                 } else {
-                    tab += '    <td><input type="checkbox" name="std" checked></td>';   
+                    tab += '    <td><input type="checkbox" name="std" checked value="'+model[i][1]+'"></td>';   
                 }
                 tab += '    <td></td>';
                 tab += '    <td>'+model[i][0]+'</td>';
                 tab += '    <td>('+model[i][1]+') '+model[i][2]+'</td>';
                 tab += '    <td>'+model[i][3]+'</td>';
-                tab += '    <td><input type="date" name="fechas" value="'+model[i][4]+'"></td>';
-                tab += '    <td><input type="time" name="horas" value="'+model[i][5]+'"></td>';
+                tab += '    <td><input type="date" id="fecha'+model[i][1]+'" value="'+model[i][4]+'"></td>';
+                tab += '    <td><input type="time" id="hora'+model[i][1]+'" value="'+model[i][5]+'"></td>';
                 tab += '</tr>';
             }
             tab += '    </tbody>';

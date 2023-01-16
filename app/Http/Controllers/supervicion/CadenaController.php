@@ -76,7 +76,7 @@ class CadenaController extends Controller
                 break;
             case "15": // fosforo
             case "19": // Cianuros
-            case "7": //Nitrats
+            case "7": //Nitrats 
             case "8": //Nitritos
                 $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
@@ -191,6 +191,16 @@ class CadenaController extends Controller
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case 114:
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $codigoModel->Id_solicitud)
+                ->where('Id_control', 1)
+                ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case 69:
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $codigoModel->Id_solicitud)
+                ->where('Id_control', 1)
+                ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                 break;
             default:
             break;

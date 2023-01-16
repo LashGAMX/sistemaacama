@@ -10,7 +10,7 @@ use App\Http\Controllers\Laboratorio\VolController;
 use App\Http\Controllers\Laboratorio\DirectosController;
 use App\Http\Controllers\Laboratorio\PotableController;
 use App\Http\Controllers\Seguimiento\SeguimientoController;
-use App\Models\Laboratorio;
+use App\Models\Laboratorio; 
 use Illuminate\Support\Facades\Route;
 
 
@@ -41,11 +41,13 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('buscarLote', [MetalesController::class, 'buscarLote']);
         Route::post('getLote', [MetalesController::class, 'getLote']);
         Route::post('getLoteCaptura', [MetalesController::class, 'getLoteCaptura']);
+        Route::get('asignar', [MetalesController::class, 'asignar']);
         // Route::post('getDatalote', [MetalesController::class, 'getDatalote']);
         Route::get('asgnarMuestraLote/{id}', [MetalesController::class, 'asgnarMuestraLote']);
         Route::post('muestraSinAsignar', [MetalesController::class, 'muestraSinAsignar']); 
         Route::post('asignarMuestraLote', [MetalesController::class, 'asignarMuestraLote']);
         Route::post('getMuestraAsignada', [MetalesController::class, 'getMuestraAsignada']);
+        Route::post('getMuestras', [MetalesController::class, 'getMuestras']);
         Route::post('delMuestraLote', [MetalesController::class, 'delMuestraLote']);
         Route::post('sendMuestrasLote', [MetalesController::class, 'sendMuestrasLote']);
         Route::post('createControlCalidadMetales', [MetalesController::class, 'createControlCalidadMetales']);

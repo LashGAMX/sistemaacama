@@ -376,7 +376,7 @@
 
     <div id="contenidoCurva">
         <span id="curvaProcedimiento">Valoración / Observación</span>
-        <?php echo html_entity_decode($textoProcedimiento[1]);?>
+        <?php echo html_entity_decode(@$textoProcedimiento[1]);?>
     </div>
 </body>
 </html>

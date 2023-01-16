@@ -22,7 +22,7 @@
                             <h6>Tipo descarga: <strong>{{$model->Descarga}}</strong></h6>
                             <h6>Norma: <strong>{{$model->Clave}}</strong></h6>
                             <h6>Cliente: <strong>{{$model->Empresa_suc}}</strong></h6>
-                            <h6>Intermediario: <strong>{{$intermediario->Nombres}}</strong></h6>
+                            <h6>Intermediario: <strong>{{@$intermediario->Nombres}}</strong></h6>
                         </div>
                         <div class="col-md-4">
                             <h6>Fecha muestro: <strong>{{$model->Fecha_muestreo}}</strong></h6>

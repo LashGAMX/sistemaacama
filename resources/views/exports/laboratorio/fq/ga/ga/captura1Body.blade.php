@@ -15,7 +15,7 @@
                     <th class="nombreHeader" colspan="10">
                         Resultado de las muestras
                     </th>                    
-                </tr>
+                </tr> 
 
                 <tr>
                     <td class="tableCabecera bordesTabla">pH de las muestras &nbsp;</td>

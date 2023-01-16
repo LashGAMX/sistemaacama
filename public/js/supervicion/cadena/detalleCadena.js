@@ -241,8 +241,13 @@ function getDetalleAnalisis(idCodigo) {
                         if (item.Id_parametro == 7 || item.Id_parametro == 8) {
                             tab += '<tr>';
                             tab += '<td>' + item.Parametro + '</td>';
-                            tab += '<td>' + item.Resultado + '</td>';
-                            aux = aux + parseFloat(item.Resultado);
+                            if(item.Resultado < item.Limite){
+                                tab += '<td>' + item.Limite + '</td>';
+                                aux = aux + parseFloat(item.Limite);
+                            }else{
+                                tab += '<td>' + item.Resultado + '</td>';
+                                aux = aux + parseFloat(item.Resultado);
+                            }
                             tab += '</tr>';
                         }
                     });
@@ -302,7 +307,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '        <tr>';
                     tab += '          <th>Descripcion</th>';
                     tab += '          <th>Valor</th>';
-                    tab += '        </tr>';
+                    tab += '        </tr>'; 
                     tab += '    </thead>';
                     tab += '    <tbody>'; 
                     $.each(response.model, function (key, item) {
@@ -529,8 +534,10 @@ function getDetalleAnalisis(idCodigo) {
                             tab += '<td> pH - ' + (cont + 1) + '</td>';
                             tab += '<td>' + item.Promedio + '</td>';
                             tab += '</tr>';
-                            aux = aux + parseFloat(item.Promedio);
-                            cont++;
+                            if(item.Promedio != null){
+                                aux = aux + parseFloat(item.Promedio);
+                                cont++;
+                            }
                         });
                         resLiberado = (aux / cont);
                     } else if (response.codigoModel.Id_parametro == 97) { // Temperatura
