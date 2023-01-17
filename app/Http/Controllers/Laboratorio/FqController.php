@@ -2770,7 +2770,22 @@ class FqController extends Controller
             $tiempoReflujo = TiempoReflujo::where('Id_lote', $id_lote)->first();
             $enfMatraz = EnfriadoMatraz::where('Id_lote', $id_lote)->first();
 
+            $limites = array();
+            foreach ($data as $item) {
+                if ($item->Resultado < $limiteC->Limite) {
+                    $limC = "< " . $limiteC->Limite;
+
+                    array_push($limites, $limC);
+                } else {  //Si es mayor el resultado que el límite de cuantificación
+                    $limC = number_format($item->Resultado, 2, ".", ",");
+
+                    array_push($limites, $limC);
+                }
+            }
+
             $separador = "Valoración / Observación";
+
+            
             $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
             $htmlCaptura = view('exports.laboratorio.fq.ga.ga.capturaBody', compact('textoProcedimiento', 'calMatraces', 'enfMatraces', 'secCartuchos', 'tiempoReflujo', 'enfMatraz', 'data', 'dataLength', 'matraces', 'matracesLength'));
@@ -2819,7 +2834,7 @@ class FqController extends Controller
         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->WriteHTML($htmlCaptura);
-
+ 
         $mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
         $data = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->get();
         $dataLength = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->count();

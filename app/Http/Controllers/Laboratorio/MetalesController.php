@@ -32,7 +32,7 @@ use App\Models\LoteDetalleIcp;
 use App\Models\Tecnica;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
-
+use PhpParser\Node\Expr\Cast\Array_;
 
 class MetalesController extends Controller
 {
@@ -588,15 +588,29 @@ class MetalesController extends Controller
         );
         return view('laboratorio.metales.lote',$data);
     }
-    public function createLote(Request $request)
+    public function createLote(Request $res)
     {
-        $model = LoteAnalisis::create([
-            'Id_area' => 2,
-            'Id_tecnica' => $request->tipo,
-            'Asignado' => 0,
-            'Liberado' => 0,
-            'Fecha' => $request->fecha,
-        ]);
+          for ($i=0; $i < sizeof($res->ids) ; $i++) { 
+           if($res->horas[$i] != "")
+           {
+            $model = LoteAnalisis::where('Id_tecnica',$res->ids[$i])->where('Fecha',$res->fechas[$i])->get();
+            if($model->count())
+            {
+                $temp = LoteAnalisis::where('Id_tecnica',$res->ids[$i])->where('Fecha',$res->fechas[$i])->first();
+                $temp->Hora = $res->horas[$i];
+                $temp->save();
+            }else{
+                LoteAnalisis::create([
+                    'Id_area' => 2,
+                    'Id_tecnica' => $res->ids[$i],
+                    'Asignado' => 0,
+                    'Liberado' => 0,
+                    'Fecha' => $res->fechas[$i],
+                    'Hora' => $res->horas[$i],
+                ]);
+            }
+           }
+        }
         $data = array(
             'model' => $model,
         );
@@ -713,7 +727,7 @@ class MetalesController extends Controller
                 null,
                 null,
                 null,
-                null,
+                null, 
                 null
             );
         }
@@ -732,8 +746,44 @@ class MetalesController extends Controller
 
     public function asignar()
     {
-        $tipoFormula = TipoFormula::all();
-        return view('laboratorio.metales.asignar', compact('tipoFormula'));
+        $tipo = DB::table('tipo_formulas')
+        ->where('Id_tipo_formula',20)
+        ->orWhere('Id_tipo_formula',21)
+        ->orWhere('Id_tipo_formula',22)
+        ->orWhere('Id_tipo_formula',23)
+        ->orWhere('Id_tipo_formula',24)
+        ->get();
+        $tecnica = DB::table('tecnicas')
+        ->where('Id_tecnica',20)
+        ->orWhere('Id_tecnica',21)
+        ->orWhere('Id_tecnica',22)
+        ->get();
+        $data = array(
+            'tecnica' => $tecnica,
+            'tipo' => $tipo,
+        );
+        return view('laboratorio.metales.asignar', $data);
+    }
+    public function getMuestras(Request $res)
+    {
+        $temp = array();
+        $model = array();
+        switch ($res->sw) {
+            case 1:
+                $codigo = DB::table('ViewCodigoParametro')->where('Id_area',2)->get();
+                        
+                break;
+            case 2:
+                break;
+            default:
+                # code...
+                break;
+        }
+        
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
     }
     public function asgnarMuestraLote($id)
     {

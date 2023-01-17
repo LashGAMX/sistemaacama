@@ -87,11 +87,12 @@ class CurvaController extends Controller
         }
         if ($bmr != "") {
             $valbmr = true;
-            $idBMR = $bmr->Id_curvaConst;
+            
         } else {
             $valbmr = false;
         }
       
+        $idBMR = $bmr->Id_curvaConst;
         
         $data = array(
             'parametro' => $request->parametro,
@@ -103,6 +104,7 @@ class CurvaController extends Controller
             'sw' => $sw,
             'fecha' => $today,
             'hijos' => $hijos,
+            'idBMR' => $idBMR,
         );
         return response()->json($data);
     }
@@ -127,9 +129,9 @@ class CurvaController extends Controller
                         $update->save();
                     } else {
                         $model = $curva->replicate(); 
-                    $model->Id_parametro = $hijos[$i]->Id_parametro;
-                    $model->Id_parametroPadre = $request->parametro;
-                    $model->save();
+                        $model->Id_parametro = $hijos[$i]->Id_parametro;
+                        $model->Id_parametroPadre = $request->parametro;
+                        $model->save();
                     }
                 
         }
@@ -180,7 +182,7 @@ class CurvaController extends Controller
             
                 ]);
                
-                if ($request->idArea == 2 || $request->idParametro == 95 || $request->idParametro == 243 || $request->idParametro == 113){
+                if ($request->idArea == 2 || $request->idParametro == 243 || $request->idParametro == 113){
                     //Creacion del blanco
                 estandares::create([
                     //'Id_lote' => $request->idLote,
@@ -266,19 +268,39 @@ class CurvaController extends Controller
             ->where('Id_area', $request->area)
             ->where('Id_parametro', $request->parametro)->get();
 
+        if ($request->parametro == 113){
 
-        for ($i = 0; $i < $request->conArr; $i++) {
-            $prom = ($request->arrCon[1][$i] + $request->arrCon[2][$i] + $request->arrCon[3][$i]) / 3;
+            for ($i = 0; $i < $request->conArr; $i++) {
+                $prom = ($request->arrCon[1][$i] + $request->arrCon[2][$i] + $request->arrCon[3][$i] + $request->arrCon[4][$i] + $request->arrCon[5][$i] + $request->arrCon[6][$i] + $request->arrCon[7][$i] + $request->arrCon[8][$i]) / 8;
 
-            $stdM = estandares::find($stdModel[$i]->Id_std);
-            $stdM->Concentracion = $request->arrCon[0][$i];
-            $stdM->ABS1 = $request->arrCon[1][$i];
-            $stdM->ABS2 = $request->arrCon[2][$i];
-            $stdM->ABS3 = $request->arrCon[3][$i];
-            $stdM->Promedio = round($prom, 4);
-            $stdM->save();
+                $stdM = estandares::find($stdModel[$i]->Id_std);
+                $stdM->Concentracion = $request->arrCon[0][$i];
+                $stdM->ABS1 = $request->arrCon[1][$i];
+                $stdM->ABS2 = $request->arrCon[2][$i];
+                $stdM->ABS3 = $request->arrCon[3][$i];
+                $stdM->ABS4 = $request->arrCon[4][$i];
+                $stdM->ABS5 = $request->arrCon[5][$i];
+                $stdM->ABS6 = $request->arrCon[6][$i];
+                $stdM->ABS7 = $request->arrCon[7][$i];
+                $stdM->ABS8 = $request->arrCon[8][$i];
+                $stdM->Promedio = round($prom, 4);
+                $stdM->save();
+            }
+
+        } else {
+
+            for ($i = 0; $i < $request->conArr; $i++) {
+                $prom = ($request->arrCon[1][$i] + $request->arrCon[2][$i] + $request->arrCon[3][$i]) / 3;
+
+                $stdM = estandares::find($stdModel[$i]->Id_std);
+                $stdM->Concentracion = $request->arrCon[0][$i];
+                $stdM->ABS1 = $request->arrCon[1][$i];
+                $stdM->ABS2 = $request->arrCon[2][$i];
+                $stdM->ABS3 = $request->arrCon[3][$i];
+                $stdM->Promedio = round($prom, 4);
+                $stdM->save();
+            }
         }
-
 
         // $model = estandares::where('Id_lote', $idLote)->get();
         $model = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
@@ -304,7 +326,7 @@ class CurvaController extends Controller
             $cElevada = $cElevada + $item->Promedio * $item->Promedio; //Suma de c elevada a 2
         }
 
-        if ($request->area != 16 || $request->parametro == 96) {
+        if ($request->area != 16 || $request->parametro == 96 || $request->parametro == 113) {
             $a = $a; //si contempla el blanco como número de estandares
         } else {
             $a = $a - 1; //No contempla el blanco como número de estandares
