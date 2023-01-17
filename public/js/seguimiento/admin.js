@@ -7,6 +7,7 @@ $('#nueva').click(function () {
 $('#modulo').on("change", function () {
     getSubmodulos();
   });
+
 function getSubmodulos(){
     let divTable = document.getElementById("divSubmodulo");
     let tabs = "";
@@ -98,7 +99,8 @@ function getSubmodulos(){
         dataType: "json",
         success: function (response) {            
             console.log(response);
-            alert("Guardado!");
+            swal("Datos guardados!", "Guardado!", "success");
+            
             
         }
     });
