@@ -19,6 +19,14 @@ class IncidenciasController extends Controller
         $prioridad = DB::table('incidencias_prioridad')->get();
         return view('seguimiento.incidenciasAdmin', compact('prioridad', 'model', 'user', 'modulos', 'user')); 
     }
+    public function index(Request $request){
+        $model = DB::table('ViewIncidencias')->where('Prioridad', "!=", 3)->get();
+        
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
     public function lista(){
         $user = Auth::user()->id;
         $model = db::table('ViewIncidencias')->where('Id_user', $user)->get();

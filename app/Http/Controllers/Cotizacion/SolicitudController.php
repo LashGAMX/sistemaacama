@@ -964,27 +964,31 @@ class SolicitudController extends Controller
                             case 13:
                                 // G&A
                                 for ($i = 0; $i < $phMuestra->count(); $i++) {
-                                    CodigoParametros::create([
-                                        'Id_solicitud' => $value->Id_solicitud,
-                                        'Id_parametro' => $item->Id_parametro,
-                                        'Codigo' => $value->Folio_servicio . "-G-" . ($i + 1) . "",
-                                        'Num_muestra' => $i + 1,
-                                        'Asignado' => 0,
-                                        'Analizo' => 1,
-                                    ]);
+                                    if ($phMuestra[$i]->Activo == 1) {
+                                        CodigoParametros::create([
+                                            'Id_solicitud' => $value->Id_solicitud,
+                                            'Id_parametro' => $item->Id_parametro,
+                                            'Codigo' => $value->Folio_servicio . "-G-" . ($i + 1) . "",
+                                            'Num_muestra' => $i + 1,
+                                            'Asignado' => 0,
+                                            'Analizo' => 1,
+                                        ]);   
+                                    }
                                 }
                                 break;
                             case 12:
                                 // Coliformes
                                 for ($i = 0; $i < $phMuestra->count(); $i++) {
-                                    CodigoParametros::create([
-                                        'Id_solicitud' => $value->Id_solicitud,
-                                        'Id_parametro' => $item->Id_parametro,
-                                        'Codigo' => $value->Folio_servicio . "-C-" . ($i + 1) . "",
-                                        'Num_muestra' => $i + 1,
-                                        'Asignado' => 0,
-                                        'Analizo' => 1,
-                                    ]);
+                                    if ($phMuestra[$i]->Activo == 1) {
+                                        CodigoParametros::create([
+                                            'Id_solicitud' => $value->Id_solicitud,
+                                            'Id_parametro' => $item->Id_parametro,
+                                            'Codigo' => $value->Folio_servicio . "-C-" . ($i + 1) . "",
+                                            'Num_muestra' => $i + 1,
+                                            'Asignado' => 0,
+                                            'Analizo' => 1,
+                                        ]);
+                                    }
                                 }
                                 break;
                             case 5:

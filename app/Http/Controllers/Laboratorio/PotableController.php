@@ -407,6 +407,11 @@ class PotableController extends Controller
                 $model->Factor_conversion = $res->durezaC;
                 $model->save();
                 break;
+            case 96: //SAAM 
+                
+                $model = LoteDetallePotable::find($res->idDetalle);
+                
+                break;
             default:
                 # code...
                 $resultado = (($res->lectura1 + $res->lectura2 + $res->lectura3) / 3);

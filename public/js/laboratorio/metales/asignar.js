@@ -1,32 +1,43 @@
 
 //Múltiple selección
 $(document).ready(function() {
+    getMuestras(1)
     $('#btnBuscar').click(function () {
-        // createLote()
+        getMuestras(2)
+    });
+    $('#btnSeleccionar').click(function () {
+        allSelectCheck("std");
+    });
+    $('#btnSeleccionar').click(function () {
+        
     });
 });
 document.addEventListener("keydown", function(event) {
-    if (event.altKey && event.code === "KeyA")
+    if (event.altKey && event.code === "KeyS")
     {
-        
+        allSelectCheck("std");
     }
     if (event.altKey && event.code === "KeyB"){
-        // getLote()
+        getMuestras(2)
     }
     if (event.altKey && event.code === "KeyC"){
         // createLote()
     }
 });
-function getMuestras()
-{
+function getMuestras(sw)
+{ 
+    console.log("getMuestra")
     let tabla = document.getElementById('divMuestra');
     let tab = '';
     $.ajax({
         type: 'POST',
-        url: base_url + "/admin/laboratorio/metales/getLote",
+        url: base_url + "/admin/laboratorio/metales/getMuestras",
         data: {
-            tecnica: $("#fecha").val(),
+            tecnica: $("#tecnica").val(),
             tipo: $("#tipo").val(),
+            fechaRecepcion: $("#fechaRecepcion").val(),
+            fechaLote: $("#fechaLote").val(),
+            sw:sw,
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -51,7 +62,24 @@ function getMuestras()
             tab += '    <tbody>';
             for (let i = 0; i < model.length; i++) {
                 tab += '<tr>'; 
-                tab += '    <td></td>';
+                if (model[i][6] == "") {
+                    tab += '    <td><input type="checkbox" name="std"  value="'+model[i][0]+'"></td>';
+                } else {
+                    tab += '    <td><input type="checkbox" name="std" checked value="'+model[i][0]+'"></td>';   
+                }
+                tab += '    <td>'+model[i][0]+'</td>'
+                tab += '    <td>'+model[i][1]+'</td>'
+                tab += '    <td>'+model[i][2]+'</td>'
+                tab += '    <td>'+model[i][3]+'</td>'
+                tab += '    <td>'+model[i][4]+'</td>'
+                tab += '    <td>'+model[i][5]+'</td>'
+                if (model[i][7] == "") {
+                    tab += '    <td>N/A</td>'
+                    tab += '    <td>'+$("#fechaLote").val()+'</td>'   
+                } else {
+                    tab += '    <td>'+model[i][6]+'</td>'
+                    tab += '    <td class="text-warning">'+$("#fechaLote").val()+'</td>'
+                }
                 tab += '</tr>';
             }
             tab += '    </tbody>';

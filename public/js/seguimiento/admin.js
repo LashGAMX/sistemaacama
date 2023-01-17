@@ -7,6 +7,27 @@ $('#nueva').click(function () {
 $('#modulo').on("change", function () {
     getSubmodulos();
   });
+function index (){
+  $.ajax({
+    type: "POST",
+    url: base_url + "/admin/seguimiento/incidencias/index",
+    data: {
+          modulo:$("#modulo").val(),
+        _token: $('input[name="_token"]').val()
+    }, 
+    dataType: "json",
+    success: function (response) {            
+        console.log(response);
+        tabs += '<select class="form-control" id="submodulo">';
+        tabs += '<option value="">Sin selecionar</option>';
+        $.each(response.submodulos, function (key, item) {
+            tabs += '<option value="' + item.id + '">'+item.title+'</option>';
+        });
+        tabs += '</select>';
+        divTable.innerHTML = tabs;
+    }
+});
+}
 
 function getSubmodulos(){
     let divTable = document.getElementById("divSubmodulo");
@@ -100,7 +121,8 @@ function getSubmodulos(){
         success: function (response) {            
             console.log(response);
             swal("Datos guardados!", "Guardado!", "success");
-            
+            $('#modalIncidencia').modal('hide')
+            window.location.reload();
             
         }
     });

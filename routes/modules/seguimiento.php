@@ -14,5 +14,6 @@ Route::group(['prefix' => '/seguimiento'], function () {
     Route::post('/incidencias/buscar',[IncidenciasController::class,'buscar']);
     Route::post('/incidencias/getIncidencia',[IncidenciasController::class,'getIncidencia']);
     Route::post('/incidencias/update',[IncidenciasController::class,'update']);
+    Route::post('/incidencias/index',[IncidenciasController::class,'index']);
     
 });    

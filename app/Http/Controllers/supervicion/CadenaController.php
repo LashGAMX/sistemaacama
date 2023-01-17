@@ -116,21 +116,29 @@ class CadenaController extends Controller
                 $model = DB::table('ViewLoteDetalleGA')
                     ->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control',1)->get();
-                $gasto = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
-                    ->where('Activo', 1)->get();
+                $gasto = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
                 $res1 = array();
                 $promTemp = 0;
+                $cont = 0;
                 foreach ($gasto as $item) {
-                    $promTemp = $promTemp + $item->Promedio;
+                    if($item->Activo == 1){
+                        $promTemp = $promTemp + $item->Promedio;
+                        $cont++;
+                    }
                 }
-                $promGasto = $promTemp / $gasto->count();
+                $promGasto = $promTemp / $cont;
 
                 $res = 0;
+                $cont = 0;
                 for ($i = 0; $i < sizeof($model); $i++) {
-                    $res = $res + (($model[$i]->Resultado * $gasto[$i]->Promedio) / $promGasto);
+                    if($gasto[$i]->Activo == 1)
+                    {
+                        $res = $res + (($model[$i]->Resultado * $gasto[$i]->Promedio) / $promGasto);
+                        $cont++;
+                    }
                 }
 
-                $aux = $res / $model->count();
+                $aux = $res / $cont;
                 break;
                 //Mb
             case "5":

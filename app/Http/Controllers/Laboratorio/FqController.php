@@ -260,6 +260,7 @@ class FqController extends Controller
                 $resultado = ($r1 * 12500) / $d;
 
                 break;
+            case 114:
             case 96:
                 # Sustancias activas al Azul de Metileno
                 $x = ($request->X + $request->Y + $request->Z) / 3;
