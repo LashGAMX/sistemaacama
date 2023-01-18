@@ -631,7 +631,6 @@ class MetalesController extends Controller
         );
         return response()->json($data);
     }
-
     public function getLote(Request $res)
     {
        $parametros = DB::table('ViewParametros')
@@ -802,8 +801,8 @@ class MetalesController extends Controller
                 $codigo = DB::table('ViewCodigoParametro')
                 ->where('Id_area',2)
                 ->where('Hijo','!=',0)
-                ->where('Id_tipo_formula',$res->tipo)
-                ->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%')
+                ->orWhere('Id_tipo_formula',$res->tipo)
+                ->orWhere('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%')
                 ->orWhere('Id_tecnica',$res->tenica)
                 ->get();
                 foreach ($codigo as $item) {

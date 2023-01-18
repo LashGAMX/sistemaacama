@@ -9,7 +9,7 @@ $(document).ready(function() {
         allSelectCheck("std");
     });
     $('#btnSeleccionar').click(function () {
-        
+        sendMuestrasLote()
     });
 });
 document.addEventListener("keydown", function(event) {
@@ -20,8 +20,8 @@ document.addEventListener("keydown", function(event) {
     if (event.altKey && event.code === "KeyB"){
         getMuestras(2)
     }
-    if (event.altKey && event.code === "KeyC"){
-        // createLote()
+    if (event.altKey && event.code === "KeyA"){
+        sendMuestrasLote()
     }
 });
 function getMuestras(sw)
@@ -85,6 +85,33 @@ function getMuestras(sw)
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
+        }
+    });
+}
+function sendMuestrasLote()
+{ 
+    let muestra = document.getElementsByName("std")
+    let ids = new Array();
+
+    for(let i = 0; i < muestra.length;i++){
+        if (muestra[i].checked) {
+            ids.push(muestra[i].value);
+        }
+    }
+    console.log(ids)
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/laboratorio/metales/sendMuestrasLote",
+        data: {
+            ids:ids,
+            fechaLote: $("#fechaLote").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {            
+            console.log(response);
+        
         }
     });
 }
