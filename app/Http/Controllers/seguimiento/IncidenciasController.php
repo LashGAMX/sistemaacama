@@ -14,10 +14,11 @@ class IncidenciasController extends Controller
 {
     public function admin(){
         $user = Auth::user()->id;
-        $model = db::table('ViewIncidencias')->where('Id_user', $user)->get();
+        $model= db::table('ViewIncidencias')->where('Id_user', $user)->get();
         $modulos = DB::table('menu_items')->where('parent_id', null)->get();
         $prioridad = DB::table('incidencias_prioridad')->get();
-        return view('seguimiento.incidenciasAdmin', compact('prioridad', 'model', 'user', 'modulos', 'user')); 
+        $estado = DB::table('incidencias_estado')->get();
+        return view('seguimiento.incidenciasAdmin', compact('prioridad', 'model', 'user', 'modulos', 'user', 'estado')); 
     }
     public function index(Request $request){
         $model = DB::table('ViewIncidencias')->where('Prioridad', "!=", 3)->get();
@@ -48,8 +49,13 @@ class IncidenciasController extends Controller
         return response()->json($data);
     }
     public function create(Request $res){
-        $contenidoBinario = file_get_contents($res->file);
-        $imagenComoBase64 = base64_encode($contenidoBinario);
+       
+        if ($res->file == NULL) {
+            $imagenComoBase64 = "";
+        } else {
+            $contenidoBinario = file_get_contents($res->file);
+            $imagenComoBase64 = base64_encode($contenidoBinario);
+        }
         $user = Auth::user()->id;
         $model = Incidencias::create([
             'Id_prioridad' => $res->prioridad,
@@ -84,9 +90,12 @@ class IncidenciasController extends Controller
         return response()->json($data);
     }
     public function buscar(Request $request){
-        if ($request->modulo != 0 && $request->submodulo == 0 && $request->prioridad == 0) {
+        if ($request->modulo != 0 && $request->submodulo == 0 && $request->prioridad == 0 && $request->estado == 0) {
 
             $model = DB::table('ViewIncidencias')->where('Id_modulo', $request->modulo)->get();
+
+        } elseif ($request->modulo == 0 && $request->submodulo == 0 && $request->prioridad == 0 && $request->estado != 0) {
+            $model = DB::table('ViewIncidencias')->where('Id_estado', $request->estado)->get();
 
         } elseif ($request->modulo == 0 && $request->submodulo == 0 && $request->prioridad != 0){
              
@@ -103,7 +112,7 @@ class IncidenciasController extends Controller
             ->get();
     
         } elseif ($request->modulo == 0 && $request->submodulo == 0 && $request->prioridad == 0){
-            $model = DB::table('ViewIncidencias')->get();
+            $model = DB::table('ViewIncidencias')->orderBy('Id_modulo', 'desc')->get();
         }
 
         $data = array(

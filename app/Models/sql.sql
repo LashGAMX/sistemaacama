@@ -611,3 +611,10 @@ INNER JOIN incidencias_prioridad as pri ON inci.Id_prioridad = pri.Id_prioridad
 CREATE VIEW ViewProcesoAnalisis as SELECT pr.*,sol.Padre,sol.Hijo FROM proceso_analisis as pr
 INNER JOIN ViewSolicitud as sol
 ON pr.Id_solicitud = sol.Id_solicitud
+
+
+/* ViewSucursalesCliente */
+
+CREATE VIEW ViewSucursalesCliente as SELECT suc.*,cli.Id_intermediario FROM sucursales_cliente as suc
+INNER JOIN clientes_general as cli
+ON suc.Id_cliente = cli.Id_cliente

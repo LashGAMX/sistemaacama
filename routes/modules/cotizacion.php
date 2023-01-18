@@ -29,6 +29,7 @@ Route::group(['prefix' => 'cotizacion'], function () {
     Route::get('duplicarCot/{idCot}', [CotizacionController::class, 'duplicar']);
     Route::post('comprobarEdicion',[CotizacionController::class, 'comprobarEdicion']);
     
+    Route::post('getClienteInter', [CotizacionController::class, 'getClienteInter']); 
     Route::post('clienteSucursal', [CotizacionController::class, 'clienteSucursal']); 
     Route::post('DatosClienteSucursal', [CotizacionController::class, 'DatosClienteSucursal']);  
 

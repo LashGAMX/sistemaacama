@@ -42,17 +42,17 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="intermediario">Intermediario</label>
-                                    <select name="intermediario" id="intermediario" class="form-control select2">
+                                    <select name="intermediario" id="intermediario" onchange="getClienteInter()" class="form-control select2">
                                         <option>Sin seleccionar</option>
                                         @foreach ($intermediarios as $item)
                                             @if (@$model->Id_intermedio == $item->Id_cliente)
-                                                <option value="{{ $item->Id_cliente }}" selected>{{ $item->Nombres }}
+                                                <option value="{{ $item->Id_intermediario }}" selected>{{ $item->Nombres }}
                                                     {{ $item->A_paterno }}</option>
                                             @else
-                                                <option value="{{ $item->Id_cliente }}">{{ $item->Nombres }}
+                                                <option value="{{ $item->Id_intermediario }}">{{ $item->Nombres }}
                                                     {{ $item->A_paterno }}</option>
                                             @endif
-                                        @endforeach
+                                        @endforeach 
                                     </select>
                                 </div>
                             </div>
@@ -63,16 +63,9 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="clientes">Clientes registrados padre</label>
-                                    <select name="clientes" id="clientes" class="form-control select2">
+                                    <select name="clientes" id="clientes" onchange="" class="form-control select2">
                                         <option value="0">Sin seleccionar</option>
-                                        @foreach ($generales as $item)
-                                            @if (@$model->Id_cliente == $item->Id_cliente)
-                                                <option value="{{ $item->Id_cliente }}" selected>{{ $item->Empresa }}
-                                                </option>
-                                            @else
-                                                <option value="{{ $item->Id_cliente }}">{{ $item->Empresa }}</option>
-                                            @endif
-                                        @endforeach
+                                     
                                     </select>
                                 </div>
                             </div>
@@ -686,6 +679,6 @@
     @endsection
     @section('javascript')
 
-        <script src="{{ asset('/public/js/cotizacion/create.js') }}?v=0.0.3"></script>
+        <script src="{{ asset('/public/js/cotizacion/create.js') }}?v=0.0.4"></script>
         
     @stop

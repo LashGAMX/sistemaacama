@@ -552,7 +552,7 @@ class SolicitudController extends Controller
                 $subnorma = NormaParametros::where('Id_norma', $request->subnorma)->where('Id_parametro', $item)->get();
 
                 $extra = 0;
-                if ($subnorma->count() > 0) {
+                if ($subnorma->count()) {
                     $extra = 0;
                 } else {
                     $extra = 1;
@@ -615,9 +615,9 @@ class SolicitudController extends Controller
                     ]);
                     foreach ($parametros as $item) {
                         $subnorma = NormaParametros::where('Id_norma', $request->subnorma)->where('Id_parametro', $item)->get();
-
+ 
                         $extra = 0;
-                        if ($subnorma->count() > 0) {
+                        if ($subnorma->count()) {
                             $extra = 0;
                         } else {
                             $extra = 1;
@@ -734,12 +734,7 @@ class SolicitudController extends Controller
     }
     public function getReporteSir(Request $request)
     {
-        if ($request->siralab != "true") {
-            $direccion = DireccionReporte::where('Id_sucursal', $request->idSucursal)->get();
-        } else {
-            $direccion = ClienteSiralab::where('Id_sucursal', $request->idSucursal)->get();
-        }
-
+        $direccion = DireccionReporte::where('Id_sucursal', $request->idSucursal)->get();
         $data = array(
             'direccion' => $direccion,
             'siralab' => $request->siralab,
@@ -887,8 +882,10 @@ class SolicitudController extends Controller
     {
         $qr = new DNS2D();
         $model = DB::table('ViewSolicitud')->where('Id_cotizacion', $idOrden)->first();
-        $direccion = SucursalCliente::where('Id_sucursal', $model->Id_sucursal)->first();
-        $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $model->Id_solicitud)->orderBy('Parametro', 'ASC')->get();
+        $cliente = SucursalCliente::where('Id_sucursal', $model->Id_sucursal)->first();
+        $direccion = DireccionReporte::where('Id_sucursal',$model->Id_sucursal)->first();
+        $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $model->Id_solicitud)->where('Extra',0)->orderBy('Parametro', 'ASC')->get();
+        $extra = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $model->Id_solicitud)->where('Extra',1)->orderBy('Parametro', 'ASC')->get();
         $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion', $idOrden)->first();
         $frecuenciaMuestreo = Frecuencia001::where('Id_frecuencia', $cotizacion->Frecuencia_muestreo)->first();
 
@@ -908,8 +905,18 @@ class SolicitudController extends Controller
             array(0, 0),
         );
 
-        $mpdf->showWatermarkImage = true;
-        $html = view('exports.cotizacion.ordenServicio', compact('model', 'parametros', 'qr', 'cotizacion', 'direccion', 'frecuenciaMuestreo'));
+        $data = array(
+            'extra' => $extra, 
+            'model' => $model,
+            'parametros' => $parametros,
+            'qr' => $qr,
+            'cotizacion' => $cotizacion,
+            'direccion' => $direccion,
+            'frecuenciaMuestreo' => $frecuenciaMuestreo,
+            'cliente' => $cliente,
+        );
+
+        $html = view('exports.cotizacion.ordenServicio', $data);
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output();

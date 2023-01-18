@@ -32,6 +32,7 @@ $(document).ready(function () {
 
     $('#clientes').click(function () {
         dataCliente();
+        
     });
     
     $('#tipoDescarga').click(function () {
@@ -50,9 +51,10 @@ $(document).ready(function () {
     });
 
     $("#clientes").on("change", function(){
-      
-      clienteSucursal();
+      clienteSucursal()
+      // clienteSucursal();
     });
+ 
 
     $("#clienteSucursal").on("change", function(){
       console.log('btn brandon')
@@ -70,6 +72,39 @@ $(document).ready(function () {
     addColPunto(); 
 
 });
+function getClienteInter()
+{
+
+  let sub = document.getElementById('clientes');
+  let tab = '';
+  $.ajax({
+      url: base_url + '/admin/cotizacion/getClienteInter', //archivo que recibe la peticion
+      type: 'POST', //método de envio
+      data: {
+        intermediario: $('#intermediario').val(),
+          _token: $('input[name="_token"]').val(),
+      },
+      dataType: 'json',
+      async: false, 
+      success: function (response) {
+        console.log(response)
+          $.each(response.model, function (key, item) {              
+            tab += '<option value="'+item.Id_cliente+'">'+item.Empresa+'</option>'; 
+            // if(sw == 1) 
+            // {
+            //   if (modelMu.Localidad == item.Id_localidad) {
+            //     tab += '<option value="'+item.Id_localidad+'" selected>'+item.Nombre+'</option>';
+            //   } else {
+            //     tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>'; 
+            //   }
+            // }else{ 
+            //   tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>';
+            // }
+          });
+          sub.innerHTML = tab;
+      }
+  });
+}
 function cantGasolinaTeorico() 
 {
   let km = document.getElementById('km')
@@ -486,7 +521,7 @@ function DatosClienteSucursal(){
     success: function (response) { 
         console.log(response)
             $("#nombreCliente").val(response.info.Empresa);
-            $("#direccion").val(response.info.Direccion);
+            $("#direccion").val(response.direccion.Direccion);
             $("#atencion").val(response.info.Atencion);
             $("#telefono").val(response.info.Telefono);
             $("#correo").val(response.info.Correo);

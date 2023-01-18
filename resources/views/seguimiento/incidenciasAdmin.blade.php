@@ -43,12 +43,23 @@
                 </select>
             </div>
         </div>
-        <div class = "col-md-3">
+        <div class = "col-md-2">
+            <div class = "form-group">
+                <label for="exampleFormControlSelect1">Estado</label>
+                <select class="form-control" name="estado" id="estado">
+                    <option value="0">Sin seleccionar</option>
+                   @foreach ($estado as $item)
+                       <option value="{{$item->Id_estado}}">{{$item->Estado}}</option>
+                   @endforeach
+                </select>
+            </div>
+        </div>
+        <div class = "col-md-2">
             <div class = "form-group">
                 <button type="button" class="btn btn-info" id="buscar" onclick="buscar()">buscar</button>
             </div>
         </div>
-        <div class = "col-md-3">
+        <div class = "col-md-2">
             <div class = "form-group">
                 <button type="button" class="btn btn-success" id="nueva">Nueva incidencia</button>
             </div>

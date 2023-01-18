@@ -25,7 +25,7 @@
                     <tr>
                         <td style="width: 25%" class="">Nombre de la empresa</td>
                         <td class="" style="height: 50px;border: 1px solid;">
-                            {{@$direccion->Empresa}}
+                            {{@$cliente->Empresa}}
                         </td>
                     </tr>
                     <tr>
@@ -65,42 +65,24 @@
                     <tr>
                         <td style="width: 25%">Parametros</td>
                         <td style="height: 200px;border: 1px solid;" class="border">
-                            @php
-                                $contP = 0;
-                            @endphp
-                            @foreach (@$parametros as $item)
-                                @if ($item->Extra == 0) 
-                                    @if ($contP < 10)
-                                       
-                                        @php $contP++; @endphp
-                                    @else
-                                        @php $contP = 0; @endphp
-                                    @endif
-                                    {{$item->Parametro}},
-                                 @endif  
-                            @endforeach 
+                            @foreach ($parametros as $item)
+                                {{$item->Parametro}}
+                            @endforeach
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 25%">Parametros especiales</td>
                             <td style="height: 100px;border: 1px solid; color:red" class="border">
-                                @php
-                                    $cont = 0;
-                                @endphp
-                                @foreach (@$parametros as $item)
-                                    @if ($item->Extra != 0)
-                                        @php
-                                        $cont++;    
-                                        @endphp
-                                        {{$item->Parametro}},
-                                    @endif    
-                                @endforeach
-                                @if ($cont == 0)
+                                @if ($extra->count()) 
+                                    @foreach ($extra as $item)
+                                        {{$item->Parametro}}
+                                    @endforeach
+                                @else
                                     @php
-                                        echo "Sin parametros especiales";
+                                        echo "Sin parametros especiales"; 
                                     @endphp
                                 @endif
-                        </td>
+                            </td>
                     </tr>
                     <tr>
                         <td style="width: 25%">Fecha de muestreo</td>

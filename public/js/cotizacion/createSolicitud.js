@@ -651,27 +651,14 @@ function getDireccionReporteSir()
             console.log(response);
             tab += '<option value="0">Sin seleccionar</option>';
             $.each(response.direccion, function (key, item) {
-                if(siralab.checked == false)
-                {
-                    if (swSol == true) {
-                        if (model.Id_reporte == item.Id_direccion) {
-                            tab += '<option value="' + item.Id_direccion + '" selected>' + item.Direccion + '</option>';
-                        } else {
-                            tab += '<option value="' + item.Id_direccion + '">' + item.Direccion + '</option>';
-                        }
+                if (swSol == true) {
+                    if (model.Id_reporte == item.Id_direccion) {
+                        tab += '<option value="' + item.Id_direccion + '" selected>' + item.Direccion + '</option>';
                     } else {
                         tab += '<option value="' + item.Id_direccion + '">' + item.Direccion + '</option>';
                     }
-                }else if(siralab.checked == true){
-                    if (swSol == true) {
-                        if (model.Id_reporte == item.Id_cliente_siralab) {
-                            tab += '<option value="' + item.Id_cliente_siralab + '">' + item.Calle + ' '+item.Num_exterior+' '+item.Num_interior+' '+item.Colonia+' '+item.CP+' '+item.Ciudad+' '+item.Localidad+' '+item.Estado+'</option>';
-                        } else {
-                            tab += '<option value="' + item.Id_cliente_siralab + '">' + item.Calle + ' '+item.Num_exterior+' '+item.Num_interior+' '+item.Colonia+' '+item.CP+' '+item.Ciudad+' '+item.Localidad+' '+item.Estado+'</option>';
-                        }
-                    } else {
-                        tab += '<option value="' + item.Id_cliente_siralab + '">' + item.Calle + ' '+item.Num_exterior+' '+item.Num_interior+' '+item.Colonia+' '+item.CP+' '+item.Ciudad+' '+item.Localidad+' '+item.Estado+'</option>';
-                    }
+                } else {
+                    tab += '<option value="' + item.Id_direccion + '">' + item.Direccion + '</option>';
                 }
             
               

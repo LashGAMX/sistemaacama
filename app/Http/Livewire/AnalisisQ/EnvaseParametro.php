@@ -20,6 +20,7 @@ class EnvaseParametro extends Component
     public $parametro;
     public $envase;
     public $preservador;
+    public $status;
 
     public $alert =  false;
     public function render()

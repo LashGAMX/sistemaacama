@@ -137,6 +137,7 @@ function getSubmodulos(){
             modulo:$("#modulo").val(),
             submodulo:$("#submodulo").val(),
             prioridad:$("#prioridad").val(),
+            estado:$("#estado").val(),
           _token: $('input[name="_token"]').val()
       }, 
       dataType: "json",

@@ -14,6 +14,7 @@ use App\Models\Norma;
 use App\Models\SubNorma;
 use App\Models\CotizacionParametros;
 use App\Models\CotizacionPunto;
+use App\Models\DireccionReporte;
 use App\Models\NormaParametros;
 use App\Models\PrecioCatalogo;
 use App\Models\PrecioPaquete;
@@ -56,9 +57,11 @@ class CotizacionController extends Controller
     {
         $info = SucursalCliente::where('Id_sucursal', $request->idSucursal)->first();
         $nombre = $info->Empresa;
+        $direccion = DireccionReporte::where('Id_sucursal',$request->idSucursal)->first();
 
         $data = array(
             'info' => $info,
+            'direccion' => $direccion,
         );
         return response()->json($data);
     }
@@ -127,7 +130,7 @@ class CotizacionController extends Controller
             'model' => $model,
             'estados' => $estados,
             'cotizacionParametros' => $cotizacionParametros,
-            'cotizacionPuntos' => $cotizacionPuntos,
+            'cotizacionPuntos' => $cotizacionPuntos, 
             'muestreo' => $cotizacionMuestreo,
             'idCotizacion' => $id,
             'categorias001' => $categorias001,
@@ -140,13 +143,21 @@ class CotizacionController extends Controller
         $model = DB::table('ViewCotParam ')->where('Id_cotizacion', $request->idCot)->get();
         return response()->json(compact('model'));
     }
+    public function getClienteInter(Request $res)
+    {
+        $model = DB::table('ViewSucursalesCliente')->where('Id_intermediario',$res->intermediario)->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
     public function getCotizacionId(Request $request)
     {
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $request->idCotizacion)->first();
         $modelMuestreo = CotizacionMuestreo::where('Id_cotizacion', $request->idCotizacion)->first();
         $data = array(
             'model' => $model,
-            'modelMuestreo' => $modelMuestreo,
+            'modelMuestreo' => $modelMuestreo, 
         );
         return response()->json($data);
     }
@@ -240,7 +251,7 @@ class CotizacionController extends Controller
 
         $parametroExtra = array();
 
-        $intermediarios = DB::table('ViewIntermediarios')->where('Id_cliente', $res->intermediario)->first();
+        $intermediarios = DB::table('ViewIntermediarios')->where('Id_intermediario', $res->intermediario)->first();
         $subnorma = DB::table('sub_normas')->where('Id_subnorma', $res->idSub)->first();
         $servicio = DB::table('tipo_servicios')->where('Id_tipo', $res->idServicio)->first();
         $descarga = DB::table('tipo_descargas')->where('Id_tipo', $res->idDescarga)->first();
@@ -342,7 +353,7 @@ class CotizacionController extends Controller
         }
 
         $paquete = DB::table('precio_paquete')->where('Id_paquete', $request->subnorma)->first();
-
+        
 
         $cotizacion = Cotizacion::create([
             'Id_intermedio' => $request->intermediario,

@@ -801,10 +801,9 @@ class MetalesController extends Controller
                 $codigo = DB::table('ViewCodigoParametro')
                 ->where('Id_area',2)
                 ->where('Hijo','!=',0)
-                ->orWhere('Id_tipo_formula',$res->tipo)
-                ->orWhere('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%')
-                ->orWhere('Id_tecnica',$res->tenica)
-                ->get();<
+                ->where('Id_tipo_formula',$res->tipo)
+                ->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%')
+                ->get();
                 foreach ($codigo as $item) {
                     $temp = array();
                     array_push($temp,$item->Id_codigo);
@@ -936,6 +935,13 @@ class MetalesController extends Controller
     }
     public function sendMuestrasLote(Request $res)
     {
+
+        for ($i=0; $i <  sizeof($res->ids); $i++) { 
+            $lote = LoteAnalisis::where('Id_area',2)
+            ->where('Fecha',$res->fechaLote)
+            ->where('Id_tecnica',$res->ids[0])->get();
+        }
+
         $sw = false;
         $loteModel = LoteAnalisis::where('Id_lote', $res->idLote)->first();
 
