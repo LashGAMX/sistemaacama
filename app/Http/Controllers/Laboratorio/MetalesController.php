@@ -804,7 +804,7 @@ class MetalesController extends Controller
                 ->orWhere('Id_tipo_formula',$res->tipo)
                 ->orWhere('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%')
                 ->orWhere('Id_tecnica',$res->tenica)
-                ->get();
+                ->get();<
                 foreach ($codigo as $item) {
                     $temp = array();
                     array_push($temp,$item->Id_codigo);
