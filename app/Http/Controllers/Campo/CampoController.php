@@ -1150,11 +1150,12 @@ class CampoController extends Controller
     public function getPhTrazable(Request $request)
     {
         $model = PHTrazable::where('Id_ph', $request->id)->first();
-        return response()->json(compact('model'));
+        $model2 = PHCalidad::where('Ph_calidad', $model->Ph)->first();
+        return response()->json(compact('model','model2'));
     }
     public function getPhCalidad(Request $request)
     {                        
-        $model = PHCalidad::where('Ph_calidad', $request->trazable)->first();
+        $model = PHCalidad::where('Ph_calidad', $request->id)->first();
         return response()->json(compact('model'));
     }
     public function getConTrazable(Request $request)

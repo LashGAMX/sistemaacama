@@ -6,6 +6,136 @@ $(document).ready(function () {
     $('#termometro').select2();
     $('#termometro2').select2();
 });
+function valPhCalidad(id) {
+
+    let l1 = parseFloat($("#phC1"+id).val())
+    let l2 = parseFloat($("#phC2"+id).val())
+    let l3 = parseFloat($("#phC3"+id).val())
+    let ph = parseFloat($("#phCalidad"+id+" option:selected").text())
+    let porcentaje = 0
+    let temp = 0
+
+
+    let sw = false;
+    //nuevas variables
+    let sw1;
+    let sw2;
+    let sw3;
+    let sw4;
+    let sw5;
+    let sw6;
+    let sw7 = true;
+    let sw8 = true;
+    let sw9 = true;
+    
+    temp = (cal * 2) / 100
+    porcentaje = temp.toFixed(2)
+    
+    if (l1 > 4 && l1 < 9) {
+        sw = true;
+    } else if (l2 > 4 && l2 < 9) {
+        sw = true;
+    } else if (l1 > 4 && l1 < 9) {
+        sw = true;
+    } else {
+        sw = false;
+    }
+
+    // val if 0.03
+
+    r1 = parseFloat((l1 - l2).toFixed(2));
+    r2 = parseFloat((l1 - l3).toFixed(2));
+
+    r3 = parseFloat((l2 - l1).toFixed(2));
+    r4 = parseFloat((l2 - l3).toFixed(2));
+
+    r5 = parseFloat((l3 - l1).toFixed(2));
+    r6 = parseFloat((l3 - l2).toFixed(2));
+
+    if (r1 < -0.03 || r1 > 0.03) {
+        sw1 = false;
+    } else {
+        sw1 = true;
+    }
+
+    if (r2 < -0.03 || r2 > 0.03) {
+        sw2 = false;
+    } else {
+        sw2 = true;
+    }
+
+    if (r3 < -0.03 || r3 > 0.03) {
+        sw3 = false;
+    } else {
+        sw3 = true;
+    }
+
+    if (r4 < -0.03 || r4 > 0.03) {
+        sw4 = false;
+    } else {
+        sw4 = true;
+    }
+
+    if (r5 < -0.03 || r5 > 0.03) {
+        sw5 = false;
+    } else {
+        sw5 = true;
+    }
+
+    if (r6 < -0.03 || r6 > 0.03) {
+        sw6 = false;
+    } else {
+        sw6 = true;
+    }
+
+    //COMPROBACIÓN DE +/- 2%-----------------------------------------------------------------------------------------
+    if (parseFloat((l1 - cal).toFixed(2)) < porcentaje * -1 || parseFloat((l1 - cal).toFixed(2)) > porcentaje) {
+        sw7 = false;
+    }    
+
+    if (parseFloat((l2 - cal).toFixed(2)) < porcentaje * -1 || parseFloat((l2 - cal).toFixed(2)) > porcentaje) {
+        sw8 = false;
+    }    
+
+    if (parseFloat((l3 - cal).toFixed(2)) < porcentaje * -1 || parseFloat((l3 - cal).toFixed(2)) > porcentaje) {
+        sw9 = false;
+    }
+    //----------------------------------------------------------------------------------------------------------------    
+
+    if(sw1 == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true && sw6 == true && sw7 == true && sw8 == true && sw9 == true){
+        sw = true;
+    }else{
+        sw = false;
+    }        
+
+   
+
+    if(l1 == ""){
+        $("#phC1"+id).attr("placeholder","Lectura Vacía")
+        sw = false;
+    }
+    
+    if(l2 == ""){
+        $("#phC2"+id).attr("placeholder","Lectura Vacía")
+        sw = false;
+    }
+    
+    if(l3 == ""){
+        $("#phC3"+id).attr("placeholder","Lectura Vacía")
+        sw = false;
+    }
+
+    
+    if (sw == true) {
+        $("#phCEstado"+id).val("Aprobado")
+        $("#trCalidad"+id).attr("class","bg-success")
+    } else {
+        $("#phCEstado"+id).val("Rechazado")
+        $("#trCalidad"+id).attr("class","bg-danger")
+    }
+
+    $("#phCPromedio"+id).val(((l1 + l2 + l3) / 3).toFixed(2))
+}
 function valPhTrazable(id) {
     let l1 = parseFloat($("#phT1"+id).val())
     let l2 = parseFloat($("#phT2"+id).val())
@@ -158,6 +288,8 @@ function getPhTrazable(id,idg) {
     let id1 = tab.rows[1].children[0].children[0].value
     let id2 = tab.rows[2].children[0].children[0].value
     
+    
+
     if (id1 == id2) {
         alert("No puedes seleccionar el mismo ph")
     } else {
@@ -175,10 +307,16 @@ function getPhTrazable(id,idg) {
                 $("#phTNombre"+idg).text(response.model.Ph) 
                 $("#phTMarca"+idg).text(response.model.Marca) 
                 $("#phTLote"+idg).text(response.model.Lote) 
+
+                $("#phCalidad"+idg).text(response.model2.Ph_calidad) 
+                $("#phCNombre"+idg).text(response.model2.Ph_calidad) 
+                $("#phCMarca"+idg).text(response.model2.Marca) 
+                $("#phCLote"+idg).text(response.model2.Lote) 
             },
         });
     }
 }
+
 
 function setDataGeneral() {
     $.ajax({

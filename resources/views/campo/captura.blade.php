@@ -286,32 +286,19 @@
                                     $temp3 = "";
                                 @endphp
                                     @foreach ($phCampoCalidad as $item)
-                                    <tr>
-                                        <td>
-                                            <select id="phTrazable1" name="phTrazable1n" focus>
-                                                <option value="0">Sin seleccionar</option>
-                                                @foreach ($phCalidad as $item2)                                                                                                
-                                                    @if ($item->Id_phTrazable == $item2->Id_ph)
-                                                        <option value="{{ $item2->Id_ph }}" selected> {{ $item2->Ph_calidad }}</option>
-                                                        @php
-                                                            $temp1 = $item2->Ph_calidad;
-                                                            $temp2 = $item2->Marca;
-                                                            $temp3 = $item2->Lote;
-                                                        @endphp
-                                                    @else
-                                                        <option value="{{ $item2->Id_ph }}">{{ $item2->Ph_calidad }}</option>
-                                                    @endif                                                    
-                                                @endforeach
-                                            </select>
-                                        </td>
-                                        <td><p id="phCNombre1">{{$temp1}}</p></td>
-                                        <td><p id="phCMarca1">{{$temp2}}</p></td>
-                                        <td><p id="phCLote1">{{$temp3}}</p></td>
-                                        <td><input type="number" value="{{$item->Lectura1}}"></td>
-                                        <td><input type="number" value="{{$item->Lectura2}}"></td>
-                                        <td><input type="number" value="{{$item->Lectura3}}"></td>
-                                        <td>{{$item->Estado}}</td>
-                                        <td>{{$item->Promedio}}</td>
+                                    <tr id="trCalidad{{$item->Id_ph}}">
+                                        <td><input type="number" id="phCalidad{{$item->Id_ph}}" value="{{$item->Ph}}"></td>
+                                        <td><p id="phCNombre{{$item->Id_ph}}">{{$temp1}}</p></td>
+                                        <td><p id="phCMarca{{$item->Id_ph}}">{{$temp2}}</p></td>
+                                        <td><p id="phCLote{{$item->Id_ph}}">{{$temp3}}</p></td>
+                                        <td><input type="number" id="phC1{{$item->Id_ph}}" value="{{$item->Lectura1}}"
+                                            onkeyup="valPhCalidad('{{$item->Id_ph}}')"></td>
+                                        <td><input type="number" id="phC2{{$item->Id_ph}}" value="{{$item->Lectura2}}"
+                                            onkeyup="valPhCalidad('{{$item->Id_ph}}')"></td>
+                                        <td><input type="number" id="phC3{{$item->Id_ph}}" value="{{$item->Lectura3}}"
+                                            onkeyup="valPhCalidad('{{$item->Id_ph}}')"></td>
+                                        <td><input type="text" id="phCEstado{{$item->Id_ph}}" value="{{$item->Estado}}"></td>
+                                        <td><input type="number" id="phCPromedio{{$item->Id_ph}}" value="{{$item->Promedio}}"></td>
                                     </tr>
                                 @endforeach
                                 </tbody>

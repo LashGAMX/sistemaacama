@@ -804,32 +804,32 @@ class MetalesController extends Controller
                 ->where('Id_tipo_formula',$res->tipo)
                 ->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%')
                 ->get();
-                foreach ($codigo as $item) {
-                    $temp = array();
-                    array_push($temp,$item->Id_codigo);
-                    array_push($temp,$item->Codigo);
-                    array_push($temp,$item->Empresa);
-                    if ($item->Siralab == 1) {
-                        $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud',$item->Id_solicitud)->first();
-                        array_push($temp,$punto->Punto);
-                    } else {
-                        $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud',$item->Id_solicitud)->first();
-                        array_push($temp,$punto->Punto_muestreo);
-                    }
-                    array_push($temp,$item->Norma);
-                    array_push($temp,$item->Parametro);
-                    $lote = DB::table('ViewLoteDetalle')->where('Id_analisis',$item->Id_solicitud)->where('Id_parametro',$item->Id_parametro)->get();
-                    if($lote->count())
-                    {
-                        array_push($temp,$lote[0]->Id_lote);
-                        $loteDetalle = LoteAnalisis::find($lote[0]->Id_lote);
-                        array_push($temp,$loteDetalle->Fecha);
-                    }else{
-                        array_push($temp,"");
-                        array_push($temp,""); 
-                    }
-                    array_push($model,$temp);
-                }
+                // foreach ($codigo as $item) {
+                //     $temp = array();
+                //     array_push($temp,$item->Id_codigo);
+                //     array_push($temp,$item->Codigo);
+                //     array_push($temp,$item->Empresa);
+                //     if ($item->Siralab == 1) {
+                //         $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud',$item->Id_solicitud)->first();
+                //         array_push($temp,$punto->Punto);
+                //     } else {
+                //         $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud',$item->Id_solicitud)->first();
+                //         array_push($temp,$punto->Punto_muestreo);
+                //     }
+                //     array_push($temp,$item->Norma);
+                //     array_push($temp,$item->Parametro);
+                //     $lote = DB::table('ViewLoteDetalle')->where('Id_analisis',$item->Id_solicitud)->where('Id_parametro',$item->Id_parametro)->get();
+                //     if($lote->count())
+                //     {
+                //         array_push($temp,$lote[0]->Id_lote);
+                //         $loteDetalle = LoteAnalisis::find($lote[0]->Id_lote);
+                //         array_push($temp,$loteDetalle->Fecha);
+                //     }else{
+                //         array_push($temp,"");
+                //         array_push($temp,""); 
+                //     }
+                //     array_push($model,$temp);
+                // }
                 break;
             default:
                 # code...
