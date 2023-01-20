@@ -15,6 +15,7 @@ class GastoMuestra extends Model
 
     protected $fillable = [
         'Id_solicitud',
+        'Num_toma',
         'Gasto1',
         'Gasto2',
         'Gasto3',

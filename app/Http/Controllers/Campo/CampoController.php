@@ -12,6 +12,7 @@ use App\Models\CampoGenerales;
 use App\Models\CampoPhCalidad;
 use App\Models\CampoPhTrazable;
 use App\Models\CampoTempCalidad;
+use App\Models\Color;
 use App\Models\ComplementoCampo;
 use App\Models\ConductividadCalidad;
 use App\Models\ConductividadMuestra;
@@ -50,6 +51,7 @@ use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use App\Models\SolicitudesGeneradas;
+use App\Models\SolicitudParametro;
 use App\Models\SolicitudPuntos;
 use App\Models\SubNorma;
 use App\Models\SucursalCliente;
@@ -57,6 +59,7 @@ use App\Models\TemperaturaAmbiente;
 use App\Models\TemperaturaMuestra;
 use App\Models\TermFactorCorreccionTemp;
 use App\Models\TermometroCampo;
+use App\Models\TipoReporte;
 use App\Models\TipoTratamiento;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
@@ -76,7 +79,15 @@ class CampoController extends Controller
     public function listaMuestreo()
     {
         $equipo = DB::table('ViewCampoGenerales')->get();
-        $model = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud','DESC')->get();
+        // var_dump(Auth::user()); 
+        switch (Auth::user()->role_id) {
+            case 1:
+                $model = DB::table('ViewSolicitudGenerada')->orderBy('Id_solicitud','DESC')->get();
+                break;
+            default:
+            $model = DB::table('ViewSolicitudGenerada')->where('Id_muestreador', Auth::user()->id)->orderBy('Id_solicitud','DESC')->get();
+                break;
+        }
         return view('campo.listaMuestreo', compact('model','equipo'));
     }
     public function setObservacion(Request $res)
@@ -95,17 +106,19 @@ class CampoController extends Controller
 
         $phTrazable = PHTrazable::all();
         $phCalidad = PHCalidad::all();
-        $termometros = TermometroCampo::all();
+        $termometros = TermometroCampo::where('Tipo',1)->get();
+        $termometros2 = TermometroCampo::where('Tipo',2)->get();
         $conTrazable = ConductividadTrazable::all();
         $conCalidad = ConductividadCalidad::all();
         $aforo = MetodoAforo::all();
         $conTratamiento = ConTratamiento::all();
         $tipo = TipoTratamiento::all();
+        $color = Color::all();
 
         $model = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
         $general = CampoGenerales::where('Id_solicitud', $model->Id_solicitud)->first();
         $frecuencia = DB::table('frecuencia001')->where('Id_frecuencia', $model->Id_muestreo)->first();
-        $phCampoTrazable = CampoPhTrazable::where('Id_solicitud', $model->Id_solicitud)->get();
+        $phCampoTrazable = CampoPhCalidad::where('Id_solicitud', $model->Id_solicitud)->get();
         $phCampoCalidad = CampoPhCalidad::where('Id_solicitud', $model->Id_solicitud)->get();
         $conCampoTrazable = CampoConTrazable::where('Id_solicitud',$model->Id_solicitud)->first();
         $conCampoCalidad = CampoConCalidad::where('Id_solicitud',$model->Id_solicitud)->first();
@@ -121,13 +134,17 @@ class CampoController extends Controller
         $conductividadMuestra = ConductividadMuestra::where('Id_solicitud', $id)->get();
         $gastoMuestra = GastoMuestra::where('Id_solicitud', $id)->get();
 
+        $materiales =   DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $id)->get();
+
         $data = array(
             'model' => $model,
+            'color' => $color,
             'general' => $general,
             'compuesto' => $compuesto,
             'evidencia' => $evidencia,
             'frecuencia' => $frecuencia,
             'termometros' => $termometros,
+            'termometros2' => $termometros2,
             'phTrazable' => $phTrazable,
             'phCalidad' => $phCalidad,
             'conTrazable' => $conTrazable,
@@ -147,6 +164,7 @@ class CampoController extends Controller
             'conductividadMuestra' => $conductividadMuestra,
             'gastoMuestra' => $gastoMuestra,
             'puntos' => $puntos,
+            'materiales' => $materiales,
             //'phCampoCalidadMuestra' => $phCampoCalidadMuestra
         );
         return view('campo.captura', $data);
@@ -978,7 +996,10 @@ class CampoController extends Controller
         
         if ($sol->count() > 0) {                    //ACTUALIZAR
             $model = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();              
-        } else {                                //CREAR
+            $msg = "Entro a if";
+        } else {                
+            $msg = "Entro a else";
+            //CREAR
             $this->idSol = $request->idSolicitud;
             $this->nota = "Creación de registro";
             $solModel = Solicitud::where('Hijo',$request->idSolicitud)->get();
@@ -1006,7 +1027,60 @@ class CampoController extends Controller
                 CampoGenerales::create([
                     'Id_solicitud' => $item->Id_solicitud,
                 ]);
+                //Datos generales
+                //-----------doble
+                CampoPhTrazable::create([
+                    'Id_solicitud' => $item->Id_solicitud,
+                ]);
+                CampoPhCalidad::create([
+                    'Id_solicitud' => $item->Id_solicitud,
+                ]);
+                CampoPhTrazable::create([
+                    'Id_solicitud' => $item->Id_solicitud,
+                ]);
+                CampoPhCalidad::create([
+                    'Id_solicitud' => $item->Id_solicitud,
+                ]);
+                //----------fin doble
+                CampoConTrazable::create([
+                    'Id_solicitud' => $item->Id_solicitud,
+                ]);
+                CampoConCalidad::create([
+                    'Id_solicitud' => $item->Id_solicitud,
+                ]);
+                CampoCompuesto::create([
+                    'Id_solicitud' => $item->Id_solicitud,
+                ]);
+
+                for($i= 0; $i <$item->Num_tomas ; $i++) {
+                    //Datos muestreo
+                    PhMuestra::create([
+                        'Id_solicitud' => $item->Id_solicitud,
+                        'Num_toma' => $i,
+                    ]);
+                    TemperaturaMuestra::create([
+                        'Id_solicitud' => $item->Id_solicitud,
+                        'Num_toma' => $i,
+                    ]);
+                    TemperaturaAmbiente::create([
+                        'Id_solicitud' => $item->Id_solicitud,
+                        'Num_toma' => $i,
+                    ]);
+                    PhCalidadCampo::create([
+                        'Id_solicitud' => $item->Id_solicitud,
+                        'Num_toma' => $i,
+                    ]);
+                    ConductividadMuestra::create([
+                        'Id_solicitud' => $item->Id_solicitud,
+                        'Num_toma' => $i,
+                    ]);
+                    GastoMuestra::create([
+                        'Id_solicitud' => $item->Id_solicitud,
+                        'Num_toma' => $i,
+                    ]);
+                }
             }
+
             
             //$this->historial();
             $this->alert = true;
@@ -1017,6 +1091,7 @@ class CampoController extends Controller
                 'solPadre' => $sol->count(),
                 'model' => $model,
                 'diUser' => $request->idUser,
+                'msg' => $msg,
             );
 
         return response()->json($data);
@@ -1074,7 +1149,7 @@ class CampoController extends Controller
  
     public function getPhTrazable(Request $request)
     {
-        $model = PHTrazable::where('Id_ph', $request->idPh)->first();
+        $model = PHTrazable::where('Id_ph', $request->id)->first();
         return response()->json(compact('model'));
     }
     public function getPhCalidad(Request $request)
@@ -1233,8 +1308,16 @@ class CampoController extends Controller
 
     public function bitacoraCampo($id)
     {
+        $tipoReporte = "";
+        $termometros = array();
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
+       
         $modelCot = DB::table('ViewCotizacion')->where('Id_cotizacion', $model->Id_cotizacion)->first();
+        $idNorma = $modelCot->Id_norma;
+        if($idNorma == 1){ 
+            $tipoReporte = DB::table('categorias001')->where('Id_categoria', $modelCot->Tipo_reporte)->first();
+        }
+
         $frecuenciaMuestreo = Frecuencia001::where('Id_frecuencia', $modelCot->Frecuencia_muestreo)->first();
 
         if($model->Siralab == 1){//Es cliente Siralab
@@ -1246,12 +1329,14 @@ class CampoController extends Controller
             // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
             $puntos = $puntoMuestreo->count();
         }
-        $tipoReporte = DB::table('categorias001')->where('Id_categoria',$model->Id_reporte)->first();
-
+      
         $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$id)->first();
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud',$id)->first();
 
         $campoGen = DB::table('ViewCampoGenerales')->where('Id_solicitud',$id)->first();
+        $idTermometros = DB::table('campo_generales')->where('Id_solicitud', $id)->first();
+        $termometro1 = TermometroCampo::find($idTermometros->Id_equipo);
+        $termometro2 = TermometroCampo::find($idTermometros->Id_equipo2);
 
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
 
@@ -1359,7 +1444,7 @@ class CampoController extends Controller
             array(0, 0), 
         );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.bitacoraCampo',compact('model','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra', 'tipoReporte',
+        $html = view('exports.campo.bitacoraCampo',compact('model','termometro1', 'termometro2', 'tipoReporte','idNorma','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra', 'tipoReporte', 
         'gastoTotal', 'campoGen','tempMuestra','conMuestra','muestreador','phTrazable','campoConTrazable', 'metodoAforo', 'proceMuestreo', 
         'conTratamiento', 'tipoTratamiento', 'campoCompuesto', 'factorCorreccion', 'factorCorreccionLength', 'puntoMuestreo', 'puntos', 'factores', 'factoresAplicados', 'factorTemp', 'factorCorrTemp', 'frecuenciaMuestreo'));
         $mpdf->CSSselectMedia = 'mpdf';

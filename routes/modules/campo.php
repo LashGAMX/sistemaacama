@@ -12,18 +12,23 @@ Route::group(['prefix' => 'campo'], function () {
     // Route::post('campo/asignar/generarUpdate', [CampoController::class,'generarUpdate']);
 
     Route::post('asignar/getFolio', [CampoController::class, 'getFolio']);
-    Route::post('captura/getFactorCorreccion', [CampoController::class, 'getFactorCorreccion']);
-    Route::post('captura/getPhTrazable', [CampoController::class, 'getPhTrazable']);
-    Route::post('captura/getPhCalidad', [CampoController::class, 'getPhCalidad']);
-    Route::post('captura/getConTrazable', [CampoController::class, 'getConTrazable']);
-    Route::post('captura/getConCalidad', [CampoController::class, 'getConCalidad']);
-    Route::post('captura/getFactorAplicado', [CampoController::class, 'getFactorAplicado']);
 
-    // Guardar datos 
-    Route::post('captura/setDataGeneral', [CampoController::class, 'setDataGeneral']);
-    Route::post('captura/setDataMuestreo', [CampoController::class, 'setDataMuestreo']);
-    Route::post('captura/setDataCompuesto', [CampoController::class, 'setDataCompuesto']);
-    Route::post('captura/setEvidencia', [CampoController::class, 'setEvidencia']);
+    Route::group(['prefix' => 'captura'], function () {
+        Route::post('getPhTrazable', [CampoController::class, 'getPhTrazable']);
+        
+        // Route::post('getFactorCorreccion', [CampoController::class, 'getFactorCorreccion']);
+        // Route::post('getPhTrazable', [CampoController::class, 'getPhTrazable']);
+        // Route::post('getPhCalidad', [CampoController::class, 'getPhCalidad']);
+        // Route::post('getConTrazable', [CampoController::class, 'getConTrazable']);
+        // Route::post('getConCalidad', [CampoController::class, 'getConCalidad']);
+        // Route::post('getFactorAplicado', [CampoController::class, 'getFactorAplicado']);
+        // // Guardar datos 
+        // Route::post('setDataGeneral', [CampoController::class, 'setDataGeneral']);
+        // Route::post('setDataMuestreo', [CampoController::class, 'setDataMuestreo']);
+        // Route::post('setDataCompuesto', [CampoController::class, 'setDataCompuesto']);
+        // Route::post('setEvidencia', [CampoController::class, 'setEvidencia']);
+    });
+
 
     //todo Configuracion de bitacora de campo
     Route::get('configuracion/configPlan', [CampoController::class, 'configPlan']);

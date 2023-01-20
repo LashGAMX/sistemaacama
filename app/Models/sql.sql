@@ -257,10 +257,11 @@ ON pu.Id_muestreo = sir.Id_punto
 INNER JOIN titulo_concesion_sir as con
 ON sir.Titulo_consecion = con.Id_titulo
 /* Lista ViewSolicitudGenerada */
-CREATE VIEW ViewSolicitudGenerada as SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,gen.Estado as StdSol, gen.Punto_muestreo, gen.Id_user_c, gen.Id_user_m FROM solicitudes_generadas as gen
+CREATE VIEW ViewSolicitudGenerada as SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,us.name,gen.Estado as StdSol, gen.Punto_muestreo, gen.Id_user_c as IdUserC, gen.Id_user_m as IdUserM FROM solicitudes_generadas as gen
 INNER JOIN ViewSolicitud as sol
 ON gen.Id_solicitud = sol.Id_solicitud
-
+INNER JOIN users as us
+ON gen.Id_muestreador = us.id
 /* Campo generales */ 
 CREATE VIEW ViewCampoGenerales as SELECT c.Id_general,c.Id_solicitud,c.Captura,c.Id_equipo,t.Id_muestreador,t.Equipo,t.Marca,t.Modelo,t.Serie,c.Temperatura_a,c.Temperatura_b,c.Latitud,c.Longitud,c.Altitud,c.Pendiente,c.Criterio,c.Supervisor,c.created_at,c.updated_at,c.deleted_at 
 FROM campo_generales as c

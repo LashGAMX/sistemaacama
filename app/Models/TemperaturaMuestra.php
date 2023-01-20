@@ -15,6 +15,7 @@ class TemperaturaMuestra extends Model
 
     protected $fillable = [
         'Id_solicitud',
+        'Num_toma',
         'Temperatura1',
         'Temperatura2',
         'Temperatura3',

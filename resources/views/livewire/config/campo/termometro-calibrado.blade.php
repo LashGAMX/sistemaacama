@@ -17,6 +17,7 @@
                 <th>Marca</th>
                 <th>Modelo</th>
                 <th>Serie</th>
+                <th>Tipo</th>
                 <th>Muestreador</th>
                 <th>Opc</th>
             </tr>
@@ -34,7 +35,11 @@
           <td>{{$item->Marca}}</td>
           <td>{{$item->Modelo}}</td>
           <td>{{$item->Serie}}</td>
-          <td>{{$item->name}}</td>
+          @if (@$item->Tipo == 1)
+              <td>Termometro</td>
+          @else
+              <td>Potenciometro</td>
+          @endif
           <td>
             <button type="button" class="btn btn-warning" data-toggle="modal"
             wire:click="setData('{{$item->Id_termometro}}')" data-target="#modalTermometro">
@@ -97,13 +102,23 @@
                             <input type="text" class="form-control" wire:model="modelo" placeholder="Modelo" required>
                         </div>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-4"> 
                         <div class="form-group">
                             <label for="">Serie</label>
                             <input type="text" class="form-control" wire:model="serie" placeholder="Serie" required>
                         </div>
                     </div>
-                    <div class="col-md-12">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="">Tipo</label>
+                            <select class="form-control" wire:model="tipo" placeholder="Tipo" required>
+                                <option value="0">Sin seleccionar</option>
+                                <option value="1">Termometro</option>
+                                <option value="2">Potenciometro</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label for="">Muestreador</label>
                             <select class="form-control" wire:model='muestreador' >

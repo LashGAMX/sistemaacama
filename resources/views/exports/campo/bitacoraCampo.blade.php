@@ -25,10 +25,24 @@
                             Calibración Analitica Interna del equipo</td>
                         <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="45%">MEDIDOR DE PH,
                             TEMPERATURA Y CONDUCTIVIDAD</td>
-                        <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">{{@$campoGen->Marca}}
+                      
+                             <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">
+                                {{@$termometro1->Modelo}}
+                            </td>
+                            <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">
+                                {{@$termometro1->Marca}}
+                            </td> 
+                            
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">
+                            {{@$termometro2->Modelo}}
                         </td>
-                        <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">{{@$campoGen->Equipo}}
-                        </td>
+                        <td class="fontBold justificadorCentr fontSize10 fontCalibri" width="10%">
+                            {{@$termometro2->Marca}}
+                        </td> 
                     </tr>
                     <tr>
                         <td class="fontNormal justificadorIzq fontSize10 fontCalibri">Con No. serie:
@@ -225,6 +239,17 @@
                     {{-- @endfor --}}
                 </span>
             </div>
+            @if (@$idNorma != 1)
+                <div class="col-12 fontCalibri fontSize12 fontNormal">
+                   
+                </div>
+           
+            @else
+            <div class="col-12 fontCalibri fontSize12 fontNormal">
+                    TIPO DE REPORTE: <span class="fontBold">{{@$tipoReporte->Categoria}}</span>
+                </div>
+            @endif
+             
 
             <br>
 

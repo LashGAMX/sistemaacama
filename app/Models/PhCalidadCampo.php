@@ -17,6 +17,7 @@ class PhCalidadCampo extends Model
 
     protected $fillable = [
         'Id_solicitud',
+        'Num_toma',
         'Ph_calidad',
         'Lectura1',
         'Lectura2',

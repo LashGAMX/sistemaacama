@@ -15,6 +15,7 @@ class ConductividadMuestra extends Model
 
     protected $fillable = [
         'Id_solicitud',
+        'Num_toma',
         'Conductividad1',
         'Conductividad2',
         'Conductividad3',

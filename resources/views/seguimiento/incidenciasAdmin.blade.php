@@ -163,7 +163,13 @@
                             <div class="row">
                                 <div class="col-md-6">
                                     <label for="">Estado</label>
-                                    <div id="divEstado"></div>    
+                                    <div id="divEstado"></div>
+                                    <select id="estado">
+                                            <option value="0">Seleciona uno</option>
+                                        @foreach ($estado as $item)
+                                            <option value="{{$item->Id_estado}}">{{$item->Estado}}</option>
+                                        @endforeach
+                                    </select>    
                                 </div>
                                     <div class="col-md-6">
                                         <label for="">Imagen</label>

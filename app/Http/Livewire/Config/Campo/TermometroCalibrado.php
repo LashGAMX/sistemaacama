@@ -23,6 +23,7 @@ class TermometroCalibrado extends Component
     public $marca;
     public $modelo;
     public $serie;
+    public $tipo;
     public $muestreador;
     public $status = 0;
 
@@ -73,8 +74,9 @@ class TermometroCalibrado extends Component
             'Id_muestreador' => $this->muestreador,
             'Equipo' => $this->equipo,
             'Marca' => $this->marca,
-            'Modelo' => $this->modelo,
+            'Modelo' => $this->modelo, 
             'Serie' => $this->serie,
+            'Tipo' => $this->tipo
         ]);
 
         $de = 0;
@@ -100,6 +102,7 @@ class TermometroCalibrado extends Component
         $model->Marca = $this->marca;
         $model->Modelo = $this->modelo;
         $model->Serie = $this->serie;
+        $model->Tipo = $this->tipo;
         $model->Id_muestreador = $this->muestreador;
         $model->save();
         if($this->status != 1) 
@@ -225,6 +228,7 @@ class TermometroCalibrado extends Component
        $this->marca = $model->Marca;
        $this->modelo = $model->Modelo;
        $this->serie = $model->Serie;
+       $this->tipo = $model->Tipo;
        $this->muestreador = $model->Id_muestreador;
        if ($model->deleted != null) { 
             $this->status = 0;
@@ -244,6 +248,7 @@ class TermometroCalibrado extends Component
         $this->marca = "";
         $this->modelo = "";
         $this->serie = "";
+        $this->tipo = "";
         $this->muestreador = 0;
         $this->status = 0;
 

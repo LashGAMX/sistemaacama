@@ -84,9 +84,8 @@
                             <th>Marca</th>
                             <th>Modelo</th> 
                             <th>Serie</th>
+                            <th>Muestreador</th>
                             <th>Fecha creación</th>
-                            {{-- <th>Creao</th>
-                            {{-- <th>Modificó</th> --}}
                             <th>Fecha modificación</th>
                         </tr>
                     </thead>
@@ -117,16 +116,7 @@
                         <td></td>
                         <td></td>
                         <td></td>
-{{-- 
-                        @foreach ($equipo as $item2)
-                            @if ($item->Id_solicitud == $item2->Id_solicitud)
-                                <td>{{$item2->Equipo}}</td>
-                                <td>{{$item2->Marca}}</td>
-                                <td>{{$item2->Modelo}}</td>
-                                <td>{{$item2->Serie}}</td>
-                            @endif
-                        @endforeach --}}
-
+                        <td>{{$item->name}}</td>
                         <td>{{$item->created_at}}</td>
                         <td>{{$item->updated_at}}</td>
                     </tr>
