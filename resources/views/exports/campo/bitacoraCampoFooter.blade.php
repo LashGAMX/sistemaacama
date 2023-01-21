@@ -15,7 +15,7 @@
                 </td>
 
                 <td class="justificadorCentr">
-                    <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png">
+                    <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="data:image/gif;base64{{$campoGeneral->Firma_revisor}}">
                 </td>
 
                 <td>

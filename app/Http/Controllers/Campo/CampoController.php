@@ -172,6 +172,8 @@ class CampoController extends Controller
     public function setDataGeneral(Request $request)
     {
         $model = null;
+        $contenidoBinario = file_get_contents($request->firmaSupervisor);
+        $imagenComoBase64 = base64_encode($contenidoBinario);
         //Campos generales
         $campoGenModel = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->get();
         if($campoGenModel->count()){
@@ -188,6 +190,7 @@ class CampoController extends Controller
             $model->Pendiente = $request->pendiente;
             $model->Criterio = $request->criterio;
             $model->Supervisor = $request->supervisor;
+            $model->Firma_revisor = $imagenComoBase64;
             $model->Id_user_m = Auth::user()->id;
 
             $nota = "Registro modificado";
@@ -208,6 +211,7 @@ class CampoController extends Controller
                 'Pendiente' => $request->pendiente,
                 'Criterio' => $request->criterio,
                 'Supervisor' => $request->supervisor,
+                'Firma_revisor' => $imagenComoBase64,
                 'Id_user_c' => Auth::user()->id,
                 'Id_user_m' => Auth::user()->id
             ]);
@@ -1428,7 +1432,7 @@ class CampoController extends Controller
         $proceMuestreo = ProcedimientoAnalisis::where('Id_procedimiento', $campoCompuesto->Proce_muestreo)->first();
         $conTratamiento = ConTratamiento::where('Id_tratamiento', $campoCompuesto->Con_tratamiento)->first();
         $tipoTratamiento = TipoTratamiento::where('Id_tratamiento', $campoCompuesto->Tipo_tratamiento)->first();
-        
+        $campoGeneral = CampoGenerales::where('Id_solicitud', $id)->first();
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
@@ -1453,7 +1457,7 @@ class CampoController extends Controller
         $htmlHeader = view('exports.campo.bitacoraCampoHeader', compact('model'));
         $mpdf->setHeader("<br><br>".$htmlHeader);
 
-        $htmlFooter = view('exports.campo.bitacoraCampoFooter', compact('muestreador'));
+        $htmlFooter = view('exports.campo.bitacoraCampoFooter', compact('muestreador', 'campoGeneral'));
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
 
         $mpdf->WriteHTML($html);

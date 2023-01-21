@@ -26,6 +26,7 @@ class CampoGenerales extends Model
         'Pendiente',
         'Criterio',
         'Supervisor',
+        'Firma_revisor',
         'Id_user_c',
         'Id_user_m'
     ];

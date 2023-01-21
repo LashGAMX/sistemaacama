@@ -16,7 +16,9 @@ Route::group(['prefix' => 'campo'], function () {
     Route::group(['prefix' => 'captura'], function () {
         Route::post('getPhTrazable', [CampoController::class, 'getPhTrazable']);
         Route::post('getPhCalidad', [CampoController::class, 'getPhCalidad']);
-        
+        Route::post('getConTrazable', [CampoController::class, 'getConTrazable']);
+        Route::post('getConCalidad', [CampoController::class, 'getConCalidad']);
+
         // Route::post('getFactorCorreccion', [CampoController::class, 'getFactorCorreccion']);
         // Route::post('getPhTrazable', [CampoController::class, 'getPhTrazable']);
         // Route::post('getPhCalidad', [CampoController::class, 'getPhCalidad']);

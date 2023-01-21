@@ -240,6 +240,7 @@ class TermometroCalibrado extends Component
     public function btnCreate()
     {
         $this->clean();
+        $this->sw = false;
     }
     public function clean()
     {

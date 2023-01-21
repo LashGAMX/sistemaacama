@@ -26,6 +26,7 @@ INNER JOIN sucursales as suc
 ON inter.Laboratorio = suc.Id_sucursal
 --nueva vista intermediarios con id_user_c y m
 CREATE VIEW ViewIntermediarios as SELECT
+
 	inter.Id_intermediario,
 	inter.Id_cliente,
 	cli.Nombres,

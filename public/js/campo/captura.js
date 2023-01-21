@@ -6,6 +6,25 @@ $(document).ready(function () {
     $('#termometro').select2();
     $('#termometro2').select2();
 });
+
+function getConTrazable(id,ids) {
+    $.ajax({
+        url: base_url + "/admin/campo/captura/getConTrazable", //archivo que recibe la peticion
+        type: "POST", //método de envio
+        data: {
+            idCon: $("#"+id).val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+            $("#conTNombre"+ids).text(response.model.Conductividad) 
+            $("#conTMarca"+ids).text(response.model.Marca) 
+            $("#conTLote"+ids).text(response.model.Lote) 
+        },
+    });
+}
 function valPhCalidad(id) {
 
     let l1 = parseFloat($("#phC1"+id).val())
@@ -28,7 +47,7 @@ function valPhCalidad(id) {
     let sw8 = true;
     let sw9 = true;
     
-    temp = (cal * 2) / 100
+    temp = (ph * 2) / 100
     porcentaje = temp.toFixed(2)
     
     if (l1 > 4 && l1 < 9) {
@@ -89,15 +108,15 @@ function valPhCalidad(id) {
     }
 
     //COMPROBACIÓN DE +/- 2%-----------------------------------------------------------------------------------------
-    if (parseFloat((l1 - cal).toFixed(2)) < porcentaje * -1 || parseFloat((l1 - cal).toFixed(2)) > porcentaje) {
+    if (parseFloat((l1 - ph).toFixed(2)) < porcentaje * -1 || parseFloat((l1 - ph).toFixed(2)) > porcentaje) {
         sw7 = false;
     }    
 
-    if (parseFloat((l2 - cal).toFixed(2)) < porcentaje * -1 || parseFloat((l2 - cal).toFixed(2)) > porcentaje) {
+    if (parseFloat((l2 - ph).toFixed(2)) < porcentaje * -1 || parseFloat((l2 - ph).toFixed(2)) > porcentaje) {
         sw8 = false;
     }    
 
-    if (parseFloat((l3 - cal).toFixed(2)) < porcentaje * -1 || parseFloat((l3 - cal).toFixed(2)) > porcentaje) {
+    if (parseFloat((l3 - ph).toFixed(2)) < porcentaje * -1 || parseFloat((l3 - ph).toFixed(2)) > porcentaje) {
         sw9 = false;
     }
     //----------------------------------------------------------------------------------------------------------------    
@@ -308,7 +327,7 @@ function getPhTrazable(id,idg) {
                 $("#phTMarca"+idg).text(response.model.Marca) 
                 $("#phTLote"+idg).text(response.model.Lote) 
 
-                $("#phCalidad"+idg).text(response.model2.Ph_calidad) 
+                $("#phCalidad"+idg).val(response.model2.Ph_calidad) 
                 $("#phCNombre"+idg).text(response.model2.Ph_calidad) 
                 $("#phCMarca"+idg).text(response.model2.Marca) 
                 $("#phCLote"+idg).text(response.model2.Lote) 
@@ -335,6 +354,7 @@ function setDataGeneral() {
             pendiente: $("#pendiente").val(),
             criterio: $("#criterioPendiente").val(),
             supervisor: $("#nombreSupervisor").val(),
+            firmaSupervisor: $("#firmaSupervisor").val(),
 
             phTrazable1: $("#phTrazable1").val(),
             phTl11: $("#phTl11").val(),
@@ -375,6 +395,7 @@ function setDataGeneral() {
             conCEstado: $("#conCEstado").val(),
             conCPromedio: $("#conCPromedio").val(),
 
+            
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",

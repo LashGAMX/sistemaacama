@@ -287,7 +287,7 @@
                                 @endphp
                                     @foreach ($phCampoCalidad as $item)
                                     <tr id="trCalidad{{$item->Id_ph}}">
-                                        <td><input type="number" id="phCalidad{{$item->Id_ph}}" value="{{$item->Ph}}"></td>
+                                        <td><input type="number" id="phCalidad{{$item->Id_ph}}" value="{{$item->Ph}}" disabled></td>
                                         <td><p id="phCNombre{{$item->Id_ph}}">{{$temp1}}</p></td>
                                         <td><p id="phCMarca{{$item->Id_ph}}">{{$temp2}}</p></td>
                                         <td><p id="phCLote{{$item->Id_ph}}">{{$temp3}}</p></td>
@@ -327,7 +327,7 @@
                                 @endphp
                                     <tr>
                                         <td>
-                                            <select id="conTrazable" name="conTrazable">
+                                            <select id="conTrazable{{$item->Id_conductividad}}" name="conTrazable" onchange="getConTrazable('conTrazable{{$item->Id_conductividad}}',{{$item->Id_conductividad}})">
                                                 <option value="0">Sin seleccionar</option>
                                                 @foreach ($conTrazable as $item)
                                                     @if (@$conCampoTrazable->Id_conTrazable == $item->Id_conductividad)
@@ -342,28 +342,25 @@
                                                     @endif
                                                 @endforeach
                                         </select>
-                                            </select>
+                                            </select> 
                                         </td>
                                         <td>
-                                            <p id="conNombre">{{$temp1}}</p>
+                                            <p id="conTNombre{{$item->Id_conductividad}}">{{$temp1}}</p>
                                         </td>
                                         <td>
-                                            <p id="conMarca">{{$temp2}}</p>
+                                            <p id="conTMarca{{$item->Id_conductividad}}">{{$temp2}}</p> 
                                         </td>
                                         <td>
-                                            <p id="conLote">{{$temp3}}</p>
+                                            <p id="conTLote{{$item->Id_conductividad}}">{{$temp3}}</p>
                                         </td>
                                         <td>
-                                            <input type="number" step="any" class="" placeholder="L1" id="conT1" value="{{@$conCampoTrazable->Lectura1}}"
-                                                onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')" onblur='validacionConTrazable("conT1", "conT2", "conT3", "conT1")'>
+                                            <input type="number" step="any" class="" placeholder="L1" id="conT1" value="{{@$conCampoTrazable->Lectura1}}">
                                         </td>
                                         <td>
-                                            <input type="number" step="any" class="" placeholder="L2" id="conT2" value="{{@$conCampoTrazable->Lectura2}}"
-                                                onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')" onblur='validacionConTrazable("conT1", "conT2", "conT3", "conT2")'>
+                                            <input type="number" step="any" class="" placeholder="L2" id="conT2" value="{{@$conCampoTrazable->Lectura2}}">
                                         </td>
                                         <td>
-                                            <input type="number" step="any" class="" placeholder="L3" id="conT3" value="{{@$conCampoTrazable->Lectura3}}"
-                                                onkeyup="valConTrazable('conT1','conT2','conT3','conTEstado')" onblur='validacionConTrazable("conT1", "conT2", "conT3", "conT3")'>
+                                            <input type="number" step="any" class="" placeholder="L3" id="conT3" value="{{@$conCampoTrazable->Lectura3}}">
                                         </td>
                                         <td><input type="text" id="conTEstado" disabled value="{{@$conCampoTrazable->Estado}}"></td>
                                     </tr>
@@ -457,9 +454,14 @@
                             </table> 
                         </div>
 
-                        <div class="col-md-12">
+                        <div class="col-md-6">
                             <p class="">Supervisor</p>
                             <input type="text" id="nombreSupervisor" value="{{@$general->Supervisor}}" placeholder="Nombre Supervisor"></td>
+                            <br><br>
+                        </div>
+                        <div class="col-md-6">
+                            <p class="">Firma del supervisor</p>
+                            <input type="file" id="firmaSupervisor" value="" placeholder="Firma Supervisor"></td>
                             <br><br>
                         </div>
                                                 
