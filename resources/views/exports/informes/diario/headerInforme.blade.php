@@ -15,7 +15,12 @@
                 <td class="filasIzq bordesTabla anchoColumna7 bordeDer paddingTopBot">Empresa:</td>
                 <td class="filasIzq bordesTabla fontBold anchoColumna82 bordeIzq" style="font-size: 10px">
                     {{@$cliente->Nombres}}</td>
-                <td class="filasIzq bordesTabla fontBold anchoColumna11 bordeFinal justificadoDer">{{@$cliente->RFC}}
+                <td class="filasIzq bordesTabla fontBold anchoColumna11 bordeFinal justificadoDer">
+                    @if (@$solModel->Siralab == 1)
+                        RFC: {{@$rfc->RFC}}
+                        @else
+
+                        @endif
                 </td>
             </tr>
 

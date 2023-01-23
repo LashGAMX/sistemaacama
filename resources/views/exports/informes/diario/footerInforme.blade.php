@@ -49,6 +49,35 @@
                 </tbody>         
             </table>  
         </div>    
+            
+        <div id="contenedorTabla">
+            @php
+                $temp = array();
+                $sw = false;
+            @endphp
+            <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+                <tbody>            
+                        @foreach ($model as $item)
+                            @for ($i = 0; $i < sizeof($temp); $i++)
+                                @if ($temp[$i] == $item->Id_simbologia_info)
+                                    @php $sw = true; @endphp
+                                @endif
+                            @endfor
+                            @if ($sw != true)
+                                <tr>
+                                    <td class="nombreHeaders fontBold fontSize9 justificadorIzq">{{$item->Descripcion2}}</td>
+                                </tr>
+                                @php
+                                    array_push($temp,$item->Id_simbologia_info);
+                                @endphp
+                            @endif
+                            @php
+                                $sw = false;
+                            @endphp
+                        @endforeach
+                </tbody>         
+            </table>  
+        </div>    
     
         <div id="contenedorTabla">
             <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">

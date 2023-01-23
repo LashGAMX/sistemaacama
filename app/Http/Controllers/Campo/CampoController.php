@@ -18,6 +18,7 @@ use App\Models\ConductividadCalidad;
 use App\Models\ConductividadMuestra;
 use App\Models\ConductividadTrazable;
 use App\Models\ConTratamiento;
+use App\Models\DireccionReporte;
 use App\Models\Envase;
 use App\Models\Frecuencia001;
 use App\Models\Evidencia;
@@ -118,7 +119,7 @@ class CampoController extends Controller
         $model = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
         $general = CampoGenerales::where('Id_solicitud', $model->Id_solicitud)->first();
         $frecuencia = DB::table('frecuencia001')->where('Id_frecuencia', $model->Id_muestreo)->first();
-        $phCampoTrazable = CampoPhCalidad::where('Id_solicitud', $model->Id_solicitud)->get();
+        $phCampoTrazable = CampoPhTrazable::where('Id_solicitud', $model->Id_solicitud)->get();
         $phCampoCalidad = CampoPhCalidad::where('Id_solicitud', $model->Id_solicitud)->get();
         $conCampoTrazable = CampoConTrazable::where('Id_solicitud',$model->Id_solicitud)->first();
         $conCampoCalidad = CampoConCalidad::where('Id_solicitud',$model->Id_solicitud)->first();
@@ -172,215 +173,108 @@ class CampoController extends Controller
     public function setDataGeneral(Request $request)
     {
         $model = null;
-        $contenidoBinario = file_get_contents($request->firmaSupervisor);
-        $imagenComoBase64 = base64_encode($contenidoBinario);
+        // $contenidoBinario = file_get_contents($request->firmaSupervisor);
+        // $imagenComoBase64 = base64_encode($contenidoBinario);
         //Campos generales
         $campoGenModel = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->get();
-        if($campoGenModel->count()){
-            $model = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->first();
+        
+        $model = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->first();
+        $model->Captura = "Sistema";
+        $model->Id_equipo = $request->equipo;
+        $model->Id_equipo2 = $request->equipo2;
+        $model->Temperatura_a = $request->temp1;
+        $model->Temperatura_b = $request->temp2;
+        $model->Latitud = $request->latitud; 
+        $model->Longitud = $request->longitud;
+        $model->Altitud = $request->altitud;
+        $model->Pendiente = $request->pendiente;
+        $model->Criterio = $request->criterio;
+        $model->Supervisor = $request->supervisor;
+        // $model->Firma_revisor = $imagenComoBase64;
+        $model->Id_user_m = Auth::user()->id;
 
-            $model->Captura = "Sistema";
-            $model->Id_equipo = $request->equipo;
-            $model->Id_equipo2 = $request->equipo2;
-            $model->Temperatura_a = $request->temp1;
-            $model->Temperatura_b = $request->temp2;
-            $model->Latitud = $request->latitud;
-            $model->Longitud = $request->longitud;
-            $model->Altitud = $request->altitud;
-            $model->Pendiente = $request->pendiente;
-            $model->Criterio = $request->criterio;
-            $model->Supervisor = $request->supervisor;
-            $model->Firma_revisor = $imagenComoBase64;
-            $model->Id_user_m = Auth::user()->id;
-
-            $nota = "Registro modificado";
-            // $this->historialCampoGeneral($request->idSolicitud, $nota, $model->Id_general);
-
-            $model->save();
-        }else{
-            $model = CampoGenerales::create([
-                'Id_solicitud' => $request->idSolicitud,
-                'Captura' => "Sistema",
-                'Id_equipo' => $request->equipo,
-                'Id_equipo2' => $request->equipo2,
-                'Temperatura_a' => $request->temp1,
-                'Temperatura_b' => $request->temp2,
-                'Latitud' => $request->latitud,
-                'Longitud' => $request->longitud,
-                'Altitud' => $request->altitud,
-                'Pendiente' => $request->pendiente,
-                'Criterio' => $request->criterio,
-                'Supervisor' => $request->supervisor,
-                'Firma_revisor' => $imagenComoBase64,
-                'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id
-            ]);
-
-            $nota = "Creación de registro";
-            // $this->historialCampoGeneral($request->idSolicitud, $nota, $model->Id_general);
-        }                
+        $nota = "Registro modificado";          
 
         //Ph trazable
         $phTrazableModel = CampoPhTrazable::where('Id_solicitud', $request->idSolicitud)->get();
-        if ($phTrazableModel->count()) {
-            $phTrazable = CampoPhTrazable::find($phTrazableModel[0]->Id_ph);
-            $phTrazable->Id_solicitud = $request->idSolicitud;
-            $phTrazable->Id_phTrazable = $request->phTrazable1;
-            $phTrazable->Lectura1 = $request->phTl11;
-            $phTrazable->Lectura2 = $request->phT21;
-            $phTrazable->Lectura3 = $request->phTl31;
-            $phTrazable->Estado = $request->phTEstado1;
-            $phTrazable->Id_user_m = Auth::user()->id;
+        $phTrazable = CampoPhTrazable::find($phTrazableModel[0]->Id_ph);
+        $phTrazable->Id_solicitud = $request->idSolicitud;
+        $phTrazable->Id_phTrazable = $request->phTrazable1;
+        $phTrazable->Lectura1 = $request->phTl11;
+        $phTrazable->Lectura2 = $request->phT21;
+        $phTrazable->Lectura3 = $request->phTl31;
+        $phTrazable->Estado = $request->phTEstado1;
+        $phTrazable->Id_user_m = Auth::user()->id;
 
-            $nota = "Registro modificado";
-            $this->historialPhTrazable($request->idSolicitud, $nota, $phTrazable->Id_ph);
+        $nota = "Registro modificado";
+        $this->historialPhTrazable($request->idSolicitud, $nota, $phTrazable->Id_ph);
 
-            $phTrazable->save();
+        $phTrazable->save();
 
-            $phTrazable = CampoPhTrazable::find($phTrazableModel[1]->Id_ph);
-            $phTrazable->Id_solicitud = $request->idSolicitud;
-            $phTrazable->Id_phTrazable = $request->phTrazable2;
-            $phTrazable->Lectura1 = $request->phTl12;
-            $phTrazable->Lectura2 = $request->phT22;
-            $phTrazable->Lectura3 = $request->phTl32;
-            $phTrazable->Estado = $request->phTEstado2;
-            $phTrazable->Id_user_m = Auth::user()->id;
+        $phTrazable = CampoPhTrazable::find($phTrazableModel[1]->Id_ph);
+        $phTrazable->Id_solicitud = $request->idSolicitud;
+        $phTrazable->Id_phTrazable = $request->phTrazable2;
+        $phTrazable->Lectura1 = $request->phTl12;
+        $phTrazable->Lectura2 = $request->phT22;
+        $phTrazable->Lectura3 = $request->phTl32;
+        $phTrazable->Estado = $request->phTEstado2;
+        $phTrazable->Id_user_m = Auth::user()->id;
 
-            $nota = "Registro modificado";
-            $this->historialPhTrazable($request->idSolicitud, $nota, $phTrazable->Id_ph);
-
-            $phTrazable->save();
-        } else {
-            $campoPhTrazable = CampoPhTrazable::create([
-                'Id_solicitud' => $request->idSolicitud,
-                'Id_phTrazable' => $request->phTrazable1,
-                'Lectura1' => $request->phTl11,
-                'Lectura2' => $request->phT21,
-                'Lectura3' => $request->phTl31,
-                'Estado' => $request->phTEstado1,
-                'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id
-            ]);
-
-            $nota = "Creación de registro";
-            $this->historialPhTrazable($request->idSolicitud, $nota, $campoPhTrazable->Id_ph);
-
-            $campoPhTrazable = CampoPhTrazable::create([
-                'Id_solicitud' => $request->idSolicitud,
-                'Id_phTrazable' => $request->phTrazable2,
-                'Lectura1' => $request->phTl12,
-                'Lectura2' => $request->phT22,
-                'Lectura3' => $request->phTl32,
-                'Estado' => $request->phTEstado2,
-                'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id
-            ]);
-
-            $nota = "Creación de registro";
-            $this->historialPhTrazable($request->idSolicitud, $nota, $campoPhTrazable->Id_ph);
-        }
+        $nota = "Registro modificado";
+        $this->historialPhTrazable($request->idSolicitud, $nota, $phTrazable->Id_ph);
+        $phTrazable->save();
+  
         //PhCalidad
 
         $phCalidadMode = CampoPhCalidad::where('Id_solicitud', $request->idSolicitud)->get();
-        if ($phCalidadMode->count()) {
-            $phCalidad = CampoPhCalidad::find($phCalidadMode[0]->Id_ph);
-            $phCalidad->Id_solicitud = $request->idSolicitud;
-            $phCalidad->Id_phCalidad = $request->phTrazable1;
-            $phCalidad->Lectura1 = $request->phC11;
-            $phCalidad->Lectura2 = $request->phC21;
-            $phCalidad->Lectura3 = $request->phC31;
-            $phCalidad->Estado = $request->phTEstado1;
-            $phCalidad->Promedio = $request->phCPromedio1;
-            $phCalidad->Id_user_m = Auth::user()->id;
+        $phCalidad = CampoPhCalidad::find($phCalidadMode[0]->Id_ph);
+        $phCalidad->Id_solicitud = $request->idSolicitud;
+        $phCalidad->Id_phCalidad = $request->phTrazable1;
+        $phCalidad->Lectura1 = $request->phC11;
+        $phCalidad->Lectura2 = $request->phC21;
+        $phCalidad->Lectura3 = $request->phC31;
+        $phCalidad->Estado = $request->phTEstado1;
+        $phCalidad->Promedio = $request->phCPromedio1;
+        $phCalidad->Id_user_m = Auth::user()->id;
 
-            $nota = "Registro modificado";
-            $this->historialPhCalidadGen($request->idSolicitud, $nota, $phCalidad->Id_ph);
+        $nota = "Registro modificado";
+        $this->historialPhCalidadGen($request->idSolicitud, $nota, $phCalidad->Id_ph);
 
-            $phCalidad->save();
+        $phCalidad->save();
 
-            $phCalidad = CampoPhCalidad::find($phCalidadMode[1]->Id_ph);
-            $phCalidad->Id_solicitud = $request->idSolicitud;
-            $phCalidad->Id_phCalidad = $request->phTrazable2;
-            $phCalidad->Lectura1 = $request->phC12;
-            $phCalidad->Lectura2 = $request->phC22;
-            $phCalidad->Lectura3 = $request->phC23;
-            $phCalidad->Estado = $request->phTEstado2;
-            $phCalidad->Promedio = $request->phCPromedio2;
-            $phCalidad->Id_user_m = Auth::user()->id;
+        $phCalidad = CampoPhCalidad::find($phCalidadMode[1]->Id_ph);
+        $phCalidad->Id_solicitud = $request->idSolicitud;
+        $phCalidad->Id_phCalidad = $request->phTrazable2;
+        $phCalidad->Lectura1 = $request->phC12;
+        $phCalidad->Lectura2 = $request->phC22;
+        $phCalidad->Lectura3 = $request->phC23;
+        $phCalidad->Estado = $request->phTEstado2;
+        $phCalidad->Promedio = $request->phCPromedio2;
+        $phCalidad->Id_user_m = Auth::user()->id;
 
-            $nota = "Registro modificado";
-            $this->historialPhCalidadGen($request->idSolicitud, $nota, $phCalidad->Id_ph);
+        $nota = "Registro modificado";
+        $this->historialPhCalidadGen($request->idSolicitud, $nota, $phCalidad->Id_ph);
 
-            $phCalidad->save();
-        } else {
-            $campoPhCalidad = CampoPhCalidad::create([
-                'Id_solicitud' => $request->idSolicitud,
-                'Id_phCalidad' => $request->phTrazable1,
-                'Lectura1' => $request->phC11,
-                'Lectura2' => $request->phC21,
-                'Lectura3' => $request->phC31,
-                'Estado' => $request->phTEstado1,
-                'Promedio' => $request->phCPromedio1,
-                'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id
-            ]);
-
-            $nota = "Creación de registro";
-            $this->historialPhTrazable($request->idSolicitud, $nota, $campoPhCalidad->Id_ph);
-
-            $campoPhCalidad = CampoPhCalidad::create([
-                'Id_solicitud' => $request->idSolicitud,
-                'Id_phCalidad' => $request->phTrazable2,
-                'Lectura1' => $request->phC12,
-                'Lectura2' => $request->phC22,
-                'Lectura3' => $request->phC23,
-                'Estado' => $request->phTEstado2,
-                'Promedio' => $request->phCPromedio2,
-                'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id
-            ]);
-
-            $nota = "Creación de registro";
-            $this->historialPhCalidadGen($request->idSolicitud, $nota, $campoPhCalidad->Id_ph);
-        }
+        $phCalidad->save();
 
         //ConTrazable
         $conTrazableModel = CampoConTrazable::where('Id_solicitud', $request->idSolicitud)->get();
-        if ($conTrazableModel->count()) {
-            $conTrazable = CampoConTrazable::find($conTrazableModel[0]->Id_conductividad);
-            $conTrazable->Id_solicitud = $request->idSolicitud;
-            $conTrazable->Id_conTrazable = $request->conTrazable;
-            $conTrazable->Lectura1 = $request->conT1;
-            $conTrazable->Lectura2 = $request->conT2;
-            $conTrazable->Lectura3 = $request->conT3;
-            $conTrazable->Estado = $request->conTEstado;
-            $conTrazable->Id_user_m = Auth::user()->id;
+        $conTrazable = CampoConTrazable::find($conTrazableModel[0]->Id_conductividad);
+        $conTrazable->Id_solicitud = $request->idSolicitud;
+        $conTrazable->Id_conTrazable = $request->conTrazable;
+        $conTrazable->Lectura1 = $request->conT1;
+        $conTrazable->Lectura2 = $request->conT2;
+        $conTrazable->Lectura3 = $request->conT3;
+        $conTrazable->Estado = $request->conTEstado;
+        $conTrazable->Id_user_m = Auth::user()->id;
 
-            $nota = "Registro modificado";
-            $this->historialCondTrazable($request->idSolicitud, $nota, $conTrazable->Id_conductividad);
-
-            $conTrazable->save();
-        } else {
-            $campoCondTrazable = CampoConTrazable::create([
-                'Id_solicitud' => $request->idSolicitud,
-                'Id_conTrazable' => $request->conTrazable,
-                'Lectura1' => $request->conT1,
-                'Lectura2' => $request->conT2,
-                'Lectura3' => $request->conT3,
-                'Estado' => $request->conTEstado,
-                'Id_user_c' => Auth::user()->id,
-                'Id_user_m' => Auth::user()->id
-            ]);
-
-            $nota = "Creación de registro";
-            $this->historialCondTrazable($request->idSolicitud, $nota, $campoCondTrazable->Id_conductividad);
-        }
+        $nota = "Registro modificado";
+        $this->historialCondTrazable($request->idSolicitud, $nota, $conTrazable->Id_conductividad);
+        $conTrazable->save();
 
         //Conductividad control calidad
             $conCalidadModel = CampoConCalidad::where('Id_solicitud',$request->idSolicitud)->get();
-            if($conCalidadModel->count())
-            {
-                $conCalidad = CampoConCalidad::find($conCalidadModel[0]->Id_conductividad);
+            $conCalidad = CampoConCalidad::find($conCalidadModel[0]->Id_conductividad);
                 $conCalidad->Id_solicitud = $request->idSolicitud;
                 $conCalidad->Id_conCalidad = $request->conCalidad;
                 $conCalidad->Lectura1 = $request->conCl1;
@@ -395,28 +289,25 @@ class CampoController extends Controller
 
                 $conCalidad->save();
 
-            }else{
-                $campoConCalidad = CampoConCalidad::create([
-                    'Id_solicitud' => $request->idSolicitud,
-                    'Id_conCalidad' => $request->conCalidad,
-                    'Lectura1' => $request->conCl1,
-                    'Lectura2' => $request->conCl2,
-                    'Lectura3' => $request->conCl3,
-                    'Estado' => $request->conCEstado,
-                    'Promedio' => $request->conCPromedio,
-                    'Id_user_c' => Auth::user()->id,
-                    'Id_user_m' => Auth::user()->id
-                ]);
-
-                $nota = "Creación de registro";
-                $this->historialCondCalidad($request->idSolicitud, $nota, $campoConCalidad->Id_conductividad);
-            }
-
-            // $seguimiento = SeguimientoAnalisis::where('Id_servicio',$request->idSolicitud)->first();
-            // $seguimiento->Muestreo = 1;
-            // $seguimiento->save();
 
         $data = array('sw' => true, 'model' => $model);
+        return response()->json($data);
+    }
+    //-----------------------------Inicio de guardado independiente en Captura campo-----------------------------------
+    public function GuardarTempAgua(Request $request) {
+        $model = TemperaturaMuestra::where('Id_solicitud', $request->idSolicitud)->get();
+        for ($i = 0; $i < sizeof($model); $i++) {
+            $model->Temperatura1 = $request->array1[$i];
+            $model->Temperatura2 = $request->array2[$i];
+            $model->Temperatura3 = $request->array3[$i];
+            $model->save();
+        }
+        $data = array(
+            'model' => $model,
+            'array1' => $request->array1,
+            'array2' => $request->array2,
+            'array3' => $request->array3,
+        );
         return response()->json($data);
     }
 
@@ -1177,7 +1068,7 @@ class CampoController extends Controller
       
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
 
-        $direccion = SucursalCliente::where('Id_sucursal', $model->Id_sucursal)->first();
+        $direccion = DireccionReporte::where('Id_sucursal', $model->Id_sucursal)->first();
         
         if($model->Siralab == 1){//Es cliente Siralab
             $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $model->Id_sucursal)->get();
@@ -1230,6 +1121,7 @@ class CampoController extends Controller
             array(215, 280),
             array(0, 0),
         );
+        // var_dump($direccion);
         $mpdf->showWatermarkImage = true;
         $html = view('exports.campo.hojaCampo',compact('model', 'modelCompuesto', 'areaModel','numOrden', 'punto', 'puntos', 'puntoMuestreo', 'phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'paramSolicitudLength', 'recepcion', 'firmaRes', 'direccion'));
         $mpdf->CSSselectMedia = 'mpdf';
@@ -1340,8 +1232,8 @@ class CampoController extends Controller
 
         $campoGen = DB::table('ViewCampoGenerales')->where('Id_solicitud',$id)->first();
         $idTermometros = DB::table('campo_generales')->where('Id_solicitud', $id)->first();
-        $termometro1 = TermometroCampo::find($idTermometros->Id_equipo);
-        $termometro2 = TermometroCampo::find($idTermometros->Id_equipo2);
+        $termometro1 = TermometroCampo::where('Id_termometro',$idTermometros->Id_equipo)->first();
+        $termometro2 = TermometroCampo::where('Id_termometro',$idTermometros->Id_equipo2)->first();
 
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
 

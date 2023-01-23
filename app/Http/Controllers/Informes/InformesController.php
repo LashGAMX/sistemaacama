@@ -23,6 +23,7 @@ use App\Models\TemperaturaMuestra;
 use App\Models\ProcesoAnalisis;
 use App\Models\PuntoMuestreoGen;
 use App\Models\PuntoMuestreoSir;
+use App\Models\RfcSucursal;
 use App\Models\SimbologiaParametros;
 use App\Models\Solicitud;
 use App\Models\SolicitudParametro;
@@ -157,6 +158,7 @@ class InformesController extends Controller
         $direccion = DireccionReporte::where('Id_direccion', $solModel->Id_direccion)->first();
 
         $cliente = Clientes::where('Id_cliente', $solModel->Id_cliente)->first();
+        $rfc = RfcSucursal::where('Id_sucursal',$solModel->Id_sucursal)->first();
 
         if ($solicitud->Siralab == 1) { //Es cliente Siralab
             $puntoMuestreo = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $idSol)->first();
@@ -191,55 +193,69 @@ class InformesController extends Controller
         $aux = 0;
         $limC = 0;
         foreach ($model as $item) {
-
-            switch ($item->Id_parametro) {
-                case 2:
-                        if($item->Resultado2 == 1){
-                            $limC = "PRESENTE";
-                        }else{
-                            $limC = "AUSENTE";
-                        }
-                    break;
-                case 14:
-                    $limC = $item->Resultado2;
-                    break;
-                default:
-                    if($item->Resultado2 <= $item->Limite){
-                        $limC = "< ".$item->Limite;
-                    }else{
+            if ($item->Resultado2 != NULL) {
+                switch ($item->Id_parametro) {
+                    case 2:
+                            if($item->Resultado2 == 1){
+                                $limC = "PRESENTE";
+                            }else{
+                                $limC = "AUSENTE";
+                            }
+                        break;
+                    case 14:
                         $limC = $item->Resultado2;
-                    }
-                    break;
+                        break;
+                    case 5:
+                        if($item->Resultado2 <= $item->Limite){
+                            $limC = "< ".$item->Limite;
+                        }else{
+                            
+                            $limC = round($item->Resultado2,2);
+                        }
+                        break;
+                    default:
+                        if($item->Resultado2 <= $item->Limite){
+                            $limC = "< ".$item->Limite;
+                        }else{
+                            $limC = $item->Resultado2;
+                        }
+                        break;
+                }
+                switch ($item->Id_norma) {
+                    case 1:
+                        $limNo = DB::table('limitepnorma_001')->where('Id_categoria', $tipoReporte->Id_detalle)->where('Id_parametro', $item->Id_parametro)->get();
+                        if ($limNo->count()) {
+                            $aux = $limNo[0]->Prom_Dmax;
+                        } else {
+                            $aux = "N/A";
+                        }
+                        break;
+                    case 2:
+                        $limNo = DB::table('limitepnorma_002')->where('Id_parametro', $item->Id_parametro)->get();
+                        if ($limNo->count()) {
+                            $aux = $limNo[0]->PromD;
+                        } else {
+                            $aux = "N/A";
+                        }
+                        break;
+                    case 30:
+                        $limNo = DB::table('limitepnorma_127')->where('Id_parametro', $item->Id_parametro)->get();
+                        if ($limNo->count()) {
+                            $aux = $limNo[0]->Per_max;
+                        } else {
+                            $aux = "N/A";
+                        }
+                        break;
+                    default:
+                        
+                        break;
+                }
+            } else {
+                $aux = "------";
+                $limC = "------";
             }
-            switch ($item->Id_norma) {
-                case 1:
-                    $limNo = DB::table('limitepnorma_001')->where('Id_categoria', $tipoReporte->Id_detalle)->where('Id_parametro', $item->Id_parametro)->get();
-                    if ($limNo->count()) {
-                        $aux = $limNo[0]->Prom_Dmax;
-                    } else {
-                        $aux = "N/A";
-                    }
-                    break;
-                case 2:
-                    $limNo = DB::table('limitepnorma_002')->where('Id_parametro', $item->Id_parametro)->get();
-                    if ($limNo->count()) {
-                        $aux = $limNo[0]->PromD;
-                    } else {
-                        $aux = "N/A";
-                    }
-                    break;
-                case 30:
-                    $limNo = DB::table('limitepnorma_127')->where('Id_parametro', $item->Id_parametro)->get();
-                    if ($limNo->count()) {
-                        $aux = $limNo[0]->Per_max;
-                    } else {
-                        $aux = "N/A";
-                    }
-                    break;
-                default:
-
-                    break;
-            }
+            
+   
             array_push($limitesN, $aux);
             array_push($limitesC, $limC);
         }
@@ -270,6 +286,7 @@ class InformesController extends Controller
             'tempCompuesta' => $tempCompuesta,
             'limitesN' => $limitesN,
             'tipo' => $tipo,
+            'rfc' => $rfc,
         );
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes

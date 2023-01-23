@@ -43,7 +43,13 @@
                                     {{ @$limitesN[$i] }}
                                 </td>
                             @endif
-                            <td class="tableContent bordesTablaBody">{{@$item->iniciales}}</td>
+                            <td class="tableContent bordesTablaBody">
+                                @if (@$item->Analizo != 1)
+                                    {{@$item->iniciales}}
+                                @else
+                                    -------
+                                @endif
+                            </td>
                         </tr>   
                         @php $i++; @endphp
                     @endif

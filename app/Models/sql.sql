@@ -70,7 +70,7 @@ ON inter.Id_cliente = cli2.Id_cliente
 /* Vista Lista parametros */
 CREATE VIEW ViewParametros as SELECT param.Id_parametro,param.Id_laboratorio,lab.Sucursal,param.Id_tipo_formula,tipo.Tipo_formula,param.Id_area,area.Area_analisis ,param.Id_user_c,param.Id_user_m,param.Id_rama,ram.Rama,param.Parametro,
 param.Id_unidad,uni.Unidad,uni.Descripcion,param.Id_metodo,param.Limite,param.Id_tecnica,tec.Tecnica,param.Id_procedimiento,pro.Procedimiento,param.Id_matriz,mat.Matriz,param.Id_simbologia,param.Envase,param.Curva,
-sim.Simbologia,inf.Simbologia as Simbologia_inf, inf.Id_simbologia_info,sim.Descripcion as Descripcion_sim,met.Metodo_prueba,met.Clave_metodo,param.Precio,param.F_inicio_vigencia,param.F_fin_vigencia,param.created_at,param.updated_at,
+sim.Simbologia,inf.Simbologia as Simbologia_inf, inf.Id_simbologia_info,inf.Descripcion as Descripcion2,sim.Descripcion as Descripcion_sim,met.Metodo_prueba,met.Clave_metodo,param.Precio,param.F_inicio_vigencia,param.F_fin_vigencia,param.created_at,param.updated_at,
 param.deleted_at FROM parametros as param
 INNER JOIN sucursales as lab
 ON param.Id_laboratorio = lab.Id_sucursal
@@ -469,7 +469,7 @@ ON pu.Id_muestreo = gen.Id_punto
 
 CREATE VIEW ViewCodigoParametro AS SELECT cod.*,us.name,us.iniciales,sol.Folio_servicio,sol.Siralab,sub.Id_subnorma,sub.Id_norma,sub.Norma,
 sub.Clave,pa.Parametro, pa.Id_simbologia, pa.Simbologia, pa.Id_tipo_formula,pa.Tipo_formula, 
-pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo,pa.Id_tecnica,pa.Tecnica , pa.Id_area,pa.Limite, pro.Hora_recepcion,
+pa.Unidad, pa.Metodo_prueba, pa.Clave_metodo,pa.Id_tecnica,pa.Tecnica,pa.Id_simbologia_info,pa.Descripcion2,pa.Simbologia_inf , pa.Id_area,pa.Limite, pro.Hora_recepcion,
 pro.Hora_entrada, pro.Empresa,sol.Padre,sol.Hijo
 FROM codigo_parametro as cod
 INNER JOIN solicitudes as sol
