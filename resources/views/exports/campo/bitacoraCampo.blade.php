@@ -382,8 +382,8 @@
             <div class="col-12 fontCalibri fontSize10 fontNormal">
                 Nota. Los demas valores registrados de temperatura llevan aplicado la temperatura corregida de la
                 temperatura correspondiente. <br>
-                La medición de la temperatura del agua y temperatura ambiente es realizada con el sensor de temperatura
-                del equipo PC-18 con
+                La medición de la temperatura del agua es realizada con el sensor de temperatura
+                del equipo PC-100 con
                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                 <span class="fontBold">{{$campoGen->Serie}}</span>
             </div>
