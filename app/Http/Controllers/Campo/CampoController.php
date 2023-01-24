@@ -293,9 +293,77 @@ class CampoController extends Controller
         $data = array('sw' => true, 'model' => $model);
         return response()->json($data);
     }
+    public function setPhMuestra(Request $res)
+    {
+        
+    }
     //-----------------------------Inicio de guardado independiente en Captura campo-----------------------------------
     public function GuardarTempAgua(Request $request) {
         $model = TemperaturaMuestra::where('Id_solicitud', $request->idSolicitud)->get();
+        for ($i = 0; $i < sizeof($model); $i++) {
+            $model->Temperatura1 = $request->array1[$i];
+            $model->Temperatura2 = $request->array2[$i];
+            $model->Temperatura3 = $request->array3[$i];
+            $model->save();
+        }
+        $data = array(
+            'model' => $model,
+            'array1' => $request->array1,
+            'array2' => $request->array2,
+            'array3' => $request->array3,
+        );
+        return response()->json($data);
+    }
+    public function GuardarTempAmb(Request $request) {
+        $model = TemperaturaAmbiente::where('Id_solicitud', $request->idSolicitud)->get();
+        for ($i = 0; $i < sizeof($model); $i++) {
+            $model->Temperatura1 = $request->array1[$i];
+            $model->Temperatura2 = $request->array2[$i];
+            $model->Temperatura3 = $request->array3[$i];
+            $model->save();
+        }
+        $data = array(
+            'model' => $model,
+            'array1' => $request->array1,
+            'array2' => $request->array2,
+            'array3' => $request->array3,
+        );
+        return response()->json($data);
+    }
+    public function GuardarPhControlCalidad(Request $request) {
+        $model = PhCalidadCampo::where('Id_solicitud', $request->idSolicitud)->get();
+        for ($i = 0; $i < sizeof($model); $i++) {
+            $model->Temperatura1 = $request->array1[$i];
+            $model->Temperatura2 = $request->array2[$i];
+            $model->Temperatura3 = $request->array3[$i];
+            $model->save();
+        }
+        $data = array(
+            'model' => $model,
+            'array1' => $request->array1,
+            'array2' => $request->array2,
+            'array3' => $request->array3,
+        );
+        return response()->json($data);
+    }
+    public function GuardarConductividad(Request $request) {
+        $model = ConductividadMuestra::where('Id_solicitud', $request->idSolicitud)->get();
+        for ($i = 0; $i < sizeof($model); $i++) {
+            $model->Temperatura1 = $request->array1[$i];
+            $model->Temperatura2 = $request->array2[$i];
+            $model->Temperatura3 = $request->array3[$i];
+            $model->save();
+        }
+        $data = array(
+            'model' => $model,
+            'array1' => $request->array1,
+            'array2' => $request->array2,
+            'array3' => $request->array3,
+        );
+        return response()->json($data);
+    }
+    public function GuardarGasto(Request $request) {
+        $model = GastoMuestra::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
             $model->Temperatura1 = $request->array1[$i];
             $model->Temperatura2 = $request->array2[$i];

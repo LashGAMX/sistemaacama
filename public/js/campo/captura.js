@@ -4,12 +4,40 @@ $(document).ready(function () {
     $("#datosGenerales-tab").click();
     //Selec con buscador
     $('#termometro').select2();
-    $('#termometro2').select2();
+    $('#termometro2').select2(); 
     validacionInicio()
 });
+function setPhMuestra()
+{
+    let materia = new Array()
+    let olor = new Array()
+    let color = new Array()
+    let ph1 = new Array()
+    let ph2 = new Array()
+    let ph3 = new Array()
+    let promedio = new Array()
+    let fecha = new Array()
 
+    for (let i = 0; i < array.length; i++) {
+        
+    }
+
+    $.ajax({
+        url: base_url + "/admin/campo/captura/getPhTrazable", //archivo que recibe la peticion
+        type: "POST", //método de envio
+        data: {
+            id:$("#"+id).val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+          
+        },
+    });
+}
 function valPhMuestra(id) {
-    console.log("valPhMuestra")
     let sw = false;
     let sw1 = false;
     let sw2 = false;
@@ -18,7 +46,7 @@ function valPhMuestra(id) {
     let sw5 = false;
     let sw6 = false;        
     
-    let l1 = parseFloat($("#phl"+id).val()); 
+    let l1 = parseFloat($("#ph1"+id).val()); 
     let l2 = parseFloat($("#ph2"+id).val());
     let l3 = parseFloat($("#ph3"+id).val());
  
@@ -50,7 +78,7 @@ function valPhMuestra(id) {
     let r4 = (l2 - l3).toFixed(2);
     let r5 = (l3 - l1).toFixed(2);
     let r6 = (l3 - l2).toFixed(2);
-    
+
     //Cambio de 0.03 a 0.05 ; 0.02999999999999936
     if (r1 < -0.05 || r1 > 0.05) {
         sw1 = false;        
@@ -107,8 +135,7 @@ function valPhMuestra(id) {
     }
 
     if(sw == true && sw1 == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true && sw6 == true){                
-        
-        $("#phProm"+id).val(parseFloat(((l1 + l2 + l3) / 3)).toFixed(2))
+        $("#phProm"+id).val(((parseFloat(l1) + parseFloat(l2) + parseFloat(l3)) / 3).toFixed(2))
     }else{                
         if(l1 == "" && l2 == "" && l3 == ""){
             $("#phProm"+id).val("Error de lectura")

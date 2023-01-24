@@ -3071,7 +3071,7 @@ function setDataGeneral() {
     });
 }
 
-function setDataMuestreo() {
+function setDataMuestreo() { 
     let ph = new Array();
     let temperatura = new Array();
     let temperaturaAmbiente = new Array();

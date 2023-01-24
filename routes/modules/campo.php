@@ -21,6 +21,7 @@ Route::group(['prefix' => 'campo'], function () {
         Route::post('setDataGeneral', [CampoController::class, 'setDataGeneral']);
 
         Route::post('getFactorCorreccion', [CampoController::class, 'getFactorCorreccion']);
+        Route::post('setPhMuestra', [CampoController::class, 'setPhMuestra']);
         // Route::post('getPhTrazable', [CampoController::class, 'getPhTrazable']);
         // Route::post('getPhCalidad', [CampoController::class, 'getPhCalidad']);
         // Route::post('getConTrazable', [CampoController::class, 'getConTrazable']);
