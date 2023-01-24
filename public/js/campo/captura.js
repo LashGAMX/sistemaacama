@@ -6,9 +6,139 @@ $(document).ready(function () {
     $('#termometro').select2();
     $('#termometro2').select2(); 
     validacionInicio()
+    $("#setPhMuestra").click(function () {
+      guardarPhMuestra()
+    });
 });
-function setPhMuestra()
+function valTemperaturaAgua(id)
 {
+    console.log("valTemperaturaAgua")
+    let l1 = parseFloat($("#temp1"+id).val())
+    let l2 = parseFloat($("#temp2"+id).val())
+    let l3 = parseFloat($("#temp3"+id).val())
+    let sw = true
+    r1 = (l1 - l2).toFixed(2);
+    r2 = (l1 - l3).toFixed(2);
+    r3 = (l2 - l1).toFixed(2);
+    r4 = (l2 - l3).toFixed(2);
+    r5 = (l3 - l1).toFixed(2);
+    r6 = (l3 - l2).toFixed(2);    
+
+    if (r1 > 1 || r1 < -1) {
+        sw = false;
+    }
+
+    if (r2 > 1.0 || r2 < -1.0) {
+        sw = false;
+    }
+ 
+    if (r3 > 1.0 || r3 < -1.0) {
+        sw = false;
+    }
+
+    if (r4 > 1.0 || r4 < -1.0) {
+        sw = false;
+    }
+
+    if (r5 > 1.0 || r5 < -1) {
+        sw = false;
+    }
+
+    if (r6 > 1.0 || r6 < -1) {
+        sw = false;
+    }
+    if (sw == true) {
+        inputBorderColor("temp1"+id,'verde')
+        inputBorderColor("temp2"+id,'verde')
+        inputBorderColor("temp3"+id,'verde')
+    } else {
+        inputBorderColor("temp1"+id,'rojo')
+        inputBorderColor("temp2"+id,'rojo')
+        inputBorderColor("temp3"+id,'rojo')
+    }
+    let temp = 0;
+    $.each(factorCorrecion1, function (key, item) {    
+        if(l1 >= parseFloat(item.De_c) && l1 < parseFloat(item.A_c)){
+            $("#tempSin1"+id).val(l1 + parseFloat(item.Factor_aplicado))    
+            temp = temp + (l1 + parseFloat(item.Factor_aplicado))
+        }
+        if(l2 >= parseFloat(item.De_c) && l2 < parseFloat(item.A_c)){
+            $("#tempSin2"+id).val(l2 + parseFloat(item.Factor_aplicado))
+            temp = temp + (l2 + parseFloat(item.Factor_aplicado))
+        }
+        if(l3 >= parseFloat(item.De_c) && l3 < parseFloat(item.A_c)){
+            $("#tempSin3"+id).val(l3 + parseFloat(item.Factor_aplicado))
+            temp = temp + (l3 + parseFloat(item.Factor_aplicado))
+        }
+      });
+    $("#tempprom"+id).val((temp / 3).toFixed(2))
+}
+function valTemperaturaAmbiente(id)
+{
+    console.log("valTemperaturaAgua")
+    let l1 = parseFloat($("#tempa1"+id).val())
+    let l2 = parseFloat($("#tempa2"+id).val())
+    let l3 = parseFloat($("#tempa3"+id).val())
+    let sw = true
+    r1 = (l1 - l2).toFixed(2);
+    r2 = (l1 - l3).toFixed(2);
+    r3 = (l2 - l1).toFixed(2);
+    r4 = (l2 - l3).toFixed(2);
+    r5 = (l3 - l1).toFixed(2);
+    r6 = (l3 - l2).toFixed(2);    
+
+    if (r1 > 1 || r1 < -1) {
+        sw = false;
+    }
+
+    if (r2 > 1.0 || r2 < -1.0) {
+        sw = false;
+    }
+ 
+    if (r3 > 1.0 || r3 < -1.0) {
+        sw = false;
+    }
+
+    if (r4 > 1.0 || r4 < -1.0) {
+        sw = false;
+    }
+
+    if (r5 > 1.0 || r5 < -1) {
+        sw = false;
+    }
+
+    if (r6 > 1.0 || r6 < -1) {
+        sw = false;
+    }
+    if (sw == true) {
+        inputBorderColor("tempa1"+id,'verde')
+        inputBorderColor("tempa2"+id,'verde')
+        inputBorderColor("tempa3"+id,'verde')
+    } else {
+        inputBorderColor("tempa1"+id,'rojo')
+        inputBorderColor("tempa2"+id,'rojo')
+        inputBorderColor("tempa3"+id,'rojo')
+    }
+    let temp = 0;
+    $.each(factorCorrecion2, function (key, item) {    
+        if(l1 >= parseFloat(item.De_c) && l1 < parseFloat(item.A_c)){
+            $("#tempaSin1"+id).val(l1 + parseFloat(item.Factor_aplicado))    
+            temp = temp + (l1 + parseFloat(item.Factor_aplicado))
+        }
+        if(l2 >= parseFloat(item.De_c) && l2 < parseFloat(item.A_c)){
+            $("#tempaSin2"+id).val(l2 + parseFloat(item.Factor_aplicado))
+            temp = temp + (l2 + parseFloat(item.Factor_aplicado))
+        }
+        if(l3 >= parseFloat(item.De_c) && l3 < parseFloat(item.A_c)){
+            $("#tempaSin3"+id).val(l3 + parseFloat(item.Factor_aplicado))
+            temp = temp + (l3 + parseFloat(item.Factor_aplicado))
+        }
+      });
+    $("#tempPromAmb"+id).val((temp / 3).toFixed(2))
+}
+function guardarPhMuestra()
+{
+    let tab = document.getElementById("phMuestra")
     let materia = new Array()
     let olor = new Array()
     let color = new Array()
@@ -17,23 +147,42 @@ function setPhMuestra()
     let ph3 = new Array()
     let promedio = new Array()
     let fecha = new Array()
+    let activo = new Array()
 
-    for (let i = 0; i < array.length; i++) {
-        
+    for (let i = 0; i < parseInt($("#numTomas").val()); i++) {
+        materia.push(tab.rows[i + 1].children[1].children[0].value)
+        olor.push(tab.rows[i + 1].children[2].children[0].value)
+        color.push(tab.rows[i + 1].children[3].children[0].value)
+        ph1.push(tab.rows[i + 1].children[4].children[0].value)
+        ph2.push(tab.rows[i + 1].children[5].children[0].value)
+        ph3.push(tab.rows[i + 1].children[6].children[0].value)
+        promedio.push(tab.rows[i + 1].children[7].children[0].value)
+        fecha.push(tab.rows[i + 1].children[8].children[0].value)
+        activo.push(tab.rows[i + 1].children[9].children[0].value)
     }
 
     $.ajax({
-        url: base_url + "/admin/campo/captura/getPhTrazable", //archivo que recibe la peticion
+        url: base_url + "/admin/campo/captura/GuardarPhMuestra", //archivo que recibe la peticion
         type: "POST", //método de envio
         data: {
-            id:$("#"+id).val(),
+            id:$("#idSolicitud").val(),     
+            materia:materia,
+            olor:olor,
+            color:color,
+            ph1:ph1,
+            ph2:ph2,
+            ph3:ph3,
+            promedio:promedio,
+            fecha:fecha,
+            numTomas:numTomas,
+            activo:activo,
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         async: false,
         success: function (response) {
             console.log(response);
-          
+            alert("Ph guardado")
         },
     });
 }
@@ -146,22 +295,26 @@ function valPhMuestra(id) {
     return sw;
 }
 
-let numTomas = $('#numTomas').val();
-let FactorCorrecion = new Array();
-
-function getFactorCorreccion() {
+let numTomas = $('#numTomas').val(); 
+let factorCorrecion1 = new Array()
+let factorCorrecion2 = new Array()
+function getFactorCorreccion(sw,id) {
     $.ajax({
         url: base_url + "/admin/campo/captura/getFactorCorreccion", //archivo que recibe la peticion
         type: "POST", //método de envio
         data: {
-            idFactor: $("#termmometro").val(),
+            idFactor: $("#"+id).val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         async: false,
         success: function (response) {
             console.log(response);
-            FactorCorrecion.push(response);
+          if (sw == 1) {
+            factorCorrecion1 = response.model
+          } else {
+            factorCorrecion2 = response.model
+          }  
         },
     }); 
 }
@@ -170,24 +323,213 @@ function GuardarTempAgua() {
     let array1 = new Array();
     let array2 = new Array();
     let array3 = new Array();
-
+    let arrayB1 =new Array();
+    let arrayB2 =new Array();
+    let arrayB3 =new Array();
+    let promedio = new Array();
+    let estado = new Array();
+    let tab = document.getElementById('tempAgua');
+    
     for (let i = 0; i <numTomas ; i++) {
-        let temp1 = $("#temp1"+i).val();
-        let temp2 = $("#temp2"+i).val();
-        let temp3 = $("#temp3"+i).val();
-        array1.push(temp1);
-        array2.push(temp2);
-        array3.push(temp3);
-    }
+        array1.push(tab.row[i+1].children[1].children[0].value);
+        arrayB1.push(tab.row[i+1].children[2].children[0].value);
+        array2.push(tab.row[i+1].children[3].children[0].value);
+        arrayB2.push(tab.row[i+1].children[4].children[0].value);
+        array3.push(tab.row[i+1].children[5].children[0].value);
+        arrayB3.push(tab.row[i+1].children[6].children[0].value);
+        promedio.push(tab.row[i+1].children[7].children[0].value);
+        estado.push(tab.row[i+1].children[8].children[0].value);
+        }
     
     $.ajax({
         url: base_url + "/admin/campo/captura/GuardarTempAgua", //archivo que recibe la peticion
         type: "POST", //método de envio
         data: {
             idSolicitud:$("#idSolicitud").val(),
+            array1 :array1,
+            array2 :array2,
+            array3 :array3,
+            arrayB1:arrayB1,
+            arrayB2:arrayB2,
+            arrayB3:arrayB3,
+            promedio :promedio,
+            estado :estado ,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+        },
+    }); 
+}
+function GuardarTempAmb() {
+
+    let array1 = new Array();
+    let array2 = new Array();
+    let array3 = new Array();
+    let arrayB1 =new Array();
+    let arrayB2 =new Array();
+    let arrayB3 =new Array();
+    let promedio = new Array();
+    let estado = new Array();
+    let tab = document.getElementById('tempAmbiente');
+    
+    for (let i = 0; i <numTomas ; i++) {
+        array1.push(tab.row[i+1].children[1].children[0].value);
+        arrayB1.push(tab.row[i+1].children[2].children[0].value);
+        array2.push(tab.row[i+1].children[3].children[0].value);
+        arrayB2.push(tab.row[i+1].children[4].children[0].value);
+        array3.push(tab.row[i+1].children[5].children[0].value);
+        arrayB3.push(tab.row[i+1].children[6].children[0].value);
+        promedio.push(tab.row[i+1].children[7].children[0].value);
+        estado.push(tab.row[i+1].children[8].children[0].value);
+        }
+    $.ajax({
+        url: base_url + "/admin/campo/captura/GuardarTempAmb", //archivo que recibe la peticion
+        type: "POST", //método de envio
+        data: {
+            idSolicitud:$("#idSolicitud").val(),
+            array1 :array1,
+            array2 :array2,
+            array3 :array3,
+            arrayB1:arrayB1,
+            arrayB2:arrayB2,
+            arrayB3:arrayB3,
+            promedio :promedio,
+            estado :estado,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+        },
+    }); 
+}
+function GuardarPhControlCalidad() {
+
+    let array1 = new Array();
+    let array2 = new Array();
+    let array3 = new Array();
+    let array4 = new Array();
+    let arrayB1 =new Array();
+    let arrayB2 =new Array();
+    let arrayB3 =new Array();
+    let arrayB4 =new Array();
+    let promedio = new Array();
+    let estado = new Array();
+    let tab = document.getElementById('tempAmbiente');
+    
+    for (let i = 0; i <numTomas ; i++) {
+        array1.push(tab.row[i+1].children[1].children[0].value);
+        arrayB1.push(tab.row[i+1].children[2].children[0].value);
+        array2.push(tab.row[i+1].children[3].children[0].value);
+        arrayB2.push(tab.row[i+1].children[4].children[0].value);
+        array3.push(tab.row[i+1].children[5].children[0].value);
+        arrayB3.push(tab.row[i+1].children[6].children[0].value);
+        array4.push(tab.row[i+1].children[7].children[0].value);
+        arrayB4.push(tab.row[i+1].children[8].children[0].value);
+        promedio.push(tab.row[i+1].children[9].children[0].value);
+        estado.push(tab.row[i+1].children[10].children[0].value);
+        }
+    $.ajax({
+        url: base_url + "/admin/campo/captura/GuardarPhControlCalidad", //archivo que recibe la peticion
+        type: "POST", //método de envio
+        data: {
+            idSolicitud:$("#idSolicitud").val(),
+            array1 :array1 ,
+            array2 :array2 ,
+            array3 :array3 ,
+            array4 :array4 ,
+            arrayB1:arrayB1,
+            arrayB2:arrayB2,
+            arrayB3:arrayB3,
+            arrayB4:arrayB4,
+            promedio :promedio ,
+            estado :estado ,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+        },
+    }); 
+}
+function GuardarConductividad() {
+    let array1 = new Array();
+    let array2 = new Array();
+    let array3 = new Array();
+    for (let i = 0; i <numTomas ; i++) {
+        let temp1 = $("#con1"+i).val();
+        let temp2 = $("#con2"+i).val();
+        let temp3 = $("#con3"+i).val();
+        array1.push(temp1);
+        array2.push(temp2);
+        array3.push(temp3);
+    }
+    $.ajax({
+        url: base_url + "/admin/campo/captura/GuardarConductividad", //archivo que recibe la peticion
+        type: "POST", //método de envio
+        data: {
+            idSolicitud:$("#idSolicitud").val(),
             array1: array1,
             array2: array2,
             array3: array3,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+        },
+    }); 
+}
+function GuardarGasto() {
+    let array1 = new Array();
+    let array2 = new Array();
+    let array3 = new Array();
+    for (let i = 0; i <numTomas ; i++) {
+        let temp1 = $("#gas1"+i).val();
+        let temp2 = $("#gas2"+i).val();
+        let temp3 = $("#gas3"+i).val();
+        array1.push(temp1);
+        array2.push(temp2);
+        array3.push(temp3);
+    }
+    $.ajax({
+        url: base_url + "/admin/campo/captura/GuardarGasto", //archivo que recibe la peticion
+        type: "POST", //método de envio
+        data: {
+            idSolicitud:$("#idSolicitud").val(),
+            array1: array1,
+            array2: array2,
+            array3: array3,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+        },
+    }); 
+}
+function SetDatosCompuestos(){
+    $.ajax({
+        url: base_url + "/admin/campo/captura/SetDatosCompuestos", //archivo que recibe la peticion
+        type: "POST", //método de envio
+        data: {
+            idSolicitud:$("#idSolicitud").val(),
+            metodoAforo:$("#aforoCompuesto").val(),
+            ConTratamiento:$("#conTratamientoCompuesto").val(),
+            TipoTratamiento:$("#tipoTratamientoCompuesto").val(),
+            ProcedimientoMuestreo:$("#procedimientoCompuesto").val(),
+            observacion:$("#observacionCompuesto").val(),
+            volumenCalculado:$("#volCalculado").val(),
+           // observacionSolicitud:$("#observacionSolicitud").val(),
+            phMuestraCompuesta:$("#phMuestraCompuesto").val(),
+            tempMuestraCompuesta:$("#valTemp").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
