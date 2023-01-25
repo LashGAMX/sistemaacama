@@ -166,6 +166,7 @@ class InformesController extends Controller
             $puntoMuestreo = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $idSol)->first();
         }
         $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
+        $tempAmbienteProm = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 97)->first();
         //Recupera la temperatura compuesta
         $temperaturaC = CampoCompuesto::where('Id_solicitud', $idSol)->first();
         //Recupera la obs de campo
@@ -179,22 +180,38 @@ class InformesController extends Controller
         } else {
             $horaMuestreo = 'COMPUESTA';
         }
-        $swPh = false;
+        
+        $temp = DB::table('ph_muestra')
+                ->where('Id_solicitud',$idSol)
+                ->selectRaw('count(Color) as numColor,Color')
+                ->groupBy('Color')
+                ->get();
+        $swPh = false;  
+        $swOlor = false;
         foreach ($phCampo as $item) {
-            if ($item->Materia == "Presente") {
-                $swPh = true;
-            } else if ($item->Olor == "Si") {
-                $swPh = true;
+            if ($item->Olor == "Si") {
+                $swOlor = true;
             }
         }
+        $colorTemp = 0;
+        $color ="";
+        foreach ($temp as $item) {
+            if ($item->numColor >= $colorTemp) {
+                $color = $item->Color;
+                $colorTemp = $item->numColor;
+            }            
+        }
 
-        $limitesN = array();
+        $limitesN = array(); 
         $limitesC = array();
         $aux = 0;
         $limC = 0;
         foreach ($model as $item) {
             if ($item->Resultado2 != NULL) {
                 switch ($item->Id_parametro) {
+                    case 97:
+                        $limC = round($item->Resultado2);
+                        break;
                     case 2:
                             if($item->Resultado2 == 1){
                                 $limC = "PRESENTE";
@@ -203,7 +220,7 @@ class InformesController extends Controller
                             }
                         break;
                     case 14:
-                        $limC = $item->Resultado2;
+                        $limC = round($item->Resultado2,2);
                         break;
                     case 5:
                         if($item->Resultado2 <= $item->Limite){
@@ -261,8 +278,13 @@ class InformesController extends Controller
         }
         $firma1 = User::find(14);
         $firma2 = User::find(17);
+        $campoCompuesto = CampoCompuesto::where('Id_solicitud',$idSol)->first();
 
         $data = array(
+            'campoCompuesto' => $campoCompuesto,
+            'swOlor' => $swOlor,
+            'color' => $color,
+            'tempAmbienteProm' => $tempAmbienteProm,
             'limitesC' => $limitesC,
             'horaMuestreo' => $horaMuestreo,
             'numOrden' => $numOrden,

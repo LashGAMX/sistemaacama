@@ -11,7 +11,9 @@ $(document).ready(function () {
 $('#guardarSulfato').click(function () {
     guardarSulfatos(); 
 });
-
+$('#formulaTipo').on('change', function () {
+    clear(); 
+});
 
 $('#btnEjecutar').click(function () {
         // validacionModal(); 
@@ -768,3 +770,23 @@ document.addEventListener("keydown", function(event) {
         event.preventDefault();
     }
 });
+function clear(){
+    let tabla = document.getElementById('divTablaControles');
+    let tab = '';
+
+            tab += '<table id="tablaControles" class="table table-sm">';
+            tab += '    <thead>';
+            tab += '        <tr>';
+            tab += '          <th>Opc</th>';
+            tab += '          <th>Folio</th>';
+            // tab += '          <th># toma</th>';
+            tab += '          <th>Norma</th>';
+            tab += '          <th>Resultado</th>';
+            tab += '          <th>Observación</th>';
+            tab += '        </tr>';
+            tab += '    </thead>'; 
+            tab += '    <tbody>';
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
+}

@@ -4,7 +4,7 @@
             <tbody>            
                     <tr>
                         <td class="nombreHeader nom fontSize11 justificadorIzq" height="57">
-                            OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$campoGeneral->Temperatura_a}}°C, @php if(@swPh == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR TURBIO";} @endphp 
+                            OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm->Resultado2}}°C, @php if(@swOlor == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR " .@$color;} else{ echo "LA MUESTRA PRESENTA COLOR ".@$color; }@endphp
                             EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
                             {{@$obsCampo}}
                         </td>
@@ -64,12 +64,27 @@
                                 @endif
                             @endfor
                             @if ($sw != true)
-                                <tr>
-                                    <td class="nombreHeaders fontBold fontSize9 justificadorIzq">{{$item->Descripcion2}}</td>
-                                </tr>
-                                @php
-                                    array_push($temp,$item->Id_simbologia_info);
-                                @endphp
+                                @switch($item->Id_parametro)
+                                    @case(97)
+                                        <tr>
+                                            <td class="nombreHeaders fontBold fontSize9 justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                        </tr>
+                                        <tr>
+                                            <td class="nombreHeaders fontBold fontSize9 justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
+                                        </tr>
+                                        @php
+                                            array_push($temp,$item->Id_simbologia_info);
+                                        @endphp
+                                        @break
+                                    @default
+                                    <tr>
+                                        <td class="nombreHeaders fontBold fontSize9 justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                    </tr>
+                                    @php
+                                        array_push($temp,$item->Id_simbologia_info);
+                                    @endphp
+                                @endswitch
+                               
                             @endif
                             @php
                                 $sw = false;

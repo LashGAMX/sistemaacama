@@ -13,7 +13,7 @@
         <div class="col-md-3">
             <div class="form-group">
               <label for="exampleFormControlSelect1">Fórmula tipo</label>
-                <select class="form-control" name="formulaTipo" id="formulaTipo">
+                <select class="form-control" name="formulaTipo" id="formulaTipo" onchange="clear()">
                     <option value="0">Sin seleccionar</option>
                     @foreach ($parametro as $parametros)
                         <option value= {{$parametros->Id_parametro}}>{{$parametros->Parametro}}</option>

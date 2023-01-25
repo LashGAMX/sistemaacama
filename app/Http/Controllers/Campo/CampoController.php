@@ -192,7 +192,7 @@ class CampoController extends Controller
         $model->Supervisor = $request->supervisor;
         // $model->Firma_revisor = $imagenComoBase64;
         $model->Id_user_m = Auth::user()->id;
-
+        $model->save();
         $nota = "Registro modificado";          
 
         //Ph trazable
@@ -293,91 +293,177 @@ class CampoController extends Controller
         $data = array('sw' => true, 'model' => $model);
         return response()->json($data);
     }
-    public function setPhMuestra(Request $res)
+    public function generarVmsi(Request $res)
     {
-        
+        $model = GastoMuestra::where('Id_solicitud',$res->idSolicitud)->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    
+
+    public function CancelarMuestra(Request $request) 
+    {
+        $std = false;
+        $ph = PhMuestra::where('Id_solicitud',$request->idSolicitud)->where('Num_toma', $request->muestra)->first();
+        $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$request->idSolicitud)->where('Num_toma',$request->muestra)->first();
+        $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud',$request->idSolicitud)->where('Num_toma',$request->muestra)->first();
+        $phControlCalidad = PhCalidadCampo::where('Id_solicitud',$request->idSolicitud)->where('Num_toma',$request->muestra)->first();
+        $cond = ConductividadMuestra::where('Id_solicitud',$request->idSolicitud)->where('Num_toma',$request->muestra)->first();
+        $gasto = GastoMuestra::where('Id_solicitud',$request->idSolicitud)->where('Num_toma',$request->muestra)->first();
+        if ($ph->Activo == 1) {
+            $ph->Activo = 0;
+            $tempMuestra->Activo = 0;
+            $tempAmbiente->Activo = 0;
+            $cond->Activo = 0;
+            $phControlCalidad->Activo = 0;
+            $gasto->Activo = 0;
+            $std = true;
+        }else{
+            $ph->Activo = 1;
+            $tempMuestra->Activo = 1;
+            $tempAmbiente->Activo = 1;
+            $cond->Activo = 1;
+            $phControlCalidad->Activo = 1;
+            $gasto->Activo = 1;
+            $std =  false;
+        }
+
+        $ph->save();
+        $tempMuestra->save();
+        $tempAmbiente->save();
+        $cond->save();
+        $phControlCalidad->save();
+        $gasto->save();
+
+        $data = array(
+            'std' => $std,
+        );
+
+        return response()->json($data);
     }
     //-----------------------------Inicio de guardado independiente en Captura campo-----------------------------------
+    public function GuardarPhMuestra(Request $res)
+    {
+        $tomas = PhMuestra::where('Id_solicitud',$res->id)->get();
+        $cont = 0;
+        foreach ($tomas as $item) {
+            $model = PhMuestra::find($item->Id_ph);
+            $model->Num_toma = $cont + 1;
+            $model->Materia = $res->materia[$cont];
+            $model->Olor = $res->olor[$cont];
+            $model->Color = $res->color[$cont];
+            $model->Ph1 = $res->ph1[$cont];
+            $model->Ph2 = $res->ph2[$cont];
+            $model->Ph3 = $res->ph3[$cont];
+            $model->Promedio = $res->promedio[$cont];
+            $model->Fecha = $res->fecha[$cont];
+            $model->Activo = $res->activo[$cont];
+            $model->save();
+            $cont++;
+        }
+    }
     public function GuardarTempAgua(Request $request) {
         $model = TemperaturaMuestra::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
-            $model->Temperatura1 = $request->array1[$i];
-            $model->Temperatura2 = $request->array2[$i];
-            $model->Temperatura3 = $request->array3[$i];
-            $model->save();
+            $model[$i]->Temperatura1 = $request->arrayB1[$i];
+            $model[$i]->Temperatura2 = $request->arrayB2[$i];
+            $model[$i]->Temperatura3 = $request->arrayB3[$i];
+            $model[$i]->TemperaturaSin1 = $request->array1[$i];
+            $model[$i]->TemperaturaSin2 = $request->array2[$i];
+            $model[$i]->TemperaturaSin3 = $request->array3[$i];
+            $model[$i]->Promedio = $request->promedio[$i];
+            $model[$i]->Activo = $request->estado[$i];
+            $model[$i]->save();
         }
         $data = array(
             'model' => $model,
-            'array1' => $request->array1,
-            'array2' => $request->array2,
-            'array3' => $request->array3,
+            'array' => $request->array1m
         );
         return response()->json($data);
     }
     public function GuardarTempAmb(Request $request) {
         $model = TemperaturaAmbiente::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
-            $model->Temperatura1 = $request->array1[$i];
-            $model->Temperatura2 = $request->array2[$i];
-            $model->Temperatura3 = $request->array3[$i];
-            $model->save();
+            $model[$i]->Temperatura1 = $request->array1[$i];
+            $model[$i]->TemperaturaSin1 = $request->array2[$i];
+            $model[$i]->Fact_apl = $request->factor[$i];
+            $model[$i]->Activo = $request->activo[$i];
+            $model[$i]->save();
         }
         $data = array(
             'model' => $model,
-            'array1' => $request->array1,
-            'array2' => $request->array2,
-            'array3' => $request->array3,
         );
         return response()->json($data);
     }
     public function GuardarPhControlCalidad(Request $request) {
         $model = PhCalidadCampo::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
-            $model->Temperatura1 = $request->array1[$i];
-            $model->Temperatura2 = $request->array2[$i];
-            $model->Temperatura3 = $request->array3[$i];
-            $model->save();
+            $model[$i]->Ph_calidad = $request->array1[$i];
+            $model[$i]->Lectura1 = $request->array2[$i];
+            $model[$i]->Lectura2 = $request->array3[$i];
+            $model[$i]->Lectura3 = $request->array4[$i];
+            $model[$i]->Promedio = $request->promedio[$i];
+            $model[$i]->Estado = $request->estado[$i];
+            $model[$i]->Activo = $request->activo[$i];
+            $model[$i]->save();
         }
         $data = array(
             'model' => $model,
-            'array1' => $request->array1,
-            'array2' => $request->array2,
-            'array3' => $request->array3,
         );
         return response()->json($data);
     }
     public function GuardarConductividad(Request $request) {
         $model = ConductividadMuestra::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
-            $model->Temperatura1 = $request->array1[$i];
-            $model->Temperatura2 = $request->array2[$i];
-            $model->Temperatura3 = $request->array3[$i];
-            $model->save();
+            $model[$i]->Conductividad1 = $request->array1[$i];
+            $model[$i]->Conductividad2= $request->array2[$i];
+            $model[$i]->Conductividad3 = $request->array3[$i];
+            $model[$i]->Promedio = $request->promedio[$i];
+            $model[$i]->Activo = $request->activo[$i];
+            $model[$i]->save();
         }
         $data = array(
             'model' => $model,
-            'array1' => $request->array1,
-            'array2' => $request->array2,
-            'array3' => $request->array3,
+
         );
         return response()->json($data);
     }
     public function GuardarGasto(Request $request) {
         $model = GastoMuestra::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
-            $model->Temperatura1 = $request->array1[$i];
-            $model->Temperatura2 = $request->array2[$i];
-            $model->Temperatura3 = $request->array3[$i];
-            $model->save();
+            $model[$i]->Gasto1 = $request->array1[$i];
+            $model[$i]->Gasto2 = $request->array2[$i];
+            $model[$i]->Gasto3 = $request->array3[$i];
+            $model[$i]->Promedio = $request->promedio[$i];
+            $model[$i]->Activo = $request->estado[$i];
+            $model[$i]->save();
         }
         $data = array(
             'model' => $model,
-            'array1' => $request->array1,
-            'array2' => $request->array2,
-            'array3' => $request->array3,
+
         );
         return response()->json($data);
     }
+    public function setDatosCompuestos(Request $request){
+        $model = CampoCompuesto::where('Id_solicitud', $request->idSolicitud)->first();
+        $model->Metodo_aforo = $request->metodoAforo;
+        $model->Con_tratamiento = $request->ConTratamiento;
+        $model->Tipo_tratamiento = $request->TipoTratamiento;
+        $model->Proce_muestreo = $request->ProcedimientoMuestreo;
+        $model->Volumen_calculado = $request->volumenCalculado;
+        $model->Observaciones = $request->observacion;
+        $model->Ph_muestraComp = $request->phMuestraCompuesta;
+        $model->Temp_muestraComp = $request->tempMuestraCompuesta;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+    return response()->json($data);
+    }
+    //---------------------Fin de metodos de guardado------------------------
 
     public function historialCampoGeneral($idSol, $nota, $campoGeneral)
     {
@@ -1019,27 +1105,27 @@ class CampoController extends Controller
                     //Datos muestreo
                     PhMuestra::create([
                         'Id_solicitud' => $item->Id_solicitud,
-                        'Num_toma' => $i,
+                        'Num_toma' => $i+1,
                     ]);
                     TemperaturaMuestra::create([
                         'Id_solicitud' => $item->Id_solicitud,
-                        'Num_toma' => $i,
+                        'Num_toma' => $i+1,
                     ]);
                     TemperaturaAmbiente::create([
                         'Id_solicitud' => $item->Id_solicitud,
-                        'Num_toma' => $i,
+                        'Num_toma' => $i+1,
                     ]);
                     PhCalidadCampo::create([
                         'Id_solicitud' => $item->Id_solicitud,
-                        'Num_toma' => $i,
+                        'Num_toma' => $i+1,
                     ]);
                     ConductividadMuestra::create([
                         'Id_solicitud' => $item->Id_solicitud,
-                        'Num_toma' => $i,
+                        'Num_toma' => $i+1, 
                     ]);
                     GastoMuestra::create([
                         'Id_solicitud' => $item->Id_solicitud,
-                        'Num_toma' => $i,
+                        'Num_toma' => $i+1,
                     ]);
                 }
             }
@@ -1162,6 +1248,7 @@ class CampoController extends Controller
         $phMuestra = PhMuestra::where('Id_solicitud',$id)->get();
         $gastoMuestra = GastoMuestra::where('Id_solicitud',$id)->get();
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
+        $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud',$id)->get();
         $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
         $muestreador = Usuario::where('id',$solGen->Id_muestreador)->first();
 
@@ -1191,7 +1278,7 @@ class CampoController extends Controller
         );
         // var_dump($direccion);
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.hojaCampo',compact('model', 'modelCompuesto', 'areaModel','numOrden', 'punto', 'puntos', 'puntoMuestreo', 'phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'paramSolicitudLength', 'recepcion', 'firmaRes', 'direccion'));
+        $html = view('exports.campo.hojaCampo',compact('model','tempAmbiente', 'modelCompuesto', 'areaModel','numOrden', 'punto', 'puntos', 'puntoMuestreo', 'phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'paramSolicitudLength', 'recepcion', 'firmaRes', 'direccion'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $htmlFooter = view('exports.campo.hojaCampoFooter');        
@@ -1304,6 +1391,7 @@ class CampoController extends Controller
         $termometro2 = TermometroCampo::where('Id_termometro',$idTermometros->Id_equipo2)->first();
 
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
+        $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud',$id)->get();
 
         $factorCorreccion = TermFactorCorreccionTemp::where('Id_termometro', $campoGen->Id_equipo)->get();
 
@@ -1409,7 +1497,7 @@ class CampoController extends Controller
             array(0, 0), 
         );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.bitacoraCampo',compact('model','termometro1', 'termometro2', 'tipoReporte','idNorma','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra', 'tipoReporte', 
+        $html = view('exports.campo.bitacoraCampo',compact('model','tempAmbiente','termometro1', 'termometro2', 'tipoReporte','idNorma','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra', 'tipoReporte', 
         'gastoTotal', 'campoGen','tempMuestra','conMuestra','muestreador','phTrazable','campoConTrazable', 'metodoAforo', 'proceMuestreo', 
         'conTratamiento', 'tipoTratamiento', 'campoCompuesto', 'factorCorreccion', 'factorCorreccionLength', 'puntoMuestreo', 'puntos', 'factores', 'factoresAplicados', 'factorTemp', 'factorCorrTemp', 'frecuenciaMuestreo'));
         $mpdf->CSSselectMedia = 'mpdf';

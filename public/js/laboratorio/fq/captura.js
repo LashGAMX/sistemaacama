@@ -23,7 +23,6 @@ $(document).ready(function () {
 });
 
 
-
 $('#ejecutar').click(function(){
     operacion();
 });
@@ -451,4 +450,25 @@ function generarControles()
 }
 function random(min, max) {
   return Math.floor(Math.random() * (max - min + 1) + min);
+}
+function clear(){
+    let tabla = document.getElementById('divTablaControles');
+    let tab = '';
+
+            tab += '<table id="tablaControles" class="table table-sm">';
+            tab += '    <thead>';
+            tab += '        <tr>';
+            tab += '          <th>Opc</th>';
+            tab += '          <th>Folio</th>';
+            // tab += '          <th># toma</th>';
+            tab += '          <th>Norma</th>';
+            tab += '          <th>Resultado</th>';
+            tab += '          <th>Observación</th>';
+            tab += '        </tr>';
+            tab += '    </thead>'; 
+            tab += '    <tbody>';
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
+            console.log("se limpio tabla")
 }

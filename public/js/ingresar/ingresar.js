@@ -45,8 +45,10 @@ function buscarFolio() {
             $("#descarga").val(response.cliente.Descarga);
             $("#cliente").val(response.cliente.Nombres);
             $("#empresa").val(response.cliente.Empresa);
-            $("#hora_recepcion1").val(response.proceso[0].Hora_recepcion);
-            $("#hora_entrada").val(response.proceso[0].Hora_entrada);
+            if (response.proceso.length > 0) {
+                $("#hora_recepcion1").val(response.proceso[0].Hora_recepcion);
+                $("#hora_entrada").val(response.proceso[0].Hora_entrada);   
+            } 
             if (response.std == true) {
                 temp = '<p class="text-success">Muestra ingresada</p>'
             } else {

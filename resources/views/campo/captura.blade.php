@@ -13,7 +13,7 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
-            <ul class="nav nav-tabs" id="myTab" role="tab}">
+            <ul class="nav nav-tabs" id="myTab" role="tab">
                 <li class="nav-item" role="presentation">
                     <a class="nav-link" id="datosGenerales-tab" data-toggle="tab" href="#datosGenerales" role="tab"
                         aria-controls="datosGenerales" aria-selected="true">1. Datos Generales</a>
@@ -65,7 +65,8 @@
                     <div class="col-md-4">
                         <div>
                             <label for="">Equipo serie (PC-100)</label>
-                            <select name="termometro" id="termometro" class="form-control">
+                            <select name="termometro" id="termometro" class="form-control"
+                                onchange="getFactorCorreccion(1,'termometro')">
                                 <option>Sin seleccionar</option>
                                 @foreach ($termometros2 as $item)
                                 @if (@$general->Id_equipo == @$item->Id_termometro)
@@ -84,7 +85,8 @@
                     <div class="col-md-4">
                         <div>
                             <label for="">Equipo serie 2 (HANNA)</label>
-                            <select name="termometro2" id="termometro2" class="form-control">
+                            <select name="termometro2" id="termometro2" class="form-control"
+                                onchange="getFactorCorreccion(2,'termometro2')">
                                 <option>Sin seleccionar</option>
                                 @foreach ($termometros as $item)
                                 @if (@$general->Id_equipo2 == @$item->Id_termometro)
@@ -232,6 +234,7 @@
                                 $temp1 = "";
                                 $temp2 = "";
                                 $temp3 = "";
+                                $cont = 1;
                                 @endphp
                                 @foreach ($phCampoTrazable as $item)
                                 @if ($item->Estado == "Aprobado")
@@ -241,7 +244,7 @@
                                     @endif
                                     <td>
                                         <select id="phTrazable{{$item->Id_ph}}" name="phTrazable"
-                                            onchange="getPhTrazable('phTrazable{{$item->Id_ph}}',{{$item->Id_ph}})">
+                                            onchange="getPhTrazable('phTrazable{{$item->Id_ph}}',{{$item->Id_ph}},{{$cont}})">
                                             <option value="0">Sin seleccionar</option>
                                             @foreach ($phTrazable as $item2)
                                             @if ($item2->Id_ph == $item->Id_phTrazable)
@@ -279,6 +282,9 @@
                                     <td><input type="text" id="phTEstado{{$item->Id_ph}}" value="{{$item->Estado}}">
                                     </td>
                                 </tr>
+                                @php
+                                $cont++;
+                                @endphp
                                 @endforeach
                             </tbody>
                         </table>
@@ -341,6 +347,7 @@
                         <p>Conductividad trazable</p>
                         <table class="table" id="tableConTrazable">
                             <thead>
+
                                 <tr>
                                     <th>Conductividad Trazable</th>
                                     <th>Conductividad Trazable</th>
@@ -358,7 +365,11 @@
                                 $temp2 = "";
                                 $temp3 = "";
                                 @endphp
+                                @if ($conCampoTrazable->Estado == "Aceptado")
+                                <tr class="bg-success">
+                                    @else
                                 <tr>
+                                    @endif
                                     <td>
                                         <select id="conTrazable" name="conTrazable"
                                             onchange="getConTrazable('conTrazable')">
@@ -435,7 +446,11 @@
                                 </tr>
                             </thead>
                             <tbody>
+                                @if ($conCampoCalidad->Estado == "Aceptado")
+                                <tr class="bg-success">
+                                    @else
                                 <tr>
+                                    @endif
                                     <td>
                                         <select id="conCalidad" name="conCalidad"
                                             onchange="getConCalidad('conCalidad')">
@@ -501,7 +516,11 @@
                                 </tr>
                             </tbody>
                             <tbody>
+                                @if ($general->Criterio == "Aceptado")
+                                <tr class="bg-success">
+                                    @else
                                 <tr>
+                                    @endif
                                     <td><input type="number" step="any" id="pendiente" placeholder="% Valor"
                                             value="{{ $general->Pendiente }}"
                                             onkeyup="valPendiente('pendiente','criterioPendiente')"
@@ -525,8 +544,10 @@
                         <br><br>
                     </div>
 
-                    <button type="button" class="btn btn-success" onclick="setDataGeneral()"><i class="fa fa-save"></i>
+                    <button type="button" class="btn btn-success" onclick="setDataGeneral()"><i class="fa fa-up"></i>
                         Guardar</button>
+                    <button type="button" id="btnSubir" class="btn btn-info btnSubir"><i class="fas fa-arrow-up"></i>
+                        Subir</button>
                     </form>
                 </div>
                 <div class="tab-pane fade" id="datosMuestreo" role="tabpanel" aria-labelledby="datosMuestreo-tab">
@@ -539,15 +560,13 @@
                             <input type="text" class="" id="numTomas" value={{ $model->Num_tomas }} hidden>
                             <div class="col-md-12">
                                 <button type="button" class="btn btn-success" data-toggle="modal"
-                                    data-target="#modalProbar">Cancelar muestra</button>
-                                <button type="button" class="btn btn-success" data-toggle="modal"
-                                    data-target="#modalProbar2">Revertir muestra</button>
-                                <br><br>
+                                    data-target="#modalProbar">Cancelar muestra</button><br>
                                 <p>PH : Fecha a empezar muestreo : {{ $model->Fecha_muestreo}}</p>
                                 <input type="text" value="{{ $model->Fecha_muestreo}}" id="FechaMuestreo" hidden>
                                 <table class="table" id="phMuestra">
                                     <thead>
-                                        <button id="setPhMuestra" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+                                        <button id="setPhMuestra" type="button" class="btn-success"><i
+                                                class="fas fa-save"></i> Guardar</button>
                                         <tr>
                                             <th>Núm Muestra</th>
                                             @if (@$model->Id_norma != 5)
@@ -568,46 +587,74 @@
                                         $cont = 0;
                                         @endphp
                                         @foreach ($phMuestra as $item)
+                                        @php if ($item->Activo == 1) { $std = ""; } else { $std = "disabled"; } @endphp
                                         @php
                                         $cont++;
                                         @endphp
+                                        @if ($item->Promedio != NULL)
+                                        <tr id="trPh{{$item->Id_ph}}" class="bg-success">
+                                            @else
                                         <tr id="trPh{{$item->Id_ph}}">
+                                            @endif
                                             <td>{{$cont}}</td>
                                             @if (@$model->Id_norma != 5)
-                                                <td>
-                                                    <select id="materia{{$item->Id_ph}}">
-                                                        <option value="0">Sin seleccionar</option>
-                                                        <option value="Presente">Presente</option>
-                                                        <option value="Ausente">Ausente</option>
-                                                    </select>
-                                                </td>
+                                            <td>
+                                                <select id="materia{{$item->Id_ph}}" {{$std}}>
+                                                    @if ($item->Materia == "0") <option value="0" selected>Sin
+                                                        seleccionar</option> @else <option value="0">Sin seleccionar
+                                                    </option> @endif
+                                                    @if ($item->Materia == "Presente") <option value="Presente"
+                                                        selected>Presente</option> @else <option value="Presente">
+                                                        Presente</option> @endif
+                                                    @if ($item->Materia == "Ausente") <option value="Ausente" selected>
+                                                        Ausente</option> @else <option value="Ausente">Ausente</option>
+                                                    @endif
+                                                </select>
+                                            </td>
                                             @endif
                                             <td>
-                                                <select id="olor{{$item->Id_ph}}">
-                                                    <option value="0">Sin seleccionar</option>
-                                                    <option value="Si">Si</option>
-                                                    <option value="No">No</option>
+                                                <select id="olor{{$item->Id_ph}}" {{$std}}>
+                                                    @if ($item->Olor == "0") <option value="0" selected>Sin seleccionar
+                                                    </option> @else <option value="0">Sin seleccionar</option> @endif
+                                                    @if ($item->Olor == "Si") <option value="Si" selected>Si</option>
+                                                    @else <option value="Si">Si</option> @endif
+                                                    @if ($item->Olor == "No") <option value="No" selected>No</option>
+                                                    @else <option value="No">No</option> @endif
                                                 </select>
                                             </td>
                                             <td>
-                                                <select id="color{{ $item->Id_ph }}">
+                                                <select id="color{{ $item->Id_ph }}" {{$std}}>
                                                     @foreach ($color as $item2)
-                                                    <option value="{{$item2->Id_color}}">{{$item2->Color}}</option>
+                                                    @if ($item->Color == $item2->Color)
+                                                    <option value="{{$item2->Color}}" selected>{{$item2->Color}}
+                                                    </option>
+                                                    @else
+                                                    <option value="{{$item2->Color}}">{{$item2->Color}}</option>
+                                                    @endif
                                                     @endforeach
                                                 </select>
                                             </td>
-                                            <td><input type="number" id="ph1{{ $item->Id_ph }}" onkeyup="valPhMuestra('{{$item->Id_ph}}')">
+                                            <td><input type="number" id="ph1{{ $item->Id_ph }}"
+                                                    onkeyup="valPhMuestra('{{$item->Id_ph}}')" value="{{$item->Ph1}}"
+                                                    {{$std}}>
                                             </td>
-                                            <td><input type="number" id="ph2{{ $item->Id_ph }}" onkeyup="valPhMuestra('{{$item->Id_ph}}')">
+                                            <td><input type="number" id="ph2{{ $item->Id_ph }}"
+                                                    onkeyup="valPhMuestra('{{$item->Id_ph}}')" value="{{$item->Ph2}}"
+                                                    {{$std}}>
                                             </td>
-                                            <td><input type="number" id="ph3{{ $item->Id_ph }}" onkeyup="valPhMuestra('{{$item->Id_ph}}')">
+                                            <td><input type="number" id="ph3{{ $item->Id_ph }}"
+                                                    onkeyup="valPhMuestra('{{$item->Id_ph}}')" value="{{$item->Ph3}}"
+                                                    {{$std}}>
                                             </td>
                                             <td>
-                                                <input type="text" step="any" style="border: none;" id="phProm{{ $item->Id_ph }}" value="{{@$item->Promedio}}" disabled></td>
-                                            <td style="display:flex">
-                                                <input type="datetime-local" id="phf{{ $item->Id_ph }}" value="{{@$item->Fecha}}">
+                                                <input type="text" step="any" style="border: none;"
+                                                    id="phProm{{ $item->Id_ph }}" value="{{@$item->Promedio}}" disabled>
                                             </td>
-                                            <td><input type="text" id="phStatus1{{$item->Id_ph}}" value= "1" hidden></td>
+                                            <td style="display:flex">
+                                                <input type="datetime-local" id="phf{{ $item->Id_ph }}"
+                                                    value="{{@$item->Fecha}}">
+                                            </td>
+                                            <td><input type="text" id="phStatus{{$item->Id_ph}}" value="1" hidden></td>
                                         </tr>
                                         @endforeach
                                     </tbody>
@@ -618,7 +665,8 @@
                                 <p>Temperatura del agua </p>
                                 <table class="table" id="tempAgua">
                                     <thead>
-                                    <button type="button" id="btnTempAgua" onclick="GuardarTempAgua()" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+                                        <button type="button" id="btnTempAgua" onclick="GuardarTempAgua()"
+                                            class="btn-success"><i class="fas fa-save"></i> Guardar</button>
                                         <tr>
                                             <th>Núm Muestra</th>
                                             <th>Temperatura 1 (°C)</th>
@@ -632,145 +680,102 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @for ($i = 0; $i < $model->Num_tomas; $i++)
-
-                                            @if (@$tempMuestra[$i]->Activo == 1 || is_null(@$tempMuestra[$i]->Activo)||
-                                            is_null(@$tempMuestra[$i]))
-                                            @php
-                                            $sw = false;
-                                            @endphp
-                                            @elseif (@$tempMuestra[$i]->Activo == 0)
-                                            @php
-                                            $sw = true;
-                                            @endphp
-                                            @endif
-
-                                            <tr id="filaTemp{{$i}}">
-                                                <td>{{$i + 1}}</td>
-
-                                                <td><input type="number" id="temp1{{ $i }}">
-                                                </td>
-
-                                                <td>
-                                                    <p id="factorTemp1{{ $i }}"></p>
-                                                </td>
-
-                                                <td><input type="number" id="temp2{{ $i }}"f>
-                                                </td>
-
-                                                <td>
-                                                    <p id="factorTemp2{{ $i }}"></p>
-                                                </td>
-
-                                                <td><input type="number" id="temp3{{ $i }}">
-                                                </td>
-
-                                                <td>
-                                                    <p id="factorTemp3{{ $i }}"></p>
-                                                </td>
-
-                                                <td>
-                                                    <p id="tempprom1{{ $i }}">{{@$tempMuestra[$i]->Promedio}}</p>
-                                                </td>
-
-                                                <td><input type="text" id="tempprom{{ $i }}"
-                                                        value="{{@$tempMuestra[$i]->Promedio}}" hidden></td>
-
-                                                @if (!is_null(@$tempMuestra[$i]->Activo))
-                                                <td><input type="text" id="tempStatus1{{$i + 1}}"
-                                                        value="{{@$tempMuestra[$i]->Activo}}" hidden></td>
-                                                @else
-                                                <td><input type="text" id="tempStatus1{{$i + 1}}" value="1" hidden></td>
-                                                @endif
-                                            </tr>
-                                            @endfor
+                                        @foreach ($tempMuestra as $item)
+                                        @php if ($item->Activo == 1) { $std = ""; } else { $std = "disabled"; } @endphp
+                                        <tr id="trTempAgua{{$item->Id_temperatura}}"> @if ($general->Criterio ==
+                                            "Aceptado")
+                                        <tr class="bg-success">
+                                            @else
+                                        <tr>
+                                            @endif <td>{{$item->Num_toma}}</td>
+                                            <td>
+                                                <input type="number" id="temp1{{ $item->Id_temperatura }}"
+                                                    value="{{$item->TemperaturaSin1}}"
+                                                    onkeyup="valTemperaturaAgua({{$item->Id_temperatura}})" {{$std}}>
+                                            </td>
+                                            <td>
+                                                <input type="number" id="tempSin1{{ $item->Id_temperatura }}"
+                                                    value="{{$item->Temperatura1}}" disabled>
+                                            </td>
+                                            <td>
+                                                <input type="number" id="temp2{{ $item->Id_temperatura }}"
+                                                    value="{{$item->TemperaturaSin2}}"
+                                                    onkeyup="valTemperaturaAgua({{$item->Id_temperatura}})" {{$std}}>
+                                            </td>
+                                            <td>
+                                                <input type="number" id="tempSin2{{ $item->Id_temperatura }}"
+                                                    value="{{$item->Temperatura2}}" disabled>
+                                            </td>
+                                            <td>
+                                                <input type="number" id="temp3{{ $item->Id_temperatura }}"
+                                                    value="{{$item->TemperaturaSin3}}"
+                                                    onkeyup="valTemperaturaAgua({{$item->Id_temperatura}})" {{$std}}>
+                                            </td>
+                                            <td>
+                                                <input type="number" id="tempSin3{{ $item->Id_temperatura }}"
+                                                    {{$item->Temperatura3}} disabled>
+                                            </td>
+                                            <td>
+                                                <input type="text" id="tempprom{{ $item->Id_temperatura }}"
+                                                    value="{{$item->Promedio}}" disabled>
+                                            </td>
+                                            <td><input type="text" id="tempStatus{{$item->Id_temperatura}}" value="1"
+                                                    hidden></td>
+                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
-                               
+
                             </div>
 
                             <div class="col-md-12">
                                 <p>Temperatura del ambiente </p>
-                                <table class="table" id="tempAgua">
+                                <table class="table" id="tabTempAmbiente">
                                     <thead>
-                                    <button type="button" id="btnTempAmb" onclick="GuardarTempAmb()" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+                                        <button type="button" id="btnTempAmb" onclick="GuardarTempAmb()"
+                                            class="btn-success"><i class="fas fa-save"></i> Guardar</button>
                                         <tr>
                                             <th>Núm Muestra</th>
                                             <th>Temperatura 1 (°C)</th>
+                                            <th>Fact. Aplicado</th>
                                             <th>Temperatura corregida</th>
-                                            <th>Temperatura 2 (°C)</th>
-                                            <th>Temperatura corregida</th>
-                                            <th>Temperatura 3 (°C)</th>
-                                            <th>Temperatura corregida</th>
-                                            <th>Temperatura Promedio (°C)</th>
                                             <th hidden>Estados</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @for ($i = 0; $i < $model->Num_tomas; $i++)
+                                        @foreach ($tempAmbiente as $item)
+                                        <tr id="trTempAmbiente{{$item->Id_temperatura}}">
+                                            <td>{{$item->Num_toma}}</td>
+                                            <td>
+                                                <input type="number" id="tempa1{{ $item->Id_temperatura }}"
+                                                    value="{{$item->TemperaturaSin1}}"
+                                                    onkeyup="valTemperaturaAmbiente({{$item->Id_temperatura}})">
+                                            </td>
+                                            <td>
+                                                <input type="number" id="tempaApl1{{ $item->Id_temperatura }}"
+                                                    value="{{$item->Fact_apl}}" disabled>
+                                            </td>
+                                            <td>
+                                                <input type="number" id="tempaSin1{{ $item->Id_temperatura }}"
+                                                    value="{{$item->Temperatura1}}" disabled>
+                                            </td>
+                                            <td><input type="text" id="tempAStatus{{$item->Id_temperatura}}" value="1"
+                                                    hidden></td>
+                                        </tr>
+                                        @endforeach
 
-                                            @if (@$tempAmbiente[$i]->Activo == 1 ||
-                                            is_null(@$tempAmbiente[$i]->Activo)|| is_null(@$tempAmbiente[$i]))
-                                            @php
-                                            $sw = false;
-                                            @endphp
-                                            @elseif (@$tempAmbiente[$i]->Activo == 0)
-                                            @php
-                                            $sw = true;
-                                            @endphp
-                                            @endif
-
-                                            <tr id="filaTemp{{$i}}">
-                                                <td>{{$i + 1}}</td>
-
-                                                <td><input type="number" id="tempa1{{ $i }}">
-                                                </td>
-
-                                                <td>
-                                                    <p id="factorTemp1{{ $i }}"></p>
-                                                </td>
-
-                                                <td><input type="number" id="temp2{{ $i }}">
-                                                </td>
-
-                                                <td>
-                                                    <p id="factorTemp2{{ $i }}"></p>
-                                                </td>
-
-                                                <td><input type="number" id="temp3{{ $i }}">
-                                                </td>
-
-                                                <td>
-                                                    <p id="factorTempa3{{ $i }}"></p>
-                                                </td>
-
-                                                <td>
-                                                    <p id="tempproma1Amb{{ $i }}">{{@$tempAmbiente[$i]->Promedio}}</p>
-                                                </td>
-
-                                                <td><input type="text" id="temppromAmb{{ $i }}"
-                                                        value="{{@$tempAmbiente[$i]->Promedio}}" hidden></td>
-
-                                                @if (!is_null(@$tempAmbiente[$i]->Activo))
-                                                <td><input type="text" id="tempaStatus1{{$i + 1}}"
-                                                        value="{{@$tempAmbiente[$i]->Activo}}" hidden></td>
-                                                @else
-                                                <td><input type="text" id="tempaStatus1{{$i + 1}}" value="1" hidden>
-                                                </td>
-                                                @endif
-                                            </tr>
-                                            @endfor
                                     </tbody>
                                 </table>
-                                   
-                               
+
+
                             </div>
-                            
+
                             <div class="col-md-12">
                                 <p>PH control calidad</p>
                                 <table class="table" id="phControlCalidadMuestra">
                                     <thead>
-                                    <button type="button" id="btnTempAmb" onclick="GuardarPhConCalidad()" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+                                        <button type="button" onclick="GuardarPhControlCalidad()" class="btn-success"><i
+                                                class="fas fa-save"></i> Guardar</button>
                                         <tr>
                                             <th>Núm Muestra</th>
                                             <th>PH calidad</th>
@@ -783,87 +788,48 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @for ($i = 0; $i < $model->Num_tomas; $i++)
-                                            @if (@$phCalidadCampo[$i]->Activo == 1 ||
-                                            is_null(@$phCalidadCampo[$i]->Activo)|| is_null(@$phCalidadCampo[$i]))
-                                            @php
-                                            $sw = false;
-                                            @endphp
-                                            @elseif (@$phCalidadCampo[$i]->Activo == 0)
-                                            @php
-                                            $sw = true;
-                                            @endphp
-                                            @endif
+                                        @foreach ($phCalidadCampo as $item)
+                                        @php if ($item->Activo == 1) { $std = ""; } else { $std = "disabled"; } @endphp
+                                        <tr id="trCalidadMuestra{{$item->Id_phCalidad}}">
+                                            <td>{{$item->Num_toma}}</td>
+                                            <td>
+                                                <select id="phControlMuestra{{$item->Id_phCalidad}}" {{$std}}>
+                                                    <option value="0">Sin seleccionar</option>
+                                                    @if ($item->Ph_calidad == 7)
+                                                    <option value="7" selected>7</option>
+                                                    @else
+                                                    <option value="7">7</option>
+                                                    @endif
+                                                </select>
+                                            </td>
+                                            <td>
+                                                <input type="number" step="any" value="{{$item->Lectura1}}"
+                                                    onkeyup="valPhCalidadMuestra('{{$item->Id_phCalidad}}')"
+                                                    id="phCM1{{$item->Id_phCalidad}}" {{$std}}>
+                                            </td>
 
-                                            <tr id="filaPhConCal{{$i}}">
-                                                <td>{{$i + 1}}</td>
+                                            <td>
+                                                <input type="number" step="any" value="{{$item->Lectura2}}"
+                                                    onkeyup="valPhCalidadMuestra('{{$item->Id_phCalidad}}')"
+                                                    id="phCM2{{$item->Id_phCalidad}}" {{$std}}>
+                                            </td>
 
-                                                <td>
-                                                    <select id="phControlCalidadMuestra{{$i + 1}}" @if (@$sw==true)
-                                                        disabled @endif>
-                                                        @if (@$phCalidadCampo[$i]->Ph_calidad == 0)
-                                                        @php
-                                                        $valueSelected = 0;
-                                                        @endphp
-                                                        @else
-                                                        @php
-                                                        $valueSelected = 7;
-                                                        @endphp
-                                                        @endif
-
-                                                        <option value="0" @if ($valueSelected==0) selected @endif>Sin
-                                                            seleccionar</option>
-
-                                                        <option value="7" @if ($valueSelected==7) selected @endif>
-                                                            {{@$phControlCalidad->Ph_calidad}}</option>
-                                                    </select>
-                                                </td>
-
-                                                <td>
-                                                    <input type="number" step="any" class="" id="phCM1{{$i+1}}"
-                                                        onkeyup="valPhCalidadMuestra('phCM1{{$i+1}}','phCM2{{$i+1}}','phCM3{{$i+1}}','phCMEstado1{{$i + 1}}','phCMPromedio1{{$i + 1}}', 'phControlCalidadMuestra{{$i + 1}}')"
-                                                        oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                                        maxlength="5"
-                                                        onblur='validacionPhCalidadMuestra("phCM1{{$i+1}}", "phCM2{{$i+1}}", "phCM3{{$i+1}}", "phCM1{{$i+1}}", "phControlCalidadMuestra{{$i + 1}}")'
-                                                        value="{{@$phCalidadCampo[$i]->Lectura1}}" @if (@$sw==true)
-                                                        disabled @endif>
-                                                </td>
-
-                                                <td>
-                                                    <input type="number" step="any" class="" id="phCM2{{$i+1}}"
-                                                        onkeyup="valPhCalidadMuestra('phCM1{{$i+1}}','phCM2{{$i+1}}','phCM3{{$i+1}}','phCMEstado1{{$i + 1}}','phCMPromedio1{{$i + 1}}', 'phControlCalidadMuestra{{$i + 1}}')"
-                                                        oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                                        maxlength="5"
-                                                        onblur='validacionPhCalidadMuestra("phCM1{{$i+1}}", "phCM2{{$i+1}}", "phCM3{{$i+1}}", "phCM2{{$i+1}}", "phControlCalidadMuestra{{$i + 1}}")'
-                                                        value="{{@$phCalidadCampo[$i]->Lectura2}}" @if (@$sw==true)
-                                                        disabled @endif>
-                                                </td>
-
-                                                <td>
-                                                    <input type="number" step="any" class="" id="phCM3{{$i+1}}"
-                                                        onkeyup="valPhCalidadMuestra('phCM1{{$i+1}}','phCM2{{$i+1}}','phCM3{{$i+1}}','phCMEstado1{{$i + 1}}','phCMPromedio1{{$i + 1}}', 'phControlCalidadMuestra{{$i + 1}}')"
-                                                        oninput="if(this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                                        maxlength="5"
-                                                        onblur='validacionPhCalidadMuestra("phCM1{{$i+1}}", "phCM2{{$i+1}}", "phCM3{{$i+1}}", "phCM3{{$i+1}}", "phControlCalidadMuestra{{$i + 1}}")'
-                                                        value="{{@$phCalidadCampo[$i]->Lectura3}}" @if (@$sw==true)
-                                                        disabled @endif>
-                                                </td>
-
-                                                <td>
-                                                    <input type="text" id="phCMEstado1{{$i + 1}}" disabled>
-                                                </td>
-                                                <td><input type="text" id="phCMPromedio1{{$i + 1}}"
-                                                        value="{{@$phCalidadCampo[$i]->Promedio}}" disabled>
-                                                </td>
-
-                                                @if (!is_null(@$phCalidadCampo[$i]->Activo))
-                                                <td><input type="text" id="phCMStatus1{{$i + 1}}"
-                                                        value="{{@$phCalidadCampo[$i]->Activo}}" hidden></td>
-                                                @else
-                                                <td><input type="text" id="phCMStatus1{{$i + 1}}" value="1" hidden></td>
-                                                @endif
-                                            </tr>
-                                            @endfor
+                                            <td>
+                                                <input type="number" step="any" value="{{$item->Lectura3}}"
+                                                    onkeyup="valPhCalidadMuestra('{{$item->Id_phCalidad}}')"
+                                                    id="phCM3{{$item->Id_phCalidad}}" {{$std}}>
+                                            </td>
+                                            <td>
+                                                <input type="text" id="phCMEstado{{$item->Id_phCalidad}}"
+                                                    value="{{$item->Estado}}" disabled>
+                                            </td>
+                                            <td><input type="text" id="phCMPromedio{{$item->Id_phCalidad}}"
+                                                    value="{{$item->Promedio}}" disabled>
+                                            </td>
+                                            <td><input type="text" id="phCMStatus{{$item->Id_phCalidad}}" value="1"
+                                                    hidden></td>
+                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -872,7 +838,8 @@
                                 <p>Conductividad</p>
                                 <table class="table" id="conductividad">
                                     <thead>
-                                    <button type="button" id="btnConductividad" onclick="GuardarConductividad()" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+                                        <button type="button" id="btnConductividad" onclick="GuardarConductividad()"
+                                            class="btn-success"><i class="fas fa-save"></i> Guardar</button>
                                         <tr>
                                             <th>Núm Muestra</th>
                                             <th>Conductividad 1 (µS)</th>
@@ -883,46 +850,31 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @for ($i = 0; $i < $model->Num_tomas; $i++)
-
-                                            @if (@$conductividadMuestra[$i]->Activo == 1 ||
-                                            is_null(@$conductividadMuestra[$i]->Activo) ||
-                                            is_null(@$conductividadMuestra[$i]))
-                                            @php
-                                            $sw = false;
-                                            @endphp
-                                            @elseif (@$conductividadMuestra[$i]->Activo == 0)
-                                            @php
-                                            $sw = true;
-                                            @endphp
-                                            @endif
-
-                                            <tr id="filaCond{{$i}}">
-
-                                                <td>{{$i + 1}}</td>
-
-                                                <td><input type="text" id="con1{{ $i }}">
-                                                </td>
-                                                <td><input type="text" id="con2{{ $i }}">
-                                                </td>
-                                                <td><input type="text" id="con3{{ $i }}">
-                                                </td>
-                                                <td>
-                                                    <p id="conprom1{{ $i }}">{{@$conductividadMuestra[$i]->Promedio}}
-                                                    </p>
-                                                </td>
-
-                                                @if (!is_null(@$conductividadMuestra[$i]->Activo))
-                                                <td><input type="text" id="condStatus1{{$i + 1}}"
-                                                        value="{{@$conductividadMuestra[$i]->Activo}}" hidden></td>
-                                                @else
-                                                <td><input type="text" id="condStatus1{{$i + 1}}" value="1" hidden></td>
-                                                @endif
-
-                                                <td><input type="text" id="conprom{{ $i }}"
-                                                        value="{{@$conductividadMuestra[$i]->Promedio}}" hidden></td>
-                                            </tr>
-                                            @endfor
+                                        @foreach ($conductividadMuestra as $item)
+                                        @php if ($item->Activo == 1) { $std = ""; } else { $std = "disabled"; } @endphp
+                                        <tr id="trConducMuestra{{$item->Id_conductividad}}">
+                                            <td>{{$item->Num_toma}}</td>
+                                            <td><input type="number"
+                                                    onkeyup="valConMuestra({{$item->Id_conductividad}})"
+                                                    id="con1{{ $item->Id_conductividad }}"
+                                                    value="{{$item->Conductividad1}}" {{$std}}></td>
+                                            <td><input type="number"
+                                                    onkeyup="valConMuestra({{$item->Id_conductividad}})"
+                                                    id="con2{{ $item->Id_conductividad }}"
+                                                    value="{{$item->Conductividad2}}" {{$std}}></td>
+                                            <td><input type="number"
+                                                    onkeyup="valConMuestra({{$item->Id_conductividad}})"
+                                                    id="con3{{ $item->Id_conductividad }}"
+                                                    value="{{$item->Conductividad3}}" {{$std}}></td>
+                                            <td><input type="number"
+                                                    onkeyup="valConMuestra({{$item->Id_conductividad}})"
+                                                    id="conProm{{$item->Id_conductividad}}" value="{{$item->Promedio}}"
+                                                    disabled></td>
+                                            <td><input type="number"
+                                                    onkeyup="valConMuestra({{$item->Id_conductividad}})"
+                                                    id="conStatus{{$item->Id_conductividad}}" value="1" hidden></td>
+                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -931,7 +883,8 @@
                                 <p>Gasto</p>
                                 <table class="table" id="gasto">
                                     <thead>
-                                    <button type="button" id="btnGasto" onclick="GuardarGasto()" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+                                        <button type="button" id="btnGasto" onclick="GuardarGasto()"
+                                            class="btn-success"><i class="fas fa-save"></i> Guardar</button>
                                         <tr>
                                             <th>Núm Muestra</th>
                                             <th>Gasto 1 (L/s)</th>
@@ -942,55 +895,34 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @for ($i = 0; $i < $model->Num_tomas; $i++)
-
-                                            @if (@$gastoMuestra[$i]->Activo == 1 || is_null(@$gastoMuestra[$i]->Activo)
-                                            || is_null(@$gastoMuestra[$i]))
-                                            @php
-                                            $sw = false;
-                                            @endphp
-                                            @elseif(@$gastoMuestra[$i]->Activo == 0)
-                                            @php
-                                            $sw = true;
-                                            @endphp
-                                            @endif
-
-                                            <tr id="filaGasto{{$i}}">
-
-                                                <td>{{$i + 1}}</td>
-
-                                                <td><input type="text" id="gas1{{ $i }}">
-                                                </td>
-                                                <td><input type="text" id="gas2{{ $i }}">
-                                                </td>
-                                                <td><input type="text" id="gas3{{ $i }}">
-                                                </td>
-                                                <td>
-                                                    <p id="gasprom1{{ $i }}">{{@$gastoMuestra[$i]->Promedio}}</p>
-                                                </td>
-
-                                                @if (!is_null(@$gastoMuestra[$i]->Activo))
-                                                <td><input type="text" id="gastoStatus1{{$i + 1}}"
-                                                        value="{{@$gastoMuestra[$i]->Activo}}" hidden></td>
-                                                @else
-                                                <td><input type="text" id="gastoStatus1{{$i + 1}}" value="1" hidden>
-                                                </td>
-                                                @endif
-
-                                                <td><input type="text" id="gasprom{{ $i }}"
-                                                        value="{{@$gastoMuestra[$i]->Promedio}}" hidden></td>
-                                            </tr>
-                                            @endfor
+                                        @foreach ($gastoMuestra as $item)
+                                        @php if ($item->Activo == 1) { $std = ""; } else { $std = "disabled"; } @endphp
+                                        <tr id="trGastoMuestra{{$item->Id_gasto}}">
+                                            <td>{{$item->Num_toma}}</td>
+                                            <td><input type="text" id="gas1{{ $item->Id_gasto }}"
+                                                    onkeyup="valGastoMuestra({{$item->Id_gasto}})"
+                                                    value="{{$item->Gasto1}}" {{$std}}></td>
+                                            <td><input type="text" id="gas2{{ $item->Id_gasto }}"
+                                                    onkeyup="valGastoMuestra({{$item->Id_gasto}})"
+                                                    value="{{$item->Gasto2}}" {{$std}}></td>
+                                            <td><input type="text" id="gas3{{ $item->Id_gasto }}"
+                                                    onkeyup="valGastoMuestra({{$item->Id_gasto}})"
+                                                    value="{{$item->Gasto3}}" {{$std}}></td>
+                                            <td><input type="text" id="gasprom{{$item->Id_gasto}}"
+                                                    value="{{$item->Promedio}}" disabled></td>
+                                            <td><input type="text" id="gastoStatus{{$item->Id_gasto}}" value="1" hidden>
+                                            </td>
+                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
-
+                            <button type="button" id="btnSubir" class="btn btn-info btnSubir"><i
+                                    class="fas fa-arrow-up"></i>
+                                Subir</button>
                     </div>
 
-                    <button type="button" id="btnSaveMuestreo" onclick="setDataMuestreo()" class="btn btn-success"><i
-                            class="fa fa-save"></i> Guardar Todo</button>
 
-                    </form>
                 </div>
                 <div class="tab-pane fade" id="datosCompuestos" role="tabpanel" aria-labelledby="datosCompuestos-tab">
                     <form>
@@ -1015,7 +947,11 @@
                                     <select name="" id="aforoCompuesto" class="form-control">
                                         <option value="0">Sin seleccionar</option>
                                         @foreach ($aforo as $item)
+                                        @if ($compuesto->Metodo_aforo == $item->Id_aforo)
+                                        <option value="{{ $item->Id_aforo }}" selected>{{ $item->Aforo }}</option>
+                                        @else
                                         <option value="{{ $item->Id_aforo }}">{{ $item->Aforo }}</option>
+                                        @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -1026,8 +962,12 @@
                                     <select name="" id="conTratamientoCompuesto" class="form-control">
                                         <option value="0">Sin seleccionar</option>
                                         @foreach ($conTratamiento as $item)
-                                        <option value="{{ $item->Id_tratamiento }}">{{ $item->Tratamiento }}
+                                        @if ($compuesto->Con_tratamiento == $item->Id_tratamiento)
+                                        <option value="{{ $item->Id_tratamiento }}" selected>{{ $item->Tratamiento }}
                                         </option>
+                                        @else
+                                        <option value="{{ $item->Id_tratamiento }}">{{ $item->Tratamiento }}</option>
+                                        @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -1038,8 +978,12 @@
                                     <select name="" id="tipoTratamientoCompuesto" class="form-control">
                                         <option value="0">Sin seleccionar</option>
                                         @foreach ($tipo as $item)
-                                        <option value="{{ $item->Id_tratamiento }}">{{ $item->Tratamiento }}
+                                        @if ($compuesto->Tipo_tratamiento == $item->Id_tratamiento)
+                                        <option value="{{ $item->Id_tratamiento }}" selected>{{ $item->Tratamiento }}
                                         </option>
+                                        @else
+                                        <option value="{{ $item->Id_tratamiento }}">{{ $item->Tratamiento }}</option>
+                                        @endif
                                         @endforeach
                                     </select>
                                 </div>
@@ -1048,7 +992,7 @@
                                 <div class="form-group">
                                     <label for="">Procedimiento de Muestreo PE-10-02-</label>
                                     <input type="number" id="procedimientoCompuesto" class="form-control"
-                                        placeholder="Procedimiento">
+                                        placeholder="Procedimiento" value="{{$compuesto->Proce_muestreo}}">
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -1088,7 +1032,7 @@
                             </div>
 
                             <div class="col-md-12">
-                                <button class="btn btn-success" onclick="btnGenerar(); return false">Generar</button>
+                                <button class="btn btn-success" type="button" onclick="generarVmsi()">Generar</button>
 
                                 <table class="table" id="muestrasQi">
                                     <thead>
@@ -1138,7 +1082,7 @@
                                 <p>Signatario: {{ Auth::user()->name }}</p>
                             </div>
                             <div class="col-md-12">
-                                <button type="button" class="btn btn-success" onclick="setDataCompuesto()"><i
+                                <button type="button" class="btn btn-success" onclick="SetDatosCompuestos()"><i
                                         class="fa fa-save"></i> Guardar</button>
                             </div>
                         </div>
@@ -1186,6 +1130,8 @@
             </div>
         </div>
 
+
+
     </div>
 </div>
 
@@ -1202,7 +1148,7 @@
 
 {{-- Modal; Cancelar muestra --}}
 <div class="modal fade" id="modalProbar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog">
         <div class="modal-content">
 
             {{-- Modal; Header --}}
@@ -1218,24 +1164,24 @@
             {{-- Modal; Body --}}
             <div class="modal-body" id="modal">
 
-                <p>¿Qué número de muestra deseas cancelar?</p>
+                <center>
+                    <p>¿Qué número de muestra deseas cancelar?</p>
 
-                <select class="form-select" aria-label="Default select example" id="selectCancelMuestra">
-                    <option value="0" selected>Sin seleccionar</option>
+                    <select class="form-select" aria-label="Default select example" id="selectCancelMuestra">
+                        <option value="0" selected>Sin seleccionar</option>
+                        @for ($i = 1; $i <= $model->Num_tomas; $i++)
+                            <option value="{{$i}}">{{$i}}</option>
+                            @endfor
 
-                    @for ($i = 1; $i <= $model->Num_tomas; $i++)
-                        <option value={{$i}}>{{$i}}</option>
-                        @endfor
-
-                </select>
+                    </select>
+                </center>
 
             </div>
 
             {{-- Modal; Footer --}}
             <div class="modal-footer">
 
-                <button type="button" class="btn btn-secondary" {{-- data-dismiss="modal" --}}
-                    onclick="cancelaMuestra();">Aplicar</button>
+                <button type="button" class="btn btn-secondary" onclick="CancelarMuestra()">Aplicar</button>
 
             </div>
         </div>
@@ -1287,6 +1233,20 @@
         </div>
     </div>
 </div>
+
+<style>
+    .ir-arriba {
+        display: none;
+        padding: 20px;
+        background: #024959;
+        font-size: 20px;
+        color: #fff;
+        cursor: pointer;
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+    }
+</style>
 
 {{-- Fin modal; Revertir muestra --}}
 

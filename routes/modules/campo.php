@@ -19,9 +19,8 @@ Route::group(['prefix' => 'campo'], function () {
         Route::post('getConTrazable', [CampoController::class, 'getConTrazable']);
         Route::post('getConCalidad', [CampoController::class, 'getConCalidad']);
         Route::post('setDataGeneral', [CampoController::class, 'setDataGeneral']);
-
         Route::post('getFactorCorreccion', [CampoController::class, 'getFactorCorreccion']);
-        Route::post('setPhMuestra', [CampoController::class, 'setPhMuestra']);
+        Route::post('generarVmsi', [CampoController::class, 'generarVmsi']);
         // Route::post('getPhTrazable', [CampoController::class, 'getPhTrazable']);
         // Route::post('getPhCalidad', [CampoController::class, 'getPhCalidad']);
         // Route::post('getConTrazable', [CampoController::class, 'getConTrazable']);
@@ -34,11 +33,15 @@ Route::group(['prefix' => 'campo'], function () {
         // Route::post('setEvidencia', [CampoController::class, 'setEvidencia']);
 
         //guardado de tablas
+        Route::post('GuardarPhMuestra', [CampoController::class, 'GuardarPhMuestra']);
         Route::post('GuardarTempAgua', [CampoController::class, 'GuardarTempAgua']);
         Route::post('GuardarTempAmb', [CampoController::class, 'GuardarTempAmb']);
         Route::post('GuardarPhControlCalidad', [CampoController::class, 'GuardarPhControlCalidad']);
         Route::post('GuardarConductividad', [CampoController::class, 'GuardarConductividad']);
         Route::post('GuardarGasto', [CampoController::class, 'GuardarGasto']);
+   
+        Route::post('SetDatosCompuestos', [CampoController::class, 'SetDatosCompuestos']);
+        Route::post('CancelarMuestra', [CampoController::class, 'CancelarMuestra']);
     });
 
 

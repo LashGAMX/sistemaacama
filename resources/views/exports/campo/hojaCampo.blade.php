@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+    <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -163,21 +163,21 @@
                                 @endphp
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
-                                @if (!is_null(@$gastoMuestra[$i]->Promedio))
+                                @if (@$gastoMuestra[$i]->Activo == 1)
                                     {{@$gastoMuestra[$i]->Promedio}}
                                 @else
                                     ---
                                 @endif                                
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
-                                @if (!is_null(@$phMuestra[$i]->Materia))
+                                @if (@$phMuestra[$i]->Activo == 1)
                                     {{@$phMuestra[$i]->Materia}}
                                 @else
                                     ---
                                 @endif
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">                                
-                                @if (!is_null(@$phMuestra[$i]->Promedio))
+                                @if (@$phMuestra[$i]->Activo == 1)
                                     {{@$phMuestra[$i]->Promedio}}
                                 @else
                                     ---
@@ -185,11 +185,11 @@
                             </td>                            
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @php
-                                    echo number_format(@$tempMuestra[$i]->Promedio, 0, ".", ",");
+                                    echo number_format(@$tempAmbiente[$i]->Promedio, 0, ".", ",");
                                 @endphp
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
-                                @if (!is_null(@$tempMuestra[$i]->Promedio))                                    
+                                @if (@$phMuestra[$i]->Activo == 1)                           
                                     @php
                                         echo number_format(@$tempMuestra[$i]->Promedio, 0, ".", ",");
                                     @endphp
@@ -198,21 +198,21 @@
                                 @endif
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
-                                @if (!is_null(@$phMuestra[$i]->Olor))
+                                @if (@$phMuestra[$i]->Activo == 1)
                                     {{@$phMuestra[$i]->Olor}}
                                 @else
                                     ---
                                 @endif
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
-                                @if (!is_null(@$phMuestra[$i]->Color))
+                                @if (@$phMuestra[$i]->Activo == 1)
                                     {{@$phMuestra[$i]->Color}}
                                 @else
                                     ---
                                 @endif
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
-                                @if (!is_null(@$conMuestra[$i]->Promedio))
+                                @if (@$phMuestra[$i]->Activo == 1)
                                     {{@$conMuestra[$i]->Promedio}}
                                 @else
                                     ---

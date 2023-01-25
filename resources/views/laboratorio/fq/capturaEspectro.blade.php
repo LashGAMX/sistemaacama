@@ -102,7 +102,7 @@
             </div>
             <div class="col-md-12">
                 <div id="divTablaControles">
-                    <table class="table">
+                    <table class="table" id="tablaControles">
                         <thead>
                             <tr>
                                 <th>Opc</th>

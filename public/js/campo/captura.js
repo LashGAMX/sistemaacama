@@ -9,7 +9,302 @@ $(document).ready(function () {
     $("#setPhMuestra").click(function () {
       guardarPhMuestra()
     });
+    $(".btnSubir").click(function () {
+        $('body, html').animate({
+            scrollTop: '0px'
+        }, 300);
+    });
+      
 });
+function generarVmsi()
+{
+    let table = document.getElementById("muestrasQi")
+    let tab = '';
+    let prom = 0
+    $.ajax({
+        url: base_url + "/admin/campo/captura/generarVmsi", //archivo que recibe la peticion
+        type: "POST", //método de envio
+        data: {
+            idSolicitud:$("#idSolicitud").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+            tab += '<thead>';
+            tab += '    <tr>';
+            tab += '        <th>Núm muestra</th>';
+            tab += '        <th>Qi</th>';
+            tab += '        <th>Qt</th>';
+            tab += '        <th>Qi / Qt</th>';
+            tab += '        <th>Vmc</th>';
+            tab += '        <th>Vmsi</th>';
+            tab += '    </tr>';
+            tab += '</thead>';
+            $.each(response.model, function (key, item) { 
+                if(item.Activo != 0){
+                    prom = prom + parseFloat(item.Promedio)
+                }
+            });  
+            $.each(response.model, function (key, item) { 
+                tab += '<tr>'
+                tab += '    <td>'+item.Num_toma+'</td>'
+                if (item.Activo == 1) {
+                    tab += '    <td>'+item.Promedio+'</td>'
+                    tab += '    <td>'+prom.toFixed(2)+'</td>'
+                    tab += '    <td>'+item.Promedio+' / '+prom.toFixed(2)+'</td>'
+                    tab += '    <td>'+((parseFloat(item.Promedio) / prom).toFixed(2))+'</td>'
+                    tab += '    <td>'+((parseFloat(item.Promedio) / prom) * parseFloat($("#volCalculado").val())).toFixed(2)+'</td>'   
+                } else {
+                    tab += '    <td>------</td>'
+                    tab += '    <td>------</td>'
+                    tab += '    <td>------</td>'
+                    tab += '    <td>------</td>'
+                    tab += '    <td>------</td>'
+                }
+                tab += '</tr>'
+            });     
+            table.innerHTML = tab;
+        },
+    }); 
+}
+function valGastoMuestra(id) {
+    let sw = true;
+    let l1 = parseFloat(document.getElementById("gas1"+id).value);
+    let l2 = parseFloat(document.getElementById("gas2"+id).value);
+    let l3 = parseFloat(document.getElementById("gas3"+id).value);    
+
+
+    if ((l1 - l2) > 1 || (l1 - l2) < -1) {
+        sw = false;
+    }
+    if ((l1 - l3) > 1 || (l1 - l3) < -1) {
+        sw = false;
+    }
+    if ((l2 - l1) > 1 || (l2 - l1) < -1) {
+        sw = false;
+    }
+    if ((l2 - l3) > 1 || (l2 - l3) < -1) {
+        sw = false;
+    }
+    if ((l3 - l1) > 1 || (l3 - l1) < -1) {
+        sw = false;
+    }
+    if ((l3 - l2) > 1 || (l3 - l2) < -1) {
+        sw = false;
+    } 
+  
+    if(l1 == ""){
+        $("#gas1"+id).attr("placeholder","Lectura Vacía")
+        sw = false;
+    }
+    
+    if(l2 == ""){
+        $("#gas2"+id).attr("placeholder","Lectura Vacía")
+        sw = false;
+    }
+    
+    if(l3 == ""){
+        $("#gas3"+id).attr("placeholder","Lectura Vacía")
+        sw = false;
+    }
+
+    if (sw == true) {
+        $("#trGastoMuestra"+id).attr("class","bg-success")
+    } else {
+        $("#trGastoMuestra"+id).attr("class","bg-danger")
+    }
+    
+    $("#gasprom"+id).val(((l1 + l2 + l3) / 3).toFixed(2))
+
+
+    return sw;
+}
+function valConMuestra(id) {
+    let sw = true;
+    
+    let l1 = parseFloat(document.getElementById("con1"+id).value);
+    let l2 = parseFloat(document.getElementById("con2"+id).value);
+    let l3 = parseFloat(document.getElementById("con3"+id).value);
+    
+
+    //El valor entre ellos no debe diferir de 5 unidades de conductividad
+    if (l1 - l2 > 5 || l1 - l2 < -5) {
+        sw = false;
+    }
+    if (l1 - l3 > 5 || l1 - l3 < -5) {
+        sw = false;
+    }
+    if (l2 - l1 > 5 || l2 - l1 < -5) {
+        sw = false;
+    }
+    if (l2 - l3 > 5 || l2 - l3 < -5) {
+        sw = false;
+    }
+    if (l3 - l1 > 5 || l3 - l1 < -5) {
+        sw = false;
+    }
+    if (l3 - l2 > 5 || l3 - l2 < -5) {
+        sw = false;
+    }
+
+    if(l1 == ""){
+        $("#con1"+id).attr("placeholder","Lectura Vacía")
+        sw = false;
+    }
+    
+    if(l2 == ""){
+        $("#con2"+id).attr("placeholder","Lectura Vacía")
+        sw = false;
+    }
+    
+    if(l3 == ""){
+        $("#con3"+id).attr("placeholder","Lectura Vacía")
+        sw = false;
+    }
+
+
+    if (sw == true) {
+        $("#trConducMuestra"+id).attr("class","bg-success")
+    } else {
+        $("#trConducMuestra"+id).attr("class","bg-danger")
+    }
+    
+    $("#conProm"+id).val(((l1 + l2 + l3) / 3).toFixed(0))
+
+    return sw;
+}
+function valPhCalidadMuestra(id) {
+    console.log("valPhCalidadMuestra")
+    let l1 = parseFloat($("#phCM1"+id).val())
+    let l2 = parseFloat($("#phCM2"+id).val())
+    let l3 = parseFloat($("#phCM3"+id).val())
+    let ph = parseFloat($("#phControlMuestra"+id+" option:selected").text())
+    let porcentaje = 0
+    let temp = 0
+
+
+    let sw = false;
+    //nuevas variables
+    let sw1;
+    let sw2;
+    let sw3;
+    let sw4;
+    let sw5;
+    let sw6;
+    let sw7 = true;
+    let sw8 = true;
+    let sw9 = true;
+    
+    temp = (ph * 2) / 100
+    porcentaje = temp.toFixed(2)
+    
+    if (l1 > 4 && l1 < 9) {
+        sw = true;
+    } else if (l2 > 4 && l2 < 9) {
+        sw = true;
+    } else if (l1 > 4 && l1 < 9) {
+        sw = true;
+    } else {
+        sw = false;
+    }
+
+    // val if 0.03
+
+    r1 = parseFloat((l1 - l2).toFixed(2));
+    r2 = parseFloat((l1 - l3).toFixed(2));
+
+    r3 = parseFloat((l2 - l1).toFixed(2));
+    r4 = parseFloat((l2 - l3).toFixed(2));
+
+    r5 = parseFloat((l3 - l1).toFixed(2));
+    r6 = parseFloat((l3 - l2).toFixed(2));
+
+    if (r1 < -0.03 || r1 > 0.03) {
+        sw1 = false;
+    } else {
+        sw1 = true;
+    }
+
+    if (r2 < -0.03 || r2 > 0.03) {
+        sw2 = false;
+    } else {
+        sw2 = true;
+    }
+
+    if (r3 < -0.03 || r3 > 0.03) {
+        sw3 = false;
+    } else {
+        sw3 = true;
+    }
+
+    if (r4 < -0.03 || r4 > 0.03) {
+        sw4 = false;
+    } else {
+        sw4 = true;
+    }
+
+    if (r5 < -0.03 || r5 > 0.03) {
+        sw5 = false;
+    } else {
+        sw5 = true;
+    }
+
+    if (r6 < -0.03 || r6 > 0.03) {
+        sw6 = false;
+    } else {
+        sw6 = true;
+    }
+
+    //COMPROBACIÓN DE +/- 2%-----------------------------------------------------------------------------------------
+    if (parseFloat((l1 - ph).toFixed(2)) < porcentaje * -1 || parseFloat((l1 - ph).toFixed(2)) > porcentaje) {
+        sw7 = false;
+    }    
+
+    if (parseFloat((l2 - ph).toFixed(2)) < porcentaje * -1 || parseFloat((l2 - ph).toFixed(2)) > porcentaje) {
+        sw8 = false;
+    }    
+
+    if (parseFloat((l3 - ph).toFixed(2)) < porcentaje * -1 || parseFloat((l3 - ph).toFixed(2)) > porcentaje) {
+        sw9 = false;
+    }
+    //----------------------------------------------------------------------------------------------------------------    
+
+    if(sw1 == true && sw2 == true && sw3 == true && sw4 == true && sw5 == true && sw6 == true && sw7 == true && sw8 == true && sw9 == true){
+        sw = true;
+    }else{
+        sw = false;
+    }        
+
+   
+
+    if(l1 == ""){
+        $("#phCM1"+id).attr("placeholder","Lectura Vacía")
+        sw = false;
+    }
+    
+    if(l2 == ""){
+        $("#phCM2"+id).attr("placeholder","Lectura Vacía")
+        sw = false;
+    }
+    
+    if(l3 == ""){
+        $("#phCM3"+id).attr("placeholder","Lectura Vacía")
+        sw = false;
+    }
+
+    
+    if (sw == true) {
+        $("#phCMEstado"+id).val("Aprobado")
+        $("#trCalidadMuestra"+id).attr("class","bg-success")
+    } else {
+        $("#phCMEstado"+id).val("Rechazado")
+        $("#trCalidadMuestra"+id).attr("class","bg-danger")
+    }
+ 
+    $("#phCMPromedio"+id).val(((l1 + l2 + l3) / 3).toFixed(2))
+}
 function valTemperaturaAgua(id)
 {
     console.log("valTemperaturaAgua")
@@ -75,66 +370,15 @@ function valTemperaturaAgua(id)
 }
 function valTemperaturaAmbiente(id)
 {
-    console.log("valTemperaturaAgua")
+    console.log("valTemperaturaAmbiente")
     let l1 = parseFloat($("#tempa1"+id).val())
-    let l2 = parseFloat($("#tempa2"+id).val())
-    let l3 = parseFloat($("#tempa3"+id).val())
-    let sw = true
-    r1 = (l1 - l2).toFixed(2);
-    r2 = (l1 - l3).toFixed(2);
-    r3 = (l2 - l1).toFixed(2);
-    r4 = (l2 - l3).toFixed(2);
-    r5 = (l3 - l1).toFixed(2);
-    r6 = (l3 - l2).toFixed(2);    
 
-    if (r1 > 1 || r1 < -1) {
-        sw = false;
-    }
-
-    if (r2 > 1.0 || r2 < -1.0) {
-        sw = false;
-    }
- 
-    if (r3 > 1.0 || r3 < -1.0) {
-        sw = false;
-    }
-
-    if (r4 > 1.0 || r4 < -1.0) {
-        sw = false;
-    }
-
-    if (r5 > 1.0 || r5 < -1) {
-        sw = false;
-    }
-
-    if (r6 > 1.0 || r6 < -1) {
-        sw = false;
-    }
-    if (sw == true) {
-        inputBorderColor("tempa1"+id,'verde')
-        inputBorderColor("tempa2"+id,'verde')
-        inputBorderColor("tempa3"+id,'verde')
-    } else {
-        inputBorderColor("tempa1"+id,'rojo')
-        inputBorderColor("tempa2"+id,'rojo')
-        inputBorderColor("tempa3"+id,'rojo')
-    }
-    let temp = 0;
     $.each(factorCorrecion2, function (key, item) {    
         if(l1 >= parseFloat(item.De_c) && l1 < parseFloat(item.A_c)){
-            $("#tempaSin1"+id).val(l1 + parseFloat(item.Factor_aplicado))    
-            temp = temp + (l1 + parseFloat(item.Factor_aplicado))
-        }
-        if(l2 >= parseFloat(item.De_c) && l2 < parseFloat(item.A_c)){
-            $("#tempaSin2"+id).val(l2 + parseFloat(item.Factor_aplicado))
-            temp = temp + (l2 + parseFloat(item.Factor_aplicado))
-        }
-        if(l3 >= parseFloat(item.De_c) && l3 < parseFloat(item.A_c)){
-            $("#tempaSin3"+id).val(l3 + parseFloat(item.Factor_aplicado))
-            temp = temp + (l3 + parseFloat(item.Factor_aplicado))
+            $("#tempaSin1"+id).val((l1 + parseFloat(item.Factor_aplicado)).toFixed(0))    
+            $("#tempaApl1"+id).val(parseFloat(item.Factor_aplicado))    
         }
       });
-    $("#tempPromAmb"+id).val((temp / 3).toFixed(2))
 }
 function guardarPhMuestra()
 {
@@ -145,7 +389,7 @@ function guardarPhMuestra()
     let ph1 = new Array()
     let ph2 = new Array()
     let ph3 = new Array()
-    let promedio = new Array()
+    let promedio = new Array() 
     let fecha = new Array()
     let activo = new Array()
 
@@ -331,14 +575,14 @@ function GuardarTempAgua() {
     let tab = document.getElementById('tempAgua');
     
     for (let i = 0; i <numTomas ; i++) {
-        array1.push(tab.row[i+1].children[1].children[0].value);
-        arrayB1.push(tab.row[i+1].children[2].children[0].value);
-        array2.push(tab.row[i+1].children[3].children[0].value);
-        arrayB2.push(tab.row[i+1].children[4].children[0].value);
-        array3.push(tab.row[i+1].children[5].children[0].value);
-        arrayB3.push(tab.row[i+1].children[6].children[0].value);
-        promedio.push(tab.row[i+1].children[7].children[0].value);
-        estado.push(tab.row[i+1].children[8].children[0].value);
+        array1.push(tab.rows[i+1].children[1].children[0].value);
+        arrayB1.push(tab.rows[i+1].children[2].children[0].value); 
+        array2.push(tab.rows[i+1].children[3].children[0].value);
+        arrayB2.push(tab.rows[i+1].children[4].children[0].value);
+        array3.push(tab.rows[i+1].children[5].children[0].value);
+        arrayB3.push(tab.rows[i+1].children[6].children[0].value);
+        promedio.push(tab.rows[i+1].children[7].children[0].value);
+        estado.push(tab.rows[i+1].children[8].children[0].value);
         }
     
     $.ajax({
@@ -367,23 +611,15 @@ function GuardarTempAmb() {
 
     let array1 = new Array();
     let array2 = new Array();
-    let array3 = new Array();
-    let arrayB1 =new Array();
-    let arrayB2 =new Array();
-    let arrayB3 =new Array();
-    let promedio = new Array();
-    let estado = new Array();
-    let tab = document.getElementById('tempAmbiente');
+    let factor = new Array();
+    let activo = new Array();
+    let tab = document.getElementById('tabTempAmbiente');
     
     for (let i = 0; i <numTomas ; i++) {
-        array1.push(tab.row[i+1].children[1].children[0].value);
-        arrayB1.push(tab.row[i+1].children[2].children[0].value);
-        array2.push(tab.row[i+1].children[3].children[0].value);
-        arrayB2.push(tab.row[i+1].children[4].children[0].value);
-        array3.push(tab.row[i+1].children[5].children[0].value);
-        arrayB3.push(tab.row[i+1].children[6].children[0].value);
-        promedio.push(tab.row[i+1].children[7].children[0].value);
-        estado.push(tab.row[i+1].children[8].children[0].value);
+        array1.push(tab.rows[i+1].children[1].children[0].value);
+        factor.push(tab.rows[i+1].children[2].children[0].value); 
+        array2.push(tab.rows[i+1].children[3].children[0].value);
+        activo.push(tab.rows[i+1].children[4].children[0].value); 
         }
     $.ajax({
         url: base_url + "/admin/campo/captura/GuardarTempAmb", //archivo que recibe la peticion
@@ -391,13 +627,9 @@ function GuardarTempAmb() {
         data: {
             idSolicitud:$("#idSolicitud").val(),
             array1 :array1,
-            array2 :array2,
-            array3 :array3,
-            arrayB1:arrayB1,
-            arrayB2:arrayB2,
-            arrayB3:arrayB3,
-            promedio :promedio,
-            estado :estado,
+            array2 :array2, 
+            factor:factor,
+            activo:activo,
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -413,25 +645,19 @@ function GuardarPhControlCalidad() {
     let array2 = new Array();
     let array3 = new Array();
     let array4 = new Array();
-    let arrayB1 =new Array();
-    let arrayB2 =new Array();
-    let arrayB3 =new Array();
-    let arrayB4 =new Array();
     let promedio = new Array();
     let estado = new Array();
-    let tab = document.getElementById('tempAmbiente');
+    let activo = new Array();
+    let tab = document.getElementById('phControlCalidadMuestra');
     
     for (let i = 0; i <numTomas ; i++) {
-        array1.push(tab.row[i+1].children[1].children[0].value);
-        arrayB1.push(tab.row[i+1].children[2].children[0].value);
-        array2.push(tab.row[i+1].children[3].children[0].value);
-        arrayB2.push(tab.row[i+1].children[4].children[0].value);
-        array3.push(tab.row[i+1].children[5].children[0].value);
-        arrayB3.push(tab.row[i+1].children[6].children[0].value);
-        array4.push(tab.row[i+1].children[7].children[0].value);
-        arrayB4.push(tab.row[i+1].children[8].children[0].value);
-        promedio.push(tab.row[i+1].children[9].children[0].value);
-        estado.push(tab.row[i+1].children[10].children[0].value);
+        array1.push(tab.rows[i+1].children[1].children[0].value); 
+        array2.push(tab.rows[i+1].children[2].children[0].value);
+        array3.push(tab.rows[i+1].children[3].children[0].value); 
+        array4.push(tab.rows[i+1].children[4].children[0].value);
+        estado.push(tab.rows[i+1].children[5].children[0].value);
+        promedio.push(tab.rows[i+1].children[6].children[0].value);
+        activo.push(tab.rows[i+1].children[7].children[0].value);
         }
     $.ajax({
         url: base_url + "/admin/campo/captura/GuardarPhControlCalidad", //archivo que recibe la peticion
@@ -442,12 +668,9 @@ function GuardarPhControlCalidad() {
             array2 :array2 ,
             array3 :array3 ,
             array4 :array4 ,
-            arrayB1:arrayB1,
-            arrayB2:arrayB2,
-            arrayB3:arrayB3,
-            arrayB4:arrayB4,
-            promedio :promedio ,
+            promedio:promedio,
             estado :estado ,
+            activo:activo,
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -461,22 +684,27 @@ function GuardarConductividad() {
     let array1 = new Array();
     let array2 = new Array();
     let array3 = new Array();
+    let promedio = new Array();
+    let activo = new Array();
+    let tab = document.getElementById('conductividad');
+    
     for (let i = 0; i <numTomas ; i++) {
-        let temp1 = $("#con1"+i).val();
-        let temp2 = $("#con2"+i).val();
-        let temp3 = $("#con3"+i).val();
-        array1.push(temp1);
-        array2.push(temp2);
-        array3.push(temp3);
-    }
+        array1.push(tab.rows[i+1].children[1].children[0].value);
+        array2.push(tab.rows[i+1].children[2].children[0].value);
+        array3.push(tab.rows[i+1].children[3].children[0].value);
+        promedio.push(tab.rows[i+1].children[4].children[0].value);
+        activo.push(tab.rows[i+1].children[5].children[0].value);
+        }
     $.ajax({
         url: base_url + "/admin/campo/captura/GuardarConductividad", //archivo que recibe la peticion
         type: "POST", //método de envio
         data: {
             idSolicitud:$("#idSolicitud").val(),
-            array1: array1,
-            array2: array2,
-            array3: array3,
+            array1 :array1,
+            array2 :array2,
+            array3 :array3,
+            promedio :promedio,
+            activo :activo,
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -490,22 +718,27 @@ function GuardarGasto() {
     let array1 = new Array();
     let array2 = new Array();
     let array3 = new Array();
+    let promedio = new Array();
+    let estado = new Array();
+    let tab = document.getElementById('gasto');
+    
     for (let i = 0; i <numTomas ; i++) {
-        let temp1 = $("#gas1"+i).val();
-        let temp2 = $("#gas2"+i).val();
-        let temp3 = $("#gas3"+i).val();
-        array1.push(temp1);
-        array2.push(temp2);
-        array3.push(temp3);
-    }
+        array1.push(tab.rows[i+1].children[1].children[0].value);
+        array2.push(tab.rows[i+1].children[2].children[0].value);
+        array3.push(tab.rows[i+1].children[3].children[0].value);
+        promedio.push(tab.rows[i+1].children[4].children[0].value);
+        estado.push(tab.rows[i+1].children[5].children[0].value);
+        }
     $.ajax({
         url: base_url + "/admin/campo/captura/GuardarGasto", //archivo que recibe la peticion
         type: "POST", //método de envio
         data: {
             idSolicitud:$("#idSolicitud").val(),
-            array1: array1,
-            array2: array2,
-            array3: array3,
+            array1 :array1,
+            array2 :array2,
+            array3 :array3,
+            promedio :promedio,
+            estado :estado,
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -982,8 +1215,9 @@ function valPhTrazable(id) {
     return sw;
 }
 
-function getPhTrazable(id,idg) {
+function getPhTrazable(id,idg,sw) {
     let tab = document.getElementById("phTrazable")     
+    let tab2 = document.getElementById("phControlCalidad")     
     let id1 = tab.rows[1].children[0].children[0].value
     let id2 = tab.rows[2].children[0].children[0].value
     
@@ -1007,10 +1241,21 @@ function getPhTrazable(id,idg) {
                 $("#phTMarca"+idg).text(response.model.Marca) 
                 $("#phTLote"+idg).text(response.model.Lote) 
 
-                $("#phCalidad"+idg).val(response.model2.Ph_calidad) 
-                $("#phCNombre"+idg).text(response.model2.Ph_calidad) 
-                $("#phCMarca"+idg).text(response.model2.Marca) 
-                $("#phCLote"+idg).text(response.model2.Lote) 
+                if (sw == 1) {
+                    tab2.rows[1].children[0].children[0].value = response.model2.Ph_calidad
+                    tab2.rows[1].children[1].children[0].innerText = response.model2.Ph_calidad
+                    tab2.rows[1].children[2].children[0].innerText = response.model2.Marca
+                    tab2.rows[1].children[3].children[0].innerText = response.model2.Lote
+                } else {
+                    tab2.rows[2].children[0].children[0].value = response.model2.Ph_calidad
+                    tab2.rows[2].children[1].children[0].innerText = response.model2.Ph_calidad
+                    tab2.rows[2].children[2].children[0].innerText = response.model2.Marca
+                    tab2.rows[2].children[3].children[0].innerText = response.model2.Lote
+                }
+                // $("#phCalidad"+idg).val(response.model2.Ph_calidad) 
+                // $("#phCNombre"+idg).text(response.model2.Ph_calidad) 
+                // $("#phCMarca"+idg).text(response.model2.Marca) 
+                // $("#phCLote"+idg).text(response.model2.Marca) 
             },
         });
     }
@@ -1092,6 +1337,43 @@ function setDataGeneral() {
         },
     });
 }
+function muestraCancelada(num,std)
+{
+    let ph = document.getElementById("phMuestra")
+    let tempAg = document.getElementById("tempAgua")
+    let phC = document.getElementById("phControlCalidadMuestra")
+    let con = document.getElementById("conductividad")
+    let gas = document.getElementById("gasto")
+
+    //Ph
+    ph.rows[num].children[1].children[0].disabled = std;
+    ph.rows[num].children[2].children[0].disabled = std;
+    ph.rows[num].children[3].children[0].disabled = std;
+    ph.rows[num].children[4].children[0].disabled = std;
+    ph.rows[num].children[5].children[0].disabled = std;
+    ph.rows[num].children[6].children[0].disabled = std;
+
+    //Temp agua
+    tempAg.rows[num].children[1].children[0].disabled = std;
+    tempAg.rows[num].children[3].children[0].disabled = std;
+    tempAg.rows[num].children[5].children[0].disabled = std;
+
+    //phCalidad
+    phC.rows[num].children[1].children[0].disabled = std;
+    phC.rows[num].children[2].children[0].disabled = std;
+    phC.rows[num].children[3].children[0].disabled = std;
+    phC.rows[num].children[4].children[0].disabled = std;
+
+    //Conductividad
+    con.rows[num].children[1].children[0].disabled = std;
+    con.rows[num].children[2].children[0].disabled = std;
+    con.rows[num].children[3].children[0].disabled = std;
+
+    //Gasto
+    gas.rows[num].children[1].children[0].disabled = std;
+    gas.rows[num].children[2].children[0].disabled = std;
+    gas.rows[num].children[3].children[0].disabled = std;
+ }
 function inputBorderColor(id, color) {
     let cont = document.getElementById(id);
 
@@ -1109,3 +1391,22 @@ function inputBorderColor(id, color) {
             break;
     }
 }
+function CancelarMuestra(){
+    $.ajax({
+        url: base_url + "/admin/campo/captura/CancelarMuestra", //archivo que recibe la peticion
+        type: "POST", //método de envio
+        data: {
+            idSolicitud:$("#idSolicitud").val(),
+            muestra: $("#selectCancelMuestra").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+            muestraCancelada($("#selectCancelMuestra").val(),response.std)
+        }
+
+    });
+}
+
