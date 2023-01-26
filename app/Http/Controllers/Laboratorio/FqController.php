@@ -1125,7 +1125,8 @@ class FqController extends Controller
                 $detModel = LoteDetalleGA::where('Id_lote', $request->idLote)->get();
                 $sw = true;
                 break;
-            case 15: //todo Solidos
+            case 15:
+                 //todo Solidos
                 $model = LoteDetalleSolidos::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
@@ -1767,6 +1768,9 @@ class FqController extends Controller
                 $nom2 = "STV";
                 $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 49)->first();
                 break;
+                case 3: // SS
+                    $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 3)->first();
+                    break;
             default:
                 $dif1 = "Sin datos";
                 $dif2 = "Sin datos";
@@ -1810,6 +1814,18 @@ class FqController extends Controller
             'nom2' => $nom2,
             'dif1' => $dif1,
             'dif2' => $dif2,
+        );
+        return response()->json($data);
+    }
+    public function getDirectos(Request $request){ //SS
+        $model = LoteDetalleSolidos::find($request->idMuestra);
+        $model->Inmhoff = $request->inmhoff;
+        $model->Temp_muestraLlegada = $request->temp_muestraLlegada;
+        $model->Temp_muestraAnalizada = $request->temp_muestraAnalizada;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
         );
         return response()->json($data);
     }

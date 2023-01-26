@@ -8,7 +8,7 @@ $(document).ready(function() {
     $('#btnSeleccionar').click(function () {
         allSelectCheck("std");
     });
-    $('#btnSeleccionar').click(function () {
+    $('#btnAgregar').click(function () {
         sendMuestrasLote()
     });
 });
@@ -76,9 +76,11 @@ function getMuestras(sw)
                 if (model[i][7] == "") {
                     tab += '    <td>N/A</td>'
                     tab += '    <td>'+$("#fechaLote").val()+'</td>'   
+                    // tab += '    <td><input type="time" value="'+model[i][6]+'"></td>'  
                 } else {
                     tab += '    <td>'+model[i][6]+'</td>'
                     tab += '    <td class="text-warning">'+$("#fechaLote").val()+'</td>'
+                    // tab += '    <td><input type="time" value="'+model[i][6]+'"></td>'  
                 }
                 tab += '</tr>';
             }
@@ -90,12 +92,12 @@ function getMuestras(sw)
 }
 function sendMuestrasLote()
 { 
-    let muestra = document.getElementsByName("std")
-    let ids = new Array();
 
-    for(let i = 0; i < muestra.length;i++){
-        if (muestra[i].checked) {
-            ids.push(muestra[i].value);
+    let tab = document.getElementById("tablaLote")
+    let ids = new Array()
+    for (let i = 1; i < tab.rows.length; i++) {
+        if(tab.rows[i].children[0].children[0].checked){
+            ids.push(tab.rows[i].children[0].children[0].value)
         }
     }
     console.log(ids)
@@ -111,7 +113,7 @@ function sendMuestrasLote()
         async: false,
         success: function (response) {            
             console.log(response);
-        
+            getMuestras(2)
         }
     });
 }

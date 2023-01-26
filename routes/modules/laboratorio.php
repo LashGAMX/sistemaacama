@@ -31,6 +31,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('tipoAnalisis', [MetalesController::class, 'tipoAnalisis']);
         Route::get('captura', [MetalesController::class, 'captura']);
         Route::post('getDataCaptura', [MetalesController::class, 'getDataCaptura']);
+        Route::post('getCapturaLote', [MetalesController::class, 'getCapturaLote']);
         Route::post('setControlCalidad', [MetalesController::class, 'setControlCalidad']);
         Route::post('liberarMuestraMetal', [MetalesController::class, 'liberarMuestraMetal']);
         Route::post('liberarTodo', [MetalesController::class, 'liberarTodo']); //revisar método

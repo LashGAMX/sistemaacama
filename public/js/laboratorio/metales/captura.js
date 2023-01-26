@@ -41,7 +41,7 @@ function getDataCaptura() {
 
         $.ajax({ 
             type: "POST",
-            url: base_url + "/admin/laboratorio/"+area+"/getLote",
+            url: base_url + "/admin/laboratorio/"+area+"/getCapturaLote",
             data: {
                 formulaTipo: $("#formulaTipo").val(), 
                 fechaAnalisis: $("#fechaAnalisis").val(),

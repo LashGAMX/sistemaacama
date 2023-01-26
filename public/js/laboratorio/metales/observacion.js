@@ -67,7 +67,18 @@ function getServicio(id,tipo) {
             tab += '</table>';
             tabla.innerHTML = tab;
 
-            var table = $('#tablaClientes').DataTable();
+            var table =  $('#tablaClientes').DataTable({
+                "ordering": false,
+                "pageLength": 100,
+                "language": {
+                    "lengthMenu": "# _MENU_ por pagina",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",
+                },
+                "scrollY": 300,
+                "scrollCollapse": true
+            });
 
             $('#tablaClientes tbody').on('click', 'tr', function () {
                 if ($(this).hasClass('selected')) {
@@ -84,6 +95,7 @@ function getServicio(id,tipo) {
                 let dato = $(this).find('td:first').html();
                 idServicio = dato;
             });
+            
         }
     });
 }

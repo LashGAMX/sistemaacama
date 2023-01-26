@@ -15,6 +15,7 @@ use App\Models\DireccionReporte;
 use App\Models\GastoMuestra;
 use App\Models\Limite001;
 use App\Models\Limite002;
+use App\Models\LoteAnalisis;
 use App\Models\LoteDetalleColiformes;
 use App\Models\Norma;
 use App\Models\Parametro;
@@ -3333,28 +3334,29 @@ class InformesController extends Controller
     
         $limitesC = array();
 
-        $paquete = DB::table('ViewPlanPaquete')->where('Id_paquete', $model->Id_subnorma)->distinct()->get();
+        $paquete = DB::table('ViewPlanPaquete')->where('Id_paquete', $model->Id_subnorma)->where('Reportes',1)->distinct()->get();
         $paqueteLength = $paquete->count();
 
         $fechasSalidas = array();
-
         foreach ($paquete as $item) {
             // $modelDet = LoteDetalleColiformes::where('Id_analisis',$idSol)->where('Id_parametro',5)->first();
-            switch ($item->Id_area) {
-                case 1: // Arsenico
-                    $modelDet = DB::table('ViewLoteDetalle')->where('Id_analisis', $idSol)->where('Id_parametro', 17)->first();
+            $temp = Parametro::where('Id_parametro',$paquete->Parametro)->first();
+            $fechaTemp = "";
+            switch ($temp->Id_area) {
+                case 2: // Metales
+                    $modelDet = DB::table('ViewLoteDetalle')->where('Id_analisis', $idSol)->where('Id_parametro', $paquete->Parametro)->first();
+                    $loteTemp = LoteAnalisis::where('Id_lote',$modelDet->Id_lote)->first();
+                    $fechaTemp = $loteTemp->Fecha;
                     break;
-                case 19:
-                case 2: // Bacter
-                    $modelDet = DB::table('ViewLoteDetalle')->where('Id_analisis', $idSol)->where('Id_parametro', 17)->first();
+                case 6:
+                    $modelDet = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $idSol)->where('Id_parametro', $paquete->Parametro)->first();
+                    $loteTemp = LoteAnalisis::where('Id_lote',$modelDet->Id_lote)->first();
+                    $fechaTemp = $loteTemp->Fecha;
                     break;
-
                 default:
-                    # code...
-                    // $modelDet = DB::table('ViewLoteDetalle')->where('Id_analisis', $idSol)->where('Id_parametro', 17)->first();
                     break;
             }
-            array_push($fechasSalidas, "");
+            array_push($fechasSalidas, $fechaTemp);
         }
         $promGra = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->where('Num_muestra', 1)->first();
         $promCol = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 12)->where('Num_muestra', 1)->first();

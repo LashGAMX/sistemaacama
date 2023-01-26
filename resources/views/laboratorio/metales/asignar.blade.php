@@ -47,8 +47,8 @@
   </div>
   <div class="row">
     <div class="" style="float: right;">
-      <i class="fas fa-check-square text-info" id="btnSeleccionar"> Seleccionar Todo</i>&nbsp;&nbsp;&nbsp;&nbsp;
-      <i class="fas fa-check text-success" id="btnAgregar"></i>
+      <button id="btnSeleccionar" class="btn bg-info"><i class="fas fa-check-square " id=""> Seleccionar Todo</i></button>&nbsp;&nbsp;&nbsp;&nbsp;
+      <button id="btnAgregar" class="btn bg-success"><i class="fas fa-check " id=""></i></button>
     </div>
     <div class="col-md-12" id="divMuestra">
       <table class="table table-ms">

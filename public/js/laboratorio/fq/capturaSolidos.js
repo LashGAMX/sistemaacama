@@ -172,7 +172,7 @@ function getLoteCapturaSolidos() {
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDiferencia">Capturar</button>';
                         break;
                     case 3:
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDirecto">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDirectos(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalDirecto">Capturar</button>';
                         break;
                     default:
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleSolidos(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
@@ -392,6 +392,28 @@ function guardarDirecto() {
         success: function (response) {
             console.log(response);
           
+        }
+    });
+}
+function getDirectos(idDetalle, num){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/getDirectos",
+        data: {
+            inmhoff:$("#inmhoff").val(),
+            resultadoModal:$("#resultadoModal").val(),
+            temperaturaLlegada:$("#temperaturaLlegada").val(),
+            temperaturaAnalizada:$("#temperaturaAnalizada").val(),
+            num: num,
+            idLote: idLote,
+            idParametro: $("#formulaTipo").val(),
+            idDetalle: idDetalle,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response){
+            console.log(response);
+            getLoteCapturaSolidos();
         }
     });
 }

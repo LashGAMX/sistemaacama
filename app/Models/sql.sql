@@ -484,7 +484,7 @@ INNER JOIN proceso_analisis as pro
 ON sol.Id_solicitud = pro.Id_solicitud
 
 /* Lista ViewPlanPaquete */
-CREATE VIEW ViewPlanPaquete as SELECT p.*,lab.Area,lab.Id_responsable,us.name,us.firma,us.iniciales,e.Nombre as Envase,e.Volumen, u.Unidad FROM plan_paquete as p
+CREATE VIEW ViewPlanPaquete as SELECT p.*,lab.Area,lab.Id_responsable,lab.Parametro,lab.Reportes,us.name,us.firma,us.iniciales,e.Nombre as Envase,e.Volumen, u.Unidad FROM plan_paquete as p
 INNER JOIN areas_lab as lab
 ON p.Id_area = lab.Id_area
 INNER JOIN envase as e
