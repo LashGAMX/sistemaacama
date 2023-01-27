@@ -215,7 +215,7 @@ function setIngresar() {
         async: false,
         success: function (response) {
             console.log(response);
-           
+            alert("Muestra ingresada")
         }
     });
 }

@@ -379,7 +379,7 @@ class CampoController extends Controller
         }
         $data = array(
             'model' => $model,
-            'array' => $request->array1m
+            'array' => $request->array1,
         );
         return response()->json($data);
     }
@@ -1106,26 +1106,32 @@ class CampoController extends Controller
                     PhMuestra::create([
                         'Id_solicitud' => $item->Id_solicitud,
                         'Num_toma' => $i+1,
+                        'Activo' => 1,
                     ]);
                     TemperaturaMuestra::create([
                         'Id_solicitud' => $item->Id_solicitud,
                         'Num_toma' => $i+1,
+                        'Activo' => 1,
                     ]);
                     TemperaturaAmbiente::create([
                         'Id_solicitud' => $item->Id_solicitud,
                         'Num_toma' => $i+1,
+                        'Activo' => 1,
                     ]);
                     PhCalidadCampo::create([
                         'Id_solicitud' => $item->Id_solicitud,
                         'Num_toma' => $i+1,
+                        'Activo' => 1,
                     ]);
                     ConductividadMuestra::create([
                         'Id_solicitud' => $item->Id_solicitud,
                         'Num_toma' => $i+1, 
+                        'Activo' => 1,
                     ]);
                     GastoMuestra::create([
                         'Id_solicitud' => $item->Id_solicitud,
                         'Num_toma' => $i+1,
+                        'Activo' => 1,
                     ]);
                 }
             }

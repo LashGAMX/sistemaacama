@@ -917,9 +917,8 @@
                                     </tbody>
                                 </table>
                             </div>
-                            <button type="button" id="btnSubir" class="btn btn-info btnSubir"><i
-                                    class="fas fa-arrow-up"></i>
-                                Subir</button>
+                            <button type="button" id="btnGuardarTodo" class="btn btn-success"><i class="fas fa-save"></i>Guardar</button> &nbsp;
+                            <button type="button" id="btnSubir" class="btn btn-info btnSubir"><i class="fas fa-arrow-up"></i>Subir</button>
                     </div>
 
 

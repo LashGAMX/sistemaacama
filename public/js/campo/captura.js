@@ -14,6 +14,14 @@ $(document).ready(function () {
             scrollTop: '0px'
         }, 300);
     });
+    $("#btnGuardarTodo").click(function () {
+        guardarPhMuestra()
+        GuardarConductividad()
+        GuardarGasto()
+        GuardarTempAgua()
+        GuardarPhControlCalidad()
+        GuardarTempAmb()
+    });
       
 });
 function generarVmsi()
@@ -574,7 +582,7 @@ function GuardarTempAgua() {
     let estado = new Array();
     let tab = document.getElementById('tempAgua');
     
-    for (let i = 0; i <numTomas ; i++) {
+    for (let i = 0; i < numTomas ; i++) {
         array1.push(tab.rows[i+1].children[1].children[0].value);
         arrayB1.push(tab.rows[i+1].children[2].children[0].value); 
         array2.push(tab.rows[i+1].children[3].children[0].value);

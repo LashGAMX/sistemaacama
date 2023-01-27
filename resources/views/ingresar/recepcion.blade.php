@@ -25,8 +25,7 @@
                 <label class="datosGenerales">Descarga: <input type="text" id="descarga" disabled /></label>
                 <label class="datosGenerales">Cliente o Intermediario: <input type="text" size="50" id="cliente"  disabled /></label>
                 <label class="datosGenerales" >Empresa: <input type="text" size="50" id="empresa" disabled /></label>
-                <label class="fechas" >Hora recepción: <input type="datetime-local" step="1" id="hora_recepcion1" /></label>
-                <label class="fechas" >Hora entrada: <input type="datetime-local" step="1" id="hora_entrada"  /></label>
+                <label class="fechas" >Hora recepción: <br><input type="datetime-local" step="1" id="hora_recepcion1" /><br><input type="datetime-local" step="1" id="hora_entrada"  /></label>
             </div>
             <div class="col-md-12">
                 <label class="datosGenerales" for="finMuestreo">Fecha fin de muestreo:  <input type="text" id="finMuestreo" disabled  size="50"/></label>

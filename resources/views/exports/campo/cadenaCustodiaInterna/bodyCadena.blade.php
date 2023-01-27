@@ -71,39 +71,53 @@
                                 </td>
                                 <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paquete[$i]->name}}
                                 </td>
-                                @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 7 ||
-                                @$paquete[$i]->Id_area == 16 )
+                                
+                                @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 7 || @$paquete[$i]->Id_area == 16 )
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
                                     {{@$recibidos->count()}}</td>
                                 @else
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
                                     {{@$paquete[$i]->Cantidad}}</td>
                                 @endif
+
+                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">@if ($fechasSalidas[$i] != "") {{\Carbon\Carbon::parse($fechasSalidas[$i])->format('d/m/Y')}} @else <p style="color: red">Sin captura</p> @endif</td>
+
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                    {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}</td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                    @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 9 ||
-                                    @$paquete[$i]->Id_area == 16)
-                                    ---------------
+                                    @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 9 || @$paquete[$i]->Id_area == 16)
+                                    --------------- 
                                     @else
-                                    {{-- {{\Carbon\Carbon::parse(@$recepcion->Hora_entrada)->format('d/m/Y')}} --}}
-                                    {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}
+                                        @if ($fechasSalidas[$i] != "")
+                                            {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}
+                                        @else
+                                            <p style="color: red">Sin captura</p>
+                                        @endif
                                     @endif
                                 </td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                    @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 9 ||
-                                    @$paquete[$i]->Id_area == 16)
+                                    @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 9 || @$paquete[$i]->Id_area == 16)
                                     ---------------
                                     @else
-                                    {{\Carbon\Carbon::parse(@$recepcion->Hora_entrada)->addDays(14)->format('d/m/Y')}}
+                                        @if ($fechasSalidas[$i] != "")
+                                            {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}
+                                        @else
+                                            <p style="color: red">Sin captura</p>
+                                        @endif
                                     @endif
                                 </td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                    {{\Carbon\Carbon::parse(@$recepcion->Hora_entrada)->addDays(7)->format('d/m/Y')}}
+                                    @if ($fechasSalidas[$i] != "")
+                                        {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
+                                    @else
+                                        <p style="color: red">Sin captura</p>
+                                    @endif
                                 </td>
-                                <td class="justifyCenter bordesTablaInfIzqDer"><img
-                                        style="width: auto; height: auto; max-width: 45px; max-height: 25px;"
-                                        src="{{url('public/storage/'.@$paquete[$i]->firma)}}"></td>
+                                <td class="justifyCenter bordesTablaInfIzqDer">
+                                    @if ($fechasSalidas[$i] != "")
+                                        <img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="{{url('public/storage/'.@$paquete[$i]->firma)}}">
+                                    @else
+                                        <p style="color: red">Sin captura</p>
+                                    @endif
+                                </td>
                             </tr>
                             @endif
                             @endfor
