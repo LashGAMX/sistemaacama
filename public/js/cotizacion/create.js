@@ -1,6 +1,12 @@
 var swParametros = 0;
 var sw = $("#sw").val();
 $(document).ready(function () {
+  
+  $(".btnSubir").click(function () {
+    $('body, html').animate({
+        scrollTop: '0px'
+    }, 300);
+});
 
     $('#datos-tab').click();
 

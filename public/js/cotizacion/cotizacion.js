@@ -9,7 +9,9 @@ $(document).ready(function () {
             "info": "Pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay datos encontrados",   
         }
+        
     });
+
     $("#btnEdit").prop('disabled', true);
     $('#tablaCotizacion tbody').on( 'click', 'tr', function () { 
         if ( $(this).hasClass('selected') ) {

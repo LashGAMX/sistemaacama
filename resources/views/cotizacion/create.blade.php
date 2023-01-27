@@ -299,7 +299,9 @@
                             </div>
                             <input type="text" id="contPunto" name="contPunto" value="{{ $contPunto }}" hidden>
                         </div>
+                        <button type="button" id="btnSubir" class="btn btn-info btnSubir"><i class="fas fa-arrow-up"></i>Subir</button>
                     </div>
+                    
                     {{-- Fin datos --}}
                     {{-- Inicio parametros --}}
                     <div class="tab-pane fade" id="parametro" role="tabpanel" aria-labelledby="parametro-tab">
@@ -320,6 +322,7 @@
 
                                 </div>
                             </div>
+                            <button type="button" id="btnSubir" class="btn btn-info btnSubir"><i class="fas fa-arrow-up"></i>Subir</button>
                         </div>
 
                     </div>
@@ -662,6 +665,7 @@
                                 <button type="submit" class="btn btn-primary">Actualizar cotización</button>
                             @endif
                         </div>
+                        <button type="button" id="btnSubir" class="btn btn-info btnSubir"><i class="fas fa-arrow-up"></i>Subir</button>
                     </div>
 
                     <div class="col-md-12" hidden>                        
