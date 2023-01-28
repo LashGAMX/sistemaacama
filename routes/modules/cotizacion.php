@@ -11,31 +11,36 @@ use Illuminate\Support\Facades\Route;
 Route::group(['prefix' => 'cotizacion'], function () {
     Route::get('', [CotizacionController::class, 'index']);
     Route::get('create', [CotizacionController::class, 'create']);
-    Route::get('update/{id}', [CotizacionController::class, 'update']);
-    Route::post('getSubNorma', [CotizacionController::class, 'getSubNorma']); 
-    Route::post('getSubNormaId', [CotizacionController::class, 'getSubNormaId']);
-    Route::post('getNorma', [CotizacionController::class, 'getNorma']);
-    Route::post('getCliente', [CotizacionController::class, 'getCliente']);
-    Route::post('getDatos2', [CotizacionController::class, 'getDatos2']);
-    Route::post('setCotizacion', [CotizacionController::class, 'setCotizacion']); 
-    Route::post('getTomas', [CotizacionController::class, 'getTomas']);
-    Route::post('getCotizacionId', [CotizacionController::class, 'getCotizacionId']);
-    Route::post('getParametroCot', [CotizacionController::class, 'getParametroCot']);
-    Route::get('fecha', [CotizacionController::class, 'fecha']);
-    Route::post('getLocalidad', [CotizacionController::class,'getLocalidad']);
-    Route::post('precioMuestreo', [CotizacionController::class,'precioMuestreo']);
-    Route::post('cantidadGasolina', [CotizacionController::class,'cantidadGasolina']);
-    Route::post('updateCotizacion', [CotizacionController::class,'updateCotizacion']);
-    Route::get('duplicarCot/{idCot}', [CotizacionController::class, 'duplicar']);
-    Route::post('comprobarEdicion',[CotizacionController::class, 'comprobarEdicion']);
+    Route::post('getClientesIntermediarios',[CotizacionController::class, 'getClientesIntermediarios']); 
+    Route::post('getDataCliente',[CotizacionController::class, 'getDataCliente']); 
+    Route::post('getSucursal',[CotizacionController::class, 'getSucursal']); 
+    Route::post('setCotizacion',[CotizacionController::class, 'setCotizacion']); 
+
+    // Route::get('update/{id}', [CotizacionController::class, 'update']);
+    // Route::post('getSubNorma', [CotizacionController::class, 'getSubNorma']); 
+    // Route::post('getSubNormaId', [CotizacionController::class, 'getSubNormaId']);
+    // Route::post('getNorma', [CotizacionController::class, 'getNorma']);
+    // Route::post('getCliente', [CotizacionController::class, 'getCliente']);
+    // Route::post('getDatos2', [CotizacionController::class, 'getDatos2']);
+    // Route::post('setCotizacion', [CotizacionController::class, 'setCotizacion']); 
+    // Route::post('getTomas', [CotizacionController::class, 'getTomas']);
+    // Route::post('getCotizacionId', [CotizacionController::class, 'getCotizacionId']);
+    // Route::post('getParametroCot', [CotizacionController::class, 'getParametroCot']);
+    // Route::get('fecha', [CotizacionController::class, 'fecha']);
+    // Route::post('getLocalidad', [CotizacionController::class,'getLocalidad']);
+    // Route::post('precioMuestreo', [CotizacionController::class,'precioMuestreo']);
+    // Route::post('cantidadGasolina', [CotizacionController::class,'cantidadGasolina']);
+    // Route::post('updateCotizacion', [CotizacionController::class,'updateCotizacion']);
+    // Route::get('duplicarCot/{idCot}', [CotizacionController::class, 'duplicar']);
+    // Route::post('comprobarEdicion',[CotizacionController::class, 'comprobarEdicion']);
     
-    Route::post('getClienteInter', [CotizacionController::class, 'getClienteInter']); 
-    Route::post('clienteSucursal', [CotizacionController::class, 'clienteSucursal']); 
-    Route::post('DatosClienteSucursal', [CotizacionController::class, 'DatosClienteSucursal']);  
+    // Route::post('getClienteInter', [CotizacionController::class, 'getClienteInter']); 
+    // Route::post('clienteSucursal', [CotizacionController::class, 'clienteSucursal']); 
+    // Route::post('DatosClienteSucursal', [CotizacionController::class, 'DatosClienteSucursal']);  
 
 
-    Route::get('buscarFecha/{inicio}/{fin}', [CotizacionController::class,'buscarFecha']);
-    Route::get('exportPdfOrden/{idCot}',[CotizacionController::class,'exportPdfOrden']); 
+    // Route::get('buscarFecha/{inicio}/{fin}', [CotizacionController::class,'buscarFecha']);
+    // Route::get('exportPdfOrden/{idCot}',[CotizacionController::class,'exportPdfOrden']); 
 });
 
 Route::group(['prefix' => 'cotizacion/solicitud'], function () {
