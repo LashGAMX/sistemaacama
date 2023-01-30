@@ -8,15 +8,29 @@ use Illuminate\Support\Facades\Route;
  
 
  
-Route::group(['prefix' => 'cotizacion'], function () {
+Route::group(['prefix' => 'cotizacion'], function () { 
     Route::get('', [CotizacionController::class, 'index']);
     Route::get('create', [CotizacionController::class, 'create']);
     Route::post('getClientesIntermediarios',[CotizacionController::class, 'getClientesIntermediarios']); 
     Route::post('getDataCliente',[CotizacionController::class, 'getDataCliente']); 
     Route::post('getSucursal',[CotizacionController::class, 'getSucursal']); 
+    Route::post('getNormas',[CotizacionController::class, 'getNormas']); 
+    Route::post('getSubNormas',[CotizacionController::class, 'getSubNormas']); 
+    Route::post('getParametrosNorma',[CotizacionController::class, 'getParametrosNorma']); 
+    Route::post('getParametrosSelected',[CotizacionController::class, 'getParametrosSelected']); 
+    Route::post('getFrecuenciaMuestreo',[CotizacionController::class, 'getFrecuenciaMuestreo']); 
+    Route::post('setPrecioMuestreo',[CotizacionController::class, 'setPrecioMuestreo']); 
+    Route::post('getDatosCotizacion',[CotizacionController::class, 'getDatosCotizacion']); 
+
+
     Route::post('setCotizacion',[CotizacionController::class, 'setCotizacion']); 
 
-    // Route::get('update/{id}', [CotizacionController::class, 'update']);
+    Route::get('update/{id}', [CotizacionController::class, 'update']);
+    Route::post('getDataUpdate',[CotizacionController::class, 'getDataUpdate']);
+    Route::post('comprobarEdicion',[CotizacionController::class, 'comprobarEdicion']);
+
+    Route::get('exportPdfOrden/{idCot}',[CotizacionController::class,'exportPdfOrden']); 
+    
     // Route::post('getSubNorma', [CotizacionController::class, 'getSubNorma']); 
     // Route::post('getSubNormaId', [CotizacionController::class, 'getSubNormaId']);
     // Route::post('getNorma', [CotizacionController::class, 'getNorma']);

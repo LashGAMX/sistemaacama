@@ -194,21 +194,21 @@
                                             <td>CB</td>
                                             <td>b</td>
                                             <td><input name="campos" type="number" id="b1" disabled></td>
-                                            <td><input name="campos" type="number" id="b2"></td>
+                                            <td><input name="campos" type="number" id="b2" disabled></td>
                                             <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>CM</td>
                                             <td>m</td>
                                             <td><input name="campos" type="number" id="m1" disabled></td>
-                                            <td><input name="campos" type="number" id="m2"></td>
+                                            <td><input name="campos" type="number" id="m2" disabled></td>
                                             <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>CR</td>
                                             <td>r</td>
                                             <td><input name="campos" type="number" id="r1" disabled></td>
-                                            <td><input name="campos" type="number" id="r2"></td>
+                                            <td><input name="campos" type="number" id="r2" disabled></td>
                                             <td>F</td>
                                         </tr>
                                         <tr>

@@ -87,18 +87,11 @@
                     </thead>
         
                             <tbody>
-                            @foreach ($model as $item)
+                            
                                 <tr>
-                                        <td>{{$item->Id_incidencia}}</td>
-                                        <td>{{$item->Modulo}}</td>
-                                        <td>{{$item->Submodulo}}</td>
-                                        <td>{{$item->Prioridad}}</td>
-                                        <td>{{$item->Estado}}</td>
-                                        <td>{{$item->Usuario}}</td>
-                                        <td>{{$item->Descripcion}}</td>
-                                        <td>{{$item->created_at}}</td>
+                                       
                                 </tr>
-                                @endforeach
+                            
                             </tbody>
                    </table>
             </div>
@@ -164,12 +157,7 @@
                                 <div class="col-md-6">
                                     <label for="">Estado</label>
                                     <div id="divEstado"></div>
-                                    <select id="estado">
-                                            <option value="0">Seleciona uno</option>
-                                        @foreach ($estado as $item)
-                                            <option value="{{$item->Id_estado}}">{{$item->Estado}}</option>
-                                        @endforeach
-                                    </select>    
+                                     
                                 </div>
                                     <div class="col-md-6">
                                         <label for="">Imagen</label>

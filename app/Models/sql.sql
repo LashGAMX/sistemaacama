@@ -165,7 +165,7 @@ FROM cotizacion as cot
 INNER JOIN normas as nor
 ON cot.Id_norma = nor.Id_norma
 INNER JOIN ViewIntermediarios as inter
-ON cot.Id_intermedio = inter.Id_cliente
+ON cot.Id_intermedio = inter.Id_intermediario
 INNER JOIN tipo_servicios as ser
 ON cot.Tipo_servicio = ser.Id_tipo
 INNER JOIN tipo_descargas as des

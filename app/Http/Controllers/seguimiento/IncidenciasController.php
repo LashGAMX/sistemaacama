@@ -21,11 +21,12 @@ class IncidenciasController extends Controller
         return view('seguimiento.incidenciasAdmin', compact('prioridad', 'model', 'user', 'modulos', 'user', 'estado')); 
     }
     public function index(Request $request){
-        $model = DB::table('ViewIncidencias')->where('Prioridad', "!=", 3)->get();
+        $model = DB::table('ViewIncidencias')->where('Prioridad', "!=", 3)->orderBy('Id_incidencia', 'desc')->get();
         
         $data = array(
-            'model' => $model,
+            'model' => $model
         );
+       
         return response()->json($data);
     }
     public function lista(){
