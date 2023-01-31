@@ -283,10 +283,11 @@ class CotizacionController extends Controller
         $tipoMuestraCot = TipoMuestraCot::all();
         $promedioCot = PromedioCot::all();
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion',$id)->first();
-
+        $cotizacionPuntos = CotizacionPunto::where('Id_cotizacion', $id)->get();
 
         $data = array(
             'model' => $model,
+            'cotizacionPuntos' => $cotizacionPuntos,
             'categorias001' => $categorias001,
             'tipoMuestraCot' => $tipoMuestraCot,
             'promedioCot' => $promedioCot,

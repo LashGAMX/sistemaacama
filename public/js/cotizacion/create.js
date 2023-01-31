@@ -44,6 +44,9 @@ function getDataUpdate()
         getDataCliente()
         $("#tipoServicio  option[value="+data.Tipo_servicio+"]").attr("selected",true);
         $("#tipoDescarga  option[value="+data.Tipo_descarga+"]").attr("selected",true);
+        $("#atencion").val(data.Atencion)
+        $("#telCli").val(data.Telefono)
+        $("#correoCli").val(data.Correo)
         getNormas()
         getSubNormas()
     }
