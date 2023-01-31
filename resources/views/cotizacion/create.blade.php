@@ -259,7 +259,7 @@
                                             @php
                                             $contPunto = 0;
                                             @endphp
-                                            @if (@$sw == 1)
+                                            @if (@$model->Id_cotizacion != NULL)
                                             @foreach ($cotizacionPuntos as $item)
                                             @php
                                             $contPunto++;
@@ -309,7 +309,6 @@
                                             <th>#</th>
                                             <th>Id</th>
                                             <th>Parametro</th>
-                                            <th>Norma</th>
                                         </thead>
                                         <tbody id="tabParametros">
                                         </tbody>
@@ -334,7 +333,7 @@
                         <div id="transfer1" class="transfer-demo"></div>
                     </div>
                     <div class="modal-footer">
-                    <button type="button" class="btn btn-success">Guardar</button>
+                    <button type="button" id="btnEditarParametros" onclick="updateParametroCot()" class="btn btn-success">Guardar</button>
                     </div>
                 </div>
                 </div>
@@ -529,7 +528,7 @@
                                     </div>
                                     <div class="col-md-3">
                                         <label for="">Estado:</label>
-                                        <select class="form-control" placeholder="Estado" id="estado" name="estado">
+                                        <select class="form-control" placeholder="Estado" id="estado" name="estado" onchange="getLocalidad()">
                                             @foreach ($estados as $item)
                                                 @if (@$muestreo->Estado == $item->Id_estado)
                                                     <option value="{{ $item->Id_estado }}" selected>{{ $item->Nombre }}
@@ -617,13 +616,13 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Analisis</td>
+                                            <td>Analisis <input type="text" id="contSer" style="border: none" disabled></td>
                                             <td><input type="text" class="form-control" id="precioAnalisis"
                                                     name="precioAnalisis" placeholder="Precio análsis"
                                                     value="{{ @$model->Precio_analisis }}"></td>
                                         </tr>
                                         <tr>
-                                            <td>Parametro Extra</td>
+                                            <td>Parametro Extra <input type="text" id="extra" style="border: none" disabled></td>
                                             <td><input type="text" class="form-control" id="precioCat"
                                                     name="precioCat" placeholder="Parametro Extra"
                                                     value="{{ @$model->Precio_catalogo }}"></td>
@@ -632,14 +631,21 @@
                                             <td><code>Nota: El descuento solo aplica directamente al análisis</code></td>
                                             <td></td>
                                         </tr>
-                                        <tr id="activarDescuento">
+                                        <tr class="activarDescuento" hidden>
                                             <td>Descuento</td>
                                             <td>
                                                 <input type="text" class="form-control" id="descuento" name="descuento"
                                                     placeholder="Descuento" value="{{ @$model->Descuento }}">
                                                 <button type="button" class="btn btn-info"
-                                                    onclick="aplicarTotal()">Aplicar</button>
-                                            </td>
+                                                    onclick="aplicarDescuento()">Aplicar</button>
+                                            </td>                                            
+                                        </tr>
+                                        <tr class="activarDescuento" hidden>
+                                            <td>Precio Analisis Con descuento</td>
+                                            <td>
+                                                <input type="text" class="form-control" id="precioAnalisisCon" 
+                                                    placeholder="PrecioAnalisis con descuento" value="{{ @$model->Descuento }}">
+                                            </td>                                            
                                         </tr>
                                         <tr>
                                             <td>Muestreo</td>
@@ -669,7 +675,7 @@
 
                             </div>
 
-                            <button type="button" id="btnSetCotizacion" class="btn btn-primary">Guardar</button>
+                            <button type="button" id="btnSetCotizacion" onclick="setPrecioCotizacion()" class="btn btn-primary">Guardar</button>
 
                             </div>
                             </div>

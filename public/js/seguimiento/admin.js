@@ -123,7 +123,7 @@ function getSubmodulos(){
             tab += '</select>';
             divEstado.innerHTML = tab;
             tab = "";
-            tab+= '<img class="zoom" src="data:image/gif;base64,'+response.model.Imagen+'" style="width: 100px;height: auto;">'
+            tab+= '<img class="zoom" src="data:image/gif;base64,'+response.model.Imagen+'" style="width: 125px;height: auto;">'
             divImagen.innerHTML = tab;
             tab = "";
             tab += '<input id="idIncidencia" hidden value="'+response.model.Id_incidencia+'">'
@@ -147,7 +147,7 @@ function getSubmodulos(){
             swal("Datos guardados!", "Guardado!", "success");
             $('#modalIncidencia').modal('hide')
 
-            if($('#modulo').val() == "" && $('#submodulo').val() == "" && $('#prioridad').val() == "" && $('#estado').val() == ""){
+            if($('#modulo').val() == 0 && $('#submodulo').val() == 0 && $('#prioridad').val() == 0 && $('#estado').val() == 0 && $('#usuario').val() == 0){
               index();
             } else {
               buscar();

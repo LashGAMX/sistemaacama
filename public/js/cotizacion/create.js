@@ -24,7 +24,122 @@ var parametros = new Array()
 var counterPunto = 0;
 var idCot = 0;
 var data = new Array()
+var myTransfer 
+var des = true
+var desSw = false
 //todo funciones
+function setPrecioCotizacion()
+{
+  $.ajax({
+    url: base_url + '/admin/cotizacion/setPrecioCotizacion', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      id: $('#idCot').val(),
+      obsInt: $('#observacionInterna').val(),
+      obsCot: $('#observacionCotizacion').val(),
+      metodoPago: $('#metodoPago').val(),
+      precioAnalisis: $('#precioAnalisis').val(),
+      precioCat: $('#precioCat').val(),
+      descuento: $('#descuento').val(),
+      precioAnalisisCon: $('#precioAnalisisCon').val(),
+      precioMuestra: $('#precioMuestra').val(),
+      iva: $('#iva').val(),
+      subTotal: $('#subTotal').val(),
+      precioTotal: $('#precioTotal').val(),
+        _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json',
+    async: false,
+    success: function (response) {
+      alert("Cotizacion creada correctamente")
+      
+    }
+});
+}
+function aplicarDescuento()
+{
+  let subTotal = 0
+  let iva = 0
+  let descuento = 0;
+  let temp = 0;
+  if (desSw == false) {
+    descuento = (parseFloat($("#descuento").val()) *  parseFloat($("#precioAnalisis").val())) / 100
+    temp = parseFloat($("#precioAnalisis").val()) - descuento
+    $("#precioAnalisisCon").val(temp)
+
+    subTotal = (parseFloat($("#precioAnalisisCon").val()) + parseFloat($("#precioCat").val()) + parseFloat($("#precioMuestra").val()))
+    iva = (subTotal * 16) / 100;
+    sumatotal = subTotal + iva;
+
+    $('#subTotal').val(subTotal)
+    $('#precioTotal').val(sumatotal.toFixed(2));
+    desSw = true
+  } else {
+    alert("No puedes volver a aplicar un descuento")
+  }
+
+}
+function btnDescuento()
+{
+  if (des == true) {
+    $(".activarDescuento").attr("hidden",false) 
+    des = false;
+  } else {
+    $(".activarDescuento").attr("hidden",true) 
+    des = true;
+  }
+}
+function getLocalidad()
+{
+    let sub = document.getElementById('localidad');
+    let tab = '';
+    $.ajax({
+        url: base_url + '/admin/cotizacion/getLocalidad', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+          idLocalidad: $('#estado').val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: 'json',
+        async: false,
+        success: function (response) {
+            $.each(response.model, function (key, item) {              
+              if($("#idCot") != "") 
+              {
+                // if (modelMu.Localidad == item.Id_localidad) {
+                //   tab += '<option value="'+item.Id_localidad+'" selected>'+item.Nombre+'</option>';
+                // } else {
+                //   tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>'; 
+                // }
+                tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>';
+              }else{ 
+                tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>';
+              }
+            });
+            sub.innerHTML = tab;
+        }
+    });
+}
+function updateParametroCot()
+{
+  $.ajax({
+    url: base_url + '/admin/cotizacion/updateParametroCot', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      id:$("#idCot").val(),
+      subnorma:$("#subnorma").val(),
+      param: myTransfer.getSelectedItems(),
+      _token: $('input[name="_token"]').val(),
+    }, 
+    dataType: 'json',
+    async: false,
+    success: function (response) {
+      console.log(response)
+      parametros = response.parametro
+      createTabParametros()
+    }
+  });
+}
 function getDataUpdate()
 {
   $.ajax({
@@ -49,6 +164,8 @@ function getDataUpdate()
         $("#correoCli").val(data.Correo)
         getNormas()
         getSubNormas()
+        parametros = response.parametros
+        createTabParametros()
     }
 });
 }
@@ -94,7 +211,7 @@ function getParametrosSelected()
             }
         };
     
-        $("#transfer1").transfer(settings1);
+        myTransfer =$("#transfer1").transfer(settings1);
     }
 });
 }
@@ -104,11 +221,13 @@ function setPrecioMuestreo()
   let suma = 0;
   let sumatotal = 0;
   let iva = 0;
+  let temp = 0;
 
   $.ajax({
     url: base_url + '/admin/cotizacion/setPrecioMuestreo', //archivo que recibe la peticion
     type: 'POST', //método de envio
     data: {
+      id:$("#idCot").val(),
       tomasMuestreo: $('#tomasMuestreo').val(),
       diasHospedaje: $('#diasHospedaje').val(),
       hospedaje: $('#hospedaje').val(),
@@ -123,27 +242,38 @@ function setPrecioMuestreo()
       numeroServicio: $('#numeroServicio').val(),
       numMuestreador: $('#numMuestreador').val(),
       
-        _token: $('input[name="_token"]').val(),
+      _token: $('input[name="_token"]').val(),
     },
     dataType: 'json',
     async: false,
     success: function (response) {
         console.log(response)
-        $("#totalMuestreo").val(response.totalMuestreo.toFixed())
-
-        $("#totalMuestreo").val(totalMuestreo.toFixed());
-        $("#precioMuestra").val(totalMuestreo.toFixed());
-
-        suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed()) + parseInt(precioCatalogo.toFixed());
+        temp = response.total
+        $("#totalMuestreo").val(temp.toFixed())
+        $("#precioMuestra").val(temp.toFixed())
+        
+        suma = (parseFloat($("#precioAnalisis").val()) + parseFloat($("#precioCat").val()) + parseFloat($("#precioMuestra").val()))
         iva = (suma * 16) / 100;
-        $('#subTotal').val(suma);
         sumatotal = suma + iva;
-        $('#precioTotal').val(sumatotal.toFixed());
+
+        $('#subTotal').val(suma)
+        $('#precioTotal').val(sumatotal.toFixed(2));
+
+        // suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed()) + parseInt(precioCatalogo.toFixed());
+        // iva = (suma * 16) / 100;
+        // $('#subTotal').val(suma);
+        // sumatotal = suma + iva;
+        // $('#precioTotal').val(sumatotal.toFixed());
     }
 });
 }
 function getDatosCotizacion()
 {
+  let suma = 0;
+  let sumatotal = 0;
+  let iva = 0;
+
+
   $("#textInter").val($("#intermediario option:selected").text())
   $("#textEstado").val("Cotizacion")
   $("#textServicio").val($("#tipoServicio option:selected").text())
@@ -159,10 +289,16 @@ function getDatosCotizacion()
   $("#textMuestreo").val($("#frecuencia option:selected").text())
   $("#textTomas").val($("#tomas").val())
   $("#fechaMuestreo").val($("#fecha").val())
+  $('#descuento').val("")
+  $('#precioAnalisisCon').val("")
+  desSw = false
+  let tab = document.getElementById("puntoMuestro")
   $.ajax({
     url: base_url + '/admin/cotizacion/getDatosCotizacion', //archivo que recibe la peticion
     type: 'POST', //método de envio
     data: {
+      id:$("#idCot").val(),
+      intermediario:$("#intermediario").val(),
       subnorma: $('#subnorma').val(),
       frecuencia: $("#frecuencia").val(),
         _token: $('input[name="_token"]').val(),
@@ -171,7 +307,16 @@ function getDatosCotizacion()
     async: false,
     success: function (response) {
         console.log(response)
-      $("#precioAnalisis").val(response.precio)
+      $("#precioAnalisis").val(parseFloat(response.precio) * (tab.rows.length - 1)) 
+      $("#precioCat").val(parseFloat(response.precioCat) * (tab.rows.length - 1))
+      $("#extra").val("("+response.extra+")")
+      $("#contSer").val("("+(tab.rows.length - 1)+")")
+    
+      suma = (parseFloat($("#precioAnalisis").val()) + parseFloat($("#precioCat").val()) + parseFloat($("#precioMuestra").val()))
+      iva = (suma * 16) / 100;
+      sumatotal = suma + iva;
+      $('#subTotal').val(suma)
+    $('#precioTotal').val(sumatotal.toFixed(2));
     }
 });
 }
@@ -186,8 +331,8 @@ function createTabParametros()
     tab += '<td>'+cont+'</td>';
     tab += '<td>'+item.Id_parametro+'</td>';
     tab += '<td>'+item.Parametro+'('+item.Tipo_formula+')</td>';
-    tab += '<td>'+item.Clave_norma+'</td>';
     tab += '</tr>'
+    cont++
   });  
   table.innerHTML = tab 
 }

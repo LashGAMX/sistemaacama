@@ -448,6 +448,7 @@ class PotableController extends Controller
                 }
 
                 break;
+               
             default:
                 # code...
 
@@ -471,6 +472,7 @@ class PotableController extends Controller
                 $update->Observacion = $res->observacion;
                 $update->save();
                 break;
+           
             default:
                 # code...
 

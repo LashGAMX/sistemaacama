@@ -56,6 +56,17 @@
         </div>
         <div class = "col-md-2">
             <div class = "form-group">
+                <label for="exampleFormControlSelect1">Usuario</label>
+                <select class="form-control" name="usuario" id="usuario">
+                    <option value="0">Sin seleccionar</option>
+                   @foreach ($usuarios as $item)
+                       <option value="{{$item->id}}">{{$item->name}}</option>
+                   @endforeach
+                </select>
+            </div>
+        </div>
+        <div class = "col-md-2">
+            <div class = "form-group">
                 <button type="button" class="btn btn-info" id="buscar" onclick="buscar()">buscar</button>
             </div>
         </div>

@@ -18,10 +18,11 @@ class IncidenciasController extends Controller
         $modulos = DB::table('menu_items')->where('parent_id', null)->get();
         $prioridad = DB::table('incidencias_prioridad')->get();
         $estado = DB::table('incidencias_estado')->get();
-        return view('seguimiento.incidenciasAdmin', compact('prioridad', 'model', 'user', 'modulos', 'user', 'estado')); 
+        $usuarios = DB::table('users')->get();
+        return view('seguimiento.incidenciasAdmin', compact('prioridad', 'model', 'user', 'modulos', 'user', 'estado', 'usuarios')); 
     }
     public function index(Request $request){
-        $model = DB::table('ViewIncidencias')->where('Prioridad', "!=", 3)->orderBy('Id_incidencia', 'desc')->get();
+        $model = DB::table('ViewIncidencias')->where('Id_estado', "<", 3)->orderBy('Id_incidencia', 'desc')->get();
         
         $data = array(
             'model' => $model

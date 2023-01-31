@@ -97,7 +97,7 @@
         <table class="table" style="font-size: 9px;" width="100%">
             <tr>
                 <td class="fontBold fontCalibri fontSize10">CANTIDAD SERVICIOS: </td>
-                <td class="fontBold fontCalibri fontSize10">1</td>
+                <td class="fontBold fontCalibri fontSize10">{{$puntos->count()}}</td>
                 <td class="fontBold fontCalibri fontSize10">COSTO PAQUETE</td>
                 <td class="fontBold fontCalibri fontSize10">$                    
                     @php
@@ -145,7 +145,7 @@
         <table class="table" style="font-size: 9px;" width="100%">
             <tr>
                 <td class="fontBold fontCalibri fontSize10">CANTIDAD SERVICIOS: </td>
-                <td class="fontBold fontCalibri fontSize10">1</td>
+                <td class="fontBold fontCalibri fontSize10">{{$puntos->count()}}</td>
                 <td class="fontBold fontCalibri fontSize10">COSTO PARAMETROS ESPECIALES</td>
                 <td class="fontBold fontCalibri fontSize10">$                    
                     {{@$sumaParamEspecial}}
@@ -188,20 +188,11 @@
                 <td class="fontBold fontCalibri fontSize15" width="35%">PRECIO ANALISIS CON DESCUENTO</td>
                 <td width="20%">&nbsp;</td>
                 <td class="fontBold fontCalibri fontSize15 justificadoDer" width="35%">                      
-                    ${{number_format(@$analisisDesc, 2, ".", ",")}}
+                    @php
+                        echo number_format(@$model->Precio_analisisCon , 2, ".", ",");
+                    @endphp
                 </td>
             </tr>
-                {{-- @if (@$model->Tipo_servicio != 3)
-                <tr>
-                    <td class="fontBold fontCalibri fontSize15">PRECIO MUESTREO</td>
-                    <td width="20%">&nbsp;</td>
-                    <td class="fontBold fontCalibri fontSize15 justificadoDer bordeSup" width="35%">$                        
-                        @php
-                            echo number_format(@$model->Precio_muestreo - $sumaParamEspecial , 2, ".", ",");
-                        @endphp
-                    </td>
-                </tr> 
-                @endif     --}}
             @endif    
             @if (@$model->Tipo_servicio != 3)
             <tr>
@@ -242,7 +233,7 @@
                     <td>&nbsp;</td>
                     <td class="fontBold fontCalibri fontSize15 justificadoDer">
                         @php                     
-                            echo number_format(((@$model->Sub_total * 16)/100), 2, ".", ",");
+                            echo number_format(((@$model->Sub_total * @$model->Iva )/100), 2, ".", ",");
                         @endphp
                     </td>
                 </tr>
@@ -252,7 +243,7 @@
                     <td class="bordeIzqDerSinSup">&nbsp;</td>
                     <td class="fontBold fontCalibri fontSize15 justificadoDer bordeIzqDerSinSup">$                        
                         @php
-                            echo number_format(@$model->Sub_total + ((@$model->Sub_total * 16) / 100), 2, ".", ",");
+                            echo number_format(@$model->Costo_total, 2, ".", ","); 
                         @endphp
                     </td>
                 </tr>

@@ -158,7 +158,7 @@ cot.Atencion,cot.Telefono,cot.Correo,cot.Tipo_servicio,ser.Servicio,cot.Tipo_des
 cot.Id_norma,nor.Norma,nor.Clave_norma,cot.Id_subnorma,cot.Fecha_muestreo,cot.Frecuencia_muestreo,cot.Tomas,
 cot.Tipo_muestra as Id_tipoMuestra,tipo.Tipo,cot.Promedio as Id_promedio,prom.Promedio,cot.Numero_puntos,cot.Tipo_reporte,
 cot.Tiempo_entrega,cot.Observacion_interna,cot.Observacion_cotizacion,cot.Folio_servicio,
-cot.Folio,cot.Fecha_cotizacion,cot.Metodo_pago,cot.Precio_analisis,cot.Descuento,cot.Precio_muestreo,cot.Precio_catalogo,cot.Sub_total,
+cot.Folio,cot.Fecha_cotizacion,cot.Metodo_pago,cot.Precio_analisis,cot.Descuento,cot.Precio_analisisCon,cot.Iva,cot.Precio_muestreo,cot.Precio_catalogo,cot.Sub_total,
 cot.Costo_total,cot.Estado_cotizacion,est.Estado,est.Descripcion as Descripcion_estado,
 cot.Supervicion,cot.Creado_por,usr.name as NameC,cot.Actualizado_por,usr2.name as NameA,cot.created_at,cot.updated_at,cot.deleted_at
 FROM cotizacion as cot
@@ -186,7 +186,7 @@ ON cot.Promedio = prom.Id_promedioCot
 CREATE VIEW ViewCotParam as SELECT 
 param.Id_parametro,param.Id_cotizacion,param.Id_subnorma,param.Extra,param.created_at,param.updated_at,
 param.deleted_at,
-p.Parametro,p.Matriz,p.Simbologia,p.Metodo_prueba,p.Clave_metodo,p.Limite,p.Unidad
+p.Parametro,p.Matriz,p.Simbologia,p.Metodo_prueba,p.Clave_metodo,p.Limite,p.Unidad,p.Tipo_formula,p.Id_tipo_formula
 FROM cotizacion_parametros as param
 INNER JOIN ViewParametros as p
 ON param.Id_subnorma = p.Id_parametro

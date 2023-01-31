@@ -21,6 +21,7 @@ Route::group(['prefix' => 'cotizacion'], function () {
     Route::post('getFrecuenciaMuestreo',[CotizacionController::class, 'getFrecuenciaMuestreo']); 
     Route::post('setPrecioMuestreo',[CotizacionController::class, 'setPrecioMuestreo']); 
     Route::post('getDatosCotizacion',[CotizacionController::class, 'getDatosCotizacion']); 
+    Route::post('updateParametroCot',[CotizacionController::class, 'updateParametroCot']); 
 
 
     Route::post('setCotizacion',[CotizacionController::class, 'setCotizacion']); 
@@ -28,6 +29,8 @@ Route::group(['prefix' => 'cotizacion'], function () {
     Route::get('update/{id}', [CotizacionController::class, 'update']);
     Route::post('getDataUpdate',[CotizacionController::class, 'getDataUpdate']);
     Route::post('comprobarEdicion',[CotizacionController::class, 'comprobarEdicion']);
+    Route::post('getLocalidad', [CotizacionController::class,'getLocalidad']);
+    Route::post('setPrecioCotizacion', [CotizacionController::class,'setPrecioCotizacion']);
 
     Route::get('exportPdfOrden/{idCot}',[CotizacionController::class,'exportPdfOrden']); 
     
