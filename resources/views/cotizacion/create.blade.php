@@ -257,17 +257,13 @@
                                         </thead>
                                         <tbody>
                                             @php
-                                            $contPunto = 0;
+                                            $contPunto = 1;
                                             @endphp
                                             @if (@$model->Id_cotizacion != NULL)
                                             @foreach ($cotizacionPuntos as $item)
-                                            @php
-                                            $contPunto++;
-                                            @endphp
                                             <tr>
-                                                <td>{{ $contPunto }}</td>
-                                                <td><input class="form-control" id="punto{{ $contPunto - 1 }}"
-                                                        value="{{ $item->Descripcion }}"></td>
+                                                <td>{{ $contPunto++; }}</td>
+                                                <td><input class="form-control" value="{{ $item->Descripcion }}"></td>
                                             </tr>
                                             @endforeach
                                             @endif
@@ -330,7 +326,9 @@
                     </button>
                     </div>
                     <div class="modal-body">
-                        <div id="transfer1" class="transfer-demo"></div>
+                        <div  id="divTrans">
+
+                        </div>
                     </div>
                     <div class="modal-footer">
                     <button type="button" id="btnEditarParametros" onclick="updateParametroCot()" class="btn btn-success">Guardar</button>

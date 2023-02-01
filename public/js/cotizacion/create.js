@@ -106,12 +106,11 @@ function getLocalidad()
             $.each(response.model, function (key, item) {              
               if($("#idCot") != "") 
               {
-                // if (modelMu.Localidad == item.Id_localidad) {
-                //   tab += '<option value="'+item.Id_localidad+'" selected>'+item.Nombre+'</option>';
-                // } else {
-                //   tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>'; 
-                // }
-                tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>';
+                if (response.cotizacionMuestreo.Localidad == item.Id_localidad) {
+                  tab += '<option value="'+item.Id_localidad+'" selected>'+item.Nombre+'</option>';
+                } else {
+                  tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>'; 
+                }
               }else{ 
                 tab += '<option value="'+item.Id_localidad+'">'+item.Nombre+'</option>';
               }
@@ -166,6 +165,7 @@ function getDataUpdate()
         getSubNormas()
         parametros = response.parametros
         createTabParametros()
+        getLocalidad()
     }
 });
 }
@@ -175,6 +175,8 @@ function getParametrosSelected()
   let temp2 = new Array()
   let sw = false;
   let json = new Array()
+  let sec = document.getElementById("divTrans")
+  let tab = '';
   $.ajax({
     url: base_url + '/admin/cotizacion/getParametrosSelected', //archivo que recibe la peticion
     type: 'POST', //método de envio
@@ -187,10 +189,11 @@ function getParametrosSelected()
     async: false,
     success: function (response) {
         console.log(response)
-
+        tab = '<div id="transfer1" class="transfer-demo"></div>'
+        sec.innerHTML = tab
         $.each(response.parametros, function (key, item) {
             $.each(response.model, function (key, item2) {
-              if(item.Id_parametro == item2.Id_parametro){
+              if(item.Id_parametro == item2.Id_subnorma){
                 sw = true;
               }
             }); 
@@ -211,7 +214,7 @@ function getParametrosSelected()
             }
         };
     
-        myTransfer =$("#transfer1").transfer(settings1);
+        myTransfer = $("#transfer1").transfer(settings1);
     }
 });
 }
@@ -234,6 +237,8 @@ function setPrecioMuestreo()
       diasMuestreo: $('#diasMuestreo').val(),
       numeroMuestreo: $('#numeroMuestreo').val(),
       caseta: $('#caseta').val(),
+      estado: $('#estado').val(),
+      localidad: $('#localidad').val(),
       kmExtra: $('#kmExtra').val(),
       km: $('#km').val(),
       cantidadGasolina: $('#cantidadGasolina').val(),
@@ -327,7 +332,15 @@ function createTabParametros()
   let cont = 1;
   $("#normaPa").val($("#norma option:selected").text())
   $.each(parametros, function (key, item) {
-    tab += '<tr>'
+    if ($("#idCot").val() != "") {
+      if (item.Extra == 1) {
+        tab += '<tr class="bg-danger">'
+      } else {
+        tab += '<tr>'
+      }  
+    } else {
+    tab += '<tr>' 
+    }
     tab += '<td>'+cont+'</td>';
     tab += '<td>'+item.Id_parametro+'</td>';
     tab += '<td>'+item.Parametro+'('+item.Tipo_formula+')</td>';
@@ -342,16 +355,17 @@ function setCotizacion() {
   let tab = document.getElementById("puntoMuestro")
   let tab2 = document.getElementById("tableParametros")
   for (let i = 1; i < tab.rows.length; i++) {
-    puntos.push(tab.rows[i].children[1].children[1].value)
+    puntos.push(tab.rows[i].children[1].children[0].value)
   }
   for (let i = 1; i < tab2.rows.length; i++) {
     param.push(tab2.rows[i].children[1].textContent)
   }
-  
+  console.log(puntos)
   $.ajax({
     url: base_url + '/admin/cotizacion/setCotizacion', //archivo que recibe la peticion
     type: 'POST', //método de envio
     data: {
+      id:$("#idCot").val(),
       intermediario: $('#intermediario').val(),
       cliente: $('#cliente').val(),
       clienteSucursal: $('#clienteSucursal').val(),
@@ -378,6 +392,7 @@ function setCotizacion() {
     dataType: 'json',
     async: false,
     success: function (response) {
+      alert("Cotizacion guardada")
       console.log(response)
       $("#idCot").val(response.model.Id_cotizacion)
     }
@@ -389,7 +404,7 @@ function addColPunto() {
   $('#addRow').on('click', function () {
     t.row.add([
       counterPunto + 1,
-      inputText('Punto de muestreo', 'punto' + counterPunto, 'punto', '', ''),
+      '<input type="text" class="form-control" placeholder="Punto de muestreo">',
     ]).draw(false);
 
     counterPunto++;
