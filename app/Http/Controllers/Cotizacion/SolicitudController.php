@@ -62,13 +62,10 @@ class SolicitudController extends Controller
         if ($cotizacionModel->count()) {
             //Obtiene todos los datos de la cotización
             $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
-
             //Recupera los intermediarios registrados para esa cotización
             $intermediario = DB::table('ViewIntermediarios')->where('Id_cliente', $model->Id_intermedio)->get();
-
             //Recupera los contactos del cliente registrados para esa cotización
             $contactoCliente = ContactoCliente::where('Id_cliente', $model->Id_cliente)->get();
-
             //ViewGenerales hace referencia a los clientes registrados
             $cliente = DB::table('ViewGenerales')->where('Id_cliente', $model->Id_cliente)->get();
 
