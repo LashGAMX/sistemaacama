@@ -64,33 +64,42 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     
     Route::get('',[SolicitudController::class,'index']);
     Route::get('create/{idCot}',[SolicitudController::class,'create']);
-
-    Route::get('createSinCot', [SolicitudController::class, 'createSinCot']);
-    Route::post('getDatos2', [SolicitudController::class, 'getDatos2']);
-
-    Route::post('getSucursal',[SolicitudController::class,'getSucursal']);
     Route::post('getDatoIntermediario',[SolicitudController::class,'getDatoIntermediario']);
+    Route::post('getDataCotizacion',[SolicitudController::class,'getDataCotizacion']);
+    Route::post('getClienteRegistrado',[SolicitudController::class,'getClienteRegistrado']);
+    Route::post('getSucursalCliente',[SolicitudController::class,'getSucursalCliente']);
     Route::post('getDireccionReporte',[SolicitudController::class,'getDireccionReporte']);
     Route::post('setContacto',[SolicitudController::class,'setContacto']);
-    Route::post('storeContacto',[SolicitudController::class,'storeContacto']);
     Route::post('getDataContacto',[SolicitudController::class,'getDataContacto']);
+    Route::post('storeContacto',[SolicitudController::class,'storeContacto']);
     Route::post('getPuntoMuestro',[SolicitudController::class,'getPuntoMuestro']);
-    Route::post('getParametroSol',[SolicitudController::class,'getParametroSol']);
-
     Route::post('setSolicitud',[SolicitudController::class,'setSolicitud']);
+    // Route::get('createSinCot', [SolicitudController::class, 'createSinCot']);
+    // Route::post('getDatos2', [SolicitudController::class, 'getDatos2']);
 
-    Route::get('buscarFecha/{inicio}/{fin}', [SolicitudController::class,'buscarFecha']); 
+    // Route::post('getSucursal',[SolicitudController::class,'getSucursal']);
+    // Route::post('getDatoIntermediario',[SolicitudController::class,'getDatoIntermediario']);
+    // Route::post('getDireccionReporte',[SolicitudController::class,'getDireccionReporte']);
+    // Route::post('setContacto',[SolicitudController::class,'setContacto']);
+    // Route::post('getDataContacto',[SolicitudController::class,'getDataContacto']);
+    
+    // Route::post('getPuntoMuestro',[SolicitudController::class,'getPuntoMuestro']);
+    // Route::post('getParametroSol',[SolicitudController::class,'getParametroSol']);
 
-    Route::post('setSolicitudSinCot', [SolicitudController::class, 'setSolicitudSinCot']);
-    Route::get('duplicarSol/{idCot}', [SolicitudController::class, 'duplicarSol']);
+    // Route::post('setSolicitud',[SolicitudController::class,'setSolicitud']);
+
+    // Route::get('buscarFecha/{inicio}/{fin}', [SolicitudController::class,'buscarFecha']); 
+
+    // Route::post('setSolicitudSinCot', [SolicitudController::class, 'setSolicitudSinCot']);
+    // Route::get('duplicarSol/{idCot}', [SolicitudController::class, 'duplicarSol']);
 
 
-    Route::get('update/{idCot}',[SolicitudController::class,'update']);
-    Route::post('getDataSolicitud',[SolicitudController::class,'getDataSolicitud']);
-    Route::post('getReporteSir',[SolicitudController::class,'getReporteSir']);
-    Route::post('setGenFolio',[SolicitudController::class,'setGenFolio']);
+    // Route::get('update/{idCot}',[SolicitudController::class,'update']);
+    // Route::post('getDataSolicitud',[SolicitudController::class,'getDataSolicitud']);
+    // Route::post('getReporteSir',[SolicitudController::class,'getReporteSir']);
+    // Route::post('setGenFolio',[SolicitudController::class,'setGenFolio']);
 
-    Route::get('exportPdfOrden/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
+    // Route::get('exportPdfOrden/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
 });
 // Route::post('cotizacion/obtenerHistorico', [CotizacionController::class, 'obtenerHistorico'])->name('cotizacion.obtenerHistorico');
 // Route::post('cotizacion/duplicarCotizacion', [CotizacionController::class, 'duplicarCotizacion'])->name('cotizacion.duplicarCotizacion');
