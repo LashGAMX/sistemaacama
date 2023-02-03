@@ -177,4 +177,161 @@ class SolicitudController extends Controller
         );
         return response()->json($data);
     }
+    public function setSolicitud(Request $res)
+    {
+        $year = date("y");
+        $month = date("m");
+        $dayYear = date("z") + 1;
+        $today = Carbon::now()->format('Y-m-d');
+        // $solicitudDay = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->count();
+        $solicitudDay = DB::table('solicitudes')->whereDate('created_at', $today)->where('Padre', 1)->count();
+
+
+        $numCot = DB::table('solicitudes')->whereDate('created_at', $today)->where('Id_cliente', $res->clientes)->get();
+        $firtsFol = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $res->clientes)->first();
+        $cantCot = $numCot->count();
+
+        //var_dump($numCot);
+        if ($cantCot > 0) {
+            echo "Entro a if <br>";
+            $hijo = 1;
+            $folio = $firtsFol->Folio_servicio . '-' . ($cantCot + 1);
+        } else {
+            echo "Entro a else <br>";
+            $folio = $dayYear . "-" . ($solicitudDay + 1) . "/" . $year;
+        }
+        //var_dump($folio);
+        // Convertir cadena a array de datos
+
+        if ($res->id > 0) {
+            $puntos = explode(",", $res->puntosSolicitud);
+            $parametros = explode(",", $res->parametrosSolicitud);
+
+            if ($res->siralab != NULL) {
+                $siralab = 1;
+            } else {
+                $siralab = 0;
+            }
+
+            $model = Solicitud::create([
+                'Id_cotizacion' => $res->id,
+                'Folio_servicio' => $folio,
+                'Id_intermediario' => $res->inter,
+                'Id_cliente' => $res->clientes,
+                'Siralab' => $siralab,
+                'Id_sucursal' => $res->sucursal,
+                'Id_direccion' => $res->direccionReporte,
+                'Id_contacto' => $res->contacto,
+                'Atencion' => $res->atencion,
+                'Observacion' => $res->observacion,
+                'Id_servicio' => $res->tipoServicio,
+                'Id_descarga' => $res->tipoDescarga,
+                'Id_norma' => $res->norma,
+                'Id_subnorma' => $res->subnorma,
+                'Fecha_muestreo' => $res->fechaMuestreo,
+                'Id_muestreo' => $res->frecuencia,
+                'Num_tomas' => $res->numTomas,
+                'Id_muestra' => $res->tipoMuestra,
+                'Id_promedio' => $res->promedio,
+                'Padre' => 1,
+                'Hijo' => 0,
+            ]);
+
+            // var_dump($model->Id_solicitud);
+            $contPuntos = 0;
+            foreach ($puntos as $p) {
+                $puntoModel = SolicitudPuntos::create([
+                    'Id_solicitud' => $model->Id_solicitud,
+                    'Id_muestreo' => $p
+                ]);
+                $contPuntos++;
+            }
+            foreach ($parametros as $item) {
+                $subnorma = NormaParametros::where('Id_norma', $res->subnorma)->where('Id_parametro', $item)->get();
+
+                $extra = 0;
+                if ($subnorma->count()) {
+                    $extra = 0;
+                } else {
+                    $extra = 1;
+                }
+
+                SolicitudParametro::create([
+                    'Id_solicitud' => $model->Id_solicitud,
+                    'Id_subnorma' => $item,
+                    'Extra' => $extra,
+                ]);
+            }
+
+            //Actualiza la cotización de estado
+            $cotModel = Cotizacion::find($res->id);
+            $cotModel->Folio_servicio = $model->Folio_servicio;
+            $cotModel->Estado_cotizacion = 2;
+            $cotModel->save();
+
+
+            //todo Inicia seguimiento de analisis
+            SeguimientoAnalisis::create([
+                'Id_servicio' => $model->Id_solicitud,
+                'Obs_solicitud' => '',
+            ]);
+
+            if ($contPuntos > 0) {
+                for ($i = 0; $i < $contPuntos; $i++) {
+                    if ($res->siralab != NULL) {
+                        $siralab = 1;
+                    } else {
+                        $siralab = 0;
+                    }
+                    $model2 = Solicitud::create([
+                        'Id_cotizacion' => $res->id,
+                        'Folio_servicio' => $folio . '-' . ($i + 1),
+                        'Id_intermediario' => $res->intermediario,
+                        'Id_cliente' => $res->clientes,
+                        'Siralab' => $siralab,
+                        'Id_sucursal' => $res->sucursal,
+                        'Id_direccion' => $res->direccionReporte,
+                        'Id_contacto' => $res->contacto,
+                        'Atencion' => $res->atencion,
+                        'Observacion' => $res->observacion,
+                        'Id_servicio' => $res->tipoServicio,
+                        'Id_descarga' => $res->tipoDescarga,
+                        'Id_norma' => $res->norma,
+                        'Id_subnorma' => $res->subnorma,
+                        'Fecha_muestreo' => $res->fechaMuestreo,
+                        'Id_muestreo' => $res->frecuencia,
+                        'Num_tomas' => $res->numTomas,
+                        'Id_muestra' => $res->tipoMuestra,
+                        'Id_promedio' => $res->promedio,
+                        'Padre' => 0,
+                        'Hijo' => $model->Id_solicitud
+                    ]);
+                    SolicitudPuntos::create([
+                        'Id_solPadre' => $model->Id_solicitud,
+                        'Id_solicitud' => $model2->Id_solicitud,
+                        'Id_muestreo' => $puntos[$i]
+                    ]);
+                    foreach ($parametros as $item) {
+                        $subnorma = NormaParametros::where('Id_norma', $res->subnorma)->where('Id_parametro', $item)->get();
+
+                        $extra = 0;
+                        if ($subnorma->count()) {
+                            $extra = 0;
+                        } else {
+                            $extra = 1;
+                        }
+
+                        SolicitudParametro::create([
+                            'Id_solicitud' => $model2->Id_solicitud,
+                            'Id_subnorma' => $item,
+                            'Extra' => $extra,
+                        ]);
+                    }
+                }
+            }
+        } else {
+        }
+
+        return redirect()->to('admin/cotizacion/solicitud');
+    }
 }

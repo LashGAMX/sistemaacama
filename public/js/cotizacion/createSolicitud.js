@@ -384,10 +384,15 @@ function createTabParametros()
 }
 function setSolicitud()
 {
-    let tab = document.getElementById("puntoMuestreo")
+    let tab = document.getElementById("puntoMuestro")
+    let tab2 = document.getElementById("tableParametros")
     let punto = new Array()
+    let parametros = new Array()
     for (let i = 1; i < tab.rows.lent; i++) {
-        punto.push(tab.rows[1].children[0].textContent)
+        punto.push(tab.rows[i].children[0].textContent)
+    }
+    for (let i = 1; i < tab.rows.lent; i++) {
+        parametros.push(tab2.rows[i].children[1].textContent)
     }
     $.ajax({
         url: base_url + '/admin/cotizacion/solicitud/setSolicitud', //archivo que recibe la peticion
@@ -412,6 +417,7 @@ function setSolicitud()
           tipoMuestra:$("#tipoMuestra").val(),
           promedio:$("#promedio").val(),
           tipoReporte:$("#tipoReporte").val(),
+          parametros:parametros,
           _token: $('input[name="_token"]').val(),
         },
         dataType: 'json', 
