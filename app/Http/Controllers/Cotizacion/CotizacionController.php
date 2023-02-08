@@ -6,6 +6,7 @@ use App\Http\Controllers\AnalisisQ\NormaControler;
 use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use App\Models\ClienteGeneral;
+use App\Models\ContactoCliente;
 use App\Models\SucursalCliente;
 use Illuminate\Http\Request;
 
@@ -55,12 +56,12 @@ class CotizacionController extends Controller
     {
         $model = SucursalCliente::where('Id_sucursal', $res->id)->first();
         $direccion = DireccionReporte::where('Id_sucursal', $model->Id_sucursal)->get();
-
+        $contacto = ContactoCliente::where('Id_cliente', $model->Id_cliente)->get();
         $data = array(
             'model' => $model,
             'direccion' => $direccion,
+            'contacto' => $contacto,
         );
-
         return response()->json($data);
     }
     public function getSucursal(Request $res)
@@ -92,7 +93,9 @@ class CotizacionController extends Controller
     public function getParametrosNorma(Request $res)
     {
         $model = DB::table('ViewNormaParametro')->where('Id_norma', $res->id)->get();
+        $parametros = DB::table('ViewParametros')->get();
         $data = array(
+            'parametros' => $parametros,
             'model' => $model,
         );
         return response()->json($data);

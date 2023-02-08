@@ -154,7 +154,6 @@
           </div>
           <div class="col-md-12">
             <label for="observacion">Observación</label>
-            {{-- <input type="text" class="form-control" id="observacion"> --}}
             <textarea class="form-control" id="observacion" name="observacion" placeholder="Escribir...">{{@$model->Observacion_cotizacion}}</textarea>
           </div>
 

@@ -479,6 +479,38 @@ class SolicitudController extends Controller
 
         return response()->json($data);
     }
+    public function createSinCot()
+    {
+        $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', null)->get();
+        $generales = DB::table('ViewGenerales')->where('deleted_at', null)->get();
+        $frecuencia = DB::table('frecuencia001')->get();
+        $subNormas = SubNorma::all();
+        $servicios = DB::table('tipo_servicios')->get();
+        $descargas = DB::table('tipo_descargas')->get();
+        $metodoPago = DB::table('metodo_pago')->get();
+        $estados = DB::table('estados')->get();
+        $categorias001 = DB::table('ViewDetalleCuerpos')->get();
+        $tipoMuestraCot = TipoMuestraCot::all();
+        $promedioCot = PromedioCot::all();
+
+
+
+        $data = array(
+            'categorias001' => $categorias001,
+            'tipoMuestraCot' => $tipoMuestraCot,
+            'promedioCot' => $promedioCot,
+            'intermediarios' => $intermediarios,
+            'generales' => $generales,
+            'subNormas' => $subNormas,
+            'servicios' => $servicios,
+            'descargas' => $descargas,
+            'frecuencia' => $frecuencia,
+            'estados' => $estados,
+            'metodoPago' => $metodoPago,
+            'version' => $this->version,
+        );
+        return view('cotizacion.createSinCot', $data);
+    } 
     public function exportPdfOrden($idOrden)
     {
         $qr = new DNS2D();

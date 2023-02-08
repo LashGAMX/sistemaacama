@@ -157,6 +157,19 @@
             </div>
 
             <div class="col-md-3">
+                <a href="{{url('/admin/reportes')}}">
+                    <div class="panel widget center bgimage"
+                        style="margin-bottom:0;overflow:hidden;background-image:url('https://sistemaacama.com.mx/public/storage/configuraciones_fondos/reportes.jpg');">
+                        <div class="dimmer"></div>
+                        <div class="panel-content">
+                            <i class="voyager-file-text"></i>
+                            <h4>Reportes</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <div class="col-md-3">
                 <a href="{{url('/admin/nmp1-micro')}}">
                         <div class="panel widget center bgimage"
                             style="margin-bottom:0;overflow:hidden;background-image:url('https://sistemaacama.com.mx/public/storage/configuraciones_fondos/numeroProbable.jpg');">
@@ -181,6 +194,8 @@
                     </div>
                 </a>
             </div>
+
+           
 
         </div>
         {{-- <livewire:historial.config/> --}}
