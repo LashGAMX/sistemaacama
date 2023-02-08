@@ -30,8 +30,9 @@ Route::group(['prefix' => 'cotizacion'], function () {
     Route::post('getDataUpdate',[CotizacionController::class, 'getDataUpdate']);
     Route::post('comprobarEdicion',[CotizacionController::class, 'comprobarEdicion']);
     Route::post('getLocalidad', [CotizacionController::class,'getLocalidad']);
+    Route::post('cantidadGasolina', [CotizacionController::class,'cantidadGasolina']);
     Route::post('setPrecioCotizacion', [CotizacionController::class,'setPrecioCotizacion']);
-
+    Route::get('duplicarCot/{idCot}', [CotizacionController::class, 'duplicar']);
     Route::get('exportPdfOrden/{idCot}',[CotizacionController::class,'exportPdfOrden']); 
     
     // Route::post('getSubNorma', [CotizacionController::class, 'getSubNorma']); 
@@ -74,7 +75,7 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::post('storeContacto',[SolicitudController::class,'storeContacto']);
     Route::post('getPuntoMuestro',[SolicitudController::class,'getPuntoMuestro']);
     Route::post('setSolicitud',[SolicitudController::class,'setSolicitud']);
-    // Route::get('createSinCot', [SolicitudController::class, 'createSinCot']);
+    Route::get('createSinCot', [SolicitudController::class, 'createSinCot']);
     // Route::post('getDatos2', [SolicitudController::class, 'getDatos2']);
 
     // Route::post('getSucursal',[SolicitudController::class,'getSucursal']);
@@ -97,9 +98,9 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     // Route::get('update/{idCot}',[SolicitudController::class,'update']);
     // Route::post('getDataSolicitud',[SolicitudController::class,'getDataSolicitud']);
     // Route::post('getReporteSir',[SolicitudController::class,'getReporteSir']);
-    // Route::post('setGenFolio',[SolicitudController::class,'setGenFolio']);
+    Route::post('setGenFolio',[SolicitudController::class,'setGenFolio']);
 
-    // Route::get('exportPdfOrden/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
+    Route::get('exportPdfOrden/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
 });
 // Route::post('cotizacion/obtenerHistorico', [CotizacionController::class, 'obtenerHistorico'])->name('cotizacion.obtenerHistorico');
 // Route::post('cotizacion/duplicarCotizacion', [CotizacionController::class, 'duplicarCotizacion'])->name('cotizacion.duplicarCotizacion');

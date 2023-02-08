@@ -126,6 +126,8 @@ class CampoController extends Controller
         $puntos = SolicitudPuntos::where('Id_solicitud',$id)->first();
         $evidencia = Evidencia::where('Id_punto',$puntos->Id_muestreo)->orderby('created_at','desc')->get();
         $compuesto = CampoCompuesto::where('Id_solicitud',$id)->first();
+        $materia = SolicitudParametro::where('Id_subnorma',2)->where('Id_solicitud',$model->Id_solicitud)->get();
+        
 
         //Datos muestreo
         $phMuestra = PhMuestra::where('Id_solicitud', $id)->get();
@@ -140,6 +142,7 @@ class CampoController extends Controller
         $data = array(
             'model' => $model,
             'color' => $color,
+            'materia' => $materia,
             'general' => $general,
             'compuesto' => $compuesto,
             'evidencia' => $evidencia,
@@ -1056,14 +1059,8 @@ class CampoController extends Controller
             foreach($solModel as $item)
             {
                 $idPunto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
-                if($item->Siralab == 1)
-                {
-                    $punto = PuntoMuestreoSir::where('Id_punto',$idPunto->Id_muestreo)->first();
-                    $puntoMuestreo = "".$punto->Punto ."(".$punto->Anexo.")";
-                }else{
-                    $punto = PuntoMuestreoGen::where('Id_punto',$idPunto->Id_muestreo)->first();
-                    $puntoMuestreo = $punto->PuntoMuestreo;
-                }
+                $punto = PuntoMuestreoGen::where('Id_punto',$idPunto->Id_muestreo)->first();
+                $puntoMuestreo = $punto->PuntoMuestreo;
                 
                 SolicitudesGeneradas::create([
                     'Id_solicitud' => $item->Id_solicitud,
@@ -1378,15 +1375,9 @@ class CampoController extends Controller
 
         $frecuenciaMuestreo = Frecuencia001::where('Id_frecuencia', $modelCot->Frecuencia_muestreo)->first();
 
-        if($model->Siralab == 1){//Es cliente Siralab
-            $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $model->Id_sucursal)->get();
-            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
-            $puntos = $puntoMuestreo->count();
-        }else{
-            $puntoMuestreo = PuntoMuestreoGen::where('Id_sucursal', $model->Id_sucursal)->get();
-            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
-            $puntos = $puntoMuestreo->count();
-        }
+        $puntoMuestreo = PuntoMuestreoGen::where('Id_sucursal', $model->Id_sucursal)->get();
+        // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+        $puntos = $puntoMuestreo->count();
       
         $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$id)->first();
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud',$id)->first();

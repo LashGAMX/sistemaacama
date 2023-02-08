@@ -37,13 +37,13 @@
                     <tr>
                         <td style="width: 25%">Contacto</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            {{@$direccion->Correo}}
+                            {{@$model->Nom_con}} {{@$model->Nom_pat}}
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 25%">Teléfono</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            {{@$direccion->Telefono}}
+                            {{@$model->Tel_con}}
                         </td>
                     </tr>
                     <tr>

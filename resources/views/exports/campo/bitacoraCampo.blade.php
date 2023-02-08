@@ -230,13 +230,7 @@
 
             <div class="col-12 fontCalibri fontSize12 fontNormal">
                 PUNTO DE MUESTREO: <span class="fontBold">                    
-                    {{-- @for ($i = 0; $i < @$puntos; $i++) --}}
-                        @if (@$model->Siralab == 1)
-                            {{@$puntoMuestreo[0]->Punto}} (anexo {{@$puntoMuestreo[0]->Anexo}}) {{-- <br> --}}                                    
-                        @else
-                            {{@$puntoMuestreo[0]->Punto_muestreo}} {{-- <br> --}}
-                        @endif                                
-                    {{-- @endfor --}}
+                    {{@$puntoMuestreo[0]->Punto_muestreo}} {{-- <br> --}}
                 </span>
             </div>
             @if (@$idNorma != 1)
@@ -303,7 +297,7 @@
                             <tr>                                
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{$i + 1}}</td>
                                 <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">                                    
-                                    {{number_format(@$tempMuestra[$i]->Promedio, 1, ".", ",")}}
+                                    {{number_format(@$tempAmbiente[$i]->Temperatura1, 1, ".", ",")}}
                                 </td>                                
                             </tr>
                         @endfor                        
@@ -358,7 +352,7 @@
                                 <tr>                                    
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{$i + 1}}</td>
                                     <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr" colspan="2">
-                                        {{number_format(@$tempMuestra[$i]->Promedio, 1, ".", ",")}}
+                                        {{number_format(@$tempAmbiente[$i]->Temperatura1, 1, ".", ",")}}
                                     </td>
                                         {{-- Bucle anidado; Mala práctica --}}                                        
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
@@ -368,7 +362,7 @@
                                         {{@$factorCorrTemp[$i]}}
                                     </td>
                                     <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                        {{number_format(@$tempMuestra[$i]->Promedio, 1, ".", ",") + @$factorCorrTemp[$i]}}
+                                        {{number_format(@$tempAmbiente[$i]->TemperaturaSin1, 1, ".", ",") + @$factorCorrTemp[$i]}}
                                     </td>
                                 </tr>
                             @endfor
@@ -674,10 +668,14 @@
                                     <td></td>
                                     @break
                                 @default
-                                <td class="fontNormal fontCalibri fontSize12" width="25%">Temperatura muestra compuesta</td>
-                                <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Temp_muestraComp, 1, ".", ",")}} °C</td>
-                                <td class="fontNormal fontCalibri fontSize12" width="25%">pH muestra compuesta</td>
-                                <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Ph_muestraComp, 2, ".", ",")}} UNIDADES</td>
+                                @if (@$model->Num_tomas > 1)
+                                    <td class="fontNormal fontCalibri fontSize12" width="25%">Temperatura muestra compuesta</td>
+                                    <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Temp_muestraComp, 1, ".", ",")}} °C</td>
+                                    <td class="fontNormal fontCalibri fontSize12" width="25%">pH muestra compuesta</td>
+                                    <td class="fontCalibri fontSize12 fontBold" width="25%">{{number_format(@$campoCompuesto->Ph_muestraComp, 2, ".", ",")}} UNIDADES</td>
+                                @else
+                                    
+                                @endif
                             @endswitch
                         </tr>
                     </tbody>
@@ -703,6 +701,7 @@
                     @break
 
                 @default
+                @if (@$model->Num_tomas > 1)
                 <div class="contenedorPadre12">
                     <div class="contenedorHijo131">
                         <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0">
@@ -819,6 +818,10 @@
                         </table>
                     </div>
                 </div>
+                @else
+                    
+                @endif
+      
     
             @endswitch
 

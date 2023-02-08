@@ -569,8 +569,10 @@
                                                 class="fas fa-save"></i> Guardar</button>
                                         <tr>
                                             <th>Núm Muestra</th>
-                                            @if (@$model->Id_norma != 5)
-                                            <th>Materia flotante</th>
+                                            @if (@$materia->count())
+                                                <th>Materia flotante</th>
+                                            @else
+                                                <th hidden>Materia flotante</th>
                                             @endif
                                             <th>Olor</th>
                                             <th>Color</th>
@@ -597,8 +599,11 @@
                                         <tr id="trPh{{$item->Id_ph}}">
                                             @endif
                                             <td>{{$cont}}</td>
-                                            @if (@$model->Id_norma != 5)
+                                            @if (@$materia->count())
                                             <td>
+                                            @else
+                                            <td hidden>
+                                            @endif
                                                 <select id="materia{{$item->Id_ph}}" {{$std}}>
                                                     @if ($item->Materia == "0") <option value="0" selected>Sin
                                                         seleccionar</option> @else <option value="0">Sin seleccionar
@@ -611,7 +616,6 @@
                                                     @endif
                                                 </select>
                                             </td>
-                                            @endif
                                             <td>
                                                 <select id="olor{{$item->Id_ph}}" {{$std}}>
                                                     @if ($item->Olor == "0") <option value="0" selected>Sin seleccionar
@@ -652,7 +656,7 @@
                                             </td>
                                             <td style="display:flex">
                                                 <input type="datetime-local" id="phf{{ $item->Id_ph }}"
-                                                    value="{{@$item->Fecha}}">
+                                                    value="{{@$item->Fecha}}" onchange='validacionFechaMuestreo("phf{{@$item->Id_ph}}","FechaMuestreo",1);'>
                                             </td>
                                             <td><input type="text" id="phStatus{{$item->Id_ph}}" value="1" hidden></td>
                                         </tr>
@@ -682,12 +686,12 @@
                                     <tbody>
                                         @foreach ($tempMuestra as $item)
                                         @php if ($item->Activo == 1) { $std = ""; } else { $std = "disabled"; } @endphp
-                                        <tr id="trTempAgua{{$item->Id_temperatura}}"> @if ($general->Criterio ==
-                                            "Aceptado")
-                                        <tr class="bg-success">
-                                            @else
-                                        <tr>
-                                            @endif <td>{{$item->Num_toma}}</td>
+                                        @if ($general->Criterio =="Aceptado")
+                                            <tr class="bg-success" id="trTempAgua{{$item->Id_temperatura}}">
+                                        @else
+                                            <tr id="trTempAgua{{$item->Id_temperatura}}">
+                                        @endif 
+                                            <td>{{$item->Num_toma}}</td>
                                             <td>
                                                 <input type="number" id="temp1{{ $item->Id_temperatura }}"
                                                     value="{{$item->TemperaturaSin1}}"
@@ -770,7 +774,11 @@
 
                             </div>
 
-                            <div class="col-md-12">
+                            @if ($model->Num_tomas > 1)
+                                <div class="col-md-12">
+                            @else
+                                <div class="col-md-12" hidden>
+                            @endif
                                 <p>PH control calidad</p>
                                 <table class="table" id="phControlCalidadMuestra">
                                     <thead>
@@ -879,7 +887,11 @@
                                 </table>
                             </div>
 
-                            <div class="col-md-12">
+                            @if ($model->Num_tomas > 1)
+                             <div class="col-md-12">
+                              @else
+                                 <div class="col-md-12" hidden>
+                           @endif
                                 <p>Gasto</p>
                                 <table class="table" id="gasto">
                                     <thead>

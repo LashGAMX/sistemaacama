@@ -194,11 +194,11 @@ ON param.Id_subnorma = p.Id_parametro
 /* Lista solicitudes */
 CREATE VIEW ViewSolicitud as SELECT 
 sol.*,inter.Nombres,inter.A_paterno,gen.Empresa,suc.Empresa as Empresa_suc,suc.Estado,dir.Direccion,
-con.Nombres as Nom_con,con.A_paterno as Nom_pat,ser.Servicio,ser.Descripcion,
+con.Nombres as Nom_con,con.A_paterno as Nom_pat,con.Telefono as Tel_con,ser.Servicio,ser.Descripcion,
 des.Descarga,nor.Norma,nor.Clave_norma,sub.Norma as Nor_sub,sub.Clave
 FROM solicitudes  as sol
 INNER JOIN ViewIntermediarios as inter
-ON inter.Id_cliente = sol.Id_intermediario
+ON inter.Id_intermediario = sol.Id_intermediario
 INNER JOIN ViewGenerales as gen
 ON gen.Id_cliente = sol.Id_cliente
 INNER JOIN sucursales_cliente as suc

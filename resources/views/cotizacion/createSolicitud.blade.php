@@ -194,7 +194,7 @@
                 <label for="norma">Norma</label>
 
                   <select name="norma" id="norma" class="form-control" disabled>
-                    <option value="{{$model->Id_norma}}}">{{$model->Clave_norma}}</option>
+                    <option value="{{$model->Id_norma}}">{{$model->Clave_norma}}</option>
                   </select>
         
               </div>
@@ -318,9 +318,9 @@
                             style="width: 60%;border: none;" disabled>
                     </div>
                     <div class="col-md-4">
-                        <button type="button" id="btnCrearSolicitud" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-save"></i> Crear Orden</button>
+                        <button type="button" id="btnCrearSolicitud" onclick="setSolicitud()" class="btn btn-success"><i class="fas fa-save"></i> Crear Orden</button>
                     </div>
-                </div>
+                </div> 
             </div>
             <div class="col-md-12">
                 <div class="row">
@@ -353,5 +353,5 @@
 
 @endsection
 @section('javascript')
-<script src="{{asset('public/js/cotizacion/createSolicitud.js')}}?v=0.0.1"></script>
+<script src="{{asset('public/js/cotizacion/createSolicitud.js')}}?v=0.0.2"></script>
 @stop

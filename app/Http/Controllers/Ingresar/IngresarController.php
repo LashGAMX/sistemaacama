@@ -43,12 +43,7 @@ class IngresarController extends Controller
             $std = true;
         }
         $siralab = false;
-        if ($cliente->Siralab == 1) {
-            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre', $cliente->Id_solicitud)->get();
-            $siralab = true;
-        } else {
-            $puntos = DB::table('ViewPuntoGenSol')->where('Id_solPadre', $cliente->Id_solicitud)->get();
-        }
+        $puntos = DB::table('ViewPuntoGenSol')->where('Id_solPadre', $cliente->Id_solicitud)->get();
 
         $array = array(
             'std' => $std,

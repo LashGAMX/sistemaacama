@@ -23,7 +23,7 @@ use App\Models\PuntoMuestreoSir;
 use App\Models\SeguimientoAnalisis;
 use App\Models\Solicitud;
 use App\Models\SolicitudParametro;
-use App\Models\SolicitudPuntos;
+use App\Models\SolicitudPuntos; 
 use App\Models\SubNorma;
 use App\Models\SucursalCliente;
 use App\Models\TipoDescarga;
@@ -65,17 +65,17 @@ class SolicitudController extends Controller
         $intermediario = DB::table('ViewIntermediarios')->get();
         $categorias001 = DB::table('ViewDetalleCuerpos')->get();
         $data = array(
-            'model' => $model, 
+            'model' => $model,
             'tipoMuestraCot' => $tipoMuestraCot,
             'promedioCot' => $promedioCot,
             'servicio' => $servicios,
             'descargas' => $descargas,
             'categorias001' => $categorias001,
             'frecuencia' => $frecuencia,
-            'intermediario' => $intermediario, 
+            'intermediario' => $intermediario,
         );
 
-        return view('cotizacion.createSolicitud',$data);
+        return view('cotizacion.createSolicitud', $data);
     }
     public function getDatoIntermediario(Request $res)
     {
@@ -195,7 +195,8 @@ class SolicitudController extends Controller
         if ($cantCot > 0) {
             echo "Entro a if <br>";
             $hijo = 1;
-            $folio = $firtsFol->Folio_servicio . '-' . ($cantCot + 1);
+            // $folio = $firtsFol->Folio_servicio . '-' . ($cantCot + 1);
+            $folio = $dayYear . "-" . ($solicitudDay + 1) . "/" . $year;
         } else {
             echo "Entro a else <br>";
             $folio = $dayYear . "-" . ($solicitudDay + 1) . "/" . $year;
@@ -204,9 +205,6 @@ class SolicitudController extends Controller
         // Convertir cadena a array de datos
 
         if ($res->id > 0) {
-            $puntos = explode(",", $res->puntosSolicitud);
-            $parametros = explode(",", $res->parametrosSolicitud);
-
             if ($res->siralab != NULL) {
                 $siralab = 1;
             } else {
@@ -239,26 +237,27 @@ class SolicitudController extends Controller
 
             // var_dump($model->Id_solicitud);
             $contPuntos = 0;
-            foreach ($puntos as $p) {
-                $puntoModel = SolicitudPuntos::create([
+            DB::table('solicitud_puntos')->where('Id_solicitud', $model->Id_solicitud)->delete();
+            for ($i = 0; $i < sizeof($res->puntos); $i++) {
+                SolicitudPuntos::create([
                     'Id_solicitud' => $model->Id_solicitud,
-                    'Id_muestreo' => $p
+                    'Id_muestreo' =>  $res->puntos[$i]
                 ]);
                 $contPuntos++;
             }
-            foreach ($parametros as $item) {
-                $subnorma = NormaParametros::where('Id_norma', $res->subnorma)->where('Id_parametro', $item)->get();
+
+            for ($i = 0; $i < sizeof($res->parametros); $i++) {
+                $subnorma = NormaParametros::where('Id_norma', $res->subnorma)->where('Id_parametro', $res->parametros[$i])->get();
 
                 $extra = 0;
-                if ($subnorma->count()) {
+                if ($subnorma->count() > 0) {
                     $extra = 0;
                 } else {
                     $extra = 1;
                 }
-
                 SolicitudParametro::create([
                     'Id_solicitud' => $model->Id_solicitud,
-                    'Id_subnorma' => $item,
+                    'Id_subnorma' => $res->parametros[$i],
                     'Extra' => $extra,
                 ]);
             }
@@ -286,7 +285,7 @@ class SolicitudController extends Controller
                     $model2 = Solicitud::create([
                         'Id_cotizacion' => $res->id,
                         'Folio_servicio' => $folio . '-' . ($i + 1),
-                        'Id_intermediario' => $res->intermediario,
+                        'Id_intermediario' => $res->inter,
                         'Id_cliente' => $res->clientes,
                         'Siralab' => $siralab,
                         'Id_sucursal' => $res->sucursal,
@@ -309,21 +308,22 @@ class SolicitudController extends Controller
                     SolicitudPuntos::create([
                         'Id_solPadre' => $model->Id_solicitud,
                         'Id_solicitud' => $model2->Id_solicitud,
-                        'Id_muestreo' => $puntos[$i]
+                        'Id_muestreo' => $res->puntos[$i]
                     ]);
-                    foreach ($parametros as $item) {
-                        $subnorma = NormaParametros::where('Id_norma', $res->subnorma)->where('Id_parametro', $item)->get();
+
+
+                    for ($i = 0; $i < sizeof($res->parametros); $i++) {
+                        $subnorma = NormaParametros::where('Id_norma', $res->subnorma)->where('Id_parametro', $res->parametros[$i])->get();
 
                         $extra = 0;
-                        if ($subnorma->count()) {
+                        if ($subnorma->count() > 0) {
                             $extra = 0;
                         } else {
                             $extra = 1;
                         }
-
                         SolicitudParametro::create([
                             'Id_solicitud' => $model2->Id_solicitud,
-                            'Id_subnorma' => $item,
+                            'Id_subnorma' => $res->parametros[$i],
                             'Extra' => $extra,
                         ]);
                     }
@@ -331,7 +331,196 @@ class SolicitudController extends Controller
             }
         } else {
         }
-
-        return redirect()->to('admin/cotizacion/solicitud');
+ 
+        $data = array(
+            'punto' => $res,
+        );
+        return response()->json($data);
+        // return redirect()->to('admin/cotizacion/solicitud');
     }
+    public function setGenFolio(Request $request)
+    {
+
+        $sw = false;
+        $coliforme = false;
+        $ga = false;
+        $dbo = false;
+        $dqo = false;
+        $modelPadre = DB::table('ViewSolicitud')->where('Id_cotizacion', $request->idCot)->where('Padre', 1)->first();
+        $model = DB::table('ViewSolicitud')->where('Hijo', $modelPadre->Id_solicitud)->get();
+
+
+        foreach ($model as $item) {
+            $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro', 13)->get();
+            if ($solParam->count()) {
+                $ga = true;
+            }
+            $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro', 12)->get();
+            if ($solParam->count()) {
+                $coliforme = true;
+            }
+            $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro', 5)->get();
+            if ($solParam->count()) {
+                $dbo = true;
+            }
+            $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $item->Id_solicitud)->where('Id_parametro', 6)->get();
+            if ($solParam->count()) {
+                $dqo = true;
+            }
+        }
+        $phMuestra = PhMuestra::where('Id_solicitud', $item->Id_solicitud)->where('Activo', 1)->get();
+
+        if ($phMuestra->count()) {
+            foreach ($model as $value) {
+                # code...
+                $sw = false;
+                $cont = 0;
+                $swCodigo = CodigoParametros::where('Id_solicitud', $value->Id_solicitud)->get();
+                $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $value->Id_solicitud)->get();
+
+                if ($swCodigo->count()) {
+                    $sw = true;
+                } else {
+                    foreach ($solParam as $item) {
+
+                        switch ($item->Id_parametro) {
+                            case 13:
+                                // G&A
+                                for ($i = 0; $i < $phMuestra->count(); $i++) {
+                                    if ($phMuestra[$i]->Activo == 1) {
+                                        CodigoParametros::create([
+                                            'Id_solicitud' => $value->Id_solicitud,
+                                            'Id_parametro' => $item->Id_parametro,
+                                            'Codigo' => $value->Folio_servicio . "-G-" . ($i + 1) . "",
+                                            'Num_muestra' => $i + 1,
+                                            'Asignado' => 0,
+                                            'Analizo' => 1,
+                                        ]);
+                                    }
+                                }
+                                break;
+                            case 12:
+                                // Coliformes
+                                for ($i = 0; $i < $phMuestra->count(); $i++) {
+                                    if ($phMuestra[$i]->Activo == 1) {
+                                        CodigoParametros::create([
+                                            'Id_solicitud' => $value->Id_solicitud,
+                                            'Id_parametro' => $item->Id_parametro,
+                                            'Codigo' => $value->Folio_servicio . "-C-" . ($i + 1) . "",
+                                            'Num_muestra' => $i + 1,
+                                            'Asignado' => 0,
+                                            'Analizo' => 1,
+                                        ]);
+                                    }
+                                }
+                                break;
+                            case 5:
+                                // DBO
+                                for ($i = 0; $i < 3; $i++) {
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $value->Id_solicitud,
+                                        'Id_parametro' => $item->Id_parametro,
+                                        'Codigo' => $value->Folio_servicio . "-D-" . ($i + 1) . "",
+                                        'Num_muestra' => $i + 1,
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                        'Cadena' => 0,
+                                    ]);
+                                }
+                                break;
+                            case 6:
+                                // DQO
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $value->Id_solicitud,
+                                    'Id_parametro' => $item->Id_parametro,
+                                    'Codigo' => $value->Folio_servicio,
+                                    'Num_muestra' => 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                ]);
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $value->Id_solicitud,
+                                    'Id_parametro' => 152,
+                                    'Codigo' => $value->Folio_servicio,
+                                    'Num_muestra' => 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                ]);
+                                break;
+                            default:
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $value->Id_solicitud,
+                                    'Id_parametro' => $item->Id_parametro,
+                                    'Codigo' => $value->Folio_servicio,
+                                    'Num_muestra' => 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                ]);
+                                break;
+                        }
+                    }
+                }
+            }
+        } else {
+            $sw = false;
+        }
+
+
+
+
+
+        $data = array(
+            'dqo' => $dqo,
+            'sw' => $sw,
+            'ga' => $ga,
+            'coliformes' => $coliforme,
+            'dbo' => $dbo,
+        );
+
+        return response()->json($data);
+    }
+    public function exportPdfOrden($idOrden)
+    {
+        $qr = new DNS2D();
+        $model = DB::table('ViewSolicitud')->where('Id_cotizacion', $idOrden)->first();
+        $cliente = SucursalCliente::where('Id_sucursal', $model->Id_sucursal)->first();
+        $direccion = DireccionReporte::where('Id_sucursal', $model->Id_sucursal)->first();
+        $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $model->Id_solicitud)->where('Extra', 0)->orderBy('Parametro', 'ASC')->get();
+        $extra = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $model->Id_solicitud)->where('Extra', 1)->orderBy('Parametro', 'ASC')->get();
+        $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion', $idOrden)->first();
+        $frecuenciaMuestreo = Frecuencia001::where('Id_frecuencia', $cotizacion->Frecuencia_muestreo)->first();
+
+
+        $mpdf = new \Mpdf\Mpdf([ 
+            'format' => 'letter',
+            'margin_left' => 20,
+            'margin_right' => 20,
+            'margin_top' => 30,
+            'margin_bottom' => 18
+        ]);
+
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/MembreteVertical.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+
+        $data = array(
+            'extra' => $extra,
+            'model' => $model,
+            'parametros' => $parametros,
+            'qr' => $qr,
+            'cotizacion' => $cotizacion,
+            'direccion' => $direccion,
+            'frecuenciaMuestreo' => $frecuenciaMuestreo,
+            'cliente' => $cliente,
+        );
+
+        $html = view('exports.cotizacion.ordenServicio', $data);
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->WriteHTML($html);
+        $mpdf->Output();
+    }
+
 }

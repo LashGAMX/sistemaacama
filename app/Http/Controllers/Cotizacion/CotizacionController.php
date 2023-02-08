@@ -182,6 +182,17 @@ class CotizacionController extends Controller
         );
         return response()->json($data);
     }
+    public function cantidadGasolina(Request $request)
+    {
+        $model = DB::table('costo_muestreo')->first();
+        $kmTotal = ($request->km + $request->kmExtra);
+        $descaste = $kmTotal * $model->Desgaste_km;
+        $gasolinaTeorico = ($kmTotal / $model->Rendimiento);
+        $data = array(
+            'total' => $gasolinaTeorico,
+        );
+        return response()->json($data);
+    }
     public function setCotizacion(Request $res)
     {
         $idCot = 0;
@@ -473,7 +484,7 @@ class CotizacionController extends Controller
         $model->Metodo_pago = $res->metodoPago;
         $model->Precio_analisis = $res->precioAnalisis;
         $model->Precio_catalogo = $res->precioCat;
-        $model->Descuento = $res->descuentwo;
+        $model->Descuento = $res->descuento;
         $model->Precio_analisisCon = $res->precioAnalisisCon;
         $model->Precio_muestreo = $res->precioMuestra;
         $model->Iva = $res->iva;

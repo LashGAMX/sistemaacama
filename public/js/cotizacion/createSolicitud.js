@@ -9,6 +9,7 @@ $(document).ready(function () {
      $('#parametro-tab').click(function () {
         createTabParametros();
       });
+
 });
 //todo Goblales
 var model = new Array()
@@ -26,7 +27,19 @@ function _constructor()
 }
 function addColPunto()
 {
-  var t = $('#puntoMuestro').DataTable();
+  var t = $('#puntoMuestro').DataTable({
+    "ordering": false,
+    "pageLength": 100,
+    "language": {
+        "lengthMenu": "# _MENU_ por pagina",
+        "zeroRecords": "No hay datos encontrados",
+        "info": "Pagina _PAGE_ de _PAGES_",
+        "infoEmpty": "No hay datos encontrados",
+    },
+    "scrollY": 200,
+    "scrollCollapse": true
+});
+
   $('#puntoMuestro tbody').on( 'click', 'tr', function () {
     if ( $(this).hasClass('selected') ) {
         $(this).removeClass('selected');
@@ -345,7 +358,7 @@ function getSubNormas() {
     let element = [
         inputSelect('puntoMuestreo','','Punto de muestreo',punto,puntoId),
     ];
-    itemModal[1] = element;
+    itemModal[1] = element; 
     newModal('divModal', 'setPuntoMuestro', 'Agregar punto muestreo', 'lg', 1, 1, 1, inputBtn('btnAddPunto','btnAddPunto', 'Guardar', 'save', 'success', 'btnAddPunto()'));    
 }
 function btnAddPunto()
@@ -360,7 +373,7 @@ function btnAddPunto()
 }
 function createTabParametros()
 {
-  let table = document.getElementById("tabParametros")
+  let table = document.getElementById("tableParametros")
   let tab = '';
   let cont = 1;
   $("#normaPa").val($("#norma option:selected").text())
@@ -375,7 +388,7 @@ function createTabParametros()
     tab += '<tr>' 
     }
     tab += '<td>'+cont+'</td>';
-    tab += '<td>'+item.Id_parametro+'</td>';
+    tab += '<td>'+item.Id_subnorma+'</td>';
     tab += '<td>'+item.Parametro+'('+item.Tipo_formula+')</td>';
     tab += '</tr>'
     cont++
@@ -384,16 +397,19 @@ function createTabParametros()
 }
 function setSolicitud()
 {
+    console.log("entro a setSolicitud")
     let tab = document.getElementById("puntoMuestro")
     let tab2 = document.getElementById("tableParametros")
-    let punto = new Array()
-    let parametros = new Array()
-    for (let i = 1; i < tab.rows.lent; i++) {
-        punto.push(tab.rows[i].children[0].textContent)
+    let puntos = new Array()
+    let parametro = new Array()
+    for (let i = 1; i < tab.rows.length; i++) {
+        puntos.push(tab.rows[i].children[0].textContent)
     }
-    for (let i = 1; i < tab.rows.lent; i++) {
-        parametros.push(tab2.rows[i].children[1].textContent)
+    for (let i = 1; i < tab2.rows.length; i++) {
+        parametro.push(tab2.rows[i].children[1].textContent)
     }
+    console.log(puntos)
+    console.log(parametro)
     $.ajax({
         url: base_url + '/admin/cotizacion/solicitud/setSolicitud', //archivo que recibe la peticion
         type: 'POST', //método de envio
@@ -417,14 +433,16 @@ function setSolicitud()
           tipoMuestra:$("#tipoMuestra").val(),
           promedio:$("#promedio").val(),
           tipoReporte:$("#tipoReporte").val(),
-          parametros:parametros,
+          puntos:puntos,
+          parametros:parametro,
           _token: $('input[name="_token"]').val(),
         },
         dataType: 'json', 
         async: false,
         success: function (response) {
+            console.log("Resiviendo repuesta");
           console.log(response);
-         
+          alert("Orden generada")
         }
       });
 }

@@ -21,9 +21,43 @@ $(document).ready(function () {
         GuardarTempAgua()
         GuardarPhControlCalidad()
         GuardarTempAmb()
+        alert("Datos Guardados")
     });
-      
+    getFactorCorreccion(1,'termometro')
+    getFactorCorreccion(2,'termometro2')
 });
+function validacionFechaMuestreo(f1,f2,sw){
+
+    if (sw == 1) { 
+        let d1 = new Date($("#"+f1).val()); // Fecha original
+        let d2 = new Date($("#"+f2).val()); // Fecha comprobacion
+        if(d1 > d2){
+            inputBorderColor(f1, "verde");
+            console.log("Fecha mayor");
+        }else{
+            inputBorderColor(f1, "rojo");
+            console.log("Fecha menor");
+        }
+    } else {
+        let d1 = new Date($("#"+f1).val()); // Fecha original
+        let d2 = new Date($("#"+f2).val()); // Fecha comprobacion
+        let temp = new Date();
+        if(d1 > d2){
+            temp = d2.setHours(d2.getHours() + 4,d2.getMinutes() + 10);
+            if(temp > d1){
+                inputBorderColor(f1, "verde");
+                console.log("Fecha mayor");
+            }else{
+                console.log("Supera el limite");
+                inputBorderColor(f1, "rojo");
+            }
+        }else{
+            inputBorderColor(f1, "rojo");
+            console.log("Fecha menor");
+        }
+    }
+    
+}
 function generarVmsi()
 {
     let table = document.getElementById("muestrasQi")

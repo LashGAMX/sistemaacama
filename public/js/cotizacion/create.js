@@ -218,6 +218,28 @@ function getParametrosSelected()
     }
 });
 }
+function cantGasolinaTeorico() 
+{
+  let km = document.getElementById('km')
+ if(km.value != '' && $('#kmExtra').val() != '')
+ {
+   $.ajax({
+    url: base_url + '/admin/cotizacion/cantidadGasolina', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      kmExtra: $('#kmExtra').val(),
+      km: $('#km').val(),
+        _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json',
+    async: false,
+    success: function (response) {
+        console.log(response)
+        $("#gasolinaTeorico").val(response.total);
+    }
+  });
+ }
+}
 function setPrecioMuestreo()
 {
  
@@ -360,7 +382,7 @@ function setCotizacion() {
   for (let i = 1; i < tab2.rows.length; i++) {
     param.push(tab2.rows[i].children[1].textContent)
   }
-  console.log(puntos)
+  console.log(param)
   $.ajax({
     url: base_url + '/admin/cotizacion/setCotizacion', //archivo que recibe la peticion
     type: 'POST', //método de envio
