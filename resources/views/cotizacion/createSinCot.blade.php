@@ -387,19 +387,7 @@
                                                 <input type="text" class="form-control" id="textCliente" disabled>
                                             </div>
                                         </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="textAtencion">Con atención a</label>
-                                                <input type="text" class="form-control" id="textAtencion" disabled>
-                                            </div>
-                                        </div>
-                                        <div class="col-md-6">
-                                            <div class="form-group">
-                                                <label for="textDireccion">Dirección cotización</label>
-                                                <textarea name="textDireccion" class="form-control" id="textDireccion"
-                                                    disabled></textarea>
-                                            </div>
-                                        </div>
+                          
                                         <div class="col-md-6">
                                             <div class="row">
                                                 <div class="col-md-12">
@@ -548,7 +536,7 @@
                                 </div>
                                 </div>
                             <!-- Observación Interna -->
-                            <div class="col-md-12 mt-1">
+                            {{-- <div class="col-md-12 mt-1">
                                 <label for="">Observación interna:</label>
                                 <textarea cols="30" rows="2" class="form-control" name="observacionInterna"
                                     id="observacionInterna">{{ @$model->Observacion_interna }}</textarea>
@@ -558,7 +546,15 @@
                                 <label for="">Observación cotización:</label>
                                 <textarea cols="30" rows="2" class="form-control" name="observacionCotizacion"
                                     id="observacionCotizacion">{{ @$model->Observacion_cotizacion }}</textarea>
-                            </div>
+                            </div> --}}
+                            <div class="col-md-12">
+                                <label for="atencion">Con atención a reporte</label>
+                                <input type="text" class="form-control" id="atencion" name="atencion" placeholder="Nombre con atención a..." value="{{@$model->Atencion}}">
+                              </div>
+                              <div class="col-md-12">
+                                <label for="observacion">Observación</label>
+                                <textarea class="form-control" id="observacion" name="observacion" placeholder="Escribir...">{{@$model->Observacion_cotizacion}}</textarea>
+                              </div>
                             <!-- Forma de pago-->
                             <div class="col-md-6">
                                 <label for="">Forma de Pago</label>

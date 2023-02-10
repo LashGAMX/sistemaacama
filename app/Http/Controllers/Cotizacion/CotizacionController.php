@@ -501,6 +501,70 @@ class CotizacionController extends Controller
         return response()->json($data);
         
     }
+    public function duplicar($idCot)
+    {
+
+        //Duplica la Cotización
+
+        $year = date("y");
+        $month = date("m");
+        $dayYear = date("z") + 1;
+        $hijo = 0;
+        $today = Carbon::now()->format('Y-m-d');
+        $temp = Cotizacion::where('Id_cotizacion', $idCot)->first();
+        $cotizacionDay = DB::table('cotizacion')->whereDate('created_at', $today)->where('Hijo', 0)->count();
+        $numCot = DB::table('cotizacion')->whereDate('created_at', $today)->where('Id_sucursal', $temp->Id_sucursal)->get();
+        $hijo = 0;
+        if ($numCot->count()) {
+            $hijo = 1;
+            $firtsFol = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_sucursal', $temp->Id_sucursal)->first();
+            $folio = $firtsFol->Folio . '-' . ($numCot->count() + 1);
+        } else {
+            $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
+        }
+
+        $cotOriginal = Cotizacion::where('Id_cotizacion', $idCot)->first();
+        $cotReplicada = $cotOriginal->replicate();
+
+        $cotReplicada->Folio_servicio = NULL;
+        $cotReplicada->Folio = $folio;
+        $cotReplicada->Creado_por = Auth::user()->id;
+        $cotReplicada->Actualizado_por = Auth::user()->id;
+        $cotReplicada->created_at = Carbon::now();
+        $cotReplicada->updated_at = Carbon::now();
+
+        $cotReplicada->save();
+        if ($temp->Tipo_servicio != 3) {            
+            $cotMuestreoOriginal = CotizacionMuestreo::where('Id_cotizacion', $idCot)->first();
+            $cotMuestreoDuplicada = $cotMuestreoOriginal->replicate();
+            $cotMuestreoDuplicada->Id_cotizacion = $cotReplicada->Id_cotizacion;
+            $cotMuestreoDuplicada->Id_user_c = Auth::user()->id;
+            $cotMuestreoDuplicada->Id_user_m = Auth::user()->id;
+            $cotMuestreoDuplicada->created_at = Carbon::now();
+            $cotMuestreoDuplicada->updated_at = Carbon::now();
+            $cotMuestreoDuplicada->save();
+        }
+
+        $cotParamOriginal = CotizacionParametros::where('Id_cotizacion', $idCot)->get();
+
+        foreach ($cotParamOriginal as $item) {
+            $cotParamDuplicada = $item->replicate();
+            $cotParamDuplicada->Id_cotizacion = $cotReplicada->Id_cotizacion;
+            $cotParamDuplicada->save();
+        }
+
+        $cotPuntoOriginal = CotizacionPunto::where('Id_cotizacion', $idCot)->get();
+
+        foreach ($cotPuntoOriginal as $item) {
+            $cotPuntoDuplicada = $item->replicate();
+            $cotPuntoDuplicada->Id_cotizacion = $cotReplicada->Id_cotizacion;
+            $cotPuntoDuplicada->save();
+        }
+
+        echo "<script>alert('Cotización duplicada exitosamente!');</script>";
+        return redirect()->to('admin/cotizacion');
+    }
+
     public function exportPdfOrden($idCot)
     {
 

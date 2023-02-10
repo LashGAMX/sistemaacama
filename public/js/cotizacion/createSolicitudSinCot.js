@@ -85,13 +85,23 @@ $(document).ready(function () {
 }
   function setPrecioCotizacion()
   {
+    let tab = document.getElementById("puntoMuestro")
+    let tab2 = document.getElementById("tableParametros")
+    let puntos = new Array()
+    let parametro = new Array()
+    for (let i = 1; i < tab.rows.length; i++) {
+        puntos.push(tab.rows[i].children[0].textContent)
+    }
+    for (let i = 1; i < tab2.rows.length; i++) {
+        parametro.push(tab2.rows[i].children[1].textContent)
+    }
     $.ajax({
-      url: base_url + '/admin/cotizacion/setPrecioCotizacion', //archivo que recibe la peticion
+      url: base_url + '/admin/cotizacion/solicitud/setSolicitudSinCot', //archivo que recibe la peticion
       type: 'POST', //método de envio
       data: {
         id: $('#idCot').val(),
-        obsInt: $('#observacionInterna').val(),
-        obsCot: $('#observacionCotizacion').val(),
+        // obsInt: $('#observacionInterna').val(),
+        // obsCot: $('#observacionCotizacion').val(),
         metodoPago: $('#metodoPago').val(),
         precioAnalisis: $('#precioAnalisis').val(),
         precioCat: $('#precioCat').val(),
@@ -100,13 +110,35 @@ $(document).ready(function () {
         precioMuestra: $('#precioMuestra').val(),
         iva: $('#iva').val(),
         subTotal: $('#subTotal').val(),
-        precioTotal: $('#precioTotal').val(),
+        precioTotal: $('#precioTotal').val(), 
+
+        inter:$("#intermediario").val(),
+        clientes:$("#cliente").val(),
+        sucursal:$("#clienteSucursal").val(),
+        direccionReporte:$("#clienteDir").val(),
+        siralab:$("#siralab").prop('checked'),
+        contacto:$("#contacto").val(),
+        atencion:$("#atencion").val(),
+        observacion:$("#observacion").val(),
+        tipoServicio:$("#tipoServicio").val(),    
+        tipoDescarga:$("#tipoDescarga").val(),
+        norma:$("#norma").val(),
+        subnorma:$("#subnorma").val(),
+        fechaMuestreo:$("#fecha").val(),
+        frecuencia:$("#frecuencia").val(),
+        numTomas:$("#tomas").val(),
+        tipoMuestra:$("#tipoMuestra").val(),
+        promedio:$("#promedio").val(),
+        tipoReporte:$("#tipoReporte").val(),
+        puntos:puntos,
+        parametros:parametro,
           _token: $('input[name="_token"]').val(),
       },
-      dataType: 'json',
+      dataType: 'json', 
       async: false,
       success: function (response) {
-        alert("Cotizacion creada correctamente")
+        alert("Orden creada correctamente")
+        window.location = base_url + "/admin/cotizacion/solicitud"
         
       }
   });
@@ -247,11 +279,11 @@ $(document).ready(function () {
           tab = '<div id="transfer1" class="transfer-demo"></div>'
           sec.innerHTML = tab
           $.each(response.parametros, function (key, item) {
-            for (let i = 0; i < parametros.length; i++) {
-              if(item.Id_parametro == parametros[i].Id_subnorma){
-                sw = true;
-              }
-            }
+              $.each(response.model, function (key, item2) {
+                if(item.Id_parametro == item2.Id_subnorma){
+                  sw = true;
+                }
+              }); 
               json.push({
                 "parametro" : item.Parametro,
                 "id":item.Id_parametro,
@@ -361,11 +393,9 @@ $(document).ready(function () {
     $("#textServicio").val($("#tipoServicio option:selected").text())
     $("#textDescarga").val($("#tipoDescarga option:selected").text())
     
-    $("#textCliente").val($("#nomCli").val())
-    $("#textDireccion").val($("#dirCli").val())
-    $("#textAtencion").val($("#atencion").val())
-    $("#textTelefono").val($("#telCli").val())
-    $("#textEmail").val($("#correoCli").val())
+    $("#textCliente").val($("#nombreCont").val() +" "+$("#apellidoCont").val())
+    $("#textTelefono").val($("#celCont").val())
+    $("#textEmail").val($("#emailCont").val())
   
     $("#textNorma").val($("#subnorma option:selected").text())
     $("#textMuestreo").val($("#frecuencia option:selected").text())
@@ -446,6 +476,11 @@ $(document).ready(function () {
         intermediario: $('#intermediario').val(),
         cliente: $('#cliente').val(),
         clienteSucursal: $('#clienteSucursal').val(),
+        nomCli: $('#clienteSucursal option:selected').text(),
+        dirCli: $('#clienteDir option:selected').text(),
+        atencion: $('#nombreCont').val(),
+        telCli: $('#celCont').val(),
+        correoCli: $('#emailCont').val(),
         clienteDir: $('#clienteDir').val(),
         tipoServicio: $('#tipoServicio').val(),
         tipoDescarga: $('#tipoDescarga').val(),
@@ -499,8 +534,8 @@ $(document).ready(function () {
       async: false,
       success: function (response) {
         parametros = response.model
-        allParametros = response.parametros
-      }
+        createTabParametros()
+      } 
     });
   }
   function getSubNormas() {

@@ -20,7 +20,7 @@
         </div>
         <div class="clearfix container-fluid row">
             <div class="col-md-3">
-                    <a href="{{url('/admin/config/laboratorio')}}">
+                    <a href="{{url('/admin/reportes-informes')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('');">
                         <div class="dimmer"></div>

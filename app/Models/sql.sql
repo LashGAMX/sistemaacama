@@ -620,3 +620,12 @@ ON pr.Id_solicitud = sol.Id_solicitud
 CREATE VIEW ViewSucursalesCliente as SELECT suc.*,cli.Id_intermediario FROM sucursales_cliente as suc
 INNER JOIN clientes_general as cli
 ON suc.Id_cliente = cli.Id_cliente
+
+/* ViewSucursalesInformes */
+
+CREATE VIEW ViewReportesInformes as SELECT i.Id_reporte, i.Encabezado, i.Nota, i.Id_reviso, i.Id_analizo, i.Num_rev, u.name as Analizo, us.name as Reviso 
+FROM reportes_informes as i 
+INNER JOIN users as u
+ON i.Id_analizo = u.id
+INNER JOIN users as us
+on i.Id_reviso = us.id

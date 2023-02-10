@@ -157,7 +157,7 @@
             </div>
 
             <div class="col-md-3">
-                <a href="{{url('/admin/reportes')}}">
+                <a href="{{url('/admin/config/reportes')}}">
                     <div class="panel widget center bgimage"
                         style="margin-bottom:0;overflow:hidden;background-image:url('https://sistemaacama.com.mx/public/storage/configuraciones_fondos/reportes.jpg');">
                         <div class="dimmer"></div>

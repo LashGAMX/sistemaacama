@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\DB;
 
 class IcpImport implements ToCollection
 {
-    public function collection(Collection $rows)
+    public function collection(Collection $rows) 
     {
 
         foreach ($rows as $row) {
@@ -24,7 +24,7 @@ class IcpImport implements ToCollection
         
 
             LoteDetalleIcp::create([
-                'Id_lote' => 69,
+                'Id_lote' => 275,
                 'Id_codigo' => $folioTemp[0],
                 'Id_parametro' => $idParametro,
                 'Cps' => $row[36],

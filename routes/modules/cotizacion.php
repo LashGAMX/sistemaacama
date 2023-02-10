@@ -76,6 +76,7 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     Route::post('getPuntoMuestro',[SolicitudController::class,'getPuntoMuestro']);
     Route::post('setSolicitud',[SolicitudController::class,'setSolicitud']);
     Route::get('createSinCot', [SolicitudController::class, 'createSinCot']);
+    Route::post('setSolicitudSinCot',[SolicitudController::class,'setSolicitudSinCot']);
     // Route::post('getDatos2', [SolicitudController::class, 'getDatos2']);
 
     // Route::post('getSucursal',[SolicitudController::class,'getSucursal']);
