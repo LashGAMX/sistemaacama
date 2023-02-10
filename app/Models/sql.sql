@@ -623,7 +623,7 @@ ON suc.Id_cliente = cli.Id_cliente
 
 /* ViewSucursalesInformes */
 
-CREATE VIEW ViewReportesInformes as SELECT i.Id_reporte, i.Encabezado, i.Nota, i.Id_reviso, i.Id_analizo, i.Num_rev, u.name as Analizo, us.name as Reviso 
+CREATE VIEW ViewReportesInformes as SELECT i.Id_reporte, i.Encabezado, i.Nota, i.Id_reviso, i.Id_analizo, i.Fecha_inicio, i.Fecha_fin, i.Num_rev, u.name as Analizo, us.name as Reviso 
 FROM reportes_informes as i 
 INNER JOIN users as u
 ON i.Id_analizo = u.id

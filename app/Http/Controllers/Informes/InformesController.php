@@ -31,6 +31,7 @@ use App\Models\SolicitudParametro;
 use App\Models\SolicitudPuntos;
 use App\Models\TipoReporte;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -116,6 +117,8 @@ class InformesController extends Controller
     //todo Seccio de pdf
     public function exportPdfInforme($idSol,$idPunto,$tipo)
     {
+        $today = carbon::now()->toDateString();
+
          //Opciones del documento PDF
          $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'P',
@@ -130,7 +133,7 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
-        $reportesInformes = DB::table('ViewReportesInformes')->
+        $reportesInformes = DB::table('ViewReportesInformes')->max('Num_rev'); //Condición de busqueda para las configuraciones(Historicos)
         $aux = true;
         foreach ($model as $item) {
             if ($aux == true) {
@@ -311,6 +314,7 @@ class InformesController extends Controller
             'limitesN' => $limitesN,
             'tipo' => $tipo,
             'rfc' => $rfc,
+            'reportesInformes' => $reportesInformes,
         );
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes

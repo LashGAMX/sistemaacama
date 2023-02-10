@@ -19,6 +19,8 @@ class ReportesInformes extends Model
         'Nota',
         'Id_analizo',
         'Id_reviso',
+        'Fecha_inicio',
+        'Fecha_fin',
         'Num_rev',
     ];
 }
