@@ -1,5 +1,7 @@
 <p id='header1'>
-    INFORME DE RESULTADOS AGUA RESIDUAL <br> MUESTRA
+    {{-- INFORME DE RESULTADOS AGUA RESIDUAL  --}}
+    {{$reportesInformes->Encabezado}}
+    <br> MUESTRA
     @if (@$solModel->Id_muestra == 1)
     INSTANTANEA
     @else

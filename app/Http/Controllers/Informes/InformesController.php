@@ -34,6 +34,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Mpdf\Tag\Select;
 
 class InformesController extends Controller
 {
@@ -118,7 +119,7 @@ class InformesController extends Controller
     public function exportPdfInforme($idSol,$idPunto,$tipo)
     {
         $today = carbon::now()->toDateString();
-
+        $reportesInformes = array();
          //Opciones del documento PDF
          $mpdf = new \Mpdf\Mpdf([
             'orientation' => 'P',
@@ -133,8 +134,8 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
-        $reportesInformes = DB::table('ViewReportesInformes')->max('Num_rev'); //Condición de busqueda para las configuraciones(Historicos)
-        $aux = true;
+        $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Condición de busqueda para las configuraciones(Historicos)
+        $aux = true; 
         foreach ($model as $item) {
             if ($aux == true) {
                 if ($item->Siralab == 1) {

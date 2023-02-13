@@ -24,12 +24,12 @@
     
             <div class="contenedorHijo12 bordesTablaFirmasInfIzq">            
                 <span class="cabeceraStdMuestra"> REVISÓ SIGNATARIO <br> </span>            
-                <span class="bodyStdMuestra"> BIOL. GUADALUPE GARCÍA PÉREZ {{-- {{@$usuario->name}} --}} </span>
+                <span class="bodyStdMuestra"> {{$reportesInformes->Analizo}} {{-- {{@$usuario->name}} --}} </span>
             </div>         
             
             <div class="contenedorHijo12 bordesTablaFirmasInfDer">            
                 <span class="cabeceraStdMuestra"> AUTORIZÓ SIGNATARIO <br> </span>
-                <span class="bodyStdMuestra"> TSU. MARÍA IRENE REYES MORALES {{-- {{@$usuario->name}} --}} </span>
+                <span class="bodyStdMuestra"> {{$reportesInformes->Reviso}} {{-- {{@$usuario->name}} --}} </span>
             </div>
         </div>
     
@@ -110,7 +110,7 @@
                     </tr>
     
                     <tr>
-                        <td style="text-align: right;"><span class="revisiones">FO-13-001</span> <br> <span class="revisiones">Revisión 5</span></td>
+                        <td style="text-align: right;"><span class="revisiones">FO-13-001</span> <br> <span class="revisiones">Revisión {{$reportesInformes->Num_rev}}</span></td>
                     </tr>
                 </thead>                        
             </table>  
