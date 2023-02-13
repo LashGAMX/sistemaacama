@@ -29,7 +29,7 @@ class CadenaController extends Controller
         $model = DB::table('ViewSolicitud')->where('Id_solicitud', $id)->first();
         $intermediario = DB::table('ViewIntermediarios')->where('Id_intermediario',$model->Id_intermediario)->first();
         if ($model->Siralab == 1) {
-            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre', $id)->get();
+            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre', $id)->get(); 
             $swSir = true;
         } else {
             $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre', $id)->get();

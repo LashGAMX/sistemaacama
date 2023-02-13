@@ -14,6 +14,9 @@ $(document).ready(function () {
       $('#btnBuscarLote').click(function () {
         buscarLote();
       });
+      $('#btnLiberar').click(function () {
+        liberarIcp();
+      });
 });
 
 $(function(){
@@ -32,10 +35,34 @@ $(function(){
           .done(function(res){
             console.log(res)
             alert("Datos importados correctamente") 
+            getLoteCaptura()
+
           });
   });
 });
 
+function liberarIcp()
+{
+    if(idLote != ''){
+        $.ajax({
+            type: 'POST',
+            url: base_url + "/admin/laboratorio/metales/liberarIcp",
+            data: {
+                id: idLote,
+                _token: $('input[name="_token"]').val(),
+            },
+            dataType: "json",
+            async: false,
+            success: function (response) {            
+                console.log(response);
+                swal("Liberado!", "Liberado creado correctamente!", "success");
+                
+            }
+        });
+    }else{
+        alert("No has seleccionado una lote")
+    }
+}
 
 function createLote()
 {
@@ -152,18 +179,37 @@ function getLoteCaptura() {
           tab += '    <tbody>';
           $.each(response.model, function (key, item) {
               tab += '<tr>';
-              tab += '  <td>'+item.Id_lote+'</td>';
-              tab += '  <td>'+item.Id_parametro+'</td>';
+              tab += '  <td>'+item.Id_codigo+'</td>';
+              tab += '  <td>'+item.Parametro+'</td>';
               tab += '  <td>'+item.Cps+'</td>';
               tab += '  <td>'+item.Resultado+'</td>';
               tab += '  <td>'+item.Fecha+'</td>';
-              tab += '  <td>'+item.Id_control+'</td>';
+              if (item.Id_control == 1) {
+                tab += '  <td class="bg-success">Resultado</td>';
+              } else {
+                tab += '  <td>Datos Equipo</td>';                
+              }
+
               tab += '</tr>';
        
           }); 
           tab += '    </tbody>';
           tab += '</table>';
           tabla.innerHTML = tab;
+
+          var t = $('#tablaControles').DataTable({
+            "ordering": false,
+            "pageLength": 100,
+            "language": {
+                "lengthMenu": "# _MENU_ por pagina",
+                "zeroRecords": "No hay datos encontrados",
+                "info": "Pagina _PAGE_ de _PAGES_",
+                "infoEmpty": "No hay datos encontrados",
+            },
+            "scrollY": 400,
+            "scrollCollapse": true
+        });
+
 
 
       }

@@ -2,8 +2,10 @@
 
 namespace App\Imports\AnalisisQ;
 
+use App\Models\CodigoParametros;
 use App\Models\LoteDetalleIcp;
 use App\Models\Parametro;
+use App\Models\TempIcp;
 use App\Models\Unidad;
 use Maatwebsite\Excel\Concerns\ToCollection;
 use Maatwebsite\Excel\Concerns\ToModel;
@@ -15,22 +17,36 @@ class IcpImport implements ToCollection
 {
     public function collection(Collection $rows) 
     {
-
+        $id = TempIcp::orderBy('Id','DESC')->first();
         foreach ($rows as $row) {
 
-            $folioTemp = explode('MA', $row[6]);
-            $elementoTemp = explode(' ', $row[21]);
-            $idParametro = $this->getIdElemento($elementoTemp[0]);
-        
-
-            LoteDetalleIcp::create([
-                'Id_lote' => 275,
-                'Id_codigo' => $folioTemp[0],
-                'Id_parametro' => $idParametro,
-                'Cps' => $row[36],
-                'Resultado' => $row[32],
-                'Fecha' => $row[11],
-            ]);
+            $elementoTemp = explode(' ', $row[24]);
+            // $idParametro = $this->getIdElemento($elementoTemp[0]);
+            $codTemp =  DB::table('ViewCodigoParametro')->where('Parametro','LIKE','%('.$elementoTemp[0].')%')->where('Codigo',$row[9])->get();
+            if ($codTemp->count()) {
+                LoteDetalleIcp::create([
+                    'Id_lote' => $id->Temp,
+                    'Id_codigo' => $codTemp[0]->Codigo,
+                    'Id_parametro' => $codTemp[0]->Id_parametro,
+                    'Parametro' => $elementoTemp[0],
+                    'Id_control' => 1,
+                    'Cps' => $row[39],
+                    'Resultado' => $row[35],
+                    'Fecha' => $row[14],
+                ]);
+                $codigo = CodigoParametros::find($codTemp[0]->Id_codigo);
+                $codigo->Asignado = 1;
+                $codigo->save();
+            }else{
+                LoteDetalleIcp::create([
+                    'Id_lote' => $id->Temp,
+                    'Id_codigo' => $row[9],
+                    'Parametro' => $elementoTemp[0],
+                    'Cps' => $row[39],
+                    'Resultado' => $row[35],
+                    'Fecha' => $row[14],
+                ]);
+            }
         }
     }
     function getIdElemento($elemento)
