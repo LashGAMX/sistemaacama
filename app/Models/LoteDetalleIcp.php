@@ -18,6 +18,7 @@ class LoteDetalleIcp extends Model
         'Id_analisis',
         'Id_codigo',
         'Id_parametro',
+        'Parametro',
         'Id_control',
         'Cps',
         'Resultado',

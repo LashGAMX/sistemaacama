@@ -33,7 +33,8 @@
                     <div class="form-group">
                         <label for="fechaLote">Fecha de lote</label>
                         <input type="date" class="form-control" id="fechaLote">
-                    </div>
+                    </div><br>
+                    <button class="btn-success" id="btnLiberar">Liberar</button>
                 </div>
                 <div class="col-md-2">
                     <button class="btn btn-info" id="btnBuscarLote"><i class="fas fa-search"></i> Buscar</button>

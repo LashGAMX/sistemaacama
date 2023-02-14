@@ -19,6 +19,7 @@ class CodigoParametros extends Model
         'Codigo',
         'Num_muestra',
         'Resultado',
+        'Resultado2',
         'Asignado',
         'Analizo',
         'Cadena',

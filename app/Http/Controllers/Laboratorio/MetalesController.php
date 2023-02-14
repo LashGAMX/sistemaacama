@@ -30,6 +30,7 @@ use App\Models\EstandarVerificacionMet;
 use App\Models\GeneradorHidrurosMet;
 use App\Models\LoteDetalleIcp;
 use App\Models\Tecnica;
+use App\Models\TempIcp;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpParser\Node\Expr\Cast\Array_;
@@ -1258,6 +1259,9 @@ class MetalesController extends Controller
     public function importCvs(Request $res)
     {
         $model = DB::table('lote_detalle_icp')->where('Id_lote',$res->idLote)->delete();
+        TempIcp::create([
+            'Temp' => $res->idLote,
+        ]);
         $data = array("data" => $res->idLote);
         Excel::import(new IcpImport,$res->file('file')); 
         return response()->json($data);
@@ -1265,6 +1269,20 @@ class MetalesController extends Controller
     public function getLoteCapturaIcp(Request $res)
     {
         $model = LoteDetalleIcp::where('Id_lote',$res->idLote)->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function liberarIcp(Request $res)
+    {
+        $model = LoteDetalleIcp::where('Id_lote',$res->id)->where('Id_control',1)->get();
+        foreach ($model as $item) {
+            $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
+            $temp->Resultado2 = $item->Resultado;
+            $temp->Analizo = Auth::user()->id;
+            $temp->save();
+        }
         $data = array(
             'model' => $model,
         );
