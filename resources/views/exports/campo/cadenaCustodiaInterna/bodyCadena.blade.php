@@ -23,16 +23,16 @@
                     {{$reportesCadena->Encabezado}}
                     </div>
                     <div class="fontNormal fontCalibri">
-                        1.-DATOS GENERALES
+                        1.-{{$reportesCadena->Seccion1}}
                     </div>
                     <div class="fontCalibri">
                         <table class="table-sm" width="100%">
                             <tr>
-                                <td>N° de Muestra &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
+                                <td>{{$reportesCadena->Titulo1}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
                                         class="negrita">{{$model->Folio_servicio}}</span></td>
-                                <td>Tipo de Muestra: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
+                                <td>{{$reportesCadena->Titulo2}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
                                         class="negrita">{{@$model->Descarga}}</span></td>
-                                <td>Norma Aplicable: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
+                                <td>{{$reportesCadena->Titulo3}} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <span
                                         class="negrita">{{@$norma->Clave_norma}}</span></td>
                             </tr>
                         </table>
@@ -127,7 +127,7 @@
             </div>
 
             <div class="col-12">
-                3. RESULTADOS
+                3. {{$reportesCadena->Seccion2}}
             </div>
             <div class="divFlex">
                 <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}"
@@ -434,7 +434,7 @@
                     <tr>
                         <td class="anchoColumna" style="border: 0"></td>
                         <td>&nbsp;</td>
-                        <td class="justifyRight">Rev. 9</td>
+                        <td class="justifyRight">Rev. {{$reportesCadena->Num_rev}}</td>
                         <td class="justifyRight">Fecha ultima revisión: 01/04/2016</td>
                     </tr>
                 </table>

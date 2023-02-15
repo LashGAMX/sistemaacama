@@ -3439,11 +3439,13 @@ class InformesController extends Controller
         //$fechaEmision = \Carbon\Carbon::now();        
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
         $firmaRes = User::where('id', 35)->first();
+        $reportesCadena = DB::table('ViewReportesCadena')->where('Num_rev', 9)->first(); //Condición de busqueda para las configuraciones(Historicos)
+
         $mpdf->showWatermarkImage = true;
 
         $htmlInforme = view(
             'exports.campo.cadenaCustodiaInterna.bodyCadena',
-            compact('model', 'promGra', 'promCol', 'promGas', 'fechasSalidas', 'paquete', 'firmaRes', 'paqueteLength', 'norma', 'recibidos', 'recepcion', 'paramResultado', 'paramResultadoLength')
+            compact('reportesCadena','model', 'promGra', 'promCol', 'promGas', 'fechasSalidas', 'paquete', 'firmaRes', 'paqueteLength', 'norma', 'recibidos', 'recepcion', 'paramResultado', 'paramResultadoLength')
         );
 
         $mpdf->WriteHTML($htmlInforme);
@@ -3695,7 +3697,8 @@ class InformesController extends Controller
 
         $fechaEmision = \Carbon\Carbon::now();
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
-        $reportesCadena = DB::table('ViewReportesCadena')->orderBy('Num_rev', 'desc')->first(); //Condición de busqueda para las configuraciones(Historicos)
+        //$reportesCadena = DB::table('ViewReportesCadena')->orderBy('Num_rev', 'desc')->first();
+        $reportesCadena = DB::table('ViewReportesCadena')->where('Num_rev', 9)->first(); //Condición de busqueda para las configuraciones(Historicos)
         $mpdf->showWatermarkImage = true;
 
         $htmlInforme = view(
