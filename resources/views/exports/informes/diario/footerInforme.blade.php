@@ -37,12 +37,7 @@
             <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                 <tbody>            
                         <tr>
-                            <td class="nombreHeaders fontBold fontSize9 justificadorIzq">NOTA: INTERPRETAR EL PUNTO (.) COMO SIGNO DECIMAL SEGÚN NORMA NOM-008-SCFI-2002 <br>
-                                LOS VALORES CON EL SIGNO MENOR (<) CORRESPONDEN AL VALOR MÍNIMO CUANTIFICADO POR EL MÉTODO. <br>
-                                ESTE REPORTE NO DEBE REPRODUCIRSE SIN LA APROBACIÓN DEL LABORATORIO EMISOR. <br>
-                                N.A INTERPRETAR COMO NO APLICA. <br>
-                                N.N INTERPRETAR COMO NO NORMADO. <br>
-                                NOTA 2: LOS DATOS EXPRESADOS AVALAN ÚNICAMENTE LOS RESULTADOS DE LA MUESTRA ANALIZADA. <br> <br>
+                            <td class="nombreHeaders fontBold fontSize9 justificadorIzq">{{$reportesInformes->Nota}}
     
                             </td>
                         </tr>                
@@ -110,7 +105,7 @@
                     </tr>
     
                     <tr>
-                        <td style="text-align: right;"><span class="revisiones">FO-13-001</span> <br> <span class="revisiones">Revisión {{$reportesInformes->Num_rev}}</span></td>
+                        <td style="text-align: right;"><span class="revisiones">{{$reportesInformes->Clave}}</span> <br> <span class="revisiones">Revisión {{$reportesInformes->Num_rev}}</span></td>
                     </tr>
                 </thead>                        
             </table>  

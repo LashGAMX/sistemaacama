@@ -22,5 +22,7 @@ class ReportesInformes extends Model
         'Fecha_inicio',
         'Fecha_fin',
         'Num_rev',
+        'Obs_reimpresion',
+        'Clave',
     ];
 }

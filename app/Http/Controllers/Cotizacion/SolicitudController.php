@@ -352,16 +352,17 @@ class SolicitudController extends Controller
     }
     public function setSolicitud(Request $res)
     {
-        $year = date("y");
+        $temp = strtotime($res->fechaMuestreo);
+        $year = date("y",$temp);
         $month = date("m");
-        $dayYear = date("z") + 1;
+        $dayYear = date("z",$temp) + 1;
         $today = Carbon::now()->format('Y-m-d');
         // $solicitudDay = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->count();
-        $solicitudDay = DB::table('solicitudes')->whereDate('created_at', $today)->where('Padre', 1)->count();
+        $solicitudDay = DB::table('solicitudes')->whereDate('created_at', $res->fechaMuestreo)->where('Padre', 1)->count();
 
 
-        $numCot = DB::table('solicitudes')->whereDate('created_at', $today)->where('Id_cliente', $res->clientes)->get();
-        $firtsFol = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->where('Id_cliente', $res->clientes)->first();
+        $numCot = DB::table('solicitudes')->whereDate('created_at', $res->fechaMuestreo)->where('Id_cliente', $res->clientes)->get();
+        $firtsFol = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$res->fechaMuestreo}%")->where('Id_cliente', $res->clientes)->first();
         $cantCot = $numCot->count();
 
         //var_dump($numCot);
@@ -506,7 +507,7 @@ class SolicitudController extends Controller
         }
  
         $data = array(
-            'punto' => $res,
+            'punto' => $folio,
         );
         return response()->json($data);
         // return redirect()->to('admin/cotizacion/solicitud');
