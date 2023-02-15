@@ -39,15 +39,6 @@ class LimiteParametros001 extends Component
         $model->save();
         $this->alert = true;
     }
-    public function setData($idLimite,$Prom_Mmax,$Prom_Mmin,$Prom_Dmax,$Prom_Dmin)
-    {
-        $this->alert = false;
-        $this->idLimite = $idLimite;
-        $this->Prom_Mmax = $Prom_Mmax;
-        $this->Prom_Mmin = $Prom_Mmin;
-        $this->Prom_Dmax = $Prom_Dmax;
-        $this->Prom_Dmin = $Prom_Dmin;
-    }
     public function createLimites($id)
     {
         Limite001::create([

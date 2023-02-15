@@ -364,7 +364,7 @@ function createTabParametros()
     tab += '<tr>' 
     }
     tab += '<td>'+cont+'</td>';
-    tab += '<td>'+item.Id_subnorma+'</td>';
+    tab += '<td>'+item.Id_parametro+'</td>';
     tab += '<td>'+item.Parametro+'('+item.Tipo_formula+')</td>';
     tab += '</tr>'
     cont++

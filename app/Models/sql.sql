@@ -621,11 +621,25 @@ CREATE VIEW ViewSucursalesCliente as SELECT suc.*,cli.Id_intermediario FROM sucu
 INNER JOIN clientes_general as cli
 ON suc.Id_cliente = cli.Id_cliente
 
-/* ViewSucursalesInformes */
-
-CREATE VIEW ViewReportesInformes as SELECT i.Id_reporte, i.Encabezado, i.Nota, i.Id_reviso, i.Id_analizo, i.Fecha_inicio, i.Fecha_fin, i.Num_rev, u.name as Analizo, us.name as Reviso 
+/* ViewReportesInformes */
+CREATE VIEW ViewReportesInformes as SELECT i.*, u.name as Analizo, us.name as Reviso 
 FROM reportes_informes as i 
 INNER JOIN users as u
 ON i.Id_analizo = u.id
 INNER JOIN users as us
 on i.Id_reviso = us.id
+
+/* ViewReporteCadena */
+CREATE VIEW ViewReportesCadena as SELECT i.*, u.name as Nombre_responsable
+FROM reportes_cadena as i 
+INNER JOIN users as u
+ON i.Responsable = u.id
+
+
+
+/* ViewLimite0012021 */
+CREATE VIEW ViewLimite0012021 as SELECT lim.*,cat.Categoria,pa.Parametro,pa.Unidad FROM limite001_2021 as lim
+INNER JOIN categoria001_2021 as cat
+ON lim.Id_categoria = cat.Id_categoria
+INNER JOIN ViewParametros as pa
+ON lim.Id_parametro = pa.Id_parametro

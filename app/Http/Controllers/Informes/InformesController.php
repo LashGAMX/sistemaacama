@@ -134,7 +134,8 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
-        $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Condición de busqueda para las configuraciones(Historicos)
+        $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Condición de busqueda para las configuraciones(Historicos)    
+    
         $aux = true; 
         foreach ($model as $item) {
             if ($aux == true) {
@@ -285,6 +286,10 @@ class InformesController extends Controller
         $firma1 = User::find(14);
         $firma2 = User::find(17);
         $campoCompuesto = CampoCompuesto::where('Id_solicitud',$idSol)->first();
+
+        //Proceso de Reporte Informe
+        
+        
 
         $data = array(
             'campoCompuesto' => $campoCompuesto,
@@ -3474,7 +3479,7 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol)->first();
 
         $paramResultado = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->orderBy('Parametro', 'ASC')->get();
-        $paramResultadoLength = $paramResultado->count();
+        $paramResultadoLength = $paramResultado->count();  
 
         $recibidos = PhMuestra::where('Id_solicitud', $idSol)->where('Activo', 1)->get();
         $recibidosLength = $recibidos->count();
@@ -3690,12 +3695,12 @@ class InformesController extends Controller
 
         $fechaEmision = \Carbon\Carbon::now();
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
-
+        $reportesCadena = DB::table('ViewReportesCadena')->orderBy('Num_rev', 'desc')->first(); //Condición de busqueda para las configuraciones(Historicos)
         $mpdf->showWatermarkImage = true;
 
         $htmlInforme = view(
             'exports.campo.cadenaCustodiaInterna.bodyCadena',
-            compact('model', 'paquete', 'paqueteLength', 'norma', 'recibidos', 'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'responsables', 'promedioPonderadoGA', 'mAritmeticaColi', 'gastoPromFinal')
+            compact('model', 'paquete', 'paqueteLength', 'norma', 'recibidos', 'fechaEmision', 'paramResultado', 'paramResultadoLength', 'limitesC', 'limiteGrasas', 'limiteColiformes', 'responsables', 'promedioPonderadoGA', 'mAritmeticaColi', 'gastoPromFinal','reportesCadena')
         );
 
         $mpdf->WriteHTML($htmlInforme);

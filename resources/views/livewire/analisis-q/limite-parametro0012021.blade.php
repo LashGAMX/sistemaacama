@@ -1,17 +1,17 @@
 <div>
-    {{-- The whole world belongs to you. --}}
-</div>
-<div>
+  <div>
     <h4>Parametro: {{$parametro->Parametro}}</h4>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
         <li class="nav-item" role="presentation">
-          <a class="nav-link active" id="rios-tab" data-toggle="tab" href="#rios" role="tab" aria-controls="rios" aria-selected="true">Rios</a>
+          <a class="nav-link active" id="rios-tab" data-toggle="tab" href="#rios" role="tab" aria-controls="rios" aria-selected="true" >Ríos, arroyos, <br> canales,
+            drenes</a>
         </li>
         <li class="nav-item" role="presentation">
-            <a class="nav-link" id="embalses-tab" data-toggle="tab" href="#embalses" role="tab" aria-controls="embalses" aria-selected="true">Embalses naturales A.</a>
+            <a class="nav-link" id="embalses-tab" data-toggle="tab" href="#embalses" role="tab" aria-controls="embalses" aria-selected="true">Embalses, lagos y
+              lagunas</a>
           </li>
           <li class="nav-item" role="presentation">
-            <a class="nav-link" id="aguas-tab" data-toggle="tab" href="#aguas" role="tab" aria-controls="aguas" aria-selected="true">Aguas costeras</a>
+            <a class="nav-link" id="aguas-tab" data-toggle="tab" href="#aguas" role="tab" aria-controls="aguas" aria-selected="true">Zonas marinas mexicanas</a>
           </li>
           <li class="nav-item" role="presentation">
             <a class="nav-link" id="suelo-tab" data-toggle="tab" href="#suelo" role="tab" aria-controls="suelo" aria-selected="true">Suelo</a>
@@ -24,29 +24,23 @@
                 <table class="table table-hover table-striped">
                     <thead class="thead-dark">
                         <tr>
-                            <th>Categoria</th>
-                            <th>Prom_Mmax</th>
-                            <th>Prom_Mmin</th>
-                            <th>Prom_Dmax</th>
-                            <th>Prom_Dmin</th>
+                            <th>P.M</th>
+                            <th>P.D</th>
+                            <th>V.I</th>
                             <th>Accion</th>
                         </tr>
                     </thead>
                     <tbody>
-                    @if ($model->count()) 
-                    @for ($i = 0; $i < 3; $i++)
-                    <tr>  
-                        <td>{{$model[$i]->Detalle}}</td>
-                        <td>{{$model[$i]->Prom_Mmax}}</td>          
-                        <td>{{$model[$i]->Prom_Mmin}}</td>
-                        <td>{{$model[$i]->Prom_Dmax}}</td>
-                        <td>{{$model[$i]->Prom_Dmin}}</td>
-                        <td><button type="button" class="btn btn-primary" wire:click="setData('{{$model[$i]->Id_limite}}','{{$model[$i]->Prom_Mmax}}','{{$model[$i]->Prom_Mmin}}','{{$model[$i]->Prom_Dmax}}','{{$model[$i]->Prom_Dmin}}')" data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
-                      </tr>
-                    @endfor
-                    @else
-                        <h6>No hay resultados para la búsqueda</h6>
-                    @endif
+                      @if ($model->count()) 
+                        <tr>  
+                            <td><input type="text" value="{{$model[0]->Pm}}"></td>          
+                            <td><input type="text" value="{{$model[0]->Pd}}"></td>
+                            <td><input type="text" value="{{$model[0]->Vi}}"></td>
+                            <td><button type="submit" class="btn btn-primary" wire:click='setData({{$model[0]->Id_limite}})' data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
+                          </tr>
+                      @else
+                          <h6>No hay resultados para la búsqueda</h6>
+                      @endif
                     </tbody>
                 </table>
               </div>
@@ -54,107 +48,92 @@
 
         <div class="tab-pane fade" id="embalses" role="tabpanel" aria-labelledby="embalses-tab">
             <div class="accordion" id="accordionExample">
-                <table class="table table-hover table-striped">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Categoria</th>
-                            <th>Prom_Mmax</th>
-                            <th>Prom_Mmin</th>
-                            <th>Prom_Dmax</th>
-                            <th>Prom_Dmin</th>
-                            <th>Accion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @if ($model->count()) 
-                    @for ($i = 3; $i < 5; $i++)
+              <table class="table table-hover table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>P.M</th>
+                        <th>P.D</th>
+                        <th>V.I</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  @if ($model->count()) 
                     <tr>  
-                        <td>{{$model[$i]->Detalle}}</td>
-                        <td>{{$model[$i]->Prom_Mmax}}</td>          
-                        <td>{{$model[$i]->Prom_Mmin}}</td>
-                        <td>{{$model[$i]->Prom_Dmax}}</td>
-                        <td>{{$model[$i]->Prom_Dmin}}</td>
-                        <td><button type="button" class="btn btn-primary" wire:click="setData('{{$model[$i]->Id_limite}}','{{$model[$i]->Prom_Mmax}}','{{$model[$i]->Prom_Mmin}}','{{$model[$i]->Prom_Dmax}}','{{$model[$i]->Prom_Dmin}}')" data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
+                        <td><input type="text" value="{{$model[1]->Pm}}"></td>          
+                        <td><input type="text" value="{{$model[1]->Pd}}"></td>
+                        <td><input type="text" value="{{$model[1]->Vi}}"></td>
+                        <td><button type="submit" class="btn btn-primary" wire:click='setData({{$model[1]->Id_limite}})' data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
                       </tr>
-                    @endfor
-                    @else
-                        <h6>No hay resultados para la búsqueda</h6>
-                    @endif
-                    </tbody>
-                </table>
+                  @else
+                      <h6>No hay resultados para la búsqueda</h6>
+                  @endif
+                </tbody>
+            </table>
               </div>
         </div>
 
         
         <div class="tab-pane fade" id="aguas" role="tabpanel" aria-labelledby="aguas-tab">
             <div class="accordion" id="accordionExample">
-                <table class="table table-hover table-striped">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Categoria</th>
-                            <th>Prom_Mmax</th>
-                            <th>Prom_Mmin</th>
-                            <th>Prom_Dmax</th>
-                            <th>Prom_Dmin</th>
-                            <th>Accion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @if ($model->count()) 
-                    @for ($i = 5; $i < 8; $i++)
+              <table class="table table-hover table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>P.M</th>
+                        <th>P.D</th>
+                        <th>V.I</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  @if ($model->count()) 
                     <tr>  
-                        <td>{{$model[$i]->Detalle}}</td>
-                        <td>{{$model[$i]->Prom_Mmax}}</td>          
-                        <td>{{$model[$i]->Prom_Mmin}}</td>
-                        <td>{{$model[$i]->Prom_Dmax}}</td>
-                        <td>{{$model[$i]->Prom_Dmin}}</td>
-                        <td><button type="button" class="btn btn-primary" wire:click="setData('{{$model[$i]->Id_limite}}','{{$model[$i]->Prom_Mmax}}','{{$model[$i]->Prom_Mmin}}','{{$model[$i]->Prom_Dmax}}','{{$model[$i]->Prom_Dmin}}')" data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
+                        <td><input type="text" value="{{$model[2]->Pm}}"></td>          
+                        <td><input type="text" value="{{$model[2]->Pd}}"></td>
+                        <td><input type="text" value="{{$model[2]->Vi}}"></td>
+                        <td><button type="submit" class="btn btn-primary" wire:click='setData({{$model[2]->Id_limite}})' data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
                       </tr>
-                    @endfor
-                    @else
-                        <h6>No hay resultados para la búsqueda</h6>
-                    @endif
-                    </tbody>
-                </table>
+                  @else
+                      <h6>No hay resultados para la búsqueda</h6>
+                  @endif
+                </tbody>
+            </table>
               </div>
         </div>
 
         
         <div class="tab-pane fade" id="suelo" role="tabpanel" aria-labelledby="suelo-tab">
             <div class="accordion" id="accordionExample">
-                <table class="table table-hover table-striped">
-                    <thead class="thead-dark">
-                        <tr>
-                            <th>Categoria</th>
-                            <th>Prom_Mmax</th>
-                            <th>Prom_Mmin</th>
-                            <th>Prom_Dmax</th>
-                            <th>Prom_Dmin</th>
-                            <th>Accion</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    @if ($model->count()) 
-                    @for ($i = 8; $i < 10; $i++)
-                    <tr>  
-                        <td>{{$model[$i]->Detalle}}</td>
-                        <td>{{$model[$i]->Prom_Mmax}}</td>          
-                        <td>{{$model[$i]->Prom_Mmin}}</td>
-                        <td>{{$model[$i]->Prom_Dmax}}</td>
-                        <td>{{$model[$i]->Prom_Dmin}}</td>
-                        <td><button type="button" class="btn btn-primary" wire:click="setData('{{$model[$i]->Id_limite}}','{{$model[$i]->Prom_Mmax}}','{{$model[$i]->Prom_Mmin}}','{{$model[$i]->Prom_Dmax}}','{{$model[$i]->Prom_Dmin}}')" data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
-                      </tr>
+              <table class="table table-hover table-striped">
+                <thead class="thead-dark">
+                    <tr>
+                        <th>Categoria</th>
+                        <th>P.M</th>
+                        <th>P.D</th>
+                        <th>V.I</th>
+                        <th>Accion</th>
+                    </tr>
+                </thead>
+                <tbody>
+                  @if ($model->count()) 
+                    @for ($i = 3; $i < 6; $i++)
+                      <tr>  
+                        <td><input type="text" value="{{$model[$i]->Categoria}}"></td>        
+                        <td><input type="text" value="{{$model[$i]->Pm}}"></td>          
+                        <td><input type="text" value="{{$model[$i]->Pd}}"></td>
+                        <td><input type="text" value="{{$model[$i]->Vi}}"></td>
+                        <td><button type="submit" class="btn btn-primary" wire:click='setData({{$model[$i]->Id_limite}})' data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
+                      </tr>      
                     @endfor
-                    @else
-                        <h6>No hay resultados para la búsqueda</h6>
-                    @endif
-                    </tbody>
-                </table>
+                  @else
+                      <h6>No hay resultados para la búsqueda</h6>
+                  @endif
+                </tbody>
               </div>
         </div>
 
       </div>
-    
+
       <div wire:ignore.self class="modal fade" id="modalLimiteParametro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog">
           <div class="modal-content">
@@ -167,22 +146,18 @@
             </div>
             <div class="modal-body"> 
                 <div class="row">
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <input type="text" wire:model="idLimite" hidden>
-                        <label for="">Prom Mmax</label>
-                        <input type="text" wire:model='Prom_Mmax' class="form-control" placeholder="Prom_Mmax">
+                        <label for="">P.M</label>
+                        <input type="text" wire:model='pm' class="form-control" placeholder="Promedio Mensual">
                     </div>
-                    <div class="col-md-6">
-                        <label for="">Prom Mmin</label>
-                        <input type="text" wire:model='Prom_Mmin' class="form-control" placeholder="Prom_Mmax">
+                    <div class="col-md-4">
+                        <label for="">P.D</label>
+                        <input type="text" wire:model='pd' class="form-control" placeholder="Promedio Diario">
                     </div>
-                    <div class="col-md-6">
-                        <label for="">Prom Dmax</label>
-                        <input type="text" wire:model='Prom_Dmax' class="form-control" placeholder="Prom_Mmax">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="">Prom Dmax</label>
-                        <input type="text" wire:model='Prom_Dmin' class="form-control" placeholder="Prom_Mmax">
+                    <div class="col-md-4">
+                        <label for="">V.I</label>
+                        <input type="text" wire:model='vi' class="form-control" placeholder="Valor instantaneo">
                     </div>
                 </div>
             </div>
@@ -203,4 +178,6 @@
     @endif
     
 </div>
+</div>
+
  

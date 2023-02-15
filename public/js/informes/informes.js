@@ -32,6 +32,7 @@ $(document).ready(function () {
 
 }); 
 
+
 function getPuntoMuestro(id)
 {
     let tabla = document.getElementById('selPuntos');

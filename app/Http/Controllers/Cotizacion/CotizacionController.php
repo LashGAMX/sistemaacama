@@ -210,7 +210,7 @@ class CotizacionController extends Controller
             if ($numCot->count()) {
                 $hijo = 1;
                 $firtsFol = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_sucursal', $res->clienteSucursal)->first();
-                $folio = $firtsFol->Folio . '-' . ($numCot->count() + 1);
+                $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
             } else {
                 $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
             }
@@ -374,7 +374,7 @@ class CotizacionController extends Controller
         $descargas = DB::table('tipo_descargas')->get();
         $metodoPago = DB::table('metodo_pago')->get();
         $estados = DB::table('estados')->get();
-        $categorias001 = DB::table('ViewDetalleCuerpos')->get();
+        $categorias001 = DB::table('categoria001_2021')->get();
         $tipoMuestraCot = TipoMuestraCot::all();
         $promedioCot = PromedioCot::all();
 
@@ -406,7 +406,7 @@ class CotizacionController extends Controller
         $descargas = DB::table('tipo_descargas')->get();
         $metodoPago = DB::table('metodo_pago')->get();
         $estados = DB::table('estados')->get();
-        $categorias001 = DB::table('ViewDetalleCuerpos')->get();
+        $categorias001 = DB::table('categoria001_2021')->get();
         $tipoMuestraCot = TipoMuestraCot::all();
         $promedioCot = PromedioCot::all();
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $id)->first();
@@ -518,10 +518,12 @@ class CotizacionController extends Controller
         if ($numCot->count()) {
             $hijo = 1;
             $firtsFol = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_sucursal', $temp->Id_sucursal)->first();
-            $folio = $firtsFol->Folio . '-' . ($numCot->count() + 1);
+            $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
         } else {
             $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
         }
+
+        
 
         $cotOriginal = Cotizacion::where('Id_cotizacion', $idCot)->first();
         $cotReplicada = $cotOriginal->replicate();

@@ -20,7 +20,7 @@
             <div class="col-12 negrita">
                 <div>
                     <div class="fontNormal fontCalibri justifyRight fontSize13">
-                        CADENA DE CUSTODIA INTERNA
+                    {{$reportesCadena->Encabezado}}
                     </div>
                     <div class="fontNormal fontCalibri">
                         1.-DATOS GENERALES

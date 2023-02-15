@@ -63,7 +63,7 @@ class SolicitudController extends Controller
         $frecuencia = DB::table('frecuencia001')->get();
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
         $intermediario = DB::table('ViewIntermediarios')->get();
-        $categorias001 = DB::table('ViewDetalleCuerpos')->get();
+        $categorias001 = DB::table('categoria001_2021')->get();
         $data = array(
             'model' => $model,
             'tipoMuestraCot' => $tipoMuestraCot,
