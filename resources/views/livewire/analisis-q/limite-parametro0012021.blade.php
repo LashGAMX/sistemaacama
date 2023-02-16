@@ -110,7 +110,7 @@
                         <th>Categoria</th>
                         <th>P.M</th>
                         <th>P.D</th>
-                        <th>V.I</th>
+                        <th>V.I</th> 
                         <th>Accion</th>
                     </tr>
                 </thead>
@@ -118,11 +118,11 @@
                   @if ($model->count()) 
                     @for ($i = 3; $i < 6; $i++)
                       <tr>  
-                        <td><input type="text" value="{{$model[$i]->Categoria}}"></td>        
-                        <td><input type="text" value="{{$model[$i]->Pm}}"></td>          
-                        <td><input type="text" value="{{$model[$i]->Pd}}"></td>
-                        <td><input type="text" value="{{$model[$i]->Vi}}"></td>
-                        <td><button type="submit" class="btn btn-primary" wire:click='setData({{$model[$i]->Id_limite}})' data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
+                        <td><input type="text" value="{{@$model[$i]->Categoria}}"></td>        
+                        <td><input type="text" value="{{@$model[$i]->Pm}}"></td>          
+                        <td><input type="text" value="{{@$model[$i]->Pd}}"></td>
+                        <td><input type="text" value="{{@$model[$i]->Vi}}"></td>
+                        <td><button type="submit" class="btn btn-primary" wire:click='setData({{@$model[$i]->Id_limite}})' data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
                       </tr>      
                     @endfor
                   @else

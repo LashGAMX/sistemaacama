@@ -26,7 +26,7 @@ class LimiteParametro0012021 extends Component
         }else{
             $this->createLimites($this->idParametro);
             $model = DB::table('ViewLimite0012021')->where('Id_parametro',$this->idParametro)->get();
-        }
+        } 
         return view('livewire.analisis-q.limite-parametro0012021',compact('model','parametro'));
     }
     public function setData($id) 
@@ -38,7 +38,7 @@ class LimiteParametro0012021 extends Component
         $this->vi = $temp->Vi;
         $this->alert = false;
     }
-    public function store()
+    public function store() 
     {
         $temp = Limite001_2021::find($this->idLimite);
         $temp->Pd = $this->pd;
