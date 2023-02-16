@@ -32,6 +32,21 @@
                 </a>
             </div>
 
+            <div class="clearfix container-fluid row">
+                <div class="col-md-3">
+                        <a href="{{url('/admin/reportes-cadena')}}">
+                        <div class="panel widget center bgimage"
+                            style="margin-bottom:0;overflow:hidden;background-image:url('');">
+                            <div class="dimmer"></div>
+                            <div class="panel-content">
+                                <i class="voyager-file-text"></i>
+                                <h4>Cadena de custodia</h4>
+                            </div>
+                        </div>
+                    </a>
+                </div>
+    
             
         </div>
+        
     @endsection
