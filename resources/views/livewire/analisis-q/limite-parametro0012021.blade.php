@@ -104,7 +104,7 @@
         
         <div class="tab-pane fade" id="suelo" role="tabpanel" aria-labelledby="suelo-tab">
             <div class="accordion" id="accordionExample">
-              <table class="table table-hover table-striped">
+              <table class="table table-hover table-striped" >
                 <thead class="thead-dark">
                     <tr>
                         <th>Categoria</th>
@@ -115,13 +115,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                  @if ($model->count()) 
+                  @if (@$model->count()) 
                     @for ($i = 3; $i < 6; $i++)
                       <tr>  
                         <td><input type="text" value="{{@$model[$i]->Categoria}}" disabled></td>        
-                        <td><input type="text" value="{{@$model[$i]->Pm}}" disabled></td>          
-                        <td><input type="text" value="{{@$model[$i]->Pd}}" disabled></td>
-                        <td><input type="text" value="{{@$model[$i]->Vi}}" disabled></td>
+                        <td><input type="text" value="{{@$model[$i]->Pm}}" disabled style="width:100px"></td>          
+                        <td><input type="text" value="{{@$model[$i]->Pd}}" disabled style="width:100px"></td>
+                        <td><input type="text" value="{{@$model[$i]->Vi}}" disabled style="width:100px"></td>
                         <td><button type="submit" class="btn btn-primary" wire:click='setData({{@$model[$i]->Id_limite}})' data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
                       </tr>      
                     @endfor
@@ -129,6 +129,7 @@
                       <h6>No hay resultados para la búsqueda</h6>
                   @endif
                 </tbody>
+              </table>
               </div>
         </div>
 
