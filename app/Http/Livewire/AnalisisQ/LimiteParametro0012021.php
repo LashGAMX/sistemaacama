@@ -63,7 +63,7 @@ class LimiteParametro0012021 extends Component
         ]);
         Limite001_2021::create([
             'Id_categoria' => 4,
-            'Id_parametro' => $this->idParametro,
+            'Id_parametro' => $this->idParametro, 
         ]);
         Limite001_2021::create([
             'Id_categoria' => 5,

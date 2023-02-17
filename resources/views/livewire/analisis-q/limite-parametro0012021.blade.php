@@ -1,4 +1,4 @@
-<div>
+
   <div>
     <h4>Parametro: {{$parametro->Parametro}}</h4>
     <ul class="nav nav-tabs" id="myTab" role="tablist">
@@ -33,9 +33,9 @@
                     <tbody>
                       @if ($model->count()) 
                         <tr>  
-                            <td><input type="text" value="{{$model[0]->Pm}}"></td>          
-                            <td><input type="text" value="{{$model[0]->Pd}}"></td>
-                            <td><input type="text" value="{{$model[0]->Vi}}"></td>
+                            <td><input type="text" value="{{$model[0]->Pm}}" disabled></td>          
+                            <td><input type="text" value="{{$model[0]->Pd}}" disabled></td>
+                            <td><input type="text" value="{{$model[0]->Vi}}" disabled></td>
                             <td><button type="submit" class="btn btn-primary" wire:click='setData({{$model[0]->Id_limite}})' data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
                           </tr>
                       @else
@@ -60,9 +60,9 @@
                 <tbody>
                   @if ($model->count()) 
                     <tr>  
-                        <td><input type="text" value="{{$model[1]->Pm}}"></td>          
-                        <td><input type="text" value="{{$model[1]->Pd}}"></td>
-                        <td><input type="text" value="{{$model[1]->Vi}}"></td>
+                        <td><input type="text" value="{{$model[1]->Pm}}" disabled></td>          
+                        <td><input type="text" value="{{$model[1]->Pd}}" disabled></td>
+                        <td><input type="text" value="{{$model[1]->Vi}}" disabled></td>
                         <td><button type="submit" class="btn btn-primary" wire:click='setData({{$model[1]->Id_limite}})' data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
                       </tr>
                   @else
@@ -88,9 +88,9 @@
                 <tbody>
                   @if ($model->count()) 
                     <tr>  
-                        <td><input type="text" value="{{$model[2]->Pm}}"></td>          
-                        <td><input type="text" value="{{$model[2]->Pd}}"></td>
-                        <td><input type="text" value="{{$model[2]->Vi}}"></td>
+                        <td><input type="text" value="{{$model[2]->Pm}}" disabled></td>          
+                        <td><input type="text" value="{{$model[2]->Pd}}" disabled></td>
+                        <td><input type="text" value="{{$model[2]->Vi}}" disabled></td>
                         <td><button type="submit" class="btn btn-primary" wire:click='setData({{$model[2]->Id_limite}})' data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
                       </tr>
                   @else
@@ -118,10 +118,10 @@
                   @if ($model->count()) 
                     @for ($i = 3; $i < 6; $i++)
                       <tr>  
-                        <td><input type="text" value="{{@$model[$i]->Categoria}}"></td>        
-                        <td><input type="text" value="{{@$model[$i]->Pm}}"></td>          
-                        <td><input type="text" value="{{@$model[$i]->Pd}}"></td>
-                        <td><input type="text" value="{{@$model[$i]->Vi}}"></td>
+                        <td><input type="text" value="{{@$model[$i]->Categoria}}" disabled></td>        
+                        <td><input type="text" value="{{@$model[$i]->Pm}}" disabled></td>          
+                        <td><input type="text" value="{{@$model[$i]->Pd}}" disabled></td>
+                        <td><input type="text" value="{{@$model[$i]->Vi}}" disabled></td>
                         <td><button type="submit" class="btn btn-primary" wire:click='setData({{@$model[$i]->Id_limite}})' data-toggle="modal" data-target="#modalLimiteParametro"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button></td>
                       </tr>      
                     @endfor
@@ -177,7 +177,6 @@
       </script>
     @endif
     
-</div>
 </div>
 
  
