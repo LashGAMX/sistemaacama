@@ -116,7 +116,12 @@ class SolicitudController extends Controller
     }
     public function getDireccionReporte(Request $res)
     {
-        $model = DireccionReporte::where('Id_sucursal', $res->id)->get();
+        
+        if ($res->siralab == true) {
+            $model = DB::table('ViewDireccionSir')->where('Id_sucursal', $res->id)->get();
+        }else{
+            $model = DireccionReporte::where('Id_sucursal', $res->id)->get();
+        }
         $data = array(
             'model' => $model,
         );

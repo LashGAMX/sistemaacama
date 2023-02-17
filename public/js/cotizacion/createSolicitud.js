@@ -161,11 +161,13 @@ function getDireccionReporte()
 {
     let sec = document.getElementById("direccionReporte")
     let tab  = '';
+    let siralab = document.getElementById('siralab');
     $.ajax({
         url: base_url + '/admin/cotizacion/solicitud/getDireccionReporte', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
             id: $('#sucursal').val(),
+            siralab:siralab.checked,
             _token: $('input[name="_token"]').val(),
         },
         dataType: 'json',
@@ -173,10 +175,18 @@ function getDireccionReporte()
         success: function (response) {
             console.log(response);
             $.each(response.model, function(key, item){
-                if (model.Direccion == item.Direccion) {
-                    tab += '<option value="'+item.Id_direccion+'" selected>'+item.Direccion+'</option>'
+                if (siralab.checked == true) {
+                    if (model.Direccion == item.Direccion) {
+                        tab += '<option value="'+item.Id_direccion+'" selected>'+item.Calle+' '+item.Num_exterior+' '+item.Num_interior+' '+item.Colonia+' '+item.Ciudad+' '+item.Localidad+'</option>'
+                    } else {
+                        tab += '<option value="'+item.Id_direccion+'">'+item.Calle+' '+item.Num_exterior+' '+item.Num_interior+' '+item.Colonia+' '+item.Ciudad+' '+item.Localidad+'</option>'
+                    }
                 } else {
-                    tab += '<option value="'+item.Id_direccion+'">'+item.Direccion+'</option>'
+                    if (model.Direccion == item.Direccion) {
+                        tab += '<option value="'+item.Id_direccion+'" selected>'+item.Direccion+'</option>'
+                    } else {
+                        tab += '<option value="'+item.Id_direccion+'">'+item.Direccion+'</option>'
+                    }   
                 }
                 
             })

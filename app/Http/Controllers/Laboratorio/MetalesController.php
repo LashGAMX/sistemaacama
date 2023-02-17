@@ -108,12 +108,13 @@ class MetalesController extends Controller
     public function getPuntoAnalisis(Request $res)
     {
         $solModel = DB::table('ViewSolicitud')->where('Id_solicitud',$res->idSol)->first();
-        if ($solModel->Siralab == 1) {
-            $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre',$res->idSol)->get();
-        } else {
-            $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre',$res->idSol)->get();
-        }
+        // if ($solModel->Siralab == 1) {
+        //     $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre',$res->idSol)->get();
+        // } else {
+        //     $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre',$res->idSol)->get();
+        // }
 
+            $punto = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre',$res->idSol)->get();
         $model = array();
         $temp = array();
         foreach($punto as $item)
@@ -121,24 +122,35 @@ class MetalesController extends Controller
             $temp = array();
             $obs = ObservacionMuestra::where('Id_analisis',$item->Id_solicitud)->get();
             if ($obs->count()) {
-                if ($solModel->Siralab == 1) {
-                    array_push($temp,$item->Punto);
-                } else {
-                    array_push($temp,$item->Punto_muestreo);   
-                }
+                array_push($temp,$item->Punto_muestreo);   
                 array_push($temp,$solModel->Clave_norma);
                 array_push($temp,$obs[0]->Observaciones);
                 array_push($temp,$obs[0]->Ph);
             }else{
-                if ($solModel->Siralab == 1) {
-                    array_push($temp,$item->Punto);
-                } else {
-                    array_push($temp,$item->Punto_muestreo);   
-                }
+                array_push($temp,$item->Punto_muestreo);   
                 array_push($temp,$solModel->Clave_norma);
                 array_push($temp,"");
                 array_push($temp,"");
             }
+            // if ($obs->count()) {
+            //     if ($solModel->Siralab == 1) {
+            //         array_push($temp,$item->Punto);
+            //     } else {
+            //         array_push($temp,$item->Punto_muestreo);   
+            //     }
+            //     array_push($temp,$solModel->Clave_norma);
+            //     array_push($temp,$obs[0]->Observaciones);
+            //     array_push($temp,$obs[0]->Ph);
+            // }else{
+            //     if ($solModel->Siralab == 1) {
+            //         array_push($temp,$item->Punto);
+            //     } else {
+            //         array_push($temp,$item->Punto_muestreo);   
+            //     }
+            //     array_push($temp,$solModel->Clave_norma);
+            //     array_push($temp,"");
+            //     array_push($temp,"");
+            // }
             array_push($model,$temp); 
         }
         

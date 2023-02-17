@@ -27,6 +27,7 @@ var data = new Array()
 var myTransfer 
 var des = true
 var desSw = false
+var tabParam = false
 //todo funciones
 function setPrecioCotizacion()
 {
@@ -135,6 +136,7 @@ function updateParametroCot()
     success: function (response) {
       console.log(response)
       parametros = response.parametro
+      tabParam = true
       createTabParametros()
     }
   });
@@ -152,6 +154,7 @@ function getDataUpdate()
     async: false,
     success: function (response) {
         data = response.model
+        tabParam = true
         $("#intermediario  option[value="+data.Id_intermedio+"]").attr("selected",true);
         getClientesIntermediarios()
         getSucursal()
@@ -364,7 +367,11 @@ function createTabParametros()
     tab += '<tr>' 
     }
     tab += '<td>'+cont+'</td>';
-    tab += '<td>'+item.Id_parametro+'</td>';
+    if (tabParam == true) {
+      tab += '<td>'+item.Id_subnorma+'</td>';
+    } else {
+      tab += '<td>'+item.Id_parametro+'</td>'; 
+    }
     tab += '<td>'+item.Parametro+'('+item.Tipo_formula+')</td>';
     tab += '</tr>'
     cont++
@@ -372,6 +379,7 @@ function createTabParametros()
   table.innerHTML = tab 
 }
 function setCotizacion() {
+  tabParam = false
   let puntos = new Array()
   let param = new  Array()
   let tab = document.getElementById("puntoMuestro")
