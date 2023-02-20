@@ -61,7 +61,7 @@
   @stop
 
   @section('javascript')
-  <script src="{{asset('public/js/laboratorio/fq/asignarMuestraLoteVol.js')}}?v=0.0.1"></script>
+  <script src="{{asset('public/js/laboratorio/fq/asignarMuestraLoteVol.js')}}?v=0.1.1"></script>
 
   @stop
 

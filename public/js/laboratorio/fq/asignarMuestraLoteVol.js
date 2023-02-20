@@ -100,7 +100,7 @@ function getMuestraAsignada()
 function asignarMuestraLote(idAnalisis,idSol)
 {
 
-    $.ajax({
+    $.ajax({ 
         type: 'POST',
         url: base_url + "/admin/laboratorio/"+area+"/asignarMuestraLoteVol",
         data: {
