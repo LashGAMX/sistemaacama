@@ -168,7 +168,7 @@ function getLoteCapturaEspectro() {
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectroSulfatos('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaSulfatos">Capturar</button>';    
                         break;
                     case "152":
-                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCOT">Capturar</button>';
                         if(item.Id_control == "14"){
                             blanco = item.Resultado;
                         }
