@@ -503,7 +503,6 @@ class VolController extends Controller
                 break;
         }
 
-
         $data = array(
             'model' => $model,
         );

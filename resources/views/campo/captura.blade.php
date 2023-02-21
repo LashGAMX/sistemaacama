@@ -531,6 +531,28 @@
                             </tbody>
                         </table>
                     </div>
+                    
+                    {{-- sulfatos --}}
+
+                    <div class="col-md-12">
+                        <p class="">Cálculo de Sulfatos</p>
+                        <table class="table" id="tableSulfatos">
+                          
+                                @if ($general->Criterio == "Aceptado")
+                                <tr class="bg-success">
+                                    @else
+                                <tr>
+                                    @endif
+                                    <td><input type="number" step="any" id="pendiente" placeholder="% Valor"
+                                            value="{{ $general->Pendiente }}"
+                                            onkeyup="valPendiente('pendiente','criterioPendiente')"
+                                            onblur='validacionValPendiente("pendiente")'></td>
+                                    <td><input type="text" id="sulfatos" value="{{@$general->Sulfatos}}"
+                                            disabled></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
 
                     <div class="col-md-6">
                         <p class="">Supervisor</p>
