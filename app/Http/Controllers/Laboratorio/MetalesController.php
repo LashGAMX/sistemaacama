@@ -668,6 +668,7 @@ class MetalesController extends Controller
         ->where('Id_tecnica',20)
         ->orWhere('Id_tecnica',21)
         ->orWhere('Id_tecnica',22)
+        ->orWhere('Id_tecnica',23)
         ->get();
 
         $model = array();

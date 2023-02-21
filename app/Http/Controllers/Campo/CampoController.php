@@ -459,6 +459,7 @@ class CampoController extends Controller
         $model->Observaciones = $request->observacion;
         $model->Ph_muestraComp = $request->phMuestraCompuesta;
         $model->Temp_muestraComp = $request->tempMuestraCompuesta;
+        $model->Cloruros = $request->cloruros;
         $model->save();
 
         $data = array(

@@ -211,6 +211,9 @@ class FqController extends Controller
             $model->Ph_ini = $request->phIni;
             $model->Ph_fin = $request->phFin;
         }
+        $model->B = $request->CB;
+        $model->M = $request->CM;
+        $model->R = $request->CR;
         $model->Vol_dilucion = $request->D;
         $model->Vol_muestra = $request->E;
         $model->Blanco = $request->CA;
@@ -299,7 +302,7 @@ class FqController extends Controller
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $resultado = ((($x - $request->CB) / $request->CM) * $d);
                 break;
-            case 152:
+            case 152: //cot 
                 $model = LoteDetalleEspectro::where('Id_detalle', $request->idMuestra)->first();
                 $d = 40 / $request->E;
                 $x = ($request->X + $request->Y + $request->Z) / 3;
@@ -419,6 +422,7 @@ class FqController extends Controller
         $data = array(
             'model' => $model,
             'curva' => $curva,
+            'parametro' => $request->formulaTipo,
             //'constantes' => $constantes,
         );
         return response()->json($data);
@@ -1519,6 +1523,7 @@ class FqController extends Controller
     // todo ***************************
     public function operacionGASimple(Request $request)
     {
+
         $modelMatraz = MatrazGA::all();
         //? Aplica la busqueda de matraz hasta encontrar un matraz desocupado
         $cont = $modelMatraz->count();

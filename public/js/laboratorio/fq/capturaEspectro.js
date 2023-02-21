@@ -410,12 +410,21 @@ function getDetalleEspectro(idDetalle)
             $("#idMuestra").val(idDetalle);
             $("#blanco1").val(response.model.Blanco);
             $("#blanco2").val(response.model.Blanco);
+            if(response.formulaTipo == 152){
+                $("#b1").val("");
+                $("#m1").val("");
+                $("#r1").val("");
+                $("#b2").val("");
+                $("#m2").val("");
+                $("#r2").val("");
+            } else {
             $("#b1").val(response.curva.B);
             $("#m1").val(response.curva.M);
             $("#r1").val(response.curva.R);
             $("#b2").val(response.curva.B);
             $("#m2").val(response.curva.M);
             $("#r2").val(response.curva.R);
+            }
             $("#phIni1").val(response.model.Ph_ini);
             $("#phFin1").val(response.model.Ph_fin);
             $("#nitratos1").val(response.model.Nitratos);
@@ -541,9 +550,11 @@ function operacion() {
             CR:$('#r1').val(),
             D:$('#fDilucion1').val(),
             E:$('#volMuestra1').val(),
-            X:$('#abs11').val(),
-            Y:$('#abs21').val(),
-            Z:$('#abs31').val(),
+            S:$('#abs11').val(),
+            W:$('#abs21').val(),
+            X:$('#abs31').val(),
+            Y:$('#abs41').val(),
+            Z:$('#abs51').val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",

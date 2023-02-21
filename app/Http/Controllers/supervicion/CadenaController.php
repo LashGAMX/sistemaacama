@@ -27,14 +27,14 @@ class CadenaController extends Controller
     {
         $swSir = false;
         $model = DB::table('ViewSolicitud')->where('Id_solicitud', $id)->first();
-        $intermediario = DB::table('ViewIntermediarios')->where('Id_intermediario',$model->Id_intermediario)->first();
+        $intermediario = DB::table('ViewIntermediarios')->where('Id_intermediario', $model->Id_intermediario)->first();
         if ($model->Siralab == 1) {
-            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre', $id)->get(); 
+            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre', $id)->get();
             $swSir = true;
         } else {
             $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre', $id)->get();
         }
-        return view('supervicion.cadena.detalleCadena', compact('model', 'puntos', 'swSir','intermediario'));
+        return view('supervicion.cadena.detalleCadena', compact('model', 'puntos', 'swSir', 'intermediario'));
     }
     public function getParametroCadena(Request $res)
     {
@@ -65,11 +65,14 @@ class CadenaController extends Controller
         switch ($paraModel->Id_parametro) {
                 // Metales
             case 17: // Arsenico
+                case 231:
             case 20: // Cobre
             case 22: //Mercurio
             case 25: //Zinc
+                case 227: 
             case 24: //Plomo
             case 21: //Cromoa
+                case 264:
             case 18: //Cadmio
                 $model = LoteDetalle::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
@@ -115,13 +118,13 @@ class CadenaController extends Controller
             case "13": // Grasas y Aceites
                 $model = DB::table('ViewLoteDetalleGA')
                     ->where('Id_analisis', $codigoModel->Id_solicitud)
-                    ->where('Id_control',1)->get();
+                    ->where('Id_control', 1)->get();
                 $gasto = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
                 $res1 = array();
                 $promTemp = 0;
                 $cont = 0;
                 foreach ($gasto as $item) {
-                    if($item->Activo == 1){
+                    if ($item->Activo == 1) {
                         $promTemp = $promTemp + $item->Promedio;
                         $cont++;
                     }
@@ -131,8 +134,7 @@ class CadenaController extends Controller
                 $res = 0;
                 $cont = 0;
                 for ($i = 0; $i < sizeof($model); $i++) {
-                    if($gasto[$i]->Activo == 1)
-                    {
+                    if ($gasto[$i]->Activo == 1) {
                         $res = $res + (($model[$i]->Resultado * $gasto[$i]->Promedio) / $promGasto);
                         $cont++;
                     }
@@ -146,9 +148,15 @@ class CadenaController extends Controller
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                 break;
-            case 12: 
+            case 12:
             case 134:
                 $model = DB::table('ViewLoteDetalleColiformes')->where('Id_analisis', $codigoModel->Id_solicitud)
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                break;
+            case 253:
+            case 35:
+                $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                 break;
@@ -185,7 +193,7 @@ class CadenaController extends Controller
                     ->where('Activo', 1)->get();
                 break;
 
-            //Potable
+                //Potable
                 //Dureza
             case 77:
             case 103:
@@ -202,16 +210,16 @@ class CadenaController extends Controller
                 break;
             case 114:
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $codigoModel->Id_solicitud)
-                ->where('Id_control', 1)
-                ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                 break;
             case 69:
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_analisis', $codigoModel->Id_solicitud)
-                ->where('Id_control', 1)
-                ->where('Id_parametro', $codigoModel->Id_parametro)->get();
+                    ->where('Id_control', 1)
+                    ->where('Id_parametro', $codigoModel->Id_parametro)->get();
                 break;
             default:
-            break;
+                break;
         }
         $data = array(
             'aux' => $aux,

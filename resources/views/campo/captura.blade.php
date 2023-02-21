@@ -531,28 +531,7 @@
                             </tbody>
                         </table>
                     </div>
-                    
-                    {{-- sulfatos --}}
-
-                    <div class="col-md-12">
-                        <p class="">Cálculo de Sulfatos</p>
-                        <table class="table" id="tableSulfatos">
-                          
-                                @if ($general->Criterio == "Aceptado")
-                                <tr class="bg-success">
-                                    @else
-                                <tr>
-                                    @endif
-                                    <td><input type="number" step="any" id="pendiente" placeholder="% Valor"
-                                            value="{{ $general->Pendiente }}"
-                                            onkeyup="valPendiente('pendiente','criterioPendiente')"
-                                            onblur='validacionValPendiente("pendiente")'></td>
-                                    <td><input type="text" id="sulfatos" value="{{@$general->Sulfatos}}"
-                                            disabled></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
+                   
 
                     <div class="col-md-6">
                         <p class="">Supervisor</p>
@@ -1097,6 +1076,14 @@
                                     <label for="">Temperatura muestra compuesta</label>
                                     <input type="number" class="form-control" id="valTemp"
                                         value="{{@$compuesto->Temp_muestraComp}}" placeholder="Temperatura muestra"
+                                        onkeyup='valTempCompuesto("valTemp", "facTempApl");'>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-group">
+                                    <label for="">Cloruros</label>
+                                    <input type="number" class="form-control" id="valCloruros"
+                                        value="{{@$compuesto->Cloruros}}" placeholder="Cloruros"
                                         onkeyup='valTempCompuesto("valTemp", "facTempApl");'>
                                 </div>
                             </div>

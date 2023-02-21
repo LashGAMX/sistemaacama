@@ -270,14 +270,14 @@ class MbController extends Controller
                 break;
             case 78: // E. coli
                 $detalle = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $request->idLote)->get();
-                foreach($detalle as $item){
+                foreach ($detalle as $item) {
                     $values = LoteDetalleColiformes::where('Id_analisis', $item->Id_analisis)->first();
-                    if($values != null){
+                    if ($values != null) {
                         array_push($indice, $values->Indice);
                     } else {
                         $indice = null;
                         break;
-                    }                      
+                    }
                 }
                 break;
             default:
@@ -286,7 +286,7 @@ class MbController extends Controller
         }
 
         $data = array(
-            'indice' => $indice, 
+            'indice' => $indice,
             'detalle' => $detalle,
             'resul' => $resultados,
         );
@@ -408,10 +408,11 @@ class MbController extends Controller
             compact('loteDetail')
         );
     }
-    public function operacionEcoliFinal(Request $request){
+    public function operacionEcoliFinal(Request $request)
+    {
         $muestra = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
-        $res = $muestra->Colonia1+$muestra->Colonia2+$muestra->Colonia3+$muestra->Colonia4+$muestra->Colonia5;
-        switch($res){
+        $res = $muestra->Colonia1 + $muestra->Colonia2 + $muestra->Colonia3 + $muestra->Colonia4 + $muestra->Colonia5;
+        switch ($res) {
             case 1:
                 $resultado = "1.1";
                 break;
@@ -432,7 +433,7 @@ class MbController extends Controller
                 break;
         }
 
-        $model = LoteDetalleEcoli::find( $request->idDetalle);
+        $model = LoteDetalleEcoli::find($request->idDetalle);
         $model->resultado = $resultado;
         $model->save();
 
@@ -444,7 +445,8 @@ class MbController extends Controller
         return response()->json($data);
     }
 
-    public function operacionEcoli(Request $request){
+    public function operacionEcoli(Request $request)
+    {
         $muestra = LoteDetalleColiformes::where('Id_detalle', $request->idDetalle)->first();
         $view = DB::table('ViewLoteDetalleEcoli')->where('Id_detalle', $request->idDetalle)->first();
         $loteDetalle = "";
@@ -452,10 +454,10 @@ class MbController extends Controller
         $res2 = "";
         $colonia1 = 0;
         $muestraR = 0;
-        $temp1 ="";
-        $temp1 = $request->rm1 ."". $request->vp1 ."".  $request->citrato1 ."". $request->bgn1;
+        $temp1 = "";
+        $temp1 = $request->rm1 . "" . $request->vp1 . "" .  $request->citrato1 . "" . $request->bgn1;
         $temp2 = $request->rm2 . $request->vp2 . $request->citrato2 . $request->bgn2;
-        switch($temp1){
+        switch ($temp1) {
             case "+--BGN":
                 $colonia1 = 1;
                 break;
@@ -463,11 +465,11 @@ class MbController extends Controller
                 $muestraR = 0;
                 break;
         }
-        if ($colonia1 == 1){
+        if ($colonia1 == 1) {
             $muestraR = 1;
         } else {
-           
-            switch($temp2){
+
+            switch ($temp2) {
                 case "+--BGN":
                     $muestraR = 1;
                     break;
@@ -477,20 +479,20 @@ class MbController extends Controller
             }
         }
 
-        if ($temp1 == "+--BGN"){
-            $res1 = "Positivo"; 
+        if ($temp1 == "+--BGN") {
+            $res1 = "Positivo";
         } else {
             $res1 = "Negativo";
         }
-        if ($temp2 == "+--BGN"){
+        if ($temp2 == "+--BGN") {
             $res2 = "Positivo";
         } else {
             $res2 = "Negativo";
         }
         $validacion = ConvinacionesEcoli::where('Id_detalle', $request->idDetalle)
-        ->where('Colonia', $request->colonia)->first();
+            ->where('Colonia', $request->colonia)->first();
 
-        if ($validacion == null){
+        if ($validacion == null) {
             $model = ConvinacionesEcoli::create([
                 'Id_detalle' => $request->idDetalle,
                 'Id_lote' => $request->idLote,
@@ -509,11 +511,11 @@ class MbController extends Controller
                 'ResUno' => $res1,
                 'ResDos' => $res2,
                 'Resultado' => $muestraR,
-                
+
             ]);
         } else {
             $model = ConvinacionesEcoli::where('Id_detalle', $request->idDetalle)
-            ->where('Colonia', $request->colonia)->first();
+                ->where('Colonia', $request->colonia)->first();
             $model->Codigo = $view->Codigo;
             $model->Indol = $request->indol1;
             $model->Rm = $request->rm1;
@@ -528,7 +530,7 @@ class MbController extends Controller
             $model->ResUno = $res1;
             $model->ResDos = $res2;
             $model->Resultado = $muestraR;
-            
+
             $model->save();
         }
 
@@ -558,7 +560,7 @@ class MbController extends Controller
                 $loteDetalle->Colonia5 = $muestraR;
                 $loteDetalle->save();
                 break;
-                default:
+            default:
                 $loteDetalle = "default";
         }
 
@@ -570,7 +572,7 @@ class MbController extends Controller
             'validacion' => $validacion,
             'loteDetalle' => $loteDetalle,
             'Codigo' => $muestra,
-            
+
         );
         return response()->json($data);
     }
@@ -919,12 +921,13 @@ class MbController extends Controller
 
         return response()->json($data);
     }
-    public function updateObsMuestraEcoli(Request $request){
+    public function updateObsMuestraEcoli(Request $request)
+    {
         $model = LoteDetalleEcoli::find($request->idMuestra);
         $model->Observacion = $request->observacion;
         $model->save();
 
-        $data = array (
+        $data = array(
             'model' => $model,
         );
         return response()->json($data);
@@ -974,7 +977,7 @@ class MbController extends Controller
     {
         //* Tipo de formulas 
         $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
-       
+
         $textoRecuperadoPredeterminado = ReportesMb::where('Id_lote', 0)->first();
         return view('laboratorio.mb.lote', compact('parametro', 'textoRecuperadoPredeterminado'));
     }
@@ -1144,7 +1147,7 @@ class MbController extends Controller
                 $bandera = 'hh';
             }
         } else {
-            $bandera = 'coli'; 
+            $bandera = 'coli';
         }
 
         if ($bandera == 'coli') {
@@ -1411,6 +1414,25 @@ class MbController extends Controller
                 $modelCod->save();
 
                 $model = LoteDetalleColiformes::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
+                $loteModel = LoteAnalisis::find($request->idLote);
+                $loteModel->Liberado = $model->count();
+                $loteModel->save();
+                break;
+            case 35:     //todo Ecoli Enterococos
+            case 253:
+                $model = LoteDetalleEnterococos::find($request->idMuestra);
+                $model->Liberado = 1;
+                $model->Analizo = Auth::user()->id;
+                if ($model->Resultado != null) {
+                    $sw = true;
+                    $model->save();
+                }
+                $modelCod = CodigoParametros::find($model->Id_codigo);
+                $modelCod->Resultado = $model->Resultado;
+                $modelCod->Analizo = $model->Analizo;
+                $modelCod->save();
+
+                $model = LoteDetalleEnterococos::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
                 $loteModel = LoteAnalisis::find($request->idLote);
                 $loteModel->Liberado = $model->count();
                 $loteModel->save();
@@ -1884,7 +1906,7 @@ class MbController extends Controller
                 break;
 
             case 134:
-            case 132://Coliformes fecales
+            case 132: //Coliformes fecales
                 $mpdf = new \Mpdf\Mpdf([
                     'orientation' => "L",
                     'format' => 'letter',
@@ -1902,7 +1924,7 @@ class MbController extends Controller
                     array(0, 0),
                 );
                 $mpdf->showWatermarkImage = true;
-        
+
 
                 $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->get();
                 $bitacora = PlantillaMb::where('Id_parametro', 134)->first();
@@ -1921,11 +1943,11 @@ class MbController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
-                case 12:
-                    return redirect('/admin/laboratorio/micro/captura/exportPdfCaptura/'.$idLote);
-                    break;
+            case 12:
+                return redirect('/admin/laboratorio/micro/captura/exportPdfCaptura/' . $idLote);
+                break;
             case 135:
-                case 12:
+            case 12:
             case 133: //Coliformes totales
                 $mpdf = new \Mpdf\Mpdf([
                     'orientation' => "L",
@@ -1994,74 +2016,74 @@ class MbController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
-                case 78: // E.Coli Potable
-                    $mpdf = new \Mpdf\Mpdf([
-                        'orientation' => "L",
-                        'format' => 'letter',
-                        'margin_left' => 10,
-                        'margin_right' => 10,
-                        'margin_top' => 31,
-                        'margin_bottom' => 45,
-                        'defaultheaderfontstyle' => ['normal'],
-                        'defaultheaderline' => '0'
-                    ]);
-                    $mpdf->SetWatermarkImage(
-                        asset('/public/storage/HojaMembretadaHorizontal.png'),
-                        1,
-                        array(215, 280),
-                        array(0, 0),
-                    );
-                    $mpdf->showWatermarkImage = true;
-    
-                    $loteDetalle = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $idLote)->get();
-                    $convinaciones = ConvinacionesEcoli::where('Id_lote', $idLote)->get(); 
-                    $bitacora = PlantillaMb::where('Id_parametro', 78)->first();
-    
-                    $data = array(
-                        'lote' => $lote,
-                        'loteDetalle' => $loteDetalle,
-                        'convinaciones' => $convinaciones,
-                        'bitacora' => $bitacora,
-                    );
-    
-                    $htmlHeader = view('exports.laboratorio.mb.127.ecoli.capturaHeader', $data);
-                    $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                    $htmlCaptura = view('exports.laboratorio.mb.127.ecoli.capturaBody', $data);
-                    $mpdf->CSSselectMedia = 'mpdf';
-                    $mpdf->WriteHTML($htmlCaptura); 
-                    break;
-                case 5:
-                    return redirect('/admin/laboratorio/micro/captura/exportPdfCaptura/'.$idLote);
+            case 78: // E.Coli Potable
+                $mpdf = new \Mpdf\Mpdf([
+                    'orientation' => "L",
+                    'format' => 'letter',
+                    'margin_left' => 10,
+                    'margin_right' => 10,
+                    'margin_top' => 31,
+                    'margin_bottom' => 45,
+                    'defaultheaderfontstyle' => ['normal'],
+                    'defaultheaderline' => '0'
+                ]);
+                $mpdf->SetWatermarkImage(
+                    asset('/public/storage/HojaMembretadaHorizontal.png'),
+                    1,
+                    array(215, 280),
+                    array(0, 0),
+                );
+                $mpdf->showWatermarkImage = true;
 
-                    $mpdf->SetWatermarkImage(
-                        asset('/public/storage/HojaMembretadaHorizontal.png'),
-                        1,
-                        array(215, 280),
-                        array(0, 0),
-                    );
-                    $mpdf->showWatermarkImage = true;
-    
-                    $loteDetalle = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $idLote)->get();
-                    // $bitacora = PlantillaMb::where('Id_parametro', 5)->first();
-                    $bitacora = ReportesMb::where('Id_reporte',3)->first();
-                    $detalleLote = DqoDetalle::where('Id_lote',$idLote)->first();
-    
-                    $data = array(
-                        'lote' => $lote,
-                        'loteDetalle' => $loteDetalle,
-                        'detalleLote' => $detalleLote,
-                        'bitacora' => $bitacora,
-                    );
-    
-                    $htmlHeader = view('exports.laboratorio.mb.dbo.capturaHeader', $data);
-                    $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                    $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', $data);
-                    $mpdf->CSSselectMedia = 'mpdf';
-                    $mpdf->WriteHTML($htmlCaptura);
-                    break;
-                    case 16:
-                        return redirect('/admin/laboratorio/micro/captura/exportPdfCaptura/'.$idLote);
-                        break;
+                $loteDetalle = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $idLote)->get();
+                $convinaciones = ConvinacionesEcoli::where('Id_lote', $idLote)->get();
+                $bitacora = PlantillaMb::where('Id_parametro', 78)->first();
+
+                $data = array(
+                    'lote' => $lote,
+                    'loteDetalle' => $loteDetalle,
+                    'convinaciones' => $convinaciones,
+                    'bitacora' => $bitacora,
+                );
+
+                $htmlHeader = view('exports.laboratorio.mb.127.ecoli.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.mb.127.ecoli.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
+            case 5:
+                return redirect('/admin/laboratorio/micro/captura/exportPdfCaptura/' . $idLote);
+
+                $mpdf->SetWatermarkImage(
+                    asset('/public/storage/HojaMembretadaHorizontal.png'),
+                    1,
+                    array(215, 280),
+                    array(0, 0),
+                );
+                $mpdf->showWatermarkImage = true;
+
+                $loteDetalle = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $idLote)->get();
+                // $bitacora = PlantillaMb::where('Id_parametro', 5)->first();
+                $bitacora = ReportesMb::where('Id_reporte', 3)->first();
+                $detalleLote = DqoDetalle::where('Id_lote', $idLote)->first();
+
+                $data = array(
+                    'lote' => $lote,
+                    'loteDetalle' => $loteDetalle,
+                    'detalleLote' => $detalleLote,
+                    'bitacora' => $bitacora,
+                );
+
+                $htmlHeader = view('exports.laboratorio.mb.dbo.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
+            case 16:
+                return redirect('/admin/laboratorio/micro/captura/exportPdfCaptura/' . $idLote);
+                break;
             default:
                 # code...
                 break;
@@ -2230,7 +2252,7 @@ class MbController extends Controller
                     $horizontal = 'L';
                     $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
                     $detalleLote = DqoDetalle::where('Id_lote', $id_lote)->first();
-                    $bitacora = ReportesMb::where('Id_reporte',3)->first();
+                    $bitacora = ReportesMb::where('Id_reporte', 3)->first();
                     if (!is_null($data)) {
                         $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();
 
@@ -2249,7 +2271,7 @@ class MbController extends Controller
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
-                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('detalleLote','bitacora', 'textoProcedimiento', 'data', 'dataLength', 'limites'));
+                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('detalleLote', 'bitacora', 'textoProcedimiento', 'data', 'dataLength', 'limites'));
                     } else {
                         $sw = false;
                     }
@@ -2378,7 +2400,7 @@ class MbController extends Controller
                 if ($parametro->Id_parametro == 5 || $parametro->Id_parametro == 62) { // DBO5
                     $horizontal = 'L';
                     $data = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->get();
-                    $bitacora = ReportesMb::where('Id_reporte',3)->first();
+                    $bitacora = ReportesMb::where('Id_reporte', 3)->first();
                     if (!is_null($data)) {
                         $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();
                         $detalleLote = DqoDetalle::where('Id_lote', $id_lote)->first();
@@ -2398,7 +2420,7 @@ class MbController extends Controller
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
-                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('detalleLote', 'textoProcedimiento','bitacora', 'data', 'dataLength', 'limites'));
+                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('detalleLote', 'textoProcedimiento', 'bitacora', 'data', 'dataLength', 'limites'));
                     } else {
                         $sw = false;
                     }

@@ -118,6 +118,7 @@
                             LIMITES MAXIMOS 
                             PERMISIBLES
                         @endif
+                        {{@$tipoReporte->Categoria}}
                     </td>
                 </tr>
                     

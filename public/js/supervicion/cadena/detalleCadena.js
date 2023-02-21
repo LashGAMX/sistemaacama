@@ -168,11 +168,14 @@ function getDetalleAnalisis(idCodigo) {
             idCod = idCodigo;
             switch (response.paraModel.Id_parametro) {
                 case "17": // Arsenico
+                    case "231":
                 case "20": // Cobre
                 case "22": //Mercurio
                 case "25": //Zinc
+                    case "227":
                 case "24": //Plomo
                 case "21": //Cromoa
+                    case "234":
                 case "18": //Cadmio
                     console.log("entro a caso 2");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
@@ -394,6 +397,33 @@ function getDetalleAnalisis(idCodigo) {
                 break;
                 case 12:
                 case 134:
+                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                    tab += '<table id="tableResultado" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += '        <tr>';
+                    tab += '          <th>Descripcion</th>';
+                    tab += '          <th>Valor</th>';
+                    tab += '        </tr>';
+                    tab += '    </thead>';
+                    tab += '    <tbody>';
+                    aux = 1;
+                    $.each(response.model, function (key, item) {
+                        aux = aux * parseFloat(item.Resultado);
+                        tab += '<tr>';
+                        tab += '<td>' + item.Parametro + '</td>';
+                        tab += '<td>' + item.Resultado + '</td>';
+                        tab += '</tr>';
+                        cont++;
+                    });
+                    // resLiberado = (aux / cont);
+                    resLiberado = (Math.pow(aux, 1 / cont));
+                    console.log(resLiberado);
+                    tab += '    </tbody>';
+                    tab += '</table>';
+                    tabla.innerHTML = tab;
+                break;
+                case 253:
+                case 35:
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
