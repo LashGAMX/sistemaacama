@@ -117,7 +117,7 @@ class SolicitudController extends Controller
     public function getDireccionReporte(Request $res)
     {
         
-        if ($res->siralab == true) {
+        if ($res->siralab == "true") {
             $model = DB::table('ViewDireccionSir')->where('Id_sucursal', $res->id)->get();
         }else{
             $model = DireccionReporte::where('Id_sucursal', $res->id)->get();
@@ -174,9 +174,13 @@ class SolicitudController extends Controller
 
         return response()->json($data);
     }
-    public function getPuntoMuestro(Request $request)
+    public function getPuntoMuestro(Request $res)
     {
-        $model = PuntoMuestreoGen::where('Id_sucursal', $request->idSuc)->get();
+        if ($res->siralab == "true") {
+            $model = PuntoMuestreoSir::where('Id_sucursal', $res->idSuc)->get();
+        }else{
+            $model = PuntoMuestreoGen::where('Id_sucursal', $res->idSuc)->get();
+        }
         $data = array(
             'model' => $model,
         );

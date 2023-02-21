@@ -549,7 +549,7 @@ class VolController extends Controller
         switch ($loteModel->Id_tecnica) {
             case 6:
                 $model = LoteDetalleDqo::create([
-                    'Id_lote' => $request->idLote,
+                    'Id_lote' => $request->idLote, 
                     'Id_analisis' => $request->idAnalisis,
                     'Id_codigo' => $request->idSol,
                     'Id_parametro' => $loteModel->Id_tecnica,
@@ -571,7 +571,7 @@ class VolController extends Controller
                 $detModel = LoteDetalleCloro::where('Id_lote', $request->idLote)->get();
                 $sw = true;
                 break;
-            case 9:
+            case "9":
             case 10:
             case 11:
             case 287:
@@ -602,6 +602,7 @@ class VolController extends Controller
         $loteModel->save();
 
         $data = array(
+            'msg' => "Mensaje",
             'sw' => $sw,
             'model' => $model,
         );
