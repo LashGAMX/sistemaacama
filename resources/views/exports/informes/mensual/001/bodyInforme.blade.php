@@ -52,68 +52,6 @@
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup bordeSinIzqFinalSup">&nbsp;</td>
                 </tr>
-                {{-- <tr>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBot"></td>
-                    <td class="filasIzq bordesTabla fontBold soloBordeInf">
-                        @switch(@$solModel1->Id_norma)
-                        @case(1)
-                        DE ACUERDO A NOM-001-SEMARNAT-1996
-                        @if (@$solModel1->Id_muestra == 1)
-                        INSTANTANEA
-                        @else
-                        COMPUESTA
-                        @endif
-                        TIPO QUE ESTABLECE
-                        LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN AGUAS Y
-                        <br> BIENES NACIONALES.
-                        @break
-                        @case(2)
-                        DE ACUERDO A NOM-002-SEMARNAT-1996 PARA MUESTRA
-                        @if (@$solModel1->Id_muestra == 1)
-                        INSTANTANEA
-                        @else
-                        COMPUESTA
-                        @endif
-                        <br> QUE ESTABLECE LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS
-                        RESIDUALES A LOS <br> SISTEMAS DE ALCANTARILLADO URBANO O MUNICIPAL.
-                        @break
-                        @case(4)
-                        DE ACUERDO A NOM-003-SEMARNAT-1997 PARA MUESTRA
-                        @if (@$solModel->Id_muestra == 1)
-                        INSTANTANEA
-                        @else
-                        COMPUESTA
-                        @endif
-                        <br> QUE ESTABLECE LOS LIMITES MAXIMOS PERMISIBLES <br> DE CONTAMINANTES PARA LAS AGUAS RESIDUALES
-                        <br> TRATADAS QUE SE REUSEN EN SERVICIOS AL PÚBLICO
-                        @break
-                        @case(5)
-                        DE ACUERDO A MODIFICACIÓN A LA NORMA OFICIAL MEXICANA NOM-127-SSA1-1994, PARA MUESTRA
-                        @if (@$solModel1->Id_muestra == 1)
-                        INSTANTANEA
-                        @else
-                        COMPUESTA
-                        @endif
-                        SALUD AMBIENTAL. AGUA PARA USO Y CONSUMO HUMANO. LÍMITES PERMISIBLES DE CALIDAD Y TRATAMIENTOS A QUE
-                        DEBE <br> SOMETERSE EL AGUA PARA SU POTABILIZACION.
-                        @break
-                        @case(7)
-                        DE ACUERDO A NORMA OFICIAL MEXICANA NOM-201-SSA1-2015 PARA MUESTRA
-                        @if (@$solModel1->Id_muestra == 1)
-                        INSTANTANEA
-                        @else
-                        COMPUESTA
-                        @endif
-                        PRODUCTOS Y SERVICIOS. AGUA Y HIELO PARA CONSUMO HUMANO, ENVASADOS A GRANEL. ESPECIFICACIONES
-                        SANITARIAS.
-                        @break
-                        @endswitch
-                    </td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup bordeSinIzqFinalSup">&nbsp;</td>
-                </tr> --}}
                 <tr>                    
                     <td class="filasIzq bordesTabla soloBordeDer" colspan="2" rowspan="9">&nbsp;</td>
                     <td class="filasIzq bordesTabla soloBordeDer paddingTopBotInter fontSize6">GASTO PROMEDIO</td>
@@ -240,7 +178,7 @@
                         </td>
 
                         <td class="tableContent bordesTablaBody">
-                            
+                            {{@$ponderado[$cont]}}
                         </td>
                         @if (@$tipo == 1)
                             <td class="tableContent bordesTablaBody">

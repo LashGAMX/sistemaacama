@@ -1322,6 +1322,7 @@ class InformesController extends Controller
 
         $gasto1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
         $gasto2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
+
         $proceso1 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol1)->first();
         $proceso2 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol2)->first();
         $numOrden1 =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel1->Hijo)->first();
@@ -1332,13 +1333,19 @@ class InformesController extends Controller
         $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Tipo_reporte)->first();
         $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();
 
+        $promGastos = ($gasto1->Resultado2 + $gasto2->Resultado2);
+        $parti1 = $gasto1->Resultado2 / $promGastos;
+        $parti2 = $gasto2->Resultado2 / $promGastos;
+
         $limitesN = array();
         $limitesC1 = array();
         $limitesC2 = array();
         $limitesC3 = array();
+        $ponderado = array();
         $aux = 0;
         $limC1 = 0;
         $limC2 = 0;
+        $limP = 0;
         $cont = 0;
         foreach ($model1 as $item) {
 
@@ -1356,11 +1363,14 @@ class InformesController extends Controller
                     }
                     break;
                 case 14:
+                    $phTemp1 = 
                     $limC1 = round($item->Resultado2, 2);
                     $limC2 = round($model2[$cont]->Resultado2, 2);
+                    $limP = "";
                     break;
                 default:
                     if ($item->Resultado2 != NULL || $model2[$cont]->Resultado2 != NULL) {
+                        $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
                         if ($item->Resultado2 <= $item->Limite) {
                             $limC1 = "< " . $item->Limite;
                         } else {
@@ -1437,9 +1447,11 @@ class InformesController extends Controller
             array_push($limitesN, $aux);
             array_push($limitesC1, $limC1);
             array_push($limitesC2, $limC2);
+            array_push($ponderado,$limP);
             $cont++;
         }
         $data = array(
+            'ponderado' => $ponderado,
             'rfc' => $rfc,
             'titulo' => $titulo,
             'tipoReporte' => $tipoReporte,
