@@ -410,7 +410,7 @@ function getDetalleEspectro(idDetalle)
             $("#idMuestra").val(idDetalle);
             $("#blanco1").val(response.model.Blanco);
             $("#blanco2").val(response.model.Blanco);
-            if(response.formulaTipo == 152){
+            if(response.parametro == 152){
                 $("#b1").val("");
                 $("#m1").val("");
                 $("#r1").val("");
@@ -550,11 +550,9 @@ function operacion() {
             CR:$('#r1').val(),
             D:$('#fDilucion1').val(),
             E:$('#volMuestra1').val(),
-            S:$('#abs11').val(),
-            W:$('#abs21').val(),
-            X:$('#abs31').val(),
-            Y:$('#abs41').val(),
-            Z:$('#abs51').val(),
+            X:$('#abs11').val(),
+            Y:$('#abs21').val(),
+            Z:$('#abs31').val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
@@ -568,6 +566,42 @@ function operacion() {
           let d = response.d.toFixed(3);
           $("#fDilucion1").val(d);
           $("#fDilucion2").val(d);
+          blanco = resultado;
+        }
+    });
+} 
+function operacionCOT() {
+
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionEspectro",
+        data: {
+            idMuestra: idMuestra,
+            parametro: $('#formulaTipo').val(),
+            ABS:$('#abs1COT').val(),
+            CA:$('#blanco1COT').val(),
+            CB:$('#b1COT').val(),
+            CM:$('#m1COT').val(),
+            CR:$('#r1COT').val(),
+            D:$('#fDilucion1COT').val(),
+            E:$('#volMuestra1COT').val(),
+            X:$('#abs11COT').val(),
+            Y:$('#abs21COT').val(),
+            Z:$('#abs31COT').val(),
+           
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            let x = response.x.toFixed(3);
+          $("#abs1COT").val(x); 
+          $("#abs2COT").val(x); 
+          let resultado = response.resultado.toFixed(3);
+          $("#resultadoCOT").val(resultado); 
+          let d = response.d.toFixed(3);
+          $("#fDilucion1COT").val(d);
+          $("#fDilucion2COT").val(d);
           blanco = resultado;
         }
     });

@@ -963,6 +963,7 @@ class CampoController extends Controller
             $campoComp->Ph_muestraComp = $request->phMuestraCompuesto;
             $campoComp->Temp_muestraComp = $request->valTempCompuesto;
             $campoComp->Volumen_calculado = $request->volCalculadoComp;
+            $campoComp->Cloruros = $request->cloruros;
             $campoComp->Id_user_m = Auth::user()->id;
 
             $nota = "Registro modificado";

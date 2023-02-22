@@ -321,7 +321,7 @@
                                     Guardar</button>&nbsp;&nbsp;
                             </div>
                             <div class="col-md-2">
-                                <button class="btn btn-primary" id="btnEjecutar"><i class="voyager-play"></i>
+                                <button class="btn btn-primary" id="btnEjecutar" onclick="operacionCOT()"><i class="voyager-play"></i>
                                     Ejecutar</button>
                             </div>
                             {{-- <div class="col-md-2">
@@ -330,7 +330,7 @@
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="resultado">Resultado</label>
-                                    <input type="text" id="resultado" style="font-size: 20px;color:red;"
+                                    <input type="text" id="resultadoCOT" style="font-size: 20px;color:red;"
                                         placeholder="Resultado">
                                 </div>
                             </div>
@@ -353,106 +353,71 @@
                                         <tr>
                                             <td>ABS</td>
                                             <td>ABS Promedio</td>
-                                            <td><input type="text" id="abs1"></td>
-                                            <td><input type="text" id="abs2"></td>
+                                            <td><input type="text" id="abs1COT"></td>
+                                            <td><input type="text" id="abs2COT"></td>
                                             <td>C</td>
                                         </tr>
                                         <tr>
                                             <td>CA</td>
                                             <td>Blanco</td>
-                                            <td><input name="campos" type="number" id="blanco1"></td>
-                                            <td><input name="campos" type="number" id="blanco2"></td>
+                                            <td><input name="campos" type="number" id="blanco1COT"></td>
+                                            <td><input name="campos" type="number" id="blanco2COT"></td>
                                             <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>CB</td>
                                             <td>b</td>
-                                            <td><input name="campos" type="number" id="b1" ></td>
-                                            <td><input name="campos" type="number" id="b2" ></td>
+                                            <td><input name="campos" type="number" id="b1COT" ></td>
+                                            <td><input name="campos" type="number" id="b2COT" ></td>
                                             <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>CM</td>
                                             <td>m</td>
-                                            <td><input name="campos" type="number" id="m1" ></td>
-                                            <td><input name="campos" type="number" id="m2" ></td>
+                                            <td><input name="campos" type="number" id="m1COT" ></td>
+                                            <td><input name="campos" type="number" id="m2COT" ></td>
                                             <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>CR</td>
                                             <td>r</td>
-                                            <td><input name="campos" type="number" id="r1" ></td>
-                                            <td><input name="campos" type="number" id="r2" ></td>
+                                            <td><input name="campos" type="number" id="r1COT" ></td>
+                                            <td><input name="campos" type="number" id="r2COT" ></td>
                                             <td>F</td>
                                         </tr>
                                         <tr>
                                             <td>D</td>
                                             <td>Factor dilucion</td>
-                                            <td><input type="number" id="fDilucion1" disabled></td>
-                                            <td><input type="number" id="fDilucion2" disabled></td>
-                                            <td>V</td>
-                                        </tr>
-                                        <tr id="conPh">
-                                            <td>P</td>
-                                            <td>pH Final</td>
-                                            <td><input name="campos" type="number" id="phFin1"></td>
-                                            <td><input name="campos" type="number" id="phFin2"></td>
-                                            <td>V</td>
-                                        </tr>
-                                        <tr id="conPh2">
-                                            <td>P2</td>
-                                            <td>pH Inicial</td>
-                                            <td><input name="campos" type="number" id="phIni1" value="0"></td>
-                                            <td><input name="campos" type="number" id="phIni2" value="0"></td>
-                                            <td>V</td>
-                                        </tr>
-                                        <tr id="conN1">
-                                            <td>N1</td>
-                                            <td>Nitratos</td>
-                                            <td><input name="campos" type="number" id="nitratos1" value="0"></td>
-                                            <td><input name="campos" type="number" id="nitratos2" value="0"></td>
-                                            <td>V</td>
-                                        </tr>
-                                        <tr id="conN2">
-                                            <td>N2</td>
-                                            <td>Nitritos</td>
-                                            <td><input name="campos" type="number" id="nitritos1" value="0"></td>
-                                            <td><input name="campos" type="number" id="nitritos2" value="0"></td>
-                                            <td>V</td>
-                                        </tr>
-                                        <tr id="conN3">
-                                            <td>N3</td>
-                                            <td>Sulfuros</td>
-                                            <td><input name="campos" type="number" id="sulfuros1" value="0"></td>
-                                            <td><input name="campos" type="number" id="sulfuros2" value="0"></td>
+                                            <td><input type="number" id="fDilucion1COT" disabled></td>
+                                            <td><input type="number" id="fDilucion2COT" disabled></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>E</td>
                                             <td>Vol de la muestra</td>
-                                            <td><input name="campos" type="number" id="volMuestra1"></td>
-                                            <td><input name="campos" type="number" id="volMuestra2"></td>
+                                            <td><input name="campos" type="number" id="volMuestra1COT"></td>
+                                            <td><input name="campos" type="number" id="volMuestra2COT"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>X</td>
                                             <td>Absorbancia1</td>
-                                            <td><input name="campos" type="number" id="abs11"></td>
-                                            <td><input name="campos" type="number" id="abs12"></td>
+                                            <td><input name="campos" type="number" id="abs11COT"></td>
+                                            <td><input name="campos" type="number" id="abs12COT"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>Y</td>
                                             <td>Absorbancia2</td>
-                                            <td><input name="campos" type="number" id="abs21"></td>
-                                            <td><input name="campos" type="number" id="abs22"></td>
+                                            <td><input name="campos" type="number" id="abs21COT"></td>
+                                            <td><input name="campos" type="number" id="abs22COT"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>Z</td>
                                             <td>Absorbancia3</td>
-                                            <td><input name="campos" type="number" id="abs31"></td>
-                                            <td><input name="campos" type="number" id="abs32"></td>
+                                            <td><input name="campos" type="number" id="abs31COT"></td>
+                                            <td><input name="campos" type="number" id="abs32COT"></td>
                                             <td>V</td>
                                         </tr>
                                         

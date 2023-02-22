@@ -175,7 +175,7 @@ function getDetalleAnalisis(idCodigo) {
                     case "227":
                 case "24": //Plomo
                 case "21": //Cromoa
-                    case "234":
+                    case "264":
                 case "18": //Cadmio
                     console.log("entro a caso 2");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'

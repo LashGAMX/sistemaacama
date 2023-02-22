@@ -324,8 +324,27 @@ class FqController extends Controller
             'resultado' => $resultado,
             'x' => $x,
             'd' => $d,
+            'parametro' => $request->parametro,
         );
         return response()->json($data);
+    }
+    public function operacionCOT(Request $request){
+        $model = LoteDetalleEspectro::where('Id_detalle', $request->idMuestra)->first();
+                $d = 40 / $request->E;
+                $x = ($request->X + $request->Y + $request->Z) / 3;
+                if ($model->Id_control == 14) {
+                    $resultado = ((($x - $request->CB) / $request->CM) * $d);
+                } else {
+                    $resultado = ((($x - $request->CA) / $request->CM) * $d);
+                }
+
+                $data = array(
+                    'resultado' => $resultado,
+                    'x' => $x,
+                    'd' => $d,
+                    'parametro' => $request->parametro,
+                );
+                return response()->json($data);
     }
     public function liberarMuestraEspectro(Request $request)
     {
