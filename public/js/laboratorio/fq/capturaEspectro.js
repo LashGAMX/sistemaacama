@@ -304,6 +304,35 @@ function guardar(){
         }
     });
 }
+function guardarCOT(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/guardarCOT",
+        data: {
+            idMuestra: $("#idMuestra").val(),
+            fechaAnalisis: $("#fechaAnalisis").val(),
+            parametro: $('#formulaTipo').val(),
+            resultado: $('#resultado').val(),
+            observacion: $('#obs').val(),
+            ABS:$('#abs1COT').val(),
+            CA:$('#blanco1COT').val(),
+            CB:$('#b1COT').val(),
+            CM:$('#m1COT').val(),
+            CR:$('#r1COT').val(),
+            D:$('#fDilucion1COT').val(),
+            E:$('#volMuestra1COT').val(),
+            X:$('#abs11COT').val(),
+            Y:$('#abs21COT').val(),
+            Z:$('#abs31COT').val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) { 
+            console.log(response);
+            getLoteCapturaEspectro();        
+        }
+    });
+}
 function validacionModal(){
     let sw = true;
     
