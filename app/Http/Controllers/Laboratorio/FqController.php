@@ -197,6 +197,28 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
+    public function guardarCOT(Request $request)
+    {
+        $model = LoteDetalleEspectro::find($request->idMuestra);
+        $model->Resultado = $request->resultado;
+        $model->Abs1 = $request->X;
+        $model->Abs2 = $request->Y;
+        $model->Abs3 = $request->Z;
+        $model->B = $request->CB;
+        $model->M = $request->CM;
+        $model->R = $request->CR;
+        $model->Promedio = $request->ABS;
+        $model->Vol_dilucion = $request->D;
+        $model->Vol_muestra = $request->E;
+        $model->Blanco = $request->CA;
+        $model->Analizo = Auth::user()->id;
+        $model->save();
+        $data = array(
+            'model' => $model,
+
+        );
+        return response()->json($data);
+    }
     public function guardarEspectro(Request $request)
     {
         $idCodigo = 0;
@@ -441,6 +463,23 @@ class FqController extends Controller
         $data = array(
             'model' => $model,
             'curva' => $curva,
+            'parametro' => $request->formulaTipo,
+            //'constantes' => $constantes,
+        );
+        return response()->json($data);
+    }
+    public function getDetalleCOT(Request $request) //obtener cuerva
+    {
+        $fecha = new Carbon($request->fechaAnalisis);
+        $today = $fecha->toDateString();
+        $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
+        $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
+        
+
+        //$curva = CurvaConstantes::where('Id_lote', $model->Id_lote)->first();
+
+        $data = array(
+            'model' => $model,
             'parametro' => $request->formulaTipo,
             //'constantes' => $constantes,
         );

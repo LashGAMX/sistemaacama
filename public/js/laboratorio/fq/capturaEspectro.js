@@ -168,7 +168,7 @@ function getLoteCapturaEspectro() {
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectroSulfatos('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaSulfatos">Capturar</button>';    
                         break;
                     case "152":
-                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCOT">Capturar</button>';
+                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleCOT('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCOT">Capturar</button>';
                         if(item.Id_control == "14"){
                             blanco = item.Resultado;
                         }
@@ -312,7 +312,7 @@ function guardarCOT(){
             idMuestra: $("#idMuestra").val(),
             fechaAnalisis: $("#fechaAnalisis").val(),
             parametro: $('#formulaTipo').val(),
-            resultado: $('#resultado').val(),
+            resultado: $('#resultadoCOT').val(),
             observacion: $('#obs').val(),
             ABS:$('#abs1COT').val(),
             CA:$('#blanco1COT').val(),
@@ -439,21 +439,12 @@ function getDetalleEspectro(idDetalle)
             $("#idMuestra").val(idDetalle);
             $("#blanco1").val(response.model.Blanco);
             $("#blanco2").val(response.model.Blanco);
-            if(response.parametro == 152){
-                $("#b1").val("");
-                $("#m1").val("");
-                $("#r1").val("");
-                $("#b2").val("");
-                $("#m2").val("");
-                $("#r2").val("");
-            } else {
             $("#b1").val(response.curva.B);
             $("#m1").val(response.curva.M);
             $("#r1").val(response.curva.R);
             $("#b2").val(response.curva.B);
             $("#m2").val(response.curva.M);
             $("#r2").val(response.curva.R);
-            }
             $("#phIni1").val(response.model.Ph_ini);
             $("#phFin1").val(response.model.Ph_fin);
             $("#nitratos1").val(response.model.Nitratos);
@@ -470,6 +461,43 @@ function getDetalleEspectro(idDetalle)
             $("#abs22").val(response.model.Abs2);
             $("#abs32").val(response.model.Abs3);
             $("#resultado").val(response.model.Resultado);
+            if($("#formulaTipo").val() == 152){
+                $("#blanco1").val(blanco);
+            }
+        }
+    });
+}
+function getDetalleCOT(idDetalle){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/getDetalleCOT",
+        data: {
+            formulaTipo: $("#formulaTipo").val(), 
+            fechaAnalisis: $("#fechaAnalisis").val(),
+            idDetalle: idDetalle,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) { 
+            console.log(response);
+            $("#observacion").val(response.model.Observacion);
+            $("#abs1COT").val(response.model.Promedio);
+            $("#abs2COT").val(response.model.Promedio);
+            $("#idMuestra").val(idDetalle);
+            $("#blanco1COT").val(response.model.Blanco);
+            $("#blanco2COT").val(response.model.Blanco);
+            $("#b1COT").val(response.model.B);
+            $("#m1COT").val(response.model.M);
+            $("#r1COT").val(response.model.R);
+            $("#b2COT").val(response.model.B);
+            $("#m2COT").val(response.model.M);
+            $("#rCOT2").val(response.model.R);
+            $("#volMuestra1COT").val(response.model.Vol_muestra);
+            $("#volMuestra2COT").val(response.model.Vol_muestra);
+            $("#abs11COT").val(response.model.Abs1);
+            $("#abs21COT").val(response.model.Abs2);
+            $("#abs31COT").val(response.model.Abs3);
+            $("#resultadoCOT").val(response.model.Resultado);
             if($("#formulaTipo").val() == 152){
                 $("#blanco1").val(blanco);
             }

@@ -206,6 +206,7 @@ class CurvaController extends Controller
                 $valFecha = "entro a create";
                 $sw = 0;
                 $swCon = 0;
+                $num;
                 //$valFecha = "entro a create";
            
                // $swCon = 1;

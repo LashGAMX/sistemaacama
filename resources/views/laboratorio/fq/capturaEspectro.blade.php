@@ -317,7 +317,7 @@
                                     </div>
                             </div>
                             <div class="col-md-2">
-                                <button class="btn btn-success" id="btnGuardar"><i class="voyager-upload"></i>
+                                <button class="btn btn-success" id="btnGuardar" onclick="guardarCOT()"><i class="voyager-upload"></i>
                                     Guardar</button>&nbsp;&nbsp;
                             </div>
                             <div class="col-md-2">
