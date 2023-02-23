@@ -10,6 +10,7 @@
 </h6>
 @stop
 <input type="text" id="idSol" value="{{$model->Id_solicitud}}" hidden>
+<input type="text" id="idNorma" value="{{$model->Id_norma}}" hidden>
 <div class="container-fluid"> 
     <div class="row">
         <div class="col-md-12">

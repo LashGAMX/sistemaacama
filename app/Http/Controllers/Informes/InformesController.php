@@ -1363,7 +1363,7 @@ class InformesController extends Controller
                     }
                     break;
                 case 14:
-                    $phTemp1 = 
+                    
                     $limC1 = round($item->Resultado2, 2);
                     $limC2 = round($model2[$cont]->Resultado2, 2);
                     $limP = "";
