@@ -179,7 +179,6 @@ class CurvaController extends Controller
                     'Id_parametro' => $request->idParametro,
                     'Fecha_inicio' => $fechaInicio,
                     'Fecha_fin' => $fechaFin,
-            
                 ]);
                
                 if ($request->idArea == 2 || $request->idParametro == 243 || $request->idParametro == 113){
@@ -206,7 +205,7 @@ class CurvaController extends Controller
                 $valFecha = "entro a create";
                 $sw = 0;
                 $swCon = 0;
-                $num;
+               
                 //$valFecha = "entro a create";
            
                // $swCon = 1;
@@ -225,6 +224,7 @@ class CurvaController extends Controller
             'parametro' => $request->idParametro,
             'concentracion' => $concent,
             'valFecha' => $valFecha,
+            'num' => $num,
            
            
         );

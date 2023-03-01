@@ -213,6 +213,7 @@ class FqController extends Controller
         $model->Blanco = $request->CA;
         $model->Analizo = Auth::user()->id;
         $model->save();
+        
         $data = array(
             'model' => $model,
 
@@ -356,7 +357,7 @@ class FqController extends Controller
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 if ($model->Id_control == 14) {
                     $resultado = ((($x - $request->CB) / $request->CM) * $d);
-                } else {
+                } else {    
                     $resultado = ((($x - $request->CA) / $request->CM) * $d);
                 }
 
@@ -474,13 +475,16 @@ class FqController extends Controller
         $today = $fecha->toDateString();
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
-        
+        $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+        ->where('Id_area', 16)
+        ->where('Id_parametro', $parametro->Id_parametro)->first();
 
         //$curva = CurvaConstantes::where('Id_lote', $model->Id_lote)->first();
 
         $data = array(
             'model' => $model,
             'parametro' => $request->formulaTipo,
+            'curva' => $curva,
             //'constantes' => $constantes,
         );
         return response()->json($data);
