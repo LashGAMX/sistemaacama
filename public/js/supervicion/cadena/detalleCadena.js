@@ -366,12 +366,12 @@ function getDetalleAnalisis(idCodigo) {
                         cont = 0;
                         $.each(response.model, function (key, item) {
                             tab += '<tr>';
-                            tab += '<td> pH - '+item.Num_toma+'</td>';
-                            tab += '<td>' + item.Promedio + '</td>';
-                            tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
+                            tab += '<td> GA - '+item.Num_tomas+'</td>';
+                            tab += '<td>' + item.Resultado + '</td>';
+                            tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
                             tab += '</tr>';
-                            if(item.Promedio != null){
-                                aux = aux + (response.aux[cont] * item.Promedio);
+                            if(item.Resultado != null){
+                                aux = aux + (response.aux[cont] * item.Resultado);
                                 cont++;
                             }
                         });   
@@ -455,6 +455,8 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '    </thead>';
                     tab += '    <tbody>';
                     aux = 1;
+
+
                     $.each(response.model, function (key, item) {
                         aux = aux * parseFloat(item.Resultado);
                         tab += '<tr>';
@@ -612,15 +614,32 @@ function getDetalleAnalisis(idCodigo) {
                     } else if (response.codigoModel.Id_parametro == 97) { // Temperatura
                         aux = 0;
                         cont = 0;
-                        $.each(response.model, function (key, item) {
-                            tab += '<tr>';
-                            tab += '<td> Temperatura - ' + (cont + 1) + '</td>';
-                            tab += '<td>' + item.Promedio + '</td>';
-                            tab += '</tr>';
-                            aux = aux + parseFloat(item.Promedio);
-                            cont++;
-                        });
-                        resLiberado = (aux / cont);
+                        if ($("#idNorma").val() == "27") {
+                            $.each(response.model, function (key, item) {
+                                tab += '<tr>';
+                                tab += '<td> Temperatura - '+item.Num_toma+'</td>';
+                                tab += '<td>' + item.Promedio + '</td>';
+                                tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
+                                tab += '</tr>';
+                                if(item.Promedio != null){
+                                    aux = aux + (response.aux[cont] * item.Promedio);
+                                    cont++;
+                                }
+                            });   
+                            resLiberado = (aux).toFixed(2);
+                        } else {
+                            $.each(response.model, function (key, item) {
+                                tab += '<tr>';
+                                tab += '<td> Temperatura - ' + (cont + 1) + '</td>';
+                                tab += '<td>' + item.Promedio + '</td>';
+                                tab += '</tr>';
+                                if(item.Promedio != null){
+                                    aux = aux + parseFloat(item.Promedio);
+                                    cont++;
+                                }
+                            });   
+                            resLiberado = (aux / cont).toFixed(2);
+                        }
                     }
                     tab += '    </tbody>';
                     tab += '</table>';
