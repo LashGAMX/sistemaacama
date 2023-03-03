@@ -24,17 +24,24 @@ $(document).ready(function () {
         }
     });
 
-    $("#btnSC").click(function()
-    {
+    $("#btnImprimir").click(function() 
+    { 
+        console.log("Imprimir reporte")
         let id1 = dato.rows('.selected').data()[0][0]
         let id2 = dato.rows('.selected').data()[1][0]
-        window.open(base_url+"/admin/informes/exportPdfInformeMensual/"+id1+"/"+id2+"/2");
-    });
-    $("#btnCc").click(function()
-    {
-        let id1 = dato.rows('.selected').data()[0][0]
-        let id2 = dato.rows('.selected').data()[1][0]
-        window.open(base_url+"/admin/informes/exportPdfInformeMensual/"+id1+"/"+id2+"/1");
+        switch ($("#tipoReporte").val()) {
+            case "1":
+                window.open(base_url+"/admin/informes/exportPdfInformeMensual/"+id1+"/"+id2+"/1");       
+                break;
+            case "2":
+                window.open(base_url+"/admin/informes/exportPdfInformeMensual/"+id1+"/"+id2+"/2");
+                break;
+            case "3":
+                window.open(base_url+"/admin/informes/exportPdfInformeMensualCampo/"+id1+"/"+id2);
+                break;
+            default:
+                break;
+        }
     });
 }); 
 var model = new Array();

@@ -1491,6 +1491,85 @@ class InformesController extends Controller
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->Output('Informe de Resultados Sin Comparacion.pdf', 'I');
     }
+    public function exportPdfInformeMensualCampo($idSol1, $idSol2)
+    {
+        $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'L',
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 5,
+            'margin_bottom' => 5,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+         // Hace los filtros para realizar la comparacion
+         $solModel1 = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol1)->first();
+         $solModel2 = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol2)->first();
+         if ($solModel1->Siralab == 1) {
+             $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $idSol1)->first();
+             $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+             $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+         } else {
+             $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $idSol1)->first();
+             $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+             $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+         }
+         $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
+         $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
+ 
+         $gasto1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
+         $gasto2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
+ 
+         $proceso1 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol1)->first();
+         $proceso2 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol2)->first();
+         $numOrden1 =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel1->Hijo)->first();
+         $numOrden2 =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel2->Hijo)->first();
+         $firma1 = User::find(14);
+         $firma2 = User::find(17);
+         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
+         $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Tipo_reporte)->first();
+         $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();
+ 
+         $promGastos = ($gasto1->Resultado2 + $gasto2->Resultado2);
+         $parti1 = $gasto1->Resultado2 / $promGastos;
+         $parti2 = $gasto2->Resultado2 / $promGastos;
+         $data = array(
+            'rfc' => $rfc,
+            'titulo' => $titulo,
+            'tipoReporte' => $tipoReporte,
+            'cliente' => $cliente,
+            'punto' => $punto,
+            'model1' => $model1,
+            'model2' => $model2,
+            'gasto1' => $gasto1,
+            'gasto2' => $gasto2,
+            'proceso1' => $proceso1,
+            'proceso2' => $proceso2,
+            'numOrden1' => $numOrden1,
+            'numOrden2' => $numOrden2,
+            'solModel1' => $solModel1,
+            'solModel2' => $solModel2,
+            'firma1' => $firma1,
+            'firma2' => $firma2,
+        );
+
+
+
+
+        //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
+        $htmlInforme = view('exports.informes.mensual.campo.bodyInforme', $data);
+        //HEADER-FOOTER******************************************************************************************************************
+        $htmlHeader = view('exports.informes.mensual.001.headerInforme', $data);
+        $htmlFooter = view('exports.informes.mensual.001.footerInforme', $data);
+
+        $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        $mpdf->WriteHTML($htmlInforme);
+
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->Output('Informe de Resultados Sin Comparacion.pdf', 'I');
+    }
 
     public function pdfComparacion2($idSol)
     {

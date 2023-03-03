@@ -21,6 +21,7 @@ Route::group(['prefix' => 'informes'], function () {
 
     Route::get('exportPdfInformeMensual/{idSol1}/{idsol2}/{tipo}', [InformesController::class, 'exportPdfInformeMensual']);
     Route::get('exportPdfInformeMensual/001/{idSol1}/{idsol2}/{tipo}', [InformesController::class, 'exportPdfInformeMensual001']);
+    Route::get('exportPdfInformeMensualCampo/{idSol1}/{idsol2}', [InformesController::class, 'exportPdfInformeMensualCampo']);
     Route::get('informeMensualSinComparacion/{idSol1}/{idsol2}', [InformesController::class, 'pdfSinComparacion2']);
     Route::get('informeMensualConComparacion/{idSol1}/{idsol2}', [InformesController::class, 'pdfComparacion2']);
 });

@@ -49,7 +49,7 @@
     <div class="row">
         <div class="col-md-12">
             <div class="row">
-                <div class="col-md-6">
+                <div class="col-md-5">
                     <div class="form-group">
                         <input type="month" class="form-control form-control-sm">
                     </div>
@@ -59,14 +59,25 @@
                         <button class="btn btn-sm btn-success"><i class="fas fa-search"></i> Filtrar</button>
                     </div>
                 </div>
-                <div class="col-md-2">
-                    <div class="form-group"> 
-                        <button class="btn btn-sm btn-info" id="btnSC"><i class="fas fa-print"></i> SC</button>
-                    </div>
-                    <div class="form-group"> 
-                        <button class="btn btn-sm btn-info" id="btnCc"><i class="fas fa-print"></i> CC</button>
+                <div class="col-md-2"> 
+                    <div class="row">
+                        <div class="col-md-10">
+                            <div class="form-group">
+                                <label for="tipoReporte">Tipo  de reporte</label>
+                                <select class="form-control" id="tipoReporte">
+                                    <option value="1">Con comparación</option>
+                                    <option value="2">Sin Comparación</option>
+                                    <option value="3">Campo</option>
+                                    
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-2"> 
+                            <button class="btn btn-info" id="btnImprimir"><i class="voyager-cloud-download"></i> Descargar</button>
+                        </div>
                     </div>
                 </div>
+
                 <div class="col-md-12">
                     <div class="row">
                         <!-- Primera sección de tablas -->
