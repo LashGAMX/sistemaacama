@@ -476,7 +476,7 @@ function tablaVigencias(){
         success: function (response) {
             console.log(response);
             if (response.model != null) {
-                tab += '<table id="tablaVigencias" class="table table-sm">';
+                tab += '<table id="tablaVigencias" class="table" style="width: 100%; font-size: 14px">';
                 tab += '    <thead class="thead-dark">';
                 tab += '        <tr>';
                 tab += '          <th>ID Parametro</th>';

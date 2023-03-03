@@ -36,7 +36,7 @@
                                             <th>Folio</th>
                                             <th>Cliente</th>
                                             <th>Norma</th>
-                                            <th>Tipo servicio</th>
+                                             <th>Tipo servicio</th>
                                             {{-- <th>Fecha impresion</th> --}}
                                             <th>Estado Reporte</th>
                                             <th>Causa reporte</th>

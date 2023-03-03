@@ -9,7 +9,7 @@
   </h6>
   <div class="row">
     <div class="col-md-6">
-      <div id="divTablaVigencias">
+      <div id="divTablaVigencias" style="width: 100%; overflow:scroll">
         <table class="table" id="tablaVigencias">
           <thead>
             <tr>
