@@ -1,4 +1,4 @@
-var idSol = 0;
+ var idSol = 0;
 var idPunto = 0;
 $(document).ready(function () {
 
@@ -27,13 +27,23 @@ $(document).ready(function () {
       });
 
     $('#btnImprimir').on('click', function(){
-        window.open(base_url+"/admin/informes/exportPdfInforme/"+idSol+"/"+$("#puntoMuestreo").val()+"/"+$("#tipoReporte").val());
+        switch ($("#tipoReporte").val()) {
+            case "1":
+            case "2":
+                window.open(base_url+"/admin/informes/exportPdfInforme/"+idSol+"/"+$("#puntoMuestreo").val()+"/"+$("#tipoReporte").val());       
+                break;
+            case "3":
+                window.open(base_url+"/admin/informes/exportPdfInformeCampo/"+idSol+"/"+$("#puntoMuestreo").val()+"/"+$("#tipoReporte").val());       
+                break;
+            default:
+                break;
+        }
     });
 
 }); 
 
 
-function getPuntoMuestro(id)
+function getPuntoMuestro(id) 
 {
     let tabla = document.getElementById('selPuntos');
     let tab = '';

@@ -69,7 +69,7 @@
                         @endif
                         @if (@$tipoReporte->Id_categoria == 4 || @$tipoReporte->Id_categoria == 5 || @$tipoReporte->Id_categoria == 6)
                             (Suelo) {{@$tipoReporte->Categoria}}
-                        @else
+                        @else 
                             {{@$tipoReporte->Categoria}}
                         @endif
                     </td>
@@ -138,32 +138,278 @@
         </tbody>         
     </table>  
 </div>
-    <div id="contenedorTabla">
-        <table class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0"
-            border-color="#000000" width="50%" style="position: relative;float: left"  align="left">
+    <div id="contenedorTabla" >
+        <p id='header1' style="font-size: 10px">METODO DE PRUEBA NMX-AA-008-SCFI-2016 DETERMINACIÓN DE POTENCIAL DE HIDROGENO</p>
+        <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <thead>
                 <tr>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" >PARAMETRO &nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="background-color: brown">&nbsp;UNIDAD&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" >&nbsp;METODO DE
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA </td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">N. MUESTRA</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">CONCENTRACION <br>Unidades de pH</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">GASTO L/seg</td>
+                    <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">N. MUESTRA</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">CONCENTRACION <br>Unidades de pH</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">GASTO L/seg</td>
+                    <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">PROMEDIO MENSUAL PONDERADO</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">DECLARACION DE LA CONFORMIDAD </td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">EVALUACIÓN DE LA CONFORMIDAD</td>
                 </tr>
             </thead>
 
             <tbody>
-                    <tr>
-                        <td class="tableContentLeft bordesTablaBody">datos</td>
-                        <td class="tableContent bordesTablaBody">datos</td>
-                        <td class="tableContent bordesTablaBody">datos</td>
-      
-                    </tr>
-            </tbody>
+                @php
+                    $cont = 0;
+                @endphp
+                    @foreach ($ph1 as $item)
+                        <tr>
+                            <td class="tableContent bordesTablaBody">{{@$item->Fecha}}</td>
+                            @if ($cont == 0)
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                            @endif
+                            @if ($item->Activo == 1)
+                                <td class="tableContent bordesTablaBody">{{round($item->Promedio,2)}}</td>
+                                <td class="tableContent bordesTablaBody">{{round($gastoProm1[$cont],2)}}</td>
+                            @else
+                                <td class="tableContent bordesTablaBody">----</td>
+                                <td class="tableContent bordesTablaBody">----</td>
+                            @endif
+                            <td style="border:none"> </td>
+                            <td class="tableContent bordesTablaBody">{{@$ph2[$cont]->Fecha}}</td>
+                            @if ($cont == 0)
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel2->Folio_servicio}}</td>
+                            @endif
+                            @if ($item->Activo == 1)
+                                <td class="tableContent bordesTablaBody">{{round($ph2[$cont]->Promedio,2)}}</td>
+                                <td class="tableContent bordesTablaBody">{{round($gastoProm2[$cont],2)}}</td>
+                            @else
+                                <td class="tableContent bordesTablaBody">----</td>
+                                <td class="tableContent bordesTablaBody">----</td>
+                            @endif
+                            <td style="border:none"> </td>
+                            @if ($cont == 0)
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                            @endif
+                        </tr>
+                        @php
+                            $cont++;
+                        @endphp
+                    @endforeach
+            </tbody> 
         </table>
-    
+
     </div>
 
-    <br>
 
-    <div autosize="1" class="" cellpadding="0" cellspacing="0" border-color="#000000">
+    <div id="contenedorTabla" >
+        <p id='header1' style="font-size: 10px">METODO DE PRUEBA NMX-AA-007-SCFI-2013 DETERMINACIÓN DE TEMPERATURA</p>
+        <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+            <thead>
+                <tr>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA </td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">N. MUESTRA</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">CONCENTRACION <br>Unidades de pH</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">GASTO L/seg</td>
+                    <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">N. MUESTRA</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">CONCENTRACION <br>Unidades de pH</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">GASTO L/seg</td>
+                    <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">PROMEDIO MENSUAL PONDERADO</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">DECLARACION DE LA CONFORMIDAD </td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">EVALUACIÓN DE LA CONFORMIDAD</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                @php
+                    $cont = 0;
+                @endphp
+                    @foreach ($tempModel1 as $item)
+                        <tr>
+                            <td class="tableContent bordesTablaBody">{{@$ph1[$cont]->Fecha}}</td>
+                            @if ($cont == 0)
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                            @endif
+                            @if ($item->Activo == 1)
+                                <td class="tableContent bordesTablaBody">{{round($item->Promedio,2)}}</td>
+                                <td class="tableContent bordesTablaBody">{{round($gastoProm1[$cont],2)}}</td>
+                            @else
+                                <td class="tableContent bordesTablaBody">----</td>
+                                <td class="tableContent bordesTablaBody">----</td>
+                            @endif
+                            <td style="border:none"> </td>
+                            <td class="tableContent bordesTablaBody">{{@$ph2[$cont]->Fecha}}</td>
+                            @if ($cont == 0)
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                            @endif
+                            @if ($item->Activo == 1)
+                                <td class="tableContent bordesTablaBody">{{round($tempModel2[$cont]->Promedio,2)}}</td>
+                                <td class="tableContent bordesTablaBody">{{round($gastoProm2[$cont],2)}}</td>
+                            @else
+                                <td class="tableContent bordesTablaBody">----</td>
+                                <td class="tableContent bordesTablaBody">----</td>
+                            @endif
+                            <td style="border:none"> </td>
+                            @if ($cont == 0)
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                            @endif
+                        </tr>
+                        @php
+                            $cont++;
+                        @endphp
+                    @endforeach
+            </tbody> 
+        </table>
+
+    </div>
+
+    <div id="contenedorTabla" >
+        <p id='header1' style="font-size: 10px">METODO DE PRUEBA NMX-AA-005-SCFI-2013 DETERMINACIÓN DE GRASAS Y ACEITES</p>
+        <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+            <thead>
+                <tr>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA </td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">N. MUESTRA</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">CONCENTRACION <br>Unidades de pH</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">GASTO L/seg</td>
+                    <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">N. MUESTRA</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">CONCENTRACION <br>Unidades de pH</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">GASTO L/seg</td>
+                    <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">PROMEDIO MENSUAL PONDERADO</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">DECLARACION DE LA CONFORMIDAD </td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">EVALUACIÓN DE LA CONFORMIDAD</td>
+                </tr>
+            </thead>
+
+            <tbody>
+                @php
+                    $cont = 0;
+                    $aux = 0;
+                @endphp
+                    @foreach ($ph1 as $item)
+                        <tr>
+                            <td class="tableContent bordesTablaBody">{{@$item->Fecha}}</td>
+                            @if ($cont == 0)
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                            @endif
+                            @if ($item->Activo == 1)
+                                <td class="tableContent bordesTablaBody">{{round($grasasModel1[$aux]->Resultado,2)}}</td>
+                                <td class="tableContent bordesTablaBody">{{round($gastoProm1[$cont],2)}}</td>
+                            @else
+                                <td class="tableContent bordesTablaBody">----</td>
+                                <td class="tableContent bordesTablaBody">----</td>
+                            @endif
+                            <td style="border:none"> </td>
+                            <td class="tableContent bordesTablaBody">{{@$ph2[$cont]->Fecha}}</td>
+                            @if ($cont == 0)
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel2->Folio_servicio}}</td>
+                            @endif
+                            @if ($item->Activo == 1)
+                            <td class="tableContent bordesTablaBody">{{round($grasasModel2[$aux]->Resultado,2)}}</td>
+                                <td class="tableContent bordesTablaBody">{{round($gastoProm2[$cont],2)}}</td>
+                            @else
+                                <td class="tableContent bordesTablaBody">----</td>
+                                <td class="tableContent bordesTablaBody">----</td>
+                            @endif
+                            <td style="border:none"> </td>
+                            @if ($cont == 0)
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                            @endif
+                        </tr>
+                        @php
+                            $cont++;
+                            $aux++;
+                        @endphp
+                    @endforeach
+            </tbody> 
+        </table>
+
+    </div>
+    
+@if ($colModel1->count())
+<div id="contenedorTabla" >
+    <p id='header1' style="font-size: 10px">METODO DE PRUEBA NMX-AA-042-SCFI-2015 / NMX-AA-167-SCFI-2017 DETERMINACIÓN DE E. COLI / ENTEROCOCOS </p>
+    <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+        <thead>
+            <tr>
+                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA </td>
+                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">N. MUESTRA</td>
+                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">CONCENTRACION <br>Unidades de pH</td>
+                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">GASTO L/seg</td>
+                <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
+                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA</td>
+                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">N. MUESTRA</td>
+                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">CONCENTRACION <br>Unidades de pH</td>
+                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">GASTO L/seg</td>
+                <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
+                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">PROMEDIO MENSUAL PONDERADO</td>
+                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">DECLARACION DE LA CONFORMIDAD </td>
+                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">EVALUACIÓN DE LA CONFORMIDAD</td>
+            </tr>
+        </thead>
+
+        <tbody>
+            @php
+                $cont = 0;
+                $aux = 0;
+            @endphp
+                @foreach ($ph1 as $item)
+                    <tr>
+                        <td class="tableContent bordesTablaBody">{{@$item->Fecha}}</td>
+                        @if ($cont == 0)
+                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                        @endif
+                        @if ($item->Activo == 1)
+                            <td class="tableContent bordesTablaBody">{{round($colModel1[$aux]->Resultado,2)}}</td>
+                            <td class="tableContent bordesTablaBody">{{round($gastoProm1[$cont],2)}}</td>
+                        @else
+                            <td class="tableContent bordesTablaBody">----</td>
+                            <td class="tableContent bordesTablaBody">----</td>
+                        @endif
+                        <td style="border:none"> </td>
+                        <td class="tableContent bordesTablaBody">{{@$ph2[$cont]->Fecha}}</td>
+                        @if ($cont == 0)
+                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel2->Folio_servicio}}</td>
+                        @endif
+                        @if ($item->Activo == 1)
+                        <td class="tableContent bordesTablaBody">{{round($colModel2[$aux]->Resultado,2)}}</td>
+                            <td class="tableContent bordesTablaBody">{{round($gastoProm2[$cont],2)}}</td>
+                        @else
+                            <td class="tableContent bordesTablaBody">----</td>
+                            <td class="tableContent bordesTablaBody">----</td>
+                        @endif
+                        <td style="border:none"> </td>
+                        @if ($cont == 0)
+                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                        @endif
+                    </tr>
+                    @php
+                        $cont++;
+                        $aux++;
+                    @endphp
+                @endforeach
+        </tbody> 
+    </table>
+
+</div>
+@endif
+
+    <div autosize="1" class="" cellpadding="0" cellspacing="0" border-color="#000000" style="position: relative;margin-top: auto">
 
         <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <tbody>            

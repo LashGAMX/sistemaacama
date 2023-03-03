@@ -272,6 +272,14 @@ class InformesController extends Controller
                             $aux = "N/A";
                         }
                         break;
+                    case 27:
+                        $limNo = DB::table('limitepnorma_127')->where('Id_parametro', $item->Id_parametro)->get();
+                        if ($limNo->count()) {
+                            $aux = $limNo[0]->Per_max;
+                        } else {
+                            $aux = "N/A";
+                        }
+                        break;
                     default:
 
                         break;
@@ -336,6 +344,122 @@ class InformesController extends Controller
         $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');
     }
 
+    public function exportPdfInformeCampo($idSol, $idPunto)
+    {
+        $today = carbon::now()->toDateString();
+        $reportesInformes = array();
+        //Opciones del documento PDF
+        $mpdf = new \Mpdf\Mpdf([
+            'orientation' => 'P',
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 76,
+            'margin_bottom' => 125,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+        $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
+        $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
+        $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
+        $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Condición de busqueda para las configuraciones(Historicos)    
+
+        $aux = true;
+        foreach ($model as $item) {
+            if ($aux == true) {
+                if ($item->Siralab == 1) {
+                    $model2 = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $item->Id_solicitud)->where('Id_muestreo', $idPunto)->get();
+                    if ($item->Id_solicitud == $model2[0]->Id_solicitud) {
+                        $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $item->Id_solicitud)->first();
+                        $aux = false;
+                    }
+                } else {
+                    $model2 = DB::table('ViewPuntoMuestreoGen')->where('Id_solicitud', $item->Id_solicitud)->where('Id_muestreo', $idPunto)->first();
+                    if ($model2->Id_solicitud == $item->Id_solicitud) {
+                        $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $item->Id_solicitud)->first();
+                        $aux = false;
+                    }
+                }
+            }
+        }
+        $idSol = $solModel->Id_solicitud;
+        //Formatea la fecha; Por adaptar para el informe sin comparacion
+        $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
+        //Recupera los datos de la temperatura de la muestra compuesta
+        $tempCompuesta = CampoCompuesto::where('Id_solicitud', $idSol);
+
+        //$fechaEmision = \Carbon\Carbon::now();
+        $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
+        $direccion = DireccionReporte::where('Id_direccion', $solModel->Id_direccion)->first();
+
+        $cliente = Clientes::where('Id_cliente', $solModel->Id_cliente)->first();
+        $rfc = RfcSucursal::where('Id_sucursal', $solModel->Id_sucursal)->first();
+
+        if ($solicitud->Siralab == 1) { //Es cliente Siralab
+            $puntoMuestreo = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $idSol)->first();
+        } else {
+            $puntoMuestreo = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $idSol)->first();
+        }
+        $model = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
+        $tempAmbienteProm = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 97)->first();
+        //Recupera la temperatura compuesta
+        $temperaturaC = CampoCompuesto::where('Id_solicitud', $idSol)->first();
+        //Recupera la obs de campo
+        $obsCampo = $temperaturaC->Observaciones;
+        $modelProcesoAnalisis = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
+        $campoGeneral = CampoGenerales::where('Id_solicitud', $idSol)->first();
+        $phCampo = PhMuestra::where('Id_solicitud', $idSol)->get();
+        $numOrden =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel->Hijo)->first();
+        if ($solModel->Id_muestra == 1) {
+            $horaMuestreo = \Carbon\Carbon::parse($modelProcesoAnalisis->Hora_entrada)->format('H:i:s');
+        } else {
+            $horaMuestreo = 'COMPUESTA';
+        }
+        $firma1 = User::find(14);
+        $firma2 = User::find(17);
+        $campoCompuesto = CampoCompuesto::where('Id_solicitud', $idSol)->first();
+
+        //Proceso de Reporte Informe
+
+
+
+        $data = array(
+            'campoCompuesto' => $campoCompuesto,
+            'tempAmbienteProm' => $tempAmbienteProm,
+            'horaMuestreo' => $horaMuestreo,
+            'numOrden' => $numOrden,
+            'model' => $model,
+            'cotModel' => $cotModel,
+            'tipoReporte' => $tipoReporte,
+            'solModel' => $solModel,
+            'fechaAnalisis' => $fechaAnalisis,
+            'firma1' => $firma1,
+            'firma2' => $firma2,
+            'phCampo' => $phCampo,
+            'modelProcesoAnalisis' => $modelProcesoAnalisis,
+            'campoGeneral' => $campoGeneral,
+            'obsCampo' => $obsCampo,
+            'temperaturaC' => $temperaturaC,
+            'puntoMuestreo' => $puntoMuestreo,
+            'cliente' => $cliente,
+            'direccion' => $direccion,
+            'solicitud' => $solicitud,
+            'tempCompuesta' => $tempCompuesta,
+
+            'rfc' => $rfc,
+            'reportesInformes' => $reportesInformes,
+        );
+
+        //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
+        $htmlInforme = view('exports.informes.diario.campo.bodyInforme', $data);
+        $htmlHeader = view('exports.informes.diario.headerInforme', $data);
+        $htmlFooter = view('exports.informes.diario.footerInforme', $data);
+        $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        $mpdf->WriteHTML($htmlInforme);
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->Output('Informe de resultados sin comparacion.pdf', 'I');
+    }
 
     //****************ESTAS FUNCIONES SE LLAMAN A TRAVÉS DE LA RUTA PÚBLICA HACIENDO USO DEL CÓDIGO QR
     //todo Seccio de pdf
@@ -1332,6 +1456,9 @@ class InformesController extends Controller
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
         $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Tipo_reporte)->first();
         $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();
+        $reportesInformes = DB::table('ViewReportesInformesMensual')->orderBy('Num_rev', 'desc')->first(); //Condición de busqueda para las configuraciones(Historicos)  
+        $reviso = DB::table('users')->where('id', $reportesInformes->Id_reviso)->first();
+        $autorizo = DB::table('users')->where('id', $reportesInformes->Id_autorizo)->first();
 
         $promGastos = ($gasto1->Resultado2 + $gasto2->Resultado2);
         $parti1 = $gasto1->Resultado2 / $promGastos;
@@ -1363,7 +1490,7 @@ class InformesController extends Controller
                     }
                     break;
                 case 14:
-                    
+
                     $limC1 = round($item->Resultado2, 2);
                     $limC2 = round($model2[$cont]->Resultado2, 2);
                     $limP = "";
@@ -1417,10 +1544,10 @@ class InformesController extends Controller
                                 case 21: //Cromoa
                                 case 264:
                                 case 18: //Cadmio
-                                      $limC2 = round($item->Resultado2, 3);
+                                    $limC2 = round($item->Resultado2, 3);
                                     break;
                                 default:
-                                        $limC2 = round($model2[$cont]->Resultado2, 2);
+                                    $limC2 = round($model2[$cont]->Resultado2, 2);
                                     break;
                             }
                         }
@@ -1447,7 +1574,7 @@ class InformesController extends Controller
             array_push($limitesN, $aux);
             array_push($limitesC1, $limC1);
             array_push($limitesC2, $limC2);
-            array_push($ponderado,$limP);
+            array_push($ponderado, $limP);
             $cont++;
         }
         $data = array(
@@ -1473,6 +1600,7 @@ class InformesController extends Controller
             'solModel2' => $solModel2,
             'firma1' => $firma1,
             'firma2' => $firma2,
+            'reportesInformes' => $reportesInformes,
         );
 
 
@@ -1503,38 +1631,98 @@ class InformesController extends Controller
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
-         // Hace los filtros para realizar la comparacion
-         $solModel1 = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol1)->first();
-         $solModel2 = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol2)->first();
-         if ($solModel1->Siralab == 1) {
-             $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $idSol1)->first();
-             $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
-             $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
-         } else {
-             $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $idSol1)->first();
-             $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
-             $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
-         }
-         $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
-         $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
- 
-         $gasto1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
-         $gasto2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
- 
-         $proceso1 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol1)->first();
-         $proceso2 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol2)->first();
-         $numOrden1 =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel1->Hijo)->first();
-         $numOrden2 =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel2->Hijo)->first();
-         $firma1 = User::find(14);
-         $firma2 = User::find(17);
-         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
-         $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Tipo_reporte)->first();
-         $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();
- 
-         $promGastos = ($gasto1->Resultado2 + $gasto2->Resultado2);
-         $parti1 = $gasto1->Resultado2 / $promGastos;
-         $parti2 = $gasto2->Resultado2 / $promGastos;
-         $data = array(
+        // Hace los filtros para realizar la comparacion
+        $solModel1 = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol1)->first();
+        $solModel2 = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol2)->first();
+        if ($solModel1->Siralab == 1) {
+            $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $idSol1)->first();
+            $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+            $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+        } else {
+            $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $idSol1)->first();
+            $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+            $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+        }
+        $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
+        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
+
+        $gasto1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
+        $gasto2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
+
+        $proceso1 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol1)->first();
+        $proceso2 = DB::table('proceso_analisis')->where('Id_solicitud', $idSol2)->first();
+        $numOrden1 =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel1->Hijo)->first();
+        $numOrden2 =  DB::table('ViewSolicitud')->where('Id_solicitud', $solModel2->Hijo)->first();
+        $firma1 = User::find(14);
+        $firma2 = User::find(17);
+        $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
+        $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Tipo_reporte)->first();
+        $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();
+
+        $promGastos = ($gasto1->Resultado2 + $gasto2->Resultado2);
+        $parti1 = $gasto1->Resultado2 / $promGastos;
+        $parti2 = $gasto2->Resultado2 / $promGastos;
+
+        $gastoModel1 = GastoMuestra::where('Id_solicitud', $idSol1)->get();
+        $sumGasto1 = 0;
+        $gastoProm1 = array();
+        foreach ($gastoModel1 as $item) {
+            $sumGasto1 = $sumGasto1 + $item->Promedio;
+        }
+        foreach ($gastoModel1 as $item) {
+            array_push($gastoProm1, ($item->Promedio / $sumGasto1));
+        }
+
+        $gastoModel2 = GastoMuestra::where('Id_solicitud', $idSol2)->get();
+        $sumGasto2 = 0;
+        $gastoProm2 = array();
+        foreach ($gastoModel2 as $item) {
+            $sumGasto2 = $sumGasto2 + $item->Promedio;
+        }
+        foreach ($gastoModel2 as $item) {
+            array_push($gastoProm2, ($item->Promedio / $sumGasto2));
+        }
+        $ph1 = PhMuestra::where('Id_solicitud', $idSol1)->get();
+        $ph2 = PhMuestra::where('Id_solicitud', $idSol2)->get();
+
+        $tempModel1 = TemperaturaMuestra::where('Id_solicitud', $idSol1)->get();
+        $tempModel2 = TemperaturaMuestra::where('Id_solicitud', $idSol2)->get();
+        $grasasModel1 = CodigoParametros::where('Id_solicitud', $idSol1)->where('Id_parametro', 13)->get();
+        $grasasModel2 = CodigoParametros::where('Id_solicitud', $idSol2)->where('Id_parametro', 13)->get();
+        $colModel1 = CodigoParametros::where('Id_solicitud', $idSol1)->where('Id_parametro', 78)->get();
+        $colModel2 = CodigoParametros::where('Id_solicitud', $idSol2)->where('Id_parametro', 78)->get();
+        switch ($ph1->count()) {
+            case 1:
+                # code...
+                break;
+            case 2:
+                break;
+            case 3:
+                break;
+            case 4:
+                break;
+            case 5:
+                break;
+            case 6:
+                $px = "90";
+                break;
+            default:
+                # code...
+                break;
+        }
+
+        $data = array(
+            'colModel1' => $colModel1,
+            'colModel2' => $colModel2,
+            'grasasModel1' => $grasasModel1,
+            'grasasModel2' => $grasasModel2,
+            'px' => $px,
+            'tempModel1' => $tempModel1,
+            'tempModel2' => $tempModel2,
+            'ph1' => $ph1,
+            'ph2' => $ph2,
+            'gastoProm2' => $gastoProm2,
+            'gastoProm1' => $gastoProm1,
             'rfc' => $rfc,
             'titulo' => $titulo,
             'tipoReporte' => $tipoReporte,

@@ -583,6 +583,7 @@ class SolicitudController extends Controller
                                 }
                                 break;
                             case 12:
+                            case 78:
                                 // Coliformes
                                 for ($i = 0; $i < $phMuestra->count(); $i++) {
                                     if ($phMuestra[$i]->Activo == 1) {

@@ -81,9 +81,10 @@
                                     <div class="form-group">
                                         <label for="tipoReporte">Tipo  de reporte</label>
                                         <select class="form-control" id="tipoReporte">
-                                            @foreach ($tipoReporte as $item)
-                                                <option value="{{$item->Id_tipo_reporte}}">{{$item->Tipo}}</option>
-                                            @endforeach
+                                            <option value="1">Con comparación</option>
+                                            <option value="2">Sin Comparación</option>
+                                            <option value="3">Campo</option>
+                                            
                                         </select>
                                     </div>
                                 </div>
