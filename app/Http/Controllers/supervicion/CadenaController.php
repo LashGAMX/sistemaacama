@@ -113,7 +113,7 @@ class CadenaController extends Controller
             case 64:
                 $model = DB::table('ViewLoteDetalleCloro')
                     ->where('Id_analisis', $codigoModel->Id_solicitud)
-                    ->where('Id_control', 1)
+                    ->where(' Id_control', 1)
                     ->get();
                 break;
             case "13": // Grasas y Aceites
@@ -171,6 +171,19 @@ class CadenaController extends Controller
                 break;
             case 253:
             case 35:
+                if ($solModel->Id_norma == 27) {
+                    $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
+                    $sumGasto = 0;
+                    $aux = array();
+                    foreach($gasto as $item)
+                    {
+                        $sumGasto = $sumGasto + $item->Promedio;
+                    }
+                    foreach($gasto as $item)
+                    {
+                        array_push($aux,($item->Promedio/$sumGasto));
+                    }
+                }
                 $model = DB::table('ViewLoteDetalleEnterococos')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
@@ -217,6 +230,19 @@ class CadenaController extends Controller
                     ->where('Activo', 1)->get();
                 break;
             case "97": //Temperatura
+                if ($solModel->Id_norma == 27) {
+                    $gasto = GastoMuestra::where('Id_solicitud',$codigoModel->Id_solicitud)->get();
+                    $sumGasto = 0;
+                    $aux = array();
+                    foreach($gasto as $item)
+                    {
+                        $sumGasto = $sumGasto + $item->Promedio;
+                    }
+                    foreach($gasto as $item)
+                    {
+                        array_push($aux,($item->Promedio/$sumGasto));
+                    }
+                }
                 $model = TemperaturaMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
                     ->where('Activo', 1)->get();
                 break;
