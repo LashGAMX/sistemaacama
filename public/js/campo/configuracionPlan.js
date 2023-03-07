@@ -262,8 +262,8 @@ function setPlanMuestreo() {
     for (var i = 0; i < elementos.length; i++) {
         if (elementos[i].checked) {            
             areas.push(elementos[i].value);
-            cant.push($("#cantArea" + elementos[i].value).val())
-            envase.push($("#envArea" + elementos[i].value).val())
+            cant.push($("#cantArea" + elementos[i].value).val());
+            envase.push($("#envArea" + elementos[i].value).val());
         }
     }    
 
