@@ -484,8 +484,8 @@ function getDetalleCOT(idDetalle){
             $("#abs1COT").val(response.model.Promedio);
             $("#abs2COT").val(response.model.Promedio);
             $("#idMuestra").val(idDetalle);
-            $("#blanco1COT").val(response.model.Blanco);
-            $("#blanco2COT").val(response.model.Blanco);
+            $("#blanco1COT").val(response.blanco.Resultado);
+            $("#blanco2COT").val(response.blanco.Resultado);
             $("#b1COT").val(response.curva.B);
             $("#m1COT").val(response.curva.M);
             $("#r1COT").val(response.curva.R);
