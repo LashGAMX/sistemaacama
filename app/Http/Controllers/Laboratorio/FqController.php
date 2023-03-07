@@ -475,6 +475,7 @@ class FqController extends Controller
         $today = $fecha->toDateString();
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
+        $blanco = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->where('Id_control', 14)->first();
         $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
         ->where('Id_area', 16)
         ->where('Id_parametro', $parametro->Id_parametro)->first();
@@ -485,6 +486,7 @@ class FqController extends Controller
             'model' => $model,
             'parametro' => $request->formulaTipo,
             'curva' => $curva,
+            'blanco' => $blanco,
             //'constantes' => $constantes,
         );
         return response()->json($data);
