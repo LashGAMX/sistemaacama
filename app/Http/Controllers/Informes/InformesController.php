@@ -136,8 +136,15 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
-        $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Condición de busqueda para las configuraciones(Historicos)    
-
+           
+        if ($model[0]->Id_reporte == null){
+            $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Condición de busqueda para las configuraciones(Historicos)
+            $update = Solicitud::find($model[0]->Id_solicitud);
+            $update->Id_reporte = $reportesInformes->Id_reporte;
+            $update->save();
+        } else {
+            $reportesInformes = DB::table('ViewReportesInformes')->where('Id_reporte', $cotModel->Id_reporte)->first();
+        }
         $aux = true;
         foreach ($model as $item) {
             if ($aux == true) {
