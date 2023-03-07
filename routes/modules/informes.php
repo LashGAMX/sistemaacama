@@ -5,14 +5,14 @@ use App\Http\Controllers\Informes\InformesController;
 use Illuminate\Support\Facades\Route; 
  
 Route::group(['prefix' => 'informes'], function () {
-    Route::get('/', [InformesController::class, 'index']);
+    Route::get('/', [InformesController::class, 'index']); 
     Route::post('/getPuntoMuestro',[InformesController::class,'getPuntoMuestro']);
     Route::post('/getSolParametro',[InformesController::class,'getSolParametro']);
     
     Route::get('exportPdfSinComparacion/{idSol}/{idPunto}', [InformesController::class, 'pdfSinComparacion']);
     Route::get('exportPdfConComparacion/{idSol}/{idPunto}', [InformesController::class, 'pdfConComparacion']);
     Route::get('exportPdfInforme/{idSol}/{idPunto}/{tipo}', [InformesController::class, 'exportPdfInforme']);
-    Route::get('exportPdfInformeCampo/{idSol}/{idPunto}', [InformesController::class, 'exportPdfInforme']);
+    Route::get('exportPdfInformeCampo/{idSol}/{idPunto}', [InformesController::class, 'exportPdfInformeCampo']);
 
     Route::get('/mensual', [InformesController::class, 'mensual']);
     Route::post('/getPreReporteMensual', [InformesController::class, 'getPreReporteMensual']);

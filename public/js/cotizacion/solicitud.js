@@ -29,6 +29,15 @@ $(document).ready(function () {
             $("#btnEdit").prop('disabled', false);
         }
     } );
+
+    // switch ($("#rol").val()) {
+    //     case "13":
+    //         $("#btnCreate").hide()
+    //         $("#btnGenFolio").hide()
+    //         return 
+    //     default:
+    //         return
+    // }
     
     $("#btnBuscar").click( function(){
         window.location = base_url+ "/admin/cotizacion/buscarFecha/"+ $("#inicio").val()+ "/" + $("#fin").val();

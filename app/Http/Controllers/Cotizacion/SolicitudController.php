@@ -5,8 +5,10 @@ namespace App\Http\Controllers\Cotizacion;
 use App\Http\Controllers\Controller;
 use App\Http\Livewire\AnalisisQ\LimiteParametros001;
 use App\Http\Livewire\AnalisisQ\Normas;
+use App\Models\CampoCompuesto;
 use App\Models\ClienteSiralab;
 use App\Models\CodigoParametros;
+use App\Models\ConductividadMuestra;
 use App\Models\ContactoCliente;
 use App\Models\Cotizacion;
 use App\Models\CotizacionMuestreo;
@@ -45,7 +47,12 @@ class SolicitudController extends Controller
     public function index()
     {
         // $model = DB::table('ViewSolicitud')->get();
-        $model = DB::table('ViewCotizacion')->orderby('Id_cotizacion', 'DESC')->get();
+        if (Auth::user()->role->id == 13) {
+            $model = DB::table('ViewCotizacion')->orderby('Id_cotizacion', 'DESC')->where('Creado_por',Auth::user()->id)->get();
+        } else {
+            $model = DB::table('ViewCotizacion')->orderby('Id_cotizacion', 'DESC')->get();
+        }
+        
         return view('cotizacion.solicitud', compact('model'));
     }
     public function buscarFecha($inicio, $fin)
@@ -552,6 +559,15 @@ class SolicitudController extends Controller
             }
         }
         $phMuestra = PhMuestra::where('Id_solicitud', $item->Id_solicitud)->where('Activo', 1)->get();
+        $campo = CampoCompuesto::where('Id_solicitud',$item->Id_solicitud)->first();
+        $conduc = ConductividadMuestra::where('Id_solicitud',$item->Id_solicitud)->where('Activo', 1)->get(); 
+        $promConduc = 0;
+        $aux = 0;
+        foreach ($conduc as $item) {
+            $promConduc = $promConduc + $item->Promedio;
+            $aux++;
+        }
+        $promConduc = $promConduc / $aux;
 
         if ($phMuestra->count()) {
             foreach ($model as $value) {
@@ -614,22 +630,63 @@ class SolicitudController extends Controller
                                 break;
                             case 6:
                                 // DQO
-                                CodigoParametros::create([
-                                    'Id_solicitud' => $value->Id_solicitud,
-                                    'Id_parametro' => $item->Id_parametro,
-                                    'Codigo' => $value->Folio_servicio,
-                                    'Num_muestra' => 1,
-                                    'Asignado' => 0,
-                                    'Analizo' => 1,
-                                ]);
-                                CodigoParametros::create([
-                                    'Id_solicitud' => $value->Id_solicitud,
-                                    'Id_parametro' => 152,
-                                    'Codigo' => $value->Folio_servicio,
-                                    'Num_muestra' => 1,
-                                    'Asignado' => 0,
-                                    'Analizo' => 1,
-                                ]);
+                                if ($model->Id_norma == 27) {
+                                    if($campo->Cloruros < 1000){
+                                        CodigoParametros::create([
+                                            'Id_solicitud' => $value->Id_solicitud,
+                                            'Id_parametro' => $item->Id_parametro,
+                                            'Codigo' => $value->Folio_servicio,
+                                            'Num_muestra' => 1,
+                                            'Asignado' => 0,
+                                            'Analizo' => 1,
+                                        ]);
+                                    }
+                                } else {
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $value->Id_solicitud,
+                                        'Id_parametro' => $item->Id_parametro,
+                                        'Codigo' => $value->Folio_servicio,
+                                        'Num_muestra' => 1,
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                    ]);
+                                }
+                                break;
+                            case 152:
+                                if($campo->Cloruros >= 1000){
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $value->Id_solicitud,
+                                        'Id_parametro' => $item->Id_parametro,
+                                        'Codigo' => $value->Folio_servicio,
+                                        'Num_muestra' => 1,
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                    ]);
+                                }
+                                break;
+                            case 35:
+                                if($promConduc < 3500){
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $value->Id_solicitud,
+                                        'Id_parametro' => $item->Id_parametro,
+                                        'Codigo' => $value->Folio_servicio,
+                                        'Num_muestra' => 1,
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                    ]);
+                                }
+                                break;
+                            case 253:
+                                if($promConduc >= 3500){
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $value->Id_solicitud,
+                                        'Id_parametro' => $item->Id_parametro,
+                                        'Codigo' => $value->Folio_servicio,
+                                        'Num_muestra' => 1,
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                    ]);
+                                }
                                 break;
                             default:
                                 CodigoParametros::create([
@@ -665,7 +722,7 @@ class SolicitudController extends Controller
     }
     public function createSinCot()
     {
-        $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', null)->get();
+        $intermediarios = DB::table('ViewIntermediarios')->where('Id_usuario',Auth::user()->id)->where('deleted_at', null)->get();
         $generales = DB::table('ViewGenerales')->where('deleted_at', null)->get();
         $frecuencia = DB::table('frecuencia001')->get();
         $subNormas = SubNorma::all();
@@ -673,7 +730,8 @@ class SolicitudController extends Controller
         $descargas = DB::table('tipo_descargas')->get();
         $metodoPago = DB::table('metodo_pago')->get();
         $estados = DB::table('estados')->get();
-        $categorias001 = DB::table('ViewDetalleCuerpos')->get();
+        // $categorias001 = DB::table('ViewDetalleCuerpos')->get();
+        $categorias001 = DB::table('categoria001_2021')->get();
         $tipoMuestraCot = TipoMuestraCot::all();
         $promedioCot = PromedioCot::all();
 

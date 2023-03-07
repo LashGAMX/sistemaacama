@@ -44,6 +44,7 @@ CREATE VIEW ViewIntermediarios as SELECT
     inter.Extension,
     inter.Celular1,
     inter.Detalle,
+    inter.Id_usuario,
     inter.created_at,
     inter.updated_at,
     cli.deleted_at
@@ -645,6 +646,13 @@ FROM reportes_cadena as i
 INNER JOIN users as u
 ON i.Responsable = u.id
 
+/* ViewReportesInformesMensual */
+CREATE VIEW ViewReportesInformesMensual as SELECT i.*, u.name as Analizo, us.name as Reviso 
+FROM reportes_informes_mensual as i 
+INNER JOIN users as u
+ON i.Id_autorizo = u.id
+INNER JOIN users as us
+on i.Id_reviso = us.id
 
 
 /* ViewLimite0012021 */

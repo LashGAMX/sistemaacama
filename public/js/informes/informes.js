@@ -10,7 +10,7 @@ $(document).ready(function () {
             "info": "Pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay datos encontrados",
         }
-    });    
+    });     
 
     $('#tableServicios tbody').on( 'click', 'tr', function () {
         if ( $(this).hasClass('selected') ) {
@@ -33,7 +33,7 @@ $(document).ready(function () {
                 window.open(base_url+"/admin/informes/exportPdfInforme/"+idSol+"/"+$("#puntoMuestreo").val()+"/"+$("#tipoReporte").val());       
                 break;
             case "3":
-                window.open(base_url+"/admin/informes/exportPdfInformeCampo/"+idSol+"/"+$("#puntoMuestreo").val()+"/"+$("#tipoReporte").val());       
+                window.open(base_url+"/admin/informes/exportPdfInformeCampo/"+idSol+"/"+$("#puntoMuestreo").val()) 
                 break;
             default:
                 break;
