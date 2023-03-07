@@ -231,19 +231,18 @@
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="tipoReporte">Tipo de reporte</label>
-                                            <select name="tipoReporte" id="tipoReporte" class="form-control">
-                                                <option value="0">Sin seleccionar</option>
-                                                @foreach (@$categorias001 as $item)
-                                                @if ($item->Id_detalle == @$model->Tipo_reporte)
-                                                <option value="{{$item->Id_detalle}}" selected>{{$item->Detalle}}
-                                                    ({{$item->Tipo}})</option>
-                                                @else
-                                                <option value="{{$item->Id_detalle}}">{{$item->Detalle}}
-                                                    ({{$item->Tipo}})</option>
-                                                @endif
+                                            <div class="form-group">
+                                                <label for="tipoReporte">Tipo de reporte</label>
+                                                <select name="tipoReporte" id="tipoReporte" class="form-control" >
+                                                    @foreach (@$categorias001 as $item)
+                                                    @if ($item->Id_categoria == @$model->Tipo_reporte)
+                                                        <option value="{{$item->Id_categoria}}" selected>{{$item->Categoria}}</option>
+                                                    @else
+                                                        <option value="{{$item->Id_categoria}}">{{$item->Categoria}}</option>
+                                                    @endif
                                                 @endforeach
-                                            </select>
+                                                </select>
+                                            </div>
                                         </div>
                                     </div>
                                 </div>

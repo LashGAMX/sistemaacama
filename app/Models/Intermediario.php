@@ -29,6 +29,7 @@ class Intermediario extends Model
         'Celular2',
         'Celular3',
         'Detalle',
+        'Id_usuario',
         'Id_user_c',
         'Id_user_m',
     ];

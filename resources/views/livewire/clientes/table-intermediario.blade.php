@@ -17,6 +17,7 @@
                 <th>Correo</th>
                 <th>Dirección</th>
                 <th>Teléfono</th>
+                <th>Usuario</th>
                 <th>Creación</th>
                 <th>Modificación</th>
                 <th>Acción</th> 
@@ -38,11 +39,12 @@
           <td>{{$item->Correo}}</td>
           <td>{{substr($item->Direccion,0,100)}}</td>
           <td>{{$item->Tel_oficina}}</td>
+          <td>{{$item->Id_usuario}}</td>
           <td>{{$item->created_at}}</td>
           <td>{{$item->updated_at}}</td>
           <td>
             <button type="button" class="btn btn-primary" 
-            wire:click="setData('{{$item->Id_cliente}}','{{$item->Nombres}}','{{$item->A_paterno}}','{{$item->A_materno}}','{{$item->RFC}}','{{$item->deleted_at}}','{{$item->Id_laboratorio}}','{{$item->Correo}}','{{$item->Direccion}}','{{$item->Tel_oficina}}','{{$item->Extension}}','{{$item->Celular1}}')" data-toggle="modal" data-target="#modalInter">
+            wire:click="setData('{{$item->Id_cliente}}','{{$item->Nombres}}','{{$item->A_paterno}}','{{$item->A_materno}}','{{$item->RFC}}','{{$item->deleted_at}}','{{$item->Id_laboratorio}}','{{$item->Correo}}','{{$item->Direccion}}','{{$item->Tel_oficina}}','{{$item->Extension}}','{{$item->Celular1}}','{{$item->Id_usuario}}')" data-toggle="modal" data-target="#modalInter">
             <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
           {{-- </form>  --}}
@@ -110,7 +112,6 @@
                     <div class="form-group">
                         <label for="paterno">Apellido paterno</label>
                         <input type="text" wire:model='paterno' class="form-control" id="paterno" name="paterno" placeholder="Apellido paterno">
-                        @error('paterno') <span class="text-danger">{{ $message  }}</span> @enderror
                     </div>
                 </div>
                 <div class="col-md-3">
@@ -157,6 +158,12 @@
                     <div class="form-group">
                         <label for="cel">Celular</label>
                         <input type="number" class="form-control" wire:model='cel' name="cel" id="cel" placeholder="Celular">
+                    </div>
+                </div>
+                <div class="col-md-3">
+                    <div class="form-group">
+                        <label for="user">Usuario</label>
+                        <input type="number" class="form-control" wire:model='user' name="user" id="user" placeholder="user">
                     </div>
                 </div>
                 @if ($sw == true)               

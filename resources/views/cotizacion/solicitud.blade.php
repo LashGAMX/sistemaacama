@@ -6,6 +6,7 @@
  
     <div class="container-fluid">
         <p>Solicitud</p>
+        <input type="text" hidden id="rol" value="{{Auth::user()->role->id}}">
         <div class="row">
             <div class="col-md-12">
                 <div class="row">
@@ -30,14 +31,19 @@
                   <div class="col-md-12">
                    <div class="table-responsive"> 
                     <table id="tablaSolicitud" class="table">
+                        
                         <div class="row">
                             <div class="col-md-1">
-                                {{-- <a href="{{url('admin/cotizacion/solicitud/create')}}" class="btn btn-success btn-sm"><i class="voyager-plus"></i> Crear</a> --}}
-                                <button id="btnCreate" class="btn btn-success" ><i class="voyager-plus"></i> Crear</button>
+                                @if (Auth::user()->role->id != 13)
+                                    <button id="btnCreate" class="btn btn-success" ><i class="voyager-plus"></i> Crear</button>
+                                @endif
                             </div>
                             <div class="col-md-2">
-                                {{-- <a href="{{url('admin/cotizacion/solicitud/create')}}" class="btn btn-success btn-sm"><i class="voyager-plus"></i> Crear</a> --}}
-                                <button id="btnCreateSinCot" class="btn btn-success" ><i class="voyager-plus"></i> Crear sin Cot</button>
+                                @if (Auth::user()->role->id != 13)
+                                    <button id="btnCreateSinCot" class="btn btn-success" ><i class="voyager-plus"></i> Crear sin Cot</button>
+                                @else
+                                    <button id="btnCreateSinCot" class="btn btn-success" ><i class="voyager-plus"></i> Crear Orden</button>
+                                @endif
                             </div>
                             <div class="col-md-1">
                                 <button id="btnEdit" class="btn btn-warning" ><i class="voyager-edit"></i> Editar</button>
@@ -51,7 +57,9 @@
                             </div>
 
                             <div class="col-md-1">
-                                <button id="btnGenFolio" class="btn btn-success" ><i class="voyager-file-text"></i> Entrada al lab</button>
+                                @if (Auth::user()->role->id != 13)
+                                    <button id="btnGenFolio" class="btn btn-success" ><i class="voyager-file-text"></i> Entrada al lab</button>
+                                @endif
                             </div>
                         </div> 
                         <thead class="">

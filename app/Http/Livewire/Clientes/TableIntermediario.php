@@ -33,11 +33,11 @@ class TableIntermediario extends Component
     public $status = 1;
     public $ext;
     public $cel;
+    public $user;
     public $nota;
 
     protected $rules = [ 
         'nombre' => 'required',
-        'paterno' => 'required',
         'rfc' => 'required|max:13|min:12|unique:clientes',
         'correo' => 'required',
         'dir' => 'required',
@@ -45,7 +45,6 @@ class TableIntermediario extends Component
     ];
     protected $messages = [
         'nombre.required' => 'El nombre es un dato requerido',
-        'paterno.required' => 'El apellido paterno es requerido',
         'rfc.required' => 'El RFC es un dato requerido',
         'rfc.min' => 'El RFC Tiene que ser entre 12 y 13 caracteres',
         'rfc.max' => 'El RFC Tiene que ser entre 12 y 13 caracteres',
@@ -92,6 +91,7 @@ class TableIntermediario extends Component
             // 'Id_user_c' => $this->idUser,
             // 'Id_user_m' => $this->idUser,
             'Celular1' => $this->cel,
+            'Id_usuario' => $this->user,
             
         ]);
         // $this->nombre = $model->Nombres;
@@ -99,14 +99,13 @@ class TableIntermediario extends Component
         // $this->materno = $model->A_materno;
         // $this->rfc = $model->RFC;
         $this->nota = "Creación de registro";
-        $this->historial($model->Id_cliente);
+        // $this->historial($model->Id_cliente);
         $this->alert = true;
     }
     public function store()
     {
         $this->validate([
             'nombre' => 'required',
-            'paterno' => 'required',
             'rfc' => 'required|max:13|min:12',
             'correo' => 'required',
             'dir' => 'required',
@@ -134,7 +133,7 @@ class TableIntermediario extends Component
             $model->A_materno = $this->materno;
             $model->RFC = $this->rfc;
             $model->Id_user_m = $this->idUser;
-            $this->historial($this->idCliente);
+            // $this->historial($this->idCliente);
             $model->save();
         }
 
@@ -147,11 +146,12 @@ class TableIntermediario extends Component
             'Tel_oficina' => $this->tel,
             'Extension' => $this->ext,
             'Celular1' => $this->cel,
+            'Id_usuario' => $this->user,
         ]);
         $this->alert = true;
 
     }
-    public function setData($id,$nombre,$paterno,$materno,$rfc,$status,$lab,$correo,$dir,$tel,$ext,$cel = '')
+    public function setData($id,$nombre,$paterno,$materno,$rfc,$status,$lab,$correo,$dir,$tel,$ext,$cel = '',$user)
     {
         $this->sw = true;
         $this->resetValidation();
@@ -173,6 +173,7 @@ class TableIntermediario extends Component
         $this->tel = $tel;
         $this->ext = $ext;
         $this->cel = $cel;
+        $this->user = $user;
         $this->alert = false;
     }
 
@@ -228,6 +229,7 @@ class TableIntermediario extends Component
         $this->ext = '';
         $this->cel = '';
         $this->sw = false;
+        $this->user = '';
         $this->nota = '';
     }
 }

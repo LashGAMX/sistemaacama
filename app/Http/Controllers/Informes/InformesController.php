@@ -423,17 +423,170 @@ class InformesController extends Controller
         } else {
             $horaMuestreo = 'COMPUESTA';
         }
+
+        $temp = DB::table('ph_muestra')
+            ->where('Id_solicitud', $idSol)
+            ->selectRaw('count(Color) as numColor,Color')
+            ->groupBy('Color')
+            ->get();
+        $swPh = false;
+        $swOlor = false;
+        foreach ($phCampo as $item) {
+            if ($item->Olor == "Si") {
+                $swOlor = true;
+            }
+        }
+        $colorTemp = 0;
+        $color = "";
+        foreach ($temp as $item) {
+            if ($item->numColor >= $colorTemp) {
+                $color = $item->Color;
+                $colorTemp = $item->numColor;
+            }
+        }
+
+        $limitesN = array();
+        $limitesC = array();
+        $aux = 0;
+        $limC = 0;
+        foreach ($model as $item) {
+            if ($item->Resultado2 != NULL) {
+                switch ($item->Id_parametro) {
+                    case 97:
+                        $limC = round($item->Resultado2);
+                        break;
+                    case 2:
+                        if ($item->Resultado2 == 1) {
+                            $limC = "PRESENTE";
+                        } else {
+                            $limC = "AUSENTE";
+                        }
+                        break;
+                    case 14:
+                        $limC = round($item->Resultado2, 2);
+                        break;
+                    case 5:
+                        if ($item->Resultado2 <= $item->Limite) {
+                            $limC = "< " . $item->Limite;
+                        } else {
+
+                            $limC = round($item->Resultado2, 2);
+                        }
+                        break;
+                    default:
+                        if ($item->Resultado2 <= $item->Limite) {
+                            $limC = "< " . $item->Limite;
+                        } else {
+                            $limC = $item->Resultado2;
+                        }
+                        break;
+                }
+                switch ($item->Id_norma) {
+                    case 1:
+                        $limNo = DB::table('limitepnorma_001')->where('Id_categoria', $tipoReporte->Id_detalle)->where('Id_parametro', $item->Id_parametro)->get();
+                        if ($limNo->count()) {
+                            $aux = $limNo[0]->Prom_Dmax;
+                        } else {
+                            $aux = "N/A";
+                        }
+                        break;
+                    case 2:
+                        $limNo = DB::table('limitepnorma_002')->where('Id_parametro', $item->Id_parametro)->get();
+                        if ($limNo->count()) {
+                            $aux = $limNo[0]->PromD;
+                        } else {
+                            $aux = "N/A";
+                        }
+                        break;
+                    case 30:
+                        $limNo = DB::table('limitepnorma_127')->where('Id_parametro', $item->Id_parametro)->get();
+                        if ($limNo->count()) {
+                            $aux = $limNo[0]->Per_max;
+                        } else {
+                            $aux = "N/A";
+                        }
+                        break;
+                    case 27:
+                        $limNo = DB::table('limitepnorma_127')->where('Id_parametro', $item->Id_parametro)->get();
+                        if ($limNo->count()) {
+                            $aux = $limNo[0]->Per_max;
+                        } else {
+                            $aux = "N/A";
+                        }
+                        break;
+                    default:
+
+                        break;
+                }
+            } else {
+                $aux = "------";
+                $limC = "------";
+            }
+
+
+            array_push($limitesN, $aux);
+            array_push($limitesC, $limC);
+        }
         $firma1 = User::find(14);
         $firma2 = User::find(17);
         $campoCompuesto = CampoCompuesto::where('Id_solicitud', $idSol)->first();
 
         //Proceso de Reporte Informe
-
-
+        $gasto = GastoMuestra::where('Id_solicitud',$idSol)->get();
+        $phMuestra = PhMuestra::where('Id_solicitud',$idSol)->get();
+        $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$idSol)->get();
+        $grasasModel = CodigoParametros::where('Id_solicitud', $idSol)->where('Id_parametro', 13)->get();
+        @$ecoliModel = CodigoParametros::where('Id_solicitud', $idSol)->where('Id_parametro', 35)->get();
+        $sumGasto = 0;
+        $gastoProm = array();
+        $promPh = 0;
+        $promTemp = 0;
+        $promGa = 0;
+        $promEcoli = 0;
+        $aux = 0;
+        foreach ($gasto as $item) {
+            $sumGasto = $sumGasto + $item->Promedio;
+        }
+        foreach ($gasto as $item) {
+            array_push($gastoProm, ($item->Promedio / $sumGasto));
+        }
+        foreach ($phMuestra as $item) { 
+            if ($item->Activo == 1) {
+                $promPh = $item->Promedio * $sumGasto;
+                $promGa = $grasasModel[$aux]->Resultado * $sumGasto;
+                @$promEcoli = @$ecoliModel[$aux]->Resultado * $sumGasto;
+                $aux++;
+            }
+        }
+        $promPh = $promPh / $aux;
+        $promGa = $promGa / $aux;
+        @$promEcoli = @$promEcoli / $aux;
+        $aux = 0;
+        foreach ($tempMuestra as $item) {
+            if ($item->Activo == 1) {
+                $promTemp = $item->Promedio * $sumGasto;
+                $aux++;
+            }
+        }
+        $promTemp = $promTemp / $aux;
 
         $data = array(
+            'ecoliModel' => @$ecoliModel,
+            'promEcoli' => @$promEcoli,
+            'grasasModel' => $grasasModel,
+            'promGa' => $promGa,
+            'tempMuestra' => $tempMuestra,
+            'promTemp' => $promTemp,
+            'promPh' => $promPh,
+            'gasto' => $gasto,
+            'sumGasto' => $sumGasto,
+            'gastoProm' => $gastoProm,
+            'phMuestra' => $phMuestra,
             'campoCompuesto' => $campoCompuesto,
+            'swOlor' => $swOlor,
+            'color' => $color,
             'tempAmbienteProm' => $tempAmbienteProm,
+            'limitesC' => $limitesC,
             'horaMuestreo' => $horaMuestreo,
             'numOrden' => $numOrden,
             'model' => $model,
@@ -441,6 +594,7 @@ class InformesController extends Controller
             'tipoReporte' => $tipoReporte,
             'solModel' => $solModel,
             'fechaAnalisis' => $fechaAnalisis,
+            'swPh' => $swPh,
             'firma1' => $firma1,
             'firma2' => $firma2,
             'phCampo' => $phCampo,
@@ -453,15 +607,15 @@ class InformesController extends Controller
             'direccion' => $direccion,
             'solicitud' => $solicitud,
             'tempCompuesta' => $tempCompuesta,
-
+            'limitesN' => $limitesN,
             'rfc' => $rfc,
             'reportesInformes' => $reportesInformes,
         );
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
         $htmlInforme = view('exports.informes.diario.campo.bodyInforme', $data);
-        $htmlHeader = view('exports.informes.diario.headerInforme', $data);
-        $htmlFooter = view('exports.informes.diario.footerInforme', $data);
+        $htmlHeader = view('exports.informes.diario.campo.headerInforme', $data);
+        $htmlFooter = view('exports.informes.diario.campo.footerInforme', $data);
         $mpdf->setHeader("{PAGENO} / {nbpg} <br><br>" . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->WriteHTML($htmlInforme);
