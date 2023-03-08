@@ -185,13 +185,13 @@
                                 <td class="tableContent bordesTablaBody">{{round($ph2[$cont]->Promedio,2)}}</td>
                                 <td class="tableContent bordesTablaBody">{{round($gastoProm2[$cont],2)}}</td>
                             @else
-                                <td class="tableContent bordesTablaBody">----</td>
+                                <td class="tableContent bordesTablaBody">----</td> 
                                 <td class="tableContent bordesTablaBody">----</td>
                             @endif
                             <td style="border:none"> </td>
                             @if ($cont == 0)
-                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
-                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{round(($promPh1 + $promPh2 ) / 2,2)}}</td>
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$limPh->Pm}}</td>
                                 <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
                             @endif
                         </tr>
@@ -257,8 +257,8 @@
                             @endif
                             <td style="border:none"> </td>
                             @if ($cont == 0)
-                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
-                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{round(($promTemp1 + $promTemp2 ) / 2)}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$limTemp->Pm}}</td>
                                 <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
                             @endif
                         </tr>
@@ -324,8 +324,8 @@
                             @endif
                             <td style="border:none"> </td>
                             @if ($cont == 0)
-                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
-                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{round(($promGa1 + $promGa2 ) / 2)}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$limGa->Pm}}</td>
                                 <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
                             @endif
                         </tr>
@@ -393,8 +393,8 @@
                         @endif
                         <td style="border:none"> </td>
                         @if ($cont == 0)
-                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
-                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                        <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{round(($promCol1 + $promCol2 ) / 2)}}</td>
+                        <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$limCol->Pm}}</td>
                             <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
                         @endif
                     </tr>
