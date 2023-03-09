@@ -260,6 +260,7 @@ class SolicitudController extends Controller
                 'Num_tomas' => $res->numTomas,
                 'Id_muestra' => $res->tipoMuestra,
                 'Id_promedio' => $res->promedio,
+                'Id_user_c' => Auth::user()->id,
                 'Padre' => 1,
                 'Hijo' => 0,
             ]);
@@ -404,7 +405,7 @@ class SolicitudController extends Controller
             $model = Solicitud::create([
                 'Id_cotizacion' => $res->id,
                 'Folio_servicio' => $folio,
-                'Id_intermediario' => $res->inter,
+                'Id_intermediario' => $res->inter, 
                 'Id_cliente' => $res->clientes,
                 'Siralab' => $siralab,
                 'Id_sucursal' => $res->sucursal,
@@ -421,6 +422,7 @@ class SolicitudController extends Controller
                 'Num_tomas' => $res->numTomas,
                 'Id_muestra' => $res->tipoMuestra,
                 'Id_promedio' => $res->promedio,
+                'Id_user_c' => Auth::user()->id,
                 'Padre' => 1,
                 'Hijo' => 0,
             ]);

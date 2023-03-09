@@ -136,16 +136,15 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
-        if ($model[0]->Id_reporte == null) {
+           
+        if ($model[0]->Id_reporte == null){
             $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Condición de busqueda para las configuraciones(Historicos)
-            $update = Solicitud::find($model->Id_solicitud);
+            $update = Solicitud::find($model[0]->Id_solicitud);
             $update->Id_reporte = $reportesInformes->Id_reporte;
-            $update->save();    
+            $update->save();
         } else {
-            $reportesInformes = DB::table('ViewReportesInformes')->where('Id_reporte', $model->Id_reporte)->first();
+            $reportesInformes = DB::table('ViewReportesInformes')->where('Id_reporte', $cotModel->Id_reporte)->first();
         }
-       
-
         $aux = true;
         foreach ($model as $item) {
             if ($aux == true) {
@@ -677,7 +676,7 @@ class InformesController extends Controller
 
         $numOrden = Solicitud::where('Folio_servicio', $parte1 . "-" . $parte2)->first();
         //$cotizacion = Cotizacion::where('Folio_servicio', $folio[0])->first();
-        //$cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
+        // $cotizacion = Cotizacion::where('Folio_servicio', 'LIKE', "%{$solicitud->Folio_servicio}%")->get();
         $cliente = Clientes::where('Id_cliente', $solicitud->Id_cliente)->first();
         //$solicitudPunto = SolicitudPuntos::where('Id_solicitud', $solicitud->Id_solicitud)->first();
         $puntoMuestreo = null;
@@ -1846,39 +1845,59 @@ class InformesController extends Controller
         }
         $ph1 = PhMuestra::where('Id_solicitud', $idSol1)->get();
         $ph2 = PhMuestra::where('Id_solicitud', $idSol2)->get();
-
         $tempModel1 = TemperaturaMuestra::where('Id_solicitud', $idSol1)->get();
         $tempModel2 = TemperaturaMuestra::where('Id_solicitud', $idSol2)->get();
         $grasasModel1 = CodigoParametros::where('Id_solicitud', $idSol1)->where('Id_parametro', 13)->get();
         $grasasModel2 = CodigoParametros::where('Id_solicitud', $idSol2)->where('Id_parametro', 13)->get();
         $colModel1 = CodigoParametros::where('Id_solicitud', $idSol1)->where('Id_parametro', 78)->get();
         $colModel2 = CodigoParametros::where('Id_solicitud', $idSol2)->where('Id_parametro', 78)->get();
-        switch ($ph1->count()) {
-            case 1:
-                # code...
-                break;
-            case 2:
-                break;
-            case 3:
-                break;
-            case 4:
-                break;
-            case 5:
-                break;
-            case 6:
-                $px = "90";
-                break;
-            default:
-                # code...
-                break;
+
+        $temp = 0;
+        $promPh1 = 0;
+        $promPh2 = 0;
+        $promTemp1 = 0;
+        $promTemp2 = 0;
+        $promGa1 = 0;
+        $promGa2 = 0;
+        $promCol1 = 0;
+        $promCol2 = 0;
+        for ($i=0; $i < $ph1->count(); $i++) { 
+            if ($ph1[$temp]->Activo == 1) {
+                @$promPh1 = $promPh1 + $ph1[$temp]->Promedio;
+                @$promPh2 = $promPh2 + $ph2[$temp]->Promedio;
+                @$promTemp1 = $promTemp1 + $tempModel1[$temp]->Promedio;
+                @$promTemp2 = $promTemp2 + $tempModel2[$temp]->Promedio;
+                @$promGa1 = $promGa1 + $grasasModel1[$temp]->Resultado;
+                @$promGa2 = $promGa2 + $grasasModel2[$temp]->Resultado;
+                @$promCol1 = $promCol1 + $colModel1[$temp]->Resultado;
+                @$promCol2 = $promCol2 + $colModel2[$temp]->Resultado;
+                $temp++;
+            }
         }
+        $promPh1 = $promPh1 / $temp;
+        $promPh2 = $promPh2 / $temp;
+        $limPh = DB::table('limite001_2021')->where('Id_parametro',14)->first();
+        $limTemp = DB::table('limite001_2021')->where('Id_parametro',97)->first();
+        $limCol = DB::table('limite001_2021')->where('Id_parametro',35)->first();
+        $limGa = DB::table('limite001_2021')->where('Id_parametro',13)->first();
 
         $data = array(
+            'limCol' => $limCol,
+            'limGa' => $limGa,
+            'promGa1' => $promGa1,
+            'promGa2' => $promGa2,
+            'promCol1' => $promCol1,
+            'promCol2' => $promCol2,
+            'promTemp1' => $promTemp1,
+            'promTemp2' => $promTemp2,
+            'limTemp' => $limTemp,
+            'limPh' => $limPh,
+            'promPh1' => $promPh1,
+            'promPh2' => $promPh2,
             'colModel1' => $colModel1,
             'colModel2' => $colModel2,
             'grasasModel1' => $grasasModel1,
             'grasasModel2' => $grasasModel2,
-            'px' => $px,
             'tempModel1' => $tempModel1,
             'tempModel2' => $tempModel2,
             'ph1' => $ph1,
