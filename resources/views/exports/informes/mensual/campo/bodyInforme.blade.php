@@ -49,19 +49,7 @@
                     @endif</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup bordeSinIzqFinalSup">&nbsp;</td>
-                </tr>
-                <tr>                    
-                    <td class="filasIzq bordesTabla soloBordeDer" colspan="2" rowspan="9">&nbsp;</td>
-                    <td class="filasIzq bordesTabla soloBordeDer paddingTopBotInter fontSize6">GASTO PROMEDIO</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup justificadorCentr fontSize6">
-                        @php
-                            echo (@$gasto1->Resultado2 + @$gasto2->Resultado2) / 2;
-                        @endphp
-                    </td>
-                    <td class="filasIzq bordesTabla bordeIzqSinSup fontSize6 fontBold bordeIzqDerSinSup justificadorCentr">L/s</td>                                        
-                    <td class="filasIzq bordesTabla soloBordeDer fontBold fontSize12 justificadorCentr" rowspan="9" width="13.05%">
+                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup bordeSinIzqFinalSup" colspan="2">&nbsp;
                         {{@$solModel1->Clave_norma}}
                         @if (@$tipo == 1)
                             LIMITES MAXIMOS 
@@ -74,67 +62,7 @@
                         @endif
                     </td>
                 </tr>
-                    
-                <tr>
-                    <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">GASTO LPS</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{@$gasto1->Resultado2}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{@$gasto2->Resultado2}}</td>
-                </tr>
-
-                <tr>
-                    <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">FECHA DE MUESTREO:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{ \Carbon\Carbon::parse(@$solModel1->Fecha_muestreo)->format('d/m/Y')}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{ \Carbon\Carbon::parse(@$solModel2->Fecha_muestreo)->format('d/m/Y')}}</td>
-                </tr>
-
-                <tr>
-                    <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">FECHA DE RECEPCION:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{ \Carbon\Carbon::parse(@$proceso1->Hora_recepcion)->format('d/m/Y')}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">{{ \Carbon\Carbon::parse(@$proceso2->Hora_recepcion)->format('d/m/Y')}}</td>
-                </tr>
-
-                <tr>
-                    <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">FECHA DE EMISIÓN:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
-                        {{\Carbon\Carbon::parse($proceso1->Hora_entrada)->addDays(7)->format('d/m/Y')}}                        
-                    </td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">
-                        {{\Carbon\Carbon::parse($proceso2->Hora_entrada)->addDays(7)->format('d/m/Y')}}
-                    </td>
-                </tr>
-                
-                <tr>
-                    <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">PERIODO DE ANALISIS:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter justificadorCentr fontSize6 fontBold">DE {{\Carbon\Carbon::parse(@$proceso1->Hora_entrada)->format('d/m/Y')}} A {{\Carbon\Carbon::parse($proceso1->Hora_entrada)->addDays(7)->format('d/m/Y')}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter justificadorCentr fontSize6 fontBold">DE {{\Carbon\Carbon::parse(@$proceso2->Hora_entrada)->format('d/m/Y')}} A {{\Carbon\Carbon::parse($proceso2->Hora_entrada)->addDays(7)->format('d/m/Y')}}
-                    </td>
-                </tr>
-
-                <tr>
-                    <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">TIPO DE MUESTREO:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter fontSize6 fontBold justificadorCentr">@if (@$solModel1->Id_muestra == 1)
-                        INSTANTANEA
-                    @else   
-                        COMPUESTA
-                    @endif</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter fontSize6 fontBold justificadorCentr">@if (@$solModel2->Id_muestra == 1)
-                        INSTANTANEA
-                    @else   
-                        COMPUESTA
-                    @endif</td>
-                </tr>
-
-                <tr>
-                    <td class="filasIzq bordesTabla soloBordeSup paddingTopBotInter fontSize6">N° DE MUESTRA:</td>
-                    <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$solModel1->Folio_servicio}}</td>
-                    <td class="filasIzq bordesTabla bordeConIzqFinalSup paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$solModel2->Folio_servicio}}</td>
-                </tr>
-
-                <tr>
-                    <td class="filasIzq bordesTabla bordeSupDer paddingTopBotInter fontSize6">N° DE ORDEN:</td>
-                    <td class="filasIzq bordesTabla soloBordeDer paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$numOrden1->Folio_servicio}}</td>
-                    <td class="filasIzq bordesTabla soloBordeDer paddingTopBotInter fontSize6 fontBold justificadorCentr">{{@$numOrden2->Folio_servicio}}</td>
-                </tr>                
+                  
         </tbody>         
     </table>  
 </div>
@@ -192,7 +120,10 @@
                             @if ($cont == 0)
                                 <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{round(($promPh1 + $promPh2 ) / 2,2)}}</td>
                                 <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$limPh->Pm}}</td>
-                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                                @php
+                                $lim = explode("-",@$limPh->Pm);
+                            @endphp
+                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">@if (round(($promPh1 + $promPh2 ) / 2,2) >= $lim[0] && round(($promPh1 + $promPh2 ) / 2,2) <= $lim[1])  CUMPLE @else NO CUMPLE @endif</td>
                             @endif
                         </tr>
                         @php
@@ -212,12 +143,12 @@
                 <tr>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA </td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">N. MUESTRA</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">CONCENTRACION <br>Unidades de pH</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">CONCENTRACION <br>TEMPERATURA °C</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">GASTO L/seg</td>
                     <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">N. MUESTRA</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">CONCENTRACION <br>Unidades de pH</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">CONCENTRACION <br> TEMPERATURA °C</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">GASTO L/seg</td>
                     <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">PROMEDIO MENSUAL PONDERADO</td>
@@ -246,7 +177,7 @@
                             <td style="border:none"> </td>
                             <td class="tableContent bordesTablaBody">{{@$ph2[$cont]->Fecha}}</td>
                             @if ($cont == 0)
-                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel2->Folio_servicio}}</td>
                             @endif
                             @if ($item->Activo == 1)
                                 <td class="tableContent bordesTablaBody">{{round($tempModel2[$cont]->Promedio,2)}}</td>
@@ -259,7 +190,7 @@
                             @if ($cont == 0)
                             <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{round(($promTemp1 + $promTemp2 ) / 2)}}</td>
                             <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$limTemp->Pm}}</td>
-                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">@if (round(($promTemp1 + $promTemp2 ) / 2) <= $limTemp->Pm ) CUMPLE @else NO CUMPLE @endif</td>
                             @endif
                         </tr>
                         @php
@@ -278,12 +209,12 @@
                 <tr>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA </td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">N. MUESTRA</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">CONCENTRACION <br>Unidades de pH</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">CONCENTRACION <br> mg/L</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">GASTO L/seg</td>
                     <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">N. MUESTRA</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">CONCENTRACION <br>Unidades de pH</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">CONCENTRACION <br>mg/L</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">GASTO L/seg</td>
                     <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">PROMEDIO MENSUAL PONDERADO</td>
@@ -324,9 +255,9 @@
                             @endif
                             <td style="border:none"> </td>
                             @if ($cont == 0)
-                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{round(($promGa1 + $promGa2 ) / 2)}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{round(($promGa1 + $promGa2 ) / 2,2)}}</td>
                             <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$limGa->Pm}}</td>
-                                <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$solModel1->Folio_servicio}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">@if (round(($promGa1 + $promGa2 ) / 2,2) <= $limGa->Pm ) CUMPLE @else NO CUMPLE @endif</td>
                             @endif
                         </tr>
                         @php

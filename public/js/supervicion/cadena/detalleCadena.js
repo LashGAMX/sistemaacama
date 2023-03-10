@@ -150,7 +150,7 @@ function getDetalleAnalisis(idCodigo) {
     let aux = 0;
     let cont = 0;
     tabla.innerHTML = tab;
-
+    resLiberado = 0;
     $("#resDes").val(0.0)
     $.ajax({
         type: 'POST',
@@ -325,7 +325,7 @@ function getDetalleAnalisis(idCodigo) {
                     tabla.innerHTML = tab;
                     break;
                 case 218:
-                case 64:
+                case "64":
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -337,8 +337,13 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '    <tbody>';
                     $.each(response.model, function (key, item) {
                         tab += '<tr>';
-                        tab += '<td>' + item.Parametro + '</td>';
-                        tab += '<td>' + item.Resultado + '</td>';
+                        if ($("#idNorma").val() == "27") {
+                            tab += '<td>Cloruros Totales (Cl¯)</td>';
+                            tab += '<td>' + item.Cloruros + '</td>';
+                        }else{
+                            tab += '<td>' + item.Parametro + '</td>';
+                            tab += '<td>' + item.Resultado + '</td>';
+                        }
                         resLiberado = resLiberado + parseFloat(item.Resultado);
                         tab += '</tr>';
                     });
@@ -543,6 +548,8 @@ function getDetalleAnalisis(idCodigo) {
                 case "2": //Materia flotante
                 case "14": //ph
                 case "97": //Temperatura
+                case "67"://Conductividad
+                case "68":
                     console.log("entro a caso 7");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -562,6 +569,18 @@ function getDetalleAnalisis(idCodigo) {
                         $.each(response.model, function (key, item) {
                             tab += '<tr>';
                             tab += '<td>Gasto Campo - ' + (cont + 1) + '</td>';
+                            tab += '<td>' + item.Promedio + '</td>';
+                            tab += '</tr>';
+                            aux = aux + parseFloat(item.Promedio);
+                            cont++
+                        });
+                        resLiberado = (aux / cont);
+                    } else  if (response.codigoModel.Id_parametro == 67 || response.codigoModel.Id_parametro == 68) { // Gasto
+                        aux = 0;
+                        cont = 0;
+                        $.each(response.model, function (key, item) {
+                            tab += '<tr>';
+                            tab += '<td>Conductividad Campo - ' + (cont + 1) + '</td>';
                             tab += '<td>' + item.Promedio + '</td>';
                             tab += '</tr>';
                             aux = aux + parseFloat(item.Promedio);

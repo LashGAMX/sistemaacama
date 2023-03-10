@@ -370,7 +370,7 @@ class InformesController extends Controller
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
         $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Condición de busqueda para las configuraciones(Historicos)    
-
+        $compuesto = CampoCompuesto::where('Id_solicitud',$idSol)->first();
         $aux = true;
         foreach ($model as $item) {
             if ($aux == true) {
@@ -570,6 +570,7 @@ class InformesController extends Controller
         $promTemp = $promTemp / $aux;
 
         $data = array(
+            'compuesto' => $compuesto,
             'ecoliModel' => @$ecoliModel,
             'promEcoli' => @$promEcoli,
             'grasasModel' => $grasasModel,
@@ -1819,6 +1820,8 @@ class InformesController extends Controller
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
         $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Tipo_reporte)->first();
         $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();
+        $compuesto1 = CampoCompuesto::where('Id_solicitud',$idSol1)->first();
+        $compuesto2 = CampoCompuesto::where('Id_solicitud',$idSol2)->first();
 
         $promGastos = ($gasto1->Resultado2 + $gasto2->Resultado2);
         $parti1 = $gasto1->Resultado2 / $promGastos;
@@ -1865,10 +1868,10 @@ class InformesController extends Controller
             if ($ph1[$temp]->Activo == 1) {
                 @$promPh1 = $promPh1 + $ph1[$temp]->Promedio;
                 @$promPh2 = $promPh2 + $ph2[$temp]->Promedio;
-                @$promTemp1 = $promTemp1 + $tempModel1[$temp]->Promedio;
-                @$promTemp2 = $promTemp2 + $tempModel2[$temp]->Promedio;
-                @$promGa1 = $promGa1 + $grasasModel1[$temp]->Resultado;
-                @$promGa2 = $promGa2 + $grasasModel2[$temp]->Resultado;
+                @$promTemp1 = $promTemp1 + ($tempModel1[$temp]->Promedio * $gastoProm1[$i]);
+                @$promTemp2 = $promTemp2 + ($tempModel2[$temp]->Promedio * $gastoProm2[$i]);
+                @$promGa1 = $promGa1 + ($grasasModel1[$temp]->Resultado * $gastoProm1[$i]);
+                @$promGa2 = $promGa2 + ($grasasModel2[$temp]->Resultado * $gastoProm2[$i]);
                 @$promCol1 = $promCol1 + $colModel1[$temp]->Resultado;
                 @$promCol2 = $promCol2 + $colModel2[$temp]->Resultado;
                 $temp++;
@@ -1882,6 +1885,8 @@ class InformesController extends Controller
         $limGa = DB::table('limite001_2021')->where('Id_parametro',13)->first();
 
         $data = array(
+            'compuesto1' => $compuesto1,
+            'compuesto2' => $compuesto2,
             'limCol' => $limCol,
             'limGa' => $limGa,
             'promGa1' => $promGa1,

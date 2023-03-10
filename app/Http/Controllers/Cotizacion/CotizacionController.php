@@ -586,8 +586,16 @@ class CotizacionController extends Controller
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
         $puntos = CotizacionPunto::where('Id_cotizacion', $model->Id_cotizacion)->get();
-        if ($model->Id_reporte == null)
-        $reportesInformes = DB::table('ViewReportesCotizacion')->first();
+        if ($model->Id_reporte == null || $model->Id_reporte == 0){
+            $reportesInformes = DB::table('ViewReportesCotizacion')->orderBy('Num_rev', 'desc')->first();
+            $update = Cotizacion::find($model->Id_cotizacion);
+            $update->Id_reporte = $reportesInformes->Id_reporte; 
+            $update->save();
+        } else {
+            $reportesInformes = DB::table('ViewReportesCotizacion')->where('Id_reporte', $model->Id_reporte)->first();
+        }
+
+        
 
         $analisisDesc = $model->Precio_analisis - (($model->Precio_analisis * $model->Descuento) / 100);
 
@@ -595,7 +603,7 @@ class CotizacionController extends Controller
             $subTotal = $analisisDesc + $sumaParamEspecial + $model->Precio_muestreo;
         } else {
             $subTotal = $analisisDesc + $sumaParamEspecial + $model->Precio_muestreo;
-        }
+        } 
 
 
         $mpdf = new \Mpdf\Mpdf([
@@ -614,7 +622,7 @@ class CotizacionController extends Controller
 
         $firma = User::find(24); // Firma maribel
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.cotizacion.cotizacion', compact('model', 'parametros', 'parametrosExtra', 'norma', 'puntos', 'sumaParamEspecial', 'analisisDesc', 'subTotal', 'firma'));
+        $html = view('exports.cotizacion.cotizacion', compact('model', 'parametros', 'parametrosExtra', 'norma', 'puntos', 'sumaParamEspecial', 'analisisDesc', 'subTotal', 'firma','reportesInformes'));
         $mpdf->CSSselectMedia = 'mpdf';
 
         $htmlFooter = view('exports.cotizacion.footerCotizacion');

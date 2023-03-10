@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Supervicion;
 
 use App\Http\Controllers\Controller;
 use App\Models\CodigoParametros;
+use App\Models\ConductividadMuestra;
 use App\Models\GastoMuestra;
 use App\Models\LoteDetalle;
 use App\Models\LoteDetalleDureza;
@@ -111,10 +112,16 @@ class CadenaController extends Controller
                 break;
             case 218: //Cloro
             case 64:
-                $model = DB::table('ViewLoteDetalleCloro')
+                if ($solModel->Id_norma == 27) {
+                    $model = DB::table('campo_compuesto') 
+                    ->where('Id_solicitud', $codigoModel->Id_solicitud)
+                    ->get();
+                }else{
+                    $model = DB::table('ViewLoteDetalleCloro')
                     ->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where(' Id_control', 1)
                     ->get();
+                }
                 break;
             case "13": // Grasas y Aceites
                 $model = DB::table('ViewLoteDetalleGA')
@@ -208,6 +215,11 @@ class CadenaController extends Controller
                 $model = GastoMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
                     ->where('Activo', 1)->get();
                 break;
+            case "67": //Conductividad
+            case "68":
+                $model = ConductividadMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
+                    ->where('Activo', 1)->get();
+            break;
             case "2": //Materia flotante
                 $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
                     ->where('Activo', 1)->get();

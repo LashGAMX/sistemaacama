@@ -6,14 +6,14 @@
 <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <button class="btn btn-success"><i class="fas fa-plus"></i> Crear</button>
+        <button class="btn btn-success" data-toggle="modal" data-target="#modalParametro"><i class="fas fa-plus"></i> Crear</button>
       </div>
         <div class="col-md-12" id="divTabla">
             <table class="table">
               <tr>
                 <th>Id</th>
                 <th>Sucursal</th>
-                <th>Rama</th>
+                <th>Rama</th> 
                 <th>Parámetro</th>
                 <th>Unidad</th> 
                 <th>Método prueba</th>
