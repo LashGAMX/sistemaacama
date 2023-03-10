@@ -632,7 +632,7 @@ class SolicitudController extends Controller
                                 break;
                             case 6:
                                 // DQO
-                                if ($model->Id_norma == 27) {
+                                if ($model[0]->Id_norma == "27") {
                                     if($campo->Cloruros < 1000){
                                         CodigoParametros::create([
                                             'Id_solicitud' => $value->Id_solicitud,
@@ -655,17 +655,15 @@ class SolicitudController extends Controller
                                 }
                                 break;
                             case 152:
-                                if($campo->Cloruros >= 1000){
-                                    CodigoParametros::create([
-                                        'Id_solicitud' => $value->Id_solicitud,
-                                        'Id_parametro' => $item->Id_parametro,
-                                        'Codigo' => $value->Folio_servicio,
-                                        'Num_muestra' => 1,
-                                        'Asignado' => 0,
-                                        'Analizo' => 1,
-                                    ]);
-                                }
-                                break;
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $value->Id_solicitud,
+                                    'Id_parametro' => $item->Id_parametro,
+                                    'Codigo' => $value->Folio_servicio,
+                                    'Num_muestra' => 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                ]);
+                                break; 
                             case 35:
                                 if($promConduc < 3500){
                                     CodigoParametros::create([
@@ -724,7 +722,12 @@ class SolicitudController extends Controller
     }
     public function createSinCot()
     {
-        $intermediarios = DB::table('ViewIntermediarios')->where('Id_usuario',Auth::user()->id)->where('deleted_at', null)->get();
+        if (Auth::user()->role->id == 13) {
+            $intermediarios = DB::table('ViewIntermediarios')->where('Id_usuario',Auth::user()->id)->where('deleted_at', null)->get();
+        } else {
+            $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', null)->get();
+        }
+        
         $generales = DB::table('ViewGenerales')->where('deleted_at', null)->get();
         $frecuencia = DB::table('frecuencia001')->get();
         $subNormas = SubNorma::all();

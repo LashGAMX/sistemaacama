@@ -423,7 +423,7 @@
                                     <input type="date" class="form-control" disabled id="fechaMuestreo">
                                 </div>
                                                   <!-- Tomas de Muestra-->
-                            <div class="col-md-12" id="divMuestreo">
+                            <div class="col-md-12" id="divMuestreo" @if (Auth::user()->role->id == 13) hidden @endif>
                                 <div class="row">
                                     <div class="col-md-12">
                                         <h6>Datos muestreo<code>Si algún dato de esta sección no es utilizable marcar la
@@ -555,7 +555,7 @@
                                 <textarea class="form-control" id="observacion" name="observacion" placeholder="Escribir...">{{@$model->Observacion_cotizacion}}</textarea>
                               </div>
                             <!-- Forma de pago-->
-                            <div class="col-md-6">
+                            <div class="col-md-6" @if (Auth::user()->role->id == 13) hidden @endif>
                                 <label for="">Forma de Pago</label>
                                 <select name="metodoPago" class="form-control" id="metodoPago">
                                     @foreach ($metodoPago as $item)
@@ -568,7 +568,7 @@
                                 </select>
                             </div>
                             <!-- Tiempo de Entrega -->
-                            <div class="col-md-6">
+                            <div class="col-md-6" @if (Auth::user()->role->id == 13) hidden @endif>
                                 <label for="">Tiempo de Entrega (Dias)</label>
                                 <input type="number" class="form-control" name="tiempoEntrega" id="tiempoEntrega" value="10"
                                     value="{{ @$model->Tiempo_entrega }}">
@@ -587,7 +587,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="col-md-12" @if (Auth::user()->role->id == 13) hidden @endif>
                                 <div class="col-md-1">
                                     <button class="btn btn-success" onclick="btnDescuento()" type="button"><i
                                             class="voyager-tag"></i> Descuento</button>

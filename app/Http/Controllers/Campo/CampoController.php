@@ -73,9 +73,9 @@ class CampoController extends Controller
     {
          
         if (Auth::user()->role->id == 13) {
-            $model = DB::table('ViewSolicitud')->where('Padre',1)->where('Id_servicio', 1)->where('Id_user_c',Auth::user()->id)->orWhere('Id_servicio', 3)->OrderBy('Id_solicitud','DESC')->get();
+            $model = DB::table('ViewSolicitud')->where('Padre',1)->where('Id_servicio', 1)->where('Id_user_c',Auth::user()->id)->where('Id_servicio','!=', 3)->OrderBy('Id_solicitud','DESC')->get();
         } else {
-            $model = DB::table('ViewSolicitud')->where('Padre',1)->where('Id_servicio', 1)->orWhere('Id_servicio', 3)->OrderBy('Id_solicitud','DESC')->get(); 
+            $model = DB::table('ViewSolicitud')->where('Padre',1)->where('Id_servicio', 1)->where('Id_servicio','!=', 3)->OrderBy('Id_solicitud','DESC')->get(); 
         } 
         
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', NULL)->get();

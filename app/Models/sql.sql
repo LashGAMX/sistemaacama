@@ -654,6 +654,14 @@ ON i.Id_autorizo = u.id
 INNER JOIN users as us
 on i.Id_reviso = us.id
 
+/* ViewReportesInformesCampo */
+CREATE VIEW ViewReportesInformesCampo as SELECT i.*, u.name as Analizo, us.name as Reviso 
+FROM reportes_informes_campo as i 
+INNER JOIN users as u
+ON i.Id_autorizo = u.id
+INNER JOIN users as us
+on i.Id_reviso = us.id
+
 
 /* ViewLimite0012021 */
 CREATE VIEW ViewLimite0012021 as SELECT lim.*,cat.Categoria,pa.Parametro,pa.Unidad FROM limite001_2021 as lim
