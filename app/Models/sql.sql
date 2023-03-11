@@ -646,6 +646,12 @@ FROM reportes_cadena as i
 INNER JOIN users as u
 ON i.Responsable = u.id
 
+/* ViewReporteCotizacion */
+CREATE VIEW ViewReportesCotizacion as SELECT i.*, u.name as Nombre_responsable
+FROM reportes_cotizacion as i 
+INNER JOIN users as u
+ON i.Id_responsable = u.id
+
 /* ViewReportesInformesMensual */
 CREATE VIEW ViewReportesInformesMensual as SELECT i.*, u.name as Analizo, us.name as Reviso 
 FROM reportes_informes_mensual as i 
