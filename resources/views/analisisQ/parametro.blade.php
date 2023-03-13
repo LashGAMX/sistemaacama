@@ -6,7 +6,7 @@
 <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
-        <button class="btn btn-success" data-toggle="modal" data-target="#modalParametro"><i class="fas fa-plus"></i> Crear</button>
+        <button class="btn btn-success" id="btnCreate" data-toggle="modal" data-target="#modalParametro"><i class="fas fa-plus"></i> Crear</button>
       </div>
         <div class="col-md-12" id="divTabla">
             <table class="table">
@@ -31,7 +31,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Editar parámetro</h5>
+        <h5 class="modal-title" id="titulo">Editar parámetro</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -39,6 +39,7 @@
       <div class="modal-body">
           <div class="row">
               <div class="col-md-3">
+                <input type="text" id="sw"  value="false" hidden>
                 <input type="text" id="idParametro" hidden>
                 {{-- <div class="custom-control custom-switch">
                   <input type="checkbox" class="custom-control-input" id="status">

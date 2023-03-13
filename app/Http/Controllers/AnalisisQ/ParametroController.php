@@ -80,6 +80,44 @@ class ParametroController extends Controller
         );
         return response()->json($data);
     }
+    public function setParametros(Request $res)
+    {
+        $curva = 0;
+        if($res->curva == "true"){
+            $curva = 1;
+        }
+        $model = Parametro::create([
+            'Id_laboratorio' => $res->sucursal,
+            'Id_tipo_formula' => $res->tipo,
+            'Id_area' => $res->area,
+            'Id_rama' => $res->rama,
+            'Parametro' => $res->parametro,
+            'Id_unidad' => $res->unidad,
+            'Id_metodo' => $res->metodo,
+            'Id_tecnica' => $res->tecnica,
+            'Limite' => $res->limite,
+            'Id_procedimiento' => $res->procedimiento,
+            'Id_matriz' => $res->matriz,
+            'Id_simbologia' => $res->simbologia,
+            'Id_simbologia_info' => $res->simbologiaInf,
+            'Id_user_m' => Auth::user()->id,
+            'Curva' => $curva,
+            'Padre' => $res->padre,
+        ]);
+        
+        $model = DB::table('parametros_normas')->where('Id_parametro',$res->id)->delete();
+
+        for ($i=0; $i < sizeof($res->norma); $i++) { 
+            $model = ParametroNorma::create([
+                'Id_norma' => $res->norma[$i],
+                'Id_parametro' => $res->id,
+            ]);
+        }
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
     public function getDatoParametro(Request $res)
     {
         $model = DB::table('ViewParametros')->where('Id_parametro',$res->id)->first();

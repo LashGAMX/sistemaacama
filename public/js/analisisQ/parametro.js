@@ -3,10 +3,42 @@ $(document).ready(function()
     $("#btnGuardar").click(function()
     {
         // create(); 
-        updateParametro()
+        if ($("#sw").val() == "false") {
+          updateParametro()
+          // console.log("Actualziacion")
+        } else {
+          setParametros()
+          // console.log("Registro")
+        }
     });
     getParametros();
+    $("#btnCreate").click(function()
+    {
+      $("#sw").val("true")
+        $("#titulo").text("Crear parámetro")
+        $("#sucursal").val(0)
+        $("#parametro").val("")
+        $("#unidad").val(0)
+        $("#tipo").val(0)
+        $("#area").val(0)
+        $("#norma").val(0)
+        $("#limite").val("")
+        $("#matriz").val(0)
+        $("#rama").val(0)
+        $("#metodo").val(0)
+        $("#tecnica").val(0)
+        $("#procedimiento").val(0)
+        $("#simbologia").val(0)
+        $("#simbologiaInf").val(0)
+        $("#CurvaPadre").val(0)
 
+    });
+    $("#btnEditar").click(function()
+    {
+        // create(); 
+        $("#sw").val("false")
+        $("#titulo").text("Editar parámetro")
+    });
 }); 
 function getParametros(){
   let tabla = document.getElementById('divTabla');
@@ -49,7 +81,7 @@ function getParametros(){
             tab += '    <td>'+item.Clave_metodo+'</td>';
             tab += '    <td>'+response.norma[cont]+'</td>';
             tab += '    <td>'+item.Limite+'</td>';
-            tab += '    <td><button class="btn btn-warning" data-toggle="modal" data-target="#modalParametro" onclick="getNormasParametro('+item.Id_parametro+')"><i class="fas fa-edit"></i> Editar</button></td>';
+            tab += '    <td><button class="btn btn-warning" data-toggle="modal" id="btnEditar" data-target="#modalParametro" onclick="getNormasParametro('+item.Id_parametro+')"><i class="fas fa-edit"></i> Editar</button></td>';
             tab += '</tr>';
             cont++;
           });
@@ -132,6 +164,38 @@ function getNormasParametro(id){
  function updateParametro(){
   $.ajax({
     url: base_url + '/admin/analisisQ/updateParametro', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: { 
+      id:$("#idParametro").val(),
+      curva:$('#curva').prop('checked'),
+      sucursal:$("#sucursal").val(),
+      parametro:$("#parametro").val(),
+      unidad:$("#unidad").val(),
+      tipo:$("#tipo").val(),
+      area:$("#area").val(),
+      norma:$("#norma").val(),
+      limite:$("#limite").val(),
+      matriz:$("#matriz").val(),
+      rama:$("#rama").val(),
+      metodo:$("#metodo").val(),
+      tecnica:$("#tecnica").val(),
+      procedimiento:$("#procedimiento").val(),
+      simbologia:$("#simbologia").val(),
+      simbologiaInf:$("#simbologiaInf").val(),
+      padre:$("#CurvaPadre").val(),
+        _token: $('input[name="_token"]').val(),
+      },
+    dataType: 'json', 
+    async:false,
+    success: function (response) {
+      alert("Parametro modificado correctamente!", "success")
+      getParametros();
+    } 
+})
+ }
+ function setParametros(){
+  $.ajax({
+    url: base_url + '/admin/analisisQ/setParametros', //archivo que recibe la peticion
     type: 'POST', //método de envio
     data: { 
       id:$("#idParametro").val(),
