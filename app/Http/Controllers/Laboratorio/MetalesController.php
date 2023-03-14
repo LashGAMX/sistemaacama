@@ -127,7 +127,7 @@ class MetalesController extends Controller
                 array_push($temp,$obs[0]->Observaciones);
                 array_push($temp,$obs[0]->Ph);
             }else{
-                array_push($temp,$item->Punto_muestreo);   
+                array_push($temp,$item->Punto);   
                 array_push($temp,$solModel->Clave_norma);
                 array_push($temp,"");
                 array_push($temp,"");

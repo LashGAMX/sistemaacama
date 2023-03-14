@@ -4015,7 +4015,7 @@ class InformesController extends Controller
             $temp = Parametro::find($item->Parametro);
             // var_dump($temp->Id_area);
             $fechaTemp = "";
-            switch ($temp->Id_area) {
+            switch (@ $temp->Id_area) {
                 case 2: // Metales
                     $modelDet = DB::table('ViewLoteDetalle')->where('Id_analisis', $idSol)->where('Id_parametro', $item->Parametro)->get();
                     if ($modelDet->count()) {
