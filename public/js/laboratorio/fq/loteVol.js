@@ -10,6 +10,9 @@ var area = "fq";
 
 $(document).ready(function () {
 
+    $('#btnPendiente').click(function () {
+        getPendientes()
+    });
     $('#tipoFormula').select2();
 
 $("#btnLimpiarVal").click(function () {
@@ -758,4 +761,42 @@ $('#guardarTodo').click(function () {
         }
     });
 });
+
+function getPendientes()
+{ 
+    let tabla = document.getElementById('divPendientes');
+    let tab = '';
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/laboratorio/"+area+"/getPendientes",
+        data: {
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {            
+            console.log(response);
+            model = response.model
+            tab += '<table class="table table-sm" style="font-size:10px">';
+            tab += '    <thead class="thead-dark">';
+            tab += '        <tr>';
+            tab += '          <th>Folio</th>';
+            tab += '          <th>Parametro</th>';
+            tab += '          <th>Fecha recepción</th>';
+            tab += '        </tr>';
+            tab += '    </thead>';
+            tab += '    <tbody>';
+            for (let i = 0; i < model.length; i++) {
+                tab += '<tr>';
+                tab += '<td>'+model[i][0]+'</td>';
+                tab += '<td>'+model[i][1]+'</td>';
+                tab += '<td>'+model[i][2]+'</td>';
+                tab += '</tr>';   
+            }
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
+        }
+    });
+}
 

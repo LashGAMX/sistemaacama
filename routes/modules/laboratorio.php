@@ -36,13 +36,14 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('liberarMuestraMetal', [MetalesController::class, 'liberarMuestraMetal']);
         Route::post('liberarTodo', [MetalesController::class, 'liberarTodo']); //revisar método
 
-        //? Modulo Lote - Creación  de lotes
+        //? Modulo Lote - Creación  de lotes 
         Route::get('lote', [MetalesController::class, 'lote']);
         Route::post('createLote', [MetalesController::class, 'createLote']);
         Route::post('buscarLote', [MetalesController::class, 'buscarLote']);
         Route::post('getLote', [MetalesController::class, 'getLote']);
         Route::post('getLoteCaptura', [MetalesController::class, 'getLoteCaptura']);
         Route::get('asignar', [MetalesController::class, 'asignar']);
+        Route::post('getPendientes', [MetalesController::class, 'getPendientes']);
         // Route::post('getDatalote', [MetalesController::class, 'getDatalote']);
         Route::get('asgnarMuestraLote/{id}', [MetalesController::class, 'asgnarMuestraLote']);
         Route::post('muestraSinAsignar', [MetalesController::class, 'muestraSinAsignar']); 
@@ -81,11 +82,12 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('observacion', [FqController::class, 'observacion']);
         Route::post('getObservacionanalisis', [FqController::class, 'getObservacionanalisis']);
         Route::post('aplicarObservacion', [FqController::class, 'aplicarObservacion']);
-
+ 
         //? Modulo Lote - Creación  de lotes
-        Route::get('lote', [FqController::class, 'lote']);
+        Route::get('lote', [FqController::class, 'lote']); 
         Route::post('createLote', [FqController::class, 'createLote']); 
         Route::post('buscarLote', [FqController::class, 'buscarLote']);
+        Route::post('getPendientes', [FqController::class, 'getPendientes']);
         Route::post('getDatalote', [FqController::class, 'getDatalote']);
         Route::get('asgnarMuestraLote/{id}', [FqController::class, 'asgnarMuestraLote']);
         Route::post('muestraSinAsignar', [FqController::class, 'muestraSinAsignar']);
@@ -168,6 +170,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
         Route::get('capturaVolumetria', [VolController::class, 'capturaVolumetria']);
         Route::post('getLotevol', [VolController::class, 'getLotevol']);
+        Route::post('getPendientes', [VolController::class, 'getPendientes']);
         Route::post('getLoteCapturaVol', [VolController::class, 'getLoteCapturaVol']);
         Route::post('getDetalleVol', [VolController::class, 'getDetalleVol']);
         Route::post('operacionVolumetriaDqo', [VolController::class, 'operacionVolumetriaDqo']);
@@ -215,6 +218,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('setLote',[DirectosController::class, 'setLote']); 
         Route::post('setPlantilla',[DirectosController::class, 'setPlantilla']); 
         Route::get('loteDetalle/{id}',[DirectosController::class, 'loteDetalle']);
+        Route::post('getPendientes', [DirectosController::class, 'getPendientes']);
         Route::post('muestraSinAsignar', [DirectosController::class, 'muestraSinAsignar']);
         Route::post('asignarMuestraLote', [DirectosController::class, 'asignarMuestraLote']);
         Route::post('sendMuestrasLote', [DirectosController::class, 'sendMuestrasLote']);
@@ -240,6 +244,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
 
         Route::group(['prefix' => 'potable'], function () {
             Route::get('lote', [PotableController::class, 'lote']);
+            Route::post('getPendientes', [PotableController::class, 'getPendientes']);
             Route::post('getLote',[PotableController::class, 'getLote']); 
             Route::post('getDetalleLote',[PotableController::class, 'getDetalleLote']); 
             Route::post('setLote',[PotableController::class, 'setLote']); 
@@ -277,7 +282,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('aplicarObservacion', [MbController::class, 'aplicarObservacion']);
     
             //? Modulo Lote - Creación  de lotes
-            Route::get('lote', [MbController::class, 'lote']);  
+            Route::get('lote', [MbController::class, 'lote']);
+            Route::post('getPendientes', [MbController::class, 'getPendientes']);  
             Route::post('createLote', [MbController::class, 'createLote']);
             Route::post('buscarLote', [MbController::class, 'buscarLote']);
             Route::post('getDatalote', [MbController::class, 'getDatalote']);

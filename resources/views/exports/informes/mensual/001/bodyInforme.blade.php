@@ -27,16 +27,16 @@
 
                 <tr>                    
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBot">Dirección:</td>                    
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup"> {{$solModel1->Direccion}}</td>
+                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup"> {{$dirReporte}}</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;Titulo de conseción: {{@$titulo->Titulo}}</td>
+                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;@if (@$solModel1->Siralab == 1) 
+                        TITULO DE CONCESIÓN: {{@$punto->Titulo}}
+                    @else
+                      
+                    @endif</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqSinSup justificadoDer">
-                        @if (@$solModel1->Siralab == 1) 
-                            TITULO DE CONCESIÓN: {{@$punto->Titulo}}
-                        @else
-                          
-                        @endif
+                        
                     </td>
                 </tr>
 

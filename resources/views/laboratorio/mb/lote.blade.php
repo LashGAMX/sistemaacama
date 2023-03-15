@@ -33,6 +33,7 @@
         
         <div class="col-md-2">
           <button class="btn btn-success" onclick="buscarLote()">Buscar</button>
+          <button class="btn-info" type="button" id="btnPendiente" data-toggle="modal" data-target="#pendientes">Pendientes</button> &nbsp;
         </div>        
       </div>
     </div>
@@ -275,6 +276,35 @@
     </div>
   </div>
 </div>
+
+<!-- Modal -->
+<div class="modal fade" id="pendientes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Pendientes</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" id="divPendientes">
+        <table class="table">
+          <thead>
+            <tr>
+              <th>Folio</th>
+              <th>Parametro</th>
+              <th>Fecha recepción</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
 
   @stop
 
