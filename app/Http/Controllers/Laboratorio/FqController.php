@@ -325,16 +325,7 @@ class FqController extends Controller
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $resultado = ((($x - $request->CB) / $request->CM) * $d);
                 break;
-            case 152: //cot 
-                $model = LoteDetalleEspectro::where('Id_detalle', $request->idMuestra)->first();
-                $d = 40 / $request->E;
-                $x = ($request->X + $request->Y + $request->Z) / 3;
-                if ($model->Id_control == 14) {
-                    $resultado = ((($x - $request->CB) / $request->CM) * $d);
-                } else {
-                    $resultado = ((($x - $request->CA) / $request->CM) * $d);
-                }
-                break;
+          
             default:
                 # code...
                 $x = ($request->X + $request->Y + $request->Z) / 3;
@@ -355,10 +346,15 @@ class FqController extends Controller
         $model = LoteDetalleEspectro::where('Id_detalle', $request->idMuestra)->first();
                 $d = 40 / $request->E;
                 $x = ($request->X + $request->Y + $request->Z) / 3;
-                if ($model->Id_control == 14) {
+                switch($model->Id_control) {
+                   case 14: 
                     $resultado = ((($x - $request->CB) / $request->CM) * $d);
-                } else {    
-                    $resultado = ((($x - $request->CA) / $request->CM) * $d);
+                    break;
+                        case 5:
+                            $resultado = ($request->X + $request->Y + $request->Z) / 3;
+                        break;
+                            default: 
+                                $resultado = ((($x - $request->CA) / $request->CM) * $d);
                 }
 
                 $data = array(
@@ -366,6 +362,7 @@ class FqController extends Controller
                     'x' => $x,
                     'd' => $d,
                     'parametro' => $request->parametro,
+                    'idControl' =>$model->Id_control,
                 );
                 return response()->json($data);
     }
@@ -475,7 +472,7 @@ class FqController extends Controller
         $today = $fecha->toDateString();
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
-        $blanco = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->where('Id_control', 14)->first();
+        $blanco = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->where('Id_control', 5)->first();
         $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
         ->where('Id_area', 16)
         ->where('Id_parametro', $parametro->Id_parametro)->first();

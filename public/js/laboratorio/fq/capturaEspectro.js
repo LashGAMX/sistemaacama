@@ -169,9 +169,7 @@ function getLoteCapturaEspectro() {
                         break;
                     case "152":
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleCOT('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCOT">Capturar</button>';
-                        if(item.Id_control == "14"){
-                            blanco = item.Resultado;
-                        }
+                        
                         break;
                     default:
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
@@ -498,9 +496,6 @@ function getDetalleCOT(idDetalle){
             $("#abs21COT").val(response.model.Abs2);
             $("#abs31COT").val(response.model.Abs3);
             $("#resultadoCOT").val(response.model.Resultado);
-            if($("#formulaTipo").val() == 152){
-                $("#blanco1").val(blanco);
-            }
         }
     }); 
 }
@@ -631,7 +626,7 @@ function operacionCOT() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/operacionEspectro",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionCOT",
         data: {
             idMuestra: idMuestra,
             parametro: $('#formulaTipo').val(),
@@ -651,16 +646,24 @@ function operacionCOT() {
         dataType: "json",
         success: function (response) {
             console.log(response);
-            let x = response.x.toFixed(3);
-          $("#abs1COT").val(x); 
-          $("#abs2COT").val(x); 
-          let resultado = response.resultado.toFixed(3);
-          $("#resultadoCOT").val(resultado); 
-          let d = response.d.toFixed(3);
-          $("#fDilucion1COT").val(d);
-          $("#fDilucion2COT").val(d);
-          blanco = resultado;
+            if (response.idControl == 5){
+                $("#resultadoCOT").val(response.resultado); 
+            } else {
+                let x = response.x.toFixed(3);
+                $("#abs1COT").val(x); 
+                $("#abs2COT").val(x); 
+                let resultado = response.resultado.toFixed(3);
+                $("#resultadoCOT").val(resultado); 
+                let d = response.d.toFixed(3);
+                $("#fDilucion1COT").val(d);
+                $("#fDilucion2COT").val(d);
+                blanco = resultado;
+            }
+
+            
+            
         }
+   
     });
 }
 function operacionSulfatos() {

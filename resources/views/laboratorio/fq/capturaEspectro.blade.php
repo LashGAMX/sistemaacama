@@ -317,11 +317,11 @@
                                     </div>
                             </div>
                             <div class="col-md-2">
-                                <button class="btn btn-success" id="btnGuardar" onclick="guardarCOT()"><i class="voyager-upload"></i>
+                                <button class="btn btn-success" onclick="guardarCOT()"><i class="voyager-upload"></i>
                                     Guardar</button>&nbsp;&nbsp;
                             </div>
                             <div class="col-md-2">
-                                <button class="btn btn-primary" id="btnEjecutar" onclick="operacionCOT()"><i class="voyager-play"></i>
+                                <button class="btn btn-primary"  onclick="operacionCOT()"><i class="voyager-play"></i>
                                     Ejecutar</button>
                             </div>
                             {{-- <div class="col-md-2">
