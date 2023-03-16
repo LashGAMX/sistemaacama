@@ -24,12 +24,12 @@
     
             <div class="contenedorHijo12 bordesTablaFirmasInfIzq">            
                 <span class="cabeceraStdMuestra"> REVISÓ SIGNATARIO <br> </span>            
-                <span class="bodyStdMuestra"> {{$reportesInformes->Analizo}} {{-- {{@$usuario->name}} --}} </span>
+                <span class="bodyStdMuestra"> {{$reportesInformes->Reviso}} {{-- {{@$usuario->name}} --}} </span>
             </div>         
             
             <div class="contenedorHijo12 bordesTablaFirmasInfDer">            
                 <span class="cabeceraStdMuestra"> AUTORIZÓ SIGNATARIO <br> </span>
-                <span class="bodyStdMuestra"> {{$reportesInformes->Reviso}} {{-- {{@$usuario->name}} --}} </span>
+                <span class="bodyStdMuestra"> {{$reportesInformes->Analizo}} {{-- {{@$usuario->name}} --}} </span>
             </div>
         </div>
     

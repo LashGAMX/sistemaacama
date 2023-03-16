@@ -981,6 +981,30 @@ class MbController extends Controller
         $textoRecuperadoPredeterminado = ReportesMb::where('Id_lote', 0)->first();
         return view('laboratorio.mb.lote', compact('parametro', 'textoRecuperadoPredeterminado'));
     }
+    public function getPendientes(Request $res)
+    {
+        $model = array();
+        $temp = array();
+        $codigo = DB::table('ViewCodigoParametro')->where('Asignado',0)->get();
+        $param = DB::table('ViewParametroUsuarios')->where('Id_user',Auth::user()->id)->get();
+        
+        foreach ($codigo as $item) {
+            $temp = array();
+            foreach ($param as $item2) {
+                if ($item->Id_parametro == $item2->Id_parametro) {
+                    array_push($temp,$item->Codigo);
+                    array_push($temp,$item->Parametro);
+                    array_push($temp,$item->Hora_recepcion);
+                    array_push($model,$temp);
+                    break;
+                }
+            }
+        }
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
 
     public function createLote(Request $request)
     {

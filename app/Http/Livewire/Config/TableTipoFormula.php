@@ -55,7 +55,7 @@ class TableTipoFormula extends Component
         ]);
         $this->idTipo = $model->Id_tipo_formula;
         $this->nota = "Creación de registro";
-        $this->historial();
+        // $this->historial();
         $this->alert = true;
     }
     public function store()
@@ -64,7 +64,7 @@ class TableTipoFormula extends Component
         $model = TipoFormula::find($this->idTipo);
         $model->Tipo_formula = $this->tipo;
         $model->Concentracion = $this->std;
-        $this->historial();
+        // $this->historial();
         $model->save();
         
         $this->alert = true;

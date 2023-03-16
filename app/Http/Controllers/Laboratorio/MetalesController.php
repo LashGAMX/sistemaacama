@@ -127,7 +127,7 @@ class MetalesController extends Controller
                 array_push($temp,$obs[0]->Observaciones);
                 array_push($temp,$obs[0]->Ph);
             }else{
-                array_push($temp,$item->Punto_muestreo);   
+                array_push($temp,$item->Punto);   
                 array_push($temp,$solModel->Clave_norma);
                 array_push($temp,"");
                 array_push($temp,"");
@@ -793,6 +793,30 @@ class MetalesController extends Controller
             'tipo' => $tipo,
         );
         return view('laboratorio.metales.asignar', $data);
+    }
+    public function getPendientes(Request $res)
+    {
+        $model = array();
+        $temp = array();
+        $codigo = DB::table('ViewCodigoParametro')->where('Asignado',0)->get();
+        $param = DB::table('ViewParametroUsuarios')->where('Id_user',Auth::user()->id)->get();
+        
+        foreach ($codigo as $item) {
+            $temp = array();
+            foreach ($param as $item2) {
+                if ($item->Id_parametro == $item2->Id_parametro) {
+                    array_push($temp,$item->Codigo);
+                    array_push($temp,$item->Parametro);
+                    array_push($temp,$item->Hora_recepcion);
+                    array_push($model,$temp);
+                    break;
+                }
+            }
+        }
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
     }
     public function getMuestras(Request $res)
     {
