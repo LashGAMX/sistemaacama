@@ -143,6 +143,17 @@
                         LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN AGUAS Y
                         <br> BIENES NACIONALES.
                         @break
+                        @case(27)
+                        DE ACUERDO A NOM-001-SEMARNAT-2021
+                        @if (@$solModel->Id_muestra == 1)
+                        INSTANTANEA
+                        @else
+                        COMPUESTA
+                        @endif
+                        TIPO "{{@$tipoReporte->Tipo}}", {{@$tipoReporte->Cuerpo}} - {{$tipoReporte->Detalle}} QUE ESTABLECE
+                        LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN AGUAS Y
+                        <br> BIENES NACIONALES.
+                        @break
                         @case(2)
                         DE ACUERDO A NOM-002-SEMARNAT-1996 PARA MUESTRA
                         @if (@$solModel->Id_muestra == 1)

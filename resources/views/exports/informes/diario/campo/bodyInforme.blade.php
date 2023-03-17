@@ -16,8 +16,8 @@
                 <tr>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" height="30">HORA DE TOMA &nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;N. MUESTRA&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;CONCENTRACION Unidades de pH&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/seg&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;UNIDADES DE pH&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/s&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td>
                 </tr>
@@ -52,14 +52,14 @@
     </div> 
 
     <div id="contenedorTabla">
-        <p id='header1' style="font-size: 10px">METODO DE PRUEBA NMX-AA-007-SCFI-2013 DETERMINACIÓN DE POTENCIAL DE HIDROGENO  </p>
+        <p id='header1' style="font-size: 10px">METODO DE PRUEBA NMX-AA-007-SCFI-2013 DETERMINACIÓN DE TEMPERATURA  </p>
         <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <thead>
                 <tr>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" height="30">HORA DE TOMA &nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;N. MUESTRA&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;CONCENTRACION TEMPERATURA °C&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/seg&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;TEMPERATURA <br> DEL AGUA °C&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/s&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td>
                 </tr>
@@ -101,7 +101,7 @@
                     <td class="tableCabecera bordesTablaBody justificadoCentr" height="30">HORA DE TOMA &nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;N. MUESTRA&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;CONCENTRACION mg/L&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/seg&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/s&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td>
                 </tr>
@@ -143,8 +143,8 @@
                 <tr>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" height="30">HORA DE TOMA &nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;N. MUESTRA&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;CONCENTRACION mg/L&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/seg&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;NMP/100 mL&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/s&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td>
                 </tr>

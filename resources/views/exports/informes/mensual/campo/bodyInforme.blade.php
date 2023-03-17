@@ -30,13 +30,12 @@
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup"> {{$solModel1->Direccion}}</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;Titulo de conseción: {{@$titulo->Titulo}}</td>
+                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;@if (@$solModel1->Siralab == 1) 
+                        TITULO DE CONCESIÓN: {{@$punto->Titulo}}
+                    @else
+                      
+                    @endif</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqSinSup justificadoDer">
-                        @if (@$solModel1->Siralab == 1) 
-                            TITULO DE CONCESIÓN: {{@$punto->Titulo}}
-                        @else
-                          
-                        @endif
                     </td>
                 </tr>
 
@@ -73,13 +72,13 @@
                 <tr>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA </td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">N. MUESTRA</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">CONCENTRACION <br>Unidades de pH</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">GASTO L/seg</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX"> UNIDADE DE pH</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">GASTO L/s</td>
                     <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">N. MUESTRA</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">CONCENTRACION <br>Unidades de pH</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">GASTO L/seg</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">GASTO L/s</td>
                     <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">PROMEDIO MENSUAL PONDERADO</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">DECLARACION DE LA CONFORMIDAD </td>
@@ -121,8 +120,8 @@
                                 <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{round(($promPh1 + $promPh2 ) / 2,2)}}</td>
                                 <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{@$limPh->Pm}}</td>
                                 @php
-                                $lim = explode("-",@$limPh->Pm);
-                            @endphp
+                                    $lim = explode("-",@$limPh->Pm);
+                                @endphp
                             <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">@if (round(($promPh1 + $promPh2 ) / 2,2) >= $lim[0] && round(($promPh1 + $promPh2 ) / 2,2) <= $lim[1])  CUMPLE @else NO CUMPLE @endif</td>
                             @endif
                         </tr>
@@ -143,13 +142,13 @@
                 <tr>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA </td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">N. MUESTRA</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">CONCENTRACION <br>TEMPERATURA °C</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">GASTO L/seg</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">TEMPERATURA <br> DEL AGUA °C</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">GASTO L/s &nbsp;</td>
                     <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">N. MUESTRA</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">CONCENTRACION <br> TEMPERATURA °C</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">GASTO L/seg</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">TEMPERATURA <br> DEL AGUA °C</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">GASTO L/s</td>
                     <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">PROMEDIO MENSUAL PONDERADO</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">DECLARACION DE LA CONFORMIDAD </td>
@@ -210,12 +209,12 @@
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA </td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">N. MUESTRA</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">CONCENTRACION <br> mg/L</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">GASTO L/seg</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">GASTO L/s &nbsp;&nbsp;</td>
                     <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">N. MUESTRA</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">CONCENTRACION <br>mg/L</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">GASTO L/seg</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">GASTO L/s</td>
                     <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">PROMEDIO MENSUAL PONDERADO</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">DECLARACION DE LA CONFORMIDAD </td>
@@ -278,13 +277,13 @@
             <tr>
                 <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA </td>
                 <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">N. MUESTRA</td>
-                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">CONCENTRACION <br>Unidades de pH</td>
-                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">GASTO L/seg</td>
+                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">NMP/100 mL</td>
+                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8PX">GASTO L/s</td>
                 <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
                 <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">HORA DE TOMA</td>
                 <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">N. MUESTRA</td>
                 <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">CONCENTRACION <br>Unidades de pH</td>
-                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">GASTO L/seg</td>
+                <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px">GASTO L/s</td>
                 <td style="border:none">&nbsp;&nbsp;&nbsp;</td>
                 <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">PROMEDIO MENSUAL PONDERADO</td>
                 <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8px;">DECLARACION DE LA CONFORMIDAD </td>

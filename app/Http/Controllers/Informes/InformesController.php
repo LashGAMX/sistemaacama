@@ -14,6 +14,7 @@ use App\Models\Cotizacion;
 use App\Models\CotizacionPunto;
 use App\Models\DireccionReporte;
 use App\Models\GastoMuestra;
+use App\Models\InformesRelacion;
 use App\Models\Limite001;
 use App\Models\Limite002;
 use App\Models\LoteAnalisis;
@@ -282,9 +283,9 @@ class InformesController extends Controller
                         }
                         break;
                     case 27:
-                        $limNo = DB::table('limitepnorma_127')->where('Id_parametro', $item->Id_parametro)->get();
+                        $limNo = DB::table('limite001_2021')->where('Id_parametro', $item->Id_parametro)->where('Id_categoria',$solicitud->Id_promedio)->get();
                         if ($limNo->count()) {
-                            $aux = $limNo[0]->Per_max;
+                            $aux = $limNo[0]->Pd;
                         } else {
                             $aux = "N/A";
                         }
@@ -371,7 +372,17 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
-        
+        $informesModel = InformesRelacion::where('Id_solicitud', $model[0]->Id_solicitud)->first();
+        if ($informesModel != null){
+            $reportesInformesCampo = DB::table('informes_relacion')->find($informesModel->Id_reporte);
+        } else {
+            $informesModel = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first();
+            InformesRelacion::create([
+                'Id_solicitud' => $idSol,
+                'Tipo' => 3,
+                'Id_reporte' => $informesModel->Id_reporte,
+            ]);
+        }
         $reportesInformesCampo = DB::table('ViewReportesInformesCampo')->orderBy('Num_rev', 'desc')->first();
         $compuesto = CampoCompuesto::where('Id_solicitud',$idSol)->first();
         $aux = true;
@@ -1607,7 +1618,7 @@ class InformesController extends Controller
         } else {
             $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $idSol1)->first();
             $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
-            $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+            $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first(); 
             $dirTemp = DireccionReporte::where('Id_direccion',$solModel1->Id_direccion)->first();
             $dirReporte = $dirTemp->Direccion;
         }
@@ -1663,7 +1674,8 @@ class InformesController extends Controller
 
                     $limC1 = round($item->Resultado2, 2);
                     $limC2 = round($model2[$cont]->Resultado2, 2);
-                    $limP = "";
+                    $limP = (($parti1 * $item->Resultado2) + ($parti2 * $model2[$cont]->Resultado2));
+                    
                     break;
                 default:
                     if ($item->Resultado2 != NULL || $model2[$cont]->Resultado2 != NULL) {
@@ -1675,7 +1687,7 @@ class InformesController extends Controller
                         } else {
                             switch ($item->Id_parametro) {
                                     //Redondeo a enteros
-                                case 97:
+                                case 97: 
                                     $limP = Round($limP);
                                     $limC1 = round($item->Resultado2);
                                     break;
@@ -1832,7 +1844,7 @@ class InformesController extends Controller
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $solModel1->Id_cotizacion)->first();
         $tipoReporte = DB::table('categoria001_2021')->where('Id_categoria', $cotModel->Tipo_reporte)->first();
         $cliente = Clientes::where('Id_cliente', $solModel1->Id_cliente)->first();
-        $compuesto1 = CampoCompuesto::where('Id_solicitud',$idSol1)->first();
+        $compuesto1 = CampoCompuesto::where('Id_solicitud',$idSol1)->first(); 
         $compuesto2 = CampoCompuesto::where('Id_solicitud',$idSol2)->first();
 
         $promGastos = ($gasto1->Resultado2 + $gasto2->Resultado2);
@@ -1843,7 +1855,10 @@ class InformesController extends Controller
         $sumGasto1 = 0;
         $gastoProm1 = array();
         foreach ($gastoModel1 as $item) {
-            $sumGasto1 = $sumGasto1 + $item->Promedio;
+            if($item->Activo == 1)
+            {
+                $sumGasto1 = $sumGasto1 + $item->Promedio;
+            }
         }
         foreach ($gastoModel1 as $item) {
             array_push($gastoProm1, ($item->Promedio / $sumGasto1));

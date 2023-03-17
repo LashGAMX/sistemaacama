@@ -127,7 +127,7 @@
             </div>
 
             <div class="col-12">
-                3. {{$reportesCadena->Seccion2}}
+                2. {{$reportesCadena->Seccion2}}
             </div>
             <div class="divFlex">
                 <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}"

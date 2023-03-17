@@ -27,13 +27,13 @@
 
                 <tr>                    
                     <td class="filasIzq bordesTabla bordeDerSinSup paddingTopBot">Dirección:</td>                    
-                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup"> {{$dirReporte}}</td>
+                    <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup"> {{@$dirReporte}}</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqDerSinSup">&nbsp;@if (@$solModel1->Siralab == 1) 
                         TITULO DE CONCESIÓN: {{@$punto->Titulo}}
                     @else
-                      
+                        
                     @endif</td>
                     <td class="filasIzq bordesTabla fontBold bordeIzqSinSup justificadoDer">
                         
@@ -144,7 +144,7 @@
             <thead>
                 <tr>
                     @if (@$tipo == 1)
-                        <td class="tableCabecera bordesTablaBody justificadoCentr" width="47%">PARAMETRO &nbsp;</td>
+                        <td class="tableCabecera bordesTablaBody justificadoCentr" width="45%">PARAMETRO &nbsp;</td>
                     @else
                         <td class="tableCabecera bordesTablaBody justificadoCentr" width="40.9%">PARAMETRO &nbsp;</td>    
                     @endif 
@@ -153,7 +153,7 @@
                         PRUEBA&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="9.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="9.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;C.P.M&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8x">&nbsp;PROMEDIO MENSUAL&nbsp;&nbsp;</td>
                     @if (@$tipo == 1)
                         <td class="tableCabecera bordesTablaBody justificadoCentr" width="9%">&nbsp;DECLARACION DE LA CONFORMIDAD &nbsp;&nbsp;</td>
                     @endif
@@ -176,9 +176,29 @@
                         <td class="tableContent bordesTablaBody">
                             {{@$limitesC2[$cont]}}
                         </td>
-
                         <td class="tableContent bordesTablaBody">
-                            {{@$ponderado[$cont]}}
+                            @switch($item->Id_parametro)
+                                @case(14)
+                                    @php
+                                        $lim = explode("-",@$limitesN[$cont]);
+                                    @endphp        
+                                        @if (@$ponderado[$cont] >= $lim[0] && @$ponderado[$cont] <= $lim[1] )
+                                            {{@$ponderado[$cont]}}
+                                        @else
+                                            {{$lim[1]}}
+                                        @endif
+                                    @break
+                                @default
+                                @if (@$limitesN[$cont] == "N/A")
+                                    @if (@$ponderado[$cont] <= @$limitesN[$cont])
+                                        {{@$ponderado[$cont]}}
+                                    @else
+                                        {{@$ponderado[$cont]}}
+                                    @endif
+                                @else
+                                    {{@$limitesN[$cont]}} 
+                                @endif
+                            @endswitch
                         </td>
                         @if (@$tipo == 1)
                             <td class="tableContent bordesTablaBody">

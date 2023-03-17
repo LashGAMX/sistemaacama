@@ -83,6 +83,7 @@ class CadenaController extends Controller
             case "19": // Cianuros
             case "7": //Nitrats 
             case "8": //Nitritos
+            case "152": //Cot
                 $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
                 break;
