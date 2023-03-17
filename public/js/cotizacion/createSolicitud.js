@@ -404,6 +404,11 @@ function createTabParametros()
     } else {
     tab += '<tr>' 
     }
+    temp = ''
+    if(item.Reporte == 1){
+        temp = "checked"
+      }
+      tab += '<td><input type="checkbox" '+temp+'></td>';
     tab += '<td>'+cont+'</td>';
     tab += '<td>'+item.Id_subnorma+'</td>';
     tab += '<td>'+item.Parametro+'('+item.Tipo_formula+')</td>';
@@ -419,11 +424,13 @@ function setSolicitud()
     let tab2 = document.getElementById("tableParametros")
     let puntos = new Array()
     let parametro = new Array()
+    let chParam = new Array()
     for (let i = 1; i < tab.rows.length; i++) {
         puntos.push(tab.rows[i].children[0].textContent)
     }
     for (let i = 1; i < tab2.rows.length; i++) {
-        parametro.push(tab2.rows[i].children[1].textContent)
+        parametro.push(tab2.rows[i].children[2].textContent)
+        chParam.push(tab2.rows[i].children[0].children[0].checked)
     }
     console.log(puntos)
     console.log(parametro)
@@ -452,6 +459,7 @@ function setSolicitud()
           tipoReporte:$("#tipoReporte").val(),
           puntos:puntos,
           parametros:parametro,
+          chParam,chParam,
           _token: $('input[name="_token"]').val(),
         },
         dataType: 'json', 

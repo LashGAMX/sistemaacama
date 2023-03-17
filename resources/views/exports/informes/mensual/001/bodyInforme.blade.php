@@ -189,15 +189,15 @@
                                         @endif
                                     @break
                                 @default
-                                @if (@$limitesN[$cont] == "N/A")
-                                    @if (@$ponderado[$cont] <= @$limitesN[$cont])
+                                    @if (@$item->Limite == "N.A")
+                                    @if (@$ponderado[$cont] <= @$item->Limite)
                                         {{@$ponderado[$cont]}}
+                                    @else
+                                        < {{@$item->Limite}}
+                                    @endif
                                     @else
                                         {{@$ponderado[$cont]}}
                                     @endif
-                                @else
-                                    {{@$limitesN[$cont]}} 
-                                @endif
                             @endswitch
                         </td>
                         @if (@$tipo == 1)

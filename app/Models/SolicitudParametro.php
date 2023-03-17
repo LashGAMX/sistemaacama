@@ -18,6 +18,7 @@ class SolicitudParametro extends Model
         'Id_subnorma',
         'Extra',
         'Asignado',
+        'Reporte',
         'Id_user_c',
         'Id_user_m'
     ];

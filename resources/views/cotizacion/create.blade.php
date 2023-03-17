@@ -286,7 +286,7 @@
                         <div class="col-md-12">
                             <div class="row">
                                 <div class="col-md-8">
-                                    <label for="normaPa">Norma : </label>
+                                    <label for="normaPa">Norma: </label>
                                     <input type="text" placeholder="Sin seleccionar norma" id="normaPa"
                                         style="width: 60%;border: none;" disabled>
                                 </div>
@@ -300,6 +300,7 @@
                                 <div class="col-md-8">
                                     <table class="table" id="tableParametros">
                                         <thead>
+                                            <th></th>
                                             <th>#</th>
                                             <th>Id</th>
                                             <th>Parametro</th>

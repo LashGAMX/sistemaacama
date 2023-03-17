@@ -5,6 +5,7 @@ namespace App\Http\Controllers\AnalisisQ;
 use App\Http\Controllers\Controller;
 use App\Http\Livewire\AnalisisQ\NormaParametros;
 use App\Models\Norma;
+use App\Models\NormaParametros as ModelsNormaParametros;
 use App\Models\Parametro;
 use App\Models\SubNorma;
 use Illuminate\Http\Request;
@@ -30,6 +31,20 @@ class NormaController extends Controller
         $parametros = Parametro::all();
         return view('analisisQ.detalle_normas',compact('id','norma','idSub','subnorma','model','parametros'));
     }
+    public function setStd(Request $res)
+    {
+        $model = ModelsNormaParametros::find($res->idCod);
+        if ($model->Reporte == 1) {
+            $model->Reporte = 0;
+        }else{
+            $model->Reporte = 1;
+        }
+        $model->save();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
     public function createNormaParametro()
     {
         @$parametros = $_POST['parametros'];
@@ -42,7 +57,8 @@ class NormaController extends Controller
             {
                 DB::table('norma_parametros')->insert([
                     'Id_norma' => $idSub,
-                    'Id_parametro' => $pa
+                    'Id_parametro' => $pa,
+                    'Reporte' => 1,
                 ]);
             }      
         }

@@ -19,6 +19,7 @@ class NormaParametros extends Model
         'Id_norma',
         'Id_cuerpo',
         'Id_parametro',
+        'Reporte',
         'Id_user_c',
         'Id_user_m'
     ];

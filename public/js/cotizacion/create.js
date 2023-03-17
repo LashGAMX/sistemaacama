@@ -366,6 +366,11 @@ function createTabParametros()
     } else {
     tab += '<tr>' 
     }
+    temp = ''
+    if(item.Reporte == 1){
+      temp = "checked"
+    }
+    tab += '<td><input type="checkbox" '+temp+'></td>';
     tab += '<td>'+cont+'</td>';
     if (tabParam == true) {
       tab += '<td>'+item.Id_subnorma+'</td>';
@@ -382,13 +387,15 @@ function setCotizacion() {
   tabParam = false
   let puntos = new Array()
   let param = new  Array()
+  let chParam = new Array()
   let tab = document.getElementById("puntoMuestro")
   let tab2 = document.getElementById("tableParametros")
   for (let i = 1; i < tab.rows.length; i++) {
     puntos.push(tab.rows[i].children[1].children[0].value)
   }
   for (let i = 1; i < tab2.rows.length; i++) {
-    param.push(tab2.rows[i].children[1].textContent)
+    param.push(tab2.rows[i].children[2].textContent)
+    chParam.push(tab2.rows[i].children[0].children[0].checked)
   }
   console.log(param)
   $.ajax({
@@ -417,6 +424,7 @@ function setCotizacion() {
       tipoReporte: $('#tipoReporte').val(),
       puntos:puntos,
       parametros:param,
+      chParam:chParam,
       _token: $('input[name="_token"]').val(),
     },
     dataType: 'json',

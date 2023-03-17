@@ -66,6 +66,13 @@ function getPreReporteMensual()
           model = response;
           let cont = 0;
           
+          if(response.sw == false){
+            $("#btnImprimir").attr("disabled",true)
+            alert("Estos informes no se pueden comparar, porque pertenecen a diferentes clientes y/o punto de muestreo")
+          }else{
+            $("#btnImprimir").attr("disabled",false)
+          }
+
             tab += '<table id="tableReporte" class="table" style="width: 100%; font-size: 10px">';
             tab += '    <thead>';
             tab += '        <tr>';

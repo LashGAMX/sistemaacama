@@ -17,6 +17,7 @@ class CotizacionParametros extends Model
         'Id_cotizacion',
         'Id_subnorma',
         'Extra',
+        'Reporte',
         'Id_user_c',
         'Id_user_m'
     ];

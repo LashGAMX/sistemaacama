@@ -73,7 +73,7 @@
                             </div>
                         </div>
                         <div class="col-md-2"> 
-                            <button class="btn btn-info" id="btnImprimir"><i class="voyager-cloud-download"></i> Descargar</button>
+                            <button class="btn btn-info" id="btnImprimir" disabled><i class="voyager-cloud-download"></i> Descargar</button>
                         </div>
                     </div>
                 </div>

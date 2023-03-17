@@ -326,6 +326,7 @@
                     <div class="col-md-8">
                         <table class="table" id="tableParametros">
                             <thead>
+                                <th></th>
                                 <th>#</th>
                                 <th>Id</th>
                                 <th>Parametro</th>

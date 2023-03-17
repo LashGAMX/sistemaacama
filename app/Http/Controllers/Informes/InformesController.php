@@ -112,6 +112,7 @@ class InformesController extends Controller
         }
 
         $data = array(
+            'sw' => $sw,
             'solModel' => $solModel,
             'solModel2' => $solModel2,
             'model' => $model,
@@ -139,12 +140,15 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
+        $informesModel = InformesRelacion::where('Id_solicitud', $idSol)->first();
            
-        if ($model[0]->Id_reporte == null){
-            $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Condición de busqueda para las configuraciones(Historicos)
-            $update = Solicitud::find($model[0]->Id_solicitud);
-            $update->Id_reporte = $reportesInformes->Id_reporte;
-            $update->save();
+        if ($informesModel == null){
+            $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Historicos (Informe)
+            $relacion = InformesRelacion::create([
+                'Id_solicitud' => $idSol,
+                'Tipo' => 1,
+                'Id_reporte' => $reportesInformes->Id_reporte,
+            ]);
         } else {
             $reportesInformes = DB::table('ViewReportesInformes')->where('Id_reporte', $cotModel->Id_reporte)->first();
         }
@@ -372,18 +376,18 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
-        $informesModel = InformesRelacion::where('Id_solicitud', $model[0]->Id_solicitud)->first();
-        if ($informesModel != null){
-            $reportesInformesCampo = DB::table('informes_relacion')->find($informesModel->Id_reporte);
-        } else {
-            $informesModel = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first();
+        $informesModel = InformesRelacion::where('Id_solicitud', $idSol)->first();
+        if ($informesModel == null){
+            $reportesInformesCampo = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first();
             InformesRelacion::create([
                 'Id_solicitud' => $idSol,
                 'Tipo' => 3,
                 'Id_reporte' => $informesModel->Id_reporte,
             ]);
+        } else {
+            $reportesInformesCampo = DB::table('informes_relacion')->find($informesModel->Id_reporte); //historicos (Campo)
         }
-        $reportesInformesCampo = DB::table('ViewReportesInformesCampo')->orderBy('Num_rev', 'desc')->first();
+        
         $compuesto = CampoCompuesto::where('Id_solicitud',$idSol)->first();
         $aux = true;
         foreach ($model as $item) {
@@ -1476,6 +1480,19 @@ class InformesController extends Controller
         if ($solModel1->Id_norma == 27) {
             return redirect()->to('admin/informes/exportPdfInformeMensual/001/' . $idSol1 . '/' . $idSol2 . '/' . $tipo);
         }
+
+        //historial (informe Mensual)
+        $informesModel = DB::table('ViewReportesInformes')->where('Id_solicitud', $idSol1)->where('Id_solicitud2', $idSol2 )->first();
+        if ($informesModel == null){
+            $informesReporte = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first();
+            InformesRelacion::create([
+                'Id_solicitud' => $idSol1,
+                'Id_solicitud2' => $idSol2,
+                'Id_reporte' => $informesReporte->Id_reporte,
+            ]);
+        } else {
+            $informesReporte = DB::table('ViewReportesInformes')->where('Id_reporte', $informesModel->Id_reporte)->first();
+        }
         //ViewCodigoParametro
 
         $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
@@ -1579,6 +1596,7 @@ class InformesController extends Controller
             'solModel2' => $solModel2,
             'firma1' => $firma1,
             'firma2' => $firma2,
+            'informesReporte' => $informesReporte,
         );
 
         //BODY;Por añadir validaciones, mismas que se irán implementando cuando haya una tabla en la BD para los informes
@@ -1614,7 +1632,7 @@ class InformesController extends Controller
             $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
             $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
             $dirTemp = DB::table('ViewDireccionSir')->where('Id_cliente_siralab',$solModel1->Id_direccion)->first();
-            $dirReporte = @$dirTemp->Calle.' '.@$dirTemp->Num_exterior.' '.@$dirTemp->Num_interior.' '.@$dirTemp->Colonia.' '.@$dirTemp->CP.' '.@$dirTemp->Ciudad.' '.@$dirTemp->Localidad.' '.@$dirTemp->NomMunicipio.' '.@$dirTemp->NomEstado;
+            $dirReporte = @$dirTemp->Calle.' '.@$dirTemp->Num_exterior.' '.@$dirTemp->Num_interior.' '.@$dirTemp->NomEstado.' '.@$dirTemp->NomMunicipio.' '.@$dirTemp->Colonia.' '.@$dirTemp->Colonia.' '.@$dirTemp->Ciudad.' '.@$dirTemp->Localidad;
         } else {
             $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $idSol1)->first();
             $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
@@ -1739,6 +1757,7 @@ class InformesController extends Controller
                     } else {
                         $limC1 = "-----";
                         $limC2 = "-----";
+                        $limP = "-----";
                     }
 
                     break;

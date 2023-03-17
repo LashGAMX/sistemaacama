@@ -8,6 +8,7 @@ function tablaParametros()
   let table = document.getElementById('tabParametros');
   let idSub = document.getElementById('idSub');
   let tab = '';
+  let temp = ''
   $.ajax({
       url: base_url + '/admin/analisisQ/detalle_normas/getParametro', //archivo que recibe la peticion
       type: 'POST', //método de envio
@@ -23,33 +24,49 @@ function tablaParametros()
         tab += '<table id="tablaParametro" class="table table-sm  table-striped table-bordered">';
         tab += '    <thead class="thead-dark">';
         tab += '        <tr>';
+        tab += '            <th style="width: 5%;"></th>';
         tab += '            <th style="width: 5%;">Id</th>';
         tab += '            <th style="width: 30%;">Parametro</th>';
         tab += '            <th>Matriz</th>';
+        tab += '            <th style="width: 5%;"></th>';
         tab += '        </tr>';
         tab += '    </thead>';
         tab += '    <tbody>';
         $.each(response.model, function (key, item) {
+          temp = ''
+          if (item.Reporte == 1) {
+            temp = 'checked'
+          }
             tab += '<tr>';
+          tab += '<td><input type="checkbox" '+temp+'></td>';
           tab += '<td>'+item.Id_parametro+'</td>';
           tab += '<td>'+item.Parametro+'</td>';
           tab += '<td>'+item.Matriz+'</td>';
+          tab += '<td><buttton type="button" id="btnStd" onclick="setStd('+item.Id_norma_param+')" class="btn" style="font-size:10px"><i class="fas fa-check"></i></button></td>';
           tab += '</tr>';
         });
         tab += '    </tbody>';
         tab += '</table>';
         table.innerHTML = tab;
- 
-        // $('.duallistbox').bootstrapDualListbox({
-        //   nonSelectedListLabel: 'No seleccionado',
-        //   selectedListLabel: 'Seleccionado',
-        //   preserveSelectionOnMove: 'Mover',
-        //   moveOnSelect: true,
-        //   infoText:'Mostrar todo {0}',
-        //   filterPlaceHolder:'Filtro' 
-        //   });   
-        // crearTabla2("tablaParametro");
+
       }
+  });
+}
+function setStd(idCod)
+{
+  $.ajax({
+    url: base_url + '/admin/analisisQ/detalle_normas/setStd', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      idCod:idCod,
+      _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json', 
+    async: false,
+    success: function (response) {
+      console.log(response.model)
+      tablaParametros();
+    }
   });
 }
 function agregarParametros(idSub)

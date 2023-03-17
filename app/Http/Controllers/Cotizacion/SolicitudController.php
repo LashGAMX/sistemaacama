@@ -285,10 +285,16 @@ class SolicitudController extends Controller
                 } else {
                     $extra = 1;
                 }
+                if($res->chParam[$i] == "true"){
+                    $chParam = 1;
+                }else{
+                    $chParam = 0;
+                }
                 SolicitudParametro::create([
                     'Id_solicitud' => $model->Id_solicitud,
                     'Id_subnorma' => $res->parametros[$i],
                     'Extra' => $extra,
+                    'Reporte' => $chParam,
                 ]);
             }
 
@@ -351,10 +357,16 @@ class SolicitudController extends Controller
                         } else {
                             $extra = 1;
                         }
+                        if($res->chParam[$i] == "true"){
+                            $chParam = 1;
+                        }else{
+                            $chParam = 0;
+                        }
                         SolicitudParametro::create([
                             'Id_solicitud' => $model2->Id_solicitud,
                             'Id_subnorma' => $res->parametros[$i],
                             'Extra' => $extra,
+                            'Reporte' => $chParam,
                         ]);
                     }
                 }
@@ -447,10 +459,16 @@ class SolicitudController extends Controller
                 } else {
                     $extra = 1;
                 }
+                if($res->chParam[$i] == "true"){
+                    $chParam = 1;
+                }else{
+                    $chParam = 0;
+                }
                 SolicitudParametro::create([
                     'Id_solicitud' => $model->Id_solicitud,
                     'Id_subnorma' => $res->parametros[$i],
                     'Extra' => $extra,
+                    'Reporte' => $chParam,
                 ]);
             }
 
@@ -513,10 +531,16 @@ class SolicitudController extends Controller
                         } else {
                             $extra = 1;
                         }
+                        if($res->chParam[$i] == "true"){
+                            $chParam = 1;
+                        }else{
+                            $chParam = 0;
+                        }
                         SolicitudParametro::create([
                             'Id_solicitud' => $model2->Id_solicitud,
                             'Id_subnorma' => $res->parametros[$i],
                             'Extra' => $extra,
+                            'Reporte' => $chParam,
                         ]);
                     }
                 }

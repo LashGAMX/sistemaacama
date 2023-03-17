@@ -96,7 +96,7 @@ ON param.Id_simbologia_info = inf.Id_simbologia_info
 INNER JOIN tecnicas as tec
 ON param.Id_tecnica = tec.Id_tecnica
 /* Vista Lista norma-parametros */
-CREATE VIEW ViewNormaParametro as SELECT n.Id_norma_param,n.Id_norma,nor.Norma,nor.Clave,n.Id_parametro,p.Parametro,p.Id_matriz,mat.Matriz,p.Id_simbologia,sim.Simbologia,sim.Descripcion 
+CREATE VIEW ViewNormaParametro as SELECT n.Id_norma_param,n.Id_norma,nor.Norma,nor.Clave,n.Id_parametro,p.Parametro,p.Id_matriz,mat.Matriz,p.Id_simbologia,sim.Simbologia,sim.Descripcion,n.Reporte 
 FROM norma_parametros as n
 INNER JOIN sub_normas as nor
 ON n.Id_norma = nor.Id_subnorma
@@ -187,7 +187,7 @@ ON cot.Promedio = prom.Id_promedioCot
 CREATE VIEW ViewCotParam as SELECT 
 param.Id_parametro,param.Id_cotizacion,param.Id_subnorma,param.Extra,param.created_at,param.updated_at,
 param.deleted_at,
-p.Parametro,p.Matriz,p.Simbologia,p.Metodo_prueba,p.Clave_metodo,p.Limite,p.Unidad,p.Tipo_formula,p.Id_tipo_formula
+p.Parametro,p.Matriz,p.Simbologia,p.Metodo_prueba,p.Clave_metodo,p.Limite,p.Unidad,p.Tipo_formula,p.Id_tipo_formula ,param.Reporte
 FROM cotizacion_parametros as param
 INNER JOIN ViewParametros as p
 ON param.Id_subnorma = p.Id_parametro
@@ -661,7 +661,7 @@ INNER JOIN users as us
 on i.Id_reviso = us.id
 
 /* ViewReportesInformesCampo */
-CREATE VIEW ViewReportesInformesCampo as SELECT i.*, u.name as Analizo, us.name as Reviso 
+CREATE VIEW ViewReportesInformesCampo as SELECT i.*, u.name as Autorizo, us.name as Reviso 
 FROM reportes_informes_campo as i 
 INNER JOIN users as u
 ON i.Id_autorizo = u.id

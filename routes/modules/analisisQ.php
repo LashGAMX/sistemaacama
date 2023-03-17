@@ -25,6 +25,7 @@ Route::group(['prefix' => 'analisisQ'], function () {
 
     Route::get('detalle_normas/{id}', [NormaController::class,'show']);
     Route::get('detalle_normas/{id}/{idSub}', [NormaController::class,'details']);
+    Route::post('detalle_normas/setStd', [NormaController::class,'setStd']);
     //Peticiones 
     Route::post('detalle_normas/createNormaParametro', [NormaController::class,'createNormaParametro']);
     Route::post('detalle_normas/getParametro', [NormaController::class,'getParametro']);

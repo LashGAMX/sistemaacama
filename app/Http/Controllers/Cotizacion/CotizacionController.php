@@ -244,18 +244,23 @@ class CotizacionController extends Controller
             ]);
             for ($i = 0; $i < sizeof($res->parametros); $i++) {
                 $subnorma = NormaParametros::where('Id_norma', $res->subnorma)->where('Id_parametro', $res->parametros[$i])->get();
-    
+                $chParam = 0;
                 $extra = 0;
                 if ($subnorma->count() > 0) {
                     $extra = 0;
                 } else {
                     $extra = 1;
                 }
-    
+                if($res->chParam[$i] == "true"){
+                    $chParam = 1;
+                }else{
+                    $chParam = 0;
+                }
                 CotizacionParametros::create([
                     'Id_cotizacion' => $cotizacion->Id_cotizacion,
                     'Id_subnorma' => $res->parametros[$i],
                     'Extra' => $extra,
+                    'Reporte' => $chParam,
                 ]);
             }
             $idCot = $cotizacion->Id_cotizacion;
@@ -448,6 +453,7 @@ class CotizacionController extends Controller
                 'Id_cotizacion' => $res->id,
                 'Id_subnorma' => $res->param[$i]["id"],
                 'Extra' => $extra,
+                'Reporte' => $subnorma[0]->Reporte,
             ]);
         }
         $parametro = DB::table('ViewCotParam')->where('Id_cotizacion', $res->id)->get();
