@@ -198,25 +198,29 @@ function tablePuntos(model, siralab) {
 }
 function setIngresar() {
     console.log("Click en btnIngresar");
-    $.ajax({
-        type: "POST",
-        url: base_url + '/admin/ingresar/setIngresar',
-        data: {
-            idSol: $("#idSol").val(),
-            folio: $("#folio").val(),
-            descarga: $("#descarga").val(),
-            cliente: $("#cliente").val(),
-            empresa: $("#empresa").val(),
-            ingreso: "Establecido",
-            horaRecepcion: $("#hora_recepcion1").val(),
-            horaEntrada: $("#hora_entrada").val(),
-        },
-        dataType: "json",
-        async: false,
-        success: function (response) {
-            console.log(response);
-            alert("Muestra ingresada")
-        }
-    });
+    if ($("#hora_recepcion1").val() != "") {
+        $.ajax({
+            type: "POST",
+            url: base_url + '/admin/ingresar/setIngresar',
+            data: {
+                idSol: $("#idSol").val(),
+                folio: $("#folio").val(),
+                descarga: $("#descarga").val(),
+                cliente: $("#cliente").val(),
+                empresa: $("#empresa").val(),
+                ingreso: "Establecido",
+                horaRecepcion: $("#hora_recepcion1").val(),
+                horaEntrada: $("#hora_entrada").val(),
+            },
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                console.log(response);
+                alert(response.msg)
+            }
+        });
+    }else{
+        alert("Hace falta agregar hora de recepcion")
+    }
 }
 

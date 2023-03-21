@@ -144,7 +144,7 @@
             <thead>
                 <tr>
                     @if (@$tipo == 1)
-                        <td class="tableCabecera bordesTablaBody justificadoCentr" width="45%">PARAMETRO &nbsp;</td>
+                        <td class="tableCabecera bordesTablaBody justificadoCentr" width="35%">PARAMETRO &nbsp;</td>
                     @else
                         <td class="tableCabecera bordesTablaBody justificadoCentr" width="40.9%">PARAMETRO &nbsp;</td>    
                     @endif 
@@ -153,9 +153,10 @@
                         PRUEBA&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="9.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="9.45%">&nbsp;PROMEDIO DIARIO&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" style="font-size: 8x">&nbsp;PROMEDIO MENSUAL&nbsp;&nbsp;</td>
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10%" style="font-size: 8x">&nbsp;PROMEDIO MENSUAL&nbsp;&nbsp;</td>
                     @if (@$tipo == 1)
                         <td class="tableCabecera bordesTablaBody justificadoCentr" width="9%">&nbsp;DECLARACION DE LA CONFORMIDAD &nbsp;&nbsp;</td>
+                        <td class="tableCabecera bordesTablaBody justificadoCentr" width="9%">&nbsp;EVALUACIÓN DE LA CONFORMIDAD &nbsp;&nbsp;</td>
                     @endif
                 </tr>
             </thead>
@@ -205,6 +206,7 @@
                                 {{@$limitesN[$cont]}} 
                             </td>
                         @endif
+                        <td class="tableContent bordesTablaBody">@if (@$ponderado[$cont] <= $limitesN[$cont] ) CUMPLE @else NO CUMPLE @endif</td>
                     </tr>
                     @php $cont++; @endphp
                 @endforeach
@@ -265,7 +267,10 @@
                                         <td class="nombreHeaders fontBold fontSize5 justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
                                     </tr>
                                     <tr>
-                                        <td class="nombreHeaders fontBold fontSize5 justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
+                                        <td class="nombreHeaders fontBold fontSize5 justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto1->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto1->Ph_muestraComp}} FOLIO {{$numOrden1->Folio_servicio}} </td>
+                                    </tr>
+                                    <tr>
+                                        <td class="nombreHeaders fontBold fontSize5 justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto2->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto2->Ph_muestraComp}} FOLIO {{$numOrden2->Folio_servicio}} </td>
                                     </tr>
                                     @php
                                         array_push($temp,$item->Id_simbologia_info);
@@ -323,15 +328,23 @@
                     </tr>
             </tbody>         
         </table>                                                        
-    </div>
-            <div class="contenedorSubPadre12" cellpadding="0" cellspacing="0" border-color="#000000" style="text-align:right;">
-          
-                <br>
-    
-                <span class="revisiones">FO-13-001</span> <br> <span class="revisiones fontSize5">Revisión {{$reportesInformes->Num_rev}}</span>
-            </div>    
-        </div>    
-        <br> <br>
+        </div>
+
+        
+    <div id="contenedorTabla">
+        <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+            <thead>
+                <tr>                    
+                                                                                     
+                </tr>
+
+                <tr>
+                    <td style="text-align: right;"><span class="revisiones">FO-13-001</span> <br> <span class="revisiones">Revisión 5</span></td>
+                </tr>
+            </thead>                        
+        </table>  
+    </div> 
+           
     </footer>
     
 </body>

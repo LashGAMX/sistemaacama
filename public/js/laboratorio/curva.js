@@ -242,7 +242,7 @@ function setCalcular() {
             $("#b").val(response.b.toFixed(5));
             $("#m").val(response.m.toFixed(5));
             $("#r").val(response.r.toFixed(5));
-            
+            buscar();
         }
     });
 }

@@ -395,8 +395,8 @@ class CampoController extends Controller
     public function GuardarTempAmb(Request $request) {
         $model = TemperaturaAmbiente::where('Id_solicitud', $request->idSolicitud)->get();
         for ($i = 0; $i < sizeof($model); $i++) {
-            $model[$i]->Temperatura1 = $request->array1[$i];
-            $model[$i]->TemperaturaSin1 = $request->array2[$i];
+            $model[$i]->Temperatura1 = $request->array2[$i];
+            $model[$i]->TemperaturaSin1 = $request->array1[$i];
             $model[$i]->Fact_apl = $request->factor[$i];
             $model[$i]->Activo = $request->activo[$i];
             $model[$i]->save();

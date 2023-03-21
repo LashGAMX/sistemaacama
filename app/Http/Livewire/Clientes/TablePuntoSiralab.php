@@ -28,8 +28,15 @@ class TablePuntoSiralab extends Component
     public $pozos = 1;
     public $cuerpo = 5;
     public $agua = 11;
+    public $categoria = 0;
     public $latitud;
+    public $gradosLat;
+    public $minutosLat;
+    public $segundosLat;
     public $longitud;
+    public $gradosLong;
+    public $minutosLong;
+    public $segundosLong;
     public $hora;
     public $inicio;
     public $termino;
@@ -47,8 +54,9 @@ class TablePuntoSiralab extends Component
         $cuerpos = DB::table('tipo_cuerpo')->get();
         $uso = DB::table('detalle_tipoCuerpos')->where('Id_tipo',$this->cuerpo)->get();
         $titulos = TituloConsecionSir::where('Id_sucursal',$this->idSuc)->get();
+        $categorias = DB::table('categoria001_2021')->get();
         $model = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal',$this->idSuc)->get();
-        return view('livewire.clientes.table-punto-siralab',compact('model','titulos','cuerpos','uso'));
+        return view('livewire.clientes.table-punto-siralab',compact('model','titulos','categorias','cuerpos','uso'));
     }
 
     public function create()
@@ -63,8 +71,15 @@ class TablePuntoSiralab extends Component
             'Pozos' => $this->pozos,
             'Cuerpo_receptor' => $this->cuerpo,
             'Uso_agua' => $this->agua,
+            'Categoria' => $this->categoria,
             'Latitud' => $this->latitud,
+            'GradosLatitud' => $this->gradosLat,
+            'MinutosLat' => $this->minutosLat,
+            'SegundosLat' => $this->segundosLat,
             'Longitud' => $this->longitud,
+            'GradosLong' => $this->gradosLong,
+            'MinutosLong' => $this->minutosLong,
+            'SegundosLong' => $this->segundosLong,
             'Hora' => $this->hora,
             'F_inicio' => $this->inicio,
             'F_termino' => $this->termino,
@@ -90,8 +105,15 @@ class TablePuntoSiralab extends Component
         $model->Pozos = $this->pozos;
         $model->Cuerpo_receptor = $this->cuerpo;
         $model->Uso_agua = $this->agua;
+        $model->Categoria = $this->categoria;
         $model->Latitud = $this->latitud;
+        $model->GradosLat = $this->gradosLat;
+        $model->MinutosLat = $this->minutosLat;
+        $model->SegudosLat = $this->segundosLat;
         $model->Longitud = $this->longitud;
+        $model->GradosLong = $this->gradosLong;
+        $model->MinutosLong = $this->minutosLong;
+        $model->SegudosLong = $this->segundosLong;
         $model->Hora = $this->hora;
         $model->F_inicio = $this->inicio;
         $model->F_termino = $this->termino;
@@ -104,7 +126,7 @@ class TablePuntoSiralab extends Component
         }
         $this->alert = true;
     }
-    public function setData($idPunto,$punto,$titulo,$anexo,$siralab,$pozos,$cuerpo,$agua,$latitud,$longitud,$hora,$observacion,$inicio,$termino,$status)
+    public function setData($idPunto,$punto,$titulo,$anexo,$siralab,$pozos,$cuerpo,$agua,$categoria,$latitud,$gradosLat,$minutosLat,$segundosLat,$longitud,$gradosLong,$minutosLong,$segundosLong,$hora,$observacion,$inicio,$termino,$status)
     {
         $this->sw = true;
         // $this->resetValidation();
@@ -118,8 +140,15 @@ class TablePuntoSiralab extends Component
         $this->pozos = $pozos;
         $this->cuerpo = $cuerpo;
         $this->agua = $agua;
+        $this->categoria = $categoria;
         $this->latitud = $latitud;
+        $this->gradosLat = $gradosLat;
+        $this->minutosLat = $minutosLat;
+        $this->segundosLat = $segundosLat; 
         $this->longitud = $longitud;
+        $this->gradosLong = $gradosLong;
+        $this->minutosLong = $minutosLong;
+        $this->segundosLong = $segundosLong;
         $this->hora = $hora;
         $this->observacion = $observacion;
         $this->inicio = $inicio;
@@ -150,8 +179,15 @@ class TablePuntoSiralab extends Component
         $this->pozos = 1;
         $this->cuerpo = 5;
         $this->agua = 11;
+        $this->categoria = 0;
         $this->latitud = '';
+        $this->gradosLat = '';
+        $this->minutosLat = '';
+        $this->segundosLat = '';
         $this->longitud = '';
+        $this->gradosLong = '';
+        $this->minutosLong = '';
+        $this->segundosLong= '';
         $this->hora = '';
         $this->inicio = '';
         $this->termino = '';

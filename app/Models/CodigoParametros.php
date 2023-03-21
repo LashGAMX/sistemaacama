@@ -22,6 +22,7 @@ class CodigoParametros extends Model
         'Resultado2',
         'Asignado',
         'Analizo',
+        'Reporte',
         'Cadena',
         'Id_user_c',
         'Id_user_m'

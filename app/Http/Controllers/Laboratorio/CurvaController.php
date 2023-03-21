@@ -109,7 +109,7 @@ class CurvaController extends Controller
         return response()->json($data);
     }
     public function tablaVigencias(Request $request){
-        $model = CurvaConstantes::where('Id_parametro', $request->parametro)->get(); 
+        $model = CurvaConstantes::where('Id_parametro', $request->parametro)->limit(3)->get(); 
 
         $data  = array(
             'model' => $model,

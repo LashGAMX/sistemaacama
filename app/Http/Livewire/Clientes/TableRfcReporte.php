@@ -26,7 +26,6 @@ class TableRfcReporte extends Component
     ];
     protected $messages = [
         'rfc.required' => 'El RFC es un dato requerido',
-        // 'rfc.unique' => 'Este RFC ya se encuentra registrado',
     ]; 
 
     public function render()

@@ -468,6 +468,7 @@ class FqController extends Controller
     }
     public function getDetalleCOT(Request $request) //obtener cuerva
     {
+        $blanco = null;
         $fecha = new Carbon($request->fechaAnalisis);
         $today = $fecha->toDateString();
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();

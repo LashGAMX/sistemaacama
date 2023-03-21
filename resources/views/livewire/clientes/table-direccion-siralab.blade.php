@@ -138,7 +138,7 @@
                         <label for="">Municipio</label>
                             <select class="form-control"   wire:model='municipio' >
                             <option value="1">Sin seleccionar</option> 
-                            @foreach ($municipios as $item)
+                            @foreach (@$municipios as $item)
                                 <option value="{{$item->Id_localidad}}">{{$item->Nombre}}</option>
                             @endforeach
                           </select>

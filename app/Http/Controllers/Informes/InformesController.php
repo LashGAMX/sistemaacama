@@ -26,6 +26,7 @@ use App\Models\TemperaturaMuestra;
 use App\Models\ProcesoAnalisis;
 use App\Models\PuntoMuestreoGen;
 use App\Models\PuntoMuestreoSir;
+use App\Models\ReportesInformes;
 use App\Models\RfcSiralab;
 use App\Models\RfcSucursal;
 use App\Models\SimbologiaParametros;
@@ -142,15 +143,16 @@ class InformesController extends Controller
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
         $informesModel = InformesRelacion::where('Id_solicitud', $idSol)->first();
            
-        if ($informesModel == null){
+        if ($informesModel->count()){
+            $reportesInformes = DB::table('ViewReportesInformes')->where('Id_reporte', $cotModel->Id_reporte)->first();
+            
+        } else {
             $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Historicos (Informe)
             $relacion = InformesRelacion::create([
                 'Id_solicitud' => $idSol,
                 'Tipo' => 1,
                 'Id_reporte' => $reportesInformes->Id_reporte,
             ]);
-        } else {
-            $reportesInformes = DB::table('ViewReportesInformes')->where('Id_reporte', $cotModel->Id_reporte)->first();
         }
         $aux = true;
         foreach ($model as $item) {
@@ -368,27 +370,26 @@ class InformesController extends Controller
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 76,
-            'margin_bottom' => 125,
+            'margin_top' => 5,
+            'margin_bottom' => 5,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
         $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
-        $informesModel = InformesRelacion::where('Id_solicitud', $idSol)->first();
-        if ($informesModel == null){
+        $informesModel = InformesRelacion::where('Id_solicitud', $idSol)->where('Tipo',3)->orderBy('Id_relacion','desc')->get();
+        if ($informesModel->count()){
+            $reportesInformesCampo = DB::table('ViewReportesInformes')->where('Id_reporte',$informesModel[0]->Id_reporte)->first(); //historicos (Campo)
+        } else {
             $reportesInformesCampo = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first();
             InformesRelacion::create([
                 'Id_solicitud' => $idSol,
                 'Tipo' => 3,
-                'Id_reporte' => $informesModel->Id_reporte,
+                'Id_reporte' => $reportesInformesCampo->Id_reporte,
             ]);
-        } else {
-            $reportesInformesCampo = DB::table('informes_relacion')->find($informesModel->Id_reporte); //historicos (Campo)
         }
         
-        $compuesto = CampoCompuesto::where('Id_solicitud',$idSol)->first();
         $aux = true;
         foreach ($model as $item) {
             if ($aux == true) {
@@ -408,6 +409,7 @@ class InformesController extends Controller
             }
         }
         $idSol = $solModel->Id_solicitud;
+        $compuesto = CampoCompuesto::where('Id_solicitud',$idSol)->first();
         //Formatea la fecha; Por adaptar para el informe sin comparacion
         $fechaAnalisis = DB::table('ViewLoteAnalisis')->where('Id_lote', 0)->first();
         //Recupera los datos de la temperatura de la muestra compuesta
@@ -546,7 +548,8 @@ class InformesController extends Controller
         }
         $firma1 = User::find(14);
         $firma2 = User::find(17);
-        $campoCompuesto = CampoCompuesto::where('Id_solicitud', $idSol)->first();
+        $campoCompuesto = CampoCompuesto::where('Id_solicitud', $idSol)->first();   
+        $conducCampo = CodigoParametros::where('Id_solicitud',$idSol)->where('Id_parametro',67)->first();
 
         //Proceso de Reporte Informe
         $gasto = GastoMuestra::where('Id_solicitud',$idSol)->get();
@@ -561,33 +564,41 @@ class InformesController extends Controller
         $promGa = 0;
         $promEcoli = 0;
         $aux = 0;
+
         foreach ($gasto as $item) {
-            $sumGasto = $sumGasto + $item->Promedio;
+            if ($item->Activo == 1) {
+                $sumGasto = $sumGasto + $item->Promedio;
+            }
         }
         foreach ($gasto as $item) {
             array_push($gastoProm, ($item->Promedio / $sumGasto));
         }
+        
         foreach ($phMuestra as $item) { 
             if ($item->Activo == 1) {
-                $promPh = $item->Promedio * $sumGasto;
-                $promGa = $grasasModel[$aux]->Resultado * $sumGasto;
-                @$promEcoli = @$ecoliModel[$aux]->Resultado * $sumGasto;
+                $promPh = $promPh + ($item->Promedio * $gastoProm[$aux]);
+                $promGa = $promGa + ($grasasModel[$aux]->Resultado * $gastoProm[$aux]);
+                @$promEcoli = $promEcoli + (@$ecoliModel[$aux]->Resultado * $gastoProm[$aux]);
+                $promTemp = $promTemp + ($tempMuestra[$aux]->Promedio * $gastoProm[$aux]);
                 $aux++;
             }
         }
-        $promPh = $promPh / $aux;
-        $promGa = $promGa / $aux;
-        @$promEcoli = @$promEcoli / $aux;
-        $aux = 0;
-        foreach ($tempMuestra as $item) {
-            if ($item->Activo == 1) {
-                $promTemp = $item->Promedio * $sumGasto;
-                $aux++;
-            }
-        }
-        $promTemp = $promTemp / $aux;
+        // $promPh = $promPh / $aux;
+        // $promGa = $promGa / $aux;
+        // @$promEcoli = @$promEcoli / $aux;
+        // $promTemp = $promTemp / $aux;
+
+        $limPh = DB::table('limite001_2021')->where('Id_parametro',14)->first();
+        $limTemp = DB::table('limite001_2021')->where('Id_parametro',97)->first();
+        $limCol = DB::table('limite001_2021')->where('Id_parametro',35)->first();
+        $limGa = DB::table('limite001_2021')->where('Id_parametro',13)->first();
 
         $data = array(
+            'conducCampo' => $conducCampo,
+            'limPh' => $limPh,
+            'limTemp' => $limTemp,
+            'limCol' => $limCol,
+            'limGa' => $limGa,
             'compuesto' => $compuesto,
             'ecoliModel' => @$ecoliModel,
             'promEcoli' => @$promEcoli,
@@ -1483,20 +1494,22 @@ class InformesController extends Controller
 
         //historial (informe Mensual)
         $informesModel = DB::table('ViewReportesInformes')->where('Id_solicitud', $idSol1)->where('Id_solicitud2', $idSol2 )->first();
-        if ($informesModel == null){
+        if ($informesModel->count()){
+            $informesReporte = DB::table('ViewReportesInformes')->where('Id_reporte', $informesModel->Id_reporte)->first();
+           
+        } else {
             $informesReporte = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first();
             InformesRelacion::create([
                 'Id_solicitud' => $idSol1,
                 'Id_solicitud2' => $idSol2,
+                'Tipo' => 2,
                 'Id_reporte' => $informesReporte->Id_reporte,
             ]);
-        } else {
-            $informesReporte = DB::table('ViewReportesInformes')->where('Id_reporte', $informesModel->Id_reporte)->first();
         }
         //ViewCodigoParametro
 
-        $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
-        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
+        $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Reporte',1)->orderBy('Parametro', 'ASC')->get();
+        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Reporte',1)->orderBy('Parametro', 'ASC')->get();
 
         $gasto1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
         $gasto2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
@@ -1640,8 +1653,8 @@ class InformesController extends Controller
             $dirTemp = DireccionReporte::where('Id_direccion',$solModel1->Id_direccion)->first();
             $dirReporte = $dirTemp->Direccion;
         }
-        $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
-        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
+        $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Reporte',1)->orderBy('Parametro', 'ASC')->get();
+        $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Reporte',1)->orderBy('Parametro', 'ASC')->get();
 
         $gasto1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
         $gasto2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->where('Id_parametro', 26)->first();
@@ -1781,7 +1794,11 @@ class InformesController extends Controller
             array_push($ponderado, $limP);
             $cont++;
         }
+        $campoCompuesto1 = CampoCompuesto::where('Id_solicitud', $idSol1)->first();
+        $campoCompuesto2 = CampoCompuesto::where('Id_solicitud', $idSol2)->first();
         $data = array(
+            'campoCompuesto1' => $campoCompuesto1,
+            'campoCompuesto2' => $campoCompuesto2,
             'dirReporte' => $dirReporte,
             'ponderado' => $ponderado,
             'rfc' => $rfc,
@@ -1843,10 +1860,14 @@ class InformesController extends Controller
             $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solicitud', $idSol1)->first();
             $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
             $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+            $dirTemp = DB::table('ViewDireccionSir')->where('Id_cliente_siralab',$solModel1->Id_direccion)->first();
+            $dirReporte = @$dirTemp->Calle.' '.@$dirTemp->Num_exterior.' '.@$dirTemp->Num_interior.' '.@$dirTemp->NomEstado.' '.@$dirTemp->NomMunicipio.' '.@$dirTemp->Colonia.' '.@$dirTemp->Colonia.' '.@$dirTemp->Ciudad.' '.@$dirTemp->Localidad;
         } else {
             $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud', $idSol1)->first();
             $rfc = RfcSiralab::where('Id_sucursal', $solModel1->Id_sucursal)->first();
             $titulo = TituloConsecionSir::where('Id_sucursal', $solModel1->Id_sucursal)->first();
+            $dirTemp = DireccionReporte::where('Id_direccion',$solModel1->Id_direccion)->first();
+            $dirReporte = $dirTemp->Direccion;
         }
         $model1 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol1)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
         $model2 = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol2)->where('Num_muestra', 1)->orderBy('Parametro', 'ASC')->get();
@@ -1912,8 +1933,8 @@ class InformesController extends Controller
         $promCol2 = 0;
         for ($i=0; $i < $ph1->count(); $i++) { 
             if ($ph1[$temp]->Activo == 1) {
-                @$promPh1 = $promPh1 + $ph1[$temp]->Promedio;
-                @$promPh2 = $promPh2 + $ph2[$temp]->Promedio;
+                @$promPh1 = $promPh1 + ($promPh1 + $ph1[$temp]->Promedio);
+                @$promPh2 = $promPh2 + ($promPh2 + $ph2[$temp]->Promedio);
                 @$promTemp1 = $promTemp1 + ($tempModel1[$temp]->Promedio * $gastoProm1[$i]);
                 @$promTemp2 = $promTemp2 + ($tempModel2[$temp]->Promedio * $gastoProm2[$i]);
                 @$promGa1 = $promGa1 + ($grasasModel1[$temp]->Resultado * $gastoProm1[$i]);
@@ -1931,6 +1952,7 @@ class InformesController extends Controller
         $limGa = DB::table('limite001_2021')->where('Id_parametro',13)->first();
 
         $data = array(
+            'dirReporte' => $dirReporte,
             'compuesto1' => $compuesto1,
             'compuesto2' => $compuesto2,
             'limCol' => $limCol,

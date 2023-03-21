@@ -119,6 +119,7 @@
                             @foreach ($cuerpos as $item)
                                 <option value="{{$item->Id_tipo}}">{{$item->Cuerpo}}</option>    
                             @endforeach
+                           
                           </select>
                       </div>
                 </div>
@@ -135,16 +136,69 @@
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
-                    <label for="">Latitud</label>
-                    <input type="text" wire:model='latitud' class="form-control" placeholder="Latitud" >
+                        <label for="">Categoria</label>
+                            <select class="form-control" wire:model='categoria' >
+                            <option value="0">Sin seleccionar</option>
+                            @foreach ($categorias as $item)
+                                <option value="{{$item->Id_categoria}}">{{$item->Categoria}}</option>    
+                            @endforeach
+                          </select>
+                      </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Latitud</label>
+                            <input type="text" wire:model='latitud' class="form-control" placeholder="Latitud" >
+                        </div>
+                        <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Grados</label>
+                            <input type="text" wire:model='gradosLat' class="form-control" placeholder="grados" >
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Minutos</label>
+                            <input type="text" wire:model='minutosLat' class="form-control" placeholder="min" >
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Segundos</label>
+                            <input type="text" wire:model='segundosLat' class="form-control" placeholder="seg" >
+                        </div>
+                    </div>
                     </div>
                 </div>
-                <div class="col-md-4">
-                    <div class="form-group">
-                    <label for="">Longitud</label>
-                    <input type="text" wire:model='longitud' class="form-control" placeholder="Longitud" >
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Longitud</label>
+                            <input type="text" wire:model='longitud' class="form-control" placeholder="Latitud" >
+                        </div>
+                        <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Grados</label>
+                            <input type="text" wire:model='gradosLong' class="form-control" placeholder="grados" >
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Minutos</label>
+                            <input type="text" wire:model='minutosLong' class="form-control" placeholder="min" >
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Segundos</label>
+                            <input type="text" wire:model='segundosLong' class="form-control" placeholder="seg" >
+                        </div>
+                    </div>
                     </div>
                 </div>
+
                 <div class="col-md-4">
                     <div class="form-group">
                     <label for="">Hora</label>

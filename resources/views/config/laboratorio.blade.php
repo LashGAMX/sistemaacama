@@ -20,7 +20,7 @@
       <a class="nav-link" id="unidad-tab" data-toggle="tab" href="#unidad" role="tab" aria-controls="unidad" aria-selected="false">Unidad</a>
     </li>
     <li class="nav-item" role="menu">
-      <a class="nav-link" id="localidad-tab" data-toggle="tab" href="#localidad" role="tab" aria-controls="localidad" aria-selected="false">Localidad</a>
+      <a class="nav-link" id="localidad-tab" data-toggle="tab" href="#localidad" role="tab" aria-controls="localidad" aria-selected="false">Municipio</a>
     </li>
   </ul>
   <div class="tab-content" id="myTabContent">

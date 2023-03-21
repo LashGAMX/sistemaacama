@@ -37,7 +37,7 @@ $(document).ready(function () {
                 window.open(base_url+"/admin/informes/exportPdfInformeMensual/"+id1+"/"+id2+"/2");
                 break;
             case "3":
-                window.open(base_url+"/admin/informes/exportPdfInformeMensualCampo/"+id1+"/"+id2);
+                window.open(base_url+"/admin/informes/exportPdfInformeMensualCampo/"+id2+"/"+id1);
                 break;
             default:
                 break;

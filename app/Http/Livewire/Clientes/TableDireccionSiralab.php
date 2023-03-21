@@ -37,6 +37,7 @@ class TableDireccionSiralab extends Component
     public $cp;
     public $localidad;
     public $ciudad;
+    
 
     // Reglas de validación
    
@@ -106,7 +107,7 @@ class TableDireccionSiralab extends Component
     }
     public function setMunicipio()
     {
-        $this->municipios = DB::table('localidades')->where('Id_municipio',$this->estado)->get();
+        $municipios = DB::table('localidades')->where('Id_municipio',$this->estado)->get();
     }
     public function setData($idDireccion,$titulo,$calle,$ext,$int,$estado,$municipio,$colonia,$cp,$localidad,$ciudad,$status)
     {
@@ -114,7 +115,7 @@ class TableDireccionSiralab extends Component
         $this->sw = true;
         // $this->resetValidation();
 
-        $this->municipios = DB::table('localidades')
+        $municipios = DB::table('localidades')
         ->where('Id_localidad',$estado) 
         ->get();
 

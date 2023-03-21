@@ -620,6 +620,7 @@ class SolicitudController extends Controller
                                             'Num_muestra' => $i + 1,
                                             'Asignado' => 0,
                                             'Analizo' => 1,
+                                            'Reporte' => $item->Reporte,
                                         ]);
                                     }
                                 }
@@ -636,6 +637,7 @@ class SolicitudController extends Controller
                                             'Num_muestra' => $i + 1,
                                             'Asignado' => 0,
                                             'Analizo' => 1,
+                                            'Reporte' => $item->Reporte,
                                         ]);
                                     }
                                 }
@@ -651,6 +653,7 @@ class SolicitudController extends Controller
                                         'Asignado' => 0,
                                         'Analizo' => 1,
                                         'Cadena' => 0,
+                                        'Reporte' => $item->Reporte,
                                     ]);
                                 }
                                 break;
@@ -665,6 +668,7 @@ class SolicitudController extends Controller
                                             'Num_muestra' => 1,
                                             'Asignado' => 0,
                                             'Analizo' => 1,
+                                            'Reporte' => $item->Reporte,
                                         ]);
                                     }
                                 } else {
@@ -675,6 +679,7 @@ class SolicitudController extends Controller
                                         'Num_muestra' => 1,
                                         'Asignado' => 0,
                                         'Analizo' => 1,
+                                        'Reporte' => $item->Reporte,
                                     ]);
                                 }
                                 break;
@@ -686,6 +691,7 @@ class SolicitudController extends Controller
                                     'Num_muestra' => 1,
                                     'Asignado' => 0,
                                     'Analizo' => 1,
+                                    'Reporte' => $item->Reporte,
                                 ]);
                                 break; 
                             case 35:
@@ -697,6 +703,7 @@ class SolicitudController extends Controller
                                         'Num_muestra' => 1,
                                         'Asignado' => 0,
                                         'Analizo' => 1,
+                                        'Reporte' => $item->Reporte,
                                     ]);
                                 }
                                 break;
@@ -709,6 +716,7 @@ class SolicitudController extends Controller
                                         'Num_muestra' => 1,
                                         'Asignado' => 0,
                                         'Analizo' => 1,
+                                        'Reporte' => $item->Reporte,
                                     ]);
                                 }
                                 break;
@@ -720,6 +728,7 @@ class SolicitudController extends Controller
                                     'Num_muestra' => 1,
                                     'Asignado' => 0,
                                     'Analizo' => 1,
+                                    'Reporte' => $item->Reporte,
                                 ]);
                                 break;
                         }
@@ -786,10 +795,11 @@ class SolicitudController extends Controller
     {
         $qr = new DNS2D();
         $model = DB::table('ViewSolicitud')->where('Id_cotizacion', $idOrden)->first();
-        $cliente = SucursalCliente::where('Id_sucursal', $model->Id_sucursal)->first();
-        $direccion = DireccionReporte::where('Id_sucursal', $model->Id_sucursal)->first();
-        $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $model->Id_solicitud)->where('Extra', 0)->orderBy('Parametro', 'ASC')->get();
-        $extra = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $model->Id_solicitud)->where('Extra', 1)->orderBy('Parametro', 'ASC')->get();
+        $modTemp = Solicitud::where('Id_cotizacion',$idOrden)->first();
+        $cliente = SucursalCliente::where('Id_sucursal', $modTemp->Id_sucursal)->first();
+        $direccion = DireccionReporte::where('Id_sucursal', $modTemp->Id_sucursal)->first();
+        $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $modTemp->Id_solicitud)->where('Extra', 0)->orderBy('Parametro', 'ASC')->get();
+        $extra = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $modTemp->Id_solicitud)->where('Extra', 1)->orderBy('Parametro', 'ASC')->get();
         $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion', $idOrden)->first();
         $frecuenciaMuestreo = Frecuencia001::where('Id_frecuencia', $cotizacion->Frecuencia_muestreo)->first();
 
