@@ -1262,6 +1262,7 @@ class CampoController extends Controller
         $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud',$id)->get();
         $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
         $muestreador = Usuario::where('id',$solGen->Id_muestreador)->first();
+        $swMateria = SolicitudParametro::where('Id_solicitud',$id)->where('Id_parametro',2)->get();
 
         $recepcion = SeguimientoAnalisis::where('Id_servicio', $id)->first();
 
@@ -1289,7 +1290,7 @@ class CampoController extends Controller
         );
         // var_dump($direccion);
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.hojaCampo',compact('model','tempAmbiente', 'modelCompuesto', 'areaModel','numOrden', 'punto', 'puntos', 'puntoMuestreo', 'phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'paramSolicitudLength', 'recepcion', 'firmaRes', 'direccion'));
+        $html = view('exports.campo.hojaCampo',compact('swMateria','model','tempAmbiente', 'modelCompuesto', 'areaModel','numOrden', 'punto', 'puntos', 'puntoMuestreo', 'phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'paramSolicitudLength', 'recepcion', 'firmaRes', 'direccion'));
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $htmlFooter = view('exports.campo.hojaCampoFooter');        

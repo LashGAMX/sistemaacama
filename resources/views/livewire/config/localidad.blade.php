@@ -13,7 +13,7 @@
             <tr>
                 <th>Id</th>
                 <th>Estado</th>
-                <th>Localidad</th>
+                <th>Localidad</th>   
                 <th>Opc</th>
             </tr>
         </thead>

@@ -171,7 +171,11 @@
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)
-                                    {{@$phMuestra[$i]->Materia}}
+                                    @if ($swMateria->count())
+                                        {{@$phMuestra[$i]->Materia}}
+                                    @else
+                                        ---
+                                    @endif
                                 @else
                                     ---
                                 @endif
@@ -184,9 +188,7 @@
                                 @endif
                             </td>                            
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
-                                @php
-                                    echo number_format(@$tempAmbiente[$i]->Promedio, 0, ".", ",");
-                                @endphp
+                                {{@$tempAmbiente[$i]->Temperatura1}}
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)                           

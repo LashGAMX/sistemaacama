@@ -33,6 +33,7 @@ class IcpImport implements ToCollection
                     'Cps' => $row[39],
                     'Resultado' => $row[37],
                     'Fecha' => $row[14],
+                    'Analizo' => Auth::user()->id,
                 ]);
                 $codigo = CodigoParametros::find($codTemp[0]->Id_codigo);
                 $codigo->Asignado = 1;
@@ -45,6 +46,7 @@ class IcpImport implements ToCollection
                     'Cps' => $row[39],
                     'Resultado' => $row[37],
                     'Fecha' => $row[14],
+                    'Analizo' => Auth::user()->id,
                 ]);
             }
         }
@@ -74,7 +76,7 @@ class IcpImport implements ToCollection
                 break;
             case 'Zn':
                 # code...
-                $id = 206;
+                $id = 227;
                 break;
             case 'As':
                 # code...

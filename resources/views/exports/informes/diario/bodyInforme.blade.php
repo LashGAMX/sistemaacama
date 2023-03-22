@@ -144,15 +144,15 @@
                         <br> BIENES NACIONALES.
                         @break
                         @case(27)
-                        DE ACUERDO A NOM-001-SEMARNAT-2021
-                        @if (@$solModel->Id_muestra == 1)
-                        INSTANTANEA
-                        @else
-                        COMPUESTA
-                        @endif
-                        TIPO "{{@$tipoReporte->Tipo}}", {{@$tipoReporte->Cuerpo}} - {{$tipoReporte->Detalle}} QUE ESTABLECE
-                        LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN AGUAS Y
-                        <br> BIENES NACIONALES.
+                            DE ACUERDO A NOM-001-SEMARNAT-2021
+                            @if (@$solModel->Id_muestra == 1)
+                              INSTANTANEA
+                            @else
+                             COMPUESTA
+                            @endif
+                                TIPO "{{@$tipoReporte->Tipo}}", {{@$tipoReporte->Cuerpo}} - {{$tipoReporte->Detalle}} QUE ESTABLECE
+                                LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES EN AGUAS Y
+                            <br> BIENES NACIONALES.
                         @break
                         @case(2)
                         DE ACUERDO A NOM-002-SEMARNAT-1996 PARA MUESTRA
@@ -234,11 +234,23 @@
                             <td class="tableContent bordesTablaBody">{{@$item->Clave_metodo}}</td>
                             <td class="tableContent bordesTablaBody">{{@$item->Unidad}}</td>
                             <td class="tableContent bordesTablaBody">
-                                {{@$limitesC[$i]}}
+                                @switch($item->Id_parametro)
+                                    @case(64)
+                                        {{$campoCompuesto->Cloruros}}
+                                        @break
+                                    @default
+                                    {{@$limitesC[$i]}}
+                                @endswitch
                             </td>
                             @if ($tipo == 1)
                                 <td class="tableContent bordesTablaBody">
-                                    {{ @$limitesN[$i] }}
+                                    @switch($item->Id_parametro)
+                                        @case(64)
+                                            {{"N/A"}}
+                                        @break
+                                        @default
+                                        {{ @$limitesN[$i] }}
+                                    @endswitch
                                 </td>
                             @endif
                             <td class="tableContent bordesTablaBody">
@@ -261,8 +273,8 @@
             <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                 <tbody>            
                         <tr>
-                            <td class="nombreHeader nom fontSize11 justificadorIzq" height="57">
-                                OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm->Resultado2}}°C, @php if(@swOlor == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR " .@$color;} else{ echo "LA MUESTRA PRESENTA COLOR ".@$color; }@endphp
+                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:2px">
+                                OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, @php if(@swOlor == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR " .@$color;} else{ echo "LA MUESTRA PRESENTA COLOR ".@$color; }@endphp
                                 EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
                                 {{@$obsCampo}}
                             </td>
@@ -295,8 +307,10 @@
                 <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                     <tbody>            
                             <tr>
-                                <td class="nombreHeaders fontBold fontSize9 justificadorIzq">{{$reportesInformes->Nota}}
-        
+                                <td class="nombreHeaders fontBold fontSize9 justificadorIzq">
+                                    @php
+                                        echo $reportesInformes->Nota;
+                                    @endphp
                                 </td>
                             </tr>                
                     </tbody>         

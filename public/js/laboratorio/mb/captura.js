@@ -185,7 +185,7 @@ function getLoteCapturaMicro() {
                             tab +='</label>';
                             tab += '</div>';
                             tab += '</div">';
-                        for (let i = 0; i < response.indice[cont]; i++){
+                        for (let i = 0; i < response.indice; i++){
                             tab +='<div class="row">'
                             tab +='<div class="col-md-12">'
                             tab += '<button type="button" id="col'+i+'" '+status+' class="'+clase+'" onclick="getDetalleEcoli(' + item.Id_detalle + ', '+(i+1)+');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
@@ -320,12 +320,12 @@ function operacionColAlimentos(idDetalle){
     var presuntiva2 = $("#pres148").val();
     var confir1 = $("#confir124").val();
     var confir2 = $("#confir148").val();
-    if (presuntiva2 > presuntiva1)
+    if (presuntiva2 < presuntiva1)
     {
-        alert("La presuntiva de 48hrs no puede ser mayor a la de 24hrs")
-    }else if (confir2 > confir1)
+        alert("La presuntiva de 24hrs no puede ser mayor a la Presuntiva de 48hrs")
+    }else if (confir2 < confir1)
     {
-        alert("La confirmativas de 48hrs no puede ser mayor a la de 24hrs")
+        alert("La confirmativas de 24hrs no puede ser mayor a la Confirmativa de 48hrs")
     }
     else{
 

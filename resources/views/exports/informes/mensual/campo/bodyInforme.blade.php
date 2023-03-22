@@ -100,7 +100,7 @@
                             @endif
                             @if ($item->Activo == 1)
                                 <td class="tableContent bordesTablaBody">{{round($item->Promedio,2)}}</td>
-                                <td class="tableContent bordesTablaBody">{{round($gastoProm1[$cont],2)}}</td>
+                                <td class="tableContent bordesTablaBody">{{round($gastoModel1[$cont]->Promedio,2)}}</td>
                                 @if ($cont == 0)
                                 <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}"> {{number_format(round($promPh1,2), 2, ".", ",")}}</td>
                                 @endif
@@ -118,7 +118,7 @@
                             @endif
                             @if ($item->Activo == 1)
                                 <td class="tableContent bordesTablaBody">{{round($ph2[$cont]->Promedio,2)}}</td>
-                                <td class="tableContent bordesTablaBody">{{round($gastoProm2[$cont],2)}}</td>
+                                <td class="tableContent bordesTablaBody">{{round($gastoModel2[$cont]->Promedio,2)}}</td>
                                 @if ($cont == 0)
                                     <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}"> {{number_format(round($promPh2,2), 2, ".", ",")}}</td>
                                 @endif
@@ -184,7 +184,7 @@
                             @endif
                             @if ($item->Activo == 1)
                                 <td class="tableContent bordesTablaBody">{{round($item->Promedio,2)}}</td>
-                                <td class="tableContent bordesTablaBody">{{round($gastoProm1[$cont],2)}}</td>
+                                <td class="tableContent bordesTablaBody">{{round($gastoModel1[$cont]->Promedio,2)}}</td>
                                 @if ($cont == 0)
                                     <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}"> {{round($promTemp1)}}</td>
                                 @endif
@@ -202,7 +202,7 @@
                             @endif
                             @if ($item->Activo == 1)
                                 <td class="tableContent bordesTablaBody">{{round($tempModel2[$cont]->Promedio,2)}}</td>
-                                <td class="tableContent bordesTablaBody">{{round($gastoProm2[$cont],2)}}</td>
+                                <td class="tableContent bordesTablaBody">{{round($gastoModel2[$cont]->Promedio,2)}}</td>
                                 @if ($cont == 0)
                                 <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}"> {{round($promTemp2)}}</td>
                                 @endif
@@ -265,7 +265,7 @@
                             @endif
                             @if ($item->Activo == 1)
                                 <td class="tableContent bordesTablaBody">{{number_format($grasasModel1[$aux]->Resultado, 2, ".", ",")}}</td>
-                                <td class="tableContent bordesTablaBody">{{round($gastoProm1[$cont],2)}}</td>
+                                <td class="tableContent bordesTablaBody">{{round($gastoModel1[$cont]->Promedio,2)}}</td>
                                 @if ($cont == 0)
                                     <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{number_format(round($promGa1,2), 2, ".", ",")}}</td>
                                 @endif
@@ -283,7 +283,7 @@
                             @endif
                             @if ($item->Activo == 1)
                                 <td class="tableContent bordesTablaBody">{{number_format($grasasModel2[$aux]->Resultado, 2, ".", ",")}}</td>
-                                <td class="tableContent bordesTablaBody">{{round($gastoProm2[$cont],2)}}</td>
+                                <td class="tableContent bordesTablaBody">{{round($gastoModel2[$cont]->Promedio,2)}}</td>
                                 @if ($cont == 0)
                                  <td class="tableContent bordesTablaBody" rowspan="{{$ph1->count()}}">{{number_format(round($promGa2,2), 2, ".", ",")}}</td>
                                 @endif
@@ -346,7 +346,7 @@
                         @endif
                         @if ($item->Activo == 1)
                             <td class="tableContent bordesTablaBody">{{round($colModel1[$aux]->Resultado,2)}}</td>
-                            <td class="tableContent bordesTablaBody">{{round($gastoProm1[$cont],2)}}</td>
+                            <td class="tableContent bordesTablaBody">{{round($gastoModel1[$cont]->Promedio,2)}}</td>
                         @else
                             <td class="tableContent bordesTablaBody">----</td>
                             <td class="tableContent bordesTablaBody">----</td>
@@ -358,7 +358,7 @@
                         @endif
                         @if ($item->Activo == 1)
                         <td class="tableContent bordesTablaBody">{{round($colModel2[$aux]->Resultado,2)}}</td>
-                            <td class="tableContent bordesTablaBody">{{round($gastoProm2[$cont],2)}}</td>
+                            <td class="tableContent bordesTablaBody">{{round($gastoModel2[$cont]->Promedio,2)}}</td>
                         @else
                             <td class="tableContent bordesTablaBody">----</td>
                             <td class="tableContent bordesTablaBody">----</td>

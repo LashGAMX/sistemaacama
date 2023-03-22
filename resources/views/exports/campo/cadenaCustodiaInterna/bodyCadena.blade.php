@@ -129,234 +129,36 @@
             <div class="col-12">
                 2. {{$reportesCadena->Seccion2}}
             </div>
-            <div class="divFlex">
-                <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}"
-                    cellpadding="0" cellspacing="0" width="100%">
-                    <tbody>
+            <div id="contenedorTabla" >
+                <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}" cellpadding="0" cellspacing="0" width="100%">
+                    <thead>
                         <tr>
-                            <td style="width: 30%;">
-                                <table id="tabPara"
-                                    class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}"
-                                    cellpadding="0" cellspacing="0" width="100%" border="1">
-                                    <thead>
-                                        <tr>
-                                            <th>Parametro</th>
-                                            <th>Resultado</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @for ($i = 0; $i < 12; $i++) 
-                                            @if (@$paramResultado[$i]->Id_area != 9)
-                                                @if ($paramResultado[$i]->Resultado2 != NULL)
-                                                    @php
-                                                    a:
-                                                @endphp
-                                                    @if (@$paramResultado[$i]->Id_parametro == 12 || @$paramResultado[$i]->Id_parametro == 13)
-                                                    <tr>
-                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                                            {{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}
-                                                        </td>
-                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                                            @if (@$paramResultado[$i]->Resultado > @$paramResultado[$i]->Limite) 
-                                                                {{@$paramResultado[$i]->Resultado}}
-                                                            @else
-                                                                < {{@$paramResultado[$i]->Limite}}
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    @else
-                                                    @if (@$paramResultado[$i]->Id_parametro == 2) {{@$paramResultado[$i]->Resultado2}}
-                                                    @else
-                                                    <tr>
-                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                                            {{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}
-                                                        </td>
-                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                                            @if (@$paramResultado[$i]->Resultado2 > @$paramResultado[$i]->Limite)
-                                                                {{@$paramResultado[$i]->Resultado2}}
-                                                            @else
-                                                                < {{@$paramResultado[$i]->Limite}}
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                    @endif
-                                                    @endif        
-                                                @else
-                                                    @switch($paramResultado[$i]->Id_parametro)
-                                                        @case(13)
-                                                            @php
-                                                                goto a;
-                                                            @endphp
-                                                            @break
-                                                        @case(12)
-                                                            @php
-                                                                goto a; 
-                                                            @endphp
-                                                            @break
-                                                        @default
-                                                        <tr>
-                                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%"> {{$paramResultado[$i]->Parametro}}</td>
-                                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">----</td>
-                                                        </tr>
-                                                    @endswitch
-                                                @endif
-                                            @endif
-                                        @endfor
-                                    </tbody>
-                                </table>
-                            </td>
-                            <td style="width: 30%;">
-                                <table id="tabPara"
-                                    class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}"
-                                    cellpadding="0" cellspacing="0" width="100%" border="1">
-                                    <thead>
-                                        <tr>
-                                            <th>Parametro</th>
-                                            <th>Resultado</th>
-                                        </tr>   
-                                    </thead>
-                                    <tbody>
-                                        @for ($i = 12; $i < 25; $i++) @if (@$paramResultado[$i]->Id_area != 9)
-                                                @if ($paramResultado[$i]->Resultado2 != NULL)
-                                                    @php
-                                                        b:
-                                                    @endphp
-                                                    @if (@$paramResultado[$i]->Id_parametro == 12 || @$paramResultado[$i]->Id_parametro == 13)
-                                                        <tr>
-                                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                                                {{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}
-                                                            </td>
-                                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                                                @if (@$paramResultado[$i]->Resultado > @$paramResultado[$i]->Limite)
-                                                                    {{@$paramResultado[$i]->Resultado}}
-                                                                @else
-                                                                    < {{@$paramResultado[$i]->Limite}}
-                                                                @endif
-                                                            </td>
-                                                        </tr>
-                                                        @else
-                                                        <tr>
-                                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                                                {{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}
-                                                            </td>
-                                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                                                @if (@$paramResultado[$i]->Id_parametro == 2)
-                                                                    @if (@$paramResultado[$i]->Resultado2 == 1)
-                                                                    PRESENTE
-                                                                    @else
-                                                                    AUSENTE
-                                                                    @endif
-                                                                @else
-                                                                    @if (@$paramResultado[$i]->Resultado2 > @$paramResultado[$i]->Limite)
-                                                                        {{@$paramResultado[$i]->Resultado2}}
-                                                                    @else
-                                                                        < {{@$paramResultado[$i]->Limite}}
-                                                                    @endif
-                                                                @endif
-                                                            </td>
-                                                        </tr>
-                                                    @endif
-                                                @else
-                                                    @switch($paramResultado[$i]->Id_parametro)
-                                                        @case(13)
-                                                            @php
-                                                                goto b;
-                                                            @endphp
-                                                            @break
-                                                        @case(12)
-                                                            @php
-                                                               goto b; 
-                                                            @endphp
-                                                            @break
-                                                        @default
-                                                        <tr>
-                                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%"> {{$paramResultado[$i]->Parametro}}</td>
-                                                            <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">----</td>
-                                                        </tr>
-                                                    @endswitch
-                                                @endif
-                                            @endif
-                                        @endfor
-                                    </tbody>
-                                </table>
-                            </td>
-                            <td style="width: 30%;">
-                                <table id="tabPara"
-                                    class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}"
-                                    cellpadding="0" cellspacing="0" width="100%" border="1">
-                                    <thead>
-                                        <tr>
-                                            <th>Parametro</th>
-                                            <th>Resultado</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        @for ($i = 25; $i < sizeof(@$paramResultado); $i++) @if (@$paramResultado[$i]-> Id_area != 9)
-                                            @if ($paramResultado[$i]->Resultado2 != NULL)
-                                                @php
-                                                    c:
-                                                @endphp
-                                                @if (@$paramResultado[$i]->Id_parametro == 12 || @$paramResultado[$i]->Id_parametro == 13)
-                                                    <tr>
-                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                                            {{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}
-                                                        </td>
-                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                                            @if (@$paramResultado[$i]->Resultado > @$paramResultado[$i]->Limite)
-                                                                {{@$paramResultado[$i]->Resultado}}
-                                                            @else
-                                                                < {{@$paramResultado[$i]->Limite}}
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                @else
-                                                    <tr>
-                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                                            {{@$paramResultado[$i]->Parametro}} {{@$paramResultado[$i]->Unidad}}
-                                                        </td>
-                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">
-                                                            @if (@$paramResultado[$i]->Id_parametro == 2 || @$paramResultado[$i]->Id_parametro == 14)
-                                                                {{@$paramResultado[$i]->Resultado2}}
-                                                            @else
-                                                                @if (@$paramResultado[$i]->Resultado2 > @$paramResultado[$i]->Limite)
-                                                                    {{@$paramResultado[$i]->Resultado2}}
-                                                                @else
-                                                                    < {{@$paramResultado[$i]->Limite}}
-                                                                @endif
-                                                            @endif
-                                                        </td>
-                                                    </tr>
-                                                @endif
-                                            @else
-                                                @switch($paramResultado[$i]->Id_parametro)
-                                                    @case(13)
-                                                        @php
-                                                            goto c;
-                                                        @endphp
-                                                        @break
-                                                    @case(12)
-                                                        @php
-                                                        goto c; 
-                                                        @endphp
-                                                        @break
-                                                    @default
-                                                    <tr>
-                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%"> {{$paramResultado[$i]->Parametro}}</td>
-                                                        <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8" style="padding: 0.4%">----</td>
-                                                    </tr>
-                                                @endswitch
-                                            @endif
-                                        @endif  
-                                        @endfor
-                                    </tbody>
-                                </table>
-                            </td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8px">Parametro</td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8PX">Resultado</td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8px">Parametro</td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8PX">Resultado</td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8px">Parametro</td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8PX">Resultado</td>
                         </tr>
-                    </tbody>
+                    </thead>
+                    <tbody>
+                        @php
+                            $temp = ceil($paramResultadoLength / 3);
+                        @endphp
+                        @for ($i = 0; $i < $temp; $i++)
+                            <tr>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$resInfo[$i]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$paramResultado[$i + $temp]->Parametro}} - {{@$paramResultado[$i + $temp]->Num_muestra}} {{@$paramResultado[$i + $temp]->Unidad}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$resInfo[$i + $temp]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$paramResultado[$i + ($temp * 2)]->Parametro}} - {{@$paramResultado[$i + ($temp * 2)]->Num_muestra}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$resInfo[$i + ($temp * 2)]}}</td>
+                            </tr>
+                        @endfor
+                    </tbody> 
                 </table>
+            
             </div>
-
-
 
             <br>
 

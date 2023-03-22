@@ -180,33 +180,49 @@
                         <td class="tableContent bordesTablaBody">
                             @switch($item->Id_parametro)
                                 @case(14)
-                                    @php
-                                        $lim = explode("-",@$limitesN[$cont]);
-                                    @endphp        
-                                        @if (@$ponderado[$cont] >= $lim[0] && @$ponderado[$cont] <= $lim[1] )
-                                            {{@$ponderado[$cont]}}
-                                        @else
-                                            {{$lim[1]}}
-                                        @endif
+                                    {{@$ponderado[$cont]}}
                                     @break
                                 @default
-                                    @if (@$item->Limite == "N.A")
-                                    @if (@$ponderado[$cont] <= @$item->Limite)
-                                        {{@$ponderado[$cont]}}
-                                    @else
-                                        < {{@$item->Limite}}
-                                    @endif
+                                    @if (@$item->Limite != "N.A")
+                                        @if (@$ponderado[$cont] <= @$item->Limite)
+                                            < {{@$item->Limite}}
+                                        @else
+                                            {{@$ponderado[$cont]}}
+                                        @endif
                                     @else
                                         {{@$ponderado[$cont]}}
                                     @endif
                             @endswitch
                         </td>
+                        @php
+                            $aux = 0;
+                        @endphp
                         @if (@$tipo == 1)
                             <td class="tableContent bordesTablaBody">
-                                {{@$limitesN[$cont]}} 
+                                @if (@$limitesN[$cont] == "N.N" || @$limitesN[$cont] == "N/A")
+                                     @php
+                                         $aux = 1;
+                                     @endphp
+                                 @endif
+                                {{@$limitesN[$cont]}}
                             </td>
                         @endif
-                        <td class="tableContent bordesTablaBody">@if (@$ponderado[$cont] <= $limitesN[$cont] ) CUMPLE @else NO CUMPLE @endif</td>
+                        <td class="tableContent bordesTablaBody">
+                            @if ($aux == 1)
+                                ---
+                            @else
+                                @switch($item->Id_parametro)
+                                    @case(14)
+                                        @php
+                                            $tempPh = explode('-',$limitesN[$cont]); 
+                                        @endphp
+                                            @if (@$ponderado[$cont] >= $tempPh[0] && @$ponderado[$cont] <= $tempPh[1]) CUMPLE @else NO CUMPLE @endif
+                                        @break
+                                    @default
+                                        @if (@$ponderado[$cont] <= $limitesN[$cont] ) CUMPLE @else NO CUMPLE @endif
+                                @endswitch
+                            @endif
+                        </td>
                     </tr>
                     @php $cont++; @endphp
                 @endforeach

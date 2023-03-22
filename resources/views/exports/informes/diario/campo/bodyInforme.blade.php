@@ -130,7 +130,7 @@
         </table>
     </div>
     
-    <p style="font-size: 6px">Cloruros: {{$compuesto->Cloruros}} &nbsp;&nbsp;&nbsp;&nbsp; Conductividad: {{$conducCampo->Resultado2}}</p>
+    <p style="font-size: 8px; font-weight: 100">Cloruros (mg/L): {{$compuesto->Cloruros}} &nbsp;&nbsp;&nbsp;&nbsp; Conductividad Promedio (µS/cm): {{$conducCampo->Resultado2}}</p>
 
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0"
@@ -216,7 +216,8 @@
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;N. MUESTRA&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;UNIDADES DE pH&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/s&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
+                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO &nbsp;</td>       
+                    <td class="tableCabecera bordesTablaBody justificadoCentr"  width="10.6%">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td>
                 </tr>
             </thead>
@@ -238,7 +239,11 @@
                         @endif
                         @if ($aux == 0)
                             <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$promPh}}</td>
-                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promPh,2) <= $limPh->Pm ) CUMPLE @else NO CUMPLE @endif</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$limPh->Pm }}</td>
+                            @php
+                                $auxPh = explode('-',$limPh->Pm);
+                            @endphp
+                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promPh,2) >= $auxPh[0] && round($promPh,2) <= $auxPh[1] ) CUMPLE @else NO CUMPLE @endif</td>
                         @endif
                    </tr>
                    @php
@@ -258,7 +263,8 @@
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;N. MUESTRA&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;TEMPERATURA <br> DEL AGUA °C&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/s&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
+                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO &nbsp;</td>       
+                    <td class="tableCabecera bordesTablaBody justificadoCentr"  width="10.6%">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td>
                 </tr>
             </thead>
@@ -280,7 +286,9 @@
                         @endif
                         @if ($aux == 0)
                             <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$promTemp}}</td>
-                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promTemp,2) <= $limTemp->Pm ) CUMPLE @else NO CUMPLE @endif</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$limTemp->Pm}}</td>
+                          
+                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promTemp,2) <= $limTemp->Pm) CUMPLE @else NO CUMPLE @endif</td>
                         @endif
                    </tr>
                    @php
@@ -300,7 +308,8 @@
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;N. MUESTRA&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;CONCENTRACION mg/L&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/s&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
+                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO &nbsp;</td>       
+                    <td class="tableCabecera bordesTablaBody justificadoCentr"  width="10.6%">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td>
                 </tr>
             </thead>
@@ -321,7 +330,8 @@
                             <td class="tableContent bordesTablaBody">----</td>
                         @endif
                         @if ($aux == 0)
-                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$promGa}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{round($promGa,2)}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$limGa->Pm}}</td>
                             <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promGa,2) <= $limGa->Pm ) CUMPLE @else NO CUMPLE @endif</td>
                         @endif
                    </tr>
@@ -343,7 +353,8 @@
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;N. MUESTRA&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;NMP/100 mL&nbsp;&nbsp;</td>
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;GASTO L/s&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
+                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;PROMEDIO DIARIO &nbsp;</td>       
+                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;DECLARACION DE LA CONFORMIDAD  &nbsp;&nbsp;</td>       
                     <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">EVALUACIÓN DE LA CONFORMIDAD</td>
                 </tr>
             </thead>
@@ -365,6 +376,7 @@
                         @endif
                         @if ($aux == 0)
                             <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{@$promEcoli}}</td>
+                            <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">{{$limCol->Pm}}</td>
                             <td class="tableContent bordesTablaBody" rowspan="{{$phMuestra->count()}}">@if (round($promEcoli,2) <= $limCol->Pm ) CUMPLE @else NO CUMPLE @endif</td>
                         @endif
                 </tr>
@@ -396,7 +408,8 @@
     </div>     --}}
         
    
-
+<br>
+<br>
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <thead>
