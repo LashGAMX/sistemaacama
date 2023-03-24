@@ -216,7 +216,7 @@ function curvaHijos(){
         async: false,
         success: function (response) {
             console.log(response);
-                swal("Correcto!", "Se replicó BMR!", "success")
+            swal("Correcto!", "Se replicó BMR!", "success");
         }
     });
 

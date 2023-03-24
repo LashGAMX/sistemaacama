@@ -155,12 +155,7 @@
                     @for ($i = 0; $i < @$model->Num_tomas; $i++)
                         <tr>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">{{$i + 1}}</td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">{{\Carbon\Carbon::parse(@$phMuestra[$i]->Fecha)->format('d/m/Y')}} 
-                                @php
-                                    $fecha = @$phMuestra[$i]->Fecha;
-                                    $hora = date("H:i:s", strtotime($fecha));
-                                    echo $hora
-                                @endphp
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">{{\Carbon\Carbon::parse(@$phMuestra[$i]->Fecha)}}
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$gastoMuestra[$i]->Activo == 1)
@@ -258,7 +253,7 @@
                     </tr>
 
                     <tr>
-                        <td colspan="2" class="bordesTablaInfIzqDer">Fecha y hora de recepción en Lab: {{\Carbon\Carbon::parse(@$recepcion->created_at)->format('d/m/Y')}}</td>
+                        <td colspan="2" class="bordesTablaInfIzqDer">Fecha y hora de recepción en Lab: {{\Carbon\Carbon::parse(@$recepcion->created_at)}}</td>
                         <td colspan="2" class="bordesTablaSupInfDer">Fecha y hora de conformación de la muestra: 
                             {{\Carbon\Carbon::parse(@$phMuestra[@$model->Num_tomas - 1]->Fecha)->addMinutes(30)->format('d/m/Y H:i:s')}}
                         </td>

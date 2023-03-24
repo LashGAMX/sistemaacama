@@ -291,7 +291,7 @@
                                         style="width: 60%;border: none;" disabled>
                                 </div>
                                 <div class="col-md-4">
-                                    <button type="button" id="btnSetParametro" onclick="getParametrosSelected()" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-save"></i> Agragar</button>
+                                    <button type="button" id="btnSetParametro" onclick="getParametrosSelected()" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-save"></i> Agragar y/o Eliminar</button>
                                 </div>
                             </div>
                         </div>

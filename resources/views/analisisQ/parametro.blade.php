@@ -27,7 +27,7 @@
       </div>
 </div>
 
-<div class="modal fade" id="modalParametro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="modalParametro" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
@@ -106,6 +106,16 @@
                     </select>
                     </div>
               </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                    <label for="">Método</label>
+                    <select class="form-control select2"  id="metodo" style="width: 100%;">
+                    @foreach ($metodos as $item)
+                        <option value="{{$item->Id_metodo}}">{{$item->Metodo_prueba}} ({{$item->Clave_metodo}})</option>
+                    @endforeach
+                  </select>
+                  </div>
+            </div>
               <div class="col-md-3">
                   <div class="form-group">
                       <label for="limite">Límite Cuantificación</label>
@@ -128,16 +138,6 @@
                       <select class="form-control" id="rama">
                       @foreach ($ramas as $item)
                           <option value="{{$item->Id_rama}}">{{$item->Rama}}</option>
-                      @endforeach
-                    </select>
-                    </div>
-              </div>
-              <div class="col-md-3">
-                  <div class="form-group">
-                      <label for="">Método</label>
-                      <select class="form-control" id="metodo">
-                      @foreach ($metodos as $item)
-                          <option value="{{$item->Id_metodo}}">{{$item->Clave_metodo}}</option>
                       @endforeach
                     </select>
                     </div>

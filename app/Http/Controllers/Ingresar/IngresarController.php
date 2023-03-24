@@ -105,7 +105,7 @@ class IngresarController extends Controller
         $date2 = new DateTime($muestra->Fecha);
         $diff = $date1->diff($date2);
         $valProce = ProcesoAnalisis::where('Id_solicitud',$request->idSol)->get();
-        if($valProce->count()){
+        if($valProce->count() > 0){ 
             if ($date1 >= $date2) {
                 if($diff->days > 2){
                     $msg = "La fecha de recepcion sobrepasa el limite lo permitido";
@@ -150,6 +150,7 @@ class IngresarController extends Controller
    
 
         $array = array(
+            'valProce' => $valProce,
             'fecha' => $diff->days,
             'msg' => $msg,
             'sw' => $sw,

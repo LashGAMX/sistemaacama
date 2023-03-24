@@ -4116,7 +4116,7 @@ class InformesController extends Controller
             1,
             array(215, 280),
             array(0, 0),
-        );
+        ); 
 
         $model = DB::table('ViewSolicitud')->where('Id_solicitud', $idSol)->first();
 
@@ -4228,8 +4228,9 @@ class InformesController extends Controller
             array_push($fechasSalidas, $fechaTemp);
         }
         $promGra = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->where('Num_muestra', 1)->first();
-        $promCol = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 12)->where('Num_muestra', 1)->first();
         $promGas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 26)->where('Num_muestra', 1)->first();
+
+        $promCol = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 12)->where('Num_muestra', 1)->first();
 
         $resInfo = array();
         $resTemp = 0;
@@ -4246,7 +4247,7 @@ class InformesController extends Controller
                     break;
                 case 2:
                     if ($item->Resultado2 == 1) {
-                        $resTemp = "PRESENTE";
+                        $resTemp = "PRESENTE"; 
                     }else{
                         $resTemp = "AUSENTE";
                     }
@@ -4255,10 +4256,14 @@ class InformesController extends Controller
                     $resTemp = $item->Resultado2;
                     break;
                 default:
-                    if ($item->Resultado2 >= $item->Limite) {
-                        $resTemp = $item->Resultado2;
-                    }else{
-                        $resTemp = "< ".$item->Limite;
+                    if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {    
+                        $resTemp = "----";
+                    } else {
+                        if ($item->Resultado2 >= $item->Limite) {
+                            $resTemp = $item->Resultado2;
+                        }else{
+                            $resTemp = "< ".$item->Limite;
+                        }
                     }
                     break;
             }

@@ -255,7 +255,7 @@ function getDetalleAnalisis(idCodigo) {
                             tab += '</tr>';
                         }
                     });
-                    resLiberado = aux;
+                    resLiberado = aux.toFixed(2);
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
@@ -389,8 +389,8 @@ function getDetalleAnalisis(idCodigo) {
                             tab += '<td>' + item.Resultado + '</td>';
                             tab += '</tr>';
                         });
+                        resLiberado = (response.aux);
                     }
-                    resLiberado = (response.aux);
                     tab += '    </tbody>';
                     tab += '</table>'; 
                     tabla.innerHTML = tab;
@@ -631,7 +631,7 @@ function getDetalleAnalisis(idCodigo) {
                             });   
                             resLiberado = (aux / cont).toFixed(2);
                         }
-                    } else if (response.codigoModel.Id_parametro == 97) { // Temperatura
+                    } else if (response.codigoModel.Id_parametro == 97 || response.codigoModel.Id_parametro == 100) { // Temperatura
                         aux = 0;
                         cont = 0;
                         if ($("#idNorma").val() == "27") {
@@ -646,7 +646,7 @@ function getDetalleAnalisis(idCodigo) {
                                     cont++;
                                 }
                             });   
-                            resLiberado = (aux).toFixed(2);
+                            resLiberado = (aux).toFixed();
                         } else {
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';

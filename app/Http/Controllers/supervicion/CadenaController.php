@@ -49,7 +49,7 @@ class CadenaController extends Controller
     {
         $sw = true;
         $model = CodigoParametros::where('Id_codigo', $res->idCod)->first();
-        $model->Resultado2 = round($res->resLiberado, 3);
+        $model->Resultado2 = $res->resLiberado;
         $model->Cadena = 1;
         $model->save();
         $data = array(

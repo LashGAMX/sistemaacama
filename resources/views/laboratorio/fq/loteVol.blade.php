@@ -498,8 +498,7 @@
               {{-- PROCEDIMIENTO --}}
               <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">                                
               
-                
-                <div id="divSummer">
+              <div id="divSummer">
                   <div id="summernote">
                         @if (isset($textoRecuperado))
                         @php
@@ -512,8 +511,7 @@
                     @endif       
                   </div>
                 </div>
-             
-                
+
                 <button type="button" class="btn btn-primary" onclick='guardarTexto("idLoteHeader");'>Guardar</button>
               </div>
               {{-- PROCEDIMIENTO FIN --}}

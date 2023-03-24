@@ -100,7 +100,7 @@ function getPreReporteMensual()
                 tab += '<td>'+prom+'</td>';
                 tab += '<td></td>';
                 tab += '<td></td>';
-               tab += '</tr>';
+               tab += '</tr>'; 
                cont++;
             });
             tab += '    </tbody>';
