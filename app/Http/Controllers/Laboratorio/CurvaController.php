@@ -116,10 +116,16 @@ class CurvaController extends Controller
         );
         return response()->json($data);
     }
+    //replica de valores de curva para los hijos
     public function curvaHijos(Request $request){  
+        $fecha = new Carbon($request->fecha);
+        $today = $fecha->toDateString();
+       
         $hijos = Parametro::where('Padre', $request->parametro)->get();
         $curva = CurvaConstantes::where('Id_curvaConst', $request->idBMR)->first();
+       
         for($i=0; $i < sizeof($hijos); $i++){
+                    //BMR
                     $exist = CurvaConstantes::where('Id_parametro', $hijos[$i]->Id_parametro)->get();
                     if ($exist->count()){
                         $update = CurvaConstantes::where('Id_parametro', $hijos[$i]->Id_parametro)->first();
@@ -128,18 +134,32 @@ class CurvaController extends Controller
                         $update->R = $curva->R;
                         $update->save();
                     } else {
+                             
                         $model = $curva->replicate(); 
                         $model->Id_parametro = $hijos[$i]->Id_parametro;
                         $model->Id_parametroPadre = $request->parametro;
                         $model->save();
                     }
-                
+                   
         }
 
+        //   //ESTANDARES
+        for ($j = 0; $j < sizeof($hijos); $j++) {
+            $estandares = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+            ->where('Id_area', $request->area) 
+            ->where('Id_parametro', $hijos[$j]->parametro)->get();
+            
+            if($estandares->count()){
+                for ($i = 0; $i < sizeof($estandares); $i++){
+                    
+                }
+            }
+        }
+        
+
+       
         $data = array(
             'curva' => $curva,
-            //'model' => $model,
-            //'exist' => $exist,
             
         );
         return response()->json($data);
