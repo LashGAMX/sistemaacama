@@ -13,10 +13,10 @@
         <div class="col-md-3">
             <div class="form-group">
               <label for="exampleFormControlSelect1">Fórmula tipo</label>
-                <select class="form-control" name="formulaTipo" id="formulaTipo">
+                <select class="form-control select2" name="formulaTipo" id="formulaTipo">
                     <option value="0">Sin seleccionar</option>
-                    @foreach ($parametro as $parametros)
-                        <option value= {{$parametros->Id_parametro}}>{{$parametros->Parametro}}</option>
+                    @foreach ($parametro as $item)
+                        <option value= {{$item->Id_parametro}}>({{$item->Id_parametro}}) {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
                     @endforeach
                   </select>
             </div>
@@ -166,32 +166,32 @@
                                 <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
                                 <tbody>
                                     <tr>
-                                        <td>Masa 1</td>
+                                        <td>Masa B</td> <!--MASA 1-->
                                         <td><input name="campos" type="text" id="m11" value="0"></td>
                                         <td><input name="campos" type="text" id="m12" value="0"></td>
                                     </tr>
                                     <tr>
-                                        <td>Masa 2</td>
+                                        <td>Masa A</td> <!--MASA 2-->
                                         <td><input name="campos" type="text" id="m21" value="0"></td>
                                         <td><input name="campos" type="text" id="m22" value="0"></td>
                                     </tr>
                                     <tr>
-                                        <td>Peso constante c/muestra 1</td>
+                                        <td>Peso constante c/muestra 1 A</td>
                                         <td><input name="campos" type="text" id="pcm11" value="0"></td>
                                         <td><input name="campos" type="text" id="pcm12" value="0"></td>
                                     </tr>
                                     <tr>
-                                        <td>Peso constante c/muestra 2</td>
+                                        <td>Peso constante c/muestra 2 A</td>
                                         <td><input name="campos" type="text" id="pcm21" value="0"></td>
                                         <td><input name="campos" type="text" id="pcm22" value="0"></td>
                                     </tr>
                                     <tr>
-                                        <td>Peso constante 1</td>
+                                        <td>Peso constante 1 B</td>
                                         <td><input name="campos" type="text" id="pc1" value="0"></td>
                                         <td><input name="campos" type="text" id="pc2" value="0"></td>
                                     </tr>
                                     <tr>
-                                        <td>Peso constante 2</td>
+                                        <td>Peso constante 2 B</td>
                                         <td><input name="campos" type="text" id="pc21" value="0"></td>
                                         <td><input name="campos" type="text" id="pc22" value="0"></td>
                                     </tr>

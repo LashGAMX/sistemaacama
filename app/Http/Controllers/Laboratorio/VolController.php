@@ -73,7 +73,7 @@ class VolController extends Controller
             foreach ($param as $item2) {
                 if ($item->Id_parametro == $item2->Id_parametro) {
                     array_push($temp,$item->Codigo);
-                    array_push($temp,$item->Parametro);
+                    array_push($temp,"(".$item->Id_parametro.") ".$item->Parametro);
                     array_push($temp,$item->Hora_recepcion);
                     array_push($model,$temp);
                     break;
@@ -520,6 +520,7 @@ class VolController extends Controller
             case 11:
             case 287:
             case 83:
+            case 108:
                 $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get();
                 break;
             default:
@@ -566,6 +567,7 @@ class VolController extends Controller
     //* Asignar parametro a lote
     public function asignarMuestraLoteVol(Request $request)
     {
+     
         $sw = false;
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         $paraModel = Parametro::find($loteModel->Id_tecnica);
@@ -600,6 +602,7 @@ class VolController extends Controller
             case 11:
             case 287:
             case 83:
+            case 108:
                 $model = LoteDetalleNitrogeno::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
@@ -1158,7 +1161,7 @@ class VolController extends Controller
         } else if ($request->formulaTipo == 33 || $request->formulaTipo == 218 || $request->formulaTipo == 64) //todo CLORO RESIDUAL LIBRE
         {
             $detalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
-        } else if ($request->formulaTipo == 9 || $request->formulaTipo == 10 || $request->formulaTipo == 11 || $request->formulaTipo == 287) //todo Nitrógeno Total,
+        } else if ($request->formulaTipo == 9 || $request->formulaTipo == 10 || $request->formulaTipo == 11 || $request->formulaTipo == 287 || $request->formulaTipo == 108 ) //todo Nitrógeno Total,
         {
             $detalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
         }
@@ -1270,6 +1273,7 @@ class VolController extends Controller
             case 10:
             case 9:
             case 11:
+            case 108:
                 $model = LoteDetalleNitrogeno::find($request->idMuestra);
             $model->Liberado = 1;
             if ($model->Resultado != null) {

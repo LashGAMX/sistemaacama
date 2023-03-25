@@ -12,6 +12,7 @@ Route::get('clientes/cliente_detalle/{id}', [ClienteController::class,'show']);
 Route::get('clientes/cliente_detalle/{id}/{idSuc}', [ClienteController::class,'details']);
 
 Route::post('clientes/datosGenerales', [ClienteController::class,'datosGenerales']);
+Route::post('clientes/getDatosGenerales', [ClienteController::class,'getDatosGenerales']);
 
 Route::get('clientes/importar',[ImportController::class,'index'] );
 Route::post('clientes/importar/create',[ImportController::class,'create'] );

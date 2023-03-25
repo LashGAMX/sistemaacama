@@ -592,6 +592,7 @@ class CotizacionController extends Controller
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
         $puntos = CotizacionPunto::where('Id_cotizacion', $model->Id_cotizacion)->get();
+        
         if ($model->Id_reporte == null || $model->Id_reporte == 0){
             $reportesInformes = DB::table('ViewReportesCotizacion')->orderBy('Num_rev', 'desc')->first();
             $update = Cotizacion::find($model->Id_cotizacion);
@@ -631,7 +632,7 @@ class CotizacionController extends Controller
         $html = view('exports.cotizacion.cotizacion', compact('model', 'parametros', 'parametrosExtra', 'norma', 'puntos', 'sumaParamEspecial', 'analisisDesc', 'subTotal', 'firma','reportesInformes'));
         $mpdf->CSSselectMedia = 'mpdf';
 
-        $htmlFooter = view('exports.cotizacion.footerCotizacion');
+        $htmlFooter = view('exports.cotizacion.footerCotizacion', compact('reportesInformes'));
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
 
         $mpdf->WriteHTML($html);

@@ -188,6 +188,7 @@ function getLoteCapturaVol() {
                             break;
                         case '9':
                         case '287':
+                        case '108':
                             tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',3);" data-toggle="modal" data-target="#modalNitrogeno">Capturar</button>';
                             break;
                         case '10':

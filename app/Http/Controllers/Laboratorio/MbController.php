@@ -993,7 +993,7 @@ class MbController extends Controller
             foreach ($param as $item2) {
                 if ($item->Id_parametro == $item2->Id_parametro) {
                     array_push($temp,$item->Codigo);
-                    array_push($temp,$item->Parametro);
+                    array_push($temp,"(".$item->Id_parametro.") ".$item->Parametro);
                     array_push($temp,$item->Hora_recepcion);
                     array_push($model,$temp);
                     break;

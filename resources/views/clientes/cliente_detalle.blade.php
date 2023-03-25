@@ -190,7 +190,16 @@
 
                     <!-- generales -->
                     <div class="tab-pane fade" id="generales" role="tabpanel" aria-labelledby="generales-tab">
-                        
+
+                      <div class="row">
+                        <div class="col-md-12">
+                          <button class="btn btn-success"><i class="fas fa-plus"></i> Crear</button>
+                        </div>
+                        <div class="col-md-12" id="tabGenerales">
+
+                        </div>
+                      </div>
+{{--                         
                       <div class="row">
                         <h6>Telefono</h6>
                         <div class="col-md-5">
@@ -222,7 +231,7 @@
                         </div> 
                         </div>
 
-                  
+                   --}}
                   </div>
             </div>
           </div>

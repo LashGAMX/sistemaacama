@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Clientes;
 
 use App\Http\Controllers\Controller;
 use App\Models\SucursalCliente;
+use App\Models\SucursalContactos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -39,6 +40,14 @@ class ClienteController extends Controller
             'model' => $model
         );
         
+        return response()->json($data);
+    }
+    public function getDatosGenerales(Request $res)
+    {
+        $model = SucursalContactos::where('Id_sucursal',$res->id)->get();
+        $data = array(
+            'model' => $model,
+        );
         return response()->json($data);
     }
 } 

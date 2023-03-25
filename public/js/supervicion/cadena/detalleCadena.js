@@ -168,14 +168,14 @@ function getDetalleAnalisis(idCodigo) {
             idCod = idCodigo;
             switch (response.paraModel.Id_parametro) {
                 case "17": // Arsenico
-                    case "231":
+                case "231":
                 case "20": // Cobre
                 case "22": //Mercurio
                 case "25": //Zinc
-                    case "227":
+                case "227":
                 case "24": //Plomo
                 case "21": //Cromoa
-                    case "264":
+                case "264":
                 case "18": //Cadmio
                     console.log("entro a caso 2");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
@@ -203,13 +203,17 @@ function getDetalleAnalisis(idCodigo) {
                 case "7": //Nitrats
                 case "8": //Nitritos
                 case "152": //COT
+                case "99": //Cianuros 127
+                case "105": //Floururos 127
+                case 106:
+                case 107:
                     console.log("entro a caso 16");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
                     tab += '        <tr>';
                     tab += '          <th>Descripcion</th>';
-                    tab += '          <th>Valor</th>'; 
+                    tab += '          <th>Valor</th>';
                     tab += '        </tr>';
                     tab += '    </thead>';
                     tab += '    <tbody>';
@@ -245,10 +249,10 @@ function getDetalleAnalisis(idCodigo) {
                         if (item.Id_parametro == 7 || item.Id_parametro == 8) {
                             tab += '<tr>';
                             tab += '<td>' + item.Parametro + '</td>';
-                            if(item.Resultado < item.Limite){
+                            if (item.Resultado < item.Limite) {
                                 tab += '<td>' + item.Limite + '</td>';
                                 aux = aux + parseFloat(item.Limite);
-                            }else{
+                            } else {
                                 tab += '<td>' + item.Resultado + '</td>';
                                 aux = aux + parseFloat(item.Resultado);
                             }
@@ -262,6 +266,7 @@ function getDetalleAnalisis(idCodigo) {
                     break;
                 case 9:
                 case 10:
+                case 108: 
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
                     tab += '    <thead class="thead-dark">';
@@ -311,9 +316,9 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '        <tr>';
                     tab += '          <th>Descripcion</th>';
                     tab += '          <th>Valor</th>';
-                    tab += '        </tr>'; 
+                    tab += '        </tr>';
                     tab += '    </thead>';
-                    tab += '    <tbody>'; 
+                    tab += '    <tbody>';
                     $.each(response.model, function (key, item) {
                         tab += '<tr>';
                         tab += '<td>' + item.Parametro + '</td>';
@@ -341,7 +346,7 @@ function getDetalleAnalisis(idCodigo) {
                         if ($("#idNorma").val() == "27") {
                             tab += '<td>Cloruros Totales (Cl¯)</td>';
                             tab += '<td>' + item.Cloruros + '</td>';
-                        }else{
+                        } else {
                             tab += '<td>' + item.Parametro + '</td>';
                             tab += '<td>' + item.Resultado + '</td>';
                         }
@@ -366,23 +371,23 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '        </tr>';
                     tab += '    </thead>';
                     tab += '    <tbody>';
- 
+
                     if ($("#idNorma").val() == "27") {
                         aux = 0;
                         cont = 0;
                         $.each(response.model, function (key, item) {
                             tab += '<tr>';
-                            tab += '<td> GA - '+item.Num_tomas+'</td>';
+                            tab += '<td> GA - ' + item.Num_tomas + '</td>';
                             tab += '<td>' + item.Resultado + '</td>';
                             tab += '<td>' + (response.aux[cont] * item.Resultado).toFixed(2) + '</td>';
                             tab += '</tr>';
-                            if(item.Resultado != null){
+                            if (item.Resultado != null) {
                                 aux = aux + (response.aux[cont] * item.Resultado);
                                 cont++;
                             }
-                        });   
+                        });
                         resLiberado = (aux).toFixed(2);
-                    }else{
+                    } else {
                         $.each(response.model, function (key, item) {
                             tab += '<tr>';
                             tab += '<td>' + item.Parametro + '</td>';
@@ -392,7 +397,7 @@ function getDetalleAnalisis(idCodigo) {
                         resLiberado = (response.aux);
                     }
                     tab += '    </tbody>';
-                    tab += '</table>'; 
+                    tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
                 case "5":
@@ -417,11 +422,11 @@ function getDetalleAnalisis(idCodigo) {
                         tab += '<td>' + item.Resultado + '</td>';
                         tab += '</>';
                         resLiberado = item.Resultado;
-                    }); 
+                    });
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
-                break;
+                    break;
                 case 12:
                 case 134:
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
@@ -448,7 +453,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
-                break;
+                    break;
                 case 253:
                 case 35:
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
@@ -477,7 +482,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '    </tbody>';
                     tab += '</table>';
                     tabla.innerHTML = tab;
-                break;
+                    break;
                 case 16:
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -523,6 +528,7 @@ function getDetalleAnalisis(idCodigo) {
 
                 case "3":// Solidos
                 case "4":// Solidos
+                case "112":// Solidos
                     console.log("entro a caso 15");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -548,6 +554,7 @@ function getDetalleAnalisis(idCodigo) {
                 case "26"://Gasto
                 case "2": //Materia flotante
                 case "14": //ph
+                case "110": //ph
                 case "97": //Temperatura
                 case "67"://Conductividad
                 case "68":
@@ -576,7 +583,7 @@ function getDetalleAnalisis(idCodigo) {
                             cont++
                         });
                         resLiberado = (aux / cont);
-                    } else  if (response.codigoModel.Id_parametro == 67 || response.codigoModel.Id_parametro == 68) { // Gasto
+                    } else if (response.codigoModel.Id_parametro == 67 || response.codigoModel.Id_parametro == 68) { // Gasto
                         aux = 0;
                         cont = 0;
                         $.each(response.model, function (key, item) {
@@ -602,21 +609,21 @@ function getDetalleAnalisis(idCodigo) {
                             cont++;
                         });
                         resLiberado = aux;
-                    } else if (response.codigoModel.Id_parametro == 14) { // PH
+                    } else if (response.codigoModel.Id_parametro == 14 || response.codigoModel.Id_parametro == 110) { // PH
                         aux = 0;
                         cont = 0;
                         if ($("#idNorma").val() == "27") {
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';
-                                tab += '<td> pH - '+item.Num_toma+'</td>';
+                                tab += '<td> pH - ' + item.Num_toma + '</td>';
                                 tab += '<td>' + item.Promedio + '</td>';
                                 tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
                                 tab += '</tr>';
-                                if(item.Promedio != null){
+                                if (item.Promedio != null) {
                                     aux = aux + (response.aux[cont] * item.Promedio);
                                     cont++;
                                 }
-                            });   
+                            });
                             resLiberado = (aux).toFixed(2);
                         } else {
                             $.each(response.model, function (key, item) {
@@ -624,11 +631,11 @@ function getDetalleAnalisis(idCodigo) {
                                 tab += '<td> pH - ' + (cont + 1) + '</td>';
                                 tab += '<td>' + item.Promedio + '</td>';
                                 tab += '</tr>';
-                                if(item.Promedio != null){
+                                if (item.Promedio != null) {
                                     aux = aux + parseFloat(item.Promedio);
                                     cont++;
                                 }
-                            });   
+                            });
                             resLiberado = (aux / cont).toFixed(2);
                         }
                     } else if (response.codigoModel.Id_parametro == 97 || response.codigoModel.Id_parametro == 100) { // Temperatura
@@ -637,15 +644,15 @@ function getDetalleAnalisis(idCodigo) {
                         if ($("#idNorma").val() == "27") {
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';
-                                tab += '<td> Temperatura - '+item.Num_toma+'</td>';
+                                tab += '<td> Temperatura - ' + item.Num_toma + '</td>';
                                 tab += '<td>' + item.Promedio + '</td>';
                                 tab += '<td>' + (response.aux[cont] * item.Promedio).toFixed(2) + '</td>';
                                 tab += '</tr>';
-                                if(item.Promedio != null){
+                                if (item.Promedio != null) {
                                     aux = aux + (response.aux[cont] * item.Promedio);
                                     cont++;
                                 }
-                            });   
+                            });
                             resLiberado = (aux).toFixed();
                         } else {
                             $.each(response.model, function (key, item) {
@@ -653,11 +660,11 @@ function getDetalleAnalisis(idCodigo) {
                                 tab += '<td> Temperatura - ' + (cont + 1) + '</td>';
                                 tab += '<td>' + item.Promedio + '</td>';
                                 tab += '</tr>';
-                                if(item.Promedio != null){
+                                if (item.Promedio != null) {
                                     aux = aux + parseFloat(item.Promedio);
                                     cont++;
                                 }
-                            });   
+                            });
                             resLiberado = (aux / cont).toFixed(2);
                         }
                     }
@@ -665,9 +672,53 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case "8":// Potable
+                case "95":// Potable
+                case "96":
+                case "116":
                     console.log("entro a caso 8");
-
+                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                    tab += '<table id="tableResultado" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += '        <tr>';
+                    tab += '          <th>Descripcion</th>';
+                    tab += '          <th>Valor</th>';
+                    tab += '        </tr>';
+                    tab += '    </thead>';
+                    tab += '    <tbody>';
+                    $.each(response.model, function (key, item) {
+                        tab += '<tr>';
+                        tab += '<td>' + item.Parametro + '</td>';
+                        tab += '<td>' + item.Resultado + '</td>';
+                        tab += '</tr>';
+                        resLiberado = item.Resultado;
+                    });
+                    tab += '    </tbody>';
+                    tab += '</table>';
+                    tabla.innerHTML = tab;
+                    break;
+                case "66":
+                case "98":
+                case "89":
+                    console.log("entro a caso 8");
+                    tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
+                    tab += '<table id="tableResultado" class="table table-sm">';
+                    tab += '    <thead class="thead-dark">';
+                    tab += '        <tr>';
+                    tab += '          <th>Descripcion</th>';
+                    tab += '          <th>Valor</th>';
+                    tab += '        </tr>';
+                    tab += '    </thead>';
+                    tab += '    <tbody>';
+                    $.each(response.model, function (key, item) {
+                        tab += '<tr>';
+                        tab += '<td>' + item.Parametro + '</td>';
+                        tab += '<td>' + item.Resultado + '</td>';
+                        tab += '</tr>';
+                        resLiberado = item.Resultado;
+                    });
+                    tab += '    </tbody>';
+                    tab += '</table>';
+                    tabla.innerHTML = tab;
                     break;
                 default:
                     console.log("entro a break");

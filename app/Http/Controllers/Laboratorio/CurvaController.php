@@ -144,23 +144,51 @@ class CurvaController extends Controller
         }
 
         //   //ESTANDARES
-        for ($j = 0; $j < sizeof($hijos); $j++) {
+        for ($s = 0; $s < sizeof($hijos); $s++) {
             $estandares = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-            ->where('Id_area', $request->area) 
-            ->where('Id_parametro', $hijos[$j]->parametro)->get();
+            ->where('Id_parametro', $request->parametro)->get();
+            $estandaresHijos = estandares::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+            ->where('Id_parametro', $hijos[$s]->parametro)->get();
             
-            if($estandares->count()){
+            if($estandaresHijos->count()){
                 for ($i = 0; $i < sizeof($estandares); $i++){
-                    
+                    $update = estandares::find($estandares[$i]->Id_std);
+                    $update->Concentracion = $estandares[$i]->Concentracion;
+                    $update->ABS1 = $estandares[$i]->ABS1;
+                    $update->ABS1 = $estandares[$i]->ABS1;
+                    $update->ABS1 = $estandares[$i]->ABS1;
+                    $update->Resultado = $estandares[$i]->Resultado;
+                    $update->save();
                 }
+            } else {
+                $hijo = $hijos[$s]->Id_parametro;
+                for($i = 0; $i < sizeof($estandares); $i++){
+                    estandares::create([
+                        'Id_area' => $estandares[$i]->Id_area,
+                        'Id_parametro' => $hijos[$s]->Id_parametro,
+                        'Id_concentracion' => $estandares[$i]->Concentracion,
+                        'STD' => $estandares[$i]->STD,
+                        'ABS1' => $estandares[$i]->ABS1,
+                        'ABS2' => $estandares[$i]->ABS2,
+                        'ABS3' => $estandares[$i]->ABS3,
+                        'Resultado' => $estandares[$i]->Resultado,
+                        'Fecha_inicio' => $estandares[$i]->Fecha_Inicio,
+                        'Fecha_fin' => $estandares[$i]->Fecha_Fin,
+                        'Promedio' => $estandares[$i]->Promedio,
+                    ]); 
+                }
+                
             }
+
         }
         
 
        
         $data = array(
             'curva' => $curva,
-            
+            'estandares' => $estandares,
+            'hijo' => $hijo,
+          
         );
         return response()->json($data);
     }

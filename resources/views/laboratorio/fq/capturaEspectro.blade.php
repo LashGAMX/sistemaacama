@@ -291,7 +291,7 @@
 
         </div>
 
-
+ <!--Modal COT-->
         <div class="modal fade" id="modalCapturaCOT" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -470,7 +470,7 @@
             </div>
         </div>
 
-        <!-- Modal -->
+        <!-- Modal Sulfatos -->
         <div class="modal fade" id="modalCapturaSulfatos" tabindex="-1" aria-labelledby="exampleModalLabel"
             aria-hidden="true">
             <div class="modal-dialog modal-lg">

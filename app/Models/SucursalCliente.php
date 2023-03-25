@@ -16,6 +16,7 @@ class SucursalCliente extends Model
 
     protected $fillable = [
         'Id_cliente',
+        'Id_sucursal',
         'Empresa',
         'Estado',
         'Telefono',
