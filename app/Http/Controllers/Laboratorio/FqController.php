@@ -319,13 +319,18 @@ class FqController extends Controller
                 break;
             case 8:
             case 107:
-            case 106:
                 # N-nitritos
                 $d = 50 / $request->E;
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $resultado = ((($x - $request->CB) / $request->CM) * $d);
                 break;
-          
+            case 106:
+                # N-nitritos (potable)
+                $d = 10 / $request->E;
+                $x = ($request->X + $request->Y + $request->Z) / 3;
+                $resultado = ((($x - $request->CB) / $request->CM) * $d);
+                break;
+              
             default:
                 # code...
                 $x = ($request->X + $request->Y + $request->Z) / 3;
