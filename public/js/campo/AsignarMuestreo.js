@@ -87,13 +87,18 @@ var folioAsignar;
         $('#modalAsignar').modal('hide')
         generar(idSolicitud, folio);
     });
+
+    $('#btnAsignarMultiple').click(function (){
+        asignarMultiple(idSolicitud, folio);
+    });
+
     $('#btnGuardarObservacion').click( function () {
         
         setObservacion(idSolicitud)
     });
     
  }
- function setObservacion(idSol)
+ function setObservacion()
 {
     $.ajax({
         url: base_url + '/admin/campo/setObservacion', //archivo que recibe la peticion
@@ -143,6 +148,52 @@ var folioAsignar;
                 $("#btnEdit").prop('disabled', false);
             }
         } );  
+ }
+ function asignarMultiple(){
+    let tabla = document.getElementById('tablaMuestreadores');
+    let tablaPunto = document.getElementById('tablaPuntoMuestreo');
+    let tab = '';
+    let tabp = '';
+
+    $.ajax({
+        url: base_url + '/admin/campo/asignar/asignarMultiple', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            idSolicitud:idSolicitud,
+            folio:folio,
+            idUser:$("#idUsuarios").val(),
+            _token: $('input[name="_token"]').val(),
+          },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {            
+            console.log(response);
+          tab += '<table id="solicitudGenerada" class="table table-sm">';
+          tab += '    <thead class="thead-dark">';
+          tab += '        <tr>';
+          tab += '            <th>Folio</th>';
+          tab += '            <th>Punto de muestreo</th>';
+          tab += '            <th>Captura</th>';
+          tab += '            <th>Id muestreador</th>';
+          tab += '            <th>Nombres</th>';
+          tab += '        </tr>';
+          tab += '    </thead>';
+          tab += '    <tbody>';
+          $.each(response.model, function (key, item) {
+            tab += '<tr>';
+            tab += '    <td>'+item.Folio+'</td>';
+            tab += '    <td>'+item.Punto_muestreo+'</td>';
+            tab += '    <td>'+item.Captura+'</td>';
+            tab += '    <td>'+item.Id_muestreador+'</td>';
+            tab += '    <td>'+item.Nombres+'</td>';
+            tab += '</tr>';
+          });
+          tab += '    </tbody>';
+          tab += '</table>';
+          tabla.innerHTML = tab;
+   
+        }
+    });  
  }
 
  function generar(idSolicitud, folio) 

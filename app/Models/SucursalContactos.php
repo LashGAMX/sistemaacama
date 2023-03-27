@@ -14,6 +14,7 @@ class SucursalContactos extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'Id_sucursal',
         'Nombre',
         'Departamento',
         'Puesto',

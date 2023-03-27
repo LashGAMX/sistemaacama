@@ -50,4 +50,44 @@ class ClienteController extends Controller
         );
         return response()->json($data);
     }
+    public function setDatosGenerales(Request $res)
+    {
+        $model = SucursalContactos::create([
+            'Id_sucursal' => $res->sucursal,
+            'Nombre' => $res->nombre,
+            'Departamento' => $res->departamento,
+            'Puesto' => $res->puesto,
+            'Email' => $res->correo,
+            'Celular' => $res->cel,
+            'Telefono' => $res->tel,
+        ]);
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function getContactoGeneral(Request $res)
+    {
+        $model = SucursalContactos::find($res->id);
+        $data = array('model' => $model);
+        return response()->json($data);
+    }
+    public function storeContactoGeneral(Request $res)
+    {
+        $model = SucursalContactos::find($res->id);
+        $model->Id_sucursal = $res->sucursal;
+        $model->Nombre = $res->nombre; 
+        $model->Departamento = $res->departamento;
+        $model->Puesto = $res->puesto;
+        $model->Email = $res->correo;
+        $model->Celular = $res->cel;
+        $model->Telefono = $res->tel;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
 } 

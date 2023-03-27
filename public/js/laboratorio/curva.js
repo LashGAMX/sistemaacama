@@ -242,7 +242,8 @@ function setCalcular() {
             $("#b").val(response.b.toFixed(5));
             $("#m").val(response.m.toFixed(5));
             $("#r").val(response.r.toFixed(5));
-            buscar();
+           setConstantes();
+           buscar();
         }
     });
 }
@@ -525,9 +526,6 @@ var res = new Array();
 var cont = 0;
 var idLote = 0;
 function buscar() {
-    $("#b").val("");
-    $("#m").val("");
-    $("#r").val("");
     let tabla = document.getElementById('divTablaStd');
     let tablaHijos = document.getElementById('divTablaHijos');
     let tab = '';
@@ -548,12 +546,14 @@ function buscar() {
             console.log(response);
             idBMR = response.idBMR;
             console.log(idBMR);
+            
             if (response.valbmr != false) {
                 $("#b").val(response.bmr.B);
                 $("#m").val(response.bmr.M);
                 $("#r").val(response.bmr.R);
                 $("#vigencia").text(response.bmr.Fecha_inicio + " / " + response.bmr.Fecha_fin)
             } 
+        
             res = response.concentracion;
             cont = 0;
             if (response.parametro == 113) {
@@ -625,12 +625,12 @@ function buscar() {
                     tab += '    </thead>';
                     tab += '    <tbody>';
                     
-                    //todo Crea el blanco
+                    // Crea el blanco
                     $.each(response.stdModel, function (key, item) {
                         if (response.area == 2 || response.parametro == 113 || response.parametro == 243 ) {
                             if (cont == 0){
                                 tab += '<tr>';
-                                tab += '<td>' + item.Id_std + '</td>';
+                                tab += '<td>' + item.Id_std + '</td>'; 
                                 tab += '<td>' + item.STD + '</td>';
                                 tab += '<td><input id="curCon' + cont + '" value="0"></td>';
                                 tab += '<td><input id="curStd1' + cont + '" value="0.0"></td>';
@@ -655,7 +655,7 @@ function buscar() {
                             tab += '<td><input id="curStd5' + cont + '" value="' + item.ABS5 + '"></td>';
                             tab += '<td><input id="curStd6' + cont + '" value="' + item.ABS6 + '"></td>';
                             tab += '<td><input id="curStd7' + cont + '" value="' + item.ABS7 + '"></td>';
-                            tab += '<td><input id="curStd8' + cont + '" value="' + item.ABS8 + '"></td>';
+                            tab += '<td><input id="curStd8' + cont + '" value="' + item.ABS8 + '"></td>'; 
                             tab += '<td><input id="curProm' + cont + '" value="' + item.Promedio + '" readonly></td>';
                             tab += '</tr>';
                             }

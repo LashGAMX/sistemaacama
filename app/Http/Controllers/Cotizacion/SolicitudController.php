@@ -807,27 +807,19 @@ class SolicitudController extends Controller
         $model = DB::table('ViewSolicitud')->where('Id_cotizacion', $idOrden)->first();
         $modTemp = Solicitud::where('Id_cotizacion', $idOrden)->first();
         $cliente = SucursalCliente::where('Id_sucursal', $modTemp->Id_sucursal)->first();
-        $direccion = DireccionReporte::where('Id_sucursal', $modTemp->Id_sucursal)->first();
+        if ($model->Siralab == 1) {
+            $direccion = DB::table('ViewDireccionSir')->where('Id_sucursal', $modTemp->Id_sucursal)->first();
+            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre',$modTemp->Id_solicitud)->get();
+        } else {
+            $direccion = DireccionReporte::where('Id_sucursal', $modTemp->Id_sucursal)->first();
+            $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre',$modTemp->Id_solicitud)->get();
+        }
+        
         $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $modTemp->Id_solicitud)->where('Extra', 0)->orderBy('Parametro', 'ASC')->get();
         $extra = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $modTemp->Id_solicitud)->where('Extra', 1)->orderBy('Parametro', 'ASC')->get();
         $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion', $idOrden)->first();
         $frecuenciaMuestreo = Frecuencia001::where('Id_frecuencia', $cotizacion->Frecuencia_muestreo)->first();
 
-
-        // $mpdf = new \Mpdf\Mpdf([
-        //     'format' => 'letter',
-        //     'margin_left' => 20,
-        //     'margin_right' => 20,
-        //     'margin_top' => 30,
-        //     'margin_bottom' => 18
-        // ]);
-
-        // $mpdf->SetWatermarkImage(
-        //     asset('/public/storage/MembreteVertical.png'),
-        //     1,
-        //     array(215, 280),
-        //     array(0, 0),
-        // );
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
             'margin_left' => 10,
@@ -851,6 +843,7 @@ class SolicitudController extends Controller
             'direccion' => $direccion,
             'frecuenciaMuestreo' => $frecuenciaMuestreo,
             'cliente' => $cliente,
+            'puntos' => $puntos,
         );
         
         $mpdf->showWatermarkImage = true;

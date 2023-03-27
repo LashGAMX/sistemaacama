@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\CodigoParametros;
 use App\Models\ConductividadMuestra;
 use App\Models\GastoMuestra;
+use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
 use App\Models\LoteDetalleDureza;
 use App\Models\LoteDetalleEspectro;
@@ -88,6 +89,7 @@ class CadenaController extends Controller
             case "105": //floururos 127
             case 106:
             case 107:
+            case 96:
                 $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
                 break;
@@ -269,7 +271,6 @@ class CadenaController extends Controller
 
                 //Potable
             case 95: // Sulfatos
-            case 96:
             case 116:
                 $model = DB::table('ViewLoteDetallePotable')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)

@@ -44,6 +44,7 @@ $('#btnDatosLote').click(function () {
             $("#secctionDqo").hide();
             break;
         case '9': //Nitrogeno Amoniacal
+        case '108':
             $("#secctionNitrogeno").show();
             $("#secctionCloro").hide();
             $("#secctionDqo").hide();
@@ -108,7 +109,8 @@ $('#btnEjecutarVal').click(function () {
             $("#molaridadResN").val(res.toFixed(3));
             // console.log(res)
             break;
-        case '9': // Nitrogeno amonicacal
+        case '9':
+        case '108': // Nitrogeno amonicacal 
             $("#blancoResN").val($("#blancoValN").val())
             titulado1 = $("#titulado1N").val();
             titulado2 = $("#titulado2N").val();
@@ -120,7 +122,7 @@ $('#btnEjecutarVal').click(function () {
             prom = (parseFloat(titulado1) + parseFloat(titulado2) + parseFloat(titulado3)) / 3;
             res = (parseFloat(gramos) / (parseFloat(pm) * prom)) * factorN;
             $("#molaridadResN").val(res.toFixed(3));
-            // console.log(res)
+             console.log(res)
             break;
         case '10': // Nitrogeno Organico
             $("#blancoResN").val($("#blancoValN").val())
@@ -243,6 +245,31 @@ $('#btnGuardarVal').click(function () {
             });
             break;
         case '9': // NITROGENO TOTAL
+            $.ajax({
+                type: 'POST',
+                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                data: {
+                    caso: 3,
+                    idParametro: $("#tipoFormula").val(),
+                    blanco: $("#blancoResN").val(),
+                    idLote: $("#idLoteHeader").val(),
+                    gramos: $("#gramosN").val(),
+                    factor: $("#factorN").val(),
+                    titulado1: $("#titulado1N").val(),
+                    titulado2: $("#titulado2N").val(),
+                    titulado3: $("#titulado3N").val(),
+                    pm: $("#PmN").val(),
+                    resultado: $("#molaridadResN").val(),
+                    _token: $('input[name="_token"]').val(),
+                },
+                dataType: "json",
+                async: false,
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+            break;
+            case '108': // NITROGENO amoniacal
             $.ajax({
                 type: 'POST',
                 url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
@@ -587,7 +614,7 @@ function getDatalote() {
                     $("#titulado3D").val(response.valoracion.Vol_titulado3);
                     $("#molaridadResD").val(response.valoracion.Resultado);
                     break;
-                case '9' || '10' || '11': // NITROGENO TOTAL
+                case '9' || '10' || '11' || '108': // NITROGENO TOTAL
                     $("#blancoResN").val(response.valoracion.Blanco);
                     $("#blancoValN").val(response.valoracion.Blanco);
                     $("#gramosN").val(response.valoracion.Gramos);

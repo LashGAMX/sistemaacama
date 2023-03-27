@@ -31,9 +31,13 @@
                     <tr>
                         <td style="width: 25%">Dirección</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            {{@$direccion->Direccion}}
+                            @if ($model->Siralab != 1)
+                                {{@$direccion->Direccion}}
+                            @else
+                                {{@$direccion->Calle}} {{@$direccion->Num_exterior}} {{@$direccion->Num_interior}} {{@$direccion->Colonia}} {{@$direccion->NomMunicipio}} {{@$direccion->Estado}} CP: {{@$direccion->CP}}
+                            @endif
                         </td>
-                    </tr>
+                    </tr> 
                     <tr>
                         <td style="width: 25%">Contacto</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
@@ -94,6 +98,24 @@
                         <td style="width: 25%">Observaciones</td>
                         <td style="height: 80px;border: 1px solid;" class="border">
                                 {{@$model->Observacion}}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 25%">Puntos de muestreo</td>
+                        <td style="height: 80px;border: 1px solid;" class="border">
+                            @php 
+                                $cont = 1;
+                            @endphp
+                            @foreach ($puntos as $item)
+                                @if (@$modTemp->Siralab == 1)
+                                    {{$cont."- "}}{{$item->Punto}}
+                                @else
+                                    {{$cont."- "}}{{$item->Punto_muestreo}}
+                                @endif
+                                @php
+                                    $cont++;
+                                @endphp
+                            @endforeach
                         </td>
                     </tr>
                 </table>

@@ -107,7 +107,7 @@
             <button type="button" id="btnAsignar" data-toggle="modal" data-target="#modalAsignar" class="btn btn-success "><i class="voyager-list-add"></i> Asignar</button>
           </div>
           <div class="col-md-2">
-            <button type="button" id="btnEliminar" class="btn btn-danger "><i class="fa fa-times"></i> Eliminar</button>
+            <button type="button" id="btnAsignarMultiple" class="btn btn-success"  data-toggle="modal" data-target="#modalMultiple"><i class="voyager-list-add"></i> Asignar Multiple</button>
           </div>
         </div>
       </div>
@@ -178,6 +178,64 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         <button type="button" id="btnGuardarObservacion" class="btn btn-primary">Guardar Observación</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Modal Asig. Multiple -->
+  <div class="modal fade" id="modalMultiple" tabindex="-1" aria-labelledby="modalObs" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Asignar</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-body">
+        <div class="form-group">
+          <div class="row">
+            <div class="col-md-6">
+              <div id="tablaMuestreadores">
+              <table class="table" border="1" id="muestreadores">
+                <thead>
+                  <tr>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+              </div>
+            
+            <div class="col-md-6">
+              <div id="tablaPuntoMuestreo">
+                <table class="table" border="1" id="puntoMuestreo">
+                  <thead>
+                    <tr>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+  
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        <button type="button" id="btnGuardar" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>

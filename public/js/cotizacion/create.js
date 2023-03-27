@@ -321,6 +321,16 @@ function getDatosCotizacion()
   $("#fechaMuestreo").val($("#fecha").val())
   $('#descuento').val("")
   $('#precioAnalisisCon').val("")
+
+  if($("#tipoServicio").val() != 3){
+    $("#divMuestreo").show()
+    $("#divMuestreo4").show()
+  }else{
+    $("#divMuestreo").hide()
+    $("#divMuestreo3").hide()
+    $("#divMuestreo4").hide()
+  }
+
   desSw = false
   let tab = document.getElementById("puntoMuestro")
   $.ajax({
@@ -407,6 +417,8 @@ function setCotizacion() {
       cliente: $('#cliente').val(),
       clienteSucursal: $('#clienteSucursal').val(),
       clienteDir: $('#clienteDir').val(),
+      idDir: $("#clienteDir").val(),
+      idGen: $("#clienteGen").val(),
       nomCli: $('#nomCli').val(),
       dirCli: $('#dirCli').val(),
       atencion: $('#atencion').val(),
@@ -598,12 +610,14 @@ function getSucursal() {
 function getDataCliente() {
   let sub = document.getElementById('clienteDir');
   let tab = '';
+  let sub2 = document.getElementById('clienteGen');
+  let tab2 = '';
   $.ajax({
     url: base_url + '/admin/cotizacion/getDataCliente', //archivo que recibe la peticion
     type: 'POST', //método de envio
     data: {
       id: $('#clienteSucursal').val(),
-      _token: $('input[name="_token"]').val(),
+      _token: $('input[name="_token"]').val(), 
     },
     dataType: 'json',
     async: false,
@@ -614,13 +628,60 @@ function getDataCliente() {
         tab += '<option value="' + item.Id_direccion + '">' + item.Direccion + '</option>';
       });
       sub.innerHTML = tab;
+
+      tab2 += '<option value="0">Sin seleccionar</option>';
+      $.each(response.contacto, function (key, item) {
+        tab2 += '<option value="' + item.Id_contacto + '">' + item.Nombre + '</option>';
+      }); 
+      sub2.innerHTML = tab2;
       $("#nomCli").val(response.model.Empresa)
-      $("#atencion").val(response.model.Atencion)
-      $("#telCli").val(response.model.Telefono)
-      $("#correoCli").val(response.model.Correo)
     }
   });
 }
 function setDireccionCliente() {
   $("#dirCli").val($("#clienteDir option:selected").text())
+}
+function setDatoGeneral()
+{
+  $.ajax({
+    url: base_url + '/admin/cotizacion/setDatoGeneral', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      id: $("#clienteGen").val(),
+      _token: $('input[name="_token"]').val(), 
+    },
+    dataType: 'json',
+    async: false,
+    success: function (response) {
+      console.log(response)
+      $("#telCli").val(response.model.Telefono)
+      $("#correoCli").val(response.model.Email)
+      $("#atencion").val(response.model.Nombre)
+    }
+  });
+}
+function btnReccalcular()
+{
+  console.log("Esta recalculando")
+  let analisis = parseFloat($("#precioAnalisis").val())
+  let extra = parseFloat($("#precioCat").val())
+  let muestreo = parseFloat($("#precioMuestra").val())
+  let iva = parseFloat($("#iva").val())
+  let subTotal = parseFloat($("#subTotal").val())
+  let precioTotal = parseFloat($("#precioTotal").val())
+  let temp = 0
+
+  if ($("#precioMuestra").val() == '') {
+    subTotal = analisis + extra
+    temp = (subTotal * 16) / 100
+    precioTotal = temp + subTotal
+    console.log("sin campo")
+  } else {
+    subTotal = analisis + extra + muestreo
+    temp = (subTotal * 16) / 100
+    precioTotal = temp + subTotal
+    console.log("con campo")
+  }
+  $("#subTotal").val(subTotal)
+  $("#precioTotal").val(precioTotal)
 }

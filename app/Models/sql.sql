@@ -154,7 +154,7 @@ ON pre.Id_catalogo = sub.Id_subnorma
 
 /* Lista cotizacion */
 CREATE VIEW ViewCotizacion as SELECT 
-cot.Id_cotizacion,cot.Id_intermedio,inter.Nombres as NomInter,inter.A_paterno as ApeInter,cot.Id_cliente,cot.Id_sucursal,cot.Nombre,cot.Direccion,
+cot.Id_cotizacion,cot.Id_direccion,cot.Id_general,cot.Id_intermedio,inter.Nombres as NomInter,inter.A_paterno as ApeInter,cot.Id_cliente,cot.Id_sucursal,cot.Nombre,cot.Direccion,
 cot.Atencion,cot.Telefono,cot.Correo,cot.Tipo_servicio,ser.Servicio,cot.Tipo_descarga,des.Descarga,
 cot.Id_norma,nor.Norma,nor.Clave_norma,cot.Id_subnorma,cot.Fecha_muestreo,cot.Frecuencia_muestreo,cot.Tomas,
 cot.Tipo_muestra as Id_tipoMuestra,tipo.Tipo,cot.Promedio as Id_promedio,prom.Promedio,cot.Numero_puntos,cot.Tipo_reporte,
@@ -181,7 +181,6 @@ INNER JOIN tipo_muestraCot as tipo
 ON cot.Tipo_muestra = tipo.Id_muestraCot
 INNER JOIN promedioCot as prom
 ON cot.Promedio = prom.Id_promedioCot
-
 
 /* Lista cotizacion parametros */
 CREATE VIEW ViewCotParam as SELECT 

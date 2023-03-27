@@ -61,9 +61,13 @@ $(document).ready(function () {
         let dato = $(this).find('td:first').html();
         idCot = dato;
       });
+      
     $('#btnPrint').click( function () {
         window.open(base_url+"/admin/cotizacion/exportPdfOrden/"+idCot);
         //window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idCot;
+    } );
+    $('#btnShow').click( function () {
+        window.location = base_url+"/admin/cotizacion/show/"+idCot;
     } );
 
     $('#btnDuplicar').click(function(){                

@@ -17,6 +17,8 @@ class Cotizacion extends Model
         'Id_intermedio',
         'Id_cliente',
         'Id_sucursal',
+        'Id_direccion',
+        'Id_general',
         'Nombre',
         'Direccion',
         'Atencion',

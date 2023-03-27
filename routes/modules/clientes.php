@@ -13,6 +13,9 @@ Route::get('clientes/cliente_detalle/{id}/{idSuc}', [ClienteController::class,'d
 
 Route::post('clientes/datosGenerales', [ClienteController::class,'datosGenerales']);
 Route::post('clientes/getDatosGenerales', [ClienteController::class,'getDatosGenerales']);
+Route::post('clientes/setDatosGenerales', [ClienteController::class,'setDatosGenerales']);
+Route::post('clientes/getContactoGeneral', [ClienteController::class,'getContactoGeneral']);
+Route::post('clientes/storeContactoGeneral', [ClienteController::class,'storeContactoGeneral']);
 
 Route::get('clientes/importar',[ImportController::class,'index'] );
 Route::post('clientes/importar/create',[ImportController::class,'create'] );

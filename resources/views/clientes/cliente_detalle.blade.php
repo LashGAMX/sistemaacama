@@ -193,50 +193,63 @@
 
                       <div class="row">
                         <div class="col-md-12">
-                          <button class="btn btn-success"><i class="fas fa-plus"></i> Crear</button>
+                          <button class="btn btn-success" data-toggle="modal" data-target="#modalGenerales" onclick="setModal()"><i class="fas fa-plus"></i> Crear</button>
                         </div>
                         <div class="col-md-12" id="tabGenerales">
 
                         </div>
                       </div>
-{{--                         
-                      <div class="row">
-                        <h6>Telefono</h6>
-                        <div class="col-md-5">
-                          <input type="text" id="telefono" value="{{@$sucursal->Telefono}}"/>
-                        </div>
-                      </div> 
-                      <div class="row">
-                        <h6>Correo</h6>
-                        <div class="col-md-5">
-                          <input type="text" id="correo" value="{{@$sucursal->Correo}}"/>
-                        </div>
-                      </div> 
-                      <div class="row">
-                        <h6>Direccion</h6>
-                        <div class="col-md-5">
-                          <input type="text" id="direccion" value="{{@$sucursal->Direccion}}"/>
-                        </div>
-                      </div> 
-                      <div class="row">
-                        <h6>Atencion</h6>
-                        <div class="col-md-5">
-                          <input type="text"id="atencion" value="{{@$sucursal->Atencion}}"/>
-                        </div>
-                      </div> 
-                     
-                      <div class="row">
-                        <div class="col-md-5">
-                          <button type="button" id="guardarTelefono" onclick="datosGenerales()" class="btn btn-success btn-sm">Guardar</button> 
-                        </div> 
-                        </div>
 
-                   --}}
                   </div>
             </div>
           </div>
     </div>
   </div>
+
+<!-- Modal -->
+<div class="modal fade" id="modalGenerales" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" style="width: 60%">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Crear Cliente general</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+
+        <div class="row">
+          <div class="col-md-6">
+            <input class="form-control" type="text" id="idSuc" hidden>
+            <input class="form-control" type="text" id="nombre" placeholder="Nombre completo">
+          </div>
+          <div class="col-md-6">
+            <input class="form-control" type="text" id="departamento" placeholder="Departamento">
+          </div>
+          <div class="col-md-6">
+            <input class="form-control" type="text" id="puesto" placeholder="Puesto o cargo">
+          </div>
+          <div class="col-md-6">
+            <input class="form-control" type="email" id="correo" placeholder="Correo electronico">
+          </div>
+          <div class="col-md-6">
+            <input class="form-control" type="number" id="cel" placeholder="# Celular">
+          </div>
+          <div class="col-md-6">
+            <input class="form-control" type="number" id="tel" placeholder="# Tel">
+          </div>
+        </div>
+        
+      </div>
+      <div class="modal-footer">
+        <button type="button" id="btnGuardarGeneral" class="btn btn-primary">Guardar</button>
+        <button type="button" id="btnEditGeneral" class="btn btn-primary">Editar</button>
+      </div>
+    </div>
+  </div> 
+</div>
+
+
   @stop
 
 @endsection   

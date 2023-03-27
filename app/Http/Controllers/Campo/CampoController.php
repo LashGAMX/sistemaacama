@@ -1050,6 +1050,10 @@ class CampoController extends Controller
     public $alert;
     public $idSol;
 
+    public function asignarMultiple(Request $request){
+        
+    }
+
     public function generar(Request $request) //Generar solicitud 
     {                
         $sol = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();

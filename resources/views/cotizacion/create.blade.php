@@ -66,7 +66,13 @@
                                                 <option value="0">Sin seleccionar</option>
                                             </select>
                                         </div>
-                                    </div>
+                                        <div class="col-md-12">
+                                            <label for="clienteGen">Datos Generales</label>
+                                            <select id="clienteGen" class="form-control select2" onchange="setDatoGeneral()">
+                                                <option value="0">Sin seleccionar</option>
+                                            </select>
+                                        </div>
+                                    </div>   
                                 </div>
                                 <div class="col-md-6">
                                     <div class="row">
@@ -242,10 +248,13 @@
                                 </div>
                                 <div class="col-md-8">
                                     <label for="puntoMuestro">Punto de muestreo</label>
-                                    <button id="addRow" type="button" class="btn bg-success"><i
-                                            class="voyager-list-add"></i> Agregar</button>
-                                    <button id="delRow" type="button" class="btn bg-danger"><i
-                                            class="voyager-trash"></i> Eliminar</button>
+
+                                            @if ($show == true)
+                                            <button id="addRow" type="button" class="btn bg-success"><i
+                                                class="voyager-list-add"></i> Agregar</button>
+                                        <button id="delRow" type="button" class="btn bg-danger"><i
+                                                class="voyager-trash"></i> Eliminar</button>
+                                        @endif
                                     <table id="puntoMuestro" class="display" style="width:100%">
                                         <thead>
                                             <tr>
@@ -270,8 +279,11 @@
                                     </table>
                                 </div>
                                 <div class="col-md-4">
+                                    @if ($show == true)
                                     <button class="btn btn-success btn-sm" id="btnGuardarCot"><i
-                                            class="fas fa-save"></i> Guardar</button>
+                                        class="fas fa-save"></i> Guardar</button>
+                            @endif
+                                    
                                 </div>
 
                             </div>
@@ -291,7 +303,10 @@
                                         style="width: 60%;border: none;" disabled>
                                 </div>
                                 <div class="col-md-4">
-                                    <button type="button" id="btnSetParametro" onclick="getParametrosSelected()" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-save"></i> Agragar y/o Eliminar</button>
+                                    
+                            @if ($show == true)
+                                <button type="button" id="btnSetParametro" onclick="getParametrosSelected()" class="btn btn-success" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-save"></i> Agragar y/o Eliminar</button>
+                            @endif
                                 </div>
                             </div>
                         </div>
@@ -434,7 +449,7 @@
                                     <label for="">Norma:</label>
                                     <input type="text" class="form-control" disabled id="textNorma">
                                 </div>
-                                <div class="col-md-12">
+                                <div class="col-md-12" id="divMuestreo3">
                                     <label for="">Muestreo:</label>
                                     <input type="text" class="form-control" disabled id="textMuestreo">
                                     <label for="">Numero de Tomas:</label>
@@ -545,8 +560,11 @@
                                         </select>
                                     </div>
                                     <div class="col-md-3">
-                                        <button class="btn btn-sm btn-success" id="btnCalcularMuestreo" type="button"
+
+                                            @if ($show == true)
+                                            <button class="btn btn-sm btn-success" id="btnCalcularMuestreo" type="button"
                                             onclick="setPrecioMuestreo()">Calcular</button>
+                                        @endif
                                     </div>
                                     <div class="col-md-12">
                                         <label for="">$ Total muestreo:</label>
@@ -600,10 +618,16 @@
                             </div>
 
                             <div class="col-md-12">
-                                <div class="col-md-1">
-                                    <button class="btn btn-success" onclick="btnDescuento()" type="button"><i
-                                            class="voyager-tag"></i> Descuento</button>
+                                @if ($show == true)
+                                <div class="col-md-3">
+                                    <button class="btn btn-success" onclick="btnDescuento()" type="button"><i class="voyager-tag"></i> Descuento</button>
                                 </div>
+                                <div class="col-md-3">
+                                    <button class="btn btn-success" onclick="btnReccalcular()" type="button"><i class="fas fa-calculator"></i> Re-Calcular</button>
+                                </div>
+                            @endif
+
+
                                 <table class="table">
                                     <thead>
                                         <tr>
@@ -644,7 +668,7 @@
                                                     placeholder="PrecioAnalisis con descuento" value="{{ @$model->Descuento }}">
                                             </td>                                            
                                         </tr>
-                                        <tr>
+                                        <tr id="divMuestreo4">
                                             <td>Muestreo</td>
                                             <td><input type="text" class="form-control" id="precioMuestra"
                                                     name="precioMuestra" placeholder="Precio muestreo"
@@ -669,10 +693,11 @@
                                     </tbody>
                                 </table>
 
-
                             </div>
 
-                            <button type="button" id="btnSetCotizacion" onclick="setPrecioCotizacion()" class="btn btn-primary">Guardar</button>
+                            @if ($show == true)
+                                <button type="button" id="btnSetCotizacion" onclick="setPrecioCotizacion()" class="btn btn-primary">Guardar</button>
+                            @endif
 
                             </div>
                             </div>

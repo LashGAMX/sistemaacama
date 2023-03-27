@@ -26,13 +26,14 @@ use App\Models\SeguimientoAnalsis;
 use App\Models\TipoMuestraCot;
 use App\Models\PromedioCot;
 use App\Models\Sucursal;
+use App\Models\SucursalContactos;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 
 use PDF;
 use Mpdf\Mpdf;
-
+use PhpParser\Node\Stmt\Return_;
 
 class CotizacionController extends Controller
 {
@@ -56,11 +57,19 @@ class CotizacionController extends Controller
     {
         $model = SucursalCliente::where('Id_sucursal', $res->id)->first();
         $direccion = DireccionReporte::where('Id_sucursal', $model->Id_sucursal)->get();
-        $contacto = ContactoCliente::where('Id_cliente', $model->Id_cliente)->get();
+        $contacto = SucursalContactos::where('Id_sucursal', $model->Id_sucursal)->get();
         $data = array(
             'model' => $model,
-            'direccion' => $direccion,
+            'direccion' => $direccion, 
             'contacto' => $contacto,
+        );
+        return response()->json($data);
+    }
+    public function setDatoGeneral(Request $res)
+    {
+        $model = SucursalContactos::find($res->id);
+        $data = array(
+            'model' => $model,
         );
         return response()->json($data);
     }
@@ -220,6 +229,8 @@ class CotizacionController extends Controller
                 'Id_intermedio' => $res->intermediario,
                 'Id_cliente' => $res->cliente,
                 'Id_sucursal' => $res->clienteSucursal,
+                'Id_direccion' => $res->idDir,
+                'Id_general' => $res->idGen,
                 'Nombre' => $res->nomCli,
                 'Direccion' => $res->dirCli,
                 'Atencion' => $res->atencion,
@@ -270,6 +281,8 @@ class CotizacionController extends Controller
                 $cotizacion->Id_intermedio = $res->intermediario;
                 $cotizacion->Id_cliente = $res->cliente;
                 $cotizacion->Id_sucursal = $res->clienteSucursal;
+                $cotizacion->Id_direccion = $res->idDir;
+                $cotizacion->Id_general = $res->idGen;
                 $cotizacion->Nombre = $res->nomCli;
                 $cotizacion->Direccion = $res->dirCli;
                 $cotizacion->Atencion = $res->atencion;
@@ -398,6 +411,7 @@ class CotizacionController extends Controller
             'estados' => $estados,
             'metodoPago' => $metodoPago,
             'version' => $this->version,
+            'show' => true,
         );
         return view('cotizacion.create', $data);
     }
@@ -432,7 +446,42 @@ class CotizacionController extends Controller
             'estados' => $estados,
             'muestreo' => $cotizacionMuestreo,
             'metodoPago' => $metodoPago,
-
+            'show' => true,
+        );
+        return view('cotizacion.create', $data);
+    }
+    public function show($id)
+    {
+        $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', null)->get();
+        $generales = DB::table('ViewGenerales')->where('deleted_at', null)->get();
+        $frecuencia = DB::table('frecuencia001')->get();
+        $subNormas = SubNorma::all();
+        $servicios = DB::table('tipo_servicios')->get();
+        $descargas = DB::table('tipo_descargas')->get();
+        $metodoPago = DB::table('metodo_pago')->get();
+        $estados = DB::table('estados')->get();
+        $categorias001 = DB::table('categoria001_2021')->get();
+        $tipoMuestraCot = TipoMuestraCot::all();
+        $promedioCot = PromedioCot::all();
+        $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $id)->first();
+        $cotizacionPuntos = CotizacionPunto::where('Id_cotizacion', $id)->get();
+        $cotizacionMuestreo = DB::table('cotizacion_muestreos')->where('Id_cotizacion', $id)->first();
+        $data = array(
+            'model' => $model,
+            'cotizacionPuntos' => $cotizacionPuntos,
+            'categorias001' => $categorias001,
+            'tipoMuestraCot' => $tipoMuestraCot,
+            'promedioCot' => $promedioCot,
+            'intermediarios' => $intermediarios,
+            'generales' => $generales,
+            'subNormas' => $subNormas,
+            'servicios' => $servicios,
+            'descargas' => $descargas,
+            'frecuencia' => $frecuencia,
+            'estados' => $estados,
+            'muestreo' => $cotizacionMuestreo,
+            'metodoPago' => $metodoPago,
+            'show' => false,
         );
         return view('cotizacion.create', $data);
     }

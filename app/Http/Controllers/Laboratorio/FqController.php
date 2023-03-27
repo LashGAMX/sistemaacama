@@ -2622,7 +2622,7 @@ class FqController extends Controller
             } else {
                 $sw = false;
             }
-        } else if ($parametro->Id_parametro == 7 || $parametro->Id_parametro == 55) { // Nitratos
+        } else if ($parametro->Id_parametro == 7 || $parametro->Id_parametro == 55 || $parametro->Id_parametro == 106) { // Nitratos
             $horizontal = 'P';
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
@@ -2657,7 +2657,7 @@ class FqController extends Controller
             } else {
                 $sw = false;
             }
-        } else if ($parametro->Id_parametro == 8 || $parametro->Id_parametro == 56 || $parametro->Id_parametro == 82) { // Nitritos
+        } else if ($parametro->Id_parametro == 8 || $parametro->Id_parametro == 56 || $parametro->Id_parametro == 82 || $parametro->Id_parametro == 107) { // Nitritos
             $horizontal = 'P';
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
