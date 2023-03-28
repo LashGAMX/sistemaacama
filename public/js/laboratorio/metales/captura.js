@@ -272,6 +272,7 @@ function operacion()
              y:$("#abs2"+idMuestra).val(),
              z:$("#abs3"+idMuestra).val(),
              FD:$("#factorDilucion"+idMuestra).val(),
+             FC:$("#factorConversion"+idMuestra).val(),
             _token: $('input[name="_token"]').val()
         }, 
         dataType: "json",

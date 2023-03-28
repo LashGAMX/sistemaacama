@@ -73,6 +73,7 @@ var folioAsignar;
     $('#btnGenerar').click( function () {
         // alert("Generar");
         generar(idSolicitud, folio);
+        
         // window.location = base_url+"/admin/campo/asignar";
         // window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idSolicitud;
     });
@@ -86,6 +87,7 @@ var folioAsignar;
         swal("Registro!", "Registro guardado correctamente!", "success");
         $('#modalAsignar').modal('hide')
         generar(idSolicitud, folio);
+       
     });
 
     $('#btnAsignarMultiple').click(function (){
@@ -149,7 +151,7 @@ var folioAsignar;
             }
         } );  
  }
- function asignarMultiple(){
+ function asignarMultiple(idSolicitud, folio){
     let tabla = document.getElementById('tablaMuestreadores');
     let tablaPunto = document.getElementById('tablaPuntoMuestreo');
     let tab = '';
@@ -168,24 +170,16 @@ var folioAsignar;
         async: false, 
         success: function (response) {            
             console.log(response);
-          tab += '<table id="solicitudGenerada" class="table table-sm">';
+          tab += '<table id="muestreadores" class="table table-sm">';
           tab += '    <thead class="thead-dark">';
           tab += '        <tr>';
-          tab += '            <th>Folio</th>';
-          tab += '            <th>Punto de muestreo</th>';
-          tab += '            <th>Captura</th>';
-          tab += '            <th>Id muestreador</th>';
-          tab += '            <th>Nombres</th>';
+          tab += '            <th>Muestreador</th>';
           tab += '        </tr>';
           tab += '    </thead>';
           tab += '    <tbody>';
-          $.each(response.model, function (key, item) {
+          $.each(response.user, function (key, item) {
             tab += '<tr>';
-            tab += '    <td>'+item.Folio+'</td>';
-            tab += '    <td>'+item.Punto_muestreo+'</td>';
-            tab += '    <td>'+item.Captura+'</td>';
-            tab += '    <td>'+item.Id_muestreador+'</td>';
-            tab += '    <td>'+item.Nombres+'</td>';
+            tab += '    <td>'+item.name+'</td>';
             tab += '</tr>';
           });
           tab += '    </tbody>';

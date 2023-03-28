@@ -423,15 +423,16 @@ class MetalesController extends Controller
         $parametro = Parametro::where('Id_parametro', $request->idParametro)->first();
         //$curvaConstantes = CurvaConstantes::where('Id_lote', $request->idlote)->first();
         $curvaConstantes  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-            ->where('Id_area', $parametro->Id_area)
+            // ->where('Id_area', $parametro->Id_area)
             ->where('Id_parametro', $parametro->Id_parametro)->first();
 
-        $parametroPurificada = Parametro::where('Id_matriz', 9)->where('Id_parametro', $detalleModel->Id_parametro)->get();
+        $parametroPurificada = Parametro::where('Id_matriz', 14)->where('Id_parametro', $detalleModel->Id_parametro)->get();
 
         $x = $request->x;
         $y = $request->y;
         $z = $request->z;
         $FD = $request->FD;
+        $FC = $request->FC;
         $suma = ($x + $y + $z);
         $promedio = round(($suma / 3),3);
         
@@ -439,14 +440,14 @@ class MetalesController extends Controller
 
         if ($parametroPurificada->count()) {    //todo:: Verificar filtro con la norma!!!
             $paso1 = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
-            $resultado = ($paso1 * 1) / 1000;
+            $resultado = ($paso1 * 1) / $FC;
         } else {
 
             if ($parametroModel->count()) {
                 if ($detalleModel->Descripcion != "Resultado") {
                     $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
                 } else {
-                    $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) / 1000;
+                    $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) / $FC;
                 }
             } else {
                 $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
@@ -472,7 +473,7 @@ class MetalesController extends Controller
             'promedio' => $promedio,
             'resultado' => $resultado,
             'resultadoRound' => $resultadoRound,
-
+            'FC' => $FC,
 
         );
 
@@ -641,11 +642,11 @@ class MetalesController extends Controller
         $today = $fecha->toDateString();
 
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
-        $curva  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-        ->where('Id_area', $parametro->Id_area)
-        ->where('Id_parametro', $parametro->Id_parametro)->first();
+        $curva  = CurvaConstantes::whereDate('Fecha_inicio', '>=', $request->fechaAnalisis)->whereDate('Fecha_fin', '<=', $request->fechaAnalisis)
+        ->where('Id_parametro', $parametro->Id_parametro)->first(); 
 
         $data = array(
+            'today'  => $today,
             'lote' => $model,
             'curva' => $curva,
         );

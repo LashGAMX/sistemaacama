@@ -8,6 +8,7 @@ Route::group(['prefix' => 'campo'], function () {
     Route::get('capturar', [CampoController::class, 'listaMuestreo']);
     Route::get('captura/{id}', [CampoController::class, 'captura']);
     Route::post('asignar/generar', [CampoController::class, 'generar']); 
+    Route::post('asignar/asignarMultiple',[CampoController::class, 'asignarMultiple']); 
     Route::post('setObservacion',[CampoController::class,'setObservacion']);
     // Route::post('campo/asignar/generarUpdate', [CampoController::class,'generarUpdate']);
 

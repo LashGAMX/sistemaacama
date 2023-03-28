@@ -222,11 +222,11 @@ class LaboratorioController extends Controller
             //$soloHoraFormateada = $fechaHora->toTimeString();
         }else{
             $tecnicaMetales = TecnicaLoteMetales::where('Id_lote', 0)->first();            
-            $fechaPreparacion = date("d/m/Y", strtotime($tecnicaMetales->Fecha_preparacion));            
-            $fechaHora = Carbon::parse($tecnicaMetales->Fecha_hora_dig);
-            $soloFecha = $fechaHora->toDateString();
-            $soloFechaFormateada = date("d/m/Y", strtotime($soloFecha));            
-            $soloHoraFormateada = $fechaHora->format('H:i');
+            @$fechaPreparacion = date("d/m/Y", strtotime($tecnicaMetales->Fecha_preparacion));            
+            @$fechaHora = Carbon::parse($tecnicaMetales->Fecha_hora_dig);
+            @$soloFecha = $fechaHora->toDateString();
+            @$soloFechaFormateada = date("d/m/Y", strtotime($soloFecha));            
+            @$soloHoraFormateada = $fechaHora->format('H:i');
             //$soloHoraFormateada = $fechaHora->toTimeString();
 
             echo '<script> alert("Valores predeterminados en la sección Flama/Generador de hidruros/Horno de grafito/Alimentos. Rellena estos datos.") </script>';

@@ -62,6 +62,7 @@ use App\Models\TermFactorCorreccionTemp;
 use App\Models\TermometroCampo;
 use App\Models\TipoReporte;
 use App\Models\TipoTratamiento;
+use App\Models\Users;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
 
@@ -127,6 +128,7 @@ class CampoController extends Controller
         $frecuencia = DB::table('frecuencia001')->where('Id_frecuencia', $model->Id_muestreo)->first();
         $phCampoTrazable = CampoPhTrazable::where('Id_solicitud', $model->Id_solicitud)->get();
         $phCampoCalidad = CampoPhCalidad::where('Id_solicitud', $model->Id_solicitud)->get();
+        $phCampoCalTemo = DB::table('ph_calidad')->get();
         $conCampoTrazable = CampoConTrazable::where('Id_solicitud',$model->Id_solicitud)->first();
         $conCampoCalidad = CampoConCalidad::where('Id_solicitud',$model->Id_solicitud)->first();
         $puntos = SolicitudPuntos::where('Id_solicitud',$id)->first();
@@ -145,7 +147,16 @@ class CampoController extends Controller
 
         $materiales =   DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $id)->get();
 
+        if ($model->Num_tomas > 1) {
+            $hidden = "";
+        }else{
+            $hidden = "hidden";
+        }
+        
+        
         $data = array(
+            'phCampoCalTemo' => $phCampoCalTemo,
+            'hidden' => $hidden,
             'model' => $model,
             'color' => $color,
             'materia' => $materia,
@@ -1051,7 +1062,14 @@ class CampoController extends Controller
     public $idSol;
 
     public function asignarMultiple(Request $request){
-        
+        $user = Users::where('role_id', 8)->get();
+
+        $data = array([
+            'user' => $user,
+            'idSolicitud' => $request->idSolicitud,
+            'folio' => $request->folio,
+        ]);
+        return response()->json($data);
     }
 
     public function generar(Request $request) //Generar solicitud 

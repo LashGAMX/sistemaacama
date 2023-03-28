@@ -458,10 +458,8 @@ class FqController extends Controller
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
         $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-            ->where('Id_area', 16)
+            //->where('Id_area', 16)
             ->where('Id_parametro', $parametro->Id_parametro)->first();
-
-        //$curva = CurvaConstantes::where('Id_lote', $model->Id_lote)->first();
 
         $data = array(
             'model' => $model,
@@ -500,13 +498,13 @@ class FqController extends Controller
         $today = $fecha->toDateString();
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
-        $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-            ->where('Id_area', $parametro->Id_area)
-            ->where('Id_parametro', $parametro->Id_parametro)->first();
-
-        $data = array(
+        $curva = CurvaConstantes::whereDate('Fecha_inicio', "<=", $today)->whereDate('Fecha_fin', ">=", $today)
+        ->where('Id_parametro', $parametro->Id_parametro)->first();
+        $data = array( 
             'model' => $model,
             'curva' => $curva,
+            'today' =>$today,
+            'para' => $parametro,
         );
         return response()->json($data);
     }
@@ -2587,7 +2585,7 @@ class FqController extends Controller
             } else {
                 $sw = false;
             }
-        } else if ($parametro->Id_parametro == 80 || $parametro->Id_parametro == 114 || $parametro->Id_parametro == 130) { //Fluoruros
+        } else if ($parametro->Id_parametro == 80 || $parametro->Id_parametro == 114 || $parametro->Id_parametro == 130 || $parametro->Id_parametro == 105) { //Fluoruros
             $horizontal = 'P';
             $data = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
@@ -3671,3 +3669,4 @@ class FqController extends Controller
         $mpdf->Output();
     }
 }
+

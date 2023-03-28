@@ -10,6 +10,8 @@
 <input type="text" id="numTomas" value="{{$model->Num_tomas}}" hidden>
 @stop
 
+
+
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -310,6 +312,7 @@
                                 $temp1 = "";
                                 $temp2 = "";
                                 $temp3 = "";
+                                $tempNum = "";
                                 @endphp
                                 @foreach ($phCampoCalidad as $item)
                                 @if ($item->Estado == "Aprobado")
@@ -317,8 +320,18 @@
                                     @else
                                 <tr id="trCalidad{{$item->Id_ph}}">
                                     @endif
-                                    <td><input type="number" id="phCalidad{{$item->Id_ph}}" value="{{$item->Ph}}"
-                                            disabled></td>
+                                        @foreach ($phCampoCalTemo as $item2)
+                                                @if ($item->Id_phCalidad == $item2->Id_ph)
+                                                    @php
+                                                        $temp1 = $item2->Ph_calidad;
+                                                        $temp2 = $item2->Marca;
+                                                        $temp3 = $item2->Lote;
+                                                    @endphp
+                                                @endif    
+                                        @endforeach
+                                    <td>
+                                        <input type="number" id="phCalidad{{$item->Id_ph}}" value="{{$temp1}}" disabled>
+                                    </td>
                                     <td>
                                         <p id="phCNombre{{$item->Id_ph}}">{{$temp1}}</p>
                                     </td>
@@ -566,8 +579,7 @@
                                 <input type="text" value="{{ $model->Fecha_muestreo}}" id="FechaMuestreo" hidden>
                                 <table class="table" id="phMuestra">
                                     <thead>
-                                        <button id="setPhMuestra" type="button" class="btn-success"><i
-                                                class="fas fa-save"></i> Guardar</button>
+                                        {{-- <button id="setPhMuestra" type="button" class="btn-success"><i class="fas fa-save"></i> Guardar</button> --}}
                                         <tr>
                                             <th>Núm Muestra</th>
                                             @if (@$materia->count())
@@ -670,8 +682,7 @@
                                 <p>Temperatura del agua </p>
                                 <table class="table" id="tempAgua">
                                     <thead>
-                                        <button type="button" id="btnTempAgua" onclick="GuardarTempAgua()"
-                                            class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+                                        {{-- <button type="button" id="btnTempAgua" onclick="GuardarTempAgua()" class="btn-success"><i class="fas fa-save"></i> Guardar</button> --}}
                                         <tr>
                                             <th>Núm Muestra</th>
                                             <th>Temperatura 1 (°C)</th>
@@ -737,8 +748,7 @@
                                 <p>Temperatura del ambiente </p>
                                 <table class="table" id="tabTempAmbiente">
                                     <thead>
-                                        <button type="button" id="btnTempAmb" onclick="GuardarTempAmb()"
-                                            class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+                                        {{-- <button type="button" id="btnTempAmb" onclick="GuardarTempAmb()" class="btn-success"><i class="fas fa-save"></i> Guardar</button> --}}
                                         <tr>
                                             <th>Núm Muestra</th>
                                             <th>Temperatura 1 (°C)</th>
@@ -783,8 +793,7 @@
                                 <p>PH control calidad</p>
                                 <table class="table" id="phControlCalidadMuestra">
                                     <thead>
-                                        <button type="button" onclick="GuardarPhControlCalidad()" class="btn-success"><i
-                                                class="fas fa-save"></i> Guardar</button>
+                                        {{-- <button type="button" onclick="GuardarPhControlCalidad()" class="btn-success"><i class="fas fa-save"></i> Guardar</button> --}}
                                         <tr>
                                             <th>Núm Muestra</th>
                                             <th>PH calidad</th>
@@ -847,8 +856,7 @@
                                 <p>Conductividad</p>
                                 <table class="table" id="conductividad">
                                     <thead>
-                                        <button type="button" id="btnConductividad" onclick="GuardarConductividad()"
-                                            class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+                                        {{-- <button type="button" id="btnConductividad" onclick="GuardarConductividad()" class="btn-success"><i class="fas fa-save"></i> Guardar</button> --}}
                                         <tr>
                                             <th>Núm Muestra</th>
                                             <th>Conductividad 1 (µS)</th>
@@ -896,8 +904,7 @@
                                 <p>Gasto</p>
                                 <table class="table" id="gasto">
                                     <thead>
-                                        <button type="button" id="btnGasto" onclick="GuardarGasto()"
-                                            class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+                                        {{-- <button type="button" id="btnGasto" onclick="GuardarGasto()" class="btn-success"><i class="fas fa-save"></i> Guardar</button> --}}
                                         <tr>
                                             <th>Núm Muestra</th>
                                             <th>Gasto 1 (L/s)</th>
@@ -939,7 +946,7 @@
                 <div class="tab-pane fade" id="datosCompuestos" role="tabpanel" aria-labelledby="datosCompuestos-tab">
                     <form>
                         <div class="row">
-                            <div class="col-md-12">
+                            <div class="col-md-12" {{$hidden}}>
                                 <p>Muestra compuesta</p>
                                 <table class="table" id="phTrazable">
                                     <thead>
@@ -1023,7 +1030,7 @@
                                 <h6></h6>
                                 <hr>
                             </div>
-                            <div class="col-md-12">
+                            <div class="col-md-12" {{$hidden}}> 
                                 <p>Cálculo de muestreo</p>
                                 <table class="table" id="phTrazable">
                                     <thead>
@@ -1043,7 +1050,7 @@
                                 </table>
                             </div>
 
-                            <div class="col-md-12">
+                            <div class="col-md-12" {{$hidden}}>
                                 <button class="btn btn-success" type="button" onclick="generarVmsi()">Generar</button>
 
                                 <table class="table" id="muestrasQi">
@@ -1064,14 +1071,14 @@
                                 </table>
                             </div>
 
-                            <div class="col-md-4">
+                            <div class="col-md-4" {{$hidden}}>
                                 <div class="form-group">
                                     <label for="">PH Muestra compuesta</label>
                                     <input type="number" id="phMuestraCompuesto" value="{{@$compuesto->Ph_muestraComp}}"
                                         class="form-control" placeholder="PH muestra">
                                 </div>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-4" {{$hidden}}>
                                 <div class="form-group">
                                     <label for="">Temperatura muestra compuesta</label>
                                     <input type="number" class="form-control" id="valTemp"

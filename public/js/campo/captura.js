@@ -38,6 +38,13 @@ function validacionFechaMuestreo(f1,f2,sw){
             inputBorderColor(f1, "rojo");
             console.log("Fecha menor");
         }
+        let aux = new Date()
+        aux = d2.getDate() + 1
+        console.log(aux)
+        console.log(d1)
+        if (d1.getDate() > aux) {
+            alert("Estas seguro de agregar esa fecha?")
+        }
     } else {
         let d1 = new Date($("#"+f1).val()); // Fecha original
         let d2 = new Date($("#"+f2).val()); // Fecha comprobacion
