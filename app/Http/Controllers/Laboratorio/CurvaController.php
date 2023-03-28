@@ -229,7 +229,7 @@ class CurvaController extends Controller
                     'Fecha_fin' => $fechaFin,
                 ]);
                
-                if ($request->idArea == 2 || $request->idParametro == 243 || $request->idParametro == 113 || $request->idParametro == 107 || $request->idParametro == 95 || $request->idParametro == 105){
+                if ($request->idArea == 2 || $request->idParametro == 243 || $request->idParametro == 113 ){
                     //Creacion del blanco
                 estandares::create([
                     //'Id_lote' => $request->idLote,
