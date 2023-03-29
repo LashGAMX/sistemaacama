@@ -230,6 +230,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getDetalleDirecto', [DirectosController::class, 'getDetalleDirecto']);
         Route::post('operacion', [DirectosController::class, 'operacion']);
         Route::post('operacionTemperatura', [DirectosController::class, 'operacionTemperatura']);
+        Route::post('operacionTurbiedad', [DirectosController::class, 'operacionTurbiedad']);
         Route::post('operacionColor', [DirectosController::class, 'operacionColor']);
         Route::post('enviarObsGeneral', [DirectosController::class, 'enviarObsGeneral']);
         Route::post('updateObsMuestra', [DirectosController::class, 'updateObsMuestra']);

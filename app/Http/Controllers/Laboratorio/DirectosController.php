@@ -278,6 +278,27 @@ class DirectosController extends Controller
         );
         return response()->json($data);
     }
+
+    public function operacionTurbiedad(Request $request){
+        $promedio = ($request->l1 + $request->l2 + $request->l3) / 3;
+        $resultado = round($promedio, 3);
+        $model = LoteDetalleDirectos::find($request->idDetalle);
+        $model->Resultado = $resultado;
+        $model->Factor_dilucion = $request->factor;
+        $model->Vol_muestra = $request->volumen;
+        $model->Lectura1 = $request->l1;
+        $model->Lectura2 = $request->l2;
+        $model->Lectura3 = $request->l3;
+        $model->Promedio = $request->promedio;
+        $model->save();
+
+        $data = array([
+            'promedio' => $promedio,
+            'res' => $resultado,
+        ]);
+        return response()->json($data);
+
+    }
     public function operacionTemperatura(Request $request)
     {
         $resultado = "";

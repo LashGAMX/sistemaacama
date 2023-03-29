@@ -146,6 +146,10 @@ function getLoteCapturaDirecto() {
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalColor">Capturar</button>';
                         console.log("Entro a color");
                         break;
+                        case "98":
+                            tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalTurbiedad">Capturar</button>';
+                            console.log("Entro a color");
+                            break;
                     default:
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modal">Capturar</button>';
                         console.log("Entro a directos");
@@ -264,6 +268,32 @@ function operacion(){
         success: function (response) {
             console.log(response);
             $("#resultado").val(response.resultado)
+            getLoteCapturaDirecto()
+        }
+
+        });
+}
+
+function operacionTurbiedad(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionTurbiedad",
+        data: {
+            idDetalle: idMuestra,
+            id: $("#formulaTipo").val(),
+            fecha: $("#fechaAnalisis").val(),
+            factor: $("#dilusion1Turb").val(),
+            volumen: $("#volumen1Turb").val(),
+            l1: $("#lecturaUnoTurb1").val(),
+            l2: $("#lecturaDosTurb1").val(),
+            l3: $("#lecturaTresTurb1").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            $("#promedioTurb1").val(response.promedio)
+            $("#resultadoTurbiedad").val(response.res)
             getLoteCapturaDirecto()
         }
 

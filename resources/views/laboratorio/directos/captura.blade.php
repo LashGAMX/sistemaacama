@@ -241,38 +241,38 @@
                                     <tbody>
                                         <tr>
                                             <td>Factor de Dilusión.</td>
-                                            <td><input type="text" id="dilusion1" value="0"></td>
-                                            <td><input type="text" id="dilusion2" value="0"></td>
+                                            <td><input type="text" id="dilusionTurb1" value="0"></td>
+                                            <td><input type="text" id="dilusionTurb2" value="0"></td>
                                           
                                         </tr>
                                         <tr>
                                             <td>Volumen de Muestra.</td>
-                                            <td><input type="text" id="valumen1" value="0"></td>
-                                            <td><input type="text" id="volumen2" value="0"></td>
+                                            <td><input type="text" id="valumenTurb1" value="0"></td>
+                                            <td><input type="text" id="volumenTurb2" value="0"></td>
                                           
                                         </tr>
                                         <tr>
                                             <td>L1.</td>
-                                            <td><input type="text" id="lecturaUno1" value="0"></td>
-                                            <td><input type="text" id="lecturaUno2" value="0"></td>
+                                            <td><input type="text" id="lecturaUnoTurb1" value="0"></td>
+                                            <td><input type="text" id="lecturaUnoTurb2" value="0"></td>
                                             
                                         </tr>
                                         <tr>
                                             <td>L2.</td>
-                                            <td><input type="text" id="lecturaDos1" value="0"></td>
-                                            <td><input type="text" id="lecturaDos2" value="0"></td>
+                                            <td><input type="text" id="lecturaDosTurb1" value="0"></td>
+                                            <td><input type="text" id="lecturaDosTurb2" value="0"></td>
                                             
                                         </tr>
                                         <tr>
                                             <td>L3.</td>                                         
-                                            <td><input type="text" id="lecturaTres1" value="0"></td>
-                                            <td><input type="text" id="lecturaTres2" value="0"></td>
+                                            <td><input type="text" id="lecturaTresTurb1" value="0"></td>
+                                            <td><input type="text" id="lecturaTresTurb2" value="0"></td>
                                            
                                         </tr>
                                         <tr>
                                             <td>Promedio.</td>
-                                            <td><input type="text" id="promedio1" value="0"></td>
-                                            <td><input type="text" id="promedio2" value="0"></td>
+                                            <td><input type="text" id="promedioTurb1" value="0"></td>
+                                            <td><input type="text" id="promedioTurb2" value="0"></td>
                                           
                                         </tr>
                                     </tbody>
@@ -283,13 +283,13 @@
                     <div class="col-md-12">
                         <div class="form-group">
                             <label for="resultado">Resultado</label>
-                            <input type="text" id="resultado" style="font-size: 20px;color:red;"
+                            <input type="text" id="resultadoTurbiedad" style="font-size: 20px;color:red;"
                                 placeholder="Resultado">
                         </div>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
-                        <button type="button" onclick="operacion()" id="guardar"
+                        <button type="button" onclick="operacionTurbiedad()" id="guardar"
                             class="btn btn-primary">Calcular</button>
                     </div>
                 </div>
