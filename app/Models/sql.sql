@@ -309,7 +309,7 @@ INNER JOIN area_analisis as areas
 ON tipo.Id_area = areas.Id_area_analisis
 
 /* Lista  ViewLoteDetalleEspectro */
-CREATE VIEW ViewLoteDetalleEspectro AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,con.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_espectro as det
+CREATE VIEW ViewLoteDetalleEspectro AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,param.Limite,con.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_espectro as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
 INNER JOIN  ViewSolicitud as sol

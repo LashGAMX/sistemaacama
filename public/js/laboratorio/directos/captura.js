@@ -148,7 +148,7 @@ function getLoteCapturaDirecto() {
                         break;
                         case "98":
                             tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalTurbiedad">Capturar</button>';
-                            console.log("Entro a color");
+                            console.log("Entro a turbiedad");
                             break;
                     default:
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modal">Capturar</button>';
@@ -245,9 +245,35 @@ function getDetalleDirecto(idMuestra)
             $("#ph1").val(model.Ph)
             $("#factor1").val(model.Factor_correcion)
             $("#resultadoColor").val(model.Resultado)
+            //Turbiedad 
+            $("#dilusionTurb1").val(model.Factor_dilucion);
+            $("#valumenTurb1").val(model.Vol_muestra);
+            $("#lecturaUnoTurb1").val(model.Lectura1);
+            $("#lecturaDosTurb1").val(model.Lectura2);
+            $("#lecturaTresTurb1").val(model.Lectura3);
+            $("#promedioTurb1").val(model.Promedio);
+            $("#resultadoTurbiedad").val(model.Resultado);
         }
 
         }); 
+}
+function createControlCalidad()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/createControlCalidadDirectos",
+        data: {
+            idMuestra: idMuestra,
+            idLote:idLote,
+            idControl: $("#controlCalidad").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response); 
+            getLoteCapturaDirecto();
+        }
+    });
 }
 
 function operacion(){
@@ -282,8 +308,8 @@ function operacionTurbiedad(){
             idDetalle: idMuestra,
             id: $("#formulaTipo").val(),
             fecha: $("#fechaAnalisis").val(),
-            factor: $("#dilusion1Turb").val(),
-            volumen: $("#volumen1Turb").val(),
+            factor: $("#dilusionTurb1").val(),
+            volumen: $("#valumenTurb1").val(),
             l1: $("#lecturaUnoTurb1").val(),
             l2: $("#lecturaDosTurb1").val(),
             l3: $("#lecturaTresTurb1").val(),

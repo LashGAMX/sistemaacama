@@ -8,7 +8,7 @@
     <title>Captura PDF</title>
 </head>
 <body>
-    <p id='curvaProcedimiento'>Procedimiento</p>
+    <br>
     <div id="contenidoCurva">
         @php
         echo @$textProcedimiento->Texto;
@@ -29,10 +29,11 @@
                 <tr>
                     {{-- <th class="tableCabecera anchoColumna">pH</th> --}}
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
-                    <th class="tableCabecera anchoColumna">VOL. TITULANTE BLANCO</th>
-                    <th class="tableCabecera anchoColumna">VOL. MUESTRA</th>
-                    <th class="tableCabecera anchoColumna">VOL. TITULANTE MUESTRA</th>
-                    <th class="tableCabecera anchoColumna">NITRÓGENO AMONIACAL (N-NH3) mg/L</th>
+                    <th class="tableCabecera anchoColumna">Vol. de muestra(mL)</th>
+                    <th class="tableCabecera anchoColumna">Vol. de NaOH en estándares</th>
+                    <th class="tableCabecera anchoColumna">Vol. de NaOH en muestra</th>
+                    <th class="tableCabecera anchoColumna">Lectura de equipo (mg/L)</th>
+                    <th class="tableCabecera anchoColumna">Concentraión (mg/L de N-NH3)</th>
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
@@ -50,8 +51,11 @@
                                 {{@$loteDetalle[$i]->Control}}
                             @endif 
                         </td>
-                        <td class="tableContent">{{@$loteDetalle[$i]->Titulado_blanco}}</td>
                         <td class="tableContent">{{@$loteDetalle[$i]->Vol_muestra}}</td>
+                        <td class="tableContent">{{@$loteDetalle[$i]->Vol_muestra}}</td>
+                        <td class="tableContent">{{@$loteDetalle[$i]->Vol_muestra}}</td>
+                        <td class="tableContent">{{@$loteDetalle[$i]->Vol_muestra}}</td>
+                        {{-- <td class="tableContent">{{@$loteDetalle[$i]->Titulado_blanco}}</td>
                         <td class="tableContent">{{@$loteDetalle[$i]->Titulado_muestra}}</td>
                         <td class="tableContent">
                             @if (@$loteDetalle[$i]->Resultado > @$loteDetalle[$i]->Limite)
@@ -59,7 +63,7 @@
                             @else
                                 {{@$loteDetalle[$i]->Limite}}
                             @endif
-                        </td>
+                        </td> --}}
                         <td class="tableContent">{{@$loteDetalle[$i]->Observacion}}</td>
                         <td class="tableContent">
                             @if (@$loteDetalle[$i]->Liberado == 1)

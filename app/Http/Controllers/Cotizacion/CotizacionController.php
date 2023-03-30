@@ -18,6 +18,7 @@ use App\Models\CotizacionParametros;
 use App\Models\CotizacionPunto;
 use App\Models\DireccionReporte;
 use App\Models\Frecuencia001;
+use App\Models\InformesRelacion;
 use App\Models\NormaParametros;
 use App\Models\ParametroNorma;
 use App\Models\PrecioCatalogo;
@@ -641,14 +642,16 @@ class CotizacionController extends Controller
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
         $puntos = CotizacionPunto::where('Id_cotizacion', $model->Id_cotizacion)->get();
+        $relacion = InformesRelacion::where('Id_cotizacion', $model->Id_cotizacion)->get();
         
-        if ($model->Id_reporte == null || $model->Id_reporte == 0){
-            $reportesInformes = DB::table('ViewReportesCotizacion')->orderBy('Num_rev', 'desc')->first();
-            $update = Cotizacion::find($model->Id_cotizacion);
-            $update->Id_reporte = $reportesInformes->Id_reporte; 
-            $update->save();
+        if ($relacion->count()){
+            $reportesInformes = DB::table('ViewReportesCotizacion')->where('Id_reporte', $relacion->Id_relacion)->first();
         } else {
-            $reportesInformes = DB::table('ViewReportesCotizacion')->where('Id_reporte', $model->Id_reporte)->first();
+            $reportesInformes = DB::table('ViewReportesCotizacion')->orderBy('Num_rev', 'desc')->first();
+            InformesRelacion::create([
+                'Id_cotizacion' => $model->Id_cotizacion,
+                'Id_reporte' => $reportesInformes->Id_reporte, 
+            ]); 
         }
 
         

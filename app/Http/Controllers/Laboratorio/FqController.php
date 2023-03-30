@@ -36,6 +36,7 @@ use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
 use App\Models\LoteDetalleSolidos;
 use App\Models\LoteTecnica;
+use App\Models\PlantillasFq;
 use App\Models\Reportes;
 use App\Models\ReportesMb;
 use App\Models\SecadoCartucho;
@@ -2215,6 +2216,89 @@ class FqController extends Controller
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
         switch ($lote->Id_tecnica) {
+            case 112:
+                $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $idLote)->get();
+                $plantilla = PlantillasFq::where('Id_parametro',112)->first();
+                $data = array(
+                    'lote' => $lote, 
+                    'model' => $model,
+                    'plantilla' => $plantilla,
+                );
+
+                $htmlHeader = view('exports.laboratorio.fq.ga.sdt.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.fq.ga.sdt.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
+            case 107:
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
+                $plantilla = PlantillasFq::where('Id_parametro',107)->first();
+                $curva = CurvaConstantes::where('Id_parametro', 107)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $data = array(
+                    'lote' => $lote, 
+                    'model' => $model,
+                    'curva' => $curva,
+                    'plantilla' => $plantilla,
+                );
+
+                $htmlHeader = view('exports.laboratorio.fq.espectro.nitritos.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
+            case 95: // Sulfatos
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
+                $plantilla = PlantillasFq::where('Id_parametro',95)->first();
+                $curva = CurvaConstantes::where('Id_parametro', 95)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $data = array(
+                    'lote' => $lote,
+                    'model' => $model,
+                    'curva' => $curva,
+                    'plantilla' => $plantilla,
+                );
+
+                $htmlHeader = view('exports.laboratorio.fq.espectro.sulfatos.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.sulfatos.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
+            case 105: // Fluoruros
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
+                $plantilla = PlantillasFq::where('Id_parametro',105)->first();
+                $curva = CurvaConstantes::where('Id_parametro', 105)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $data = array(
+                    'lote' => $lote,
+                    'model' => $model,
+                    'curva' => $curva,
+                    'plantilla' => $plantilla,
+                );
+
+                $htmlHeader = view('exports.laboratorio.fq.espectro.fluoruros.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.fluoruros.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
+            case 96: // SAAM
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
+                $plantilla = PlantillasFq::where('Id_parametro',96)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $data = array(
+                    'lote' => $lote,
+                    'model' => $model,
+                    'curva' => $curva,
+                    'plantilla' => $plantilla,
+                );
+
+                $htmlHeader = view('exports.laboratorio.fq.espectro.saam.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.saam.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
             case 152: // COT
  
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
@@ -2277,6 +2361,22 @@ class FqController extends Controller
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
     public function exportPdfCapturaEspectro($idLote)
     {
+
+        $temp = LoteAnalisis::where('Id_lote',$idLote)->first();
+        switch ($temp->Id_tecnica) {
+            case 96:
+            case 105:
+            case 95:
+            case 107:
+                return redirect()->to('admin/laboratorio/fq/captura/exportPdfEspectro/'.$idLote);
+                break;
+                break;
+            default:
+                # code...
+                break;
+        }
+
+
         $horizontal = 'P';
         $sw = true;
         $id_lote = $idLote;
@@ -2967,6 +3067,21 @@ class FqController extends Controller
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
     public function exportPdfCapturaSolidos($idLote)
     {
+        $temp = LoteAnalisis::where('Id_lote',$idLote)->first();
+        switch ($temp->Id_tecnica) {
+            case 96:
+            case 105:
+            case 95:
+            case 107:
+            case 112:
+                return redirect()->to('admin/laboratorio/fq/captura/exportPdfEspectro/'.$idLote);
+                break;
+                break;
+            default:
+                # code...
+                break;
+        }
+
         $horizontal = 'P';
 
         $id_lote = $idLote;
@@ -3025,7 +3140,7 @@ class FqController extends Controller
                 } else {
                     $sw = false;
                 }
-            } else if ($parametro->Id_parametro == 88 || $parametro->Id_parametro == 91) { //POR REVISAR EN LA TABLA DE DATOS; SDT
+            } else if ($parametro->Id_parametro == 88 || $parametro->Id_parametro == 112) { //POR REVISAR EN LA TABLA DE DATOS; SDT
                 $horizontal = 'P';
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
@@ -3300,7 +3415,7 @@ class FqController extends Controller
                 }
 
                 $horizontal = 'P';
-            } else if ($parametro->Id_parametro == 88 || $parametro->Id_parametro == 91) { //SDT
+            } else if ($parametro->Id_parametro == 88 || $parametro->Id_parametro == 112) { //SDT
                 $data = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $id_lote)->orderBy('Id_control', 'DESC')->get();
 
                 if (!is_null($data)) {
@@ -3552,7 +3667,7 @@ class FqController extends Controller
         if ($parametro->Id_parametro == 43) { //SDF
             $htmlHeader = view('exports.laboratorio.fq.ga.sdf.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.ga.sdf.capturaFooter', compact('usuario', 'firma'));
-        } else if ($parametro->Id_parametro == 88 || $parametro->Id_parametro == 91) { //POR REVISAR EN LA TABLA DE DATOS; SDT
+        } else if ($parametro->Id_parametro == 88 || $parametro->Id_parametro == 112) { //POR REVISAR EN LA TABLA DE DATOS; SDT
             $htmlHeader = view('exports.laboratorio.fq.ga.sdt.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.fq.ga.sdt.capturaFooter', compact('usuario', 'firma'));
         } else if ($parametro->Id_parametro == 44) { //SDV

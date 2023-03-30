@@ -118,7 +118,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('createControlesCalidadEspectro', [FqController::class, 'createControlesCalidadEspectro']);
         Route::post('liberarMuestraEspectro', [FqController::class, 'liberarMuestraEspectro']);
         Route::post('liberarTodoEspectro', [FqController::class, 'liberarTodoEspectro']);
-    
+        
     //****************************************GA***********************************************
 
         Route::get('capturaGA', [FqController::class, 'capturaGA']);
@@ -235,6 +235,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('enviarObsGeneral', [DirectosController::class, 'enviarObsGeneral']);
         Route::post('updateObsMuestra', [DirectosController::class, 'updateObsMuestra']);
         Route::post('liberarMuestra', [DirectosController::class, 'liberarMuestra']);
+        Route::post('createControlCalidadDirectos', [DirectosController::class, 'createControlCalidadDirectos']);
         Route::get('captura/exportPdfDirecto/{idLote}', [DirectosController::class, 'exportPdfDirecto']);
         
     });

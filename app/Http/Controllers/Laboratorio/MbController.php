@@ -1442,6 +1442,24 @@ class MbController extends Controller
                 $loteModel->Liberado = $model->count();
                 $loteModel->save();
                 break;
+            case 78: // Ecoli
+                $model = LoteDetalleEcoli::find($request->idMuestra);
+                $model->Liberado = 1;
+                $model->Analizo = Auth::user()->id;
+                if ($model->Resultado != null) {
+                    $sw = true;
+                    $model->save();
+                }
+                $modelCod = CodigoParametros::find($model->Id_codigo);
+                $modelCod->Resultado = $model->Resultado;
+                $modelCod->Analizo = $model->Analizo;
+                $modelCod->save();
+
+                $model = LoteDetalleEcoli::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
+                $loteModel = LoteAnalisis::find($request->idLote);
+                $loteModel->Liberado = $model->count();
+                $loteModel->save();
+                break;
             case 35:     //todo Ecoli Enterococos
             case 253:
                 $model = LoteDetalleEnterococos::find($request->idMuestra);

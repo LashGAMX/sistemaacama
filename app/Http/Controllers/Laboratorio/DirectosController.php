@@ -9,6 +9,7 @@ use App\Models\LoteAnalisis;
 use App\Models\LoteDetalleDirectos;
 use App\Models\Parametro;
 use App\Models\PlantillaDirectos;
+use App\Models\ControlCalidad;
 use App\Models\Promedio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -41,6 +42,19 @@ class DirectosController extends Controller
                 }
             }
         }
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function createControlCalidadDirectos(Request $request)
+    {
+        $muestra = LoteDetalleDirectos::where('Id_detalle', $request->idMuestra)->first();
+
+        $model = $muestra->replicate();
+        $model->Id_control = $request->idControl;
+        $model->save();
+
         $data = array(
             'model' => $model,
         );
@@ -229,7 +243,8 @@ class DirectosController extends Controller
     public function captura()
     {
         $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
-        return view('laboratorio.directos.captura', compact('parametro'));
+        $controlModel = ControlCalidad::all();
+        return view('laboratorio.directos.captura', compact('parametro','controlModel'));
     }
 
     public function getLoteCapturaDirecto(Request $res)
@@ -280,6 +295,7 @@ class DirectosController extends Controller
     }
 
     public function operacionTurbiedad(Request $request){
+        $resultado = 0;
         $promedio = ($request->l1 + $request->l2 + $request->l3) / 3;
         $resultado = round($promedio, 3);
         $model = LoteDetalleDirectos::find($request->idDetalle);
@@ -289,13 +305,13 @@ class DirectosController extends Controller
         $model->Lectura1 = $request->l1;
         $model->Lectura2 = $request->l2;
         $model->Lectura3 = $request->l3;
-        $model->Promedio = $request->promedio;
+        $model->Promedio = $promedio;
         $model->save();
 
-        $data = array([
+        $data = array(
             'promedio' => $promedio,
             'res' => $resultado,
-        ]);
+        );
         return response()->json($data);
 
     }

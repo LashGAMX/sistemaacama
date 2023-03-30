@@ -1516,6 +1516,41 @@ public function sendMuestrasLote(Request $res)
                     $mpdf->WriteHTML($htmlCaptura);
                     $mpdf->CSSselectMedia = 'mpdf';
                 break;
+                case 108:
+                    $mpdf = new \Mpdf\Mpdf([
+                        'orientation' => 'P',
+                        'format' => 'letter',
+                        'margin_left' => 10,
+                        'margin_right' => 10,
+                        'margin_top' => 35,
+                        'margin_bottom' => 45,
+                        'defaultheaderfontstyle' => ['normal'],
+                        'defaultheaderline' => '0'
+                    ]);
+                    //Establece la marca de agua del documento PDF
+                    $mpdf->SetWatermarkImage(
+                        asset('/public/storage/MembreteVertical.png'),
+                        1, 
+                        array(215, 280),
+                        array(0, 0),
+                    );
+                    $loteDetalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $idLote)->get();
+                    $textProcedimiento = DB::table('plantilla_volumetria')->where('Id_parametro', 108)->first();
+                    $valNitrogenoA = ValoracionNitrogeno::where('Id_lote',$idLote)->first();
+                    $data = array(
+                        'lote' => $lote, 
+                        'loteDetalle' => $loteDetalle,
+                        'textProcedimiento' => $textProcedimiento, 
+                        'valNitrogenoA' => $valNitrogenoA,
+                    );
+                    $htmlCaptura = view('exports.laboratorio.volumetria.nitrogenoA.capturaBody',$data);
+                    $htmlHeader = view('exports.laboratorio.volumetria.nitrogenoA.capturaHeader', $data);
+                
+                    $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                    $mpdf->SetHTMLFooter("", 'O', 'E');
+                    $mpdf->WriteHTML($htmlCaptura);
+                    $mpdf->CSSselectMedia = 'mpdf';
+                    break;
             case 10:
                 $loteDetalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $idLote)->get();
                 $textProcedimiento = DB::table('plantilla_volumetria')->where('Id_parametro', 10)->get();

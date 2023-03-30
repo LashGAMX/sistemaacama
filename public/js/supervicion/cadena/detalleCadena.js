@@ -168,15 +168,18 @@ function getDetalleAnalisis(idCodigo) {
             idCod = idCodigo;
             switch (response.paraModel.Id_parametro) {
                 case "17": // Arsenico
+                case "208":
                 case "231":
                 case "20": // Cobre
                 case "22": //Mercurio
                 case "25": //Zinc
                 case "227":
                 case "24": //Plomo
+                case "216": 
                 case "21": //Cromoa
                 case "264":
                 case "18": //Cadmio
+                case "210":
                     console.log("entro a caso 2");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';

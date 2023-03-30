@@ -15,6 +15,9 @@ class InformesRelacion extends Model
     public $timestamps = true;
 
     protected $fillable = [
+        'Id_cotizacion',
+        'Id_solicitud',
+        'Id_solicitud2',
         'Id_solicitud',
         'Tipo',
         'Id_reporte',

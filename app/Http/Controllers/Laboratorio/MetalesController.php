@@ -642,7 +642,7 @@ class MetalesController extends Controller
         $today = $fecha->toDateString();
 
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
-        $curva  = CurvaConstantes::whereDate('Fecha_inicio', '>=', $request->fechaAnalisis)->whereDate('Fecha_fin', '<=', $request->fechaAnalisis)
+        $curva  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $request->fechaAnalisis)->whereDate('Fecha_fin', '>=', $request->fechaAnalisis)
         ->where('Id_parametro', $parametro->Id_parametro)->first(); 
 
         $data = array(
@@ -1312,7 +1312,10 @@ class MetalesController extends Controller
             $temp->Resultado2 = $item->Resultado;
             $temp->Analizo = Auth::user()->id;
             $temp->save();
-        }
+            $temp2 = LoteDetalleIcp::find($item->Id_detalle);
+            $temp2->Liberado = 1;
+            $temp2->save();
+        } 
         $data = array(
             'model' => $model,
         );
