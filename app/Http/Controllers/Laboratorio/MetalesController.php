@@ -1319,7 +1319,7 @@ class MetalesController extends Controller
         $data = array(
             'model' => $model,
         );
-        return response()->json($data);
+        return response()->json($data); 
     }
     public function bitacoraIcp($id)
     {
@@ -1329,24 +1329,34 @@ class MetalesController extends Controller
                 'format' => 'letter',
                 'margin_left' => 10,
                 'margin_right' => 10,
-                'margin_top' => 31,
+                'margin_top' => 35, 
                 'margin_bottom' => 45,
                 'defaultheaderfontstyle' => ['normal'],
                 'defaultheaderline' => '0'
             ]);
+            $mpdf->SetWatermarkImage(
+                asset('/public/storage/MembreteVertical.png'),
+                1,
+                array(215, 280),
+                array(0, 0),
+            );
+    
+            $mpdf->showWatermarkImage = true;
             $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id)->first();
-            $resultado = LoteDetalleIcp::where('Id_lote',$id)->where('Id_control',1)->groupBy('Parametro')->get();
+            $resultados = LoteDetalleIcp::where('Id_lote',$id)->where('Id_control',1)->get();
+            $controles = LoteDetalleIcp::where('Id_lote',$id)->where('Id_control',NULL)->get();
             $data = array(
                 'lote' => $lote,
-                'resultado' => $resultado,
-                // 'curva' => $curva,
+                'resultados' => $resultados,
+                'controles' => $controles,
                 // 'textoProcedimiento' => $textoProcedimiento,
             );
             $htmlHeader = view('exports.laboratorio.metales.icp.capturaHeader', $data);
             $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
             $htmlCaptura = view('exports.laboratorio.metales.icp.capturaBody', $data);
             $mpdf->CSSselectMedia = 'mpdf';
-            $mpdf->WriteHTML($htmlCaptura);
+            $mpdf->WriteHTML($htmlCaptura); 
+            $mpdf->Output();
     }
 
 }

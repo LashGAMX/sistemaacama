@@ -157,6 +157,96 @@
                     <button id="btnLimpiarVal" class="btn btn-success">Limpiar</button>
                   </div>
                 </div>
+
+                <!-- ***************************** --> 
+                <!-- Inicio Dureza --> 
+                <!-- ***************************** --> 
+                <div class="row" id="secctionDureza" hidden>
+                  <div class="col-md-7">
+                     <table class="table" id="">
+                        <thead>
+                          <tr>
+                            <th>Formula </th>
+                            <th>Expresión</th>
+                            <th>Resultado</th>
+                            <th># Decimal</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr onclick="habilitarTabla('tableDurezaBlanco','tableDurezaValoracion')">
+                            <td>Blanco Análisis</td>
+                            <td>A</td>
+                            <td><input type="text" value="" id="blancoResDur" disabled></td>
+                            <td>2</td>
+                          </tr>
+                          <tr onclick="habilitarTabla('tableDurezaValoracion','tableDurezaBlanco')">
+                            <td>Factor real de dureza</td>
+                            <td>((A/B) + (A/C) + (A/D))/3 </td>
+                            <td><input type="text" value="" id="normalidadResDur" disabled></td>
+                            <td>3</td>
+                          </tr> 
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="col-md-5">
+                    <table class="table" id="tableDurezaBlanco"  hidden>
+                      <thead>
+                        <tr>
+                          <th>Parametro</th>
+                          <th>Descripción</th>
+                          <th>Valor</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>B</td>
+                          <td>Blanco</td>
+                          <td><input type="text" id="blancoDureza"></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table class="table" id="tableDurezaValoracion" hidden>
+                      <thead>
+                        <tr>
+                          <th>Parametro</th>
+                          <th>Descripción</th>
+                          <th>Valor</th>
+                          <th>Tipo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>A</td>
+                          <td>mg CaCO3 EN LA SOLUCION TITULADOS</td>
+                          <td><input type="number" id="tituladoDur"></td>
+                          <td>C</td>
+                        </tr>
+                        <tr>
+                          <td>B</td>
+                          <td>mL DE LA DISOLUCION DE EDTA</td>
+                          <td><input type="number" id="edtaDur1"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr>
+                          <td>C</td>
+                          <td>mL DE LA DISOLUCION DE EDTA</td>
+                          <td><input type="number" id="edtaDur2"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr>
+                          <td>D</td>
+                          <td>mL DE LA DISOLUCION DE EDTA</td>
+                          <td><input type="number" id="edtaDur3"></td>
+                          <td>V</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                 </div>
+                </div> 
+                <!-- ***************************** --> 
+                <!-- Fin Dureza --> 
+                <!-- ***************************** --> 
+
                       <!-- ***************************** --> 
                 <!-- Inicio Cloro --> 
                 <!-- ***************************** --> 

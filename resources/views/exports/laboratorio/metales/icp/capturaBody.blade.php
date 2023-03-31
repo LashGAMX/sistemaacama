@@ -18,31 +18,58 @@
     <br>
 
     <div class="contenedorTabla">
+        <p id='header1' style="font-size: 12px">RESULTADOS ICP-OES AGUA USO Y CONSUMO</p>
         <table autosize="1" class="table table-borderless" id="tablaDatos">
             <thead>
-
                 <tr>
-                    <th class="nombreHeader" colspan="15">
-                        Resultado de las muestras // Necesito simbologia que usa el equipo en ICP
-                    </th>                    
-                </tr>                
-
-                <tr>
-                    <th class="tableCabecera anchoColumna">ID: Muestra, Control de calidad</th>
-                    <th class="tableCabecera anchoColumna">Cu</th>
-                    <th class="tableCabecera anchoColumna">Fe</th>
-                    <th class="tableCabecera anchoColumna">Mn</th>
-                    <th class="tableCabecera anchoColumna">Ba</th>
-                    <th class="tableCabecera anchoColumna">Al</th>
-                    <th class="tableCabecera anchoColumna">Cr</th>
-                    <th class="tableCabecera anchoColumna">Ni</th>
-                    <th class="tableCabecera anchoColumna">Se</th>
-                    <th class="tableCabecera anchoColumna">Ag</th>
+                    <th class="tableCabecera anchoColumna">Folio</th> 
+                    <th class="tableCabecera anchoColumna">Parametro</th>
+                    <th class="tableCabecera anchoColumna">CPS Prom</th>
+                    <th class="tableCabecera anchoColumna">Resultado (mg/L)</th>
+                    <th class="tableCabecera anchoColumna">Fecha Análisis</th>
+                    <th class="anchoColumna"></th>
                 </tr>
             </thead>
-    
             <tbody>
-
+                @foreach ($controles as $item)
+                    <tr>
+                        <td class="tableContent">{{$item->Id_codigo}}</td>
+                        <td class="tableContent">{{$item->Parametro}}</td>
+                        <td class="tableContent">{{$item->Cps}}</td>
+                        @if ($item->Resultado == NULL)
+                        <td class="tableContent">-----</td>
+                        @else
+                            <td class="tableContent">{{$item->Resultado}}</td>
+                        @endif
+                        <td class="tableContent">{{$item->Fecha}}</td> 
+                        <td class="tableContent">Control</td> 
+                    </tr>
+                @endforeach
+                @php 
+                    $cont = 0;
+                @endphp
+                @foreach ($resultados as $item) 
+                    @if ($cont == 3)
+                        <tr>
+                            <td class="tableContent">{{$item->Id_codigo}}</td>
+                            <td class="tableContent">{{$item->Parametro}}</td>
+                            <td class="tableContent">{{$item->Cps}}</td>
+                            @if ($item->Resultado == NULL)
+                            <td class="tableContent">-----</td>
+                            @else
+                                <td class="tableContent">{{$item->Resultado}}</td>
+                            @endif
+                            <td class="tableContent">{{$item->Fecha}}</td>
+                            <td class="tableContent">Resultado</td>
+                        </tr> 
+                        @php 
+                            $cont = 0;
+                        @endphp
+                    @endif
+                    @php 
+                        $cont++;
+                    @endphp
+                @endforeach
             </tbody>        
         </table>  
     </div>

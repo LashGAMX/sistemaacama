@@ -43,6 +43,7 @@ use App\Models\Tecnica;
 use App\Models\TiempoReflujo;
 use App\Models\ValoracionCloro;
 use App\Models\ValoracionDqo;
+use App\Models\ValoracionDureza;
 use App\Models\ValoracionNitrogeno;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -211,7 +212,36 @@ class VolController extends Controller
                     ]);
                 }
                 break;
-
+                case 4:
+                    // Nitrogeno
+                   # code...
+                   $valoracionModel = ValoracionDureza::where('Id_lote', $request->idLote)->get();
+                   if ($valoracionModel->count()) {
+                       $model = ValoracionDureza::where('Id_lote', $request->idLote)->first();
+                       $model->Id_lote = $request->idLote;
+                       $model->Id_parametro = $request->idParametro;
+                       $model->Id_parametro = $request->idParametro;
+                       $model->Blanco = $request->blanco;
+                       $model->Disolucion1 = $request->titulado1;
+                       $model->Disolucion2 = $request->titulado2;
+                       $model->Disolucion3 = $request->titulado3;
+                       $model->Solucion = $request->solucion;
+                       $model->Resultado = $request->resultado;
+                       $model->save();
+                   } else {
+                       $model = ValoracionDureza::create([
+                           'Id_lote' => $request->idLote,
+                           'Id_parametro' => $request->idParametro,
+                           'Blanco' => $request->blanco,
+                           'Disolucion1' => $request->titulado1,
+                           'Disolucion2' => $request->titulado2,
+                           'Disolucion3' => $request->titulado3,
+                           'Solucion' => $request->solucion,
+                           'Resultado' => $request->resultado,
+                       ]);
+                   }
+                   break;
+   
 
             default:
                 # code...

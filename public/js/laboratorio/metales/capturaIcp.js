@@ -84,7 +84,7 @@ function createLote()
 }
 function bitacora(id)
 {
-    window.location = base_url+"/admin/laboratorio/metales/bitacoraIcp"+idCot;
+    window.location = base_url+"/admin/laboratorio/metales/bitacoraIcp/"+id;
 }
 function buscarLote()
 {

@@ -16,6 +16,7 @@ class ValoracionDureza extends Model
     protected $fillable = [
         'Id_lote',
         'Id_parametro',
+        'Blanco',
         'Solucion',
         'Disolucion1',
         'Disolucion2',

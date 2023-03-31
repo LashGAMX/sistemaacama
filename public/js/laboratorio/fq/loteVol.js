@@ -32,28 +32,38 @@ $('#btnDatosLote').click(function () {
             $("#secctionCloro").show();
             $("#secctionDqo").hide();
             $("#secctionNitrogeno").hide();
+            $("#secctionDureza").hide();
             break;
         case '6': // DQO
             $("#secctionDqo").show();
             $("#secctionCloro").hide();
             $("#secctionNitrogeno").hide();
+            $("#secctionDureza").hide();
             break;
         case '11': //Nitrogeno Total
             $("#secctionNitrogeno").show();
             $("#secctionCloro").hide();
             $("#secctionDqo").hide();
+            $("#secctionDureza").hide();
             break;
         case '9': //Nitrogeno Amoniacal
         case '108':
             $("#secctionNitrogeno").show();
             $("#secctionCloro").hide();
             $("#secctionDqo").hide();
+            $("#secctionDureza").hide();
             break;
         case '10': //Nitrogeno Organico
             $("#secctionNitrogeno").show();
             $("#secctionCloro").hide();
             $("#secctionDqo").hide();
+            $("#secctionDureza").hide();
             break;
+        case '103': //Nitrogeno Organico
+            $("#secctionDureza").show();
+            $("#secctionCloro").hide();
+            $("#secctionDqo").hide();
+            $("#secctionNitrogeno").hide();
         default:
             break;
     }
@@ -137,6 +147,16 @@ $('#btnEjecutarVal').click(function () {
             res = (parseFloat(gramos) / (parseFloat(pm) * prom)) * factorN;
             $("#molaridadResN").val(res.toFixed(3));
             // console.log(res)
+            break;
+        case '103':
+            $("#blancoResDur").val($("#blancoDureza").val())
+            titulado1 = parseFloat($("#edtaDur1").val())
+            titulado2 = parseFloat($("#edtaDur2").val())
+            titulado3 = parseFloat($("#edtaDur3").val())
+            solucion = parseFloat($("#tituladoDur").val())
+            prom = (titulado1 + titulado2 + titulado3) / 3
+            res = solucion / (prom - parseFloat($("#blancoResDur").val()))
+            $("#normalidadResDur").val(res.toFixed(3))
             break;
         default:
             break;
@@ -284,6 +304,29 @@ $('#btnGuardarVal').click(function () {
                     titulado2: $("#titulado2N").val(),
                     titulado3: $("#titulado3N").val(),
                     pm: $("#PmN").val(),
+                    resultado: $("#molaridadResN").val(),
+                    _token: $('input[name="_token"]').val(),
+                },
+                dataType: "json",
+                async: false,
+                success: function (response) {
+                    console.log(response);
+                }
+            });
+            break;
+            case '103': // Dureza total
+            $.ajax({
+                type: 'POST',
+                url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                data: {
+                    caso: 4,
+                    idParametro: $("#tipoFormula").val(),
+                    blanco: $("#blancoResDur").val(),
+                    idLote: $("#idLoteHeader").val(),
+                    solucion: $("#tituladoDur").val(),
+                    titulado1: $("#edtaDur1").val(),
+                    titulado2: $("#edtaDur1").val(),
+                    titulado3: $("#edtaDur1").val(),
                     resultado: $("#molaridadResN").val(),
                     _token: $('input[name="_token"]').val(),
                 },
