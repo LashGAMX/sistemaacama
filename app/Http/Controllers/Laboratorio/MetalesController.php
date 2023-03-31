@@ -1321,5 +1321,32 @@ class MetalesController extends Controller
         );
         return response()->json($data);
     }
+    public function bitacoraIcp($id)
+    {
+              //Opciones del documento PDF
+              $mpdf = new \Mpdf\Mpdf([
+                'orientation' => 'P',
+                'format' => 'letter',
+                'margin_left' => 10,
+                'margin_right' => 10,
+                'margin_top' => 31,
+                'margin_bottom' => 45,
+                'defaultheaderfontstyle' => ['normal'],
+                'defaultheaderline' => '0'
+            ]);
+            $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id)->first();
+            $resultado = LoteDetalleIcp::where('Id_lote',$id)->where('Id_control',1)->groupBy('Parametro')->get();
+            $data = array(
+                'lote' => $lote,
+                'resultado' => $resultado,
+                // 'curva' => $curva,
+                // 'textoProcedimiento' => $textoProcedimiento,
+            );
+            $htmlHeader = view('exports.laboratorio.metales.icp.capturaHeader', $data);
+            $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+            $htmlCaptura = view('exports.laboratorio.metales.icp.capturaBody', $data);
+            $mpdf->CSSselectMedia = 'mpdf';
+            $mpdf->WriteHTML($htmlCaptura);
+    }
 
 }

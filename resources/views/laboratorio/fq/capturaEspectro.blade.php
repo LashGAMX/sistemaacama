@@ -430,6 +430,105 @@
             </div>
 
         </div>
+ <!--Modal Dureza-->
+ <div class="modal fade" id="modalCapturaDureza" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Captura de resultados Dureza</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Observación</label>
+                                    <input type="text" class="form-control" id="observacion"
+                                        placeholder="Observacion de la muestra">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="button" onclick="updateObsMuestraEspectro()"
+                                        id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-success" onclick="guardarDureza()"><i class="voyager-upload"></i>
+                                    Guardar</button>&nbsp;&nbsp;
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary"  onclick="operacionDureza()"><i class="voyager-play"></i>
+                                    Ejecutar</button>
+                            </div>
+                            {{-- <div class="col-md-2">
+                                <button class="btn btn-warning">Liberar</button>
+                            </div> --}}
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <label for="resultado">Resultado</label>
+                                    <input type="text" id="resultadoDureza" style="font-size: 20px;color:red;"
+                                        placeholder="Resultado">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Parametro</th>
+                                            <th>Descripción</th>
+                                            <th>Valor</th>
+                                            <th>Valor2</th>
+                                            <th>Tipo</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>A</td>
+                                            <td>MILILITROS TITULADOS DE EDTA</td>
+                                            <td><input type="text" id="Titulados1"></td>
+                                            <td><input type="text" id="Titulados2"></td>
+                                            <td>V</td>
+                                        </tr>
+                                        <tr>
+                                            <td>B</td>
+                                            <td>FACTOR DE CONVERSIÓN</td>
+                                            <td><input disabled name="campos" type="number" id="factor1" value="1000"></td>
+                                            <td><input disabled name="campos" type="number" id="factor2" value="1000"></td>
+                                            <td>C</td>
+                                        </tr>
+                                        <tr>
+                                            <td>C</td>
+                                            <td>ph  DE LA MUESTRA</td>
+                                            <td><input name="campos" type="number" id="ph1" ></td>
+                                            <td><input name="campos" type="number" id="ph2" ></td>
+                                            <td>V</td>
+                                        </tr>
+                                        <tr>
+                                            <td>D</td>
+                                            <td>VOLUMEN TOTAL DE MUESTRA(ml)</td>
+                                            <td><input name="campos" type="number" id="volumen1" ></td>
+                                            <td><input name="campos" type="number" id="valumen2" ></td>
+                                            <td>V</td>
+                                        </tr>
+                                        <tr>
+                                            <td>RE</td>
+                                            <td>FACTOR REAL DUREZA</td>
+                                            <td><input name="campos" type="number" id="factorReal1" ></td>
+                                            <td><input name="campos" type="number" id="factorReal2" ></td>
+                                            <td>F</td>
+                                        </tr>
+                                        
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
 
          <!-- Modal Control Calidad-->
          <div class="modal fade" id="modalCalidad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

@@ -331,6 +331,11 @@ class FqController extends Controller
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $resultado = ((($x - $request->CB) / $request->CM) * $d);
                 break;
+            case 103:
+                $a = $request->A - $request->B;
+                $b = ($a * $request->RE) * 1000;
+                $resultado = $b / $request->D;
+                break;
               
             default:
                 # code...
@@ -467,6 +472,16 @@ class FqController extends Controller
             'curva' => $curva,
             'parametro' => $request->formulaTipo,
             //'constantes' => $constantes,
+        );
+        return response()->json($data);
+    }
+    public function getDetalleDureza(Request $request){
+        $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
+        $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
+
+        $data = array(
+            'model' => $model,
+            'parametro' => $request->formulaTipo,
         );
         return response()->json($data);
     }

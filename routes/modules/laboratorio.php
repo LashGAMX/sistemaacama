@@ -71,6 +71,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('importCvs', [MetalesController::class, 'importCvs']);
         Route::post('getLoteCapturaIcp', [MetalesController::class, 'getLoteCapturaIcp']);
         Route::post('liberarIcp', [MetalesController::class, 'liberarIcp']);
+        Route::get('bitacoraIcp/{id}', [MetalesController::class, 'bitacoraIcp']);
+        
     });
 
     // todo Modulo FisicoQuimicos
@@ -108,10 +110,13 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('operacionEspectro', [FqController::class, 'operacionEspectro']);
         Route::post('operacionSulfatos', [FqController::class, 'operacionEspectro']);
         Route::post('operacionCOT', [FqController::class, 'operacionCOT']);
+        Route::post('operacionDureza', [FqController::class, 'operacionDureza']);
         Route::post('guardarEspectro', [FqController::class, 'guardarEspectro']);
         Route::post('guardarSulfatos', [FqController::class, 'guardarSulfatos']);
         Route::post('guardarCOT', [FqController::class, 'guardarCOT']);
         Route::post('getDetalleCOT', [FqController::class, 'getDetalleCOT']);
+        Route::post('guardarDureza', [FqController::class, 'guardarDureza']);
+        Route::post('getDetalleDureza', [FqController::class, 'getDetalleDureza']);
         Route::post('updateObsMuestraEspectro', [FqController::class, 'updateObsMuestraEspectro']);
         Route::post('updateObsMuestraEspectroSulfatos', [FqController::class, 'updateObsMuestraEspectroSulfatos']);
         Route::post('createControlCalidadEspectro', [FqController::class, 'createControlCalidadEspectro']);

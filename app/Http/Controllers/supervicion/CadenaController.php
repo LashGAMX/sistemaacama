@@ -93,6 +93,7 @@ class CadenaController extends Controller
             case 106:
             case 107:
             case 96:
+            case 95: // Sulfatos
                 $model = LoteDetalleEspectro::where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->where('Id_control', 1)->get();
                 break;

@@ -729,7 +729,7 @@
                                             </td>
                                             <td>
                                                 <input type="number" id="tempSin3{{ $item->Id_temperatura }}"
-                                                    {{$item->Temperatura3}} disabled>
+                                                    value="{{$item->Temperatura3}}" disabled>
                                             </td>
                                             <td>
                                                 <input type="text" id="tempprom{{ $item->Id_temperatura }}"

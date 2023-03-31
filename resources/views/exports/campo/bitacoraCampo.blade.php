@@ -304,30 +304,29 @@
                     </tbody>
                 </table>
             </div>
-
             <br>
-
+            <br>
             <div class="contenedorPadre12">
                 <div class="contenedorHijo121">
-                    <span class="fontBold fontCalibri fontSize12">Factor de corrección para</span>
+                    <span class="fontBold fontCalibri fontSize12">Temperatura del agua {{@$campoGen->Modelo}}</span>
 
                     <table autosize="1" style="width: 95%" cellpadding="2" cellspacing="0" border-color="#000000">
                         <thead>
                             <tr>
                                 <th class="fontBold fontCalibri fontSize9 bordesTablaBody justificadorCentr">°C</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">factor de corrección</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">factor aplicado</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Error</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Factor de correción</th>
                             </tr>
                         </thead>
 
                         <tbody>
-                            @for ($i = 0; $i < @$factorCorreccionLength; $i++)                                                            
+                            @foreach ($factorCorreccion as $item)
                                 <tr>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$factorCorreccion[$i]->De_c}} - {{@$factorCorreccion[$i]->A_c}}</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{@$factorCorreccion[$i]->Factor}}</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{@$factorCorreccion[$i]->Factor_aplicado}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$item->De_c}} - {{@$item->A_c}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{@$item->Factor}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{@$item->Factor_aplicado}}</td>
                                 </tr>
-                            @endfor
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -341,31 +340,106 @@
                                 <th class="fontBold fontCalibri fontSize9 bordesTablaBody justificadorCentr">No. Muestra</th>
                                 <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura °C</th>
                                 <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">+/-</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">factor de corrección</th>
-                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">factor aplicado</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Error</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Factor de correción</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura ajustada</th>
+                            </tr>
+                        </thead>
+                        <tbody>                            
+                            @php
+                                $aux = 0;
+                            @endphp
+                            @foreach ($tempMuestra as $item)
+                              <tr>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{$item->Num_toma}}</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr" colspan="2">
+                                    {{round((@$item->TemperaturaSin1 + @$item->TemperaturaSin2 + @$item->TemperaturaSin3) / 3,1)}}
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    {{@$factCorrec[$aux]}}                       
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    {{@$factApl[$aux]}}                       
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    {{round(@$item->Promedio,1)}}                       
+                                </td>
+                                @php
+                                    $aux++;
+                                @endphp
+                              </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <br>
+
+            <div class="contenedorPadre12">
+                <div class="contenedorHijo121">
+                    <span class="fontBold fontCalibri fontSize12">Temperatura ambiente {{@$campoGen->Modelo2}}</span>
+
+                    <table autosize="1" style="width: 95%" cellpadding="2" cellspacing="0" border-color="#000000">
+                        <thead>
+                            <tr>
+                                <th class="fontBold fontCalibri fontSize9 bordesTablaBody justificadorCentr">°C</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Error</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Factor de correción</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+                            @foreach ($factorCorreccion2 as $item)
+                                <tr>
+                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$item->De_c}} - {{@$item->A_c}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{@$item->Factor}}</td>
+                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">{{@$item->Factor_aplicado}}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="contenedorHijo122">
+                    <span class="fontBold fontCalibri fontSize12">Ejemplo de aplicación del factor de corrección</span>
+
+                    <table autosize="1" style="width: 100%" cellpadding="2" cellspacing="0" border-color="#000000">
+                        <thead>
+                            <tr>
+                                <th class="fontBold fontCalibri fontSize9 bordesTablaBody justificadorCentr">No. Muestra</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura °C</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">+/-</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Error</th>
+                                <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">Factor de correción</th>
                                 <th class="fontBold fontCalibri fontSize9 bordeFinal justificadorCentr">temperatura ajustada</th>
                             </tr>
                         </thead>
 
-                        <tbody>                            
-                            @for ($i = 0; $i < @$model->Num_tomas; $i++)
-                                <tr>                                    
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{$i + 1}}</td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr" colspan="2">
-                                        {{number_format(@$tempAmbiente[$i]->Temperatura1, 1, ".", ",")}}
-                                    </td>
-                                        {{-- Bucle anidado; Mala práctica --}}                                        
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                        {{@$factorTemp[$i]}}                       
-                                    </td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                        {{@$factorCorrTemp[$i]}}
-                                    </td>
-                                    <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                        {{number_format(@$tempAmbiente[$i]->TemperaturaSin1, 1, ".", ",") + @$factorCorrTemp[$i]}}
-                                    </td>
-                                </tr>
-                            @endfor
+                        <tbody>                      
+                            @php
+                                $aux = 0;
+                            @endphp      
+                            @foreach ($tempAmbiente as $item)
+                            <tr>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{$item->Num_toma}}</td>
+                                <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr" colspan="2">
+                                    {{round(@$item->Temperatura1,1)}}
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    {{@$factCorrec2[$aux]}}                       
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    {{@$factApl2[$aux]}}                       
+                                </td>
+                                <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
+                                    {{round(@$item->Temperatura1 - @$factoApl2[$aux],1)}}                       
+                                </td> 
+                                @php
+                                    $aux++;
+                                @endphp
+                            </tr>               
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -455,9 +529,16 @@
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{@$i+1}}</td>
                                 <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr">                                    
                                     @if (@$phMuestra[$i]->Activo == 0)
-                                        -----
+                                        ----
                                     @else
-                                        {{@$phMuestra[$i]->Materia}}
+                                        @switch($model->Id_norma)
+                                            @case(5)
+                                            @case(30)
+                                                ----    
+                                                @break
+                                            @default
+                                            {{@$phMuestra[$i]->Materia}}
+                                        @endswitch
                                     @endif
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">                                    

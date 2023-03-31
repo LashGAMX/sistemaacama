@@ -2,7 +2,14 @@
     <table class="table table-borderless table-sm">
         <tr>
             <td class="fontBold fontCalibri fontSize14">
-                <center>NORMA DE MUESTREO NMX-AA-003-1980</center>
+                @switch($model->Id_norma)
+                    @case(5)
+                    @case(30)
+                        <center>PROCEDIMIENTO INTERNO DE MUESTREO PE-10-002-27</center>
+                        @break
+                    @default
+                    <center>NORMA DE MUESTREO NMX-AA-003-1980</center>
+                @endswitch
             </td>
         </tr>
     </table>

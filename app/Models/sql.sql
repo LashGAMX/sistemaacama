@@ -264,10 +264,12 @@ ON gen.Id_solicitud = sol.Id_solicitud
 INNER JOIN users as us
 ON gen.Id_muestreador = us.id
 /* Campo generales */ 
-CREATE VIEW ViewCampoGenerales as SELECT c.Id_general,c.Id_solicitud,c.Captura,c.Id_equipo,t.Id_muestreador,t.Equipo,t.Marca,t.Modelo,t.Serie,c.Temperatura_a,c.Temperatura_b,c.Latitud,c.Longitud,c.Altitud,c.Pendiente,c.Criterio,c.Supervisor,c.created_at,c.updated_at,c.deleted_at 
+CREATE VIEW ViewCampoGenerales as SELECT c.Id_general,c.Id_solicitud,c.Captura,c.Id_equipo,c.Id_equipo2,t.Id_muestreador,t.Equipo,t.Marca,t.Modelo,t.Serie,t2.Equipo as Equipo2,t2.Marca as Marca2,t2.Modelo as Modelo2, t2.Serie as Serie2 ,c.Temperatura_a,c.Temperatura_b,c.Latitud,c.Longitud,c.Altitud,c.Pendiente,c.Criterio,c.Supervisor,c.created_at,c.updated_at,c.deleted_at 
 FROM campo_generales as c
 INNER JOIN termometro_campo as t
 ON c.Id_equipo = t.Id_termometro
+INNER JOIN termometro_campo as t2
+ON c.Id_equipo2 = t2.Id_termometro
 
 /* Lista ViewObservacionMuestra */
 CREATE VIEW ViewObservacionMuestra as  SELECT obs.Id_observacion,obs.Id_analisis,obs.Id_area,obs.Id_tipo,obs.Ph,obs.Solido,obs.Olor,obs.Color,obs.Observaciones,pro.Folio,pro.Descarga,pro.Cliente,pro.Empresa,

@@ -44,6 +44,7 @@ use App\Models\PHTrazable;
 use App\Models\PlanComplemento;
 use App\Models\PlanPaquete;
 use App\Models\ProcedimientoAnalisis;
+use App\Models\ProcesoAnalisis;
 use App\Models\PuntoMuestreoGen;
 use App\Models\PuntoMuestreoSir;
 use App\Models\SeguimientoAnalisis;
@@ -62,6 +63,7 @@ use App\Models\TermFactorCorreccionTemp;
 use App\Models\TermometroCampo;
 use App\Models\TipoReporte;
 use App\Models\TipoTratamiento;
+use App\Models\User;
 use App\Models\Users;
 use App\Models\Usuario;
 use Illuminate\Support\Facades\Auth;
@@ -1254,23 +1256,22 @@ class CampoController extends Controller
     { 
       
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
-
-        $direccion = DireccionReporte::where('Id_sucursal', $model->Id_sucursal)->first();
+        $direccion = "";
         
         if($model->Siralab == 1){//Es cliente Siralab
             $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $model->Id_sucursal)->get();
-            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $direccion = DB::table('ViewDireccionSir')->where('Id_sucursal', $model->Id_sucursal)->first();
             $puntos = $puntoMuestreo->count();
         }else{
             $puntoMuestreo = PuntoMuestreoGen::where('Id_sucursal', $model->Id_sucursal)->get();
-            // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
+            $direccion = DireccionReporte::where('Id_sucursal', $model->Id_sucursal)->first();
             $puntos = $puntoMuestreo->count();
         }
 
         $modelCompuesto = CampoCompuesto::where('Id_solicitud', $id)->first();
 
         $folio = explode("-", $model->Folio_servicio);
-        $parte1 = strval($folio[0]);
+        $parte1 = strval($folio[0]); 
         $parte2 = strval($folio[1]);
 
         $numOrden = Solicitud::where('Folio_servicio', $parte1."-".$parte2)->first();
@@ -1295,7 +1296,8 @@ class CampoController extends Controller
         $paramSolicitudLength = $paramSolicitud->count();
     
         $areaModel = AreaLab::all();
-      
+        $procesoAnalisis = ProcesoAnalisis::where('Id_solicitud',$id)->first();
+        $firmaRecepcion = User::where('id',$procesoAnalisis->Id_user_c)->first();
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
             'margin_left' => 2,
@@ -1310,9 +1312,29 @@ class CampoController extends Controller
             array(215, 280),
             array(0, 0),
         );
-        // var_dump($direccion);
+        $data = array(
+            'firmaRecepcion' => $firmaRecepcion,
+            'swMateria' => $swMateria,
+            'model' => $model,
+            'tempAmbiente' => $tempAmbiente,
+            'modelCompuesto' => $modelCompuesto,
+            'areaModel' => $areaModel,
+            'numOrden' => $numOrden,
+            'punto' => $punto,
+            'puntos' => $puntos,
+            'puntoMuestreo' => $puntoMuestreo,
+            'phMuestra' => $phMuestra,
+            'gastoMuestra' => $gastoMuestra,
+            'tempMuestra' => $tempMuestra,
+            'conMuestra' => $conMuestra,
+            'muestreador' => $muestreador,
+            'paramSolicitudLength' => $paramSolicitudLength,
+            'recepcion' => $recepcion,
+            'firmaRes' => $firmaRes,
+            'direccion' => $direccion,
+        );
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.hojaCampo',compact('swMateria','model','tempAmbiente', 'modelCompuesto', 'areaModel','numOrden', 'punto', 'puntos', 'puntoMuestreo', 'phMuestra','gastoMuestra','tempMuestra','conMuestra','muestreador', 'paramSolicitudLength', 'recepcion', 'firmaRes', 'direccion'));
+        $html = view('exports.campo.hojaCampo',$data);
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $htmlFooter = view('exports.campo.hojaCampoFooter');        
@@ -1400,83 +1422,55 @@ class CampoController extends Controller
        
         $modelCot = DB::table('ViewCotizacion')->where('Id_cotizacion', $model->Id_cotizacion)->first();
         $idNorma = $modelCot->Id_norma;
+        
         if($idNorma == 1){ 
             $tipoReporte = DB::table('categorias001')->where('Id_categoria', $modelCot->Tipo_reporte)->first();
         }
 
         $frecuenciaMuestreo = Frecuencia001::where('Id_frecuencia', $modelCot->Frecuencia_muestreo)->first();
+        $solPuntos = SolicitudPuntos::where('Id_solicitud',$id)->where('Id_solPadre','!=','')->first();
 
-        $puntoMuestreo = PuntoMuestreoGen::where('Id_sucursal', $model->Id_sucursal)->get();
-        // $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
-        $puntos = $puntoMuestreo->count();
+        if($model->Siralab == 1){//Es cliente Siralab
+            $puntoMuestreo = PuntoMuestreoSir::where('Id_punto',$solPuntos->Id_muestreo)->get();
+            // $direccion = DB::table('ViewDireccionSir')->where('Id_sucursal', $model->Id_sucursal)->first();
+            $puntos = $puntoMuestreo->count();
+        }else{
+            $puntoMuestreo = PuntoMuestreoGen::where('Id_punto',$solPuntos->Id_muestreo)->get();
+            // $direccion = DireccionReporte::where('Id_sucursal', $model->Id_sucursal)->first();
+            $puntos = $puntoMuestreo->count();
+        }
       
         $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$id)->first();
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud',$id)->first();
 
         $campoGen = DB::table('ViewCampoGenerales')->where('Id_solicitud',$id)->first();
-        $idTermometros = DB::table('campo_generales')->where('Id_solicitud', $id)->first();
-        $termometro1 = TermometroCampo::where('Id_termometro',$idTermometros->Id_equipo)->first();
-        $termometro2 = TermometroCampo::where('Id_termometro',$idTermometros->Id_equipo2)->first();
+        $termometro1 = TermometroCampo::where('Id_termometro',$campoGen->Id_equipo)->first();
+        $termometro2 = TermometroCampo::where('Id_termometro',$campoGen->Id_equipo2)->first();
 
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
         $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud',$id)->get();
 
         $factorCorreccion = TermFactorCorreccionTemp::where('Id_termometro', $campoGen->Id_equipo)->get();
-
-        $factores = array();
-        $factoresAplicados = array();
-
-        $factorTemp = array();
-        $factorCorrTemp = array();
-
-        foreach($factorCorreccion as $item){            
-            array_push($factores, $item->Factor);
-            array_push($factoresAplicados, $item->Factor_aplicado);
+        $factorCorreccion2 = TermFactorCorreccionTemp::where('Id_termometro', $campoGen->Id_equipo2)->get();
+ 
+        $factCorrec = array();
+        $factApl = array();
+        $factCorrec2 = array();
+        $factApl2 = array();
+        $aux = 0;
+        foreach ($tempMuestra as $item) {
+            $temp = array();
+            $temp = TermFactorCorreccionTemp::where('De_c', '<=',$item->Promedio)->where('A_c','>=',$item->Promedio)->where('Id_termometro',$campoGen->Id_equipo)->first();
+            array_push($factCorrec,$temp->Factor); 
+            array_push($factApl,$temp->Factor_aplicado);
+            $temp = array();
+            $temp = TermFactorCorreccionTemp::where('De_c', '<=',$tempAmbiente[$aux]->Temperatura1)->where('A_c','>=',$tempAmbiente[$aux]->Temperatura1)->where('Id_termometro',$campoGen->Id_equipo2)->first();
+            array_push($factCorrec2,$temp->Factor);
+            array_push($factApl2,$temp->Factor_aplicado);
+            $aux++;
         }
+        
 
-        foreach($tempMuestra as $item){
-            if(!is_null($item->Promedio)){
-                if($item->Promedio >= 0 && $item->Promedio < 5){
-                    array_push($factorTemp, $factores[0]);
-                    array_push($factorCorrTemp, $factoresAplicados[0]);
-                }else if($item->Promedio >= 5 && $item->Promedio < 10){
-                    array_push($factorTemp, $factores[1]);
-                    array_push($factorCorrTemp, $factoresAplicados[1]);
-                }else if($item->Promedio >= 10 && $item->Promedio < 15){
-                    array_push($factorTemp, $factores[2]);
-                    array_push($factorCorrTemp, $factoresAplicados[2]);
-                }else if($item->Promedio >= 15 && $item->Promedio < 20){
-                    array_push($factorTemp, $factores[3]);
-                    array_push($factorCorrTemp, $factoresAplicados[3]);
-                }else if($item->Promedio >= 20 && $item->Promedio < 25){
-                    array_push($factorTemp, $factores[4]);
-                    array_push($factorCorrTemp, $factoresAplicados[4]);
-                }else if($item->Promedio >= 25 && $item->Promedio < 30){
-                    array_push($factorTemp, $factores[5]);
-                    array_push($factorCorrTemp, $factoresAplicados[5]);
-                }else if($item->Promedio >= 30 && $item->Promedio < 35){
-                    array_push($factorTemp, $factores[6]);
-                    array_push($factorCorrTemp, $factoresAplicados[6]);
-                }else if($item->Promedio >= 35 && $item->Promedio < 40){
-                    array_push($factorTemp, $factores[7]);
-                    array_push($factorCorrTemp, $factoresAplicados[7]);
-                }else if($item->Promedio >= 40 && $item->Promedio < 45){
-                    array_push($factorTemp, $factores[8]);
-                    array_push($factorCorrTemp, $factoresAplicados[8]);
-                }else if($item->Promedio >= 45 && $item->Promedio <= 50){
-                    array_push($factorTemp, $factores[9]);
-                    array_push($factorCorrTemp, $factoresAplicados[9]);
-                }else{
-                    array_push($factorTemp, 0);
-                    array_push($factorCorrTemp, 0);
-                }
-            }else{
-                array_push($factorTemp, 0);
-                array_push($factorCorrTemp, 0);
-            }
-        }
-
-        $factorCorreccionLength = $factorCorreccion->count();
 
         $phMuestra = PhMuestra::where('Id_solicitud',$id)->get();
 
@@ -1524,16 +1518,17 @@ class CampoController extends Controller
             array(215, 280),
             array(0, 0), 
         );
+         
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.bitacoraCampo',compact('model','tempAmbiente','termometro1', 'termometro2', 'tipoReporte','idNorma','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra', 'tipoReporte', 
+        $html = view('exports.campo.bitacoraCampo',compact('factApl','factApl2','factCorrec','factCorrec2','factorCorreccion2','model','tempAmbiente','termometro1', 'termometro2', 'tipoReporte','idNorma','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra', 'tipoReporte', 
         'gastoTotal', 'campoGen','tempMuestra','conMuestra','muestreador','phTrazable','campoConTrazable', 'metodoAforo', 'proceMuestreo', 
-        'conTratamiento', 'tipoTratamiento', 'campoCompuesto', 'factorCorreccion', 'factorCorreccionLength', 'puntoMuestreo', 'puntos', 'factores', 'factoresAplicados', 'factorTemp', 'factorCorrTemp', 'frecuenciaMuestreo'));
+        'conTratamiento', 'tipoTratamiento', 'campoCompuesto', 'factorCorreccion',  'puntoMuestreo', 'puntos',  'frecuenciaMuestreo'));
         $mpdf->CSSselectMedia = 'mpdf';
 
         $htmlHeader = view('exports.campo.bitacoraCampoHeader', compact('model'));
         $mpdf->setHeader("<br><br>".$htmlHeader);
 
-        $htmlFooter = view('exports.campo.bitacoraCampoFooter', compact('muestreador', 'campoGeneral'));
+        $htmlFooter = view('exports.campo.bitacoraCampoFooter', compact('muestreador', 'campoGeneral','model'));
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
 
         $mpdf->WriteHTML($html);

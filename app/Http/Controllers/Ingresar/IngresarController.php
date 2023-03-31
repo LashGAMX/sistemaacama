@@ -122,6 +122,7 @@ class IngresarController extends Controller
                         'Hora_recepcion' => $request->horaRecepcion,
                         'Hora_entrada' => $request->horaEntrada,
                         'Liberado' => 0,
+                        'Id_user_c' => Auth::user()->id,
                     ]);
                     foreach ($solModel as $item) {
                         ProcesoAnalisis::create([
@@ -134,6 +135,7 @@ class IngresarController extends Controller
                             'Hora_recepcion' => $request->horaRecepcion,
                             'Hora_entrada' => $request->horaEntrada,
                             'Liberado' => 0,
+                            'Id_user_c' => Auth::user()->id,
                         ]);
                     }
                     $sw = true;

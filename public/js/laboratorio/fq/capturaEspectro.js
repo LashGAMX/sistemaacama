@@ -165,11 +165,13 @@ function getLoteCapturaEspectro() {
                 switch ($("#formulaTipo").val()) { 
          
                     case '95':
-                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectroSulfatos('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaSulfatos">Capturar</button>';    
+                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';    
                         break;
                     case "152":
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleCOT('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCOT">Capturar</button>';
-                        
+                        break;
+                    case "103":
+                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleDureza('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaDureza">Capturar</button>';   
                         break;
                     default:
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
@@ -499,6 +501,33 @@ function getDetalleCOT(idDetalle){
         }
     }); 
 }
+function getDetalleDureza(idDetalle){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/getDetalleDureza",
+        data: {
+            formulaTipo: $("#formulaTipo").val(), 
+            fechaAnalisis: $("#fechaAnalisis").val(),
+            idDetalle: idDetalle,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) { 
+            console.log(response);
+            $("#observacion").val(response.model.Observacion);
+            $("#Titulados1").val(response.model.Abs1);
+            $("#Titulados2").val(response.model.Abs1);
+           
+            $("#ph1").val(response.Ph_ini);
+            $("#ph2").val(response.Ph_ini);
+            $("#volumen1").val(response.Vol_muestra);
+            $("#valumen2").val(response.Vol_muestra);
+            $("#factorReal1").val(response.Vol_aforo);
+            $("#factorReal2").val(response.Vol_aforo);
+            $("#resultadoDureza").val(response.model.Resultado);
+        }
+    }); 
+}
 function getDetalleEspectroSulfatos(idDetalle)
 {
     switch (parseInt($("#formulaTipo").val())) {
@@ -622,6 +651,29 @@ function operacion() {
         }
     });
 } 
+function operacionDureza() {
+
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionDureza",
+        data: {
+            idMuestra: idMuestra,
+            parametro: $('#formulaTipo').val(),
+            A:$('#Titulados1').val(),
+            B:$('#factor1').val(),
+            C:$('#ph1').val(),
+            D:$('#volumen1').val(),
+            RE:$('#factorReal1').val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            $("#resultadoDureza").val(response.resultado);
+        }
+   
+    });
+}
 function operacionCOT() {
 
     $.ajax({

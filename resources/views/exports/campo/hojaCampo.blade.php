@@ -54,7 +54,13 @@
 
                     <tr>
                         <td class="bordesTablaInfIzqDer">DIRECCION</td>
-                        <td class="negrita bordesTablaInfIzqDer" colspan="5">{{@$direccion->Direccion}}</td>
+                        <td class="negrita bordesTablaInfIzqDer" colspan="5">
+                            @if ($model->Siralab != 1)
+                                {{@$direccion->Direccion}}
+                            @else
+                                {{@$direccion->Calle}} {{@$direccion->Num_exterior}} {{@$direccion->Num_interior}} {{@$direccion->Colonia}} {{@$direccion->NomMunicipio}} {{@$direccion->Estado}} CP: {{@$direccion->CP}}
+                            @endif
+                        </td>
                     </tr>
 
                     <tr>
@@ -183,7 +189,13 @@
                                 @endif
                             </td>                            
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
-                                {{@$tempAmbiente[$i]->Temperatura1}}
+                                @if (@$phMuestra[$i]->Activo == 1)                           
+                                    @php
+                                        echo number_format(@$tempAmbiente[$i]->Temperatura1, 0, ".", ",");
+                                    @endphp
+                                @else
+                                    ---
+                                @endif
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)                           
@@ -238,7 +250,7 @@
             <div class="col-md-12">
                 <table class="{{-- table table-borderless --}} table-sm {{-- colorBorde --}}" width="100%">
                     <tr>
-                      <td class="bordesTabla justifyCenter" colspan="2"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
+                      <td class="bordesTabla justifyCenter" colspan="2"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{asset('public/storage/'.@$firmaRecepcion->firma)}}"></td>
                       <td class="bordesTabla justifyCenter" colspan="2"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{url("/public/storage")."/".$firmaRes->firma}}"></td>                      
                     </tr>
 
@@ -248,7 +260,7 @@
                     </tr>
 
                     <tr>
-                        <td colspan="2" class="bordesTablaInfIzqDer justifyCenter">{{@$muestreador->name}} <br> <span class="fontSize7">Nombre y Firma</span></td>
+                        <td colspan="2" class="bordesTablaInfIzqDer justifyCenter">{{@$firmaRecepcion->name}} <br> <span class="fontSize7">Nombre y Firma</span></td>
                         <td colspan="2" class="bordesTablaSupInfDer justifyCenter">{{@$muestreador->name}} <br> <span class="fontSize7">Nombre y Firma</span></td>
                     </tr>
 

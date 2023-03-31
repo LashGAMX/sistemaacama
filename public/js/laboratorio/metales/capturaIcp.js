@@ -82,6 +82,10 @@ function createLote()
         }
     });
 }
+function bitacora(id)
+{
+    window.location = base_url+"/admin/laboratorio/metales/bitacoraIcp"+idCot;
+}
 function buscarLote()
 {
     let tabla = document.getElementById('divLote');
@@ -113,7 +117,7 @@ function buscarLote()
                 tab += '<td>'+item.Id_lote+'</td>';
                 tab += '<td>'+item.Fecha+'</td>';
                 tab += '<td><button type="button" class="btn btn-secondary" data-toggle="modal" data-target="#exampleModal"><i class="fas fa-file-word"></i></button></td>';
-                tab += '<td><button type="button" class="btn btn-info"><i class="fas fa-print"></i></button></td>';
+                tab += '<td><button type="button" class="btn btn-info" onclick="bitacora('+item.Id_lote+')"><i class="fas fa-print"></i></button></td>';
                 tab += '</tr>';
             });
             tab += '    </tbody>';
