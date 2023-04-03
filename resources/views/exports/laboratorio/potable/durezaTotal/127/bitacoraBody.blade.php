@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
-
+ 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,40 +9,44 @@
     <title>Captura PDF</title>
 </head>
 
-<body>
+<body> 
 
     <div class="procedimiento">
         @php
         echo @$plantilla->Texto;
         @endphp
     </div>
-    <br>
+    <br> 
     <div id="contenedorTabla">
 
 
         <br>
 
-        <table autosize="1" class="tabla2" border="0">
+        <table autosize="1" class="tabla1">
             <thead> 
                 <tr>
                     <th style="font-size: 10px">No. De muestra</th>
-                    <th style="font-size: 10px">Turb 1</th>
-                    <th style="font-size: 10px">Turb 2</th>
-                    <th style="font-size: 10px">Turb 3</th>
-                    <th style="font-size: 8px">Turbiedad UTN</th>
+                    <th style="font-size: 10px">Vol. de la Muestra(ml)</th>
+                    <th style="font-size: 10px">Vol. Titulante</th>
+                    <th style="font-size: 8px">DUREZA TOTAL(DT) (como CaCO3) mg/L</th>
                     <th style="font-size: 10px">Observaciones</th>
+                    <th style="font-size: 10px"></th> 
                     <th style="font-size: 10px"></th>
-                    <th style="font-size: 10px"></th>
-                </tr> 
+                </tr>
             </thead>
             <tbody>
                 @foreach ($model as $item)
                     <tr>
                         <td>{{ $item->Codigo }}</td>
-                        <td>{{ $item->Lectura1 }}</td>
-                        <td>{{ $item->Lectura2 }}</td>
-                        <td>{{ $item->Lectura3 }}</td>
-                        <td>{{ $item->Resultado }}</td>
+                        <td>{{ $item->Vol_muestra }}</td>
+                        <td>{{ $item->Edta }}</td>
+                        <td>
+                            @if ($item->Resultado > $item->Limite)
+                                {{$item->Resultado}}
+                            @else
+                                < {{$item->Limite}}
+                            @endif
+                        </td>
                         <td>{{ $item->Observacion }}</td>
                         @if ($item->Liberado != NULL)
                             <td>LIBERADO</td>

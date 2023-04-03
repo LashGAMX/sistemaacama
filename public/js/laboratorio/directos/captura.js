@@ -44,7 +44,7 @@ function getLote() {
             $.each(response.model, function (key, item) {
                 tab += '<tr>';
                 tab += '<td>' + item.Id_lote + '</td>';
-                tab += '<td>' + item.Tipo_formula + '</td>';
+                tab += '<td>' + item.Tipo_formula + '</td>'; 
                 tab += '<td>' + item.Fecha + '</td>';
                 tab += '<td>' + item.Asignado + '</td>';
                 tab += '<td>' + item.Liberado + '</td>';
@@ -440,7 +440,5 @@ function liberarMuestra() {
 //Función imprimir PDF
 function imprimir(idLote){
     console.log("Dentro de evento btnBuscar");
-    $('#btnImprimir').click(function() {
-        window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfDirecto/"+idLote;
-    });
+    window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfDirecto/"+idLote;
 }

@@ -348,6 +348,12 @@ function operacionColAlimentos(idDetalle){
                 } else {
                     $("#resultadoColAlimentos").val(response.resultado)
                 }
+                if(response.resultado == 0){
+                    $("#resultadoColAlimentos").val("No Detectable")
+                } else {
+                    $("#resultadoColAlimentos").val(response.model.Resultado)
+                   
+                }
                 getLoteCapturaMicro();
             }
         });
@@ -373,6 +379,7 @@ function getDetalleColiAlimentos(idMuestra,colonia){
             $("#confir124").val(response.model.Confirmativa1)
             $("#confir148").val(response.model.Confirmativa2)
             $("#resultadoColAlimentos").val(response.model.Resultado)
+    
         }
     });
 }

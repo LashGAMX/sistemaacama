@@ -105,16 +105,28 @@ class IngresarController extends Controller
         $date2 = new DateTime($muestra->Fecha);
         $diff = $date1->diff($date2);
         $valProce = ProcesoAnalisis::where('Id_solicitud',$request->idSol)->get();
-        if($valProce->count() > 0){ 
-            if ($date1 >= $date2) {
-                if($diff->days > 2){
-                    $msg = "La fecha de recepcion sobrepasa el limite lo permitido";
-                }else{
-                    $solModel = Solicitud::where('Hijo', $request->idSol)->get();
-            
+        if ($date1 >= $date2) {
+            if($diff->days > 2){
+                $msg = "La fecha de recepcion sobrepasa el limite lo permitido";
+            }else{
+                $solModel = Solicitud::where('Hijo', $request->idSol)->get();
+        
+                ProcesoAnalisis::create([
+                    'Id_solicitud' => $request->idSol,
+                    'Folio' => $request->folio,
+                    'Descarga' => $request->descarga,
+                    'Cliente' => $request->cliente,
+                    'Empresa' => $request->empresa,
+                    'Ingreso' => 1,
+                    'Hora_recepcion' => $request->horaRecepcion,
+                    'Hora_entrada' => $request->horaEntrada,
+                    'Liberado' => 0,
+                    'Id_user_c' => Auth::user()->id,
+                ]);
+                foreach ($solModel as $item) {
                     ProcesoAnalisis::create([
-                        'Id_solicitud' => $request->idSol,
-                        'Folio' => $request->folio,
+                        'Id_solicitud' => $item->Id_solicitud,
+                        'Folio' => $item->Folio_servicio,
                         'Descarga' => $request->descarga,
                         'Cliente' => $request->cliente,
                         'Empresa' => $request->empresa,
@@ -124,29 +136,55 @@ class IngresarController extends Controller
                         'Liberado' => 0,
                         'Id_user_c' => Auth::user()->id,
                     ]);
-                    foreach ($solModel as $item) {
-                        ProcesoAnalisis::create([
-                            'Id_solicitud' => $item->Id_solicitud,
-                            'Folio' => $item->Folio_servicio,
-                            'Descarga' => $request->descarga,
-                            'Cliente' => $request->cliente,
-                            'Empresa' => $request->empresa,
-                            'Ingreso' => 1,
-                            'Hora_recepcion' => $request->horaRecepcion,
-                            'Hora_entrada' => $request->horaEntrada,
-                            'Liberado' => 0,
-                            'Id_user_c' => Auth::user()->id,
-                        ]);
-                    }
-                    $sw = true;
-                    $msg = "Muestra ingresada";
                 }
-            } else {
-                $msg = "La fecha de recepción es menor a la fecha de muestreo?";
+                $sw = true;
+                $msg = "Muestra ingresada";
             }
-        }else{
-            $msg = "Este folio ya se le dio recepción"; 
+        } else {
+            $msg = "La fecha de recepción es menor a la fecha de muestreo?";
         }
+        // if($valProce->count() > 0){ 
+        //     if ($date1 >= $date2) {
+        //         if($diff->days > 2){
+        //             $msg = "La fecha de recepcion sobrepasa el limite lo permitido";
+        //         }else{
+        //             $solModel = Solicitud::where('Hijo', $request->idSol)->get();
+            
+        //             ProcesoAnalisis::create([
+        //                 'Id_solicitud' => $request->idSol,
+        //                 'Folio' => $request->folio,
+        //                 'Descarga' => $request->descarga,
+        //                 'Cliente' => $request->cliente,
+        //                 'Empresa' => $request->empresa,
+        //                 'Ingreso' => 1,
+        //                 'Hora_recepcion' => $request->horaRecepcion,
+        //                 'Hora_entrada' => $request->horaEntrada,
+        //                 'Liberado' => 0,
+        //                 'Id_user_c' => Auth::user()->id,
+        //             ]);
+        //             foreach ($solModel as $item) {
+        //                 ProcesoAnalisis::create([
+        //                     'Id_solicitud' => $item->Id_solicitud,
+        //                     'Folio' => $item->Folio_servicio,
+        //                     'Descarga' => $request->descarga,
+        //                     'Cliente' => $request->cliente,
+        //                     'Empresa' => $request->empresa,
+        //                     'Ingreso' => 1,
+        //                     'Hora_recepcion' => $request->horaRecepcion,
+        //                     'Hora_entrada' => $request->horaEntrada,
+        //                     'Liberado' => 0,
+        //                     'Id_user_c' => Auth::user()->id,
+        //                 ]);
+        //             }
+        //             $sw = true;
+        //             $msg = "Muestra ingresada";
+        //         }
+        //     } else {
+        //         $msg = "La fecha de recepción es menor a la fecha de muestreo?";
+        //     }
+        // }else{
+        //     $msg = "Este folio ya se le dio recepción"; 
+        // }
         
 
    

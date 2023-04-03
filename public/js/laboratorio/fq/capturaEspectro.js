@@ -304,6 +304,30 @@ function guardar(){
         }
     });
 }
+function guardarDureza(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/guardarDureza",
+        data: {
+            idMuestra: $("#idMuestra").val(),
+            fechaAnalisis: $("#fechaAnalisis").val(),
+            parametro: $('#formulaTipo').val(),
+            resultado: $('#resultadoDureza').val(),
+            observacion: $('#obs').val(),
+            A:$('#Titulados1').val(),
+            B:$('#factor1').val(),
+            C:$('#ph1').val(),
+            D:$('#volumen1').val(),
+            RE:$('#factorReal1').val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) { 
+            console.log(response);
+            getLoteCapturaEspectro();        
+        }
+    });
+}
 function guardarCOT(){
     $.ajax({
         type: "POST",
@@ -655,7 +679,7 @@ function operacionDureza() {
 
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/operacionDureza",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionEspectro",
         data: {
             idMuestra: idMuestra,
             parametro: $('#formulaTipo').val(),

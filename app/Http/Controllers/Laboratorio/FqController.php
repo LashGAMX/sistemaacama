@@ -32,6 +32,7 @@ use App\Models\DqoFq;
 use App\Models\EnfriadoMatraces;
 use App\Models\EnfriadoMatraz;
 use App\Models\LoteDetalleDqo;
+use App\Models\LoteDetalleDureza;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
 use App\Models\LoteDetalleSolidos;
@@ -198,6 +199,22 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
+    public function guardarDureza(Request $request){
+        $model = LoteDetalleDureza::find($request->idMuestra);
+        $model->Edta = $request->A;
+        $model->Factor_conversion = $request->B;
+        $model->Ph_muestra = $request->C;
+        $model->Vol_muestra = $request->D;
+        $model->Factor_real = $request->RE;
+        $model->Analizo = Auth::user()->id;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+
+        );
+        return response()->json($data);
+    }
     public function guardarCOT(Request $request)
     {
         $model = LoteDetalleEspectro::find($request->idMuestra);
@@ -261,14 +278,22 @@ class FqController extends Controller
         $volumen = VolumenParametros::where('Id_parametro', $request->parametro)->first();
 
         switch ($request->parametro) {
-            case 95:
-                // Sulfatos
+            case 113:
+                // Sulfatos Residual
                 $x = ($request->X + $request->Y + $request->Z + $request->ABS4 + $request->ABS5 + $request->ABS6 + $request->ABS7 + $request->ABS8) / 8;
                 $d =   100  / $request->E;
                 $res1 = round($x, 3) - ($request->CB);
                 $res2 = $res1 / $request->CM;
                 $resultado = $res2 * round($d, 3);
                 break;
+            case 95:
+                    // Sulfatos Potable
+                    $x = ($request->X + $request->Y + $request->Z) / 3;
+                    $d =   100  / $request->E;
+                    $res1 = round($x, 3) - ($request->CB);
+                    $res2 = $res1 / $request->CM;
+                    $resultado = $res2 * round($d, 3);
+                break;    
             case 69:
                 # Cromo Hexavalente
                 $d =  $request->CM;
@@ -326,17 +351,23 @@ class FqController extends Controller
                 $resultado = ((($x - $request->CB) / $request->CM) * $d);
                 break;
             case 106:
-                # N-nitritos (potable)
+                # N-nitratos (potable)
                 $d = 10 / $request->E;
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $resultado = ((($x - $request->CB) / $request->CM) * $d);
                 break;
-            case 103:
+            case 103: //Dureza
                 $a = $request->A - $request->B;
                 $b = ($a * $request->RE) * 1000;
                 $resultado = $b / $request->D;
                 break;
-              
+
+                case 105: //Fluoruros (potable)
+                $x = ($request->X + $request->Y + $request->Z) / 3;
+                $d =  50 / $request->E;
+                $resultado = (($x - $request->CB) / $request->CM) * $d;
+                    break;
+            
             default:
                 # code...
                 $x = ($request->X + $request->Y + $request->Z) / 3;
@@ -476,7 +507,7 @@ class FqController extends Controller
         return response()->json($data);
     }
     public function getDetalleDureza(Request $request){
-        $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
+        $model = DB::table("ViewLoteDetalleDureza")->where('Id_detalle', $request->idDetalle)->first();
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
 
         $data = array(
@@ -2228,9 +2259,36 @@ class FqController extends Controller
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
+                //Establece la marca de agua del documento PDF
+                $mpdf->SetWatermarkImage(
+                    asset('/public/storage/MembreteVertical.png'),
+                    1,
+                    array(215, 280),
+                    array(0, 0),
+                );
+        
+                $mpdf->showWatermarkImage = true;
+                $mpdf->CSSselectMedia = 'mpdf';         
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
         switch ($lote->Id_tecnica) {
+            case 103:
+                $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $idLote)->get();
+                $plantilla = PlantillasFq::where('Id_parametro',103)->first();
+                // $curva = CurvaConstantes::where('Id_parametro', 107)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $data = array(
+                    'lote' => $lote, 
+                    'model' => $model,
+                    // 'curva' => $curva,
+                    'plantilla' => $plantilla,
+                );
+
+                $htmlHeader = view('exports.laboratorio.potable.durezaTotal.127.bitacoraHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.potable.durezaTotal.127.bitacoraBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
             case 112:
                 $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $idLote)->get();
                 $plantilla = PlantillasFq::where('Id_parametro',112)->first();
@@ -2257,9 +2315,9 @@ class FqController extends Controller
                     'plantilla' => $plantilla,
                 );
 
-                $htmlHeader = view('exports.laboratorio.fq.espectro.nitritos.capturaHeader', $data);
+                $htmlHeader = view('exports.laboratorio.fq.espectro.nitritos.127.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', $data);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.127.capturaBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
@@ -2274,9 +2332,9 @@ class FqController extends Controller
                     'plantilla' => $plantilla,
                 );
 
-                $htmlHeader = view('exports.laboratorio.fq.espectro.sulfatos.capturaHeader', $data);
+                $htmlHeader = view('exports.laboratorio.fq.espectro.sulfatos.127.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                $htmlCaptura = view('exports.laboratorio.fq.espectro.sulfatos.capturaBody', $data);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.sulfatos.127.capturaBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
@@ -2382,7 +2440,9 @@ class FqController extends Controller
             case 96:
             case 105:
             case 95:
+            case 103:
             case 107:
+            case 116:
                 return redirect()->to('admin/laboratorio/fq/captura/exportPdfEspectro/'.$idLote);
                 break;
                 break;

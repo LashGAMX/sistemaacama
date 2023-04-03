@@ -164,8 +164,8 @@
                                     <th># {{$idTermo}}</th>
                                     <th>De C°</th>
                                     <th>A C°</th>
-                                    <th>Factor de corrección</th>
-                                    <th>Factor de corección aplicado</th>
+                                    <th>Error</th>
+                                    <th>Ajuste del error</th>
                                 </tr>
                             </thead>
                             <tbody>

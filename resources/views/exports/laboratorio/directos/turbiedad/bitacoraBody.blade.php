@@ -26,19 +26,21 @@
             <thead> 
                 <tr>
                     <th style="font-size: 10px">No. De muestra</th>
-                    <th style="font-size: 10px">Turb 1</th>
-                    <th style="font-size: 10px">Turb 2</th>
-                    <th style="font-size: 10px">Turb 3</th>
-                    <th style="font-size: 8px">Turbiedad UTN</th>
+                    <th style="font-size: 8px">TEMP DE<br> LA MUESTRA</th>
+                    <th style="font-size: 10px">pH 1</th>
+                    <th style="font-size: 10px">pH 2</th>
+                    <th style="font-size: 10px">pH 3</th>
+                    <th style="font-size: 8px">PROMEDIO DE POTENCIAL<br>DE HIDROGENO (pH) UNIDAD</th>
                     <th style="font-size: 10px">Observaciones</th>
                     <th style="font-size: 10px"></th>
                     <th style="font-size: 10px"></th>
-                </tr> 
+                </tr>
             </thead>
             <tbody>
                 @foreach ($model as $item)
                     <tr>
                         <td>{{ $item->Codigo }}</td>
+                        <td>{{ $item->Temperatura }}</td>
                         <td>{{ $item->Lectura1 }}</td>
                         <td>{{ $item->Lectura2 }}</td>
                         <td>{{ $item->Lectura3 }}</td>

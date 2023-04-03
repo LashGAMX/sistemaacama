@@ -529,6 +529,22 @@ class DirectosController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
+            case 98: // PH
+
+                    $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
+                    $data = array(
+                        'lote' => $lote,
+                        'model' => $model,
+                        'plantilla' => $plantilla
+                    );
+                    $htmlHeader = view('exports.laboratorio.directos.ph.bitacoraHeader', $data);
+                    $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                    $htmlCaptura = view('exports.laboratorio.directos.ph.bitacoraBody', $data);
+                    $htmlFooter = view('exports.laboratorio.directos.ph.bitacoraFooter', $data);
+                    $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                    $mpdf->CSSselectMedia = 'mpdf';
+                    $mpdf->WriteHTML($htmlCaptura);
+                    break;
             default:
                 # code...
                 break;
