@@ -73,12 +73,12 @@
         </table>  
     </div>   
     
-    {{-- <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: {{@$data[0]->Blanco}}</span> <br>
-        <span>Absorbancia B2: {{@$data[0]->Blanco}}</span> <br>
-        <span>Absorbancia B3: {{@$data[0]->Blanco}}</span> <br>
-        <span>RESULTADO BLANCO: {{@$data[0]->Blanco}}</span>
-    </div> --}}
+    <div class="contenedorSexto">                
+        <span><br> Absorbancia B1: 0</span> <br>
+        <span>Absorbancia B2: 0</span> <br>
+        <span>Absorbancia B3: 0</span> <br>
+        <span>RESULTADO BLANCO: 0</span>
+    </div>
 
     <br>
 

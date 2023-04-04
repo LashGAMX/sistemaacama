@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/sulfatos/sulfatosPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/saam/saamPDF.css')}}">
     <title>Captura PDF</title>
 </head>
 <body>
@@ -13,8 +13,10 @@
         @php
             echo $plantilla->Texto;
         @endphp
-    </div> 
+    </div>
 
+    <br>
+    <br>
     <br>
 
     <div class="contenedorTabla">
@@ -22,7 +24,7 @@
             <thead>
 
                 <tr>
-                    <th class="nombreHeader" colspan="15">
+                    <th class="nombreHeader" colspan="10">
                         Resultado de las muestras
                     </th>                    
                 </tr>                
@@ -34,7 +36,7 @@
                     <th class="tableCabecera anchoColumna">Abs 2</th>
                     <th class="tableCabecera anchoColumna">Abs 3</th>
                     <th class="tableCabecera anchoColumna">Abs Promedio</th>
-                    <th class="tableCabecera anchoColumna">SULFATOS (SO4) mg/L</th>                    
+                    <th class="tableCabecera anchoColumna">SUSTANCIAS ACTIVAS AL AZUL DE METILENO (SAAM) mg/L</th>                    
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
@@ -42,49 +44,51 @@
             </thead>
     
             <tbody>
-
                 @foreach ($model as $item)
-                <tr>
-                    <td class="tableContent">
-                        @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
-                            {{@$item->Folio_servicio}}
-                        @else
-                            {{@$item->Control}}
-                        @endif                                
-                    </td>
-                    <td class="tableContent">{{@$item->Vol_muestra}}</td>
-                    <td class="tableContent">{{@$item->Abs1}}</td>
-                    <td class="tableContent">{{@$item->Abs2}}</td>
-                    <td class="tableContent">{{@$item->Abs3}}</td>
-                    <td class="tableContent">{{@$item->Promedio}}</td>
-                    <td class="tableContent">{{@$item->Resultado}}</td>
-                    <td class="tableContent">{{@$item->Observacion}}</td>
-                    <td class="tableContent">
-                        @if (@$item->Liberado == 1)
-                            Liberado
-                        @elseif(@$item->Liberado == 0)
-                            No liberado
-                        @endif     
-                    </td>
-                    <td class="tableContent">{{@$item->Control}}</td>
-                </tr>
-            @endforeach
+                    <tr>
+                        <td class="tableContent">
+                            @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
+                                {{@$item->Folio_servicio}}
+                            @else
+                                {{@$item->Control}}
+                            @endif                                
+                        </td>
+                        <td class="tableContent">{{@$item->Vol_muestra}}</td>
+                        <td class="tableContent">{{@$item->Abs1}}</td>
+                        <td class="tableContent">{{@$item->Abs2}}</td>
+                        <td class="tableContent">{{@$item->Abs3}}</td>
+                        <td class="tableContent">{{@$item->Promedio}}</td>
+                        @if ($item->Resultado >= $item->Limite)
+                            <td class="tableContent">{{@$item->Resultado}}</td>
+                        @else 
+                            <td class="tableContent">< {{@$item->Limite}}</td>
+                        @endif
+                        <td class="tableContent">{{@$item->Observacion}}</td>
+                        <td class="tableContent">
+                            @if (@$item->Liberado == 1)
+                                Liberado
+                            @elseif(@$item->Liberado == 0)
+                                No liberado
+                            @endif     
+                        </td>
+                        <td class="tableContent">{{@$item->Control}}</td>
+                    </tr>
+                @endforeach
+           
             </tbody>        
         </table>  
     </div>
 
     <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: {{@$datmodela[0]->Blanco}}</span> <br>
-        <span>Absorbancia B2: {{@$model[0]->Blanco}}</span> <br>
-        <span>Absorbancia B3: {{@$model[0]->Blanco}}</span> <br>
-        <span>RESULTADO BLANCO: {{@$model[0]->Blanco}}</span>
+        <span><br> Absorbancia B1: 0</span> <br><br>
+        <span>Absorbancia B2: 0</span> <br><br>
+        <span>Absorbancia B3: 0</span> <br><br>
+        <span>RESULTADO BLANCO: 0</span>
     </div>
-
-    <br>
-
+    
     <div id="contenidoCurva">
-        <span id="curvaProcedimiento">Valoración / Observación</span>
-        {{-- <?php echo html_entity_decode($textoProcedimiento[1]);?> --}}
+        {{-- <span id="curvaProcedimiento">Valoración / Observación</span> --}}
+        
     </div>
 
     <br>

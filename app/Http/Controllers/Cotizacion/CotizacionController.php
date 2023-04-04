@@ -643,16 +643,16 @@ class CotizacionController extends Controller
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
         $puntos = CotizacionPunto::where('Id_cotizacion', $model->Id_cotizacion)->get();
         $relacion = InformesRelacion::where('Id_cotizacion', $model->Id_cotizacion)->get();
-        
-        if ($relacion->count()){
-            $reportesInformes = DB::table('ViewReportesCotizacion')->where('Id_reporte', $relacion->Id_relacion)->first();
-        } else {
-            $reportesInformes = DB::table('ViewReportesCotizacion')->orderBy('Num_rev', 'desc')->first();
-            InformesRelacion::create([
-                'Id_cotizacion' => $model->Id_cotizacion,
-                'Id_reporte' => $reportesInformes->Id_reporte, 
-            ]); 
-        }
+        $reportesInformes = DB::table('ViewReportesCotizacion')->orderBy('Num_rev', 'desc')->first();       
+        // if ($relacion->count()){
+        //     $reportesInformes = DB::table('ViewReportesCotizacion')->where('Id_reporte', $relacion->Id_relacion)->first();
+        // } else {
+        //     $reportesInformes = DB::table('ViewReportesCotizacion')->orderBy('Num_rev', 'desc')->first();
+        //     InformesRelacion::create([
+        //         'Id_cotizacion' => $model->Id_cotizacion,
+        //         'Id_reporte' => $reportesInformes->Id_reporte, 
+        //     ]); 
+        // }
 
         
 

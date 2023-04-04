@@ -80,7 +80,7 @@
                         <button class="btn btn-secondary" id="btnLiberarTodo">Liberar todo</button>
                     </div>
                     <div class="col-md-2">
-                        <button class="btn btn-secondary" data-toggle="modal" data-target="#modalCalidad"
+                        &nbsp;<button class="btn btn-success" data-toggle="modal" data-target="#modalCalidad"
                             id="">Generar control</button>
                     </div>
                     <div class="col-md-1">
@@ -520,8 +520,9 @@
                                         <tr>
                                             <th>Parametro</th>
                                             <th>Descripción</th>
-                                            <th>Valor</th>
-                                            <th>Valor2</th>
+                                            <th>Valor1</th>
+                                            <th>promedio</th>
+
                                             <th>Tipo</th>
                                         </tr>
                                     </thead>
@@ -529,37 +530,40 @@
                                         <tr>
                                             <td>A</td>
                                             <td>MILILITROS TITULADOS DE EDTA</td>
-                                            <td><input type="text" id="Titulados1"></td>
-                                            <td><input type="text" id="Titulados2"></td>
+                                            <td><input type="number" id="Titulados1" onchange="promedioDureza()"> <input type="number" id="Titulados2"  onchange="promedioDureza()"> <input type="number" id="Titulados3"  onchange="promedioDureza()"></td>
+                                            <td><input disabled type="text" id="promedioTitulados"></td>
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>B</td>
                                             <td>FACTOR DE CONVERSIÓN</td>
                                             <td><input disabled name="campos" type="number" id="factor1" value="1000"></td>
-                                            <td><input disabled name="campos" type="number" id="factor2" value="1000"></td>
+                                            <td></td>
+                                    
                                             <td>C</td>
                                         </tr>
                                         <tr>
                                             <td>C</td>
                                             <td>ph  DE LA MUESTRA</td>
                                             <td><input name="campos" type="number" id="ph1" ></td>
-                                            <td><input name="campos" type="number" id="ph2" ></td>
+                                            <td></td>
+                                           
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>D</td>
                                             <td>VOLUMEN TOTAL DE MUESTRA(ml)</td>
                                             <td><input name="campos" type="number" id="volumen1" ></td>
-                                            <td><input name="campos" type="number" id="valumen2" ></td>
+                                            <td></td>
+                                            
                                             <td>V</td>
                                         </tr>
                                         <tr>
                                             <td>RE</td>
                                             <td>FACTOR REAL DUREZA</td>
                                             <td><input name="campos" type="number" id="factorReal1" ></td>
-                                            <td><input name="campos" type="number" id="factorReal2" ></td>
-                                            <td>F</td>
+                                            <td></td>
+                                            
                                         </tr>
                                         
                                     </tbody>

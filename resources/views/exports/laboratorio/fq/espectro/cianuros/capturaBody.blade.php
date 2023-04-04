@@ -101,10 +101,10 @@
     </div>    
     
     <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: {{@$data[0]->Blanco}}</span> <br><br>
-        <span>Absorbancia B2: {{@$data[0]->Blanco}}</span> <br><br>
-        <span>Absorbancia B3: {{@$data[0]->Blanco}}</span> <br><br>
-        <span>RESULTADO BLANCO: {{@$data[0]->Blanco}}</span>
+        <span><br> Absorbancia B1: 0</span> <br><br>
+        <span>Absorbancia B2: 0</span> <br><br>
+        <span>Absorbancia B3: 0</span> <br><br>
+        <span>RESULTADO BLANCO: 0</span>
     </div>
 
     <div id="contenidoCurva">

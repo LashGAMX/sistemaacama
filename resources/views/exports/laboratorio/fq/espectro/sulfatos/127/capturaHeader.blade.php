@@ -1,5 +1,5 @@
 <p id='header1'>
-    MEDICIÓN DEL IÓN SULFATO (SO4) (NMX-AA-074-SCFI-2014) PROCEDIMIENTO: PE-10-002-26
+    DETERMINACIÓN DE SULFATO NOM-127-SSA1-2021 APÉNDICE B.11.1 PROCEDIMIENTO: PEA-10-127-6
 </p>
 
 <span class='textofecha'>Fecha de análisis </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;

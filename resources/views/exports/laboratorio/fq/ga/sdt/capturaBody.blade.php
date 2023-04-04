@@ -8,15 +8,16 @@
     <title>Captura PDF</title>
 </head>
 <body>
-    <p id='curvaProcedimiento'>Procedimiento</p>
+
 
     <div id="contenidoCurva">
+        <br>
         @php
             echo $plantilla->Texto;
         @endphp
     </div>
 
-    <br>
+    <br> 
 
     <div id="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos">

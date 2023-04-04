@@ -11,7 +11,9 @@
     <p id='curvaProcedimiento'>Procedimiento</p>
 
     <div id="contenidoCurva">
-        <?php echo html_entity_decode($textProcedimiento->Texto);?>
+        @php
+            echo $textProcedimiento->Texto;
+        @endphp
     </div>
 
     <br>

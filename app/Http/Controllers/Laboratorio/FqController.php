@@ -2271,7 +2271,7 @@ class FqController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';         
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
-        switch ($lote->Id_tecnica) {
+        switch ($lote->Id_tecnica) {    
             case 103:
                 $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $idLote)->get();
                 $plantilla = PlantillasFq::where('Id_parametro',103)->first();
@@ -2283,9 +2283,11 @@ class FqController extends Controller
                     'plantilla' => $plantilla,
                 );
 
+                // $htmlFooter = view('exports.laboratorio.fq.espectro.nitratos.capturaFooter', $data);
                 $htmlHeader = view('exports.laboratorio.potable.durezaTotal.127.bitacoraHeader', $data);
-                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.potable.durezaTotal.127.bitacoraBody', $data);
+                // $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
@@ -2297,7 +2299,9 @@ class FqController extends Controller
                     'model' => $model,
                     'plantilla' => $plantilla,
                 );
-
+         
+                $htmlFooter = view('exports.laboratorio.fq.ga.sdt.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.fq.ga.sdt.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.fq.ga.sdt.capturaBody', $data);
@@ -2308,13 +2312,14 @@ class FqController extends Controller
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 $plantilla = PlantillasFq::where('Id_parametro',107)->first();
                 $curva = CurvaConstantes::where('Id_parametro', 107)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
-                $data = array(
+                $data = array( 
                     'lote' => $lote, 
                     'model' => $model,
                     'curva' => $curva,
                     'plantilla' => $plantilla,
                 );
-
+                $htmlFooter = view('exports.laboratorio.fq.espectro.nitritos.127.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.fq.espectro.nitritos.127.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.127.capturaBody', $data);
@@ -2331,7 +2336,8 @@ class FqController extends Controller
                     'curva' => $curva,
                     'plantilla' => $plantilla,
                 );
-
+                $htmlFooter = view('exports.laboratorio.fq.espectro.sulfatos.127.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.fq.espectro.sulfatos.127.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.fq.espectro.sulfatos.127.capturaBody', $data);
@@ -2348,10 +2354,11 @@ class FqController extends Controller
                     'curva' => $curva,
                     'plantilla' => $plantilla,
                 );
-
-                $htmlHeader = view('exports.laboratorio.fq.espectro.fluoruros.capturaHeader', $data);
+                $htmlFooter = view('exports.laboratorio.fq.espectro.fluoruros.127.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.fq.espectro.fluoruros.127.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                $htmlCaptura = view('exports.laboratorio.fq.espectro.fluoruros.capturaBody', $data);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.fluoruros.127.capturaBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
@@ -2365,10 +2372,11 @@ class FqController extends Controller
                     'curva' => $curva,
                     'plantilla' => $plantilla,
                 );
-
-                $htmlHeader = view('exports.laboratorio.fq.espectro.saam.capturaHeader', $data);
+                $htmlFooter = view('exports.laboratorio.fq.espectro.saam.127.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.fq.espectro.saam.127.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                $htmlCaptura = view('exports.laboratorio.fq.espectro.saam.capturaBody', $data);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.saam.127.capturaBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;

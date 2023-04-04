@@ -3,22 +3,19 @@
         <div class="contenedorHijo12">            
             <span class="cabeceraStdMuestra"> ANALIZÓ <br> </span>
             <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"> <br></span>
-            <span class="bodyStdMuestra"> {{$usuario->name}} </span>
+            <span class="bodyStdMuestra"> {{@$usuario->name}} </span>
         </div>
 
         <div class="contenedorHijo12">
             <span class="cabeceraStdMuestra">REVISÓ <br> </span>                                    
             <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"> <br></span>
-            <span class="bodyStdMuestra"> {{$usuario->name}} </span>
+            <span class="bodyStdMuestra"> {{@$usuario->name}} </span>
         </div>        
     </div>
 
     <div id="revisiones">
-        {{-- <span>RE-12-001-28</span><br>
+        <span>RE-12-001-30</span><br>
         <span>2015-01-02</span><br>
-        <span>REV.9</span> --}}
-        <span>REA-13-001-6</span><br>
-        <span>2022-08-01</span><br>
-        <span>REV.0</span>
+        <span>REV.5</span>
     </div>
 </footer>

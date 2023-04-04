@@ -297,7 +297,12 @@ class DirectosController extends Controller
     public function operacionTurbiedad(Request $request){
         $resultado = 0;
         $promedio = ($request->l1 + $request->l2 + $request->l3) / 3;
-        $resultado = round($promedio, 3);
+        $resultado = round($promedio, 2);
+        // if($res >= 1 && $res <=10){
+        //     $resultado = 0.1;
+        // } else {
+        //     $resultado = 0.05;
+        // }
         $model = LoteDetalleDirectos::find($request->idDetalle);
         $model->Resultado = $resultado;
         $model->Factor_dilucion = $request->factor;
@@ -447,7 +452,7 @@ class DirectosController extends Controller
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 31,
+            'margin_top' => 35,
             'margin_bottom' => 45,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
@@ -463,7 +468,6 @@ class DirectosController extends Controller
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
         $plantilla = PlantillaDirectos::where('Id_parametro', $lote->Id_tecnica)->first();
         switch ($lote->Id_tecnica) {
-            case 110:
             case 14: // PH
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
                 $plantilla = PlantillaDirectos::where('Id_parametro', 14)->first();
@@ -477,6 +481,23 @@ class DirectosController extends Controller
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.directos.ph.bitacoraBody', $data);
                 $htmlFooter = view('exports.laboratorio.directos.ph.bitacoraFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
+            case 110:
+                $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
+                $plantilla = PlantillaDirectos::where('Id_parametro', 110)->first();
+                $data = array(
+                    'lote' => $lote,
+                    'model' => $model,
+                    'plantilla' => $plantilla
+                );
+
+                $htmlHeader = view('exports.laboratorio.directos.ph.127.bitacoraHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.directos.ph.127.bitacoraBody', $data);
+                $htmlFooter = view('exports.laboratorio.directos.ph.127.bitacoraFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
@@ -512,7 +533,7 @@ class DirectosController extends Controller
                 $htmlCaptura = view('exports.laboratorio.directos.ph.bitacoraBody', $data);
                 $htmlFooter = view('exports.laboratorio.directos.ph.bitacoraFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->CSSselectMedia = 'mpdf'; 
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
             case 66:
@@ -523,6 +544,8 @@ class DirectosController extends Controller
                     'model' => $model,
                     'plantilla' => $plantilla
                 );
+                $htmlFooter = view('exports.laboratorio.directos.color.bitacoraFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.directos.color.bitacoraHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.directos.color.bitacoraBody', $data);
@@ -537,10 +560,10 @@ class DirectosController extends Controller
                         'model' => $model,
                         'plantilla' => $plantilla
                     );
-                    $htmlHeader = view('exports.laboratorio.directos.ph.bitacoraHeader', $data);
+                    $htmlHeader = view('exports.laboratorio.directos.turbiedad.bitacoraHeader', $data);
                     $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                    $htmlCaptura = view('exports.laboratorio.directos.ph.bitacoraBody', $data);
-                    $htmlFooter = view('exports.laboratorio.directos.ph.bitacoraFooter', $data);
+                    $htmlCaptura = view('exports.laboratorio.directos.turbiedad.bitacoraBody', $data);
+                    $htmlFooter = view('exports.laboratorio.directos.turbiedad.bitacoraFooter', $data);
                     $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                     $mpdf->CSSselectMedia = 'mpdf';
                     $mpdf->WriteHTML($htmlCaptura);

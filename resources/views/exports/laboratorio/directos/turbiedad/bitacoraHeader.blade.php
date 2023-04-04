@@ -1,6 +1,8 @@
 <p class='titulo'>
-    MEDICIÓN DEL POTENCIAL DE HIDROGENO (pH) NMX-AA-008-SCFI-2016
-    PROCEDIMIENTO: PE-10-002-3
+    BITÁCORA PARA LA DETERMINACIÓN DE TURBIEDAD
+    NOM-201-SSA1-2015 APÉNDICE A.3.2
+    PEA-10-127-8
+   
 </p>
 
 <span class='textofecha'>Fecha de análisis </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;

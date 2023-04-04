@@ -240,7 +240,7 @@
                                     <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
                                     <tbody>
                                         <tr>
-                                            <td>Factor de Dilusión.</td>
+                                            <td>Factor de Dilución.</td>
                                             <td><input type="text" id="dilusionTurb1" value="1"></td>
                                             <td><input type="text" id="dilusionTurb2" value="1"></td>
                                           

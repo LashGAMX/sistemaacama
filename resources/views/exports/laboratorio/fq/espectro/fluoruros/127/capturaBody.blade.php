@@ -1,28 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+<head> 
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/sulfatos/sulfatosPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/fluoruros/fluorurosPDF.css')}}">
     <title>Captura PDF</title>
 </head>
 <body>
+    
 
     <div id="contenidoCurva">
         @php
             echo $plantilla->Texto;
         @endphp
-    </div> 
+    </div>
 
-    <br>
+    <br>    
 
     <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos">
             <thead>
 
                 <tr>
-                    <th class="nombreHeader" colspan="15">
+                    <th class="nombreHeader" colspan="10">
                         Resultado de las muestras
                     </th>                    
                 </tr>                
@@ -34,7 +35,7 @@
                     <th class="tableCabecera anchoColumna">Abs 2</th>
                     <th class="tableCabecera anchoColumna">Abs 3</th>
                     <th class="tableCabecera anchoColumna">Abs Promedio</th>
-                    <th class="tableCabecera anchoColumna">SULFATOS (SO4) mg/L</th>                    
+                    <th class="tableCabecera anchoColumna">FLUORUROS (F ̄) mg/L</th>                    
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
@@ -42,7 +43,6 @@
             </thead>
     
             <tbody>
-
                 @foreach ($model as $item)
                 <tr>
                     <td class="tableContent">
@@ -57,7 +57,7 @@
                     <td class="tableContent">{{@$item->Abs2}}</td>
                     <td class="tableContent">{{@$item->Abs3}}</td>
                     <td class="tableContent">{{@$item->Promedio}}</td>
-                    <td class="tableContent">{{@$item->Resultado}}</td>
+                    <td class="tableContent">{{@$item->Limite}}</td>
                     <td class="tableContent">{{@$item->Observacion}}</td>
                     <td class="tableContent">
                         @if (@$item->Liberado == 1)
@@ -73,8 +73,10 @@
         </table>  
     </div>
 
+    <br>
+
     <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: {{@$datmodela[0]->Blanco}}</span> <br>
+        <span><br> Absorbancia B1: {{@$model[0]->Blanco}}</span> <br>
         <span>Absorbancia B2: {{@$model[0]->Blanco}}</span> <br>
         <span>Absorbancia B3: {{@$model[0]->Blanco}}</span> <br>
         <span>RESULTADO BLANCO: {{@$model[0]->Blanco}}</span>
@@ -84,7 +86,7 @@
 
     <div id="contenidoCurva">
         <span id="curvaProcedimiento">Valoración / Observación</span>
-        {{-- <?php echo html_entity_decode($textoProcedimiento[1]);?> --}}
+        
     </div>
 
     <br>

@@ -8,42 +8,40 @@
     <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/cianuros/cianurosPDF.css')}}">
     <title>Captura PDF</title>
 </head>
- 
+
 <body>
 
-    <div class="procedimiento"> 
+    <div class="procedimiento">
         @php
         echo @$plantilla->Texto;
         @endphp
     </div>
-    <br> 
+    <br>
     <div id="contenedorTabla">
 
 
         <br>
 
-        <table autosize="1" class="tabla2" border="0">
-            <thead>  
+        <table autosize="1" class="table table-borderless" id="tablaDatos">
+            <thead> 
                 <tr>
                     <th class="tableCabecera anchoColumna">No. De muestra</th>
-                    <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
-                    <th class="tableCabecera anchoColumna">pH de la muestra</th>
-                    <th class="tableCabecera anchoColumna">Color aparente</th>
-                    <th class="tableCabecera anchoColumna">Color verdadero</th>
-                    <th class="tableCabecera anchoColumna">COLOR Pt/Co</th>
+                    <th class="tableCabecera anchoColumna">Lectura de pH1</th>
+                    <th class="tableCabecera anchoColumna">Lectura de pH2</th>
+                    <th class="tableCabecera anchoColumna">Lectura de pH3</th>
+                    <th class="tableCabecera anchoColumna">Promedio de Potencial de <br> Hidrogeno (UPH)</th>
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="tableCabecera anchoColumna"></th>
                     <th class="tableCabecera anchoColumna"></th>
-                </tr>
+                </tr> 
             </thead>
             <tbody>
                 @foreach ($model as $item)
                     <tr>
                         <td class="tableContent">{{ $item->Codigo }}</td>
-                        <td class="tableContent">{{ $item->Vol_muestra }}</td>
-                        <td class="tableContent">{{ $item->Ph }}</td>
-                        <td class="tableContent">{{ $item->Color_a }}</td>
-                        <td class="tableContent">{{ $item->Color_v }}</td>
+                        <td class="tableContent">{{ $item->Lectura1 }}</td>
+                        <td class="tableContent">{{ $item->Lectura2 }}</td>
+                        <td class="tableContent">{{ $item->Lectura3 }}</td>
                         <td class="tableContent">{{ $item->Resultado }}</td>
                         <td class="tableContent">{{ $item->Observacion }}</td>
                         @if ($item->Liberado != NULL)
@@ -56,6 +54,8 @@
                 @endforeach
             </tbody>
         </table>
+
+        <p style="font-size: 8px">Cálculos: <br>Las lecturas se obtienen directamente de los equipos sacando un promedio de pH. </p>
 </body>
 
 </html>

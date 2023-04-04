@@ -683,7 +683,7 @@ function operacionDureza() {
         data: {
             idMuestra: idMuestra,
             parametro: $('#formulaTipo').val(),
-            A:$('#Titulados1').val(),
+            A:$('#promedioTitulados').val(),
             B:$('#factor1').val(),
             C:$('#ph1').val(),
             D:$('#volumen1').val(),
@@ -697,6 +697,15 @@ function operacionDureza() {
         }
    
     });
+}
+function promedioDureza(){
+    var promedio, uno, dos, tres = 0;
+    uno = $("#Titulados1").val();
+    dos = $("#Titulados2").val();
+    tres = $("#Titulados3").val();
+    promedio = (parseFloat(uno) + parseFloat(dos) + parseFloat(tres)) / 3;
+    
+    $("#promedioTitulados").val(promedio);
 }
 function operacionCOT() {
 

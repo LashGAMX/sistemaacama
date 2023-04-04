@@ -14,8 +14,8 @@
     </div>
 
     <div id="revisiones">
-        <span>RE-12-001-25-1</span><br>
-        <span>2015-01-02</span><br>
-        <span>REV.6</span>
+        <span>REA-13-001-5</span><br>
+        <span>2022-08-01</span><br>
+        <span>REV.0</span>
     </div>
 </footer>

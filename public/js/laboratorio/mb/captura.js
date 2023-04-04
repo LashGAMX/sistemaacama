@@ -351,8 +351,7 @@ function operacionColAlimentos(idDetalle){
                 if(response.resultado == 0){
                     $("#resultadoColAlimentos").val("No Detectable")
                 } else {
-                    $("#resultadoColAlimentos").val(response.model.Resultado)
-                   
+                    $("#resultadoColAlimentos").val(response.model.Resultado)  
                 }
                 getLoteCapturaMicro();
             }
