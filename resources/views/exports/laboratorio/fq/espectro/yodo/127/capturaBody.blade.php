@@ -4,16 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/sulfatos/sulfatosPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/boro/boroPDF.css')}}">
     <title>Captura PDF</title>
 </head>
 <body>
+    <br>
+    @php
+        echo @$plantilla->Texto;
+    @endphp
 
     <div id="contenidoCurva">
-        @php
-            echo $plantilla->Texto;
-        @endphp
-    </div> 
+        
+    </div>
 
     <br>
 
@@ -22,7 +24,7 @@
             <thead>
 
                 <tr>
-                    <th class="nombreHeader" colspan="15">
+                    <th class="nombreHeader" colspan="10">
                         Resultado de las muestras
                     </th>                    
                 </tr>                
@@ -34,7 +36,7 @@
                     <th class="tableCabecera anchoColumna">Abs 2</th>
                     <th class="tableCabecera anchoColumna">Abs 3</th>
                     <th class="tableCabecera anchoColumna">Abs Promedio</th>
-                    <th class="tableCabecera anchoColumna">SULFATOS (SO4) mg/L</th>                    
+                    <th class="tableCabecera anchoColumna">Yodo (Y) mg/L</th>                    
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
@@ -42,43 +44,44 @@
             </thead>
     
             <tbody>
-
-                @foreach ($model as $item)
-                <tr>
-                    <td class="tableContent">
-                        @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
-                            {{@$item->Folio_servicio}}
-                        @else
-                            {{@$item->Control}}
-                        @endif                                
-                    </td>
-                    <td class="tableContent">{{@$item->Vol_muestra}}</td>
-                    <td class="tableContent">{{@$item->Abs1}}</td>
-                    <td class="tableContent">{{@$item->Abs2}}</td>
-                    <td class="tableContent">{{@$item->Abs3}}</td>
-                    <td class="tableContent">{{@$item->Promedio}}</td>
-                    @if ($item->Resultado <= $item->Limite)
-                        <td class="tableContent">< {{@$item->Limite}}</td>
-                    @else
-                        <td class="tableContent">{{@$item->Resultado}}</td>
-                    @endif
-                    <td class="tableContent">{{@$item->Observacion}}</td>
-                    <td class="tableContent">
-                        @if (@$item->Liberado == 1)
-                            Liberado
-                        @elseif(@$item->Liberado == 0)
-                            No liberado
-                        @endif     
-                    </td>
-                    <td class="tableContent">{{@$item->Control}}</td>
-                </tr>
-            @endforeach
+                @for ($i = 0; $i < @$model->count() ; $i++)
+                    <tr>
+                        <td class="tableContent">
+                            @if (@$model[$i]->Control == 'Muestra Adicionada' || @$model[$i]->Control == 'Duplicado' || @$model[$i]->Control == 'Resultado')
+                                {{@$model[$i]->Folio_servicio}}
+                            @else
+                                {{@$model[$i]->Control}}
+                            @endif 
+                        </td>
+                        <td class="tableContent">{{@$model[$i]->Vol_muestra}}</td>
+                        <td class="tableContent">{{@$model[$i]->Abs1}}</td>
+                        <td class="tableContent">{{@$model[$i]->Abs2}}</td>
+                        <td class="tableContent">{{@$model[$i]->Abs3}}</td>
+                        <td class="tableContent">{{@$model[$i]->Promedio}}</td>
+                        <td class="tableContent">
+                            @if (@$model[$i]->Resultado > @$model[$i]->Limite)
+                                {{@$model[$i]->Resultado}}
+                            @else
+                                < {{@$model[$i]->Limite}}
+                            @endif
+                        </td>
+                        <td class="tableContent">{{@$model[$i]->Observacion}}</td>
+                        <td class="tableContent">
+                            @if (@$model[$i]->Liberado == 1)
+                                Liberado
+                            @elseif(@$model[$i]->Liberado == 0)
+                                No liberado
+                            @endif 
+                        </td>
+                        <td class="tableContent">{{@$model[$i]->Control}}</td>
+                    </tr>
+                @endfor
             </tbody>        
         </table>  
-    </div>
+    </div>    
 
     <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: {{@$datmodela[0]->Blanco}}</span> <br>
+        <span><br> Absorbancia B1: {{@$model[0]->Blanco}}</span> <br>
         <span>Absorbancia B2: {{@$model[0]->Blanco}}</span> <br>
         <span>Absorbancia B3: {{@$model[0]->Blanco}}</span> <br>
         <span>RESULTADO BLANCO: {{@$model[0]->Blanco}}</span>
@@ -87,8 +90,8 @@
     <br>
 
     <div id="contenidoCurva">
-        <span id="curvaProcedimiento">Valoración / Observación</span>
-        {{-- <?php echo html_entity_decode($textoProcedimiento[1]);?> --}}
+        <span id='curvaProcedimiento'>Valoración / Observación</span>
+        
     </div>
 
     <br>
@@ -111,7 +114,7 @@
                         <td class="tableCabecera">b = </td>
                         <td class="tableContent">{{@$curva->B}}</td>                        
                         <td class="tableCabecera">Fecha de preparación: </td>
-                        <td class="tableContent">{{@$curva->Fecha_inicio}}</td>                                                
+                        <td class="tableContent">{{@$curva->Fecha_inicio}}</td>
                     </tr>
 
                     <tr>

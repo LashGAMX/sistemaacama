@@ -642,6 +642,20 @@ class SolicitudController extends Controller
                                     }
                                 }
                                 break;
+                            case 103: //Dureza
+                                for ($i = 0; $i < 3; $i++) {
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $value->Id_solicitud,
+                                        'Id_parametro' => $item->Id_parametro,
+                                        'Codigo' => $value->Folio_servicio . "-DU-" . ($i + 1) . "",
+                                        'Num_muestra' => $i + 1,
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                        'Cadena' => 0,
+                                        'Reporte' => $item->Reporte,
+                                    ]);
+                                }
+                                break;
                             case 5:
                                 // DBO
                                 for ($i = 0; $i < 3; $i++) {
@@ -809,12 +823,12 @@ class SolicitudController extends Controller
         $cliente = SucursalCliente::where('Id_sucursal', $modTemp->Id_sucursal)->first();
         if ($model->Siralab == 1) {
             $direccion = DB::table('ViewDireccionSir')->where('Id_sucursal', $modTemp->Id_sucursal)->first();
-            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre',$modTemp->Id_solicitud)->get();
+            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre', $modTemp->Id_solicitud)->get();
         } else {
             $direccion = DireccionReporte::where('Id_sucursal', $modTemp->Id_sucursal)->first();
-            $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre',$modTemp->Id_solicitud)->get();
+            $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre', $modTemp->Id_solicitud)->get();
         }
-        
+
         $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $modTemp->Id_solicitud)->where('Extra', 0)->orderBy('Parametro', 'ASC')->get();
         $extra = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $modTemp->Id_solicitud)->where('Extra', 1)->orderBy('Parametro', 'ASC')->get();
         $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion', $idOrden)->first();
@@ -845,7 +859,7 @@ class SolicitudController extends Controller
             'cliente' => $cliente,
             'puntos' => $puntos,
         );
-        
+
         $mpdf->showWatermarkImage = true;
         $html = view('exports.cotizacion.ordenServicio', $data);
         $mpdf->CSSselectMedia = 'mpdf';

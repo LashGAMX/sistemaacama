@@ -27,17 +27,17 @@ class DirectosController extends Controller
     {
         $model = array();
         $temp = array();
-        $codigo = DB::table('ViewCodigoParametro')->where('Asignado',0)->get();
-        $param = DB::table('ViewParametroUsuarios')->where('Id_user',Auth::user()->id)->get();
-        
+        $codigo = DB::table('ViewCodigoParametro')->where('Asignado', 0)->get();
+        $param = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
+
         foreach ($codigo as $item) {
             $temp = array();
             foreach ($param as $item2) {
                 if ($item->Id_parametro == $item2->Id_parametro) {
-                    array_push($temp,$item->Codigo);
-                    array_push($temp,"(".$item->Id_parametro.") ".$item->Parametro);
-                    array_push($temp,$item->Hora_recepcion);
-                    array_push($model,$temp);
+                    array_push($temp, $item->Codigo);
+                    array_push($temp, "(" . $item->Id_parametro . ") " . $item->Parametro);
+                    array_push($temp, $item->Hora_recepcion);
+                    array_push($model, $temp);
                     break;
                 }
             }
@@ -244,7 +244,7 @@ class DirectosController extends Controller
     {
         $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
         $controlModel = ControlCalidad::all();
-        return view('laboratorio.directos.captura', compact('parametro','controlModel'));
+        return view('laboratorio.directos.captura', compact('parametro', 'controlModel'));
     }
 
     public function getLoteCapturaDirecto(Request $res)
@@ -294,7 +294,8 @@ class DirectosController extends Controller
         return response()->json($data);
     }
 
-    public function operacionTurbiedad(Request $request){
+    public function operacionTurbiedad(Request $request)
+    {
         $resultado = 0;
         $promedio = ($request->l1 + $request->l2 + $request->l3) / 3;
         $resultado = round($promedio, 2);
@@ -313,7 +314,28 @@ class DirectosController extends Controller
             'res' => $resultado,
         );
         return response()->json($data);
+    }
+    public function operacionCloro(Request $request)
+    {
+        $resultado = 0;
+        $dilusion = 50 / $request->volumen;
+        $promedio = ($request->l1 + $request->l2 + $request->l3) / 3;
+        $resultado = round($promedio * $dilusion, 2);
+        $model = LoteDetalleDirectos::find($request->idDetalle);
+        $model->Factor_dilucion = $request->dilucion;
+        $model->Resultado = $resultado;
+        $model->Vol_muestra = $request->volumen;
+        $model->Lectura1 = $request->l1;
+        $model->Lectura2 = $request->l2;
+        $model->Lectura3 = $request->l3;
+        $model->Promedio = $promedio;
+        $model->save();
 
+        $data = array(
+            'promedio' => $promedio,
+            'res' => $resultado,
+        );
+        return response()->json($data);
     }
     public function operacionTemperatura(Request $request)
     {
@@ -480,6 +502,23 @@ class DirectosController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
+            case 218: // Cloro
+                $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
+                $plantilla = PlantillaDirectos::where('Id_parametro', 218)->first();
+                $data = array(
+                    'lote' => $lote,
+                    'model' => $model,
+                    'plantilla' => $plantilla
+                );
+
+                $htmlHeader = view('exports.laboratorio.directos.cloro.bitacoraHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.directos.cloro.bitacoraBody', $data);
+                $htmlFooter = view('exports.laboratorio.directos.cloro.bitacoraFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');  
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
             case 110:
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
                 $plantilla = PlantillaDirectos::where('Id_parametro', 110)->first();
@@ -528,14 +567,14 @@ class DirectosController extends Controller
                 $htmlCaptura = view('exports.laboratorio.directos.ph.bitacoraBody', $data);
                 $htmlFooter = view('exports.laboratorio.directos.ph.bitacoraFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-                $mpdf->CSSselectMedia = 'mpdf'; 
+                $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
             case 66:
             case 102: // COLOR VERDADERO
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
                 $data = array(
-                    'lote' => $lote, 
+                    'lote' => $lote,
                     'model' => $model,
                     'plantilla' => $plantilla
                 );
@@ -547,22 +586,22 @@ class DirectosController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
-            case 98: // PH
+            case 98: // Turbiedad
 
-                    $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
-                    $data = array(
-                        'lote' => $lote,
-                        'model' => $model,
-                        'plantilla' => $plantilla
-                    );
-                    $htmlHeader = view('exports.laboratorio.directos.turbiedad.bitacoraHeader', $data);
-                    $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                    $htmlCaptura = view('exports.laboratorio.directos.turbiedad.bitacoraBody', $data);
-                    $htmlFooter = view('exports.laboratorio.directos.turbiedad.bitacoraFooter', $data);
-                    $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-                    $mpdf->CSSselectMedia = 'mpdf';
-                    $mpdf->WriteHTML($htmlCaptura);
-                    break;
+                $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
+                $data = array(
+                    'lote' => $lote,
+                    'model' => $model,
+                    'plantilla' => $plantilla
+                );
+                $htmlHeader = view('exports.laboratorio.directos.turbiedad.bitacoraHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.directos.turbiedad.bitacoraBody', $data);
+                $htmlFooter = view('exports.laboratorio.directos.turbiedad.bitacoraFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
             default:
                 # code...
                 break;

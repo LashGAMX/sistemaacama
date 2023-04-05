@@ -342,6 +342,103 @@
               
              </div>
 
+        <!-- Modal Nitrogeno Amoniacal Equipo-->
+        <div class="modal fade" id="modalNitrogenoEquipo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="">Captura de resultados Nitrogeno Amoniacal</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="">Observación</label>
+                                    <input type="text" class="form-control" id="observacionNitro"
+                                        placeholder="Observacion de la muestra">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="button" onclick="updateObsVolumetria(3,'observacionNitro')"
+                                        id=""><i class="voyager-check"></i> Aplicar</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-success"  onclick="guardarNitrogenoEquipo()"><i class="voyager-upload"></i>
+                                    Guardar</button>&nbsp;&nbsp;
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-primary"  onclick="operacionNitrogenoEquipo()"><i class="voyager-play"></i>
+                                    Ejecutar</button>
+                            </div>
+                            {{-- <div class="col-md-2">
+                                <button class="btn btn-warning">Liberar</button>
+                            </div> --}}
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <input type="text" id="resultadoNitroEquipo" style="font-size: 20px;color:red;"
+                                        placeholder="Resultado">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table" id=""> 
+                                <thead>
+                                  <tr>
+                                    <th>Parametro</th>
+                                    <th>Descripción</th>
+                                    <th>Valor</th>
+                                    <th>Valor2</th>
+                                    <th>Tipo</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>A</td>
+                                        <td>factor de dilución</td>
+                                        <td><input type="text" id="factor1" value="0"></td>
+                                        <td><input type="text" id="factor2" value="0"></td>
+                                        <td>V</td>
+                                    </tr>
+                                    <tr>
+                                        <td>B</td>
+                                        <td>Concentración de NH3 en mg/L</td>
+                                        <td><input type="text" id="concentracion1" value="0"></td>
+                                        <td><input type="text" id="concentracion2" value="0"></td>
+                                        <td>F</td>
+                                    </tr>
+                                    <tr>
+                                        <td>C</td>
+                                        <td>Volumen Añadido al std</td>
+                                        <td><input type="text" id="volAñadidoStd1" value="0"></td>
+                                        <td><input type="text" id="volAñadidoStd2" value="0"></td>
+                                        <td>F</td>
+                                    </tr>
+                                    
+                                    <tr>
+                                        <td>D</td>
+                                        <td>Volumen Añadido a Muestra</td>
+                                        <td><input type="text" id="VolAñadidoMuestra1" value="0"></td>
+                                        <td><input type="text" id="VolAñadidoMuestra2" value="0"></td>
+                                        <td>C</td>
+                                    </tr>
+                    
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  </div>
+                </div>
+              </div>
+              
+             </div>
 
              
         <!-- Modal Control Calidad-->

@@ -954,6 +954,22 @@ class VolController extends Controller
         );
         return response()->json($data);
     }
+    public function operacionVolumetriaNitrogenoEquipo(Request $request)
+    {
+        $a = $request->A * $request->B;
+        $d = 100 + $request->D;
+        $c = 100 + $request->C;
+
+        $res = $a * ($d / $c);
+
+        $data = array(
+
+            'res' => $res,
+
+        );
+        return response()->json($data);
+    }
+    
     public function operacionVolumetriaCloro(Request $request)
     {
         $res1 = $request->A - $request->B;
@@ -1035,6 +1051,23 @@ class VolController extends Controller
         $model->Factor_equivalencia = $request->D;
         $model->Factor_conversion = $request->E;
         $model->Vol_muestra = $request->G;
+        $model->Resultado = $request->resultado;
+        $model->analizo = Auth::user()->id;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function guardarNitrogenoEquipo(Request $request)
+    {
+
+        $model = LoteDetalleNitrogeno::find($request->idDetalle);
+        $model->Titulado_muestra = $request->A;
+        $model->Titulado_blanco = $request->B;
+        $model->Molaridad = $request->C;
+        $model->Factor_equivalencia = $request->D;
         $model->Resultado = $request->resultado;
         $model->analizo = Auth::user()->id;
         $model->save();

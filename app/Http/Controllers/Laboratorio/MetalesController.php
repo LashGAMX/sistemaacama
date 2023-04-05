@@ -1296,7 +1296,7 @@ class MetalesController extends Controller
         Excel::import(new IcpImport,$res->file('file')); 
         return response()->json($data);
     }
-    public function getLoteCapturaIcp(Request $res)
+    public function getLoteCapturaIcp(Request $res) 
     {
         $model = LoteDetalleIcp::where('Id_lote',$res->idLote)->get();
         $data = array(
@@ -1308,13 +1308,50 @@ class MetalesController extends Controller
     {
         $model = LoteDetalleIcp::where('Id_lote',$res->id)->where('Id_control',1)->get();
         foreach ($model as $item) {
-            $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
-            $temp->Resultado2 = $item->Resultado;
-            $temp->Analizo = Auth::user()->id;
-            $temp->save();
-            $temp2 = LoteDetalleIcp::find($item->Id_detalle);
-            $temp2->Liberado = 1;
-            $temp2->save();
+            switch ($item->Id_parametro) {
+                case 207:// Al
+                case 212://Cr
+                case 300://Ni
+                case 209://Ba    
+                case 211://Cu
+                case 214://Mn
+                case 233://Se
+                case 217://Ag
+                    if ($item->Resultado >= 0.030 && $item->Resultado <= 0.390) {
+                        $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
+                        $temp->Resultado = $item->Resultado;
+                        $temp->Resultado2 = $item->Resultado;
+                        $temp->Analizo = Auth::user()->id;
+                        $temp->save();
+                        $temp2 = LoteDetalleIcp::find($item->Id_detalle);
+                        $temp2->Liberado = 1;
+                        $temp2->save();
+                    }else{
+                        $temp2 = LoteDetalleIcp::find($item->Id_detalle);
+                        $temp2->Liberado = 1;
+                        $temp2->save();
+                    }
+                    break;
+                case 213:// Fe
+                    if ($item->Resultado >= 0.090 && $item->Resultado <= 1.170) {
+                        $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
+                        $temp->Resultado = $item->Resultado;
+                        $temp->Resultado2 = $item->Resultado;
+                        $temp->Analizo = Auth::user()->id;
+                        $temp->save();
+                        $temp2 = LoteDetalleIcp::find($item->Id_detalle);
+                        $temp2->Liberado = 1;
+                        $temp2->save();
+                    }else{
+                        $temp2 = LoteDetalleIcp::find($item->Id_detalle);
+                        $temp2->Liberado = 1;
+                        $temp2->save();
+                    }
+                    break;
+                default:
+                    break;
+            }
+
         } 
         $data = array(
             'model' => $model,

@@ -140,7 +140,7 @@
                           <input type="text" class="form-control" placeholder="Observacion de la muestra" id="observacion">
                         </div>
                         <div class="form-group">
-                          <button class="btn btn-success" type="button" onclick="updateObsMuestraSolidos()" id="btnAplicarObs">Aplicar</button>
+                          <button class="btn btn-success" type="button" onclick="updateObsMuestraSolidos('observacion')" id="btnAplicarObs">Aplicar</button>
                         </div>
                         <div class="dropdown-divider"></div>
                       </div>

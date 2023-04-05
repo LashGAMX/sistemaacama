@@ -136,6 +136,10 @@ function getLoteCapturaDirecto() {
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modal">Capturar</button>';
                         console.log("Entro a directos");
                         break;
+                    case "218":
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
+                        console.log("Entro a directos");
+                        break;
                     case "97":
                     case "33":
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalTemperatura">Capturar</button>';
@@ -226,6 +230,8 @@ function getDetalleDirecto(idMuestra)
             console.log(response);
             let model = response.model
             // Directos
+            $("#obsMuestraDirecto").val(model.Observacion)
+            
             $("#lecturaUno1").val(model.Lectura1)
             $("#lecturaDos1").val(model.Lectura2)
             $("#lecturaTres1").val(model.Lectura3)
@@ -233,11 +239,13 @@ function getDetalleDirecto(idMuestra)
             $("#resultado").val(model.Resultado)
 
             //Temperatura
+            $("#obsMuestraTemperatura").val(model.Observacion)
             $("#lecturaUno1T").val(model.Lectura1)
             $("#lecturaDos1T").val(model.Lectura2)
             $("#lecturaTres1T").val(model.Lectura3)
             $("#resultadoT").val(model.Resultado)
             //Color
+            $("#obsMuestraTemperatura").val(model.Observacion)
             $("#aparente1").val(model.Color_a)
             $("#verdadero1").val(model.Color_v)
             $("#dilusion1").val(model.Factor_dilucion)
@@ -246,6 +254,7 @@ function getDetalleDirecto(idMuestra)
             $("#factor1").val(model.Factor_correcion)
             $("#resultadoColor").val(model.Resultado)
             //Turbiedad 
+            $("#obsMuestraTurbiedad").val(model.Observacion)
             $("#dilusionTurb1").val(model.Factor_dilucion);
             $("#valumenTurb1").val(model.Vol_muestra);
             $("#lecturaUnoTurb1").val(model.Lectura1);
@@ -253,9 +262,63 @@ function getDetalleDirecto(idMuestra)
             $("#lecturaTresTurb1").val(model.Lectura3);
             $("#promedioTurb1").val(model.Promedio);
             $("#resultadoTurbiedad").val(model.Resultado);
+            //Cloro
+            $("#dilucionCloro1").val(model.Factor_dilucion)
+            $("#obsMuestraCloro").val(model.Observacion)
+            $("#volumenCloro1").val(model.Vol_muestra);
+            $("#lecturaUnoCloro1").val(model.Lectura1);
+            $("#lecturaDosCloro1").val(model.Lectura2);
+            $("#lecturaTresCloro1").val(model.Lectura3);
+            $("#promedioCloro1").val(model.Promedio);
+            $("#resultadoCloro").val(model.Resultado);
         }
 
         }); 
+}
+function limpiar()
+{
+
+    $("#obsMuestraDirecto").val()
+    $("#obsMuestraTemperatura").val()
+    $("#obsMuestraTemperatura").val()
+    $("#obsMuestraTurbiedad").val()
+    $("#obsMuestraCloro").val()
+                // Directos
+                $("#lecturaUno1").val()
+                $("#lecturaDos1").val()
+                $("#lecturaTres1").val()
+                $("#temperatura1").val()
+                $("#resultado").val()
+    
+                //Temperatura
+                $("#lecturaUno1T").val()
+                $("#lecturaDos1T").val()
+                $("#lecturaTres1T").val()
+                $("#resultadoT").val()
+                //Color
+                $("#aparente1").val()
+                $("#verdadero1").val()
+                $("#dilusion1").val()
+                $("#volumen1").val()
+                $("#ph1").val()
+                $("#factor1").val()
+                $("#resultadoColor").val()
+                //Turbiedad 
+                $("#dilusionTurb1").val();
+                $("#valumenTurb1").val();
+                $("#lecturaUnoTurb1").val();
+                $("#lecturaDosTurb1").val();
+                $("#lecturaTresTurb1").val();
+                $("#promedioTurb1").val();
+                $("#resultadoTurbiedad").val();
+                //Cloro
+                $("#dilucionCloro1").val()
+                $("#volumenCloro1").val();
+                $("#lecturaUnoCloro1").val();
+                $("#lecturaDosCloro1").val();
+                $("#lecturaTresCloro1").val();
+                $("#promedioCloro1").val();
+                $("#resultadoCloro").val();
 }
 function createControlCalidad()
 {
@@ -320,6 +383,31 @@ function operacionTurbiedad(){
             console.log(response);
             $("#promedioTurb1").val(response.promedio)
             $("#resultadoTurbiedad").val(response.res)
+            getLoteCapturaDirecto()
+        }
+
+        });
+}
+function operacionCloro(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionCloro",
+        data: {
+            idDetalle: idMuestra,
+            id: $("#formulaTipo").val(),
+            fecha: $("#fechaAnalisis").val(),
+            dilucion: $("#dilucionCloro1").val(),
+            volumen: $("#volumenCloro1").val(),
+            l1: $("#lecturaUnoCloro1").val(),
+            l2: $("#lecturaDosCloro1").val(),
+            l3: $("#lecturaTresCloro1").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            $("#promedioCloro1").val(response.promedio)
+            $("#resultadoCloro").val(response.res)
             getLoteCapturaDirecto()
         }
 
@@ -394,7 +482,7 @@ function enviarObsGeneral(){
         }
     });
 }
-function updateObsMuestra(){
+function updateObsMuestra(id){
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestra",
@@ -402,7 +490,7 @@ function updateObsMuestra(){
             idParametro: $("#formulaTipo").val(),
             idDetalle: idMuestra,
             idLote: idLote,
-            observacion: $("#obsMuestra").val(),
+            observacion: $("#"+id).val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",

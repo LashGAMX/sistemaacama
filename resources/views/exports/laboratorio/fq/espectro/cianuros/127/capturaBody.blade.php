@@ -4,16 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/sulfatos/sulfatosPDF.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/cianuros/cianurosPDF.css')}}">
     <title>Captura PDF</title>
-</head>
+</head> 
 <body>
+    <p id='curvaProcedimiento'>Procedimiento</p>
 
     <div id="contenidoCurva">
         @php
-            echo $plantilla->Texto;
+            echo $plantilla[0]->Texto; 
         @endphp
-    </div> 
+    </div>
 
     <br>
 
@@ -22,11 +23,15 @@
             <thead>
 
                 <tr>
-                    <th class="nombreHeader" colspan="15">
+                    <th class="nombreHeader" colspan="13">
                         Resultado de las muestras
                     </th>                    
                 </tr>                
 
+                <tr>
+                    <th colspan="6"></th>
+                    <th colspan="3" style="border: 1px;font-size: 8px;">Interferencias</th>
+                </tr>
                 <tr>
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
                     <th class="tableCabecera anchoColumna">Volumen de muestra (mL)</th>
@@ -34,15 +39,18 @@
                     <th class="tableCabecera anchoColumna">Abs 2</th>
                     <th class="tableCabecera anchoColumna">Abs 3</th>
                     <th class="tableCabecera anchoColumna">Abs Promedio</th>
-                    <th class="tableCabecera anchoColumna">SULFATOS (SO4) mg/L</th>                    
-                    <th class="tableCabecera anchoColumna">Observaciones</th>
+                    <th class="tableCabecera anchoColumna">Sulfuros</th>
+                    <th class="tableCabecera anchoColumna">Nitratos</th>
+                    <th class="tableCabecera anchoColumna">Nitritos</th>
+                    <th class="tableCabecera anchoColumna">CIANUROS (CN ̄)
+                        mg/L</th>
+                    <th class="tableCabecera anchoColumna">Observaciones</th>                                        
                     <th class="anchoColumna"></th>
                     <th class="anchoColumna"></th>
                 </tr>
             </thead>
     
             <tbody>
-
                 @foreach ($model as $item)
                 <tr>
                     <td class="tableContent">
@@ -57,6 +65,27 @@
                     <td class="tableContent">{{@$item->Abs2}}</td>
                     <td class="tableContent">{{@$item->Abs3}}</td>
                     <td class="tableContent">{{@$item->Promedio}}</td>
+                    <td class="tableContent">
+                        @if (@$item->Sulfuros == NULL)
+                            -----        
+                        @else
+                            {{@$item->Sulfuros}}
+                        @endif
+                    </td>
+                    <td class="tableContent">
+                        @if (@$item->Nitratos == NULL)
+                        -----        
+                        @else
+                            {{@$item->Nitratos}}
+                        @endif
+                    </td>
+                    <td class="tableContent">
+                        @if (@$item->Nitritos == NULL)
+                        -----        
+                        @else
+                            {{@$item->Nitritos}}
+                        @endif
+                    </td>
                     @if ($item->Resultado <= $item->Limite)
                         <td class="tableContent">< {{@$item->Limite}}</td>
                     @else
@@ -73,22 +102,23 @@
                     <td class="tableContent">{{@$item->Control}}</td>
                 </tr>
             @endforeach
+ 
             </tbody>        
         </table>  
-    </div>
-
+    </div>    
+    
     <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: {{@$datmodela[0]->Blanco}}</span> <br>
-        <span>Absorbancia B2: {{@$model[0]->Blanco}}</span> <br>
-        <span>Absorbancia B3: {{@$model[0]->Blanco}}</span> <br>
-        <span>RESULTADO BLANCO: {{@$model[0]->Blanco}}</span>
+        <span><br> Absorbancia B1: 0</span> <br><br>
+        <span>Absorbancia B2: 0</span> <br><br>
+        <span>Absorbancia B3: 0</span> <br><br>
+        <span>RESULTADO BLANCO: 0</span>
     </div>
-
-    <br>
 
     <div id="contenidoCurva">
-        <span id="curvaProcedimiento">Valoración / Observación</span>
-        {{-- <?php echo html_entity_decode($textoProcedimiento[1]);?> --}}
+        <span id='curvaProcedimiento'>Valoración</span> 
+       @php
+           echo $plantilla[1]->Texto; 
+       @endphp
     </div>
 
     <br>
@@ -118,7 +148,7 @@
                         <td class="tableCabecera">m = </td>
                         <td class="tableContent">{{@$curva->M}}</td>                        
                         <td class="tableCabecera">Límite de cuantificación: </td>
-                        <td class="tableContent"><{{@$model[0]->Limite}}</td>
+                        <td class="tableContent"> <{{@$limiteC->Limite}}</td>
                     </tr>
 
                     <tr>
@@ -128,6 +158,6 @@
                 {{-- @endfor --}}
             </tbody>        
         </table>  
-    </div>
+    </div>        
 </body>
 </html>

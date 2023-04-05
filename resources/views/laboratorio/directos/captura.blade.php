@@ -134,12 +134,12 @@
                         <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Observación</label>
-                                        <input type="text" class="form-control" id="obsMuestra"
+                                        <input type="text" class="form-control" id="obsMuestraDirecto"
                                             placeholder="Observacion de la muestra">
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-success" type="button"
-                                            onclick="updateObsMuestra()"
+                                            onclick="updateObsMuestra('obsMuestraDirecto')"
                                             id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
                                     </div>
                                 </div>
@@ -217,12 +217,12 @@
                         <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Observación</label>
-                                        <input type="text" class="form-control" id="obsMuestra"
+                                        <input type="text" class="form-control" id="obsMuestraTurbiedad"
                                             placeholder="Observacion de la muestra">
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-success" type="button"
-                                            onclick="updateObsMuestra()"
+                                            onclick="updateObsMuestra('obsMuestraTurbiedad')"
                                             id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
                                     </div>
                                 </div>
@@ -295,6 +295,99 @@
             </div>
         </div>
 
+          <!-- Modal Cloro-->
+          <div class="modal fade" id="modalCloro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="">Cloro</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                        <div class="col-md-12">
+                                    <div class="form-group">
+                                        <label for="">Observación</label>
+                                        <input type="text" class="form-control" id="obsMuestraCloro"
+                                            placeholder="Observacion de la muestra">
+                                    </div>
+                                    <div class="form-group">
+                                        <button class="btn btn-success" type="button"
+                                            onclick="updateObsMuestra('obsMuestraCloro')"
+                                            id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
+                                    </div>
+                                </div>
+                            <div class="col-md-12">
+                                <table class="table" id="">
+                                    <thead>
+                                        <tr>
+                                            <th>Parametro</th>
+                                           
+                                            <th>Valor</th>
+                                            <th>Valor2</th>
+                                            
+                                        </tr>
+                                    </thead>
+                                    <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                                    <tbody>
+                                        <tr>
+                                            <td>Fact. Dilución.</td>
+                                            <td><input type="text" id="dilucionCloro1" value="0"></td>
+                                            <td><input type="text" id="dilucionCloro2" value="0"></td>
+                                          
+                                        </tr>
+                                        <tr>
+                                            <td>Volumen de Muestra.</td>
+                                            <td><input type="text" id="volumenCloro1" value="0"></td>
+                                            <td><input type="text" id="volumenCloro2" value="0"></td>
+                                          
+                                        </tr>
+                                        <tr>
+                                            <td>L1.</td>
+                                            <td><input type="text" id="lecturaUnoCloro1" value="0"></td>
+                                            <td><input type="text" id="lecturaUnoCloro2" value="0"></td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>L2.</td>
+                                            <td><input type="text" id="lecturaDosCloro1" value="0"></td>
+                                            <td><input type="text" id="lecturaDosCloro2" value="0"></td>
+                                            
+                                        </tr>
+                                        <tr>
+                                            <td>L3.</td>                                         
+                                            <td><input type="text" id="lecturaTresCloro1" value="0"></td>
+                                            <td><input type="text" id="lecturaTresCloro2" value="0"></td>
+                                           
+                                        </tr>
+                                        <tr>
+                                            <td>Promedio.</td>
+                                            <td><input type="text" id="promedioCloro1" value="0"></td>
+                                            <td><input type="text" id="promedioCloro2" value="0"></td>
+                                          
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="resultado">Resultado</label>
+                            <input type="text" id="resultadoCloro" style="font-size: 20px;color:red;"
+                                placeholder="Resultado">
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                        <button type="button" onclick="operacionCloro()" id="guardar" class="btn btn-primary">Calcular</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Modal para temperatura -->
         <div class="modal fade" id="modalTemperatura" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
@@ -310,12 +403,12 @@
                         <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Observación</label>
-                                        <input type="text" class="form-control" id="obsMuestra"
+                                        <input type="text" class="form-control" id="obsMuestraTemperatura"
                                             placeholder="Observacion de la muestra">
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-success" type="button"
-                                            onclick="updateObsMuestra()"
+                                            onclick="updateObsMuestra('obsMuestraTemperatura')"
                                             id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
                                     </div>
                                 </div>
@@ -371,7 +464,7 @@
                 </div>
             </div>
         </div>
-        <!-- Modal para temperatura -->
+        <!-- Modal para Color -->
         <div class="modal fade" id="modalColor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
@@ -386,12 +479,12 @@
                         <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Observación</label>
-                                        <input type="text" class="form-control" id="obsMuestra"
+                                        <input type="text" class="form-control" id="obsMuestraColor"
                                             placeholder="Observacion de la muestra">
                                     </div>
                                     <div class="form-group">
                                         <button class="btn btn-success" type="button"
-                                            onclick="updateObsMuestra()"
+                                            onclick="updateObsMuestra('obsMuestraColor')"
                                             id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
                                     </div>
                                 </div>

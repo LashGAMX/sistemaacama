@@ -180,11 +180,12 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getDetalleVol', [VolController::class, 'getDetalleVol']);
         Route::post('operacionVolumetriaDqo', [VolController::class, 'operacionVolumetriaDqo']);
         Route::post('operacionVolumetriaCloro', [VolController::class, 'operacionVolumetriaCloro']);
+        Route::post('operacionVolumetriaNitrogenoEquipo', [VolController::class, 'operacionVolumetriaNitrogenoEquipo']);
         Route::post('operacionVolumetriaNitrogeno', [VolController::class, 'operacionVolumetriaNitrogeno']);
-
         Route::post('guardarCloro', [VolController::class, 'guardarCloro']);
         Route::post('guardarDqo', [VolController::class, 'guardarDqo']);
         Route::post('guardarNitrogeno', [VolController::class, 'guardarNitrogeno']);
+        Route::post('guardarNitrogenoEquipo', [VolController::class, 'guardarNitrogenoEquipo']);
         Route::post('createControlCalidadVol', [VolController::class, 'createControlCalidadVol']);
         Route::post('createControlesCalidadVol', [VolController::class, 'createControlesCalidadVol']);
         Route::post('liberarMuestraVol', [VolController::class, 'liberarMuestraVol']);
@@ -236,6 +237,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('operacion', [DirectosController::class, 'operacion']);
         Route::post('operacionTemperatura', [DirectosController::class, 'operacionTemperatura']);
         Route::post('operacionTurbiedad', [DirectosController::class, 'operacionTurbiedad']);
+        Route::post('operacionCloro', [DirectosController::class, 'operacionCloro']);
         Route::post('operacionColor', [DirectosController::class, 'operacionColor']);
         Route::post('enviarObsGeneral', [DirectosController::class, 'enviarObsGeneral']);
         Route::post('updateObsMuestra', [DirectosController::class, 'updateObsMuestra']);

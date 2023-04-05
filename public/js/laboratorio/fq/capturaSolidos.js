@@ -319,10 +319,10 @@ function operacionSimple() {
             $('#crisol').val(response.serie);
             $("#m11").val(response.masa1);
             $("#m21").val(response.masa2);
-            $("#pcm11").val(response.pesoConMuestra1);
-            $("#pcm21").val(response.pesoConMuestra2);
-            $("#pc1").val(response.pesoC1);
-            $("#pc21").val(response.pesoC2);
+            $("#pc1").val(response.pesoConMuestra1);
+            $("#pc21").val(response.pesoConMuestra2);
+            $("#pcm11").val(response.pesoC1);
+            $("#pcm21").val(response.pesoC2);
             getLoteCapturaSolidos();
         }
     });
@@ -438,14 +438,14 @@ function getDetalleSolidos(idDetalle, num) {
                     $("#m12").val(response.detalle.Masa1);
                     $("#m21").val(response.detalle.Masa2);
                     $("#m22").val(response.detalle.Masa2);
-                    $("#pcm11").val(response.detalle.Peso_muestra1);
-                    $("#pcm12").val(response.detalle.Peso_muestra1);
-                    $("#pcm21").val(response.detalle.Peso_muestra2);
-                    $("#pcm22").val(response.detalle.Peso_muestra2);
-                    $("#pc1").val(response.detalle.Peso_constante1);
-                    $("#pc2").val(response.detalle.Peso_constante1);
-                    $("#pc21").val(response.detalle.Peso_constante2);
-                    $("#pc22").val(response.detalle.Peso_constante2);
+                    $("#pcm11").val(response.detalle.Peso_constante1);
+                    $("#pcm12").val(response.detalle.Peso_constante1);
+                    $("#pcm21").val(response.detalle.Peso_constante2);
+                    $("#pcm22").val(response.detalle.Peso_constante2);
+                    $("#pc1").val(response.detalle.Peso_muestra1);
+                    $("#pc2").val(response.detalle.Peso_muestra1);
+                    $("#pc21").val(response.detalle.Peso_muestra2);
+                    $("#pc22").val(response.detalle.Peso_muestra2);
                     $("#v1").val(response.detalle.Vol_muestra);
                     $("#v2").val(response.detalle.Vol_muestra);
                     $("#f1").val(response.detalle.Factor_conversion);
@@ -476,14 +476,14 @@ function getDetalleSolidos(idDetalle, num) {
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }
-function updateObsMuestraSolidos() {
+function updateObsMuestraSolidos(id) {
 
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestraSolidos",
         data: {
             idMuestra: idMuestra,
-            observacion: $("#observacion").val(),
+            observacion: $("#"+id).val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",

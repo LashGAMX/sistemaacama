@@ -199,7 +199,8 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
-    public function guardarDureza(Request $request){
+    public function guardarDureza(Request $request)
+    {
         $model = LoteDetalleDureza::find($request->idMuestra);
         $model->Edta = $request->A;
         $model->Factor_conversion = $request->B;
@@ -231,7 +232,7 @@ class FqController extends Controller
         $model->Blanco = $request->CA;
         $model->Analizo = Auth::user()->id;
         $model->save();
-        
+
         $data = array(
             'model' => $model,
 
@@ -287,13 +288,13 @@ class FqController extends Controller
                 $resultado = $res2 * round($d, 3);
                 break;
             case 95:
-                    // Sulfatos Potable
-                    $x = ($request->X + $request->Y + $request->Z) / 3;
-                    $d =   100  / $request->E;
-                    $res1 = round($x, 3) - ($request->CB);
-                    $res2 = $res1 / $request->CM;
-                    $resultado = $res2 * round($d, 3);
-                break;    
+                // Sulfatos Potable
+                $x = ($request->X + $request->Y + $request->Z) / 3;
+                $d =   100  / $request->E;
+                $res1 = round($x, 3) - ($request->CB);
+                $res2 = $res1 / $request->CM;
+                $resultado = $res2 * round($d, 3);
+                break;
             case 69:
                 # Cromo Hexavalente
                 $d =  $request->CM;
@@ -362,12 +363,12 @@ class FqController extends Controller
                 $resultado = $b / $request->D;
                 break;
 
-                case 105: //Fluoruros (potable)
+            case 105: //Fluoruros (potable)
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $d =  50 / $request->E;
                 $resultado = (($x - $request->CB) / $request->CM) * $d;
-                    break;
-            
+                break;
+
             default:
                 # code...
                 $x = ($request->X + $request->Y + $request->Z) / 3;
@@ -384,29 +385,30 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
-    public function operacionCOT(Request $request){
+    public function operacionCOT(Request $request)
+    {
         $model = LoteDetalleEspectro::where('Id_detalle', $request->idMuestra)->first();
-                $d = 40 / $request->E;
-                $x = ($request->X + $request->Y + $request->Z) / 3;
-                switch($model->Id_control) {
-                   case 14: 
-                    $resultado = ((($x - $request->CB) / $request->CM) * $d);
-                    break;
-                        case 5:
-                            $resultado = ($request->X + $request->Y + $request->Z) / 3;
-                        break;
-                            default: 
-                                $resultado = ((($x - $request->CA) / $request->CM) * $d);
-                }
+        $d = 40 / $request->E;
+        $x = ($request->X + $request->Y + $request->Z) / 3;
+        switch ($model->Id_control) {
+            case 14:
+                $resultado = ((($x - $request->CB) / $request->CM) * $d);
+                break;
+            case 5:
+                $resultado = ($request->X + $request->Y + $request->Z) / 3;
+                break;
+            default:
+                $resultado = ((($x - $request->CA) / $request->CM) * $d);
+        }
 
-                $data = array(
-                    'resultado' => $resultado,
-                    'x' => $x,
-                    'd' => $d,
-                    'parametro' => $request->parametro,
-                    'idControl' =>$model->Id_control,
-                );
-                return response()->json($data);
+        $data = array(
+            'resultado' => $resultado,
+            'x' => $x,
+            'd' => $d,
+            'parametro' => $request->parametro,
+            'idControl' => $model->Id_control,
+        );
+        return response()->json($data);
     }
     public function liberarMuestraEspectro(Request $request)
     {
@@ -506,7 +508,8 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
-    public function getDetalleDureza(Request $request){
+    public function getDetalleDureza(Request $request)
+    {
         $model = DB::table("ViewLoteDetalleDureza")->where('Id_detalle', $request->idDetalle)->first();
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
 
@@ -525,8 +528,8 @@ class FqController extends Controller
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
         $blanco = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->where('Id_control', 5)->first();
         $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-        ->where('Id_area', 16)
-        ->where('Id_parametro', $parametro->Id_parametro)->first();
+            ->where('Id_area', 16)
+            ->where('Id_parametro', $parametro->Id_parametro)->first();
 
         //$curva = CurvaConstantes::where('Id_lote', $model->Id_lote)->first();
 
@@ -546,11 +549,11 @@ class FqController extends Controller
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
         $curva = CurvaConstantes::whereDate('Fecha_inicio', "<=", $today)->whereDate('Fecha_fin', ">=", $today)
-        ->where('Id_parametro', $parametro->Id_parametro)->first();
-        $data = array( 
+            ->where('Id_parametro', $parametro->Id_parametro)->first();
+        $data = array(
             'model' => $model,
             'curva' => $curva,
-            'today' =>$today,
+            'today' => $today,
             'para' => $parametro,
         );
         return response()->json($data);
@@ -827,17 +830,17 @@ class FqController extends Controller
     {
         $model = array();
         $temp = array();
-        $codigo = DB::table('ViewCodigoParametro')->where('Asignado',0)->get();
-        $param = DB::table('ViewParametroUsuarios')->where('Id_user',Auth::user()->id)->get();
-        
+        $codigo = DB::table('ViewCodigoParametro')->where('Asignado', 0)->get();
+        $param = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
+
         foreach ($codigo as $item) {
             $temp = array();
             foreach ($param as $item2) {
-                if ($item->Id_parametro == $item2->Id_parametro) { 
-                    array_push($temp,$item->Codigo);
-                    array_push($temp,"(".$item->Id_parametro.") ".$item->Parametro);
-                    array_push($temp,$item->Hora_recepcion);
-                    array_push($model,$temp);
+                if ($item->Id_parametro == $item2->Id_parametro) {
+                    array_push($temp, $item->Codigo);
+                    array_push($temp, "(" . $item->Id_parametro . ") " . $item->Parametro);
+                    array_push($temp, $item->Hora_recepcion);
+                    array_push($model, $temp);
                     break;
                 }
             }
@@ -1240,7 +1243,7 @@ class FqController extends Controller
         $sw = false;
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
         $paraModel = Parametro::find($loteModel->Id_tecnica);
-        
+
         switch ($paraModel->Id_area) {
             case 16: //todo Espectrofotometria
                 $model = LoteDetalleEspectro::create([
@@ -1267,7 +1270,7 @@ class FqController extends Controller
                 $sw = true;
                 break;
             case 15:
-                 //todo Solidos
+                //todo Solidos
                 $model = LoteDetalleSolidos::create([
                     'Id_lote' => $request->idLote,
                     'Id_analisis' => $request->idAnalisis,
@@ -1910,9 +1913,9 @@ class FqController extends Controller
                 $nom2 = "STV";
                 $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 49)->first();
                 break;
-                case 3: // SS
-                    $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 3)->first();
-                    break;
+            case 3: // SS
+                $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $detalle->Folio_servicio)->where('Id_parametro', 3)->first();
+                break;
             default:
                 $dif1 = "Sin datos";
                 $dif2 = "Sin datos";
@@ -1959,7 +1962,8 @@ class FqController extends Controller
         );
         return response()->json($data);
     }
-    public function getDirectos(Request $request){ //SS
+    public function getDirectos(Request $request)
+    { //SS
         $model = LoteDetalleSolidos::find($request->idMuestra);
         $model->Inmhoff = $request->inmhoff;
         $model->Temp_muestraLlegada = $request->temp_muestraLlegada;
@@ -1974,21 +1978,21 @@ class FqController extends Controller
 
     public function operacionSolidosSimple(Request $request)
     {
-        switch ($request->tipoFormula){
-            case 1: 
+        switch ($request->tipoFormula) {
+            case 1:
                 $modelCapsula = Capsulas::all();
                 $cont = $modelCapsula->count();
-                
+
                 for ($i = 0; $i < $cont; $i++) {
                     # code...
                     $id = rand(0, $modelCapsula->count());
                     $crisol = Capsulas::where('Id_capsula', $id)->first();
                     if ($crisol->Estado == 0) {
                         break;
-                    } 
+                    }
                 }
-            break;
-            default:  
+                break;
+            default:
                 $modelCrisol = CrisolesGA::all();
                 //? Aplica la busqueda de crisol hasta encontrar un crisol desocupado
                 $cont = $modelCrisol->count();
@@ -2001,7 +2005,7 @@ class FqController extends Controller
                         break;
                     }
                 }
-             break;
+                break;
         }
 
         $mf = ((($request->R / $request->factor) * $request->volumen) + $crisol->Peso);
@@ -2259,25 +2263,25 @@ class FqController extends Controller
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
-                //Establece la marca de agua del documento PDF
-                $mpdf->SetWatermarkImage(
-                    asset('/public/storage/MembreteVertical.png'),
-                    1,
-                    array(215, 280),
-                    array(0, 0),
-                );
-        
-                $mpdf->showWatermarkImage = true;
-                $mpdf->CSSselectMedia = 'mpdf';         
+        //Establece la marca de agua del documento PDF
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/MembreteVertical.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+
+        $mpdf->showWatermarkImage = true;
+        $mpdf->CSSselectMedia = 'mpdf';
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
-        switch ($lote->Id_tecnica) {    
+        switch ($lote->Id_tecnica) {
             case 103:
                 $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillasFq::where('Id_parametro',103)->first();
+                $plantilla = PlantillasFq::where('Id_parametro', 103)->first();
                 // $curva = CurvaConstantes::where('Id_parametro', 107)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
                 $data = array(
-                    'lote' => $lote, 
+                    'lote' => $lote,
                     'model' => $model,
                     // 'curva' => $curva,
                     'plantilla' => $plantilla,
@@ -2293,13 +2297,13 @@ class FqController extends Controller
                 break;
             case 112:
                 $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillasFq::where('Id_parametro',112)->first();
+                $plantilla = PlantillasFq::where('Id_parametro', 112)->first();
                 $data = array(
-                    'lote' => $lote, 
+                    'lote' => $lote,
                     'model' => $model,
                     'plantilla' => $plantilla,
                 );
-         
+
                 $htmlFooter = view('exports.laboratorio.fq.ga.sdt.capturaFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.fq.ga.sdt.capturaHeader', $data);
@@ -2310,10 +2314,10 @@ class FqController extends Controller
                 break;
             case 107:
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillasFq::where('Id_parametro',107)->first();
+                $plantilla = PlantillasFq::where('Id_parametro', 107)->first();
                 $curva = CurvaConstantes::where('Id_parametro', 107)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
-                $data = array( 
-                    'lote' => $lote, 
+                $data = array(
+                    'lote' => $lote,
                     'model' => $model,
                     'curva' => $curva,
                     'plantilla' => $plantilla,
@@ -2326,9 +2330,27 @@ class FqController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
+            case 99:
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
+                $plantilla = PlantillasFq::where('Id_parametro', 99)->get();
+                $curva = CurvaConstantes::where('Id_parametro', 99)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $data = array(
+                    'lote' => $lote,
+                    'model' => $model,
+                    'curva' => $curva,
+                    'plantilla' => $plantilla,
+                );
+                $htmlFooter = view('exports.laboratorio.fq.espectro.cianuros.127.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E'); 
+                $htmlHeader = view('exports.laboratorio.fq.espectro.cianuros.127.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.127.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break; 
             case 95: // Sulfatos
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillasFq::where('Id_parametro',95)->first();
+                $plantilla = PlantillasFq::where('Id_parametro', 95)->first();
                 $curva = CurvaConstantes::where('Id_parametro', 95)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
                 $data = array(
                     'lote' => $lote,
@@ -2346,7 +2368,7 @@ class FqController extends Controller
                 break;
             case 105: // Fluoruros
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillasFq::where('Id_parametro',105)->first();
+                $plantilla = PlantillasFq::where('Id_parametro', 105)->first();
                 $curva = CurvaConstantes::where('Id_parametro', 105)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
                 $data = array(
                     'lote' => $lote,
@@ -2364,7 +2386,7 @@ class FqController extends Controller
                 break;
             case 96: // SAAM
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillasFq::where('Id_parametro',96)->first();
+                $plantilla = PlantillasFq::where('Id_parametro', 96)->first();
                 $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
                 $data = array(
                     'lote' => $lote,
@@ -2381,7 +2403,7 @@ class FqController extends Controller
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
             case 152: // COT
- 
+
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
                 $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
@@ -2401,18 +2423,20 @@ class FqController extends Controller
             case 116: // Yodo
 
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                // $textoProcedimiento = ReportesMb::where('Id_reporte', 3)->first();
+                $plantilla = PlantillasFq::where('Id_parametro', 116)->first();
                 $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
                     'curva' => $curva,
-                    // 'textoProcedimiento' => $textoProcedimiento,
+                    'plantilla' => $plantilla,
                 );
 
-                $htmlHeader = view('exports.laboratorio.fq.espectro.yodo.capturaHeader', $data);
+                $htmlFooter = view('exports.laboratorio.fq.espectro.yodo.127.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.fq.espectro.yodo.127.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                $htmlCaptura = view('exports.laboratorio.fq.espectro.yodo.capturaBody', $data);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.yodo.127.capturaBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
@@ -2429,7 +2453,7 @@ class FqController extends Controller
                 $htmlCaptura = view('exports.laboratorio.fq.espectro.cromoHex.capturaBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
-            break;
+                break;
             default:
                 # code...
                 break;
@@ -2443,15 +2467,16 @@ class FqController extends Controller
     public function exportPdfCapturaEspectro($idLote)
     {
 
-        $temp = LoteAnalisis::where('Id_lote',$idLote)->first();
+        $temp = LoteAnalisis::where('Id_lote', $idLote)->first();
         switch ($temp->Id_tecnica) {
             case 96:
             case 105:
             case 95:
+            case 99:
             case 103:
             case 107:
             case 116:
-                return redirect()->to('admin/laboratorio/fq/captura/exportPdfEspectro/'.$idLote);
+                return redirect()->to('admin/laboratorio/fq/captura/exportPdfEspectro/' . $idLote);
                 break;
                 break;
             default:
@@ -3056,7 +3081,7 @@ class FqController extends Controller
             $dataLength = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->count();
 
             // $matraces = MatrazGA::all();
-            $matraces = DB::table('ViewLoteDetalleMatraz')->where('Id_lote',$id_lote)->get();
+            $matraces = DB::table('ViewLoteDetalleMatraz')->where('Id_lote', $id_lote)->get();
             $matracesLength = sizeof($matraces);
 
             $calMatraces = CalentamientoMatraz::where('Id_lote', $id_lote)->get();
@@ -3080,7 +3105,7 @@ class FqController extends Controller
 
             $separador = "Valoración / Observación";
 
-            
+
             $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
             $htmlCaptura = view('exports.laboratorio.fq.ga.ga.capturaBody', compact('textoProcedimiento', 'calMatraces', 'enfMatraces', 'secCartuchos', 'tiempoReflujo', 'enfMatraz', 'data', 'dataLength', 'matraces', 'matracesLength'));
@@ -3107,8 +3132,8 @@ class FqController extends Controller
             $dataLength = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->count();
 
             // $matraces = MatrazGA::all();
-            $matraces = DB::table('ViewLoteDetalleMatraz')->where('Id_lote',$id_lote)->get();
-            
+            $matraces = DB::table('ViewLoteDetalleMatraz')->where('Id_lote', $id_lote)->get();
+
             $matracesLength = sizeof($matraces);
 
             $calMatraces = CalentamientoMatraz::where('Id_lote', $id_lote)->get();
@@ -3129,7 +3154,7 @@ class FqController extends Controller
         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
         $mpdf->WriteHTML($htmlCaptura);
- 
+
         $mpdf->AddPage('', '', '', '', '', '', '', 35, 45, 6.5, '', '', '', '', '', -1, -1, -1, -1);
         $data = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->get();
         $dataLength = DB::table('ViewLoteDetalleGA')->where('Id_lote', $id_lote)->count();
@@ -3150,14 +3175,14 @@ class FqController extends Controller
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
     public function exportPdfCapturaSolidos($idLote)
     {
-        $temp = LoteAnalisis::where('Id_lote',$idLote)->first();
+        $temp = LoteAnalisis::where('Id_lote', $idLote)->first();
         switch ($temp->Id_tecnica) {
             case 96:
             case 105:
             case 95:
             case 107:
             case 112:
-                return redirect()->to('admin/laboratorio/fq/captura/exportPdfEspectro/'.$idLote);
+                return redirect()->to('admin/laboratorio/fq/captura/exportPdfEspectro/' . $idLote);
                 break;
                 break;
             default:
@@ -3867,4 +3892,3 @@ class FqController extends Controller
         $mpdf->Output();
     }
 }
-

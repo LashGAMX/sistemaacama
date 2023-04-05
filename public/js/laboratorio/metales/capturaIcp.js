@@ -182,7 +182,35 @@ function getLoteCaptura() {
           tab += '    </thead>';
           tab += '    <tbody>';
           $.each(response.model, function (key, item) {
-              tab += '<tr>';
+            if (item.Id_control == 1) {
+                switch (item.Id_parametro) {
+                    case 207:// Al
+                    case 212://Cr
+                    case 300://Ni
+                    case 209://Ba    
+                    case 211://Cu
+                    case 214://Mn
+                    case 233://Se
+                    case 217://Ag
+                        if (item.Resultado >= 0.030 && item.Resultado <= 0.390) {
+                            tab += '<tr class="bg-primary">';    
+                        }else{
+                            tab += '<tr>';   
+                        }
+                        break;
+                    case 213:// Fe
+                        if (item.Resultado >= 0.090 && item.Resultado <= 1.170) {
+                            tab += '<tr class="bg-primary">';    
+                        }else{
+                            tab += '<tr>';               
+                        }
+                        break;
+                    default:
+                        break;
+                }
+            } else {
+                tab += '<tr>';   
+            }
               tab += '  <td>'+item.Id_codigo+'</td>';
               tab += '  <td>'+item.Parametro+'</td>';
               tab += '  <td>'+item.Cps+'</td>';

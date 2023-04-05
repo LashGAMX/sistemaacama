@@ -188,9 +188,11 @@ function getLoteCapturaVol() {
                             break;
                         case '9':
                         case '287':
-                        case '108':
                             tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',3);" data-toggle="modal" data-target="#modalNitrogeno">Capturar</button>';
                             break;
+                        case '108':
+                            tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',3);" data-toggle="modal" data-target="#modalNitrogenoEquipo">Capturar</button>';    
+                        break;
                         case '10':
                             tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',3);" data-toggle="modal" data-target="#modalNitrogeno">Capturar</button>';
                             break;
@@ -292,7 +294,28 @@ function operacionNitrogeno() {
         }
     });
 }
+function operacionNitrogenoEquipo() {
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionVolumetriaNitrogenoEquipo",
+        data: {
+            idDetalle: idMuestra,
+            A: $("#factor1").val(),
+            B: $("#concentracion1").val(),
+            C: $("#volAñadidoStd1").val(),
+            D: $("#VolAñadidoMuestra1").val(),
 
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            $("#resultadoNitroEquipo").val(response.res.toFixed(2));
+
+
+        }
+    });
+}
 
 function operacionCloro() {
     $.ajax({
@@ -472,6 +495,28 @@ function guardarNitrogeno() {
             D: $("#factorNitro1").val(),  
             E: $("#conversion1").val(),
             G: $("#volNitro1").val(),
+            resultado: $("#resultadoNitro").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaVol();
+        }
+    });
+}
+function guardarNitrogenoEquipo() {
+
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/guardarNitrogenoEquipo",
+        data: {
+            idDetalle: idMuestra,
+            A: $("#factor1").val(),
+            B: $("#concentracion1").val(),
+            C: $("#volAñadidoStd1").val(),
+            D: $("#VolAñadidoMuestra1").val(),
+
             resultado: $("#resultadoNitro").val(),
             _token: $('input[name="_token"]').val()
         },
