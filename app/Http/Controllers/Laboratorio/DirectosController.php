@@ -298,11 +298,6 @@ class DirectosController extends Controller
         $resultado = 0;
         $promedio = ($request->l1 + $request->l2 + $request->l3) / 3;
         $resultado = round($promedio, 2);
-        // if($res >= 1 && $res <=10){
-        //     $resultado = 0.1;
-        // } else {
-        //     $resultado = 0.05;
-        // }
         $model = LoteDetalleDirectos::find($request->idDetalle);
         $model->Resultado = $resultado;
         $model->Factor_dilucion = $request->factor;
