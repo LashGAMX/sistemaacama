@@ -278,7 +278,6 @@ function operacionEcoliFinal(){
             getLoteCapturaMicro();
         }
     });
-
 }
 function operacionEcoli(idDetalle){
     $.ajax({

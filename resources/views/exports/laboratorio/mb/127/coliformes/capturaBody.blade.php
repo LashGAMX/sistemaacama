@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="{{asset('/public/css/exports/bitacoras.css')}}">
-    <title>Captura PDF</title>
+    <title>Captura PDF </title>
 </head>
 
 <body>
@@ -48,16 +48,19 @@
                 @foreach ($loteDetalle as $item)
                     <tr>
                         <td>{{ $item->Codigo }}</td>
-                        <td>{{ $item->Confirmativa2 }}</td>
+                        <td>{{ $item->Confirmativa2}}</td>
                         <td>{{ $item->Presuntiva1 }}</td>
                         <td>{{ $item->Presuntiva2 }}</td>
-                        <td>{{ $item->Confirmativa1 }}</td>
-                        <td>{{ $item->Confirmativa2 }}</td>
+                        <td>{{ $item->Confirmativa1}}</td>
+                        <td>{{ $item->Confirmativa2}}</td>
                         <td>
-                            @if ($item->Resultado > $item->Limite)
+                            
+                            @if($item->Resultado == 8)
+                                 >{{ $item->Resultado }}
+                            @elseif ($item->Resultado > $item->Limite)
                                 {{ $item->Resultado }}
                             @else
-                                {{ $item->Limite }}
+                                No Detectable
                             @endif
                         </td>
                         <td>{{ $item->Observacion }}</td>

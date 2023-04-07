@@ -52,9 +52,15 @@
                             @endif 
                         </td>
                         <td class="tableContent">{{@$loteDetalle[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$loteDetalle[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$loteDetalle[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$loteDetalle[$i]->Vol_muestra}}</td>
+                        <td class="tableContent">{{@$loteDetalle[$i]->Molaridad}}</td>
+                        <td class="tableContent">{{@$loteDetalle[$i]->Factor_equivalencia}}</td>
+                        <td class="tableContent">{{@$loteDetalle[$i]->Resultado}}</td>
+                        <td class="tableContent"> @if (@$loteDetalle[$i]->Resultado > @$loteDetalle[$i]->Limite)
+                            {{@$loteDetalle[$i]->Resultado}}
+                        @else
+                            <{{@$loteDetalle[$i]->Limite}}
+                        @endif</td>
+                        
                         {{-- <td class="tableContent">{{@$loteDetalle[$i]->Titulado_blanco}}</td>
                         <td class="tableContent">{{@$loteDetalle[$i]->Titulado_muestra}}</td>
                         <td class="tableContent">
@@ -81,7 +87,7 @@
 
     <br>
     
-    <div class="contenedorTabla">
+    {{-- <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="">
             <tbody>                              
                 <tr>
@@ -127,7 +133,7 @@
                 </tr>
             </tbody>    
         </table>  
-    </div>
+    </div> --}}
 
     <br>
 

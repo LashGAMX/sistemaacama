@@ -356,13 +356,13 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">Observación</label>
-                                    <input type="text" class="form-control" id="observacionNitro"
+                                    <input type="text" class="form-control" id="observacionNitroE"
                                         placeholder="Observacion de la muestra">
                                 </div>
-                                <div class="form-group">
+                                {{-- <div class="form-group">
                                     <button class="btn btn-success" type="button" onclick="updateObsVolumetria(3,'observacionNitro')"
                                         id=""><i class="voyager-check"></i> Aplicar</button>
-                                </div>
+                                </div> --}}
                             </div>
                             <div class="col-md-2">
                                 <button class="btn btn-success"  onclick="guardarNitrogenoEquipo()"><i class="voyager-upload"></i>
@@ -400,21 +400,21 @@
                                     <tr>
                                         <td>A</td>
                                         <td>factor de dilución</td>
-                                        <td><input type="text" id="factor1" value="0"></td>
+                                        <td><input type="text" id="factor1E" value="0"></td>
                                         <td><input type="text" id="factor2" value="0"></td>
                                         <td>V</td>
                                     </tr>
                                     <tr>
                                         <td>B</td>
                                         <td>Concentración de NH3 en mg/L</td>
-                                        <td><input type="text" id="concentracion1" value="0"></td>
+                                        <td><input type="text" id="concentracion1E" value="0"></td>
                                         <td><input type="text" id="concentracion2" value="0"></td>
                                         <td>F</td>
                                     </tr>
                                     <tr>
                                         <td>C</td>
                                         <td>Volumen Añadido al std</td>
-                                        <td><input type="text" id="volAñadidoStd1" value="0"></td>
+                                        <td><input type="text" id="volAñadidoStd1E" value="0"></td>
                                         <td><input type="text" id="volAñadidoStd2" value="0"></td>
                                         <td>F</td>
                                     </tr>
@@ -422,10 +422,18 @@
                                     <tr>
                                         <td>D</td>
                                         <td>Volumen Añadido a Muestra</td>
-                                        <td><input type="text" id="VolAñadidoMuestra1" value="0"></td>
+                                        <td><input type="text" id="VolAñadidoMuestra1E" value="0"></td>
                                         <td><input type="text" id="VolAñadidoMuestra2" value="0"></td>
                                         <td>C</td>
                                     </tr>
+                                    <tr>
+                                        <td>D</td>
+                                        <td>Volumen de la Muestra en mL</td>
+                                        <td><input type="text" id="volumenMuestraE1" value="100"></td>
+                                        <td><input type="text" id="volumenMuestraE2" value="100"></td>
+                                        <td>C</td>
+                                    </tr>
+                    
                     
                                 </tbody>
                               </table>

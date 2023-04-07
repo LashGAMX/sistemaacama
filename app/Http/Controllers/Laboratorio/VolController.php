@@ -1068,7 +1068,9 @@ class VolController extends Controller
         $model->Titulado_blanco = $request->B;
         $model->Molaridad = $request->C;
         $model->Factor_equivalencia = $request->D;
+        $model->Vol_muestra = $request->V;
         $model->Resultado = $request->resultado;
+        $model->Observacion = $request->O;
         $model->analizo = Auth::user()->id;
         $model->save();
 

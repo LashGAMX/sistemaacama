@@ -300,11 +300,11 @@ function operacionNitrogenoEquipo() {
         url: base_url + "/admin/laboratorio/" + area + "/operacionVolumetriaNitrogenoEquipo",
         data: {
             idDetalle: idMuestra,
-            A: $("#factor1").val(),
-            B: $("#concentracion1").val(),
-            C: $("#volAñadidoStd1").val(),
-            D: $("#VolAñadidoMuestra1").val(),
-
+            A: $("#factor1E").val(),
+            B: $("#concentracion1E").val(),
+            C: $("#volAñadidoStd1E").val(),
+            D: $("#VolAñadidoMuestra1E").val(),
+            resultado: $("#resultadoNitroEquipo").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
@@ -512,12 +512,13 @@ function guardarNitrogenoEquipo() {
         url: base_url + "/admin/laboratorio/" + area + "/guardarNitrogenoEquipo",
         data: {
             idDetalle: idMuestra,
-            A: $("#factor1").val(),
-            B: $("#concentracion1").val(),
-            C: $("#volAñadidoStd1").val(),
-            D: $("#VolAñadidoMuestra1").val(),
-
-            resultado: $("#resultadoNitro").val(),
+            A: $("#factor1E").val(),
+            B: $("#concentracion1E").val(),
+            C: $("#volAñadidoStd1E").val(),
+            D: $("#VolAñadidoMuestra1E").val(),
+            V: $("#volumenMuestraE1").val(),
+            O: $("#observacionNitroE").val(),
+            resultado: $("#resultadoNitroEquipo").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
