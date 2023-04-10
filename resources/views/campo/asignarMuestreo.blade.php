@@ -195,43 +195,29 @@
       </div>
 
       <div class="modal-body">
-        <div class="form-group">
           <div class="row">
             <div class="col-md-6">
-              <div id="tablaMuestreadores">
-              <table class="table" border="1" id="muestreadores">
-                <thead>
-                  <tr>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    
-                  </tr>
-                </tbody>
-              </table>
-            </div>
-              </div>
-            
-            <div class="col-md-6">
-              <div id="tablaPuntoMuestreo">
-                <table class="table" border="1" id="puntoMuestreo">
-                  <thead>
-                    <tr>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
-  
+              <select class="form-control" id="idUsuarios">
+                <option>Selecciona un usuario</option> 
+                @foreach ($usuarios as $item)
+                <input type="checkbox" id="ho$item->idrns" name="horns{{$item->id}}el{{$item->name}}scales">Scales</label>
+                @endforeach
+                </select>
             </div>
           </div>
         </div>
-      </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-6">
+              <select class="form-control" id="idUsuarios">
+                <option>Selecciona un usuario</option>
+                @foreach ($usuarios as $item)
+                <option value="{{$item->id}}">{{$item->name}}</option>
+                @endforeach
+                </select>
+            </div>
+          </div>
+        </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>

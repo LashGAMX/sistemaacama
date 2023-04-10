@@ -450,8 +450,13 @@ class MetalesController extends Controller
                     $resultado = ((($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD) / $FC;
                 }
             } else {
-                $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;
+                    $resultado = (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;   
+                
             }
+        }
+        if ($detalleModel->Id_parametro == 215) {
+            $temp =   (($promedio - $curvaConstantes->B) / $curvaConstantes->M) * $FD;   
+            $resultado = ($temp * $request->volDirigido) / ($request->volMuestra * $FC);
         }
         $resultadoRound = round($resultado, 3);
 

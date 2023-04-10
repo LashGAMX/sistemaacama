@@ -142,14 +142,14 @@ class InformesController extends Controller
         $model = DB::table('ViewSolicitud')->where('Hijo', $idSol)->get();
         $cotModel = DB::table('ViewCotizacion')->where('Id_cotizacion', $model[0]->Id_cotizacion)->first();
         $tipoReporte = DB::table('ViewDetalleCuerpos')->where('Id_detalle', $cotModel->Tipo_reporte)->first();
-        $informesModel = InformesRelacion::where('Id_solicitud', $idSol)->first();
+        $relacion = InformesRelacion::where('Id_solicitud', $idSol)->get();
            
-        if ($informesModel->count()){
-            $reportesInformes = DB::table('ViewReportesInformes')->where('Id_reporte', $cotModel->Id_reporte)->first();
+        if ($relacion->count()){
+            $reportesInformes = InformesRelacion::where('Id_solicitud', $idSol)->first();
             
         } else {
             $reportesInformes = DB::table('ViewReportesInformes')->orderBy('Num_rev', 'desc')->first(); //Historicos (Informe)
-            $relacion = InformesRelacion::create([
+            InformesRelacion::create([
                 'Id_solicitud' => $idSol,
                 'Tipo' => 1,
                 'Id_reporte' => $reportesInformes->Id_reporte,

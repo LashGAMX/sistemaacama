@@ -30,7 +30,7 @@
                         <th>COLONIA3</th>
                         <th>COLONIA4</th>
                         <th>COLONIA5</th>
-                        <th>OBSERVACION</th>
+                        
                         <th>RESULTADO</th>
                     </tr>
                 </thead>
@@ -44,7 +44,7 @@
                         <td>{{$item->Colonia3}}</td>
                         <td>{{$item->Colonia4}}</td>
                         <td>{{$item->Colonia5}}</td>
-                        <td>{{$item->Observacion}}</td>
+                       
                         @if ($item->Limite > $item->Resultado)
                             <td>No Detectable</td>    
                         @else
@@ -70,6 +70,7 @@
                         <th>CITRATO</th>
                         <th>BGN</th>
                         <th>RESULTADO</th>
+                        <th>OBSERVACION</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -83,6 +84,7 @@
                         <td>{{$item->Citrato}}</td>
                         <td>{{$item->BGN}}</td>
                         <td>{{$item->ResUno}}</td>
+                        <td>{{$item->Observacion}}</td>
                     </tr>
                     <tr>
                         <td></td>

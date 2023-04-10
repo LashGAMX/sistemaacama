@@ -125,6 +125,7 @@ function getLoteCaptura() {
     let cont = 1;
 
     let status = "";
+    let hg = "hidden"
 
     $.ajax({
         type: "POST",
@@ -138,7 +139,9 @@ function getLoteCaptura() {
         dataType: "json",
         success: function (response) {
             console.log(response);
-
+            if(response.detalle[0].Id_parametro == 215){
+                hg = ""
+            }
             tab += '<table id="tablaControles" class="table table-sm">';
             tab += '    <thead>';
             tab += '        <tr>';
@@ -147,6 +150,7 @@ function getLoteCaptura() {
             tab += '          <th>Cliente</th>';
             //tab2 += '          <th>PuntoMuestreo</th>';
             tab += '          <th>Vol. Muestra E</th>';
+            tab += '          <th '+hg+'>Vol. D</th>';
             tab += '          <th>Abs1</th>';
             tab += '          <th>Abs2</th>';
             tab += '          <th>Abs3</th>';
@@ -174,7 +178,12 @@ function getLoteCaptura() {
                     tab += '<br> <small class="text-info">'+item.Control+'</small></td>';
                 }
                 tab += '<td>'+item.Empresa_suc+'</td>';
-                tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="50"></td>';
+                if(response.detalle[0].Id_parametro == 215){
+                    tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="80"></td>';
+                }else{
+                    tab += '<td><input '+status+' style="width: 80px" id="volMuestra'+item.Id_detalle+'" value="50"></td>';
+                }
+                tab += '<td '+hg+'><input '+status+' style="width: 80px" id="volDirigido'+item.Id_detalle+'" value="100"></td>';
                 tab += '<td><input '+status+' style="width: 80px" id="abs1'+item.Id_detalle+'" value="'+item.Abs1+'"></td>';
                 tab += '<td><input '+status+' style="width: 80px" id="abs2'+item.Id_detalle+'" value="'+item.Abs2+'"></td>';
                 tab += '<td><input '+status+' style="width: 80px" id="abs3'+item.Id_detalle+'" value="'+item.Abs3+'"></td>';
@@ -268,6 +277,7 @@ function operacion()
             idlote:idLote,
             idDetalle:$("#idDetalle"+idMuestra).val(),
             volMuestra:$("#volMuestra"+idMuestra).val(),
+            volDirigido:$("#volDirigido"+idMuestra).val(),
              x:$("#abs1"+idMuestra).val(),
              y:$("#abs2"+idMuestra).val(),
              z:$("#abs3"+idMuestra).val(),

@@ -21,6 +21,7 @@ class LoteDetalle extends Model
         'Id_control',
         'Descripcion',
         'Vol_muestra',
+        'Vol_dirigido',
         'Abs1',
         'Abs2',
         'Abs3',

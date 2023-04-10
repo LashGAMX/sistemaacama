@@ -49,9 +49,9 @@
                         @php
                             $resultado = "";
                             if($item->Resultado >= 0 && $item->Resultado <= 1 ){
-                                    $resultado = 0.05;
+                                    $resultado = "< ". 1.1;
                                 } else if($item->Resultado > 1 && $item->Resultado <=10){
-                                    $resultado = 0.1;
+                                    $resultado = round($item->Resultado,1);
                                 } else if($item->Resultado > 10){
                                     $resultado = "> ". 10;
                                 }
