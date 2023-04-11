@@ -511,6 +511,7 @@ class MbController extends Controller
                 'ResUno' => $res1,
                 'ResDos' => $res2,
                 'Resultado' => $muestraR,
+                'Observacion' => $request->observacion,
 
             ]);
         } else {
@@ -530,7 +531,7 @@ class MbController extends Controller
             $model->ResUno = $res1;
             $model->ResDos = $res2;
             $model->Resultado = $muestraR;
-
+            $model->Observacion = $request->observacion;
             $model->save();
         }
 

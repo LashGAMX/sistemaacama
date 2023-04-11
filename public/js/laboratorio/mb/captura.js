@@ -280,6 +280,7 @@ function operacionEcoliFinal(){
     });
 }
 function operacionEcoli(idDetalle){
+    var obs = $("#observacionEcoli option:selected").text();
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/operacionEcoli",
@@ -292,7 +293,7 @@ function operacionEcoli(idDetalle){
             vp1:$("#vp1").val(),
             citrato1:$("#citrato1").val(),
             bgn1:$("#bgn1").val(),
-            observacion: $("#observacionEcoli").text(),
+            observacion: obs,
 
             indol2:$("#indol2").val(),
             rm2:$("#rm2").val(),

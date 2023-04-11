@@ -120,7 +120,10 @@ function buscarLote()
                         tab += '<td>'+item.Parametro+' ('+item.Tipo_formula+')</td>';
                         tab += '<td>'+item.Fecha+'</td>';
                         tab += '<td>'+item.created_at+'</td>';
-                        tab += '<td><button type="button" id="btnAsignar" onclick="setAsignar('+item.Id_lote+')"  class="btn btn-primary">Agregar</button></td>';
+                        tab += '<td>'
+                        tab += '<button type="button" id="btnAsignar" onclick="setAsignar('+item.Id_lote+')"  class="btn btn-primary"><i class="fas fa-plus"></i> Agregar</button>'
+                        tab += '&nbsp<button type="button" class="btn btn-warning" onclick="getDetalleLote('+item.Id_lote+',\''+item.Parametro+'\')" data-toggle="modal" data-target="#modalDetalle"><i class="fas fa-info"></i> Detalle</button>'
+                        tab += '</td>';
                       tab += '</tr>';
                     });
                 }else{
@@ -132,6 +135,10 @@ function buscarLote()
             $("#numLotes").val(response.lotes);
         }
     });
+}
+function getDetalleLote(id,parametro)
+{
+    $("#idLote").val(id+' '+parametro)
 }
 
 function setAsignar(id)

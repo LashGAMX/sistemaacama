@@ -84,7 +84,7 @@
                         <td>{{$item->Citrato}}</td>
                         <td>{{$item->BGN}}</td>
                         <td>{{$item->ResUno}}</td>
-                        <td>{{$item->Observacion}}</td>
+                        <td style="width: 450px">{{$item->Observacion}}</td>
                     </tr>
                     <tr>
                         <td></td>
