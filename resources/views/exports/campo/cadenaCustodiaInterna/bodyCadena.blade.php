@@ -72,7 +72,7 @@
                                 <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paquete[$i]->name}}
                                 </td>
                                 
-                                @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 7 || @$paquete[$i]->Id_area == 16 )
+                                @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 7 || @$paquete[$i]->Id_area == 16 ||  @$paquete[$i]->Id_area == 17 )
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
                                     {{@$recibidos->count()}}</td>
                                 @else
@@ -83,7 +83,7 @@
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">@if ($fechasSalidas[$i] != "") {{\Carbon\Carbon::parse($fechasSalidas[$i])->format('d/m/Y')}} @else <p style="color: red">Sin captura</p> @endif</td>
 
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                    @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 9 || @$paquete[$i]->Id_area == 16)
+                                    @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 9 || @$paquete[$i]->Id_area == 16 ||  @$paquete[$i]->Id_area == 17)
                                     --------------- 
                                     @else
                                         @if ($fechasSalidas[$i] != "")
@@ -94,7 +94,7 @@
                                     @endif
                                 </td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                    @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 9 || @$paquete[$i]->Id_area == 16)
+                                    @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 9 || @$paquete[$i]->Id_area == 16 ||  @$paquete[$i]->Id_area == 17)
                                     ---------------
                                     @else
                                         @if ($fechasSalidas[$i] != "")

@@ -26,7 +26,7 @@ class IcpImport implements ToCollection
             if ($codTemp->count()) {
                 LoteDetalleIcp::create([
                     'Id_lote' => $id->Temp,
-                    'Id_codigo' => $codTemp[0]->Codigo,
+                    'Id_codigo' => $codTemp[0]->Codigo,     
                     'Id_parametro' => $codTemp[0]->Id_parametro,
                     'Parametro' => $elementoTemp[0],
                     'Id_control' => 1,

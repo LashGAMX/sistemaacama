@@ -335,7 +335,7 @@ function getDetalleAnalisis(idCodigo) {
                     tab += '</table>';
                     tabla.innerHTML = tab;
                     break;
-                case 218:
+                // case 218:
                 case "64":
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
@@ -703,6 +703,7 @@ function getDetalleAnalisis(idCodigo) {
                 case "66":
                 case "98":
                 case "89":
+                case "218":
                     console.log("entro a caso 8");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';

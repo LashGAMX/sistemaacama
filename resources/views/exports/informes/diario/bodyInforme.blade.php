@@ -195,14 +195,9 @@
                         SANITARIAS.
                         @break
                         @case(30)
-                        DE ACUERDO A MODIFICACIÓN A LA NORMA OFICIAL MEXICANA NOM-127-SSA1-1994, PARA MUESTRA
-                        @if (@$solModel->Id_muestra == 1)
-                        INSTANTANEA
-                        @else
-                        COMPUESTA
-                        @endif
-                        SALUD AMBIENTAL. AGUA PARA USO Y CONSUMO HUMANO. LÍMITES PERMISIBLES DE CALIDAD Y TRATAMIENTOS A QUE
-                        DEBE <br> SOMETERSE EL AGUA PARA SU POTABILIZACION.
+                        DE ACUERDO  A LA NORMA OFICIAL MEXICANA NOM-127-SSA1-2021, AGUA PARA USO Y CONSUMO HUMANO. LÍMITES PERMISIBLES DE LA CALIDAD DEL AGUA.
+                        {{-- SALUD AMBIENTAL. AGUA PARA USO Y CONSUMO HUMANO. LÍMITES PERMISIBLES DE CALIDAD Y TRATAMIENTOS A QUE
+                        DEBE <br> SOMETERSE EL AGUA PARA SU POTABILIZACION. --}}
                         @break
                         @endswitch
                     </td>
@@ -234,27 +229,37 @@
                             <td class="tableContent bordesTablaBody">{{@$item->Clave_metodo}}</td>
                             <td class="tableContent bordesTablaBody">{{@$item->Unidad}}</td>
                             <td class="tableContent bordesTablaBody">
-                                @switch($item->Id_parametro)
+                                @if (@$item->Resultado2 != NULL)
+                                    @switch($item->Id_parametro)
                                     @case(64)
                                         {{$campoCompuesto->Cloruros}}
                                         @break
                                     @default
                                     {{@$limitesC[$i]}}
-                                @endswitch
+                                   @endswitch
+                                @else
+                                    -------
+                                @endif
+                     
                             </td>
                             @if ($tipo == 1)
                                 <td class="tableContent bordesTablaBody">
-                                    @switch($item->Id_parametro)
-                                        @case(64)
-                                            {{"N/A"}}
-                                        @break
-                                        @default
-                                        {{ @$limitesN[$i] }}
-                                    @endswitch
+                                    @if (@$item->Resultado2 != NULL)
+                                        @switch($item->Id_parametro)
+                                            @case(64)
+                                                {{"N/A"}}
+                                            @break
+                                            @default
+                                            {{ @$limitesN[$i] }}
+                                        @endswitch
+                                    @else
+                                        -------
+                                    @endif
+                                  
                                 </td>
                             @endif
                             <td class="tableContent bordesTablaBody">
-                                @if (@$item->Analizo != 1)
+                                @if (@$item->Resultado2 != NULL)
                                     {{@$item->iniciales}}
                                 @else
                                     -------

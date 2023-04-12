@@ -122,7 +122,7 @@ class CadenaController extends Controller
                     ->where('Id_control', 1)
                     ->get();
                 break;
-            case 218: //Cloro
+            // case 218: //Cloro
             case 64:
                 if ($solModel->Id_norma == 27) {
                     $model = DB::table('campo_compuesto') 
@@ -292,6 +292,7 @@ class CadenaController extends Controller
             case 66: // Color verdadero
             case 98: // Turbiedad
             case 89: // Turbiedad
+            case 218: //Cloro
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_analisis', $codigoModel->Id_solicitud)
                     ->where('Id_control', 1)
                     ->where('Id_parametro', $codigoModel->Id_parametro)->get();
