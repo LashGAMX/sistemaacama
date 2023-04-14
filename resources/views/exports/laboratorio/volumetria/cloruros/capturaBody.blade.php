@@ -122,35 +122,35 @@
                 <tr>
                     <td class="tableContent2 anchoColumna">MILILITROS TITULADOS DEL BLANCO</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{$valoracion->Blanco}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Blanco}}</td>
                 </tr>                
 
                 <tr>
                     <td class="tableContent2 anchoColumna">RESULTADO BLANCO </td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{$valoracion->Blanco}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Blanco}}</td>
                 </tr>                
  
                 <tr>
                     <td class="tableContent2 anchoColumna">mL TITULADOS DE AgNO3 (1)</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{$valoracion->Ml_titulado1}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Ml_titulado1}}</td>
                 </tr>                
                 <tr>
                     <td class="tableContent2 anchoColumna">mL TITULADOS DE AgNO3 (2)</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{$valoracion->Ml_titulado2}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Ml_titulado2}}</td>
                 </tr>                
                 <tr>
                     <td class="tableContent2 anchoColumna">mL TITULADOS DE AgNO3 (3)</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{$valoracion->Ml_titulado3}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Ml_titulado3}}</td>
                 </tr>                
 
                 <tr>
                     <td class="tableContent2 anchoColumna">RESULTADO NORMALIDAD REAL</td>
                     <td class=""></td>
-                    <td class="tableContent2 anchoColumna">{{$valoracion->Resultado}}</td>
+                    <td class="tableContent2 anchoColumna">{{@$valoracion->Resultado}}</td>
                 </tr>
             </tbody>    
         </table>  
