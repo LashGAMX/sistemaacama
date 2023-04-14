@@ -197,12 +197,7 @@
       <div class="modal-body">
           <div class="row">
             <div class="col-md-6">
-              <select class="form-control" id="idUsuarios">
-                <option>Selecciona un usuario</option> 
-                @foreach ($usuarios as $item)
-                <input type="checkbox" id="ho$item->idrns" name="horns{{$item->id}}el{{$item->name}}scales">Scales</label>
-                @endforeach
-                </select>
+             
             </div>
           </div>
         </div>

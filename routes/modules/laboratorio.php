@@ -97,6 +97,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('sendMuestrasLote', [FqController::class, 'sendMuestrasLote']);
         Route::post('getMuestraAsignada', [FqController::class, 'getMuestraAsignada']);
         Route::post('delMuestraLote', [FqController::class, 'delMuestraLote']);
+        Route::post('getDetalleLoteFq', [FqController::class, 'getDetalleLoteFq']);
 
         //? Modulo captura de datos analisis
         Route::get('tipoAnalisis', [FqController::class, 'tipoAnalisis']);

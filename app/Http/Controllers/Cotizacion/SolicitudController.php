@@ -673,29 +673,38 @@ class SolicitudController extends Controller
                                 break;
                             case 6:
                                 // DQO
-                                if ($model[0]->Id_norma == "27") {
-                                    if ($campo->Cloruros < 1000) {
-                                        CodigoParametros::create([
-                                            'Id_solicitud' => $value->Id_solicitud,
-                                            'Id_parametro' => $item->Id_parametro,
-                                            'Codigo' => $value->Folio_servicio,
-                                            'Num_muestra' => 1,
-                                            'Asignado' => 0,
-                                            'Analizo' => 1,
-                                            'Reporte' => $item->Reporte,
-                                        ]);
-                                    }
-                                } else {
-                                    CodigoParametros::create([
-                                        'Id_solicitud' => $value->Id_solicitud,
-                                        'Id_parametro' => $item->Id_parametro,
-                                        'Codigo' => $value->Folio_servicio,
-                                        'Num_muestra' => 1,
-                                        'Asignado' => 0,
-                                        'Analizo' => 1,
-                                        'Reporte' => $item->Reporte,
-                                    ]);
-                                }
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $value->Id_solicitud,
+                                    'Id_parametro' => $item->Id_parametro,
+                                    'Codigo' => $value->Folio_servicio,
+                                    'Num_muestra' => 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => $item->Reporte,
+                                ]);
+                                // if ($model[0]->Id_norma == "27") {
+                                //     if ($campo->Cloruros < 1000) {
+                                //         CodigoParametros::create([
+                                //             'Id_solicitud' => $value->Id_solicitud,
+                                //             'Id_parametro' => $item->Id_parametro,
+                                //             'Codigo' => $value->Folio_servicio,
+                                //             'Num_muestra' => 1,
+                                //             'Asignado' => 0,
+                                //             'Analizo' => 1,
+                                //             'Reporte' => $item->Reporte,
+                                //         ]);
+                                //     }
+                                // } else {
+                                //     CodigoParametros::create([
+                                //         'Id_solicitud' => $value->Id_solicitud,
+                                //         'Id_parametro' => $item->Id_parametro,
+                                //         'Codigo' => $value->Folio_servicio,
+                                //         'Num_muestra' => 1,
+                                //         'Asignado' => 0,
+                                //         'Analizo' => 1,
+                                //         'Reporte' => $item->Reporte,
+                                //     ]);
+                                // }
                                 break;
                             case 152:
                                 CodigoParametros::create([

@@ -263,7 +263,7 @@
                       
                                   </table>
                                 </div> 
-                                <div class="col-md-4">
+                                <div class="col-md-12">
                                     <button class="btn btn-success btn-sm" id="btnGuardarCot"><i
                                             class="fas fa-save"></i> Guardar</button>
                                 </div>
@@ -590,8 +590,12 @@
 
                             <div class="col-md-12" @if (Auth::user()->role->id == 13) hidden @endif>
                                 <div class="col-md-1">
-                                    <button class="btn btn-success" onclick="btnDescuento()" type="button"><i
-                                            class="voyager-tag"></i> Descuento</button>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-success" onclick="btnDescuento()" type="button"><i class="voyager-tag"></i> Descuento</button>
+                                    </div>
+                                    <div class="col-md-3">
+                                        <button class="btn btn-success" onclick="btnReccalcular()" type="button"><i class="fas fa-calculator"></i> Re-Calcular</button>
+                                    </div>
                                 </div>
                                 <table class="table">
                                     <thead>

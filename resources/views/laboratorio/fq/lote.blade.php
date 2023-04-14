@@ -101,10 +101,17 @@
             Dato 2
           </div>
           <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
-            Dato 3
+            <div class="row">
+              <div class="col-md-12">
+                <button id="btnBitacora" class="btn bg-success"><i class="fas fa-save"></i> Guardar</button>
+              </div>
+              <div class="col-md-12">
+                <div id="summernote">Hello Summernote</div>
+              </div>
+            </div>
           </div>
         </div>
-       {{-- Fin de body --}}
+       {{-- Fin de body --}} 
       </div>
       <div class="modal-footer">
       </div>
@@ -152,7 +159,7 @@
   </div>
 </div>
 
- {{-- <!-- Modal -->
+<!-- Modal -->
  <div class="modal fade" id="modalProbar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" style="width: 80%">
     <div class="modal-content">
@@ -634,11 +641,11 @@
       </div>
     </div>
   </div>
-</div> --}}
+</div> 
 
 
 <!-- Modal Pendientes-->
-<div class="modal fade" id="pendientes" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+<div class="modal fade" id="pendientes"  role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">

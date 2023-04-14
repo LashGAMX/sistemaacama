@@ -6,7 +6,7 @@ $(document).ready(function () {
     $('#summernote').summernote({
         placeholder: '', 
         tabsize: 2,
-        height: 100,
+        height: 300,
 
       });
 
@@ -62,7 +62,7 @@ function getPendientes()
         success: function (response) {            
             console.log(response);
             model = response.model
-            tab += '<table class="table table-sm" style="font-size:10px">';
+            tab += '<table class="table table-sm" style="font-size:10px" id="tablePendientes">';
             tab += '    <thead class="thead-dark">';
             tab += '        <tr>';
             tab += '          <th>Folio</th>';
@@ -81,6 +81,16 @@ function getPendientes()
             tab += '    </tbody>';
             tab += '</table>';
             tabla.innerHTML = tab;
+
+            table = $('#tablePendientes').DataTable({        
+                "ordering": false,
+                "language": {
+                    "lengthMenu": "# _MENU_ por pagina",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",
+                }
+            });
         }
     });
 }
@@ -136,7 +146,7 @@ function buscarLote()
         }
     });
 }
-function getDetalleLote(id,parametro)
+function getDetalleLoteFq(id,parametro)
 {
     $("#idLote").val(id+' '+parametro)
 }

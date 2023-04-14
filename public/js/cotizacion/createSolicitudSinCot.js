@@ -54,7 +54,7 @@ $(document).ready(function () {
           type: 'POST', //método de envio
           data: {
             siralab:siralab.checked,
-            idSuc:$("#sucursal").val(),
+            idSuc:$("#clienteSucursal").val(),
             _token: $('input[name="_token"]').val(),
           },
           dataType: 'json', 
@@ -62,8 +62,13 @@ $(document).ready(function () {
           success: function (response) {
             console.log(response);
             $.each(response.model,function(key,item){
-              punto.push(item.Punto_muestreo);
-              puntoId.push(item.Id_punto);
+              if (siralab.checked == true) {
+                punto.push(item.Punto);
+                puntoId.push(item.Id_punto);
+            } else {
+                punto.push(item.Punto_muestreo);
+                puntoId.push(item.Id_punto);   
+            }
             });
           }
         });
@@ -640,9 +645,9 @@ $(document).ready(function () {
         tab += '<option value="0">Sin seleccionar</option>';
         $.each(response.model, function (key, item) {
           if (data.Id_sucursal == item.Id_sucursal) {
-            tab += '<option value="' + item.Id_sucursal + '" selected>' + item.Empresa + '</option>';
+            tab += '<option value="' + item.Id_sucursal + '" selected>('+item.Id_sucursal+') ' + item.Empresa + '</option>';
           } else {
-            tab += '<option value="' + item.Id_sucursal + '">' + item.Empresa + '</option>'; 
+            tab += '<option value="' + item.Id_sucursal + '">('+item.Id_sucursal+') ' + item.Empresa + '</option>'; 
           }
         });
         sub.innerHTML = tab;
@@ -714,6 +719,36 @@ function setContacto() {
   itemModal[0] = element;
   newModal('divModal', 'setContacto', 'Crear contacto cliente', 'lg', 3, 2, 0, inputBtn('', '', 'Guardar', 'save', 'success', 'createContacto()'));
 }
+function createContacto() {
+  let contacto = document.getElementById('contacto');
+  let tab = '';
+  $.ajax({
+      url: base_url + '/admin/cotizacion/solicitud/setContacto', //archivo que recibe la peticion
+      type: 'POST', //método de envio
+      data: {
+          id: $("#clientes").val(),
+          nombre: $("#nombreContacto").val(),
+          paterno: $("#paternoContacto").val(),
+          materno: $("#maternoContacto").val(),
+          celular: $("#celularContacto").val(),
+          telefono: $("#telefonoContacto").val(),
+          correo: $("#correoContacto").val(),
+          _token: $('input[name="_token"]').val(),
+      },
+      dataType: 'json',
+      async: false,
+      success: function (response) {
+          console.log(response);
+          tab += '<option value="0">Sin seleccionar</option>';
+          $.each(response.model, function (key, item) {
+              tab += '<option value="' + item.Id_contacto + '">' + item.Nombres + '</option>';
+          });
+          contacto.innerHTML = tab;
+          swal("Registro!", "Registro guardado correctamente!", "success");
+          $('#setContacto').modal('hide')
+      }
+  });
+}
 function editContacto()
 {
   let element;
@@ -772,4 +807,29 @@ function storeContacto(idContacto,idCliente)
             $('#setContacto').modal('hide')
         }
     });
+}
+function btnReccalcular()
+{
+  console.log("Esta recalculando")
+  let analisis = parseFloat($("#precioAnalisis").val())
+  let extra = parseFloat($("#precioCat").val())
+  let muestreo = parseFloat($("#precioMuestra").val())
+  let iva = parseFloat($("#iva").val())
+  let subTotal = parseFloat($("#subTotal").val())
+  let precioTotal = parseFloat($("#precioTotal").val())
+  let temp = 0
+
+  if ($("#precioMuestra").val() == '') {
+    subTotal = analisis + extra
+    temp = (subTotal * 16) / 100
+    precioTotal = temp + subTotal
+    console.log("sin campo")
+  } else {
+    subTotal = analisis + extra + muestreo
+    temp = (subTotal * 16) / 100
+    precioTotal = temp + subTotal
+    console.log("con campo")
+  }
+  $("#subTotal").val(subTotal)
+  $("#precioTotal").val(precioTotal)
 }

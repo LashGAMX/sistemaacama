@@ -855,9 +855,14 @@ class MetalesController extends Controller
                 ->where('Id_area',2)
                 ->orWhere('Id_area',17)
                 ->where('Hijo','!=',0)
-                ->where('Id_tipo_formula',$res->tipo)
+                ->where('Id_tipo_formula',20)
+                ->orWhere('Id_tipo_formula',23)
+                ->orWhere('Id_tipo_formula',24)
+                ->orWhere('Id_tipo_formula',21)
+                ->orWhere('Id_tipo_formula',58)
+                // ->where('Id_tipo_formula',$res->tipo)
                 ->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%')
-                ->where('Id_solicitud',93)
+                // ->where('Id_solicitud',93)
                 ->get();
                 foreach ($codigo as $item) {
                     $temp = array();

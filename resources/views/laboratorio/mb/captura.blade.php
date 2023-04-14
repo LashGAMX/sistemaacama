@@ -360,7 +360,7 @@
                                     </div>
                                     <div class="col-md-3">
                                     
-                                    <button type="button" id="limpiar" class="btn btn-success" class="voyager-fa-file-o" >Limpiar</button>
+                                    <button type="button" onclick="limpiar()" class="btn btn-success" class="voyager-fa-file-o" >Limpiar</button>
                                     </div>
                                 </div>
                                 <div class="col-md-12">

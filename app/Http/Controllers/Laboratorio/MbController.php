@@ -752,7 +752,7 @@ class MbController extends Controller
 
 
                 break;
-            case 35:
+            case 35: //Escheruchia coli/acreditado
             case 253: //todo Número más probable (NMP), en tubos múltiples
 
 

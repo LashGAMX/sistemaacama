@@ -18,9 +18,6 @@ $('#btnLiberar').click(function () {
     liberarMuestra();
 });
 
-$('#limpiar').click(function () {
-    limpiar();
-});
 
 
 
@@ -412,7 +409,7 @@ function getDetalleEcoli(idMuestra,colonia){
 }
 
 function getDetalleCol(idDetalle) {
-    limpiar();
+    //limpiar();
     $('#indicador').val("");
     $.ajax({
         type: "POST",
@@ -970,4 +967,5 @@ function limpiar()
         $("#pre8").val(0)
         $("#pre9").val(0)
         $("#indicador").val("")
+        console.log("se limpio todo");
 }

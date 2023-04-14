@@ -391,10 +391,10 @@ class FqController extends Controller
         $d = 40 / $request->E;
         $x = ($request->X + $request->Y + $request->Z) / 3;
         switch ($model->Id_control) {
-            case 14:
+            case 14: //estandar de verificación
                 $resultado = ((($x - $request->CB) / $request->CM) * $d);
                 break;
-            case 5:
+            case 5: // blanco
                 $resultado = ($request->X + $request->Y + $request->Z) / 3;
                 break;
             default:
@@ -824,6 +824,14 @@ class FqController extends Controller
         $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
         $textoRecuperadoPredeterminado = ReportesFq::where('Id_reporte', 0)->first();
         return view('laboratorio.fq.lote', compact('parametro', 'textoRecuperadoPredeterminado'));
+    }
+    public function getDetalleLoteFq(Request $res)
+    {
+        
+        $data = array(
+            //'model' => $model,
+        );
+        return response()->json($data);
     }
 
     public function getPendientes(Request $res)
@@ -2313,6 +2321,7 @@ class FqController extends Controller
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
             case 107:
+            case 8:
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 $plantilla = PlantillasFq::where('Id_parametro', 107)->first();
                 $curva = CurvaConstantes::where('Id_parametro', 107)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
@@ -2374,7 +2383,7 @@ class FqController extends Controller
                     'lote' => $lote,
                     'model' => $model,
                     'curva' => $curva,
-                    'plantilla' => $plantilla,
+                    'plantilla' => $plantilla, 
                 );
                 $htmlFooter = view('exports.laboratorio.fq.espectro.fluoruros.127.capturaFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -2475,6 +2484,8 @@ class FqController extends Controller
             case 99:
             case 103:
             case 107:
+            case 8:
+            case 152:
             case 116:
                 return redirect()->to('admin/laboratorio/fq/captura/exportPdfEspectro/' . $idLote);
                 break;

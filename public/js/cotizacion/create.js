@@ -598,9 +598,9 @@ function getSucursal() {
       tab += '<option value="0">Sin seleccionar</option>';
       $.each(response.model, function (key, item) {
         if (data.Id_sucursal == item.Id_sucursal) {
-          tab += '<option value="' + item.Id_sucursal + '" selected>' + item.Empresa + '</option>';
+          tab += '<option value="' + item.Id_sucursal + '" selected>('+item.Id_sucursal+') ' + item.Empresa + '</option>';
         } else {
-          tab += '<option value="' + item.Id_sucursal + '">' + item.Empresa + '</option>'; 
+          tab += '<option value="' + item.Id_sucursal + '">('+item.Id_sucursal+') ' + item.Empresa + '</option>'; 
         }
       });
       sub.innerHTML = tab;
