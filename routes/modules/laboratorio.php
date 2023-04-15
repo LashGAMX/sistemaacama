@@ -98,7 +98,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getMuestraAsignada', [FqController::class, 'getMuestraAsignada']);
         Route::post('delMuestraLote', [FqController::class, 'delMuestraLote']);
         Route::post('getDetalleLoteFq', [FqController::class, 'getDetalleLoteFq']);
-
+        Route::post('setPlantillaDetalleFq', [FqController::class, 'setPlantillaDetalleFq']);
+  
         //? Modulo captura de datos analisis
         Route::get('tipoAnalisis', [FqController::class, 'tipoAnalisis']);
 
@@ -319,6 +320,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('getDetalleDbo', [MbController::class, 'getDetalleDbo']);
             Route::post('operacion', [MbController::class, 'operacion']);
             Route::post('metodoCortoCol', [MbController::class, 'metodoCortoCol']);
+            Route::post('metodoCortoEnt', [MbController::class, 'metodoCortoEnt']);
             Route::post('updateObsMuestra', [MbController::class, 'updateObsMuestra']);
             Route::post('updateObsMuestraEcoli', [MbController::class, 'updateObsMuestraEcoli']);
             Route::post('createControlCalidadMb', [MbController::class, 'createControlCalidadMb']);

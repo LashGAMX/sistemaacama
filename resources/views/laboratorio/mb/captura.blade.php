@@ -510,7 +510,7 @@
                             <form >
                                 <div class="modal-header">
                                     <h5 class="modal-title" id="exampleModalLabel">Captura coliformes</h5>
-                                    <input hidden type="text" id="indicador" value="">
+                                    <input hidden type="text" id="indicadorEnt" value="">
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -530,11 +530,11 @@
                                             </div>
                                             <div class="col-md-3">
                                             
-                                            <button type="button" id="metodoCortoCol"> <i class="voyager-window-list"></i></button>
+                                            <button type="button" onclick="metodoCortoEnt()"> <i class="voyager-window-list"></i></button>
                                             </div>
                                             <div class="col-md-3">
                                             
-                                            <button type="button" id="limpiar" class="btn btn-success" class="voyager-fa-file-o" >Limpiar</button>
+                                            <button type="button" onclick="limpiarEnt()" class="btn btn-success" class="voyager-fa-file-o" >Limpiar</button>
                                             </div>
                                         </div>
                                         <div class="col-md-12">

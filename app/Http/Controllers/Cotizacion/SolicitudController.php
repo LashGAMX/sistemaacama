@@ -387,7 +387,7 @@ class SolicitudController extends Controller
         $dayYear = date("z", $temp) + 1;
         $today = Carbon::now()->format('Y-m-d');
         // $solicitudDay = DB::table('solicitudes')->where('created_at', 'LIKE', "%{$today}%")->count();
-        $solicitudDay = DB::table('solicitudes')->whereDate('created_at', $res->fechaMuestreo)->where('Padre', 1)->count();
+        $solicitudDay = DB::table('solicitudes')->whereDate('Fecha_muestreo', $res->fechaMuestreo)->where('Padre', 1)->count();
 
 
         $numCot = DB::table('solicitudes')->whereDate('created_at', $res->fechaMuestreo)->where('Id_cliente', $res->clientes)->get();

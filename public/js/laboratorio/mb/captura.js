@@ -151,9 +151,11 @@ function getLoteCapturaMicro() {
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleCol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
                         console.log("Entro a 12");
                         break;
-                        case "35":
-                    case "253":
-                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleCol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaEnt">Capturar</button>';
+                        case "35": //Ecoli de MicroB
+                            tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleCol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaCol">Capturar</button>';
+                        break;
+                        case "253": //Enterococos
+                        tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleEnt(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCapturaEnt">Capturar</button>';
                         break;
                     case "5":
                         if (item.Id_control == 5) {
@@ -452,6 +454,50 @@ function getDetalleCol(idDetalle) {
         }
     });
 }
+function getDetalleEnt(idDetalle) {
+    //limpiar();
+    $('#indicadorEnt').val("");
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/getDetalleCol",
+        data: {
+            idDetalle: idDetalle,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            $("#endil1").val(response.model.Dilucion1);
+            $("#endil2").val(response.model.Dilucion2);
+            $("#endil3").val(response.model.Dilucion3);
+            $("#ennmp1").val(response.model.Indice);
+            $("#entodos1").val(response.model.Muestra_tubos);
+            $("#ennegativos1").val(response.model.Tubos_negativos);
+            $("#enpositivo1").val(response.model.Tubos_positivos);
+            $("#enCon1").val(response.model.Confirmativa1);
+            $("#enCon2").val(response.model.Confirmativa2);
+            $("#enCon3").val(response.model.Confirmativa3);
+            $("#enCon4").val(response.model.Confirmativa4);
+            $("#enCon5").val(response.model.Confirmativa5);
+            $("#enCon6").val(response.model.Confirmativa6);
+            $("#enCon7").val(response.model.Confirmativa7);
+            $("#enCon8").val(response.model.Confirmativa8);
+            $("#enCon9").val(response.model.Confirmativa9);
+            $("#enPre1").val(response.model.Presuntiva1);
+            $("#enPre2").val(response.model.Presuntiva2);
+            $("#enPre3").val(response.model.Presuntiva3);
+            $("#enPre4").val(response.model.Presuntiva4);
+            $("#enPre5").val(response.model.Presuntiva5);
+            $("#enPre6").val(response.model.Presuntiva6);
+            $("#enPre7").val(response.model.Presuntiva7);
+            $("#enPre8").val(response.model.Presuntiva8);
+            $("#enPre9").val(response.model.Presuntiva9);
+
+            $("#resultadoEnt").val(response.model.Resultado);
+            $("#observacionEnt").val(response.model.Observacion);
+        }
+    });
+}
 
 function getDetalleHH(idDetalle) {
     $.ajax({
@@ -565,6 +611,9 @@ function metodoCortoCol(){
             indicador: $('#indicador').val(), 
             resultadoCol: $("#resultadoCol").val(),
             idParametro: $('#formulaTipo').val(),
+            d1: $("#dil1").val(),
+            d2: $("#dil2").val(),
+            d3: $("#dil3").val(),
             NMP: $('#nmp1').val(),
             _token: $('input[name="_token"]').val()
         },
@@ -628,9 +677,92 @@ function metodoCortoCol(){
             if (response.convinacion.Nmp == 0) {
                 $('#resultadoCol').val("< 3");
             } else {
-                $('#resultadoCol').val(response.convinacion.Nmp);
+                $('#resultadoCol').val(response.resultado);
             }
             $('#nmp1').val(response.convinacion.Nmp)
+            
+    }
+    });
+}
+function metodoCortoEnt(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/metodoCortoEnt",
+        data: {
+            tecnica: tecnica,
+            idDetalle: idMuestra,
+            indicador: $('#indicadorEnt').val(), 
+            resultadoCol: $("#resultadoEnt").val(),
+            idParametro: $('#formulaTipo').val(),
+            d1: $('#endil1').val(),
+            d2: $('#endil2').val(),
+            d3: $('#endil3').val(),
+            NMP: $('#ennmp1').val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaMicro();
+            // inicio metodo corto
+        
+          
+                let positivos = response.positivos;
+ 
+                $('#ennmp1').val(response.convinacion.Nmp);
+                $('#enpositivos1').val(positivos);
+                $('#ennegativos1').val(9 - positivos);
+                let cont1 = 1;
+                let cont2= 4;
+                let cont3  = 7;
+                // Confirmativas
+                for (var i = 0; i < response.convinacion.Col1; i++){
+                    $('#enCon'+cont1).val(1);
+                    console.log(cont1);
+                    cont1++; 
+                }
+                for (var j = 0; j < response.convinacion.Col2; j++){
+                    
+                    $('#enCon'+cont2).val(1);
+                    console.log(cont2);
+                    cont2++;
+                    
+                }
+                for (var k = 0; k < response.convinacion.Col3; k++){
+                    $('#enCon'+cont3).val(1);
+                    console.log(cont3);
+                    cont3++;
+                }
+                // presuntivas 
+                let c1 = 1;
+                let c2 = 4;
+                let c3 = 7;
+                let ran1 = Math.random() * response.convinacion.Col1;
+                let ran2 = Math.random() * response.convinacion.Col2;
+                let ran3 = Math.random() * response.convinacion.Col3;
+                for (var i = 0; i < 3; i++){
+                    $('#enPre'+c1).val(1);
+                    console.log(ran1);
+                    c1++; 
+                }
+                for (var i = 0; i < ran2; i++){
+                    $('#enPre'+c2).val(1);
+                    console.log(ran2);
+                    c2++; 
+                }
+                for (var i = 0; i < ran3; i++){
+                    $('#enPre'+c3).val(1);
+                    console.log(ran3);
+                    c3++; 
+                }
+
+
+            if (response.convinacion.Nmp == 0) {
+                $('#resultadoEnt').val("< 3");
+            } else {
+                $('#resultadoEnt').val(response.convinacion.Nmp);
+            }
+            $('#ennmp1').val(response.convinacion.Nmp)
             
     }
     });
@@ -968,4 +1100,34 @@ function limpiar()
         $("#pre9").val(0)
         $("#indicador").val("")
         console.log("se limpio todo");
+}
+function limpiarEnt(){
+            $("#endil1").val("");
+            $("#endil2").val("");
+            $("#endil3").val("");
+            $("#ennmp1").val("");
+            $("#entodos1").val("");
+            $("#ennegativos1").val("");
+            $("#enpositivo1").val("");
+            $("#enCon1").val("");
+            $("#enCon2").val("");
+            $("#enCon3").val("");
+            $("#enCon4").val("");
+            $("#enCon5").val("");
+            $("#enCon6").val("");
+            $("#enCon7").val("");
+            $("#enCon8").val("");
+            $("#enCon9").val("");
+            $("#enPre1").val("");
+            $("#enPre2").val("");
+            $("#enPre3").val("");
+            $("#enPre4").val("");
+            $("#enPre5").val("");
+            $("#enPre6").val("");
+            $("#enPre7").val("");
+            $("#enPre8").val("");
+            $("#enPre9").val("");
+
+            $("#resultadoEnt").val("");
+            $("#observacionEnt").val("");
 }

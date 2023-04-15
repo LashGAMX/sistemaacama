@@ -626,11 +626,35 @@ class MbController extends Controller
         $convinacion = Nmp1Micro::where('Nmp', $request->NMP)->first();
         $metodoCorto = 1;
         $positivos = $convinacion->Col1 + $convinacion->Col2 + $convinacion->Col3;
-
+        if($request->d1 == 10 && $request->d2 == 1 && $request->d3 == 0.1){
+            $resultado = $convinacion->Nmp;
+        } else {
+            $resultado = (10 / $request->d1) * $convinacion->Nmp;
+        }
         $data = array(
             'convinacion' => $convinacion,
             'metodoCorto' => $metodoCorto,
             'positivos' =>  $positivos,
+            'resultado' => $resultado,
+         );
+
+        return response()->json($data);
+    }
+    public function metodoCortoEnt(Request $request)
+    {
+        $convinacion = Nmp1Micro::where('Nmp', $request->NMP)->first();
+        $metodoCorto = 1;
+        $positivos = $convinacion->Col1 + $convinacion->Col2 + $convinacion->Col3;
+        if($request->d1 == 10 && $request->d2 == 1 && $request->d3 == 0.1){
+            $resultado = $convinacion->Nmp;
+        } else {
+            $resultado = (10 / $request->d1) * $convinacion->Nmp;
+        }
+        $data = array(
+            'convinacion' => $convinacion,
+            'metodoCorto' => $metodoCorto,
+            'positivos' =>  $positivos,
+            'resultado' => $resultado,
         );
 
         return response()->json($data);
@@ -2298,7 +2322,6 @@ class MbController extends Controller
                     $bitacora = ReportesMb::where('Id_reporte', 3)->first();
                     if (!is_null($data)) {
                         $dataLength = DB::table('ViewLoteDetalleDbo')->where('Id_lote', $id_lote)->count();
-
                         $limites = array();
                         foreach ($data as $item) {
                             if ($item->Resultado < $limiteC->Limite) {
@@ -2314,7 +2337,7 @@ class MbController extends Controller
                         $separador = "Valoración";
                         $textoProcedimiento = explode($separador, $textProcedimiento->Texto);
 
-                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('detalleLote', 'bitacora', 'textoProcedimiento', 'data', 'dataLength', 'limites'));
+                        $htmlCaptura = view('exports.laboratorio.mb.dbo.capturaBody', compact('detalleLote', 'bitacora', 'textoProcedimiento', 'data', 'dataLength', 'limites', 'limiteC'));
                     } else {
                         $sw = false;
                     }

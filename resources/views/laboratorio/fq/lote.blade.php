@@ -106,7 +106,7 @@
                 <button id="btnBitacora" class="btn bg-success"><i class="fas fa-save"></i> Guardar</button>
               </div>
               <div class="col-md-12">
-                <div id="summernote">Hello Summernote</div>
+                <div id="divSummer"></div>
               </div>
             </div>
           </div>
@@ -160,7 +160,7 @@
 </div>
 
 <!-- Modal -->
- <div class="modal fade" id="modalProbar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+ {{-- <div class="modal fade" id="modalProbar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg" style="width: 80%">
     <div class="modal-content">
       
@@ -606,19 +606,7 @@
               <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">                                
               
                 
-                <div id="divSummer">
-                  <div id="summernote">
-                        @if (isset($textoRecuperado))
-                        @php
-                            echo $textoRecuperado->Texto;
-                        @endphp
-                      @else
-                        @php
-                            echo $textoRecuperadoPredeterminado->Texto;
-                        @endphp
-                    @endif       
-                  </div>
-                </div>
+  
              
                 
                 <button type="button" class="btn btn-primary" onclick='guardarTexto("idLoteHeader");'>Guardar</button>
@@ -641,7 +629,7 @@
       </div>
     </div>
   </div>
-</div> 
+</div>  --}}
 
 
 <!-- Modal Pendientes-->

@@ -1,6 +1,5 @@
 
 var area = "fq";
-
 $(document).ready(function () {
 
     $('#summernote').summernote({
@@ -25,6 +24,9 @@ $(document).ready(function () {
     });
     $('#btnPendiente').click(function () {
         getPendientes()
+    });
+    $('#btnBitacora').click(function () {
+        setPlantillaDetalleFq()
     });
 });
 
@@ -132,7 +134,7 @@ function buscarLote()
                         tab += '<td>'+item.created_at+'</td>';
                         tab += '<td>'
                         tab += '<button type="button" id="btnAsignar" onclick="setAsignar('+item.Id_lote+')"  class="btn btn-primary"><i class="fas fa-plus"></i> Agregar</button>'
-                        tab += '&nbsp<button type="button" class="btn btn-warning" onclick="getDetalleLote('+item.Id_lote+',\''+item.Parametro+'\')" data-toggle="modal" data-target="#modalDetalle"><i class="fas fa-info"></i> Detalle</button>'
+                        tab += '&nbsp<button type="button" class="btn btn-warning" onclick="getDetalleLoteFq('+item.Id_lote+',\''+item.Parametro+'\')" data-toggle="modal" data-target="#modalDetalle"><i class="fas fa-info"></i> Detalle</button>'
                         tab += '</td>';
                       tab += '</tr>';
                     });
@@ -146,9 +148,51 @@ function buscarLote()
         }
     });
 }
+var idLote = 0;
 function getDetalleLoteFq(id,parametro)
 {
     $("#idLote").val(id+' '+parametro)
+    idLote = id;
+    let summer = document.getElementById("divSummer");
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/"+area+"/getDetalleLoteFq",
+        data: {
+            id: id,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);                        
+            summer.innerHTML = '<div id="summernote">'+response.plantilla[0].Texto+'</div>';
+
+            // summer.innerHTML = '<div id="summernote">Hola Modal</div>';
+            $('#summernote').summernote({
+                placeholder: '', 
+                tabsize: 2,
+                height: 300,         
+            }); 
+        }
+    });
+}
+function setPlantillaDetalleFq(){
+    $.ajax({ 
+        type: "POST",
+        url: base_url + "/admin/laboratorio/"+area+"/setPlantillaDetalleFq",
+        data: {
+            id: idLote,
+            texto: $("#summernote").summernote('code'),
+            // texto: $("#summernote").summernote('code'),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);                        
+         
+        }
+    });
 }
 
 function setAsignar(id)

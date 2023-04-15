@@ -48,7 +48,11 @@
                         <td class="tableContent bordesTabla">{{@$data[$i]->M_inicial3}}</td>
                         <td class="tableContent bordesTabla">{{@$data[$i]->Vol_muestra}}</td>
                         <td class="tableContent bordesTabla">{{@$data[$i]->M_final}}</td>
-                        <td class="tableContent bordesTabla">{{@$limites[$i]}}</td>
+                        @if (@$data[$i]->Resultado < @$limiteC->Limite)
+                        <td class="tableContent bordesTabla">< {{@$limiteC->Limite}}</td>
+                        @else 
+                        <td class="tableContent bordesTabla">{{@$data[$i]->Resultado}}</td>
+                        @endif                       
                         <td class="tableContent bordesTabla">{{@$data[$i]->Observacion}}</td>
                         <td class="tableContent">
                             @if (@$data[$i]->Liberado == 1)
@@ -75,7 +79,11 @@
                             <td class="tableContent bordesTabla">{{@$data[$i]->M_inicial3}}</td>
                             <td class="tableContent bordesTabla">{{@$data[$i]->Vol_muestra}}</td>
                             <td class="tableContent bordesTabla">{{@$data[$i]->M_final}}</td>
-                            <td class="tableContent bordesTabla">{{@$limites[$i]}}</td>
+                            @if (@$data[$i]->Resultado < @$limiteC->Limite)
+                            <td class="tableContent bordesTabla">< {{@$limiteC->Limite}}</td>
+                            @else 
+                            <td class="tableContent bordesTabla">{{@$data[$i]->Resultado}}</td>
+                            @endif          
                             <td class="tableContent bordesTabla">{{@$data[$i]->Observacion}}</td>
                             <td class="tableContent">
                                 @if (@$data[$i]->Liberado == 1)
