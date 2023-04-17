@@ -648,7 +648,7 @@ class MbController extends Controller
         if($request->d1 == 10 && $request->d2 == 1 && $request->d3 == 0.1){
             $resultado = $convinacion->Nmp;
         } else {
-            $resultado = (10 / $request->d1) * $convinacion->Nmp;
+            $resultado = (10 / $request->d3) * $convinacion->Nmp;
         }
         $data = array(
             'convinacion' => $convinacion,

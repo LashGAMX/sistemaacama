@@ -195,6 +195,19 @@
                 </a>
             </div>
 
+            
+            <div class="col-md-3">
+                <a href="{{url('/admin/config/plantillas/')}}">
+                    <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;">
+                        <div class="dimmer"></div>
+                        <div class="panel-content">
+                            <i class="voyager-down-circled"></i>
+                            <h4>Plantillas</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
            
 
         </div>

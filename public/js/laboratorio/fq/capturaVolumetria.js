@@ -212,8 +212,13 @@ function getLoteCapturaVol() {
                 }
                 tab += '<td><input disabled style="width: 100px" value="' + item.Folio_servicio + '"></td>';
                 //todo  --Sección de radioButtons --
-                tab += '<td><input type="radio" checked id="radioEspectro" value="1" name="tipo'+item.Id_detalle+'"><label>&nbspEspectro</label><br>';
-                tab += '<input type="radio" id="radioVolumetrico" value="2" name="tipo'+item.Id_detalle+'"><label>&nbspVolumetrico</label></td>';
+                if (response.tipodetalle == 1 || response.tipodetalle == 2 ){
+                    tab += '<td><input type="radio" checked id="radioVolumetrico" value="2" name="tipo'+item.Id_detalle+'"><label>&nbspVolumetrico</label></td>';
+                } else {
+                    tab += '<td><input type="radio" id="radioEspectro" value="1" name="tipo'+item.Id_detalle+'"><label>&nbspEspectro</label><br>';
+                    tab += '<input type="radio" id="radioVolumetrico" value="2" name="tipo'+item.Id_detalle+'"><label>&nbspVolumetrico</label></td>';
+                }
+                
                 //todo -- --
                 tab += '<td><input disabled style="width: 200px" value="' + item.Clave_norma + '"></td>';
                 if (item.Resultado != null) {
@@ -615,6 +620,7 @@ function getDetalleVol(idDetalle, caso) {
             caso: caso,
             formulaTipo: $("#formulaTipo").val(),
             idDetalle: idDetalle,
+            radio:radio,
             fechaAnalisis: $('#fechaAnalisis').val(),
             _token: $('input[name="_token"]').val()
         },
@@ -664,6 +670,7 @@ function getDetalleVol(idDetalle, caso) {
                         $("#abs22").val(response.model.Abs2);
                         $("#abs32").val(response.model.Abs3);
                         $("#resultado").val(response.model.Resultado);
+                        $("estadoRadio").val(response.estadoRadio);
                         console.log("Tubo sellado");
                     }else{
                         if(response.model.Resultado != null)

@@ -179,22 +179,22 @@ function valConMuestra(id) {
     
 
     //El valor entre ellos no debe diferir de 5 unidades de conductividad
-    if (l1 - l2 > 5 || l1 - l2 < -5) {
+    if (l1 - l2 > 100 || l1 - l2 < -100) {
         sw = false;
     }
-    if (l1 - l3 > 5 || l1 - l3 < -5) {
+    if (l1 - l3 > 100 || l1 - l3 < -100) {
         sw = false;
     }
-    if (l2 - l1 > 5 || l2 - l1 < -5) {
+    if (l2 - l1 > 100 || l2 - l1 < -100) {
         sw = false;
     }
-    if (l2 - l3 > 5 || l2 - l3 < -5) {
+    if (l2 - l3 > 100 || l2 - l3 < -100) {
         sw = false;
     }
-    if (l3 - l1 > 5 || l3 - l1 < -5) {
+    if (l3 - l1 > 100 || l3 - l1 < -100) {
         sw = false;
     }
-    if (l3 - l2 > 5 || l3 - l2 < -5) {
+    if (l3 - l2 > 100 || l3 - l2 < -100) {
         sw = false;
     }
 

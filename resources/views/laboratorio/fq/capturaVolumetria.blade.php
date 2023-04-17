@@ -16,7 +16,7 @@
                 <select class="form-control" name="formulaTipo" id="formulaTipo">
                     <option value="0">Sin seleccionar</option>
                     @foreach ($parametro as $item)
-                        <option value= {{$item->Id_parametro}}>({{$item->Id_parametro}}) {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
+                        <option value= "{{$item->Id_parametro}}">({{$item->Id_parametro}}) {{$item->Parametro}} ({{$item->Tipo_formula}})</option>
                     @endforeach
                   </select>
             </div>
@@ -132,7 +132,9 @@
                       <span aria-hidden="true">&times;</span>
                     </button>
                     <div class="row">
+                    <input type="text" class="form-control" id="estadoRadio">
                             <div class="col-md-12">
+                           
                                 <div class="form-group">
                                     <label for="">Observación</label>
                                     <input type="text" class="form-control" id="observacionModal"

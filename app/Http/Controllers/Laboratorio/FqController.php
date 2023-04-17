@@ -828,39 +828,38 @@ class FqController extends Controller
     }
     public function getDetalleLoteFq(Request $res)
     {
-        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote',$res->id)->first();
-        $plantilla = BitacoraFq::where('Id_lote',$res->id)->get();
-        if($plantilla->count()){
-
-        }else{
-            $plantilla = PlantillasFq::where('Id_parametro',$lote->Id_tecnica)->get();
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
+        $plantilla = BitacoraFq::where('Id_lote', $res->id)->get();
+        if ($plantilla->count()) {
+        } else {
+            $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
         }
         $data = array(
-          'plantilla' => $plantilla,
-          'lote' => $lote,
+            'plantilla' => $plantilla,
+            'lote' => $lote,
         );
         return response()->json($data);
     }
     public function setPlantillaDetalleFq(Request $res)
     {
-        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote',$res->id)->first();
-        $temp = BitacoraFq::where('Id_lote',$res->id)->get();
-        if($temp->count()){
-            $model = BitacoraFq::where('Id_lote',$res->id)->first();
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
+        $temp = BitacoraFq::where('Id_lote', $res->id)->get();
+        if ($temp->count()) {
+            $model = BitacoraFq::where('Id_lote', $res->id)->first();
             $model->Texto = $res->texto;
             $model->save();
-        }else{
+        } else {
             $model = BitacoraFq::create([
-                'Id_lote' => $res->id, 
+                'Id_lote' => $res->id,
                 'Id_parametro' => $lote->Id_tecnica,
-                'Texto' => $res->texto, 
+                'Texto' => $res->texto,
             ]);
         }
         $data = array(
             'lote' => $lote,
             'model' => $model,
-          );
-          return response()->json($data);
+        );
+        return response()->json($data);
     }
 
     public function getPendientes(Request $res)
@@ -2339,7 +2338,7 @@ class FqController extends Controller
                     'lote' => $lote,
                     'model' => $model,
                     'plantilla' => $plantilla,
-                );
+                ); 
 
                 $htmlFooter = view('exports.laboratorio.fq.ga.sdt.capturaFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -2349,26 +2348,51 @@ class FqController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
+            case 7: //Nitratos residual
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
+                $plantilla= BitacoraFq::where('Id_lote',$idLote)->get(); 
+                if ($plantilla->count()) {
+                }else{
+                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                }
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $data = array(
+                    'lote' => $lote,
+                    'model' => $model,
+                    'curva' => $curva,
+                    'plantilla' => $plantilla,
+                );
+                $htmlFooter = view('exports.laboratorio.fq.espectro.nitratos.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.fq.espectro.nitratos.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
             case 8: //nitritos residual
-                    $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                    $plantilla = PlantillasFq::where('Id_parametro', 8)->first();
-                    $curva = CurvaConstantes::where('Id_parametro', 8)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
-                    $data = array(
-                        'lote' => $lote,
-                        'model' => $model,
-                        'curva' => $curva,
-                        'plantilla' => $plantilla,
-                    );
-                    $htmlFooter = view('exports.laboratorio.fq.espectro.nitritos.capturaFooter', $data);
-                    $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
-                    $htmlHeader = view('exports.laboratorio.fq.espectro.nitritos.capturaHeader', $data);
-                    $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                    $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', $data);
-                    $mpdf->CSSselectMedia = 'mpdf';
-                    $mpdf->WriteHTML($htmlCaptura);
-                    break;
-            case 107:
-            
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
+                $plantilla= BitacoraFq::where('Id_lote',$idLote)->get(); 
+                if ($plantilla->count()) {
+                }else{
+                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                }
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                $data = array(
+                    'lote' => $lote,
+                    'model' => $model,
+                    'curva' => $curva,
+                    'plantilla' => $plantilla,
+                );
+                $htmlFooter = view('exports.laboratorio.fq.espectro.nitritos.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlHeader = view('exports.laboratorio.fq.espectro.nitritos.capturaHeader', $data);
+                $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.capturaBody', $data);
+                $mpdf->CSSselectMedia = 'mpdf';
+                $mpdf->WriteHTML($htmlCaptura);
+                break;
+            case 107:// Nitritos Potable
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 $plantilla = PlantillasFq::where('Id_parametro', 107)->first();
                 $curva = CurvaConstantes::where('Id_parametro', 107)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
@@ -2397,13 +2421,13 @@ class FqController extends Controller
                     'plantilla' => $plantilla,
                 );
                 $htmlFooter = view('exports.laboratorio.fq.espectro.cianuros.127.capturaFooter', $data);
-                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E'); 
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.fq.espectro.cianuros.127.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                 $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.127.capturaBody', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
-                break; 
+                break;
             case 95: // Sulfatos
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
                 $plantilla = PlantillasFq::where('Id_parametro', 95)->first();
@@ -2430,7 +2454,7 @@ class FqController extends Controller
                     'lote' => $lote,
                     'model' => $model,
                     'curva' => $curva,
-                    'plantilla' => $plantilla, 
+                    'plantilla' => $plantilla,
                 );
                 $htmlFooter = view('exports.laboratorio.fq.espectro.fluoruros.127.capturaFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');

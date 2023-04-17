@@ -675,3 +675,10 @@ INNER JOIN categoria001_2021 as cat
 ON lim.Id_categoria = cat.Id_categoria
 INNER JOIN ViewParametros as pa
 ON lim.Id_parametro = pa.Id_parametro
+
+/* ViewPlantillasFq */
+CREATE VIEW ViewPlantillasFq as SELECT fq.*,p.Parametro FROM plantillas_fq as fq
+INNER JOIN parametros as p
+ON fq.Id_parametro = p.Id_parametro
+
+

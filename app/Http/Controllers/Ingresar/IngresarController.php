@@ -39,7 +39,7 @@ class IngresarController extends Controller
         $cliente = DB::table('ViewSolicitud')->where('Folio_servicio', $request->folioSol)->first();
         $model = DB::table('ViewSolicitud')->where('Hijo', $cliente->Id_solicitud)->get();
         $proceso = ProcesoAnalisis::where('Id_solicitud',$cliente->Id_solicitud)->get();
-        $std = false;
+        $std = true;
         if ($proceso->count()) {
             $std = true;
         }

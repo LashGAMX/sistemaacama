@@ -1235,6 +1235,7 @@ class VolController extends Controller
         $data = array(
             'detalle' => $detalle,
             'tipo' => $tipo,
+            'tipodetalle' => $tipoDetalle->Tipo,
         );
         return response()->json($data);
     }
@@ -1274,6 +1275,7 @@ class VolController extends Controller
             'model' => $model,
             'curva' => $curva,
             'valoracion' => $valoracion,
+            'estadoRadio' => $response->radio,
         );
         return response()->json($data);
     }

@@ -760,9 +760,9 @@ function metodoCortoEnt(){
             if (response.convinacion.Nmp == 0) {
                 $('#resultadoEnt').val("< 3");
             } else {
-                $('#resultadoEnt').val(response.convinacion.Nmp);
+                $('#resultadoEnt').val(response.resultado);
             }
-            $('#ennmp1').val(response.convinacion.Nmp)
+            $('#ennmp1').val(response.resultado)
             
     }
     });
