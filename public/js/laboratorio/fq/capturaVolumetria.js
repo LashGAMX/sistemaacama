@@ -215,8 +215,14 @@ function getLoteCapturaVol() {
                 if (response.tipodetalle == 1 || response.tipodetalle == 2 ){
                     tab += '<td><input type="radio" checked id="radioVolumetrico" value="2" name="tipo'+item.Id_detalle+'"><label>&nbspVolumetrico</label></td>';
                 } else {
-                    tab += '<td><input type="radio" id="radioEspectro" value="1" name="tipo'+item.Id_detalle+'"><label>&nbspEspectro</label><br>';
-                    tab += '<input type="radio" id="radioVolumetrico" value="2" name="tipo'+item.Id_detalle+'"><label>&nbspVolumetrico</label></td>';
+                    if (item.Tecnica == "1" || item.Tecnica == "0"){
+                        tab += '<td><input type="radio" checked id="radioEspectro" value="1" name="tipo'+item.Id_detalle+'"><label>&nbspEspectro</label><br>';
+                        tab += '<input type="radio" id="radioVolumetrico" value="2" name="tipo'+item.Id_detalle+'"><label>&nbspVolumetrico</label></td>';
+                    }else{
+                        tab += '<td><input type="radio" id="radioEspectro" value="1" name="tipo'+item.Id_detalle+'"><label>&nbspEspectro</label><br>';
+                        tab += '<input type="radio" checked id="radioVolumetrico" value="2" name="tipo'+item.Id_detalle+'"><label>&nbspVolumetrico</label></td>';
+                    }
+                  
                 }
                 
                 //todo -- --
@@ -445,6 +451,7 @@ if (sw == 1) {
             CA: $("#blancoDqo1").val(),
             D: $("#factorDqo1").val(),
             E: $("#volDqo1").val(),
+            radio: $("#estadoRadio").val(),
             resultado: $("#resultadoDqo").val(),
             _token: $('input[name="_token"]').val()
         },
@@ -476,6 +483,7 @@ if (sw == 1) {
             X:$('#abs11').val(),
             Y:$('#abs21').val(), 
             Z:$('#abs31').val(),
+            radio: $("#estadoRadio").val(),
             _token: $('input[name="_token"]').val() 
         },
         dataType: "json",
@@ -627,6 +635,8 @@ function getDetalleVol(idDetalle, caso) {
         dataType: "json",
         success: function (response) {
             console.log(response);
+            $("#estadoRadio").val(response.estadoRadio);
+            $("#estadoRadioEspectro").val(response.estadoRadio);
             switch (caso) {
                 case 1: // Cloro
                     if(response.model.Resultado != null)
@@ -670,7 +680,7 @@ function getDetalleVol(idDetalle, caso) {
                         $("#abs22").val(response.model.Abs2);
                         $("#abs32").val(response.model.Abs3);
                         $("#resultado").val(response.model.Resultado);
-                        $("estadoRadio").val(response.estadoRadio);
+                       
                         console.log("Tubo sellado");
                     }else{
                         if(response.model.Resultado != null)
@@ -682,6 +692,7 @@ function getDetalleVol(idDetalle, caso) {
                             $("#volDqo1").val(response.model.Vol_muestra);
                             $("#resultadoDqo").val(response.model.Resultado);
                             $("#observacionDqo").val(response.model.Observacion);
+                           
                             
                         }else{
                             $("#MolaridadDqo1").val(response.valoracion.Resultado);

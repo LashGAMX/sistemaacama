@@ -11,7 +11,7 @@
 
     <div id="contenidoCurva">
         @php
-            echo @$textProcedimiento[0]->Texto;
+            echo @$procedimiento[0];
         @endphp
     </div>
 
@@ -161,7 +161,7 @@
     <div id="contenidoCurva">
         
         @php
-            echo @$textProcedimiento[1]->Texto;
+            echo @$procedimiento[1];
         @endphp
     </div>
 </body>

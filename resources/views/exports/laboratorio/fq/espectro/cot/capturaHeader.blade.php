@@ -1,6 +1,8 @@
-<p id='header1'>
-    DETERMINACION DE CARBONO ORGÁNICO TOTAL (MÉTODO Std. Meth 5310 B) PROCEDIMIENTO: PE-10-002-34
-</p>
+<div style="font-size: 10px">
+    @php
+        echo $plantilla[0]->Titulo;
+    @endphp
+</div>
 
 <span class='textofecha'>Fecha de análisis </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
 <span class="fecha">{{@$lote->Fecha}}</span>

@@ -8,10 +8,11 @@
     <title>Captura PDF</title>
 </head>
 <body>
-    <p id='curvaProcedimiento'>Procedimiento</p>
 
     <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento[0]);?>
+        @php
+            echo $plantilla[0]->Texto;
+        @endphp
     </div>
 
     <br>
@@ -49,53 +50,57 @@
             </thead>
     
             <tbody>
-                @for ($i = 0; $i < @$dataLength ; $i++)
-                    <tr>
-                        <td class="tableContent">
-                            @if (@$data[$i]->Control == 'Muestra Adicionada' || @$data[$i]->Control == 'Duplicado' || @$data[$i]->Control == 'Resultado')
-                                {{@$data[$i]->Folio_servicio}}
-                            @else
-                                {{@$data[$i]->Control}}
-                            @endif                                                 
-                        </td>
-                        <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$data[$i]->Abs1}}</td>
-                        <td class="tableContent">{{@$data[$i]->Abs2}}</td>
-                        <td class="tableContent">{{@$data[$i]->Abs3}}</td>
-                        <td class="tableContent">{{@$data[$i]->Promedio}}</td>
-                        <td class="tableContent">
-                            @if (@$data[$i]->Sulfuros == NULL)
-                                -----        
-                            @else
-                                {{@$data[$i]->Sulfuros}}
-                            @endif
-                        </td>
-                        <td class="tableContent">
-                            @if (@$data[$i]->Nitratos == NULL)
+                @foreach ($model as $item)
+                <tr>
+                    <td class="tableContent">
+                        @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
+                            {{@$item->Folio_servicio}}
+                        @else
+                            {{@$item->Control}}
+                        @endif                                
+                    </td>
+                    <td class="tableContent">{{@$item->Vol_muestra}}</td>
+                    <td class="tableContent">{{@$item->Abs1}}</td>
+                    <td class="tableContent">{{@$item->Abs2}}</td>
+                    <td class="tableContent">{{@$item->Abs3}}</td>
+                    <td class="tableContent">{{@$item->Promedio}}</td>
+                    <td class="tableContent">
+                        @if (@$item->Sulfuros == NULL)
                             -----        
-                            @else
-                                {{@$data[$i]->Nitratos}}
-                            @endif
-                        </td>
-                        <td class="tableContent">
-                            @if (@$data[$i]->Nitritos == NULL)
-                            -----        
-                            @else
-                                {{@$data[$i]->Nitritos}}
-                            @endif
-                        </td>
-                        <td class="tableContent">{{@$limites[$i]}}</td>
-                        <td class="tableContent">{{@$data[$i]->Observacion}}</td>
-                        <td class="tableContent">
-                            @if (@$data[$i]->Liberado == 1)
-                                Liberado
-                            @elseif(@$data[$i]->Liberado == 0)
-                                No liberado
-                            @endif
-                        </td>
-                        <td class="tableContent">{{@$data[$i]->Control}}</td>
-                    </tr>                
-                @endfor
+                        @else
+                            {{@$item->Sulfuros}}
+                        @endif
+                    </td>
+                    <td class="tableContent">
+                        @if (@$item->Nitratos == NULL)
+                        -----        
+                        @else
+                            {{@$item->Nitratos}}
+                        @endif
+                    </td>
+                    <td class="tableContent">
+                        @if (@$item->Nitritos == NULL)
+                        -----        
+                        @else
+                            {{@$item->Nitritos}}
+                        @endif
+                    </td>
+                    @if ($item->Resultado <= $item->Limite)
+                        <td class="tableContent">< {{@$item->Limite}}</td>
+                    @else
+                        <td class="tableContent">{{@$item->Resultado}}</td>
+                    @endif
+                    <td class="tableContent">{{@$item->Observacion}}</td>
+                    <td class="tableContent">
+                        @if (@$item->Liberado == 1)
+                            Liberado
+                        @elseif(@$item->Liberado == 0)
+                            No liberado
+                        @endif     
+                    </td>
+                    <td class="tableContent">{{@$item->Control}}</td>
+                </tr>
+            @endforeach
             </tbody>        
         </table>  
     </div>    
@@ -109,7 +114,10 @@
 
     <div id="contenidoCurva">
         <span id='curvaProcedimiento'>Valoración</span> 
-        <?php echo html_entity_decode($textoProcedimiento[1]);?>
+        @php
+            
+            echo $plantilla[0]->Texto; 
+        @endphp
     </div>
 
     <br>
@@ -123,7 +131,7 @@
                         Datos de la curva de calibración
                     </th>                    
                 </tr>                
-                
+                 
             </thead>
     
             <tbody>
@@ -139,7 +147,7 @@
                         <td class="tableCabecera">m = </td>
                         <td class="tableContent">{{@$curva->M}}</td>                        
                         <td class="tableCabecera">Límite de cuantificación: </td>
-                        <td class="tableContent"> <{{@$limiteC->Limite}}</td>
+                        <td class="tableContent"> <{{@$model[0]->Limite}}</td>
                     </tr>
 
                     <tr>

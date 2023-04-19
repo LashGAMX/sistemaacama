@@ -8,7 +8,11 @@
     <title>Captura PDF</title>
 </head>
 <body>
-    <p id='curvaProcedimiento'>Procedimiento</p>
+   <div style="font-size: 10px;font-">
+    @php
+        echo $procedimiento[0];
+    @endphp
+   </div>
 
     <div id="contenidoCurva">
         
@@ -132,6 +136,10 @@
       <textarea>
         <textarea name="textarea" rows="8" cols="100">Ejemplo de calculo:</textarea>
     </div>
+
+    @php
+        echo $procedimiento[1]; 
+    @endphp
     <br>
     <br>
     <div class="contenedorTabla">

@@ -681,4 +681,24 @@ CREATE VIEW ViewPlantillasFq as SELECT fq.*,p.Parametro FROM plantillas_fq as fq
 INNER JOIN parametros as p
 ON fq.Id_parametro = p.Id_parametro
 
+/* ViewPlantillasVolumetria */
+CREATE VIEW ViewPlantillasVolumetria as SELECT vol.*,p.Parametro FROM plantilla_volumetria as vol
+INNER JOIN parametros as p
+ON vol.Id_parametro = p.Id_parametro
+
+/* ViewPlantillasVolumetria */
+CREATE VIEW ViewPlantillasDirectos as SELECT dir.*,p.Parametro FROM plantilla_directos as dir
+INNER JOIN parametros as p
+ON dir.Id_parametro = p.Id_parametro
+
+/* ViewPlantillasVolumetria */
+CREATE VIEW ViewPlantillasMb as SELECT mb.*,p.Parametro FROM plantilla_mb as mb
+INNER JOIN parametros as p
+ON mb.Id_parametro = p.Id_parametro
+
+/* ViewPlantillasVolumetria */
+CREATE VIEW ViewPlantillasPotable as SELECT pot.*,p.Parametro FROM plantilla_potable as pot
+INNER JOIN parametros as p
+ON pot.Id_parametro = p.Id_parametro
+
 

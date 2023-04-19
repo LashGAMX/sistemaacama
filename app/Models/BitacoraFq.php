@@ -16,6 +16,8 @@ class BitacoraFq extends Model
     protected $fillable = [
         'Id_lote', 
         'Id_parametro',
+        'Titulo',
         'Texto',
+        'Rev',
     ];
 }

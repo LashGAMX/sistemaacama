@@ -3,7 +3,36 @@ $(document).ready(function () {
     $('#btnGuardar').click(function () {
         setPlantilla()
     });
+    $('#btnCrear').click(function () {
+        $('#summmerModal').summernote({
+            placeholder: '',
+            tabsize: 2,
+            height: 300,            
+        });
+    });
+    $('#btnCrearPlantilla').click(function () {
+        setNewPlantilla()
+    });
 });
+function setNewPlantilla()
+{
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/config/plantillas/setNewPlantilla",
+        data: {
+            tipo: $("#tipo").val(),
+            id: $("#parametros").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {      
+            console.log(response);
+            alert("Plantilla creada")
+            location.reload();
+        } 
+    });
+}
 function getBitacoras()
 {
     let tabla = document.getElementById('tabPlantillas');
@@ -47,7 +76,9 @@ function getBitacoras()
 var idPlantilla = 0
 function getDetalleBitacora(id,parametro){
     $("#parametro").val(parametro)
+    let summerTitulo = document.getElementById("divSummerTitulo");
     let summer = document.getElementById("divSummer");
+    let summer2 = document.getElementById("divSummer2");
     let temp = ''
     $.ajax({
         type: 'POST',
@@ -65,11 +96,24 @@ function getDetalleBitacora(id,parametro){
             $.each(response.model, function (key, item) {
                 temp += ''+item.Texto
             });
+            summerTitulo.innerHTML = '<div id="summernoteTitulo">'+response.model[0].Titulo+'</div>';
+            $('#summernoteTitulo').summernote({
+                placeholder: '',
+                tabsize: 2,
+                height: 100,       
+                fontNames: ['Arial',],
+            });
             summer.innerHTML = '<div id="summernote">'+temp+'</div>';
             $('#summernote').summernote({
                 placeholder: '',
                 tabsize: 2,
                 height: 300,            
+            });
+            summer2.innerHTML = '<div id="summernote2">'+response.model[0].Rev+'</div>';
+            $('#summernote2').summernote({
+                placeholder: '',
+                tabsize: 2,
+                height: 100,            
             });
         } 
     });
@@ -83,6 +127,8 @@ function setPlantilla()
             tipo:$("#tipo").val(),
             id: idPlantilla,
             texto: $("#summernote").summernote('code'),
+            rev: $("#summernote2").summernote('code'),
+            titulo: $("#summernoteTitulo").summernote('code'),
             // texto: $("#summernote").summernote('code'),
             _token: $('input[name="_token"]').val(),
         },
@@ -90,7 +136,7 @@ function setPlantilla()
         async: false,
         success: function (response) {
             console.log(response);                        
-         
+            alert("Plantilla editada")
         }
     });
 }

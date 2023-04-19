@@ -1,5 +1,7 @@
 <p id='header1'>  
-    DETERMINACION DE CLORUROS (Cl¯) NMX-AA-073-SCFI-2001 PROCEDIMIENTO: PE-10-002-7
+    @php
+        echo $plantilla[0]->Titulo;
+    @endphp
 </p>
 
 <span class='textofecha'>Fecha de análisis </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;

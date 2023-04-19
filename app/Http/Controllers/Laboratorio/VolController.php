@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\BitacoraVolumetria;
 use App\Models\VolumenParametros;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
@@ -37,6 +38,7 @@ use App\Models\LoteDetalleGA;
 use App\Models\LoteDetalleNitrogeno;
 use App\Models\LoteDetalleSolidos;
 use App\Models\LoteTecnica;
+use App\Models\PlantillaVolumetria;
 use App\Models\Reportes;
 use App\Models\SecadoCartucho;
 use App\Models\Tecnica;
@@ -257,7 +259,8 @@ class VolController extends Controller
         $model = LoteDetalleDqo::where('Id_lote', $res->idLote)
             ->update([
                 'Tipo' => $res->tipo,
-                'Tecnica' => $res->tecnica
+                'Tecnica' => $res->tecnica,
+                'Soluble' => $res->soluble
             ]);
 
         $data = array(
@@ -362,6 +365,7 @@ class VolController extends Controller
         } else {
             $dqo = null;
         }
+        $detalleDqo = LoteDetalleDqo::where('Id_lote', $request->idLote)->first();
 
         //? Obtiene los valores para llenar la valoracion
         $paraModel = LoteAnalisis::find($request->idLote);
@@ -391,7 +395,8 @@ class VolController extends Controller
             'reporte' => $reporte,
             'dataGrasas' => $dataGrasas,
             'dataColi' => $dataColi,
-            'dataDqo' => $dqo
+            'dataDqo' => $dqo,
+            'detalleDqo' => $detalleDqo,
         );
 
         return response()->json($data);
@@ -1017,7 +1022,8 @@ class VolController extends Controller
             $model->Equivalencia = $request->D;
             $model->Vol_muestra = $request->E;
             $model->Resultado = $request->resultado;
-            $model->analizo = Auth::user()->id;
+            $model->Tecnica = $request->radio;
+            $model->Analizo = Auth::user()->id;
             $model->save();
         } else {
             $model = LoteDetalleDqo::find($request->idDetalle);
@@ -1030,7 +1036,8 @@ class VolController extends Controller
             $model->Abs2 = $request->Y;
             $model->Abs3 = $request->Z;
             $model->Resultado = $request->resultado;
-            $model->analizo = Auth::user()->id;
+            $model->Tecnica = $request->radio;
+            $model->Analizo = Auth::user()->id;
             $model->save();
         }
 
@@ -1038,6 +1045,7 @@ class VolController extends Controller
 
         $data = array(
             'model' => $model,
+            'radio' => $request->radio,
         );
         return response()->json($data);
     }
@@ -1275,7 +1283,7 @@ class VolController extends Controller
             'model' => $model,
             'curva' => $curva,
             'valoracion' => $valoracion,
-            'estadoRadio' => $response->radio,
+            'estadoRadio' => $request->radio,
         );
         return response()->json($data);
     }
@@ -1436,7 +1444,7 @@ public function sendMuestrasLote(Request $res)
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 31,
+            'margin_top' => 40,
             'margin_bottom' => 45,
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
@@ -1531,18 +1539,25 @@ public function sendMuestrasLote(Request $res)
                 break;
                 case 64:
                     $loteDetalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $idLote)->get();
-                    $textProcedimiento = DB::table('plantilla_volumetria')->where('Id_parametro', 64)->get();
+                    $plantilla= BitacoraVolumetria::where('Id_lote',$idLote)->get(); 
+                    if ($plantilla->count()) {
+                    }else{
+                        $plantilla = PlantillaVolumetria::where('Id_parametro', $lote->Id_tecnica)->get(); 
+                    }
+                    $procedimiento = explode("NUEVASECCION",$plantilla[0]->Texto);
                     $valoracion = ValoracionCloro::where('Id_lote',$idLote)->first();
                     $data = array(
-                        'lote' => $lote, 
+                        'lote' => $lote,  
                         'valoracion' => $valoracion,
                         'loteDetalle' => $loteDetalle,
-                        'textProcedimiento' => $textProcedimiento, 
+                        'plantilla' => $plantilla, 
+                        'procedimiento' => $procedimiento,
                     );
-                    $htmlCaptura = view('exports.laboratorio.volumetria.cloruros.capturaBody',$data);
-                    $htmlHeader = view('exports.laboratorio.volumetria.cloruros.capturaHeader', $data);
-                
+                    $htmlFooter = view('exports.laboratorio.volumetria.cloruros.capturaFooter', $data);
+                    $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                    $htmlHeader = view('exports.laboratorio.volumetria.cloruros.capturaHeader', $data); 
                     $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                    $htmlCaptura = view('exports.laboratorio.volumetria.cloruros.capturaBody',$data);
                     $mpdf->SetHTMLFooter("", 'O', 'E');
                     $mpdf->WriteHTML($htmlCaptura);
                     $mpdf->CSSselectMedia = 'mpdf';

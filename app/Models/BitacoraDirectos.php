@@ -15,6 +15,8 @@ class BitacoraDirectos extends Model
 
     protected $fillable = [
         'Id_lote',
+        'Titulo',
         'Texto',
+        'Rev',
     ];
-}
+} 

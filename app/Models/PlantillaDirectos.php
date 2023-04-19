@@ -14,7 +14,9 @@ class PlantillaDirectos extends Model
 
     protected $fillable = [
         'Id_parametro',
+        'Titulo',
         'Texto',
+        'Rev'
     ];
 }
 

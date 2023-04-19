@@ -21,6 +21,7 @@ class LoteDetalleDqo extends Model
         'Id_control',
         'Tipo',
         'Tecnica',
+        'Soluble',
         'Titulo_muestra',
         'Molaridad',
         'Titulo_blanco',

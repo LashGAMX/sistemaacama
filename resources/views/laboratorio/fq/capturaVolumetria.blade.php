@@ -127,12 +127,12 @@
             <div class="modal-dialog" style="width: 70%">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="">Captura de resultados</h5>
+                    <h5 class="modal-title" id="">Captura de resultados DQO</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">&times;</span>
                     </button>
                     <div class="row">
-                    <input type="text" class="form-control" id="estadoRadio">
+                    <input type="hidden" class="form-control" id="estadoRadio">
                             <div class="col-md-12">
                            
                                 <div class="form-group">
@@ -605,11 +605,12 @@
             <div class="modal-dialog modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Captura de resultados</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Captura de resultados DQO</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                         <div class="row">
+                        <input type="hidden" class="form-control" id="estadoRadioEspectro">
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">Observación</label>

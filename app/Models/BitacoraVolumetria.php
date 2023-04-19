@@ -6,18 +6,17 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class PlantillaPotable extends Model
+class BitacoraVolumetria extends Model
 {
     use HasFactory,SoftDeletes;
-            
-    protected $table = 'plantilla_potable';
-    protected $primaryKey = 'Id_plantilla';
+    protected $table = 'bitacora_volumetria';
+    protected $primaryKey = 'Id_bitacora';
     public $timestamps = true;
 
     protected $fillable = [
-        'Id_parametro',
+        'Id_lote', 
         'Titulo',
         'Texto',
-        'Rev'
+        'Rev',
     ];
-} 
+}

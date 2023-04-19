@@ -24,7 +24,7 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3">
-                <button class="bg-success"><i class="fas fa-plus"></i> Crear</button>
+                <button class="bg-success" id="btnCrear" data-toggle="modal" data-target="#modalParametros"><i class="fas fa-plus"></i> Crear</button>
             </div>
             <div class="col-md-12" id="tabPlantillas">
                 
@@ -34,7 +34,7 @@
 
 
         <!-- Modal -->
-<div class="modal fade" id="modalParametros" tabindex="-1" aria-labelledby="modalDetalleLabel" aria-hidden="true">
+<div class="modal fade" id="modalParametros" aria-labelledby="modalDetalleLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -44,7 +44,30 @@
          {{-- Inicio de Body  --}}
             <div class="row">
                 <div class="col-md-12">
-                    
+                  <div class="form-group">
+                    <label for="parametros">Parametro</label>
+                    @php
+                        $temp = "";
+                    @endphp
+                    <select class="form-control select2" id="parametros">
+                      @foreach ($parametros as $item)
+                        @php
+                            $temp = "";
+                        @endphp
+                          @foreach ($model as $item2)
+                              @if ($item->Id_parametro == $item2->Id_parametro)
+                                  @php
+                                      $temp = 'disabled style="backgroun:red;"';
+                                  @endphp
+                              @endif
+                          @endforeach
+                        <option value="{{$item->Id_parametro}}" {{$temp}}>({{$item->Id_parametro}}) {{$item->Parametro}}</option>
+                      @endforeach
+                    </select>
+                  </div>
+                </div>
+                <div class="col-md-12">
+                  <button id="btnCrearPlantilla" class="btn btn-success"><i class="fas fa-save"></i> Guardar</button>
                 </div>
             </div>
          {{-- Fin de body --}} 
@@ -62,6 +85,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title" id="modalDetalleLabel">Plantilla de parametro: <input type="" id="parametro" style="border:none;"></h5>
+          <h6>Delimitador para nueva sección <code>NUEVASECCION</code></h6>
         </div>
         <div class="modal-body">
          {{-- Inicio de Body  --}}
@@ -70,8 +94,14 @@
                     <button class="btn bg-success" id="btnGuardar"><i class="fas fa-save"></i> Guardar</button>
                 </div>
                 <div class="col-md-12">
+                  <div id="divSummerTitulo"></div>
+                </div>
+                <div class="col-md-12">
                     <div id="divSummer"></div>
-                  </div>
+                </div>
+                <div class="col-md-12">
+                  <div id="divSummer2"></div>
+              </div> 
             </div>
          {{-- Fin de body --}} 
         </div>

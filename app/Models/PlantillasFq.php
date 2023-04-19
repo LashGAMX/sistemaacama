@@ -15,6 +15,9 @@ class PlantillasFq extends Model
 
     protected $fillable = [
         'Id_parametro',
+        'Titulo',
         'Texto',
+        'Rev'
     ];
 }
+

@@ -23,7 +23,7 @@
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="{{url('/admin/config/plantillas/')}}">
+                <a href="{{url('/admin/config/plantillas/bitacoras/2')}}">
                     <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;">
                         <div class="dimmer"></div>
                         <div class="panel-content">
@@ -34,7 +34,7 @@
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="{{url('/admin/config/plantillas/')}}">
+                <a href="{{url('/admin/config/plantillas/bitacoras/3')}}">
                     <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;">
                         <div class="dimmer"></div>
                         <div class="panel-content">
@@ -45,7 +45,7 @@
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="{{url('/admin/config/plantillas/')}}">
+                <a href="{{url('/admin/config/plantillas/bitacoras/4')}}">
                     <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;">
                         <div class="dimmer"></div>
                         <div class="panel-content">
@@ -56,7 +56,7 @@
                 </a>
             </div>
             <div class="col-md-3">
-                <a href="{{url('/admin/config/plantillas/')}}">
+                <a href="{{url('/admin/config/plantillas/bitacoras/5')}}">
                     <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;">
                         <div class="dimmer"></div>
                         <div class="panel-content">

@@ -350,6 +350,7 @@ $('#btnGuardarTipoDqo').click(function () {
             idLote: $("#idLoteHeader").val(),
             tipo: $("#tipoDqo").val(),
             tecnica: $('#tecnicaDqo').val(),
+            soluble: $('#solubleDqo').val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
@@ -434,6 +435,10 @@ function buscarLote() {
 function setAsignar(id) {
     window.location = base_url + "/admin/laboratorio/" + area + "/asgnarMuestraLoteVol/" + id;
 }
+function selectElement(id, valueToSelect) {    
+    let element = document.getElementById(id);
+    element.value = valueToSelect;
+}
 
 //Adaptando para FQ
 function getDatalote() {
@@ -451,7 +456,7 @@ function getDatalote() {
         async: false,
         success: function (response) {
             console.group(response);
-
+            selectElement('tecnicaDqo', response.detalleDqo.Tecnica);
             //calentamiento de matraces
             if (response.dataGrasas[0] !== null) {
                 for (let i = 0; i < 3; i++) {
@@ -581,6 +586,10 @@ function getDatalote() {
             //------------DQO------------
             if (response.dataDqo !== null) {
                 $("#ebullicion_loteId").val(response.dataDqo.Id_lote);
+
+                /* Seccion de Tecnica */
+                
+
 
                 /* let fecha = response.dataDqo.Inicio;
                 let fechaIngresada = moment(fecha, 'DD-MM-YYYY');

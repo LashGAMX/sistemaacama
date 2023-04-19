@@ -5,7 +5,7 @@
   @section('page_header')
   <h6 class="page-title"> 
     <i class="voyager-data"></i>    
-    Lote
+    Lote Volumetria
   </h6>
  
 <div class="container-fluid">
@@ -566,6 +566,13 @@
                     <option value="0">Selecionar</option>  
                     <option value="1">Espectrofotometria</option>
                     <option value="2">Volumetria</option> 
+                  </select>
+                </div>
+                <div class="col-md-3">
+                  <h4>Soluble</h4>
+                  <select id="solubleDqo">
+                    <option value="1">Si</option>
+                    <option value="2">No</option> 
                   </select>
                 </div>
                 <div class="col-md-6">

@@ -78,7 +78,7 @@
                         @else
                             {{@$item->Nitratos}}
                         @endif
-                    </td>
+                    </td> 
                     <td class="tableContent">
                         @if (@$item->Nitritos == NULL)
                         -----        
