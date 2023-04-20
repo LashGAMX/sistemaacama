@@ -105,7 +105,7 @@ function getLote()
             tab += '    </thead>';
             tab += '    <tbody>';
             for (let i = 0; i < model.length; i++) {
-                tab += '<tr>'; 
+                tab += '<tr ondblclick="eventLote('+model[i][0]+')">'; 
                 if (model[i][0] == "N/A") {
                     tab += '    <td><input type="checkbox" name="std"  value="'+model[i][1]+'"></td>';
                 } else {
@@ -124,6 +124,11 @@ function getLote()
             tabla.innerHTML = tab;
         }
     });
+}
+var idSol = 0;
+function eventLote(id)
+{  
+    $("#modalDetalle").modal("show");
 }
 
 

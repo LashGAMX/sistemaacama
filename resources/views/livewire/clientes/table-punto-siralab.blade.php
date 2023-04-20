@@ -47,7 +47,7 @@
           <td>{{$item->F_inicio}}</td>
           <td>{{$item->F_termino}}</td>
           <td>
-            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_punto}}','{{$item->Punto}}','{{$item->Titulo_consecion}}','{{$item->Anexo}}','{{$item->Siralab}}','{{$item->Pozos}}','{{$item->Cuerpo_receptor}}','{{$item->Uso_agua}}','{{$item->Latitud}}','{{$item->Longitud}}','{{$item->Hora}}','{{$item->Observacion}}','{{$item->F_inicio}}','{{$item->F_termino}}','{{$item->deleted_at}}')" data-toggle="modal" data-target="#modalPuntoSiralab"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_punto}}')" data-toggle="modal" data-target="#modalPuntoSiralab"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
           {{-- </form>  --}}
         </tr>
@@ -208,13 +208,13 @@
                 <div class="col-md-4">
                     <div class="form-group">
                     <label for="">Fecha inicio</label>
-                    <input type="date" wire:model='inicio' class="form-control" >
+                    <input type="date" wire:model='inicio' class="form-control"  required>
                     </div>
                 </div>
                 <div class="col-md-4">
                     <div class="form-group">
                     <label for="">Fecha termino</label>
-                    <input type="date" wire:model='termino' class="form-control" >
+                    <input type="date" wire:model='termino' class="form-control"  required>
                     </div>
                 </div>
                 <div class="col-md-4">

@@ -132,29 +132,9 @@
         </table>  
     </div>
     <br>
-    <div>
-      <textarea>
-        <textarea name="textarea" rows="8" cols="100">Ejemplo de calculo:</textarea>
-    </div>
-
     @php
         echo $procedimiento[1]; 
     @endphp
-    <br>
-    <br>
-    <div class="contenedorTabla">
-        <table autosize="1" class="table table-borderless" id="tablaDatos" style="width: 60%">
-            <tbody>
-            <tr>
-                <th>
-                    <td>Realizó:_______________</td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Revisó:_______________</td>
-                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Supervisó:_______________</td>
-                </th>
-            </tr>
-            </tbody>
-        </table>
-    </div>
     
 </div>   
 </body>

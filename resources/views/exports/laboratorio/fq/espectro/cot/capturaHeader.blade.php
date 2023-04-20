@@ -1,6 +1,6 @@
 <div style="font-size: 10px">
     @php
-        echo $plantilla[0]->Titulo;
+        echo $plantilla[0]->Titulo; 
     @endphp
 </div>
 

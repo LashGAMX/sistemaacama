@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Controllers\Laboratorio\FqController;
 use App\Models\PlantillaDirectos;
 use App\Models\PlantillaMb;
+use App\Models\PlantillaMetales;
 use App\Models\PlantillaPotable;
 use App\Models\PlantillasFq;
 use App\Models\PlantillaVolumetria;
@@ -39,6 +40,9 @@ class PlantillasController extends Controller
             case 5: // Volumetria
                 $model = PlantillaVolumetria::all();
                 break;
+            case 6:
+                $model = PlantillaMetales::all();
+                break;
             default:
 
                 break;
@@ -69,6 +73,9 @@ class PlantillasController extends Controller
             case 5: // Volumetria
                 $model  = DB::table('ViewPlantillasVolumetria')->get();
                 break;
+            case 6: // Metales
+                $model  = DB::table('ViewPlantillaMetales')->get();
+                break;
             default:
 
                 break;
@@ -96,6 +103,9 @@ class PlantillasController extends Controller
                 break;
             case 5: // Volumetria
                 $model = PlantillaVolumetria::where('Id_plantilla', $res->id)->get();
+                break;
+            case 6: //Metales
+                $model = PlantillaMetales::where('Id_plantilla', $res->id)->get();
                 break;
             default:
                 # code...
@@ -145,6 +155,13 @@ class PlantillasController extends Controller
                 $model[0]->Rev = $res->rev;
                 $model[0]->save();
                 break;
+            case 6: // Metales
+                $model = PlantillaMetales::where('Id_plantilla', $res->id)->get();
+                $model[0]->Texto = $res->texto;
+                $model[0]->Titulo = $res->titulo;
+                $model[0]->Rev = $res->rev;
+                $model[0]->save();
+                break;
             default:
                 # code...
                 break;
@@ -164,7 +181,9 @@ class PlantillasController extends Controller
                 } else {
                     $model = PlantillasFq::create([
                         'Id_parametro' => $res->id,
+                        'Titulo' => "Falta registar titulo",
                         'Texto' => "Falta registrar procedimiento",
+                        'Rev' => "Falta ingresar Revisión",
                     ]);
                 }
                 break;
@@ -174,7 +193,9 @@ class PlantillasController extends Controller
                 } else {
                     $model = PlantillaDirectos::create([
                         'Id_parametro' => $res->id,
+                        'Titulo' => "Falta registar titulo",
                         'Texto' => "Falta registrar procedimiento",
+                        'Rev' => "Falta ingresar Revisión",
                     ]);
                 }
                 break;
@@ -184,7 +205,9 @@ class PlantillasController extends Controller
                 } else {
                     $model = PlantillaMb::create([
                         'Id_parametro' => $res->id,
+                        'Titulo' => "Falta registar titulo",
                         'Texto' => "Falta registrar procedimiento",
+                        'Rev' => "Falta ingresar Revisión",
                     ]);
                 }
                 break;
@@ -194,7 +217,9 @@ class PlantillasController extends Controller
                 } else {
                     $model = PlantillaPotable::create([
                         'Id_parametro' => $res->id,
+                        'Titulo' => "Falta registar titulo",
                         'Texto' => "Falta registrar procedimiento",
+                        'Rev' => "Falta ingresar Revisión",
                     ]);
                 }
                 break;
@@ -204,7 +229,21 @@ class PlantillasController extends Controller
                 } else {
                     $model = PlantillaVolumetria::create([
                         'Id_parametro' => $res->id,
+                        'Titulo' => "Falta registar titulo",
                         'Texto' => "Falta registrar procedimiento",
+                        'Rev' => "Falta ingresar Revisión",
+                    ]);
+                }
+                break;
+            case 6: // Metales
+                $model = PlantillaMetales::where('Id_parametro', $res->id)->get();
+                if ($model->count()) {
+                } else {
+                    $model = PlantillaMetales::create([
+                        'Id_parametro' => $res->id,
+                        'Titulo' => "Falta registar titulo",
+                        'Texto' => "Falta registrar procedimiento",
+                        'Rev' => "Falta ingresar Revisión",
                     ]);
                 }
                 break;

@@ -66,11 +66,22 @@
                     </div>
                 </a>
             </div>
+            <div class="col-md-3">
+                <a href="{{url('/admin/config/plantillas/bitacoras/6')}}">
+                    <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;">
+                        <div class="dimmer"></div>
+                        <div class="panel-content">
+                            <i class="voyager-down-circled"></i>
+                            <h4>Metales</h4>
+                        </div>
+                    </div>
+                </a>
+            </div>
         </div>
     </div>
 
   @section('javascript')
-      <script src="{{asset('/public/js/analisisQ/parametro.js')}}?v=0.2.1"></script>
+      <script src="{{asset('/public/js/analisisQ/parametro.js')}}?v=0.3.1"></script>
 @stop  
 @endsection
   

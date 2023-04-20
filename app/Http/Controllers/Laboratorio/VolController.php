@@ -265,7 +265,8 @@ class VolController extends Controller
 
         $data = array(
             'tipo' => $res->tipo,
-            'tecnica' => $res->tecnica
+            'tecnica' => $res->tecnica,
+            'model' => $model,
         );
         return response()->json($data);
     }

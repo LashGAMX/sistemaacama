@@ -165,6 +165,8 @@ function getDetalleLoteFq(id,parametro)
         async: false,
         success: function (response) {
             console.log(response);                        
+            $("#tituloBit").val(response.plantilla[0].Titulo)
+            $("#revBit").val(response.plantilla[0].Rev)
             summer.innerHTML = '<div id="summernote">'+response.plantilla[0].Texto+'</div>';
 
             // summer.innerHTML = '<div id="summernote">Hola Modal</div>';
@@ -183,14 +185,15 @@ function setPlantillaDetalleFq(){
         data: {
             id: idLote,
             texto: $("#summernote").summernote('code'),
-            // texto: $("#summernote").summernote('code'),
+            titulo: $("#tituloBit").val(),
+            rev:$("#revBit").val(),
             _token: $('input[name="_token"]').val(),
         },
         dataType: "json",
         async: false,
         success: function (response) {
             console.log(response);                        
-         
+            alert("Plantilla modificada")
         }
     });
 }

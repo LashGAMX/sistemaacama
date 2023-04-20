@@ -109,11 +109,11 @@ class TablePuntoSiralab extends Component
         $model->Latitud = $this->latitud;
         $model->GradosLat = $this->gradosLat;
         $model->MinutosLat = $this->minutosLat;
-        $model->SegudosLat = $this->segundosLat;
+        $model->SegundosLat = $this->segundosLat;
         $model->Longitud = $this->longitud;
         $model->GradosLong = $this->gradosLong;
         $model->MinutosLong = $this->minutosLong;
-        $model->SegudosLong = $this->segundosLong;
+        $model->SegundosLong = $this->segundosLong;
         $model->Hora = $this->hora;
         $model->F_inicio = $this->inicio;
         $model->F_termino = $this->termino;
@@ -126,34 +126,35 @@ class TablePuntoSiralab extends Component
         }
         $this->alert = true;
     }
-    public function setData($idPunto,$punto,$titulo,$anexo,$siralab,$pozos,$cuerpo,$agua,$categoria,$latitud,$gradosLat,$minutosLat,$segundosLat,$longitud,$gradosLong,$minutosLong,$segundosLong,$hora,$observacion,$inicio,$termino,$status)
+    public function setData($idPunto)
     {
+        $model = PuntoMuestreoSir::withTrashed()->find($idPunto);
         $this->sw = true;
         // $this->resetValidation();
         $this->alert = false;
 
         $this->idPunto = $idPunto;
-        $this->punto = $punto;
-        $this->titulo = $titulo;
-        $this->anexo = $anexo;
-        $this->siralab = $siralab;
-        $this->pozos = $pozos;
-        $this->cuerpo = $cuerpo;
-        $this->agua = $agua;
-        $this->categoria = $categoria;
-        $this->latitud = $latitud;
-        $this->gradosLat = $gradosLat;
-        $this->minutosLat = $minutosLat;
-        $this->segundosLat = $segundosLat; 
-        $this->longitud = $longitud;
-        $this->gradosLong = $gradosLong;
-        $this->minutosLong = $minutosLong;
-        $this->segundosLong = $segundosLong;
-        $this->hora = $hora;
-        $this->observacion = $observacion;
-        $this->inicio = $inicio;
-        $this->termino = $termino;
-        if($status != null)
+        $this->punto = $model->Punto;
+        $this->titulo = $model->Titulo_consecion;
+        $this->anexo = $model->Anexo;
+        $this->siralab = $model->Siralab;
+        $this->pozos = $model->Pozos;
+        $this->cuerpo = $model->Cuerpo_receptor;
+        $this->agua = $model->Uso_agua;
+        $this->categoria = $model->Categoria;
+        $this->latitud = $model->Latitud;
+        $this->gradosLat = $model->GradosLat;
+        $this->minutosLat = $model->MinutosLat;
+        $this->segundosLat = $model->SegundosLat; 
+        $this->longitud = $model->Longitud;
+        $this->gradosLong = $model->GradosLong;
+        $this->minutosLong = $model->MinutosLong;
+        $this->segundosLong = $model->SegundosLong;
+        $this->hora = $model->Hora;
+        $this->observacion = $model->Observacion;
+        $this->inicio = $model->F_inicio;
+        $this->termino = $model->F_termino;
+        if($model->delete_at != null)
         {
             $this->status = 0;
         }else{

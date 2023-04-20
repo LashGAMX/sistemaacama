@@ -701,4 +701,9 @@ CREATE VIEW ViewPlantillasPotable as SELECT pot.*,p.Parametro FROM plantilla_pot
 INNER JOIN parametros as p
 ON pot.Id_parametro = p.Id_parametro
 
+/* ViewPlantillasVolumetria */
+CREATE VIEW ViewPlantillaMetales as SELECT met.*,p.Parametro FROM plantillas_metales as met
+INNER JOIN parametros as p
+ON  met.Id_parametro = p.Id_parametro
+
 

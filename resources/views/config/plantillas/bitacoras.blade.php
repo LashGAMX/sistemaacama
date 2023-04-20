@@ -12,7 +12,19 @@
                 Fq
                 @break
             @case(2)
-                
+                Directos
+                @break
+            @case(3)
+                Mb
+                @break
+            @case(4)
+                Potable
+                @break
+            @case(5)
+                Volumetria
+                @break
+            @case(6)
+                Metales
                 @break
             @default
                 

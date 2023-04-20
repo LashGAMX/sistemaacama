@@ -78,7 +78,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalDetalleLabel">Detalle lote: <input type="" id="idLote" style="border:none;"></h5>
+        <h5 class="modal-title" id="modalDetalleLabel">Detalle lote: <input type="" id="idLote" style="border:none;width: 80%;"></h5>
       </div>
       <div class="modal-body">
        {{-- Inicio de Body  --}}
@@ -106,7 +106,9 @@
                 <button id="btnBitacora" class="btn bg-success"><i class="fas fa-save"></i> Guardar</button>
               </div>
               <div class="col-md-12">
+                <input type="text" id="tituloBit" hidden>
                 <div id="divSummer"></div>
+                <input type="text" id="revBit" hidden>
               </div>
             </div>
           </div>

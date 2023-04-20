@@ -11,7 +11,7 @@
 
     <div id="contenidoCurva">
         @php
-            echo $plantilla[0]->Texto;
+             echo $procedimiento[0];
         @endphp
     </div>
 
@@ -112,11 +112,11 @@
         <span>RESULTADO BLANCO: 0</span>
     </div>
 
+    <br>
     <div id="contenidoCurva">
         <span id='curvaProcedimiento'>Valoración</span> 
         @php
-            
-            echo $plantilla[0]->Texto; 
+             echo $procedimiento[1];
         @endphp
     </div>
 
