@@ -53,6 +53,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('delMuestraLote', [MetalesController::class, 'delMuestraLote']);
         Route::post('sendMuestrasLote', [MetalesController::class, 'sendMuestrasLote']);
         Route::post('createControlCalidadMetales', [MetalesController::class, 'createControlCalidadMetales']);
+        Route::post('getDetalleLote', [MetalesController::class, 'getDetalleLote']);
+        Route::post('setDetalleLote', [MetalesController::class, 'setDetalleLote']);
 
         //Route::get('analisis/datos', [MetalesController::class, 'analisisDatos']);
         //? Modulo de captura de resultados
@@ -64,6 +66,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('lote/procedimiento/busquedaFiltros', [MetalesController::class, 'busquedaFiltros']);
         //Almacena el texto en la table reportes, campo Texto, el texto introducido en el editor de texto > Procedimiento/Validación
         Route::post('lote/procedimiento', [MetalesController::class, 'guardarTexto']);
+        Route::get('exportPdfCaptura/{id}', [MetalesController::class, 'exportPdfCaptura']);
         
         Route::get('capturaIcp', [MetalesController::class, 'capturaIcp']);
         Route::post('createLoteIcp', [MetalesController::class, 'createLoteIcp']);
@@ -132,6 +135,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getLoteGA', [FqController::class, 'getLoteGA']);
         Route::post('getLoteCapturaGA', [FqController::class, 'getLoteCapturaGA']);
         Route::post('getDetalleGA', [FqController::class, 'getDetalleGA']);
+        Route::post('guardarDetalleGrasas', [FqController::class, 'guardarDetalleGrasas']);
         Route::post('operacionGA', [FqController::class, 'operacionGA']); 
         Route::post('operacionGASimple', [FqController::class, 'operacionGASimple']);
         Route::post('operacionGALarga', [FqController::class, 'operacionGALarga']);

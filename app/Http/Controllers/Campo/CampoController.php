@@ -1295,9 +1295,20 @@ class CampoController extends Controller
         $paramSolicitud = DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $id)->get();
         $paramSolicitudLength = $paramSolicitud->count();
     
-        $areaModel = AreaLab::all();
-        $procesoAnalisis = ProcesoAnalisis::where('Id_solicitud',$id)->first();
-        $firmaRecepcion = User::where('id',$procesoAnalisis->Id_user_c)->first();
+        $areaModel = AreaLab::all(); 
+        $procesoAnalisis = ProcesoAnalisis::where('Id_solicitud',$id)->get();
+        if ($procesoAnalisis->count()) {
+            $firmaRecepcion = User::where('id',$procesoAnalisis->Id_user_c)->get();
+        }else{
+            // $firmaRecepcion = "";
+        }
+        
+        // if ($firmaRecepcion->count()) {
+            
+        // }else{
+        //     $firmaRecepcion = "";
+        // } 
+            // $firmaRecepcion = "";
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
             'margin_left' => 2,

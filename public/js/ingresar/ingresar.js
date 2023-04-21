@@ -50,11 +50,11 @@ function buscarFolio() {
                 $("#hora_entrada").val(response.proceso[0].Hora_entrada);   
             } 
             if (response.std == true) {
-                temp = '<p class="text-success">Muestra ingresada</p>'
-                $("#btnIngresar").attr("disabled","true")
+                // temp = '<p class="text-success">Muestra ingresada</p>'
+                // $("#btnIngresar").attr("disabled","true")
             } else {
-                temp = '<p class="text-warning">Falta ingreso</p>'
-                $("#btnIngresar").attr("disabled","false")
+                // temp = '<p class="text-warning">Falta ingreso</p>'
+                // $("#btnIngresar").attr("disabled","false")
             }
             std.innerHTML = temp
             tableCodigos(response.model);

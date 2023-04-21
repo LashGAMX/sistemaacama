@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 use App\Models\AreaAnalisis;
+use App\Models\BitacoraMetales;
 use App\Models\Constante;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
@@ -29,8 +30,11 @@ use App\Models\VerificacionMetales;
 use App\Models\EstandarVerificacionMet;
 use App\Models\GeneradorHidrurosMet;
 use App\Models\LoteDetalleIcp;
+use App\Models\MetalesDetalle;
+use App\Models\PlantillaMetales;
 use App\Models\Tecnica;
 use App\Models\TempIcp;
+use App\Models\User;
 use Carbon\Carbon;
 use Maatwebsite\Excel\Facades\Excel;
 use PhpParser\Node\Expr\Cast\Array_;
@@ -704,6 +708,130 @@ class MetalesController extends Controller
         );
         return response()->json($data);
     }
+    public function getDetalleLote(Request $res)
+    {
+        $lote = LoteAnalisis::where('Id_lote',$res->id)->first();
+        $model = MetalesDetalle::where('Id_lote',$res->id)->get();
+        $plantilla = BitacoraMetales::where('Id_lote', $res->id)->get();
+        if ($plantilla->count()) {
+        } else {
+            $plantilla = PlantillaMetales::where('Id_parametro', $lote->Id_tecnica)->get();
+        }
+        $data = array(
+            'plantilla' => $plantilla,
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function setDetalleLote(Request $res)
+    {
+        $model = MetalesDetalle::where('Id_lote',$res->id)->get();
+        if ($model->count()) {
+            $model[0]->Fecha_digestion = $res->fechaDigestion;
+            $model[0]->Longitud_onda = $res->longitudOnda;
+            $model[0]->No_inventario = $res->noInventario;
+            $model[0]->Corriente = $res->corriente;
+            $model[0]->Gas = $res->gas;
+            $model[0]->Flujo_gas = $res->flujoGas;
+            $model[0]->No_lampara = $res->noLampara;
+            $model[0]->Energia = $res->energia;
+            $model[0]->Aire = $res->aire;
+            $model[0]->Equipo = $res->equipo;
+            $model[0]->Slit = $res->slit;
+            $model[0]->Conc_std = $res->conStd;
+            $model[0]->Oxido_nitroso = $res->oxidoNitroso;
+            $model[0]->Verificacion_blanco = $res->verificacionBlanco;
+            $model[0]->Abs_teoricoB = $res->absTeoricaB;
+            $model[0]->Abs1B = $res->abs1B;
+            $model[0]->Abs2B = $res->abs2B;
+            $model[0]->Abs3B = $res->abs3B;
+            $model[0]->Abs4B = $res->abs4B;
+            $model[0]->Abs5B = $res->abs5B;
+            $model[0]->PromedioB = $res->promedioB;
+            $model[0]->ConclusionB = $res->conclusionB;
+            $model[0]->Std_calE = $res->stdCalE;
+            $model[0]->Abs_teoricoE = $res->absTeoricaE;
+            $model[0]->ConcE = $res->concE;
+            $model[0]->Abs1E = $res->abs1E;
+            $model[0]->Abs2E = $res->abs2E;
+            $model[0]->Abs3E = $res->abs3E;
+            $model[0]->Abs4E = $res->abs4E;
+            $model[0]->Abs5E = $res->abs5E;
+            $model[0]->PromedioE = $res->promedioE;
+            $model[0]->MasaE = $res->masaE;
+            $model[0]->ConclusionE = $res->conclusionE;
+            $model[0]->Conc_obtenidaE = $res->concObtenidaE;
+            $model[0]->RecuperacionE = $res->recE;
+            $model[0]->CumpleE = $res->cumpleE;
+            $model[0]->ConcI = $res->concI;
+            $model[0]->DesvI = $res->desvI;
+            $model[0]->CumpleI = $res->cumpleI;
+            $model[0]->Abs1I = $res->abs1I;
+            $model[0]->Abs2I = $res->abs2I;
+            $model[0]->Abs3I = $res->abs3I;
+            $model[0]->Abs4I = $res->abs4I;
+            $model[0]->Abs5I = $res->abs5I;
+            $model[0]->Bitacora = $res->bitacora;
+            $model[0]->Folio = $res->folio;
+            $model[0]->Valor = $res->valor;
+            $model[0]->save();
+        }else{
+            MetalesDetalle::create([
+                'Id_lote'=> $res->id,
+                'Fecha_digestion' => $res->fechaDigestion,
+                'Longitud_onda' => $res->longitudOnda,
+                'No_inventario' => $res->noInventario,
+                'Corriente' => $res->corriente,
+                'Gas' => $res->gas,
+                'Flujo_gas' => $res->flujoGas,
+                'No_lampara' => $res->noLampara,
+                'Energia' => $res->energia,
+                'Aire' => $res->aire,
+                'Equipo' => $res->equipo,
+                'Slit' => $res->slit,
+                'Conc_std' => $res->conStd,
+                'Oxido_nitroso' => $res->oxidoNitroso,
+                'Verificacion_blanco' => $res->verificacionBlanco,
+                'Abs_teoricoB' => $res->absTeoricaB,
+                'Abs1B' => $res->abs1B,
+                'Abs2B' => $res->abs2B,
+                'Abs3B' => $res->abs3B,
+                'Abs4B' => $res->abs4B,
+                'Abs5B' => $res->abs5B,
+                'PromedioB' => $res->promedioB,
+                'ConclusionB' => $res->conclusionB,
+                'Std_calE' => $res->stdCalE,
+                'Abs_teoricoE' => $res->absTeoricaE,
+                'ConcE' => $res->concE,
+                'Abs1E' => $res->abs1E,
+                'Abs2E' => $res->abs2E,
+                'Abs3E' => $res->abs3E,
+                'Abs4E' => $res->abs4E,
+                'Abs5E' => $res->abs5E,
+                'PromedioE' => $res->promedioE,
+                'MasaE' => $res->masaE,
+                'ConclusionE' => $res->conclusionE,
+                'Conc_obtenidaE' => $res->concObtenidaE,
+                'RecuperacionE' => $res->recE,
+                'CumpleE' => $res->cumpleE,
+                'ConcI' => $res->concI,
+                'DesvI' => $res->desvI,
+                'CumpleI' => $res->cumpleI,
+                'Abs1I' => $res->abs1I,
+                'Abs2I' => $res->abs2I,
+                'Abs3I' => $res->abs3I,
+                'Abs4I' => $res->abs4I,
+                'Abs5I' => $res->abs5I,
+                'Bitacora' => $res->bitacora,
+                'Folio' => $res->folio,
+                'Valor' => $res->valor,
+            ]);
+        }
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
     //RECUPERAR DATOS PARA ENVIARLOS A LA VENTANA MODAL > EQUIPO PARA RELLENAR LOS DATOS ALMACENADOS EN LA BD
     public function getDatalote(Request $request)
     {
@@ -1261,6 +1389,72 @@ class MetalesController extends Controller
         return response()->json(
             compact('tecLoteMet', 'blancoCurvaMet', 'verMet', 'stdVerMet', 'curValMet', 'genHidMet')
         );
+    }
+
+    public function exportPdfCaptura($id)
+    {
+        //Opciones del documento PDF
+        $mpdf = new \Mpdf\Mpdf([
+            'orientation' => "L",
+            'format' => 'letter',
+            'margin_left' => 10,
+            'margin_right' => 10,
+            'margin_top' => 45,
+            'margin_bottom' => 45,
+            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderline' => '0'
+        ]);
+        $mpdf->SetWatermarkImage(
+            asset('/public/storage/HojaMembretadaHorizontal.png'),
+            1,
+            array(215, 280),
+            array(0, 0),
+        );
+        $mpdf->showWatermarkImage = true;
+
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id)->first();
+        $model = DB::table('ViewLoteDetalle')->where('Id_lote', $id)->get();
+        $plantilla = BitacoraMetales::where('Id_lote', $id)->get();
+        if ($plantilla->count()) {
+        } else {
+            $plantilla = PlantillaMetales::where('Id_parametro', $lote->Id_tecnica)->get();
+        }
+        $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+        $detalle = MetalesDetalle::where('Id_lote',$id)->first();
+        //Comprobación de bitacora analizada
+        $comprobacion = LoteDetalle::where('Liberado', 0)->where('Id_lote', $id)->get();
+        if ($comprobacion->count()) {
+            $analizo = "";
+        } else {
+            $analizo = User::where('id', $model[0]->Analizo)->first();
+        }
+        $fechaHora = Carbon::parse(@$detalle->Fecha_digestion);
+        $today = $fechaHora->toDateString();
+        $estandares = estandares::whereDate('Fecha_inicio','<=',$today)->whereDate('Fecha_fin','>=',$today)->where('Id_parametro', $lote->Id_tecnica)->get();
+        $bmr = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->whereDate('Fecha_inicio','<=',$today)->whereDate('Fecha_fin','>=',$today)->first();
+
+        $reviso = User::where('id', 17)->first();
+        $data = array(
+            'bmr' => $bmr,
+            'estandares' => $estandares,
+            'detalle' => $detalle,
+            'lote' => $lote,
+            'fechaHora' => $fechaHora,
+            'model' => $model,
+            'curva' => $curva,
+            'plantilla' => $plantilla,
+            'analizo' => $analizo,
+            'reviso' => $reviso,
+            'comprobacion' => $comprobacion,
+        );
+        $htmlFooter = view('exports.laboratorio.metales.absorcion.capturaFooter', $data);
+        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+        $htmlHeader = view('exports.laboratorio.metales.absorcion.capturaHeader', $data);
+        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+        $htmlCaptura = view('exports.laboratorio.metales.absorcion.capturaBody', $data);
+        $mpdf->CSSselectMedia = 'mpdf';
+        $mpdf->WriteHTML($htmlCaptura);
+        $mpdf->Output();
     }
 
     // todo ************************************************

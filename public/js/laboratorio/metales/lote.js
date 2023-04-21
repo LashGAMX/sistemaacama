@@ -27,6 +27,10 @@ $(document).ready(function () {
     $('#btnCrear').click(function () {
         createLote()
     });
+    $('#btnGuardarDetalle').click(function () {
+        setDetalleLote()
+    });
+    
 });
 document.addEventListener("keydown", function(event) {
     if (event.altKey && event.code === "KeyA")
@@ -105,7 +109,7 @@ function getLote()
             tab += '    </thead>';
             tab += '    <tbody>';
             for (let i = 0; i < model.length; i++) {
-                tab += '<tr ondblclick="eventLote('+model[i][0]+')">'; 
+                tab += '<tr ondblclick="eventLote('+model[i][0]+',\''+model[0][2]+'\')">'; 
                 if (model[i][0] == "N/A") {
                     tab += '    <td><input type="checkbox" name="std"  value="'+model[i][1]+'"></td>';
                 } else {
@@ -126,9 +130,202 @@ function getLote()
     });
 }
 var idSol = 0;
-function eventLote(id)
+var idLote = 0;
+function eventLote(id,parametro)
 {  
     $("#modalDetalle").modal("show");
+    $("#idLote").val(""+id+" "+parametro)
+    idLote = id
+    let summer = document.getElementById("divSummer");
+        $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/laboratorio/metales/getDetalleLote",
+        data: {
+            id:id,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {            
+            console.log(response);
+            $("#tituloBit").val(response.plantilla[0].Titulo)
+            $("#revBit").val(response.plantilla[0].Rev)
+            summer.innerHTML = '<div id="summernote">'+response.plantilla[0].Texto+'</div>';
+            $('#summernote').summernote({
+                placeholder: '', 
+                tabsize: 2,
+                height: 300,         
+            }); 
+
+            if (response.model.length > 0) {
+                let model = response.model[0]
+                // Flama
+                $("#fechaDigestion").val(model.Fecha_digestion)
+                $("#longitudOnda").val(model.Longitud_onda)
+                $("#noInventario").val(model.No_inventario),
+                $("#corriente").val(model.Corriente)
+                $("#gas").val(model.Gas)
+                $("#flujoGas").val(model.Flujo_gas)
+                $("#noLampara").val(model.No_lampara)
+                $("#energia").val(model.Energia)
+                $("#aire").val(model.Aire)
+                $("#equipo").val(model.Equipo)
+                $("#slit").val(model.Slit)
+                $("#conStd").val(model.Conc_std)
+                $("#oxidoNitroso").val(model.Oxido_nitroso)
+               //Blanco de curva
+               $("#verificacionBlanco").val(model.Verificacion_blanco)
+               $("#absTeoricaB").val(model.Abs_teoricoB)
+               $("#abs1B").val(model.Abs1B)
+               $("#abs2B").val(model.Abs2B)
+               $("#abs3B").val(model.Abs3B)
+               $("#abs4B").val(model.Abs4B)
+               $("#abs5B").val(model.Abs5B)
+               $("#promedioB").val(model.PromedioB)
+               $("#conclusionB").val(model.ConclusionB)
+               //Verificacion de espectro
+               $("#stdCalE").val(model.Std_calE)
+               $("#absTeoricaE").val(model.Abs_teoricoE)
+               $("#concE").val(model.ConcE)
+               $("#abs1E").val(model.Abs1E)
+               $("#abs2E").val(model.Abs2E)
+               $("#abs3E").val(model.Abs3E)
+               $("#abs4E").val(model.Abs4E)
+               $("#abs5E").val(model.Abs5E)
+               $("#promedioE").val(model.PromedioE)
+               $("#masaE").val(model.MasaE)
+               $("#conclusionE").val(model.ConclusionE)
+               $("#concObtenidaE").val(model.Conc_obtenidaE)
+               $("#recE").val(model.RecuperacionE)
+               $("#cumpleE").val(model.CumpleE)
+               //Estandar
+               $("#concI").val(model.ConcI)
+               $("#desvI").val(model.DesvI)
+               $("#cumpleI").val(model.CumpleI)
+               $("#abs1I").val(model.Abs1I)
+               $("#abs2I").val(model.Abs2I)
+               $("#abs3I").val(model.Abs3I)
+               $("#abs4I").val(model.Abs4I)
+               $("#abs5I").val(model.Abs5I)
+               //Other
+               $("#bitacora").val(model.Bitacora)
+               $("#folio").val(model.Folio)
+               $("#valor").val(model.Valor)
+
+            }else{
+                $("#fechaDigestion").val("")
+                $("#longitudOnda").val("")
+                $("#noInventario").val("")
+                $("#corriente").val("")
+                $("#gas").val("")
+                $("#flujoGas").val("")
+                $("#noLampara").val("")
+                $("#energia").val("")
+                $("#aire").val("")
+                $("#equipo").val("")
+                $("#slit").val("")
+                $("#conStd").val("")
+                $("#oxidoNitroso").val("")
+                $("#verificacionBlanco").val("")
+                $("#absTeoricaB").val("")
+                $("#abs1B").val("")
+                $("#abs2B").val("")
+                $("#abs3B").val("")
+                $("#abs4B").val("")
+                $("#abs5B").val("")
+                $("#promedioB").val("")
+                $("#conclusionB").val("")
+                $("#stdCalE").val("")
+                $("#absTeoricaE").val("")
+                $("#concE").val("")
+                $("#abs1E").val("")
+                $("#abs2E").val("")
+                $("#abs3E").val("")
+                $("#abs4E").val("")
+                $("#abs5E").val("")
+                $("#promedioE").val("")
+                $("#masaE").val("")
+                $("#conclusionE").val("")
+                $("#concObtenidaE").val("")
+                $("#recE").val("")
+                $("#cumpleE").val("")
+                $("#concI").val("")
+                $("#desvI").val("")
+                $("#cumpleI").val("")
+                $("#abs1I").val("")
+                $("#abs2I").val("")
+                $("#abs3I").val("")
+                $("#abs4I").val("")
+                $("#abs5I").val("")
+                $("#bitacora").val("")
+                $("#folio").val("")
+                $("#valor").val("")
+            }
+        }
+    });
+}
+function setDetalleLote(){
+    $.ajax({
+    type: 'POST',
+    url: base_url + "/admin/laboratorio/metales/setDetalleLote",
+    data: {
+        id:idLote,
+        fechaDigestion:$("#fechaDigestion").val(),
+        longitudOnda:$("#longitudOnda").val(),
+        noInventario:$("#noInventario").val(), 
+        corriente:$("#corriente").val(),
+        gas:$("#gas").val(),
+        flujoGas:$("#flujoGas").val(),
+        noLampara:$("#noLampara").val(),
+        energia:$("#energia").val(),
+        aire:$("#aire").val(),
+        equipo:$("#equipo").val(),
+        slit:$("#slit").val(),
+        conStd:$("#conStd").val(),
+        oxidoNitroso:$("#oxidoNitroso").val(),
+        verificacionBlanco:$("#verificacionBlanco").val(), 
+        absTeoricaB:$("#absTeoricaB").val(),
+        abs1B:$("#abs1B").val(),
+        abs2B:$("#abs2B").val(),
+        abs3B:$("#abs3B").val(),
+        abs4B:$("#abs4B").val(),
+        abs5B:$("#abs5B").val(),
+        promedioB:$("#promedioB").val(),
+        conclusionB:$("#conclusionB").val(),
+        stdCalE:$("#stdCalE").val(),
+        absTeoricaE:$("#absTeoricaE").val(),
+        concE:$("#concE").val(),
+        abs1E:$("#abs1E").val(),
+        abs2E:$("#abs2E").val(),
+        abs3E:$("#abs3E").val(),
+        abs4E:$("#abs4E").val(),
+        abs5E:$("#abs5E").val(),
+        promedioE:$("#promedioE").val(),
+        masaE:$("#masaE").val(),
+        conclusionE:$("#conclusionE").val(),
+        concObtenidaE:$("#concObtenidaE").val(),
+        recE:$("#recE").val(),
+        cumpleE:$("#cumpleE").val(),
+        concI:$("#concI").val(),
+        desvI:$("#desvI").val(),
+        cumpleI:$("#cumpleI").val(),
+        abs1I:$("#abs1I").val(),
+        abs2I:$("#abs2I").val(),
+        abs3I:$("#abs3I").val(),
+        abs4I:$("#abs4I").val(),
+        abs5I:$("#abs5I").val(),
+        bitacora:$("#bitacora").val(),
+        folio:$("#folio").val(),
+        valor:$("#valor").val(),
+        _token: $('input[name="_token"]').val(),
+    },
+    dataType: "json",
+    async: false,
+    success: function (response) {            
+        console.log(response);
+        alert("datos guardados")
+    }
+});
 }
 
 

@@ -455,193 +455,20 @@ function getDatalote() {
         dataType: "json",
         async: false,
         success: function (response) {
-            console.group(response);
-            selectElement('tecnicaDqo', response.detalleDqo.Tecnica);
-            //calentamiento de matraces
-            if (response.dataGrasas[0] !== null) {
-                for (let i = 0; i < 3; i++) {
-                    $("#calLote" + (i + 1)).val(response.dataGrasas[0][i].Id_lote);
-                    $("#calMasa" + (i + 1)).val(response.dataGrasas[0][i].Masa_constante);
-                    $("#calTemp" + (i + 1)).val(response.dataGrasas[0][i].Temperatura);
-                    $("#calEntrada" + (i + 1)).val(response.dataGrasas[0][i].Entrada);
-                    $("#calSalida" + (i + 1)).val(response.dataGrasas[0][i].Salida);
-                }
-            } else {
-                for (let i = 0; i < 3; i++) {
-                    $("#calLote" + (i + 1)).val('');
-                    $("#calMasa" + (i + 1)).val('');
-                    $("#calTemp" + (i + 1)).val('');
-                    $("#calEntrada" + (i + 1)).val('');
-                    $("#calSalida" + (i + 1)).val('');
-                }
-            }
-
-            //enfriado de matraces
-            if (response.dataGrasas[1] !== null) {
-                for (let i = 0; i < 3; i++) {
-                    $("#enfLote" + (i + 1)).val(response.dataGrasas[1][i].Id_lote);
-                    $("#enfMasa" + (i + 1)).val(response.dataGrasas[1][i].Masa_constante);
-                    $("#enfEntrada" + (i + 1)).val(response.dataGrasas[1][i].Entrada);
-                    $("#enfSalida" + (i + 1)).val(response.dataGrasas[1][i].Salida);
-                    $("#enfPesado" + (i + 1)).val(response.dataGrasas[1][i].Pesado_matraz);
-                }
-            } else {
-                for (let i = 0; i < 3; i++) {
-                    $("#enfLote" + (i + 1)).val('');
-                    $("#enfMasa" + (i + 1)).val('');
-                    $("#enfEntrada" + (i + 1)).val('');
-                    $("#enfSalida" + (i + 1)).val('');
-                    $("#enfPesado" + (i + 1)).val('');
-                }
-            }
-
-            //secado de cartuchos
-            if (response.dataGrasas[2] !== null) {
-                $("#secadoLote1").val(response.dataGrasas[2].Id_lote);
-                $("#secadoTemp1").val(response.dataGrasas[2].Temperatura);
-                $("#secadoEntrada1").val(response.dataGrasas[2].Entrada);
-                $("#secadoSalida1").val(response.dataGrasas[2].Salida);
-            } else {
-                $("#secadoLote1").val('');
-                $("#secadoTemp1").val('');
-                $("#secadoEntrada1").val('');
-                $("#secadoSalida1").val('');
-            }
-
-            //tiempo de reflujo
-            if (response.dataGrasas[3] !== null) {
-                $("#tiempoLote1").val(response.dataGrasas[3].Id_lote);
-                $("#tiempoEntrada1").val(response.dataGrasas[3].Entrada);
-                $("#tiempoSalida1").val(response.dataGrasas[3].Salida);
-            } else {
-                $("#tiempoLote1").val('');
-                $("#tiempoEntrada1").val('');
-                $("#tiempoSalida1").val('');
-            }
-
-            //enfriado de matraces
-            if (response.dataGrasas[4] !== null) {
-                $("#enfriadoLote1").val(response.dataGrasas[4].Id_lote);
-                $("#enfriadoEntrada1").val(response.dataGrasas[4].Entrada);
-                $("#enfriadoSalida1").val(response.dataGrasas[4].Salida);
-            } else {
-                $("#enfriadoLote1").val('');
-                $("#enfriadoEntrada1").val('');
-                $("#enfriadoSalida1").val('');
-            }
-
-            //------------------------Coliformes
-
-            if ((response.dataColi[0] !== null) && (response.dataColi[1] !== null) && (response.dataColi[2] !== null)) {
-                //Formatea la fecha a un formato admitido por el input datetime
-                let fecha = response.dataColi[0].Sembrado;
-                let fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm');
-                let fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');
-
-                $("#sembrado_loteId").val(response.dataColi[0].Id_lote);
-                $("#sembrado_sembrado").val(fechaFormateada);
-                $("#sembrado_fechaResiembra").val(response.dataColi[0].Fecha_resiembra);
-                $("#sembrado_tuboN").val(response.dataColi[0].Tubo_n);
-                $("#sembrado_bitacora").val(response.dataColi[0].Bitacora);
-
-                //--------------------------
-                fecha = response.dataColi[1].Preparacion;
-                fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm');
-                fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');
-                $('#pruebaPresuntiva_preparacion').val(fechaFormateada);
-
-                fecha = response.dataColi[1].Lectura;
-                fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm');
-                fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');
-                $('#pruebaPresuntiva_lectura').val(fechaFormateada);
-
-                //--------------------------
-                $('#pruebaConfirmativa_medio').val(response.dataColi[2].Medio);
-
-                fecha = response.dataColi[2].Preparacion;
-                fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm');
-                fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');
-                $('#pruebaConfirmativa_preparacion').val(fechaFormateada);
-
-                fecha = response.dataColi[2].Lectura;
-                fechaIngresada = moment(fecha, 'YYYY-MM-DDTHH:mm');
-                fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DDTHH:mm');
-                $('#pruebaConfirmativa_lectura').val(fechaFormateada);
-
-            } else {
-                $("#sembrado_loteId").val('');
-                $("#sembrado_sembrado").val('');
-                $("#sembrado_fechaResiembra").val('');
-                $("#sembrado_tuboN").val('');
-                $("#sembrado_bitacora").val('');
-
-                $('#pruebaPresuntiva_preparacion').val('');
-                $('#pruebaPresuntiva_lectura').val('');
-
-                $('#pruebaConfirmativa_medio').val('');
-                $('#pruebaConfirmativa_preparacion').val('');
-                $('#pruebaConfirmativa_lectura').val('');
-            }
-
             //------------DQO------------
             if (response.dataDqo !== null) {
                 $("#ebullicion_loteId").val(response.dataDqo.Id_lote);
-
-                /* Seccion de Tecnica */
-                
-
-
-                /* let fecha = response.dataDqo.Inicio;
-                let fechaIngresada = moment(fecha, 'DD-MM-YYYY');
-                let fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DD'); */
                 $("#ebullicion_inicio").val(response.dataDqo.Inicio);
-
-                /* fecha = response.dataDqo.Fin;
-                fechaIngresada = moment(fecha, 'DD-MM-YYYY');
-                fechaFormateada = moment(fechaIngresada).format('yyyy-MM-DD'); */
                 $("#ebullicion_fin").val(response.dataDqo.Fin);
-
                 $("#ebullicion_invlab").val(response.dataDqo.Invlab);
+                selectElement('tecnicaDqo', response.detalleDqo.Tecnica);    
             } else {
                 $("#ebullicion_loteId").val('');
                 $("#ebullicion_inicio").val('');
                 $("#ebullicion_fin").val('');
                 $("#ebullicion_invlab").val('');
             }
-            //-----------------------------------------
 
-            console.log("actualizado");
-
-            if (response.reporte !== null) {
-                summer.innerHTML = '<div id="summernote">' + response.reporte.Texto + '</div>';
-                $('#summernote').summernote({
-                    placeholder: '',
-                    tabsize: 2,
-                    height: 100,
-
-                });
-            } else {
-                $.ajax({
-                    type: "POST",
-                    url: base_url + "/admin/laboratorio/" + area + "/getPlantillaPredVol",
-                    data: {
-                        idLote: $("#idLoteHeader").val(),
-                        _token: $('input[name="_token"]').val(),
-                    },
-                    dataType: "json",
-                    async: false,
-                    success: function (response) {
-                        //console.log(response);                        
-                        summer.innerHTML = '<div id="summernote">' + response.Texto + '</div>';
-                        $('#summernote').summernote({
-                            placeholder: '',
-                            tabsize: 2,
-                            height: 100,
-
-                        });
-                    }
-                });
-            }
 
             switch ($("#tipoFormula").val()) {
                 case '33': // CLORO RESIDUAL LIBRE
@@ -681,6 +508,14 @@ function getDatalote() {
                     break;
             }
 
+            $("#tituloBit").val(response.plantilla[0].Titulo)
+            $("#revBit").val(response.plantilla[0].Rev)
+            summer.innerHTML = '<div id="summernote">'+response.plantilla[0].Texto+'</div>';
+            $('#summernote').summernote({
+                placeholder: '', 
+                tabsize: 2,
+                height: 300,         
+            }); 
         }
     });
 }

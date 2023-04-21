@@ -491,9 +491,9 @@ class CotizacionController extends Controller
         DB::table('cotizacion_parametros')->where('Id_cotizacion', $res->id)->delete();
         for ($i = 0; $i < sizeof($res->param); $i++) {
             $subnorma = NormaParametros::where('Id_norma', $res->subnorma)->where('Id_parametro', $res->param[$i]["id"])->get();
-
+ 
             $extra = 0;
-            if ($subnorma->count() > 0) {
+            if ($subnorma->count()) {
                 $extra = 0;
             } else {
                 $extra = 1;
@@ -503,7 +503,7 @@ class CotizacionController extends Controller
                 'Id_cotizacion' => $res->id,
                 'Id_subnorma' => $res->param[$i]["id"],
                 'Extra' => $extra,
-                'Reporte' => $subnorma[0]->Reporte,
+                // 'Reporte' => $subnorma[0]->Reporte,
             ]);
         }
         $parametro = DB::table('ViewCotParam')->where('Id_cotizacion', $res->id)->get();

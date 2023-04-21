@@ -251,7 +251,7 @@
                 <table class="{{-- table table-borderless --}} table-sm {{-- colorBorde --}}" width="100%">
                     <tr>
                       <td class="bordesTabla justifyCenter" colspan="2"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{asset('public/storage/'.@$firmaRecepcion->firma)}}"></td>
-                      <td class="bordesTabla justifyCenter" colspan="2"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{url("/public/storage")."/".$firmaRes->firma}}"></td>                      
+                      <td class="bordesTabla justifyCenter" colspan="2"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{url("/public/storage")."/".@$firmaRes->firma}}"></td>                      
                     </tr>
 
                     <tr>

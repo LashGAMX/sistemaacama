@@ -71,11 +71,280 @@
             Dato 1
           </div>
           <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <div class="row">
-              <h6>Flama/ Gnerador de hidruros/Horno de grafito/ Alimentos</h6>
+            <div class="row" style="padding 5px;">
               <div class="col-md-12">
-
+                <button class="btn btn-success" id="btnGuardarDetalle" type="button"><i class="fas fa-save"></i> Guardar</button>
               </div>
+              <div class="col-md-12">
+                <h6>Flama/ Gnerador de hidruros/Horno de grafito/ Alimentos</h6>
+              </div>
+              <div class="col-md-12">
+                <div class="dropdown-divider"></div>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label for="">Fecha/Hora digestión</label>
+                    <input type="datetime-local"  class="form-control form-control-sm" id="fechaDigestion">
+                  </div>
+                  <div class="col-md-4">
+                    <label>Longitud de onda</label> 
+                    <input type="text" class="form-control form-control-sm" id="longitudOnda"> 
+                  </div>
+                  <div class="col-md-4">
+                    <label>No Inventario</label> 
+                    <input type="text" class="form-control form-control-sm" id="noInventario"> 
+                  </div>
+                  <div class="col-md-4">
+                    <label for="">Corriente</label>
+                    <input type="text" class="form-control" id="corriente">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="">Gas</label>
+                    <input type="text" class="form-control" id="gas">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="">Flujo gas</label>
+                    <input type="text" class="form-control" id="flujoGas">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="">No Inventario de lampara</label>
+                    <input type="text" class="form-control" id="noLampara">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="">Energia</label>
+                    <input type="text" class="form-control" id="energia">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="">Aire</label>
+                    <input type="text" class="form-control" id="aire">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="">Equipo</label>
+                    <input type="text" class="form-control" id="equipo">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="">Slit</label>
+                    <input type="text" class="form-control" id="slit">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="">Conc. Std</label>
+                    <input type="text" class="form-control" id="conStd">
+                  </div>
+                  <div class="col-md-4">
+                    <label for="">Oxido nitroso</label>
+                    <input type="text" class="form-control" id="oxidoNitroso">
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="dropdown-divider"></div>
+              </div>
+              <div class="col-md-12">
+                <h6>Blanco de curva</h6>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for="">Verificación de blanco</label>
+                        <input type="text"  class="form-control" id="verificacionBlanco">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">ABS teorica de blanco</label>
+                        <input type="text"  class="form-control" id="absTeoricaB">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for="">Abs 1</label>
+                        <input type="text"  class="form-control" id="abs1B">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Abs 2</label>
+                        <input type="text"  class="form-control" id="abs2B">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Abs 3</label>
+                        <input type="text"  class="form-control" id="abs3B">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Abs 4</label>
+                        <input type="text"  class="form-control" id="abs4B">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Abs 5</label>
+                        <input type="text"  class="form-control" id="abs5B">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Promedio</label>
+                        <input type="text"  class="form-control" id="promedioB">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Conclusión</label>
+                        <input type="text"  class="form-control" id="conclusionB">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="dropdown-divider"></div>
+              </div>
+              <div class="col-md-12">
+                <h6>Verificacion del espectofotometro</h6>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for="">Std. Cal</label>
+                        <input type="text"  class="form-control" id="stdCalE">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">ABS teorica</label>
+                        <input type="text"  class="form-control" id="absTeoricaE">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Conc. mg/L</label>
+                        <input type="text"  class="form-control" id="concE">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for="">Abs 1</label>
+                        <input type="text"  class="form-control" id="abs1E">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Abs 2</label>
+                        <input type="text"  class="form-control" id="abs2E">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Abs 3</label>
+                        <input type="text"  class="form-control" id="abs3e">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Abs 4</label>
+                        <input type="text"  class="form-control" id="abs4E">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Abs 5</label>
+                        <input type="text"  class="form-control" id="abs5E">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Promedio</label>
+                        <input type="text"  class="form-control" id="promedioE">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Masa caracteristica (pg/0.0044 A-s)</label>
+                        <input type="text"  class="form-control" id="masaE">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Conclusión</label>
+                        <input type="text"  class="form-control" id="conclusionE">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Conc. Obtenida</label>
+                        <input type="text"  class="form-control" id="concObtenidaE">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">% Rec</label>
+                        <input type="text"  class="form-control" id="recE">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Cumple</label>
+                        <input type="text"  class="form-control" id="cumpleE">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="dropdown-divider"></div>
+              </div>
+              <div class="col-md-12">
+                <h6>Estandar de verificación del instrumento</h6>
+              </div>
+              <div class="col-md-12">
+                <div class="row">
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for="">Conc. (mg/L)</label>
+                        <input type="text"  class="form-control" id="concI">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">DESV. STD</label>
+                        <input type="text"  class="form-control" id="desvI">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Cumple</label>
+                        <input type="text"  class="form-control" id="cumpleI">
+                      </div>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="row">
+                      <div class="col-md-12">
+                        <label for="">Abs 1</label>
+                        <input type="text"  class="form-control" id="abs1I">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Abs 2</label>
+                        <input type="text"  class="form-control" id="abs2I">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Abs 3</label>
+                        <input type="text"  class="form-control" id="abs3I">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Abs 4</label>
+                        <input type="text"  class="form-control" id="abs4I">
+                      </div>
+                      <div class="col-md-12">
+                        <label for="">Abs 5</label>
+                        <input type="text"  class="form-control" id="abs5I">
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-md-12">
+                <div class="dropdown-divider"></div>
+              </div>
+              <div class="col-md-12">
+                <h6>Curva de calibración</h6>
+              </div>
+              <div class="6">
+                <label for="">Bitacora</label> 
+                <input type="text" class="form-control" id="bitacora">
+              </div>
+              <div class="6">
+                <label for="">Folio</label> 
+                <input type="text" class="form-control" id="folio">
+              </div>
+
+              <div class="col-md-12">
+                <div class="dropdown-divider"></div>
+              </div>
+              <div class="col-md-12">
+                <h6>Generador de hidruros</h6>
+              </div>
+              <div class="6">
+                <label for="">Valor</label> 
+                <input type="text" class="form-control" id="valor">
+              </div>
+
             </div>
           </div>
           <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">

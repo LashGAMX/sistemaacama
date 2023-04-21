@@ -363,7 +363,7 @@ function getSubNormas() {
           console.log(response);
           $.each(response.model,function(key,item){
             if (siralab.checked == true) {
-                punto.push(item.Punto);
+                punto.push(item.Punto +" "+item.Anexo +" " +item.Agua);
                 puntoId.push(item.Id_punto);
             } else {
                 punto.push(item.Punto_muestreo);

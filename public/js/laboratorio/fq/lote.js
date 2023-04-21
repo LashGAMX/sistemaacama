@@ -175,6 +175,78 @@ function getDetalleLoteFq(id,parametro)
                 tabsize: 2,
                 height: 300,         
             }); 
+            // LLENADO DE GRASAS DETALLE
+            $('#temp1').val(response.grasasDetalle.Calentamiento_temp1);
+            $('#entrada1').val(response.grasasDetalle.Calentamiento_entrada1);
+            $('#salida1').val(response.grasasDetalle.Calentamiento_salida1);
+            $('#temp2').val(response.grasasDetalle.Calentamiento_temp2);
+            $('#entrada2').val(response.grasasDetalle.Calentamiento_entrada2);
+            $('#salida2').val(response.grasasDetalle.Calentamiento_salida2);
+            $('#temp3').val(response.grasasDetalle.Calentamiento_temp3);
+            $('#entrada3').val(response.grasasDetalle.Calentamiento_entrada3);
+            $('#salida3').val(response.grasasDetalle.Calentamiento_salida3);
+
+            $('#2entrada1').val(response.grasasDetalle.Enfriado_entrada1);
+            $('#2salida1').val(response.grasasDetalle.Enfriado_salida1);
+            $('#2pesado1').val(response.grasasDetalle.Enfriado_pesado1);
+            $('#2entrada2').val(response.grasasDetalle.Enfriado_entrada2);
+            $('#2salida2').val(response.grasasDetalle.Enfriado_salida2);
+            $('#2pesado2').val(response.grasasDetalle.Enfriado_pesado2);
+            $('#2entrada3').val(response.grasasDetalle.Enfriado_entrada3);
+            $('#2salida3').val(response.grasasDetalle.Enfriado_salida3);
+            $('#2pesado3').val(response.grasasDetalle.Enfriado_pesado3);
+
+            $('#3temperatura').val(response.grasasDetalle.Secado_temp);
+            $('#3entrada').val(response.grasasDetalle.Secado_entrada);
+            $('#3salida').val(response.grasasDetalle.Secado_salida);
+
+            $('#4entrada').val(response.grasasDetalle.Reflujo_entrada);
+            $('#4salida').val(response.grasasDetalle.Reflujo_salida);
+
+            $('#5entrada').val(response.grasasDetalle.Enfriado_matraces_entrada);
+            $('#5salida').val(response.grasasDetalle.Enfriado_matraces_salida);
+        }
+    });
+}
+function guardarDetalleGrasas(){
+    $.ajax({ 
+        type: "POST",
+        url: base_url + "/admin/laboratorio/"+area+"/guardarDetalleGrasas",
+        data: {
+            id: idLote,
+            temp1:$('#temp1').val(),
+            entrada1:$('#entrada1').val(),
+            salida1:$('#salida1').val(),
+            temp2:$('#temp2').val(),
+            entrada2:$('#entrada2').val(),
+            salida2:$('#salida2').val(),
+            temp3:$('#temp3').val(),
+            entrada3:$('#entrada3').val(),
+            salida3:$('#salida3').val(),
+            dosentrada1:$('#2entrada1').val(),
+            dosalida1:$('#2salida1').val(),
+            dospesado1:$('#2pesado1').val(),
+            dosentrada2:$('#2entrada2').val(),
+            dosalida2:$('#2salida2').val(),
+            dospesado2:$('#2pesado2').val(),
+            dosentrada3:$('#2entrada3').val(),
+            dosalida3:$('#2salida3').val(),
+            dospesado3:$('#2pesado3').val(),
+            trestemperatura:$('#3temperatura').val(),
+            tresentrada:$('#3entradas').val(),
+            tressalida:$('#3salida').val(),
+            cuatroentrada:$('#4entrada').val(),
+            cuatrosalida:$('#4salida').val(),
+            cincoentrada:$('#5entrada').val(),
+            cincosalida:$('#5salida').val(),
+
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);                        
+            alert("Plantilla modificada")
         }
     });
 }

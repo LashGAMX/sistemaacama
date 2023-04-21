@@ -184,7 +184,8 @@ class SolicitudController extends Controller
     public function getPuntoMuestro(Request $res)
     {
         if ($res->siralab == "true") {
-            $model = PuntoMuestreoSir::where('Id_sucursal', $res->idSuc)->get();
+            // $model = PuntoMuestreoSir::where('Id_sucursal', $res->idSuc)->get();
+            $model = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal', $res->idSuc)->get();
         } else {
             $model = PuntoMuestreoGen::where('Id_sucursal', $res->idSuc)->get();
         }
@@ -408,7 +409,7 @@ class SolicitudController extends Controller
         // Convertir cadena a array de datos
 
         if ($res->id > 0) {
-            if ($res->siralab != NULL) {
+            if ($res->siralab != 0) {
                 $siralab = 1;
             } else {
                 $siralab = 0;
@@ -439,7 +440,6 @@ class SolicitudController extends Controller
                 'Hijo' => 0,
             ]);
 
-            // var_dump($model->Id_solicitud);
             $contPuntos = 0;
             DB::table('solicitud_puntos')->where('Id_solicitud', $model->Id_solicitud)->delete();
             for ($i = 0; $i < sizeof($res->puntos); $i++) {
@@ -487,7 +487,7 @@ class SolicitudController extends Controller
 
             if ($contPuntos > 0) {
                 for ($i = 0; $i < $contPuntos; $i++) {
-                    if ($res->siralab != NULL) {
+                    if ($res->siralab != 0) {
                         $siralab = 1;
                     } else {
                         $siralab = 0;
@@ -540,9 +540,9 @@ class SolicitudController extends Controller
                             'Id_solicitud' => $model2->Id_solicitud,
                             'Id_subnorma' => $res->parametros[$i],
                             'Extra' => $extra,
-                            'Reporte' => $chParam,
+                            'Reporte' => $chParam, 
                         ]);
-                    }
+                    } 
                 }
             }
         } else {
@@ -837,6 +837,7 @@ class SolicitudController extends Controller
             $direccion = DireccionReporte::where('Id_sucursal', $modTemp->Id_sucursal)->first();
             $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre', $modTemp->Id_solicitud)->get();
         }
+        var_dump($puntos->count());
 
         $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $modTemp->Id_solicitud)->where('Extra', 0)->orderBy('Parametro', 'ASC')->get();
         $extra = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $modTemp->Id_solicitud)->where('Extra', 1)->orderBy('Parametro', 'ASC')->get();

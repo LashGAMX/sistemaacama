@@ -98,7 +98,122 @@
             Dato 1
           </div>
           <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            Dato 2
+           
+        <!-- inicio tabla grasas   -->
+        <div class="row">
+        <h4>1. Calentamiento de Matraces</h4>
+        <hr />
+        <div class="col-md-12">
+          <table class="table">
+            <thead>
+              <th>Masa constante</th>
+              <th>Temperatura</th>
+              <th>Hora entrada</th>
+              <th>Hora salida</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><input type="text" id="temp1" /></td>
+                <td><input type="datetime-local" id="entrada1" /></td>
+                <td><input type="datetime-local" id="salida1" /></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><input type="text" id="temp2" /></td>
+                <td><input type="datetime-local" id="entrada2" /></td>
+                <td><input type="datetime-local" id="salida2" /></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><input type="text" id="temp3" /></td>
+                <td><input type="datetime-local" id="entrada3" /></td>
+                <td><input type="datetime-local" id="salida3" /></td>
+              </tr>
+            </tbody>
+          </table>
+          <h4>2. Enfriado de Matraces</h4>
+          <hr />
+          <table class="table">
+            <thead>
+              <th>Masa constante</th>
+              <th>Hora entrada</th>
+              <th>Hora salida</th>
+              <th>Hora pesado de matraces</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>1</td>
+                <td><input type="datetime-local" id="2entrada1" /></td>
+                <td><input type="datetime-local" id="2salida1" /></td>
+                <td><input type="datetime-local" id="2pesado1" /></td>
+              </tr>
+              <tr>
+                <td>2</td>
+                <td><input type="datetime-local" id="2entrada2" /></td>
+                <td><input type="datetime-local" id="2salida2" /></td>
+                <td><input type="datetime-local" id="2pesado2" /></td>
+              </tr>
+              <tr>
+                <td>3</td>
+                <td><input type="datetime-local" id="2entrada3" /></td>
+                <td><input type="datetime-local" id="2salida3" /></td>
+                <td><input type="datetime-local" id="2pesado3" /></td>
+              </tr>
+            </tbody>
+          </table>
+          <h4>3. Secado de Cartuchos</h4>
+          <hr />
+          <table class="table">
+            <thead>
+              <th>Temperatura</th>
+              <th>Hora entrada</th>
+              <th>Hora salida</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="number" id="3temperatura" /></td>
+                <td><input type="datetime-local" id="3entrada" /></td>
+                <td><input type="datetime-local" id="3salida" /></td>
+              </tr>
+            </tbody>
+          </table>
+          <h4>4. Tiempo de reflujo</h4>
+          <hr />
+          <table class="table">
+            <thead>
+              <th>Hora entrada</th>
+              <th>Hora salida</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="datetime-local" id="4entrada" /></td>
+                <td><input type="datetime-local" id="4salida" /></td>
+              </tr>
+            </tbody>
+          </table>
+          <h4>5. Enfriado de matraces</h4>
+          <hr />
+          <table class="table">
+            <thead>
+              <th>Hora entrada</th>
+              <th>Hora salida</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td><input type="datetime-local" id="5entrada" /></td>
+                <td><input type="datetime-local" id="5salida" /></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+        <button type="button" id="btnGuardarDetalleGasas" onclick="guardarDetalleGrasas()" class="btn btn-primary">Guardar</button>
+      </div>
+<!-- fin de tabla grasas -->
+
           </div>
           <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
             <div class="row">

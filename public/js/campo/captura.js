@@ -819,6 +819,9 @@ function SetDatosCompuestos(){
         async: false,
         success: function (response) {
             console.log(response);
+            
+            alert("Datos de Campo Guardados!","success");
+            window.location.href = base_url + "/admin/campo/capturar";
         },
     }); 
 }

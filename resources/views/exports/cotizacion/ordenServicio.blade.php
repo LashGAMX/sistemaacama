@@ -107,8 +107,8 @@
                                 $cont = 1;
                             @endphp
                             @foreach ($puntos as $item)
-                                @if (@$modTemp->Siralab == 1)
-                                    {{$cont."- "}}{{$item->Punto}}
+                                @if (@$modTemp->Siralab != 1)
+                                    {{$cont."- "}}{{$item->Punto}} 
                                 @else
                                     {{$cont."- "}}{{$item->Punto_muestreo}}
                                 @endif

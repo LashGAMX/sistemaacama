@@ -31,6 +31,7 @@ use App\Models\PruebaPresuntivaFq;
 use App\Models\SembradoFq;
 use App\Models\DqoFq;
 use App\Models\EnfriadoMatraces;
+use App\Models\GrasasDetalle;
 use App\Models\EnfriadoMatraz;
 use App\Models\LoteDetalleDqo;
 use App\Models\LoteDetalleDureza;
@@ -830,6 +831,7 @@ class FqController extends Controller
     }
     public function getDetalleLoteFq(Request $res)
     {
+        $grasasDetalle = GrasasDetalle::where('Id_lote', $res->id)->first();
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
         $plantilla = BitacoraFq::where('Id_lote', $res->id)->get();
         if ($plantilla->count()) {
@@ -839,8 +841,45 @@ class FqController extends Controller
         $data = array(
             'plantilla' => $plantilla,
             'lote' => $lote,
+            'grasasDetalle' => $grasasDetalle,
         );
         return response()->json($data);
+    }
+    public function guardarDetalleGrasas(Request $request){
+        $model = GrasasDetalle::find($request->id);
+        $model->Calentamiento_temp1 = $request->temp1;
+        $model->Calentamiento_entada1 = $request->entrada1;
+        $model->Calentamiento_salida1 = $request->salida1;
+        $model->Calentamiento_temp2 = $request->temp2;
+        $model->Calentamiento_entada2 = $request->entrada2;
+        $model->Calentamiento_salida2 = $request->salida2;
+        $model->Calentamiento_temp3 = $request->temp3;
+        $model->Calentamiento_entada3 = $request->entrada3;
+        $model->Calentamiento_salida3 = $request->salida3;
+        $model->Enfriado_entrada1 = $request->dosentrada1;
+        $model->Enfriado_salida1 = $request->dosalida1;
+        $model->Enfriado_pesado1 = $request->dospesado1;
+        $model->Enfriado_entrada2 = $request->dosentrada2;
+        $model->Enfriado_salida2 = $request->dosalida2;
+        $model->Enfriado_pesado2 = $request->dospesado2;
+        $model->Enfriado_entrada3 = $request->dosentrada3;
+        $model->Enfriado_salida3 = $request->dosalida3;
+        $model->Enfriado_pesado3 = $request->dospesado3;
+        $model->Secado_temp = $request->trestemperatura;
+        $model->Secado_entrada = $request->tresentrada;
+        $model->Secado_salida = $request->tressalidada;
+        $model->Reflujo_entrada = $request->cuatroentrada;
+        $model->Reflujo_salida = $request->cutrosalida;
+        $model->Enfriado_matraces_entrada = $request->cincoentrada;
+        $model->Enfriado_matraces_salida = $request->cincosalida;
+        $model->save();
+        
+        $data = array(
+            'model' => $model,
+        );
+
+        return response()->json($data);
+
     }
     public function setPlantillaDetalleFq(Request $res)
     {
@@ -903,6 +942,12 @@ class FqController extends Controller
             'Liberado' => 0,
             'Fecha' => $request->fecha,
         ]);
+
+        if ($request->tipo == 13){
+            GrasasDetalle::create([
+                'Id_lote' => $model->Id_lote,
+            ]);
+        }
         $data = array(
             'model' => $model,
         );

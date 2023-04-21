@@ -277,7 +277,7 @@ class VolController extends Controller
         $idLoteIf = $request->idLote;
 
         //RECUPERA LA PLANTILLA DEL REPORTE    
-        $reporte = ReportesFq::where('Id_lote', $request->idLote)->first();
+        // $reporte = ReportesFq::where('Id_lote', $request->idLote)->first();
 
         //RECUPERA EL APARTADO DE FÓRMULAS GLOBALES;
         $constantesModel = CurvaConstantes::where('Id_lote', $request->idLote)->get();
@@ -286,78 +286,6 @@ class VolController extends Controller
         } else {
             $constantes = null;
         }
-
-        /*Módulo de Grasas*/
-        $dataGrasas = array();
-
-        $calentamientoFq = DB::table('calentamiento_matraces')->where('Id_lote', $request->idLote)->get();
-        $enfriadoFq = DB::table('enfriado_matraces')->where('Id_lote', $request->idLote)->get();
-        $secadoFq = DB::table('secado_cartuchos')->where('Id_lote', $request->idLote)->get();
-        $tiempoFq = DB::table('tiempo_reflujo')->where('Id_lote', $request->idLote)->get();
-        $enfriadoMatrazFq = DB::table('enfriado_matraz')->where('Id_lote', $request->idLote)->get();
-
-        if ($calentamientoFq->count()) {
-            array_push($dataGrasas, $calentamientoFq);
-        } else {
-            array_push($dataGrasas, null);
-        }
-
-        if ($enfriadoFq->count()) {
-            array_push($dataGrasas, $enfriadoFq);
-        } else {
-            array_push($dataGrasas, null);
-        }
-
-        if ($secadoFq->count()) {
-            $secadoCartucho = SecadoCartucho::where('Id_lote', $request->idLote)->first();
-            array_push($dataGrasas, $secadoCartucho);
-        } else {
-            array_push($dataGrasas, null);
-        }
-
-        if ($tiempoFq->count()) {
-            $tiempoReflujo = TiempoReflujo::where('Id_lote', $request->idLote)->first();
-            array_push($dataGrasas, $tiempoReflujo);
-        } else {
-            array_push($dataGrasas, null);
-        }
-
-        if ($enfriadoMatrazFq->count()) {
-            $enfriadoMatraz = EnfriadoMatraz::where('Id_lote', $request->idLote)->first();
-            array_push($dataGrasas, $enfriadoMatraz);
-        } else {
-            array_push($dataGrasas, null);
-        }
-
-
-        /* Módulo de coliformes */
-        $dataColi = array();
-
-        $sembradoFq = DB::table('sembrado_fq')->where('Id_lote', $request->idLote)->get();
-        $pruebaPresuntivaFq = DB::table('prueba_presuntiva_fq')->where('Id_lote', $request->idLote)->get();
-        $pruebaConfirmativaFq = DB::table('prueba_confirmativa_fq')->where('Id_lote', $request->idLote)->get();
-
-        if ($sembradoFq->count() && $pruebaPresuntivaFq->count() && $pruebaConfirmativaFq->count()) {
-            $sembradoFq = SembradoFq::where('Id_lote', $request->idLote)->first(); //Array 0
-            $pruebaPresunFq = PruebaPresuntivaFq::where('Id_lote', $request->idLote)->first(); //Array 1
-            $pruebaConfirFq = PruebaConfirmativaFq::where('Id_lote', $request->idLote)->first(); //Array 2
-
-            array_push(
-                $dataColi,
-                $sembradoFq,
-                $pruebaPresunFq,
-                $pruebaConfirFq
-            );
-        } else {
-            array_push(
-                $dataColi,
-                null,
-                null,
-                null
-            );
-        }
-        //-------------------------------------
-
         /* Módulo DQO */
         $dqoModel = DB::table('dqo_fq')->where('Id_lote', $request->idLote)->get();
 
@@ -387,15 +315,19 @@ class VolController extends Controller
                 $valoracion = ValoracionNitrogeno::where('Id_lote', $request->idLote)->first();
                 break;
         }
+        $plantilla = BitacoraVolumetria::where('Id_lote', $request->idLote)->get();
+        if ($plantilla->count()) {
+        } else {
+            $plantilla = PlantillaVolumetria::where('Id_parametro', $paraModel->Id_tecnica)->get();
+        }
+
 
         //-------------------------------------
         $data = array(
+            'plantilla' => $plantilla,
             'valoracion' => $valoracion,
             'curvaConstantes' => $constantes,
             'idLoteIf' => $idLoteIf,
-            'reporte' => $reporte,
-            'dataGrasas' => $dataGrasas,
-            'dataColi' => $dataColi,
             'dataDqo' => $dqo,
             'detalleDqo' => $detalleDqo,
         );

@@ -98,22 +98,18 @@
             </tbody>
         </table>
         
-        <table class="table" style="font-size: 9px;" width="100%">
+        <table class="table" style="font-size: 9px;" width="50%">
             <tr>
                 <td class="fontBold fontCalibri fontSize10">CANTIDAD SERVICIOS: </td>
                 <td class="fontBold fontCalibri fontSize10">{{$puntos->count()}}</td>
-                <td class="fontBold fontCalibri fontSize10">COSTO PAQUETE</td>
+            </tr>
+            <tr>
+                <td class="fontBold fontCalibri fontSize10">COSTO PAQUETE UNITARIO</td>
                 <td class="fontBold fontCalibri fontSize10">$                    
                     @php
-                        echo number_format(@$model->Precio_analisis, 2, ".", ",");
+                        echo number_format(($model->Precio_analisis / $puntos->count()), 2, ".", ",");
                     @endphp
                 </td>
-                <!-- <td class="fontBold fontCalibri fontSize10">COSTO TOTAL SIN IVA</td>
-                <td class="fontBold fontCalibri fontSize10">$                    
-                    @php
-                        echo number_format(@$model->Sub_total, 2, ".", ",");
-                    @endphp
-                </td> -->
             </tr>
         </table>
 

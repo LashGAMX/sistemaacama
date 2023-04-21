@@ -197,11 +197,11 @@ function getParametrosSelected()
         $.each(response.parametros, function (key, item) {
             $.each(response.model, function (key, item2) {
               if(item.Id_parametro == item2.Id_subnorma){
-                sw = true;
+                sw = true; 
               }
             }); 
             json.push({
-              "parametro" : item.Parametro,
+              "parametro" : "("+item.Id_parametro+")"+item.Parametro,
               "id":item.Id_parametro,
               "selected":sw,
             })
