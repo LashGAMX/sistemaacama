@@ -57,7 +57,13 @@
                     <td class="tableContent">{{@$item->Abs2}}</td>
                     <td class="tableContent">{{@$item->Abs3}}</td>
                     <td class="tableContent">{{@$item->Promedio}}</td>
-                    <td class="tableContent">{{@$item->Limite}}</td>
+                    <td class="tableContent">
+                        @if (@$item->Resultado < @$item->Limite)
+                            < {{@$item->Limite}}
+                        @else
+                            {{@$item->Resultado}}
+                        @endif
+                    </td>
                     <td class="tableContent">{{@$item->Observacion}}</td>
                     <td class="tableContent">
                         @if (@$item->Liberado == 1)

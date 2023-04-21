@@ -137,20 +137,23 @@ function getDetalleLote(idLote,idParametro)
         data: {
             idLote: idLote,
             idParametro:idParametro,
-            fecha:$("#fecha").val(),
+            fecha:$("#fecha").val(), 
             _token: $('input[name="_token"]').val()
         }, 
         dataType: "json",
         async: false,
         success: function (response) {            
-            console.log(response);
-            summer.innerHTML = '<div id="summernote">'+response.model.Texto+'</div>';
+            console.log(response);                        
+            $("#tituloBit").val(response.plantilla[0].Titulo)
+            $("#revBit").val(response.plantilla[0].Rev)
+            summer.innerHTML = '<div id="summernote">'+response.plantilla[0].Texto+'</div>';
+
+            // summer.innerHTML = '<div id="summernote">Hola Modal</div>';
             $('#summernote').summernote({
-                placeholder: '',
-                tabsize: 2,
-                height: 100,
-        
-            });
+                placeholder: '', 
+                tabsize: 2, 
+                height: 300,         
+            }); 
         }
     });
 }
@@ -180,13 +183,15 @@ function setPlantilla()
         url: base_url + "/admin/laboratorio/"+area+"/setPlantilla",
         data: {
             id:$("#idLote").val(),
-            texto: $("#summernote").html(),
+            texto: $("#summernote").summernote('code'),
+            titulo: $("#tituloBit").val(),
+            rev:$("#revBit").val(),
             _token: $('input[name="_token"]').val()
         }, 
         dataType: "json",
-        success: function (response) {            i
+        success: function (response) {       
             console.log(response);
             alert("Plantilla guardada")
         }
     });
-}
+} 

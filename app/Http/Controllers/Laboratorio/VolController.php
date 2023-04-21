@@ -1499,26 +1499,35 @@ public function sendMuestrasLote(Request $res)
                 break;
                 case 64:
                     $loteDetalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $idLote)->get();
-                    $plantilla= BitacoraVolumetria::where('Id_lote',$idLote)->get(); 
+                    $plantilla= BitacoraVolumetria::where('Id_lote',$idLote)->get();  
                     if ($plantilla->count()) {
                     }else{
                         $plantilla = PlantillaVolumetria::where('Id_parametro', $lote->Id_tecnica)->get(); 
                     }
                     $procedimiento = explode("NUEVASECCION",$plantilla[0]->Texto);
                     $valoracion = ValoracionCloro::where('Id_lote',$idLote)->first();
+                    $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
+                    if ($comprobacion->count()) {
+                        $analizo = "";
+                    } else {
+                        $analizo = User::where('id', $loteDetalle[0]->Analizo)->first();
+                    }
+                    $reviso = User::where('id', 17)->first();
                     $data = array(
                         'lote' => $lote,  
                         'valoracion' => $valoracion,
                         'loteDetalle' => $loteDetalle,
-                        'plantilla' => $plantilla, 
-                        'procedimiento' => $procedimiento,
+                        'plantilla' => $plantilla,  
+                        'procedimiento' => $procedimiento, 
+                        'comprobacion' => $comprobacion,
+                        'analizo' => $analizo,
+                        'reviso' => $reviso, 
                     );
                     $htmlFooter = view('exports.laboratorio.volumetria.cloruros.capturaFooter', $data);
                     $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                     $htmlHeader = view('exports.laboratorio.volumetria.cloruros.capturaHeader', $data); 
                     $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                     $htmlCaptura = view('exports.laboratorio.volumetria.cloruros.capturaBody',$data);
-                    $mpdf->SetHTMLFooter("", 'O', 'E');
                     $mpdf->WriteHTML($htmlCaptura);
                     $mpdf->CSSselectMedia = 'mpdf';
                     break;
@@ -1542,13 +1551,20 @@ public function sendMuestrasLote(Request $res)
                 case 287:
                 case 9:
                     $loteDetalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $idLote)->get();
-                    $textProcedimiento = DB::table('plantilla_volumetria')->where('Id_parametro', 287)->first();
                     $valNitrogenoA = ValoracionNitrogeno::where('Id_lote',$idLote)->first();
+                    $plantilla= BitacoraVolumetria::where('Id_lote',$idLote)->get(); 
+                    if ($plantilla->count()) {
+                    }else{
+                        $plantilla = PlantillaVolumetria::where('Id_parametro', $lote->Id_tecnica)->get(); 
+                    }
+                    $procedimiento = explode("NUEVASECCION",$plantilla[0]->Texto);
+                    $valoracion = ValoracionCloro::where('Id_lote',$idLote)->first();
                     $data = array(
                         'lote' => $lote, 
                         'loteDetalle' => $loteDetalle,
-                        'textProcedimiento' => $textProcedimiento, 
                         'valNitrogenoA' => $valNitrogenoA,
+                        'plantilla' => $plantilla, 
+                        'procedimiento' => $procedimiento,
                     );
                     $htmlCaptura = view('exports.laboratorio.volumetria.nitrogenoA.capturaBody',$data);
                     $htmlHeader = view('exports.laboratorio.volumetria.nitrogenoA.capturaHeader', $data);

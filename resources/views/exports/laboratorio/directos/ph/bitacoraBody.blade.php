@@ -5,55 +5,59 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/exports/bitacoras.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/cianuros/cianurosPDF.css')}}">
     <title>Captura PDF</title>
 </head>
 
 <body>
 
-    <div class="procedimiento">
+    <div id="contenidoCurva">
         @php
-        echo @$plantilla->Texto;
-        @endphp
+            echo @$procedimiento[0];
+        @endphp 
     </div>
     <br>
-    <div id="contenedorTabla">
-
-
-        <br>
-
-        <table autosize="1" class="tabla2" border="0">
+    <div class="contenedorTabla">
+        <table autosize="1" class="table table-borderless" id="tablaDatos">
             <thead> 
                 <tr>
-                    <th style="font-size: 10px">No. De muestra</th>
-                    <th style="font-size: 10px">Turb 1</th>
-                    <th style="font-size: 10px">Turb 2</th>
-                    <th style="font-size: 10px">Turb 3</th>
-                    <th style="font-size: 8px">Turbiedad UTN</th>
-                    <th style="font-size: 10px">Observaciones</th>
-                    <th style="font-size: 10px"></th>
-                    <th style="font-size: 10px"></th>
+                    <th class="tableCabecera anchoColumna">No. De muestra</th>
+                    <th class="tableCabecera anchoColumna">Temperatura muestra (C°)</th>
+                    <th class="tableCabecera anchoColumna">Lectura de pH1</th>
+                    <th class="tableCabecera anchoColumna">Lectura de pH2</th>
+                    <th class="tableCabecera anchoColumna">Lectura de pH3</th>
+                    <th class="tableCabecera anchoColumna">Promedio de Potencial de <br> Hidrogeno (UPH)</th>  
+                    <th class="tableCabecera anchoColumna">Observaciones</th>
+                    <th class="anchoColumna"></th>
+                    <th class="anchoColumna"></th>
                 </tr> 
-            </thead>
-            <tbody>
+            </thead> 
+            <tbody> 
                 @foreach ($model as $item)
-                    <tr>
-                        <td>{{ $item->Codigo }}</td>
-                        <td>{{ $item->Lectura1 }}</td>
-                        <td>{{ $item->Lectura2 }}</td>
-                        <td>{{ $item->Lectura3 }}</td>
-                        <td>{{ $item->Resultado }}</td>
-                        <td>{{ $item->Observacion }}</td>
+                    <tr> 
+                        <td class="tableContent">{{ $item->Codigo }}</td>
+                        <td class="tableContent">{{ $item->Temperatura }}</td>
+                        <td class="tableContent">{{ $item->Lectura1 }}</td>
+                        <td class="tableContent">{{ $item->Lectura2 }}</td>
+                        <td class="tableContent">{{ $item->Lectura3 }}</td>
+                        <td class="tableContent">{{ $item->Resultado }}</td>
+                        <td class="tableContent">{{ $item->Observacion }}</td>
                         @if ($item->Liberado != NULL)
-                            <td>LIBERADO</td>
+                            <td class="tableContent">LIBERADO</td>
                         @else
-                            <td>NO LIBERADO</td>
+                            <td class="tableContent">NO LIBERADO</td>
                         @endif
-                        <td>{{ $item->Control }}</td>
+                        <td class="tableContent">{{ $item->Control }}</td>
                     </tr>
                 @endforeach
             </tbody>
         </table>
+    </div>
+    <div id="contenidoCurva">
+        @php
+            echo @$procedimiento[1];
+        @endphp 
+    </div>
 </body>
 
 </html>

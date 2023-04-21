@@ -330,6 +330,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
             Route::post('updateObsMuestraEcoli', [MbController::class, 'updateObsMuestraEcoli']);
             Route::post('createControlCalidadMb', [MbController::class, 'createControlCalidadMb']);
             Route::post('createControlesCalidadMb', [MbController::class, 'createControlesCalidadMb']);
+            Route::post('setPlantillaDetalleMb', [MbController::class, 'setPlantillaDetalleMb']);
             
             
             Route::post('liberarMuestra', [MbController::class, 'liberarMuestra']);

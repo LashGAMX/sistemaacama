@@ -11,6 +11,7 @@ use App\Models\Parametro;
 use App\Models\PlantillaDirectos;
 use App\Models\ControlCalidad;
 use App\Models\Promedio;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -75,31 +76,38 @@ class DirectosController extends Controller
     }
     public function getDetalleLote(Request $res)
     {
-        $model = BitacoraDirectos::where('Id_lote', $res->idLote)->get();
-        if ($model->count()) {
-            $model = BitacoraDirectos::where('Id_lote', $res->idLote)->first();
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->idLote)->first();
+        $plantilla = BitacoraDirectos::where('Id_lote', $res->idLote)->get();
+        if ($plantilla->count()) {
         } else {
-            $model = PlantillaDirectos::where('Id_parametro', $res->idParametro)->first();
+            $plantilla = PlantillaDirectos::where('Id_parametro', $lote->Id_tecnica)->get();
         }
         $data = array(
-            'model' => $model,
+            'plantilla' => $plantilla,
         );
         return response()->json($data);
     }
     public function setPlantilla(Request $res)
     {
-        $model = BitacoraDirectos::where('Id_lote', $res->idLote)->get();
-        if ($model->count()) {
-            $model = BitacoraDirectos::where('Id_lote', $res->idLote)->first();
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
+        $temp = BitacoraDirectos::where('Id_lote', $res->id)->get();
+        if ($temp->count()) {
+            $model = BitacoraDirectos::where('Id_lote', $res->id)->first();
+            $model->Titulo = $res->titulo;
             $model->Texto = $res->texto;
+            $model->Rev = $res->rev;
             $model->save();
         } else {
             $model = BitacoraDirectos::create([
-                'Id_lote' => $res->idLote,
+                'Id_lote' => $res->id,
+                'Id_parametro' => $lote->Id_tecnica,
+                'Titulo' => $res->titulo,
                 'Texto' => $res->texto,
+                'Rev' => $res->rev,
             ]);
         }
         $data = array(
+            'lote' => $lote,
             'model' => $model,
         );
         return response()->json($data);
@@ -469,9 +477,9 @@ class DirectosController extends Controller
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 35,
+            'margin_top' => 40,
             'margin_bottom' => 45,
-            'defaultheaderfontstyle' => ['normal'],
+            'defaultheaderfontstyle' => ['normal'], 
             'defaultheaderline' => '0'
         ]);
         $mpdf->SetWatermarkImage(
@@ -487,11 +495,29 @@ class DirectosController extends Controller
         switch ($lote->Id_tecnica) {
             case 14: // PH
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillaDirectos::where('Id_parametro', 14)->first();
+                $plantilla = BitacoraDirectos::where('Id_lote', $idLote)->get();
+                if ($plantilla->count()) {
+                } else {
+                    $plantilla = PlantillaDirectos::where('Id_parametro', $lote->Id_tecnica)->get();
+                }
+                $procedimiento = explode("NUEVASECCION",$plantilla[0]->Texto);
+                //Comprobación de bitacora analizada
+                $comprobacion = LoteDetalleDirectos::where('Liberado', 0)->where('Id_lote', $idLote)->get();
+                if ($comprobacion->count()) {
+                    $analizo = "";
+                } else {
+                    $analizo = User::where('id', $model[0]->Analizo)->first();
+                }
+                $reviso = User::where('id', 17)->first();
+
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
-                    'plantilla' => $plantilla
+                    'plantilla' => $plantilla,
+                    'analizo' => $analizo, 
+                    'reviso' => $reviso,
+                    'comprobacion' => $comprobacion,
+                    'procedimiento' => $procedimiento,
                 );
 
                 $htmlHeader = view('exports.laboratorio.directos.ph.bitacoraHeader', $data);

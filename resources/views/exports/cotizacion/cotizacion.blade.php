@@ -148,9 +148,11 @@
             <tr>
                 <td class="fontBold fontCalibri fontSize10">CANTIDAD SERVICIOS: </td>
                 <td class="fontBold fontCalibri fontSize10">{{$puntos->count()}}</td>
-                <td class="fontBold fontCalibri fontSize10">COSTO PARAMETROS ESPECIALES</td>
+                <td class="fontBold fontCalibri fontSize10">COSTO PARAMETROS ESPECIALES UNITARIO</td>
                 <td class="fontBold fontCalibri fontSize10">$                    
-                    {{@$model->Precio_catalogo}}
+                     @php
+                         echo number_format(($model->Precio_catalogo / $puntos->count()), 2, ".", ",");
+                     @endphp
                 </td>
                 <!-- <td class="fontBold fontCalibri fontSize10">COSTO TOTAL SIN IVA</td>
                 <td class="fontBold fontCalibri fontSize10">$                    

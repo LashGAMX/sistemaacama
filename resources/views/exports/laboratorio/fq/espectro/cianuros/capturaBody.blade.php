@@ -50,7 +50,7 @@
             </thead>
     
             <tbody>
-                @foreach ($model as $item)
+                @foreach ($model as $item) 
                 <tr>
                     <td class="tableContent">
                         @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
@@ -86,7 +86,7 @@
                         @endif
                     </td>
                     @if ($item->Resultado <= $item->Limite)
-                        <td class="tableContent">< {{@$item->Limite}}</td>
+                        <td class="tableContent">< {{number_format(@$model[0]->Limite, 4, ".", ".")}}</td>
                     @else
                         <td class="tableContent">{{@$item->Resultado}}</td>
                     @endif
@@ -147,7 +147,7 @@
                         <td class="tableCabecera">m = </td>
                         <td class="tableContent">{{@$curva->M}}</td>                        
                         <td class="tableCabecera">Límite de cuantificación: </td>
-                        <td class="tableContent"> <{{@$model[0]->Limite}}</td>
+                        <td class="tableContent"> < {{number_format(@$model[0]->Limite, 4, ".", ".")}}</td>
                     </tr>
 
                     <tr>

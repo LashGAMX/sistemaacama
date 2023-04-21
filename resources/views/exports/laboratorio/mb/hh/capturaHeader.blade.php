@@ -1,9 +1,11 @@
-<p id='header1'>
-    DETERMINACION DE HUEVOS DE HELMINTO (NMX-AA-113-SCFI-2012) PROCEDIMIENTO: PE-10-002-33
+<p id='header1'>  
+    @php
+        echo $plantilla[0]->Titulo;
+    @endphp
 </p>
 
 <span class='textofecha'>Fecha de análisis </span> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; &nbsp;
-<span class="fecha">{{$fechaConFormato}}</span>
+<span class="fecha">{{$lote->Fecha}}</span>
 
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;

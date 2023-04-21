@@ -60,7 +60,7 @@
                     
                 </th>
             </tr>                        
-        </thead>
+        </thead> 
         
         <tbody>
 

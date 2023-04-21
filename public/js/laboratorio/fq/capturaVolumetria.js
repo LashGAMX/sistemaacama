@@ -707,8 +707,8 @@ function getDetalleVol(idDetalle, caso) {
                         $("#tituladosNitro1").val(response.model.Titulado_muestra);
                         $("#blancoNitro1").val(response.valoracion.Blanco);
                         $("#molaridadNitro1").val(response.valoracion.Resultado);
-                        $("#factorNitro1").val(response.model.Factor_equivalencia);
-                        $("#conversion1").val(response.model.Factor_conversion);
+                       // $("#factorNitro1").val(response.model.Factor_equivalencia);
+                        //$("#conversion1").val(response.model.Factor_conversion);
                         $("#volNitro1").val(response.model.Vol_muestra);
                         $("#observacionNitro").val(response.model.Observacion);
                         $("#resultadoNitro").val(response.model.Resultado);

@@ -5,24 +5,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="{{asset('/public/css/exports/bitacoras.css')}}">
+    <link rel="stylesheet" href="{{asset('/public/css/laboratorio/fq/espectro/cianuros/cianurosPDF.css')}}">
     <title>Captura PDF</title>
 </head>
 
 <body>
 
-    <div class="procedimiento">
+    <div id="contenidoCurva">
         @php
-        echo @$procedimiento->Texto;
+        echo @$plantilla[0]->Texto;
         @endphp
     </div>
     <br>
-    <div id="contenedorTabla">
-
-
-        <br>
-
-        <table autosize="1" class="tabla" border="1">
+    <div class="contenedorTabla">
+        <table autosize="1" class="table table-borderless" id="tablaDatos">
             <thead>
                 <tr>
                     <th style="font-size: 10px" rowspan="2">No. De muestra</th>

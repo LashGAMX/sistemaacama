@@ -948,7 +948,7 @@ class MetalesController extends Controller
         $model = array();
         switch ($res->sw) {
             case 1:
-                $codigo = DB::table('ViewCodigoParametro')->where('Id_area',2)->where('Hijo','!=',0)->get();
+                $codigo = DB::table('ViewCodigoParametro')->where('Id_area',2)->where('Hijo','!=',0)->where('Asignado',0)->get();
                 foreach ($codigo as $item) {
                     $temp = array();
                     array_push($temp,$item->Id_codigo);
@@ -988,6 +988,7 @@ class MetalesController extends Controller
                 ->orWhere('Id_tipo_formula',24)
                 ->orWhere('Id_tipo_formula',21)
                 ->orWhere('Id_tipo_formula',58)
+                ->where('Asignado',0)
                 // ->where('Id_tipo_formula',$res->tipo)
                 ->where('Hora_recepcion','LIKE','%'.$res->fechaRecepcion.'%')
                 // ->where('Id_solicitud',93)

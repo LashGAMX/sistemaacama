@@ -36,17 +36,17 @@ $(document).ready(function () {
     });
 
     $('#btnGuardarBitacora').click(function () {
-        getPendientes()
+        setPlantillaDetalleMb()
     });
 
     //quill = new Quill('#editor', options);
 
 });
-
-function setPlantillaDetalleVol(){
+ 
+function setPlantillaDetalleMb(){
     $.ajax({ 
         type: "POST",
-        url: base_url + "/admin/laboratorio/"+area+"/setPlantillaDetalleVol",
+        url: base_url + "/admin/laboratorio/"+area+"/setPlantillaDetalleMb",
         data: {
             id: $('#idLoteHeader').val(),
             texto: $("#summernote").summernote('code'),

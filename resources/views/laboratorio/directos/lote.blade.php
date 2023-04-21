@@ -99,13 +99,11 @@
             </div>
             <div class="collapse" id="platilla">
               <div class="card card-body">
-                <div class="row">
+                <div class="row"> 
                   <div class="col-md-12">
-                    <div id="divSummer">
-                      <div id="summernote">
-                           
-                      </div>
-                    </div>
+                    <input type="text" id="tituloBit" hidden>
+                    <div id="divSummer"></div>
+                    <input type="text" id="revBit" hidden>
                   </div>
                   <div class="col-md-12">
                     <button class="btn btn-success" id="btnGuardarPlantilla">Guardar</button>

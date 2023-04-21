@@ -311,15 +311,15 @@
                                     <tr>
                                         <td>D</td>
                                         <td>Factor de quivalencia</td>
-                                        <td><input type="text" id="factorNitro1" value="0"></td>
-                                        <td><input type="text" id="factorNitro2" value="0"></td>
+                                        <td><input type="text" id="factorNitro1" value="2"></td>
+                                        <td><input type="text" id="factorNitro2" value="2"></td>
                                         <td>C</td>
                                     </tr>
                                     <tr>
                                         <td>E</td>
                                         <td>Factor de conversión</td>
-                                        <td><input type="text" id="conversion1" value="0"></td>
-                                        <td><input type="text" id="conversion2" value="0"></td>
+                                        <td><input type="text" id="conversion1" value="14000"></td>
+                                        <td><input type="text" id="conversion2" value="14000"></td>
                                         <td>C</td>
                                     </tr>
                                     <tr>

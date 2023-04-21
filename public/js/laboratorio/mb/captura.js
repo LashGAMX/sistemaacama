@@ -601,6 +601,49 @@ function imprimir(id) {
     window.open(base_url + "/admin/laboratorio/" + area + "/captura/exportPdfCapturaMb/" + id);
     //window.location = base_url + "/admin/laboratorio/"+area+"/captura/exportPdfCaptura/" + idLote;    
 }
+function guardarMetodoCortoCol(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/metodoCortoCol",
+        data: {
+            tecnica: tecnica,
+            idDetalle: idMuestra,
+            indicador: $('#indicador').val(), 
+            resultadoCol: $("#resultadoCol").val(),
+            idParametro: $('#formulaTipo').val(),
+            D1: $("#dil1").val(),
+            D2: $('#dil2').val(),
+            D3: $('#dil3').val(),
+            NMP: $('#nmp1').val(),
+            G3: $('#todos1').val(),
+            G2: $('#negativos1').val(),
+            G1: $('#positivos1').val(),
+            con3: $("#con3").val(),
+            con2: $("#con2").val(),
+            con1: $("#con1").val(),
+            con4: $("#con4").val(),
+            con5: $("#con5").val(),
+            con6: $("#con6").val(),
+            con7: $("#con7").val(),
+            con8: $("#con8").val(),
+            con9: $("#con9").val(),
+            pre1: $("#pre1").val(),
+            pre2: $("#pre2").val(),
+            pre3: $("#pre3").val(),
+            pre4: $("#pre4").val(),
+            pre5: $("#pre5").val(),
+            pre6: $("#pre6").val(),
+            pre7: $("#pre7").val(),
+            pre8: $("#pre8").val(),
+            pre9: $("#pre9").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response){
+            console.log(response);
+        }
+    })
+}
 function metodoCortoCol(){
     $.ajax({
         type: "POST",
@@ -611,10 +654,31 @@ function metodoCortoCol(){
             indicador: $('#indicador').val(), 
             resultadoCol: $("#resultadoCol").val(),
             idParametro: $('#formulaTipo').val(),
-            d1: $("#dil1").val(),
-            d2: $("#dil2").val(),
-            d3: $("#dil3").val(),
+            D1: $("#dil1").val(),
+            D2: $('#dil2').val(),
+            D3: $('#dil3').val(),
             NMP: $('#nmp1').val(),
+            G3: $('#todos1').val(),
+            G2: $('#negativos1').val(),
+            G1: $('#positivos1').val(),
+            con3: $("#con3").val(),
+            con2: $("#con2").val(),
+            con1: $("#con1").val(),
+            con4: $("#con4").val(),
+            con5: $("#con5").val(),
+            con6: $("#con6").val(),
+            con7: $("#con7").val(),
+            con8: $("#con8").val(),
+            con9: $("#con9").val(),
+            pre1: $("#pre1").val(),
+            pre2: $("#pre2").val(),
+            pre3: $("#pre3").val(),
+            pre4: $("#pre4").val(),
+            pre5: $("#pre5").val(),
+            pre6: $("#pre6").val(),
+            pre7: $("#pre7").val(),
+            pre8: $("#pre8").val(),
+            pre9: $("#pre9").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",

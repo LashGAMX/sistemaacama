@@ -1761,10 +1761,12 @@ class FqController extends Controller
         //     $matraz = MatrazGA::where('Id_matraz', $id)->first();
         // }
 
+        $estado = 0;
         do {
             $id = rand(0, $modelMatraz->count());
             $matraz = MatrazGA::where('Id_matraz', $id)->first();
-        } while ($matraz->Estado == 0);
+            $estado = $matraz->Estado;
+        } while ($estado == 0);
 
 
         //$m3 = mt_rand($matraz->Min, $matraz->Max);
@@ -2479,7 +2481,7 @@ class FqController extends Controller
                     $analizo = User::where('id', $model[0]->Analizo)->first();
                 }
                 $reviso = User::where('id', 17)->first();
-                $data = array(
+                $data = array( 
                     'lote' => $lote,
                     'model' => $model,
                     'curva' => $curva,
