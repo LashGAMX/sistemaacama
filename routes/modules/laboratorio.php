@@ -178,6 +178,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('enviarObsGeneralVol', [VolController::class, 'enviarObsGeneralVol']);
         Route::post('setTipoDqo',[VolController::class,'setTipoDqo']);
         Route::post('sendMuestrasLote',[VolController::class,'sendMuestrasLote']);
+        Route::post('setPlantillaDetalleVol',[VolController::class,'setPlantillaDetalleVol']);
 
         Route::get('capturaVolumetria', [VolController::class, 'capturaVolumetria']);
         Route::post('getLotevol', [VolController::class, 'getLotevol']);

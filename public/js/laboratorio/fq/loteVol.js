@@ -1,30 +1,25 @@
 var area = "fq";
 
-//var quill;
-
-//Opciones del editor de texto Quill
-/*var options = {
-    placeholder: 'Introduce procedimiento/validación',
-    theme: 'snow'
-};*/
-
 $(document).ready(function () {
-
     $('#btnPendiente').click(function () {
         getPendientes()
     });
     $('#tipoFormula').select2();
 
-$("#btnLimpiarVal").click(function () {
-    $("#titulado1D").val("")
-    $("#titulado2D").val("")
-    $("#titulado3D").val("")
-    $("#blancoResD").val("")
-    $("#molaridadResD").val("")
-console.log('Limpiar');
+    $("#btnLimpiarVal").click(function () {
+        $("#titulado1D").val("")
+        $("#titulado2D").val("")
+        $("#titulado3D").val("")
+        $("#blancoResD").val("")
+        $("#molaridadResD").val("")
+        console.log('Limpiar');
+    });
+    $("#btnGuardarBitacora").click(function () {
+        
+        setPlantillaDetalleVol()
+    });
 });
 
-});
 $('#btnDatosLote').click(function () {
     switch ($("#tipoFormula").val()) {
         case '33': // CLORO RESIDUAL LIBRE
@@ -68,6 +63,7 @@ $('#btnDatosLote').click(function () {
             break;
     }
 });
+
 $('#btnEjecutarVal').click(function () {
     let prom = 0;
     let res = 0;
@@ -77,7 +73,7 @@ $('#btnEjecutarVal').click(function () {
     let gramos = 0;
     let factorN = 0;
     let pm = 0;
-    switch ($("#tipoFormula").val()) {
+    switch ($("#tipoFormula").val()) { 
         case '33': // CLORO RESIDUAL LIBRE
         case '64':
             $("#blancoResClo").val($("#blancoCloro").val())
@@ -362,7 +358,25 @@ $('#btnGuardarTipoDqo').click(function () {
         }
     });
 });
-
+function setPlantillaDetalleVol(){
+    $.ajax({ 
+        type: "POST",
+        url: base_url + "/admin/laboratorio/"+area+"/setPlantillaDetalleVol",
+        data: {
+            id: $('#idLoteHeader').val(),
+            texto: $("#summernote").summernote('code'),
+            titulo: $("#tituloBit").val(),
+            rev:$("#revBit").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);                        
+            alert("Plantilla modificada")
+        }
+    });
+}
 function habilitarTabla(id1, id2) {
     $("#" + id1).show();
     $("#" + id2).hide();
@@ -556,7 +570,7 @@ function guardarTexto(idLote) {
         dataType: "json",
         async: false,
         success: function (response) {
-            console.log("REGISTRO EXITOSO");
+            
             //console.log(response);
             summer.innerHTML = '<div id="summernote">' + response.texto.Texto + '</div>';
             $('#summernote').summernote({
@@ -567,97 +581,13 @@ function guardarTexto(idLote) {
         }
     });
 }
-
-//Función que guarda todos los input de la vista Lote > Modal > [Grasas, Coliformes, DBO, DQO, Metales]
 $('#guardarTodo').click(function () {
-    //console.log("Valor de IDLote: " + $('#idLoteHeader').val());
-
-    //Calentamiento de matraces
-    let calentamiento = new Array();
-
-    for (let i = 0; i < 3; i++) {
-        row = new Array();
-
-        row.push($("#calLote" + (i + 1)).val());
-        row.push($("#calMasa" + (i + 1)).val());
-        row.push($("#calTemp" + (i + 1)).val());
-        row.push($("#calEntrada" + (i + 1)).val());
-        row.push($("#calSalida" + (i + 1)).val());
-        calentamiento.push(row);
-    }
-
-    console.log("Array calentamiento: " + calentamiento);
-
-
-    //Enfriado de matraces
-    let enfriado = new Array();
-
-    for (let i = 0; i < 3; i++) {
-        row = new Array();
-        row.push($("#enfLote" + (i + 1)).val());
-        row.push($("#enfMasa" + (i + 1)).val());
-        row.push($("#enfEntrada" + (i + 1)).val());
-        row.push($("#enfSalida" + (i + 1)).val());
-        row.push($("#enfPesado" + (i + 1)).val());
-        enfriado.push(row);
-    }
-    console.log("Array enfriado: " + enfriado);
-
-    console.log("secadoLote: " + $("#secadoLote1").val());
-    console.log("secadoTemp: " + $("#secadoTemp1").val());
-    console.log("secadoEntrada: " + $("#secadoEntrada1").val());
-    console.log("secadoSalida: " + $("#secadoSalida1").val());
-
-    console.log("tiempoLote: " + $("#tiempoLote1").val());
-    console.log("tiempoEntrada: " + $("#tiempoEntrada1").val());
-    console.log("tiempoSalida: " + $("#tiempoSalida1").val());
-
-    console.log("enfriadoLote: " + $("#enfriadoLote1").val());
-    console.log("enfriadoEntrada: " + $("#enfriadoEntrada1").val());
-    console.log("enfriadoSalida: " + $("#enfriadoSalida1").val());
-
     //Guardado de datos
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/lote/guardarDatos",
         data: {
             idLote: $('#idLoteHeader').val(),
-
-            //-----------------Grasas----------------------
-            grasas_calentamiento: calentamiento,
-
-            grasas_enfriado: enfriado,
-
-            grasas_secadoLote: $("#secadoLote1").val(),
-            grasas_secadoTemp: $("#secadoTemp1").val(),
-            grasas_secadoEntrada: $("#secadoEntrada1").val(),
-            grasas_secadoSalida: $("#secadoSalida1").val(),
-
-            grasas_tiempoLote: $("#tiempoLote1").val(),
-            grasas_tiempoEntrada: $("#tiempoEntrada1").val(),
-            grasas_tiempoSalida: $("#tiempoSalida1").val(),
-
-            grasas_enfriadoLote: $("#enfriadoLote1").val(),
-            grasas_enfriadoEntrada: $("#enfriadoEntrada1").val(),
-            grasas_enfriadoSalida: $("#enfriadoSalida1").val(),
-
-
-
-            //-----------------Coliformes------------------
-            sembrado_loteId: $('#sembrado_loteId').val(),
-            sembrado_sembrado: $('#sembrado_sembrado').val(),
-            sembrado_fechaResiembra: $('#sembrado_fechaResiembra').val(),
-            sembrado_tuboN: $('#sembrado_tuboN').val(),
-            sembrado_bitacora: $('#sembrado_bitacora').val(),
-
-            pruebaPresuntiva_preparacion: $('#pruebaPresuntiva_preparacion').val(),
-            pruebaPresuntiva_lectura: $('#pruebaPresuntiva_lectura').val(),
-
-            pruebaConfirmativa_medio: $('#pruebaConfirmativa_medio').val(),
-            pruebaConfirmativa_preparacion: $('#pruebaConfirmativa_preparacion').val(),
-            pruebaConfirmativa_lectura: $('#pruebaConfirmativa_lectura').val(),
-
-
 
             //--------------------DQO---------------------
             ebullicion_loteId: $("#ebullicion_loteId").val(),
@@ -713,4 +643,3 @@ function getPendientes()
         }
     });
 }
-

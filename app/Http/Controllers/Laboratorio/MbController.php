@@ -1068,11 +1068,6 @@ class MbController extends Controller
 
         //RECUPERA LA PLANTILLA DEL REPORTE
         $lote = LoteAnalisis::where('Id_lote', $request->idLote)->first();
-        $resporte = BitacoraMb::where('Id_lote', $request->idLote)->get();
-        if ($resporte->count()) {
-        } else {
-            $reporte = PlantillaMb::where('Id_parametro', $lote->Id_tecnica)->first();
-        }
 
 
         //RECUPERA EL APARTADO DE FÓRMULAS GLOBALES;
@@ -1161,16 +1156,21 @@ class MbController extends Controller
         } else {
             $dqo = "";
         }
+        $plantilla = BitacoraMb::where('Id_lote', $request->idLote)->get();
+        if ($plantilla->count()) {
+        } else {
+            $plantilla = PlantillaMb::where('Id_parametro', $lote->Id_tecnica)->get();
+        }
 
 
         //-------------------------------------
         $data = array(
             'curvaConstantes' => $constantes,
             'idLoteIf' => $idLoteIf,
-            'reporte' => $reporte,
             'dataGrasas' => $dataGrasas,
             'dataColi' => $dataColi,
-            'dataDqo' => $dqo
+            'dataDqo' => $dqo,
+            'plantilla' => $plantilla,
         );
 
         return response()->json($data);

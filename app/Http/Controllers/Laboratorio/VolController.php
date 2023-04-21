@@ -43,6 +43,7 @@ use App\Models\Reportes;
 use App\Models\SecadoCartucho;
 use App\Models\Tecnica;
 use App\Models\TiempoReflujo;
+use App\Models\User;
 use App\Models\ValoracionCloro;
 use App\Models\ValoracionDqo;
 use App\Models\ValoracionDureza;
@@ -1150,6 +1151,7 @@ class VolController extends Controller
     public function getLoteCapturaVol(Request $request)
     {
         $tipo = "";
+        $tipoDetalle = "";
         if ($request->formulaTipo == 6) //todo DQO
         {
             $detalle = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
@@ -1176,7 +1178,32 @@ class VolController extends Controller
         $data = array(
             'detalle' => $detalle,
             'tipo' => $tipo,
-            'tipodetalle' => $tipoDetalle->Tipo,
+            'tipodetalle' => @$tipoDetalle->Tipo,
+        );
+        return response()->json($data);
+    }
+    public function setPlantillaDetalleVol(Request $res)
+    {
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
+        $temp = BitacoraVolumetria::where('Id_lote', $res->id)->get();
+        if ($temp->count()) {
+            $model = BitacoraVolumetria::where('Id_lote', $res->id)->first();
+            $model->Titulo = $res->titulo;
+            $model->Texto = $res->texto;
+            $model->Rev = $res->rev;
+            $model->save();
+        } else {
+            $model = BitacoraVolumetria::create([
+                'Id_lote' => $res->id,
+                'Id_parametro' => $lote->Id_tecnica,
+                'Titulo' => $res->titulo,
+                'Texto' => $res->texto,
+                'Rev' => $res->rev,
+            ]);
+        }
+        $data = array(
+            'lote' => $lote,
+            'model' => $model,
         );
         return response()->json($data);
     }
@@ -1531,7 +1558,7 @@ public function sendMuestrasLote(Request $res)
                     $mpdf->WriteHTML($htmlCaptura);
                     $mpdf->CSSselectMedia = 'mpdf';
                 break;
-                case 108:
+                case 108://Nitrogeno Amoniacal
                     $mpdf = new \Mpdf\Mpdf([
                         'orientation' => 'P',
                         'format' => 'letter',
@@ -1549,14 +1576,32 @@ public function sendMuestrasLote(Request $res)
                         array(215, 280),
                         array(0, 0),
                     );
+                    $mpdf->showWatermarkImage = true;
+                    $mpdf->CSSselectMedia = 'mpdf';
+
                     $loteDetalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $idLote)->get();
-                    $textProcedimiento = DB::table('plantilla_volumetria')->where('Id_parametro', 108)->first();
                     $valNitrogenoA = ValoracionNitrogeno::where('Id_lote',$idLote)->first();
+                    $plantilla = BitacoraVolumetria::where('Id_lote', $idLote)->get();
+                    if ($plantilla->count()) {
+                    } else {
+                        $plantilla = PlantillaVolumetria::where('Id_parametro', $lote->Id_tecnica)->get();
+                    }
+                    $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                    $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
+                    if ($comprobacion->count()) {
+                        $analizo = "";
+                    } else {
+                        $analizo = User::where('id', $loteDetalle[0]->Analizo)->first();
+                    }
+                    $reviso = User::where('id', 17)->first();
                     $data = array(
+                        'analizo' => $analizo,
+                        'reviso' => $reviso,
                         'lote' => $lote, 
                         'loteDetalle' => $loteDetalle,
-                        'textProcedimiento' => $textProcedimiento, 
+                        'plantilla' => $plantilla, 
                         'valNitrogenoA' => $valNitrogenoA,
+                        'procedimiento' => $procedimiento,
                     );
                     $htmlCaptura = view('exports.laboratorio.volumetria.nitrogenoA.capturaBody',$data);
                     $htmlHeader = view('exports.laboratorio.volumetria.nitrogenoA.capturaHeader', $data);

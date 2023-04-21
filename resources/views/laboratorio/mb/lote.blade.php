@@ -248,14 +248,12 @@
               <div class="tab-pane fade" id="procedimiento" role="tabpanel" aria-labelledby="procedimiento-tab">                                
               
                 
-                <div id="divSummer">
-                  <div id="summernote">
-                       
-                  </div>
-                </div>
+                <input type="text" id="tituloBit" hidden>
+                <div id="divSummer"></div>
+                <input type="text" id="revBit" hidden>
              
                 
-                <button type="button" class="btn btn-primary" onclick='guardarTexto("idLoteHeader");'>Guardar</button>
+                <button type="button" id="btnGuardarBitacora" class="btn btn-primary">Guardar</button>
               </div>
               {{-- PROCEDIMIENTO FIN --}}
             </div>
