@@ -1,0 +1,111 @@
+@extends('voyager::master')
+@section('page_header')
+    @stop
+@section('content') 
+ 
+ 
+    <div class="container-fluid">
+        <p>Solicitud</p>
+        <input type="text" hidden id="rol" value="{{Auth::user()->role->id}}">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="row">
+                    <!-- Parte de Encabezado-->
+                    <div class="col-md-12">
+                           
+                    </div>
+
+                    <div class="col-md-4 mt-2">
+                        <input type="date" id="inicio" placeholder="Fecha inicio" class="form-control" value=""> 
+                    </div>
+                    <div class="col-md-4 mt-2">
+                        <input type="date" id="fin" placeholder="Fecha fin" class="form-control" value="">
+                    </div> 
+
+                    <div class="col-md-2 mt-2">
+                        <button id="btnBuscar" class="btn btn-success btn-sm" placeholder="Buscar">Buscar</button>
+                    </div>
+                    <!-- Fin Parte de Encabezado-->
+
+                    <!--Tabla -->
+                  <div class="col-md-12">
+                   <div class="table-responsive"> 
+                    <table id="tablaSolicitud" class="table">
+                        
+                        <div class="row">
+                            <div class="col-md-1">
+                                @if (Auth::user()->role->id != 13)
+                                    <button id="btnCreate" class="btn btn-success" ><i class="voyager-plus"></i> Crear</button>
+                                @endif
+                            </div>
+                            <div class="col-md-2">
+                                @if (Auth::user()->role->id != 13)
+                                    <button id="btnCreateSinCot" class="btn btn-success" ><i class="voyager-plus"></i> Crear sin Cot</button>
+                                @else
+                                    <button id="btnCreateSinCot" class="btn btn-success" ><i class="voyager-plus"></i> Crear Orden</button>
+                                @endif
+                            </div>
+                            <div class="col-md-1">
+                                <button id="btnEdit" class="btn btn-warning" ><i class="voyager-edit"></i> Editar</button>
+                            </div>
+                            <div class="col-md-2">
+                                <button id="btnImprimir" class="btn btn-info" ><i class="voyager-documentation"></i> Imprimir</button>
+                            </div>
+
+                            <div class="col-md-2">
+                                <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Solicitud</button>
+                            </div>
+
+                            <div class="col-md-1">
+                                @if (Auth::user()->role->id != 13)
+                                    <button id="btnGenFolio" class="btn btn-success" ><i class="voyager-file-text"></i> Entrada al lab</button>
+                                @endif
+                            </div>
+                        </div> 
+                        <thead class="">
+                            <tr> 
+                                <th>#</th>
+                                <th>Estado</th>
+                                <th>Folio cotización</th>
+                                <th>Folio servicio</th>|
+                                <th>Norma</th>
+                                <th>Servicio</th>
+                                <th>Cliente</th>
+                                <th>Fecha muestreo</th>
+                                <th>Intermediario</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (@$model as $item)
+                                <tr>
+                                    <td>{{$item->Id_cotizacion}}</td>
+                                    <td>{{$item->Estado}}</td>
+                                    <td>{{$item->Folio}}</td>
+                                    <td>{{$item->Folio_servicio}}</td>
+                                    <td>{{$item->Clave_norma}}</td>
+                                    <td>{{$item->Servicio}}</td>
+                                    <td>{{$item->Nombre}}</td>
+                                    <td>{{$item->Fecha_muestreo}}</td>
+                                    <td>{{$item->NomInter}} {{$item->ApeInter}}</td>
+                                </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                   </div>                  </div>
+                    <!-- Fin de la Tabla --> 
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="" id="divModal">
+
+    </div>
+@endsection 
+    @section('javascript')
+        <script src="{{ asset('public/js/cotizacion/solicitud.js')}}?v=0.0.4"></script>        
+    @stop
+
+
+    
+

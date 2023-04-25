@@ -1,0 +1,135 @@
+@extends('voyager::master')
+
+@section('content') 
+
+  @section('page_header')
+  <h6 class="page-title"> 
+    <i class="fa fa-square-root-alt"></i> 
+    Formulas Nivel
+  </h6>
+
+  @stop
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="row">
+          <div class="col-md-4">
+            <button type="button" class="btn btn-success" id="btnGuardar">Guardar</button>
+          </div>
+          <div class="col-md-4" id="divProbar">
+            <button type="button" id="btnProbar" data-toggle="modal" data-target="#modalProbar" class="btn btn-info">Probar</button>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-12">
+          <div class="form-group">
+            <label for="">Nombre de la formula</label>
+            <input type="text" id="nombre" class="form-control" placeholder="Nombre de la formula">
+          </div>
+        </div>
+        <div class="col-md-12">
+            <div class="form-group">
+              <label for="">Nivel</label>
+              <select class="form-control" id="nivel">
+                @foreach ($nivel as $item)
+                <option value="{{$item->Id_nivel}}">{{$item->Nivel}}</option>
+                @endforeach
+                </select>
+            </div>
+        </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">Formula</label>
+                  <input type="text" class="form-control" id="formula" placeholder="Formula">
+                </div>
+              </div>
+              <div class="col-md-12"> 
+                <div class="form-group">
+                  <label for="">Formula sistema</label>
+                  <input type="text" class="form-control" id="formulaSis" placeholder="Formula sistema">  
+                  <button type="button" id="btnAsignar" onclick="tablaVariables()" class="btn btn-danger">Asignar</button>
+                </div>
+              </div>
+              <div class="col-md-8"> 
+                <div class="form-group" id=divDecimales>
+                  <label for="">Decimales</label>
+                  <input type="text" class="form-control" id="decimales" name="decimales" placeholder="Decimales a considerar">  
+                </div>
+              <div class="col-md-12">
+                <div id="tablaVariables">
+                </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="row">
+          <div class="col-md-12">
+              <div class="form-group">
+                <div class="card">
+                  <div class="card-body">
+                    <h5 class="card-title"><strong>Reglas formula sistema</strong></h5>
+                    @foreach ($reglas as $item)
+                    <p><strong>{{$item->Descripcion}}</strong>: {{$item->Regla}}</p>
+                    @endforeach
+                  </div>
+                </div>
+              </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+  </div>
+
+   <!-- Modal -->
+<div class="modal fade" id="modalProbar" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Probar formula</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <input type="text" class="form-control" id="formulaGen" placeholder="Formula a calcular" disabled>
+          </div>
+          <div class="col-md-12">
+            <div id="inputVar">
+
+            </div>
+          </div>
+          <div class="col-md-12">
+            <button class="btn btn-success" id="btnCalcular">Calcular</button>
+          </div>
+          <div class="col-md-12">
+            <input type="text" class="form-control" id="resultadoCal" placeholder="Resultado" disabled>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+      
+      </div>
+    </div>
+  </div>
+</div>
+@endsection  
+ 
+@section('javascript')
+<script src="{{asset('/public/js/analisisQ/crear_nivel_formula.js')}}"></script>
+<script src="{{asset('/public/js/libs/componentes.js')}}"></script>
+<script src="{{asset('/public/js/libs/tablas.js')}}"></script>
+@stop

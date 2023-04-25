@@ -1,0 +1,136 @@
+#procedimientoBody2{
+    font-family: Calibri;
+    font-size: 9;    
+}
+
+.contenedorPrincipal{    
+    padding-top: 0.5%;
+    width: 100%;
+    height: 20px;
+    text-align: center;    
+}
+
+.subContenedor{        
+    width: 25%;
+    height: 20px;
+    float: left;    
+}
+
+.contenedorSecundario{    
+    width: 100%;
+    height: 30px;
+    text-align: center;
+}
+
+.subContenedor2{        
+    width: 25%;
+    height: 30px;
+    float: left;    
+}
+
+.elementos{
+    font-family: Calibri;
+    font-size: 9;
+    text-align: left;
+}
+
+.subElementos{
+    font-family: Calibri;
+    font-size: 9;
+    font-weight: bold;
+}
+
+.contenedorTerciario{    
+    width: 100%;
+    height: 30px;
+    text-align: center;    
+}
+
+.subContenedor3{        
+    width: 16.66%;
+    height: 30px;
+    float: left;
+}
+
+.contenedorCuarto{    
+    width: 100%;
+    height: 30px;
+    text-align: center;    
+}
+
+.subContenedor4{        
+    width: 12.4%;
+    height: 30px;
+    float: left;
+}
+
+.verifEspectro{
+    font-family: Calibri;
+    font-size: 8;
+    font-weight: bold; 
+}
+
+.contenedorQuinto{    
+    width: 100%;
+    height: 30px;
+    text-align: center;    
+}
+
+.subContenedor5{        
+    width: 55%;
+    height: 30px;
+    float: left;    
+    align-items: center;
+}
+
+.subContenedor6{        
+    width: 45%;
+    height: 30px;
+    float: left;    
+}
+
+.elementosCurvaCalib{
+    font-family: Calibri;
+    font-size: 9;
+    text-align: justify;
+}
+
+.bmrTabla{    
+    font-weight: bold;
+}
+
+.bTabla{    
+    font-weight: normal;
+}
+
+.contenedorSexto{    
+    font-family: Calibri;
+    font-size: 9;
+    text-align: justify;
+}
+
+
+
+.cabeceraStdMuestra{
+    font-family: Calibri;
+    font-size: 9;
+    font-weight: bold; 
+}
+
+.bodyStdMuestra{
+    font-family: Calibri;
+    font-size: 9;
+}
+
+#tableCabecera{
+    text-align: center;
+    font-family: Calibri;
+    font-size: 9;
+    font-weight: bold;
+}
+
+#tableContent{
+    font-family: Calibri;
+    font-size: 9;
+    text-align: center;
+}

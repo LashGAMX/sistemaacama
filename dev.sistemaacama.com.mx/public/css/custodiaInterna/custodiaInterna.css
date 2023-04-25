@@ -1,0 +1,145 @@
+
+*{
+    margin: 0;
+    padding: 0;
+}
+body{
+    /* margin-top: 30px; */
+    font-family: "Times New Roman";
+    font-size: 11px; 
+   
+}
+
+.fontNormal{
+    font-weight: normal;
+}
+
+.verdeClaro{
+    color: #00a987; 
+}
+p{
+    font-size: 11px;;
+} 
+.bordeTabla{
+    padding: 5px;
+    margin-top: 5px;
+    border-color: black;
+    border-width: 1px;
+    border-style: solid;
+}
+.negrita{
+    font-weight: bold;
+}
+
+.justifyCenter{
+    text-align: center;
+}
+
+.justifyRight{
+    text-align: right;
+}
+
+.colorBorde{
+    border: 1;
+    border-width: 0.1px;
+    border-style: solid;
+    border-color: black ;
+}
+
+.fontSize7{
+    font-size: 7px;
+}
+
+.fontSize13{
+    font-size: 13px;
+}
+
+.fontSize8{
+    font-family: Calibri;
+    font-size: 8px;
+}
+
+.fontSize11{
+    font-family: Calibri;
+    font-size: 11px;
+}
+
+.anchoColumna{
+    width: 25%;
+}
+
+.anchoColumna125{
+    width: 12.5%;
+}
+
+.anchoColumna111{
+    width: 11.1%;
+}
+
+.fontCalibri{
+    font-family: Calibri;
+}
+
+.bordesTabla{    
+    border: 1;
+    border-style: solid;
+    border-color: black ;
+    border-top-width: 0.1px;
+    border-bottom-width: 0.1px;
+    border-right-width: 0.1px;
+    border-left-width: 0.1px;    
+}
+
+.bordesTablaSupInfDer{    
+    border: 1;
+    border-style: solid;
+    border-color: black ;
+    border-top-width: 0.1px;
+    border-bottom-width: 0.1px;
+    border-right-width: 0.1px;
+    border-left-width: 0px;    
+}
+
+.bordesTablaInfIzqDer{    
+    border: 1;
+    border-style: solid;
+    border-color: black ;
+    border-top-width: 0px;
+    border-bottom-width: 0.1px;
+    border-right-width: 0.1px;
+    border-left-width: 0.1px;    
+}
+
+.bordesTablaInfDer{    
+    border: 1;
+    border-style: solid;
+    border-color: black ;
+    border-top-width: 0px;
+    border-bottom-width: 0.1px;
+    border-right-width: 0.1px;
+    border-left-width: 0px;    
+}
+
+.bordesTablaInfIzq{    
+    border: 1;
+    border-style: solid;
+    border-color: black ;
+    border-top-width: 0px;
+    border-bottom-width: 0.1px;
+    border-right-width: 0px;
+    border-left-width: 0.1px;    
+}
+ 
+.bordesTablaInf{    
+    border: 1;
+    border-style: solid;
+    border-color: black ;
+    border-top-width: 0px;
+    border-bottom-width: 0.1px;
+    border-right-width: 0px;
+    border-left-width: 0px;    
+}
+.divFlex{
+    display: flex;
+}
+   

@@ -1,0 +1,25 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class SucursalContactos extends Model
+{
+    use HasFactory,SoftDeletes;
+    protected $table = 'sucursal_contactos';
+    protected $primaryKey = 'Id_contacto';
+    public $timestamps = true;
+
+    protected $fillable = [
+        'Id_sucursal',
+        'Nombre',
+        'Departamento',
+        'Puesto',
+        'Email',
+        'Celular',
+        'Telefono',
+    ];
+}

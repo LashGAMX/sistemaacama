@@ -1,0 +1,24 @@
+#cabecera{
+    border: 0;
+}
+
+#contenedorIzq{    
+    float: left;        
+    position: relative;
+    overflow: scroll;        
+    overflow-y: hidden;
+    overflow-x: visible;    
+}
+
+#contenedorDer{
+    float: center;
+    overflow: scroll;
+    
+}
+
+#segundaTabla{
+    position: relative;
+    left: 3px;
+    border-collapse: collapse;
+    border-left: #DBDBDB 2px solid;
+}

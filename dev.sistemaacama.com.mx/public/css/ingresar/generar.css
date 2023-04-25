@@ -1,0 +1,28 @@
+#buscarSol {
+    text-align: center;
+    font-weight: bold;
+}
+
+.icono-circulo-default {    
+    color: #DB47F3;
+}
+
+.icono-circulo {color: green!important}
+
+/*.icono-circulo:hover {color: green!important}*/
+
+td {
+    font-size: 35px;
+}
+
+#lineas{
+    border: 0
+}
+#mensajeBusqueda {
+    font-size: 15px;
+    font-weight: bold;
+}
+
+#cabecera1 {
+    border: 0;
+}

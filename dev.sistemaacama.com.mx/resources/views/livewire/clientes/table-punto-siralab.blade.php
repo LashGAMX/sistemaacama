@@ -1,0 +1,259 @@
+<div>
+    <div class="row">
+      <div class="col-md-8">
+        <button class="btn btn-success btn-sm" wire:click="setBtn"  data-toggle="modal" data-target="#modalPuntoSiralab"><i class="voyager-plus"></i> Crear</button>
+      </div>
+      <div class="col-md-4">
+        <input type="search" wire:model="search" wire:click='resetAlert' class="form-control" placeholder="Buscar">
+      </div>
+    </div>
+    <table class="table table-hover">
+        <thead class="thead-dark">
+            <tr> 
+                <th>Titulo</th>
+                <th>Punto</th>
+                <th>Anexo</th>
+                <th>Siralab</th>
+                <th>Pozos</th>
+                <th>Cuerpo receptor</th>
+                <th>Uso agua</th>
+                <th>Latitud</th>
+                <th>Longitud</th>
+                <th>Hora</th>
+                <th>Fecha Ini</th>
+                <th>Fecha Ter</th> 
+                <th>Acción</th>
+            </tr>
+        </thead>
+        <tbody>
+        @if ($model->count())   
+        @foreach ($model as $item) 
+        @if ($item->deleted_at != NULL)
+        <tr class="bg-danger text-white">  
+        @else
+            <tr>
+        @endif
+          {{-- <form wire:submit.prevent="update"> --}}
+          <td>{{$item->Titulo}}</td>
+          <td>{{$item->Punto}}</td>          
+          <td>{{$item->Anexo}}</td>
+          <td>{{$item->Siralab}}</td>
+          <td>{{$item->Pozos}}</td>
+          <td>{{$item->Cuerpo}}</td>
+          <td>{{$item->Agua}}</td>
+          <td>{{$item->Latitud}}</td>
+          <td>{{$item->Longitud}}</td>
+          <td>{{$item->Hora}}</td>
+          <td>{{$item->F_inicio}}</td>
+          <td>{{$item->F_termino}}</td>
+          <td>
+            <button type="button" class="btn btn-primary" wire:click="setData('{{$item->Id_punto}}')" data-toggle="modal" data-target="#modalPuntoSiralab"><i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
+          </td>
+          {{-- </form>  --}}
+        </tr>
+    @endforeach 
+        @else
+            <h6>No hay resultados para la búsqueda "{{$search}}"</h6>
+        @endif
+        </tbody>
+    </table>
+  
+  
+    
+    <div wire:ignore.self class="modal fade" id="modalPuntoSiralab" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+            @if ($sw != true)
+            <form wire:submit.prevent="create">
+            @else
+                <form wire:submit.prevent="store">
+            @endif
+        <div class="modal-header">
+            @if ($sw != true)
+                <h5 class="modal-title" id="exampleModalLabel">Crear Punto de muestreo siralab</h5>
+            @else
+                <h5 class="modal-title" id="exampleModalLabel">Editar Punto de muestreo siralab</h5>
+            @endif
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        </div>
+        <div class="modal-body">
+            <input type="text" wire:model="idPunto" hidden>
+            <div class="col-md-4">
+                <div class="form-group">
+                    <label for="">Activo</label>
+                    <input type="checkbox" wire:model='status'>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="">Titulo</label>
+                            <select class="form-control" wire:model='titulo' >
+                            <option value="0">Sin seleccionar</option>
+                            @foreach ($titulos as $item)
+                                <option value="{{$item->Id_titulo}}">{{$item->Titulo}}</option>
+                            @endforeach
+                          </select>
+                          @error('titulo') <span class="text-danger">{{ $message  }}</span> @enderror
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                    <label for="">Punto muestreo</label>
+                    <input type="text" wire:model='punto' class="form-control" placeholder="Punto muestreo" required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                    <label for="">Anexo</label>
+                    <input type="text" wire:model='anexo' class="form-control" placeholder="Anexo" >
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="">Cuerpo</label>
+                            <select class="form-control" wire:model='cuerpo' wire:click>
+                            <option value="5">Sin seleccionar</option>
+                            @foreach ($cuerpos as $item)
+                                <option value="{{$item->Id_tipo}}">{{$item->Cuerpo}}</option>    
+                            @endforeach
+                           
+                          </select>
+                      </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="">Uso de agua</label>
+                            <select class="form-control" wire:model='agua' >
+                            <option value="11">Sin seleccionar</option>
+                            @foreach ($uso as $item)
+                                <option value="{{$item->Id_detalle}}">{{$item->Detalle}}</option>    
+                            @endforeach
+                          </select>
+                      </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                        <label for="">Categoria</label>
+                            <select class="form-control" wire:model='categoria' >
+                            <option value="0">Sin seleccionar</option>
+                            @foreach ($categorias as $item)
+                                <option value="{{$item->Id_categoria}}">{{$item->Categoria}}</option>    
+                            @endforeach
+                          </select>
+                      </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Latitud</label>
+                            <input type="text" wire:model='latitud' class="form-control" placeholder="Latitud" >
+                        </div>
+                        <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Grados</label>
+                            <input type="text" wire:model='gradosLat' class="form-control" placeholder="grados" >
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Minutos</label>
+                            <input type="text" wire:model='minutosLat' class="form-control" placeholder="min" >
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Segundos</label>
+                            <input type="text" wire:model='segundosLat' class="form-control" placeholder="seg" >
+                        </div>
+                    </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Longitud</label>
+                            <input type="text" wire:model='longitud' class="form-control" placeholder="Latitud" >
+                        </div>
+                        <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Grados</label>
+                            <input type="text" wire:model='gradosLong' class="form-control" placeholder="grados" >
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Minutos</label>
+                            <input type="text" wire:model='minutosLong' class="form-control" placeholder="min" >
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label for="">Segundos</label>
+                            <input type="text" wire:model='segundosLong' class="form-control" placeholder="seg" >
+                        </div>
+                    </div>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="form-group">
+                    <label for="">Hora</label>
+                    <input type="time" wire:model='hora' step="1" class="form-control" >
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                    <label for="">Fecha inicio</label>
+                    <input type="date" wire:model='inicio' class="form-control"  required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                    <label for="">Fecha termino</label>
+                    <input type="date" wire:model='termino' class="form-control"  required>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                    <label for="">Siralab </label>
+                    <input type="checkbox" wire:model='siralab' class="" >
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <div class="form-group">
+                    <label for="">Pozos </label>
+                    <input type="checkbox" wire:model='pozos' class="">
+                    </div>
+                </div>
+                <div class="col-md-12">
+                    <div class="form-group">
+                    <label for="">Observación </label>
+                    <input type="text" wire:model='observacion' class="form-control">
+                    </div>
+                </div>
+       
+            </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary">Guardar cambios</button>
+        </div>
+      </form>
+      </div>
+    </div>
+  </div>
+
+  @if ($alert == true)
+  <script>
+    swal("Registro!", "Registro guardado correctamente!", "success");
+    $('#modalPuntoSiralab').modal('hide')
+  </script>
+  
+  @endif
+    
+  </div>
+   
