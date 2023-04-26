@@ -385,9 +385,7 @@
                                                     <input type="text" id="dil3" value="0" style="width: 60px;">
                                                 </td>
                                                 <td>
-                                                    <input type="text" id="dil12" value="0" style="width: 60px;">
-                                                    <input type="text" id="dil22" value="0" style="width: 60px;">
-                                                    <input type="text" id="dil32" value="0" style="width: 60px;">
+                                                   
                                                 </td>
                                                 <td>V</td>
                                             </tr>
@@ -395,33 +393,33 @@
                                                 <td>NMP</td>
                                                 <td>Indice NMP</td>
                                                 <td><input type="text" id="nmp1" value="0"></td>
-                                                <td><input type="text" id="nmp2" value="0"></td>
+                                                <td></td>
                                                 <td>V</td>
                                             </tr>
                                             <tr>
                                                 <td>G3</td>
                                                 <td>mL De muestra en todos los tubos</td>
                                                 <td><input type="text" id="todos1" value="0"></td>
-                                                <td><input type="text" id="todos2" value="0"></td>
+                                                <td></td>
                                                 <td>V</td>
                                             </tr>
                                             <tr>
                                                 <td>G2</td>
                                                 <td>mL De muestra en tubos negativos</td>
                                                 <td><input type="text" id="negativos1" value="0"></td>
-                                                <td><input type="text" id="negativos2" value="0"></td>
+                                                <td></td>
                                                 <td>V</td>
                                             </tr>
                                             <tr>
                                                 <td>G1</td>
                                                 <td># de tubos positivos</td>
                                                 <td><input type="text" id="positivos1" value="0"></td>
-                                                <td><input type="text" id="positivos2" value="0"></td>
+                                                <td></td>
                                                 <td>V</td>
                                             </tr>
                                             <tr>
                                                 <td>P1 - P9</td>
-                                                <td>Prueba presuntiva</td>
+                                                <td>Prueba presuntiva 24hrs / 48hrs</td>
                                                 <td>
                                                     <input type="text" id="pre1" value="0" style="width: 60px;">
                                                     <input type="text" id="pre4" value="0" style="width: 60px;">
@@ -452,7 +450,7 @@
                                             </tr> 
                                             <tr>
                                                 <td>C1 - C9</td>
-                                                <td>Prueba confirmativa</td>
+                                                <td>Prueba confirmativa 24hrs / 48hrs</td>
                                                 <td>
                                                     <input type="text" id="con1" value="0" style="width: 60px;">
                                                     <input type="text" id="con4" value="0" style="width: 60px;">

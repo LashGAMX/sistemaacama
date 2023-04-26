@@ -42,9 +42,7 @@
                 <p class="fontNormal fontCalibri fontSize12" align="right">{{\Carbon\Carbon::parse(@$model->created_at)->format('d/m/Y')}}</p>
                 
                 <p>ME PERMITO SOMETER A SU AMABLE CONSIDERACIÓN LA SIGUIENTE COTIZACIÓN DEL SERVICIO DE MUESTREO Y ANÁLISIS DE AGUA DE ACUERDO A:</p>
-                @php
-                    echo $reportesInformes->Id_reporte;
-                @endphp
+            
             </div>
             <div class="col-md-12">
                 <table class="table table-borderless" style="border:none" width="100%">
@@ -98,16 +96,20 @@
             </tbody>
         </table>
         
-        <table class="table" style="font-size: 9px;" width="50%">
+        <table class="table" style="font-size: 9px;" width="100%">
             <tr>
                 <td class="fontBold fontCalibri fontSize10">CANTIDAD SERVICIOS: </td>
                 <td class="fontBold fontCalibri fontSize10">{{$puntos->count()}}</td>
-            </tr>
-            <tr>
-                <td class="fontBold fontCalibri fontSize10">COSTO PAQUETE UNITARIO</td>
+                <td class="fontBold fontCalibri fontSize10">PRECIO UNITARIO</td>
                 <td class="fontBold fontCalibri fontSize10">$                    
                     @php
                         echo number_format(($model->Precio_analisis / $puntos->count()), 2, ".", ",");
+                    @endphp
+                </td>
+                <td class="fontBold fontCalibri fontSize10">COSTO TOTAL</td>
+                <td class="fontBold fontCalibri fontSize10">$                    
+                    @php
+                        echo number_format(($model->Precio_analisis), 2, ".", ",");
                     @endphp
                 </td>
             </tr>
@@ -153,13 +155,13 @@
                      @php
                          echo number_format(($model->Precio_catalogo / $puntos->count()), 2, ".", ",");
                      @endphp
-                </td>
-                <!-- <td class="fontBold fontCalibri fontSize10">COSTO TOTAL SIN IVA</td>
+                </td>              
+                <td class="fontBold fontCalibri fontSize10">COSTO TOTAL</td>
                 <td class="fontBold fontCalibri fontSize10">$                    
                     @php
-                        echo number_format(@$model->Sub_total, 2, ".", ",");
+                        echo number_format(($model->Precio_catalogo), 2, ".", ",");
                     @endphp
-                </td> -->
+                </td>
             </tr>
         </table>        
         @endif
@@ -168,7 +170,13 @@
         <div class="col-md-12">
             <p class="fontBold fontCalibri fontSize9 bordeIzqDerSinSup justificadorCentr">Totales</p>
             <p class="fontBold fontCalibri fontSize9">OBSERVACIONES COTIZACIÓN</p>
-            <p class="fontBold fontCalibri fontSize14">{{@$model->Observacion_cotizacion}}</p>
+            <p class="fontBold fontCalibri fontSize14">
+                <div class="fontBold fontCalibri fontSize9">
+                    @php
+                    echo @$model->Observacion_cotizacion;
+                @endphp
+                </div>
+            </p>
         </div><br>
 
         <div class="col-md-12">
@@ -222,6 +230,28 @@
                     </td>
                 </tr>
             @endif
+            @if (@$model->Paqueteria > 0)
+                <tr>
+                    <td class="fontBold fontCalibri fontSize15" width="35%">PAQUETERIA</td>
+                    <td width="20%">&nbsp;</td>
+                    <td class="fontBold fontCalibri fontSize15 justificadoDer" width="35%">$                        
+                        @php
+                            echo number_format(@$model->Paqueteria, 2, ".", ",");
+                        @endphp
+                    </td>
+                </tr>
+            @endif
+            @if (@$model->Extras > 0)
+            <tr>
+                <td class="fontBold fontCalibri fontSize15" width="35%">EXTRAS</td>
+                <td width="20%">&nbsp;</td>
+                <td class="fontBold fontCalibri fontSize15 justificadoDer" width="35%">$                        
+                    @php
+                        echo number_format(@$model->Extras, 2, ".", ",");
+                    @endphp
+                </td>
+            </tr>
+        @endif
             
                 <tr>
                     <td class="fontBold fontCalibri fontSize15" width="35%">SUBTOTAL</td>

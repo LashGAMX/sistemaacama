@@ -39,12 +39,12 @@
           <td>{{$item->Correo}}</td>
           <td>{{substr($item->Direccion,0,100)}}</td>
           <td>{{$item->Tel_oficina}}</td>
-          <td>{{$item->Id_usuario}}</td>
+          <td>{{@$item->Id_usuario}}</td>
           <td>{{$item->created_at}}</td>
           <td>{{$item->updated_at}}</td>
           <td>
             <button type="button" class="btn btn-primary" 
-            wire:click="setData('{{$item->Id_cliente}}','{{$item->Nombres}}','{{$item->A_paterno}}','{{$item->A_materno}}','{{$item->RFC}}','{{$item->deleted_at}}','{{$item->Id_laboratorio}}','{{$item->Correo}}','{{$item->Direccion}}','{{$item->Tel_oficina}}','{{$item->Extension}}','{{$item->Celular1}}','{{$item->Id_usuario}}')" data-toggle="modal" data-target="#modalInter">
+            wire:click="setData('{{$item->Id_cliente}}','{{$item->Nombres}}','{{$item->A_paterno}}','{{$item->A_materno}}','{{$item->RFC}}','{{$item->deleted_at}}','{{$item->Id_laboratorio}}','{{$item->Correo}}','{{$item->Direccion}}','{{$item->Tel_oficina}}','{{$item->Extension}}','{{$item->Celular1}}','{{@$item->Id_usuario}}')" data-toggle="modal" data-target="#modalInter">
             <i class="voyager-edit"></i> <span hidden-sm hidden-xs>editar</span> </button>
           </td>
           {{-- </form>  --}}

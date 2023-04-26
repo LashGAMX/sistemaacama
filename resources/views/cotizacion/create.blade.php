@@ -4,7 +4,7 @@
 
 <link rel="stylesheet" type="text/css" href="{{asset('/public/css/libs/duallist/jquery.transfer.css')}}" />
 <link rel="stylesheet" type="text/css" href="{{asset('/public/css/libs/duallist/icon_font/css/icon_font.css')}}" />
-
+<link rel="stylesheet" href="{{asset('/public/assets/summer/summernote.min.css')}}">
 <div class="container-fluid">
     <div class="row">
         <div class="col-md-12">
@@ -518,17 +518,7 @@
                                     <div class="col-md-12">
                                         <small id="emailHelp" class="form-text text-muted">Gasto Extra</small>
                                     </div>
-                                    <div class="col-md-3">
-                                        <label for="">Gasto de paqueteria $ :</label>
-                                        <input type="number" class="form-control" name="paqueteria" id="paqueteria"
-                                            value="{{ @$muestreo->Paqueteria }}">
-                                    </div>
-                                    <div class="col-md-3">
-                                        <label for="">Gasto Adicional $:</label>
-                                        <input type="number" class="form-control" name="gastosExtras" id="gastosExtras"
-                                            value="{{ @$muestreo->Adicional }}">
-                                    </div>
-                                    <div class="col-md-3">
+                                    <div class="col-md-3"> 
                                         <label for=""># de Servicios:</label>
                                         <input type="number" class="form-control" name="numeroServicio"
                                             id="numeroServicio" value="{{ @$muestreo->Num_servicio }}">
@@ -581,8 +571,10 @@
                             <!-- Observación cotización  -->
                             <div class="col-md-12 mt-1">
                                 <label for="">Observación cotización:</label>
-                                <textarea cols="30" rows="2" class="form-control" name="observacionCotizacion"
-                                    id="observacionCotizacion">{{ @$model->Observacion_cotizacion }}</textarea>
+                                <input type="text" id="obsCot" value="{{ @$model->Observacion_cotizacion }}" hidden>
+                                <div id="divSummer"></div>
+                                {{-- <textarea cols="30" rows="2" class="form-control" name="observacionCotizacion"
+                                    id="observacionCotizacion">{{ @$model->Observacion_cotizacion }}</textarea> --}}
                             </div>
                             <!-- Forma de pago-->
                             <div class="col-md-6">
@@ -647,6 +639,16 @@
                                             <td><input type="text" class="form-control" id="precioCat"
                                                     name="precioCat" placeholder="Parametro Extra"
                                                     value="{{ @$model->Precio_catalogo }}"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gasto Adicional $: <input type="text" id="extra" style="border: none" disabled></td>
+                                            <td><input type="number" class="form-control" name="gastosExtras" id="gastosExtras"
+                                                value="{{ @$model->Extras }}" placeholder="Precio Adicional"></td>
+                                        </tr>
+                                        <tr>
+                                            <td>Gasto de paqueteria $: <input type="text" id="extra" style="border: none" disabled></td>
+                                            <td>    <input type="number" class="form-control" name="paqueteria" id="paqueteria"
+                                                value="{{ @$model->Paqueteria }}" placeholder="Precio de paqueteria"></td> 
                                         </tr>
                                         <tr>
                                             <td><code>Nota: El descuento solo aplica directamente al análisis</code></td>
@@ -715,7 +717,11 @@
     @endsection
     @section('javascript')
  
-    <script src="{{ asset('/public/js/cotizacion/create.js') }}?v=0.0.4"></script>
+    <script src="{{ asset('/public/js/cotizacion/create.js') }}?v=1.0.0"></script>
     <script src="{{ asset('/public/js/libs/duallist/jquery.transfer.js') }}"></script>
-
+<!-- include summernote css/js -->
+<script src="{{asset('/assets/summer/summernote.js')}}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js" integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
     @stop

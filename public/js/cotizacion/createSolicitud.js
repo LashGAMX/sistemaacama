@@ -424,7 +424,7 @@ function setSolicitud()
     let tab2 = document.getElementById("tableParametros")
     let puntos = new Array()
     let parametro = new Array()
-    let chParam = new Array()
+    let chParam = new Array() 
     for (let i = 1; i < tab.rows.length; i++) {
         puntos.push(tab.rows[i].children[0].textContent)
     }
@@ -468,6 +468,7 @@ function setSolicitud()
             console.log("Resiviendo repuesta");
           console.log(response);
           alert("Orden generada")
+          window.location = base_url + "/admin/cotizacion/solicitud"
         }
       });
 }

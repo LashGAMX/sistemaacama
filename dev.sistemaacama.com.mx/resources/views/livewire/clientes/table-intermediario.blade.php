@@ -39,7 +39,7 @@
           <td>{{$item->Correo}}</td>
           <td>{{substr($item->Direccion,0,100)}}</td>
           <td>{{$item->Tel_oficina}}</td>
-          <td>{{$item->Id_usuario}}</td>
+          <td>{{@$item->Id_usuario}}</td>
           <td>{{$item->created_at}}</td>
           <td>{{$item->updated_at}}</td>
           <td>

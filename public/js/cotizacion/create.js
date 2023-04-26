@@ -1,4 +1,5 @@
 $(document).ready(function () {
+  
   //todo Incializadores
   $('#datos-tab').click();
   addColPunto()
@@ -18,6 +19,14 @@ $(document).ready(function () {
       getDataUpdate()
       $('.select2').select2();
   } 
+  let summer = document.getElementById("divSummer");
+  summer.innerHTML = '<div id="observacionCotizacion">'+$("#obsCot").val()+'</div>'
+  $('#observacionCotizacion').summernote({
+    placeholder: '', 
+    tabsize: 2,
+    height: 200,
+
+  });
 });
 // todo Variables globales
 var parametros = new Array()
@@ -37,13 +46,15 @@ function setPrecioCotizacion()
     data: {
       id: $('#idCot').val(),
       obsInt: $('#observacionInterna').val(),
-      obsCot: $('#observacionCotizacion').val(),
+      obsCot: $("#observacionCotizacion").summernote('code'),
       metodoPago: $('#metodoPago').val(),
       precioAnalisis: $('#precioAnalisis').val(),
       precioCat: $('#precioCat').val(),
       descuento: $('#descuento').val(),
       precioAnalisisCon: $('#precioAnalisisCon').val(),
       precioMuestra: $('#precioMuestra').val(),
+      gastosExtras: $("#gastosExtras").val(),
+      paqueteria:$("#paqueteria").val(),
       iva: $('#iva').val(),
       subTotal: $('#subTotal').val(),
       precioTotal: $('#precioTotal').val(),
@@ -169,6 +180,7 @@ function getDataUpdate()
         parametros = response.parametros
         createTabParametros()
         getLocalidad()
+        btnReccalcular()
     }
 });
 }
@@ -267,8 +279,8 @@ function setPrecioMuestreo()
       kmExtra: $('#kmExtra').val(),
       km: $('#km').val(),
       cantidadGasolina: $('#cantidadGasolina').val(),
-      paqueteria: $('#paqueteria').val(),
-      gastosExtras: $('#gastosExtras').val(),
+      // paqueteria: $('#paqueteria').val(),
+      // gastosExtras: $('#gastosExtras').val(),
       numeroServicio: $('#numeroServicio').val(),
       numMuestreador: $('#numMuestreador').val(),
       
@@ -666,22 +678,27 @@ function btnReccalcular()
   let analisis = parseFloat($("#precioAnalisis").val())
   let extra = parseFloat($("#precioCat").val())
   let muestreo = parseFloat($("#precioMuestra").val())
+  let gastosExtras = parseFloat($("#gastosExtras").val())
+  let paqueteria = parseFloat($("#paqueteria").val())
   let iva = parseFloat($("#iva").val())
   let subTotal = parseFloat($("#subTotal").val())
   let precioTotal = parseFloat($("#precioTotal").val())
   let temp = 0
 
+
+
   if ($("#precioMuestra").val() == '') {
-    subTotal = analisis + extra
-    temp = (subTotal * 16) / 100
-    precioTotal = temp + subTotal
-    console.log("sin campo")
-  } else {
-    subTotal = analisis + extra + muestreo
-    temp = (subTotal * 16) / 100
-    precioTotal = temp + subTotal
-    console.log("con campo")
-  }
+    muestreo = 0
+  } 
+  if ($("#gastosExtras").val() == '') {
+    gastosExtras = 0
+  } 
+  if ($("#paqueteria").val() == '') {
+    paqueteria = 0
+  } 
+  subTotal = analisis + extra + muestreo + gastosExtras + paqueteria
+  temp = (subTotal * 16) / 100
+  precioTotal = temp + subTotal
   $("#subTotal").val(subTotal)
   $("#precioTotal").val(precioTotal)
 }

@@ -250,6 +250,7 @@ class CotizacionController extends Controller
                 'Numero_puntos' => sizeof($res->puntos),
                 'Estado_cotizacion' => 1,
                 'Folio' => $folio,
+
                 'Creado_por' => Auth::user()->id,
                 'Actualizado_por' => Auth::user()->id,
                 'Hijo' => $hijo,
@@ -546,6 +547,8 @@ class CotizacionController extends Controller
         $model->Descuento = $res->descuento;
         $model->Precio_analisisCon = $res->precioAnalisisCon;
         $model->Precio_muestreo = $res->precioMuestra;
+        $model->Extras = $res->gastosExtras;
+        $model->Paqueteria = $res->paqueteria;
         $model->Iva = $res->iva;
         $model->Sub_total = $res->subTotal;
         $model->Costo_total = $res->precioTotal;

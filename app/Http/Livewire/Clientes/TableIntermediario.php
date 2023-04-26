@@ -6,6 +6,7 @@ use App\Models\Clientes;
 use App\Models\HistorialIntermediarios;
 use App\Models\Intermediario;
 use App\Models\Sucursal;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\WithPagination;
@@ -76,8 +77,8 @@ class TableIntermediario extends Component
             'Nombres' => $this->nombre,
             'A_paterno' => $this->paterno,
             'A_materno' => $this->materno,
-            'Id_user_c' => $this->idUser,
-            'Id_user_m' => $this->idUser,
+            'Id_user_c' => Auth::user()->id,
+            'Id_user_m' => Auth::user()->id,
             'RFC' => $this->rfc,
         ]);
 
@@ -91,7 +92,7 @@ class TableIntermediario extends Component
             // 'Id_user_c' => $this->idUser,
             // 'Id_user_m' => $this->idUser,
             'Celular1' => $this->cel,
-            'Id_usuario' => $this->user,
+            'Id_usuario' => @$this->user,
             
         ]);
         // $this->nombre = $model->Nombres;
@@ -121,8 +122,8 @@ class TableIntermediario extends Component
                 $model->A_paterno = $this->paterno;
                 $model->A_materno = $this->materno;
                 $model->RFC = $this->rfc;
-                $model->Id_user_m = $this->idUser;
-                $this->historial($this->idCliente);
+                $model->Id_user_m = Auth::user()->id;
+                // $this->historial($this->idCliente);
                 $model->save();
             Clientes::find($this->idCliente)->delete();
         }else{
@@ -146,7 +147,7 @@ class TableIntermediario extends Component
             'Tel_oficina' => $this->tel,
             'Extension' => $this->ext,
             'Celular1' => $this->cel,
-            'Id_usuario' => $this->user,
+            'Id_usuario' => @$this->user,
         ]);
         $this->alert = true;
 

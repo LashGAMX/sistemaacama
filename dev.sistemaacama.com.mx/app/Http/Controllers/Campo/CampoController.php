@@ -92,6 +92,7 @@ class CampoController extends Controller
         // var_dump(Auth::user()); 
         switch (Auth::user()->role_id) {
             case 1:
+            case 15:
                 $model = DB::table('ViewSolicitudGenerada')->orderBy('Id_solicitud','DESC')->get();
                 break;
             default:
