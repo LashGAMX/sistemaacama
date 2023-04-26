@@ -43,24 +43,24 @@
                 <tr>
                     <td rowspan="3">{{$item->Codigo}}</td>
                     <td>{{$item->Dilucion1}}</td>
-                    <td>{{$item->Presuntiva11}}</td>
-                    <td>{{$item->Presuntiva14}}</td>
-                    <td>{{$item->Presuntiva17}}</td>
+                    <td>{{$item->Presuntiva1}}</td>
+                    <td>{{$item->Presuntiva4}}</td>
+                    <td>{{$item->Presuntiva7}}</td>
 
-                    <td>{{$item->Presuntiva21}}</td>
-                    <td>{{$item->Presuntiva24}}</td>
-                    <td>{{$item->Presuntiva27}}</td>
+                    <td>{{$item->Presuntiva10}}</td>
+                    <td>{{$item->Presuntiva13}}</td>
+                    <td>{{$item->Presuntiva16}}</td>
                     <td>
-                        {{($item->Presuntiva21 + $item->Presuntiva22 + $item->Presuntiva23)}}
+                        {{($item->Presuntiva1 + $item->Presuntiva4 + $item->Presuntiva7)}}
                     </td>
-                    <td>{{$item->Confirmativa11}}</td>
-                    <td>{{$item->Confirmativa14}}</td>
-                    <td>{{$item->Confirmativa17}}</td>
+                    <td>{{$item->Confirmativa1}}</td>
+                    <td>{{$item->Confirmativa4}}</td>
+                    <td>{{$item->Confirmativa7}}</td>
 
-                    <td>{{$item->Confirmativa21}}</td>
-                    <td>{{$item->Confirmativa24}}</td>
-                    <td>{{$item->Confirmativa27}}</td>
-                    <td>{{($item->Confirmativa21 + $item->Confirmativa22 + $item->Confirmativa23)}}</td>
+                    <td>{{$item->Confirmativa1}}</td>
+                    <td>{{$item->Confirmativa4}}</td>
+                    <td>{{$item->Confirmativa7}}</td>
+                    <td>{{($item->Confirmativa1 + $item->Confirmativa2 + $item->Confirmativa23)}}</td>
                     @switch($item->Tipo)
                     @case(1)
                     <td class="contenidoBody bordesTabla" rowspan="3">
