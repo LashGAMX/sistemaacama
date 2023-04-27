@@ -30,15 +30,6 @@ $(document).ready(function () {
         }
     } );
 
-    // switch ($("#rol").val()) {
-    //     case "13":
-    //         $("#btnCreate").hide()
-    //         $("#btnGenFolio").hide()
-    //         return 
-    //     default:
-    //         return
-    // }
-    
     $("#btnBuscar").click( function(){
         window.location = base_url+ "/admin/cotizacion/buscarFecha/"+ $("#inicio").val()+ "/" + $("#fin").val();
     });
@@ -48,8 +39,11 @@ $(document).ready(function () {
         idCot = dato;
       });
     $('#btnCreate').click( function () {
-        // alert(idCot);
-        window.location = base_url+"/admin/cotizacion/solicitud/create/"+idCot;
+        if (idCot > 0) {
+            window.location = base_url+"/admin/cotizacion/solicitud/create/"+idCot;
+        }else{
+            window.location = base_url+"/admin/cotizacion/solicitud/create"
+        }
     } );
 
     $('#btnCreateSinCot').click( function () {

@@ -229,7 +229,7 @@ class CampoController extends Controller
         $phTrazable->Id_user_m = Auth::user()->id;
 
         $nota = "Registro modificado";
-        $this->historialPhTrazable($request->idSolicitud, $nota, $phTrazable->Id_ph);
+       // $this->historialPhTrazable($request->idSolicitud, $nota, $phTrazable->Id_ph);
 
         $phTrazable->save();
 
@@ -243,7 +243,7 @@ class CampoController extends Controller
         $phTrazable->Id_user_m = Auth::user()->id;
 
         $nota = "Registro modificado";
-        $this->historialPhTrazable($request->idSolicitud, $nota, $phTrazable->Id_ph);
+        // $this->historialPhTrazable($request->idSolicitud, $nota, $phTrazable->Id_ph);
         $phTrazable->save();
   
         //PhCalidad
@@ -260,7 +260,7 @@ class CampoController extends Controller
         $phCalidad->Id_user_m = Auth::user()->id;
 
         $nota = "Registro modificado";
-        $this->historialPhCalidadGen($request->idSolicitud, $nota, $phCalidad->Id_ph);
+        // $this->historialPhCalidadGen($request->idSolicitud, $nota, $phCalidad->Id_ph);
 
         $phCalidad->save();
 
@@ -275,7 +275,7 @@ class CampoController extends Controller
         $phCalidad->Id_user_m = Auth::user()->id;
 
         $nota = "Registro modificado";
-        $this->historialPhCalidadGen($request->idSolicitud, $nota, $phCalidad->Id_ph);
+        // $this->historialPhCalidadGen($request->idSolicitud, $nota, $phCalidad->Id_ph);
 
         $phCalidad->save();
 
@@ -291,7 +291,7 @@ class CampoController extends Controller
         $conTrazable->Id_user_m = Auth::user()->id;
 
         $nota = "Registro modificado";
-        $this->historialCondTrazable($request->idSolicitud, $nota, $conTrazable->Id_conductividad);
+        // $this->historialCondTrazable($request->idSolicitud, $nota, $conTrazable->Id_conductividad);
         $conTrazable->save();
 
         //Conductividad control calidad
@@ -307,8 +307,8 @@ class CampoController extends Controller
                 $conCalidad->Id_user_m = Auth::user()->id;
 
                 $nota = "Registro modificado";
-                $this->historialCondCalidad($request->idSolicitud, $nota, $conCalidad->Id_conductividad);
-
+                // $this->historialCondCalidad($request->idSolicitud, $nota, $conCalidad->Id_conductividad);
+ 
                 $conCalidad->save();
 
 
@@ -629,7 +629,7 @@ class CampoController extends Controller
                 $ph->Id_user_m = Auth::user()->id;
                 
                 $nota = "Registro modificado";
-                $this->historialPhMuestra($request->idSolicitud, $nota, $ph->Id_ph);
+                // $this->historialPhMuestra($request->idSolicitud, $nota, $ph->Id_ph);
 
                 $ph->save();
             }
@@ -653,7 +653,7 @@ class CampoController extends Controller
                 ]);
 
                 $nota = "Creación de registro";
-                $this->historialPhMuestra($request->idSolicitud, $nota, $phMuestra->Id_ph);
+                // $this->historialPhMuestra($request->idSolicitud, $nota, $phMuestra->Id_ph);
             }
         }
 
@@ -673,7 +673,7 @@ class CampoController extends Controller
                 $temp->Id_user_m = Auth::user()->id;
 
                 $nota = "Registro modificado";
-                $this->historialTempMuestra($request->idSolicitud, $nota, $temp->Id_temperatura);
+                // $this->historialTempMuestra($request->idSolicitud, $nota, $temp->Id_temperatura);
 
                 $temp->save();
             }
@@ -692,7 +692,7 @@ class CampoController extends Controller
                 ]);
 
                 $nota = "Creación de registro";
-                $this->historialTempMuestra($request->idSolicitud, $nota, $tempMuestra->Id_temperatura);
+                //$this->historialTempMuestra($request->idSolicitud, $nota, $tempMuestra->Id_temperatura);
             }
         }
 
@@ -751,7 +751,7 @@ class CampoController extends Controller
                 $phCalidad->Id_user_m = Auth::user()->id;
                 
                 $nota = "Registro modificado";
-                $this->historialPhControl($request->idSolicitud, $nota, $phCalidad->Id_phCalidad);
+               // $this->historialPhControl($request->idSolicitud, $nota, $phCalidad->Id_phCalidad);
                 
                 $phCalidad->save();
             }
@@ -772,7 +772,7 @@ class CampoController extends Controller
                 ]);
 
                 $nota = "Creación de registro";
-                $this->historialPhControl($request->idSolicitud, $nota, $campoPhControlMuestra->Id_phCalidad);
+                // $this->historialPhControl($request->idSolicitud, $nota, $campoPhControlMuestra->Id_phCalidad);
             }
         }
 
@@ -810,7 +810,7 @@ class CampoController extends Controller
                 ]);
 
                 $nota = "Creación de registro";
-                $this->historialConductividad($request->idSolicitud, $nota, $campoCondMuestra->Id_conductividad);
+                // $this->historialConductividad($request->idSolicitud, $nota, $campoCondMuestra->Id_conductividad);
             }
         }
 
@@ -829,7 +829,7 @@ class CampoController extends Controller
                 $gasto->Id_user_m = Auth::user()->id;
 
                 $nota = "Registro modificado";
-                $this->historialGasto($request->idSolicitud, $nota, $gasto->Id_gasto);
+                // $this->historialGasto($request->idSolicitud, $nota, $gasto->Id_gasto);
 
                 $gasto->save();
             }
@@ -848,7 +848,7 @@ class CampoController extends Controller
                 ]);
 
                 $nota = "Creación de registro";
-                $this->historialGasto($request->idSolicitud, $nota, $campoGastoMuestra->Id_gasto);
+              //  $this->historialGasto($request->idSolicitud, $nota, $campoGastoMuestra->Id_gasto);
             }
         }
 
@@ -986,7 +986,7 @@ class CampoController extends Controller
             $campoComp->Id_user_m = Auth::user()->id;
 
             $nota = "Registro modificado";
-            $this->historialDatosCompuestos($request->idSolicitud, $nota, $campoComp->Id_campo);
+           // $this->historialDatosCompuestos($request->idSolicitud, $nota, $campoComp->Id_campo);
 
             $campoComp->save();
         }else{
@@ -1006,7 +1006,7 @@ class CampoController extends Controller
             ]);
 
             $nota = "Creación de registro";
-            $this->historialDatosCompuestos($request->idSolicitud, $nota, $campoComp->Id_campo);
+            //$this->historialDatosCompuestos($request->idSolicitud, $nota, $campoComp->Id_campo);
         }
 
         $data = array('sw' => true,'campoComp' => $campoComp);

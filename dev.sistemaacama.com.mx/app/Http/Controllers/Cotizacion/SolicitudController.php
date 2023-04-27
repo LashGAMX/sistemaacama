@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Livewire\AnalisisQ\LimiteParametros001;
 use App\Http\Livewire\AnalisisQ\Normas;
 use App\Models\CampoCompuesto;
+use App\Models\ClienteGeneral;
 use App\Models\ClienteSiralab;
 use App\Models\CodigoParametros;
 use App\Models\ConductividadMuestra;
@@ -32,6 +33,7 @@ use App\Models\TipoDescarga;
 use App\Models\TipoServicios;
 use App\Models\TipoMuestraCot;
 use App\Models\PromedioCot;
+use App\Models\SucursalContactos;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -84,11 +86,36 @@ class SolicitudController extends Controller
 
         return view('cotizacion.createSolicitud', $data);
     }
+    
+    public function createOrden()
+    {
+        $tipoMuestraCot = TipoMuestraCot::all();
+        $promedioCot = PromedioCot::all();
+        $servicios = TipoServicios::all();
+        $descargas = TipoDescarga::all();
+        $frecuencia = DB::table('frecuencia001')->get();
+        // $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
+        $intermediario = DB::table('ViewIntermediarios')->get();
+        $categorias001 = DB::table('categoria001_2021')->get();
+        $data = array(
+            'tipoMuestraCot' => $tipoMuestraCot,
+            'promedioCot' => $promedioCot,
+            'servicio' => $servicios,
+            'descargas' => $descargas,
+            'categorias001' => $categorias001,
+            'frecuencia' => $frecuencia,
+            'intermediario' => $intermediario,
+        );
+
+        return view('cotizacion.createOrden', $data);
+    }
     public function getDatoIntermediario(Request $res)
     {
         $model = DB::table('ViewIntermediarios')->where('Id_intermediario', $res->id)->first();
+        $generales = ClienteGeneral::where('Id_intermediario', $res->id)->get();
         $data = array(
             'model' => $model,
+            'generales' => $generales,
         );
         return response()->json($data);
     }
@@ -112,14 +139,13 @@ class SolicitudController extends Controller
     }
     public function getSucursalCliente(Request $res)
     {
-        $contacto = ContactoCliente::where('Id_cliente', $res->id)->get();
         $sucursal = SucursalCliente::where('Id_cliente', $res->id)->get();
         $data = array(
             'idCliente' => $res->cliente,
             'model' => $sucursal,
-            'contacto' => $contacto,
         );
         return response()->json($data);
+
     }
     public function getDireccionReporte(Request $res)
     {
@@ -129,8 +155,10 @@ class SolicitudController extends Controller
         } else {
             $model = DireccionReporte::where('Id_sucursal', $res->id)->get();
         }
+        $contacto = SucursalContactos::where('Id_sucursal', $res->id)->get();
         $data = array(
             'model' => $model,
+            'contacto' => $contacto,
         );
         return response()->json($data);
     }
@@ -156,7 +184,7 @@ class SolicitudController extends Controller
     }
     public function getDataContacto(Request $res)
     {
-        $model = ContactoCliente::where('Id_contacto', $res->id)->first();
+        $model = SucursalContactos::where('Id_contacto', $res->id)->first();
         $data = array(
             'model' => $model,
         );

@@ -67,6 +67,7 @@ Route::group(['prefix' => 'cotizacion/solicitud'], function () {
     
     Route::get('',[SolicitudController::class,'index']);
     Route::get('create/{idCot}',[SolicitudController::class,'create']);
+    Route::get('create',[SolicitudController::class,'createOrden']);
     Route::post('getDatoIntermediario',[SolicitudController::class,'getDatoIntermediario']);
     Route::post('getDataCotizacion',[SolicitudController::class,'getDataCotizacion']);
     Route::post('getClienteRegistrado',[SolicitudController::class,'getClienteRegistrado']);

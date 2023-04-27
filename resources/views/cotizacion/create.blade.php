@@ -106,7 +106,7 @@
                                             Telefono
                                         </div>
                                         <div class="col-md-9">
-                                            <input type="number" placeholder="Telefono" id="telCli" style="width: 100%" value="{{@$model->Telefono}}">
+                                            <input type="text" placeholder="Telefono" id="telCli" style="width: 100%" value="{{@$model->Telefono}}">
                                         </div>
                                     </div>
                                     <div class="row">

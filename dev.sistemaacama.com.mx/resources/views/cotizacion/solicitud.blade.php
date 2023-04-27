@@ -38,13 +38,13 @@
                                     <button id="btnCreate" class="btn btn-success" ><i class="voyager-plus"></i> Crear</button>
                                 @endif
                             </div>
-                            <div class="col-md-2">
+                            {{-- <div class="col-md-2">
                                 @if (Auth::user()->role->id != 13)
                                     <button id="btnCreateSinCot" class="btn btn-success" ><i class="voyager-plus"></i> Crear sin Cot</button>
                                 @else
                                     <button id="btnCreateSinCot" class="btn btn-success" ><i class="voyager-plus"></i> Crear Orden</button>
                                 @endif
-                            </div>
+                            </div> --}}
                             <div class="col-md-1">
                                 <button id="btnEdit" class="btn btn-warning" ><i class="voyager-edit"></i> Editar</button>
                             </div>

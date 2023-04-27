@@ -706,6 +706,15 @@ class MbController extends Controller
                     $model->Presuntiva7 = $request->pre7;
                     $model->Presuntiva8 = $request->pre8;
                     $model->Presuntiva9 = $request->pre9;
+                    $model->Presuntiva10 = $request->pre10;
+                    $model->Presuntiva11 = $request->pre11;
+                    $model->Presuntiva12 = $request->pre12;
+                    $model->Presuntiva13 = $request->pre13;
+                    $model->Presuntiva14 = $request->pre14;
+                    $model->Presuntiva15 = $request->pre15;
+                    $model->Presuntiva16 = $request->pre16;
+                    $model->Presuntiva17 = $request->pre17;
+                    $model->Presuntiva18 = $request->pre18;
                     $model->Resultado = $request->resultadoCol;
                     $model->Analizo = Auth::user()->id;
                     $model->save();
@@ -774,6 +783,15 @@ class MbController extends Controller
                     $model->Presuntiva7 = $request->pre7;
                     $model->Presuntiva8 = $request->pre8;
                     $model->Presuntiva9 = $request->pre9;
+                    $model->Presuntiva10 = $request->pre10;
+                    $model->Presuntiva11 = $request->pre11;
+                    $model->Presuntiva12 = $request->pre12;
+                    $model->Presuntiva13 = $request->pre13;
+                    $model->Presuntiva14 = $request->pre14;
+                    $model->Presuntiva15 = $request->pre15;
+                    $model->Presuntiva16 = $request->pre16;
+                    $model->Presuntiva17 = $request->pre17;
+                    $model->Presuntiva18 = $request->pre18;
                     $model->Resultado = $res;
                     $model->Analizo = Auth::user()->id;
                     $model->save();
@@ -1925,7 +1943,7 @@ class MbController extends Controller
 
         $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
         switch ($lote->Id_tecnica) {
-            case 35: // Escherichia Coli
+            case 35: // Escherichia Coli ExportEcoli
                 $mpdf = new \Mpdf\Mpdf([
                     'orientation' => "L",
                     'format' => 'letter',
@@ -1944,14 +1962,14 @@ class MbController extends Controller
                 );
                 $mpdf->showWatermarkImage = true;
 
-                $loteDetalle = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $idLote)->get();
+                $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->get();
                 $plantilla = BitacoraMb::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
                     $plantilla = PlantillaMb::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 //Comprobación de bitacora analizada
-                $comprobacion = LoteDetalleEnterococos::where('Liberado', 0)->where('Id_lote', $idLote)->get();
+                $comprobacion = LoteDetalleColiformes::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
                     $analizo = "";
                 } else {

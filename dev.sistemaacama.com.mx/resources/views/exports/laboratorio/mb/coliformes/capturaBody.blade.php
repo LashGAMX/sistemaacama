@@ -218,9 +218,9 @@
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva3}}
                     </td>
-                    <td class="contenidoBody bordesTabla">0</td>
-                    <td class="contenidoBody bordesTabla">0</td>
-                    <td class="contenidoBody bordesTabla">0</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva10}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva11}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva12}}</td>
 
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva1 + @$data[$i]->Presuntiva2 + @$data[$i]->Presuntiva3}}                        

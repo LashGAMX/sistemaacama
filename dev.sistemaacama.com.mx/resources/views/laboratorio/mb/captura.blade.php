@@ -434,23 +434,23 @@
                                                     <input type="text" id="pre9" value="0" style="width: 60px;">
                                                 </td>
                                                 <td>
+                                                    <input type="text" id="pre10" value="0" style="width: 60px">
+                                                    <input type="text" id="pre13" value="0" style="width: 60px">
+                                                    <input type="text" id="pre16" value="0" style="width: 60px">
+                                                    <br>
+                                                    <input type="text" id="pre11" value="0" style="width: 60px">
+                                                    <input type="text" id="pre14" value="0" style="width: 60px">
+                                                    <input type="text" id="pre17" value="0" style="width: 60px">
+                                                    <br>
                                                     <input type="text" id="pre12" value="0" style="width: 60px">
-                                                    <input type="text" id="pre42" value="0" style="width: 60px">
-                                                    <input type="text" id="pre72" value="0" style="width: 60px">
-                                                    <br>
-                                                    <input type="text" id="pre22" value="0" style="width: 60px">
-                                                    <input type="text" id="pre52" value="0" style="width: 60px">
-                                                    <input type="text" id="pre82" value="0" style="width: 60px">
-                                                    <br>
-                                                    <input type="text" id="pre32" value="0" style="width: 60px">
-                                                    <input type="text" id="pre62" value="0" style="width: 60px">
-                                                    <input type="text" id="pre92" value="0" style="width: 60px">
+                                                    <input type="text" id="pre15" value="0" style="width: 60px">
+                                                    <input type="text" id="pre18" value="0" style="width: 60px">
                                                 </td>
                                                 <td>V</td>
                                             </tr> 
                                             <tr>
                                                 <td>C1 - C9</td>
-                                                <td>Prueba confirmativa 24hrs / 48hrs</td>
+                                                <td>Prueba confirmativa 24hrs </td>
                                                 <td>
                                                     <input type="text" id="con1" value="0" style="width: 60px;">
                                                     <input type="text" id="con4" value="0" style="width: 60px;">
@@ -465,17 +465,17 @@
                                                     <input type="text" id="con9" value="0" style="width: 60px;">
                                                 </td>
                                                 <td>
+                                                    <!-- <input type="text" id="con10" value="0" style="width: 60px">
+                                                    <input type="text" id="con11" value="0" style="width: 60px">
                                                     <input type="text" id="con12" value="0" style="width: 60px">
-                                                    <input type="text" id="con42" value="0" style="width: 60px">
-                                                    <input type="text" id="con72" value="0" style="width: 60px">
                                                     <br>
-                                                    <input type="text" id="con22" value="0" style="width: 60px">
-                                                    <input type="text" id="con52" value="0" style="width: 60px">
-                                                    <input type="text" id="con82" value="0" style="width: 60px">
+                                                    <input type="text" id="con13" value="0" style="width: 60px">
+                                                    <input type="text" id="con14" value="0" style="width: 60px">
+                                                    <input type="text" id="con15" value="0" style="width: 60px">
                                                     <br>
-                                                    <input type="text" id="con32" value="0" style="width: 60px">
-                                                    <input type="text" id="con62" value="0" style="width: 60px">
-                                                    <input type="text" id="con92" value="0" style="width: 60px">
+                                                    <input type="text" id="con16" value="0" style="width: 60px">
+                                                    <input type="text" id="con17" value="0" style="width: 60px">
+                                                    <input type="text" id="con18" value="0" style="width: 60px"> -->
                                                 </td>
                                                 <td>V</td>
                                             </tr>

@@ -52,7 +52,7 @@
                         <td class="fontNormal fontCalibri fontSize12">PUNTOS MUESTREO:</td>
                         <td class="fontBold fontCalibri fontSize14">{{@$puntos->count()}}</td>
                         <td class="fontNormal fontCalibri fontSize12">SERVICIOS:</td>
-                        <td class="fontBold fontCalibri fontSize14">1</td>
+                        <td class="fontBold fontCalibri fontSize14">{{@$puntos->count()}}</td>
                     </tr>
                 </table>
                 <table class="table table-borderless" style="border:none" width="100%">
