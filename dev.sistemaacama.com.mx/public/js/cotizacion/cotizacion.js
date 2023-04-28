@@ -1,19 +1,76 @@
 var table;
+var idCot
 
 $(document).ready(function () {
+    $('#btnBuscar').click( function (){
+        console.log('click btnBuscar')
+        window.location = base_url+ "/admin/cotizacion/buscarFecha/"+ $("#inicio").val()+ "/" + $("#fin").val();
+    });
+
+      
+    $('#btnPrint').click( function () {
+        window.open(base_url+"/admin/cotizacion/exportPdfOrden/"+idCot);
+        //window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idCot;
+    } );
+    $('#btnShow').click( function () {
+        window.location = base_url+"/admin/cotizacion/show/"+idCot;
+    } );
+
+    $('#btnDuplicar').click(function(){                
+        window.location = base_url + "/admin/cotizacion/duplicarCot/"+idCot;
+    });
+
+    $("#btnEdit").prop('disabled', true);
+
+
+
+    _initTable()
+});
+
+function _initTable()
+{
+
+    $('#tablaCotizacion thead th').each(function () {
+        var title = $(this).text();
+        $(this).html('<input type="text" placeholder="' + title + '" />');
+    });
+
+        
+    // $("#tablaCotizacion thead th")[0].html('<input style="width:15px" type="number" placeholder="Id" />')
+    // $("#tablaCotizacion thead th")[1].html('<input style="width:30px" type="text" placeholder="Folio Servicio" />')
+    // $("#tablaCotizacion thead th")[2].html('<input style="width:30px" type="text" placeholder="Folio Cotizacion" />')
+    // $("#tablaCotizacion thead th")[3].html('<input style="width:30px" type="date" placeholder="Fecha cotizacion" />')
+    
+
     table = $('#tablaCotizacion').DataTable({
-        "ordering": false,
+        "ordering": true,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
             "zeroRecords": "No hay datos encontrados",
             "info": "Pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay datos encontrados",   
-        }
+        },
+        initComplete: function () {
+            // Apply the search
+            this.api() 
+                .columns()
+                .every(function () {
+                    var that = this;
+ 
+                    $('input', this.header()).on('keyup change clear', function () {
+                        if (that.search() !== this.value) {
+                            that.search(this.value).draw();
+                        }
+                    });
+                });
+        },
         
     });
-
-    $("#btnEdit").prop('disabled', true);
-    $('#tablaCotizacion tbody').on( 'click', 'tr', function () { 
+    $('#tablaCotizacion tr').on('click', function(){
+        let dato = $(this).find('td:first').html();
+        idCot = dato;
+      });
+      $('#tablaCotizacion tbody').on( 'click', 'tr', function () { 
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
             // console.log("no selecionado");
@@ -51,26 +108,4 @@ $(document).ready(function () {
         }
     } );
  
-    $('#btnBuscar').click( function (){
-        console.log('click btnBuscar')
-        window.location = base_url+ "/admin/cotizacion/buscarFecha/"+ $("#inicio").val()+ "/" + $("#fin").val();
-    });
-
-    let idCot = 0; 
-    $('#tablaCotizacion tr').on('click', function(){
-        let dato = $(this).find('td:first').html();
-        idCot = dato;
-      });
-      
-    $('#btnPrint').click( function () {
-        window.open(base_url+"/admin/cotizacion/exportPdfOrden/"+idCot);
-        //window.location = base_url+"/admin/cotizacion/exportPdfOrden/"+idCot;
-    } );
-    $('#btnShow').click( function () {
-        window.location = base_url+"/admin/cotizacion/show/"+idCot;
-    } );
-
-    $('#btnDuplicar').click(function(){                
-        window.location = base_url + "/admin/cotizacion/duplicarCot/"+idCot;
-    });
-});
+}

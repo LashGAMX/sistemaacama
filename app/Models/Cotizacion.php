@@ -54,7 +54,8 @@ class Cotizacion extends Model
         'Creado_por',
         'Actualizado_por',
         'Hijo',
-        'Id_reporte'
+        'Id_reporte',
+        'Tipo',
     ];
 
 }

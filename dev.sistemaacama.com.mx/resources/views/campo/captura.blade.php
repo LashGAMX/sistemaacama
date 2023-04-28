@@ -896,11 +896,7 @@
                                 </table>
                             </div>
 
-                            @if ($model->Num_tomas > 1)
-                             <div class="col-md-12">
-                              @else
-                                 <div class="col-md-12" hidden>
-                           @endif
+                            <div class="col-md-12">
                                 <p>Gasto</p>
                                 <table class="table" id="gasto">
                                     <thead>

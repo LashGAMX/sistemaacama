@@ -80,7 +80,7 @@ class TableCliente extends Component
         }
         $this->idCliente = $model->Id_cliente;
         $this->nota = "Creación de registro";
-        $this->historial();
+       // $this->historial();
         $this->alert = true;
     }
     public function store()

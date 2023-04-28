@@ -8,12 +8,21 @@ $(document).ready(function () {
      addColPunto()
      $('#parametro-tab').click(function () {
         createTabParametros();
+        std = 2
+      });
+      $('#datos-tab').click(function () {
+        std = 1
       });
       $('.select2').select2();
+      
+      $('#btnGuardarOrden').click(function () {
+        setOrdenServicio();
+     });
 });
 //todo Goblales
 var model = new Array()
 var parametros = new Array()
+var std = 1;
 function _constructor()
 {
     getDataCotizacion()
@@ -313,31 +322,7 @@ function storeContacto(idContacto,idCliente)
         }
     });
 }
-function getSubNormas() {
-    let sub = document.getElementById('subnorma');
-    let tab = '';
-    $.ajax({
-      url: base_url + '/admin/cotizacion/getSubNormas', //archivo que recibe la peticion
-      type: 'POST', //método de envio
-      data: {
-        id: $('#norma').val(),
-        _token: $('input[name="_token"]').val(),
-      },
-      dataType: 'json',
-      async: false,
-      success: function (response) {
-        tab += '<option value="0">Sin seleccionar</option>';
-        $.each(response.model, function (key, item) {
-          if (model.Id_subnorma == item.Id_subnorma) {
-            tab += '<option value="' + item.Id_subnorma + '" selected>' + item.Clave + '</option>';
-          } else {
-            tab += '<option value="' + item.Id_subnorma + '">' + item.Clave + '</option>'; 
-          }
-        });
-        sub.innerHTML = tab;
-      }
-    });
-  }
+
   function getPuntoMuestro() 
 {
     let punto = new Array();
@@ -385,7 +370,7 @@ function btnAddPunto()
 }
 function createTabParametros()
 {
-  let table = document.getElementById("tableParametros")
+  let table = document.getElementById("tabParametros")
   let tab = '';
   let cont = 1;
   $("#normaPa").val($("#norma option:selected").text())
@@ -401,72 +386,73 @@ function createTabParametros()
     }
     temp = ''
     if(item.Reporte == 1){
-        temp = "checked"
-      }
-      tab += '<td><input type="checkbox" '+temp+'></td>';
+      temp = "checked"
+    }
+    tab += '<td><input type="checkbox" '+temp+'></td>';
     tab += '<td>'+cont+'</td>';
-    tab += '<td>'+item.Id_subnorma+'</td>';
+    if (tabParam == true) {
+      tab += '<td>'+item.Id_subnorma+'</td>';
+    } else {
+      tab += '<td>'+item.Id_parametro+'</td>'; 
+    }
     tab += '<td>'+item.Parametro+'('+item.Tipo_formula+')</td>';
     tab += '</tr>'
     cont++
   });  
   table.innerHTML = tab 
 }
-function setSolicitud()
-{
-    console.log("entro a setSolicitud")
-    let tab = document.getElementById("puntoMuestro")
-    let tab2 = document.getElementById("tableParametros")
-    let puntos = new Array()
-    let parametro = new Array()
-    let chParam = new Array()
-    for (let i = 1; i < tab.rows.length; i++) {
-        puntos.push(tab.rows[i].children[0].textContent)
-    }
-    for (let i = 1; i < tab2.rows.length; i++) {
-        parametro.push(tab2.rows[i].children[2].textContent)
-        chParam.push(tab2.rows[i].children[0].children[0].checked)
-    }
-    console.log(puntos)
-    console.log(parametro)
-    $.ajax({
-        url: base_url + '/admin/cotizacion/solicitud/setSolicitud', //archivo que recibe la peticion
-        type: 'POST', //método de envio
-        data: {
-          id:$("#idCot").val(),
-          inter:$("#intermediario").val(),
-          clientes:$("#clientes").val(),
-          sucursal:$("#sucursal").val(),
-          direccionReporte:$("#direccionReporte").val(),
-          siralab:$("#siralab").prop('checked'),
-          contacto:$("#contacto").val(),
-          atencion:$("#atencion").val(),
-          observacion:$("#observacion").val(),
-          tipoServicio:$("#tipoServicio").val(),    
-          tipoDescarga:$("#tipoDescarga").val(),
-          norma:$("#norma").val(),
-          subnorma:$("#subnorma").val(),
-          fechaMuestreo:$("#fechaMuestreo").val(),
-          frecuencia:$("#frecuencia").val(),
-          numTomas:$("#numTomas").val(),
-          tipoMuestra:$("#tipoMuestra").val(),
-          promedio:$("#promedio").val(),
-          tipoReporte:$("#tipoReporte").val(),
-          puntos:puntos,
-          parametros:parametro,
-          chParam,chParam,
-          _token: $('input[name="_token"]').val(),
-        },
-        dataType: 'json', 
-        async: false,
-        success: function (response) {
-            console.log("Resiviendo repuesta");
-          console.log(response);
-          alert("Orden generada") 
-          window.location = base_url + "/admin/cotizacion/solicitud"
-        }
-      });
+console.log("entro a setSolicitud")
+let tab = document.getElementById("puntoMuestro")
+let tab2 = document.getElementById("tableParametros")
+let puntos = new Array()
+let parametro = new Array()
+let chParam = new Array()
+for (let i = 1; i < tab.rows.length; i++) {
+    puntos.push(tab.rows[i].children[0].textContent)
 }
+for (let i = 1; i < tab2.rows.length; i++) {
+    parametro.push(tab2.rows[i].children[2].textContent)
+    chParam.push(tab2.rows[i].children[0].children[0].checked)
+}
+console.log(puntos)
+console.log(parametro)
+$.ajax({
+    url: base_url + '/admin/cotizacion/solicitud/setSolicitud', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      id:$("#idCot").val(),
+      inter:$("#intermediario").val(),
+      clientes:$("#clientes").val(),
+      sucursal:$("#sucursal").val(),
+      direccionReporte:$("#direccionReporte").val(),
+      siralab:$("#siralab").prop('checked'),
+      contacto:$("#contacto").val(),
+      atencion:$("#atencion").val(),
+      observacion:$("#observacion").val(),
+      tipoServicio:$("#tipoServicio").val(),    
+      tipoDescarga:$("#tipoDescarga").val(),
+      norma:$("#norma").val(),
+      subnorma:$("#subnorma").val(),
+      fechaMuestreo:$("#fechaMuestreo").val(),
+      frecuencia:$("#frecuencia").val(),
+      numTomas:$("#numTomas").val(),
+      tipoMuestra:$("#tipoMuestra").val(),
+      promedio:$("#promedio").val(),
+      tipoReporte:$("#tipoReporte").val(),
+      puntos:puntos,
+      parametros:parametro,
+      chParam,chParam,
+      _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json', 
+    async: false,
+    success: function (response) {
+        console.log("Resiviendo repuesta");
+      console.log(response);
+      alert("Orden generada") 
+      window.location = base_url + "/admin/cotizacion/solicitud"
+    }
+  });
 function getNormas() {
     let sub = document.getElementById('norma');
     let tab = '';
@@ -503,11 +489,7 @@ function getNormas() {
       success: function (response) {
         tab += '<option value="0">Sin seleccionar</option>';
         $.each(response.model, function (key, item) {
-          if (data.Id_subnorma == item.Id_subnorma) {
-            tab += '<option value="' + item.Id_subnorma + '" selected>' + item.Clave + '</option>';
-          } else {
-            tab += '<option value="' + item.Id_subnorma + '">' + item.Clave + '</option>'; 
-          }
+          tab += '<option value="' + item.Id_subnorma + '">' + item.Clave + '</option>'; 
         });
         sub.innerHTML = tab;
       }
@@ -562,4 +544,124 @@ function getNormas() {
     cont++
   });  
   table.innerHTML = tab 
+}
+function getFrecuenciaMuestreo() {
+  $.ajax({
+    url: base_url + '/admin/cotizacion/getFrecuenciaMuestreo', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      id: $('#frecuencia').val(),
+      _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json',
+    async: false,
+    success: function (response) {
+      $("#numTomas").val(response.model.Tomas)
+    }
+  });
+}
+function getParametrosSelected()
+{
+  let temp1 = new Array()
+  let temp2 = new Array()
+  let sw = false;
+  let json = new Array()
+  let sec = document.getElementById("divTrans")
+  let tab = '';
+  $.ajax({
+    url: base_url + '/admin/cotizacion/getParametrosSelected', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      subnorma: $('#subnorma').val(),
+      id:$("#idCot").val(),
+      _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json',
+    async: false,
+    success: function (response) {
+        console.log(response)
+        tab = '<div id="transfer1" class="transfer-demo"></div>'
+        sec.innerHTML = tab
+        $.each(response.parametros, function (key, item) {
+            $.each(response.model, function (key, item2) {
+              if(item.Id_parametro == item2.Id_subnorma){
+                sw = true; 
+              }
+            }); 
+            json.push({
+              "parametro" : "("+item.Id_parametro+")"+item.Parametro,
+              "id":item.Id_parametro,
+              "selected":sw,
+            })
+            sw = false   
+        });  
+ 
+        var settings1 = {
+            "dataArray": json, 
+            "itemName": "parametro",
+            "valueName": "id",
+            "callable": function (items) {
+                console.dir(items)
+            }
+        };
+    
+        myTransfer = $("#transfer1").transfer(settings1);
+    }
+});
+
+}
+
+function setOrdenServicio()
+{
+  let tab = document.getElementById("puntoMuestro")
+  let tab2 = document.getElementById("tableParametros")
+  let puntos = new Array()
+  let parametro = new Array()
+  let chParam = new Array()
+  for (let i = 1; i < tab.rows.length; i++) {
+      puntos.push(tab.rows[i].children[0].textContent)
+  }
+  for (let i = 1; i < tab2.rows.length; i++) {
+      parametro.push(tab2.rows[i].children[2].textContent)
+      chParam.push(tab2.rows[i].children[0].children[0].checked)
+  }
+  console.log(puntos)
+  console.log(parametro)
+  $.ajax({
+      url: base_url + '/admin/cotizacion/solicitud/setOrdenServicio', //archivo que recibe la peticion
+      type: 'POST', //método de envio
+      data: {
+        idCot:$("#idCot").val(),
+        inter:$("#intermediario").val(),
+        clientes:$("#clientes").val(),
+        sucursal:$("#sucursal").val(),
+        direccionReporte:$("#direccionReporte").val(),
+        siralab:$("#siralab").prop('checked'),
+        contacto:$("#contacto").val(),
+        atencion:$("#atencion").val(),
+        observacion:$("#observacion").val(),
+        tipoServicio:$("#tipoServicio").val(),    
+        tipoDescarga:$("#tipoDescarga").val(),
+        norma:$("#norma").val(),
+        subnorma:$("#subnorma").val(),
+        fechaMuestreo:$("#fechaMuestreo").val(),
+        frecuencia:$("#frecuencia").val(),
+        numTomas:$("#numTomas").val(),
+        tipoMuestra:$("#tipoMuestra").val(),
+        promedio:$("#promedio").val(),
+        tipoReporte:$("#tipoReporte").val(),
+        puntos:puntos,
+        parametros:parametro,
+        chParam,chParam,
+        _token: $('input[name="_token"]').val(),
+      },
+      dataType: 'json', 
+      async: false,
+      success: function (response) {
+          console.log("Resiviendo repuesta");
+        console.log(response);
+        alert("Orden generada") 
+        window.location = base_url + "/admin/cotizacion/solicitud"
+      }
+    });
 }

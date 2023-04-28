@@ -1430,6 +1430,7 @@ class MetalesController extends Controller
             $analizo = User::where('id', $model[0]->Analizo)->first();
         }
         $fechaHora = Carbon::parse(@$detalle->Fecha_digestion);
+        $hora = $fechaHora->isoFormat('H:mm:ss A');
         $today = $fechaHora->toDateString();
         $estandares = estandares::whereDate('Fecha_inicio','<=',$today)->whereDate('Fecha_fin','>=',$today)->where('Id_parametro', $lote->Id_tecnica)->get();
         $bmr = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->whereDate('Fecha_inicio','<=',$today)->whereDate('Fecha_fin','>=',$today)->first();
@@ -1440,6 +1441,7 @@ class MetalesController extends Controller
             'estandares' => $estandares,
             'detalle' => $detalle,
             'lote' => $lote,
+            'hora' =>$hora,
             'fechaHora' => $fechaHora,
             'model' => $model,
             'curva' => $curva,

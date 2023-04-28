@@ -92,6 +92,7 @@ class CampoController extends Controller
         // var_dump(Auth::user()); 
         switch (Auth::user()->role_id) {
             case 1:
+            case 15:
                 $model = DB::table('ViewSolicitudGenerada')->orderBy('Id_solicitud','DESC')->get();
                 break;
             default:
@@ -1285,8 +1286,7 @@ class CampoController extends Controller
         $tempAmbiente = TemperaturaAmbiente::where('Id_solicitud',$id)->get();
         $conMuestra = ConductividadMuestra::where('Id_solicitud',$id)->get();
         $muestreador = Usuario::where('id',$solGen->Id_muestreador)->first();
-        $swMateria = SolicitudParametro::where('Id_solicitud',$id)->where('Id_parametro',2)->get();
-
+        $swMateria = SolicitudParametro::where('Id_solicitud',$id)->where('Id_subnorma',2)->get();
         $recepcion = SeguimientoAnalisis::where('Id_servicio', $id)->first();
 
         $firmaRes = DB::table('users')->where('id',$solGen->Id_muestreador)->first();
@@ -1300,15 +1300,9 @@ class CampoController extends Controller
         if ($procesoAnalisis->count()) {
             $firmaRecepcion = User::where('id',$procesoAnalisis->Id_user_c)->get();
         }else{
-            // $firmaRecepcion = "";
+           $firmaRecepcion = "";
         }
-        
-        // if ($firmaRecepcion->count()) {
-            
-        // }else{
-        //     $firmaRecepcion = "";
-        // } 
-            // $firmaRecepcion = "";
+
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
             'margin_left' => 2,
@@ -1324,6 +1318,7 @@ class CampoController extends Controller
             array(0, 0),
         );
         $data = array(
+            'procesoAnalisis' => $procesoAnalisis,
             'firmaRecepcion' => $firmaRecepcion,
             'swMateria' => $swMateria,
             'model' => $model,

@@ -350,6 +350,7 @@
                 </div>
                 </div>
             </div>
+            
             <style>
                 .transfer-demo {
                     width: 100%;

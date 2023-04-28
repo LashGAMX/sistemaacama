@@ -353,6 +353,7 @@ class MbController extends Controller
     {
         switch ($request->idParametro) {
             case 12: // coliformes +
+            case 35: //E coli mb
                 $muestra = LoteDetalleColiformes::where('Id_detalle', $request->idMuestra)->first();
                 break;
             case 5:
@@ -1962,7 +1963,8 @@ class MbController extends Controller
                 );
                 $mpdf->showWatermarkImage = true;
 
-                $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->get();
+                $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->where('Id_control', 1 )->get();
+                $loteDetalleControles = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->where('Id_control', '!=', 1 )->get();
                 $plantilla = BitacoraMb::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
@@ -1981,6 +1983,7 @@ class MbController extends Controller
                 $data = array(
                     'lote' => $lote,
                     'loteDetalle' => $loteDetalle,
+                    'loteDetalleControles' => $loteDetalleControles,
                     'plantilla' => $plantilla, 
                     'analizo' => $analizo,
                     'reviso' => $reviso,

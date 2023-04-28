@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Cotizacion;
 
 use App\Http\Controllers\Controller;
@@ -212,7 +211,6 @@ class SolicitudController extends Controller
     public function getPuntoMuestro(Request $res)
     {
         if ($res->siralab == "true") {
-            // $model = PuntoMuestreoSir::where('Id_sucursal', $res->idSuc)->get();
             $model = DB::table('ViewPuntoMuestreoSir')->where('Id_sucursal', $res->idSuc)->get();
         } else {
             $model = PuntoMuestreoGen::where('Id_sucursal', $res->idSuc)->get();
@@ -903,5 +901,39 @@ class SolicitudController extends Controller
         $mpdf->CSSselectMedia = 'mpdf';
         $mpdf->WriteHTML($html);
         $mpdf->Output();
+    }
+    public function setOrdenServicio(Request $res)
+    {
+        $model = Cotizacion::where('Id_cotizacion',$res->idCot)->get();
+        if($model->count())
+        {
+                $model[0]->Id_intermedio = $res->inter;
+                $model[0]->Id_cliente = $res->clientes;
+                $model[0]->Id_sucursal = $res->sucursal;
+                $model[0]->Id_direccion = $res->direccionReporte;
+                $model[0]->Atencion = $res->Atencion;
+                $model[0]->Id_norma = $res->norma;
+                $model[0]->Id_subnorma = $res->subnorma;
+                $model[0]->Tipo_reporte = $res->tipoReporte;
+                $model[0]->Tipo = 2;
+                $model[0]->save();
+        }else{
+            $model = Cotizacion::craete([
+                'Id_intermedio' => $res->inter,
+                'Id_cliente' => $res->clientes,
+                'Id_sucursal' => $res->sucursal,
+                'Id_direccion' => $res->direccionReporte,
+                'Atencion' => $res->Atencion,
+                'Id_norma' => $res->norma,
+                'Id_subnorma' => $res->subnorma,
+                'Tipo_reporte' => $res->tipoReporte,
+                'Tipo' => 2,
+            ]);            
+        }
+
+        $data = array(
+
+        );
+        return response()->json($data);
     }
 }

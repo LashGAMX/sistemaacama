@@ -1,4 +1,4 @@
-    <!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -232,63 +232,79 @@
                 </table>
             </div>
             <div class="col-md-12">
-                <table class="{{-- table table-borderless --}} table-sm {{-- colorBorde --}}" width="100%">
+                <table style="width: 100%">
                     <tr>
                         <td class="bordesTablaInfIzqDer justifyCenter" width="50%">RESPONSABLE DEL MUESTREO (NOMBRE Y FIRMA)</td>
-                        <td class="bordesTablaInfDer justifyCenter" width="50%">SUPERVISIÓN DEL MUESTREO (NOMBRE Y FIRMA)</td>                        
+                        <td class="bordesTablaInfDer justifyCenter" width="50%">SUPERVISIÓN DEL MUESTREO (NOMBRE Y FIRMA)</td>    
                     </tr>
-
                     <tr>
-                        <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita">{{@$muestreador->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png"></td>
-                        <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">{{@$muestreador->name}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/users/January2022/3hR0dNwIyWQiodmdxvLX.png{{-- {{url("/public/storage")."/".$firmaRes->firma}} --}}"></td>
-                    </tr>                                        
+                        <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita"><br>{{@$muestreador->name}}</span> <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{url("/public/storage")."/".@$firmaRes->firma}}"> <br></td>
+                        <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">------------</span> </td>
+                    </tr>
                 </table>
             </div>
             <div class="col-12 negrita">
                 4. ENTREGA A LABORATORIO
             </div>
             <div class="col-md-12">
-                <table class="{{-- table table-borderless --}} table-sm {{-- colorBorde --}}" width="100%">
+                <table style="width: 100%">
                     <tr>
-                      <td class="bordesTabla justifyCenter" colspan="2"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{asset('public/storage/'.@$firmaRecepcion->firma)}}"></td>
-                      <td class="bordesTabla justifyCenter" colspan="2"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{url("/public/storage")."/".@$firmaRes->firma}}"></td>                      
-                    </tr>
-
-                    <tr>
-                        <td class="bordesTablaInfIzqDer justifyCenter" colspan="2">RECEPCION EN EL LABORATORIO</td>
-                        <td class="bordesTablaSupInfDer justifyCenter" colspan="2">ENTREGA LA(S) MUESTRA(S)</td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2" class="bordesTablaInfIzqDer justifyCenter">{{@$firmaRecepcion->name}} <br> <span class="fontSize7">Nombre y Firma</span></td>
-                        <td colspan="2" class="bordesTablaSupInfDer justifyCenter">{{@$muestreador->name}} <br> <span class="fontSize7">Nombre y Firma</span></td>
-                    </tr>
-
-                    <tr>
-                        <td colspan="2" class="bordesTablaInfIzqDer">Fecha y hora de recepción en Lab: {{\Carbon\Carbon::parse(@$recepcion->created_at)}}</td>
-                        <td colspan="2" class="bordesTablaSupInfDer">Fecha y hora de conformación de la muestra: 
-                            {{\Carbon\Carbon::parse(@$phMuestra[@$model->Num_tomas - 1]->Fecha)->addMinutes(30)->format('d/m/Y H:i:s')}}
+                        <td class="bordesTabla justifyCenter" style="width: 50%">
+                            @if ($procesoAnalisis->count())
+                                <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{asset('public/storage/'.@$firmaRecepcion->firma)}}">
+                            @else
+                                ------------
+                            @endif
                         </td>
+                      <td class="bordesTabla justifyCenter" style="width: 50%"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{url("/public/storage")."/".@$firmaRes->firma}}"></td>                      
+                    </tr>
+                    <tr>
+                        <td class="bordesTablaInfIzqDer justifyCenter" style="width: 50%">RECEPCION EN EL LABORATORIO</td>
+                        <td class="bordesTablaSupInfDer justifyCenter" style="width: 50%">ENTREGA LA(S) MUESTRA(S)</td>
                     </tr>
 
                     <tr>
-                        <td class="bordesTablaInfIzq">pH MUESTRA COMPUESTA:                             
-                            @php
-                                echo number_format(@$modelCompuesto->Ph_muestraComp, 2, ".", ",");
-                            @endphp
-                        </td>
-                        <td class="bordesTablaInf">VOLUMEN MUESTRA COMPUESTA: {{@$modelCompuesto->Volumen_calculado}} L</td>
-                        <td class="bordesTablaInfDer" colspan="2">TEMPERATURA MUESTRA COMPUESTA: {{@$modelCompuesto->Temp_muestraComp}} °C</td>
+                        <td class="bordesTablaInfIzqDer justifyCenter" style="width: 50%">{{@$firmaRecepcion->name}} <br> <span class="fontSize7">Nombre y Firma</span></td>
+                        <td class="bordesTablaSupInfDer justifyCenter" style="width: 50%">{{@$muestreador->name}} <br> <span class="fontSize7">Nombre y Firma</span></td>
                     </tr>
 
-                    <tr>
-                        <td class="bordesTablaInfIzqDer" colspan="4">OBSERVACIONES: {{@$modelCompuesto->Observaciones}}</td>
-                    </tr>
-
-                    {{-- <tr class="bordesTablaInfIzqDer">
-                        <td colspan="4">{{@$model->Observacion}}</td>
-                    </tr> --}}
+             
+                    @if (@$model->Num_tomas > 1)
+                        <tr>
+                            <td class="bordesTablaInfIzqDer" style="width: 50%">Fecha y hora de recepción en Lab: {{\Carbon\Carbon::parse(@$recepcion->created_at)}}</td>
+                            <td class="bordesTablaSupInfDer" style="width: 50%">
+                                Fecha y hora de conformación de la muestra: 
+                                {{\Carbon\Carbon::parse(@$phMuestra[@$model->Num_tomas - 1]->Fecha)->addMinutes(30)->format('d/m/Y H:i:s')}}
+                            </td>
+                        </tr> 
+                            <tr>
+                                <td class="bordesTablaInfIzq" colspan="2">
+                                    <table style="width: 100%">
+                                        <tr>
+                                            <td class="bordesTablaInfIzq">
+                                                pH MUESTRA COMPUESTA:                             
+                                                @php
+                                                    echo number_format(@$modelCompuesto->Ph_muestraComp, 2, ".", ",");
+                                                @endphp
+                                            </td>
+                                            <td class="bordesTablaInf">VOLUMEN MUESTRA COMPUESTA: {{@$modelCompuesto->Volumen_calculado}} L</td>
+                                            <td class="bordesTablaInfDer">TEMPERATURA MUESTRA COMPUESTA: {{@$modelCompuesto->Temp_muestraComp}} °C</td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        @else
+                            <tr>
+                                <td class="bordesTablaInfIzqDer" style="width: 100%" colspan="2">Fecha y hora de recepción en Lab: {{\Carbon\Carbon::parse(@$recepcion->created_at)}}</td>
+                            </tr>
+                            <tr>
+                                <tr>
+                                    <td class="bordesTablaInfIzqDer" style="width: 100%" colspan="2">OBSERVACIONES: {{@$modelCompuesto->Observaciones}}</td>
+                                </tr>
+                            </tr>
+                        @endif
                 </table>
+          
             </div>
             
             <br><br>
@@ -300,7 +316,7 @@
                     $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                 @endphp
                                                         
-                <img style="width: 12%; height: 12%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold">&nbsp; QR Hoja Campo</span>
+                {{-- <img style="width: 12%; height: 12%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold">&nbsp; QR Hoja Campo</span> --}}
             </div>
         </div>
     </div>

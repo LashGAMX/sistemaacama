@@ -26,7 +26,7 @@
 
         <div class="subContenedor">
             <span class="cabeceraStdMuestra">HORA DE DIGESTIÓN: </span>
-            <span class="bodyStdMuestra">{{@$fechaHora->toDateString()}}</span>
+            <span class="bodyStdMuestra">{{@$hora}}</span>
         </div>
 
         <div class="subContenedor2">            
@@ -38,7 +38,7 @@
 
         <div class="subContenedor2">
             <span class="elementos">CORRIENTE DE LA LÁMPARA: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Corriente}}</span>
+            <span class="subElementos">{{@$detalle->Corriente}}</span>
         </div>
     </div>
 
@@ -47,43 +47,43 @@
 
         <div class="subContenedor2">
             <span class="elementos">No. DE INV. LÁMPARA: </span>                    
-            <span class="subElementos">{{@$tecnicaMetales->Num_invent_lamp}}</span>
+            <span class="subElementos">{{@$detalle->No_lampara}}</span>
         </div>
 
         <div class="subContenedor2">
             <span class="elementos">ENERGÍA DE LÁMPARA: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Energia}}</span>
+            <span class="subElementos">{{@$detalle->Energia}}</span>
         </div>
     </div>
     <div class="contenedorTerciario">                        
         <div class="subContenedor3">            
             <span class="elementos"> No. DE INVENTARIO: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Num_inventario}}</span>
+            <span class="subElementos">{{@$detalle->No_inventario}}</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">LONGITUD DE ONDA: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Longitud_onda}}</span>
+            <span class="subElementos">{{@$detalle->Longitud_onda}}</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">SLIT: </span>                    
-            <span class="subElementos">{{@$tecnicaMetales->Slit}} mm</span>
+            <span class="subElementos">{{@$detalle->Slit}} mm</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">ACETILENO: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Gas}} L/min</span>
+            <span class="subElementos">{{@$detalle->Gas}} L/min</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">AIRE: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Aire}} L/min</span>
+            <span class="subElementos">{{@$detalle->Aire}} L/min</span>
         </div>
 
         <div class="subContenedor3">
             <span class="elementos">ÓXIDO NITROSO: </span>
-            <span class="subElementos">{{@$tecnicaMetales->Oxido_nitroso}}</span>
+            <span class="subElementos">{{@$detalle->Oxido_nitroso}}</span>
         </div>
     </div>
 
@@ -93,31 +93,31 @@
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">STD.CAL. {{@$verificacionMetales->STD_cal}} </span>            
+            <span class="elementos">STD.CAL. {{@$detalle->Std_calE}} </span>            
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS. TEÓRICA: {{@$verificacionMetales->ABS_teorica}}</span>
+            <span class="elementos">ABS. TEÓRICA: {{@$detalle->Abs_teoricoE}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 1: {{@$verificacionMetales->ABS1}}</span>
+            <span class="elementos">ABS 1: {{@$detalle->Abs1E}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 2: {{@$verificacionMetales->ABS2}}</span>
+            <span class="elementos">ABS 2: {{@$detalle->Abs2E}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 3: {{@$verificacionMetales->ABS3}}</span>
+            <span class="elementos">ABS 3: {{@$detalle->Abs3E}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 4: {{@$verificacionMetales->ABS4}}</span>
+            <span class="elementos">ABS 4: {{@$detalle->Abs4E}}</span>
         </div>
 
         <div class="subContenedor4">
-            <span class="elementos">ABS 5: {{@$verificacionMetales->ABS5}}</span>
+            <span class="elementos">ABS 5: {{@$detalle->Abs5E}}</span>
         </div>
     </div>
 
@@ -173,12 +173,14 @@
                             @endif                            
                         @endfor
                         
-                        <td id="tableContent"><span class="bmrTabla">m = </span></td>
+                        <td id="tableContent"><span class="bmrTabla">m= </span></td>
                         <td id="tableContent">
                             @php
-                                echo number_format(@$bmr->M, 5, ".", ".");
+                                echo number_format(@$curva->M, 5, ".", ".");
                             @endphp
+                            <br>
                         </td>
+                        
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA 1</td>
@@ -202,7 +204,7 @@
                         <td id="tableContent"><span class="bmrTabla">r = </span></td>
                         <td id="tableContent">
                             @php
-                                echo number_format(@$bmr->R, 5, ".", ".");
+                                echo number_format(@$curva->R, 5, ".", ".");
                             @endphp
                         </td>
                     </tr>
@@ -224,7 +226,12 @@
                                 </td>
                             @endif
                         @endfor
-
+                        <td id="tableContent"><span class="bmrTabla">b= </span></td>
+                        <td id="tableContent">
+                            @php
+                                echo number_format(@$curva->B, 5, ".", ".");
+                            @endphp
+                        </td>
                         <td id="tableContent"><span class="bmrTabla">Fecha de preparación = </span></td>
                         <td id="tableContent">{{@$fechaPreparacion}}</td>
                     </tr>

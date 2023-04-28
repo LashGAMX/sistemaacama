@@ -896,11 +896,7 @@
                                 </table>
                             </div>
 
-                            @if ($model->Num_tomas > 1)
-                             <div class="col-md-12">
-                              @else
-                                 <div class="col-md-12" hidden>
-                           @endif
+                            <div class="col-md-12">
                                 <p>Gasto</p>
                                 <table class="table" id="gasto">
                                     <thead>
@@ -1287,5 +1283,5 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"
     integrity="sha512-qTXRIMyZIFb8iQcfjXWCO8+M5Tbc38Qi5WzdPOYZHIlZpzBHG3L3by84BBBOiRGiEb7KKtAOAs5qYdUiZiQNNQ=="
     crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-<script src="{{ asset('/public/js/campo/captura.js') }}?v=0.0.1"></script>
+<script src="{{ asset('/public/js/campo/captura.js') }}?v=1.0.0"></script>
 @stop
