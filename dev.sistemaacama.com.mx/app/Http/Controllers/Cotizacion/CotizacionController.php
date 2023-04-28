@@ -42,9 +42,9 @@ class CotizacionController extends Controller
     public function index()
     {
         //Vista Cotización
-        $model = DB::table('ViewCotizacion')->orderBy('created_at', 'DESC')->get();
-        return view('cotizacion.cotizacion', compact('model'));
-    }
+        $model = DB::table('ViewCotizacionList')->orderBy('Id_cotizacion', 'DESC')->get();
+        return view('cotizacion.cotizacion', compact('model')); 
+    } 
     public function getClientesIntermediarios(Request $res)
     {
         $model = ClienteGeneral::where('Id_intermediario', $res->id)->get();
@@ -208,7 +208,100 @@ class CotizacionController extends Controller
     }
     public function setCotizacion(Request $res)
     {
+
+        $model = Cotizacion::where('Id_cotizacion',$res->id)->get();
+        if ($model->count()) {
+            //Genera folio
+            $year = date("y");
+            $dayYear = date("z") + 1;
+            $today = Carbon::now()->format('Y-m-d');
+
+            $cotizacionDay = DB::table('cotizacion')->whereDate('created_at', $today)->count();
+            $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
+
+
+            $cotizacion = Cotizacion::create([
+                'Id_intermedio' => $res->intermediario,
+                'Id_cliente' => $res->cliente,
+                'Id_sucursal' => $res->clienteSucursal,
+                'Id_direccion' => $res->idDir,
+                'Id_general' => $res->idGen,
+                'Nombre' => $res->nomCli,
+                'Direccion' => $res->dirCli,
+                'Atencion' => $res->atencion,
+                'Telefono' => $res->telCli,
+                'Correo' => $res->correoCli,
+                'Tipo_servicio' => $res->tipoServicio,
+                'Tipo_descarga' => $res->tipoDescarga,
+                'Id_norma' => $res->norma,
+                'Id_subnorma' => $res->subnorma,
+                'Fecha_muestreo' => $res->fecha,
+                'Frecuencia_muestreo' => $res->frecuencia,
+                'Tomas' => $res->tomas,
+                'Tipo_muestra' => $res->tipoMuestra,
+                'Promedio' => $res->promedio,
+                'Tipo_reporte' => $res->tipoReporte,
+                'Numero_puntos' => sizeof($res->puntos),
+                'Estado_cotizacion' => 1,
+                'Folio' => $folio,
+
+                'Creado_por' => Auth::user()->id,
+                'Actualizado_por' => Auth::user()->id,
+            ]);
+
+            for ($i = 0; $i < sizeof($res->parametros); $i++) {
+                $subnorma = NormaParametros::where('Id_norma', $res->subnorma)->where('Id_parametro', $res->parametros[$i])->get();
+                $chParam = 0;
+                $extra = 0;
+                if ($subnorma->count() > 0) {
+                    $extra = 0;
+                } else {
+                    $extra = 1;
+                }
+                if($res->chParam[$i] == "true"){
+                    $chParam = 1;
+                }else{
+                    $chParam = 0;
+                }
+                CotizacionParametros::create([
+                    'Id_cotizacion' => $cotizacion->Id_cotizacion,
+                    'Id_subnorma' => $res->parametros[$i],
+                    'Extra' => $extra,
+                    'Reporte' => $chParam,
+                ]);
+            }
+        } else {
+                
+                $cotizacion = Cotizacion::find($res->id);
+                $cotizacion->Id_intermedio = $res->intermediario;
+                $cotizacion->Id_cliente = $res->cliente;
+                $cotizacion->Id_sucursal = $res->clienteSucursal;
+                $cotizacion->Id_direccion = $res->idDir;
+                $cotizacion->Id_general = $res->idGen;
+                $cotizacion->Nombre = $res->nomCli;
+                $cotizacion->Direccion = $res->dirCli;
+                $cotizacion->Atencion = $res->atencion;
+                $cotizacion->Telefono = $res->telCli;
+                $cotizacion->Correo = $res->correoCli;
+                $cotizacion->Tipo_servicio = $res->tipoServicio;
+                $cotizacion->Tipo_descarga = $res->tipoDescarga;
+                $cotizacion->Id_norma = $res->norma;
+                $cotizacion->Id_subnorma = $res->subnorma;
+                $cotizacion->Fecha_muestreo = $res->fecha;
+                $cotizacion->Frecuencia_muestreo = $res->frecuencia;
+                $cotizacion->Tomas = $res->tomas;
+                $cotizacion->Tipo_muestra = $res->tipoMuestra;
+                $cotizacion->Promedio = $res->promedio;
+                $cotizacion->Tipo_reporte = $res->tipoReporte;
+                $cotizacion->Numero_puntos = sizeof($res->puntos);
+                $cotizacion->Estado_cotizacion = 1;
+                $cotizacion->Actualizado_por = Auth::user()->id;
+                $cotizacion->save();
+        }
+        
+
         $idCot = 0;
+        
         if ($res->id == "") {
             $year = date("y");
             $dayYear = date("z") + 1;
@@ -394,13 +487,15 @@ class CotizacionController extends Controller
         $descargas = DB::table('tipo_descargas')->get();
         $metodoPago = DB::table('metodo_pago')->get();
         $estados = DB::table('estados')->get();
-        $categorias001 = DB::table('categoria001_2021')->get();
+        $categorias001 = DB::table('categorias001')->get();
+        $categorias0012 = DB::table('categoria001_2021')->get();
         $tipoMuestraCot = TipoMuestraCot::all();
         $promedioCot = PromedioCot::all();
 
 
 
         $data = array(
+            'categorias0012' => $categorias0012,
             'categorias001' => $categorias001,
             'tipoMuestraCot' => $tipoMuestraCot,
             'promedioCot' => $promedioCot,
