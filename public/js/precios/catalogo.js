@@ -103,7 +103,7 @@ function savePrecioCat(id){
         success: function (response) {      
             console.log(response)
             alert("Precio Modificado")
-            getParametros();
+            //getParametros();
         } 
     });
 }

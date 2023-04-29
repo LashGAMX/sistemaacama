@@ -30,10 +30,10 @@ $(document).ready(function () {
 function _initTable()
 {
 
-    $('#tablaCotizacion thead th').each(function () {
-        var title = $(this).text();
-        $(this).html('<input type="text" placeholder="' + title + '" />');
-    });
+    // $('#tablaCotizacion thead th').each(function () {
+    //     var title = $(this).text();
+    //     $(this).html('<input type="text" placeholder="' + title + '" />');
+    // });
 
         
     // $("#tablaCotizacion thead th")[0].html('<input style="width:15px" type="number" placeholder="Id" />')
@@ -43,27 +43,28 @@ function _initTable()
     
 
     table = $('#tablaCotizacion').DataTable({
-        "ordering": true,
+        "ordering": false,
+        paging: false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
             "zeroRecords": "No hay datos encontrados",
             "info": "Pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay datos encontrados",   
         },
-        initComplete: function () {
-            // Apply the search
-            this.api() 
-                .columns()
-                .every(function () {
-                    var that = this;
+        // initComplete: function () {
+        //     // Apply the search
+        //     this.api() 
+        //         .columns()
+        //         .every(function () {
+        //             var that = this;
  
-                    $('input', this.header()).on('keyup change clear', function () {
-                        if (that.search() !== this.value) {
-                            that.search(this.value).draw();
-                        }
-                    });
-                });
-        },
+        //             $('input', this.header()).on('keyup change clear', function () {
+        //                 if (that.search() !== this.value) {
+        //                     that.search(this.value).draw();
+        //                 }
+        //             });
+        //         });
+        // },
         
     });
     $('#tablaCotizacion tr').on('click', function(){

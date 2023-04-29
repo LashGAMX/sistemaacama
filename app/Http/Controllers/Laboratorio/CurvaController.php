@@ -209,7 +209,6 @@ class CurvaController extends Controller
         ->where('Id_area', $request->idArea)
         ->where('Id_parametro', $request->idParametro)->first();
 
-       
 
         $concent = ConcentracionParametro::where('Id_parametro', "=", $request->idParametro)->get(); //valores de concentración
 
@@ -272,8 +271,7 @@ class CurvaController extends Controller
             'parametro' => $request->idParametro,
             'concentracion' => $concent,
             'valFecha' => $valFecha,
-            'num' => $num,
-           
+            
            
         );
         return response()->json($data);

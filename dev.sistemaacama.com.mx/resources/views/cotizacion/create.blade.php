@@ -205,7 +205,7 @@
                             <div class="row">
                                 <div class="col-md-12">
                                     <div class="row">
-                                        <div class="col-md-4">
+                                        <div class="col-md-2">
                                             <label for="tipoMuestra">Tipo de muestra</label>
                                             <select name="tipoMuestra" id="tipoMuestra" class="form-control">
                                                 @foreach($tipoMuestraCot as $item)
@@ -218,7 +218,7 @@
                                                 @endforeach
                                             </select>
                                         </div>
-                                        <div class="col-md-4">
+                                        <div class="col-md-2">
                                             <label for="promedio">Promedio</label>
                                             <select name="promedio" class="form-control" id="promedio">
                                                 @foreach($promedioCot as $item)
@@ -232,10 +232,23 @@
                                             </select>
                                         </div>
                                         <div class="col-md-4">
-                                            <label for="tipoReporte">Tipo de reporte</label>
+                                            <label for="tipoReporte">Tipo de reporte 1996</label>
                                             <select name="tipoReporte" id="tipoReporte" class="form-control">
                                                 <option value="0">Sin seleccionar</option>
-                                                @foreach (@$categorias001 as $item)
+                                                @foreach (@$categorias001 as $item) 
+                                                @if ($item->Id_categoria == @$model->Tipo_reporte)
+                                                <option value="{{$item->Id_categoria}}" selected>{{$item->Categoria}}</option>
+                                                @else
+                                                <option value="{{$item->Id_categoria}}">{{$item->Categoria}}</option>
+                                                @endif
+                                                @endforeach
+                                            </select>
+                                        </div>
+                                        <div class="col-md-4">
+                                            <label for="tipoReporte2">Tipo de reporte 2023</label>
+                                            <select name="tipoReporte2" id="tipoReporte2" class="form-control">
+                                                <option value="0">Sin seleccionar</option>
+                                                @foreach (@$categorias0012 as $item)
                                                 @if ($item->Id_categoria == @$model->Tipo_reporte)
                                                 <option value="{{$item->Id_categoria}}" selected>{{$item->Categoria}}</option>
                                                 @else
@@ -280,9 +293,8 @@
                                 </div>
                                 <div class="col-md-4">
                                     @if ($show == true)
-                                    <button class="btn btn-success btn-sm" id="btnGuardarCot"><i
-                                        class="fas fa-save"></i> Guardar</button>
-                            @endif
+                                        {{-- <button class="btn btn-success btn-sm" id="btnGuardarCot" style=""><i class="fas fa-save"></i> Guardar</button> --}}
+                                    @endif
                                     
                                 </div>
 
@@ -708,6 +720,9 @@
                 </div>
                 {{-- Fin datos Cotizacion --}}
             </div>
+            <div class="col-md.12">
+                <div  style="position: fixed;left: 90%;top:80%"> <button style="border: none" class="btn btn-success" id="btnGuardarCotizacion"><i class="voyager-paper-plane"></i> Guardar</button></div><br>
+              </div>
         </div>
     </div>
 

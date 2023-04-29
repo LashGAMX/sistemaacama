@@ -3,6 +3,7 @@ var table;
 $(document).ready(function () {
     table = $('#tablaCotizacion').DataTable({
         "ordering": false,
+        paging: false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
             "zeroRecords": "No hay datos encontrados",

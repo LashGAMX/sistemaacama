@@ -55,6 +55,7 @@ function setPrecioCotizacion()
       precioMuestra: $('#precioMuestra').val(),
       gastosExtras: $("#gastosExtras").val(),
       paqueteria:$("#paqueteria").val(),
+      numeroServicio:$("#numeroServicio").val(),
       iva: $('#iva').val(),
       subTotal: $('#subTotal').val(),
       precioTotal: $('#precioTotal').val(),
@@ -180,7 +181,7 @@ function getDataUpdate()
         parametros = response.parametros
         createTabParametros()
         getLocalidad()
-        btnReccalcular()
+        // btnReccalcular()
     }
 });
 }
@@ -683,6 +684,7 @@ function btnReccalcular()
   let iva = parseFloat($("#iva").val())
   let subTotal = parseFloat($("#subTotal").val())
   let precioTotal = parseFloat($("#precioTotal").val())
+  let servicios = parseFloat($("#numeroServicio").val())
   let temp = 0
 
 
@@ -696,9 +698,14 @@ function btnReccalcular()
   if ($("#paqueteria").val() == '') {
     paqueteria = 0
   } 
-  subTotal = analisis + extra + muestreo + gastosExtras + paqueteria
+  subTotal = (analisis + extra + muestreo + gastosExtras + paqueteria) * servicios
+  console.log(subTotal)
   temp = (subTotal * 16) / 100
   precioTotal = temp + subTotal
-  $("#subTotal").val(subTotal)
-  $("#precioTotal").val(precioTotal)
-}
+  $("#precioAnalisis").val(analisis * servicios)
+  $("#precioCat").val((extra * servicios))
+  $("#precioMuestra").val((muestreo * servicios))
+  $("#subTotal").val(subTotal.toFixed(2)) 
+  $("#precioTotal").val(precioTotal.toFixed(2))
+  alert("datos recalculados")
+} 

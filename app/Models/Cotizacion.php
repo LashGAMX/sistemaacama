@@ -44,6 +44,9 @@ class Cotizacion extends Model
         'Metodo_pago',
         'Precio_analisis',
         'Precio_catalogo',
+        'Paqueteria',
+        'Extras',
+        'Num_servicio',
         'Descuento',
         'Precio_analisisCon',
         'Precio_muestreo',
@@ -54,8 +57,7 @@ class Cotizacion extends Model
         'Creado_por',
         'Actualizado_por',
         'Hijo',
-        'Id_reporte',
-        'Tipo',
+        'Id_reporte'
     ];
 
 }

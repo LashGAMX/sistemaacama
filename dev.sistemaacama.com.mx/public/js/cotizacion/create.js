@@ -4,15 +4,34 @@ $(document).ready(function () {
   $('#datos-tab').click();
   addColPunto()
 
-  $('#btnGuardarCot').click(function () {
-      setCotizacion(); 
+  // $('#btnGuardarCot').click(function () {
+  //     setCotizacion(); 
+  //   });
+    $('#btnGuardarCotizacion').click(function () {
+      switch (std) {
+        case 1:
+          setCotizacion()
+          break;
+        case 2:
+          break
+        case 3:
+          break
+        default:
+          break;
+      }
     });
 
+
+    $('#parametro-tab').click(function () {
+      std = 1
+    });
   $('#parametro-tab').click(function () {
     createTabParametros();
+    std = 2
   });
   $('#cotizacion-tab').click(function () {
     getDatosCotizacion()
+    std = 3
   });
   
   if ($("#idCot").val() != "") {
@@ -37,6 +56,7 @@ var myTransfer
 var des = true
 var desSw = false
 var tabParam = false
+var std = 1;
 //todo funciones
 function setPrecioCotizacion()
 {
@@ -412,18 +432,34 @@ function setCotizacion() {
   let chParam = new Array()
   let tab = document.getElementById("puntoMuestro")
   let tab2 = document.getElementById("tableParametros")
-  for (let i = 1; i < tab.rows.length; i++) {
-    puntos.push(tab.rows[i].children[1].children[0].value)
+  let std1 = 0
+  let std2 =  0
+
+  try {
+    for (let i = 1; i < tab.rows.length; i++) {
+      puntos.push(tab.rows[i].children[1].children[0].value)
+        std1 = 1
+    }
+  } catch (error) {
+    std1 = 0
   }
+  console.log(std)
+  
   for (let i = 1; i < tab2.rows.length; i++) {
-    param.push(tab2.rows[i].children[2].textContent)
-    chParam.push(tab2.rows[i].children[0].children[0].checked)
+    if (tab2.rows.length > 0) {
+      param.push(tab2.rows[i].children[2].textContent)
+      chParam.push(tab2.rows[i].children[0].children[0].checked)
+      std2 = 1 
+    }
+    
   }
   console.log(param)
   $.ajax({
     url: base_url + '/admin/cotizacion/setCotizacion', //archivo que recibe la peticion
     type: 'POST', //método de envio
     data: {
+      std1: std1,
+      std2:std2,
       id:$("#idCot").val(),
       intermediario: $('#intermediario').val(),
       cliente: $('#cliente').val(),

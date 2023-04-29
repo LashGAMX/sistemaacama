@@ -158,7 +158,7 @@ cot.Id_cotizacion,cot.Id_direccion,cot.Id_general,cot.Id_intermedio,inter.Nombre
 cot.Atencion,cot.Telefono,cot.Correo,cot.Tipo_servicio,ser.Servicio,cot.Tipo_descarga,des.Descarga,
 cot.Id_norma,nor.Norma,nor.Clave_norma,cot.Id_subnorma,cot.Fecha_muestreo,cot.Frecuencia_muestreo,cot.Tomas,
 cot.Tipo_muestra as Id_tipoMuestra,tipo.Tipo,cot.Promedio as Id_promedio,prom.Promedio,cot.Numero_puntos,cot.Tipo_reporte,
-cot.Tiempo_entrega,cot.Observacion_interna,cot.Observacion_cotizacion,cot.Folio_servicio,cot.Paqueteria,cot.Extras,
+cot.Tiempo_entrega,cot.Observacion_interna,cot.Observacion_cotizacion,cot.Folio_servicio,cot.Paqueteria,cot.Extras,cot.Num_servicios,
 cot.Folio,cot.Fecha_cotizacion,cot.Metodo_pago,cot.Precio_analisis,cot.Descuento,cot.Precio_analisisCon,cot.Iva,cot.Precio_muestreo,cot.Precio_catalogo,cot.Sub_total,
 cot.Costo_total,cot.Estado_cotizacion,est.Estado,est.Descripcion as Descripcion_estado,
 cot.Supervicion,cot.Creado_por,usr.name as NameC,cot.Actualizado_por,usr2.name as NameA,cot.created_at,cot.updated_at,cot.deleted_at

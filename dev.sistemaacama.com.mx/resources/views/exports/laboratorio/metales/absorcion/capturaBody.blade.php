@@ -126,10 +126,24 @@
         <div class="subContenedor5">            
             <span class="verifEspectro">CURVA DE CALIBRACIÓN</span>
             <br>
+    
             <span class="elementosCurvaCalib">Ver. RE-12-001-24-1 Bit.3 Folio: 378. (Bitacora para la preparación de estándares y curvas de calibración)</span>
 
             <table autosize="1" class="table table-borderless" id="tablaDatos">
                 <thead>
+                    @if (@$lote->Id_tecnica == 215)
+                    <tr>
+                        <th id="tableCabecera">&nbsp;</th>
+                        <th id="tableCabecera">&nbsp;Blanco&nbsp;&nbsp;</th>
+                        <th id="tableCabecera">&nbsp;STD1&nbsp;&nbsp;</th>
+                        <th id="tableCabecera">&nbsp;STD2&nbsp;&nbsp;</th>
+                        <th id="tableCabecera">&nbsp;STD3&nbsp;&nbsp;</th>
+                        <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>                            
+                        <th id="tableCabecera">&nbsp;STD5&nbsp;&nbsp;</th>
+                        <th id="tableCabecera">&nbsp;STD6&nbsp;&nbsp;</th>                                     
+                        </span>&nbsp;&nbsp;</th>
+                    </tr>        
+                    @else
                     <tr>
                         <th id="tableCabecera">&nbsp;</th>
                         <th id="tableCabecera">&nbsp;Blanco&nbsp;&nbsp;</th>
@@ -139,18 +153,13 @@
                         <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>                            
                         <th id="tableCabecera">&nbsp;STD5&nbsp;&nbsp;</th>                            
                         </span>&nbsp;&nbsp;</th>
-                    </tr>                           
+                    </tr>        
+                    @endif
+                                       
                 </thead>
         
                 <tbody>
-                    <tr>
-                        <td id="tableContent">CONCENTRACIÓN EN mg/L</td>
-                        <td id="tableContent"></td>
-                        <td id="tableContent"></td>
-                        <td id="tableContent"></td>
-                        <td id="tableContent"></td>
-                        <td id="tableContent"></td>
-                        <td id="tableContent"></td>
+                    <tr>                        
                         @if (@$tecnicaUsada->Id_tecnica == 22)
                             <td id="tableContent">CONCENTRACIÓN EN μg/L</td>
                         @else
@@ -187,7 +196,7 @@
                         
                         <td id="tableContent">                            
                             @php
-                                echo number_format(@$estandares[0]->ABS1, 3, ".", ",");
+                                echo number_format(@$estandares[0]->ABS1, 3, ".", ".");
                             @endphp
                         </td>
 

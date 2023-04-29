@@ -711,3 +711,17 @@ ON  met.Id_parametro = p.Id_parametro
 CREATE VIEW  ViewMatrazConMuestra as SELECT ga.*,ma.Peso,ma.Min,ma.Max,ma.Estado FROM ViewLoteDetalleGA as ga
 INNER JOIN matraz_GA as ma
 ON ga.Id_matraz = ma.Id_matraz
+
+/* ViewCotizacionList */
+
+CREATE VIEW ViewCotizacionList as SELECT cot.*,nom.Norma,nom.Clave_norma,des.Descarga,est.Estado,usr.name,usr2.name as name_create,usr2.name as name_mod FROM cotizacion as cot
+INNER JOIN normas as nom
+ON cot.Id_norma = nom.Id_norma
+INNER JOIN tipo_descargas as des
+ON cot.Tipo_descarga = des.Id_tipo
+INNER JOIN cotizacion_estado as est
+ON cot.Estado_cotizacion = est.Id_estado
+INNER JOIN users as usr
+ON cot.Creado_por = usr.id
+INNER JOIN users as usr2
+ON cot.Actualizado_por = usr2.id

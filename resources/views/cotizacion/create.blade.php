@@ -500,13 +500,13 @@
                                         <label for="">Kilometros:</label>
                                         <input type="number" class="form-control" name="km" id="km"
                                             onkeyup="cantGasolinaTeorico();" value="{{ @$muestreo->Km }}">
-                                    </div>
+                                    </div> 
                                     <div class="col-md-2">
                                         <label for="">Kilometros Extra:</label>
                                         <input type="number" class="form-control" name="kmExtra" id="kmExtra"
                                             onkeyup="cantGasolinaTeorico();" value="{{ @$muestreo->Km_extra }}">
                                     </div>
-                                    <div class="col-md-2">
+                                    <div class="col-md-2"> 
                                         <label for="">Gasolina Teorico:</label>
                                         <input type="text" class="form-control" name="gasolinaTeorico"
                                             id="gasolinaTeorico" value="{{ @$muestreo->Gasolina_teorico }}">
@@ -522,7 +522,7 @@
                                     <div class="col-md-3"> 
                                         <label for=""># de Servicios:</label>
                                         <input type="number" class="form-control" name="numeroServicio"
-                                            id="numeroServicio" value="{{ @$muestreo->Num_servicio }}">
+                                            id="numeroServicio" value="{{ @$model->Num_servicios }}">
                                     </div>
                                     <div class="col-md-3">
                                         <label for=""># de muestreadores:</label>

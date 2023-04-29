@@ -280,7 +280,6 @@ class FqController extends Controller
     }
     public function operacionEspectro(Request $request)
     {
-        $volumen = VolumenParametros::where('Id_parametro', $request->parametro)->first();
 
         switch ($request->parametro) {
             case 113:

@@ -22,7 +22,7 @@ function setPrecioAnual()
         success: function (response) {      
             console.log(response)
             alert("Precios Modificado")
-            getParametros();
+            //getParametros();
         } 
     });
 }

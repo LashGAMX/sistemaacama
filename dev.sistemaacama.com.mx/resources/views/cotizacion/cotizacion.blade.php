@@ -70,7 +70,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (@$model as $item)
+                                @foreach ($model as $item)
                                 <tr>
                                     <td>{{$item->Id_cotizacion}}</td>
                                     <td>{{$item->Folio_servicio}}</td>
@@ -80,9 +80,9 @@
                                     <td>{{$item->Clave_norma}}</td>
                                     <td>{{$item->Descarga}}</td>
                                     <td>{{$item->Estado}}</td>
-                                    <td>{{$item->NameA}}</td>
+                                    <td>{{$item->name_create}}</td>
                                     <td>{{$item->created_at}}</td>
-                                    <td>{{$item->NameA}}</td>
+                                    <td>{{$item->name_mod}}</td>
                                     <td>{{$item->updated_at}}</td>
                                 </tr>
                                 @endforeach

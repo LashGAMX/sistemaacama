@@ -5,12 +5,15 @@ var idCot = 0;
 $(document).ready(function () {
     table = $('#tablaSolicitud').DataTable({
         "ordering": false,
+        "pageLength": 100,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
             "zeroRecords": "No hay datos encontrados",
             "info": "Pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay datos encontrados",   
-        }
+        },
+        "scrollY": 350,
+        "scrollCollapse": true
     });
     $("#btnEdit").prop('disabled', true);
     $('#tablaSolicitud tbody').on( 'click', 'tr', function () { 

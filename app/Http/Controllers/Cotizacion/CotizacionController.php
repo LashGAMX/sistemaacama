@@ -214,16 +214,9 @@ class CotizacionController extends Controller
             $dayYear = date("z") + 1;
             $today = Carbon::now()->format('Y-m-d');
 
-            $cotizacionDay = DB::table('cotizacion')->whereDate('created_at', $today)->where('Hijo', 0)->count();
-            $numCot = DB::table('cotizacion')->whereDate('created_at', $today)->where('Id_sucursal', $res->clienteSucursal)->get();
-            $hijo = 0;
-            if ($numCot->count()) {
-                $hijo = 1;
-                $firtsFol = DB::table('cotizacion')->where('created_at', 'LIKE', "%{$today}%")->where('Id_sucursal', $res->clienteSucursal)->first();
-                $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
-            } else {
-                $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
-            }
+            $cotizacionDay = DB::table('cotizacion')->whereDate('created_at', $today)->count();
+            $folio = $dayYear . "-" . ($cotizacionDay + 1) . "/" . $year;
+
 
 
             $cotizacion = Cotizacion::create([
@@ -250,10 +243,9 @@ class CotizacionController extends Controller
                 'Numero_puntos' => sizeof($res->puntos),
                 'Estado_cotizacion' => 1,
                 'Folio' => $folio,
-
+                'Num_servicios' => 1,
                 'Creado_por' => Auth::user()->id,
                 'Actualizado_por' => Auth::user()->id,
-                'Hijo' => $hijo,
             ]);
             for ($i = 0; $i < sizeof($res->parametros); $i++) {
                 $subnorma = NormaParametros::where('Id_norma', $res->subnorma)->where('Id_parametro', $res->parametros[$i])->get();
@@ -549,6 +541,7 @@ class CotizacionController extends Controller
         $model->Precio_muestreo = $res->precioMuestra;
         $model->Extras = $res->gastosExtras;
         $model->Paqueteria = $res->paqueteria;
+        $model->Num_servicios = $res->numeroServicio;
         $model->Iva = $res->iva;
         $model->Sub_total = $res->subTotal;
         $model->Costo_total = $res->precioTotal;
@@ -647,17 +640,7 @@ class CotizacionController extends Controller
         $puntos = CotizacionPunto::where('Id_cotizacion', $model->Id_cotizacion)->get();
         $relacion = InformesRelacion::where('Id_cotizacion', $model->Id_cotizacion)->get();
         $reportesInformes = DB::table('ViewReportesCotizacion')->orderBy('Num_rev', 'desc')->first();       
-        // if ($relacion->count()){
-        //     $reportesInformes = DB::table('ViewReportesCotizacion')->where('Id_reporte', $relacion->Id_relacion)->first();
-        // } else {
-        //     $reportesInformes = DB::table('ViewReportesCotizacion')->orderBy('Num_rev', 'desc')->first();
-        //     InformesRelacion::create([
-        //         'Id_cotizacion' => $model->Id_cotizacion,
-        //         'Id_reporte' => $reportesInformes->Id_reporte, 
-        //     ]); 
-        // }
 
-        
 
         $analisisDesc = $model->Precio_analisis - (($model->Precio_analisis * $model->Descuento) / 100);
 
@@ -666,7 +649,7 @@ class CotizacionController extends Controller
         } else {
             $subTotal = $analisisDesc + $sumaParamEspecial + $model->Precio_muestreo;
         } 
-
+        $numServicios = $model->Num_servicios * $puntos->count();
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
@@ -684,7 +667,7 @@ class CotizacionController extends Controller
 
         $firma = User::find(24); // Firma maribel
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.cotizacion.cotizacion', compact('model', 'parametros', 'parametrosExtra', 'norma', 'puntos', 'sumaParamEspecial', 'analisisDesc', 'subTotal', 'firma','reportesInformes'));
+        $html = view('exports.cotizacion.cotizacion', compact('model','numServicios', 'parametros', 'parametrosExtra', 'norma', 'puntos', 'sumaParamEspecial', 'analisisDesc', 'subTotal', 'firma','reportesInformes'));
         $mpdf->CSSselectMedia = 'mpdf';
 
         $htmlFooter = view('exports.cotizacion.footerCotizacion', compact('reportesInformes'));

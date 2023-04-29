@@ -1258,6 +1258,7 @@ class CampoController extends Controller
       
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
         $direccion = "";
+        $firmaRecepcion = "";
         
         if($model->Siralab == 1){//Es cliente Siralab
             $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $model->Id_sucursal)->get();
@@ -1298,7 +1299,7 @@ class CampoController extends Controller
         $areaModel = AreaLab::all(); 
         $procesoAnalisis = ProcesoAnalisis::where('Id_solicitud',$id)->get();
         if ($procesoAnalisis->count()) {
-            $firmaRecepcion = User::where('id',$procesoAnalisis->Id_user_c)->get();
+            $firmaRecepcion =  DB::table('users')->where('id',31)->get(); 
         }else{
            $firmaRecepcion = "";
         }

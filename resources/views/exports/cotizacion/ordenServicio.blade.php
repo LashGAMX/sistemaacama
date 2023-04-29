@@ -100,13 +100,13 @@
                                 {{@$model->Observacion}}
                         </td>
                     </tr>
-                    <tr>
+                    {{-- <tr>
                         <td style="width: 25%">Puntos de muestreo</td>
                         <td style="height: 80px;border: 1px solid;" class="border">
                             @php 
                                 $cont = 1;
                             @endphp
-                            @foreach ($puntos as $item)
+                            @foreach (@$puntos as $item)
                                 @if (@$modTemp->Siralab != 1)
                                     {{$cont."- "}}{{$item->Punto}} 
                                 @else
@@ -117,7 +117,7 @@
                                 @endphp
                             @endforeach
                         </td>
-                    </tr>
+                    </tr> --}}
                 </table>
                 
             </div>
