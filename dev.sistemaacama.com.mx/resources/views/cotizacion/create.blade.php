@@ -39,7 +39,7 @@
                                 <div class="col-md-6">
                                     <label for="intermediario">Intermediario</label>
                                     <select id="intermediario" onchange="getClientesIntermediarios()" class="form-control select2">
-                                        <option>Sin seleccionar</option>
+                                        <option value="0">Sin seleccionar</option>
                                         @foreach ($intermediarios as $item)
                                             <option value="{{ $item->Id_intermediario }}">{{ $item->Nombres }}{{$item->A_paterno }}</option>
                                         @endforeach

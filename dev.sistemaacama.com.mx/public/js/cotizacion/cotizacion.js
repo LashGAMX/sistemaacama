@@ -23,24 +23,12 @@ $(document).ready(function () {
     $("#btnEdit").prop('disabled', true);
 
 
-
     _initTable()
 });
 
 function _initTable()
 {
 
-    // $('#tablaCotizacion thead th').each(function () {
-    //     var title = $(this).text();
-    //     $(this).html('<input type="text" placeholder="' + title + '" />');
-    // });
-
-        
-    // $("#tablaCotizacion thead th")[0].html('<input style="width:15px" type="number" placeholder="Id" />')
-    // $("#tablaCotizacion thead th")[1].html('<input style="width:30px" type="text" placeholder="Folio Servicio" />')
-    // $("#tablaCotizacion thead th")[2].html('<input style="width:30px" type="text" placeholder="Folio Cotizacion" />')
-    // $("#tablaCotizacion thead th")[3].html('<input style="width:30px" type="date" placeholder="Fecha cotizacion" />')
-    
 
     table = $('#tablaCotizacion').DataTable({
         "ordering": false,
@@ -108,5 +96,12 @@ function _initTable()
         
         }
     } );
+
+    $('#tablaCotizacion tbody').on( 'dblclick', 'tr', function () {
+        let dato = $(this).find('td:first').html();
+        idSol = dato;
+      window.location = base_url+"/admin/supervicion/cadena/detalleCadena/"+dato
+    });
+    
  
 }
