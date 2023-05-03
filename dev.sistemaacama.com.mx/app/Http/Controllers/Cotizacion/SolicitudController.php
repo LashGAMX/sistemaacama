@@ -63,7 +63,7 @@ class SolicitudController extends Controller
     }
 
     public function create($idCot)
-    {
+    { 
         $tipoMuestraCot = TipoMuestraCot::all();
         $promedioCot = PromedioCot::all();
         $servicios = TipoServicios::all();
@@ -71,7 +71,8 @@ class SolicitudController extends Controller
         $frecuencia = DB::table('frecuencia001')->get();
         $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
         $intermediario = DB::table('ViewIntermediarios')->get();
-        $categorias001 = DB::table('categoria001_2021')->get();
+        $categorias001 = DB::table('categorias001')->get();
+        $categorias0012 = DB::table('categoria001_2021')->get();
         $data = array(
             'model' => $model,
             'tipoMuestraCot' => $tipoMuestraCot,
@@ -79,6 +80,7 @@ class SolicitudController extends Controller
             'servicio' => $servicios,
             'descargas' => $descargas,
             'categorias001' => $categorias001,
+            'categorias0012' => $categorias0012,
             'frecuencia' => $frecuencia,
             'intermediario' => $intermediario,
         );
@@ -95,8 +97,10 @@ class SolicitudController extends Controller
         $frecuencia = DB::table('frecuencia001')->get();
         // $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
         $intermediario = DB::table('ViewIntermediarios')->get();
-        $categorias001 = DB::table('categoria001_2021')->get();
+        $categorias001 = DB::table('categorias001')->get();
+        $categorias0012 = DB::table('categoria001_2021')->get();
         $data = array(
+            'categorias0012' => $categorias0012,
             'tipoMuestraCot' => $tipoMuestraCot,
             'promedioCot' => $promedioCot,
             'servicio' => $servicios,
@@ -828,13 +832,15 @@ class SolicitudController extends Controller
         $metodoPago = DB::table('metodo_pago')->get();
         $estados = DB::table('estados')->get();
         // $categorias001 = DB::table('ViewDetalleCuerpos')->get();
-        $categorias001 = DB::table('categoria001_2021')->get();
+        $categorias001 = DB::table('categorias001')->get();
+        $categorias0012 = DB::table('categoria001_2021')->get();
         $tipoMuestraCot = TipoMuestraCot::all();
         $promedioCot = PromedioCot::all();
 
 
 
         $data = array(
+            'categorias0012' => $categorias0012,
             'categorias001' => $categorias001,
             'tipoMuestraCot' => $tipoMuestraCot,
             'promedioCot' => $promedioCot,
@@ -846,7 +852,6 @@ class SolicitudController extends Controller
             'frecuencia' => $frecuencia,
             'estados' => $estados,
             'metodoPago' => $metodoPago,
-            'version' => $this->version,
         );
         return view('cotizacion.createSinCot', $data);
     }

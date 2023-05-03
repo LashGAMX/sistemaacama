@@ -264,16 +264,32 @@
 
 
 
-                <div class="col-md-12">
-                  <div class="form-group">
-                    <label for="tipoReporte">Tipo de reporte</label>
-                    <select name="tipoReporte" id="tipoReporte" class="form-control">
-                      @foreach (@$categorias001 as $item)
+                <div class="col-md-6">
+                  <label for="tipoReporte">Tipo de reporte 1996</label>
+                  <select name="tipoReporte" id="tipoReporte" class="form-control">
+                      <option value="0">Sin seleccionar</option>
+                      @foreach (@$categorias001 as $item) 
+                      @if ($item->Id_categoria == @$model->Tipo_reporte)
+                      <option value="{{$item->Id_categoria}}" selected>{{$item->Categoria}}</option>
+                      @else
                       <option value="{{$item->Id_categoria}}">{{$item->Categoria}}</option>
+                      @endif
                       @endforeach
-                    </select>
-                  </div>
-                </div>
+                  </select>
+              </div>
+              <div class="col-md-6">
+                  <label for="tipoReporte2">Tipo de reporte 2023</label>
+                  <select name="tipoReporte2" id="tipoReporte2" class="form-control">
+                      <option value="0">Sin seleccionar</option>
+                      @foreach (@$categorias0012 as $item)
+                      @if ($item->Id_categoria == @$model->Tipo_reporte)
+                      <option value="{{$item->Id_categoria}}" selected>{{$item->Categoria}}</option>
+                      @else
+                      <option value="{{$item->Id_categoria}}">{{$item->Categoria}}</option>
+                      @endif
+                      @endforeach
+                  </select>
+              </div>
 
                 <div class="col-md-12">
                   <label for="puntoMuestro">Punto de muestreo</label>
@@ -294,6 +310,8 @@
 
                   </table>
                 </div>
+
+
               </div>
             </div>
 

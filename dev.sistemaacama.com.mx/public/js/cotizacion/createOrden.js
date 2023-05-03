@@ -16,7 +16,15 @@ $(document).ready(function () {
       $('.select2').select2();
       
       $('#btnGuardarOrden').click(function () {
-        setOrdenServicio();
+        switch (std) {
+          case 1: // Primera seccion
+            setOrdenServicio();
+            break;
+          case 2: // Segunda seccion
+        
+          default:
+            break;
+        }
      });
 });
 //todo Goblales
@@ -32,7 +40,7 @@ function _constructor()
     getDireccionReporte()
     getDataContacto()
     getSubNormas()
-    createTabParametros()
+    // createTabParametros()
 }
 function addColPunto()
 {
