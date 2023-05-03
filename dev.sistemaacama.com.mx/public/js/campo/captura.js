@@ -7,7 +7,7 @@ $(document).ready(function () {
     $('#termometro2').select2(); 
     validacionInicio()
     $("#setPhMuestra").click(function () {
-      guardarPhMuestra()
+    guardarPhMuestra()
     });
     $(".btnSubir").click(function () {
         $('body, html').animate({
@@ -1339,6 +1339,8 @@ function setDataGeneral() {
             criterio: $("#criterioPendiente").val(),
             supervisor: $("#nombreSupervisor").val(),
             firmaSupervisor: $("#firmaSupervisor").val(),
+
+            puntoMuestreo: $("#puntoMuestreo").val(),
 
             phTrazable1: tabPhT.rows[1].children[0].children[0].value,
             phTl11: tabPhT.rows[1].children[4].children[0].value,
