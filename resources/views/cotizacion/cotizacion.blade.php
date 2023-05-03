@@ -1,96 +1,147 @@
 @extends('voyager::master')
 @section('page_header')
-    @stop
+@stop
 @section('content')
 
 
-    <div class="container-fluid">
-        <p>Cotización 💰</p>
-        <div class="row">
-            <div class="col-md-12">
-                <div class="row">
-                    <!-- Parte de Encabezado-->
-                    <div class="col-md-12">
-                           
-                    </div>
+<div class="container-fluid">
+    <p>Cotización 💰</p>
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <!-- Parte de Encabezado-->
+                <div class="col-md-12">
 
-                    <div class="col-md-4 mt-2">
-                        <input type="date" id="inicio" placeholder="Fecha inicio" class="form-control" value="">
-                    </div>
-                    <div class="col-md-4 mt-2">
-                        <input type="date" id="fin" placeholder="Fecha inicio" class="form-control" value="">
-                    </div>
+                </div>
 
-                    <div class="col-md-2 mt-2">
-                        <button id="btnBuscar" class="btn btn-success btn-sm">BUSCAR</button> 
+                <div class="col-md-4 mt-2">
+                    <input type="date" id="inicio" placeholder="Fecha inicio" class="form-control" value="">
+                </div>
+                <div class="col-md-4 mt-2">
+                    <input type="date" id="fin" placeholder="Fecha inicio" class="form-control" value="">
+                </div>
+
+                <div class="col-md-2 mt-2">
+                    <button id="btnBuscar" class="btn btn-success btn-sm">BUSCAR</button>
+                </div>
+                <!-- Fin Parte de Encabezado-->
+
+                <!--Tabla -->
+                <div class="col-md-12">
+                    <div class="table-responsive">
+                        <table id="tablaCotizacion" class="cell-border display compact" style="width:100%">
+                            <div class="row">
+                                <div class="col-md-1">
+                                    <a href="{{url('admin/cotizacion/create')}}" class="btn btn-success btn-sm"><i
+                                            class="voyager-plus"></i> Crear</a>
+                                </div>
+                                <div class="col-md-2">
+                                    <button id="btnEdit" class="btn btn-warning"><i class="voyager-edit"></i>
+                                        Editar</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button id="btnShow" class="btn btn-warning"><i class="voyager-edit"></i>
+                                        Ver</button>
+                                </div>
+                                <div class="col-md-2">
+                                    <button id="btnPrint" class="btn btn-info"><i class="voyager-edit"></i>
+                                        Imprimir</button>
+                                </div>
+
+                                <div class="col-md-2">
+                                    <button id="btnDuplicar" class="btn btn-info"><i class="voyager-file-text"></i>
+                                        Duplicar Cotización</button>
+                                </div>
+                            </div>
+                            <thead class="">
+                                <tr>
+                                    <th style="width: 10px">Id</th>
+                                    <th style="width: 30px">Folio servicio</th>
+                                    <th>Folio cotización</th>
+                                    <th>Fecha cotización</th>
+                                    <th>Nombre cliente</th>
+                                    <th>Norma</th>
+                                    <th>Tipo descarga</th>
+                                    <th>Estado cotización</th>
+                                    <th>Creado por</th>
+                                    <th>Fecha creación</th>
+                                    <th>Actualizado por</th>
+                                    <th>Fecha actualización</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach ($model as $item)
+                                <tr>
+                                    <td>{{$item->Id_cotizacion}}</td>
+                                    <td>{{$item->Folio_servicio}}</td>
+                                    <td>{{$item->Folio}}</td>
+                                    <td>{{$item->created_at}}</td>
+                                    <td>{{$item->Nombre}}</td>
+                                    <td>
+                                        @foreach ($norma as $item2)
+                                            @if ($item->Id_norma == $item2->Id_norma)
+                                                {{$item2->Clave_norma}}       
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($descarga as $item2)
+                                            @if ($item->Tipo_descarga == $item2->Id_tipo)
+                                                {{$item2->Descarga}}       
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($estado as $item2)
+                                            @if ($item->Estado_cotizacion == $item2->Id_estado)
+                                                {{$item2->Estado}}       
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($usuario as $item2)
+                                            @if ($item->Creado_por == $item2->id)
+                                                {{$item2->name}}       
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td>{{$item->created_at}}</td>
+                                    <td>
+                                        @foreach ($usuario as $item2)
+                                            @if ($item->Actualizado_por == $item2->id)
+                                                {{$item2->name}}       
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td>{{$item->updated_at}}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Folio servicio</th>
+                                    <th>Folio cotización</th>
+                                    <th>Fecha cotización</th>
+                                    <th>Nombre cliente</th>
+                                    <th>Norma</th>
+                                    <th>Tipo descarga</th>
+                                    <th>Estado cotización</th>
+                                    <th>Creado por</th>
+                                    <th>Fecha creación</th>
+                                    <th>Actualizado por</th>
+                                    <th>Fecha actualización</th>
+                                </tr>
+                            </tfoot>
+                        </table>
                     </div>
-                    <!-- Fin Parte de Encabezado-->
-
-                    <!--Tabla -->
-                  <div class="col-md-12">
-                   <div class="table-responsive">
-                    <table id="tablaCotizacion" class="table">
-                        <div class="row">
-                            <div class="col-md-1">
-                                <a href="{{url('admin/cotizacion/create')}}" class="btn btn-success btn-sm"><i class="voyager-plus"></i> Crear</a>
-                            </div>
-                            <div class="col-md-2">
-                                <button id="btnEdit" class="btn btn-warning" ><i class="voyager-edit"></i> Editar</button>
-                            </div>
-                            <div class="col-md-2">
-                                <button id="btnShow" class="btn btn-warning" ><i class="voyager-edit"></i> Ver</button>
-                            </div>
-                            <div class="col-md-2">
-                                <button id="btnPrint" class="btn btn-info" ><i class="voyager-edit"></i> Imprimir</button>
-                            </div>
-
-                            <div class="col-md-2">
-                                <button id="btnDuplicar" class="btn btn-info" ><i class="voyager-file-text"></i> Duplicar Cotización</button>
-                            </div>
-                        </div>
-                        <thead class="">
-                            <tr>
-                                <th>Id</th>
-                                <th>Folio servicio</th>
-                                <th>Folio cotización</th>
-                                <th>Fecha cotización</th>
-                                <th>Nombre cliente</th>
-                                <th>Norma</th>
-                                <th>Tipo descarga</th>
-                                <th>Estado cotización</th>
-                                <th>Creado por</th>
-                                <th>Fecha creación</th> 
-                                <th>Actualizado por</th> 
-                                <th>Fecha actualización</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                          @foreach (@$model as $item)
-                              <tr>
-                                  <td>{{$item->Id_cotizacion}}</td>
-                                  <td>{{$item->Folio_servicio}}</td>
-                                  <td>{{$item->Folio}}</td>
-                                  <td>{{$item->created_at}}</td>
-                                  <td>{{$item->Nombre}}</td>
-                                  <td>{{$item->Clave_norma}}</td>
-                                  <td>{{$item->Descarga}}</td>
-                                  <td>{{$item->Estado}}</td>
-                                  <td>{{$item->NameA}}</td>
-                                  <td>{{$item->created_at}}</td>
-                                  <td>{{$item->NameA}}</td>
-                                  <td>{{$item->updated_at}}</td>
-                              </tr>
-                          @endforeach
-                        </tbody>
-                    </table>
-                   </div>
-                  </div>
-                    <!-- Fin de la Tabla -->
-                </div> 
+                </div>
+                <!-- Fin de la Tabla -->
             </div>
         </div>
-    </div> 
+    </div>
+</div>
 @endsection
-    @section('javascript')
-        <script src="{{ asset('public/js/cotizacion/cotizacion.js') }}?v=0.0.1"></script> 
-    @stop
+@section('javascript')
+<script src="{{ asset('public/js/cotizacion/cotizacion.js') }}?v=1.0.0"></script>
+@stop

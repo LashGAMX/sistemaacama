@@ -21,7 +21,7 @@ use App\Models\TipoFormula;
 use App\Models\Unidad;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\DB; 
 
 class ParametroController extends Controller
 {

@@ -48,7 +48,13 @@
                 <table class="table table-borderless" style="border:none" width="100%">
                     <tr>
                         <td class="fontNormal fontCalibri fontSize12">SERVICIO: </td>
-                        <td class="fontBold fontCalibri fontSize14">{{@$model->Servicio}}</td>                        
+                        <td class="fontBold fontCalibri fontSize14">
+                            @foreach ($servicio as $item)
+                                @if ($item->Id_tipo == $model->Tipo_servicio)
+                                    {{@$item->Servicio}}
+                                @endif
+                            @endforeach
+                        </td>                        
                         <td class="fontNormal fontCalibri fontSize12">PUNTOS MUESTREO:</td>
                         <td class="fontBold fontCalibri fontSize14">{{@$puntos->count()}}</td>
                         <td class="fontNormal fontCalibri fontSize12">SERVICIOS:</td>
@@ -58,16 +64,22 @@
                 <table class="table table-borderless" style="border:none" width="100%">
                 <tr>
                     <td class="fontNormal fontCalibri fontSize12">TIPO MUESTRA: </td>
-                    <td class="fontBold fontCalibri fontSize14">{{@$model->Tipo}} ({{@$model->Tomas}})</td>
+                    <td class="fontBold fontCalibri fontSize14">
+                        @foreach ($tipo as $item)
+                            @if ($item->Id_muestraCot == $model->Tipo_muestra)
+                                {{@$item->Tipo}} ({{@$model->Tomas}})
+                            @endif
+                        @endforeach
+                    </td>
                     <td class="fontNormal fontCalibri fontSize12">NORMA:</td>
-                    <td class="fontBold fontCalibri fontSize14">{{@$model->Clave_norma}}</td>
+                    <td class="fontBold fontCalibri fontSize14">{{@$norma->Clave_norma}}</td>
                 </tr>
             </table>
             </div>
 
             <div class="col-md-12 fontBold fontCalibri fontSize12">
                 {{-- <strong><p>QUE ESTABLECE LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES A LOS SISTEMAS DE ALCANTARILLADO URBANO O MUNICIPAL.</p></strong> --}}
-                <strong><p>{{@$model->Norma}}</p></strong>
+                {{-- <strong><p>{{@$model->Norma}}</p></strong> --}}
             </div>
         </div>
         

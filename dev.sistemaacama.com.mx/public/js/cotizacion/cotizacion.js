@@ -97,11 +97,6 @@ function _initTable()
         }
     } );
 
-    $('#tablaCotizacion tbody').on( 'dblclick', 'tr', function () {
-        let dato = $(this).find('td:first').html();
-        idSol = dato;
-      window.location = base_url+"/admin/supervicion/cadena/detalleCadena/"+dato
-    });
     
  
 }

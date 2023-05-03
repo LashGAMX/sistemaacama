@@ -37,6 +37,7 @@ use App\Models\HistorialCampoCapturaPhCalidad;
 use App\Models\HistorialCampoCapturaPhTrazable;
 use App\Models\HistorialCampoCapturaSegAnalisis;
 use App\Models\MetodoAforo;
+use App\Models\Parametro;
 use App\Models\PHCalidad;
 use App\Models\PhCalidadCampo;
 use App\Models\PhMuestra;
@@ -1633,7 +1634,9 @@ class CampoController extends Controller
     public function getEnvase(Request $res)
     {
         $model = DB::table('ViewPlanPaquete')->where('Id_paquete',$res->idPaquete)->get();
+        $parametro = Parametro::all();
         $data = array(
+            'parametro' => $parametro,
             'model' => $model,
         );
         return response()->json($data);
@@ -1642,15 +1645,25 @@ class CampoController extends Controller
     {
         $model = AreaLab::all();
         //$envase = Envase::all();
+        $parametro = Parametro::all();
         $envase = DB::table('ViewEnvases')->get();
         $datoModel = DB::table('ViewPlanPaquete')->where('Id_paquete',$res->idSub)->get();
         
         $data = array(
-            'model' => $model,
+            'parametro' => $parametro,
+            'model' => $model, 
             'envase' => $envase,
             'datoModel' => $datoModel,
         );
         return response()->json($data);
+    }
+    public function getParametroConfig(Request $res)
+    {
+        $model = Parametro::where('Id_parametro',$res->id)->first();
+        $data = array(
+            'model' => $model,
+        );
+        Return response()->json($data);
     }
     public function setPlanMuestreo(Request $res)
     {

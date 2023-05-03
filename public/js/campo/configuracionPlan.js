@@ -94,6 +94,7 @@ function getEnvase(id) {
 
     let tabla = document.getElementById('divTableEnvase');
     let tab = '';
+    let parametro = ''
     $.ajax({
         type: "POST",
         url: base_url + "/admin/campo/configuracion/getEnvase",
@@ -115,8 +116,15 @@ function getEnvase(id) {
             tab += '    </thead>';
             tab += '    <tbody>';
             $.each(response.model, function (key, item) {
+                parametro = ''
+                $.each(response.parametro, function (key, item3) {
+                    if (item.Parametro == item3.Id_parametro) {
+                        parametro = item3.Parametro
+                    }
+                });
+    
                 tab += '<tr>';
-                tab += '<td>' + item.Area + '</td>';
+                tab += '<td>' + item.Area + ' ('+parametro+')</td>';
                 tab += '<td>' + item.Cantidad + '</td>';
                 tab += '<td>' + item.Envase + ' ' + item.Volumen + ' ' + item.Unidad +'</td>';
                 tab += '</tr>';
@@ -161,6 +169,7 @@ function getPlanMuestreo() {
     let cont = 0;
     let sw = false;
     let temp = 0;
+    let parametro = '';
     $.ajax({
         url: base_url + "/admin/campo/configuracion/getPlanMuestreo",
         type: 'POST', //método de envio
@@ -184,6 +193,13 @@ function getPlanMuestreo() {
             tab += '    <tbody>';
             tab += '    <button class="btn btn-info" id="btnAllArea"><i class="fas fa-check-square"></i></button>';
             $.each(response.model, function (key, item) {
+                parametro = ''
+                $.each(response.parametro, function (key, item3) {
+                    if (item.Parametro == item3.Id_parametro) {
+                        parametro = item3.Parametro
+                    }
+                });
+    
                 temp = 0;
                 sw = false;
                 $.each(response.datoModel, function (key, item3) {
@@ -200,7 +216,7 @@ function getPlanMuestreo() {
                 } else {
                     tab += '<td><input type="checkbox" class="custom-control-input" name="ckAreas" value="' + item.Id_area + '"></td>';
                 }
-                tab += '<td>' + item.Area + '</td>';
+                tab += '<td>' + item.Area + ' ('+parametro+')</td>';
                 if (sw == true) {
                     tab += '<td><input type="number" id="cantArea' + item.Id_area + '" value="' + response.datoModel[cont - 1].Cantidad + '"></td>';
                 } else {
@@ -231,7 +247,7 @@ function getPlanMuestreo() {
             itemModal[0] = [
                 tab,
             ]
-            newModal('divModal', 'modalAreas', 'Areas plan', '', 1, 1, 0, inputBtn('', '', 'Guardar', 'fas fa-save', 'btn btn-success', 'setPlanMuestreo()'))
+            newModal('divModal', 'modalAreas', 'Areas plan','modal-lg', 1, 1, 0, inputBtn('', '', 'Guardar', 'fas fa-save', 'btn btn-success', 'setPlanMuestreo()'))
 
             var t = $('#tableAreas').DataTable({
                 "ordering": false,

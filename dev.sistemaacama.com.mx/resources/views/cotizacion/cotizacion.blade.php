@@ -77,12 +77,42 @@
                                     <td>{{$item->Folio}}</td>
                                     <td>{{$item->created_at}}</td>
                                     <td>{{$item->Nombre}}</td>
-                                    <td>{{$item->Clave_norma}}</td>
-                                    <td>{{$item->Descarga}}</td>
-                                    <td>{{$item->Estado}}</td>
-                                    <td>{{$item->name_create}}</td>
+                                    <td>
+                                        @foreach ($norma as $item2)
+                                            @if ($item->Id_norma == $item2->Id_norma)
+                                                {{$item2->Clave_norma}}       
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($descarga as $item2)
+                                            @if ($item->Tipo_descarga == $item2->Id_tipo)
+                                                {{$item2->Descarga}}       
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($estado as $item2)
+                                            @if ($item->Estado_cotizacion == $item2->Id_estado)
+                                                {{$item2->Estado}}       
+                                            @endif
+                                        @endforeach
+                                    </td>
+                                    <td>
+                                        @foreach ($usuario as $item2)
+                                            @if ($item->Creado_por == $item2->id)
+                                                {{$item2->name}}       
+                                            @endif
+                                        @endforeach
+                                    </td>
                                     <td>{{$item->created_at}}</td>
-                                    <td>{{$item->name_mod}}</td>
+                                    <td>
+                                        @foreach ($usuario as $item2)
+                                            @if ($item->Actualizado_por == $item2->id)
+                                                {{$item2->name}}       
+                                            @endif
+                                        @endforeach
+                                    </td>
                                     <td>{{$item->updated_at}}</td>
                                 </tr>
                                 @endforeach

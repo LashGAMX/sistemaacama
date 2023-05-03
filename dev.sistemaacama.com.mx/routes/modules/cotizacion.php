@@ -26,7 +26,7 @@ Route::group(['prefix' => 'cotizacion'], function () {
 
 
     Route::post('setCotizacion',[CotizacionController::class, 'setCotizacion']); 
-
+    Route::post('setGenFolio',[CotizacionController::class, 'setGenFolio']); 
     Route::get('update/{id}', [CotizacionController::class, 'update']);
     Route::get('show/{id}', [CotizacionController::class, 'show']);
     Route::post('getDataUpdate',[CotizacionController::class, 'getDataUpdate']);

@@ -32,7 +32,7 @@
                             <div class="col-md-12">
                                 <input type="number" name="" id="idCot" value="{{@$model->Id_cotizacion}}" hidden>
                                 <h6>Datos cliente</h6>
-                                <hr>
+                                <hr> 
                             </div>
                             <div class="dropdown-divider"></div>
                             <div class="row">
@@ -533,7 +533,7 @@
                                     <div class="col-md-3"> 
                                         <label for=""># de Servicios:</label>
                                         <input type="number" class="form-control" name="numeroServicio"
-                                            id="numeroServicio" value="{{ @$muestreo->Num_servicio }}">
+                                            id="numeroServicio" value="{{ @$model->Num_servicios }}">
                                     </div>
                                     <div class="col-md-3">
                                         <label for=""># de muestreadores:</label>
@@ -619,6 +619,12 @@
                                 <div id="parametros3">
 
                                 </div>
+                            </div>
+                            <div class="col-md-12">
+                                <h6>Folio cotizacion</h6>
+                                <input type="date" id="fechaCot" value="{{@$model->Fecha_cotizacion}}">
+                                <input type="text" id="folio" value="{{@$model->Folio}}" disabled>
+                                <button class="btn btn-info" id="btnFolio"><i class="voyager-forward"> Crear Folio</i></button>
                             </div>
 
                             <div class="col-md-12">
@@ -710,7 +716,7 @@
                             </div>
 
                             @if ($show == true)
-                                <button type="button" id="btnSetCotizacion" onclick="setPrecioCotizacion()" class="btn btn-primary">Guardar</button>
+                                <button type="button" id="btnSetCotizacion" onclick="setPrecioCotizacion()" class="btn btn-primary" hidden>Guardar</button>
                             @endif
 
                             </div>

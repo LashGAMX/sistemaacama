@@ -37,6 +37,7 @@ use App\Models\HistorialCampoCapturaPhCalidad;
 use App\Models\HistorialCampoCapturaPhTrazable;
 use App\Models\HistorialCampoCapturaSegAnalisis;
 use App\Models\MetodoAforo;
+use App\Models\Parametro;
 use App\Models\PHCalidad;
 use App\Models\PhCalidadCampo;
 use App\Models\PhMuestra;
@@ -217,6 +218,11 @@ class CampoController extends Controller
         $model->Id_user_m = Auth::user()->id;
         $model->save();
         $nota = "Registro modificado";          
+
+        //Solicitudes generadas (para actualizar el nombre del punto de muestreo en Campo Captura)
+        $punto = SolicitudesGeneradas::find($request->idSolicitud);
+        $punto->Punto_muestreo = $request->puntoMuestreo;
+        $punto->save();
 
         //Ph trazable
         $phTrazableModel = CampoPhTrazable::where('Id_solicitud', $request->idSolicitud)->get();
@@ -1299,7 +1305,7 @@ class CampoController extends Controller
         $areaModel = AreaLab::all(); 
         $procesoAnalisis = ProcesoAnalisis::where('Id_solicitud',$id)->get();
         if ($procesoAnalisis->count()) {
-            $firmaRecepcion =  DB::table('users')->where('id',31)->get(); 
+            $firmaRecepcion =  DB::table('users')->where('id',31)->first(); 
         }else{
            $firmaRecepcion = "";
         }
@@ -1634,7 +1640,9 @@ class CampoController extends Controller
     public function getEnvase(Request $res)
     {
         $model = DB::table('ViewPlanPaquete')->where('Id_paquete',$res->idPaquete)->get();
+        $parametro = Parametro::all();
         $data = array(
+            'parametro' => $parametro,
             'model' => $model,
         );
         return response()->json($data);
@@ -1643,11 +1651,13 @@ class CampoController extends Controller
     {
         $model = AreaLab::all();
         //$envase = Envase::all();
+        $parametro = Parametro::all();
         $envase = DB::table('ViewEnvases')->get();
         $datoModel = DB::table('ViewPlanPaquete')->where('Id_paquete',$res->idSub)->get();
         
         $data = array(
-            'model' => $model,
+            'parametro' => $parametro,
+            'model' => $model, 
             'envase' => $envase,
             'datoModel' => $datoModel,
         );

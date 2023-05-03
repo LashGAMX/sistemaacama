@@ -42,32 +42,44 @@
                 <p class="fontNormal fontCalibri fontSize12" align="right">{{\Carbon\Carbon::parse(@$model->created_at)->format('d/m/Y')}}</p>
                 
                 <p>ME PERMITO SOMETER A SU AMABLE CONSIDERACIÓN LA SIGUIENTE COTIZACIÓN DEL SERVICIO DE MUESTREO Y ANÁLISIS DE AGUA DE ACUERDO A:</p>
- 
+            
             </div>
             <div class="col-md-12">
                 <table class="table table-borderless" style="border:none" width="100%">
                     <tr>
                         <td class="fontNormal fontCalibri fontSize12">SERVICIO: </td>
-                        <td class="fontBold fontCalibri fontSize14">{{@$model->Servicio}}</td>                        
+                        <td class="fontBold fontCalibri fontSize14">
+                            @foreach ($servicio as $item)
+                                @if ($item->Id_tipo == $model->Tipo_servicio)
+                                    {{@$item->Servicio}}
+                                @endif
+                            @endforeach
+                        </td>                        
                         <td class="fontNormal fontCalibri fontSize12">PUNTOS MUESTREO:</td>
                         <td class="fontBold fontCalibri fontSize14">{{@$puntos->count()}}</td>
                         <td class="fontNormal fontCalibri fontSize12">SERVICIOS:</td>
-                        <td class="fontBold fontCalibri fontSize14">{{@$puntos->count()}}</td>
+                        <td class="fontBold fontCalibri fontSize14">{{@$numServicios}}</td>
                     </tr>
                 </table>
                 <table class="table table-borderless" style="border:none" width="100%">
                 <tr>
                     <td class="fontNormal fontCalibri fontSize12">TIPO MUESTRA: </td>
-                    <td class="fontBold fontCalibri fontSize14">{{@$model->Tipo}} ({{@$model->Tomas}})</td>
+                    <td class="fontBold fontCalibri fontSize14">
+                        @foreach ($tipo as $item)
+                            @if ($item->Id_muestraCot == $model->Tipo_muestra)
+                                {{@$item->Tipo}} ({{@$model->Tomas}})
+                            @endif
+                        @endforeach
+                    </td>
                     <td class="fontNormal fontCalibri fontSize12">NORMA:</td>
-                    <td class="fontBold fontCalibri fontSize14">{{@$model->Clave_norma}}</td>
+                    <td class="fontBold fontCalibri fontSize14">{{@$norma->Clave_norma}}</td>
                 </tr>
             </table>
             </div>
 
             <div class="col-md-12 fontBold fontCalibri fontSize12">
                 {{-- <strong><p>QUE ESTABLECE LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES A LOS SISTEMAS DE ALCANTARILLADO URBANO O MUNICIPAL.</p></strong> --}}
-                <strong><p>{{@$model->Norma}}</p></strong>
+                {{-- <strong><p>{{@$model->Norma}}</p></strong> --}}
             </div>
         </div>
         
@@ -95,15 +107,15 @@
                 @endforeach
             </tbody>
         </table>
-        
+{{--         
         <table class="table" style="font-size: 9px;" width="100%">
             <tr>
                 <td class="fontBold fontCalibri fontSize10">CANTIDAD SERVICIOS: </td>
-                <td class="fontBold fontCalibri fontSize10">{{$puntos->count()}}</td>
+                <td class="fontBold fontCalibri fontSize10">{{$numServicios}}</td>
                 <td class="fontBold fontCalibri fontSize10">PRECIO UNITARIO</td>
                 <td class="fontBold fontCalibri fontSize10">$                    
                     @php
-                        echo number_format(($model->Precio_analisis / $puntos->count()), 2, ".", ",");
+                        echo number_format(($model->Precio_analisis / $numServicios), 2, ".", ",");
                     @endphp
                 </td>
                 <td class="fontBold fontCalibri fontSize10">COSTO TOTAL</td>
@@ -113,7 +125,7 @@
                     @endphp
                 </td>
             </tr>
-        </table>
+        </table> --}}
 
         @if (sizeof(@$parametrosExtra) > 0)
             <br><br><br>            
@@ -146,29 +158,48 @@
 
         @if ($model->Precio_catalogo > 0)
             
-        <table class="table" style="font-size: 9px;" width="100%">
+        {{-- <table class="table" style="font-size: 9px;" width="100%">
             <tr>
                 <td class="fontBold fontCalibri fontSize10">CANTIDAD SERVICIOS: </td>
                 <td class="fontBold fontCalibri fontSize10">{{$puntos->count()}}</td>
                 <td class="fontBold fontCalibri fontSize10">COSTO PARAMETROS ESPECIALES UNITARIO</td>
                 <td class="fontBold fontCalibri fontSize10">$                    
                      @php
-                         echo number_format(($model->Precio_catalogo / $puntos->count()), 2, ".", ",");
+                         echo number_format(($model->Precio_catalogo /$numServicios), 2, ".", ",");
                      @endphp
                 </td>              
                 <td class="fontBold fontCalibri fontSize10">COSTO TOTAL</td>
                 <td class="fontBold fontCalibri fontSize10">$                    
                     @php
                         echo number_format(($model->Precio_catalogo), 2, ".", ",");
+                    @endphp 
+                </td>
+            </tr>
+        </table>         --}}
+        @endif
+
+        <table class="table" style="font-size: 9px;" width="100%">
+            <tr>
+                <td class="fontBold fontCalibri fontSize10">CANTIDAD SERVICIOS: </td>
+                <td class="fontBold fontCalibri fontSize10">{{$numServicios}}</td>
+                <td class="fontBold fontCalibri fontSize10">PRECIO UNITARIO</td>
+                <td class="fontBold fontCalibri fontSize10">$                    
+                    @php
+                        echo number_format(($model->Precio_analisis / $numServicios), 2, ".", ",");
+                    @endphp
+                </td>
+                <td class="fontBold fontCalibri fontSize10">COSTO TOTAL</td>
+                <td class="fontBold fontCalibri fontSize10">$                    
+                    @php
+                        echo number_format(($model->Precio_analisis), 2, ".", ",");
                     @endphp
                 </td>
             </tr>
-        </table>        
-        @endif
+        </table>
 
 
         <div class="col-md-12">
-            <p class="fontBold fontCalibri fontSize9 bordeIzqDerSinSup justificadorCentr">Totales</p>
+            <p class="fontBold fontCalibri fontSize9 bordeIzqDerSinSup justificadorCentr"></p>
             <p class="fontBold fontCalibri fontSize9">OBSERVACIONES COTIZACIÓN</p>
             <p class="fontBold fontCalibri fontSize14">
                 <div class="fontBold fontCalibri fontSize9">

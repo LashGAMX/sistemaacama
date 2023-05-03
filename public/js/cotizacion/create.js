@@ -4,15 +4,38 @@ $(document).ready(function () {
   $('#datos-tab').click();
   addColPunto()
 
-  $('#btnGuardarCot').click(function () {
-      setCotizacion(); 
+  // $('#btnGuardarCot').click(function () {
+  //     setCotizacion(); 
+  //   });
+    $('#btnGuardarCotizacion').click(function () {
+      switch (std) {
+        case 1:
+          setCotizacion()
+          break;
+        case 2:
+          break
+        case 3:
+          setPrecioCotizacion()
+          break
+        default:
+          break;
+      }
     });
 
+
+    $('#datos-tab').click(function () {
+      std = 1
+    });
   $('#parametro-tab').click(function () {
     createTabParametros();
+    std = 2
   });
   $('#cotizacion-tab').click(function () {
     getDatosCotizacion()
+    std = 3
+  });
+  $('#btnFolio').click(function () {
+    setGenFolio()
   });
   
   if ($("#idCot").val() != "") {
@@ -37,7 +60,27 @@ var myTransfer
 var des = true
 var desSw = false
 var tabParam = false
+var std = 1;
 //todo funciones
+function setGenFolio()
+{
+  $.ajax({
+    url: base_url + '/admin/cotizacion/setGenFolio', //archivo que recibe la peticion
+    type: 'POST', //método de envio
+    data: {
+      id: $('#idCot').val(),
+      fecha: $('#fechaCot').val(),
+        _token: $('input[name="_token"]').val(),
+    },
+    dataType: 'json',
+    async: false,
+    success: function (response) {
+      console.log(response)
+       alert(response.msg)
+       $("#folio").val(response.folio)
+    }
+});
+}
 function setPrecioCotizacion()
 {
   $.ajax({
@@ -55,7 +98,6 @@ function setPrecioCotizacion()
       precioMuestra: $('#precioMuestra').val(),
       gastosExtras: $("#gastosExtras").val(),
       paqueteria:$("#paqueteria").val(),
-      numeroServicio:$("#numeroServicio").val(),
       iva: $('#iva').val(),
       subTotal: $('#subTotal').val(),
       precioTotal: $('#precioTotal').val(),
@@ -64,7 +106,7 @@ function setPrecioCotizacion()
     dataType: 'json',
     async: false,
     success: function (response) {
-      alert("Cotizacion creada correctamente")
+      alert("Cotizacion creada correctamente, Ya puedes regresar a la seccino de cotización")
       
     }
 });
@@ -181,7 +223,7 @@ function getDataUpdate()
         parametros = response.parametros
         createTabParametros()
         getLocalidad()
-        // btnReccalcular()
+        btnReccalcular()
     }
 });
 }
@@ -302,11 +344,7 @@ function setPrecioMuestreo()
         $('#subTotal').val(suma)
         $('#precioTotal').val(sumatotal.toFixed(2));
 
-        // suma = parseInt(precioAnalisis.toFixed()) + parseInt(totalMuestreo.toFixed()) + parseInt(precioCatalogo.toFixed());
-        // iva = (suma * 16) / 100;
-        // $('#subTotal').val(suma);
-        // sumatotal = suma + iva;
-        // $('#precioTotal').val(sumatotal.toFixed());
+        
     }
 });
 }
@@ -369,11 +407,11 @@ function getDatosCotizacion()
       iva = (suma * 16) / 100;
       sumatotal = suma + iva;
       $('#subTotal').val(suma)
-    $('#precioTotal').val(sumatotal.toFixed(2));
+      $('#precioTotal').val(sumatotal.toFixed(2));
     }
 });
 }
-function createTabParametros()
+function  createTabParametros()
 {
   let table = document.getElementById("tabParametros")
   let tab = '';
@@ -395,11 +433,7 @@ function createTabParametros()
     }
     tab += '<td><input type="checkbox" '+temp+'></td>';
     tab += '<td>'+cont+'</td>';
-    if (tabParam == true) {
-      tab += '<td>'+item.Id_subnorma+'</td>';
-    } else {
-      tab += '<td>'+item.Id_parametro+'</td>'; 
-    }
+    tab += '<td>'+item.Id_parametro+'</td>'; 
     tab += '<td>'+item.Parametro+'('+item.Tipo_formula+')</td>';
     tab += '</tr>'
     cont++
@@ -413,18 +447,34 @@ function setCotizacion() {
   let chParam = new Array()
   let tab = document.getElementById("puntoMuestro")
   let tab2 = document.getElementById("tableParametros")
-  for (let i = 1; i < tab.rows.length; i++) {
-    puntos.push(tab.rows[i].children[1].children[0].value)
+  let std1 = 0
+  let std2 =  0
+
+  try {
+    for (let i = 1; i < tab.rows.length; i++) {
+      puntos.push(tab.rows[i].children[1].children[0].value)
+        std1 = 1
+    }
+  } catch (error) {
+    std1 = 0
   }
+  console.log(std)
+  
   for (let i = 1; i < tab2.rows.length; i++) {
-    param.push(tab2.rows[i].children[2].textContent)
-    chParam.push(tab2.rows[i].children[0].children[0].checked)
+    if (tab2.rows.length > 0) {
+      param.push(tab2.rows[i].children[2].textContent)
+      chParam.push(tab2.rows[i].children[0].children[0].checked)
+      std2 = 1 
+    }
+    
   }
   console.log(param)
   $.ajax({
     url: base_url + '/admin/cotizacion/setCotizacion', //archivo que recibe la peticion
     type: 'POST', //método de envio
     data: {
+      std1: std1,
+      std2:std2,
       id:$("#idCot").val(),
       intermediario: $('#intermediario').val(),
       cliente: $('#cliente').val(),
@@ -448,7 +498,9 @@ function setCotizacion() {
       promedio: $('#promedio').val(),
       tipoReporte: $('#tipoReporte').val(),
       puntos:puntos,
+      puntosSize:puntos.length,
       parametros:param,
+      paramSize:param.length,
       chParam:chParam,
       _token: $('input[name="_token"]').val(),
     },
@@ -458,6 +510,7 @@ function setCotizacion() {
       alert("Cotizacion guardada")
       console.log(response)
       $("#idCot").val(response.model.Id_cotizacion)
+      $("#numeroServicio").val(response.model.Num_servicios)
     }
   });
 }
@@ -684,7 +737,6 @@ function btnReccalcular()
   let iva = parseFloat($("#iva").val())
   let subTotal = parseFloat($("#subTotal").val())
   let precioTotal = parseFloat($("#precioTotal").val())
-  let servicios = parseFloat($("#numeroServicio").val())
   let temp = 0
 
 
@@ -698,14 +750,9 @@ function btnReccalcular()
   if ($("#paqueteria").val() == '') {
     paqueteria = 0
   } 
-  subTotal = (analisis + extra + muestreo + gastosExtras + paqueteria) * servicios
-  console.log(subTotal)
+  subTotal = analisis + extra + muestreo + gastosExtras + paqueteria
   temp = (subTotal * 16) / 100
   precioTotal = temp + subTotal
-  $("#precioAnalisis").val(analisis * servicios)
-  $("#precioCat").val((extra * servicios))
-  $("#precioMuestra").val((muestreo * servicios))
-  $("#subTotal").val(subTotal.toFixed(2)) 
-  $("#precioTotal").val(precioTotal.toFixed(2))
-  alert("datos recalculados")
-} 
+  $("#subTotal").val(subTotal)
+  $("#precioTotal").val(precioTotal)
+}

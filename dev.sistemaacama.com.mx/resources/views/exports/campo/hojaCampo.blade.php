@@ -161,14 +161,20 @@
                     @for ($i = 0; $i < @$model->Num_tomas; $i++)
                         <tr>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">{{$i + 1}}</td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">{{\Carbon\Carbon::parse(@$phMuestra[$i]->Fecha)}}
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">{{\Carbon\Carbon::parse(@$phMuestra[$i]->Fecha)->format('d-m-Y H:i')}}</td>
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
-                                @if (@$gastoMuestra[$i]->Activo == 1)
-                                    {{@$gastoMuestra[$i]->Promedio}}
-                                @else
+
+                            @if (@$gastoMuestra[$i]->Activo == 1)
+                                @if (@$gastoMuestra[$i]->Promedio == "" || @$gastoMuestra[$i]->Promedio == null)
                                     ---
-                                @endif                                
+                                @else 
+                                    {{@$gastoMuestra[$i]->Promedio}}
+                                @endif  
+                            @else
+                                ---
+                            @endif    
+                                
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)
@@ -183,46 +189,75 @@
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">                                
                                 @if (@$phMuestra[$i]->Activo == 1)
-                                    {{@$phMuestra[$i]->Promedio}}
+                                    @if (@$phMuestra[$i]->Promedio == "" || @$phMuestra[$i]->Promedio == null)
+                                            ---
+                                        @else
+                                            {{@$phMuestra[$i]->Promedio}}
+                                        @endif
+                                    
                                 @else
                                     ---
                                 @endif
                             </td>                            
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)                           
-                                    @php
-                                        echo number_format(@$tempAmbiente[$i]->Temperatura1, 0, ".", ",");
-                                    @endphp
+                                    @if (@$tempAmbiente[$i]->Temperatura1 == "" || @$tempAmbiente[$i]->Temperatura1 == null)
+                                                ---
+                                            @else
+                                                @php
+                                                    echo number_format(@$tempAmbiente[$i]->Temperatura1, 0, ".", ",");
+                                                @endphp
+                                            @endif
+                                   
                                 @else
                                     ---
                                 @endif
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
-                                @if (@$phMuestra[$i]->Activo == 1)                           
-                                    @php
-                                        echo number_format(@$tempMuestra[$i]->Promedio, 0, ".", ",");
-                                    @endphp
+                                @if (@$phMuestra[$i]->Activo == 1)                            
+                                    @if (@$tempMuestra[$i]->Promedio == "" || @$tempMuestra[$i]->Promedio == null)
+                                            ---
+                                        @else
+                                            @php
+                                                echo number_format(@$tempMuestra[$i]->Promedio, 0, ".", ",");
+                                            @endphp
+                                        @endif
+                                   
                                 @else
                                     ---
                                 @endif
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)
+                                @if (@$phMuestra[$i]->Promedio == "" || @$phMuestra[$i]->Promedio == null)
+                                        ---
+                                    @else
                                     {{@$phMuestra[$i]->Olor}}
+                                    @endif
+                                    
                                 @else
                                     ---
                                 @endif
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)
+                                @if (@$phMuestra[$i]->Promedio == "" || @$phMuestra[$i]->Promedio == null)
+                                        ---
+                                    @else
                                     {{@$phMuestra[$i]->Color}}
+                                    @endif
+                                    
                                 @else
                                     ---
                                 @endif
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
                                 @if (@$phMuestra[$i]->Activo == 1)
-                                    {{@$conMuestra[$i]->Promedio}}
+                                    @if (@$conMuestra[$i]->Promedio == "" || @$conMuestra[$i]->Promedio == null)
+                                        ---
+                                    @else
+                                        {{@$conMuestra[$i]->Promedio}}
+                                    @endif
                                 @else
                                     ---
                                 @endif
@@ -238,7 +273,7 @@
                         <td class="bordesTablaInfDer justifyCenter" width="50%">SUPERVISIÓN DEL MUESTREO (NOMBRE Y FIRMA)</td>    
                     </tr>
                     <tr>
-                        <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita"><br>{{@$muestreador->name}}</span> <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{url("/public/storage")."/".@$firmaRes->firma}}"> <br></td>
+                        <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita"><br>{{@$muestreador->name}}</span> <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{url("/public/storage")."/".@$firmaRes->firma}}"> <br></td>
                         <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">------------</span> </td>
                     </tr>
                 </table>
@@ -250,13 +285,14 @@
                 <table style="width: 100%">
                     <tr>
                         <td class="bordesTabla justifyCenter" style="width: 50%">
+                       
                             @if ($procesoAnalisis->count())
-                                <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{asset('public/storage/'.@$firmaRecepcion->firma)}}">
+                                <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRecepcion->firma)}}">
                             @else
-                                ------------
+                                " "
                             @endif
                         </td>
-                      <td class="bordesTabla justifyCenter" style="width: 50%"><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="{{url("/public/storage")."/".@$firmaRes->firma}}"></td>                      
+                      <td class="bordesTabla justifyCenter" style="width: 50%"><img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}"></td>                      
                     </tr>
                     <tr>
                         <td class="bordesTablaInfIzqDer justifyCenter" style="width: 50%">RECEPCION EN EL LABORATORIO</td>
@@ -271,10 +307,12 @@
              
                     @if (@$model->Num_tomas > 1)
                         <tr>
-                            <td class="bordesTablaInfIzqDer" style="width: 50%">Fecha y hora de recepción en Lab: {{\Carbon\Carbon::parse(@$recepcion->created_at)}}</td>
+                            <td class="bordesTablaInfIzqDer" style="width: 50%">Fecha y hora de recepción en Lab: 
+                            <!-- {{\Carbon\Carbon::parse(@$recepcion->created_at)}} -->
+                            </td>
                             <td class="bordesTablaSupInfDer" style="width: 50%">
                                 Fecha y hora de conformación de la muestra: 
-                                {{\Carbon\Carbon::parse(@$phMuestra[@$model->Num_tomas - 1]->Fecha)->addMinutes(30)->format('d/m/Y H:i:s')}}
+                                <!-- {{\Carbon\Carbon::parse(@$phMuestra[@$model->Num_tomas - 1]->Fecha)->addMinutes(30)->format('d/m/Y H:i:s')}} -->
                             </td>
                         </tr> 
                             <tr>
@@ -290,12 +328,18 @@
                                             <td class="bordesTablaInf">VOLUMEN MUESTRA COMPUESTA: {{@$modelCompuesto->Volumen_calculado}} L</td>
                                             <td class="bordesTablaInfDer">TEMPERATURA MUESTRA COMPUESTA: {{@$modelCompuesto->Temp_muestraComp}} °C</td>
                                         </tr>
+                                        <tr>
+                                            <td class="bordesTablaInfIzq" style="width: 100%" colspan="2">OBSERVACIONES: {{@$modelCompuesto->Observaciones}}</td>
+                                        </tr>
                                     </table>
                                 </td>
                             </tr>
                         @else
                             <tr>
-                                <td class="bordesTablaInfIzqDer" style="width: 100%" colspan="2">Fecha y hora de recepción en Lab: {{\Carbon\Carbon::parse(@$recepcion->created_at)}}</td>
+                                <td class="bordesTablaInfIzqDer" style="width: 100%" colspan="2">Fecha y hora de recepción en Lab: 
+                                <!-- {{\Carbon\Carbon::parse(@$recepcion->created_at)->format('d-m-Y H:i')}} -->
+                            </td>
+
                             </tr>
                             <tr>
                                 <tr>
