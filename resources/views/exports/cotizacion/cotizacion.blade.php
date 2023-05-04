@@ -145,12 +145,12 @@
                 </thead>
                 <tbody>
                     @foreach (@$parametrosExtra as $item)
-                    <tr>
-                        <td class="fontNormal fontCalibri fontSize11 bordesTablaBody">{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
-                        <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Clave_metodo}}</td>
-                        <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Limite}}</td>
-                        <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Unidad}}</td>
-                    </tr>
+                        <tr>
+                            <td class="fontNormal fontCalibri fontSize11 bordesTablaBody">{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
+                            <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Clave_metodo}}</td>
+                            <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Limite}}</td>
+                            <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Unidad}}</td>
+                        </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -367,7 +367,7 @@
            </table>
         </div>
 
-        <br>
+        <br>f
 
         <div class="col-md-12 fontNormal fontCalibri fontSize12 justificadorCentr">
             En espera de poder servirles, de antemano agradecemos su preferencia. Reciban un cordial saludo.

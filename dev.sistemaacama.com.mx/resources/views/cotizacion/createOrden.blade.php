@@ -168,7 +168,7 @@
             <div class="col-md-12">
               <label for="observacion">Observación</label>
               <textarea class="form-control" id="observacion" name="observacion"
-                placeholder="Escribir...">{{@$model->Observacion_cotizacion}}</textarea>
+                placeholder="Escribir...">{{@$model->Observacion}}</textarea>
             </div>
 
             <div class="col-md-12">
@@ -218,6 +218,7 @@
 
                   <select class="form-control" placeholder="Frecuencia" id="frecuencia" name="frecuencia"
                     onchange="getFrecuenciaMuestreo()">
+                    <option value="0">Sin seleccionar</option>
                     @foreach ($frecuencia as $item)
                     <option value="{{$item->Id_frecuencia}}">{{$item->Descripcion}}</option>
                     @endforeach
@@ -226,7 +227,12 @@
                 </div>
                 <div class="col-md-4">
                   <label for="numTomas">Número de tomas</label>
-                  <input type="text" id="numTomas" class="form-control" value="" disabled>
+                  <input type="number" id="numTomas" class="form-control" value="{{@$model->Num_tomas}}">
+                </div>  
+                <div class="col-md-8">
+                  <h6>Folio servicio</h6>
+                  <input type="text" id="folio" value="{{@$model->Folio}}" disabled>
+                  <button class="btn btn-info" id="btnFolio"><i class="voyager-forward"> Crear Folio</i></button>
                 </div>
 
               </div>
@@ -244,16 +250,18 @@
                   <div class="form-group">
                     <label for="tipoMuestra">Tipo de muestra</label>
                     <select name="tipoMuestra" id="tipoMuestra" class="form-control">
+                      <option value="0">Sin seleccionar</option>
                       @foreach($tipoMuestraCot as $item)
                       <option value="{{$item->Id_muestraCot}}">{{$item->Tipo}}</option>
                       @endforeach
                     </select>
-                  </div>
+                  </div> 
                 </div>
                 <div class="col-md-6">
                   <div class="form-group">
                     <label for="promedio">Promedio</label>
                     <select name="promedio" class="form-control" id="promedio">
+                      <option value="0">Sin seleccionar</option>
                       @foreach($promedioCot as $item)
                       <option value="{{$item->Id_promedioCot}}">{{$item->Promedio}}</option>
                       @endforeach
@@ -269,11 +277,7 @@
                   <select name="tipoReporte" id="tipoReporte" class="form-control">
                       <option value="0">Sin seleccionar</option>
                       @foreach (@$categorias001 as $item) 
-                      @if ($item->Id_categoria == @$model->Tipo_reporte)
-                      <option value="{{$item->Id_categoria}}" selected>{{$item->Categoria}}</option>
-                      @else
                       <option value="{{$item->Id_categoria}}">{{$item->Categoria}}</option>
-                      @endif
                       @endforeach
                   </select>
               </div>
@@ -282,11 +286,7 @@
                   <select name="tipoReporte2" id="tipoReporte2" class="form-control">
                       <option value="0">Sin seleccionar</option>
                       @foreach (@$categorias0012 as $item)
-                      @if ($item->Id_categoria == @$model->Tipo_reporte)
-                      <option value="{{$item->Id_categoria}}" selected>{{$item->Categoria}}</option>
-                      @else
-                      <option value="{{$item->Id_categoria}}">{{$item->Categoria}}</option>
-                      @endif
+                        <option value="{{$item->Id_categoria}}">{{$item->Categoria}}</option>
                       @endforeach
                   </select>
               </div>
@@ -302,6 +302,7 @@
                       <tr>
                         <th>Id</th>
                         <th style="width: 90%">Punto muestreo</th>
+                        <th style="width: 10%">Opc</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -334,7 +335,7 @@
                     Eliminar</button>
                 </div>
                 <div class="col-md-2">
-                  <button type="button" id="btnCrearSolicitud" onclick="setSolicitud()" class="btn btn-success"><i
+                  <button type="button" id="btnCrearSolicitud"  class="btn btn-success"><i
                       class="fas fa-save"></i> Crear Orden</button>
                 </div>
               </div>
@@ -391,7 +392,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" id="btnEditarParametros" onclick="updateParametroCot()"
+        <button type="button" id="btnEditarParametros" onclick="updateParametroSol()"
           class="btn btn-success">Guardar</button>
       </div>
     </div>

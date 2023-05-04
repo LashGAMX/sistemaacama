@@ -63,31 +63,67 @@
                             </div>
                         </div> 
                         <thead class="">
-                            <tr> 
-                                <th>#</th>
+                            <tr>
+                                <th style="width: 10px">Id</th>
                                 <th>Estado</th>
+                                <th style="width: 30px">Folio servicio</th>
                                 <th>Folio cotización</th>
-                                <th>Folio servicio</th>|
+                                <th>Fecha Muestreo</th>
+                                <th>Nombre cliente</th>
                                 <th>Norma</th>
-                                <th>Servicio</th>
-                                <th>Cliente</th>
-                                <th>Fecha muestreo</th>
-                                <th>Intermediario</th>
+                                <th>Tipo descarga</th>
+                                <th>Creado por</th>
+                                <th>Fecha creación</th>
+                                <th>Actualizado por</th>
+                                <th>Fecha actualización</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (@$model as $item)
-                                <tr>
-                                    <td>{{$item->Id_cotizacion}}</td>
-                                    <td>{{$item->Estado}}</td>
-                                    <td>{{$item->Folio}}</td>
-                                    <td>{{$item->Folio_servicio}}</td>
-                                    <td>{{$item->Clave_norma}}</td>
-                                    <td>{{$item->Servicio}}</td>
-                                    <td>{{$item->Nombre}}</td>
-                                    <td>{{$item->Fecha_muestreo}}</td>
-                                    <td>{{$item->NomInter}} {{$item->ApeInter}}</td>
-                                </tr>
+                            @foreach ($model as $item)
+                            <tr>
+                                <td>{{$item->Id_cotizacion}}</td>
+                                <td>
+                                    @foreach ($estado as $item2)
+                                        @if ($item->Estado_cotizacion == $item2->Id_estado)
+                                            {{$item2->Estado}}       
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td>{{$item->Folio_servicio}}</td>
+                                <td>{{$item->Folio}}</td>
+                                <td>{{$item->Fecha_muestreo}}</td>
+                                <td>{{$item->Nombre}}</td>
+                                <td>
+                                    @foreach ($norma as $item2)
+                                        @if ($item->Id_norma == $item2->Id_norma)
+                                            {{$item2->Clave_norma}}       
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach ($descarga as $item2)
+                                        @if ($item->Tipo_descarga == $item2->Id_tipo)
+                                            {{$item2->Descarga}}       
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td>
+                                    @foreach ($usuario as $item2)
+                                        @if ($item->Creado_por == $item2->id)
+                                            {{$item2->name}}       
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td>{{$item->created_at}}</td>
+                                <td>
+                                    @foreach ($usuario as $item2)
+                                        @if ($item->Actualizado_por == $item2->id)
+                                            {{$item2->name}}       
+                                        @endif
+                                    @endforeach
+                                </td>
+                                <td>{{$item->updated_at}}</td>
+                            </tr>
                             @endforeach
                         </tbody>
                     </table>

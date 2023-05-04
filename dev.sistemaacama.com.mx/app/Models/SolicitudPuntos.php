@@ -17,6 +17,7 @@ class SolicitudPuntos extends Model
         'Id_solPadre',
         'Id_solicitud',
         'Id_muestreo',
+        'Punto',
         'Id_user_c',
         'Id_user_m'
     ];

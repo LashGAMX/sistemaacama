@@ -137,6 +137,7 @@ function getLoteCapturaDirecto() {
                         console.log("Entro a directos");
                         break;
                     case "218":
+                    case "119":
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
                         console.log("Entro a directos");
                         break;

@@ -620,6 +620,7 @@ class CotizacionController extends Controller
         $model->Precio_analisisCon = $res->precioAnalisisCon;
         $model->Precio_muestreo = $res->precioMuestra;
         $model->Extras = $res->gastosExtras;
+        $model->Num_servicios = $res->numeroServicio;
         $model->Paqueteria = $res->paqueteria;
         $model->Iva = $res->iva;
         $model->Sub_total = $res->subTotal;

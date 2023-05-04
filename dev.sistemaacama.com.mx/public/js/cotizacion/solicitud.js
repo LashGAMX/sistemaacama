@@ -12,7 +12,6 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos encontrados",   
         }
     });
-    $("#btnEdit").prop('disabled', true);
     $('#tablaSolicitud tbody').on( 'click', 'tr', function () { 
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
@@ -52,7 +51,11 @@ $(document).ready(function () {
     });
 
     $('#btnEdit').click( function () {        
-        window.location = base_url+"/admin/cotizacion/solicitud/update/"+idCot;
+        if (idCot > 0) {
+            window.location = base_url+"/admin/cotizacion/solicitud/updateOrden/"+idCot;
+        }else{
+            alert("Primero selecciona una orden")
+        } 
     } );
     $('#btnImprimir').click( function () {
         // alert("Imprimir PDF");

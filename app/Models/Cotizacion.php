@@ -46,7 +46,7 @@ class Cotizacion extends Model
         'Precio_catalogo',
         'Paqueteria',
         'Extras',
-        'Num_servicio',
+        'Num_servicios',
         'Descuento',
         'Precio_analisisCon',
         'Precio_muestreo',

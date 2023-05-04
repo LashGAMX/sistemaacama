@@ -41,13 +41,13 @@
                     <tr>
                         <td style="width: 25%">Contacto</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            {{@$model->Nom_con}} {{@$model->Nom_pat}}
+                            {{@$contacto->Nombre}} 
                         </td>
                     </tr>
                     <tr>
                         <td style="width: 25%">Teléfono</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            {{@$model->Tel_con}}
+                            {{@$contacto->Telefono}} 
                         </td>
                     </tr>
                     <tr>
@@ -63,7 +63,7 @@
                     <tr>
                         <td style="width: 25%">Norma</td>
                         <td style="height: 50px;border: 1px solid;" class="border">
-                            {{@$model->Clave_norma}}
+                            {{@$norma->Clave_norma}}
                         </td>
                     </tr>
                     <tr>
@@ -107,13 +107,9 @@
                                 $cont = 1;
                             @endphp
                             @foreach ($puntos as $item)
-                                @if (@$modTemp->Siralab != 1)
-                                    {{$cont."- "}}{{$item->Punto}} 
-                                @else
-                                    {{$cont."- "}}{{$item->Punto_muestreo}}
-                                @endif
+                                {{$cont."- "}}{{$item->Punto}}
                                 @php
-                                    $cont++;
+                                    $cont++; 
                                 @endphp
                             @endforeach
                         </td>

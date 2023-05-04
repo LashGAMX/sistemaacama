@@ -32,7 +32,7 @@
             <div class="col-md-12">
                 <table class="{{-- table table-borderless --}} table-sm {{-- colorBorde --}}" width="100%">
                     <tr>
-                        <td class="bordesTabla">Num. de muestra</td>
+                        <td class="bordesTabla">NUM. DE MUESTRA</td>
                         <td class="negrita bordesTablaSupInfDer">{{@$model->Folio_servicio}}</td>
                         <td class="bordesTablaSupInfDer">No DE ORDEN</td>
                         <td class="bordesTablaSupInfDer justifyCenter negrita">{{@$numOrden->Folio_servicio}}</td>
@@ -139,7 +139,7 @@
                 </table>
             </div>
             <div class="col-12">
-                Todas las muestras se conservan en hielo a una temperatura de 4 +- 2°C
+                Todas las muestras se conservan en hielo.
             </div>
             <div class="col-12 negrita">
                 3. DATOS DE CAMPO
@@ -147,21 +147,21 @@
             <div class="col-md-12">
                 <table class="{{-- table table-borderless --}} table-sm {{-- colorBorde --}}">
                     <tr>
-                      <td class="bordesTabla justifyCenter fontSize12">No DE MUESTRAS</td>
-                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">FECHA Y HORA DE MUESTREO</td>
-                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">GASTO (L/s)</td>
-                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">MAT. FLOT. (AUS/PR)</td>
-                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">pH (Unidad)</td>                      
-                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">TEMP AMB C°</td>
-                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">TEMP AGUA C°</td>
-                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">OLOR (SI/NO)</td>
-                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">COLOR</td>
-                      <td class="bordesTablaSupInfDer justifyCenter fontSize12">COND (μs/cm)</td>
+                      <td class="bordesTabla justifyCenter fontSize11">No. DE MUESTRAS</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize11">FECHA Y HORA DE MUESTREO</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize11">GASTO (L/s)</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize11">MAT. FLOT. (AUS/PR)</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize11">pH (Unidad)</td>                      
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize11">TEMP AMB C°</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize11">TEMP AGUA C°</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize11">OLOR (SI/NO)</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize11">COLOR</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize11">COND (μs/cm)</td>
                     </tr>
                     @for ($i = 0; $i < @$model->Num_tomas; $i++)
                         <tr>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">{{$i + 1}}</td>
-                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">{{\Carbon\Carbon::parse(@$phMuestra[$i]->Fecha)->format('d-m-Y H:i')}}</td>
+                            <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">{{\Carbon\Carbon::parse(@$phMuestra[$i]->Fecha)->format('d/m/Y H:i')}}</td>
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
 
@@ -273,7 +273,7 @@
                         <td class="bordesTablaInfDer justifyCenter" width="50%">SUPERVISIÓN DEL MUESTREO (NOMBRE Y FIRMA)</td>    
                     </tr>
                     <tr>
-                        <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita"><br>{{@$muestreador->name}}</span> <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{url("/public/storage")."/".@$firmaRes->firma}}"> <br></td>
+                        <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita"><br>{{@$muestreador->name}}</span> <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}"> <br></td>
                         <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">------------</span> </td>
                     </tr>
                 </table>
@@ -328,11 +328,12 @@
                                             <td class="bordesTablaInf">VOLUMEN MUESTRA COMPUESTA: {{@$modelCompuesto->Volumen_calculado}} L</td>
                                             <td class="bordesTablaInfDer">TEMPERATURA MUESTRA COMPUESTA: {{@$modelCompuesto->Temp_muestraComp}} °C</td>
                                         </tr>
-                                        <tr>
-                                            <td class="bordesTablaInfIzq" style="width: 100%" colspan="2">OBSERVACIONES: {{@$modelCompuesto->Observaciones}}</td>
-                                        </tr>
+                                        
                                     </table>
                                 </td>
+                                    <tr>
+                                        <td class="bordesTablaInfIzq" style="width: 100%" colspan="2">OBSERVACIONES: {{@$modelCompuesto->Observaciones}}</td>
+                                    </tr>
                             </tr>
                         @else
                             <tr>

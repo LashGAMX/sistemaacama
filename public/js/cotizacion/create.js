@@ -98,6 +98,7 @@ function setPrecioCotizacion()
       precioMuestra: $('#precioMuestra').val(),
       gastosExtras: $("#gastosExtras").val(),
       paqueteria:$("#paqueteria").val(),
+      numeroServicio:$("#numeroServicio").val(),
       iva: $('#iva').val(),
       subTotal: $('#subTotal').val(),
       precioTotal: $('#precioTotal').val(),

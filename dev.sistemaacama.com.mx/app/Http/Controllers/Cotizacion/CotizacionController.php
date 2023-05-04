@@ -47,7 +47,7 @@ class CotizacionController extends Controller
     {
         //Vista Cotización
         // $model = DB::table('ViewCotizacionList')->orderBy('Id_cotizacion', 'DESC')->get();
-        $model = Cotizacion::orderBy('Id_cotizacion','DESC')->get();
+        $model = Cotizacion::orderBy('Id_cotizacion','DESC')->where('Tipo','!=',1)->get();
         $norma = Norma::all();
         $descarga = TipoDescarga::all();
         $estado = CotizacionEstado::all();
@@ -307,6 +307,7 @@ class CotizacionController extends Controller
                 'Numero_puntos' => $res->puntosSize,
                 'Estado_cotizacion' => 1,
                 'Num_servicios' => 1,
+                'Tipo' => 0,
                 'Creado_por' => Auth::user()->id,
                 'Actualizado_por' => Auth::user()->id,
             ]);

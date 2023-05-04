@@ -92,8 +92,8 @@ class CampoController extends Controller
         $equipo = DB::table('ViewCampoGenerales')->get();
         // var_dump(Auth::user()); 
         switch (Auth::user()->role_id) {
-            case 1: 
-            case 15: 
+            case 1:
+            case 15:
                 $model = DB::table('ViewSolicitudGenerada')->orderBy('Id_solicitud','DESC')->get();
                 break;
             default:
@@ -218,6 +218,11 @@ class CampoController extends Controller
         $model->Id_user_m = Auth::user()->id;
         $model->save();
         $nota = "Registro modificado";          
+
+        //Solicitudes generadas (para actualizar el nombre del punto de muestreo en Campo Captura)
+        $punto = SolicitudesGeneradas::find($request->idSolicitud);
+        $punto->Punto_muestreo = $request->puntoMuestreo;
+        $punto->save();
 
         //Ph trazable
         $phTrazableModel = CampoPhTrazable::where('Id_solicitud', $request->idSolicitud)->get();
@@ -1259,6 +1264,7 @@ class CampoController extends Controller
       
         $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
         $direccion = "";
+        $firmaRecepcion = "";
         
         if($model->Siralab == 1){//Es cliente Siralab
             $puntoMuestreo = PuntoMuestreoSir::where('Id_sucursal', $model->Id_sucursal)->get();
@@ -1299,7 +1305,7 @@ class CampoController extends Controller
         $areaModel = AreaLab::all(); 
         $procesoAnalisis = ProcesoAnalisis::where('Id_solicitud',$id)->get();
         if ($procesoAnalisis->count()) {
-            $firmaRecepcion =  DB::table('users')->where('id',31)->get(); 
+            $firmaRecepcion =  DB::table('users')->where('id',31)->first(); 
         }else{
            $firmaRecepcion = "";
         }
@@ -1656,14 +1662,6 @@ class CampoController extends Controller
             'datoModel' => $datoModel,
         );
         return response()->json($data);
-    }
-    public function getParametroConfig(Request $res)
-    {
-        $model = Parametro::where('Id_parametro',$res->id)->first();
-        $data = array(
-            'model' => $model,
-        );
-        Return response()->json($data);
     }
     public function setPlanMuestreo(Request $res)
     {
