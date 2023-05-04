@@ -62,10 +62,10 @@
                     <td class="tableContent">{{@$item->Peso_constante2}}</td>
                     <td class="tableContent">{{@$item->Masa2}}</td>
                     <td class="tableContent">
-                        @if (@$item->Liberado == 1)
-                            Liberado
-                        @elseif(@$item->Liberado == 0)
-                            No liberado
+                        @if (@$limite->Limite <= $item->Resultado)
+                            {{@$item->Resultado}}
+                        @else
+                            {{@$limite->Limite}}
                         @endif     
                     </td>
                     <td class="tableContent">{{@$item->Observacion}}</td>

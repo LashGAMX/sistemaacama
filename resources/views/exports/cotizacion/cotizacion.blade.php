@@ -79,7 +79,7 @@
 
             <div class="col-md-12 fontBold fontCalibri fontSize12">
                 {{-- <strong><p>QUE ESTABLECE LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES A LOS SISTEMAS DE ALCANTARILLADO URBANO O MUNICIPAL.</p></strong> --}}
-                {{-- <strong><p>{{@$model->Norma}}</p></strong> --}}
+                <strong><p>{{@$model->Norma}}</p></strong>
             </div>
         </div>
         

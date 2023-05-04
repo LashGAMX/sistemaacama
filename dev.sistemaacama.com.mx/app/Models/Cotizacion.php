@@ -35,6 +35,7 @@ class Cotizacion extends Model
         'Promedio',
         'Numero_puntos',
         'Tipo_reporte',
+        'Tipo_reporte2',
         'Tiempo_entrega',
         'Observacion_interna',
         'Observacion_cotizacion',

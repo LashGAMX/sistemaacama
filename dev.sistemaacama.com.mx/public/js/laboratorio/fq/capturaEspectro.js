@@ -309,14 +309,14 @@ function guardarDureza(){
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/guardarDureza",
         data: {
-            idMuestra: $("#idMuestra").val(),
+            idMuestra: idMuestra,
             fechaAnalisis: $("#fechaAnalisis").val(),
             parametro: $('#formulaTipo').val(),
             resultado: $('#resultadoDureza').val(),
             observacion: $('#obs').val(),
-            A:$('#Titulados1').val(),
-            B:$('#factor1').val(),
-            C:$('#ph1').val(),
+            A:$('#promedioTitulados').val(),
+            B:$('#blanco1').val(),
+            C:$('#factor1').val(),
             D:$('#volumen1').val(),
             RE:$('#factorReal1').val(),
             _token: $('input[name="_token"]').val()
@@ -684,8 +684,8 @@ function operacionDureza() {
             idMuestra: idMuestra,
             parametro: $('#formulaTipo').val(),
             A:$('#promedioTitulados').val(),
-            B:$('#factor1').val(),
-            C:$('#ph1').val(),
+            B:$('#blanco1').val(),
+            C:$('#factor1').val(),
             D:$('#volumen1').val(),
             RE:$('#factorReal1').val(),
             _token: $('input[name="_token"]').val()
@@ -828,15 +828,15 @@ function updateObsMuestraEspectroSulfatos()
         }
     }); 
 }
-function updateObsMuestraEspectroSulfatos()
+function updateObsMuestraEspectroDureza()
 {
     
     $.ajax({
         type: "POST",
-        url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestraEspectroSulfatos",
+        url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestraEspectroDureza",
         data: {
             idMuestra: idMuestra,
-            observacion: $("#observacionSulfatos").val(),
+            observacion: $("#observacionSulDureza").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
@@ -853,6 +853,7 @@ function liberarMuestra()
         url: base_url + "/admin/laboratorio/" + area + "/liberarMuestraEspectro",
         data: {
             idMuestra: idMuestra,
+            parametro: $('#formulaTipo').val(),
             idLote:idLote,
             _token: $('input[name="_token"]').val()
         },

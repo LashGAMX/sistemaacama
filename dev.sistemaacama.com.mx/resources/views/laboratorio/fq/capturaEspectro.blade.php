@@ -485,7 +485,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="">Observación</label>
-                                    <input type="text" class="form-control" id="observacion"
+                                    <input type="text" class="form-control" id="observacionDureza"
                                         placeholder="Observacion de la muestra">
                                 </div>
                                 <div class="form-group">
@@ -536,16 +536,16 @@
                                         </tr>
                                         <tr>
                                             <td>B</td>
-                                            <td>FACTOR DE CONVERSIÓN</td>
-                                            <td><input disabled name="campos" type="number" id="factor1" value="1000"></td>
+                                            <td>BLANCO</td>
+                                            <td><input  name="campos" type="number" id="blanco1" ></td>
                                             <td></td>
                                     
                                             <td>C</td>
                                         </tr>
                                         <tr>
                                             <td>C</td>
-                                            <td>ph  DE LA MUESTRA</td>
-                                            <td><input name="campos" type="number" id="ph1" ></td>
+                                            <td>FACTOR DE CONVERSIÓN</td>
+                                            <td><input disabled name="campos" type="number" id="factor1" value="1000" ></td>
                                             <td></td>
                                            
                                             <td>V</td>

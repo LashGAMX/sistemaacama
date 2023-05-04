@@ -70,7 +70,7 @@
                         <td style="width: 25%">Parametros</td>
                         <td style="height: 200px;border: 1px solid;" class="border">
                             @foreach ($parametros as $item)
-                                {{$item->Parametro}}
+                                {{$item->Parametro}} ,
                             @endforeach
                         </td>
                     </tr>
@@ -79,7 +79,7 @@
                             <td style="height: 100px;border: 1px solid; color:red" class="border">
                                 @if ($extra->count()) 
                                     @foreach ($extra as $item)
-                                        {{$item->Parametro}}
+                                        {{$item->Parametro}} ,
                                     @endforeach
                                 @else
                                     @php
@@ -107,7 +107,7 @@
                                 $cont = 1;
                             @endphp
                             @foreach ($puntos as $item)
-                                {{$cont."- "}}{{$item->Punto}}
+                                {{$cont."- "}}{{$item->Punto}} <br>
                                 @php
                                     $cont++; 
                                 @endphp

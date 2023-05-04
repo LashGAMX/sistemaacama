@@ -64,22 +64,27 @@ var std = 1;
 //todo funciones
 function setGenFolio()
 {
-  $.ajax({
-    url: base_url + '/admin/cotizacion/setGenFolio', //archivo que recibe la peticion
-    type: 'POST', //método de envio
-    data: {
-      id: $('#idCot').val(),
-      fecha: $('#fechaCot').val(),
-        _token: $('input[name="_token"]').val(),
-    },
-    dataType: 'json',
-    async: false,
-    success: function (response) {
-      console.log(response)
-       alert(response.msg)
-       $("#folio").val(response.folio)
-    }
-});
+  if ($("#fechaCot").val() != "") {
+    $.ajax({
+      url: base_url + '/admin/cotizacion/setGenFolio', //archivo que recibe la peticion
+      type: 'POST', //método de envio
+      data: {
+        id: $('#idCot').val(),
+        fecha: $('#fechaCot').val(),
+          _token: $('input[name="_token"]').val(),
+      },
+      dataType: 'json',
+      async: false, 
+      success: function (response) {
+        console.log(response)
+         alert(response.msg)
+         $("#folio").val(response.folio)
+      }
+  });
+  } else {
+    alert("Necesitas agregar una fecha de cotizacion para continuar")
+  }
+
 }
 function setPrecioCotizacion()
 {
@@ -98,6 +103,7 @@ function setPrecioCotizacion()
       precioMuestra: $('#precioMuestra').val(),
       gastosExtras: $("#gastosExtras").val(),
       paqueteria:$("#paqueteria").val(),
+      numServicio:$("#numServicio").val(),
       iva: $('#iva').val(),
       subTotal: $('#subTotal').val(),
       precioTotal: $('#precioTotal').val(),
@@ -191,7 +197,9 @@ function updateParametroCot()
       console.log(response)
       parametros = response.parametro
       tabParam = true
+      $("#precioCat").val(response.precioCat)
       createTabParametros()
+      alert("Parametros modificados")
     }
   });
 }
@@ -223,7 +231,16 @@ function getDataUpdate()
         parametros = response.parametros
         createTabParametros()
         getLocalidad()
-        btnReccalcular()
+        // $("#precioTotal").val(data.Costo_total)
+        // $("#subTotal").val(data.Sub_total)
+        // $("#precioMuestra").val(data.Precio_muestreo)
+        // $("#precioAnalisisCon").val(data.Descuento)
+        // $("#descuento").val(data.Descuento)
+        // $("#numServicio").val(data.Num_servicios)
+        // $("#paqueteria").val(data.Paqueteria)
+        // $("#gastosExtras").val(data.Extras)
+        // $("#precioCat").val(data.Precio_catalogo)
+        // $("#precioAnalisis").val(data.Precio_analisis)
     }
 });
 }
@@ -256,7 +273,7 @@ function getParametrosSelected()
               }
             }); 
             json.push({
-              "parametro" : "("+item.Id_parametro+")"+item.Parametro,
+              "parametro": "(" + item.Id_parametro + ")" + item.Parametro + " (" + item.Matriz + ")",
               "id":item.Id_parametro,
               "selected":sw,
             })
@@ -370,8 +387,8 @@ function getDatosCotizacion()
   $("#textMuestreo").val($("#frecuencia option:selected").text())
   $("#textTomas").val($("#tomas").val())
   $("#fechaMuestreo").val($("#fecha").val())
-  $('#descuento').val("")
-  $('#precioAnalisisCon').val("")
+  // $('#descuento').val("")
+  // $('#precioAnalisisCon').val("")
 
   if($("#tipoServicio").val() != 3){
     $("#divMuestreo").show()
@@ -398,16 +415,16 @@ function getDatosCotizacion()
     async: false,
     success: function (response) {
         console.log(response)
-      $("#precioAnalisis").val(parseFloat(response.precio) * (tab.rows.length - 1)) 
-      $("#precioCat").val(parseFloat(response.precioCat) * (tab.rows.length - 1))
+      // $("#precioAnalisis").val(parseFloat(response.precio) * (tab.rows.length - 1)) 
+      // $("#precioCat").val(parseFloat(response.precioCat) * (tab.rows.length - 1))
       $("#extra").val("("+response.extra+")")
       $("#contSer").val("("+(tab.rows.length - 1)+")")
     
-      suma = (parseFloat($("#precioAnalisis").val()) + parseFloat($("#precioCat").val()) + parseFloat($("#precioMuestra").val()))
-      iva = (suma * 16) / 100;
-      sumatotal = suma + iva;
-      $('#subTotal').val(suma)
-      $('#precioTotal').val(sumatotal.toFixed(2));
+      // suma = (parseFloat($("#precioAnalisis").val()) + parseFloat($("#precioCat").val()) + parseFloat($("#precioMuestra").val()))
+      // iva = (suma * 16) / 100;
+      // sumatotal = suma + iva;
+      // $('#subTotal').val(suma)
+      // $('#precioTotal').val(sumatotal.toFixed(2));
     }
 });
 }
@@ -434,7 +451,7 @@ function  createTabParametros()
     tab += '<td><input type="checkbox" '+temp+'></td>';
     tab += '<td>'+cont+'</td>';
     tab += '<td>'+item.Id_parametro+'</td>'; 
-    tab += '<td>'+item.Parametro+'('+item.Tipo_formula+')</td>';
+    tab += '<td>'+item.Parametro+'('+item.Matriz+')</td>';
     tab += '</tr>'
     cont++
   });  
@@ -510,7 +527,8 @@ function setCotizacion() {
       alert("Cotizacion guardada")
       console.log(response)
       $("#idCot").val(response.model.Id_cotizacion)
-      $("#numeroServicio").val(response.model.Num_servicios)
+      $("#numServicio").val(response.model.Num_servicios)
+      $("#precioAnalisis").val(response.precio)
     }
   });
 }
@@ -734,6 +752,7 @@ function btnReccalcular()
   let muestreo = parseFloat($("#precioMuestra").val())
   let gastosExtras = parseFloat($("#gastosExtras").val())
   let paqueteria = parseFloat($("#paqueteria").val())
+  let numServicio = parseFloat($("#numServicio").val())
   let iva = parseFloat($("#iva").val())
   let subTotal = parseFloat($("#subTotal").val())
   let precioTotal = parseFloat($("#precioTotal").val())
@@ -741,18 +760,25 @@ function btnReccalcular()
 
 
 
-  if ($("#precioMuestra").val() == '') {
+  if ($("#numServicio").val() != "") {
+    if ($("#precioMuestra").val() == '') {
     muestreo = 0
-  } 
-  if ($("#gastosExtras").val() == '') {
-    gastosExtras = 0
-  } 
-  if ($("#paqueteria").val() == '') {
-    paqueteria = 0
-  } 
-  subTotal = analisis + extra + muestreo + gastosExtras + paqueteria
-  temp = (subTotal * 16) / 100
-  precioTotal = temp + subTotal
-  $("#subTotal").val(subTotal)
-  $("#precioTotal").val(precioTotal)
+    } 
+    if ($("#gastosExtras").val() == '') {
+      gastosExtras = 0
+    } 
+    if ($("#paqueteria").val() == '') {
+      paqueteria = 0
+    } 
+    if ($("#precioCat").val() == '') {
+      extra = 0
+    } 
+    subTotal = (analisis + extra + muestreo + gastosExtras + paqueteria) * numServicio
+    temp = (subTotal * 16) / 100
+    precioTotal = temp + subTotal
+    $("#subTotal").val(subTotal)
+    $("#precioTotal").val(precioTotal)
+  } else {
+    alert("Necesitas un numero de servicio para recalcular")
+  }
 }

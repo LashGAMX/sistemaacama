@@ -207,16 +207,17 @@ class FqController extends Controller
     {
         $model = LoteDetalleDureza::find($request->idMuestra);
         $model->Edta = $request->A;
-        $model->Factor_conversion = $request->B;
-        $model->Ph_muestra = $request->C;
+        $model->Factor_conversion = $request->C;
+        $model->Blanco = $request->B;
         $model->Vol_muestra = $request->D;
         $model->Factor_real = $request->RE;
         $model->Analizo = Auth::user()->id;
+        $model->Resultado = $request->resultado;
         $model->save();
 
         $data = array(
             'model' => $model,
-
+            'idMuestra' => $request->idMuestra,
         );
         return response()->json($data);
     }
@@ -361,9 +362,9 @@ class FqController extends Controller
                 $resultado = ((($x - $request->CB) / $request->CM) * $d);
                 break;
             case 103: //Dureza
-                $a = $request->A - $request->B;
-                $b = ($a * $request->RE) * 1000;
-                $resultado = $b / $request->D;
+                $x = $request->A - $request->B;
+                $d = ($x * $request->RE) * 1000;
+                $resultado = $d / $request->D;
                 break;
 
             case 105: //Fluoruros (potable)
@@ -415,24 +416,44 @@ class FqController extends Controller
     }
     public function liberarMuestraEspectro(Request $request)
     {
-        $sw = false;
-        $model = LoteDetalleEspectro::find($request->idMuestra);
-        $model->Liberado = 1;
-        if ($model->Resultado != null) {
-            $sw = true;
-            $model->save();
+        if ($request->parametro == 103){
+            $sw = false;
+            $model = LoteDetalleDureza::find($request->idMuestra);
+            $model->Liberado = 1;
+            if ($model->Resultado != null) {
+                $sw = true;
+                $model->save();
+            }
+
+            $modelCod = CodigoParametros::find($model->Id_codigo);
+            $modelCod->Resultado = $model->Resultado;
+            $modelCod->Analizo = Auth::user()->id;
+            $modelCod->save();
+
+            $model = LoteDetalleDureza::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
+            $loteModel = LoteAnalisis::find($request->idLote);
+            $loteModel->Liberado = Auth::user()->id;
+            $loteModel->save();
+        } else {
+            $sw = false;
+            $model = LoteDetalleEspectro::find($request->idMuestra);
+            $model->Liberado = 1;
+            if ($model->Resultado != null) {
+                $sw = true;
+                $model->save();
+            }
+
+            $modelCod = CodigoParametros::find($model->Id_codigo);
+            $modelCod->Resultado = $model->Resultado;
+            $modelCod->Analizo = Auth::user()->id;
+            $modelCod->save();
+
+            $model = LoteDetalleEspectro::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
+            $loteModel = LoteAnalisis::find($request->idLote);
+            $loteModel->Liberado = Auth::user()->id;
+            $loteModel->save();
+
         }
-
-        $modelCod = CodigoParametros::find($model->Id_codigo);
-        $modelCod->Resultado = $model->Resultado;
-        $modelCod->Analizo = Auth::user()->id;
-        $modelCod->save();
-
-        $model = LoteDetalleEspectro::where('Id_lote', $request->idLote)->where('Liberado', 1)->get();
-        $loteModel = LoteAnalisis::find($request->idLote);
-        $loteModel->Liberado = Auth::user()->id;
-        $loteModel->save();
-
 
         $data = array(
             'model' => $model,
@@ -487,7 +508,11 @@ class FqController extends Controller
     }
     public function getLoteCapturaEspectro(Request $request)
     {
+        if($request->formulaTipo == 103){
+            $detalle = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $request->idLote)->get();
+        }else {
         $detalle = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+        }
         $data = array(
             'detalle' => $detalle,
         );
@@ -575,6 +600,17 @@ class FqController extends Controller
     public function updateObsMuestraEspectroSulfatos(Request $request)
     {
         $model = LoteDetalleEspectro::where('Id_detalle', $request->idMuestra)->first();
+        $model->Observacion = $request->observacion;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function updateObsMuestraEspectroDureza(Request $request)
+    {
+        $model = LoteDetalleDureza::where('Id_detalle', $request->idMuestra)->first();
         $model->Observacion = $request->observacion;
         $model->save();
 
@@ -1199,6 +1235,9 @@ class FqController extends Controller
         $paraModel = Parametro::find($loteModel->Id_tecnica);
         $model = array();
         switch ($paraModel->Id_area) {
+            case 8: // dureza
+                $model = DB::table('ViewLoteDetalleDureza')->where('Id_lote', $request->idLote)->get();
+                break;
             case 16: //todo Espectrofotometria
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->get();
                 break;
@@ -1334,6 +1373,18 @@ class FqController extends Controller
         $paraModel = Parametro::find($loteModel->Id_tecnica);
 
         switch ($paraModel->Id_area) {
+            case 8:
+                $model = LoteDetalleDureza::create([
+                    'Id_lote' => $request->idLote,
+                    'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
+                    'Id_parametro' => $loteModel->Id_tecnica,
+                    'Id_control' => 1,
+                    'Analizo' => 1,
+                ]);
+                $detModel = LoteDetalleEspectro::where('Id_lote', $request->idLote)->get();
+                $sw = true;
+                break;
             case 16: //todo Espectrofotometria
                 $model = LoteDetalleEspectro::create([
                     'Id_lote' => $request->idLote,

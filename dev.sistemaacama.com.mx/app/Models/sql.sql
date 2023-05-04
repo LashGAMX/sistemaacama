@@ -218,6 +218,27 @@ ON sub.Id_subnorma = sol.Id_subnorma
 
 
 
+CREATE VIEW ViewSolicitud2 as SELECT 
+sol.*,inter.Nombres,inter.A_paterno,gen.Empresa,suc.Empresa as Empresa_suc,suc.Estado,ser.Servicio,ser.Descripcion,
+des.Descarga,nor.Norma,nor.Clave_norma,sub.Norma as Nor_sub,sub.Clave
+FROM solicitudes  as sol
+INNER JOIN ViewIntermediarios as inter
+ON inter.Id_intermediario = sol.Id_intermediario
+INNER JOIN ViewGenerales as gen
+ON gen.Id_cliente = sol.Id_cliente
+INNER JOIN sucursales_cliente as suc
+ON suc.Id_sucursal = sol.Id_sucursal
+INNER JOIN tipo_servicios as ser
+ON sol.Id_servicio = ser.Id_tipo
+INNER JOIN tipo_descargas as des
+ON des.Id_tipo = sol.Id_descarga
+INNER JOIN normas as nor
+ON nor.Id_norma = sol.Id_norma
+INNER JOIN sub_normas as sub
+ON sub.Id_subnorma = sol.Id_subnorma
+
+
+
 /* Lista Solicitud parametros */
 CREATE VIEW ViewSolicitudParametros as SELECT sol.Id_parametro as Id_solParam,sol.Id_solicitud,sol.Extra,pa.Id_parametro,pa.Parametro,pa.Id_area,pa.Area_analisis,pa.Id_tipo_formula,sol.Asignado,s.Folio_servicio,pa.Metodo_prueba,pa.Unidad,sol.Reporte FROM solicitud_parametros as sol
 INNER JOIN ViewParametros as pa
@@ -258,6 +279,12 @@ ON pu.Id_muestreo = sir.Id_punto
 INNER JOIN titulo_concesion_sir as con
 ON sir.Titulo_consecion = con.Id_titulo
 /* Lista ViewSolicitudGenerada */
+CREATE VIEW ViewSolicitudGenerada as SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,us.name,gen.Estado as StdSol, gen.Punto_muestreo, gen.Id_user_c as IdUserC, gen.Id_user_m as IdUserM FROM solicitudes_generadas as gen
+INNER JOIN ViewSolicitud2 as sol
+ON gen.Id_solicitud = sol.Id_solicitud
+INNER JOIN users as us
+ON gen.Id_muestreador = us.id
+
 CREATE VIEW ViewSolicitudGenerada as SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,us.name,gen.Estado as StdSol, gen.Punto_muestreo, gen.Id_user_c as IdUserC, gen.Id_user_m as IdUserM FROM solicitudes_generadas as gen
 INNER JOIN ViewSolicitud as sol
 ON gen.Id_solicitud = sol.Id_solicitud

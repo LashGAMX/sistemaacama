@@ -124,6 +124,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getDetalleDureza', [FqController::class, 'getDetalleDureza']);
         Route::post('updateObsMuestraEspectro', [FqController::class, 'updateObsMuestraEspectro']);
         Route::post('updateObsMuestraEspectroSulfatos', [FqController::class, 'updateObsMuestraEspectroSulfatos']);
+        Route::post('updateObsMuestraEspectroDureza', [FqController::class, 'updateObsMuestraEspectroDureza']);
         Route::post('createControlCalidadEspectro', [FqController::class, 'createControlCalidadEspectro']);
         Route::post('createControlesCalidadEspectro', [FqController::class, 'createControlesCalidadEspectro']);
         Route::post('liberarMuestraEspectro', [FqController::class, 'liberarMuestraEspectro']);

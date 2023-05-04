@@ -5,17 +5,13 @@ var idCot = 0;
 $(document).ready(function () {
     table = $('#tablaSolicitud').DataTable({
         "ordering": false,
-        "pageLength": 100,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
             "zeroRecords": "No hay datos encontrados",
             "info": "Pagina _PAGE_ de _PAGES_",
             "infoEmpty": "No hay datos encontrados",   
-        },
-        "scrollY": 350,
-        "scrollCollapse": true
+        }
     });
-    $("#btnEdit").prop('disabled', true);
     $('#tablaSolicitud tbody').on( 'click', 'tr', function () { 
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');
@@ -33,15 +29,6 @@ $(document).ready(function () {
         }
     } );
 
-    // switch ($("#rol").val()) {
-    //     case "13":
-    //         $("#btnCreate").hide()
-    //         $("#btnGenFolio").hide()
-    //         return 
-    //     default:
-    //         return
-    // }
-    
     $("#btnBuscar").click( function(){
         window.location = base_url+ "/admin/cotizacion/buscarFecha/"+ $("#inicio").val()+ "/" + $("#fin").val();
     });
@@ -51,8 +38,11 @@ $(document).ready(function () {
         idCot = dato;
       });
     $('#btnCreate').click( function () {
-        // alert(idCot);
-        window.location = base_url+"/admin/cotizacion/solicitud/create/"+idCot;
+        if (idCot > 0) {
+            window.location = base_url+"/admin/cotizacion/solicitud/create/"+idCot;
+        }else{
+            window.location = base_url+"/admin/cotizacion/solicitud/create"
+        }
     } );
 
     $('#btnCreateSinCot').click( function () {
@@ -61,7 +51,11 @@ $(document).ready(function () {
     });
 
     $('#btnEdit').click( function () {        
-        window.location = base_url+"/admin/cotizacion/solicitud/update/"+idCot;
+        if (idCot > 0) {
+            window.location = base_url+"/admin/cotizacion/solicitud/updateOrden/"+idCot;
+        }else{
+            alert("Primero selecciona una orden")
+        } 
     } );
     $('#btnImprimir').click( function () {
         // alert("Imprimir PDF");

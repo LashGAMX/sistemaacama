@@ -106,7 +106,7 @@
                                             Telefono
                                         </div>
                                         <div class="col-md-9">
-                                            <input type="number" placeholder="Telefono" id="telCli" style="width: 100%" value="{{@$model->Telefono}}">
+                                            <input type="text" placeholder="Telefono" id="telCli" style="width: 100%" value="{{@$model->Telefono}}">
                                         </div>
                                     </div>
                                     <div class="row">
@@ -497,11 +497,7 @@
                                         <input type="number" class="form-control" name="diasMuestreo" id="diasMuestreo"
                                             value="{{ @$muestreo->Dias_muestreo }}">
                                     </div>
-                                    <div class="col-md-2">
-                                        <label for=""># de servicio de muestreo:</label>
-                                        <input type="number" class="form-control" name="numeroMuestreo"
-                                            id="numeroMuestreo" value="{{ @$muestreo->Num_muestreo }}">
-                                    </div>
+                           
                                     <div class="col-md-2">
                                         <label for="">Caseta $:</label>
                                         <input type="number" class="form-control" name="caseta" id="caseta"
@@ -647,26 +643,33 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>Analisis <input type="text" id="contSer" style="border: none" disabled></td>
-                                            <td><input type="text" class="form-control" id="precioAnalisis"
+                                            <td>Analisis  <input type="text" id="contSer" style="border: none" disabled></td>
+                                            <td><input type="number" class="form-control" id="precioAnalisis"
                                                     name="precioAnalisis" placeholder="Precio análsis"
                                                     value="{{ @$model->Precio_analisis }}"></td>
                                         </tr>
                                         <tr>
                                             <td>Parametro Extra <input type="text" id="extra" style="border: none" disabled></td>
-                                            <td><input type="text" class="form-control" id="precioCat"
+                                            <td><input type="number" class="form-control" id="precioCat"
                                                     name="precioCat" placeholder="Parametro Extra"
                                                     value="{{ @$model->Precio_catalogo }}"></td>
                                         </tr>
                                         <tr>
-                                            <td>Gasto Adicional $: <input type="text" id="extra" style="border: none" disabled></td>
+                                            <td>Gasto Adicional $:</td>
                                             <td><input type="number" class="form-control" name="gastosExtras" id="gastosExtras"
                                                 value="{{ @$model->Extras }}" placeholder="Precio Adicional"></td>
                                         </tr>
                                         <tr>
-                                            <td>Gasto de paqueteria $: <input type="text" id="extra" style="border: none" disabled></td>
+                                            <td>Gasto de paqueteria $: </td>
                                             <td>    <input type="number" class="form-control" name="paqueteria" id="paqueteria"
                                                 value="{{ @$model->Paqueteria }}" placeholder="Precio de paqueteria"></td> 
+                                        </tr>
+                                        <tr>
+                                            <td># de servicio</td>
+                                            <td>
+                                                <input type="number" class="form-control" 
+                                                    id="numServicio" value="{{ @$model->Num_servicios }}">
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td><code>Nota: El descuento solo aplica directamente al análisis</code></td>

@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
-class Cotizacion extends Model
+class Cotizacion extends Model 
 {
     use HasFactory,SoftDeletes;
     protected $table = 'cotizacion';
@@ -35,6 +35,7 @@ class Cotizacion extends Model
         'Promedio',
         'Numero_puntos',
         'Tipo_reporte',
+        'Tipo_reporte2',
         'Tiempo_entrega',
         'Observacion_interna',
         'Observacion_cotizacion',
@@ -57,7 +58,8 @@ class Cotizacion extends Model
         'Creado_por',
         'Actualizado_por',
         'Hijo',
-        'Id_reporte'
+        'Id_reporte',
+        'Tipo',
     ];
 
 }

@@ -656,7 +656,7 @@ class SolicitudController extends Controller
         $campo = CampoCompuesto::where('Id_solicitud', $item->Id_solicitud)->first();
         $conduc = ConductividadMuestra::where('Id_solicitud', $item->Id_solicitud)->where('Activo', 1)->get();
         $promConduc = 0;
-        $aux = 0;
+        $aux = 0; 
         foreach ($conduc as $item) {
             $promConduc = $promConduc + $item->Promedio;
             $aux++;
@@ -908,7 +908,7 @@ class SolicitudController extends Controller
 
         $parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $modTemp->Id_solicitud)->where('Extra', 0)->orderBy('Parametro', 'ASC')->get();
         $extra = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $modTemp->Id_solicitud)->where('Extra', 1)->orderBy('Parametro', 'ASC')->get();
-        $cotizacion = DB::table('ViewCotizacion')->where('Id_cotizacion', $idOrden)->first();
+        $cotizacion = Cotizacion::where('Id_cotizacion', $idOrden)->first();
         $frecuenciaMuestreo = Frecuencia001::where('Id_frecuencia', $cotizacion->Frecuencia_muestreo)->first();
         $norma = Norma::where('Id_norma',$model->Id_norma)->first();
         $contacto = SucursalContactos::where('Id_contacto',$model->Id_contacto)->first();
@@ -917,8 +917,8 @@ class SolicitudController extends Controller
             'format' => 'letter',
             'margin_left' => 10,
             'margin_right' => 10,
-            'margin_top' => 20,
-            'margin_bottom' => 25
+            'margin_top' => 15,
+            'margin_bottom' => 10 
         ]);
         $mpdf->SetWatermarkImage(
             asset('/public/storage/MembreteVertical.png'),
@@ -1156,7 +1156,7 @@ class SolicitudController extends Controller
         
         return response()->json($data); 
     }
-    public function getPuntoMuestreoSol(Request $res)
+    public function getPuntoMuestreoSol(Request $res) 
     {
         $sol = Solicitud::where('Id_cotizacion', $res->id)->where('Padre',1)->first();
         $model = SolicitudPuntos::where('Id_solicitud',$sol->Id_solicitud)->get();
@@ -1169,7 +1169,7 @@ class SolicitudController extends Controller
     }
     public function editPuntoMuestreo(Request $res)
     {
-        $model = SolicitudPuntos::where('Id_punto',$res->Id_punto)->first();
+        $model = SolicitudPuntos::where('Id_punto',$res->id)->first();
         $model->Punto = $res->idPunto;
         $model->save();
         $data = array(
@@ -1289,7 +1289,7 @@ class SolicitudController extends Controller
                 $msg = "Folio creado correctamente";
             }else{
                 $msg = "Esta solicitud ya tiene folio registrado";
-                $folio = $cotTemp[0]->Folio;
+                $folio = $cotTemp[0]->Folio_servicio;
                 $model = "";
             }
         }

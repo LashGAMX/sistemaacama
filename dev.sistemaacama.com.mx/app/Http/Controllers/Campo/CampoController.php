@@ -1098,14 +1098,13 @@ class CampoController extends Controller
             foreach($solModel as $item)
             {
                 $idPunto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
-                $punto = PuntoMuestreoGen::where('Id_punto',$idPunto->Id_muestreo)->first();
-                $puntoMuestreo = $punto->PuntoMuestreo;
+                $punto = SolicitudPuntos::where('Id_punto',$item->Id_punto)->first();
                 
                 SolicitudesGeneradas::create([
                     'Id_solicitud' => $item->Id_solicitud,
                     'Id_solPadre' => $request->idSolicitud,
                     'Folio' => $item->Folio_servicio,
-                    'Punto_muestreo' => $puntoMuestreo,
+                    'Punto_muestreo' => $punto->Punto,
                     'Id_user_c' => Auth::user()->id,
                     'Captura' => "Sin captura"
                 ]);
@@ -1222,8 +1221,7 @@ class CampoController extends Controller
                 'Id_muestreador' => $user->id,
             ]);
 
-        return response()->json(
-            compact('update'),
+        return response()->json(compact($update),
         );
     }
     public function getFactorCorreccion(Request $request)
