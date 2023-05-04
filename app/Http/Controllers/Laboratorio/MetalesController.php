@@ -651,6 +651,7 @@ class MetalesController extends Controller
         $today = $fecha->toDateString();
 
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
+        $estandares = estandares::where('Id_parametro', $request->formulaTipo)->whereDate('Fecha_inicio','<=',$today)->whereDate('Fecha_fin','>=',$today)->get();
         $curva  = CurvaConstantes::whereDate('Fecha_inicio', '<=', $request->fechaAnalisis)->whereDate('Fecha_fin', '>=', $request->fechaAnalisis)
         ->where('Id_parametro', $parametro->Id_parametro)->first(); 
 
@@ -658,6 +659,7 @@ class MetalesController extends Controller
             'today'  => $today,
             'lote' => $model,
             'curva' => $curva,
+            'estandares' => $estandares,
         );
         return response()->json($data);
     }
@@ -1421,6 +1423,7 @@ class MetalesController extends Controller
             $plantilla = PlantillaMetales::where('Id_parametro', $lote->Id_tecnica)->get();
         }
         $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+        $estandares = estandares::where('Id_parametro', $lote->Id_tecnica)->whereDate('Fecha_inicio','<=',$lote->Fecha)->whereDate('Fecha_fin','>=',$lote->Fecha)->get();
         $detalle = MetalesDetalle::where('Id_lote',$id)->first();
         //Comprobación de bitacora analizada
         $comprobacion = LoteDetalle::where('Liberado', 0)->where('Id_lote', $id)->get();
@@ -1430,16 +1433,17 @@ class MetalesController extends Controller
             $analizo = User::where('id', $model[0]->Analizo)->first();
         }
         $fechaHora = Carbon::parse(@$detalle->Fecha_digestion);
+        $hora = $fechaHora->isoFormat('H:mm:ss A');
         $today = $fechaHora->toDateString();
-        $estandares = estandares::whereDate('Fecha_inicio','<=',$today)->whereDate('Fecha_fin','>=',$today)->where('Id_parametro', $lote->Id_tecnica)->get();
-        $bmr = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->whereDate('Fecha_inicio','<=',$today)->whereDate('Fecha_fin','>=',$today)->first();
+       
+
 
         $reviso = User::where('id', 17)->first();
         $data = array(
-            'bmr' => $bmr,
             'estandares' => $estandares,
             'detalle' => $detalle,
             'lote' => $lote,
+            'hora' =>$hora,
             'fechaHora' => $fechaHora,
             'model' => $model,
             'curva' => $curva,

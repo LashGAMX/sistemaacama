@@ -147,9 +147,11 @@
                 </th>
 
                 <th class="nombreHeader bordesTabla" colspan="3">
-                    Prueba presuntiva
+                    Prueba presuntiva 24h
                 </th>
-
+                <th class="nombreHeader bordesTabla" colspan="3">
+                    Prueba presuntiva 48h
+                </th>
                 <th class="nombreHeader bordesTabla">
                     Resultado presuntiva
                 </th>
@@ -216,6 +218,9 @@
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva3}}
                     </td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva10}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva11}}</td>
+                    <td class="contenidoBody bordesTabla">{{@$data[$i]->Presuntiva12}}</td>
 
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva1 + @$data[$i]->Presuntiva2 + @$data[$i]->Presuntiva3}}                        
@@ -232,7 +237,7 @@
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Confirmativa3}}
                     </td>
-
+                    
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Confirmativa1 + @$data[$i]->Confirmativa2 + @$data[$i]->Confirmativa3}}
                     </td>
@@ -332,6 +337,9 @@
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva6}}
                     </td>
+                    <td class="contenidoBody bordesTabla">0</td>
+                    <td class="contenidoBody bordesTabla">0</td>
+                    <td class="contenidoBody bordesTabla">0</td>
 
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva4 + @$data[$i]->Presuntiva5 + @$data[$i]->Presuntiva6}}                        
@@ -370,6 +378,9 @@
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva9}}
                     </td>
+                    <td class="contenidoBody bordesTabla">0</td>
+                    <td class="contenidoBody bordesTabla">0</td>
+                    <td class="contenidoBody bordesTabla">0</td>
 
                     <td class="contenidoBody bordesTabla">
                         {{@$data[$i]->Presuntiva7 + @$data[$i]->Presuntiva8 + @$data[$i]->Presuntiva9}}                    

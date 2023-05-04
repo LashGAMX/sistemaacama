@@ -231,7 +231,7 @@
                 </div>  
                 <div class="col-md-8">
                   <h6>Folio servicio</h6>
-                  <input type="text" id="folio" value="{{@$model->Folio}}" disabled>
+                  <input type="text" id="folio" value="{{@$model->Folio_servicio}}" disabled>
                   <button class="btn btn-info" id="btnFolio"><i class="voyager-forward"> Crear Folio</i></button>
                 </div>
 
