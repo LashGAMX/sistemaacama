@@ -284,7 +284,7 @@ INNER JOIN ViewSolicitud2 as sol
 ON gen.Id_solicitud = sol.Id_solicitud
 INNER JOIN users as us
 ON gen.Id_muestreador = us.id
-
+            /* Modificación de vista en prueba */
 CREATE VIEW ViewSolicitudGenerada as SELECT sol.*,gen.Id_solicitudGen,gen.Captura,gen.Id_muestreador,us.name,gen.Estado as StdSol, gen.Punto_muestreo, gen.Id_user_c as IdUserC, gen.Id_user_m as IdUserM FROM solicitudes_generadas as gen
 INNER JOIN ViewSolicitud as sol
 ON gen.Id_solicitud = sol.Id_solicitud

@@ -5,11 +5,19 @@
 @section('page_header')
 <div class="row container">
     <div class="col-md-12">
-        <br>
-        <div class="form-group">
-            <input type="text" class="form-control" style="width: 30%" onkeyup="buscarFolio();" placeholder="Buscar folio" id="folioSol" autofocus> 
-            <div id="stdMuestra"></div>
-            <button id="btnIngresar" class="btn btn-info" onclick="setIngresar()"><i class="fas fa-arrow-right"></i> Ingresar</button>
+        <div class="row">
+            <div class="col-md-6">
+                <br>
+                <div class="form-group">
+                    <input type="text" class="form-control" style="width: 30%" onkeyup="buscarFolio();" placeholder="Buscar folio" id="folioSol" autofocus> 
+                    <div id="stdMuestra"></div>
+                    <button id="btnIngresar" class="btn btn-info" onclick="setIngresar()"><i class="fas fa-arrow-right"></i> Ingresar</button>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <input type="text" placeholder="Cloruros">
+                <input type="text" placeholder="Ph">
+            </div>
         </div>
     </div>
     @stop

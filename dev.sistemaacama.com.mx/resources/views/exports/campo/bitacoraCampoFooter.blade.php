@@ -5,8 +5,8 @@
         <tbody>
             <tr>
                 <td class="fontNormal fontCalibri fontSize10 justificadorCentr" width="33.33%">{{@$muestreador->name}}</td>
-                <td class="fontNormal fontCalibri fontSize10 justificadorCentr" width="33.33%">NOMBRE DEL REVISOR</td>
-                <td class="fontNormal fontCalibri fontSize10 justificadoDer" width="33.33%">RE-12-001-25 REV15 <br> {{$model->Fecha_muestreo}}</td>
+                <td class="fontNormal fontCalibri fontSize10 justificadorCentr" width="33.33%">NOMBRE DEL SUPERVISOR</td>
+                <td class="fontNormal fontCalibri fontSize10 justificadoDer" width="33.33%">RE-12-001-25 REV16 <br> {{$model->Fecha_muestreo}}</td>
             </tr>
 
             <tr>
@@ -15,7 +15,12 @@
                 </td>
 
                 <td class="justificadorCentr">
-                    <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="data:image/gif;base64{{$campoGeneral->Firma_revisor}}">
+                    @if ($campoGeneral->Firma_revisor == null)
+                        ---             
+                    @else
+                        <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="data:image/png;base64,{{$campoGeneral->Firma_revisor}}">
+                    @endif
+                    
                 </td>
 
                 <td>

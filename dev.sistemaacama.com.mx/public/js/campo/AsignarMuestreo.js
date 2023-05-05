@@ -91,8 +91,12 @@ var folioAsignar;
     });
 
     $('#btnAsignarMultiple').click(function (){
-        asignarMultiple(idSolicitud, folio);
+        asignarMultiple();
     });
+    $('#btnGuardarMuestreador').click(function (){
+        setMuestreadorMultiple();
+    });
+    
 
     $('#btnGuardarObservacion').click( function () {
         
@@ -151,47 +155,53 @@ var folioAsignar;
             }
         } );  
  }
- function asignarMultiple(idSolicitud, folio){
-    let tabla = document.getElementById('tablaMuestreadores');
-    let tablaPunto = document.getElementById('tablaPuntoMuestreo');
-    let tab = '';
-    let tabp = '';
-
+ function asignarMultiple(){
+    let sub = document.getElementById("idPunto")
+    let tab = ''
     $.ajax({
         url: base_url + '/admin/campo/asignar/asignarMultiple', //archivo que recibe la peticion
         type: 'POST', //método de envio
         data: {
-            idSolicitud:idSolicitud,
-            folio:folio,
-            idUser:$("#idUsuarios").val(),
+            id:idSol,
             _token: $('input[name="_token"]').val(),
           },
         dataType: 'json', 
         async: false, 
         success: function (response) {            
             console.log(response);
-          tab += '<table id="muestreadores" class="table table-sm">';
-          tab += '    <thead class="thead-dark">';
-          tab += '        <tr>';
-          tab += '            <th>Muestreador</th>';
-          tab += '        </tr>';
-          tab += '    </thead>';
-          tab += '    <tbody>';
-          $.each(response.user, function (key, item) {
-            tab += '<tr>';
-            tab += '    <td>'+item.name+'</td>';
-            tab += '</tr>';
+          tab += '<option value="0">Sin seleccionar</option>'
+          $.each(response.model, function (key, item) {
+            tab += '<option value="'+item.Id_solicitud+'">'+item.Punto+'</option>'
           });
-          tab += '    </tbody>';
-          tab += '</table>';
-          tabla.innerHTML = tab;
+          sub.innerHTML = tab;
    
         }
     });  
  }
-
+function setMuestreadorMultiple()
+{
+    folio = ''
+    $.ajax({
+        url: base_url + '/admin/campo/asignar/setMuestreadorMultiple', //archivo que recibe la peticion
+        type: 'POST', //método de envio
+        data: {
+            id:$("#idPunto").val(),
+            idUser:$("#idUser").val(),
+            _token: $('input[name="_token"]').val(),
+          },
+        dataType: 'json', 
+        async: false, 
+        success: function (response) {            
+            console.log(response);
+          generar(response.model.Id_solPadre, folio);
+          alert("Muestreador asignado")
+        }
+    });  
+}
+ var idSol = 0
  function generar(idSolicitud, folio) 
 {
+    idSol = idSolicitud
     let tabla = document.getElementById('divSolGenerada');
     let tab = '';
     $.ajax({

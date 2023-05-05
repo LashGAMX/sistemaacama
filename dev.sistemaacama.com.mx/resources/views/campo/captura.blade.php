@@ -3,11 +3,7 @@
 @section('content')
 
 @section('page_header')
-{{-- <h6 class="page-title">
-    <i class="fa fa-edit"></i>
-    Captura
-</h6> --}}
-<input type="text" id="numTomas" value="{{$model->Num_tomas}}" hidden>
+    <input type="text" id="numTomas" value="{{$model->Num_tomas}}" hidden>
 @stop
 
 
@@ -69,7 +65,7 @@
                             <label for="">Equipo serie (PC-100)</label>
                             <select name="termometro" id="termometro" class="form-control"
                                 onchange="getFactorCorreccion(1,'termometro')">
-                                <option>Sin seleccionar</option>
+                                <option value="0">Sin seleccionar</option>
                                 @foreach ($termometros2 as $item)
                                 @if (@$general->Id_equipo == @$item->Id_termometro)
                                 <option value="{{ $item->Id_termometro }}" selected>{{ $item->Equipo }} /
@@ -89,7 +85,7 @@
                             <label for="">Equipo serie 2 (HANNA)</label>
                             <select name="termometro2" id="termometro2" class="form-control"
                                 onchange="getFactorCorreccion(2,'termometro2')">
-                                <option>Sin seleccionar</option>
+                                <option value="0">Sin seleccionar</option>
                                 @foreach ($termometros as $item)
                                 @if (@$general->Id_equipo2 == @$item->Id_termometro)
                                 <option value="{{ $item->Id_termometro }}" selected>{{ $item->Equipo }} /
@@ -552,11 +548,11 @@
                             placeholder="Nombre Supervisor"></td>
                         <br><br>
                     </div>
-                    <div class="col-md-6">
+                    {{-- <div class="col-md-6">
                         <p class="">Firma del supervisor</p>
                         <input type="file" id="firmaSupervisor" value="" placeholder="Firma Supervisor"></td>
                         <br><br>
-                    </div>
+                    </div> --}}
 
                     <button type="button" class="btn btn-success" onclick="setDataGeneral()"><i class="fa fa-up"></i>
                         Guardar</button>
@@ -1115,15 +1111,43 @@
                 <div class="tab-pane fade" id="evidencia" role="tabpanel" aria-labelledby="evidencia-tab">
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{url('/admin/campo/captura/setEvidencia')}}" method="post"
-                                enctype="multipart/form-data">
-                                @csrf
-                                <input type="text" id="idSolEv" name="idSolEv" value="{{$puntos->Id_solicitud}}" hidden>
-                                <input type="text" id="idPuntEv" name="idPuntEv" value="{{$puntos->Id_muestreo}}"
-                                    hidden>
-                                <input type="file" name="file" id="" accept="image/*" required>
-                                <button type="submit" class="btn btn-primary">Subir imagen</button>
-                            </form>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <form action="{{url('/admin/campo/captura/setEvidencia')}}" method="post"
+                                    enctype="multipart/form-data">
+                                    @csrf
+                                    <label for="">Evidencia de campo </label>
+                                    <input type="text" id="idSolEv" name="idSolEv" value="{{$puntos->Id_solicitud}}" hidden>
+                                    <input type="text" id="idPuntEv" name="idPuntEv" value="{{$puntos->Id_muestreo}}"
+                                        hidden>
+                                    <input type="file" name="file" id="" accept="image/*" required>
+                                    <button type="submit" class="btn btn-primary">Subir imagen</button>
+                                </form>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="row">
+                                        <div class="col-md-6">
+                                            <form action="{{url('/admin/campo/captura/setEvidenciaFirma')}}" method="post"
+                                                enctype="multipart/form-data">
+                                                @csrf
+                                                <label for="firma">Subir firma de supervisor</label>
+                                                <input type="text" id="idSolEvFir" name="idSolEvFir" value="{{$puntos->Id_solicitud}}" hidden>
+                                                <input type="text" id="idPuntEvFir" name="idPuntEvFir" value="{{$puntos->Id_muestreo}}"
+                                                    hidden>
+                                                <input type="file" name="file" id="" accept="image/*" required>
+                                                <button type="submit" class="btn btn-primary">Subir imagen</button>
+                                            </form>
+                                        </div>
+                                        <div class="col-md-6">
+                                            @if (@$general->Firma_revisor == NULL)
+                                                <p>Sin firma registrada</p>
+                                            @else
+                                                <img class="zoom" src="data:image/gif;base64,{{@$general->Firma_revisor}}" style="width: 100px;height: auto;">
+                                            @endif
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <table class="table table-sm">

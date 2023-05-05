@@ -78,8 +78,7 @@
             </div>
 
             <div class="col-md-12 fontBold fontCalibri fontSize12">
-                {{-- <strong><p>QUE ESTABLECE LOS LIMITES MAXIMOS PERMISIBLES DE CONTAMINANTES EN LAS DESCARGAS DE AGUAS RESIDUALES A LOS SISTEMAS DE ALCANTARILLADO URBANO O MUNICIPAL.</p></strong> --}}
-                <strong><p>{{@$model->Norma}}</p></strong>
+                <strong><p>{{@$norma->Norma}}</p></strong> 
             </div>
         </div>
         
@@ -145,12 +144,12 @@
                 </thead>
                 <tbody>
                     @foreach (@$parametrosExtra as $item)
-                        <tr>
-                            <td class="fontNormal fontCalibri fontSize11 bordesTablaBody">{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
-                            <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Clave_metodo}}</td>
-                            <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Limite}}</td>
-                            <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Unidad}}</td>
-                        </tr>
+                    <tr>
+                        <td class="fontNormal fontCalibri fontSize11 bordesTablaBody">{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
+                        <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Clave_metodo}}</td>
+                        <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Limite}}</td>
+                        <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Unidad}}</td>
+                    </tr>
                     @endforeach
                 </tbody>
             </table>
@@ -367,7 +366,7 @@
            </table>
         </div>
 
-        <br>f
+        <br>
 
         <div class="col-md-12 fontNormal fontCalibri fontSize12 justificadorCentr">
             En espera de poder servirles, de antemano agradecemos su preferencia. Reciban un cordial saludo.

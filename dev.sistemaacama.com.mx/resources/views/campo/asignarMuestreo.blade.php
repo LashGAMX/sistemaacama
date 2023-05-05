@@ -68,7 +68,7 @@
             <th>Nombre Cliente</th>
             {{-- <th>Ap. Paterno</th>
             <th>Ap. Materno</th>7 --}}           
-            <th>Nombre</th>
+            {{-- <th>Nombre</th> --}}
             <th>Servicio</th>
             <th>Tipo Descarga</th>
             <th>Fecha muestreo</th>
@@ -86,7 +86,7 @@
                   <td>{{$item->Nombres}}</td>
                   {{-- <td>{{$item->A_paterno}}</td>
                   <td>{{$item->Nom_pat}}</td> --}}
-                  <td>{{$item->Nom_con}}</td>
+                  {{-- <td>{{$item->Nom_con}}</td> --}}
                   <td>{{$item->Servicio}}</td>
                   <td>{{$item->Descarga}}</td>
                   <td>{{$item->Fecha_muestreo}}</td>
@@ -188,35 +188,34 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLabel">Asignar</h5>
+        <h5 class="modal-title" id="exampleModalLabel">Asignacion multiple</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-
-      <div class="modal-body">
-          <div class="row">
-            <div class="col-md-6">
-             
-            </div>
-          </div>
-        </div>
         <div class="modal-body">
           <div class="row">
             <div class="col-md-6">
-              <select class="form-control" id="idUsuarios">
+              <label for="idUser">Muestreador</label>
+              <select class="form-control" id="idUser">
                 <option>Selecciona un usuario</option>
                 @foreach ($usuarios as $item)
                 <option value="{{$item->id}}">{{$item->name}}</option>
                 @endforeach
                 </select>
             </div>
+            <div class="col-md-6">
+              <label for="idPunto">Punto de muestreo</label>
+              <select class="form-control" id="idPunto">
+                <option value="0"> Sin seleccionar</option>
+              </select>
+            </div>
           </div>
         </div>
 
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        <button type="button" id="btnGuardar" class="btn btn-primary">Guardar</button>
+        <button type="button" id="btnGuardarMuestreador" class="btn btn-primary">Guardar</button>
       </div>
     </div>
   </div>

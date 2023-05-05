@@ -143,5 +143,5 @@
 </div>
 @endsection
 @section('javascript')
-<script src="{{ asset('public/js/cotizacion/cotizacion.js') }}?v=0.0.1"></script>
+<script src="{{ asset('public/js/cotizacion/cotizacion.js') }}?v=1.0.0"></script>
 @stop

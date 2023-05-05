@@ -2861,7 +2861,7 @@ class FqController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
 
                 $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $idLote)->get();
-                $limite = Parametros::where('Id_parametro',$lote->Id_tecnica)->first();
+                $limite = Parametro::where('Id_parametro',$lote->Id_tecnica)->first();
                 $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
