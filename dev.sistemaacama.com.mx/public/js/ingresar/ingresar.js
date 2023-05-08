@@ -39,26 +39,35 @@ function buscarFolio() {
         async: false,
         success: function (response) {
             console.log(response);
-            //data = response;                         
-            $("#idSol").val(response.cliente.Id_solicitud);
-            $("#folio").val(response.cliente.Folio_servicio);
-            $("#descarga").val(response.cliente.Descarga);
-            $("#cliente").val(response.cliente.Nombres);
-            $("#empresa").val(response.cliente.Empresa);
-            if (response.proceso.length > 0) {
-                $("#hora_recepcion1").val(response.proceso[0].Hora_recepcion);
-                $("#hora_entrada").val(response.proceso[0].Hora_entrada);   
-            } 
-            if (response.std == true) {
-                // temp = '<p class="text-success">Muestra ingresada</p>'
-                // $("#btnIngresar").attr("disabled","true")
+            if (response.sw > 0) {
+                $("#idSol").val(response.cliente.Id_solicitud);
+                $("#folio").val(response.cliente.Folio_servicio);
+                $("#descarga").val(response.cliente.Descarga);
+                $("#cliente").val(response.cliente.Nombres);
+                $("#empresa").val(response.cliente.Empresa);
+                // if (response.proceso.length > 0) {
+                //     $("#hora_recepcion1").val(response.proceso[0].Hora_recepcion);
+                //     $("#hora_entrada").val(response.proceso[0].Hora_entrada);   
+                // } 
+                // if (response.std == true) {
+                //     // temp = '<p class="text-success">Muestra ingresada</p>'
+                //     // $("#btnIngresar").attr("disabled","true")
+                // } else {
+                //     // temp = '<p class="text-warning">Falta ingreso</p>'
+                //     // $("#btnIngresar").attr("disabled","false")
+                // }
+                std.innerHTML = temp
+                // tableCodigos(response.model);
+                tablePuntos(response.puntos)
             } else {
-                // temp = '<p class="text-warning">Falta ingreso</p>'
-                // $("#btnIngresar").attr("disabled","false")
-            }
-            std.innerHTML = temp
-            tableCodigos(response.model);
-            tablePuntos(response.puntos, response.siralab)
+                $("#idSol").val("")
+                $("#folio").val("")
+                $("#descarga").val("")
+                $("#cliente").val("")
+                $("#empresa").val("")
+                $("#hora_recepcion1").val("")
+                $("#hora_entrada").val("")
+            }          
         }
     });
 }
@@ -132,7 +141,8 @@ function tableCodigos(model) {
 }
 var idSol = 0;
 var muestreo;
-function tablePuntos(model, siralab) {
+var dataPunto = new Array()
+function tablePuntos(model) {
     let tabla = document.getElementById('divPuntos');
     let tab = '';
     tab += '<table id="puntos" class="table table-sm">';
@@ -145,11 +155,7 @@ function tablePuntos(model, siralab) {
     $.each(model, function (key, item) {
         tab += '<tr>'; 
         tab += '<td>' + item.Id_solicitud + '</td>';
-        if (siralab == true) { 
-            tab += '<td>' + item.Punto + '</td>';
-        } else {
-            tab += '<td>' + item.Punto_muestreo + '</td>';
-        }
+        tab += '<td>' + item.Punto + '</td>';
         tab += '</tr>';
     });
     tab += '    </tbody>';
@@ -187,11 +193,13 @@ function tablePuntos(model, siralab) {
                 },
                 dataType: "json",
                 success: function (response) {
-                    let con = new Date(response.model.Fecha);
-                    $("#finMuestreo").val(con);
-                    con.setMinutes(con.getMinutes() + 30);
-                    $("#conformacion").val(con);
-                    $("#procedencia").val(response.muestreo.NomEstado);
+                    console.log(response)
+                    dataPunto = response
+                    // let con = new Date(response.model.Fecha);
+                    $("#finMuestreo").val(response.model.Fecha);
+                    // con.setMinutes(con.getMinutes() + 30);
+                    $("#conformacion").val(response.fecha2);
+                    // $("#procedencia").val(response.muestreo.NomEstado);
                 }
             });
         }

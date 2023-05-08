@@ -99,7 +99,8 @@
                                    @foreach ($mod as $item2)
                                     @if ($cont == 0) 
                                     <tr class="bordesTablaSup">
-                                        @if ($item2->Id_area == 2 || $item2->Id_area == 7 || $item2->Id_area == 16)
+                                        @if ($item2->Id_area == 2 || $item2->Id_area == 7 || $item2->Id_area == 16 || @$item2->Id_area == 17 || @$item2->Id_area == 45 || @$item2->Id_area == 34 || @$item2->Id_area == 33)
+
                                             <td class="justifyCenter  fontSize7">{{$model->Num_tomas}}</td>
                                         @else
                                             <td class="justifyCenter  fontSize7">1</td>

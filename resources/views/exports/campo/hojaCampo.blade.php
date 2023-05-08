@@ -66,14 +66,7 @@
                     <tr>
                         <td class="bordesTablaInfIzqDer">PUNTO DE MUESTREO</td>
                         <td class="negrita bordesTablaInfIzqDer" colspan="5">
-                            {{-- @for ($i = 0; $i < @$puntos; $i++) --}}
-                                @if (@$model->Siralab == 1)
-                                    {{@$puntoMuestreo[0]->Punto}} (anexo {{@$puntoMuestreo[0]->Anexo}})<br>  
-                                @else
-                                    {{@$puntoMuestreo[0]->Punto_muestreo}} <br>
-                                @endif    
-                            
-                            {{-- @endfor --}}
+                           {{@$solGen->Punto_muestreo}}
                         </td>
                     </tr>
                 </table>
@@ -177,14 +170,14 @@
                                 
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">
-                                @if (@$phMuestra[$i]->Activo == 1)
+                                @if (@$phMuestra[$i]->Activo == 0 || @$phMuestra[$i]->Materia == "0")
+                                    ---
+                                @else
                                     @if ($swMateria->count())
                                         {{@$phMuestra[$i]->Materia}}
                                     @else
                                         ---
                                     @endif
-                                @else
-                                    ---
                                 @endif
                             </td>
                             <td class="bordesTablaInfIzqDer negrita justifyCenter fontSize13">                                
@@ -274,7 +267,13 @@
                     </tr>
                     <tr>
                         <td rowspan="2" class="bordesTablaInfIzqDer justifyCenter"><span class="negrita"><br>{{@$muestreador->name}}</span> <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}"> <br></td>
-                        <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">------------</span> </td>
+                        <td rowspan="2" class="bordesTablaInfDer justifyCenter"><span class="negrita">
+                            @if ($campoGeneral->Firma_revisor == null)
+                                ---             
+                            @else
+                                <img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="data:image/png;base64,{{$campoGeneral->Firma_revisor}}">
+                            @endif    
+                        </span> </td>
                     </tr>
                 </table>
             </div>
@@ -289,7 +288,7 @@
                             @if ($procesoAnalisis->count())
                                 <img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRecepcion->firma)}}">
                             @else
-                                " "
+                                
                             @endif
                         </td>
                       <td class="bordesTabla justifyCenter" style="width: 50%"><img style="width: auto; height: auto; max-width: 50px; max-height: 50px;" src="{{asset('public/storage/'.@$firmaRes->firma)}}"></td>                      

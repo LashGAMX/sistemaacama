@@ -9,6 +9,7 @@ use App\Models\ProcedimientoAnalisis;
 use App\Models\ProcesoAnalisis;
 use App\Models\SeguimientoAnalisis;
 use App\Models\Solicitud;
+use App\Models\SolicitudPuntos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,23 +37,26 @@ class IngresarController extends Controller
 
     public function buscarFolio(Request $request)
     {
-        $cliente = DB::table('ViewSolicitud')->where('Folio_servicio', $request->folioSol)->first();
-        $model = DB::table('ViewSolicitud')->where('Hijo', $cliente->Id_solicitud)->get();
-        $proceso = ProcesoAnalisis::where('Id_solicitud',$cliente->Id_solicitud)->get();
-        $std = true;
-        if ($proceso->count()) {
+        $tempCli = DB::table('ViewSolicitud2')->where('Folio_servicio', $request->folioSol)->get();
+        if ($tempCli->count()) {
+            $cliente = DB::table('ViewSolicitud2')->where('Folio_servicio', $request->folioSol)->first();
+            $model = DB::table('ViewSolicitud2')->where('Hijo', $cliente->Id_solicitud)->get();
+            $proceso = ProcesoAnalisis::where('Id_solicitud',$cliente->Id_solicitud)->get();
             $std = true;
+            if ($proceso->count()) {
+                $std = true;
+            }
+            $siralab = false;
+            $puntos = SolicitudPuntos::where('Id_solPadre',$cliente->Id_solicitud)->get();
+        }else{
+            $cliente = "";
+            $puntos = "";
         }
-        $siralab = false;
-        $puntos = DB::table('ViewPuntoGenSol')->where('Id_solPadre', $cliente->Id_solicitud)->get();
 
         $array = array(
-            'std' => $std,
-            'proceso' => $proceso,
-            'model' => $model,
-            'cliente' => $cliente,
             'puntos' => $puntos,
-            'siralab' => $siralab,
+            'cliente' => $cliente,
+            'sw' => $tempCli->count(),
         );
         return response()->json($array);
     }
@@ -69,8 +73,10 @@ class IngresarController extends Controller
         $sol = Solicitud::where('Id_solicitud', $res->idSol)->first();
         $muestreo = DB::table('ViewCotizacionMuestreo')->where('Id_cotizacion', $sol->Id_cotizacion)->first();
         $model = PhMuestra::where('Id_solicitud', $res->idSol)->orderBy('Id_ph', 'DESC')->first();
-
+        // $fecha2 = Carbon::now($model->Fecha)->addMinutes(30);
+        $fecha2 = new \Carbon\Carbon($model->Fecha);
         $data = array(
+            'fecha2' => $fecha2->addMinutes(30),
             'sol' => $sol,
             'muestreo' => $muestreo,
             'model' => $model,

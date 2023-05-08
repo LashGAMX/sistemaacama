@@ -247,7 +247,7 @@ function getPlanMuestreo() {
             itemModal[0] = [
                 tab,
             ]
-            newModal('divModal', 'modalAreas', 'Areas plan','modal-lg', 1, 1, 0, inputBtn('', '', 'Guardar', 'fas fa-save', 'btn btn-success', 'setPlanMuestreo()'))
+            newModal('divModal', 'modalAreas', 'Areas plan', '', 1, 1, 0, inputBtn('', '', 'Guardar', 'fas fa-save', 'btn btn-success', 'setPlanMuestreo()'))
 
             var t = $('#tableAreas').DataTable({
                 "ordering": false,

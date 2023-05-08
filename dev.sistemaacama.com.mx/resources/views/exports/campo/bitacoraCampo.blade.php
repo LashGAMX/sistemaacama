@@ -353,7 +353,9 @@
                               <tr>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{$item->Num_toma}}</td>
                                 <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr" colspan="2">
-                                    {{round((@$item->TemperaturaSin1 + @$item->TemperaturaSin2 + @$item->TemperaturaSin3) / 3,1)}}
+                                    @php
+                                        echo number_format((@$item->TemperaturaSin1 + @$item->TemperaturaSin2 + @$item->TemperaturaSin3) / 3, 1, ".", ".");                                
+                                    @endphp
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
                                     {{@$factCorrec[$aux]}}                       
@@ -362,7 +364,9 @@
                                     {{@$factApl[$aux]}}                       
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                    {{round(@$item->Promedio,0)}}                       
+                                    @php
+                                        echo number_format(@$item->Promedio, 1, ".", ".");                                
+                                    @endphp
                                 </td>
                                 @php
                                     $aux++;
@@ -424,7 +428,9 @@
                             <tr>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">{{$item->Num_toma}}</td>
                                 <td class="fontNormal fontCalibri fontSize9 bordeFinal justificadorCentr" colspan="2">
-                                    {{round(@$item->Temperatura1,1)}}
+                                    @php
+                                        echo number_format(@$item->Temperatura1, 1, ".", ".");                                
+                                    @endphp
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
                                     {{@$factCorrec2[$aux]}}                       
@@ -433,7 +439,9 @@
                                     {{@$factApl2[$aux]}}                       
                                 </td>
                                 <td class="fontNormal fontCalibri fontSize9 bordesTablaBody justificadorCentr">
-                                    {{round(@$item->Temperatura1 - @$factoApl2[$aux],1)}}                       
+                                    @php
+                                        echo number_format((@$item->Temperatura1 - @$factoApl2[$aux]), 1, ".", ".");                                
+                                    @endphp
                                 </td> 
                                 @php
                                     $aux++;

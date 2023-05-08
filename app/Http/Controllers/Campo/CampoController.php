@@ -50,6 +50,7 @@ use App\Models\PuntoMuestreoGen;
 use App\Models\PuntoMuestreoSir;
 use App\Models\SeguimientoAnalisis;
 use App\Models\Solicitud;
+use App\Models\Cotizacion;
 use Facade\FlareClient\View;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -79,7 +80,7 @@ class CampoController extends Controller
         if (Auth::user()->role->id == 13) {
             $model = DB::table('ViewSolicitud')->where('Padre',1)->where('Id_servicio', 1)->where('Id_user_c',Auth::user()->id)->where('Id_servicio','!=', 3)->OrderBy('Id_solicitud','DESC')->get();
         } else {
-            $model = DB::table('ViewSolicitud')->where('Padre',1)->where('Id_servicio', 1)->where('Id_servicio','!=', 3)->OrderBy('Id_solicitud','DESC')->get(); 
+            $model = DB::table('ViewSolicitud2')->where('Padre',1)->where('Id_servicio', 1)->where('Id_servicio','!=', 3)->OrderBy('Id_solicitud','DESC')->get(); 
         } 
         
         $intermediarios = DB::table('ViewIntermediarios')->where('deleted_at', NULL)->get();
@@ -124,7 +125,7 @@ class CampoController extends Controller
         $conCalidad = ConductividadCalidad::all();
         $aforo = MetodoAforo::all();
         $conTratamiento = ConTratamiento::all();
-        $tipo = TipoTratamiento::all();
+        $tipo = TipoTratamiento::all(); 
         $color = Color::all();
 
         $model = DB::table('ViewSolicitudGenerada')->where('Id_solicitud', $id)->first();
@@ -196,11 +197,7 @@ class CampoController extends Controller
     }
     public function setDataGeneral(Request $request)
     {
-        $model = null;
-        // $contenidoBinario = file_get_contents($request->firmaSupervisor);
-        // $imagenComoBase64 = base64_encode($contenidoBinario);
-        //Campos generales
-        $campoGenModel = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->get();
+    
         
         $model = CampoGenerales::where('Id_solicitud', $request->idSolicitud)->first();
         $model->Captura = "Sistema";
@@ -220,9 +217,12 @@ class CampoController extends Controller
         $nota = "Registro modificado";          
 
         //Solicitudes generadas (para actualizar el nombre del punto de muestreo en Campo Captura)
-        $punto = SolicitudesGeneradas::find($request->idSolicitud);
+        $punto = SolicitudesGeneradas::where('Id_solicitud',$request->idSolicitud)->first();
         $punto->Punto_muestreo = $request->puntoMuestreo;
         $punto->save();
+        $puntoSol = SolicitudPuntos::where('Id_solicitud',$request->idSolicitud)->first();
+        $puntoSol->Punto = $request->puntoMuestreo;
+        $puntoSol->save();
 
         //Ph trazable
         $phTrazableModel = CampoPhTrazable::where('Id_solicitud', $request->idSolicitud)->get();
@@ -319,7 +319,9 @@ class CampoController extends Controller
                 $conCalidad->save();
 
 
-        $data = array('sw' => true, 'model' => $model);
+        $data = array(
+            'sw' => true, 
+        );
         return response()->json($data);
     }
     public function generarVmsi(Request $res)
@@ -1026,13 +1028,7 @@ class CampoController extends Controller
         $contenidoBinario = file_get_contents($request->file);
         $imagenComoBase64 = base64_encode($contenidoBinario);
 
-        // $decoder = base64_decode($imagenComoBase64);
-        // $img = imagecreatefromstring($decoder);
-        // if(!$img) 
-        // {
-        //     die("Base 64 valor no aceptado");
-        // }
-      
+
         $model = Evidencia::create([
             'Id_solicitud' => $request->idSolEv,
             'Id_punto' => $request->idPuntEv,
@@ -1040,6 +1036,18 @@ class CampoController extends Controller
         ]);
 
         return redirect()->to('admin/campo/captura/'.$request->idSolEv);
+    }
+    public function setEvidenciaFirma(Request $res)
+    {
+  
+        $contenidoBinario = file_get_contents($res->file);
+        $imagenComoBase64 = base64_encode($contenidoBinario);
+
+        $model = CampoGenerales::where('Id_solicitud',$res->idSolEvFir)->first();
+        $model->firma_revisor = $imagenComoBase64;
+        $model->save();
+
+        return redirect()->to('admin/campo/captura/'.$res->idSolEvFir);
     }
     public function historialDatosCompuestos($idSol, $nota, $campoCompuesto)
     {
@@ -1070,17 +1078,26 @@ class CampoController extends Controller
     public $alert;
     public $idSol;
 
-    public function asignarMultiple(Request $request){
-        $user = Users::where('role_id', 8)->get();
-
-        $data = array([
-            'user' => $user,
-            'idSolicitud' => $request->idSolicitud,
-            'folio' => $request->folio,
-        ]);
+    public function asignarMultiple(Request $res){  
+        $model = SolicitudPuntos::where('Id_solPadre',$res->id)->get();
+        $data = array(
+            'model' => $model,
+        );
         return response()->json($data);
     }
+    public function setMuestreadorMultiple(Request $res)
+    {
+        $user = User::where('id',$res->idUser)->first();
+        $model = SolicitudesGeneradas::where('Id_solicitud',$res->id)->first();
+        $model->Id_muestreador = $res->idUser;   
+        $model->Nombres = $user->name;   
+        $model->save();
 
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
     public function generar(Request $request) //Generar solicitud 
     {                
         $sol = SolicitudesGeneradas::where('Id_solPadre', $request->idSolicitud)->get();
@@ -1097,15 +1114,14 @@ class CampoController extends Controller
             //
             foreach($solModel as $item)
             {
-                $idPunto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
-                $punto = PuntoMuestreoGen::where('Id_punto',$idPunto->Id_muestreo)->first();
-                $puntoMuestreo = $punto->PuntoMuestreo;
+                // $idPunto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
+                $punto = SolicitudPuntos::where('Id_solicitud',$item->Id_solicitud)->first();
                 
                 SolicitudesGeneradas::create([
                     'Id_solicitud' => $item->Id_solicitud,
                     'Id_solPadre' => $request->idSolicitud,
-                    'Folio' => $item->Folio_servicio,
-                    'Punto_muestreo' => $puntoMuestreo,
+                    'Folio' => $item->Folio_servicio, 
+                    'Punto_muestreo' => $punto->Punto,
                     'Id_user_c' => Auth::user()->id,
                     'Captura' => "Sin captura"
                 ]);
@@ -1222,8 +1238,7 @@ class CampoController extends Controller
                 'Id_muestreador' => $user->id,
             ]);
 
-        return response()->json(
-            compact('update'),
+        return response()->json(compact($update),
         );
     }
     public function getFactorCorreccion(Request $request)
@@ -1262,7 +1277,7 @@ class CampoController extends Controller
     public function hojaCampo($id)  
     { 
       
-        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
+        $model = DB::table('ViewSolicitud2')->where('Id_solicitud',$id)->first();
         $direccion = "";
         $firmaRecepcion = "";
         
@@ -1287,6 +1302,7 @@ class CampoController extends Controller
         $punto = DB::table('ViewPuntoGenSol')->where('Id_solicitud',$id)->first();
         $solGen = DB::table('ViewSolicitudGenerada')->where('Id_solicitud',$id)->first();
 
+        $campoGeneral = CampoGenerales::where('Id_solicitud',$id)->first();
         $phMuestra = PhMuestra::where('Id_solicitud',$id)->get();
         $gastoMuestra = GastoMuestra::where('Id_solicitud',$id)->get();
         $tempMuestra = TemperaturaMuestra::where('Id_solicitud',$id)->get();
@@ -1325,6 +1341,8 @@ class CampoController extends Controller
             array(0, 0),
         );
         $data = array(
+            'campoGeneral' => $campoGeneral,
+            'solGen' => $solGen,
             'procesoAnalisis' => $procesoAnalisis,
             'firmaRecepcion' => $firmaRecepcion,
             'swMateria' => $swMateria,
@@ -1431,9 +1449,9 @@ class CampoController extends Controller
     {
         $tipoReporte = "";
         $termometros = array();
-        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$id)->first();
+        $model = DB::table('ViewSolicitud2')->where('Id_solicitud',$id)->first();
        
-        $modelCot = DB::table('ViewCotizacion')->where('Id_cotizacion', $model->Id_cotizacion)->first();
+        $modelCot = Cotizacion::where('Id_cotizacion', $model->Id_cotizacion)->first();
         $idNorma = $modelCot->Id_norma;
         
         if($idNorma == 1){ 
@@ -1471,17 +1489,17 @@ class CampoController extends Controller
         $factCorrec2 = array();
         $factApl2 = array();
         $aux = 0;
-        foreach ($tempMuestra as $item) {
+        foreach ($tempMuestra as $item) { 
             $temp = array();
-            $temp = TermFactorCorreccionTemp::where('De_c', '<=',$item->Promedio)->where('A_c','>=',$item->Promedio)->where('Id_termometro',$campoGen->Id_equipo)->first();
+            $temp = TermFactorCorreccionTemp::where('De_c', '<=',$item->Promedio)->where('A_c','>',$item->Promedio)->where('Id_termometro',$campoGen->Id_equipo)->first();
             array_push($factCorrec,$temp->Factor); 
             array_push($factApl,$temp->Factor_aplicado);
             $temp = array();
-            $temp = TermFactorCorreccionTemp::where('De_c', '<=',$tempAmbiente[$aux]->Temperatura1)->where('A_c','>=',$tempAmbiente[$aux]->Temperatura1)->where('Id_termometro',$campoGen->Id_equipo2)->first();
+            $temp = TermFactorCorreccionTemp::where('De_c', '<=',$tempAmbiente[$aux]->Temperatura1)->where('A_c','>',$tempAmbiente[$aux]->Temperatura1)->where('Id_termometro',$campoGen->Id_equipo2)->first();
             array_push($factCorrec2,$temp->Factor);
             array_push($factApl2,$temp->Factor_aplicado);
             $aux++;
-        }
+        } 
         
 
 
@@ -1516,6 +1534,7 @@ class CampoController extends Controller
         $conTratamiento = ConTratamiento::where('Id_tratamiento', $campoCompuesto->Con_tratamiento)->first();
         $tipoTratamiento = TipoTratamiento::where('Id_tratamiento', $campoCompuesto->Tipo_tratamiento)->first();
         $campoGeneral = CampoGenerales::where('Id_solicitud', $id)->first();
+        $materia = SolicitudParametro::where('Id_subnorma',2)->where('Id_solicitud',$model->Id_solicitud)->get();
 
         $mpdf = new \Mpdf\Mpdf([
             'format' => 'letter',
@@ -1533,8 +1552,8 @@ class CampoController extends Controller
         );
          
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.campo.bitacoraCampo',compact('factApl','factApl2','factCorrec','factCorrec2','factorCorreccion2','model','tempAmbiente','termometro1', 'termometro2', 'tipoReporte','idNorma','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra', 'tipoReporte', 
-        'gastoTotal', 'campoGen','tempMuestra','conMuestra','muestreador','phTrazable','campoConTrazable', 'metodoAforo', 'proceMuestreo', 
+        $html = view('exports.campo.bitacoraCampo',compact('materia','factApl','factApl2','factCorrec','factCorrec2','factorCorreccion2','model','tempAmbiente','termometro1', 'termometro2', 'tipoReporte','idNorma','phCalidad','campoConCalidad','punto','phMuestra','gastoMuestra', 'tipoReporte', 
+        'gastoTotal', 'campoGen','tempMuestra','conMuestra','muestreador','phTrazable','campoConTrazable', 'metodoAforo', 'proceMuestreo', 'solGen',
         'conTratamiento', 'tipoTratamiento', 'campoCompuesto', 'factorCorreccion',  'puntoMuestreo', 'puntos',  'frecuenciaMuestreo'));
         $mpdf->CSSselectMedia = 'mpdf';
 
@@ -1550,7 +1569,7 @@ class CampoController extends Controller
 
     public function planMuestreo($idSolicitud)
     {
-        $model = DB::table('ViewSolicitud')->where('Id_solicitud',$idSolicitud)->first();
+        $model = DB::table('ViewSolicitud2')->where('Id_solicitud',$idSolicitud)->first();
 
         $puntoMuestreo = SolicitudPuntos::where('Id_solicitud',$idSolicitud)->get();
         $puntos = $puntoMuestreo->count();
@@ -1572,7 +1591,8 @@ class CampoController extends Controller
         $mpdf->showWatermarkImage = true;
 
         //Recupera los parámetros de la solicitud
-        //$parametros = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $idSolicitud)->get();
+        $parametros = SolicitudParametro::where('Id_solicitud',$idSolicitud)->get();
+
 
         $complementoCampoTipo1 = DB::table('ViewPlanComplemento')->where('Id_paquete', $model->Id_subnorma)->where('Tipo', 1)->get();
         $complementoCampoTipo2 = DB::table('ViewPlanComplemento')->where('Id_paquete', $model->Id_subnorma)->where('Tipo', 2)->get();
@@ -1581,7 +1601,7 @@ class CampoController extends Controller
         $complementoCampoTipo2Length = $complementoCampoTipo2->count();
         $complementoCampoTipo3Length = $complementoCampoTipo3->count();
         
-        $paquete = DB::table('ViewPlanPaquete')->where('Id_paquete', $model->Id_subnorma)->get();
+        $paquete = DB::table('ViewPlanPaquete')->where('Id_paquete', $model->Id_subnorma)->get(); 
         $paqueteLength = $paquete->count();
 
 
@@ -1608,7 +1628,7 @@ class CampoController extends Controller
 
         $preservacionesArrayLength = sizeof($preservacionesArray);
 
-        $html = view('exports.campo.planMuestreo.bodyPlanMuestreo', compact('complementoCampoTipo1', 'complementoCampoTipo2', 'complementoCampoTipo3', 'complementoCampoTipo1Length',
+        $html = view('exports.campo.planMuestreo.bodyPlanMuestreo', compact('parametros','complementoCampoTipo1', 'complementoCampoTipo2', 'complementoCampoTipo3', 'complementoCampoTipo1Length',
         'complementoCampoTipo2Length', 'complementoCampoTipo3Length', 'paquete', 'paqueteLength', 'model', 'preservacionesArray', 'preservacionesArrayLength','puntos')); 
         $htmlHeader = view('exports.campo.planMuestreo.headerPlanMuestreo', compact('model','puntos'));
         $htmlFooter = view('exports.campo.planMuestreo.footerPlanMuestreo');            

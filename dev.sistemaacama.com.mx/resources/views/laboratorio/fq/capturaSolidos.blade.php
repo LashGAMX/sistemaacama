@@ -166,12 +166,12 @@
                                 <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
                                 <tbody>
                                     <tr>
-                                        <td>Masa 6</td> <!--MASA 1-->
+                                        <td><div id="titulomasa1">Masa 6</div></td> <!--MASA 1-->
                                         <td><input name="campos" type="text" id="m11" value="0"></td>
                                         <td><input name="campos" type="text" id="m12" value="0"></td>
                                     </tr>
                                     <tr>
-                                        <td>Masa 2</td> <!--MASA 2-->
+                                        <td><div id="titulomasa2">Masa 2</div></td> <!--MASA 2-->
                                         <td><input name="campos" type="text" id="m21" value="0"></td>
                                         <td><input name="campos" type="text" id="m22" value="0"></td>
                                     </tr>

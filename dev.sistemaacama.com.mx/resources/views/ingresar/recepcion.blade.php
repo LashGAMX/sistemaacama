@@ -3,27 +3,53 @@
 @section('content')
 
 @section('page_header')
-<div class="row container">
-    <div class="col-md-12">
+
+    @stop
+
+<div class="container-fluid">
+
         <div class="row">
-            <div class="col-md-6">
+            <div class="col-md-4">
                 <br>
                 <div class="form-group">
+                    <label for="foliosol">Folio</label>
                     <input type="text" class="form-control" style="width: 30%" onkeyup="buscarFolio();" placeholder="Buscar folio" id="folioSol" autofocus> 
                     <div id="stdMuestra"></div>
                     <button id="btnIngresar" class="btn btn-info" onclick="setIngresar()"><i class="fas fa-arrow-right"></i> Ingresar</button>
                 </div>
             </div>
-            <div class="col-md-6">
-                <input type="text" placeholder="Cloruros">
-                <input type="text" placeholder="Ph">
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-3">
+                        <button id="btnSetCodigo" class="btn btn-warning"><i class="voyager-params"></i> Generar codigo </button>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="conductividad">Conductividad</label>
+                            <input class="form-control" type="number" id="conductividad" placeholder="Conductividad">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="cloruros">Cloruros</label>
+                            <select class="form-control" id="cloruros">
+                                <option value="0">Sin seleccionar</option>
+                                <option value="1">Menor de 500</option>
+                                <option value="2">Mayor de 500</option>
+                                <option value="3">Mayor de 1000</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="ph">ph</label>
+                            <input class="form-control" type="number" id="ph" placeholder="Ph">
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-    @stop
-</div>
 
-<div class="container-fluid">
     <div class="row">
         <div class="col-md-4">
            <div class="row">
@@ -36,10 +62,10 @@
                 <label class="fechas" >Hora recepción: <br><input type="datetime-local" step="1" id="hora_recepcion1" /><br><input type="datetime-local" step="1" id="hora_entrada"  /></label>
             </div>
             <div class="col-md-12">
-                <label class="datosGenerales" for="finMuestreo">Fecha fin de muestreo:  <input type="text" id="finMuestreo" disabled  size="50"/></label>
-                <label class="datosGenerales" for="conformacion">Fecha conformación: <input type="text" id="conformacion" disabled  size="50"/></label>
+                <label class="datosGenerales" for="finMuestreo">Fecha fin de muestreo:  <input type="datetime-local" id="finMuestreo" disabled  size="50"/></label>
+                <label class="datosGenerales" for="conformacion">Fecha conformación: <input type="datetime-local" id="conformacion" disabled  size="50"/></label>
                 <label class="datosGenerales" for="procedencia">Procedencia: <input type="text" id="procedencia" disabled  size="50"/></label>
-            </div>
+            </div> 
     
         </div>
         </div>

@@ -7,7 +7,7 @@ $(document).ready(function () {
     $('#termometro2').select2(); 
     validacionInicio()
     $("#setPhMuestra").click(function () {
-      guardarPhMuestra()
+    guardarPhMuestra()
     });
     $(".btnSubir").click(function () {
         $('body, html').animate({
@@ -866,7 +866,7 @@ function valPendiente(valor, criterio) {
     }    
 
     if (sw == true) {
-        c.value = "Aceptado";
+        c.value = "Aprobado";
         t.rows[1].setAttribute("class", "bg-success");
     } else {
         c.value = "Rechazado";
@@ -924,7 +924,7 @@ function valConTrazable(lec1, lec2, lec3, estado) {
     }
 
     if (sw == true) {
-        std.value = "Aceptado";
+        std.value = "Aprobado";
         t.rows[1].setAttribute("class", "bg-success");
     } else {
         std.value = "Rechazado";
@@ -964,7 +964,7 @@ function valConCalidad(lec1, lec2, lec3, estado, prom) {
     }
 
     if (sw == true) {
-        std.value = "Aceptado";
+        std.value = "Aprobado";
         t.rows[1].setAttribute("class", "bg-success");
     } else {
         std.value = "Rechazado";
@@ -1339,6 +1339,8 @@ function setDataGeneral() {
             criterio: $("#criterioPendiente").val(),
             supervisor: $("#nombreSupervisor").val(),
             firmaSupervisor: $("#firmaSupervisor").val(),
+
+            puntoMuestreo: $("#puntoMuestreo").val(),
 
             phTrazable1: tabPhT.rows[1].children[0].children[0].value,
             phTl11: tabPhT.rows[1].children[4].children[0].value,

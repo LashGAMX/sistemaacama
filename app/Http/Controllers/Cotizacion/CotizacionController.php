@@ -785,14 +785,14 @@ class CotizacionController extends Controller
 
         //Recupera los parámetros extra de la cotización
         $parametrosExtra = DB::table('ViewCotParam')->where('Id_cotizacion', $idCot)->where('Extra', 1)->orderBy('Parametro', 'ASC')->get();
-        $sumaParamEspecial = 0;
+        // $sumaParamEspecial = 0;
        
 
-        foreach ($parametrosExtra as $item) {
-            $precioEspecial = PrecioCatalogo::where('Id_parametro', $item->Id_subnorma)->first();
-            $sumaParamEspecial += $precioEspecial->Precio;
-        }
-
+        // foreach ($parametrosExtra as $item) {
+        //     $precioEspecial = PrecioCatalogo::where('Id_parametro', $item->Id_subnorma)->first();
+        //     $sumaParamEspecial += $precioEspecial->Precio;
+        // }
+ 
         // $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
         $model = Cotizacion::where('Id_cotizacion', $idCot)->first();
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
@@ -803,11 +803,11 @@ class CotizacionController extends Controller
 
         $analisisDesc = $model->Precio_analisis - (($model->Precio_analisis * $model->Descuento) / 100);
 
-        if ($parametrosExtra->count() > 0) {
-            $subTotal = $analisisDesc + $sumaParamEspecial + $model->Precio_muestreo;
-        } else {
-            $subTotal = $analisisDesc + $sumaParamEspecial + $model->Precio_muestreo; 
-        } 
+        // if ($parametrosExtra->count() > 0) {
+        //     $subTotal = $analisisDesc + $sumaParamEspecial + $model->Precio_muestreo;
+        // } else {
+        //     $subTotal = $analisisDesc + $sumaParamEspecial + $model->Precio_muestreo; 
+        // } 
         $servicio = TipoServicios::all();
         $tipo = TipoMuestraCot::all();
         $numServicios = $model->Num_servicios * $puntos->count();
@@ -829,7 +829,8 @@ class CotizacionController extends Controller
 
         $firma = User::find(24); // Firma maribel
         $mpdf->showWatermarkImage = true;
-        $html = view('exports.cotizacion.cotizacion', compact('numServicios','model','tipo' ,'servicio' ,'parametros', 'parametrosExtra', 'norma', 'puntos', 'sumaParamEspecial', 'analisisDesc', 'subTotal', 'firma','reportesInformes'));
+        $html = view('exports.cotizacion.cotizacion', compact('numServicios','model','tipo' ,'servicio' 
+        ,'parametros', 'parametrosExtra', 'norma', 'puntos',  'analisisDesc',  'firma','reportesInformes'));
         $mpdf->CSSselectMedia = 'mpdf';
 
         $mpdf->WriteHTML($html);
