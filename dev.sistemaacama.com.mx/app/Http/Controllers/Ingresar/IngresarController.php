@@ -10,6 +10,7 @@ use App\Models\ProcesoAnalisis;
 use App\Models\SeguimientoAnalisis;
 use App\Models\Solicitud;
 use App\Models\SolicitudPuntos;
+use App\Models\SucursalCliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -46,19 +47,23 @@ class IngresarController extends Controller
             if ($proceso->count()) {
                 $std = true;
             }
-            $siralab = false;
-            $puntos = SolicitudPuntos::where('Id_solPadre',$cliente->Id_solicitud)->get();
         }else{
             $cliente = "";
-            $puntos = "";
         }
 
         $array = array(
-            'puntos' => $puntos,
             'cliente' => $cliente,
             'sw' => $tempCli->count(),
         );
         return response()->json($array);
+    }
+    public function getPuntoMuestreo(Request $res)
+    {
+        $model = SolicitudPuntos::where('Id_solPadre',$res->id)->get();
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
     }
     public function getCodigoRecepcion(Request $res)
     {
@@ -73,10 +78,12 @@ class IngresarController extends Controller
         $sol = Solicitud::where('Id_solicitud', $res->idSol)->first();
         $muestreo = DB::table('ViewCotizacionMuestreo')->where('Id_cotizacion', $sol->Id_cotizacion)->first();
         $model = PhMuestra::where('Id_solicitud', $res->idSol)->orderBy('Id_ph', 'DESC')->first();
-        // $fecha2 = Carbon::now($model->Fecha)->addMinutes(30);
         $fecha2 = new \Carbon\Carbon($model->Fecha);
+        $procedencia = SucursalCliente::where('Id_sucursal',$sol->Id_sucursal)->first();
+        
         $data = array(
-            'fecha2' => $fecha2->addMinutes(30),
+            'procedencia' => $procedencia,
+            'fecha2' => $fecha2->addMinutes(30)->format('Y-m-d H:i:s'),
             'sol' => $sol,
             'muestreo' => $muestreo,
             'model' => $model,

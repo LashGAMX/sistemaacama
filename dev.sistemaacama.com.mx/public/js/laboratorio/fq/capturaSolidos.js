@@ -432,6 +432,13 @@ function getDetalleSolidos(idDetalle, num) {
         dataType: "json",
         success: function (response) {
             console.log(response);
+            if (response.parametro == 4) {
+                document.getElementById('titulomasa1').innerHTML = 'Masa 2'
+                document.getElementById('titulomasa2').innerHTML = 'Masa 6'
+            } else {
+                document.getElementById('titulomasa1').innerHTML = 'Masa B'
+                document.getElementById('titulomasa2').innerHTML = 'Masa A'
+            }
             switch (num) {
                 case 1:
                     $("#m11").val(response.detalle.Masa1);

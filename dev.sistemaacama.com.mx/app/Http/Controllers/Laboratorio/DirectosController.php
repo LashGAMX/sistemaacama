@@ -326,7 +326,7 @@ class DirectosController extends Controller
     public function operacionCloro(Request $request)
     {
         $resultado = 0;
-        $dilusion = 50 / $request->volumen;
+        $dilusion = $request->dilucion;
         $promedio = ($request->l1 + $request->l2 + $request->l3) / 3;
         $resultado = round($promedio * $dilusion, 2);
         $model = LoteDetalleDirectos::find($request->idDetalle);
@@ -340,6 +340,7 @@ class DirectosController extends Controller
         $model->save();
 
         $data = array(
+            'Dilu' => $dilusion,
             'promedio' => $promedio,
             'res' => $resultado,
         );

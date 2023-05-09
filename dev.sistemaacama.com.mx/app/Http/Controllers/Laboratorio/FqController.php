@@ -611,24 +611,31 @@ class FqController extends Controller
     }
     public function updateObsMuestraEspectroDureza(Request $request)
     {
-        $model = LoteDetalleDureza::where('Id_detalle', $request->idMuestra)->first();
+        $model = LoteDetalleDureza::find( $request->idMuestra);
         $model->Observacion = $request->observacion;
         $model->save();
 
         $data = array(
+            'muestra' => $request->idMuestra,
             'model' => $model,
         );
         return response()->json($data);
     }
     public function createControlCalidadEspectro(Request $request)
     {
+        if ($request->parametro == 103){
+            $muestra = LoteDetalleDureza::where('Id_detalle', $request->idMuestra)->first();
+            $model = $muestra->replicate();
+            $model->Id_control = $request->idControl;
+            $model->save();
+        } else {
         $muestra = LoteDetalleEspectro::where('Id_detalle', $request->idMuestra)->first();
-
         $model = $muestra->replicate();
         $model->Id_control = $request->idControl;
         $model->save();
-
+        }
         $data = array(
+            'parametro' => $request->parametro,
             'model' => $model,
         );
         return response()->json($data);
@@ -2068,6 +2075,7 @@ class FqController extends Controller
         }
 
         $data = array(
+            'parametro' => $request->idParametro,
             "detalle" => $detalle,
             'nom1' => $nom1,
             'nom2' => $nom2,

@@ -489,7 +489,7 @@
                                         placeholder="Observacion de la muestra">
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-success" type="button" onclick="updateObsMuestraEspectro()"
+                                    <button class="btn btn-success" type="button" onclick="updateObsMuestraEspectroDureza()"
                                         id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
                             </div>
                             <div class="col-md-2">

@@ -3,15 +3,20 @@ var table;
 // var selectedRow = false;
 var idCot = 0; 
 $(document).ready(function () {
+
     table = $('#tablaSolicitud').DataTable({
         "ordering": false,
+        "pageLength": 100,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
             "zeroRecords": "No hay datos encontrados",
             "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",   
-        }
+            "infoEmpty": "No hay datos encontrados",
+        },
+        "scrollY": 400,
+        "scrollCollapse": true
     });
+
     $('#tablaSolicitud tbody').on( 'click', 'tr', function () { 
         if ( $(this).hasClass('selected') ) {
             $(this).removeClass('selected');

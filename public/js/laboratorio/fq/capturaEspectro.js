@@ -835,8 +835,9 @@ function updateObsMuestraEspectroDureza()
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/updateObsMuestraEspectroDureza",
         data: {
+            parametro: $('#formulaTipo').val(),
             idMuestra: idMuestra,
-            observacion: $("#observacionSulDureza").val(),
+            observacion: $("#observacionDureza").val(),
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
@@ -898,6 +899,7 @@ function createControlCalidad()
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/createControlCalidadEspectro",
         data: {
+            parametro: $('#formulaTipo').val(),
             idMuestra: idMuestra,
             idLote:idLote,
             idControl: $("#controlCalidad").val(),

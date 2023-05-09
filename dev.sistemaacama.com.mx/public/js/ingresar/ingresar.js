@@ -23,12 +23,18 @@ $(document).ready(function () {
         "scrollY": 400,
         "scrollCollapse": true
     });
-
+    $('#btnSetCodigos').click(function(){                
+        if (confirm("Deseas generar codigos?")) {
+            
+        }
+    });
 
 });
 function buscarFolio() {
     let std = document.getElementById("stdMuestra")
     let temp = ''
+    let phProm  = 0
+    let aux = 0
     $.ajax({
         type: "POST",
         url: base_url + '/admin/ingresar/buscarFolio',
@@ -45,20 +51,19 @@ function buscarFolio() {
                 $("#descarga").val(response.cliente.Descarga);
                 $("#cliente").val(response.cliente.Nombres);
                 $("#empresa").val(response.cliente.Empresa);
-                // if (response.proceso.length > 0) {
-                //     $("#hora_recepcion1").val(response.proceso[0].Hora_recepcion);
-                //     $("#hora_entrada").val(response.proceso[0].Hora_entrada);   
-                // } 
-                // if (response.std == true) {
-                //     // temp = '<p class="text-success">Muestra ingresada</p>'
-                //     // $("#btnIngresar").attr("disabled","true")
-                // } else {
-                //     // temp = '<p class="text-warning">Falta ingreso</p>'
-                //     // $("#btnIngresar").attr("disabled","false")
-                // }
+
+                if (response.phCampo.length > 0) {
+                    $.each(response.phCampo, function(key, item){
+                        phProm = phProm + item.Promedio
+                        aux++
+                    })
+                    phProm = phProm / aux
+                    $("#ph").val(phProm)
+                    tablePuntos(response.cliente.Id_solicitud)
+                }
+
                 std.innerHTML = temp
-                // tableCodigos(response.model);
-                tablePuntos(response.puntos)
+        
             } else {
                 $("#idSol").val("")
                 $("#folio").val("")
@@ -142,68 +147,82 @@ function tableCodigos(model) {
 var idSol = 0;
 var muestreo;
 var dataPunto = new Array()
-function tablePuntos(model) {
-    let tabla = document.getElementById('divPuntos');
-    let tab = '';
-    tab += '<table id="puntos" class="table table-sm">';
-    tab += '    <thead class="thead-dark">';
-    tab += '        <tr>';
-    tab += '          <th>Id</th>';
-    tab += '          <th>...</th>';
-    tab += '    </thead>';
-    tab += '    <tbody>';
-    $.each(model, function (key, item) {
-        tab += '<tr>'; 
-        tab += '<td>' + item.Id_solicitud + '</td>';
-        tab += '<td>' + item.Punto + '</td>';
-        tab += '</tr>';
-    });
-    tab += '    </tbody>';
-    tab += '</table>';
-    tabla.innerHTML = tab;
-
-    $('#puntos').DataTable({
-        "ordering": false,
-        "pageLength": 500,
-        "language": {
-            "lengthMenu": "# _MENU_ por pagina",
-            "zeroRecords": "No hay datos encontrados",
-            "info": "Pagina _PAGE_ de _PAGES_",
-            "infoEmpty": "No hay datos encontrados",
+function tablePuntos(id) {
+    $.ajax({
+        type: "POST",
+        url: base_url + '/admin/ingresar/getPuntoMuestreo',
+        data: {
+            id:id,
         },
-        "scrollY": 400,
-        "scrollCollapse": true
-    });
-    $('#puntos tbody').on( 'click', 'tr', function () { 
-        if ( $(this).hasClass('selected') ) {
-            $(this).removeClass('selected');
-            idSol = 0;
-        }
-        else {
-            table.$('tr.selected').removeClass('selected');
-            $(this).addClass('selected');
-            let dato = $(this).find('td:first').html();
-            idSol = dato;
-            $.ajax({
-                type: "POST",
-                url: base_url + "/admin/ingresar/getDataPuntoMuestreo",
-                data: {
-                    idSol: idSol,
-                    _token: $('input[name="_token"]').val()
-                },
-                dataType: "json",
-                success: function (response) {
-                    console.log(response)
-                    dataPunto = response
-                    // let con = new Date(response.model.Fecha);
-                    $("#finMuestreo").val(response.model.Fecha);
-                    // con.setMinutes(con.getMinutes() + 30);
-                    $("#conformacion").val(response.fecha2);
-                    // $("#procedencia").val(response.muestreo.NomEstado);
-                }
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);
+            let tabla = document.getElementById('divPuntos');
+            let tab = '';
+            tab += '<table id="puntos" class="table table-sm">';
+            tab += '    <thead class="thead-dark">';
+            tab += '        <tr>'
+            tab += '            <th style="width: 10%">#</th>'
+            tab += '            <th style="width: 70%">...</th>'
+            tab += '            <th style="width: 20%">Opc</th>'
+            tab += '        </tr>'
+            tab += '    </thead>';
+            tab += '    <tbody>';
+            $.each(response.model, function (key, item) { 
+                tab += '<tr>'; 
+                tab += '<td>' + item.Id_solicitud + '</td>';
+                tab += '<td>' + item.Punto + '</td>';
+                tab += '<td><input placeholder="Conduct"><input placeholder="Cloruros"></td>';
+                tab += '</tr>';
             });
+            tab += '    </tbody>';
+            tab += '</table>';
+            tabla.innerHTML = tab;
+
+            $('#puntos').DataTable({
+                "ordering": false,
+                "pageLength": 500,
+                "language": {
+                    "lengthMenu": "# _MENU_ por pagina",
+                    "zeroRecords": "No hay datos encontrados",
+                    "info": "Pagina _PAGE_ de _PAGES_",
+                    "infoEmpty": "No hay datos encontrados",
+                },
+                "scrollY": 400,
+                "scrollCollapse": true
+            });
+            $('#puntos tbody').on( 'click', 'tr', function () { 
+                if ( $(this).hasClass('selected') ) {
+                    $(this).removeClass('selected');
+                    idSol = 0;
+                }
+                else {
+                    table.$('tr.selected').removeClass('selected');
+                    $(this).addClass('selected');
+                    let dato = $(this).find('td:first').html();
+                    idSol = dato;
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/ingresar/getDataPuntoMuestreo",
+                        data: {
+                            idSol: idSol,
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response)
+                            dataPunto = response
+                            $("#finMuestreo").val(response.model.Fecha);
+                            $("#conformacion").val(response.fecha2);
+                            $("#procedencia").val(response.procedencia.Estado);
+                        }
+                    });
+                }
+            } );
         }
-    } );
+    });
+
 
 }
 function setIngresar() {

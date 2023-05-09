@@ -630,8 +630,8 @@ class SolicitudController extends Controller
         $ga = false;
         $dbo = false;
         $dqo = false;
-        $modelPadre = DB::table('ViewSolicitud')->where('Id_cotizacion', $request->idCot)->where('Padre', 1)->first();
-        $model = DB::table('ViewSolicitud')->where('Hijo', $modelPadre->Id_solicitud)->get();
+        $modelPadre = DB::table('ViewSolicitud2')->where('Id_cotizacion', $request->idCot)->where('Padre', 1)->first();
+        $model = DB::table('ViewSolicitud2')->where('Hijo', $modelPadre->Id_solicitud)->get();
 
 
         foreach ($model as $item) {
