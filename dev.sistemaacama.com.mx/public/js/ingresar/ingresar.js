@@ -25,16 +25,41 @@ $(document).ready(function () {
     });
     $('#btnSetCodigos').click(function(){                
         if (confirm("Deseas generar codigos?")) {
+            setGenFolio()
+        }
+    });
+    $('#btnIngresar').click(function(){                
+        if (confirm("Deseas generar codigos?")) {
             
         }
     });
 
 });
+function setGenFolio()
+{
+    let sw = true
+    if (idNorma == 27) {
+        let puntos = document.getElementById("puntos")
+        for (let i = 1; i < puntos.rows.length; i++) {
+            if(puntos.rows[i].children[2].children[0].value == "" || puntos.rows[i].children[2].children[1].value == ""){
+                sw = false
+            }
+        }
+    }
+    if (sw == true) {
+        alert("Codigos generados")
+    }else{
+        alert("Para generar los codigos es necesario ingresar la conductividad y el cloruros en los puntos de muestreo")
+    }
+
+}
+var idNorma = 0
 function buscarFolio() {
     let std = document.getElementById("stdMuestra")
     let temp = ''
     let phProm  = 0
     let aux = 0
+    idNorma = 0
     $.ajax({
         type: "POST",
         url: base_url + '/admin/ingresar/buscarFolio',
@@ -45,6 +70,7 @@ function buscarFolio() {
         async: false,
         success: function (response) {
             console.log(response);
+            idNorma = response.cliente.Id_norma
             if (response.sw > 0) {
                 $("#idSol").val(response.cliente.Id_solicitud);
                 $("#folio").val(response.cliente.Folio_servicio);
@@ -52,15 +78,7 @@ function buscarFolio() {
                 $("#cliente").val(response.cliente.Nombres);
                 $("#empresa").val(response.cliente.Empresa);
 
-                if (response.phCampo.length > 0) {
-                    $.each(response.phCampo, function(key, item){
-                        phProm = phProm + item.Promedio
-                        aux++
-                    })
-                    phProm = phProm / aux
-                    $("#ph").val(phProm)
-                    tablePuntos(response.cliente.Id_solicitud)
-                }
+                tablePuntos(response.cliente.Id_solicitud)
 
                 std.innerHTML = temp
         
@@ -148,6 +166,7 @@ var idSol = 0;
 var muestreo;
 var dataPunto = new Array()
 function tablePuntos(id) {
+    let aux = 0
     $.ajax({
         type: "POST",
         url: base_url + '/admin/ingresar/getPuntoMuestreo',
@@ -173,12 +192,21 @@ function tablePuntos(id) {
                 tab += '<tr>'; 
                 tab += '<td>' + item.Id_solicitud + '</td>';
                 tab += '<td>' + item.Punto + '</td>';
-                tab += '<td><input placeholder="Conduct"><input placeholder="Cloruros"></td>';
+                tab += '<td><input placeholder="Conduct" value="'+response.conductividad[aux]+'">'
+                tab += '<select id="sel'+item.Id_solicitud+'">'
+                if (response.cloruro[aux] == 1) { tab += '    <option selected value="1" >500</option>' } else {tab += '    <option value="1" >500</option>'}
+                if (response.cloruro[aux] == 2) { tab += '    <option selected value="2" >1000</option>' } else {tab += '    <option value="2" >1000</option>'}
+                if (response.cloruro[aux] == 3) { tab += '    <option selected value="3" >1500</option>' } else {tab += '    <option value="3" >1500</option>'}
+                if (response.cloruro[aux] == 4) { tab += '    <option selected value="4" >2000</option>' } else {tab += '    <option value="4" >2000</option>'}
+                if (response.cloruro[aux] == 5) { tab += '    <option selected value="5" > > 3000</option>' } else {tab += '    <option value="5" > > 3000</option>'}
+                tab += '</select>'
+                tab += '<input placeholder="Cloruros" value="'+response.cloruro[aux]+'"></td>'
                 tab += '</tr>';
-            });
+                aux++
+            }); 
             tab += '    </tbody>';
             tab += '</table>';
-            tabla.innerHTML = tab;
+            tabla.innerHTML = tab; 
 
             $('#puntos').DataTable({
                 "ordering": false,
@@ -196,6 +224,10 @@ function tablePuntos(id) {
                 if ( $(this).hasClass('selected') ) {
                     $(this).removeClass('selected');
                     idSol = 0;
+
+                    $("#finMuestreo").val('');
+                    $("#conformacion").val('');
+                    $("#procedencia").val('');
                 }
                 else {
                     table.$('tr.selected').removeClass('selected');

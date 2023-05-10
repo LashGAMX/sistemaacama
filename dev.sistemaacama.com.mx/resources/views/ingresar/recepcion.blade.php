@@ -56,8 +56,8 @@
         <div class="col-md-3">
             <div class="row">
                 <div class="col-md-12">
-                    <button id="btnIngresar" class="btn-info" onclick="setIngresar()"><i class="fas fa-arrow-right"></i> Ingresar</button>
-                    <button id="btnSetCodigos" class="btn-warning"><i class="voyager-params"></i> Ingresar</button>
+                    <button id="btnIngresar" class="btn-info" ><i class="fas fa-arrow-right"></i> Ingresar</button>
+                    <button id="btnSetCodigos" class="btn-warning"><i class="voyager-params"></i> Generar codigos</button>
                 </div>
                 <div class="col-md-12">
                     <div class="" id=divCodigos>

@@ -753,6 +753,7 @@ function btnReccalcular()
   let gastosExtras = parseFloat($("#gastosExtras").val())
   let paqueteria = parseFloat($("#paqueteria").val())
   let numServicio = parseFloat($("#numServicio").val())
+  let descuento = parseFloat($("#descuento").val())
   let iva = parseFloat($("#iva").val())
   let subTotal = parseFloat($("#subTotal").val())
   let precioTotal = parseFloat($("#precioTotal").val())
@@ -773,6 +774,14 @@ function btnReccalcular()
     if ($("#precioCat").val() == '') {
       extra = 0
     } 
+    if ($("#descuento").val() == '') {
+      descuento = 0
+    }else{
+        descuento = (descuento * analisis) / 100
+        temp = analisis - descuento
+        $("#precioAnalisisCon").val(temp)
+        analisis = temp
+    }
     subTotal = (analisis + extra + muestreo + gastosExtras + paqueteria) * numServicio
     temp = (subTotal * 16) / 100
     precioTotal = temp + subTotal

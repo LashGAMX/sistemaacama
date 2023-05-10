@@ -147,7 +147,12 @@
                     <tr>
                         <td class="fontNormal fontCalibri fontSize11 bordesTablaBody">{{$item->Parametro}} <sup>({{$item->Simbologia}})</sup></td>
                         <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Clave_metodo}}</td>
+                        @if (is_numeric($item->Limite))
+                        <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr"> < {{$item->Limite}}</td>
+                        @else
                         <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Limite}}</td>
+                        @endif
+                        {{-- <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Limite}}</td> --}}
                         <td class="fontNormal fontCalibri fontSize11 bordeFinal justificadorCentr">{{$item->Unidad}}</td>
                     </tr>
                     @endforeach
