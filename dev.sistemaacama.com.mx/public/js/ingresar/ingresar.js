@@ -41,13 +41,25 @@ function setGenFolio()
     if (idNorma == 27) {
         let puntos = document.getElementById("puntos")
         for (let i = 1; i < puntos.rows.length; i++) {
-            if(puntos.rows[i].children[2].children[0].value == "" || puntos.rows[i].children[2].children[1].value == ""){
+            if(puntos.rows[i].children[2].children[0].value == "" || puntos.rows[i].children[2].children[1].value == 0){
                 sw = false
             }
         }
     }
     if (sw == true) {
-        alert("Codigos generados")
+        $.ajax({
+            type: "POST",
+            url: base_url + '/admin/ingresar/buscarFolio',
+            data: {
+                folioSol: $("#folioSol").val(),
+            },
+            dataType: "json",
+            async: false,
+            success: function (response) {
+                console.log(response);
+                
+            }
+        });
     }else{
         alert("Para generar los codigos es necesario ingresar la conductividad y el cloruros en los puntos de muestreo")
     }
@@ -194,13 +206,13 @@ function tablePuntos(id) {
                 tab += '<td>' + item.Punto + '</td>';
                 tab += '<td><input placeholder="Conduct" value="'+response.conductividad[aux]+'">'
                 tab += '<select id="sel'+item.Id_solicitud+'">'
+                if (response.cloruro[aux] == 0) { tab += '    <option selected value="0" >Sin seleccionar</option>' } else {tab += '    <option value="0" >Sin seleccionar</option>'}
                 if (response.cloruro[aux] == 1) { tab += '    <option selected value="1" >500</option>' } else {tab += '    <option value="1" >500</option>'}
                 if (response.cloruro[aux] == 2) { tab += '    <option selected value="2" >1000</option>' } else {tab += '    <option value="2" >1000</option>'}
                 if (response.cloruro[aux] == 3) { tab += '    <option selected value="3" >1500</option>' } else {tab += '    <option value="3" >1500</option>'}
                 if (response.cloruro[aux] == 4) { tab += '    <option selected value="4" >2000</option>' } else {tab += '    <option value="4" >2000</option>'}
                 if (response.cloruro[aux] == 5) { tab += '    <option selected value="5" > > 3000</option>' } else {tab += '    <option value="5" > > 3000</option>'}
-                tab += '</select>'
-                tab += '<input placeholder="Cloruros" value="'+response.cloruro[aux]+'"></td>'
+                tab += '</select></td>'
                 tab += '</tr>';
                 aux++
             }); 

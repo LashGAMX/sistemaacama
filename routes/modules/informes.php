@@ -18,6 +18,7 @@ Route::group(['prefix' => 'informes'], function () {
     Route::post('/getPreReporteMensual', [InformesController::class, 'getPreReporteMensual']);
     //Ruta temporal para la generación de plantilla de custodia interna
     Route::get('exportPdfCustodiaInterna/{idSol}', [InformesController::class, 'custodiaInterna']);
+    Route::get('cadena/pdf/{idSol}',[InformesController::class,'exportPdfCustodiaInterna']);
 
 
     Route::get('exportPdfInformeMensual/{idSol1}/{idsol2}/{tipo}', [InformesController::class, 'exportPdfInformeMensual']);

@@ -24,6 +24,7 @@ class CodigoParametros extends Model
         'Analizo',
         'Reporte',
         'Cadena',
+        'Cancelado',
         'Id_user_c',
         'Id_user_m'
     ];

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Beto\BetoController;
 use App\Http\Controllers\Campo\CampoController;
+use App\Http\Controllers\ClientesAcama\ClientesAcamaController;
 use App\Http\Controllers\Controller;
 use App\Http\Controllers\Cotizacion\SolicitudController;
 use App\Http\Controllers\Home\HomeController;
@@ -34,14 +35,15 @@ Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
 });
 Route::group(['prefix' => 'clientes'], function () {
-    Route::get('orden_servicio/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
-    Route::get('informeMensualSinComparacion/{idSol}', [InformesController::class, 'pdfSinComparacionCliente']);
-    Route::get('informeMensualConComparacion/{idSol}', [InformesController::class, 'pdfComparacionCliente']);
-    Route::get('exportPdfSinComparacion/{idSol}', [InformesController::class, 'pdfSinComparacionCli']);
-    Route::get('exportPdfConComparacion/{idSol}', [InformesController::class, 'pdfConComparacionCli']);
-    Route::get('exportPdfCustodiaInterna/{idSol}', [InformesController::class, 'custodiaInternaCli']);
-    Route::get('hojaCampo/{id}', [CampoController::class, 'hojaCampoCli']);
-});
+    // Route::get('orden_servicio/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
+    // Route::get('informeMensualSinComparacion/{idSol}', [InformesController::class, 'pdfSinComparacionCliente']);
+    // Route::get('informeMensualConComparacion/{idSol}', [InformesController::class, 'pdfComparacionCliente']);
+    // Route::get('exportPdfSinComparacion/{idSol}', [InformesController::class, 'pdfSinComparacionCli']);
+    // Route::get('exportPdfConComparacion/{idSol}', [InformesController::class, 'pdfConComparacionCli']);
+    // Route::get('exportPdfCustodiaInterna/{idSol}', [InformesController::class, 'custodiaInternaCli']);
+    // Route::get('hojaCampo/{id}', [CampoController::class, 'hojaCampoCli']);
+    Route::get('cadena-custodia-interna/{id}',[ClientesAcamaController::class,'cadenacustodiainterna']);
+}); 
 
 Route::group(['prefix' => 'admin'], function (){
     //? Cliente seguimiento

@@ -17,10 +17,10 @@ $(document).ready(function () {
         "paging": false
     });
     $('#btnCadena').click(function () {
-        window.location = base_url + "/admin/informes/exportPdfCustodiaInterna/" + idPunto;
+        window.open("/admin/informes/cadena/pdf/"+idPunto)
     });
 
-    $('#tablePuntos tbody').on('click', 'tr', function () {
+    $('#tablePuntos tbody').on('click', 'tr', function () { 
         if ($(this).hasClass('selected')) {
             $(this).removeClass('selected');
         }

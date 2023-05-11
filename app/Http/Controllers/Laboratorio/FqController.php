@@ -209,6 +209,9 @@ class FqController extends Controller
         $model->Edta = $request->A;
         $model->Factor_conversion = $request->C;
         $model->Blanco = $request->B;
+        $model->Lectura1 = $request->lectura1;
+        $model->Lectura2 = $request->lectura2;
+        $model->Lectura3 = $request->lectura3;
         $model->Vol_muestra = $request->D;
         $model->Factor_real = $request->RE;
         $model->Analizo = Auth::user()->id;
@@ -216,6 +219,7 @@ class FqController extends Controller
         $model->save();
 
         $data = array(
+            'l1' => $request->lectura1,
             'model' => $model,
             'idMuestra' => $request->idMuestra,
         );

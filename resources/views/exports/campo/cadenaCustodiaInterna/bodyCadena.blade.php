@@ -63,28 +63,27 @@
                             <td class="justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">FIRMA</td>
                         </tr>
                     </thead>
-
+                    @php
+                        $tempArea = array();
+                        $temp = 0;
+                        $sw = false
+                    @endphp
                     <tbody>
-                        @for ($i = 0; $i < @$paqueteLength; $i++) @if (@$paquete[$i]->Reportes == 1)
+                        @for ($i = 0; $i < sizeof($area); $i++)    
                             <tr>
-                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{@$paquete[$i]->Area}}
+                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> {{$area[$i]}} </td>
+                                <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8"> {{$responsable[$i]}}</td>
+                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$numRecipientes[$i]}}</td>
+                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
+                                    @if ($fechasSalidas[$i] != "")
+                                        {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}
+                                    @else
+                                        <p style="color: red">Sin captura</p>
+                                    @endif
                                 </td>
-                                <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{@$paquete[$i]->name}}
-                                </td>
-                                
-                                @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 7 || @$paquete[$i]->Id_area == 16 ||  @$paquete[$i]->Id_area == 17 )
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                    {{@$recibidos->count()}}</td>
-                                @else
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                    {{@$paquete[$i]->Cantidad}}</td>
-                                @endif
-
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">@if ($fechasSalidas[$i] != "") {{\Carbon\Carbon::parse($fechasSalidas[$i])->format('d/m/Y')}} @else <p style="color: red">Sin captura</p> @endif</td>
-
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                    @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 9 || @$paquete[$i]->Id_area == 16 ||  @$paquete[$i]->Id_area == 17)
-                                    --------------- 
+                                    @if ($stdArea[$i] == 1)
+                                       --------------- 
                                     @else
                                         @if ($fechasSalidas[$i] != "")
                                             {{\Carbon\Carbon::parse(@$fechasSalidas[$i])->format('d/m/Y')}}
@@ -93,57 +92,58 @@
                                         @endif
                                     @endif
                                 </td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
-                                    @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 9 || @$paquete[$i]->Id_area == 16 ||  @$paquete[$i]->Id_area == 17)
-                                    ---------------
+                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">
+                                    @if ($stdArea[$i] == 1)
+                                      --------------- 
                                     @else
                                         @if ($fechasSalidas[$i] != "")
-                                            {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}
+                                        {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}
                                         @else
                                             <p style="color: red">Sin captura</p>
                                         @endif
                                     @endif
                                 </td>
-                                <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">
+                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
                                     @if ($fechasSalidas[$i] != "")
                                         {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
                                     @else
                                         <p style="color: red">Sin captura</p>
                                     @endif
                                 </td>
-                                <td class="justifyCenter bordesTablaInfIzqDer">
+                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
                                     @if ($fechasSalidas[$i] != "")
-                                        <img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="{{url('public/storage/'.@$paquete[$i]->firma)}}">
+                                        <img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="{{url('public/storage/'.@$firmas[$i]->firma)}}">
                                     @else
                                         <p style="color: red">Sin captura</p>
                                     @endif
                                 </td>
                             </tr>
-                            @endif
-                            @endfor
+                        @endfor
                     </tbody>
 
                 </table>
             </div>
 
+            <br>
             <div class="col-12">
                 2. {{$reportesCadena->Seccion2}}
-            </div>
+            </div> 
+            <br>
             <div id="contenedorTabla" >
                 <table class="{{-- table --}} {{-- table-bordered border-dark --}} table-sm {{-- colorBorde --}}" cellpadding="0" cellspacing="0" width="100%">
                     <thead>
                         <tr>
-                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8px">Parametro</td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8px">Párametro</td>
                             <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8PX">Resultado</td>
-                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8px">Parametro</td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8px">Párametro</td>
                             <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8PX">Resultado</td>
-                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8px">Parametro</td>
+                            <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8px">Párametro</td>
                             <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri" style="font-size: 8PX">Resultado</td>
                         </tr>
                     </thead>
                     <tbody>
                         @php
-                            $temp = ceil($paramResultadoLength / 3);
+                            $temp = ceil($paramResultado->count() / 3);
                         @endphp
                         @for ($i = 0; $i < $temp; $i++)
                             <tr>
@@ -160,87 +160,8 @@
             
             </div>
 
-            <br>
-
-            <div class="col-12 negrita">
-                <div>
-                    <div>
-                        <table class="table-sm" width="100%">
-                            <tr>
-                                @switch(@$norma->Id_norma)
-                                @case(2)
-                                <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L </td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">
-                                    @if (@$promGra->Resultado2 <= @$promGra->Limite)
-                                        < {{@$promGra->Limite}}
-                                            @else
-                                            {{round(@$promGra->Resultado2,2)}}
-                                            @endif
-                                </td>
-
-                                <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas->Resultado2, 2)}}
-                                </td>
-                                @break
-                                @case(30)
-                                @break
-                                @default
-                                <td class="fontCalibri anchoColumna111 fontSize8">GRASAS Y ACEITES (G Y A) mg/L</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">
-                                    @if (@$promGra->Resultado2 <= @$promGra->Limite)
-                                        < {{@$promGra->Limite}}
-                                            @else
-                                            {{round(@$promGra->Resultado2,2)}}
-                                            @endif
-                                </td>
-
-                                <td class="fontCalibri anchoColumna111 fontSize8">COLIFORMES FECALES NMP/100mL</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promCol->Resultado2,2)}}
-                                </td>
-
-                                <td class="fontCalibri anchoColumna111 fontSize8">GASTO L/s</td>
-                                <td class="fontCalibri anchoColumna111 fontSize8">{{round(@$promGas->Resultado2, 2)}}
-                                </td>
-                                @endswitch
-                                <td class="fontCalibri anchoColumna111 justifyCenter"><span
-                                        class="fontSize7 negrita">FIRMA RESPONSABLE</span> <br> <span
-                                        class="fontSize8">{{$reportesCadena->Titulo_responsable}} {{$reportesCadena->Nombre_responsable}}</span> &nbsp;&nbsp; </td>
-                                <td class="justifyCenter anchoColumna111"><img
-                                        style="width: auto; height: auto; max-width: 60px; max-height: 40px;"
-                                        src="{{url('public/storage/'.@$firmaRes->firma)}}"></td>
-
-                                @php
-                                /*$bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($model->Folio_servicio,
-                                "C39");*/
-                                /*$url = url()->current();*/
-                                $url =
-                                "https://sistemaacama.com.mx/clientes/exportPdfCustodiaInterna/".@$model->Id_solicitud;
-                                $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
-                                @endphp
-
-                                <td class="justifyCenter anchoColumna111"><img style="width: 8%; height: 8%;"
-                                        src="{{$qr_code}}" alt="barcode" /> <br> {{@$model->Folio_servicio}}</td>
-                            </tr>
-                        </table>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-12" style="border:1px solid">
-            </div>
-
-            <div class="col-md-12">
-                <table class="table table-sm fontSize7" width="100%">
 
 
-                    <tr>
-                        <td class="anchoColumna" style="border: 0"></td>
-                        <td>&nbsp;</td>
-                        <td class="justifyRight">Rev. {{$reportesCadena->Num_rev}}</td>
-                        <td class="justifyRight">Fecha ultima revisión: 01/04/2016</td>
-                    </tr>
-                </table>
-            </div>
         </div>
     </div>
 </body>

@@ -25,9 +25,12 @@
         <table autosize="1" class="tabla1">
             <thead> 
                 <tr>
-                    <th style="font-size: 10px">No. De muestra</th>
+                <th style="font-size: 10px">No. De muestra</th>
                     <th style="font-size: 10px">Vol. de la Muestra(ml)</th>
-                    <th style="font-size: 10px">Vol. Titulante</th>
+                    <th style="font-size: 10px">Lectura 1</th>
+                    <th style="font-size: 10px">Lectura 2</th>
+                    <th style="font-size: 10px">Lectura 3</th>
+                    <th style="font-size: 10px">Promedio</th>
                     <th style="font-size: 8px">DUREZA TOTAL(DT) (como CaCO3) mg/L</th>
                     <th style="font-size: 10px">Observaciones</th>
                     <th style="font-size: 10px"></th> 
@@ -39,6 +42,9 @@
                     <tr>
                         <td>{{ $item->Codigo }}</td>
                         <td>{{ $item->Vol_muestra }}</td>
+                        <td>{{$item->Lectura1}}</td>
+                        <td>{{$item->Lectura2}}</td>
+                        <td>{{$item->Lectura3}}</td>
                         <td>{{ $item->Edta }}</td>
                         <td>
                             @if ($item->Resultado > $item->Limite)

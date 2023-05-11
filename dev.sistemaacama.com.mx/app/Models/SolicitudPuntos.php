@@ -18,6 +18,8 @@ class SolicitudPuntos extends Model
         'Id_solicitud',
         'Id_muestreo',
         'Punto',
+        'Conductividad',
+        'Cloruros',
         'Id_user_c',
         'Id_user_m'
     ];

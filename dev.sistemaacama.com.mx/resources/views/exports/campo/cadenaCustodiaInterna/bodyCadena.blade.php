@@ -63,7 +63,7 @@
                             <td class="justifyCenter bordesTablaSupInfDer fontSize8 anchoColumna125">FIRMA</td>
                         </tr>
                     </thead>
-
+                    
                     <tbody>
                         @for ($i = 0; $i < @$paqueteLength; $i++) @if (@$paquete[$i]->Reportes == 1)
                             <tr>
