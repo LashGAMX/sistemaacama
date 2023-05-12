@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Ingresar;
 
 use App\Http\Controllers\Controller;
@@ -151,11 +150,12 @@ class IngresarController extends Controller
             } else {
                 $canceladoAux = array();
                 if ($item->Id_servicio != 3) {
+                    $auxPh = PhMuestra::where('Id_solicitud',$item->Id_solicitud)
                     for ($i=0; $i <$item->Num_tomas ; $i++) { 
                         array_push($canceladoAux,0);
                     }
-                } else {
-                    for ($i=0; $i <$item->Num_tomas ; $i++) { 
+                } else { 
+                    for ($i=0; $i < $item->Num_tomas ; $i++) { 
                         array_push($canceladoAux,0);
                     }
                 }
@@ -194,154 +194,6 @@ class IngresarController extends Controller
                 }
             }
         }
-        
-        
-        
-
-            foreach ($model as $value) {
-                # code...
-                $sw = false;
-                $cont = 0;
-                $swCodigo = CodigoParametros::where('Id_solicitud', $value->Id_solicitud)->get();
-                $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $value->Id_solicitud)->get();
-
-                if ($swCodigo->count()) {
-                    $sw = true;
-                } else {
-                    foreach ($solParam as $item) {
-
-                        switch ($item->Id_parametro) {
-                            case 13:
-                                // G&A
-                                for ($i = 0; $i < $phMuestra->count(); $i++) {
-                                    if ($phMuestra[$i]->Activo == 1) {
-                                        CodigoParametros::create([
-                                            'Id_solicitud' => $value->Id_solicitud,
-                                            'Id_parametro' => $item->Id_parametro,
-                                            'Codigo' => $value->Folio_servicio . "-G-" . ($i + 1) . "",
-                                            'Num_muestra' => $i + 1,
-                                            'Asignado' => 0,
-                                            'Analizo' => 1,
-                                            'Reporte' => $item->Reporte,
-                                        ]);
-                                    }
-                                }
-                                break;
-                            case 12:
-                            case 78:
-                                // Coliformes
-                                for ($i = 0; $i < $phMuestra->count(); $i++) {
-                                    if ($phMuestra[$i]->Activo == 1) {
-                                        CodigoParametros::create([
-                                            'Id_solicitud' => $value->Id_solicitud,
-                                            'Id_parametro' => $item->Id_parametro,
-                                            'Codigo' => $value->Folio_servicio . "-C-" . ($i + 1) . "",
-                                            'Num_muestra' => $i + 1,
-                                            'Asignado' => 0,
-                                            'Analizo' => 1,
-                                            'Reporte' => $item->Reporte,
-                                        ]);
-                                    }
-                                }
-                                break;
-                            case 5:
-                                // DBO
-                                for ($i = 0; $i < 3; $i++) {
-                                    CodigoParametros::create([
-                                        'Id_solicitud' => $value->Id_solicitud,
-                                        'Id_parametro' => $item->Id_parametro,
-                                        'Codigo' => $value->Folio_servicio . "-D-" . ($i + 1) . "",
-                                        'Num_muestra' => $i + 1,
-                                        'Asignado' => 0,
-                                        'Analizo' => 1,
-                                        'Cadena' => 0, 
-                                        'Reporte' => $item->Reporte,
-                                    ]);
-                                }
-                                break;
-                            case 6:
-                                // DQO
-                                CodigoParametros::create([
-                                    'Id_solicitud' => $value->Id_solicitud,
-                                    'Id_parametro' => $item->Id_parametro,
-                                    'Codigo' => $value->Folio_servicio,
-                                    'Num_muestra' => 1,
-                                    'Asignado' => 0,
-                                    'Analizo' => 1,
-                                    'Reporte' => $item->Reporte,
-                                ]);
-
-                                break;
-                            case 152:
-                                CodigoParametros::create([
-                                    'Id_solicitud' => $value->Id_solicitud,
-                                    'Id_parametro' => $item->Id_parametro,
-                                    'Codigo' => $value->Folio_servicio,
-                                    'Num_muestra' => 1,
-                                    'Asignado' => 0,
-                                    'Analizo' => 1,
-                                    'Reporte' => $item->Reporte,
-                                ]);
-                                break;
-                            case 35:
-                                //E.Coli
-                                if ($promConduc < 3500) {
-                                    for ($i = 0; $i < $phMuestra->count(); $i++) {
-                                        if ($phMuestra[$i]->Activo == 1) {
-                                            CodigoParametros::create([
-                                                'Id_solicitud' => $value->Id_solicitud,
-                                                'Id_parametro' => $item->Id_parametro,
-                                                'Codigo' => $value->Folio_servicio . "-EC-" . ($i + 1) . "",
-                                                'Num_muestra' => $i + 1,
-                                                'Asignado' => 0,
-                                                'Analizo' => 1,
-                                                'Reporte' => $item->Reporte,
-                                            ]);
-                                        }
-                                    }
-                                }
-                                break;
-                            case 253:
-                                //Enterococos
-                                if ($promConduc >= 3500) {
-                                    for ($i = 0; $i < $phMuestra->count(); $i++) {
-                                        if ($phMuestra[$i]->Activo == 1) {
-                                            CodigoParametros::create([
-                                                'Id_solicitud' => $value->Id_solicitud,
-                                                'Id_parametro' => $item->Id_parametro,
-                                                'Codigo' => $value->Folio_servicio . "-EF-" . ($i + 1) . "",
-                                                'Num_muestra' => $i + 1,
-                                                'Asignado' => 0,
-                                                'Analizo' => 1,
-                                                'Reporte' => $item->Reporte,
-                                            ]);
-                                        }
-                                    }
-                                }
-                                break;
-                            default:
-                                CodigoParametros::create([
-                                    'Id_solicitud' => $value->Id_solicitud,
-                                    'Id_parametro' => $item->Id_parametro,
-                                    'Codigo' => $value->Folio_servicio,
-                                    'Num_muestra' => 1,
-                                    'Asignado' => 0,
-                                    'Analizo' => 1,
-                                    'Reporte' => $item->Reporte,
-                                ]);
-                                break;
-                        }
-                    }
-                }
-            }
-        } else {
-            $sw = false;
-        }
-
-
-
-
-
         $data = array(
             'sw' => $sw,
         );
