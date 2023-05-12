@@ -8,7 +8,7 @@
               <td class="anchoColumna">&nbsp;</td>
               <td class="justifyCenter">&nbsp;</td>
               <td class="justifyCenter">&nbsp;</td>
-              <td class="justifyRight">RE-11-002 <br> Rev. 8 15/05/2001</td>
+              <td class="justifyRight">RE-11-002 <br> Rev. 13 02/10/2017</td>
             </tr>
 
             <tr>

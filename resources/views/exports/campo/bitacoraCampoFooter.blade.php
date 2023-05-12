@@ -6,7 +6,7 @@
             <tr>
                 <td class="fontNormal fontCalibri fontSize10 justificadorCentr" width="33.33%">{{@$muestreador->name}}</td>
                 <td class="fontNormal fontCalibri fontSize10 justificadorCentr" width="33.33%">NOMBRE DEL SUPERVISOR</td>
-                <td class="fontNormal fontCalibri fontSize10 justificadoDer" width="33.33%">RE-12-001-25 REV16 <br> {{$model->Fecha_muestreo}}</td>
+                <td class="fontNormal fontCalibri fontSize10 justificadoDer" width="33.33%">RE-12-001-25 REV. 15 26/03/2019 <br></td>
             </tr>
 
             <tr>

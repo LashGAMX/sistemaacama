@@ -275,6 +275,13 @@ class MetalesController extends Controller
     }
     public function createControlCalidadMetales(Request $request)
     {
+        $cont = 0;
+        $model = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get();
+        for ($i=0; $i <= $model ; $i++) { 
+            $cont++;
+            
+        }
+
         $muestra = LoteDetalle::where('id_Lote', $request->idLote)->first();
 
         //blanco reactivo

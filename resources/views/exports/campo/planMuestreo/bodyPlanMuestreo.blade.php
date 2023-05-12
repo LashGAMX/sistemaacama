@@ -24,22 +24,17 @@
     
             <tbody>    
                 @for ($i = 0; $i < $paqueteLength; $i++)
-                    @foreach ($parametros as $item)
-                        {{-- @if ($paquete[$i]->Parametro == $item->Id_subnorma)
-              
-                        @endif --}}
-                        <tr>
-                            <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr" height="25">{{@$paquete[$i]->Area}}</td>
-                            <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">                            
-                                @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 7 || @$paquete[$i]->Id_area == 16 || @$paquete[$i]->Id_area == 17 || @$paquete[$i]->Id_area == 45 || @$paquete[$i]->Id_area == 34 || @$paquete[$i]->Id_area == 33)
-                                    {{@$paquete[$i]->Cantidad * @$model->Num_tomas * $puntos}}
-                                @else 
-                                    {{@$paquete[$i]->Cantidad * $puntos}}
-                                @endif 
-                            </td>
-                            <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">{{@$paquete[$i]->Envase}} {{@$paquete[$i]->Volumen}} {{@$paquete[$i]->Unidad}}</td>
-                        </tr>
-                    @endforeach
+                <tr>
+                    <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr" height="25">{{@$paquete[$i]->Area}}</td>
+                    <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">                            
+                        @if (@$paquete[$i]->Id_area == 2 || @$paquete[$i]->Id_area == 7 || @$paquete[$i]->Id_area == 16 || @$paquete[$i]->Id_area == 17 || @$paquete[$i]->Id_area == 45 || @$paquete[$i]->Id_area == 34 || @$paquete[$i]->Id_area == 33)
+                            {{@$paquete[$i]->Cantidad * @$model->Num_tomas * $puntos}}
+                        @else 
+                            {{@$paquete[$i]->Cantidad * $puntos}}
+                        @endif 
+                    </td>
+                    <td class="tableContent bordesTablaBody fontSize9 fontBold justificadorCentr">{{@$paquete[$i]->Envase}} {{@$paquete[$i]->Volumen}} {{@$paquete[$i]->Unidad}}</td>
+                </tr>
                 @endfor
             </tbody>        
         </table>        

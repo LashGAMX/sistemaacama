@@ -46,12 +46,12 @@ class IngresarController extends Controller
         if ($tempCli->count()) {
             $cliente = DB::table('ViewSolicitud2')->where('Folio_servicio', $request->folioSol)->first();
             $model = DB::table('ViewSolicitud2')->where('Hijo', $cliente->Id_solicitud)->get();
-            $proceso = ProcesoAnalisis::where('Id_solicitud',$cliente->Id_solicitud)->get();
+            $proceso = ProcesoAnalisis::where('Id_solicitud', $cliente->Id_solicitud)->get();
             $std = true;
             if ($proceso->count()) {
                 $std = true;
             }
-        }else{
+        } else {
             $cliente = "";
         }
 
@@ -63,13 +63,13 @@ class IngresarController extends Controller
     }
     public function getPuntoMuestreo(Request $res)
     {
-        $model = SolicitudPuntos::where('Id_solPadre',$res->id)->get();
+        $model = SolicitudPuntos::where('Id_solPadre', $res->id)->get();
         $cloruro = array();
         $conductividad = array();
         $temp = 0;
         $aux = 0;
         foreach ($model as $item) {
-            $condModel = ConductividadMuestra::where('Id_solicitud',$item->Id_solicitud)->where('Activo',1)->get();
+            $condModel = ConductividadMuestra::where('Id_solicitud', $item->Id_solicitud)->where('Activo', 1)->get();
             if ($condModel->count()) {
                 $aux = 0;
                 $temp = 0;
@@ -78,35 +78,35 @@ class IngresarController extends Controller
                     $aux++;
                 }
                 $temp = $temp / $aux;
-                array_push($conductividad,$temp);
-            }else{
-                array_push($conductividad,'');
+                array_push($conductividad, $temp);
+            } else {
+                array_push($conductividad, '');
             }
 
-            $campoModel = CampoCompuesto::where('Id_solicitud',$item->Id_solicitud)->get();
+            $campoModel = CampoCompuesto::where('Id_solicitud', $item->Id_solicitud)->get();
             if ($campoModel->count()) {
                 switch ($campoModel[0]->Cloruros) {
                     case $campoModel[0]->Cloruros < 1000:
-                        array_push($cloruro,1);
+                        array_push($cloruro, 1);
                         break;
                     case $campoModel[0]->Cloruros >= 1000 && $campoModel[0]->Cloruros < 1500:
-                        array_push($cloruro,2);
+                        array_push($cloruro, 2);
                         break;
                     case $campoModel[0]->Cloruros >= 1500 && $campoModel[0]->Cloruros < 2000:
-                        array_push($cloruro,3);
+                        array_push($cloruro, 3);
                         break;
                     case $campoModel[0]->Cloruros >= 2000 && $campoModel[0]->Cloruros < 3000:
-                        array_push($cloruro,4);
+                        array_push($cloruro, 4);
                         break;
                     case $campoModel[0]->Cloruros >= 3000:
-                        array_push($cloruro,5);
+                        array_push($cloruro, 5);
                         break;
                     default:
                         # code...
                         break;
                 }
-            }else{
-                array_push($cloruro,'');
+            } else {
+                array_push($cloruro, '');
             }
         }
         $data = array(
@@ -118,19 +118,19 @@ class IngresarController extends Controller
     }
     public function getCodigoRecepcion(Request $res)
     {
-        $model = CodigoParametros::where('Id_solicitud', $res->idSol)->get();
+        $model = DB::table('ViewCodigoParametroSol')->where('Id_solicitud', $res->idSol)->get();
         $data = array(
             'model' => $model,
-        );
+        ); 
         return response()->json($data);
     }
-    public function getDataPuntoMuestreo(Request $res)
+    public function getDataPuntoMuestreo(Request $res) 
     {
         $sol = Solicitud::where('Id_solicitud', $res->idSol)->first();
         $model = PhMuestra::where('Id_solicitud', $res->idSol)->orderBy('Id_ph', 'DESC')->first();
         $fecha2 = new \Carbon\Carbon($model->Fecha);
-        $procedencia = SucursalCliente::where('Id_sucursal',$sol->Id_sucursal)->first();
-        
+        $procedencia = SucursalCliente::where('Id_sucursal', $sol->Id_sucursal)->first();
+
         $data = array(
             'procedencia' => $procedencia,
             'fecha2' => $fecha2->addMinutes(30)->format('Y-m-d H:i:s'),
@@ -142,46 +142,190 @@ class IngresarController extends Controller
 
     public function setGenFolio(Request $res)
     {
-        $sw = false;
+        $msg = "";
         $model = DB::table('ViewSolicitud2')->where('Hijo', $res->id)->get();
 
+        $contP = 0;
         foreach ($model as $item) {
             $swCodigo = CodigoParametros::where('Id_solicitud', $item->Id_solicitud)->get();
+            $puntoMuestra = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
+            $puntoMuestra->Conductividad = $res->conductividad[$contP];
+            $puntoMuestra->Cloruros = $res->cloruros[$contP];
+            $puntoMuestra->save();
+
             if ($swCodigo->count()) {
+                $msg = "Los codigos ya fueron generados";
             } else {
                 $canceladoAux = array();
                 if ($item->Id_servicio != 3) {
-                    for ($i=0; $i <$item->Num_tomas ; $i++) { 
-                        array_push($canceladoAux,0);
+                    $phTemp = PhMuestra::where('Id_solicitud', $item->Id_solicitud)->get();
+                    foreach ($phTemp as $phItem) {
+                        if ($phItem->Activo == 1) {
+                            array_push($canceladoAux, 0);
+                        } else {
+                            array_push($canceladoAux, 1);
+                        }
                     }
                 } else {
-                    for ($i=0; $i <$item->Num_tomas ; $i++) { 
-                        array_push($canceladoAux,0);
+                    for ($i = 0; $i < $item->Num_tomas; $i++) {
+                        array_push($canceladoAux, 0);
                     }
                 }
-                
-            
-                $parametros = SolicitudParametro::where('Id_solicitud',$item->Id_solicitud)->get();
+
+
+                $parametros = SolicitudParametro::where('Id_solicitud', $item->Id_solicitud)->get();
+                $cont = 0;
                 foreach ($parametros as $item2) {
-                    switch ($item2->Id_parametro) {
+                    switch ($item2->Id_subnorma) {
                         case 13: // G&A
+                            for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => $item2->Id_subnorma,
+                                    'Codigo' => $item->Folio_servicio . "-G-" . ($i + 1) . "",
+                                    'Num_muestra' => $i + 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => $item2->Reporte,
+                                    'Cancelado' => $canceladoAux[$i],
+                                ]);
+                            }
+                            break;
+                        case 35: //E.Coli
+                            if ($model[0]->Id_norma == "27") {
+                                if ($res->Conductividad[$contP] < 3500) {
+                                    for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                        CodigoParametros::create([
+                                            'Id_solicitud' => $item->Id_solicitud,
+                                            'Id_parametro' => $item2->Id_subnorma,
+                                            'Codigo' => $item->Folio_servicio . "-EC-" . ($i + 1) . "",
+                                            'Num_muestra' => $i + 1,
+                                            'Asignado' => 0,
+                                            'Analizo' => 1,
+                                            'Reporte' => $item2->Reporte,
+                                            'Cancelado' => $canceladoAux[$i],
+                                        ]);
+                                    }
+                                }
+                            } else {
                                 for ($i = 0; $i < $item->Num_tomas; $i++) {
                                     CodigoParametros::create([
                                         'Id_solicitud' => $item->Id_solicitud,
-                                        'Id_parametro' => $item2->Id_parametro,
-                                        'Codigo' => $item->Folio_servicio . "-G-" . ($i + 1) . "",
+                                        'Id_parametro' => $item2->Id_subnorma,
+                                        'Codigo' => $item->Folio_servicio . "-EC-" . ($i + 1) . "",
                                         'Num_muestra' => $i + 1,
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                        'Reporte' => $item2->Reporte,
+                                        'Cancelado' => $canceladoAux[$i],
+                                    ]);
+                                }
+                            }
+                            break;
+                        case 253: //Enterococos
+                            if ($model[0]->Id_norma == "27") {
+                                if ($res->Conductividad[$contP] >= 3500) {
+                                    for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                        CodigoParametros::create([
+                                            'Id_solicitud' => $item->Id_solicitud,
+                                            'Id_parametro' => $item2->Id_subnorma,
+                                            'Codigo' => $item->Folio_servicio . "-EF-" . ($i + 1) . "",
+                                            'Num_muestra' => $i + 1,
+                                            'Asignado' => 0,
+                                            'Analizo' => 1,
+                                            'Reporte' => $item2->Reporte,
+                                            'Cancelado' => $canceladoAux[$i],
+                                        ]);
+                                    }
+                                }
+                            } else {
+                                for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $item->Id_solicitud,
+                                        'Id_parametro' => $item2->Id_subnorma,
+                                        'Codigo' => $item->Folio_servicio . "-EF-" . ($i + 1) . "",
+                                        'Num_muestra' => $i + 1,
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                        'Reporte' => $item2->Reporte,
+                                        'Cancelado' => $canceladoAux[$i],
+                                    ]);
+                                }
+                            }
+                            break;
+                        case 5:
+                            // DBO
+                            for ($i = 0; $i < 3; $i++) {
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => $item2->Id_subnorma,
+                                    'Codigo' => $item->Folio_servicio . "-D-" . ($i + 1) . "",
+                                    'Num_muestra' => $i + 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => $item2->Reporte,
+                                    'Cancelado' => 0,
+                                ]);
+                            }
+                            break;
+                        case 6: // DQO
+                            if ($model[0]->Id_norma == "27") {
+                                if ($res->cloruros[$contP] < 1000) {
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $item->Id_solicitud,
+                                        'Id_parametro' => $item2->Id_subnorma,
+                                        'Codigo' => $item->Folio_servicio,
+                                        'Num_muestra' => 1,
                                         'Asignado' => 0,
                                         'Analizo' => 1,
                                         'Reporte' => $item2->Reporte,
                                         'Cancelado' => 0,
                                     ]);
                                 }
+                            } else {
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => $item2->Id_subnorma,
+                                    'Codigo' => $item->Folio_servicio,
+                                    'Num_muestra' => 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => $item2->Reporte,
+                                    'Cancelado' => 0,
+                                ]);
+                            }
+                            break;
+                        case 152: // DQO
+                            if ($model[0]->Id_norma == "27") {
+                                if ($res->cloruros[$contP] >= 1000) {
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $item->Id_solicitud,
+                                        'Id_parametro' => $item2->Id_subnorma,
+                                        'Codigo' => $item->Folio_servicio,
+                                        'Num_muestra' => 1, 
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                        'Reporte' => $item2->Reporte,
+                                        'Cancelado' => 0,
+                                    ]);
+                                }
+                            } else {
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => $item2->Id_subnorma,
+                                    'Codigo' => $item->Folio_servicio,
+                                    'Num_muestra' => 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => $item2->Reporte,
+                                    'Cancelado' => 0,
+                                ]);
+                            }
                             break;
                         default:
                             CodigoParametros::create([
                                 'Id_solicitud' => $item->Id_solicitud,
-                                'Id_parametro' => $item2->Id_parametro,
+                                'Id_parametro' => $item2->Id_subnorma,
                                 'Codigo' => $item->Folio_servicio,
                                 'Num_muestra' => 1,
                                 'Asignado' => 0,
@@ -191,159 +335,21 @@ class IngresarController extends Controller
                             ]);
                             break;
                     }
+                    $cont++;
                 }
+                $msg = "Codigos creados correctamente";
             }
+            $contP++;
         }
-        
-        
-        
 
-            foreach ($model as $value) {
-                # code...
-                $sw = false;
-                $cont = 0;
-                $swCodigo = CodigoParametros::where('Id_solicitud', $value->Id_solicitud)->get();
-                $solParam = DB::table('ViewSolicitudParametros')->where('Id_solicitud', $value->Id_solicitud)->get();
 
-                if ($swCodigo->count()) {
-                    $sw = true;
-                } else {
-                    foreach ($solParam as $item) {
-
-                        switch ($item->Id_parametro) {
-                            case 13:
-                                // G&A
-                                for ($i = 0; $i < $phMuestra->count(); $i++) {
-                                    if ($phMuestra[$i]->Activo == 1) {
-                                        CodigoParametros::create([
-                                            'Id_solicitud' => $value->Id_solicitud,
-                                            'Id_parametro' => $item->Id_parametro,
-                                            'Codigo' => $value->Folio_servicio . "-G-" . ($i + 1) . "",
-                                            'Num_muestra' => $i + 1,
-                                            'Asignado' => 0,
-                                            'Analizo' => 1,
-                                            'Reporte' => $item->Reporte,
-                                        ]);
-                                    }
-                                }
-                                break;
-                            case 12:
-                            case 78:
-                                // Coliformes
-                                for ($i = 0; $i < $phMuestra->count(); $i++) {
-                                    if ($phMuestra[$i]->Activo == 1) {
-                                        CodigoParametros::create([
-                                            'Id_solicitud' => $value->Id_solicitud,
-                                            'Id_parametro' => $item->Id_parametro,
-                                            'Codigo' => $value->Folio_servicio . "-C-" . ($i + 1) . "",
-                                            'Num_muestra' => $i + 1,
-                                            'Asignado' => 0,
-                                            'Analizo' => 1,
-                                            'Reporte' => $item->Reporte,
-                                        ]);
-                                    }
-                                }
-                                break;
-                            case 5:
-                                // DBO
-                                for ($i = 0; $i < 3; $i++) {
-                                    CodigoParametros::create([
-                                        'Id_solicitud' => $value->Id_solicitud,
-                                        'Id_parametro' => $item->Id_parametro,
-                                        'Codigo' => $value->Folio_servicio . "-D-" . ($i + 1) . "",
-                                        'Num_muestra' => $i + 1,
-                                        'Asignado' => 0,
-                                        'Analizo' => 1,
-                                        'Cadena' => 0, 
-                                        'Reporte' => $item->Reporte,
-                                    ]);
-                                }
-                                break;
-                            case 6:
-                                // DQO
-                                CodigoParametros::create([
-                                    'Id_solicitud' => $value->Id_solicitud,
-                                    'Id_parametro' => $item->Id_parametro,
-                                    'Codigo' => $value->Folio_servicio,
-                                    'Num_muestra' => 1,
-                                    'Asignado' => 0,
-                                    'Analizo' => 1,
-                                    'Reporte' => $item->Reporte,
-                                ]);
-
-                                break;
-                            case 152:
-                                CodigoParametros::create([
-                                    'Id_solicitud' => $value->Id_solicitud,
-                                    'Id_parametro' => $item->Id_parametro,
-                                    'Codigo' => $value->Folio_servicio,
-                                    'Num_muestra' => 1,
-                                    'Asignado' => 0,
-                                    'Analizo' => 1,
-                                    'Reporte' => $item->Reporte,
-                                ]);
-                                break;
-                            case 35:
-                                //E.Coli
-                                if ($promConduc < 3500) {
-                                    for ($i = 0; $i < $phMuestra->count(); $i++) {
-                                        if ($phMuestra[$i]->Activo == 1) {
-                                            CodigoParametros::create([
-                                                'Id_solicitud' => $value->Id_solicitud,
-                                                'Id_parametro' => $item->Id_parametro,
-                                                'Codigo' => $value->Folio_servicio . "-EC-" . ($i + 1) . "",
-                                                'Num_muestra' => $i + 1,
-                                                'Asignado' => 0,
-                                                'Analizo' => 1,
-                                                'Reporte' => $item->Reporte,
-                                            ]);
-                                        }
-                                    }
-                                }
-                                break;
-                            case 253:
-                                //Enterococos
-                                if ($promConduc >= 3500) {
-                                    for ($i = 0; $i < $phMuestra->count(); $i++) {
-                                        if ($phMuestra[$i]->Activo == 1) {
-                                            CodigoParametros::create([
-                                                'Id_solicitud' => $value->Id_solicitud,
-                                                'Id_parametro' => $item->Id_parametro,
-                                                'Codigo' => $value->Folio_servicio . "-EF-" . ($i + 1) . "",
-                                                'Num_muestra' => $i + 1,
-                                                'Asignado' => 0,
-                                                'Analizo' => 1,
-                                                'Reporte' => $item->Reporte,
-                                            ]);
-                                        }
-                                    }
-                                }
-                                break;
-                            default:
-                                CodigoParametros::create([
-                                    'Id_solicitud' => $value->Id_solicitud,
-                                    'Id_parametro' => $item->Id_parametro,
-                                    'Codigo' => $value->Folio_servicio,
-                                    'Num_muestra' => 1,
-                                    'Asignado' => 0,
-                                    'Analizo' => 1,
-                                    'Reporte' => $item->Reporte,
-                                ]);
-                                break;
-                        }
-                    }
-                }
-            }
-        } else {
-            $sw = false;
-        }
 
 
 
 
 
         $data = array(
-            'sw' => $sw,
+            'msg' => $msg,
         );
         return response()->json($data);
     }
@@ -356,7 +362,7 @@ class IngresarController extends Controller
 
     public function setIngresar(Request $res)
     {
-        $model = DB::table('ViewSolicitud2')->where('Id_solicitud',$res->id)->get();
+        $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $res->id)->get();
         // $model = ProcesoAnalisis::where('Id_solicitud', $request->idSol)->get();
         // $seguimiento = SeguimientoAnalisis::where('Id_servicio', $request->idSol)->first();
         // $muestra2 = DB::table('ViewSolicitud')->where('Hijo', $request->idSol)->get();
@@ -370,7 +376,7 @@ class IngresarController extends Controller
         // } else {
         //     $fecha_muestreo->toDateString(@$muestra->Fecha);
         // }
-    
+
         // $fecha_ingreso->toDateString($request->horaRecepcion);
         // $date1 = new DateTime($request->horaRecepcion);
         // $date2 = new DateTime($muestra->Fecha);
@@ -381,7 +387,7 @@ class IngresarController extends Controller
         //         $msg = "La fecha de recepcion sobrepasa el limite lo permitido";
         //     }else{
         //         $solModel = Solicitud::where('Hijo', $request->idSol)->get();
-        
+
         //         ProcesoAnalisis::create([
         //             'Id_solicitud' => $request->idSol,
         //             'Folio' => $request->folio,
@@ -414,7 +420,7 @@ class IngresarController extends Controller
         // } else {
         //     $msg = "La fecha de recepción es menor a la fecha de muestreo?";
         // }
-        
+
         // $array = array(
         //     'valProce' => $valProce,
         //     'fecha' => $diff->days,

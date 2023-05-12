@@ -522,6 +522,12 @@ ON cod.Analizo = us.id
 INNER JOIN proceso_analisis as pro
 ON sol.Id_solicitud = pro.Id_solicitud
 
+/* ViewCodigoParametroSol */
+CREATE VIEW ViewCodigoParametroSol as SELECT cod.*,sol.Folio_servicio,pa.Parametro,pa.Unidad FROM codigo_parametro as cod
+INNER JOIN ViewSolicitud2 as sol
+ON cod.Id_solicitud = sol.Id_solicitud
+INNER JOIN ViewParametros as pa
+ON cod.Id_parametro = pa.Id_parametro
 /* Lista ViewPlanPaquete */
 CREATE VIEW ViewPlanPaquete as SELECT p.*,lab.Area,lab.Id_responsable,lab.Parametro,lab.Reportes,us.name,us.firma,us.iniciales,e.Nombre as Envase,e.Volumen, u.Unidad FROM plan_paquete as p
 INNER JOIN areas_lab as lab
