@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers\Ingresar;
 
 use App\Http\Controllers\Controller;
