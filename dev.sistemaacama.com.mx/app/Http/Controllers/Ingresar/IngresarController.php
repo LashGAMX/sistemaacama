@@ -114,7 +114,7 @@ class IngresarController extends Controller
             'model' => $model,
         );
         return response()->json($data);
-    }
+    } 
     public function getCodigoRecepcion(Request $res)
     {
         $model = DB::table('ViewCodigoParametroSol')->where('Id_solicitud', $res->idSol)->get();
@@ -425,7 +425,7 @@ class IngresarController extends Controller
         //     'fecha' => $diff->days,
         //     'msg' => $msg,
         //     'sw' => $sw,
-        //     'model' => $model,
+        //     'model' => $model, 
         // );
         // return response()->json($array);
     }
