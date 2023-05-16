@@ -30,7 +30,7 @@ $(document).ready(function () {
     });
     $('#btnIngresar').click(function () {
         if (confirm("Deseas generar codigos?")) {
-
+            setIngresar()
         }
     });
 
@@ -86,6 +86,7 @@ function setGenFolio() {
             async: false,
             success: function (response) {
                 console.log(response);
+                alert(response.msg)
                 tableCodigos(dataPunto) 
             }
         });
@@ -119,8 +120,17 @@ function buscarFolio() {
                 $("#cliente").val(response.cliente.Nombres);
                 $("#empresa").val(response.cliente.Empresa);
 
+
                 tablePuntos(response.cliente.Id_solicitud)
                 
+                if (response.std == true) {
+                    temp = '<p class="text-success">Muestra ingresada</p>'
+                    $("#hora_recepcion1").val(response.proceso[0].Hora_recepcion)
+                    $("#hora_entrada").val(response.proceso[0].Hora_entrada)
+                    
+                } else {
+                    temp = '<p class="text-warning">Falta ingreso</p>'
+                }
                 std.innerHTML = temp
 
             } else {
@@ -193,7 +203,7 @@ function tablePuntos(id) {
         data: {
             id: id,
         },
-        dataType: "json",
+        dataType: "json", 
         async: false,
         success: function (response) {
             dataPunto = response.model

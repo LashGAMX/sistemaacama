@@ -389,7 +389,7 @@ function guardarDirecto() {
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
-        success: function (response) {
+        success: function (response) {guardarDirecto
             console.log(response);
           
         }
@@ -400,10 +400,6 @@ function getDirectos(idDetalle, num){
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getDirectos",
         data: {
-            inmhoff:$("#inmhoff").val(),
-            resultadoModal:$("#resultadoModal").val(),
-            temperaturaLlegada:$("#temperaturaLlegada").val(),
-            temperaturaAnalizada:$("#temperaturaAnalizada").val(),
             num: num,
             idLote: idLote,
             idParametro: $("#formulaTipo").val(),
@@ -432,6 +428,13 @@ function getDetalleSolidos(idDetalle, num) {
         dataType: "json",
         success: function (response) {
             console.log(response);
+            if (response.parametro == 4) {
+                document.getElementById('titulomasa1').innerHTML = 'Masa 2'
+                document.getElementById('titulomasa2').innerHTML = 'Masa 6'
+            } else {
+                document.getElementById('titulomasa1').innerHTML = 'Masa B'
+                document.getElementById('titulomasa2').innerHTML = 'Masa A'
+            }
             switch (num) {
                 case 1:
                     $("#m11").val(response.detalle.Masa1);
@@ -472,7 +475,6 @@ function getDetalleSolidos(idDetalle, num) {
         }
     });
 }
-
 function random(min, max) {
     return Math.floor(Math.random() * (max - min + 1) + min);
 }

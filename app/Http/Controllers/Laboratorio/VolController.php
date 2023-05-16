@@ -1012,13 +1012,13 @@ class VolController extends Controller
     {
 
         $model = LoteDetalleNitrogeno::find($request->idDetalle);
-        $model->Titulado_muestra = $request->A;
-        $model->Titulado_blanco = $request->B;
-        $model->Molaridad = $request->C;
-        $model->Factor_equivalencia = $request->D;
-        $model->Vol_muestra = $request->V;
-        $model->Resultado = $request->resultado;
-        $model->Observacion = $request->O;
+        $model->Titulado_muestra = $request->A; //Facor de dilución
+        $model->Titulado_blanco = $request->B; //Concentracion de NH3 en mg/L
+        $model->Molaridad = $request->C; //Volumen Añadido al std
+        $model->Factor_equivalencia = $request->D; //Volumen añadido a la muestra
+        $model->Vol_muestra = $request->V; //Volumen de la muestra en mL
+        $model->Resultado = $request->resultado; //Resultado
+        $model->Observacion = $request->O; //observacion
         $model->analizo = Auth::user()->id;
         $model->save();
 

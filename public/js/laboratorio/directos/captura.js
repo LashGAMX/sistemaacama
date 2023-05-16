@@ -148,6 +148,7 @@ function getLoteCapturaDirecto() {
                         break;
                     case "102":
                     case "66":
+                    case "65":
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalColor">Capturar</button>';
                         console.log("Entro a color");
                         break;
@@ -448,6 +449,7 @@ function operacionColor(){
             verdadero: $("#verdadero1").val(),
             dilusion: $("#dilusion1").val(),
             volumen: $("#volumen1").val(),
+            factor: $("#factor1").val(),
             ph: $("#ph1").val(),
             _token: $('input[name="_token"]').val()
         },

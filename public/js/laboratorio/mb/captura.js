@@ -110,6 +110,7 @@ function getLoteCapturaMicro() {
     var cont = 0;
     var contador = 0;
     let status = "";
+    let indice = new Array();
 
     $.ajax({
         type: "POST",
@@ -183,9 +184,14 @@ function getLoteCapturaMicro() {
                             tab += "&nbsp Colonias &nbsp";
                             tab +='</label>';
                             tab += '</div>';
-                            tab += '</div">';  
-                                 
-                        for (let i = 0; i < response.indice[contador]; i++){
+                            tab += '</div">'; 
+                            if(response.indice[0] == null){
+                                indice.push(1)
+                            }else{
+                                indice = response.indice; 
+                            }
+
+                        for (let i = 0; i < indice[contador]; i++){
                             tab +='<div class="row">'
                             tab +='<div class="col-md-12">'
                             tab += '<button type="button" id="col'+i+'" '+status+' class="'+clase+'" onclick="getDetalleEcoli(' + item.Id_detalle + ', '+(i+1)+');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
@@ -198,6 +204,7 @@ function getLoteCapturaMicro() {
                         }
                         contador++;
                         console.log(cont);
+                   
                         break;
                     default:
                         console.log("Entro a al limbo");

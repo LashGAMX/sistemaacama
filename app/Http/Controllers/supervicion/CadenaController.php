@@ -13,6 +13,7 @@ use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetallePotable;
 use App\Models\PhMuestra;
 use App\Models\Solicitud;
+use App\Models\SolicitudPuntos;
 use App\Models\TemperaturaMuestra;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -28,15 +29,16 @@ class CadenaController extends Controller
     public function detalleCadena($id)
     {
         $swSir = false;
-        $model = DB::table('ViewSolicitud')->where('Id_solicitud', $id)->first();
+        $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $id)->first();
         $intermediario = DB::table('ViewIntermediarios')->where('Id_intermediario', $model->Id_intermediario)->first();
         if ($model->Siralab == 1) {
-            $puntos = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre', $id)->get();
+         
             $swSir = true;
         } else {
-            $puntos = DB::table('ViewPuntoMuestreoGen')->where('Id_solPadre', $id)->get();
+         
         }
-        return view('supervicion.cadena.detalleCadena', compact('model', 'puntos', 'swSir', 'intermediario'));
+        $puntos = SolicitudPuntos::where('Id_solPadre', $id)->get();
+        return view('supervicion.cadena.detalleCadena', compact('model', 'puntos','swSir', 'intermediario'));
     }
     public function getParametroCadena(Request $res)
     {

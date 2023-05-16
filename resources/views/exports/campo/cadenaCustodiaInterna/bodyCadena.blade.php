@@ -112,7 +112,7 @@
                                 </td>
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
                                     @if ($fechasSalidas[$i] != "")
-                                        <img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="{{url('public/storage/'.@$firmas[$i]->firma)}}">
+                                        <img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="{{url('public/storage/'.@$firmas[$i])}}">
                                     @else
                                         <p style="color: red">Sin captura</p>
                                     @endif

@@ -96,5 +96,5 @@
 
 
 @section('javascript')
-<script src="{{ asset('/public/js/ingresar/ingresar.js') }}?v=0.0.1"></script>
+<script src="{{ asset('/public/js/ingresar/ingresar.js') }}?v=1.0.0"></script>
 @stop

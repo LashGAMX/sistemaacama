@@ -371,22 +371,22 @@ class DirectosController extends Controller
     public function operacionColor(Request $res)
     {
         $resultado = 0;
-        $factor = 0;
+       // $factor = 0;
         $dilusion = 50 / $res->volumen;
         $promedio = ($res->aparente + $res->verdadero) * $res->dilusion;
-        if ($res->verdadero != 0) {
+        // if ($res->verdadero != 0) {
 
-            if ($promedio >= 1 && $promedio <= 50) {
-                $factor = $factor + 1;
-            } else if ($promedio >= 51 && $promedio <= 100) {
-                $factor = $factor + 5;
-            } else if ($promedio >= 101 && $promedio <= 250) {
-                $factor = $factor + 10;
-            } else if ($promedio >= 251 && $promedio <= 500) {
-                $factor = $factor + 20;
-            }
-        }
-        $resultado = $promedio + $factor;
+        //     if ($promedio >= 1 && $promedio <= 50) {
+        //         $factor = $factor + 1;
+        //     } else if ($promedio >= 51 && $promedio <= 100) {
+        //         $factor = $factor + 5;
+        //     } else if ($promedio >= 101 && $promedio <= 250) {
+        //         $factor = $factor + 10;
+        //     } else if ($promedio >= 251 && $promedio <= 500) {
+        //         $factor = $factor + 20;
+        //     }
+        // }
+        $resultado = $promedio + $res->factor;
 
         $model = LoteDetalleDirectos::find($res->idDetalle);
         $model->Resultado = $resultado;
@@ -395,13 +395,13 @@ class DirectosController extends Controller
         $model->Factor_dilucion = $dilusion;
         $model->Vol_muestra = $res->volumen;
         $model->Ph = $res->ph;
-        $model->Factor_correcion = $factor;
+        $model->Factor_correcion = $res->factor;
         $model->save();
 
         $data = array(
             'resultado' => $resultado,
             'dilusion' => $dilusion,
-            'factor' => $factor,
+            'factor' => $res->factor,
             'promedio' => $promedio
         );
 

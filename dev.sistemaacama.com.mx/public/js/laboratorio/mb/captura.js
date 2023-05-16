@@ -110,6 +110,7 @@ function getLoteCapturaMicro() {
     var cont = 0;
     var contador = 0;
     let status = "";
+    let indice = new Array();
 
     $.ajax({
         type: "POST",
@@ -184,7 +185,11 @@ function getLoteCapturaMicro() {
                             tab +='</label>';
                             tab += '</div>';
                             tab += '</div">';  
-                                 
+                            if(response.indice[0] == null){
+                                indice.push(1)
+                            }else{
+                                indice = response.indice; 
+                            }
                         for (let i = 0; i < response.indice[contador]; i++){
                             tab +='<div class="row">'
                             tab +='<div class="col-md-12">'

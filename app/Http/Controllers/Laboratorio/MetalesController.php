@@ -1094,8 +1094,11 @@ class MetalesController extends Controller
     //* Asignar parametro a lote
     public function asignarMuestraLote(Request $request)
     {
+        $valFecha = false;
         $sw = false;
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
+        
+
 
         LoteDetalle::create([
             'Id_lote' => $request->idLote,

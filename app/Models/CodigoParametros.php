@@ -14,7 +14,7 @@ class CodigoParametros extends Model
     public $timestamps = true;
 
     protected $fillable = [
-        'Id_solicitud',
+        'Id_solicitud', 
         'Id_parametro',
         'Codigo',
         'Num_muestra',
@@ -24,6 +24,7 @@ class CodigoParametros extends Model
         'Analizo',
         'Reporte',
         'Cadena',
+        'Cancelado',
         'Id_user_c',
         'Id_user_m'
     ];

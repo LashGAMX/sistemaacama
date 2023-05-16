@@ -66,9 +66,17 @@
                     <tr>
                         <td class="bordesTablaInfIzqDer">PUNTO DE MUESTREO</td>
                         <td class="negrita bordesTablaInfIzqDer" colspan="5">
-                           {{@$solGen->Punto_muestreo}}
+                           {{@$puntoMuestreo->Punto}}
                         </td>
                     </tr>
+                    @if ($campoGeneral->Latitud != NULL)
+                    <tr>
+                        <td class="bordesTablaInfIzqDer">COORDENADAS</td>
+                        <td class="negrita bordesTablaInfIzqDer" colspan="5">
+                         Latitud: {{$campoGeneral->Latitud}}  Longitud: {{$campoGeneral->Longitud}}   Altitud: {{$campoGeneral->Altitud}}  
+                        </td>
+                    </tr>
+                    @endif
                 </table>
             </div>
             <div class="col-12 negrita">
@@ -143,7 +151,7 @@
                       <td class="bordesTabla justifyCenter fontSize11">No. DE MUESTRAS</td>
                       <td class="bordesTablaSupInfDer justifyCenter fontSize11">FECHA Y HORA DE MUESTREO</td>
                       <td class="bordesTablaSupInfDer justifyCenter fontSize11">GASTO (L/s)</td>
-                      <td class="bordesTablaSupInfDer justifyCenter fontSize11">MAT. FLOT. (AUS/PR)</td>
+                      <td class="bordesTablaSupInfDer justifyCenter fontSize11">MAT. FLOT. (AUS/PRES)</td>
                       <td class="bordesTablaSupInfDer justifyCenter fontSize11">pH (Unidad)</td>                      
                       <td class="bordesTablaSupInfDer justifyCenter fontSize11">TEMP AMB C°</td>
                       <td class="bordesTablaSupInfDer justifyCenter fontSize11">TEMP AGUA C°</td>

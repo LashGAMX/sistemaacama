@@ -1,14 +1,19 @@
 <?php
-
 namespace App\Http\Controllers\Ingresar;
 
 use App\Http\Controllers\Controller;
+use App\Models\CampoCompuesto;
+use App\Models\CampoGenerales;
 use App\Models\CodigoParametros;
+use App\Models\ConductividadMuestra;
 use App\Models\PhMuestra;
 use App\Models\ProcedimientoAnalisis;
 use App\Models\ProcesoAnalisis;
 use App\Models\SeguimientoAnalisis;
 use App\Models\Solicitud;
+use App\Models\SolicitudParametro;
+use App\Models\SolicitudPuntos;
+use App\Models\SucursalCliente;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -36,44 +41,320 @@ class IngresarController extends Controller
 
     public function buscarFolio(Request $request)
     {
-        $cliente = DB::table('ViewSolicitud')->where('Folio_servicio', $request->folioSol)->first();
-        $model = DB::table('ViewSolicitud')->where('Hijo', $cliente->Id_solicitud)->get();
-        $proceso = ProcesoAnalisis::where('Id_solicitud',$cliente->Id_solicitud)->get();
-        $std = true;
-        if ($proceso->count()) {
-            $std = true;
+        $tempCli = DB::table('ViewSolicitud2')->where('Folio_servicio', $request->folioSol)->get();
+        $std = false;
+        if ($tempCli->count()) {
+            $cliente = DB::table('ViewSolicitud2')->where('Folio_servicio', $request->folioSol)->first();
+            $model = DB::table('ViewSolicitud2')->where('Hijo', $cliente->Id_solicitud)->get();
+            $proceso = ProcesoAnalisis::where('Id_solicitud', $cliente->Id_solicitud)->get();
+            
+            if ($proceso->count()) {
+                $std = true;
+            }
+        } else {
+            $proceso = array();
+            $cliente = "";
         }
-        $siralab = false;
-        $puntos = DB::table('ViewPuntoGenSol')->where('Id_solPadre', $cliente->Id_solicitud)->get();
 
         $array = array(
-            'std' => $std,
             'proceso' => $proceso,
-            'model' => $model,
+            'std' => $std,
             'cliente' => $cliente,
-            'puntos' => $puntos,
-            'siralab' => $siralab,
+            'sw' => $tempCli->count(),
         );
         return response()->json($array);
     }
+    public function getPuntoMuestreo(Request $res)
+    {
+        $model = SolicitudPuntos::where('Id_solPadre', $res->id)->get();
+        $cloruro = array();
+        $conductividad = array();
+        $temp = 0;
+        $aux = 0;
+        foreach ($model as $item) {
+            $condModel = ConductividadMuestra::where('Id_solicitud', $item->Id_solicitud)->where('Activo', 1)->get();
+            if ($condModel->count()) {
+                $aux = 0;
+                $temp = 0;
+                foreach ($condModel as $item2) {
+                    $temp = $temp + $item2->Promedio;
+                    $aux++;
+                }
+                $temp = $temp / $aux;
+                array_push($conductividad, $temp);
+            } else {
+                array_push($conductividad, '');
+            }
+
+            $campoModel = CampoCompuesto::where('Id_solicitud', $item->Id_solicitud)->get();
+            if ($campoModel->count()) {
+                switch ($campoModel[0]->Cloruros) {
+                    case $campoModel[0]->Cloruros < 1000:
+                        array_push($cloruro, 1);
+                        break;
+                    case $campoModel[0]->Cloruros >= 1000 && $campoModel[0]->Cloruros < 1500:
+                        array_push($cloruro, 2);
+                        break;
+                    case $campoModel[0]->Cloruros >= 1500 && $campoModel[0]->Cloruros < 2000:
+                        array_push($cloruro, 3);
+                        break;
+                    case $campoModel[0]->Cloruros >= 2000 && $campoModel[0]->Cloruros < 3000:
+                        array_push($cloruro, 4);
+                        break;
+                    case $campoModel[0]->Cloruros >= 3000:
+                        array_push($cloruro, 5);
+                        break;
+                    default:
+                        # code...
+                        break;
+                }
+            } else {
+                array_push($cloruro, '');
+            }
+        }
+        $data = array(
+            'cloruro' => $cloruro,
+            'conductividad' => $conductividad,
+            'model' => $model,
+        );
+        return response()->json($data);
+    } 
     public function getCodigoRecepcion(Request $res)
     {
-        $model = CodigoParametros::where('Id_solicitud', $res->idSol)->get();
+        $model = DB::table('ViewCodigoParametroSol')->where('Id_solicitud', $res->idSol)->get();
         $data = array(
+            'model' => $model,
+        ); 
+        return response()->json($data);
+    }
+    public function getDataPuntoMuestreo(Request $res) 
+    {
+        $sol = Solicitud::where('Id_solicitud', $res->idSol)->first();
+        $model = PhMuestra::where('Id_solicitud', $res->idSol)->orderBy('Id_ph', 'DESC')->first();
+        $fecha2 = new \Carbon\Carbon($model->Fecha);
+        $procedencia = SucursalCliente::where('Id_sucursal', $sol->Id_sucursal)->first();
+
+        $data = array(
+            'procedencia' => $procedencia,
+            'fecha2' => $fecha2->addMinutes(30)->format('Y-m-d H:i:s'),
+            'sol' => $sol,
             'model' => $model,
         );
         return response()->json($data);
     }
-    public function getDataPuntoMuestreo(Request $res)
+
+    public function setGenFolio(Request $res)
     {
-        $sol = Solicitud::where('Id_solicitud', $res->idSol)->first();
-        $muestreo = DB::table('ViewCotizacionMuestreo')->where('Id_cotizacion', $sol->Id_cotizacion)->first();
-        $model = PhMuestra::where('Id_solicitud', $res->idSol)->orderBy('Id_ph', 'DESC')->first();
+        $msg = "";
+        $model = Solicitud::where('Hijo', $res->id)->get();
+
+        $contP = 0;
+        foreach ($model as $item) {
+            $swCodigo = CodigoParametros::where('Id_solicitud', $item->Id_solicitud)->get();
+            $puntoMuestra = SolicitudPuntos::where('Id_solicitud', $item->Id_solicitud)->first();
+            $puntoMuestra->Conductividad = $res->conductividad[$contP];
+            $puntoMuestra->Cloruros = $res->cloruros[$contP];
+            $puntoMuestra->save();
+
+            if ($swCodigo->count()) {
+                $msg = "Los codigos ya fueron generados";
+            } else {
+                $canceladoAux = array(); 
+                if ($item->Id_servicio != 3) {
+                    $phTemp = PhMuestra::where('Id_solicitud', $item->Id_solicitud)->get();
+                    foreach ($phTemp as $phItem) {
+                        if ($phItem->Activo == 1) {
+                            array_push($canceladoAux, 0);
+                        } else {
+                            array_push($canceladoAux, 1);
+                        }
+                    }
+                } else {
+                    for ($i = 0; $i < $item->Num_tomas; $i++) {
+                        array_push($canceladoAux, 0);
+                    }
+                }
+
+
+                $parametros = SolicitudParametro::where('Id_solicitud', $item->Id_solicitud)->get();
+                $cont = 0;
+                foreach ($parametros as $item2) {
+                    switch ($item2->Id_subnorma) {
+                        case 13: // G&A
+                            for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => $item2->Id_subnorma,
+                                    'Codigo' => $item->Folio_servicio . "-G-" . ($i + 1) . "",
+                                    'Num_muestra' => $i + 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => $item2->Reporte,
+                                    'Cancelado' => $canceladoAux[$i],
+                                ]);
+                            }
+                            break;
+                        case 35: //E.Coli
+                        case 78:
+                            if ($model[0]->Id_norma == "27") {
+                                if ($res->Conductividad[$contP] < 3500) {
+                                    for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                        CodigoParametros::create([
+                                            'Id_solicitud' => $item->Id_solicitud,
+                                            'Id_parametro' => $item2->Id_subnorma,
+                                            'Codigo' => $item->Folio_servicio . "-EC-" . ($i + 1) . "",
+                                            'Num_muestra' => $i + 1,
+                                            'Asignado' => 0,
+                                            'Analizo' => 1,
+                                            'Reporte' => $item2->Reporte,
+                                            'Cancelado' => $canceladoAux[$i],
+                                        ]);
+                                    }
+                                }
+                            } else {
+                                for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $item->Id_solicitud,
+                                        'Id_parametro' => $item2->Id_subnorma,
+                                        'Codigo' => $item->Folio_servicio . "-EC-" . ($i + 1) . "",
+                                        'Num_muestra' => $i + 1,
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                        'Reporte' => $item2->Reporte,
+                                        'Cancelado' => $canceladoAux[$i],
+                                    ]);
+                                }
+                            }
+                            break;
+                        case 253: //Enterococos
+                            if ($model[0]->Id_norma == "27") {
+                                if ($res->Conductividad[$contP] >= 3500) {
+                                    for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                        CodigoParametros::create([
+                                            'Id_solicitud' => $item->Id_solicitud,
+                                            'Id_parametro' => $item2->Id_subnorma,
+                                            'Codigo' => $item->Folio_servicio . "-EF-" . ($i + 1) . "",
+                                            'Num_muestra' => $i + 1,
+                                            'Asignado' => 0,
+                                            'Analizo' => 1,
+                                            'Reporte' => $item2->Reporte,
+                                            'Cancelado' => $canceladoAux[$i],
+                                        ]);
+                                    }
+                                }
+                            } else {
+                                for ($i = 0; $i < $item->Num_tomas; $i++) {
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $item->Id_solicitud,
+                                        'Id_parametro' => $item2->Id_subnorma,
+                                        'Codigo' => $item->Folio_servicio . "-EF-" . ($i + 1) . "",
+                                        'Num_muestra' => $i + 1,
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                        'Reporte' => $item2->Reporte,
+                                        'Cancelado' => $canceladoAux[$i],
+                                    ]);
+                                }
+                            }
+                            break;
+                        case 5:
+                            // DBO
+                            for ($i = 0; $i < 3; $i++) {
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => $item2->Id_subnorma,
+                                    'Codigo' => $item->Folio_servicio . "-D-" . ($i + 1) . "",
+                                    'Num_muestra' => $i + 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => $item2->Reporte,
+                                    'Cancelado' => 0,
+                                ]);
+                            }
+                            break;
+                        case 6: // DQO
+                            if ($model[0]->Id_norma == "27") {
+                                if ($res->cloruros[$contP] < 1000) {
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $item->Id_solicitud,
+                                        'Id_parametro' => $item2->Id_subnorma,
+                                        'Codigo' => $item->Folio_servicio,
+                                        'Num_muestra' => 1,
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                        'Reporte' => $item2->Reporte,
+                                        'Cancelado' => 0,
+                                    ]);
+                                }
+                            } else {
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => $item2->Id_subnorma,
+                                    'Codigo' => $item->Folio_servicio,
+                                    'Num_muestra' => 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => $item2->Reporte,
+                                    'Cancelado' => 0,
+                                ]);
+                            }
+                            break;
+                        case 152: // DQO
+                            if ($model[0]->Id_norma == "27") {
+                                if ($res->cloruros[$contP] >= 1000) {
+                                    CodigoParametros::create([
+                                        'Id_solicitud' => $item->Id_solicitud,
+                                        'Id_parametro' => $item2->Id_subnorma,
+                                        'Codigo' => $item->Folio_servicio,
+                                        'Num_muestra' => 1, 
+                                        'Asignado' => 0,
+                                        'Analizo' => 1,
+                                        'Reporte' => $item2->Reporte,
+                                        'Cancelado' => 0,
+                                    ]);
+                                }
+                            } else {
+                                CodigoParametros::create([
+                                    'Id_solicitud' => $item->Id_solicitud,
+                                    'Id_parametro' => $item2->Id_subnorma,
+                                    'Codigo' => $item->Folio_servicio,
+                                    'Num_muestra' => 1,
+                                    'Asignado' => 0,
+                                    'Analizo' => 1,
+                                    'Reporte' => $item2->Reporte,
+                                    'Cancelado' => 0,
+                                ]);
+                            }
+                            break;
+                        default:
+                            CodigoParametros::create([
+                                'Id_solicitud' => $item->Id_solicitud,
+                                'Id_parametro' => $item2->Id_subnorma,
+                                'Codigo' => $item->Folio_servicio,
+                                'Num_muestra' => 1,
+                                'Asignado' => 0,
+                                'Analizo' => 1,
+                                'Reporte' => $item2->Reporte,
+                                'Cancelado' => 0,
+                            ]);
+                            break;
+                    }
+                    $cont++;
+                }
+                $msg = "Codigos creados correctamente";
+            }
+            $contP++;
+        }
+
+
+
+
+
+
 
         $data = array(
-            'sol' => $sol,
-            'muestreo' => $muestreo,
             'model' => $model,
+            'msg' => $msg,
         );
         return response()->json($data);
     }
@@ -84,42 +365,53 @@ class IngresarController extends Controller
         return response()->json(compact('siralab'));
     }
 
-    public function setIngresar(Request $request)
+    public function setIngresar(Request $res)
     {
-        $model = ProcesoAnalisis::where('Id_solicitud', $request->idSol)->get();
-        $seguimiento = SeguimientoAnalisis::where('Id_servicio', $request->idSol)->first();
-        $muestra2 = DB::table('ViewSolicitud')->where('Hijo', $request->idSol)->get();
-        $solModel = DB::table('ViewSolicitud')->where('Id_solicitud', $request->idSol)->first();
-        $muestra = PhMuestra::where('Id_solicitud', $muestra2[0]->Id_solicitud)->first();
-        $sw = false;
-        $fecha_muestreo = new Carbon();
-        $fecha_ingreso = new Carbon();
-        if ($solModel->Id_servicio == 3) {
-            $fecha_muestreo->toDateString(date('d/m/y'));
-        } else {
-            $fecha_muestreo->toDateString(@$muestra->Fecha);
-        }
-    
-        $fecha_ingreso->toDateString($request->horaRecepcion);
-        $date1 = new DateTime($request->horaRecepcion);
-        $date2 = new DateTime($muestra->Fecha);
-        $diff = $date1->diff($date2);
-        $valProce = ProcesoAnalisis::where('Id_solicitud',$request->idSol)->get();
-        if ($date1 >= $date2) {
-            if($diff->days > 2){
-                $msg = "La fecha de recepcion sobrepasa el limite lo permitido";
+        $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $res->idSol)->get();
+        $puntoModel = SolicitudPuntos::where('Id_solPadre',$res->idSol)->get();
+        $sw = true;
+        $msg = "";
+        foreach ($puntoModel as $item) {
+            $codigoParametro = CodigoParametros::where('Id_solicitud',$item->Id_solicitud)->get();
+            if ($codigoParametro->count()) {
             }else{
-                $solModel = Solicitud::where('Hijo', $request->idSol)->get();
-        
+                $sw = false;
+            }
+        }
+        if ($sw == true) {
+            $seguimiento = SeguimientoAnalisis::where('Id_servicio', $res->idSol)->first();
+            $muestra2 = DB::table('ViewSolicitud2')->where('Hijo', $res->idSol)->get();
+            $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud', $res->idSol)->first();
+            $muestra = PhMuestra::where('Id_solicitud', $muestra2[0]->Id_solicitud)->first();
+            $sw = false;
+            $fecha_muestreo = new Carbon();
+            $fecha_ingreso = new Carbon();
+            if ($solModel->Id_servicio == 3) {
+                $fecha_muestreo->toDateString(date('d/m/y'));
+            } else {
+                $fecha_muestreo->toDateString(@$muestra->Fecha);
+            }
+
+            $fecha_ingreso->toDateString($res->horaRecepcion);
+            $date1 = new DateTime($res->horaRecepcion);
+            $date2 = new DateTime($fecha_muestreo);
+            $diff = $date1->diff($date2);
+            $valProce = ProcesoAnalisis::where('Id_solicitud',$res->idSol)->get();
+            
+            if ($valProce->count()) {
+                $msg = "Esta muestra ya fue ingresada";
+            }else{
+                $solModel = Solicitud::where('Hijo', $res->idSol)->get();
+    
                 ProcesoAnalisis::create([
-                    'Id_solicitud' => $request->idSol,
-                    'Folio' => $request->folio,
-                    'Descarga' => $request->descarga,
-                    'Cliente' => $request->cliente,
-                    'Empresa' => $request->empresa,
+                    'Id_solicitud' => $res->idSol,
+                    'Folio' => $res->folio,
+                    'Descarga' => $res->descarga,
+                    'Cliente' => $res->cliente,
+                    'Empresa' => $res->empresa,
                     'Ingreso' => 1,
-                    'Hora_recepcion' => $request->horaRecepcion,
-                    'Hora_entrada' => $request->horaEntrada,
+                    'Hora_recepcion' => $res->horaRecepcion,
+                    'Hora_entrada' => $res->horaEntrada,
                     'Liberado' => 0,
                     'Id_user_c' => Auth::user()->id,
                 ]);
@@ -127,76 +419,131 @@ class IngresarController extends Controller
                     ProcesoAnalisis::create([
                         'Id_solicitud' => $item->Id_solicitud,
                         'Folio' => $item->Folio_servicio,
-                        'Descarga' => $request->descarga,
-                        'Cliente' => $request->cliente,
-                        'Empresa' => $request->empresa,
+                        'Descarga' => $res->descarga,
+                        'Cliente' => $res->cliente,
+                        'Empresa' => $res->empresa,
                         'Ingreso' => 1,
-                        'Hora_recepcion' => $request->horaRecepcion,
-                        'Hora_entrada' => $request->horaEntrada,
+                        'Hora_recepcion' => $res->horaRecepcion,
+                        'Hora_entrada' => $res->horaEntrada,
                         'Liberado' => 0,
                         'Id_user_c' => Auth::user()->id,
                     ]);
                 }
                 $sw = true;
                 $msg = "Muestra ingresada";
+                // if ($date1 >= $date2) {
+                //     $solModel = Solicitud::where('Hijo', $res->idSol)->get();
+    
+                //         ProcesoAnalisis::create([
+                //             'Id_solicitud' => $res->idSol,
+                //             'Folio' => $res->folio,
+                //             'Descarga' => $res->descarga,
+                //             'Cliente' => $res->cliente,
+                //             'Empresa' => $res->empresa,
+                //             'Ingreso' => 1,
+                //             'Hora_recepcion' => $res->horaRecepcion,
+                //             'Hora_entrada' => $res->horaEntrada,
+                //             'Liberado' => 0,
+                //             'Id_user_c' => Auth::user()->id,
+                //         ]);
+                //         foreach ($solModel as $item) {
+                //             ProcesoAnalisis::create([
+                //                 'Id_solicitud' => $item->Id_solicitud,
+                //                 'Folio' => $item->Folio_servicio,
+                //                 'Descarga' => $res->descarga,
+                //                 'Cliente' => $res->cliente,
+                //                 'Empresa' => $res->empresa,
+                //                 'Ingreso' => 1,
+                //                 'Hora_recepcion' => $res->horaRecepcion,
+                //                 'Hora_entrada' => $res->horaEntrada,
+                //                 'Liberado' => 0,
+                //                 'Id_user_c' => Auth::user()->id,
+                //             ]);
+                //         }
+                //         $sw = true;
+                //         $msg = "Muestra ingresada";
+                //     // if($diff->days > 2){
+                //     //     $msg = "La fecha de recepcion sobrepasa el limite lo permitido";
+                //     // }else{
+                //     //     $solModel = Solicitud::where('Hijo', $res->idSol)->get();
+    
+                //     //     ProcesoAnalisis::create([
+                //     //         'Id_solicitud' => $res->idSol,
+                //     //         'Folio' => $res->folio,
+                //     //         'Descarga' => $res->descarga,
+                //     //         'Cliente' => $res->cliente,
+                //     //         'Empresa' => $res->empresa,
+                //     //         'Ingreso' => 1,
+                //     //         'Hora_recepcion' => $res->horaRecepcion,
+                //     //         'Hora_entrada' => $res->horaEntrada,
+                //     //         'Liberado' => 0,
+                //     //         'Id_user_c' => Auth::user()->id,
+                //     //     ]);
+                //     //     foreach ($solModel as $item) {
+                //     //         ProcesoAnalisis::create([
+                //     //             'Id_solicitud' => $item->Id_solicitud,
+                //     //             'Folio' => $item->Folio_servicio,
+                //     //             'Descarga' => $res->descarga,
+                //     //             'Cliente' => $res->cliente,
+                //     //             'Empresa' => $res->empresa,
+                //     //             'Ingreso' => 1,
+                //     //             'Hora_recepcion' => $res->horaRecepcion,
+                //     //             'Hora_entrada' => $res->horaEntrada,
+                //     //             'Liberado' => 0,
+                //     //             'Id_user_c' => Auth::user()->id,
+                //     //         ]);
+                //     //     }
+                //     //     $sw = true;
+                //     //     $msg = "Muestra ingresada";
+                    
+                //     // }
+                // }else{
+                //     if ($solModel->Id_servicio == 3) {
+                //         $solModel = Solicitud::where('Hijo', $res->idSol)->get();
+    
+                //         ProcesoAnalisis::create([
+                //             'Id_solicitud' => $res->idSol,
+                //             'Folio' => $res->folio,
+                //             'Descarga' => $res->descarga,
+                //             'Cliente' => $res->cliente,
+                //             'Empresa' => $res->empresa,
+                //             'Ingreso' => 1,
+                //             'Hora_recepcion' => $res->horaRecepcion,
+                //             'Hora_entrada' => $res->horaEntrada,
+                //             'Liberado' => 0,
+                //             'Id_user_c' => Auth::user()->id,
+                //         ]);
+                //         foreach ($solModel as $item) {
+                //             ProcesoAnalisis::create([
+                //                 'Id_solicitud' => $item->Id_solicitud,
+                //                 'Folio' => $item->Folio_servicio,
+                //                 'Descarga' => $res->descarga,
+                //                 'Cliente' => $res->cliente,
+                //                 'Empresa' => $res->empresa,
+                //                 'Ingreso' => 1,
+                //                 'Hora_recepcion' => $res->horaRecepcion,
+                //                 'Hora_entrada' => $res->horaEntrada,
+                //                 'Liberado' => 0,
+                //                 'Id_user_c' => Auth::user()->id,
+                //             ]);
+                //         }
+                //         $sw = true;
+                //         $msg = "Muestra ingresada";
+                //     } else {
+                //         $msg = "Fecha invalida";
+                //     }
+                // }
             }
-        } else {
-            $msg = "La fecha de recepción es menor a la fecha de muestreo?";
+        }else{
+            $msg = "Hace falta generar codigos para la muestra antes de darle ingreso";
         }
-        // if($valProce->count() > 0){ 
-        //     if ($date1 >= $date2) {
-        //         if($diff->days > 2){
-        //             $msg = "La fecha de recepcion sobrepasa el limite lo permitido";
-        //         }else{
-        //             $solModel = Solicitud::where('Hijo', $request->idSol)->get();
-            
-        //             ProcesoAnalisis::create([
-        //                 'Id_solicitud' => $request->idSol,
-        //                 'Folio' => $request->folio,
-        //                 'Descarga' => $request->descarga,
-        //                 'Cliente' => $request->cliente,
-        //                 'Empresa' => $request->empresa,
-        //                 'Ingreso' => 1,
-        //                 'Hora_recepcion' => $request->horaRecepcion,
-        //                 'Hora_entrada' => $request->horaEntrada,
-        //                 'Liberado' => 0,
-        //                 'Id_user_c' => Auth::user()->id,
-        //             ]);
-        //             foreach ($solModel as $item) {
-        //                 ProcesoAnalisis::create([
-        //                     'Id_solicitud' => $item->Id_solicitud,
-        //                     'Folio' => $item->Folio_servicio,
-        //                     'Descarga' => $request->descarga,
-        //                     'Cliente' => $request->cliente,
-        //                     'Empresa' => $request->empresa,
-        //                     'Ingreso' => 1,
-        //                     'Hora_recepcion' => $request->horaRecepcion,
-        //                     'Hora_entrada' => $request->horaEntrada,
-        //                     'Liberado' => 0,
-        //                     'Id_user_c' => Auth::user()->id,
-        //                 ]);
-        //             }
-        //             $sw = true;
-        //             $msg = "Muestra ingresada";
-        //         }
-        //     } else {
-        //         $msg = "La fecha de recepción es menor a la fecha de muestreo?";
-        //     }
-        // }else{
-        //     $msg = "Este folio ya se le dio recepción"; 
-        // }
-        
-
-   
-
-        $array = array(
-            'valProce' => $valProce,
-            'fecha' => $diff->days,
-            'msg' => $msg,
-            'sw' => $sw,
+        $data = array(
             'model' => $model,
+            'sw' => $sw,
+            'msg' => $msg,
+            'puntoModel' => $puntoModel,
         );
-        return response()->json($array);
+        return response()->json($data);
     }
 
     //Método para obtener la fecha de conformación

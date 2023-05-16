@@ -363,7 +363,8 @@ class FqController extends Controller
                 # N-nitratos (potable)
                 $d = 10 / $request->E;
                 $x = ($request->X + $request->Y + $request->Z) / 3;
-                $resultado = ((($x - $request->CB) / $request->CM) * $d);
+                $xround = round($x, 3);
+                $resultado = ((($xround - $request->CB) / $request->CM) * $d);
                 break;
             case 103: //Dureza
                 $x = $request->A - $request->B;
@@ -374,7 +375,8 @@ class FqController extends Controller
             case 105: //Fluoruros (potable)
                 $x = ($request->X + $request->Y + $request->Z) / 3;
                 $d =  50 / $request->E;
-                $resultado = (($x - $request->CB) / $request->CM) * $d;
+                $xround = round($x,3);
+                $resultado = (($xround - $request->CB) / $request->CM) * $d;
                 break;
 
             default:
@@ -558,7 +560,8 @@ class FqController extends Controller
         $today = $fecha->toDateString();
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
-        $blanco = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->where('Id_control', 5)->first();
+        $blanco = DB::table("ViewLoteDetalleEspectro")->where('Id_codigo', $model->Id_codigo)->where('Id_control', 5)->first();
+        
         $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
             ->where('Id_area', 16)
             ->where('Id_parametro', $parametro->Id_parametro)->first();
@@ -2118,11 +2121,12 @@ class FqController extends Controller
     }
     public function getDirectos(Request $request)
     { //SS
-        $model = LoteDetalleSolidos::find($request->idMuestra);
-        $model->Inmhoff = $request->inmhoff;
-        $model->Temp_muestraLlegada = $request->temp_muestraLlegada;
-        $model->Temp_muestraAnalizada = $request->temp_muestraAnalizada;
-        $model->save();
+        $model = DB::table('ViewLoteDetalleSolidos')->where('');
+       // $model = LoteDetalleSolidos::find($request->idMuestra);
+        // $model->Inmhoff = $request->inmhoff;
+        // $model->Temp_muestraLlegada = $request->temp_muestraLlegada;
+        // $model->Temp_muestraAnalizada = $request->temp_muestraAnalizada;
+        // $model->save();
 
         $data = array(
             'model' => $model,
