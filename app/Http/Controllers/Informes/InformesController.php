@@ -4118,15 +4118,16 @@ class InformesController extends Controller
                 $model = DB::table('ViewSolicitud2')->where('Id_solicitud', $idSol)->first();
                 $norma = Norma::where('Id_norma', $model->Id_norma)->first();
 
-                $areaParam = DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $idSol)->where('Reportes',1)->get();
+                $areaParam = DB::table('ViewEnvaseParametroSol')->where('Id_solicitud', $idSol)->where('Reportes',1)->where('stdArea','=',NULL)->get();
                 $phMuestra = PhMuestra::where('Id_solicitud',$idSol)->where('Activo',1)->get();
 
                 $tempArea = array();
                 $temp = 0;
-                $sw = false;
+                $sw = false; 
                 
                 //Datos generales
                 $area = array();
+                $idArea = array();
                 $responsable = array();
                 $numRecipientes = array();
                 $fechasSalidas = array();
@@ -4266,6 +4267,7 @@ class InformesController extends Controller
                         array_push($fechasSalidas, $fechaTemp);
                         array_push($tempArea,$item->Id_area);
                         array_push($area,$item->Area);
+                        array_push($idArea,$item->Id_area);
                         array_push($responsable,$user->name);
                         array_push($firmas,$user->firma);
                     }
@@ -4298,10 +4300,11 @@ class InformesController extends Controller
                                 $resTemp = "AUSENTE";
                             }
                             break;
+                        case 67:
                         case 14:
                             $resTemp = $item->Resultado2;
                             break;
-                        default:
+                        default: 
                             if ($item->Resultado2 == "NULL" || $item->Resultado2 == NULL) {
                                 $resTemp = "----";
                             } else {
@@ -4315,6 +4318,10 @@ class InformesController extends Controller
                     }
                     array_push($resInfo, $resTemp);
                 }
+
+                $promGra = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->where('Num_muestra', 1)->get();
+                $promGas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 26)->where('Num_muestra', 1)->get();
+                $promCol = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 12)->where('Num_muestra', 1)->get();
 
                 $recepcion = ProcesoAnalisis::where('Id_solicitud', $idSol)->first();
                 $norma = Norma::where('Id_norma', $model->Id_norma)->first();
@@ -4336,6 +4343,10 @@ class InformesController extends Controller
          
                 $mpdf->showWatermarkImage = true;
                 $data = array( 
+                    'idArea' => $idArea,
+                    'promGra' => $promGra,
+                    'promGas' => $promGas,
+                    'promCol' => $promCol,
                     'folioEncript' => $folioEncript,
                     'firmaRes' => $firmaRes,
                     'resInfo' => $resInfo,
@@ -4522,9 +4533,9 @@ class InformesController extends Controller
             array_push($fechasSalidas, $fechaTemp);
         }
         $promGra = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 13)->where('Num_muestra', 1)->first();
-        $promGas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 26)->where('Num_muestra', 1)->first();
+        $promGas = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 26)->where('Num_muestra', 1)->get();
 
-        $promCol = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 12)->where('Num_muestra', 1)->first();
+        $promCol = DB::table('ViewCodigoParametro')->where('Id_solicitud', $idSol)->where('Id_parametro', 12)->where('Num_muestra', 1)->get();
 
         $resInfo = array();
         $resTemp = 0;

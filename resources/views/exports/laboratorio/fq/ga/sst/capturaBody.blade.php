@@ -47,11 +47,7 @@
                 @foreach ($model as $item)
                 <tr>
                     <td class="tableContent">
-                        @if (@$item->Control == 'Muestra Adicionada' || @$item->Control == 'Duplicado' || @$item->Control == 'Resultado')
-                            {{@$item->Folio_servicio}}                            
-                        @else
-                            {{@$item->Control}}
-                        @endif 
+                        {{@$item->Folio_servicio}}
                     </td>
                     <td class="tableContent">{{@$item->Crisol}}</td>
                     <td class="tableContent">{{@$item->Vol_muestra}}</td>
@@ -62,21 +58,22 @@
                     <td class="tableContent">{{@$item->Peso_constante2}}</td>
                     <td class="tableContent">{{@$item->Masa2}}</td>
                     <td class="tableContent">
+                        @if ($item->Resultado <= $item->Limite)
+                            < {{@$item->Limite}}
+                        @else
+                            {{@$item->Resultado}}
+                        @endif
+
+                    </td>
+                    <td class="tableContent">{{@$item->Observacion}}</td>
+                    <td class="tableContent">
                         @if (@$item->Liberado == 1)
-                            Liberado
+                         Liberado
                         @elseif(@$item->Liberado == 0)
                             No liberado
                         @endif     
                     </td>
-                    <td class="tableContent">{{@$item->Observacion}}</td>
-                    <td class="tableContent">
-                        @if (@$data[$i]->Liberado == 1)
-                            Liberado
-                        @elseif(@$data[$i]->Liberado == 0)
-                            No liberado
-                        @endif 
-                    </td>
-                    <td class="tableContent">{{@$data[$i]->Control}}</td>
+                    <td class="tableContent">{{@$item->Control}}</td>
                 </tr>    
                 @endforeach
             </tbody>        

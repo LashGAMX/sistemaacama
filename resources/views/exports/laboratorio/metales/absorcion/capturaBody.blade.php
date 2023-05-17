@@ -347,8 +347,13 @@
                             @endphp
                         </td>
                         <td id="tableContent">{{@$item->Factor_dilucion}}</td>
-                        <!-- <td id="tableContent">PRUEBA</td> -->
-                        <td id="tableContent">{{@$limites[$i]}}</td>
+                        <td id="tableContent">
+                            @if (round(@$item->Vol_disolucion / @$item->Factor_dilucion, 3) > $item->Limite)
+                                {{$item->Vol_disolucion}}
+                            @else
+                                < {{$item->Limite}}
+                            @endif
+                        </td> 
                         <td id="tableContent">{{@$item->Observacion}}</td>                        
                         <td id="tableContent">
                             @if (@$item->Liberado == 1)

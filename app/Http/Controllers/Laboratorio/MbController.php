@@ -2162,7 +2162,7 @@ class MbController extends Controller
 
                 $loteDetalle = DB::table('ViewLoteDetalleEcoli')->where('Id_lote', $idLote)->get();
                 $convinaciones = ConvinacionesEcoli::where('Id_lote', $idLote)->get();
-                $bitacora = PlantillaMb::where('Id_parametro', 78)->first();
+                $bitacora = PlantillaMb::where('Id_parametro', 78)->first();            
 
                 $data = array(
                     'lote' => $lote,

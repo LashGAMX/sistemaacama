@@ -1255,6 +1255,9 @@ class FqController extends Controller
             case 16: //todo Espectrofotometria
                 $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->get();
                 break;
+            case 5: //todo Espectrofotometria
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $request->idLote)->get();
+                break;
             case 13: //todo Gr
                 $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $request->idLote)->get();
                 break;

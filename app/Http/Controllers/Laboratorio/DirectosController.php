@@ -189,7 +189,7 @@ class DirectosController extends Controller
             'Id_codigo' => $request->idSol,
             'Id_parametro' => $loteModel->Id_tecnica,
             'Id_control' => 1,
-            'Analizo' => 1,
+            'Analizo' => Auth::user()->id,
         ]);
         $detModel = LoteDetalleDirectos::where('Id_lote', $request->idLote)->get();
 
@@ -225,7 +225,7 @@ class DirectosController extends Controller
                 'Id_codigo' => $res->idCodigos[$i],
                 'Id_parametro' => $loteModel->Id_tecnica,
                 'Id_control' => 1,
-                'Analizo' => 1,
+                'Analizo' =>  Auth::user()->id,
             ]);
             $solModel = CodigoParametros::find($sol->Id_codigo);
             $solModel->Asignado = 1;

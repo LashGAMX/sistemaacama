@@ -11,7 +11,7 @@
 
     <div id="contenidoCurva">
         @php
-            echo $plantilla->Texto;
+            echo $plantilla[0]->Texto;
         @endphp
     </div>
 
@@ -24,7 +24,7 @@
             <thead>
 
                 <tr>
-                    <th class="nombreHeader" colspan="10">
+                    <th class="nombreHeader" colspan="10"> 
                         Resultado de las muestras
                     </th>                    
                 </tr>                

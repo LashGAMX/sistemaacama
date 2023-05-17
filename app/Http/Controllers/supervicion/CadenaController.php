@@ -23,7 +23,7 @@ class CadenaController extends Controller
     //cadena  
     public function cadenaCustodia()
     {
-        $model = DB::table('ViewSolicitud')->orderby('Id_solicitud', 'desc')->where('Padre', 1)->get();
+        $model = DB::table('ViewSolicitud2')->orderby('Id_solicitud', 'desc')->where('Padre', 1)->get();
         return view('supervicion.cadena.cadena', compact('model'));
     }
     public function detalleCadena($id)
@@ -236,8 +236,7 @@ class CadenaController extends Controller
                 break;
             case "67": //Conductividad
             case "68":
-                $model = ConductividadMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
-                    ->where('Activo', 1)->get();
+                $model = SolicitudPuntos::where('Id_solicitud', $codigoModel->Id_solicitud)->get();
             break;
             case "2": //Materia flotante
                 $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)

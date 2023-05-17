@@ -621,12 +621,12 @@ function getDetalleAnalisis(idCodigo) {
                         $.each(response.model, function (key, item) {
                             tab += '<tr>';
                             tab += '<td>Conductividad Campo - ' + (cont + 1) + '</td>';
-                            tab += '<td>' + item.Promedio + '</td>';
+                            tab += '<td>' + item.Conductividad + '</td>';
                             tab += '</tr>';
-                            aux = aux + parseFloat(item.Promedio);
+                            aux = aux + parseFloat(item.Conductividad);
                             cont++
                         });
-                        resLiberado = (aux / cont);
+                        resLiberado = (aux /cont);
                     } else if (response.codigoModel.Id_parametro == 2) { // Materia flotante
                         aux = 0;
                         cont = 0;

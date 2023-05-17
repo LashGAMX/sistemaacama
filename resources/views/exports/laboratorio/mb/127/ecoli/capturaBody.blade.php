@@ -45,7 +45,7 @@
                         <td>{{$item->Colonia4}}</td>
                         <td>{{$item->Colonia5}}</td>
                        
-                        @if ($item->Limite > $item->Resultado)
+                        @if ($item->Resultado < $item->Limite) 
                             <td>No Detectable</td>    
                         @else
                             <td>{{$item->Resultado}}</td>

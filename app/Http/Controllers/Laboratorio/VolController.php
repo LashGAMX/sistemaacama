@@ -556,6 +556,8 @@ class VolController extends Controller
                     'Id_codigo' => $request->idSol,
                     'Id_parametro' => $loteModel->Id_tecnica,
                     'Id_control' => 1,
+                    'Analizo' => 1,
+                    'Liberado' => 0,
                 ]);
                 $detModel = LoteDetalleDqo::where('Id_lote', $request->idLote)->get();
                 $sw = true;
@@ -569,6 +571,8 @@ class VolController extends Controller
                     'Id_codigo' => $request->idSol,
                     'Id_parametro' => $loteModel->Id_tecnica,
                     'Id_control' => 1,
+                    'Analizo' => 1,
+                    'Liberado' => 0,
                 ]);
                 $detModel = LoteDetalleCloro::where('Id_lote', $request->idLote)->get();
                 $sw = true;
@@ -585,6 +589,8 @@ class VolController extends Controller
                     'Id_codigo' => $request->idSol,
                     'Id_parametro' => $loteModel->Id_tecnica,
                     'Id_control' => 1,
+                    'Analizo' => 1,
+                    'Liberado' => 0,
                 ]);
                 $detModel = LoteDetalleNitrogeno::where('Id_lote', $request->idLote)->get();
                 $sw = true;

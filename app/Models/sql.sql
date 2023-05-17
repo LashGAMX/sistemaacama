@@ -341,7 +341,7 @@ ON tipo.Id_area = areas.Id_area_analisis
 CREATE VIEW ViewLoteDetalleEspectro AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,param.Limite,con.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_espectro as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
-INNER JOIN  ViewSolicitud as sol
+INNER JOIN  ViewSolicitud2 as sol
 ON det.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro
@@ -442,7 +442,7 @@ ON en.Id_unidad = uni.Id_unidad
 
 /* Lista ViewEnvaseParametro */ 
 
-CREATE VIEW ViewEnvaseParametro as SELECT env.*,lab.Area,lab.Reportes,pa.Parametro,pa.Rama,pa.Tipo_formula,en.Nombre,en.Volumen,lab.Id_responsable,pre.Preservacion, uni.Unidad,lab.Id_area FROM envase_parametro as env
+CREATE VIEW ViewEnvaseParametro as SELECT env.*,lab.Area,lab.Reportes,lab.deleted_at as stdArea ,pa.Parametro,pa.Rama,pa.Tipo_formula,en.Nombre,en.Volumen,lab.Id_responsable,pre.Preservacion, uni.Unidad,lab.Id_area FROM envase_parametro as env
 INNER JOIN areas_lab as lab
 ON env.Id_analisis = lab.Id_area
 INNER JOIN ViewParametros as pa
@@ -480,7 +480,7 @@ ON col.Id_codigo = cod.Id_codigo
 /* Lista ViewLoteDetalleNitrogeno */ 
 
 CREATE VIEW ViewLoteDetalleNitrogeno as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion FROM lote_detalle_nitrogeno as col
-INNER JOIN ViewSolicitud as sol
+INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON col.Id_parametro = param.Id_parametro
@@ -560,7 +560,8 @@ INNER JOIN conductividad_trazable as con
 ON c.Id_conTrazable = con.Id_conductividad
 
 /* Vista ViewEnvaseParametroSol */
-CREATE VIEW ViewEnvaseParametroSol as SELECT env.Id_env,env.Id_analisis,env.Id_parametro,env.Reportes,env.Id_responsable,env.Id_envase,env.Id_preservador,env.Nombre,env.Volumen,env.Preservacion,env.Unidad as UniEnv,env.Id_area ,env.Area,pa.Id_solicitud,pa.Extra,pa.Parametro,pa.Area_analisis,pa.Id_tipo_formula,pa.Asignado,pa.Folio_servicio,pa.Metodo_prueba,pa.Unidad 
+CREATE VIEW ViewEnvaseParametroSol as SELECT env.Id_env,env.Id_analisis,env.Id_parametro,env.Reportes,env.Id_responsable,env.Id_envase,env.Id_preservador,env.Nombre,env.Volumen,env.Preservacion,env.Unidad as UniEnv,env.Id_area ,env.Area,pa.Id_solicitud,pa.Extra,pa.Parametro,pa.Area_analisis,pa.Id_tipo_formula,pa.Asignado,pa.Folio_servicio,pa.Metodo_prueba,pa.Unidad,
+env.stdArea
 FROM ViewEnvaseParametro as env 
 INNER JOIN ViewSolicitudParametros as pa
 ON env.Id_parametro = pa.Id_parametro
