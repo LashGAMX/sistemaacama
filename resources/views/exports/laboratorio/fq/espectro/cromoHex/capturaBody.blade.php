@@ -72,10 +72,17 @@
                     </tr>                
                 @endfor
             </tbody>        
-        </table>  
-    </div>
+        </table>
+        <div id="contenidoCurva">
+            <span><br> Absorbancia B1: 0</span> <br><br>
+            <span>Absorbancia B2: 0</span> <br><br>
+            <span>Absorbancia B3: 0</span> <br><br>
+            <span>RESULTADO BLANCO: 0</span>
+        </div>
+         
 
-    <br>     
+    </div>
+   
     <div id="contenidoCurva">
         <?php 
         echo $procedimiento[1];
