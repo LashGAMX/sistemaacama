@@ -67,6 +67,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         //Almacena el texto en la table reportes, campo Texto, el texto introducido en el editor de texto > Procedimiento/Validación
         Route::post('lote/procedimiento', [MetalesController::class, 'guardarTexto']);
         Route::get('exportPdfCaptura/{id}', [MetalesController::class, 'exportPdfCaptura']);
+        Route::post('setPlantillaDetalleMetales', [MetalesController::class, 'setPlantillaDetalleMetales']);
         
         Route::get('capturaIcp', [MetalesController::class, 'capturaIcp']);
         Route::post('createLoteIcp', [MetalesController::class, 'createLoteIcp']);

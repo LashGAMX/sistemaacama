@@ -8,7 +8,12 @@
     <title>Captura PDF</title>
 </head>
 <body>    
-
+    <div id="contenidoCurva">
+        @php
+        echo @$procedimiento[0];
+        @endphp
+    </div>
+    <br>
     <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos">
             <thead>
@@ -32,24 +37,40 @@
             </thead>
     
             <tbody>
-            @for ($i = 0; $i < @$dataLength ; $i++)
+                @for ($i = 0; $i < @$loteDetalle->count() ; $i++)
                     <tr>
-                        <td class="tableContent">                            
-                            {{@$data[$i]->Folio_servicio}}                             
-                        </td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">{{@$data[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">{{@$data[$i]->Resultado}}</td>
-                        <td class="tableContent">{{@$data[$i]->Observacion}}</td>
                         <td class="tableContent">
-                            @if (@$data[$i]->Liberado == 1)
+                            @if (@$loteDetalle[$i]->Control == 'Muestra Adicionada' || @$loteDetalle[$i]->Control == 'Duplicado' || @$loteDetalle[$i]->Control == 'Resultado')
+                                {{@$loteDetalle[$i]->Folio_servicio}}
+                            @else
+                                {{@$loteDetalle[$i]->Control}}
+                            @endif 
+                        </td>
+                        <td class="tableContent">{{@$loteDetalle[$i]->Titulado_blanco}}</td>
+                        <td class="tableContent">{{@$loteDetalle[$i]->Vol_muestra}}</td>
+                        <td class="tableContent">{{@$loteDetalle[$i]->Titulado_muestra}}</td>
+                        
+                        <td class="tableContent"> 
+                            @if (@$loteDetalle[$i]->Resultado != NULL)
+                            @if (@$loteDetalle[$i]->Resultado > @$loteDetalle[$i]->Limite)
+                                {{@$loteDetalle[$i]->Resultado}}
+                            @else
+                                <{{@$loteDetalle[$i]->Limite}}
+                            @endif
+                        @else
+                            ------
+                        @endif
+                        </td>
+
+                        <td class="tableContent">{{@$loteDetalle[$i]->Observacion}}</td>
+                        <td class="tableContent">
+                            @if (@$loteDetalle[$i]->Liberado == 1)
                                 Liberado
-                            @elseif(@$data[$i]->Liberado == 0)
+                            @elseif(@$loteDetalle[$i]->Liberado == 0)
                                 No liberado
                             @endif
                         </td>
-                        <td class="tableContent">{{@$data[$i]->Control}}</td>
+                        <td class="tableContent">{{@$loteDetalle[$i]->Control}}</td>
                     </tr>                
                 @endfor
             </tbody>        
@@ -105,10 +126,10 @@
             </tbody>    
         </table>  
     </div>
-
     <div id="contenidoCurva">
-        <span id="curvaProcedimiento">Valoración</span> <br>
-        VALORACIÓN <?php echo html_entity_decode($textoProcedimiento[1]);?>
+        @php
+        echo @$procedimiento[1];
+        @endphp
     </div>
 </body>
 </html>

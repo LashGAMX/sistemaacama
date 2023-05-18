@@ -130,6 +130,19 @@
 
             <table autosize="1" class="table table-borderless" id="tablaDatos">
                 <thead>
+                    @if (@$lote->Id_tecnica == 215)
+                    <tr>
+                        <th id="tableCabecera">&nbsp;</th>
+                        <th id="tableCabecera">&nbsp;Blanco&nbsp;&nbsp;</th>
+                        <th id="tableCabecera">&nbsp;STD1&nbsp;&nbsp;</th>
+                        <th id="tableCabecera">&nbsp;STD2&nbsp;&nbsp;</th>
+                        <th id="tableCabecera">&nbsp;STD3&nbsp;&nbsp;</th>
+                        <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>                            
+                        <th id="tableCabecera">&nbsp;STD5&nbsp;&nbsp;</th>
+                        <th id="tableCabecera">&nbsp;STD6&nbsp;&nbsp;</th>                                     
+                        <th></span>&nbsp;&nbsp;</th>
+                    </tr>        
+                    @else
                     <tr>
                         <th id="tableCabecera">&nbsp;</th>
                         <th id="tableCabecera">&nbsp;Blanco&nbsp;&nbsp;</th>
@@ -138,24 +151,21 @@
                         <th id="tableCabecera">&nbsp;STD3&nbsp;&nbsp;</th>
                         <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>                            
                         <th id="tableCabecera">&nbsp;STD5&nbsp;&nbsp;</th>                            
-                        </span>&nbsp;&nbsp;</th>
-                    </tr>                           
+                        <th></span>&nbsp;&nbsp;</th>
+                    </tr>        
+                    @endif
+                                       
                 </thead>
         
                 <tbody>
-                    <tr>
-                        <td id="tableContent">CONCENTRACIÓN EN mg/L</td>
-                        <td id="tableContent"></td>
-                        <td id="tableContent"></td>
-                        <td id="tableContent"></td>
-                        <td id="tableContent"></td>
-                        <td id="tableContent"></td>
-                        <td id="tableContent"></td>
-                        @if (@$tecnicaUsada->Id_tecnica == 22)
-                            <td id="tableContent">CONCENTRACIÓN EN μg/L</td>
+                    <tr>       
+                        <td id="tableContent">                 
+                        @if (@$tecnicaUsada->Id_tecnica == 215)
+                            CONCENTRACIÓN EN μg/L
                         @else
-                            <td id="tableContent">CONCENTRACIÓN EN mg/L</td>
+                            CONCENTRACIÓN EN mg/L
                         @endif                        
+                            </td>
 
                         <td id="tableContent">                            
                             @php
@@ -163,6 +173,7 @@
                             @endphp                            
                         </td>
                         
+
                         @for ($i = 1; ($i < @$estandares->count()); $i++)                            
                             @if(@$estandares[$i]->Concentracion != null)
                                 <td id="tableContent">
@@ -173,14 +184,16 @@
                             @endif                            
                         @endfor
                         
-                        <td id="tableContent"><span class="bmrTabla">m = </span></td>
+                        <td id="tableContent"><span class="bmrTabla">b = </span></td>
                         <td id="tableContent">
                             @php
-                                echo number_format(@$bmr->M, 5, ".", ".");
+                                echo number_format(@$curva->B, 5, ".", ".");
                             @endphp
+                            <br>
                         </td>
+                        
                     </tr>
-                    <tr>
+                    <tr> 
                         <td id="tableContent">ABSORBANCIA 1</td>
                         
                         <td id="tableContent">                            
@@ -199,12 +212,14 @@
                             @endif
                         @endfor                                                
                         
-                        <td id="tableContent"><span class="bmrTabla">r = </span></td>
+                        <td id="tableContent"><span class="bmrTabla">m= </span></td>
                         <td id="tableContent">
                             @php
-                                echo number_format(@$bmr->R, 5, ".", ".");
+                                echo number_format(@$curva->M, 5, ".", ".");
                             @endphp
+                            <br>
                         </td>
+
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA 2</td>
@@ -225,8 +240,13 @@
                             @endif
                         @endfor
 
-                        <td id="tableContent"><span class="bmrTabla">Fecha de preparación = </span></td>
-                        <td id="tableContent">{{@$fechaPreparacion}}</td>
+                        <td id="tableContent"><span class="bmrTabla">r = </span></td>
+                        <td id="tableContent">
+                            @php
+                                echo number_format(@$bmr->R, 5, ".", ".");
+                            @endphp
+                        </td>
+
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA 3</td>
@@ -246,9 +266,9 @@
                                 </td>
                             @endif
                         @endfor
+                        <td id="tableContent"><span class="bmrTabla">Fecha de preparación = </span></td>
+                        <td id="tableContent">{{@$hora}}</td>
 
-                        <td id="tableContent"><span class="bmrTabla">Límite de cuantificación = </span></td>
-                        <td id="tableContent">< {{@$model[0]->Limite}}</td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA PROM.</td>
@@ -269,8 +289,8 @@
                             @endif
                         @endfor
 
-                        <td id="tableContent"></td>
-                        <td id="tableContent"></td>
+                        <td id="tableContent"><span class="bmrTabla">Límite de cuantificación = </span></td>
+                        <td id="tableContent">< {{@$model[0]->Limite}}</td>
                     </tr>
                 </tbody>        
             </table>

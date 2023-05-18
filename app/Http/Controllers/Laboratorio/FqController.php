@@ -2957,7 +2957,7 @@ class FqController extends Controller
     //FUNCIÓN PARA GENERAR EL DOCUMENTO PDF; DE MOMENTO NO RECIBE UN IDLOTE
     public function exportPdfCapturaEspectro($idLote)
     {
-
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $idLote)->first();
         $temp = LoteAnalisis::where('Id_lote', $idLote)->first();
         switch ($temp->Id_tecnica) {
             case 96:
@@ -3301,9 +3301,26 @@ class FqController extends Controller
                     $textProcedimiento = ReportesFq::where('Id_reporte', 10)->first();
                 }
 
+
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
+                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                               if ($plantilla->count()) {
+                               } else {
+                                   $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                               }
+               $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
+                               if ($comprobacion->count()) {
+                                   $analizo = "";
+                               } else {
+                                   $analizo = User::where('id', $model[0]->Analizo)->first();
+                               }
+                               $reviso = User::where('id', 17)->first();
+
+
+
                 $htmlHeader = view('exports.laboratorio.fq.espectro.fenoles.capturaHeader', compact('fechaConFormato'));
-                $htmlFooter = view('exports.laboratorio.fq.espectro.fenoles.capturaFooter', compact('usuario', 'firma'));
-                $htmlCaptura = view('exports.laboratorio.fq.espectro.fenoles.capturaBody', compact('textProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
+                $htmlFooter = view('exports.laboratorio.fq.espectro.fenoles.capturaFooter', compact('usuario', 'firma','analizo','reviso'));
+                $htmlCaptura = view('exports.laboratorio.fq.espectro.fenoles.capturaBody', compact('model','plantilla','comprobacion','textProcedimiento', 'data', 'dataLength', 'curva', 'limiteC', 'limites', 'observaciones'));
             } else {
                 $sw = false;
             }

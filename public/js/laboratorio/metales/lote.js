@@ -30,6 +30,11 @@ $(document).ready(function () {
     $('#btnGuardarDetalle').click(function () {
         setDetalleLote()
     });
+    $('#btnBitacora').click(function () {
+        setPlantillaDetalleMetales()
+    });
+
+    
     
 });
 document.addEventListener("keydown", function(event) {
@@ -328,7 +333,26 @@ function setDetalleLote(){
 });
 }
 
-
+function setPlantillaDetalleMetales()
+{
+    $.ajax({ 
+        type: "POST",
+        url: base_url + "/admin/laboratorio/metales/setPlantillaDetalleMetales",
+        data: {
+            id: idLote,
+            texto: $("#summernote").summernote('code'),
+            titulo: $("#tituloBit").val(),
+            rev:$("#revBit").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);                        
+            alert("Plantilla modificada")
+        }
+    });
+}
 // function createLote()
 // {
 //     $.ajax({

@@ -59,7 +59,7 @@ function getServicio(id,tipo) {
                 tab += '<td>' + item.Id_solicitud + '</td>';
                 tab += '<td>' + item.Folio + '</td>';
                 tab += '<td>' + item.Empresa + '</td>';
-                tab += '<td>' + item.Hora_entrada + '</td>';
+                tab += '<td>' + item.Hora_recepcion + '</td>';
                 tab += '<td></td>';
                 tab += '</tr>';
             });

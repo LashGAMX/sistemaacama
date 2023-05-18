@@ -16,11 +16,11 @@
             <span><img style="width: auto; height: auto; max-width: 100px; max-height: 80px;" src="https://sistemaacama.com.mx/public/storage/{{$reviso->firma}}"> <br></span>
             <span class="bodyStdMuestra"> {{@$reviso->name}} </span>
         </div>        
-    </div> 
+    </div>
 
     <div style="font-size: 8px;">
         @php
             echo $plantilla[0]->Rev;
         @endphp
     </div>
-</footer> 
+</footer>  

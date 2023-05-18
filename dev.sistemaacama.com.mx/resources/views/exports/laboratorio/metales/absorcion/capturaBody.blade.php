@@ -141,7 +141,7 @@
                         <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>                            
                         <th id="tableCabecera">&nbsp;STD5&nbsp;&nbsp;</th>
                         <th id="tableCabecera">&nbsp;STD6&nbsp;&nbsp;</th>                                     
-                        </span>&nbsp;&nbsp;</th>
+                        <th></span>&nbsp;&nbsp;</th>
                     </tr>        
                     @else
                     <tr>
@@ -152,19 +152,21 @@
                         <th id="tableCabecera">&nbsp;STD3&nbsp;&nbsp;</th>
                         <th id="tableCabecera">&nbsp;STD4&nbsp;&nbsp;</th>                            
                         <th id="tableCabecera">&nbsp;STD5&nbsp;&nbsp;</th>                            
-                        </span>&nbsp;&nbsp;</th>
+                        <th></span>&nbsp;&nbsp;</th>
                     </tr>        
                     @endif
                                        
                 </thead>
         
                 <tbody>
-                    <tr>                        
-                        @if (@$tecnicaUsada->Id_tecnica == 22)
-                            <td id="tableContent">CONCENTRACIÓN EN μg/L</td>
+                    <tr>       
+                        <td id="tableContent">                 
+                        @if (@$tecnicaUsada->Id_tecnica == 215)
+                            CONCENTRACIÓN EN μg/L
                         @else
-                            <td id="tableContent">CONCENTRACIÓN EN mg/L</td>
+                            CONCENTRACIÓN EN mg/L
                         @endif                        
+                            </td>
 
                         <td id="tableContent">                            
                             @php
@@ -172,6 +174,7 @@
                             @endphp                            
                         </td>
                         
+
                         @for ($i = 1; ($i < @$estandares->count()); $i++)                            
                             @if(@$estandares[$i]->Concentracion != null)
                                 <td id="tableContent">
@@ -242,7 +245,7 @@
                             @endphp
                         </td>
                         <td id="tableContent"><span class="bmrTabla">Fecha de preparación = </span></td>
-                        <td id="tableContent">{{@$fechaPreparacion}}</td>
+                        <td id="tableContent">{{@$hora}}</td>
                     </tr>
                     <tr>
                         <td id="tableContent">ABSORBANCIA 3</td>

@@ -1576,7 +1576,7 @@ class VolController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 break;
             case 287:
-            case 9:
+            case 9:// Nitrogeno amoniacal
                 $loteDetalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $idLote)->get();
                 $valNitrogenoA = ValoracionNitrogeno::where('Id_lote', $idLote)->first();
                 $plantilla = BitacoraVolumetria::where('Id_lote', $idLote)->get();
@@ -1609,7 +1609,7 @@ class VolController extends Controller
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $htmlHeader = view('exports.laboratorio.volumetria.nitrogenoA.capturaHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                $htmlCaptura = view('exports.laboratorio.volumetria.nitrogenoA.capturaBody', $data);
+                $htmlCaptura = view('exports.laboratorio.volumetria.nitrogenoA.capturaBody1', $data);
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
 
@@ -1651,6 +1651,7 @@ class VolController extends Controller
                 }
                 $reviso = User::where('id', 17)->first();
                 $data = array(
+                    'comprobacion' => $comprobacion,
                     'analizo' => $analizo,
                     'reviso' => $reviso,
                     'lote' => $lote,
@@ -1659,7 +1660,9 @@ class VolController extends Controller
                     'valNitrogenoA' => $valNitrogenoA,
                     'procedimiento' => $procedimiento,
                 );
-                $htmlCaptura = view('exports.laboratorio.volumetria.nitrogenoA.capturaBody', $data);
+                $htmlFooter = view('exports.laboratorio.volumetria.nitrogenoA.capturaFooter', $data);
+                $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                $htmlCaptura = view('exports.laboratorio.volumetria.nitrogenoA.capturaBody', $data); 
                 $htmlHeader = view('exports.laboratorio.volumetria.nitrogenoA.capturaHeader', $data);
 
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);

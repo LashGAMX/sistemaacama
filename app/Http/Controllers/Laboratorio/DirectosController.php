@@ -120,6 +120,7 @@ class DirectosController extends Controller
             'Asignado' => 0,
             'Liberado' => 0,
             'Fecha' => $res->fecha,
+            
         ]);
         $data = array(
             'model' => $model,
@@ -581,18 +582,37 @@ class DirectosController extends Controller
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
 
-            case 97: // PH
-
+            case 97: // Temperatura
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
+                $plantilla = BitacoraDirectos::where('Id_lote', $idLote)->get();
+                if ($plantilla->count()) {
+                } else {
+                    $plantilla = PlantillaDirectos::where('Id_parametro', $lote->Id_tecnica)->get();
+                }
+                $procedimiento = explode("NUEVASECCION",$plantilla[0]->Texto);
+                //Comprobación de bitacora analizada
+                $comprobacion = LoteDetalleDirectos::where('Liberado', 0)->where('Id_lote', $idLote)->get();
+                if ($comprobacion->count()) {
+                    $analizo = "";
+                } else {
+                    $analizo = User::where('id', $model[0]->Analizo)->first();
+                }
+                $reviso = User::where('id', 17)->first();
+
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
-                    'plantilla' => $plantilla
+                    'plantilla' => $plantilla,
+                    'analizo' => $analizo, 
+                    'reviso' => $reviso,
+                    'comprobacion' => $comprobacion,
+                    'procedimiento' => $procedimiento,
                 );
-                $htmlHeader = view('exports.laboratorio.directos.ph.bitacoraHeader', $data);
+
+                $htmlHeader = view('exports.laboratorio.directos.temperatura.bitacoraHeader', $data);
                 $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
-                $htmlCaptura = view('exports.laboratorio.directos.ph.bitacoraBody', $data);
-                $htmlFooter = view('exports.laboratorio.directos.ph.bitacoraFooter', $data);
+                $htmlCaptura = view('exports.laboratorio.directos.temperatura.bitacoraBody', $data);
+                $htmlFooter = view('exports.laboratorio.directos.temperatura.bitacoraFooter', $data);
                 $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);

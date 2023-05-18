@@ -275,13 +275,6 @@ class MetalesController extends Controller
     }
     public function createControlCalidadMetales(Request $request)
     {
-        $cont = 0;
-        $model = DB::table('ViewLoteDetalle')->where('Id_lote', $request->idLote)->get();
-        for ($i=0; $i <= $model ; $i++) { 
-            $cont++;
-            
-        }
-
         $muestra = LoteDetalle::where('id_Lote', $request->idLote)->first();
 
         //blanco reactivo
@@ -1101,8 +1094,11 @@ class MetalesController extends Controller
     //* Asignar parametro a lote
     public function asignarMuestraLote(Request $request)
     {
+        $valFecha = false;
         $sw = false;
         $loteModel = LoteAnalisis::where('Id_lote', $request->idLote)->first();
+        
+
 
         LoteDetalle::create([
             'Id_lote' => $request->idLote,

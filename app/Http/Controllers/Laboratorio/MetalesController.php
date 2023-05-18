@@ -714,12 +714,13 @@ class MetalesController extends Controller
     {
         $lote = LoteAnalisis::where('Id_lote',$res->id)->first();
         $model = MetalesDetalle::where('Id_lote',$res->id)->get();
-        $plantilla = BitacoraMetales::where('Id_lote', $res->id)->get();
+        $plantilla = BitacoraMetales::where('Id_lote', $res->id)->get(); 
         if ($plantilla->count()) {
         } else {
             $plantilla = PlantillaMetales::where('Id_parametro', $lote->Id_tecnica)->get();
         }
-        $data = array(
+
+        $data = array( 
             'plantilla' => $plantilla,
             'model' => $model,
         );
@@ -1395,6 +1396,35 @@ class MetalesController extends Controller
         return response()->json(
             compact('tecLoteMet', 'blancoCurvaMet', 'verMet', 'stdVerMet', 'curValMet', 'genHidMet')
         );
+    }
+    public function setPlantillaDetalleMetales(Request $res)
+    {
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
+        $temp = BitacoraMetales::where('Id_lote', $res->id)->get();
+        if ($temp->count()) {
+            $model = BitacoraMetales::where('Id_lote', $res->id)->first();
+            $model->Titulo = $res->titulo;
+            $model->Texto = $res->texto;
+            $model->Rev = $res->rev;
+            $model->save();
+            $aux = "Mod";
+        } else {
+            $model = BitacoraMetales::create([
+                'Id_lote' => $res->id,
+                'Id_parametro' => $lote->Id_tecnica,
+                'Titulo' => $res->titulo,
+                'Texto' => $res->texto,
+                'Rev' => $res->rev,
+            ]);
+            $aux = "Cre";
+        }
+        $data = array(
+            'aux' => $aux,
+            'temp' => $temp,
+            'lote' => $lote,
+            'model' => $model,
+        );
+        return response()->json($data);
     }
 
     public function exportPdfCaptura($id)
