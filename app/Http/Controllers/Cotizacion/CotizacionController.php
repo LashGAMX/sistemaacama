@@ -785,15 +785,7 @@ class CotizacionController extends Controller
 
         //Recupera los parámetros extra de la cotización
         $parametrosExtra = DB::table('ViewCotParam')->where('Id_cotizacion', $idCot)->where('Extra', 1)->orderBy('Parametro', 'ASC')->get();
-        // $sumaParamEspecial = 0;
-       
 
-        // foreach ($parametrosExtra as $item) {
-        //     $precioEspecial = PrecioCatalogo::where('Id_parametro', $item->Id_subnorma)->first();
-        //     $sumaParamEspecial += $precioEspecial->Precio;
-        // }
- 
-        // $model = DB::table('ViewCotizacion')->where('Id_cotizacion', $idCot)->first();
         $model = Cotizacion::where('Id_cotizacion', $idCot)->first();
         $norma = Norma::where('Id_norma', $model->Id_norma)->first();
         $puntos = CotizacionPunto::where('Id_cotizacion', $idCot)->get();
@@ -803,11 +795,6 @@ class CotizacionController extends Controller
 
         $analisisDesc = $model->Precio_analisis - (($model->Precio_analisis * $model->Descuento) / 100);
 
-        // if ($parametrosExtra->count() > 0) {
-        //     $subTotal = $analisisDesc + $sumaParamEspecial + $model->Precio_muestreo;
-        // } else {
-        //     $subTotal = $analisisDesc + $sumaParamEspecial + $model->Precio_muestreo; 
-        // } 
         $servicio = TipoServicios::all();
         $tipo = TipoMuestraCot::all();
         $numServicios = $model->Num_servicios * $puntos->count();

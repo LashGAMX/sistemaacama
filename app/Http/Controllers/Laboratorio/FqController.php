@@ -2702,6 +2702,7 @@ class FqController extends Controller
                     $analizo = User::where('id', $model[0]->Analizo)->first();
                 }
                 $reviso = User::where('id', 17)->first();
+                // var_dump($curva->Id_curvaConst);
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,

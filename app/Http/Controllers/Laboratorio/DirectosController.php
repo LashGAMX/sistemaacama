@@ -567,10 +567,29 @@ class DirectosController extends Controller
             case 67: // Conductividad
 
                 $model = DB::table('ViewLoteDetalleDirectos')->where('Id_lote', $idLote)->get();
+                $plantilla = BitacoraDirectos::where('Id_lote', $idLote)->get();
+                if ($plantilla->count()) {
+                } else {
+                    $plantilla = PlantillaDirectos::where('Id_parametro', $lote->Id_tecnica)->get();
+                }
+                $procedimiento = explode("NUEVASECCION",$plantilla[0]->Texto);
+                //Comprobación de bitacora analizada
+                $comprobacion = LoteDetalleDirectos::where('Liberado', 0)->where('Id_lote', $idLote)->get();
+                if ($comprobacion->count()) {
+                    $analizo = "";
+                } else {
+                    $analizo = User::where('id', $model[0]->Analizo)->first();
+                }
+                $reviso = User::where('id', 17)->first();
+
                 $data = array(
                     'lote' => $lote,
                     'model' => $model,
-                    'plantilla' => $plantilla
+                    'plantilla' => $plantilla,
+                    'analizo' => $analizo, 
+                    'reviso' => $reviso,
+                    'comprobacion' => $comprobacion,
+                    'procedimiento' => $procedimiento,
                 );
 
                 $htmlHeader = view('exports.laboratorio.directos.conductividad.bitacoraHeader', $data);

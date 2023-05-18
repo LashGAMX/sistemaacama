@@ -22,9 +22,9 @@
             <thead> 
                 <tr>
                     <th class="tableCabecera anchoColumna">No. De muestra</th>
-                    <th class="tableCabecera anchoColumna">Lectura de pH1</th>
-                    <th class="tableCabecera anchoColumna">Lectura de pH2</th>
-                    <th class="tableCabecera anchoColumna">Lectura de pH3</th>
+                    <th class="tableCabecera anchoColumna">Lectura de 1</th>
+                    <th class="tableCabecera anchoColumna">Lectura de 2</th>
+                    <th class="tableCabecera anchoColumna">Lectura de 3</th>
                     <th class="tableCabecera anchoColumna">Temperatura muestra (C°)</th>
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>

@@ -189,13 +189,13 @@
                 <td class="fontBold fontCalibri fontSize10">PRECIO UNITARIO</td>
                 <td class="fontBold fontCalibri fontSize10">$                    
                     @php
-                        echo number_format(($model->Precio_analisis / $numServicios), 2, ".", ",");
+                        echo number_format(($model->Precio_analisis), 2, ".", ",");
                     @endphp
                 </td>
                 <td class="fontBold fontCalibri fontSize10">COSTO TOTAL</td>
                 <td class="fontBold fontCalibri fontSize10">$                    
                     @php
-                        echo number_format(($model->Precio_analisis), 2, ".", ",");
+                        echo number_format(($model->Precio_analisis * $numServicios), 2, ".", ",");
                     @endphp
                 </td>
             </tr>
@@ -221,7 +221,7 @@
                 <td width="20%">&nbsp;</td>
                 <td class="fontBold fontCalibri fontSize15 justificadoDer" width="35%">$                        
                     @php
-                        echo number_format(@$model->Precio_analisis , 2, ".", ",");
+                        echo number_format(@$model->Precio_analisis * $numServicios , 2, ".", ",");
                     @endphp
                 </td>
             </tr>

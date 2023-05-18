@@ -1943,15 +1943,15 @@ class MbController extends Controller
                     array(0, 0),
                 );
                 $mpdf->showWatermarkImage = true;
-
-                $loteDetalle = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $idLote)->get();
+                $loteDetalleControles = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->where('Id_control', '!=', 1 )->get();
+                $loteDetalle = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $idLote)->get();
                 $plantilla = BitacoraMb::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
                 } else {
                     $plantilla = PlantillaMb::where('Id_parametro', $lote->Id_tecnica)->get();
                 }
                 //Comprobación de bitacora analizada
-                $comprobacion = LoteDetalleEnterococos::where('Liberado', 0)->where('Id_lote', $idLote)->get();
+                $comprobacion = LoteDetalleColiformes::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
                     $analizo = "";
                 } else {
@@ -1964,6 +1964,7 @@ class MbController extends Controller
                     'lote' => $lote,
                     'loteDetalle' => $loteDetalle,
                     'plantilla' => $plantilla, 
+                    'loteDetalleControles' => $loteDetalleControles,
                     'analizo' => $analizo,
                     'reviso' => $reviso,
                     'comprobacion' => $comprobacion,
@@ -1995,7 +1996,7 @@ class MbController extends Controller
                     array(0, 0),
                 );
                 $mpdf->showWatermarkImage = true;
-
+               
                 $loteDetalle = DB::table('ViewLoteDetalleEnterococos')->where('Id_lote', $idLote)->get();
                 $plantilla = BitacoraMb::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
@@ -2653,8 +2654,23 @@ class MbController extends Controller
         //HEADER-FOOTER******************************************************************************************************************         
 
         if ($parametro->Id_parametro == 12) { // COLIFORMES FECALES
+            $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id_lote)->first();
+            $model = DB::table('ViewLoteDetalleColiformes')->where('Id_lote', $id_lote)->get();
+            $plantilla = BitacoraMb::where('Id_lote', $id_lote)->get();
+            if ($plantilla->count()) {
+            } else {
+                $plantilla = PlantillaMb::where('Id_parametro', $lote->Id_tecnica)->get();
+            }
+            //Comprobación de bitacora analizada
+            $comprobacion = LoteDetalleColiformes::where('Liberado', 0)->where('Id_lote', $id_lote)->get();
+            if ($comprobacion->count()) {
+                $analizo = "";
+            } else {
+                $analizo = User::where('id', $model[0]->Analizo)->first();
+            }
+            $reviso = User::where('id', 17)->first();
             $htmlHeader = view('exports.laboratorio.mb.coliformes.capturaHeader', compact('fechaConFormato'));
-            $htmlFooter = view('exports.laboratorio.mb.coliformes.capturaFooter', compact('usuario', 'firma'));
+            $htmlFooter = view('exports.laboratorio.mb.coliformes.capturaFooter', compact('analizo','comprobacion','reviso','plantilla'));
         } else if ($parametro->Id_parametro == 35 || $parametro->Id_parametro == 52 || $parametro->Id_parametro == 142 || $parametro->Id_parametro == 144 || $parametro->Id_parametro == 146 || $parametro->Id_parametro == 147) { // COLIFORMES TOTALES
             $htmlHeader = view('exports.laboratorio.mb.espectro.coliformesTotales.capturaHeader', compact('fechaConFormato'));
             $htmlFooter = view('exports.laboratorio.mb.espectro.coliformesTotales.capturaFooter', compact('usuario', 'firma'));

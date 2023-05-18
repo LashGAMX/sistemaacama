@@ -3,6 +3,9 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\GrasasDetalle;
+use App\Models\LoteAnalisis;
+use App\Models\Parametro;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -44,13 +47,34 @@ class LabAnalisisController extends Controller
     }
     public function getLote(Request $res)
     {
-        $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica',$res->id)->get();
+        $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica',$res->id)->where('Fecha',$res->fecha)->get();
         
         $data = array(
             'model' => $model,
         );
         return response()->json($data);
     }
-
+    public function setLote(Request $res) 
+    {
+        $parametro = Parametro::where('Id_parametro',$res->id)->first();
+        $model = LoteAnalisis::create([
+            'Id_area' => $parametro->Id_area,
+            'Id_tecnica' => $res->id,
+            'Asignado' => 0,
+            'Liberado' => 0,
+            'Fecha' => $res->fecha,
+            'Id_user_c' => Auth::user()->id,
+            'Id_user_m' => Auth::user()->id,
+        ]);
+        if ($res->tipo == 13) {
+            GrasasDetalle::create([
+                'Id_lote' => $model->Id_lote,
+            ]);
+        }
+        $data = array( 
+            'model' => $model
+        );
+        return response()->json($data);
+    }
 }
  

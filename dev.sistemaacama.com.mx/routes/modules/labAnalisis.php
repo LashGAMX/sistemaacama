@@ -11,6 +11,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::get('captura', [LabAnalisisController::class, 'captura']);
         Route::post('getPendientes',[LabAnalisisController::class,'getPendientes']);
         Route::post('getLote',[LabAnalisisController::class,'getLote']);
+        Route::post('setLote',[LabAnalisisController::class,'setLote']);
     });
  
 });

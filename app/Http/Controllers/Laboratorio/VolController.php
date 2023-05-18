@@ -1524,7 +1524,7 @@ class VolController extends Controller
                         break;
                     }
             break;
-            case 64:
+            case 64: //Cloruros Totales
                 $loteDetalle = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $idLote)->get();
                 $plantilla = BitacoraVolumetria::where('Id_lote', $idLote)->get();
                 if ($plantilla->count()) {
@@ -1533,7 +1533,7 @@ class VolController extends Controller
                 }
                 $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
                 $valoracion = ValoracionCloro::where('Id_lote', $idLote)->first();
-                $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
+                $comprobacion = LoteDetalleCloro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
                 if ($comprobacion->count()) {
                     $analizo = "";
                 } else {

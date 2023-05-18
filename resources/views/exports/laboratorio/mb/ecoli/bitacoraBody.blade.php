@@ -18,7 +18,7 @@
     </div>
     <br>
     <div class="contenedorTabla">
-        <table autosize="1" class="table table-borderless" id="tablaDatos">
+        <table autosize="1" class="table" border="1" id="tablaDatos">
             <thead>
                 <tr>
                     <th style="font-size: 10px" rowspan="2">No. De muestra</th>
@@ -39,28 +39,109 @@
                 </tr>
             </thead>
             <tbody>
+
+                @foreach ($loteDetalleControles as $item)
+                    <tr>
+                    <td>{{$item->Control}}</td>
+                    <td>{{$item->Dilucion1}}</td>
+                    <td>{{$item->Presuntiva1}}</td>
+                    <td>{{$item->Presuntiva4}}</td>
+                    <td>{{$item->Presuntiva7}}</td>
+
+                    <td>{{$item->Presuntiva10}}</td>
+                    <td>{{$item->Presuntiva13}}</td>
+                    <td>{{$item->Presuntiva16}}</td>
+                    <td>
+                        {{($item->Presuntiva1 + $item->Presuntiva4 + $item->Presuntiva7)}}
+                    </td>
+                    <td>{{$item->Confirmativa1}}</td>
+                    <td>{{$item->Confirmativa4}}</td>
+                    <td>{{$item->Confirmativa7}}</td>
+
+                    <td>{{$item->Confirmativa1}}</td>
+                    <td>{{$item->Confirmativa4}}</td>
+                    <td>{{$item->Confirmativa7}}</td>
+                    <td>{{($item->Confirmativa1 + $item->Confirmativa2 + $item->Confirmativa7)}}</td>
+                    @switch($item->Tipo)
+                    @case(1)
+                    <td class="contenidoBody bordesTabla" >
+                        @if (@$item->Resultado == 0)
+                        < 3 @else {{@$item->Resultado}}
+                            @endif
+                    </td>
+
+                    <td class="contenidoBody bordesTabla" >
+                        --
+                    </td>
+
+                    <td class="contenidoBody bordesTabla"  style="font-weight: bold">
+                        --
+                    </td>
+                    @break
+                    @case(2)
+                    <td class="contenidoBody bordesTabla" >
+                        --
+                    </td>
+
+                    <td class="contenidoBody bordesTabla" >
+                        {{@$item->Resultado}}
+                    </td>
+
+                    <td class="contenidoBody bordesTabla"  style="font-weight: bold">
+                        --
+                    </td>
+                    @break
+                    @case(3)
+                    <td class="contenidoBody bordesTabla" >
+                        --
+                    </td>
+
+                    <td class="contenidoBody bordesTabla" >
+                        --
+                    </td>
+
+                    <td class="contenidoBody bordesTabla"  style="font-weight: bold">
+                        {{@$item->Resultado}}
+                    </td>
+                    @break
+                    @default
+                    <td class="contenidoBody bordesTabla" >
+                        --
+                    </td>
+
+                    <td class="contenidoBody bordesTabla" >
+                        --
+                    </td>
+
+                    <td class="contenidoBody bordesTabla"  style="font-weight: bold">
+                        --
+                    </td>
+                    @endswitch
+                    </tr>
+                @endforeach
+
                 @foreach ($loteDetalle as $item)
                 <tr>
                     <td rowspan="3">{{$item->Codigo}}</td>
                     <td>{{$item->Dilucion1}}</td>
-                    <td>{{$item->Presuntiva11}}</td>
-                    <td>{{$item->Presuntiva14}}</td>
-                    <td>{{$item->Presuntiva17}}</td>
+                    <td>{{$item->Presuntiva1}}</td>
+                    <td>{{$item->Presuntiva4}}</td>
+                    <td>{{$item->Presuntiva7}}</td>
 
-                    <td>{{$item->Presuntiva21}}</td>
-                    <td>{{$item->Presuntiva24}}</td>
-                    <td>{{$item->Presuntiva27}}</td>
+                    <td>{{$item->Presuntiva10}}</td>
+                    <td>{{$item->Presuntiva13}}</td>
+                    <td>{{$item->Presuntiva16}}</td>
                     <td>
-                        {{($item->Presuntiva21 + $item->Presuntiva22 + $item->Presuntiva23)}}
+                        {{($item->Presuntiva1 + $item->Presuntiva4 + $item->Presuntiva7)}}
                     </td>
-                    <td>{{$item->Confirmativa11}}</td>
-                    <td>{{$item->Confirmativa14}}</td>
-                    <td>{{$item->Confirmativa17}}</td>
+                    <td>{{$item->Confirmativa1}}</td>
+                    <td>{{$item->Confirmativa4}}</td>
+                    <td>{{$item->Confirmativa7}}</td>
 
-                    <td>{{$item->Confirmativa21}}</td>
-                    <td>{{$item->Confirmativa24}}</td>
-                    <td>{{$item->Confirmativa27}}</td>
-                    <td>{{($item->Confirmativa21 + $item->Confirmativa22 + $item->Confirmativa23)}}</td>
+                    <td>{{$item->Confirmativa1}}</td>
+                    <td>{{$item->Confirmativa4}}</td>
+                    <td>{{$item->Confirmativa7}}</td>
+                    <td>{{($item->Confirmativa1 + $item->Confirmativa2 + $item->Confirmativa7)}}</td>
                     @switch($item->Tipo)
                     @case(1)
                     <td class="contenidoBody bordesTabla" rowspan="3">
@@ -120,43 +201,45 @@
                 <tr>
 
                     <td>{{$item->Dilucion2}}</td>
-                    <td>{{$item->Presuntiva12}}</td>
-                    <td>{{$item->Presuntiva15}}</td>
-                    <td>{{$item->Presuntiva18}}</td>
+                    <td>{{$item->Presuntiva2}}</td>
+                    <td>{{$item->Presuntiva5}}</td>
+                    <td>{{$item->Presuntiva8}}</td>
 
-                    <td>{{$item->Presuntiva22}}</td>
-                    <td>{{$item->Presuntiva25}}</td>
-                    <td>{{$item->Presuntiva28}}</td>
+                    <td>{{$item->Presuntiva11}}</td>
+                    <td>{{$item->Presuntiva14}}</td>
+                    <td>{{$item->Presuntiva17}}</td>
 
-                    <td>{{($item->Presuntiva22 + $item->Presuntiva25 + $item->Presuntiva26)}}</td>
-                    <td>{{$item->Confirmativa12}}</td>
-                    <td>{{$item->Confirmativa15}}</td>
-                    <td>{{$item->Confirmativa18}}</td>
-                    <td>{{$item->Confirmativa22}}</td>
-                    <td>{{$item->Confirmativa25}}</td>
-                    <td>{{$item->Confirmativa28}}</td>
-                    <td>{{($item->Confirmativa23 + $item->Confirmativa24 + $item->Confirmativa25)}}</td>
+                    <td>{{($item->Presuntiva2 + $item->Presuntiva5 + $item->Presuntiva8)}}</td>
+                    <td>{{$item->Confirmativa2}}</td>
+                    <td>{{$item->Confirmativa5}}</td>
+                    <td>{{$item->Confirmativa8}}</td>
+
+                    <td>{{$item->Confirmativa2}}</td>
+                    <td>{{$item->Confirmativa5}}</td>
+                    <td>{{$item->Confirmativa8}}</td>
+                    <td>{{($item->Confirmativa2 + $item->Confirmativa5 + $item->Confirmativa8)}}</td>
 
                 </tr>
                 <tr>
 
                     <td>{{$item->Dilucion3}}</td>
-                    <td>{{$item->Presuntiva19}}</td>
-                    <td>{{$item->Presuntiva13}}</td>
-                    <td>{{$item->Presuntiva16}}</td>
+                    <td>{{$item->Presuntiva3}}</td>
+                    <td>{{$item->Presuntiva6}}</td>
+                    <td>{{$item->Presuntiva9}}</td>
 
-                    <td>{{$item->Presuntiva23}}</td>
-                    <td>{{$item->Presuntiva26}}</td>
-                    <td>{{$item->Presuntiva29}}</td>
+                    <td>{{$item->Presuntiva12}}</td>
+                    <td>{{$item->Presuntiva15}}</td>
+                    <td>{{$item->Presuntiva18}}</td>
 
-                    <td>{{($item->Presuntiva27 + $item->Presuntiva28 + $item->Presuntiva29)}}</td>
-                    <td>{{$item->Confirmativa19}}</td>
-                    <td>{{$item->Confirmativa13}}</td>
-                    <td>{{$item->Confirmativa16}}</td>
-                    <td>{{$item->Confirmativa29}}</td>
-                    <td>{{$item->Confirmativa23}}</td>
-                    <td>{{$item->Confirmativa26}}</td>
-                    <td>{{($item->Confirmativa27 + $item->Confirmativa28 + $item->Confirmativa29)}}</td>
+                    <td>{{($item->Presuntiva3 + $item->Presuntiva6 + $item->Presuntiva9)}}</td>
+                    <td>{{$item->Confirmativa3}}</td>
+                    <td>{{$item->Confirmativa6}}</td>
+                    <td>{{$item->Confirmativa9}}</td>
+
+                    <td>{{$item->Confirmativa3}}</td>
+                    <td>{{$item->Confirmativa6}}</td>
+                    <td>{{$item->Confirmativa9}}</td>
+                    <td>{{($item->Confirmativa3 + $item->Confirmativa6 + $item->Confirmativa9)}}</td>
 
                 </tr>
                 @endforeach
