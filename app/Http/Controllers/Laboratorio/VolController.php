@@ -342,6 +342,11 @@ class VolController extends Controller
         return response()->json($data);
     }
     #OBSERVACIONES
+    public function updateObsDqo(Request $request){
+        $model = LoteDetalleDqo::find($request->idDetalle);
+                $model->observacion = $request->observacion;
+                $model->save();
+    }
     public function updateObsVolumetria(Request $request)
     {
         switch ($request->caso) {
@@ -354,7 +359,7 @@ class VolController extends Controller
             case 2: // Dqo
                 # code...
                 $model = LoteDetalleDqo::find($request->idDetalle);
-                $model->Observacion = $request->observacion;
+                $model->observacion = $request->observacion;
                 $model->save();
                 break;
             case 3:

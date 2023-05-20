@@ -2576,12 +2576,26 @@ class FqController extends Controller
                 $mpdf->CSSselectMedia = 'mpdf';
                 $mpdf->WriteHTML($htmlCaptura);
                 break;
-            case 99:
-                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get();
-                $plantilla = PlantillasFq::where('Id_parametro', 99)->get();
-
-                $curva = CurvaConstantes::where('Id_parametro', 99)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+            case 99: //cianuros
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $idLote)->get(); 
+                $plantilla = BitacoraFq::where('Id_lote', $idLote)->get();
+                if ($plantilla->count()) {
+                    $plantilla = $plantilla;
+                } else {
+                    $plantilla = PlantillasFq::where('Id_parametro', $lote->Id_tecnica)->get();
+                }
+                $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $idLote)->get();
+                if ($comprobacion->count()) {
+                    $analizo = ""; 
+                } else {
+                    $analizo = User::where('id', $model[0]->Analizo)->first();
+                }
+                $reviso = User::where('id', 17)->first();
+                $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
                 $data = array(
+                    'reviso' => $reviso,
+                    'analizo' => $analizo,
+                    'comprobacion' => $comprobacion,
                     'lote' => $lote,
                     'model' => $model,
                     'curva' => $curva,

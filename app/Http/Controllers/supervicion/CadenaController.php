@@ -8,6 +8,7 @@ use App\Models\ConductividadMuestra;
 use App\Models\GastoMuestra;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
+use App\Models\LoteDetalleDirectos;
 use App\Models\LoteDetalleDureza;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetallePotable;
@@ -257,8 +258,11 @@ class CadenaController extends Controller
                         array_push($aux,($item->Promedio/$sumGasto));
                     }
                 }
-                $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)
-                    ->where('Activo', 1)->get();
+                if ($solModel->Id_servicio != 3) {
+                    $model = PhMuestra::where('Id_solicitud', $codigoModel->Id_solicitud)->where('Activo', 1)->get();
+                }else{
+                    $model = LoteDetalleDirectos::where('Id_analisis',$codigoModel->Id_solicitud)->where('Id_parametro',$paraModel->Id_parametro)->get();
+                }
                 break;
             case "97": //Temperatura
                 if ($solModel->Id_norma == 27) {
@@ -316,6 +320,7 @@ class CadenaController extends Controller
                 break;
         }
         $data = array(
+            'solModel' => $solModel,
             'aux' => $aux,
             'paraModel' => $paraModel,
             'codigoModel' => $codigoModel,

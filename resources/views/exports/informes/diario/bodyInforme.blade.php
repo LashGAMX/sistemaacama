@@ -13,7 +13,7 @@
 </head>
 <body>
     <p id='header1'>
-        {{-- INFORME DE RESULTADOS AGUA RESIDUAL  --}}
+        {{-- INFORME DE RESULTADOS AGUA RESIDUAL  --}} 
         {{$reportesInformes->Encabezado}}
         <br> MUESTRA
         @if (@$solModel->Id_muestra == 1)
@@ -47,11 +47,7 @@
     
                 <tr>
                     <td class="filasIzq bordesTabla anchoColumna7 bordeDerSinSup" rowspan="6" style="font-size: 9px">Punto de muestreo:</td>
-                    <td class="filasIzq bordesTabla fontBold anchoColumna60 bordeIzqDerSinSup" rowspan="6" style="font-size: 10px;">@if (@$solModel->Siralab == 1)
-                        {{@$puntoMuestreo->Punto}}
-                        @else
-                        {{@$puntoMuestreo->Punto_muestreo}}
-                        @endif</td>
+                    <td class="filasIzq bordesTabla fontBold anchoColumna60 bordeIzqDerSinSup" rowspan="6" style="font-size: 10px;">{{$puntoMuestreo->Punto}}</td>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Fecha de
                         Muestreo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -130,7 +126,7 @@
             border-color="#000000" width="100%">
             <tbody>
                 <tr>
-                    <td class="nombreHeader fontBold nom fontSize11 justificadorCentr">
+                    <td class="nombreHeader fontBold nom justificadorCentr" style="font-size: 10px;">
                         @switch(@$solicitud->Id_norma)
                         @case(1)
                         DE ACUERDO A NOM-001-SEMARNAT-1996
@@ -209,14 +205,14 @@
         <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <thead>
                 <tr>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" height="30">PARAMETRO &nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;METODO DE PRUEBA&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;UNIDAD&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION CUANTIFICADA&nbsp;&nbsp;</td>       
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" height="30">PARAMETRO &nbsp;</td>
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;METODO DE PRUEBA&nbsp;&nbsp;</td>
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;UNIDAD&nbsp;&nbsp;</td>
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION CUANTIFICADA&nbsp;&nbsp;</td>       
                     @if ($tipo == 1)
-                        <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PERMISIBLE P.D&nbsp;&nbsp;</td>
+                        <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PERMISIBLE P.D&nbsp;&nbsp;</td>
                     @endif             
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">ANALISTA</td>
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">ANALISTA</td>
                 </tr>
             </thead>
     
@@ -225,10 +221,10 @@
                 @foreach ($model as $item)
                     @if (@$item->Id_area != 9)
                         <tr> 
-                            <td class="tableContent bordesTablaBody" height="25">{{@$item->Parametro}}<sup>{{$item->Simbologia}}</sup></td>
-                            <td class="tableContent bordesTablaBody">{{@$item->Clave_metodo}}</td>
-                            <td class="tableContent bordesTablaBody">{{@$item->Unidad}}</td>
-                            <td class="tableContent bordesTablaBody">
+                            <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">{{@$item->Parametro}}<sup>{{$item->Simbologia}}</sup></td>
+                            <td class="tableContent bordesTablaBody" style="font-size: 8px;">{{@$item->Clave_metodo}}</td>
+                            <td class="tableContent bordesTablaBody" style="font-size: 8px;">{{@$item->Unidad}}</td>
+                            <td class="tableContent bordesTablaBody" style="font-size: 8px;">
                                 @if (@$item->Resultado2 != NULL)
                                     @switch($item->Id_parametro)
                                     @case(64)
@@ -243,7 +239,7 @@
                      
                             </td>
                             @if ($tipo == 1)
-                                <td class="tableContent bordesTablaBody">
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
                                     @if (@$item->Resultado2 != NULL)
                                         @switch($item->Id_parametro)
                                             @case(64)
@@ -258,7 +254,7 @@
                                   
                                 </td>
                             @endif
-                            <td class="tableContent bordesTablaBody">
+                            <td class="tableContent bordesTablaBody" style="font-size: 8px;">
                                 @if (@$item->Resultado2 != NULL)
                                     {{@$item->iniciales}}
                                 @else
@@ -275,44 +271,59 @@
     </div> 
     <footer>
         <div id="contenedorTabla">
+                <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+                    <tbody>            
+                            <tr>
+                                <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:2px">
+                                    @if ($solModel->Id_servicio != 3)  
+                                    OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, @php if(@swOlor == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR " .@$color;} else{ echo "LA MUESTRA PRESENTA COLOR ".@$color; }@endphp
+                                    EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                                    {{@$obsCampo}}
+                                    @else
+                
+                                    @endif
+                                </td>
+                            </tr>                
+                    </tbody>         
+                </table>  
+        </div>
+        <div id="contenedorTabla">
             <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                 <tbody>            
                         <tr>
-                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:2px">
-                                OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, @php if(@swOlor == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR " .@$color;} else{ echo "LA MUESTRA PRESENTA COLOR ".@$color; }@endphp
-                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
-                                {{@$obsCampo}}
+                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:4px">
+                                <br>
+                                {{-- <center><span><img style="width: auto; height: auto; max-width: 90px; max-height: 40;" src="{{url('public/storage/'.$firma1->firma)}}"> <br></span></center> --}}
+                                <br>
+                                <br>
+                                <br>
+                                <br>
                             </td>
+                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:4px">
+                                {{-- <center><span><img style="width: auto; height: auto; max-width: 90px; max-height: 40px;" src="{{url('public/storage/'.$firma2->firma)}}"> <br></span></center> --}}
+                            </td> 
                         </tr>                
+                        <tr>
+                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:2px">
+                                <center><span class="cabeceraStdMuestra"> REVISÓ SIGNATARIO <br> </span></center>
+                                <center><span class="bodyStdMuestra"> {{$reportesInformes->Analizo}} {{-- {{@$usuario->name}} --}} </span></center>
+                            </td>
+                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:2px">
+                                <center><span class="cabeceraStdMuestra"> AUTORIZÓ SIGNATARIO <br> </span></center>
+                                <center><span class="bodyStdMuestra"> {{$reportesInformes->Reviso}} {{-- {{@$usuario->name}} --}} </span></center>
+                            </td>
+                        </tr>
                 </tbody>         
             </table>  
-        </div>
-        
-            <div autosize="1" class="contenedorPadre12 paddingTop" cellpadding="0" cellspacing="0" border-color="#000000">
-                <div class="contenedorHijo12 bordesTablaFirmasSupIzq">
-                    <span><img style="width: auto; height: auto; max-width: 90px; max-height: 70px;" src="{{url('public/storage/'.$firma1->firma)}}"> <br></span>            
-                </div>
-        
-                <div class="contenedorHijo12 bordesTablaFirmasSupDer">            
-                    <span><img style="width: auto; height: auto; max-width: 90px; max-height: 70px;" src="{{url('public/storage/'.$firma2->firma)}}"> <br></span>            
-                </div>  
-        
-                <div class="contenedorHijo12 bordesTablaFirmasInfIzq">            
-                    <span class="cabeceraStdMuestra"> REVISÓ SIGNATARIO <br> </span>            
-                    <span class="bodyStdMuestra"> {{$reportesInformes->Analizo}} {{-- {{@$usuario->name}} --}} </span>
-                </div>         
-                
-                <div class="contenedorHijo12 bordesTablaFirmasInfDer">            
-                    <span class="cabeceraStdMuestra"> AUTORIZÓ SIGNATARIO <br> </span>
-                    <span class="bodyStdMuestra"> {{$reportesInformes->Reviso}} {{-- {{@$usuario->name}} --}} </span>
-                </div>
-            </div>
+    </div>
+
+    
         
             <div id="contenedorTabla">
                 <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                     <tbody>            
                             <tr>
-                                <td class="nombreHeaders fontBold fontSize9 justificadorIzq">
+                                <td class="nombreHeaders fontBold justificadorIzq" style="font-size: 7px">
                                     @php
                                         echo $reportesInformes->Nota;
                                     @endphp
@@ -327,6 +338,7 @@
                     $temp = array();
                     $sw = false;
                 @endphp
+
                 <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                     <tbody>            
                             @foreach ($model as $item)
@@ -339,10 +351,10 @@
                                     @switch($item->Id_parametro)
                                         @case(97)
                                             <tr>
-                                                <td class="nombreHeaders fontBold fontSize9 justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
                                             </tr>
                                             <tr>
-                                                <td class="nombreHeaders fontBold fontSize9 justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
+                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
                                             </tr>
                                             @php
                                                 array_push($temp,$item->Id_simbologia_info);
@@ -350,7 +362,7 @@
                                             @break
                                         @default
                                         <tr>
-                                            <td class="nombreHeaders fontBold fontSize9 justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
                                         </tr>
                                         @php
                                             array_push($temp,$item->Id_simbologia_info);

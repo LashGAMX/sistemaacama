@@ -149,6 +149,7 @@ function getLoteCapturaDirecto() {
                     case "102":
                     case "66":
                     case "65":
+                    case "120":
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleDirecto(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalColor">Capturar</button>';
                         console.log("Entro a color");
                         break;

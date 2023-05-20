@@ -661,11 +661,19 @@ function getDetalleAnalisis(idCodigo) {
                             $.each(response.model, function (key, item) {
                                 tab += '<tr>';
                                 tab += '<td> pH - ' + (cont + 1) + '</td>';
-                                tab += '<td>' + item.Promedio + '</td>';
+                                if (parseInt(response.solModel.Id_servicio) != 3) {
+                                    tab += '<td>' + item.Promedio + '</td>';   
+                                } else { 
+                                    tab += '<td>' + item.Resultado + '</td>';
+                                }
                                 tab += '</tr>';
-                                if (item.Promedio != null) {
-                                    aux = aux + parseFloat(item.Promedio);
-                                    cont++;
+                                if (item.Promedio != null || item.Resultado != null) {
+                                    if (parseInt(response.solModel.Id_servicio) != 3) {
+                                        aux = aux + parseFloat(item.Promedio);
+                                    } else { 
+                                        aux = aux + parseFloat(item.Resultado);
+                                    }
+                                    cont++; 
                                 }
                             });
                             resLiberado = (aux / cont).toFixed(2);

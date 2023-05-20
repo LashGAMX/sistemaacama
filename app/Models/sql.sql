@@ -26,7 +26,6 @@ INNER JOIN sucursales as suc
 ON inter.Laboratorio = suc.Id_sucursal
 --nueva vista intermediarios con id_user_c y m
 CREATE VIEW ViewIntermediarios as SELECT
-
 	inter.Id_intermediario,
 	inter.Id_cliente,
 	cli.Nombres,
@@ -379,7 +378,7 @@ ON det.Id_codigo = cod.Id_codigo
 /* Lista ViewLoteDetalleSolidos */ 
 
 CREATE VIEW ViewLoteDetalleSolidos as SELECT det.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_solidos as det
-INNER JOIN ViewSolicitud as sol
+INNER JOIN ViewSolicitud2 as sol
 ON det.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro
@@ -615,7 +614,7 @@ ON det.Id_codigo = cod.Id_codigo
 CREATE VIEW ViewLoteDetalleDureza AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,param.Limite,con.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_dureza as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
-INNER JOIN  ViewSolicitud as sol
+INNER JOIN  ViewSolicitud2 as sol
 ON det.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro

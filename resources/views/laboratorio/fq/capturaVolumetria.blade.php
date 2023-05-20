@@ -141,7 +141,7 @@
                                         placeholder="Observacion de la muestra">
                                 </div>
                                 <div class="form-group">
-                                    <button class="btn btn-success" type="button" onclick="updateObsVolumetria(2,'observacionDqo')"
+                                    <button class="btn btn-success" type="button" onclick="updateObsVolumetria(2)"
                                         id=""><i class="voyager-check"></i> Aplicar</button>
                                 </div>
                             </div>
