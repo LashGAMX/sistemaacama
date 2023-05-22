@@ -82,6 +82,8 @@ class IcpImport implements ToCollection
                 # code...
                 $id = 208;
                 break;
+            case 'Fe':
+                break;
             default:
                 # code...
                 $id = "";

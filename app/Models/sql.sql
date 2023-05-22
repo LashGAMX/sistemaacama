@@ -390,7 +390,7 @@ ON det.Id_codigo = cod.Id_codigo
 /* Lista ViewLoteDetalleColiformes */ 
 
 CREATE VIEW ViewLoteDetalleColiformes as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_coliformes as col
-INNER JOIN ViewSolicitud as sol
+INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON col.Id_parametro = param.Id_parametro
@@ -466,7 +466,7 @@ ON col.Id_codigo = cod.Id_codigo
 
 /* Lista ViewLoteDetalleCloro */ 
 CREATE VIEW ViewLoteDetalleCloro as SELECT col.*,sol.Empresa_suc,sol.Clave_norma,sol.Folio_servicio,param.Parametro,control.Control,control.Descripcion,cod.Codigo,cod.Num_muestra FROM lote_detalle_cloro as col
-INNER JOIN ViewSolicitud as sol
+INNER JOIN ViewSolicitud2 as sol
 ON col.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON col.Id_parametro = param.Id_parametro
@@ -559,8 +559,10 @@ INNER JOIN conductividad_trazable as con
 ON c.Id_conTrazable = con.Id_conductividad
 
 /* Vista ViewEnvaseParametroSol */
-CREATE VIEW ViewEnvaseParametroSol as SELECT env.Id_env,env.Id_analisis,env.Id_parametro,env.Reportes,env.Id_responsable,env.Id_envase,env.Id_preservador,env.Nombre,env.Volumen,env.Preservacion,env.Unidad as UniEnv,env.Id_area ,env.Area,pa.Id_solicitud,pa.Extra,pa.Parametro,pa.Area_analisis,pa.Id_tipo_formula,pa.Asignado,pa.Folio_servicio,pa.Metodo_prueba,pa.Unidad,
-env.stdArea
+CREATE VIEW ViewEnvaseParametroSol as SELECT env.Id_env,env.Id_analisis,env.Id_parametro,env.Reportes,
+env.Id_responsable,env.Id_envase,env.Id_preservador,env.Nombre,env.Volumen,env.Preservacion,env.Unidad as UniEnv,env.Id_area ,
+env.Area,pa.Id_solicitud,pa.Extra,pa.Parametro,pa.Area_analisis,pa.Id_area as Id_areaAnalisis,pa.Id_tipo_formula,pa.Asignado,pa.Folio_servicio,
+pa.Metodo_prueba,pa.Unidad,env.stdArea
 FROM ViewEnvaseParametro as env 
 INNER JOIN ViewSolicitudParametros as pa
 ON env.Id_parametro = pa.Id_parametro
@@ -601,7 +603,7 @@ ON m.Id_item = it.id
 CREATE VIEW ViewLoteDetalleDirectos AS SELECT det.*,sol.Folio_servicio,sol.Num_tomas,sol.Clave_norma,param.Parametro,param.Limite,con.Control,cod.Codigo,cod.Num_muestra FROM lote_detalle_directos as det
 INNER JOIN  lote_analisis as lot
 ON det.Id_lote = lot.Id_lote
-INNER JOIN  ViewSolicitud as sol
+INNER JOIN  ViewSolicitud2 as sol
 ON det.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro
