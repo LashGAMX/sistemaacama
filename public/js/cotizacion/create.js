@@ -533,7 +533,18 @@ function setCotizacion() {
   });
 }
 function addColPunto() {
-  var t = $('#puntoMuestro').DataTable();
+  
+  var t = $('#puntoMuestro').DataTable({
+    "ordering": false,
+    paging: false,
+    "language": {
+        "lengthMenu": "# _MENU_ por pagina",
+        "zeroRecords": "No hay datos encontrados",
+        "info": "Pagina _PAGE_ de _PAGES_",
+        "infoEmpty": "No hay datos encontrados",   
+    },
+    
+});
   counterPunto = 0;
   $('#addRow').on('click', function () {
     t.row.add([
