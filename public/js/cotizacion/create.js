@@ -758,7 +758,8 @@ function btnReccalcular()
   let subTotal = parseFloat($("#subTotal").val())
   let precioTotal = parseFloat($("#precioTotal").val())
   let temp = 0
-
+  let punto = document.getElementById("puntoMuestro").rows.length
+  punto = parseInt(punto)
 
 
   if ($("#numServicio").val() != "") {
@@ -782,7 +783,8 @@ function btnReccalcular()
         $("#precioAnalisisCon").val(temp)
         analisis = temp
     }
-    subTotal = (analisis + extra + muestreo + gastosExtras + paqueteria) * numServicio
+    console.log("Puntos: "+punto)
+    subTotal = ((analisis + extra + muestreo + gastosExtras + paqueteria) * (punto - 1) )* numServicio
     temp = (subTotal * 16) / 100
     precioTotal = temp + subTotal
     $("#subTotal").val(subTotal)
