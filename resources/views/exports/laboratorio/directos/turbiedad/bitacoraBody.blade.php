@@ -48,12 +48,10 @@
                         <td class="tableContent">{{ round($item->Promedio,2) }}</td>
                         @php
                             $resultado = "";
-                            if($item->Resultado >= 0 ){
+                            if($item->Resultado <= $item->Limite){
                                     $resultado = "< ". $item->Limite;
-                                } else if($item->Resultado > 1 && $item->Resultado <=10){
+                                } else{
                                     $resultado = round($item->Resultado,1);
-                                } else if($item->Resultado > 10){
-                                    $resultado = "> ". 10;
                                 }
                         @endphp
                                
