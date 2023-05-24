@@ -189,7 +189,8 @@ class IngresarController extends Controller
                                     'Num_muestra' => $i + 1,
                                     'Asignado' => 0,
                                     'Analizo' => 1,
-                                    'Reporte' => $item2->Reporte,
+                                    'Reporte' => 1,
+                                    'Cadena' => 1,
                                     'Cancelado' => $canceladoAux[$i],
                                 ]);
                             }
@@ -206,7 +207,8 @@ class IngresarController extends Controller
                                             'Num_muestra' => $i + 1,
                                             'Asignado' => 0,
                                             'Analizo' => 1,
-                                            'Reporte' => $item2->Reporte,
+                                            'Reporte' => 1,
+                                            'Cadena' => 1,
                                             'Cancelado' => $canceladoAux[$i],
                                         ]);
                                     }
@@ -220,7 +222,8 @@ class IngresarController extends Controller
                                         'Num_muestra' => $i + 1,
                                         'Asignado' => 0,
                                         'Analizo' => 1,
-                                        'Reporte' => $item2->Reporte,
+                                        'Reporte' => 1,
+                                        'Cadena' => 1,
                                         'Cancelado' => $canceladoAux[$i],
                                     ]);
                                 }
@@ -237,7 +240,8 @@ class IngresarController extends Controller
                                             'Num_muestra' => $i + 1,
                                             'Asignado' => 0,
                                             'Analizo' => 1,
-                                            'Reporte' => $item2->Reporte,
+                                            'Reporte' => 1,
+                                            'Cadena' => 1,
                                             'Cancelado' => $canceladoAux[$i],
                                         ]);
                                     }
@@ -251,7 +255,8 @@ class IngresarController extends Controller
                                         'Num_muestra' => $i + 1,
                                         'Asignado' => 0,
                                         'Analizo' => 1,
-                                        'Reporte' => $item2->Reporte,
+                                        'Reporte' => 1,
+                                        'Cadena' => 1,
                                         'Cancelado' => $canceladoAux[$i],
                                     ]);
                                 }
@@ -267,7 +272,8 @@ class IngresarController extends Controller
                                     'Num_muestra' => $i + 1,
                                     'Asignado' => 0,
                                     'Analizo' => 1,
-                                    'Reporte' => $item2->Reporte,
+                                    'Reporte' => 1,
+                                    'Cadena' => 1,
                                     'Cancelado' => 0,
                                 ]);
                             }
@@ -280,8 +286,9 @@ class IngresarController extends Controller
                                 'Num_muestra' => 1,
                                 'Asignado' => 0,
                                 'Analizo' => 1,
-                                'Reporte' => $item2->Reporte,
-                                'Cancelado' => 0,
+                                'Reporte' => 1,
+                                'Cadena' => 1,
+                                'Cancelado' => 0, 
                             ]);
                             // if ($model[0]->Id_norma == "27") {
                             //     if ($res->cloruros[$contP] <= 1000) {
@@ -319,7 +326,8 @@ class IngresarController extends Controller
                                         'Num_muestra' => 1, 
                                         'Asignado' => 0,
                                         'Analizo' => 1,
-                                        'Reporte' => $item2->Reporte,
+                                        'Reporte' => 1,
+                                        'Cadena' => 1,
                                         'Cancelado' => 0,
                                     ]);
                                 }
@@ -331,7 +339,8 @@ class IngresarController extends Controller
                                     'Num_muestra' => 1,
                                     'Asignado' => 0,
                                     'Analizo' => 1,
-                                    'Reporte' => $item2->Reporte,
+                                    'Reporte' => 1,
+                                    'Cadena' => 1,
                                     'Cancelado' => 0,
                                 ]);
                             }
@@ -344,7 +353,9 @@ class IngresarController extends Controller
                                 'Num_muestra' => 1,
                                 'Asignado' => 0,
                                 'Analizo' => 1,
-                                'Reporte' => $item2->Reporte,
+                                'Reporte' => 1,
+                                'Cadena' => 1,
+                                
                                 'Cancelado' => 0,
                             ]);
                             break;

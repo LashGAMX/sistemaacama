@@ -174,7 +174,7 @@ function getLoteCapturaMicro() {
                     case "134":
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" '+status+' class="'+clase+'" onclick="getDetalleColiAlimentos(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalColiformesAlimentos">Capturar</button>';
                         break;
-                   case "78": //E.coli
+                   case "78": //E.coli alimentos
                    let data = [item.Colonia1, item.Colonia2, item.Colonia3,item.Colonia4,item.Colonia5];
                         tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '">';
                         tab +='<div class="row">'
@@ -194,7 +194,7 @@ function getLoteCapturaMicro() {
                         for (let i = 0; i < indice[contador]; i++){
                             tab +='<div class="row">'
                             tab +='<div class="col-md-12">'
-                            tab += '<button type="button" id="col'+i+'" '+status+' class="'+clase+'" onclick="getDetalleEcoli(' + item.Id_detalle + ', '+(i+1)+');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
+                            tab += '<button type="button" id="col'+i+'" '+status+' class="'+clase+'" onclick="getDetalleEcoli(' + item.Id_detalle + ',' +(i+1)+ ',' +indice[contador]+');" data-toggle="modal" data-target="#modalEcoli">Capturar</button>';
                             tab += '<label>'
                             tab += "&nbsp Colonia &nbsp" +(i+1) +'&nbsp';
                             tab +='</label>';
@@ -301,6 +301,8 @@ function operacionEcoli(idDetalle){
             bgn1:$("#bgn1").val(),
             observacion: obs,
 
+            indice: $("#indice").val(),
+
             indol2:$("#indol2").val(),
             rm2:$("#rm2").val(),
             vp2:$("#vp2").val(),
@@ -389,7 +391,7 @@ function getDetalleColiAlimentos(idMuestra,colonia){
         }
     });
 }
-function getDetalleEcoli(idMuestra,colonia){
+function getDetalleEcoli(idMuestra,colonia,indice){
     numColonia = colonia;
     $.ajax({
         type: "POST",
@@ -413,6 +415,7 @@ function getDetalleEcoli(idMuestra,colonia){
             $("#citrato2").val(response.convinaciones.Citrato2)
             $("#bgn2").val(response.convinaciones.BGN2)
             $("#observacionEcoli").val(response.model.observacion)
+            $("#indice").val(indice)
         }
     });
 }

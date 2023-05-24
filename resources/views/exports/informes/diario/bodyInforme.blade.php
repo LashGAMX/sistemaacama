@@ -60,7 +60,13 @@
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Hora de muestreo:
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="fontBold">{{@$horaMuestreo}}</span>
+                        <span class="fontBold">
+                            @if ($solModel->Id_servicio != 3)  
+                                {{@$horaMuestreo}}
+                            @else
+                                INSTANTANEA                                    
+                            @endif
+                        </span>
                     </td>
                 </tr>
     
@@ -69,7 +75,7 @@
                         Recepción: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span
-                            class="fontBold">{{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_entrada)->format('d/m/Y')}}</span>
+                            class="fontBold">{{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->format('d/m/Y')}}</span>
                     </td>
                 </tr>
     
@@ -78,7 +84,7 @@
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span class="fontBold">{{
-                            \Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_entrada)->addDays(7)->format('d/m/Y')}}</span>
+                            \Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(7)->format('d/m/Y')}}</span>
                     </td>
                 </tr>
     
@@ -103,8 +109,8 @@
                 <tr>
                     <td class="filasIzq bordesTabla anchoColumna11 bordeDer">Periodo de análisis:</td>
                     <td class="filasIzq bordesTabla bordeSinIzqFinalSup anchoColumna28 fontBold" colspan="3">DE
-                        {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_entrada)->format('d/m/Y')}}
-                        A {{ \Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_entrada)->addDays(7)->format('d/m/Y')}}
+                        {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->format('d/m/Y')}}
+                        A {{ \Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(7)->format('d/m/Y')}}
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -276,11 +282,33 @@
                             <tr>
                                 <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:2px">
                                     @if ($solModel->Id_servicio != 3)  
-                                    OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, @php if(@swOlor == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR " .@$color;} else{ echo "LA MUESTRA PRESENTA COLOR ".@$color; }@endphp
-                                    EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
-                                    {{@$obsCampo}}
+                                        @switch($solModel->Id_norma)
+                                            @case(1)
+                                            @case(27)
+                                                OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, @php if(@$swOlor == true) {echo "LA MUESTRA PRESENTA OLOR " .@$color;} else{ echo "LA MUESTRA PRESENTA COLOR ".@$color; }@endphp
+                                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                                                {{@$obsCampo}}
+                                                @break
+                                            @case(5) 
+                                            @case(30)
+                                                @if ($solModel->Id_servicio != 3)
+                                                    OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, 
+                                                    @php if(@$swOlor == true) {echo "LA MUESTRA PRESENTA OLOR";} else{ echo "LA MUESTRA NO PRESENTA OLOR";}@endphp
+                                                    Y COLOR DE LA MUESTRA {{$color}} ,
+                                                    EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN EL PROCEDIMIENTO INTERNO PEA-10-002-01 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-27 <br>
+                                                    {{@$obsCampo}}
+                                                @else
+                                                    OBSERVACIONES: MUESTRA REMITIDA AL LABORATORIO POR EL CLIENTE, LOS RESULTADOS SE APLICAN A LA MUESTRA COMO SE RECIBIÓ
+                                                @endif
+                                            @break 
+                                            @default
+                                                OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, @php if(@$swOlor == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR " .@$color;} else{ echo "LA MUESTRA PRESENTA COLOR ".@$color; }@endphp
+                                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                                                {{@$obsCampo}}
+                                        @endswitch
                                     @else
-                
+                                    
+                                    <p>OBSERVACIONES: MUESTRA REMITIDA AL LABORATORIO POR EL CLIENTE, LOS RESULTADOS SE APLICAN A LA MUESTRA COMO SE RECIBIÓ</p>
                                     @endif
                                 </td>
                             </tr>                
@@ -306,13 +334,13 @@
                         <tr>
                             <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:2px">
                                 <center><span class="cabeceraStdMuestra"> REVISÓ SIGNATARIO <br> </span></center>
-                                <center><span class="bodyStdMuestra"> {{$reportesInformes->Analizo}} {{-- {{@$usuario->name}} --}} </span></center>
+                                <center><span class="bodyStdMuestra"> {{$firma1->name}} {{-- {{@$usuario->name}} --}} </span></center>
                             </td>
                             <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:2px">
                                 <center><span class="cabeceraStdMuestra"> AUTORIZÓ SIGNATARIO <br> </span></center>
-                                <center><span class="bodyStdMuestra"> {{$reportesInformes->Reviso}} {{-- {{@$usuario->name}} --}} </span></center>
+                                <center><span class="bodyStdMuestra"> {{$firma2->name}} {{-- {{@$usuario->name}} --}} </span></center>
                             </td>
-                        </tr>
+                        </tr> 
                 </tbody>         
             </table>  
     </div>
@@ -324,9 +352,44 @@
                     <tbody>            
                             <tr>
                                 <td class="nombreHeaders fontBold justificadorIzq" style="font-size: 7px">
-                                    @php
+                                    {{-- @php
                                         echo $reportesInformes->Nota;
-                                    @endphp
+                                    @endphp --}}
+                                    @switch($solModel->Id_norma)
+                                        @case(5)
+                                        @case(30)
+                                                @if ($solModel->Id_servicio != 3)
+                                                    <p>NOTA: INTERPRETAR EL PUNTO (.) COMO SIGNO DECIMAL SEG&Uacute;N NORMA NOM-008-SCFI-2002</p>
+                                                    <p>NOTA 2: LOS DATOS EXPRESADOS AVALAN &Uacute;NICAMENTE LOS RESULTADOS DE LA MUESTRA ANALIZADA.</p>
+                                                    <p>NOTA 3: LOS DATOS DE EMPRESA, DIRECCI&Oacute;N, PUNTO DE MUESTREO, SON PROPORCIONADOS POR EL CLIENTE.</p>
+                                                    <p>LOS VALORES CON EL SIGNO MENOR (&lt;) CORRESPONDEN AL VALOR M&Iacute;NIMO CUANTIFICADO POR EL M&Eacute;TODO.</p>
+                                                    <p>ESTE REPORTE NO DEBE REPRODUCIRSE SIN LA APROBACI&Oacute;N DEL LABORATORIO EMISOR.</p>
+                                                    <p>PLAN DE MUESTREO RE-11-005 Y CADENA DE CUSTODIA INTERNA RE-11-003-1</p>
+                                                    <p>N.A INTERPRETAR COMO NO APLICA.</p>
+                                                    <p>N.N INTERPRETAR COMO NO NORMADO.</p>           
+                                                    <p>1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N ema No. AG-057-025/12, CONTINUAR&Aacute; VIGENTE.</p>
+                                                    <p>1 APROBACI&Oacute;N C.N.A. No CNA-GCA-2599, VIGENCIA A PARTIR DEL 17 DE FEBRERO DE 2023 HASTA 18 DE NOVIEMBRE DEL 2023</p>
+                                                    <p>1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N EMA NO. A-0530-047/14, CONTINUAR&Aacute; VIGENTE.</p>
+                                                @else
+                                                    <p>NOTA: INTERPRETAR EL PUNTO (.) COMO SIGNO DECIMAL SEG&Uacute;N NORMA NOM-008-SCFI-2002</p>
+                                                    <p>NOTA 2: LOS DATOS EXPRESADOS AVALAN &Uacute;NICAMENTE LOS RESULTADOS DE LA MUESTRA ANALIZADA.</p>
+                                                    <p>NOTA 3: LOS DATOS DE EMPRESA, DIRECCI&Oacute;N, PUNTO DE MUESTREO, SON PROPORCIONADOS POR EL CLIENTE.</p>
+                                                    <p>LOS VALORES CON EL SIGNO MENOR (&lt;) CORRESPONDEN AL VALOR M&Iacute;NIMO CUANTIFICADO POR EL M&Eacute;TODO.</p>
+                                                    <p>ESTE REPORTE NO DEBE REPRODUCIRSE SIN LA APROBACI&Oacute;N DEL LABORATORIO EMISOR.</p>
+                                                    <p>PLAN DE MUESTREO RE-11-005 Y CADENA DE CUSTODIA INTERNA RE-11-003-1</p>
+                                                    <p>N.A INTERPRETAR COMO NO APLICA.</p>
+                                                    <p>N.N INTERPRETAR COMO NO NORMADO.</p>
+                                                    <p>1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N ema No. AG-057-025/12, CONTINUAR&Aacute; VIGENTE.</p>
+                                                    <p>1 APROBACI&Oacute;N C.N.A. No CNA-GCA-2599, VIGENCIA A PARTIR DEL 17 DE FEBRERO DE 2023 HASTA 18 DE NOVIEMBRE DEL 2023</p>
+                                                    <p>1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N EMA NO. A-0530-047/14, CONTINUAR&Aacute; VIGENTE.</p>
+                                                @endif
+                                            @break
+
+                                        @default
+                                        @php
+                                            echo $reportesInformes->Nota;
+                                        @endphp
+                                    @endswitch
                                 </td>
                             </tr>                
                     </tbody>         
@@ -348,32 +411,34 @@
                                     @endif
                                 @endfor
                                 @if ($sw != true)
-                                    @switch($item->Id_parametro)
-                                        @case(97)
+                                    @if ($item->Id_simbologia_info	!= 9)
+                                        @switch($item->Id_parametro)
+                                            @case(97)
+                                                <tr> 
+                                                    <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                                </tr>
+                                                <tr>
+                                                    <td   style="font-size: 7px" class="fontBold justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
+                                                </tr>
+                                                @php
+                                                    array_push($temp,$item->Id_simbologia_info);
+                                                @endphp
+                                                @break
+                                            @default
                                             <tr>
                                                 <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
-                                            </tr>
-                                            <tr>
-                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
                                             </tr>
                                             @php
                                                 array_push($temp,$item->Id_simbologia_info);
                                             @endphp
-                                            @break
-                                        @default
-                                        <tr>
-                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
-                                        </tr>
-                                        @php
-                                            array_push($temp,$item->Id_simbologia_info);
-                                        @endphp
-                                    @endswitch
+                                        @endswitch
+                                    @endif
                                    
                                 @endif
                                 @php
                                     $sw = false;
                                 @endphp
-                            @endforeach
+                            @endforeach 
                     </tbody>         
                 </table>  
             </div>    
@@ -384,18 +449,16 @@
                         <tr>                    
                             <td>
                                 @php
-                                    /* $url = url()->current(); */
-                                    $url = "https://sistemaacama.com.mx/clientes/exportPdfSinComparacion/".@$solicitud->Id_solicitud;
-                                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
+                                /*$bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($model->Folio_servicio,
+                                "C39");*/
+                                /*$url = url()->current();*/
+                                $url = "https://sistemaacama.com.mx/clientes/informe-de-resultados-acama/".@$folioEncript;
+                                $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
                                 @endphp
-                                                                
+                                  
                                 <img style="width: 8%; height: 8%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold">&nbsp;&nbsp;&nbsp; {{@$solicitud->Folio_servicio}}</span>
                             </td>                                                                        
                         </tr>
-        
-                        {{-- <tr>
-                            <td style="text-align: right;"><span class="revisiones">{{$reportesInformes->Clave}}</span> <br> <span class="revisiones">Revisión {{$reportesInformes->Num_rev}}</span></td>
-                        </tr> --}}
                     </thead>                        
                 </table>  
             </div> 

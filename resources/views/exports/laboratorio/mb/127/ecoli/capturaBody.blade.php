@@ -24,7 +24,7 @@
                 <thead>
                     <tr>
                         <th>MUESTRA</th>
-                        <th>POSITIVOS</th>
+                        <th>POSITIVOS(COLIFORMES)</th>
                         <th>COLONIA1</th>
                         <th>COLONIA2</th>
                         <th>COLONIA3</th>
@@ -50,6 +50,7 @@
                         @else
                             <td>{{$item->Resultado}}</td>
                         @endif
+                       
                     </tr>
                 @endforeach
                 </tbody>

@@ -13,14 +13,15 @@ class LoteDetalleIcp extends Model
     protected $primaryKey = 'Id_detalle';
     public $timestamps = true;
 
-    protected $fillable = [
+    protected $fillable = [ 
         'Id_lote',
         'Id_analisis',
         'Id_codigo',
         'Id_parametro',
         'Parametro',
         'Id_control',
-        'Cps',
+        'Cps', 
+        'Dilucion',
         'Resultado',
         'Fecha',
         'Observacion',

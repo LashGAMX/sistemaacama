@@ -81,8 +81,8 @@
                                     <div class="form-group">
                                         <label for="tipoReporte">Tipo  de reporte</label>
                                         <select class="form-control" id="tipoReporte">
-                                            <option value="1">Con comparación</option>
                                             <option value="2">Sin Comparación</option>
+                                            <option value="1">Con comparación</option>
                                             <option value="3">Campo</option>
                                             
                                         </select>

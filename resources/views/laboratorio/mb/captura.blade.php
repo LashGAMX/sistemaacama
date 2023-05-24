@@ -305,6 +305,11 @@
                                             <td><input type="text" id="bgn1" value=""></td>
                                             <td><input type="text" id="bgn2" value=""></td>
                                         </tr>
+                                        <tr hidden>
+                                            <td>Indice</td>
+                                            <td><input type="text" id="indice" value=""></td>
+                                            
+                                        </tr>
                                      
                                     </tbody>
                                 </table>
@@ -991,7 +996,7 @@
 
 
     @section('javascript')
-    <script src="{{asset('/public/js/laboratorio/mb/captura.js')}}?v=0.0.1"></script>
+    <script src="{{asset('/public/js/laboratorio/mb/captura.js')}}?v=0.0.2"></script>
     @stop
 
     @endsection

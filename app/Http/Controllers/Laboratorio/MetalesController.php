@@ -1559,7 +1559,7 @@ class MetalesController extends Controller
                 case 214://Mn
                 case 233://Se
                 case 217://Ag
-                    if ($item->Resultado >= 0.030 && $item->Resultado <= 0.390) {
+                    if ($item->Dilucio < 30) {
                         $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
                         $temp->Resultado = $item->Resultado;
                         $temp->Resultado2 = $item->Resultado;
@@ -1569,13 +1569,24 @@ class MetalesController extends Controller
                         $temp2->Liberado = 1;
                         $temp2->save();
                     }else{
-                        $temp2 = LoteDetalleIcp::find($item->Id_detalle);
-                        $temp2->Liberado = 1;
-                        $temp2->save();
+                        if ($item->Dilucion >= 30 && $item->Dilucion <= 390) {
+                            $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
+                            $temp->Resultado = $item->Resultado;
+                            $temp->Resultado2 = $item->Resultado;
+                            $temp->Analizo = Auth::user()->id;
+                            $temp->save();
+                            $temp2 = LoteDetalleIcp::find($item->Id_detalle);
+                            $temp2->Liberado = 1;
+                            $temp2->save();
+                        }else{
+                            $temp2 = LoteDetalleIcp::find($item->Id_detalle);
+                            $temp2->Liberado = 1;
+                            $temp2->save();
+                        }
                     }
                     break;
                 case 213:// Fe
-                    if ($item->Resultado >= 0.090 && $item->Resultado <= 1.170) {
+                    if ($item->Dilucio < 30) {
                         $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
                         $temp->Resultado = $item->Resultado;
                         $temp->Resultado2 = $item->Resultado;
@@ -1585,10 +1596,22 @@ class MetalesController extends Controller
                         $temp2->Liberado = 1;
                         $temp2->save();
                     }else{
-                        $temp2 = LoteDetalleIcp::find($item->Id_detalle);
-                        $temp2->Liberado = 1;
-                        $temp2->save();
+                        if ($item->Resultado >= 90 && $item->Resultado <= 1170) {
+                            $temp = CodigoParametros::where('Codigo',$item->Id_codigo)->where('Id_parametro',$item->Id_parametro)->first();
+                            $temp->Resultado = $item->Resultado;
+                            $temp->Resultado2 = $item->Resultado;
+                            $temp->Analizo = Auth::user()->id;
+                            $temp->save();
+                            $temp2 = LoteDetalleIcp::find($item->Id_detalle);
+                            $temp2->Liberado = 1;
+                            $temp2->save();
+                        }else{
+                            $temp2 = LoteDetalleIcp::find($item->Id_detalle);
+                            $temp2->Liberado = 1;
+                            $temp2->save();
+                        }
                     }
+
                     break;
                 default:
                     break;

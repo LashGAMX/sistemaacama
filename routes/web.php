@@ -17,7 +17,7 @@ use App\Http\Controllers\Seguimiento\SeguimientoController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
-|--------------------------------------------------------------------------
+|-------------------------------------------------------------------------- 
 |
 | Here is where you can register web routes for your application. These
 | routes are loaded by the RouteServiceProvider within a group which
@@ -33,7 +33,7 @@ Route::get('/jsonParametros',[HomeController::class,'jsonParametros']);
 
 Route::group(['prefix' => 'admin'], function () {
     Voyager::routes();
-});
+}); 
 Route::group(['prefix' => 'clientes'], function () {
     // Route::get('orden_servicio/{idOrden}',[SolicitudController::class,'exportPdfOrden']);
     // Route::get('informeMensualSinComparacion/{idSol}', [InformesController::class, 'pdfSinComparacionCliente']);
@@ -43,6 +43,7 @@ Route::group(['prefix' => 'clientes'], function () {
     // Route::get('exportPdfCustodiaInterna/{idSol}', [InformesController::class, 'custodiaInternaCli']);
     // Route::get('hojaCampo/{id}', [CampoController::class, 'hojaCampoCli']);
     Route::get('cadena-custodia-interna/{id}',[ClientesAcamaController::class,'cadenacustodiainterna']);
+    Route::get('informe-de-resultados-acama/{id}',[ClientesAcamaController::class,'informederesultados']);
 }); 
 
 Route::group(['prefix' => 'admin'], function (){

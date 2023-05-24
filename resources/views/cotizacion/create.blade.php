@@ -741,7 +741,7 @@
     @endsection
     @section('javascript')
  
-    <script src="{{ asset('/public/js/cotizacion/create.js') }}?v=1.0.3"></script>
+    <script src="{{ asset('/public/js/cotizacion/create.js') }}?v=1.0.4"></script>
     <script src="{{ asset('/public/js/libs/duallist/jquery.transfer.js') }}"></script>
 <!-- include summernote css/js -->
 <script src="{{asset('/assets/summer/summernote.js')}}"></script>

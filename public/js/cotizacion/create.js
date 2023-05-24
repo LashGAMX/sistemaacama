@@ -794,8 +794,10 @@ function btnReccalcular()
         $("#precioAnalisisCon").val(temp)
         analisis = temp
     }
-    console.log("Puntos: "+punto)
-    subTotal = ((analisis + extra + muestreo + gastosExtras + paqueteria) * (punto - 1) )* numServicio
+    console.log("Puntos: "+(punto - 1))
+    subTotal = ((analisis + extra) * (punto - 1) ) * numServicio
+    subTotal = subTotal + muestreo + gastosExtras + paqueteria
+    console.log("subTotal: "+ subTotal)
     temp = (subTotal * 16) / 100
     precioTotal = temp + subTotal
     $("#subTotal").val(subTotal)

@@ -1661,19 +1661,25 @@ class CampoController extends Controller
             }
             if ($sw != true) {
 
-                switch ($item->Id_area) {
-                    case 2:
-                    case 7:
-                    case 16:
-                    case 17:
-                    case 45:
-                    case 34:
-                    case 33:
-                     $aux = $model->Num_tomas * $puntoMuestreo->count();
+                switch ($item->Id_areaAnalisis) {
+                    case 3:
+                    case 6:
+                    case 13: 
+                    case 12:
+                        switch ($item->Id_parametro) {
+                            case 16:
+                            case 81:
+                                $aux = $puntoMuestreo->count(); 
+                                break;
+                            
+                            default:
+                                $aux = $model->Num_tomas * $puntoMuestreo->count();
+                                break;
+                        }
                         break;
                     
-                    default:
-                        $aux = $model->Num_tomas;
+                    default: 
+                    $aux = $puntoMuestreo->count(); 
                         break;
                 }
 

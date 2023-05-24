@@ -280,6 +280,7 @@ class MbController extends Controller
                         break;
                     }
                 }
+                
                 break;
             default:
                 # code...
@@ -513,6 +514,7 @@ class MbController extends Controller
                 'ResDos' => $res2,
                 'Resultado' => $muestraR,
                 'Observacion' => $request->observacion,
+                
 
             ]);
         } else {
@@ -535,6 +537,10 @@ class MbController extends Controller
             $model->Observacion = $request->observacion;
             $model->save();
         }
+
+        $loteDetalle = LoteDetalleEcoli::where('Id_detalle', $request->idDetalle)->first();
+        $loteDetalle->Positivos = $request->indice;
+        $loteDetalle->save();
 
         switch ($request->colonia) {
             case 1:

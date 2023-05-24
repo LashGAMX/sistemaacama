@@ -31,7 +31,8 @@ class IcpImport implements ToCollection
                     'Parametro' => $elementoTemp[0],
                     'Id_control' => 1,
                     'Cps' => $row[39],
-                    'Resultado' => $row[37],
+                    'Dilucion' => $row[35],
+                    'Resultado' => $row[37], // AL
                     'Fecha' => $row[14],
                     'Analizo' => Auth::user()->id,
                 ]);
@@ -44,6 +45,7 @@ class IcpImport implements ToCollection
                     'Id_codigo' => $row[9],
                     'Parametro' => $elementoTemp[0],
                     'Cps' => $row[39],
+                    'Dilucion' => $row[35],
                     'Resultado' => $row[37],
                     'Fecha' => $row[14],
                     'Analizo' => Auth::user()->id,

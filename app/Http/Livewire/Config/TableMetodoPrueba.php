@@ -52,7 +52,7 @@ class TableMetodoPrueba extends Component
         $this->idMetodo = $model->Id_metodo;
         $this->clave = $model->Clave_metodo;
         $this->nota = "Creación de registro";
-        $this->historial();
+       // $this->historial();
         $this->alert = true;
     }
     public function store()
@@ -61,7 +61,7 @@ class TableMetodoPrueba extends Component
         $model = MetodoPrueba::find($this->idMetodo);
         $model->Metodo_prueba = $this->metodo;
         $model->Clave_metodo = $this->clave;
-        $this->historial();
+       // $this->historial();
         $model->save();
         
         $this->alert = true;
