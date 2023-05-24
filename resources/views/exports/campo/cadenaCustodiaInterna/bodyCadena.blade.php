@@ -97,22 +97,45 @@
                                       --------------- 
                                     @else
                                         @if ($fechasSalidas[$i] != "")
-                                        {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}
+                                            @switch($model->Id_norma)
+                                            @case(1)
+                                            @case(27)  
+                                                {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}  
+                                                @break
+                                            @case(5)
+                                            @case(30)   
+                                                    {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(21)->format('d/m/Y')}}  
+                                                @break
+                                                @default
+                                                {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}
+                                            @endswitch
+                                        
                                         @else
-                                            <p style="color: red">Sin captura</p>
+                                            <p style="color: red">Sin captura</p> 
                                         @endif
                                     @endif
                                 </td>
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
                                     @if ($fechasSalidas[$i] != "")
-                                        {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
+                                        @switch($model->Id_norma)
+                                            @case(1)
+                                            @case(27)  
+                                                {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(11)->format('d/m/Y')}}  
+                                                @break
+                                            @case(5)
+                                            @case(30)  
+                                                {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(14)->format('d/m/Y')}}  
+                                                @break
+                                            @default
+                                            {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
+                                        @endswitch
                                     @else
                                         <p style="color: red">Sin captura</p>
                                     @endif
                                 </td>
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
                                     @if ($fechasSalidas[$i] != "")
-                                        <img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="{{url('public/storage/'.@$firmas[$i])}}">
+                                        <center><img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="{{url('public/storage/'.@$firmas[$i])}}"></center>
                                     @else
                                         <p style="color: red">Sin captura</p>
                                     @endif

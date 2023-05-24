@@ -212,6 +212,7 @@ function getDetalleAnalisis(idCodigo) {
                 case 107:
                 case "96":
                 case "95": // Sulfatos
+                case "87": // silice 
                     console.log("entro a caso 16");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';

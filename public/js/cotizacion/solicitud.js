@@ -6,7 +6,7 @@ $(document).ready(function () {
 
     table = $('#tablaSolicitud').DataTable({
         "ordering": false,
-        "pageLength": 100,
+        paging: false,
         "language": {
             "lengthMenu": "# _MENU_ por pagina",
             "zeroRecords": "No hay datos encontrados",

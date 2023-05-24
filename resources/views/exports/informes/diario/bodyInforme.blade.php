@@ -83,8 +83,20 @@
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Fecha de Emisión:
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="fontBold">{{
-                            \Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(7)->format('d/m/Y')}}</span>
+                        <span class="fontBold">
+                            @switch($solModel->Id_norma)
+                            @case(1)
+                            @case(27)  
+                            {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
+                                @break
+                            @case(5)
+                            @case(30)  
+                            {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(14)->format('d/m/Y')}}
+                                @break
+                            @default
+                            {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
+                        @endswitch
+                        </span>
                     </td>
                 </tr>
     
@@ -110,7 +122,19 @@
                     <td class="filasIzq bordesTabla anchoColumna11 bordeDer">Periodo de análisis:</td>
                     <td class="filasIzq bordesTabla bordeSinIzqFinalSup anchoColumna28 fontBold" colspan="3">DE
                         {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->format('d/m/Y')}}
-                        A {{ \Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(7)->format('d/m/Y')}}
+                        A 
+                        @switch($solModel->Id_norma)
+                        @case(1)
+                        @case(27)  
+                            {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
+                            @break
+                        @case(5)
+                        @case(30)  
+                            {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(14)->format('d/m/Y')}}
+                            @break
+                        @default
+                            {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
+                        @endswitch
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -211,14 +235,14 @@
         <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <thead>
                 <tr>
-                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" height="30">PARAMETRO &nbsp;</td>
-                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;METODO DE PRUEBA&nbsp;&nbsp;</td>
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" height="30" width="20.6%">PARAMETRO &nbsp;</td>
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="20.6%">&nbsp;METODO DE PRUEBA&nbsp;&nbsp;</td>
                     <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;UNIDAD&nbsp;&nbsp;</td>
-                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION CUANTIFICADA&nbsp;&nbsp;</td>       
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;CONCENTRACION <br> CUANTIFICADA&nbsp;&nbsp;</td>       
                     @if ($tipo == 1)
                         <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PERMISIBLE P.D&nbsp;&nbsp;</td>
                     @endif             
-                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">ANALISTA</td>
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">ANALISTA</td>
                 </tr>
             </thead>
     
@@ -347,11 +371,12 @@
 
     
         
+    
             <div id="contenedorTabla">
                 <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
-                    <tbody>            
+                    <tbody>           
                             <tr>
-                                <td class="nombreHeaders fontBold justificadorIzq" style="font-size: 7px">
+                                <td class="nombreHeaders fontBold justificadorIzq" style="font-size: 7px;width: 80%;" >
                                     {{-- @php
                                         echo $reportesInformes->Nota;
                                     @endphp --}}
@@ -391,79 +416,71 @@
                                         @endphp
                                     @endswitch
                                 </td>
-                            </tr>                
+                                <td style="width: 15%">
+                                    @php
+                                    $url = "https://sistemaacama.com.mx/clientes/informe-de-resultados-acama/".@$folioEncript;
+                                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
+                                    @endphp
+                                       
+                                    <center><img style="width: 8%; height: 8%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold">&nbsp;&nbsp;&nbsp; {{@$solicitud->Folio_servicio}}</span></center>
+                                </td>
+                            </tr>    
                     </tbody>         
                 </table>  
             </div>    
-                
+
+            
+
             <div id="contenedorTabla">
                 @php
                     $temp = array();
                     $sw = false;
                 @endphp
 
-                <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
-                    <tbody>            
-                            @foreach ($model as $item)
-                                @for ($i = 0; $i < sizeof($temp); $i++)
-                                    @if ($temp[$i] == $item->Id_simbologia_info)
-                                        @php $sw = true; @endphp
-                                    @endif
-                                @endfor
-                                @if ($sw != true)
-                                    @if ($item->Id_simbologia_info	!= 9)
-                                        @switch($item->Id_parametro)
-                                            @case(97)
-                                                <tr> 
-                                                    <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
-                                                </tr>
-                                                <tr>
-                                                    <td   style="font-size: 7px" class="fontBold justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
-                                                </tr>
-                                                @php
-                                                    array_push($temp,$item->Id_simbologia_info);
-                                                @endphp
-                                                @break
-                                            @default
-                                            <tr>
+            <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+                <tbody>        
+
+                        @foreach ($model as $item)
+                            @for ($i = 0; $i < sizeof($temp); $i++)
+                                @if ($temp[$i] == $item->Id_simbologia_info)
+                                    @php $sw = true; @endphp
+                                @endif
+                            @endfor
+                            @if ($sw != true)
+                                @if ($item->Id_simbologia_info	!= 9)
+                                    @switch($item->Id_parametro)
+                                        @case(97)
+                                            <tr> 
                                                 <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                            </tr>
+                                            <tr>
+                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
                                             </tr>
                                             @php
                                                 array_push($temp,$item->Id_simbologia_info);
                                             @endphp
-                                        @endswitch
-                                    @endif
-                                   
+                                            @break
+                                        @default
+
+                                        <tr>
+                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                        </tr>
+                                        @php
+                                            array_push($temp,$item->Id_simbologia_info);
+                                        @endphp
+                                    @endswitch
                                 @endif
-                                @php
-                                    $sw = false;
-                                @endphp
-                            @endforeach 
-                    </tbody>         
-                </table>  
-            </div>    
-        
-            <div id="contenedorTabla">
-                <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
-                    <thead>
-                        <tr>                    
-                            <td>
-                                @php
-                                /*$bar_code = "data:image/png;base64," . \DNS1D::getBarcodePNG($model->Folio_servicio,
-                                "C39");*/
-                                /*$url = url()->current();*/
-                                $url = "https://sistemaacama.com.mx/clientes/informe-de-resultados-acama/".@$folioEncript;
-                                $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
-                                @endphp
-                                  
-                                <img style="width: 8%; height: 8%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold">&nbsp;&nbsp;&nbsp; {{@$solicitud->Folio_servicio}}</span>
-                            </td>                                                                        
-                        </tr>
-                    </thead>                        
-                </table>  
-            </div> 
+                            
+                            @endif 
+                            @php
+                                $sw = false;
+                            @endphp
+                        @endforeach 
+                </tbody>         
+            </table>  
             
-            <br>
+            </div>    
+
         </footer>
 </body>
 </html>

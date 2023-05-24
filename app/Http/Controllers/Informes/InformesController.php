@@ -133,7 +133,7 @@ class InformesController extends Controller
             'margin_left' => 10,
             'margin_right' => 10,
             'margin_top' => 30,
-            'margin_bottom' => 15,
+            'margin_bottom' => 34, 
             'defaultheaderfontstyle' => ['normal'],
             'defaultheaderline' => '0'
         ]);
@@ -180,7 +180,7 @@ class InformesController extends Controller
         $campoGeneral = CampoGenerales::where('Id_solicitud', $idSol)->first();
         $phCampo = PhMuestra::where('Id_solicitud', $idSol)->get();
         $numOrden =  DB::table('ViewSolicitud2')->where('Id_solicitud', $solModel->Hijo)->first();
-        if ($solModel->Id_muestra == 1) {
+        if ($solModel->Id_servicio != 3) {
             $horaMuestreo = \Carbon\Carbon::parse($phCampo[0]->Fecha)->format('H:i');
         } else {
             $horaMuestreo = 'COMPUESTA';
@@ -4199,7 +4199,7 @@ class InformesController extends Controller
                         } else {
                             $fechaTemp = "";
                         }
-                        echo $item->Id_parametro."<br>";
+
                         break;
 
                     case 14: // volumetria 
@@ -4247,6 +4247,7 @@ class InformesController extends Controller
                         } else {
                             $fechaTemp = "";
                         }
+
                         break;
                     case 5: // FQ
                         switch ($item->Parametro) {
@@ -4263,6 +4264,9 @@ class InformesController extends Controller
                         } else {
                             $fechaTemp = "";
                         }
+                        echo $item->Id_parametro."<br>";
+                        echo "Lote:".$loteTemp->Id_lote."<br>";
+                        echo $fechaTemp."<br>";
                         break;
                     case 8: // potable
                         switch ($item->Id_parametro) {
@@ -4425,7 +4429,7 @@ class InformesController extends Controller
         $htmlInforme = view('exports.campo.cadenaCustodiaInterna.bodyCadena', $data);
         $mpdf->WriteHTML($htmlInforme);
         $mpdf->CSSselectMedia = 'mpdf';
-        // $mpdf->Output('Cadena de Custodia Interna.pdf', 'I');
+        $mpdf->Output('Cadena de Custodia Interna.pdf', 'I');
     }
     public function custodiaInterna($idSol)
     {
