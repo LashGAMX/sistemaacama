@@ -153,7 +153,6 @@ class InformesController extends Controller
         //Recupera los datos de la temperatura de la muestra compuesta
         $tempCompuesta = CampoCompuesto::where('Id_solicitud', $idSol);
 
-        //$fechaEmision = \Carbon\Carbon::now();
         $solicitud = Solicitud::where('Id_solicitud', $idSol)->first();
         $direccion = DireccionReporte::where('Id_direccion', $solModel->Id_direccion)->first();
 
@@ -185,7 +184,7 @@ class InformesController extends Controller
         } else {
             $horaMuestreo = 'COMPUESTA';
         }
-
+       
         $temp = DB::table('ph_muestra')
             ->where('Id_solicitud', $idSol)
             ->selectRaw('count(Color) as numColor,Color')
@@ -225,7 +224,7 @@ class InformesController extends Controller
                         break;
                     case 14:
                     case 110:
-                        $limC = round($item->Resultado2, 2);
+                        $limC = round($item->Resultado2, 1);
                         break;
                     case 135:
                     case 78:
@@ -318,8 +317,10 @@ class InformesController extends Controller
         switch ($solModel->Id_norma) {
             case 5:
             case 30:
-                $firma1 = User::find(14);
-                $firma2 = User::find(12); 
+                // $firma1 = User::find(14);
+                // $firma2 = User::find(12); 
+                $firma1 = User::find(17);
+                $firma2 = User::find(14);
                 break;
             
             default:
