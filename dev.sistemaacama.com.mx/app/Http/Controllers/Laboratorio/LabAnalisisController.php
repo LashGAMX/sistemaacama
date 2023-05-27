@@ -76,5 +76,18 @@ class LabAnalisisController extends Controller
         );
         return response()->json($data);
     }
+    public function getMuestraSinAsignar(Request $res)
+    {
+        if ($res->fecha != "") {
+            
+        } else {
+            $model = 
+        }
+        
+        $data = array( 
+            'model' => $model
+        );
+        return response()->json($data);
+    }
 }
  
