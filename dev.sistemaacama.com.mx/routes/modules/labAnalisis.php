@@ -12,6 +12,9 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getPendientes',[LabAnalisisController::class,'getPendientes']);
         Route::post('getLote',[LabAnalisisController::class,'getLote']);
         Route::post('setLote',[LabAnalisisController::class,'setLote']);
+        Route::post('getMuestraSinAsignar', [LabAnalisisController::class,'getMuestraSinAsignar']);
+        Route::post('setMuestraLote',[LabAnalisisController::class,'setMuestraLote']);
+        Route::post('getCapturaLote',[LabAnalisisController::class,'getCapturaLote']);
     });
  
 });

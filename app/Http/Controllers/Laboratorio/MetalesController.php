@@ -111,7 +111,7 @@ class MetalesController extends Controller
     }
     public function getPuntoAnalisis(Request $res)
     {
-        $solModel = DB::table('ViewSolicitud')->where('Id_solicitud',$res->idSol)->first();
+        $solModel = DB::table('ViewSolicitud2')->where('Id_solicitud',$res->idSol)->first();
         if ($solModel->Siralab == 1) {
             $punto = DB::table('ViewPuntoMuestreoSolSir')->where('Id_solPadre',$res->idSol)->get();
         } else {

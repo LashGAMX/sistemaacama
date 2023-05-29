@@ -20,6 +20,7 @@ class CodigoParametros extends Model
         'Num_muestra',
         'Resultado',
         'Resultado2',
+        'Id_lote',
         'Asignado',
         'Analizo',
         'Reporte',

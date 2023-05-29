@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\CodigoParametros;
 use App\Models\GrasasDetalle;
 use App\Models\LoteAnalisis;
+use App\Models\LoteDetalle;
+use App\Models\LoteDetalleEspectro;
 use App\Models\Parametro;
+use App\Models\ProcesoAnalisis;
+use App\Models\SolicitudPuntos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -78,14 +83,109 @@ class LabAnalisisController extends Controller
     }
     public function getMuestraSinAsignar(Request $res)
     {
+        $folio = array();
+        $norma = array();
+        $punto = array();
+        $fecha = array();
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote',$res->idLote)->first();
         if ($res->fecha != "") {
             
         } else {
-            $model = 
+            $model = DB::table('ViewCodigoParametro')->where('Asignado',0)->where('Id_parametro',$res->idParametro)->get();
+            for ($i=0; $i < $model->count(); $i++) { 
+                $puntoModel = SolicitudPuntos::where('Id_solicitud',$model[$i]->Id_solicitud)->first();
+                $proceso = ProcesoAnalisis::where('Id_solicitud',$model[$i]->Id_solicitud)->first();
+                array_push($folio,$model[$i]->Codigo);
+                array_push($norma,$model[$i]->Norma);
+                array_push($punto,$puntoModel->Punto);
+                array_push($fecha,$proceso->Hora_recepcion);
+                
+            }
         }
         
         $data = array( 
-            'model' => $model
+            'model' => $model,
+            'folio' => $folio,
+            'norma' => $norma,
+            'fecha' => $fecha,
+            'punto' => $punto,
+            'lote' => $lote,
+        );
+        return response()->json($data);
+    }
+    public function setMuestraLote(Request $res)
+    {
+        // $lote = DB::table('ViewLoteAnalisis')->where('Id_lote',$res->idLote)->first();
+        $lote = LoteAnalisis::where('Id_lote',$res->idLote)->first();
+        
+        for ($i=0; $i < sizeof($res->codigos); $i++) { 
+            $model = CodigoParametros::where('Id_codigo',$res->codigos[$i])->first();
+            $model->Id_lote = $res->idLote;
+            $model->Asignado = 1;
+            $model->save();
+            switch ($lote->Id_area) {
+                case 16: // Espectrofotometria
+                    switch ($model->Id_parametro) {
+                        case 152: // COT
+                            $temp = LoteDetalleEspectro::create([
+                                'Id_lote' => $res->idLote,
+                                'Id_analisis' => $model->Id_solicitud,
+                                'Id_codigo' => $model->Id_codigo,
+                                'Id_parametro' => $model->Id_parametro,
+                                'Id_control' => 1,
+                                'Vol_muestra' => 50,
+                                'Liberado' => 0,
+                                'Analizo' => 1,
+                            ]);   
+                            $tempModel = LoteDetalleEspectro::where('Id_lote',$res->idLote)->get();
+                            break;
+                        default:
+                            $temp = LoteDetalleEspectro::create([
+                                'Id_lote' => $res->idLote,
+                                'Id_analisis' => $model->Id_solicitud,
+                                'Id_codigo' => $model->Id_codigo,
+                                'Id_parametro' => $model->Id_parametro,
+                                'Id_control' => 1,
+                                'Vol_muestra' => 50,
+                                'Liberado' => 0,
+                                'Analizo' => 1,
+                            ]);
+                            $tempModel = LoteDetalleEspectro::where('Id_lote',$res->idLote)->get();
+                            break;
+                    }
+                    break;
+                case 5: // Fisicoquimicos
+                    break;
+                default:
+                    break;
+            }
+        $lote->Asignado = $tempModel->count();
+        $lote->save();
+            
+            
+            
+        }
+        $data = array(
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function getCapturaLote(Request $res)
+    {
+        $lote = LoteAnalisis::where('Id_lote',$res->idLote)->first();
+        switch ($lote->Id_area) {
+            case 16: // Espectrofotometria
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote',$res->idLote)->get();
+                break;
+            case 5: //fisicoquimicos
+                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote',$res->idLote)->get();
+                break;
+            default:
+                break;
+        }
+        $data = array(
+            'model' => $model,
+            'lote' => $lote,
         );
         return response()->json($data);
     }

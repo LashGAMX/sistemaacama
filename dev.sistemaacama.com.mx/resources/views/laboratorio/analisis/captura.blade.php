@@ -1,7 +1,6 @@
 @extends('voyager::master')
-
 @section('content')
-
+<link rel="stylesheet" href="{{asset('/public/assets/summer/summernote.min.css')}}">
   <div class="container-fluid">
     <div class="row">
       <div class="col-md-12">
@@ -38,7 +37,7 @@
                   </select>
                 </div>
                 <div class="form-group">
-                  <input type="date" id="fechaLote" style="width: 100%">
+                  <input type="date" id="fechaLote" st style="width: 100%">
                 </div>
                 <div class="form-group">
                   <input type="text" placeholder="Buscar por folio" style="width: 100%">
@@ -79,7 +78,7 @@
           </div>
         </div>
       </div>
-      <div class="col-md-12">
+      <div class="col-md-12" id="divCaptura">
         <table class="table" id="tabCaptura">
           <thead>
             <tr>
@@ -119,10 +118,247 @@
 
 {{-- Fin modal pendientes --}}
 
+
+{{-- Inicio modal Asignar Lote --}}
+<div class="modal fade" id="modalAsignar" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Asignar lote: <input type="text" style="border:none" id="loteAsignar"></h5>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <table>
+              <tr>
+                <td>Tipo formula:</td>
+                <td><input type="text" id="tipoFormulaAsignar" style="border:none"></td>
+                <td>Parametro:</td>
+                <td style="width: 250px"><input type="text" id="parametroAsignar" style="width: 100%;border:none"></td>
+                <td>Fecha analisis:</td>
+                <td><input type="text" id="fechaAnalisisAsignar" style="border: none" ></td>
+              </tr>
+            </table>
+          </div>
+          <div class="col-md-12">
+            <center>
+              <table>
+                <tr>
+                  <td><center>Asignados</center></td>
+                  <td><center>Liberados</center></td>
+                  <td><center>Por asignar</center></td>
+                </tr>
+                <tr>
+                  <td><center><input type="number" style="border:none;text-align: center" disabled id="asignadoLote"></center></td>
+                  <td><center><input type="number" style="border:none;text-align: center" disabled id="liberadoLote"></center></td>
+                  <td><center><input type="number" style="border:none;text-align: center" disabled id="porAsingarLote"></center></td>
+                </tr>
+              </table>
+            </center>
+            <br>
+            Fecha recepción: <input type="date" id="fechaAsignar"> <button class="btn-success"><i class="fas fa-search"></i> Buscar</button>
+          </div>
+          <div class="col-md-12" id="devAsignarLote">
+            <table class="table" id="tabAsignar">
+              <thead>
+                <tr>
+                  <th>Opc</th>
+                  <th># Muestra</th>
+                  <th>Norma</th>
+                  <th>Punto muestreo</th>
+                  <th>Fecha recepción</th>
+                </tr>
+              </thead>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- Fin modal Detalle Lote --}}
+
+<!-- Modal -->
+<div class="modal fade" id="modalDetalleLote" tabindex="-1" aria-labelledby="modalDetalleLoteLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalDetalleLoteLabel">Detalle lote: <input type="" id="idLote" style="border:none;width: 80%;"></h5>
+      </div>
+      <div class="modal-body">
+       {{-- Inicio de Body  --}}
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab" aria-controls="home" aria-selected="true">General</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">Datos</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact" type="button" role="tab" aria-controls="contact" aria-selected="false">Plantilla</button>
+          </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+          <div class="tab-pane fade active" id="home" role="tabpanel" aria-labelledby="home-tab">
+            Dato 1
+          </div>
+          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <!-- inicio tabla grasas   -->
+          <div class="row">
+            <div class="col-md-4">
+              <button type="button" id="btnGuardarDetalleGasas" onclick="guardarDetalleGrasas()" class="btn btn-primary">Guardar</button>
+            </div>
+          </div>
+           <div class="row">
+              <h4>1. Calentamiento de Matraces</h4>
+              <hr />
+              <div class="col-md-12">
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Masa constante</th>
+                      <th>Temperatura</th>
+                      <th>Hora entrada</th>
+                      <th>Hora salida</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td><input type="text" id="temp1" /></td>
+                      <td><input type="datetime-local" id="entrada1" /></td>
+                      <td><input type="datetime-local" id="salida1" /></td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td><input type="text" id="temp2" /></td>
+                      <td><input type="datetime-local" id="entrada2" /></td>
+                      <td><input type="datetime-local" id="salida2" /></td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td><input type="text" id="temp3" /></td>
+                      <td><input type="datetime-local" id="entrada3" /></td>
+                      <td><input type="datetime-local" id="salida3" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <h4>2. Enfriado de Matraces</h4>
+                <hr />
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Masa constante</th>
+                      <th>Hora entrada</th>
+                      <th>Hora salida</th>
+                      <th>Hora pesado de matraces</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>1</td>
+                      <td><input type="datetime-local" id="2entrada1" /></td>
+                      <td><input type="datetime-local" id="2salida1" /></td>
+                      <td><input type="datetime-local" id="2pesado1" /></td>
+                    </tr>
+                    <tr>
+                      <td>2</td>
+                      <td><input type="datetime-local" id="2entrada2" /></td>
+                      <td><input type="datetime-local" id="2salida2" /></td>
+                      <td><input type="datetime-local" id="2pesado2" /></td>
+                    </tr>
+                    <tr>
+                      <td>3</td>
+                      <td><input type="datetime-local" id="2entrada3" /></td>
+                      <td><input type="datetime-local" id="2salida3" /></td>
+                      <td><input type="datetime-local" id="2pesado3" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <h4>3. Secado de Cartuchos</h4>
+                <hr />
+                <table class="table">
+                  <thead>
+                    <th>Temperatura</th>
+                    <th>Hora entrada</th>
+                    <th>Hora salida</th>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="number" id="3temperatura" /></td>
+                      <td><input type="datetime-local" id="3entrada" /></td>
+                      <td><input type="datetime-local" id="3salida" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <h4>4. Tiempo de reflujo</h4>
+                <hr />
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Hora entrada</th>
+                    <th>Hora salida</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="datetime-local" id="4entrada" /></td>
+                      <td><input type="datetime-local" id="4salida" /></td>
+                    </tr>
+                  </tbody>
+                </table> 
+                <h4>5. Enfriado de matraces</h4>
+                <hr />
+                <table class="table">
+                  <thead>
+                    <tr>
+                      <th>Hora entrada</th>
+                      <th>Hora salida</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><input type="datetime-local" id="5entrada" /></td>
+                      <td><input type="datetime-local" id="5salida" /></td>
+                    </tr>
+                  </tbody>
+                </table>
+
+              </div>
+            </div>
+
+          </div>
+          <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+            <div class="row">
+              <div class="col-md-12">
+                <button id="btnBitacora" class="btn-success"><i class="fas fa-save"></i> Guardar</button>
+              </div>
+              <div class="col-md-12">
+                <input type="text" id="tituloBit" hidden>
+                <div id="divSummer"></div>
+                <input type="text" id="revBit" hidden>
+              </div>
+            </div>
+          </div>
+        </div>
+       {{-- Fin de body --}} 
+      </div>
+      <div class="modal-footer">
+      </div>
+    </div>
+  </div>
+</div>
+
+{{-- Fin modal Detalle Lote --}}
+
 @endsection  
 
 @section('javascript')
     <script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=0.0.1"></script>
     <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
     <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
+    <script src="{{asset('/assets/summer/summernote.js')}}"></script>
+  <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
 @stop

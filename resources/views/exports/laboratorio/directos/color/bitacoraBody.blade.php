@@ -44,7 +44,13 @@
                         <td class="tableContent">{{ $item->Ph }}</td>
                         <td class="tableContent">{{ $item->Color_a }}</td>
                         <td class="tableContent">{{ $item->Color_v }}</td>
-                        <td class="tableContent">{{ $item->Resultado }}</td>
+                        <td class="tableContent">
+                            @if (@$item->Resultado <= @$item->Limite)
+                            < {{@$item->Limite}}
+                            @else
+                            {{round(@$item->Resultado,2)}}
+                            @endif
+                        </td>
                         <td class="tableContent">{{ $item->Observacion }}</td>
                         @if ($item->Liberado != NULL)
                             <td class="tableContent">LIBERADO</td>
