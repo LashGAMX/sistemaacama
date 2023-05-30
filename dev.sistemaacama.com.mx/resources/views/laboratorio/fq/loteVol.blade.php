@@ -541,6 +541,120 @@
                 <!-- ***************************** --> 
                 <!-- Fin Nitrogeno --> 
                 <!-- ***************************** --> 
+                <!-- ***************************** --> 
+                <!-- Inicio Alcalinidad --> 
+                <!-- ***************************** --> 
+                <div class="row" id="secctionAlcalinidad" hidden>
+                  <div class="col-md-7">
+                     <table class="table" id="">
+                        <thead>
+                          <tr>
+                            <th>Formula</th>
+                            <th>Expresión</th>
+                            <th>Resultado</th>
+                            <th># Decimal</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr onclick="habilitarTabla('tableAlcalinidadBlanco','tableAlcalinidadValoracion')">
+                            <td>Blanco Análisis</td>
+                            <td>A</td>
+                            <td><input type="text" value="" id="blancoResAlc" disabled></td>
+                            <td>2</td>
+                          </tr>
+                          <tr onclick="habilitarTabla('tableAlcalinidadValoracion','tableAlcalinidadBlanco')">
+                            <td>Molaridad</td>
+                            <td>((A*B*C) /D) </td>
+                            <td><input type="text" value="" id="molaridadResAlc" disabled></td>
+                            <td>3</td>
+                          </tr> 
+                        </tbody>
+                     </table>
+                  </div>
+                  <div class="col-md-5">
+                    <table class="table" id="tableAlcalinidadBlanco"  hidden>
+                      <thead>
+                        <tr>
+                          <th>Parametro</th>
+                          <th>Descripción</th>
+                          <th>Valor</th>
+                          <th>Tipo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>B</td>
+                          <td>Mililitros titulados</td>
+                          <td><input type="text" id="blancoValAlc"></td>
+                          <td>V</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                    <table class="table" id="tableAlcalinidadValoracion" hidden>
+                      <thead>
+                        <tr>
+                          <th>Parametro</th>
+                          <th>Descripción</th>
+                          <th>Valor</th>
+                          <th>Tipo</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <tr>
+                          <td>A</td>
+                          <td>Gramos de carbonato de sodio</td>
+                          <td><input type="number" id="gmCarbonato1Alc" value="0.0265"></td>
+                          <td>C</td>
+                        </tr>
+                        <tr>
+                          <td>B</td>
+                          <td>Gramos de carbonato de sodio</td>
+                          <td><input type="number" id="gmCarbonato2Alc" value="0.0265"></td>
+                          <td>C</td>
+                        </tr>
+                        <tr>
+                          <td>C</td>
+                          <td>Gramos de carbonato de sodio</td>
+                          <td><input type="number" id="gmCarbonato3Alc" value="0.0265"></td>
+                          <td>C</td>
+                        </tr>
+                        <tr>
+                          <td>D</td>
+                          <td>Vol. titulado 1</td>
+                          <td><input type="number" id="titulado1Alc"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr>
+                          <td>E</td>
+                          <td>Vol. titulado 2</td>
+                          <td><input type="number" id="titulado2Alc"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr>
+                          <td>G</td>
+                          <td>Vol. titulado 3</td>
+                          <td><input type="number" id="titulado3Alc"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr>
+                          <td>H</td>
+                          <td>Gramos de Equivalentes de NA2CO3</td>
+                          <td><input type="number" id="gmEquivalentesAlc" value="53"></td>
+                          <td>V</td>
+                        </tr>
+                        <tr>
+                          <td>I</td>
+                          <td>Factor de conversión</td>
+                          <td><input type="number" id="factorAlc" value="1000"></td>
+                          <td>CC</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                 </div>
+                </div> 
+                <!-- ***************************** --> 
+                <!-- Fin Alcalinidad --> 
+                <!-- ***************************** --> 
               </div> 
 
    

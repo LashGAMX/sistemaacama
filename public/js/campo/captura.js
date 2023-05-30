@@ -406,15 +406,29 @@ function valTemperaturaAgua(id)
             $("#tempSin1"+id).val(l1 + parseFloat(item.Factor_aplicado))    
             temp = temp + (l1 + parseFloat(item.Factor_aplicado))
         }
+
         if(l2 >= parseFloat(item.De_c) && l2 < parseFloat(item.A_c)){
             $("#tempSin2"+id).val(l2 + parseFloat(item.Factor_aplicado))
             temp = temp + (l2 + parseFloat(item.Factor_aplicado))
         }
+
         if(l3 >= parseFloat(item.De_c) && l3 < parseFloat(item.A_c)){
             $("#tempSin3"+id).val(l3 + parseFloat(item.Factor_aplicado))
             temp = temp + (l3 + parseFloat(item.Factor_aplicado))
         }
       });
+      if(l1 > 50){
+        $("#tempSin1"+id).val(l1 + parseFloat(factorCorrecion1[9].Factor_aplicado))    
+        temp = temp + (l1 + parseFloat(factorCorrecion1[9].Factor_aplicado))
+        }
+        if(l3 > 50){
+            $("#tempSin3"+id).val(l3 + parseFloat(factorCorrecion1[9].Factor_aplicado))    
+            temp = temp + (l3 + parseFloat(factorCorrecion1[9].Factor_aplicado))
+        }
+        if(l2 > 50){
+            $("#tempSin2"+id).val(l2 + parseFloat(factorCorrecion1[9].Factor_aplicado))    
+            temp = temp + (l2 + parseFloat(factorCorrecion1[9].Factor_aplicado))
+        }
     $("#tempprom"+id).val((temp / 3).toFixed(2))
 }
 function valTemperaturaAmbiente(id)

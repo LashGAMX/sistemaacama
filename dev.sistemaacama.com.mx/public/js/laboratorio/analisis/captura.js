@@ -46,6 +46,10 @@ var tableLote
 var idLote
 var idMuestra
  //todo funciones
+ function getDetalleMuestra()
+ {
+    
+ }
  function getDetalleLote()
  {
     $("#modalDetalleLote").modal("show")
@@ -85,7 +89,24 @@ var idMuestra
                     color = "warning"
                 }
                 tab += '<tr>';
-                tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCaptura">Capturar</button>';
+
+                switch (parseInt(response.lote[0].Id_area)) {
+                    case 16: // Espectrofotometria 
+                        switch (parseInt(item.Id_parametro)) { 
+                            case 152:
+                                tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCOT">Capturar</button>';
+                                break;
+                            default:
+                                break;
+                        }
+                        break;
+                    case 5: // Fisicoquimicos
+                    
+                    break;
+                    default:
+
+                    break;
+                }
                 if (item.Id_control != 1) 
                 {
                     tab += '<br> <small class="text-danger">'+item.Control+'</small></td>';
@@ -292,80 +313,84 @@ var idMuestra
  }
 function getLote()
 {
-    if ($("#parametro").val() != "0" && $("#fechaLote").val() != "") {
+    if ($("#parametro").val() != "0" ) {
         let tabla = document.getElementById('divLote');
         let tab = '';
-        $.ajax({
+        $.ajax({ 
             type: 'POST',
             url: base_url + "/admin/laboratorio/"+area+"/getLote",
             data: {
                 id:$("#parametro").val(),
                 fecha:$("#fechaLote").val(),
+                folio:$("#folio").val(), 
                 _token: $('input[name="_token"]').val(),
             },
             dataType: "json",
             async: false,
             success: function (response) {            
                 console.log(response);
-                if (response.model.length > 0) {
-                    tab += '<table id="tabLote" class="table table-sm">'
-                    tab += '    <thead>'
-                    tab += '        <tr>'
-                    tab += '          <th>Id</th>'
-                    tab += '          <th>Fecha</th> '
-                    tab += '          <th>Parametro</th> '
-                    tab += '          <th>Asignados</th> '
-                    tab += '          <th>Liberados</th> '
-                    tab += '          <th>Opc</th> '
-                    tab += '        </tr>'
-                    tab += '    </thead>'
-                    tab += '    <tbody>'
-                    $.each(response.model,function (key,item){
-                        tab += '<tr>'
-                        tab += '<td>'+item.Id_lote+'</td>'
-                        tab += '<td>'+item.Fecha+'</td>'
-                        tab += '<td>'+item.Parametro+'</td>'
-                        tab += '<td>'+item.Asignado+'</td>'
-                        tab += '<td>'+item.Liberado+'</td>'
-                        tab += '<td>'
-                        tab +='     <button class="btn-info" id="btnBitacora"><i class="voyager-download"></i></button><br>'
-                        tab +='     <button onclick="getDetalleLote()" class="btn-info" id="btnEditarBitacora"><i class="voyager-edit"></i></button>'
-                        tab += '</td>'
-                        tab += '</tr>'
-                    })
-                    tab += '    </tbody>'
-                    tab += '</table>'
-                    tabla.innerHTML = tab;
-        
-                    //Inicializacion de tabla
-                    tableLote = $('#tabLote').DataTable({        
-                        "ordering": false,
-                        "language": {
-                            "lengthMenu": "# _MENU_ por pagina",
-                            "zeroRecords": "No hay datos encontrados",
-                            "info": "Pagina _PAGE_ de _PAGES_",
-                            "infoEmpty": "No hay datos encontrados",
-                        }
-                    });
-                    //Funcion de seleccionar
-                    $('#tabLote tbody').on('click', 'tr', function () {
-                        if ($(this).hasClass('selected')) {
-                            $(this).removeClass('selected');
-                        } else {
-                            tableLote.$('tr.selected').removeClass('selected');
-                            $(this).addClass('selected');
-                            idLote = $(this).children(':first').html();
-                            getCapturaLote()
-
-                        }
-                    });
-                    $('#tabLote tbody').on('dblclick', 'tr', function () {
-                        $("#modalAsignar").modal("show") 
+                tab += '<table id="tabLote" class="table table-sm">'
+                tab += '    <thead>'
+                tab += '        <tr>'
+                tab += '          <th>Id</th>'
+                tab += '          <th>Fecha</th> '
+                tab += '          <th>Parametro</th> '
+                tab += '          <th>Asignados</th> '
+                tab += '          <th>Liberados</th> '
+                tab += '          <th>Opc</th> '
+                tab += '        </tr>'
+                tab += '    </thead>'
+                tab += '    <tbody>'
+                $.each(response.model,function (key,item){
+                    tab += '<tr>'
+                    tab += '<td>'+item.Id_lote+'</td>'
+                    tab += '<td>'+item.Fecha+'</td>'
+                    tab += '<td>'+item.Parametro+'</td>'
+                    tab += '<td>'+item.Asignado+'</td>'
+                    tab += '<td>'+item.Liberado+'</td>'
+                    tab += '<td>'
+                    tab +='     <button class="btn-info" id="btnBitacora"><i class="voyager-download"></i></button><br>'
+                    tab +='     <button onclick="getDetalleLote()" class="btn-info" id="btnEditarBitacora"><i class="voyager-edit"></i></button>'
+                    tab += '</td>'
+                    tab += '</tr>'
+                })
+                tab += '    </tbody>'
+                tab += '</table>'
+                tabla.innerHTML = tab;
+    
+                //Inicializacion de tabla
+                tableLote = $('#tabLote').DataTable({        
+                    "ordering": false,
+                    "language": {
+                        "lengthMenu": "# _MENU_ por pagina",
+                        "zeroRecords": "No hay datos encontrados",
+                        "info": "Pagina _PAGE_ de _PAGES_",
+                        "infoEmpty": "No hay datos encontrados",
+                    }
+                });
+                //Funcion de seleccionar
+                $('#tabLote tbody').on('click', 'tr', function () {
+                    if ($(this).hasClass('selected')) {
+                        $(this).removeClass('selected');
+                    } else {
+                        tableLote.$('tr.selected').removeClass('selected');
+                        $(this).addClass('selected');
                         idLote = $(this).children(':first').html();
-                        getMuestraSinAsignar()
-                    });
+                        getCapturaLote()
+
+                    }
+                });
+                $('#tabLote tbody').on('dblclick', 'tr', function () {
+                    $("#modalAsignar").modal("show") 
+                    idLote = $(this).children(':first').html();
+                    getMuestraSinAsignar()
+                });
+                if (response.model.length > 0) {
+
                 } else {
                     alert("No hay lotes en esta fecha")
+                    idLote = 0
+                    getCapturaLote()
                 }
             }
         });

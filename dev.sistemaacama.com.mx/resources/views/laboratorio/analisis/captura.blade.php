@@ -12,7 +12,7 @@
                 <thead>
                   <tr>
                     <th>Id</th>
-                    <th>Fecha</th>
+                    <th>Fecha</th> 
                     <th>Parametro</th>
                     <th>Asignados</th>
                     <th>Liberados</th>
@@ -40,7 +40,7 @@
                   <input type="date" id="fechaLote" st style="width: 100%">
                 </div>
                 <div class="form-group">
-                  <input type="text" placeholder="Buscar por folio" style="width: 100%">
+                  <input type="text" id="folio" placeholder="Buscar por folio" style="width: 100%">
                 </div>
               </div>
               <div class="col-md-4">
@@ -351,6 +351,148 @@
 </div>
 
 {{-- Fin modal Detalle Lote --}}
+
+{{--todo INICIO Modal de capturas de parametros --}}
+
+  {{--? Inicio COT   --}}
+    <div class="modal fade" id="modalCapturaCOT" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Captura de resultados COT</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <label for="">Observación</label>
+                              <input type="text" class="form-control" id="observacion"
+                                  placeholder="Observacion de la muestra">
+                          </div>
+                          <div class="form-group">
+                              <button class="btn btn-success" type="button" onclick="updateObsMuestraEspectro()"
+                                  id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
+                          </div>
+                          <div class="col-md-2">
+                          <label id="ph">pH</label>
+                          <input type="text" disabled class="form-control" id="phCampo">
+                              </div>
+                      </div>
+                      <div class="col-md-2">
+                          <button class="btn btn-success" onclick="guardarCOT()"><i class="voyager-upload"></i>
+                              Guardar</button>&nbsp;&nbsp;
+                      </div>
+                      <div class="col-md-2">
+                          <button class="btn btn-primary"  onclick="operacionCOT()"><i class="voyager-play"></i>
+                              Ejecutar</button>
+                      </div>
+
+                      <div class="col-md-8">
+                          <div class="form-group">
+                              <label for="resultado">Resultado</label>
+                              <input type="text" id="resultadoCOT" style="font-size: 20px;color:red;"
+                                  placeholder="Resultado">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <table class="table">
+                              <thead>
+                                  <tr>
+                                      <th>Parametro</th>
+                                      <th>Descripción</th>
+                                      <th>Valor</th>
+                                      <th>Valor2</th>
+                                      <th>Tipo</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <td>ABS</td>
+                                      <td>ABS Promedio</td>
+                                      <td><input type="text" id="abs1COT"></td>
+                                      <td><input type="text" id="abs2COT"></td>
+                                      <td>C</td>
+                                  </tr>
+                                  <tr>
+                                      <td>CA</td>
+                                      <td>Blanco</td>
+                                      <td><input name="campos" type="number" id="blanco1COT"></td>
+                                      <td><input name="campos" type="number" id="blanco2COT"></td>
+                                      <td>F</td>
+                                  </tr>
+                                  <tr>
+                                      <td>CB</td>
+                                      <td>b</td>
+                                      <td><input name="campos" type="number" id="b1COT" ></td>
+                                      <td><input name="campos" type="number" id="b2COT" ></td>
+                                      <td>F</td>
+                                  </tr>
+                                  <tr>
+                                      <td>CM</td>
+                                      <td>m</td>
+                                      <td><input name="campos" type="number" id="m1COT" ></td>
+                                      <td><input name="campos" type="number" id="m2COT" ></td>
+                                      <td>F</td>
+                                  </tr>
+                                  <tr>
+                                      <td>CR</td>
+                                      <td>r</td>
+                                      <td><input name="campos" type="number" id="r1COT" ></td>
+                                      <td><input name="campos" type="number" id="r2COT" ></td>
+                                      <td>F</td>
+                                  </tr>
+                                  <tr>
+                                      <td>D</td>
+                                      <td>Factor dilucion</td>
+                                      <td><input type="number" id="fDilucion1COT" disabled></td>
+                                      <td><input type="number" id="fDilucion2COT" disabled></td>
+                                      <td>V</td>
+                                  </tr>
+                                  <tr>
+                                      <td>E</td>
+                                      <td>Vol de la muestra</td>
+                                      <td><input name="campos" type="number" id="volMuestra1COT"></td>
+                                      <td><input name="campos" type="number" id="volMuestra2COT"></td>
+                                      <td>V</td>
+                                  </tr>
+                                  <tr>
+                                      <td>X</td>
+                                      <td>Absorbancia1</td>
+                                      <td><input name="campos" type="number" id="abs11COT"></td>
+                                      <td><input name="campos" type="number" id="abs12COT"></td>
+                                      <td>V</td>
+                                  </tr>
+                                  <tr>
+                                      <td>Y</td>
+                                      <td>Absorbancia2</td>
+                                      <td><input name="campos" type="number" id="abs21COT"></td>
+                                      <td><input name="campos" type="number" id="abs22COT"></td>
+                                      <td>V</td>
+                                  </tr>
+                                  <tr>
+                                      <td>Z</td>
+                                      <td>Absorbancia3</td>
+                                      <td><input name="campos" type="number" id="abs31COT"></td>
+                                      <td><input name="campos" type="number" id="abs32COT"></td>
+                                      <td>V</td>
+                                  </tr>
+                                  
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+    </div>
+  {{--? Fin COT   --}}
+
+{{--todo FIN Modal de capturas de parametros --}}
 
 @endsection  
 

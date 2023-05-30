@@ -51,8 +51,13 @@ class LabAnalisisController extends Controller
         return response()->json($data);
     }
     public function getLote(Request $res)
-    {
-        $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica',$res->id)->where('Fecha',$res->fecha)->get();
+    { 
+        if ($res->folio != "") {
+            $temp = DB::table('ViewCodigoParametro')->where('Codigo',$res->folio)->where('Id_parametro',$res->id)->first();
+            $model = DB::table('ViewLoteAnalisis')->where('Id_lote',$temp->Id_lote)->get();
+        }else{
+            $model = DB::table('ViewLoteAnalisis')->where('Id_tecnica',$res->id)->where('Fecha',$res->fecha)->get();
+        }
         
         $data = array(
             'model' => $model,
@@ -172,17 +177,23 @@ class LabAnalisisController extends Controller
     }
     public function getCapturaLote(Request $res)
     {
-        $lote = LoteAnalisis::where('Id_lote',$res->idLote)->first();
-        switch ($lote->Id_area) {
-            case 16: // Espectrofotometria
-                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote',$res->idLote)->get();
-                break;
-            case 5: //fisicoquimicos
-                $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote',$res->idLote)->get();
-                break;
-            default:
-                break;
+        $lote = LoteAnalisis::where('Id_lote',$res->idLote)->get();
+        if ($lote->count()) {
+            switch ($lote[0]->Id_area) {
+                case 16: // Espectrofotometria
+                    $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote',$res->idLote)->get();
+                    break;
+                case 5: //fisicoquimicos
+                    $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote',$res->idLote)->get();
+                    break;
+                default:
+                $model = array();
+                    break;
+            }
+        } else {
+            $model = array();
         }
+        
         $data = array(
             'model' => $model,
             'lote' => $lote,

@@ -29,6 +29,14 @@ $('#btnDatosLote').click(function () {
             $("#secctionNitrogeno").hide();
             $("#secctionDureza").hide();
             break;
+        case '28': //Alcalinidad
+        case '29':
+            $("#secctionAlcalinidad").show();
+            $("#secctionCloro").hide();
+            $("#secctionDqo").hide();
+            $("#secctionNitrogeno").hide();
+            $("#secctionDureza").hide();
+            break;
         case '6': // DQO
             $("#secctionDqo").show();
             $("#secctionCloro").hide();
@@ -87,6 +95,21 @@ $('#btnEjecutarVal').click(function () {
             res = (parseFloat(trazable) * parseFloat(normalidad)) / prom;
             $("#normalidadResCloro").val(res.toFixed(4));
             break;
+        case '28':
+        case '29':
+            $("#blancoResAlc").val("#blancoValAlc").val();
+            titulado1 = $("#gmCarbonato1Alc").val();
+            titulado2 = $("#gmCarbonato2Alc").val();
+            titulado3 = $("#gmCarbonato3Alc").val();
+            let vol1 = $("#titulado1Alc").val();
+            let vol2 = $("#titulado1A2c").val();
+            let vol3 = $("#titulado1A3c").val();
+            let equivalentes = $("#gmEquivalentesAlc").val();
+            let fac = $("#factorAlc").val();
+            let promB = (parseFloat(vol1) + parseFloat(vol2) + parseFloat(vol3)) / 3;
+            prom = (parseFloat(titulado1) + parseFloat(titulado2) + parseFloat(titulado3)) / 3;
+            res = (parseFloat(prom) / ( parseFloat(promB) * parseFloat(equivalentes))) * parseFloat(fac); 
+        break;
         case '6': // DQO
             $("#blancoResD").val($("#blancoValD").val())
             titulado1 = $("#titulado1D").val();

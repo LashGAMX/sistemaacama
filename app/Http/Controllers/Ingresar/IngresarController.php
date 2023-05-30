@@ -345,6 +345,41 @@ class IngresarController extends Controller
                                 ]);
                             }
                             break;
+                        case 30:
+                            CodigoParametros::create([
+                                'Id_solicitud' => $item->Id_solicitud,
+                                'Id_parametro' => $item2->Id_subnorma,
+                                'Codigo' => $item->Folio_servicio,
+                                'Num_muestra' => 1,
+                                'Asignado' => 0,
+                                'Analizo' => 1,
+                                'Reporte' => 1,
+                                'Cadena' => 1,
+                                'Cancelado' => 0, 
+                            ]);
+                            CodigoParametros::create([
+                                'Id_solicitud' => $item->Id_solicitud,
+                                'Id_parametro' => 28,
+                                'Codigo' => $item->Folio_servicio,
+                                'Num_muestra' => 1,
+                                'Asignado' => 0,
+                                'Analizo' => 1,
+                                'Reporte' => 1,
+                                'Cadena' => 1,
+                                'Cancelado' => 0, 
+                            ]);
+                            CodigoParametros::create([
+                                'Id_solicitud' => $item->Id_solicitud,
+                                'Id_parametro' => 29,
+                                'Codigo' => $item->Folio_servicio,
+                                'Num_muestra' => 1,
+                                'Asignado' => 0,
+                                'Analizo' => 1,
+                                'Reporte' => 1,
+                                'Cadena' => 1,
+                                'Cancelado' => 0, 
+                            ]);
+                            break;
                         default:
                             CodigoParametros::create([
                                 'Id_solicitud' => $item->Id_solicitud,

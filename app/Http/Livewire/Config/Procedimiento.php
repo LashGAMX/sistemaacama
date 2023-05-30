@@ -39,12 +39,12 @@ class Procedimiento extends Component
         ]);
         $this->idPro = $model->Id_procedimiento;
         $this->nota = "Creación de registro";
-        $this->historial();
+       // $this->historial();
         $this->alert = true;
     }
     public function store()
     {
-        $this->historial();
+        //$this->historial();
         $model = ProcedimientoAnalisis::find($this->idPro);
         $model->Procedimiento = $this->procedimiento;
         $model->Descripcion = $this->descripcion;
