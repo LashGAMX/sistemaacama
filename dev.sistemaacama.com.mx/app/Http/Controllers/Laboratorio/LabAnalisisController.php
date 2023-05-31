@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
 use App\Models\CodigoParametros;
+use App\Models\CurvaConstantes;
 use App\Models\GrasasDetalle;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
@@ -11,6 +12,7 @@ use App\Models\LoteDetalleEspectro;
 use App\Models\Parametro;
 use App\Models\ProcesoAnalisis;
 use App\Models\SolicitudPuntos;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -43,8 +45,8 @@ class LabAnalisisController extends Controller
                     array_push($model, $temp);
                     break;
                 }
-            }
-        }
+            } 
+        } 
         $data = array(
             'model' => $model,
         );
@@ -138,7 +140,7 @@ class LabAnalisisController extends Controller
                                 'Id_codigo' => $model->Id_codigo,
                                 'Id_parametro' => $model->Id_parametro,
                                 'Id_control' => 1,
-                                'Vol_muestra' => 50,
+                                'Vol_muestra' => 40,
                                 'Liberado' => 0,
                                 'Analizo' => 1,
                             ]);   
@@ -198,6 +200,96 @@ class LabAnalisisController extends Controller
             'model' => $model,
             'lote' => $lote,
         );
+        return response()->json($data);
+    }
+    public function getDetalleMuestra(Request $res)
+    {
+        $model = array();
+        $curva = array();
+        $blanco = array();
+
+        $lote = LoteAnalisis::where('Id_lote',$res->idLote)->get();
+        if ($lote->count()) {
+            switch ($lote[0]->Id_area) {
+                case 16: // Espectrofotometria
+                    $fecha = new Carbon($lote[0]->Fecha);
+                    $today = $fecha->toDateString();
+                    $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $res->id)->first();
+                    $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
+                        ->where('Id_parametro', $lote[0]->Id_tecnica)->first();
+                    $blanco = DB::table("ViewLoteDetalleEspectro")->where('Id_codigo', $model->Id_codigo)->where('Id_control', 5)->first();
+                    break;
+                case 5: //fisicoquimicos
+                    $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote',$res->idLote)->get();
+                    break;
+                default:
+                $model = array();
+                    break;
+            }
+        }  
+        
+        $data = array(
+            'model' => $model,
+            'curva' => $curva,
+            'lote' => $lote,
+            'blanco' => $blanco,
+        );
+        return response()->json($data);
+    }
+    public function setDetalleMuestra(Request $res)
+    {
+        $lote = LoteAnalisis::where('Id_lote',$res->idLote)->get();
+        if ($lote->count()) {
+            switch ($lote[0]->Id_area) {
+                case 16: // Espectrofotometria
+                    switch ($res->parametro) {
+                        case 152: // COT
+                            $model = LoteDetalleEspectro::where('Id_detalle', $res->idMuestra)->first();
+                            $dilucion = 40 / $res->E;
+                            $promedio = ($res->X + $res->Y + $res->Z) / 3;
+                            switch ($model->Id_control) {
+                                case 14: //estandar de verificación
+                                    $resultado = ((($promedio - $res->CB) / $res->CM) * $dilucion);
+                                    break;
+                                case 5: // blanco
+                                    $resultado = ($res->X + $res->Y + $res->Z) / 3;
+                                    break;
+                                default:
+                                    $resultado = ((($promedio - $res->CA) / $res->CM) * $dilucion);
+                            }
+                            $model = LoteDetalleEspectro::find($res->idMuestra);
+                            $model->Resultado = $resultado;
+                            $model->Abs1 = $res->X;
+                            $model->Abs2 = $res->Y;
+                            $model->Abs3 = $res->Z;
+                            $model->B = $res->CB;
+                            $model->M = $res->CM;
+                            $model->R = $res->CR;
+                            $model->Promedio = $promedio;
+                            $model->Vol_dilucion = $dilucion;
+                            $model->Vol_muestra = $res->E;
+                            $model->Blanco = $res->CA;
+                            $model->Analizo = Auth::user()->id;
+                            $model->save();
+                    
+                            $data = array(
+                                'model' => $model,
+                            );
+                            break;
+                        
+                        default:
+                            # code...
+                            break;
+                    }
+                    break;
+                case 5: //fisicoquimicos
+                    
+                    break;
+                default:
+                $model = array();
+                    break;
+            }
+        }  
         return response()->json($data);
     }
 }

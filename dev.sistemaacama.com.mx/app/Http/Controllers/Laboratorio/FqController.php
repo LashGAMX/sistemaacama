@@ -531,7 +531,6 @@ class FqController extends Controller
         $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $request->idDetalle)->first();
         $parametro = Parametro::where('Id_parametro', $request->formulaTipo)->first();
         $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
-            //->where('Id_area', 16)
             ->where('Id_parametro', $parametro->Id_parametro)->first();
 
         $data = array(

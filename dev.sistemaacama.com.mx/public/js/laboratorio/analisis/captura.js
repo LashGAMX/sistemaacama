@@ -39,16 +39,123 @@ $(document).ready(function () {
     $('#btnAsignarMuestra').click(function(){
         setMuestraLote()
     }); 
-
+    $('#btnEjecutar').click(function(){
+        setDetalleMuestra()
+    }); 
 });
+
  //todo Variables globales
 var tableLote
 var idLote
 var idMuestra
+var idMuestra = 0
+var idArea = 0
  //todo funciones
- function getDetalleMuestra()
+ function setDetalleMuestra()
  {
+    switch (parseInt(idArea)) {
+        case 16: // Espectofotometria
+                switch (parseInt($('#parametro').val())) {
+                    case 152: // COT
+                        $.ajax({
+                            type: "POST",
+                            url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
+                            data: {
+                                idLote:idLote,
+                                idMuestra: idMuestra,
+                                parametro: $('#parametro').val(),
+                                ABS:$('#abs1COT').val(),
+                                CA:$('#blanco1COT').val(),
+                                CB:$('#b1COT').val(),
+                                CM:$('#m1COT').val(),
+                                CR:$('#r1COT').val(),
+                                D:$('#fDilucion1COT').val(),
+                                E:$('#volMuestra1COT').val(),
+                                X:$('#abs11COT').val(),
+                                Y:$('#abs21COT').val(),
+                                Z:$('#abs31COT').val(),
+                            
+                                _token: $('input[name="_token"]').val()
+                            },
+                            dataType: "json",
+                            success: function (response) {
+                                console.log(response);
+                                if (response.idControl == 5){
+                                    $("#resultadoCOT").val(response.model.Resultado); 
+                                } else {
+                                    $("#abs1COT").val(response.model.Promedio.toFixed(3)); 
+                                    $("#abs2COT").val(response.model.Promedio.toFixed(3)); 
+                                    $("#resultadoCOT").val(response.model.Resultado.toFixed(3)); 
+                                    $("#fDilucion1COT").val(response.model.Vol_dilucion.toFixed(3));
+                                    $("#fDilucion2COT").val(response.model.Vol_dilucion.toFixed(3));
+
+                                } 
+                            }
+                        });
+                        break;
+                    default:
+                        break;
+                }
+            break;
     
+        default:
+            break;
+    }
+
+ }
+ function getDetalleMuestra(id)
+ {
+    $.ajax({
+        type: 'POST',
+        url: base_url + "/admin/laboratorio/"+area+"/getDetalleMuestra",
+        data: {
+            id:$("#idMuestra"+id).val(),
+            idLote:idLote,
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {            
+            console.log(response)
+            
+            switch (parseInt(response.lote[0].Id_area)) {
+                case 16: // Espectrofotometria 
+                    switch (parseInt(response.lote[0].Id_tecnica)) { 
+                        case 152: // COT
+                                 $("#observacion").val(response.model.Observacion);
+                                 $("#abs1COT").val(response.model.Promedio);
+                                 $("#abs2COT").val(response.model.Promedio);
+                                 $("#idMuestra").val(id);
+                                 if (response.blanco != null) {
+                                    $("#blanco1COT").val(response.blanco.Resultado);
+                                    $("#blanco2COT").val(response.blanco.Resultado);  
+                                 } 
+                                 $("#b1COT").val(response.curva.B);
+                                 $("#m1COT").val(response.curva.M);
+                                 $("#r1COT").val(response.curva.R);
+                                 $("#b2COT").val(response.curva.B);
+                                 $("#m2COT").val(response.curva.M);
+                                 $("#rCOT2").val(response.curva.R);
+                                 $("#volMuestra1COT").val(response.model.Vol_muestra);
+                                 $("#volMuestra2COT").val(response.model.Vol_muestra);
+                                 $("#abs11COT").val(response.model.Abs1);
+                                 $("#abs21COT").val(response.model.Abs2);
+                                 $("#abs31COT").val(response.model.Abs3);
+                                 $("#resultadoCOT").val(response.model.Resultado);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                case 5: // Fisicoquimicos
+                
+                break;
+                default:
+
+                break;
+            }
+        }
+    });
  }
  function getDetalleLote()
  {
@@ -94,7 +201,7 @@ var idMuestra
                     case 16: // Espectrofotometria 
                         switch (parseInt(item.Id_parametro)) { 
                             case 152:
-                                tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleEspectro('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCOT">Capturar</button>';
+                                tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCOT">Capturar</button>';
                                 break;
                             default:
                                 break;
@@ -152,7 +259,7 @@ var idMuestra
                     t2.$('tr.selected').removeClass('selected');
                     $(this).addClass('selected');
                 }
-            });
+            }); 
             $('#tabCaptura tr').on('click', function () {
                 let dato = $(this).find('td:first');
                 idMuestra = dato[0].firstElementChild.value;
@@ -356,8 +463,8 @@ function getLote()
                 })
                 tab += '    </tbody>'
                 tab += '</table>'
-                tabla.innerHTML = tab;
-    
+                tabla.innerHTML = tab
+                idArea = response.model[0].Id_area
                 //Inicializacion de tabla
                 tableLote = $('#tabLote').DataTable({        
                     "ordering": false,
