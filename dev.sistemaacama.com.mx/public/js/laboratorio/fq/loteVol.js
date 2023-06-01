@@ -89,26 +89,27 @@ $('#btnEjecutarVal').click(function () {
             titulado2 = $("#tituladoClo2").val();
             titulado3 = $("#tituladoClo3").val();
             let trazable = $("#trazableClo").val();
-            let normalidad = $("#normalidadClo").val();
-
+            let normalidad = $("#normalidadClo").val();    
             prom = (parseFloat(titulado1) + parseFloat(titulado2) + parseFloat(titulado3)) / 3;
             res = (parseFloat(trazable) * parseFloat(normalidad)) / prom;
             $("#normalidadResCloro").val(res.toFixed(4));
             break;
         case '28':
-        case '29':
-            $("#blancoResAlc").val("#blancoValAlc").val();
+        case '29': // Alcalinidad 
+            $("#blancoResAlc").val($("#blancoValAlc").val())
             titulado1 = $("#gmCarbonato1Alc").val();
             titulado2 = $("#gmCarbonato2Alc").val();
             titulado3 = $("#gmCarbonato3Alc").val();
-            let vol1 = $("#titulado1Alc").val();
-            let vol2 = $("#titulado1A2c").val();
-            let vol3 = $("#titulado1A3c").val();
-            let equivalentes = $("#gmEquivalentesAlc").val();
-            let fac = $("#factorAlc").val();
-            let promB = (parseFloat(vol1) + parseFloat(vol2) + parseFloat(vol3)) / 3;
+            vol1 = $("#titulado1Alc").val();
+            vol2 = $("#titulado2Alc").val();
+            vol3 = $("#titulado3Alc").val();
+            equivalentes = $("#gmEquivalentesAlc").val();
+            fac = $("#factorAlc").val();
+            promB = (parseFloat(vol1) + parseFloat(vol2) + parseFloat(vol3)) / 3;
             prom = (parseFloat(titulado1) + parseFloat(titulado2) + parseFloat(titulado3)) / 3;
-            res = (parseFloat(prom) / ( parseFloat(promB) * parseFloat(equivalentes))) * parseFloat(fac); 
+            form1 = ( parseFloat(promB) * parseFloat(equivalentes))
+            res = (parseFloat(prom) / form1 ) * parseFloat(fac);
+            $("#molaridadResAlc").val(res.toFixed(3));
         break;
         case '6': // DQO
             $("#blancoResD").val($("#blancoValD").val())
@@ -356,8 +357,36 @@ $('#btnGuardarVal').click(function () {
                 }
             });
             break;
+            case '28': // ALCALINIDAD 
+            case '29':
+                $.ajax({
+                    type: 'POST',
+                    url: base_url + "/admin/laboratorio/" + area + "/guardarValidacionVol",
+                    data: {
+                        caso: 5,
+                        idParametro: $("#tipoFormula").val(),
+                        titulado1: $("#gmCarbonato1Alc").val(),
+                        titulado2: $("#gmCarbonato2Alc").val(),
+                        titulado3: $("#gmCarbonato3Alc").val(),
+                        vol1: $("#titulado1Alc").val(),
+                        vol2: $("#titulado1A2c").val(),
+                        vol3: $("#titulado1A3c").val(),
+                        equivalentes: $("#gmEquivalentesAlc").val(),
+                        fac: $("#factorAlc").val(),
+                        molaridad: $("#molaridadResAlc").val(),
+                        blanco: $("#blancoResAlc").val(),
+                        _token: $('input[name="_token"]').val(),
+                    },
+                    dataType: "json",
+                    async: false,
+                    success: function (response) {
+                        console.log(response);
+                    }
+                });
+                break;
         default:
             break;
+
     }
 });
 

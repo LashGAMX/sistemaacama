@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\BitacoraDirectos;
 use App\Models\BitacoraVolumetria;
 use App\Models\VolumenParametros;
 use App\Models\LoteAnalisis;
@@ -245,8 +246,9 @@ class VolController extends Controller
                     ]);
                 }
                 break;
+            case 5:
 
-
+                break;
             default:
                 # code...
                 break;

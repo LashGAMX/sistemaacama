@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Laboratorio;
 
 use App\Http\Controllers\Controller;
+use App\Models\Bitacoras;
 use App\Models\CodigoParametros;
 use App\Models\CurvaConstantes;
 use App\Models\GrasasDetalle;
@@ -10,6 +11,7 @@ use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
 use App\Models\LoteDetalleEspectro;
 use App\Models\Parametro;
+use App\Models\PlantillaBitacora;
 use App\Models\ProcesoAnalisis;
 use App\Models\SolicitudPuntos;
 use Carbon\Carbon;
@@ -283,13 +285,28 @@ class LabAnalisisController extends Controller
                     }
                     break;
                 case 5: //fisicoquimicos
-                    
+                     
                     break;
                 default:
                 $model = array();
                     break;
             }
         }  
+        return response()->json($data);
+    }
+    public function getDetalleLote(Request $res)
+    {
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
+        
+        $plantilla = Bitacoras::where('Id_lote', $res->id)->get();
+        if ($plantilla->count()) {
+        } else {
+            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+        }
+        $data = array(
+            'plantilla' => $plantilla,
+            'lote' => $lote,
+        );
         return response()->json($data);
     }
 }

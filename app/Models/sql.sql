@@ -658,7 +658,7 @@ INNER JOIN incidencias_prioridad as pri ON inci.Id_prioridad = pri.Id_prioridad
 /* ViewProcesoAnalisis */
 
 CREATE VIEW ViewProcesoAnalisis as SELECT pr.*,sol.Padre,sol.Hijo FROM proceso_analisis as pr
-INNER JOIN ViewSolicitud as sol
+INNER JOIN ViewSolicitud2 as sol
 ON pr.Id_solicitud = sol.Id_solicitud
 
 

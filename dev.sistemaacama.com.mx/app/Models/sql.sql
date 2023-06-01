@@ -739,6 +739,12 @@ CREATE VIEW ViewPlantillaMetales as SELECT met.*,p.Parametro FROM plantillas_met
 INNER JOIN parametros as p
 ON  met.Id_parametro = p.Id_parametro
 
+/* ViewPlantillaBitacoras */
+
+CREATE VIEW ViewPlantillaBitacoras as SELECT bit.*,p.Parametro FROM plantillas_bitacora as bit
+INNER JOIN parametros as p
+ON  bit.Id_parametro = p.Id_parametro
+
 
 /* ViewMatrazConMuestra */
 CREATE VIEW  ViewMatrazConMuestra as SELECT ga.*,ma.Peso,ma.Min,ma.Max,ma.Estado FROM ViewLoteDetalleGA as ga

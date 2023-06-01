@@ -176,7 +176,7 @@
     </div>
   </div>
 </div>
-
+ 
 {{-- Fin modal Detalle Lote --}}
 
 <!-- Modal -->
@@ -184,7 +184,7 @@
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="modalDetalleLoteLabel">Detalle lote: <input type="" id="idLote" style="border:none;width: 80%;"></h5>
+        <h5 class="modal-title" id="modalDetalleLoteLabel">Detalle lote: <input type="" id="tituloLote" style="border:none;width: 80%;"></h5>
       </div>
       <div class="modal-body">
        {{-- Inicio de Body  --}}

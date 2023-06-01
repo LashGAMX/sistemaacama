@@ -19,7 +19,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getDetalleMuestra',[LabAnalisisController::class,'getDetalleMuestra']);
         Route::post('setDetalleMuestra',[LabAnalisisController::class,'setDetalleMuestra']);
     });
-  
+   
 });
 
  

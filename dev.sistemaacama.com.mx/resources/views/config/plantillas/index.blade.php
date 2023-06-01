@@ -12,67 +12,12 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-3">
-                <a href="{{url('/admin/config/plantillas/bitacoras/1')}}">
+                <a href="{{url('/admin/config/plantillas/bitacoras')}}">
                     <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;">
                         <div class="dimmer"></div>
                         <div class="panel-content"> 
                             <i class="voyager-down-circled"></i>
-                            <h4>Fq</h4>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="{{url('/admin/config/plantillas/bitacoras/2')}}">
-                    <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;">
-                        <div class="dimmer"></div>
-                        <div class="panel-content">
-                            <i class="voyager-down-circled"></i>
-                            <h4>Directos</h4>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="{{url('/admin/config/plantillas/bitacoras/3')}}">
-                    <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;">
-                        <div class="dimmer"></div>
-                        <div class="panel-content">
-                            <i class="voyager-down-circled"></i>
-                            <h4>Mb</h4>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="{{url('/admin/config/plantillas/bitacoras/4')}}">
-                    <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;">
-                        <div class="dimmer"></div>
-                        <div class="panel-content">
-                            <i class="voyager-down-circled"></i>
-                            <h4>Potable</h4>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="{{url('/admin/config/plantillas/bitacoras/5')}}">
-                    <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;">
-                        <div class="dimmer"></div>
-                        <div class="panel-content">
-                            <i class="voyager-down-circled"></i>
-                            <h4>Volumetria</h4>
-                        </div>
-                    </div>
-                </a>
-            </div>
-            <div class="col-md-3">
-                <a href="{{url('/admin/config/plantillas/bitacoras/6')}}">
-                    <div class="panel widget center bgimage" style="margin-bottom:0;overflow:hidden;">
-                        <div class="dimmer"></div>
-                        <div class="panel-content">
-                            <i class="voyager-down-circled"></i>
-                            <h4>Metales</h4>
+                            <h4>Bitacoras</h4>
                         </div>
                     </div>
                 </a>
