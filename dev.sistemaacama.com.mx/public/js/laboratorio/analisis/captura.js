@@ -51,6 +51,33 @@ var idMuestra
 var idMuestra = 0
 var idArea = 0
  //todo funciones
+ function getDetalleLote(id,parametro)
+ {
+    $("#modalDetalleLote").modal("show")
+    $("#tituloLote").val(id+' - '+parametro)
+    let summer = document.getElementById("divSummer");
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/getDetalleLote",
+        data: {
+            id:id,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response); 
+            $("#tituloBit").val(response.plantilla[0].Titulo)
+            $("#revBit").val(response.plantilla[0].Rev)
+            summer.innerHTML = '<div id="summernote">'+response.plantilla[0].Texto+'</div>';
+
+            $('#summernote').summernote({
+                placeholder: '', 
+                tabsize: 2,
+                height: 300,         
+            }); 
+        }
+    });
+ }
  function setDetalleMuestra()
  {
     switch (parseInt(idArea)) {
@@ -157,10 +184,7 @@ var idArea = 0
         }
     });
  }
- function getDetalleLote()
- {
-    $("#modalDetalleLote").modal("show")
- }
+
  function getCapturaLote()
  {
     let tabla = document.getElementById('divCaptura');
@@ -457,8 +481,8 @@ function getLote()
                     tab += '<td>'+item.Liberado+'</td>'
                     tab += '<td>'
                     tab +='     <button class="btn-info" id="btnBitacora"><i class="voyager-download"></i></button><br>'
-                    tab +='     <button onclick="getDetalleLote()" class="btn-info" id="btnEditarBitacora"><i class="voyager-edit"></i></button>'
-                    tab += '</td>'
+                    tab +='     <button onclick="getDetalleLote('+item.Id_lote+',\''+item.Parametro+'\')" class="btn-info" id="btnEditarBitacora"><i class="voyager-edit"></i></button>'
+                    tab += '</td>' 
                     tab += '</tr>'
                 })
                 tab += '    </tbody>'
