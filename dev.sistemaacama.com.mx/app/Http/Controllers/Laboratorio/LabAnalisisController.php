@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Laboratorio;
 use App\Http\Controllers\Controller;
 use App\Models\Bitacoras;
 use App\Models\CodigoParametros;
+use App\Models\ControlCalidad;
 use App\Models\CurvaConstantes;
 use App\Models\GrasasDetalle;
 use App\Models\LoteAnalisis;
@@ -26,7 +27,9 @@ class LabAnalisisController extends Controller
     public function captura()
     {
         $parametro = DB::table('ViewParametroUsuarios')->where('Id_user', Auth::user()->id)->get();
+        $control = ControlCalidad::all();
         $data = array(
+            'control' => $control,
             'model' => $parametro,
         );
         return view('laboratorio.analisis.captura',$data);
@@ -307,6 +310,171 @@ class LabAnalisisController extends Controller
         $data = array(
             'plantilla' => $plantilla,
             'lote' => $lote,
+        );
+        return response()->json($data);
+    }
+    public function setControlCalidad(Request $res)
+    {
+        $lote = LoteAnalisis::where('Id_lote',$res->idLote)->get();
+        if ($lote->count()) {
+            switch ($lote[0]->Id_area) {
+                case 16: // Espectrofotometria
+                    switch ($lote[0]->Id_tecnica) {
+                        case 0: 
+
+                            break;
+                        default:
+                            $muestra = LoteDetalleEspectro::where('Id_detalle', $res->idMuestra)->first();
+                            $model = $muestra->replicate();
+                            $model->Id_control = $res->idControl;
+                            $model->Resultado = "";
+                            $model->save();
+
+                            $model = LoteDetalleEspectro::where('Id_lote',$res->idLote)->get();
+                            break;
+                    }
+                    break;
+                case 5: //fisicoquimicos
+                     
+                    break;
+                default:
+                $model = array();
+                    break;
+            }
+        }  
+
+        $lote = LoteAnalisis::find($res->idLote);
+        $lote->Asignado = $model->count();
+        $lote->save();
+
+        $data = array(
+            'lote' => $lote,
+            'model' => $model,
+        );
+        return response()->json($data);
+    }
+    public function setLiberarTodo(Request $res)
+    {
+        $sw = false;
+        $lote = LoteAnalisis::where('Id_lote',$res->idLote)->get();
+        if ($lote->count()) {
+            switch ($lote[0]->Id_area) {
+                case 16: // Espectrofotometria
+                    switch ($lote[0]->Id_tecnica) {
+                        case 0: 
+
+                            break;
+                        default:
+                                $muestras = LoteDetalleEspectro::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
+                                foreach ($muestras as $item) {
+                                    $model = LoteDetalleEspectro::find($item->Id_detalle);
+                                    $model->Liberado = 1;
+                                    if ($model->Resultado != null) {
+                                        $sw = true;
+                                        $model->save();
+                                    }
+                                    if ($item->Id_control == 1) {
+                                        $modelCod = CodigoParametros::find($model->Id_codigo);
+                                        $modelCod->Resultado = $model->Resultado;
+                                        $modelCod->Resultado2 = $model->Resultado;
+                                        $modelCod->Analizo = Auth::user()->id;
+                                        $modelCod->save();
+                                    }
+                                }
+                                $model = LoteDetalleEspectro::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                            break;
+                    }
+                    break;
+                case 5: //fisicoquimicos
+                     
+                    break;
+                default:
+                $model = array();
+                    break;
+            }
+        }  
+
+        $loteModel = LoteAnalisis::find($res->idLote);
+        $loteModel->Liberado = $model->count();
+        $loteModel->save();
+
+
+        $data = array(
+            'model' => $model, 
+            'sw' => $sw,
+        );
+        return response()->json($data);
+    }
+    public function setLiberar(Request $res)
+    {
+        $lote = LoteAnalisis::where('Id_lote',$res->idLote)->get();
+            switch ($lote[0]->Id_area) {
+                case 16: // Espectrofotometria
+                    switch ($lote[0]->Id_tecnica) {
+                        case 0: 
+
+                            break;
+                        default:
+                                $model = LoteDetalleEspectro::find($res->idMuestra);
+                                $model->Liberado = 1;
+                                if ($model->Resultado != null) {
+                                    $sw = true;
+                                    $model->save();
+                                }
+                    
+                                $modelCod = CodigoParametros::find($model->Id_codigo);
+                                $modelCod->Resultado = $model->Resultado;
+                                $modelCod->Resultado2 = $model->Resultado;
+                                $modelCod->Analizo = Auth::user()->id;
+                                $modelCod->save();
+                    
+                                $model = LoteDetalleEspectro::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                            break;
+                    }
+                    break;
+                case 5: //fisicoquimicos
+                     
+                    break;
+                default:
+                $model = array();
+                    break;
+            } 
+
+            $loteModel = LoteAnalisis::find($res->idLote);
+            $loteModel->Liberado = $model->count();
+            $loteModel->save();
+      
+        $data = array(
+            'model' => $model,
+            'sw' => $sw,
+        );
+        return response()->json($data);
+    }
+    public function setObservacion(Request $res)
+    {
+        $lote = LoteAnalisis::where('Id_lote',$res->idLote)->get();
+            switch ($lote[0]->Id_area) {
+                case 16: // Espectrofotometria 
+                    switch ($lote[0]->Id_tecnica) {
+                        case 0: 
+
+                            break;
+                        default:
+                            $model = LoteDetalleEspectro::where('Id_detalle', $res->idMuestra)->first();
+                            $model->Observacion = $res->observacion;
+                            $model->save();                 
+                            break;
+                    } 
+                    break;
+                case 5: //fisicoquimicos
+                     
+                    break; 
+                default:
+                $model = array();
+                    break;
+            } 
+        $data = array(
+            'model' => $model,
         );
         return response()->json($data);
     }

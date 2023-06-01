@@ -16,8 +16,7 @@ $('#formulaTipo').on('change', function () {
 });
 
 $('#btnEjecutar').click(function () {
-        // validacionModal(); 
-        operacion(); 
+    operacion(); 
 });
 $('#ejecutarModalSulfato').click(function () {
     operacionSulfatos(); 
@@ -28,15 +27,12 @@ $('#btnGuardar').click(function (){
     alert("Guardado");
 });
 $('#btnLiberar').click(function () {
-    // operacion();
     liberarMuestra();
 });
 $('#btnLiberarTodo').click(function () {
-    // operacion();
     liberarTodoEspectro();
 });
 $('#btnGenControles').click(function () {
-    // operacion();
     createControlesCalidad();
 });
 

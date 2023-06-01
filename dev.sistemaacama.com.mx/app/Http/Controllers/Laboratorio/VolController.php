@@ -50,6 +50,7 @@ use App\Models\ValoracionCloro;
 use App\Models\ValoracionDqo;
 use App\Models\ValoracionDureza;
 use App\Models\ValoracionNitrogeno;
+use App\Models\ValoracionAlcalinidad;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -225,7 +226,6 @@ class VolController extends Controller
                     $model = ValoracionDureza::where('Id_lote', $request->idLote)->first();
                     $model->Id_lote = $request->idLote;
                     $model->Id_parametro = $request->idParametro;
-                    $model->Id_parametro = $request->idParametro;
                     $model->Blanco = $request->blanco;
                     $model->Disolucion1 = $request->titulado1;
                     $model->Disolucion2 = $request->titulado2;
@@ -247,6 +247,39 @@ class VolController extends Controller
                 }
                 break;
             case 5:
+                $valoracionModel = ValoracionAlcalinidad::where('Id_lote', $request->idLote)->get();
+                if($valoracionModel->count()) {
+                    $model = ValoracionAlcalinidad::where('Id_lote', $request->idLote)->get();
+                    $model->Id_lote = $request->idLote;
+                    $model->Id_parametro = $request->idParametro;
+                    $model->Titulado1 = $request->titulado1;
+                    $model->Titulado2 = $request->titulado2;
+                    $model->Titulado3 = $request->titulado3;
+                    $model->Vol1 = $request->vol1;
+                    $model->Vol2 = $request->vol2;
+                    $model->Vol3 = $request->vol3;
+                    $model->Blanco = $request->blanco;
+                    $model->Equivalentes = $request->equivalentes;
+                    $model->Factor = $request->fac;
+                    $model->resultado = $request->molaridad;
+                    $model->save();
+
+                } else {
+                    $model = ValoracionAlcalinidad::create([
+                        'Id_lote' => $request->idLote,
+                        'Id_parametro' => $request->idParametro,
+                        'Blanco' => $request->blanco,
+                        'Titulado1' => $request->titulado1,
+                        'Titulado2' => $request->titulado2,
+                        'Titulado3' => $request->titulado3,
+                        'Vol1' => $request->vol1,
+                        'Vol2' => $request->vol2,
+                        'Vol3' => $request->vol3,
+                        'Equivalentes' => $request->equivalentes,
+                        'Resultado' => $request->molaridad,
+                        'Factores' => $request->fac,
+                    ]);
+                }
 
                 break;
             default:

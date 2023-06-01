@@ -42,6 +42,15 @@ $(document).ready(function () {
     $('#btnEjecutar').click(function(){
         setDetalleMuestra()
     }); 
+    $('#btnSetControl').click(function(){
+        setControlCalidad()
+    }); 
+    $('#btnLiberarTodo').click(function(){
+        setLiberarTodo()
+    }); 
+    $('#btnLiberar').click(function () {
+        setLiberar();
+    });
 });
 
  //todo Variables globales
@@ -51,6 +60,90 @@ var idMuestra
 var idMuestra = 0
 var idArea = 0
  //todo funciones
+ function setObservacion(id)
+{
+    
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/setObservacion",
+        data: {
+            idMuestra: idMuestra,
+            observacion: $("#"+id).val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getCapturaLote();
+        }
+    }); 
+}  
+ function setLiberar()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/setLiberar",
+        data: {
+            idMuestra: idMuestra,
+            idLote:idLote,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response.sw == true)
+            {
+                getLote();
+                getCapturaLote();
+                alert("Muestra liberada")
+            }else{
+                alert("La muestra no se pudo liberar");
+            }
+        }
+    });
+}
+ function setLiberarTodo()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/setLiberarTodo",
+        data: {
+            idLote:idLote,
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            if(response.sw == true)
+            {
+                getLote();
+                getCapturaLote();
+                alert("Muestras liberadas")
+            }else{
+                alert("La muestra no se pudo liberar");
+            }
+        }
+    });
+}
+ function setControlCalidad()
+{
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/setControlCalidad",
+        data: {
+            idMuestra: idMuestra, 
+            idLote:idLote,
+            idControl: $("#controlCalidad").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLote();
+            getCapturaLote();
+        }
+    });
+}
  function exportBitacora(id)
  {
     window.open(base_url+"/admin/laboratorio/" + area + "/bitacora/impresion/"+id);       
@@ -132,6 +225,7 @@ var idArea = 0
         default:
             break;
     }
+    getCapturaLote()
 
  }
  function getDetalleMuestra(id)

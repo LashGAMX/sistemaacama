@@ -65,13 +65,13 @@
       <div class="col-md-12">
         <div class="row">
           <div class="col-md-2">
-            <button class="btn-warning"><i class="voyager-check"></i> Liberar</button>
+            <button class="btn-warning" id="btnLiberar"><i class="voyager-check"></i> Liberar</button>
+          </div>
+          <div class="col-md-2"> 
+            <button class="btn-warning" id="btnLiberarTodo"><i class="fas fa-check-double"></i> Liberar todo</button>
           </div>
           <div class="col-md-2">
-            <button class="btn-warning"><i class="fas fa-check-double"></i> Liberar todo</button>
-          </div>
-          <div class="col-md-2">
-            <button class="btn-success"><i class="fas fa-vial"></i> Control</button>
+            <button class="btn-success" data-toggle="modal" data-target="#modalCalidad"><i class="fas fa-vial"></i> Control</button>
           </div>
           <div class="col-md-2">
             <button class="btn-success"><i class="fas fa-vials"></i> Controles</button>
@@ -352,6 +352,42 @@
 
 {{-- Fin modal Detalle Lote --}}
 
+{{--? Inicio modal control calidad --}}
+
+<div class="modal fade" id="modalCalidad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+                  <h5 class="modal-title" id="">Control de calidad</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <label for="">Tipo</label>
+                              <select class="form-control" id="controlCalidad">
+                                  @foreach ($control as $item)
+                                  <option value="{{$item->Id_control}}">{{$item->Control}}</option>
+                                  @endforeach
+                              </select>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                  <button type="button"  id="btnSetControl" class="btn btn-primary">Generar</button>
+              </div>
+        
+      </div>
+  </div>
+</div>
+
+{{--? Fin modal control calidad --}}
+
 {{--todo INICIO Modal de capturas de parametros --}}
 
   {{--? Inicio COT   --}}
@@ -367,11 +403,11 @@
                       <div class="col-md-12">
                           <div class="form-group">
                               <label for="">Observación</label>
-                              <input type="text" class="form-control" id="observacion"
+                              <input type="text" class="form-control" id="observacionCOT"
                                   placeholder="Observacion de la muestra">
                           </div>
                           <div class="form-group">
-                              <button class="btn btn-success" type="button" onclick="updateObsMuestraEspectro()"
+                              <button class="btn btn-success" type="button" onclick="setObservacion('observacionCOT')"
                                   id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
                           </div>
                           <div class="col-md-2">
@@ -494,7 +530,7 @@
 @endsection  
 
 @section('javascript')
-    <script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=0.0.1"></script>
+    <script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=0.0.2"></script>
     <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
     <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
     <script src="{{asset('/assets/summer/summernote.js')}}"></script>

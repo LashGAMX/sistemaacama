@@ -444,12 +444,6 @@
                         </div>
                         <div class="modal-body">
                             <div class="row">
-                                {{-- <div class="col-md-12">
-                                    <div class="form-group">
-                                        <label for="">Formula</label>
-                                        <input type="text" id="mFormula" disabled value="Forms">
-                                    </div>
-                                </div> --}}
                                 <div class="col-md-12">
                                     <div class="form-group">
                                         <label for="">Tipo</label>
