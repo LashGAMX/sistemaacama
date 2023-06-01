@@ -55,11 +55,17 @@
                         <td class="tableContent">{{@$loteDetalle[$i]->Vol_muestra}}</td>
                         <td class="tableContent">{{@$loteDetalle[$i]->Titulado_muestra}}</td>
                         <!-- <td class="tableContent">{{@$loteDetalle[$i]->Resultado}}</td> -->
-                        <td class="tableContent"> @if (@$loteDetalle[$i]->Resultado > @$loteDetalle[$i]->Limite)
-                            {{@$loteDetalle[$i]->Resultado}}
+                        <td class="tableContent">
+                            @if (@$loteDetalle[$i]->Resultado != NULL)
+                            @if (@$loteDetalle[$i]->Resultado > @$loteDetalle[$i]->Limite)
+                                {{@$loteDetalle[$i]->Resultado}}
+                            @else
+                                <{{@$loteDetalle[$i]->Limite}}
+                            @endif
                         @else
-                            <{{@$loteDetalle[$i]->Limite}}
-                        @endif</td>
+                            ------
+                        @endif
+                    </td>
             
                         <td class="tableContent">{{@$loteDetalle[$i]->Observacion}}</td>
                         <td class="tableContent">

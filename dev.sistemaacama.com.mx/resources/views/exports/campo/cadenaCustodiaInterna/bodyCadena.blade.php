@@ -71,7 +71,7 @@
                     <tbody>
                         @for ($i = 0; $i < sizeof($area); $i++)    
                             <tr>
-                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> {{$area[$i]}} </td>
+                                <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita">{{$area[$i]}} </td>
                                 <td class="bordesTablaInfIzqDer fontCalibri negrita fontSize8"> {{$responsable[$i]}}</td>
                                 <td class="justifyCenter bordesTablaInfIzqDer fontCalibri negrita fontSize8">{{$numRecipientes[$i]}}</td>
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
@@ -97,22 +97,45 @@
                                       --------------- 
                                     @else
                                         @if ($fechasSalidas[$i] != "")
-                                        {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}
+                                            @switch($model->Id_norma)
+                                            @case(1)
+                                            @case(27)  
+                                                {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}  
+                                                @break
+                                            @case(5)
+                                            @case(30)   
+                                                    {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(21)->format('d/m/Y')}}  
+                                                @break
+                                                @default
+                                                {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(18)->format('d/m/Y')}}
+                                            @endswitch
+                                        
                                         @else
-                                            <p style="color: red">Sin captura</p>
+                                            <p style="color: red">Sin captura</p> 
                                         @endif
                                     @endif
                                 </td>
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
                                     @if ($fechasSalidas[$i] != "")
-                                        {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
+                                        @switch($model->Id_norma)
+                                            @case(1)
+                                            @case(27)  
+                                                {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(11)->format('d/m/Y')}}  
+                                                @break
+                                            @case(5)
+                                            @case(30)  
+                                                {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(14)->format('d/m/Y')}}  
+                                                @break
+                                            @default
+                                            {{\Carbon\Carbon::parse(@$recepcion->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
+                                        @endswitch
                                     @else
                                         <p style="color: red">Sin captura</p>
                                     @endif
                                 </td>
                                 <td class="bordesTablaInfIzqDer fontSize8 fontCalibri negrita"> 
                                     @if ($fechasSalidas[$i] != "")
-                                        <img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="{{url('public/storage/'.@$firmas[$i]->firma)}}">
+                                        <center><img style="width: auto; height: auto; max-width: 45px; max-height: 25px;" src="{{url('public/storage/'.@$firmas[$i])}}"></center>
                                     @else
                                         <p style="color: red">Sin captura</p>
                                     @endif
@@ -144,9 +167,16 @@
                     <tbody>
                         @php
                             $temp = ceil($paramResultado->count() / 3);
-                        @endphp
+                        @endphp 
                         @for ($i = 0; $i < $temp; $i++)
                             <tr>
+                                {{-- <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$paramResultado[$i]->Id_parametro}}{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$resInfo[$i]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$paramResultado[$i + $temp]->Id_parametro}}{{@$paramResultado[$i + $temp]->Parametro}} - {{@$paramResultado[$i + $temp]->Num_muestra}} {{@$paramResultado[$i + $temp]->Unidad}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$resInfo[$i + $temp]}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$paramResultado[$i + ($temp  * 2)]->Id_parametro}}{{@$paramResultado[$i + ($temp * 2)]->Parametro}} - {{@$paramResultado[$i + ($temp * 2)]->Num_muestra}} {{@$paramResultado[$i + ($temp * 2)]->Unidad}}</td>
+                                <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$resInfo[$i + ($temp * 2)]}}</td> --}}
+
                                 <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$paramResultado[$i]->Parametro}} - {{@$paramResultado[$i]->Num_muestra}} {{@$paramResultado[$i]->Unidad}}</td>
                                 <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$resInfo[$i]}}</td>
                                 <td class="justifyCenter bordesTabla anchoColumna125 fontSize8 fontCalibri">{{@$paramResultado[$i + $temp]->Parametro}} - {{@$paramResultado[$i + $temp]->Num_muestra}} {{@$paramResultado[$i + $temp]->Unidad}}</td>

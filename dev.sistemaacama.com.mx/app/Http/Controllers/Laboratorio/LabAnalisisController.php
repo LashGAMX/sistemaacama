@@ -14,6 +14,7 @@ use App\Models\Parametro;
 use App\Models\PlantillaBitacora;
 use App\Models\ProcesoAnalisis;
 use App\Models\SolicitudPuntos;
+use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -309,5 +310,82 @@ class LabAnalisisController extends Controller
         );
         return response()->json($data);
     }
+    public function exportBitacora($id)
+    {
+       //Opciones del documento PDF
+       $mpdf = new \Mpdf\Mpdf([ 
+        'orientation' => 'P',
+        'format' => 'letter',
+        'margin_left' => 10,
+        'margin_right' => 10,
+        'margin_top' => 40,
+        'margin_bottom' => 45,
+        'defaultheaderfontstyle' => ['normal'],
+        'defaultheaderline' => '0'
+    ]);
+    //Establece la marca de agua del documento PDF
+    $mpdf->SetWatermarkImage(
+        asset('/public/storage/MembreteVertical.png'),
+        1,
+        array(215, 280),
+        array(0, 0),
+    );
+
+    $mpdf->showWatermarkImage = true;
+    $mpdf->CSSselectMedia = 'mpdf';
+
+    $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id)->first();
+        switch ($lote->Id_area) {
+            case 16: // Espectrofotometria
+                    $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id)->get();
+                    $plantilla = Bitacoras::where('Id_lote', $id)->get();
+                    if ($plantilla->count()) {
+                    } else {
+                        $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+                    }
+                    $procedimiento = explode("NUEVASECCION", $plantilla[0]->Texto);
+                    $curva = CurvaConstantes::where('Id_parametro', $lote->Id_tecnica)->where('Fecha_inicio', '<=', $lote->Fecha)->where('Fecha_fin', '>=', $lote->Fecha)->first();
+                    //Comprobación de bitacora analizada
+                    $comprobacion = LoteDetalleEspectro::where('Liberado', 0)->where('Id_lote', $id)->get();
+                    if ($comprobacion->count()) {
+                        $analizo = "";
+                    } else {
+                        $analizo = User::where('id', $model[0]->Analizo)->first();
+                    }
+                    $reviso = User::where('id', 17)->first();
+                    $data = array(
+                        'lote' => $lote,
+                        'model' => $model,
+                        'curva' => $curva,
+                        'plantilla' => $plantilla,
+                        'procedimiento' => $procedimiento,
+                        'analizo' => $analizo,
+                        'reviso' => $reviso,
+                        'comprobacion' => $comprobacion,
+                    );
+    
+                switch ($lote->Id_tecnica) {
+                    case 152: // COT
+                        $htmlFooter = view('exports.laboratorio.fq.espectro.cot.capturaFooter', $data);
+                        $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
+                        $htmlHeader = view('exports.laboratorio.fq.espectro.cot.capturaHeader', $data);
+                        $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
+                        $htmlCaptura = view('exports.laboratorio.fq.espectro.cot.capturaBody', $data);
+                        $mpdf->CSSselectMedia = 'mpdf';
+                        $mpdf->WriteHTML($htmlCaptura);
+                        break;
+                    default:
+  
+                        break;
+                }
+                break;
+            case 5: // Fisicoquimicos
+                break;
+            default:
+                break;
+        }
+        $mpdf->Output();
+    }
+    
 }
  

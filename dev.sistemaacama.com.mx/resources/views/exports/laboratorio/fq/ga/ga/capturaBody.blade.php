@@ -402,7 +402,7 @@
                 <tr>
                     {{-- <td class="tableContent bordesTabla">{{@$data[$i]->Ph}}</td> --}}
                     <td class="tableContent bordesTabla">< 2</td>
-                    <td class="tableContent bordesTabla">{{@$item->Control}}</td>
+                    <td class="tableContent bordesTabla">{{@$item->Codigo}}</td>
                     <td class="tableContent bordesTabla">{{$cont}}</td>
                     <td class="tableContent bordesTabla">{{@$item->Matraz}}</td>
                     <td class="tableContent bordesTabla">{{number_format(@$item->M_inicial3, 4, ".", ".")}}</td>

@@ -227,20 +227,20 @@ class FqController extends Controller
     }
     public function guardarCOT(Request $request)
     {
-        $model = LoteDetalleEspectro::find($request->idMuestra);
-        $model->Resultado = $request->resultado;
-        $model->Abs1 = $request->X;
-        $model->Abs2 = $request->Y;
-        $model->Abs3 = $request->Z;
-        $model->B = $request->CB;
-        $model->M = $request->CM;
-        $model->R = $request->CR;
-        $model->Promedio = $request->ABS;
-        $model->Vol_dilucion = $request->D;
-        $model->Vol_muestra = $request->E;
-        $model->Blanco = $request->CA;
-        $model->Analizo = Auth::user()->id;
-        $model->save();
+            $model = LoteDetalleEspectro::find($request->idMuestra);
+            $model->Resultado = $request->resultado;
+            $model->Abs1 = $request->X;
+            $model->Abs2 = $request->Y;
+            $model->Abs3 = $request->Z;
+            $model->B = $request->CB;
+            $model->M = $request->CM;
+            $model->R = $request->CR;
+            $model->Promedio = $request->ABS;
+            $model->Vol_dilucion = $request->D;
+            $model->Vol_muestra = $request->E;
+            $model->Blanco = $request->CA;
+            $model->Analizo = Auth::user()->id;
+            $model->save();
 
         $data = array(
             'model' => $model,

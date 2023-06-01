@@ -19,12 +19,12 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos encontrados",
         }
     });    
-    $('#divSummer').summernote({
-        placeholder: '', 
-        tabsize: 2,
-        height: 300,
+    // $('#divSummer').summernote({
+    //     placeholder: '', 
+    //     tabsize: 2,
+    //     height: 300,
 
-      });
+    //   });
 
     $('.select2').select2();
     $('#btnPendientes').click(function(){
@@ -51,11 +51,15 @@ var idMuestra
 var idMuestra = 0
 var idArea = 0
  //todo funciones
+ function exportBitacora(id)
+ {
+    window.open(base_url+"/admin/laboratorio/" + area + "/bitacora/impresion/"+id);       
+ }
  function getDetalleLote(id,parametro)
  {
     $("#modalDetalleLote").modal("show")
     $("#tituloLote").val(id+' - '+parametro)
-    let summer = document.getElementById("divSummer");
+    let summer = document.getElementById("divSummer")
     $.ajax({
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/getDetalleLote",
@@ -480,7 +484,7 @@ function getLote()
                     tab += '<td>'+item.Asignado+'</td>'
                     tab += '<td>'+item.Liberado+'</td>'
                     tab += '<td>'
-                    tab +='     <button class="btn-info" id="btnBitacora"><i class="voyager-download"></i></button><br>'
+                    tab +='     <button class="btn-info" onclick="exportBitacora('+item.Id_lote+')"><i class="voyager-download"></i></button><br>'
                     tab +='     <button onclick="getDetalleLote('+item.Id_lote+',\''+item.Parametro+'\')" class="btn-info" id="btnEditarBitacora"><i class="voyager-edit"></i></button>'
                     tab += '</td>' 
                     tab += '</tr>'

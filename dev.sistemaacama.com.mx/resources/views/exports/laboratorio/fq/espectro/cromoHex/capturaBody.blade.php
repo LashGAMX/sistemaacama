@@ -8,13 +8,13 @@
     <title>Captura PDF</title>
 </head>
 <body>
-    <p id='curvaProcedimiento'>Procedimiento</p>
+    
 
     <div id="contenidoCurva">
-        <?php echo html_entity_decode($textoProcedimiento[0]);?>
+        <?php 
+        echo $procedimiento[0];
+        ?>
     </div>
-
-    <br>
 
     <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos">
@@ -72,23 +72,21 @@
                     </tr>                
                 @endfor
             </tbody>        
-        </table>  
+        </table>
+        <div id="contenidoCurva">
+            <span><br> Absorbancia B1: 0</span> <br><br>
+            <span>Absorbancia B2: 0</span> <br><br>
+            <span>Absorbancia B3: 0</span> <br><br>
+            <span>RESULTADO BLANCO: 0</span>
+        </div>
+         
+
     </div>
-
-    <br>     
-
-    <div class="contenedorSexto">                
-        <span><br> Absorbancia B1: {{@$data[0]->Blanco}}</span> <br><br>
-        <span>Absorbancia B2: {{@$data[0]->Blanco}}</span> <br><br>
-        <span>Absorbancia B3: {{@$data[0]->Blanco}}</span> <br><br>
-        <span>RESULTADO BLANCO: {{@$data[0]->Blanco}}</span>
-    </div>
-
-    <br>
-
+   
     <div id="contenidoCurva">
-        <span id="curvaProcedimiento">Valoración</span> 
-        <?php echo html_entity_decode($textoProcedimiento[1]);?>
+        <?php 
+        echo $procedimiento[1];
+        ?>
     </div>
 
     <br>

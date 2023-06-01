@@ -48,10 +48,10 @@
                                 {{@$data[$i]->Control}}
                             @endif                            
                         </td>
-                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">{{@$data[$i]->Inmhoff}}</td>
                         <td class="tableContent">{{@$data[$i]->Resultado}}</td>
-                        <td class="tableContent">PRUEBA</td>
-                        <td class="tableContent">PRUEBA</td>
+                        <td class="tableContent">{{@$data[$i]->Temp_muestraLlegada}}</td>
+                        <td class="tableContent">{{@$data[$i]->Temp_muestraAnalizada}}</td>
                         <td class="tableContent">{{@$data[$i]->Observacion}}</td>
                         <td class="tableContent">
                             @if (@$data[$i]->Liberado == 1)

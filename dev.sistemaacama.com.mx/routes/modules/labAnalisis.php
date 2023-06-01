@@ -18,6 +18,8 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('getCapturaLote',[LabAnalisisController::class,'getCapturaLote']);
         Route::post('getDetalleMuestra',[LabAnalisisController::class,'getDetalleMuestra']);
         Route::post('setDetalleMuestra',[LabAnalisisController::class,'setDetalleMuestra']);
+
+        Route::get('bitacora/impresion/{id}', [LabAnalisisController::class, 'exportBitacora']);
     });
    
 });

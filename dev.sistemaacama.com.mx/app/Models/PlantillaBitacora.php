@@ -18,6 +18,6 @@ class PlantillaBitacora extends Model
         'Id_parametro',
         'Titulo',
         'Texto',
-        'Rev'
+        'Rev',
     ];
 }

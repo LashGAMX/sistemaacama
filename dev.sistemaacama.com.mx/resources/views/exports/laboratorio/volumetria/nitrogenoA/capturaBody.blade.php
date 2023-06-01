@@ -29,10 +29,11 @@
                 <tr>
                     {{-- <th class="tableCabecera anchoColumna">pH</th> --}}
                     <th class="tableCabecera anchoColumna">No. de muestra</th>
-                    <th class="tableCabecera anchoColumna">Vol. Titulante Blanco</th>
-                    <th class="tableCabecera anchoColumna">Vol. Muestra</th>
-                    <th class="tableCabecera anchoColumna">Vol. Titulante Muestra</th>
-                    <th class="tableCabecera anchoColumna">Nitrógeno Amoniacal(N-Amoniacal)mg/L</th>
+                    <th class="tableCabecera anchoColumna">Vol. de la muestra(mL)</th>
+                    <th class="tableCabecera anchoColumna">Vol. de NaOH en estándares</th>
+                    <th class="tableCabecera anchoColumna">Vol. de NaOH en Muestra</th>
+                    <th class="tableCabecera anchoColumna">Lectura del equipo (mg/L)</th>
+                    <th class="tableCabecera anchoColumna">Concentración (mg/L) DE N-NH3</th>
                     <!-- <th class="tableCabecera anchoColumna">Concentraión (mg/L de N-NH3)</th> -->
                     <th class="tableCabecera anchoColumna">Observaciones</th>
                     <th class="anchoColumna"></th>
@@ -51,25 +52,23 @@
                                 {{@$loteDetalle[$i]->Control}}
                             @endif 
                         </td>
-                        <td class="tableContent">{{@$loteDetalle[$i]->Titulado_blanco}}</td>
                         <td class="tableContent">{{@$loteDetalle[$i]->Vol_muestra}}</td>
-                        <td class="tableContent">{{@$loteDetalle[$i]->Titulado_muestra}}</td>
+                        <td class="tableContent">{{@$loteDetalle[$i]->Molaridad}}</td>
+                        <td class="tableContent">{{@$loteDetalle[$i]->Factor_equivalencia}}</td>
+                        <td class="tableContent">{{@$loteDetalle[$i]->Titulado_blanco}}</td>
                         
-                        <td class="tableContent"> @if (@$loteDetalle[$i]->Resultado > @$loteDetalle[$i]->Limite)
-                            {{@$loteDetalle[$i]->Resultado}}
-                        @else
-                            <{{@$loteDetalle[$i]->Limite}}
-                        @endif</td>
-                        
-                        {{-- <td class="tableContent">{{@$loteDetalle[$i]->Titulado_blanco}}</td>
-                        <td class="tableContent">{{@$loteDetalle[$i]->Titulado_muestra}}</td>
-                        <td class="tableContent">
-                            @if (@$loteDetalle[$i]->Resultado > @$loteDetalle[$i]->Limite)
-                                {{@$loteDetalle[$i]->Resultado}}
+                        <td class="tableContent"> 
+                            @if (@$loteDetalle[$i]->Resultado != NULL)
+                                @if (@$loteDetalle[$i]->Resultado > @$loteDetalle[$i]->Limite)
+                                    {{@$loteDetalle[$i]->Resultado}}
+                                @else
+                                    <{{@$loteDetalle[$i]->Limite}}
+                                @endif
                             @else
-                                {{@$loteDetalle[$i]->Limite}}
+                                ------
                             @endif
-                        </td> --}}
+                        </td>
+
                         <td class="tableContent">{{@$loteDetalle[$i]->Observacion}}</td>
                         <td class="tableContent">
                             @if (@$loteDetalle[$i]->Liberado == 1)

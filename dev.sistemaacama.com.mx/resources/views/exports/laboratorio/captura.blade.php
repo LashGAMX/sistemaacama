@@ -128,7 +128,13 @@
                             </td>
                             <td id="tableContent">{{@$datos[$i]->Factor_dilucion}}</td>
                             <!-- <td id="tableContent">PRUEBA</td> -->
-                            <td id="tableContent">{{@$limites[$i]}}</td>
+                            <td id="tableContent">
+                                @if ($datos[$i]->Vol_disolucion > $item[$i]->Limite)
+                                    {{$item[$i]->Vol_disolucion}}
+                                @else
+                                    < {{$item[$i]->Limite}}
+                                @endif
+                            </td>
                             <td id="tableContent">{{@$datos[$i]->Observacion}}</td>                        
                             <td id="tableContent">
                                 @if (@$datos[$i]->Liberado == 1)

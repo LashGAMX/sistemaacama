@@ -60,11 +60,16 @@
                         <td class="tableContent">{{$item->Abs3}}</td>
                         <td class="tableContent">{{$item->Promedio}}</td>
                         <td class="tableContent">
-                            @if ($item->Limite >= $item->Resultado)
-                                {{$item->Limite}}
+                            @if (@$item->Resultado != NULL)
+                                @if ($item->Limite >= $item->Resultado)
+                                < {{$item->Limite}}
+                                @else
+                                    {{$item->Resultado}}
+                                @endif
                             @else
-                            {{$item->Resultado}}
+                                ------
                             @endif
+
                         </td>
                         <td class="tableContent">{{$item->Observacion}}</td>
                         <td class="tableContent"> 
@@ -86,14 +91,14 @@
         <span>Absorbancia B2: {{@$data[0]->Blanco}}</span> <br><br>
         <span>Absorbancia B3: {{@$data[0]->Blanco}}</span> <br><br>
         <span>RESULTADO BLANCO: {{@$data[0]->Blanco}}</span> --}}
-  
 
-    <div id="contenidoCurva">
-        {{-- <span id='curvaProcedimiento'>Valoración</span>  --}}
-        
-    </div>
 
-    <br>
+        <div id="contenidoCurva">
+            {{-- <span id='curvaProcedimiento'>Valoración</span>  --}}
+            
+        </div>
+
+        <br>
 
     <div class="contenedorTabla">
         <table autosize="1" class="table table-borderless" id="tablaDatos" style="width: 60%">
@@ -108,26 +113,24 @@
             </thead>
     
             <tbody>
-                {{-- @for ($i = 0; $i < 100 ; $i++) --}}
-                    <tr>
-                        <td class="tableCabecera">b = </td>
-                        <td class="tableContent">{{@$curva->B}}</td>                        
-                        <td class="tableCabecera">Fecha de preparación: </td>
-                        <td class="tableContent">{{@$curva->Fecha_inicio}}</td>                                                
-                    </tr>
+                <tr>
+                    <td class="tableCabecera">b = </td>
+                    <td class="tableContent">{{$curva->B}}</td>                        
+                    <td class="tableCabecera">Fecha de preparación: </td>
+                    <td class="tableContent">{{$curva->Fecha_inicio}}</td>                                                
+                </tr>
 
-                    <tr>
-                        <td class="tableCabecera">m = </td>
-                        <td class="tableContent">{{@$curva->M}}</td>                        
-                        <td class="tableCabecera">Límite de cuantificación: </td>
-                        <td class="tableContent"> <{{@$lote->Limite}}</td>
-                    </tr>
+                <tr>
+                    <td class="tableCabecera">m = </td>
+                    <td class="tableContent">{{$curva->M}}</td>                        
+                    <td class="tableCabecera">Límite de cuantificación: </td>
+                    <td class="tableContent"> <{{$lote->Limite}}</td>
+                </tr>
 
-                    <tr>
-                        <td class="tableCabecera">r = </td>
-                        <td class="tableContent">{{@$curva->R}}</td>
-                    </tr>
-                {{-- @endfor --}}
+                <tr>
+                    <td class="tableCabecera">r = </td>
+                    <td class="tableContent">{{$curva->R}}</td>
+                </tr>
             </tbody>        
         </table>  
     </div>

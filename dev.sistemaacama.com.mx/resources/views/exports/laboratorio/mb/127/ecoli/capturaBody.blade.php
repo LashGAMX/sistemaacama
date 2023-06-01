@@ -24,7 +24,7 @@
                 <thead>
                     <tr>
                         <th>MUESTRA</th>
-                        <th>POSITIVOS</th>
+                        <th>POSITIVOS(COLIFORMES)</th>
                         <th>COLONIA1</th>
                         <th>COLONIA2</th>
                         <th>COLONIA3</th>
@@ -45,11 +45,12 @@
                         <td>{{$item->Colonia4}}</td>
                         <td>{{$item->Colonia5}}</td>
                        
-                        @if ($item->Limite > $item->Resultado)
+                        @if ($item->Resultado < $item->Limite) 
                             <td>No Detectable</td>    
                         @else
                             <td>{{$item->Resultado}}</td>
                         @endif
+                       
                     </tr>
                 @endforeach
                 </tbody>

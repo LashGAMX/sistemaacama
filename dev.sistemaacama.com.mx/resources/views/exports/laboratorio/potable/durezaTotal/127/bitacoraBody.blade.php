@@ -25,7 +25,7 @@
         <table autosize="1" class="tabla1">
             <thead> 
                 <tr>
-                    <th style="font-size: 10px">No. De muestra</th>
+                <th style="font-size: 10px">No. De muestra</th>
                     <th style="font-size: 10px">Vol. de la Muestra(ml)</th>
                     <th style="font-size: 10px">Lectura 1</th>
                     <th style="font-size: 10px">Lectura 2</th>
@@ -46,7 +46,7 @@
                         <td>{{$item->Lectura2}}</td>
                         <td>{{$item->Lectura3}}</td>
                         <td>{{ $item->Edta }}</td>
-                        <td
+                        <td>
                             @if ($item->Resultado > $item->Limite)
                                 {{$item->Resultado}}
                             @else

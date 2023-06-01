@@ -13,7 +13,7 @@
 </head>
 <body>
     <p id='header1'>
-        {{-- INFORME DE RESULTADOS AGUA RESIDUAL  --}}
+        {{-- INFORME DE RESULTADOS AGUA RESIDUAL  --}} 
         {{$reportesInformes->Encabezado}}
         <br> MUESTRA
         @if (@$solModel->Id_muestra == 1)
@@ -47,11 +47,7 @@
     
                 <tr>
                     <td class="filasIzq bordesTabla anchoColumna7 bordeDerSinSup" rowspan="6" style="font-size: 9px">Punto de muestreo:</td>
-                    <td class="filasIzq bordesTabla fontBold anchoColumna60 bordeIzqDerSinSup" rowspan="6" style="font-size: 10px;">@if (@$solModel->Siralab == 1)
-                        {{@$puntoMuestreo->Punto}}
-                        @else
-                        {{@$puntoMuestreo->Punto_muestreo}}
-                        @endif</td>
+                    <td class="filasIzq bordesTabla fontBold anchoColumna60 bordeIzqDerSinSup" rowspan="6" style="font-size: 10px;">{{$puntoMuestreo->Punto}}</td>
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Fecha de
                         Muestreo: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -64,7 +60,13 @@
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Hora de muestreo:
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="fontBold">{{@$horaMuestreo}}</span>
+                        <span class="fontBold">
+                            @if ($solModel->Id_servicio != 3)  
+                                {{@$horaMuestreo}}
+                            @else
+                                INSTANTANEA                                    
+                            @endif
+                        </span>
                     </td>
                 </tr>
     
@@ -73,7 +75,7 @@
                         Recepción: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         <span
-                            class="fontBold">{{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_entrada)->format('d/m/Y')}}</span>
+                            class="fontBold">{{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->format('d/m/Y')}}</span>
                     </td>
                 </tr>
     
@@ -81,8 +83,20 @@
                     <td class="filasIzq bordesTabla bordeConIzqFinalSup anchoColumna28 paddingTopBotInter">Fecha de Emisión:
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                        <span class="fontBold">{{
-                            \Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_entrada)->addDays(7)->format('d/m/Y')}}</span>
+                        <span class="fontBold">
+                            @switch($solModel->Id_norma)
+                            @case(1)
+                            @case(27)  
+                            {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
+                                @break
+                            @case(5)
+                            @case(30)  
+                            {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(14)->format('d/m/Y')}}
+                                @break
+                            @default
+                            {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
+                        @endswitch
+                        </span>
                     </td>
                 </tr>
     
@@ -107,8 +121,20 @@
                 <tr>
                     <td class="filasIzq bordesTabla anchoColumna11 bordeDer">Periodo de análisis:</td>
                     <td class="filasIzq bordesTabla bordeSinIzqFinalSup anchoColumna28 fontBold" colspan="3">DE
-                        {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_entrada)->format('d/m/Y')}}
-                        A {{ \Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_entrada)->addDays(7)->format('d/m/Y')}}
+                        {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->format('d/m/Y')}}
+                        A 
+                        @switch($solModel->Id_norma)
+                        @case(1)
+                        @case(27)  
+                            {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
+                            @break
+                        @case(5)
+                        @case(30)  
+                            {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(14)->format('d/m/Y')}}
+                            @break
+                        @default
+                            {{\Carbon\Carbon::parse(@$modelProcesoAnalisis->Hora_recepcion)->addDays(11)->format('d/m/Y')}}
+                        @endswitch
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
@@ -130,7 +156,7 @@
             border-color="#000000" width="100%">
             <tbody>
                 <tr>
-                    <td class="nombreHeader fontBold nom fontSize11 justificadorCentr">
+                    <td class="nombreHeader fontBold nom justificadorCentr" style="font-size: 10px;">
                         @switch(@$solicitud->Id_norma)
                         @case(1)
                         DE ACUERDO A NOM-001-SEMARNAT-1996
@@ -209,14 +235,14 @@
         <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
             <thead>
                 <tr>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" height="30">PARAMETRO &nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="16.6%">&nbsp;METODO DE PRUEBA&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;UNIDAD&nbsp;&nbsp;</td>
-                    <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION CUANTIFICADA&nbsp;&nbsp;</td>       
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" height="30" width="20.6%">PARAMETRO &nbsp;</td>
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="20.6%">&nbsp;METODO DE PRUEBA&nbsp;&nbsp;</td>
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;UNIDAD&nbsp;&nbsp;</td>
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">&nbsp;CONCENTRACION <br> CUANTIFICADA&nbsp;&nbsp;</td>       
                     @if ($tipo == 1)
-                        <td class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PERMISIBLE P.D&nbsp;&nbsp;</td>
+                        <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr">&nbsp;CONCENTRACION PERMISIBLE P.D&nbsp;&nbsp;</td>
                     @endif             
-                    <td class="tableCabecera bordesTablaBody justificadoCentr" width="25.6%">ANALISTA</td>
+                    <td style="font-size: 8px;" class="tableCabecera bordesTablaBody justificadoCentr" width="10.6%">ANALISTA</td>
                 </tr>
             </thead>
     
@@ -225,10 +251,10 @@
                 @foreach ($model as $item)
                     @if (@$item->Id_area != 9)
                         <tr> 
-                            <td class="tableContent bordesTablaBody" height="25">{{@$item->Parametro}}<sup>{{$item->Simbologia}}</sup></td>
-                            <td class="tableContent bordesTablaBody">{{@$item->Clave_metodo}}</td>
-                            <td class="tableContent bordesTablaBody">{{@$item->Unidad}}</td>
-                            <td class="tableContent bordesTablaBody">
+                            <td class="tableContent bordesTablaBody" style="font-size: 8px;" height="25">{{@$item->Parametro}}<sup>{{$item->Simbologia}}</sup></td>
+                            <td class="tableContent bordesTablaBody" style="font-size: 8px;">{{@$item->Clave_metodo}}</td>
+                            <td class="tableContent bordesTablaBody" style="font-size: 8px;">{{@$item->Unidad}}</td>
+                            <td class="tableContent bordesTablaBody" style="font-size: 8px;">
                                 @if (@$item->Resultado2 != NULL)
                                     @switch($item->Id_parametro)
                                     @case(64)
@@ -243,7 +269,7 @@
                      
                             </td>
                             @if ($tipo == 1)
-                                <td class="tableContent bordesTablaBody">
+                                <td class="tableContent bordesTablaBody" style="font-size: 8px;">
                                     @if (@$item->Resultado2 != NULL)
                                         @switch($item->Id_parametro)
                                             @case(64)
@@ -258,7 +284,7 @@
                                   
                                 </td>
                             @endif
-                            <td class="tableContent bordesTablaBody">
+                            <td class="tableContent bordesTablaBody" style="font-size: 8px;">
                                 @if (@$item->Resultado2 != NULL)
                                     {{@$item->iniciales}}
                                 @else
@@ -275,120 +301,186 @@
     </div> 
     <footer>
         <div id="contenedorTabla">
-            <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
-                <tbody>            
-                        <tr>
-                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:2px">
-                                OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, @php if(@swOlor == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR " .@$color;} else{ echo "LA MUESTRA PRESENTA COLOR ".@$color; }@endphp
-                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
-                                {{@$obsCampo}}
-                            </td>
-                        </tr>                
-                </tbody>         
-            </table>  
-        </div>
-        
-            <div autosize="1" class="contenedorPadre12 paddingTop" cellpadding="0" cellspacing="0" border-color="#000000">
-                <div class="contenedorHijo12 bordesTablaFirmasSupIzq">
-                    <span><img style="width: auto; height: auto; max-width: 90px; max-height: 70px;" src="{{url('public/storage/'.$firma1->firma)}}"> <br></span>            
-                </div>
-        
-                <div class="contenedorHijo12 bordesTablaFirmasSupDer">            
-                    <span><img style="width: auto; height: auto; max-width: 90px; max-height: 70px;" src="{{url('public/storage/'.$firma2->firma)}}"> <br></span>            
-                </div>  
-        
-                <div class="contenedorHijo12 bordesTablaFirmasInfIzq">            
-                    <span class="cabeceraStdMuestra"> REVISÓ SIGNATARIO <br> </span>            
-                    <span class="bodyStdMuestra"> {{$reportesInformes->Analizo}} {{-- {{@$usuario->name}} --}} </span>
-                </div>         
-                
-                <div class="contenedorHijo12 bordesTablaFirmasInfDer">            
-                    <span class="cabeceraStdMuestra"> AUTORIZÓ SIGNATARIO <br> </span>
-                    <span class="bodyStdMuestra"> {{$reportesInformes->Reviso}} {{-- {{@$usuario->name}} --}} </span>
-                </div>
-            </div>
-        
-            <div id="contenedorTabla">
                 <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
                     <tbody>            
                             <tr>
-                                <td class="nombreHeaders fontBold fontSize9 justificadorIzq">
-                                    @php
-                                        echo $reportesInformes->Nota;
-                                    @endphp
+                                <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:2px">
+                                    @if ($solModel->Id_servicio != 3)  
+                                        @switch($solModel->Id_norma)
+                                            @case(1)
+                                            @case(27)
+                                                OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, @php if(@$swOlor == true) {echo "LA MUESTRA PRESENTA OLOR " .@$color;} else{ echo "LA MUESTRA PRESENTA COLOR ".@$color; }@endphp
+                                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                                                {{@$obsCampo}}
+                                                @break
+                                            @case(5) 
+                                            @case(30)
+                                                @if ($solModel->Id_servicio != 3)
+                                                    OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, 
+                                                    @php if(@$swOlor == true) {echo "LA MUESTRA PRESENTA OLOR";} else{ echo "LA MUESTRA NO PRESENTA OLOR";}@endphp
+                                                    Y COLOR DE LA MUESTRA {{$color}} ,
+                                                    EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN EL PROCEDIMIENTO INTERNO PEA-10-002-01 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-27 <br>
+                                                    {{@$obsCampo}}
+                                                @else
+                                                    OBSERVACIONES: MUESTRA REMITIDA AL LABORATORIO POR EL CLIENTE, LOS RESULTADOS SE APLICAN A LA MUESTRA COMO SE RECIBIÓ
+                                                @endif
+                                            @break 
+                                            @default
+                                                OBSERVACIONES: TEMPERATURA AMBIENTE PROMEDIO DE {{@$tempAmbienteProm}}°C, @php if(@$swOlor == true) {echo "LA MUESTRA PRESENTA OLOR Y COLOR " .@$color;} else{ echo "LA MUESTRA PRESENTA COLOR ".@$color; }@endphp
+                                                EL MUESTREO FUE REALIZADO DE ACUERDO A LO ESTABLECIDO EN LA NMX-AA-003-1980 Y DE ACUERDO A PROCEDIMIENTO PE-10-002-04 <br>
+                                                {{@$obsCampo}}
+                                        @endswitch
+                                    @else
+                                    
+                                    <p>OBSERVACIONES: MUESTRA REMITIDA AL LABORATORIO POR EL CLIENTE, LOS RESULTADOS SE APLICAN A LA MUESTRA COMO SE RECIBIÓ</p>
+                                    @endif
                                 </td>
                             </tr>                
                     </tbody>         
                 </table>  
+        </div>
+        <div id="contenedorTabla">
+            <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+                <tbody>            
+                        <tr>
+                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:4px">
+                                <br>
+                                {{-- <center><span><img style="width: auto; height: auto; max-width: 90px; max-height: 40;" src="{{url('public/storage/'.$firma1->firma)}}"> <br></span></center> --}}
+                                <br>
+                                <br>
+                                <br>
+                                <br>
+                            </td>
+                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:4px">
+                                {{-- <center><span><img style="width: auto; height: auto; max-width: 90px; max-height: 40px;" src="{{url('public/storage/'.$firma2->firma)}}"> <br></span></center> --}}
+                            </td> 
+                        </tr>                
+                        <tr>
+                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:2px">
+                                <center><span class="cabeceraStdMuestra"> REVISÓ SIGNATARIO <br> </span></center>
+                                <center><span class="bodyStdMuestra"> {{$firma1->name}} {{-- {{@$usuario->name}} --}} </span></center>
+                            </td>
+                            <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:2px">
+                                <center><span class="cabeceraStdMuestra"> AUTORIZÓ SIGNATARIO <br> </span></center>
+                                <center><span class="bodyStdMuestra"> {{$firma2->name}} {{-- {{@$usuario->name}} --}} </span></center>
+                            </td>
+                        </tr> 
+                </tbody>         
+            </table>  
+    </div>
+
+    
+        
+    
+            <div id="contenedorTabla">
+                <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+                    <tbody>           
+                            <tr>
+                                <td class="nombreHeaders fontBold justificadorIzq" style="font-size: 7px;width: 80%;" >
+                                    {{-- @php
+                                        echo $reportesInformes->Nota;
+                                    @endphp --}}
+                                    @switch($solModel->Id_norma)
+                                        @case(5)
+                                        @case(30)
+                                                @if ($solModel->Id_servicio != 3)
+                                                    <p>NOTA: INTERPRETAR EL PUNTO (.) COMO SIGNO DECIMAL SEG&Uacute;N NORMA NOM-008-SCFI-2002</p>
+                                                    <p>NOTA 2: LOS DATOS EXPRESADOS AVALAN &Uacute;NICAMENTE LOS RESULTADOS DE LA MUESTRA ANALIZADA.</p>
+                                                    <p>NOTA 3: LOS DATOS DE EMPRESA, DIRECCI&Oacute;N, PUNTO DE MUESTREO, SON PROPORCIONADOS POR EL CLIENTE.</p>
+                                                    <p>LOS VALORES CON EL SIGNO MENOR (&lt;) CORRESPONDEN AL VALOR M&Iacute;NIMO CUANTIFICADO POR EL M&Eacute;TODO.</p>
+                                                    <p>ESTE REPORTE NO DEBE REPRODUCIRSE SIN LA APROBACI&Oacute;N DEL LABORATORIO EMISOR.</p>
+                                                    <p>PLAN DE MUESTREO RE-11-005 Y CADENA DE CUSTODIA INTERNA RE-11-003-1</p>
+                                                    <p>N.A INTERPRETAR COMO NO APLICA.</p>
+                                                    <p>N.N INTERPRETAR COMO NO NORMADO.</p>           
+                                                    <p>1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N ema No. AG-057-025/12, CONTINUAR&Aacute; VIGENTE.</p>
+                                                    <p>1 APROBACI&Oacute;N C.N.A. No CNA-GCA-2599, VIGENCIA A PARTIR DEL 17 DE FEBRERO DE 2023 HASTA 18 DE NOVIEMBRE DEL 2023</p>
+                                                    <p>1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N EMA NO. A-0530-047/14, CONTINUAR&Aacute; VIGENTE.</p>
+                                                @else
+                                                    <p>NOTA: INTERPRETAR EL PUNTO (.) COMO SIGNO DECIMAL SEG&Uacute;N NORMA NOM-008-SCFI-2002</p>
+                                                    <p>NOTA 2: LOS DATOS EXPRESADOS AVALAN &Uacute;NICAMENTE LOS RESULTADOS DE LA MUESTRA ANALIZADA.</p>
+                                                    <p>NOTA 3: LOS DATOS DE EMPRESA, DIRECCI&Oacute;N, PUNTO DE MUESTREO, SON PROPORCIONADOS POR EL CLIENTE.</p>
+                                                    <p>LOS VALORES CON EL SIGNO MENOR (&lt;) CORRESPONDEN AL VALOR M&Iacute;NIMO CUANTIFICADO POR EL M&Eacute;TODO.</p>
+                                                    <p>ESTE REPORTE NO DEBE REPRODUCIRSE SIN LA APROBACI&Oacute;N DEL LABORATORIO EMISOR.</p>
+                                                    <p>PLAN DE MUESTREO RE-11-005 Y CADENA DE CUSTODIA INTERNA RE-11-003-1</p>
+                                                    <p>N.A INTERPRETAR COMO NO APLICA.</p>
+                                                    <p>N.N INTERPRETAR COMO NO NORMADO.</p>
+                                                    <p>1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N ema No. AG-057-025/12, CONTINUAR&Aacute; VIGENTE.</p>
+                                                    <p>1 APROBACI&Oacute;N C.N.A. No CNA-GCA-2599, VIGENCIA A PARTIR DEL 17 DE FEBRERO DE 2023 HASTA 18 DE NOVIEMBRE DEL 2023</p>
+                                                    <p>1A ACREDITAMIENTO EN ALIMENTOS: REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N EMA NO. A-0530-047/14, CONTINUAR&Aacute; VIGENTE.</p>
+                                                @endif
+                                            @break
+
+                                        @default
+                                        @php
+                                            echo $reportesInformes->Nota;
+                                        @endphp
+                                    @endswitch
+                                </td>
+                                <td style="width: 15%">
+                                    @php
+                                    $url = "https://sistemaacama.com.mx/clientes/informe-de-resultados-acama/".@$folioEncript;
+                                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
+                                    @endphp
+                                       
+                                    <center><img style="width: 8%; height: 8%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold">&nbsp;&nbsp;&nbsp; {{@$solicitud->Folio_servicio}}</span></center>
+                                </td>
+                            </tr>    
+                    </tbody>         
+                </table>  
             </div>    
-                
+
+            
+
             <div id="contenedorTabla">
                 @php
                     $temp = array();
                     $sw = false;
                 @endphp
-                <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
-                    <tbody>            
-                            @foreach ($model as $item)
-                                @for ($i = 0; $i < sizeof($temp); $i++)
-                                    @if ($temp[$i] == $item->Id_simbologia_info)
-                                        @php $sw = true; @endphp
-                                    @endif
-                                @endfor
-                                @if ($sw != true)
+
+            <table autosize="1" class="table table-borderless paddingTop" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
+                <tbody>        
+
+                        @foreach ($model as $item)
+                            @for ($i = 0; $i < sizeof($temp); $i++)
+                                @if ($temp[$i] == $item->Id_simbologia_info)
+                                    @php $sw = true; @endphp
+                                @endif
+                            @endfor
+                            @if ($sw != true)
+                                @if ($item->Id_simbologia_info	!= 9)
                                     @switch($item->Id_parametro)
                                         @case(97)
-                                            <tr>
-                                                <td class="nombreHeaders fontBold fontSize9 justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                            <tr> 
+                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
                                             </tr>
                                             <tr>
-                                                <td class="nombreHeaders fontBold fontSize9 justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
+                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
                                             </tr>
                                             @php
                                                 array_push($temp,$item->Id_simbologia_info);
                                             @endphp
                                             @break
                                         @default
+
                                         <tr>
-                                            <td class="nombreHeaders fontBold fontSize9 justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                            <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
                                         </tr>
                                         @php
                                             array_push($temp,$item->Id_simbologia_info);
                                         @endphp
                                     @endswitch
-                                   
                                 @endif
-                                @php
-                                    $sw = false;
-                                @endphp
-                            @endforeach
-                    </tbody>         
-                </table>  
-            </div>    
-        
-            <div id="contenedorTabla">
-                <table autosize="1" class="table table-borderless" id="tablaDatos" cellpadding="0" cellspacing="0" border-color="#000000" width="100%">
-                    <thead>
-                        <tr>                    
-                            <td>
-                                @php
-                                    /* $url = url()->current(); */
-                                    $url = "https://sistemaacama.com.mx/clientes/exportPdfSinComparacion/".@$solicitud->Id_solicitud;
-                                    $qr_code = "data:image/png;base64," . \DNS2D::getBarcodePNG((string) $url, "QRCODE");
-                                @endphp
-                                                                
-                                <img style="width: 8%; height: 8%;" src="{{@$qr_code}}" alt="qrcode" /> <br> <span class="fontSize9 fontBold">&nbsp;&nbsp;&nbsp; {{@$solicitud->Folio_servicio}}</span>
-                            </td>                                                                        
-                        </tr>
-        
-                        {{-- <tr>
-                            <td style="text-align: right;"><span class="revisiones">{{$reportesInformes->Clave}}</span> <br> <span class="revisiones">Revisión {{$reportesInformes->Num_rev}}</span></td>
-                        </tr> --}}
-                    </thead>                        
-                </table>  
-            </div> 
+                            
+                            @endif 
+                            @php
+                                $sw = false;
+                            @endphp
+                        @endforeach 
+                </tbody>         
+            </table>  
             
-            <br>
+            </div>    
+
         </footer>
 </body>
 </html>
