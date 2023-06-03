@@ -138,6 +138,7 @@ class LabAnalisisController extends Controller
             $model->save();
             switch ($lote->Id_area) {
                 case 16: // Espectrofotometria
+                case 5: // Fisicoquimicos
                     switch ($model->Id_parametro) {
                         case 152: // COT
                             $temp = LoteDetalleEspectro::create([
@@ -167,8 +168,7 @@ class LabAnalisisController extends Controller
                             break;
                     }
                     break;
-                case 5: // Fisicoquimicos
-                    break;
+
                 default:
                     break;
             }
@@ -189,10 +189,9 @@ class LabAnalisisController extends Controller
         if ($lote->count()) {
             switch ($lote[0]->Id_area) {
                 case 16: // Espectrofotometria
+                case 5: // Fisicoquimicos
                     $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote',$res->idLote)->get();
                     break;
-                case 5: //fisicoquimicos
-                    $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote',$res->idLote)->get();
                     break;
                 default:
                 $model = array();
@@ -218,15 +217,13 @@ class LabAnalisisController extends Controller
         if ($lote->count()) {
             switch ($lote[0]->Id_area) {
                 case 16: // Espectrofotometria
+                case 5: // Fisicoquimicos
                     $fecha = new Carbon($lote[0]->Fecha);
-                    $today = $fecha->toDateString();
+                    $today = $fecha->toDateString(); 
                     $model = DB::table("ViewLoteDetalleEspectro")->where('Id_detalle', $res->id)->first();
                     $curva = CurvaConstantes::whereDate('Fecha_inicio', '<=', $today)->whereDate('Fecha_fin', '>=', $today)
                         ->where('Id_parametro', $lote[0]->Id_tecnica)->first();
                     $blanco = DB::table("ViewLoteDetalleEspectro")->where('Id_codigo', $model->Id_codigo)->where('Id_control', 5)->first();
-                    break;
-                case 5: //fisicoquimicos
-                    $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote',$res->idLote)->get();
                     break;
                 default:
                 $model = array();
@@ -248,7 +245,8 @@ class LabAnalisisController extends Controller
         if ($lote->count()) {
             switch ($lote[0]->Id_area) {
                 case 16: // Espectrofotometria
-                    switch ($res->parametro) {
+                case 5: // Fisicoquimicos
+                    switch ($lote[0]->Id_tecnica) {
                         case 152: // COT
                             $model = LoteDetalleEspectro::where('Id_detalle', $res->idMuestra)->first();
                             $dilucion = 40 / $res->E;
@@ -284,12 +282,11 @@ class LabAnalisisController extends Controller
                             break;
                         
                         default:
-                            # code...
+                        $x = ($res->X + $res->Y + $res->Z) / 3;
+                        $d =  $res->E / $res->E;
+                        $resultado = (($x - $res->CB) / $res->CM) * $d;
                             break;
                     }
-                    break;
-                case 5: //fisicoquimicos
-                     
                     break;
                 default:
                 $model = array();
@@ -319,6 +316,7 @@ class LabAnalisisController extends Controller
         if ($lote->count()) {
             switch ($lote[0]->Id_area) {
                 case 16: // Espectrofotometria
+                case 5: // Fisicoquimicos
                     switch ($lote[0]->Id_tecnica) {
                         case 0: 
 
@@ -328,14 +326,12 @@ class LabAnalisisController extends Controller
                             $model = $muestra->replicate();
                             $model->Id_control = $res->idControl;
                             $model->Resultado = "";
+                            $model->Liberado = 0;
                             $model->save();
 
                             $model = LoteDetalleEspectro::where('Id_lote',$res->idLote)->get();
                             break;
                     }
-                    break;
-                case 5: //fisicoquimicos
-                     
                     break;
                 default:
                 $model = array();
@@ -360,6 +356,7 @@ class LabAnalisisController extends Controller
         if ($lote->count()) {
             switch ($lote[0]->Id_area) {
                 case 16: // Espectrofotometria
+                case 5: // Fisicoquimicos
                     switch ($lote[0]->Id_tecnica) {
                         case 0: 
 
@@ -385,9 +382,6 @@ class LabAnalisisController extends Controller
                             break;
                     }
                     break;
-                case 5: //fisicoquimicos
-                     
-                    break;
                 default:
                 $model = array();
                     break;
@@ -410,6 +404,7 @@ class LabAnalisisController extends Controller
         $lote = LoteAnalisis::where('Id_lote',$res->idLote)->get();
             switch ($lote[0]->Id_area) {
                 case 16: // Espectrofotometria
+                case 5: // Fisicoquimicos
                     switch ($lote[0]->Id_tecnica) {
                         case 0: 
 
@@ -432,9 +427,6 @@ class LabAnalisisController extends Controller
                             break;
                     }
                     break;
-                case 5: //fisicoquimicos
-                     
-                    break;
                 default:
                 $model = array();
                     break;
@@ -455,9 +447,9 @@ class LabAnalisisController extends Controller
         $lote = LoteAnalisis::where('Id_lote',$res->idLote)->get();
             switch ($lote[0]->Id_area) {
                 case 16: // Espectrofotometria 
+                case 5: // Fisicoquimicos
                     switch ($lote[0]->Id_tecnica) {
                         case 0: 
-
                             break;
                         default:
                             $model = LoteDetalleEspectro::where('Id_detalle', $res->idMuestra)->first();
@@ -466,9 +458,6 @@ class LabAnalisisController extends Controller
                             break;
                     } 
                     break;
-                case 5: //fisicoquimicos
-                     
-                    break; 
                 default:
                 $model = array();
                     break;
@@ -505,6 +494,7 @@ class LabAnalisisController extends Controller
     $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $id)->first();
         switch ($lote->Id_area) {
             case 16: // Espectrofotometria
+            case 5: // Fisicoquimicos
                     $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $id)->get();
                     $plantilla = Bitacoras::where('Id_lote', $id)->get();
                     if ($plantilla->count()) {
@@ -546,8 +536,6 @@ class LabAnalisisController extends Controller
   
                         break;
                 }
-                break;
-            case 5: // Fisicoquimicos
                 break;
             default:
                 break;

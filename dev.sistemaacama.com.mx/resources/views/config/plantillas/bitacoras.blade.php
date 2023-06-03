@@ -33,7 +33,7 @@
          {{-- Inicio de Body  --}}
             <div class="row">
                 <div class="col-md-12">
-                  <div class="form-group"> 
+                  <div class="form-group">  
                     <label for="parametros">Parametro</label>
                     @php
                         $temp = "";

@@ -319,8 +319,8 @@ class InformesController extends Controller
             case 30:
                 // $firma1 = User::find(14);
                 // $firma2 = User::find(12); 
-                $firma1 = User::find(17);
-                $firma2 = User::find(14);
+                $firma1 = User::find(14);
+                $firma2 = User::find(12);
                 break;
             
             default:

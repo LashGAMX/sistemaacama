@@ -19,7 +19,7 @@
         @if (@$solModel->Id_muestra == 1)
         INSTANTANEA
         @else
-        COMPUESTA
+        COMPUESTA 
         @endif
     </p>
     
@@ -258,7 +258,11 @@
                                 @if (@$item->Resultado2 != NULL)
                                     @switch($item->Id_parametro)
                                     @case(64)
-                                        {{$campoCompuesto->Cloruros}}
+                                        @if ($solicitud->Id_norma == 27)
+                                            {{$campoCompuesto->Cloruros}}
+                                        @else
+                                            {{@$limitesC[$i]}}        
+                                        @endif
                                         @break
                                     @default
                                     {{@$limitesC[$i]}}
@@ -450,12 +454,16 @@
                                 @if ($item->Id_simbologia_info	!= 9)
                                     @switch($item->Id_parametro)
                                         @case(97)
-                                            <tr> 
-                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
-                                            </tr>
-                                            <tr>
-                                                <td   style="font-size: 7px" class="fontBold justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
-                                            </tr>
+                                            @if ($solicitud->Num_tomas > 1)
+                                                <tr> 
+                                                    <td   style="font-size: 7px" class="fontBold justificadorIzq">{{$item->Simbologia_inf}} @php print  $item->Descripcion2; @endphp</td>
+                                                </tr>
+                                            @else
+                                                
+                                            @endif
+                                            <!-- <tr>
+                                                 <td   style="font-size: 7px" class="fontBold justificadorIzq">*** LA DETERMINACIÓN DE LA TEMPERATURA DE LA MUESTRA COMPUESTA ES DE {{@$campoCompuesto->Temp_muestraComp}}°C Y EL PH COMPUESTO ES DE {{@$campoCompuesto->Ph_muestraComp}}</td>
+                                            </tr> -->
                                             @php
                                                 array_push($temp,$item->Id_simbologia_info);
                                             @endphp

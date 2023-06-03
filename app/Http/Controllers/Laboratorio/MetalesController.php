@@ -247,6 +247,7 @@ class MetalesController extends Controller
 
         $model = $muestra->replicate();
         $model->Id_control = $request->idControl;
+        $model->Liberado = 0;
         $model->save();
 
         $data = array(
@@ -471,7 +472,7 @@ class MetalesController extends Controller
         $detalle->Abs3 = $request->z;
         $detalle->Abs_promedio = $promedio;
         $detalle->Factor_dilucion = $request->FD;
-        $detalle->Factor_conversion = 0;
+        $detalle->Factor_conversion = $request->FC;
         $detalle->Vol_disolucion = $resultadoRound;
         $detalle->Analizo = Auth::user()->id;
         $detalle->save();
@@ -1151,7 +1152,7 @@ class MetalesController extends Controller
                         'Id_parametro' => $parametro->Id_parametro,
                         'Id_control' => 1,
                         'Factor_dilucion' => 1,
-                        'Factor_conversion' => 0,
+                        'Factor_conversion' => 1000,
                         'Liberado' => 0,
                         'Analisis' => 1,
                         

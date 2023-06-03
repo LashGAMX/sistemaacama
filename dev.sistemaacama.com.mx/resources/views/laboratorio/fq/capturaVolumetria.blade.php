@@ -229,6 +229,113 @@
               </div>
               
              </div>
+             <!--  Alcalinidad -->
+        <div class="modal fade" id="modalAlcalinidad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" style="width: 70%">
+                <div class="modal-content">
+                  <div class="modal-header">
+                    <h5 class="modal-title" id="">Captura de resultados Alcalinidad</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                    </button>
+                    <div class="row">
+                    <input type="hidden" class="form-control" id="estadoRadio">
+                            <div class="col-md-12">
+                           
+                                <div class="form-group">
+                                    <label for="">Observación</label>
+                                    <input type="text" class="form-control" id="observacionModal"
+                                        placeholder="Observacion de la muestra">
+                                </div>
+                                <div class="form-group">
+                                    <button class="btn btn-success" type="button" onclick="updateObsAlcalinidad(2,'observacionDqo')"
+                                        id=""><i class="voyager-check"></i> Aplicar</button>
+                                </div>
+                            </div>
+                            <div class="col-md-2">
+                                <button class="btn btn-success" id="btnGuardarDqo" onclick="guardarAlcalinidad(1)"><i class="voyager-upload"></i>
+                                    Guardar</button>&nbsp;&nbsp;
+                            </div>
+                            <div class="col-md-2"> 
+                                <button class="btn btn-primary" id="btnEjecutarDqo" onclick="operacionAlcalinidad(1)"><i class="voyager-play"></i>
+                                    Ejecutar</button>
+                            </div>
+                            {{-- <div class="col-md-2">
+                                <button class="btn btn-warning">Liberar</button>
+                            </div> --}}
+                            <div class="col-md-8">
+                                <div class="form-group">
+                                    <input type="text" id="resultadoDqo" style="font-size: 20px;color:red;"
+                                        placeholder="Resultado">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                  <div class="modal-body"> 
+                    <div class="row">
+                        <div class="col-md-12">
+                            <table class="table" id=""> 
+                                <thead>
+                                  <tr>
+                                    <th>Parametro</th>
+                                    <th>Descripción</th>
+                                    <th>Valor</th>
+                                    <th>Valor2</th>
+                                    <th>Tipo</th>
+                                  </tr>
+                                </thead>
+                                <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                                <tbody>
+                                    <tr>
+                                        <td>A</td>
+                                        <td>Mililitros Titulados Muestra</td>
+                                        <td><input type="text" id="tituladosAlc1" value="0"></td>
+                                        <td><input type="text" id="tituladosAlc2" value="0"></td>
+                                        <td>V</td>
+                                    </tr>
+                                    <tr>
+                                        <td>B</td>
+                                        <td>Normalidad Acido Sulfúrico</td>
+                                        <td><input type="text" id="normalidadAlc1" value="0" disabled></td>
+                                        <td><input type="text" id="normalidadAlc2" value="0"></td>
+                                        <td>F</td>
+                                    </tr>
+                                    <tr>
+                                        <td>C</td>
+                                        <td>Factor de Conversion mg/L</td>
+                                        <td><input type="text" id="facortAlc1" value="50000" disabled></td>
+                                        <td><input type="text" id="factorAlc2" value="50000"></td>
+                                        <td>F</td>
+                                    </tr>
+                                    <tr>
+                                        <td>D</td>
+                                        <td>Volumen Total de Muestra en mL</td>
+                                        <td><input type="text" id="volAlc1" value="0"></td>
+                                        <td><input type="text" id="volAlc2" value="0"></td> 
+                                        <td>C</td>
+                                    </tr>
+                                    <tr>
+                                        <td>E</td>
+                                        <td>pH de la muestra</td>
+                                        <td><input type="text" id="ph1" value="0"></td>
+                                        <td><input type="text" id="ph2" value="0"></td>
+                                        <td>V</td>
+                                    </tr>
+                                    
+                                
+                                </tbody>
+                              </table>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                   
+                  </div>
+                </div>
+              </div>
+              
+             </div>
 
               <!-- Modal -->
         <div class="modal fade" id="modalNitrogeno" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">

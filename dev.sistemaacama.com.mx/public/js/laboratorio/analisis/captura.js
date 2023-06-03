@@ -19,12 +19,6 @@ $(document).ready(function () {
             "infoEmpty": "No hay datos encontrados",
         }
     });    
-    // $('#divSummer').summernote({
-    //     placeholder: '', 
-    //     tabsize: 2,
-    //     height: 300,
-
-    //   });
 
     $('.select2').select2();
     $('#btnPendientes').click(function(){
@@ -67,6 +61,7 @@ var idArea = 0
         type: "POST",
         url: base_url + "/admin/laboratorio/" + area + "/setObservacion",
         data: {
+            idLote:idLote,
             idMuestra: idMuestra,
             observacion: $("#"+id).val(),
             _token: $('input[name="_token"]').val()
@@ -187,7 +182,6 @@ var idArea = 0
                             data: {
                                 idLote:idLote,
                                 idMuestra: idMuestra,
-                                parametro: $('#parametro').val(),
                                 ABS:$('#abs1COT').val(),
                                 CA:$('#blanco1COT').val(),
                                 CB:$('#b1COT').val(),
@@ -218,6 +212,40 @@ var idArea = 0
                         });
                         break;
                     default:
+                        $.ajax({
+                            type: "POST",
+                            url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
+                            data: {
+                                idLote:idLote,
+                                idMuestra: idMuestra,
+                                ABS:$('#absPromEspectro1').val(),
+                                CA:$('#blancoEspectro1').val(),
+                                CB:$('#bEspectro1').val(),
+                                CM:$('#mEspectro1').val(),
+                                CR:$('#rEspectro1').val(),
+                                phIni:$('#phIniEspectro1').val(),
+                                phFin:$('#phFinEspectro1').val(),
+                                nitratos:$('#nitratosEspectro1').val(),
+                                nitritos:$('#nitritosEspectro1').val(),
+                                sulfuros:$('#sulfurosEspectro1').val(),
+                                D:$('#fDilucionEspectro1').val(),
+                                E:$('#volMuestraEspectro1').val(),
+                                X:$('#abs1Espectro1').val(), 
+                                Y:$('#abs2Espectro1').val(),
+                                Z:$('#abs3Espectro1').val(),
+                                _token: $('input[name="_token"]').val()
+                            },
+                            dataType: "json",
+                            success: function (response) { 
+                                console.log(response);
+                                $("#absPromEspectro1").val(response.model.Promedio.toFixed(3)); 
+                                $("#absPromEspectro2").val(response.model.Promedio.toFixed(3)); 
+                                $("#resultadoEspectro").val(response.model.Resultado.toFixed(3)); 
+                                $("#fDilucionEspectro1").val(response.model.Vol_dilucion.toFixed(3));
+                                $("#fDilucionEspectro2").val(response.model.Vol_dilucion.toFixed(3));
+      
+                            }
+                        });
                         break;
                 }
             break;
@@ -245,6 +273,41 @@ var idArea = 0
             
             switch (parseInt(response.lote[0].Id_area)) {
                 case 16: // Espectrofotometria 
+                case 5: // Fisicoquimicos
+                    switch (parseInt(response.lote[0].Id_tecnica)) { 
+                        case 69:
+                            $("#conPh").show();
+                            $("#conPh2").show();
+                
+                            $("#conN1").hide();
+                            $("#conN2").hide();
+                            $("#conN3").hide();
+                        break;
+                        case 70:
+                            $("#conPh").show();
+                            $("#conPh2").show();
+                
+                            $("#conN1").hide();
+                            $("#conN2").hide();
+                            $("#conN3").hide();
+                            break;
+                        case 19:
+                            $("#conN1").show();
+                            $("#conN2").show();
+                            $("#conN3").show();
+                
+                            $("#conPh").hide();
+                            $("#conPh2").hide();
+                            break;
+                        default:
+                            $("#conPh").hide();
+                            $("#conPh2").hide();
+                
+                            $("#conN1").hide();
+                            $("#conN2").hide();
+                            $("#conN3").hide();
+                            break;
+                    }
                     switch (parseInt(response.lote[0].Id_tecnica)) { 
                         case 152: // COT
                                  $("#observacion").val(response.model.Observacion);
@@ -269,12 +332,38 @@ var idArea = 0
                                  $("#resultadoCOT").val(response.model.Resultado);
                             break;
                         default:
+                            $("#observacion").val(response.model.Observacion);
+                            $("#absPromEspectro1").val(response.model.Promedio);
+                            $("#absPromEspectro2").val(response.model.Promedio);
+                            $("#idMuestra").val(idDetalle);
+                            $("#blancoEspectro1").val(response.model.Blanco);
+                            $("#blancoEspectro2").val(response.model.Blanco);
+                            $("#bEspectro1").val(response.curva.B);
+                            $("#mEspectro1").val(response.curva.M);
+                            $("#rEspectro1").val(response.curva.R);
+                            $("#bEspectro2").val(response.curva.B);
+                            $("#mEspectro2").val(response.curva.M);
+                            $("#rEspectro2").val(response.curva.R);
+                            $("#phIniEspectro1").val(response.model.Ph_ini);
+                            $("#phFinEspectro1").val(response.model.Ph_fin);
+                            $("#nitratosEspectro1").val(response.model.Nitratos);
+                            $("#nitritosEspectro1").val(response.model.Nitritos);
+                            $("#sulfurosEspectro1").val(response.model.Sulfuros);
+                            $("#fDilucion1").val(response.model.Vol_dilucion);
+                            $("#fDilucion2").val(response.model.Vol_dilucion);
+                            $("#volMuestraEspectro1").val(response.model.Vol_muestra);
+                            $("#volMuestraEspectro2").val(response.model.Vol_muestra);
+                            $("#abs1Espectro1").val(response.model.Abs1);
+                            $("#abs2Espectro1").val(response.model.Abs2);
+                            $("#abs3Espectro3").val(response.model.Abs3);
+                            $("#abs1Espectro2").val(response.model.Abs1);
+                            $("#abs2Espectro2").val(response.model.Abs2);
+                            $("#abs3Espectro3").val(response.model.Abs3);
+                            $("#resultadoEspectro").val(response.model.Resultado);
                             break;
                     }
                     break;
-                case 5: // Fisicoquimicos
                 
-                break;
                 default:
 
                 break;
@@ -321,20 +410,18 @@ var idArea = 0
 
                 switch (parseInt(response.lote[0].Id_area)) {
                     case 16: // Espectrofotometria 
+                    case 5: // Fisicoquimicos
                         switch (parseInt(item.Id_parametro)) { 
                             case 152:
                                 tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCOT">Capturar</button>';
                                 break;
                             default:
+                                tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaEspectro">Capturar</button>';
                                 break;
                         }
                         break;
-                    case 5: // Fisicoquimicos
-                    
-                    break;
                     default:
-
-                    break;
+                        break;
                 }
                 if (item.Id_control != 1) 
                 {

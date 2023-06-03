@@ -523,6 +523,173 @@
           </div>
       </div>
     </div>
+
+    <div class="modal fade" id="modalCapturaEspectro" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Captura de resultados espectro</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+                  <div class="row">
+                      <div class="col-md-12">
+                          <div class="form-group">
+                              <label for="">Observación</label>
+                              <input type="text" class="form-control" id="observacionEspectro" placeholder="Observacion de la muestra">
+                          </div>
+                          <div class="form-group">
+                            <button class="btn btn-primary" id="btnEjecutar"><i class="voyager-play"></i>Ejecutar</button>
+                          </div>
+                          <div class="col-md-2">
+                          <label id="ph">pH</label>
+                          <input type="text" disabled class="form-control" id="phCampo">
+                              </div>
+                      </div>
+                      <div class="col-md-2">
+                          <button class="btn btn-primary" id="btnEjecutar"><i class="voyager-play"></i>
+                              Ejecutar</button>
+                      </div>
+                      {{-- <div class="col-md-2">
+                          <button class="btn btn-warning">Liberar</button>
+                      </div> --}}
+                      <div class="col-md-8">
+                          <div class="form-group">
+                              <label for="resultado">Resultado</label>
+                              <input type="text" id="resultadoEspectro" style="font-size: 20px;color:red;"
+                                  placeholder="Resultado">
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="modal-body">
+                  <div class="row">
+                      <div class="col-md-12">
+                          <table class="table">
+                              <thead>
+                                  <tr>
+                                      <th>Parametro</th>
+                                      <th>Descripción</th>
+                                      <th>Valor</th>
+                                      <th>Valor2</th>
+                                      <th>Tipo</th>
+                                  </tr>
+                              </thead>
+                              <tbody>
+                                  <tr>
+                                      <td>ABS</td>
+                                      <td>ABS Promedio</td>
+                                      <td><input type="text" id="absPromEspectro1"></td>
+                                      <td><input type="text" id="absPromEspectro2"></td>
+                                      <td>C</td>
+                                  </tr>
+                                  <tr>
+                                      <td>CA</td>
+                                      <td>Blanco</td>
+                                      <td><input name="campos" type="number" id="blancoEspectro1"></td>
+                                      <td><input name="campos" type="number" id="blancoEspectro2"></td>
+                                      <td>F</td>
+                                  </tr>
+                                  <tr>
+                                      <td>CB</td>
+                                      <td>b</td>
+                                      <td><input name="campos" type="number" id="bEspectro1" disabled></td>
+                                      <td><input name="campos" type="number" id="bEspectro2" disabled></td>
+                                      <td>F</td>
+                                  </tr>
+                                  <tr>
+                                      <td>CM</td>
+                                      <td>m</td>
+                                      <td><input name="campos" type="number" id="mEspectro1" disabled></td>
+                                      <td><input name="campos" type="number" id="mEspectro2" disabled></td>
+                                      <td>F</td>
+                                  </tr>
+                                  <tr>
+                                      <td>CR</td>
+                                      <td>r</td>
+                                      <td><input name="campos" type="number" id="rEspectro1" disabled></td>
+                                      <td><input name="campos" type="number" id="rEspectro2" disabled></td>
+                                      <td>F</td>
+                                  </tr>
+                                  <tr>
+                                      <td>D</td>
+                                      <td>Factor dilucion</td>
+                                      <td><input type="number" id="fDilucionEspectro1" disabled></td>
+                                      <td><input type="number" id="fDilucionEspectro2" disabled></td>
+                                      <td>V</td>
+                                  </tr>
+                                  <tr id="conPh">
+                                      <td>P</td>
+                                      <td>pH Final</td>
+                                      <td><input name="campos" type="number" id="phFinEspectro1"></td>
+                                      <td><input name="campos" type="number" id="phFinEspectro2"></td>
+                                      <td>V</td>
+                                  </tr>
+                                  <tr id="conPh2">
+                                      <td>P2</td>
+                                      <td>pH Inicial</td>
+                                      <td><input name="campos" type="number" id="phIniEspectro1" value="0"></td>
+                                      <td><input name="campos" type="number" id="phIniEspectro2" value="0"></td>
+                                      <td>V</td>
+                                  </tr>
+                                  <tr id="conN1">
+                                      <td>N1</td>
+                                      <td>Nitratos</td>
+                                      <td><input name="campos" type="number" id="nitratosEspectro1" value="0"></td>
+                                      <td><input name="campos" type="number" id="nitratosEspectro2" value="0"></td>
+                                      <td>V</td>
+                                  </tr>
+                                  <tr id="conN2">
+                                      <td>N2</td>
+                                      <td>Nitritos</td>
+                                      <td><input name="campos" type="number" id="nitritosEspectro1" value="0"></td>
+                                      <td><input name="campos" type="number" id="nitritosEspectro2" value="0"></td>
+                                      <td>V</td>
+                                  </tr>
+                                  <tr id="conN3">
+                                      <td>N3</td>
+                                      <td>Sulfuros</td>
+                                      <td><input name="campos" type="number" id="sulfurosEspectro1" value="0"></td>
+                                      <td><input name="campos" type="number" id="sulfurosEspectro2" value="0"></td>
+                                      <td>V</td>
+                                  </tr>
+                                  <tr>
+                                      <td>E</td>
+                                      <td>Vol de la muestra</td>
+                                      <td><input name="campos" type="number" id="volMuestraEspectro1"></td>
+                                      <td><input name="campos" type="number" id="volMuestraEspectro2"></td>
+                                      <td>V</td>
+                                  </tr>
+                                  <tr>
+                                      <td>X</td>
+                                      <td>Absorbancia1</td>
+                                      <td><input name="campos" type="number" id="abs1Espectro1"></td>
+                                      <td><input name="campos" type="number" id="abs1Espectro2"></td>
+                                      <td>V</td>
+                                  </tr>
+                                  <tr>
+                                      <td>Y</td>
+                                      <td>Absorbancia2</td>
+                                      <td><input name="campos" type="number" id="abs2Espectro1"></td>
+                                      <td><input name="campos" type="number" id="abs2Espectro2"></td>
+                                      <td>V</td>
+                                  </tr>
+                                  <tr>
+                                      <td>Z</td>
+                                      <td>Absorbancia3</td>
+                                      <td><input name="campos" type="number" id="abs3Espectro1"></td>
+                                      <td><input name="campos" type="number" id="abs3Espectro2"></td>
+                                      <td>V</td>
+                                  </tr>
+                              </tbody>
+                          </table>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+  </div>
   {{--? Fin COT   --}}
 
 {{--todo FIN Modal de capturas de parametros --}}

@@ -494,9 +494,6 @@
                                 <button class="btn btn-primary"  onclick="operacionDureza()"><i class="voyager-play"></i>
                                     Ejecutar</button>
                             </div>
-                            {{-- <div class="col-md-2">
-                                <button class="btn btn-warning">Liberar</button>
-                            </div> --}}
                             <div class="col-md-8">
                                 <div class="form-group">
                                     <label for="resultado">Resultado</label>

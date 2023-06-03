@@ -172,14 +172,17 @@ function getDetalleAnalisis(idCodigo) {
                 case "231":
                 case "20": // Cobre
                 case "22": //Mercurio
+                case "215":
                 case "25": //Zinc
                 case "227":
                 case "24": //Plomo
-                case "216": 
+                case "216":  
                 case "21": //Cromoa
                 case "264":
                 case "18": //Cadmio
                 case "210":
+                case "300": //Niquel
+                case "233": // Seleneio
                     console.log("entro a caso 2");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';

@@ -112,7 +112,7 @@
                                     <td><input type="text" style="font-size: 20px;width: 100px;color:red;" id="resDes" value="0.0"></td>
                                 </tr>
                             </table>
-                        </div>
+                        </div> 
                     </div>
                 </div>
               </div>
@@ -123,5 +123,5 @@
 
 @endsection
 @section('javascript')
-<script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.0.0"></script>
+<script src="{{ asset('public/js/supervicion/cadena/detalleCadena.js') }}?v=1.0.2"></script>
 @stop
