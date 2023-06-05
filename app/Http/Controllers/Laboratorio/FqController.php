@@ -2995,7 +2995,7 @@ class FqController extends Controller
                     'model' => $model,
                     'plantilla' => $plantilla,
                     'procedimiento' => $procedimiento,
-                    'analizo' => $analizo,
+                    'analizo' => $analizo, 
                     'reviso' => $reviso,
                     'comprobacion' => $comprobacion,
                 );

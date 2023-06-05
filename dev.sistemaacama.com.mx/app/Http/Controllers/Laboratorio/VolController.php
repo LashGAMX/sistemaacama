@@ -38,6 +38,7 @@ use App\Models\LoteDetalleDqo;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
 use App\Models\LoteDetalleNitrogeno;
+use App\Models\LoteDetalleAlcalinidad;
 use App\Models\LoteDetalleSolidos;
 use App\Models\LoteTecnica;
 use App\Models\PlantillaVolumetria;
@@ -534,6 +535,11 @@ class VolController extends Controller
             case 108:
                 $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get();
                 break;
+            case 30:
+            case 29:
+            case 28:
+                $model = DB::table('ViewLoteDetalleAlcalinidad')->where('Id_lote', $request->idLote)->get();
+                break; 
             default:
                 # code...
                 break;
@@ -624,6 +630,19 @@ class VolController extends Controller
                 $detModel = LoteDetalleNitrogeno::where('Id_lote', $request->idLote)->get();
                 $sw = true;
                 break;
+            case 30:
+            case 29:
+            case 28:
+                $model = LoteDetalleAlcalinidad::create([ 
+                    'Id_lote' => $request->idLote,
+                    'Id_analisis' => $request->idAnalisis,
+                    'Id_codigo' => $request->idSol,
+                    'Id_parametro' => $loteModel->Id_tecnica,
+                    'Id_control' => 1,
+                ]);
+                $detModel = LoteDetalleAlcalinidad::where('Id_lote', $request->idLote)->get();
+                $sw = true;
+                break; 
             default:
                 # code...
                 break;
@@ -987,6 +1006,9 @@ class VolController extends Controller
         );
         return response()->json($data);
     }
+    public function operacionVolumetriaAlcalinidad(Request $request){
+
+    }
     public function guardarDqo(Request $request)
     {
         if ($request->sw == 1) {
@@ -1214,6 +1236,8 @@ class VolController extends Controller
         } else if ($request->formulaTipo == 9 || $request->formulaTipo == 10 || $request->formulaTipo == 11 || $request->formulaTipo == 287 || $request->formulaTipo == 108) //todo Nitrógeno Total,
         {
             $detalle = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
+        } elseif ($request->formulaTipo == 30 || $request->formulaTipo == 29 || $request->formulaTipo == 28) {
+            $detalle = DB::table('ViewLoteDetalleAlcalinidad')->where('Id_lote', $request->idLote)->get(); // Asi se hara con las otras
         }
 
         $data = array(

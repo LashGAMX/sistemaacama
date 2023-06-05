@@ -199,6 +199,11 @@ function getLoteCapturaVol() {
                         case '11':
                             tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',3);" data-toggle="modal" data-target="#modalNitrogeno">Capturar</button>';
                             break;
+                        case '30':
+                        case '29':
+                        case '28':
+                            tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button ' + status + ' type="button" class="btn btn-' + color + '" onclick="getDetalleVol(' + item.Id_detalle + ',3);" data-toggle="modal" data-target="#modalAlcalinidad">Capturar</button>'; 
+                        break;
                         default:
                             // tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button type="button" class="btn btn-success" onclick="getDetalleVol(' + item.Id_detalle + ');" data-toggle="modal" data-target="#modalCloro">Capturar</button>';
                             tab += '<td></td>';
@@ -353,7 +358,31 @@ function operacionCloro() {
     });
 
 }
+function operacionAlcalinidad() {
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/operacionVolumetriaAlcalinidad",
+        data: {
+            idParametro: $("#formulaTipo").val(),
+            A: $("#cloroA1").val(),
+            E: $("#cloroE1").val(),
+            H: $("#cloroH1").val(),
+            G: $("#cloroG1").val(),
+            B: $("#cloroB1").val(),
+            C: $("#cloroC1").val(),
+            D: $("#cloroD1").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            $("#resultadoCloro").val(response.res);
 
+
+        }
+    });
+
+}
 function guardarCloro() {
     $.ajax({
         type: "POST",

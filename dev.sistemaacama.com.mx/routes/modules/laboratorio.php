@@ -190,6 +190,7 @@ Route::group(['prefix' => 'laboratorio'], function () {
         Route::post('operacionVolumetriaCloro', [VolController::class, 'operacionVolumetriaCloro']);
         Route::post('operacionVolumetriaNitrogenoEquipo', [VolController::class, 'operacionVolumetriaNitrogenoEquipo']);
         Route::post('operacionVolumetriaNitrogeno', [VolController::class, 'operacionVolumetriaNitrogeno']);
+        Route::post('operacionVolumetriaAlcalinidad', [VolController::class, 'operacionVolumetriaAlcalinidad']);
         Route::post('guardarCloro', [VolController::class, 'guardarCloro']);
         Route::post('guardarDqo', [VolController::class, 'guardarDqo']);
         Route::post('guardarNitrogeno', [VolController::class, 'guardarNitrogeno']);

@@ -48,20 +48,43 @@ $(document).ready(function () {
     $('#btnLiberar').click(function () {
         setLiberar();
     });
+    $('#btnBitacora').click(function () {
+        setBitacora();
+    });
 });
 
  //todo Variables globales
 var tableLote
 var idLote
-var idMuestra
+var idMuestra 
 var idMuestra = 0
 var idArea = 0
  //todo funciones
+function setBitacora()
+ {
+    $.ajax({ 
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/setBitacora",
+        data: {
+            id: idLote,
+            texto: $("#summernote").summernote('code'),
+            titulo: $("#tituloBit").val(),
+            rev:$("#revBit").val(),
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);                        
+            alert("Plantilla modificada")
+        }
+    });
+ }
  function setObservacion(id)
 {
     
     $.ajax({
-        type: "POST",
+        type: "POST", 
         url: base_url + "/admin/laboratorio/" + area + "/setObservacion",
         data: {
             idLote:idLote,
@@ -215,6 +238,42 @@ var idArea = 0
                             }
                         });
                         break;
+                    case 113:
+                        $.ajax({
+                            type: "POST",
+                            url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra",
+                            data: {
+                                idLote:idLote,
+                                idMuestra: idMuestra,
+                                ABS:$('#abs1SulfatosF').val(),
+                                CA:$('#blanco1F').val(),
+                                CB:$('#b1SulfatosF').val(),
+                                CM:$('#m1SulfatosF').val(),
+                                CR:$('#r1SulfatosF').val(),
+                                D:$('#fDilucion1SulfatosF').val(),
+                                E:$('#volMuestra1SulfatosF').val(),
+                                X:$('#abs11SulfatosF').val(),
+                                Y:$('#abs21SulfatosF').val(),
+                                Z:$('#abs31SulfatosF').val(),
+                                ABS4:$('#abs41SulfatosF').val(),
+                                ABS5:$('#abs51SulfatosF').val(),
+                                ABS6:$('#abs61SulfatosF').val(),
+                                ABS7:$('#abs71SulfatosF').val(),
+                                ABS8:$('#abs81SulfatosF').val(),
+                                _token: $('input[name="_token"]').val()
+                            },
+                            dataType: "json",
+                            success: function (response) {
+                                console.log(response);
+                              $("#abs1SulfatosF").val(response.model.Promedio.toFixed(3)); 
+                              $("#abs2SulfatosF").val(response.model.Promedio.toFixed(3)); 
+                              $("#resultadoSulfatos").val(response.model.Resultado.toFixed(3)); 
+                              $("#fDilucion1SulfatosF").val(response.model.Vol_dilucion.toFixed(3));
+                              $("#fDilucion2SulfatosF").val(response.model.Vol_dilucion.toFixed(3));
+
+                            }
+                        });
+                        break;
                     default:
                         $.ajax({
                             type: "POST",
@@ -336,6 +395,45 @@ var idArea = 0
                                  $("#abs31COT").val(response.model.Abs3);
                                  $("#resultadoCOT").val(response.model.Resultado);
                             break;
+                        case 113:
+                            $("#observacionSulfatos").val(response.model.Observacion);
+                            $("#abs1SulfatosF").val(response.model.Promedio);
+                            $("#abs2SulfatosF").val(response.model.Promedio);
+                            $("#blancoSulfatos1F").val(response.model.Blanco);
+                            $("#blancoSulfatos2F").val(response.model.Blanco);
+                            $("#b1SulfatosF").val(response.curva.B);
+                            $("#m1SulfatosF").val(response.curva.M);
+                            $("#r1SulfatosF").val(response.curva.R);
+                            $("#b2SulfatosF").val(response.curva.B);
+                            $("#m2SulfatosF").val(response.curva.M);
+                            $("#r2SulfatosF").val(response.curva.R);
+                            // $("#phIni1F").val(response.model.Ph_ini);
+                            // $("#phFin1F").val(response.model.Ph_fin);
+                            // $("#nitratos1F").val(response.model.Nitratos);
+                            // $("#nitritos1F").val(response.model.Nitritos);
+                            // $("#sulfuros1F").val(response.model.Sulfuros);
+                            $("#fDilucion1SulfatosF").val(response.model.Vol_dilucion);
+                            $("#fDilucion2SulfatosF").val(response.model.Vol_dilucion);
+                            $("#volMuestra1SulfatosF").val(response.model.Vol_muestra);
+                            $("#volMuestra2SulfatosF").val(response.model.Vol_muestra);
+                            $("#abs11SulfatosF").val(response.model.Abs1);
+                            $("#abs12SulfatosF").val(response.model.Abs1);
+                            $("#abs21SulfatosF").val(response.model.Abs2);
+                            $("#abs22SulfatosF").val(response.model.Abs2);
+                            $("#abs31SulfatosF").val(response.model.Abs3);
+                            $("#abs32SulfatosF").val(response.model.Abs3);
+                            $("#abs41SulfatosF").val(response.model.Abs4);
+                            $("#abs42SulfatosF").val(response.model.Abs4);
+                            $("#abs51SulfatosF").val(response.model.Abs5);
+                            $("#abs52SulfatosF").val(response.model.Abs5);
+                            $("#abs61SulfatosF").val(response.model.Abs6);
+                            $("#abs62SulfatosF").val(response.model.Abs6);
+                            $("#abs71SulfatosF").val(response.model.Abs7);
+                            $("#abs72SulfatosF").val(response.model.Abs7);
+                            $("#abs81SulfatosF").val(response.model.Abs8);
+                            $("#abs82SulfatosF").val(response.model.Abs8);
+                            $("#resultadoSulfatos").val(response.model.Resultado);
+                            break;
                         default:
                             $("#observacion").val(response.model.Observacion);
                             $("#absPromEspectro1").val(response.model.Promedio);
@@ -359,10 +457,10 @@ var idArea = 0
                             $("#volMuestraEspectro2").val(response.model.Vol_muestra);
                             $("#abs1Espectro1").val(response.model.Abs1);
                             $("#abs2Espectro1").val(response.model.Abs2);
-                            $("#abs3Espectro3").val(response.model.Abs3);
+                            $("#abs3Espectro1").val(response.model.Abs3);
                             $("#abs1Espectro2").val(response.model.Abs1);
                             $("#abs2Espectro2").val(response.model.Abs2);
-                            $("#abs3Espectro3").val(response.model.Abs3);
+                            $("#abs3Espectro2").val(response.model.Abs3);
                             $("#resultadoEspectro").val(response.model.Resultado);
                             break;
                     }
@@ -375,7 +473,6 @@ var idArea = 0
         }
     });
  }
-
  function getCapturaLote()
  {
     let tabla = document.getElementById('divCaptura');
@@ -418,6 +515,9 @@ var idArea = 0
                         switch (parseInt(item.Id_parametro)) { 
                             case 152:
                                 tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaCOT">Capturar</button>';
+                                break;
+                            case 113:
+                                tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaSulfatos">Capturar</button>';
                                 break;
                             default:
                                 tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaEspectro">Capturar</button>';

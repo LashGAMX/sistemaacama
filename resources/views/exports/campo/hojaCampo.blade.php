@@ -193,7 +193,9 @@
                                     @if (@$phMuestra[$i]->Promedio == "" || @$phMuestra[$i]->Promedio == null)
                                             ---
                                         @else
-                                            {{@$phMuestra[$i]->Promedio}}
+                                            @php
+                                                echo number_format(@$phMuestra[$i]->Promedio, 1, ".", ",");
+                                            @endphp
                                         @endif
                                     
                                 @else

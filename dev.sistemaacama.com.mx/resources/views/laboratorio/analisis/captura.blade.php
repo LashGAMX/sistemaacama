@@ -408,7 +408,7 @@
                           </div>
                           <div class="form-group">
                               <button class="btn btn-success" type="button" onclick="setObservacion('observacionCOT')"
-                                  id="btnAplicarObs"><i class="voyager-check"></i> Aplicar</button>
+                                  ><i class="voyager-check"></i> Aplicar</button>
                           </div>
                           <div class="col-md-2">
                           <label id="ph">pH</label>
@@ -691,6 +691,176 @@
 
   </div>
   {{--? Fin COT   --}}
+
+  {{--? Inicio Sulfatos --}}
+
+  <div class="modal fade" id="modalCapturaSulfatos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Captura de resultados Sulfatos</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label for="">Observación</label>
+                            <input type="text" class="form-control" id="observacionSulfatos"
+                                placeholder="Observacion de la muestra">
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-success" type="button"  onclick="setObservacion('observacionSulfatos')"><i class="voyager-check"></i> Aplicar</button>
+                        </div>
+                    </div>
+                  
+                    <div>
+
+                    <div class="col-md-2">
+                        <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i>
+                            Ejecutar</button>
+                    </div>
+                    {{-- <div class="col-md-2">
+                        <button class="btn btn-warning">Liberar</button>
+                    </div> --}}
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label for="resultado">Resultado</label>
+                            <input type="text" id="resultadoSulfatos" style="font-size: 20px;color:red;"
+                                placeholder="Resultado">
+                        </div>
+                    </div>
+                </div> 
+            </div>
+            <div class="modal-body" id="prueba">
+                <input type="text" id="idMuestra" hidden>
+                <div class="row">
+                    <div class="col-md-12">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Parametro</th>
+                                    <th>Descripción</th>
+                                    <th>Valor</th>
+                                    <th>Valor2</th>
+                                    <th>Tipo</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>ABS</td>
+                                    <td>ABS Promedio</td>
+                                    <td><input type="text" id="abs1SulfatosF"></td>
+                                    <td><input type="text" id="abs2SulfatosF"></td>
+                                    <td>C</td>
+                                </tr>
+                                <tr>
+                                    <td>CA</td>
+                                    <td>Blanco</td>
+                                    <td><input name="campos" type="number" id="blancoSulfatos1F"></td>
+                                    <td><input name="campos" type="number" id="blancoSulfatos2F"></td>
+                                    <td>F</td>
+                                </tr>
+                                <tr>
+                                    <td>CB</td>
+                                    <td>b</td>
+                                    <td><input name="campos" type="number" id="b1SulfatosF" disabled></td>
+                                    <td><input name="campos" type="number" id="b2SulfatosF"></td>
+                                </tr>
+                                <tr>
+                                    <td>CM</td>
+                                    <td>m</td>
+                                    <td><input name="campos" type="number" id="m1SulfatosF" disabled></td>
+                                    <td><input name="campos" type="number" id="m2SulfatosF"></td>
+                                </tr>
+                                <tr>
+                                    <td>CR</td>
+                                    <td>r</td>
+                                    <td><input name="campos" type="number" id="r1SulfatosF" disabled></td>
+                                    <td><input name="campos" type="number" id="r2SulfatosF"></td>
+                                </tr>
+                                <tr>
+                                    <td>D</td>
+                                    <td>Factor dilucion</td>
+                                    <td><input type="number" id="fDilucion1SulfatosF" disabled></td>
+                                    <td><input type="number" id="fDilucion2SulfatosF" disabled></td>
+                                    <td>V</td>
+                                </tr>
+
+                                <tr>
+                                    <td>E</td>
+                                    <td>Vol de la muestra</td>
+                                    <td><input name="campos" type="number" id="volMuestra1SulfatosF" value="0"></td>
+                                    <td><input name="campos" type="number" id="volMuestra2SulfatosF" value="0"></td>
+                                    <td>V</td>
+                                </tr>
+                                <tr>
+                                    <td>ABS1</td>
+                                    <td>Absorbancia1</td>
+                                    <td><input name="campos" type="number" id="abs11SulfatosF"></td>
+                                    <td><input name="campos" type="number" id="abs12SulfatosF"></td>
+                                    <td>V</td>
+                                </tr>
+                                <tr>
+                                    <td>ABS2</td>
+                                    <td>Absorbancia2</td>
+                                    <td><input name="campos" type="number" id="abs21SulfatosF"></td>
+                                    <td><input name="campos" type="number" id="abs22SulfatosF"></td>
+                                    <td>V</td>
+                                </tr>
+                                <tr>
+                                    <td>ABS3</td>
+                                    <td>Absorbancia3</td>
+                                    <td><input name="campos" type="number" id="abs31SulfatosF"></td>
+                                    <td><input name="campos" type="number" id="abs32SulfatosF"></td>
+                                    <td>V</td>
+                                </tr>
+                                <tr>
+                                    <td>ABS4</td>
+                                    <td>Absorbancia4</td>
+                                    <td><input name="campos" type="number" id="abs41SulfatosF"></td>
+                                    <td><input name="campos" type="number" id="abs42SulfatosF"></td>
+                                    <td>V</td>
+                                </tr>
+                                <tr>
+                                    <td>ABS5</td>
+                                    <td>Absorbancia5 </td>
+                                    <td><input name="campos" type="number" id="abs51SulfatosF"></td>
+                                    <td><input name="campos" type="number" id="abs52SulfatosF"></td>
+                                    <td>V</td>
+                                </tr>
+                                <tr>
+                                    <td>ABS6</td>
+                                    <td>Absorbancia6</td>
+                                    <td><input name="campos" type="number" id="abs61SulfatosF"></td>
+                                    <td><input name="campos" type="number" id="abs62SulfatosF"></td>
+                                    <td>V</td>
+                                </tr>
+                                <tr>
+                                    <td>ABS7</td>
+                                    <td>Absorbancia7</td>
+                                    <td><input name="campos" type="number" id="abs71SulfatosF"></td>
+                                    <td><input name="campos" type="number" id="abs72SulfatosF"></td>
+                                    <td>V</td>
+                                </tr>
+                                <tr>
+                                    <td>ABS8</td>
+                                    <td>Absorbancia8</td>
+                                    <td><input name="campos" type="number" id="abs81SulfatosF"></td>
+                                    <td><input name="campos" type="number" id="abs82SulfatosF"></td>
+                                    <td>V</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+     </div>
+    </div>
+
+
+  {{--? Fin Sulfatos --}}
 
 {{--todo FIN Modal de capturas de parametros --}}
 
