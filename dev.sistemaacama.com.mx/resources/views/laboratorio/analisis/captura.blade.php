@@ -539,7 +539,7 @@
                               <input type="text" class="form-control" id="observacionEspectro" placeholder="Observacion de la muestra">
                           </div>
                           <div class="form-group">
-                            <button class="btn btn-primary" id="btnEjecutar"><i class="voyager-play"></i>Ejecutar</button>
+                            <button class="btn btn-primary" onclick="setObservacion('observacionEspectro')" ><i class="voyager-play"></i> Aplicar</button>
                           </div>
                           <div class="col-md-2">
                           <label id="ph">pH</label>
@@ -547,7 +547,7 @@
                               </div>
                       </div>
                       <div class="col-md-2">
-                          <button class="btn btn-primary" id="btnEjecutar"><i class="voyager-play"></i>
+                          <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i>
                               Ejecutar</button>
                       </div>
                       {{-- <div class="col-md-2">

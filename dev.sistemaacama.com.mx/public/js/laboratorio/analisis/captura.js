@@ -36,6 +36,9 @@ $(document).ready(function () {
     $('#btnEjecutar').click(function(){
         setDetalleMuestra()
     }); 
+    $('.btnEjecutar').click(function(){
+        setDetalleMuestra()
+    }); 
     $('#btnSetControl').click(function(){
         setControlCalidad()
     }); 
@@ -174,6 +177,7 @@ var idArea = 0
  {
     switch (parseInt(idArea)) {
         case 16: // Espectofotometria
+        case 5:
                 switch (parseInt($('#parametro').val())) {
                     case 152: // COT
                         $.ajax({
@@ -253,6 +257,7 @@ var idArea = 0
         default:
             break;
     }
+    
     getCapturaLote()
 
  }
@@ -335,7 +340,6 @@ var idArea = 0
                             $("#observacion").val(response.model.Observacion);
                             $("#absPromEspectro1").val(response.model.Promedio);
                             $("#absPromEspectro2").val(response.model.Promedio);
-                            $("#idMuestra").val(idDetalle);
                             $("#blancoEspectro1").val(response.model.Blanco);
                             $("#blancoEspectro2").val(response.model.Blanco);
                             $("#bEspectro1").val(response.curva.B);
