@@ -354,7 +354,7 @@
                                 <br>
                                 <br>
                                 <br>
-                            </td>
+                            </td> 
                             <td class="nombreHeader nom fontSize11 justificadorIzq"  style="font-size: 8px;margin:4px">
                                 {{-- <center><span><img style="width: auto; height: auto; max-width: 90px; max-height: 40px;" src="{{url('public/storage/'.$firma2->firma)}}"> <br></span></center> --}}
                             </td> 
@@ -405,7 +405,7 @@
                                                     <p>NOTA 3: LOS DATOS DE EMPRESA, DIRECCI&Oacute;N, PUNTO DE MUESTREO, SON PROPORCIONADOS POR EL CLIENTE.</p>
                                                     <p>LOS VALORES CON EL SIGNO MENOR (&lt;) CORRESPONDEN AL VALOR M&Iacute;NIMO CUANTIFICADO POR EL M&Eacute;TODO.</p>
                                                     <p>ESTE REPORTE NO DEBE REPRODUCIRSE SIN LA APROBACI&Oacute;N DEL LABORATORIO EMISOR.</p>
-                                                    <p>PLAN DE MUESTREO RE-11-005 Y CADENA DE CUSTODIA INTERNA RE-11-003-1</p>
+                                                    {{-- <p>PLAN DE MUESTREO RE-11-005 Y CADENA DE CUSTODIA INTERNA RE-11-003-1</p> --}}
                                                     <p>N.A INTERPRETAR COMO NO APLICA.</p>
                                                     <p>N.N INTERPRETAR COMO NO NORMADO.</p>
                                                     <p>1 REG. ACREDIT. ENTIDAD MEXICANA DE ACREDITACI&Oacute;N ema No. AG-057-025/12, CONTINUAR&Aacute; VIGENTE.</p>
