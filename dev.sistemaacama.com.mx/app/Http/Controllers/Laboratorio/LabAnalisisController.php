@@ -12,6 +12,7 @@ use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
+use App\Models\LoteDetalleSolidos;
 use App\Models\MatrazGA;
 use App\Models\Parametro;
 use App\Models\PlantillaBitacora;
@@ -86,7 +87,7 @@ class LabAnalisisController extends Controller
             'Id_user_c' => Auth::user()->id,
             'Id_user_m' => Auth::user()->id,
         ]);
-        if ($res->tipo == 13) {
+        if ($parametro->Id_parametro == 13) {
             GrasasDetalle::create([
                 'Id_lote' => $model->Id_lote,
             ]);
@@ -181,6 +182,19 @@ class LabAnalisisController extends Controller
                     ]);
                     $tempModel = LoteDetalleGA::where('Id_lote', $res->idLote)->get();
                     break;
+                case 15://Solidos
+                    $temp = LoteDetalleSolidos::create([
+                        'Id_lote' => $res->idLote,
+                        'Id_analisis' => $model->Id_solicitud,
+                        'Id_codigo' => $model->Id_codigo,
+                        'Id_parametro' => $model->Id_parametro,
+                        'Id_control' => 1,
+                        'Vol_muestra' => 100,
+                        'Factor_conversion' => 1000000,
+                        'Liberado' => 0,
+                        'Analizo' => 1,
+                    ]);
+                    $tempModel = LoteDetalleSolidos::where('Id_lote', $res->idLote)->get();
                 default:
                     break;
             }
@@ -204,6 +218,9 @@ class LabAnalisisController extends Controller
                     break;
                 case 13: // G&A
                     $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $res->idLote)->get();
+                    break;
+                case 15: // Solidos
+                    $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $res->idLote)->get();
                     break;
                 default:
                     $model = array();
@@ -659,16 +676,33 @@ class LabAnalisisController extends Controller
     }
     public function getDetalleLote(Request $res)
     {
-        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->first();
+        $lote = DB::table('ViewLoteAnalisis')->where('Id_lote', $res->id)->get();
+        $model = array();
+
+        if ($lote->count()) {
+            switch ($lote[0]->Id_area) {
+                case 16: // Espectrofotometria
+                case 5: // Fisicoquimicos
+
+                    break;
+                case 13: //G&A
+                    $model = GrasasDetalle::where('Id_lote', $res->id)->first();
+                    break;
+                default:
+                    $model = array();
+                    break;
+            }
+        }
 
         $plantilla = Bitacoras::where('Id_lote', $res->id)->get();
         if ($plantilla->count()) {
         } else {
-            $plantilla = PlantillaBitacora::where('Id_parametro', $lote->Id_tecnica)->get();
+            $plantilla = PlantillaBitacora::where('Id_parametro', $lote[0]->Id_tecnica)->get();
         }
         $data = array(
+            'model' => $model,
             'plantilla' => $plantilla,
-            'lote' => $lote,
+            'lote' => $lote[0],
         );
         return response()->json($data);
     }
@@ -754,6 +788,25 @@ class LabAnalisisController extends Controller
                             break;
                     }
                     break;
+                case 13:// G&A
+                    $muestras = LoteDetalleGA::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
+                    foreach ($muestras as $item) {
+                        $model = LoteDetalleGA::find($item->Id_detalle);
+                        $model->Liberado = 1;
+                        if ($model->Resultado != null) {
+                            $sw = true;
+                            $model->save();
+                        }
+                        if ($item->Id_control == 1) {
+                            $modelCod = CodigoParametros::find($model->Id_codigo);
+                            $modelCod->Resultado = $model->Resultado;
+                            $modelCod->Resultado2 = $model->Resultado;
+                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->save();
+                        }
+                    }
+                    $model = LoteDetalleGA::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                    break;
                 default:
                     $model = array();
                     break;
@@ -798,6 +851,22 @@ class LabAnalisisController extends Controller
                         $model = LoteDetalleEspectro::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
                         break;
                 }
+                break;
+            case 13: // G&A
+                $model = LoteDetalleGA::find($res->idMuestra);
+                $model->Liberado = 1;
+                if ($model->Resultado != null) {
+                    $sw = true;
+                    $model->save();
+                }
+
+                $modelCod = CodigoParametros::find($model->Id_codigo);
+                $modelCod->Resultado = $model->Resultado;
+                $modelCod->Resultado2 = $model->Resultado;
+                $modelCod->Analizo = Auth::user()->id;
+                $modelCod->save();
+
+                $model = LoteDetalleGA::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
                 break;
             default:
                 $model = array();
@@ -1059,5 +1128,41 @@ class LabAnalisisController extends Controller
                 break;
         }
         $mpdf->Output();
+    }
+    public function setDetalleGrasas(Request $request)
+    {
+        $model = GrasasDetalle::where('Id_lote', $request->id)->first();
+        $model->Calentamiento_temp1 = $request->temp1;
+        $model->Calentamiento_entrada1 = $request->entrada1;
+        $model->Calentamiento_salida1 = $request->salida1;
+        $model->Calentamiento_temp2 = $request->temp2;
+        $model->Calentamiento_entrada2 = $request->entrada2;
+        $model->Calentamiento_salida2 = $request->salida2;
+        $model->Calentamiento_temp3 = $request->temp3;
+        $model->Calentamiento_entrada3 = $request->entrada3;
+        $model->Calentamiento_salida3 = $request->salida3;
+        $model->Enfriado_entrada1 = $request->dosentrada1;
+        $model->Enfriado_salida1 = $request->dosalida1;
+        $model->Enfriado_pesado1 = $request->dospesado1;
+        $model->Enfriado_entrada2 = $request->dosentrada2;
+        $model->Enfriado_salida2 = $request->dosalida2;
+        $model->Enfriado_pesado2 = $request->dospesado2;
+        $model->Enfriado_entrada3 = $request->dosentrada3;
+        $model->Enfriado_salida3 = $request->dosalida3;
+        $model->Enfriado_pesado3 = $request->dospesado3;
+        $model->Secado_temp = $request->trestemperatura;
+        $model->Secado_entrada = $request->tresentrada;
+        $model->Secado_salida = $request->tressalida;
+        $model->Reflujo_entrada = $request->cuatroentrada;
+        $model->Reflujo_salida = $request->cuatrosalida;
+        $model->Enfriado_matraces_entrada = $request->cincoentrada;
+        $model->Enfriado_matraces_salida = $request->cincosalida;
+        $model->save();
+
+        $data = array(
+            'model' => $model,
+        );
+
+        return response()->json($data);
     }
 }

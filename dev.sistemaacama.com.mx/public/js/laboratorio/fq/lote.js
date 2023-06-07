@@ -344,12 +344,7 @@ function getDatalote()
                     tab +=          '</tr>';
                 }
                 
-                /* $.each(response[0], function (key, item) {
-                    tab += '<tr>';
-                    tab +=      '<td>'+item.Constante+'</td>';
-                    tab +=      '<td>'+item.Valor+'</td>';
-                    tab +=      '<td>3</td>';                
-                    tab += '</tr>';
+
                 }); */ 
 
                 tab += '    </tbody>';

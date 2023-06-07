@@ -206,6 +206,7 @@ function getLoteCapturaEspectro() {
 
             var t2 = $('#tablaControles').DataTable({
                 "ordering": false,
+                paging: false,
                 "language": {
                     "lengthMenu": "# _MENU_ por pagina",
                     "zeroRecords": "No hay datos encontrados",

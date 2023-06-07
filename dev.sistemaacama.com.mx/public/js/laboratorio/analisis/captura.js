@@ -51,6 +51,9 @@ $(document).ready(function () {
     $('#btnBitacora').click(function () {
         setBitacora();
     });
+    $('#btnSetDetalleGrasas').click(function () {
+        setDetalleGrasas();
+    });
 });
 
  //todo Variables globales
@@ -59,8 +62,65 @@ var idLote
 var idMuestra 
 var idMuestra = 0
 var idArea = 0
-var blanco = 0
+var blanco = 0 
  //todo funciones
+ function getStdMenu()
+ {
+    $("#tabGa-tab").hide()
+    switch (parseInt(idArea)) {
+        case 16: // Espectofotometria
+        case 5:
+
+            break;
+        case 13://G&A
+        $("#tabGa-tab").show()
+        break;
+        default:
+            break;
+    }
+ }
+ function setDetalleGrasas(){
+    $.ajax({ 
+        type: "POST",
+        url: base_url + "/admin/laboratorio/"+area+"/setDetalleGrasas",
+        data: {
+            id: idLote,
+            temp1:$('#tempGA1').val(),
+            entrada1:$('#entradaGA1').val(),
+            salida1:$('#salidaGA1').val(),
+            temp2:$('#tempGA2').val(),
+            entrada2:$('#entradaGA2').val(),
+            salida2:$('#salidaGA2').val(),
+            temp3:$('#tempGA3').val(),
+            entrada3:$('#entradaGA3').val(),
+            salida3:$('#salidaGA3').val(),
+            dosentrada1:$('#2entraGAda1').val(),
+            dosalida1:$('#2salidaGA1').val(),
+            dospesado1:$('#2pesadoGA1').val(),
+            dosentrada2:$('#2entraGAda2').val(),
+            dosalida2:$('#2salidaGA2').val(),
+            dospesado2:$('#2pesadoGA2').val(),
+            dosentrada3:$('#2entraGAda3').val(),
+            dosalida3:$('#2salidaGA3').val(),
+            dospesado3:$('#2pesadoGA3').val(),
+            trestemperatura:$('#3temperaturaGA').val(),
+            tresentrada:$('#3entradaGA').val(),
+            tressalida:$('#3salidaGA').val(),
+            cuatroentrada:$('#4entradaGA').val(),
+            cuatrosalida:$('#4salidaGA').val(),
+            cincoentrada:$('#5entradaGA').val(),
+            cincosalida:$('#5salidaGA').val(),
+
+            _token: $('input[name="_token"]').val(),
+        },
+        dataType: "json",
+        async: false,
+        success: function (response) {
+            console.log(response);                        
+            alert("Plantilla modificada")
+        }
+    });
+}
 function setBitacora()
  {
     $.ajax({ 
@@ -173,6 +233,7 @@ function setBitacora()
  }
  function getDetalleLote(id,parametro)
  {
+    getStdMenu()
     $("#modalDetalleLote").modal("show")
     $("#tituloLote").val(id+' - '+parametro)
     let summer = document.getElementById("divSummer")
@@ -186,6 +247,46 @@ function setBitacora()
         dataType: "json",
         success: function (response) {
             console.log(response); 
+            switch (parseInt(idArea)) {
+                case 16: // Espectofotometria
+                case 5:
+        
+                    break;
+                case 13://G&A
+                    $('#tempGA1').val(response.model.Calentamiento_temp1);
+                    $('#entradaGA1').val(response.model.Calentamiento_entrada1);
+                    $('#salidaGA1').val(response.model.Calentamiento_salida1);
+                    $('#tempGA2').val(response.model.Calentamiento_temp2);
+                    $('#entradaGA2').val(response.model.Calentamiento_entrada2);
+                    $('#salidaGA2').val(response.model.Calentamiento_salida2);
+                    $('#tempGA3').val(response.model.Calentamiento_temp3);
+                    $('#entradaGA3').val(response.model.Calentamiento_entrada3);
+                    $('#salidaGA3').val(response.model.Calentamiento_salida3);
+        
+                    $('#2entradaGA1').val(response.model.Enfriado_entrada1);
+                    $('#2salidaGA1').val(response.model.Enfriado_salida1);
+                    $('#2pesadoGA1').val(response.model.Enfriado_pesado1);
+                    $('#2entradaGA2').val(response.model.Enfriado_entrada2);
+                    $('#2salidaGA2').val(response.model.Enfriado_salida2);
+                    $('#2pesadoGA2').val(response.model.Enfriado_pesado2);
+                    $('#2entradaGA3').val(response.model.Enfriado_entrada3);
+                    $('#2salidaGA3').val(response.model.Enfriado_salida3);
+                    $('#2pesadoGA3').val(response.model.Enfriado_pesado3);
+        
+                    $('#3temperaturaGA').val(response.model.Secado_temp);
+                    $('#3entradaGA').val(response.model.Secado_entrada);
+                    $('#3salidaGA').val(response.model.Secado_salida);
+        
+                    $('#4entradaGA').val(response.model.Reflujo_entrada);
+                    $('#4salidaGA').val(response.model.Reflujo_salida);
+        
+                    $('#5entradaGA').val(response.model.Enfriado_matraces_entrada);
+                    $('#5salidaGA').val(response.model.Enfriado_matraces_salida);
+                break;
+                default:
+                    break;
+            }
+
             $("#tituloBit").val(response.plantilla[0].Titulo)
             $("#revBit").val(response.plantilla[0].Rev)
             summer.innerHTML = '<div id="summernote">'+response.plantilla[0].Texto+'</div>';

@@ -219,28 +219,27 @@
         {{-- Inicio de Body --}}
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="home-tab" data-toggle="tab" data-target="#home" type="button" role="tab"
-              aria-controls="home" aria-selected="true">General</button>
+            <button class="nav-link active" id="general-tab" data-toggle="tab" data-target="#general" type="button" role="tab"
+              aria-controls="general" aria-selected="true">General</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="profile-tab" data-toggle="tab" data-target="#profile" type="button" role="tab"
-              aria-controls="profile" aria-selected="false">Datos</button>
+            <button class="nav-link" id="tabGa-tab" data-toggle="tab" data-target="#tabGa" type="button" role="tab"
+              aria-controls="tabGa" aria-selected="false">Datos GA</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="contact-tab" data-toggle="tab" data-target="#contact" type="button" role="tab"
-              aria-controls="contact" aria-selected="false">Plantilla</button>
+            <button class="nav-link" id="tabPlantillas-tab" data-toggle="tab" data-target="#tabPlantillas" type="button" role="tab"
+              aria-controls="tabPlantillas" aria-selected="false">Plantilla</button>
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
-          <div class="tab-pane fade active" id="home" role="tabpanel" aria-labelledby="home-tab">
+          <div class="tab-pane fade active" id="general" role="tabpanel" aria-labelledby="general-tab">
             Dato 1
           </div>
-          <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
+          <div class="tab-pane fade" id="tabGa" role="tabpanel" aria-labelledby="tabGa-tab">
             <!-- inicio tabla grasas   -->
             <div class="row">
               <div class="col-md-4">
-                <button type="button" id="btnGuardarDetalleGasas" onclick="guardarDetalleGrasas()"
-                  class="btn btn-primary">Guardar</button>
+                <button type="button" id="btnSetDetalleGrasas" class="btn-primary"><i class="fas fa-save"></i> Guardar</button>
               </div>
             </div>
             <div class="row">
@@ -259,21 +258,21 @@
                   <tbody>
                     <tr>
                       <td>1</td>
-                      <td><input type="text" id="temp1" /></td>
-                      <td><input type="datetime-local" id="entrada1" /></td>
-                      <td><input type="datetime-local" id="salida1" /></td>
+                      <td><input type="text" id="tempGA1" /></td>
+                      <td><input type="datetime-local" id="entradaGA1" /></td>
+                      <td><input type="datetime-local" id="salidaGA1" /></td>
                     </tr>
                     <tr>
                       <td>2</td>
-                      <td><input type="text" id="temp2" /></td>
-                      <td><input type="datetime-local" id="entrada2" /></td>
-                      <td><input type="datetime-local" id="salida2" /></td>
+                      <td><input type="text" id="tempGA2" /></td>
+                      <td><input type="datetime-local" id="entradaGA2" /></td>
+                      <td><input type="datetime-local" id="salidaGA2" /></td>
                     </tr>
                     <tr>
                       <td>3</td>
-                      <td><input type="text" id="temp3" /></td>
-                      <td><input type="datetime-local" id="entrada3" /></td>
-                      <td><input type="datetime-local" id="salida3" /></td>
+                      <td><input type="text" id="tempGA3" /></td>
+                      <td><input type="datetime-local" id="entradaGA3" /></td>
+                      <td><input type="datetime-local" id="salidaGA3" /></td>
                     </tr>
                   </tbody>
                 </table>
@@ -291,24 +290,24 @@
                   <tbody>
                     <tr>
                       <td>1</td>
-                      <td><input type="datetime-local" id="2entrada1" /></td>
-                      <td><input type="datetime-local" id="2salida1" /></td>
-                      <td><input type="datetime-local" id="2pesado1" /></td>
+                      <td><input type="datetime-local" id="2entradaGA1" /></td>
+                      <td><input type="datetime-local" id="2salidaGA1" /></td>
+                      <td><input type="datetime-local" id="2pesadoGA1" /></td>
                     </tr>
                     <tr>
                       <td>2</td>
-                      <td><input type="datetime-local" id="2entrada2" /></td>
-                      <td><input type="datetime-local" id="2salida2" /></td>
-                      <td><input type="datetime-local" id="2pesado2" /></td>
+                      <td><input type="datetime-local" id="2entradaGA2" /></td>
+                      <td><input type="datetime-local" id="2salidaGA2" /></td>
+                      <td><input type="datetime-local" id="2pesadoGA2" /></td>
                     </tr>
                     <tr>
                       <td>3</td>
-                      <td><input type="datetime-local" id="2entrada3" /></td>
-                      <td><input type="datetime-local" id="2salida3" /></td>
-                      <td><input type="datetime-local" id="2pesado3" /></td>
+                      <td><input type="datetime-local" id="2entradaGA3" /></td>
+                      <td><input type="datetime-local" id="2salidaGA3" /></td>
+                      <td><input type="datetime-local" id="2pesadoGA3" /></td>
                     </tr>
                   </tbody>
-                </table>
+                </table> 
                 <h4>3. Secado de Cartuchos</h4>
                 <hr />
                 <table class="table">
@@ -319,9 +318,9 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><input type="number" id="3temperatura" /></td>
-                      <td><input type="datetime-local" id="3entrada" /></td>
-                      <td><input type="datetime-local" id="3salida" /></td>
+                      <td><input type="number" id="3temperaturaGA" /></td>
+                      <td><input type="datetime-local" id="3entradaGA" /></td>
+                      <td><input type="datetime-local" id="3salidaGA" /></td>
                     </tr>
                   </tbody>
                 </table>
@@ -336,11 +335,11 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><input type="datetime-local" id="4entrada" /></td>
-                      <td><input type="datetime-local" id="4salida" /></td>
+                      <td><input type="datetime-local" id="4entradaGA" /></td>
+                      <td><input type="datetime-local" id="4salidaGA" /></td>
                     </tr>
                   </tbody>
-                </table>
+                </table> 
                 <h4>5. Enfriado de matraces</h4>
                 <hr />
                 <table class="table">
@@ -352,8 +351,8 @@
                   </thead>
                   <tbody>
                     <tr>
-                      <td><input type="datetime-local" id="5entrada" /></td>
-                      <td><input type="datetime-local" id="5salida" /></td>
+                      <td><input type="datetime-local" id="5entradaGA" /></td>
+                      <td><input type="datetime-local" id="5salidaGA" /></td>
                     </tr>
                   </tbody>
                 </table>
@@ -362,7 +361,7 @@
             </div>
 
           </div>
-          <div class="tab-pane fade" id="contact" role="tabpanel" aria-labelledby="contact-tab">
+          <div class="tab-pane fade" id="tabPlantillas" role="tabpanel" aria-labelledby="tabPlantillas-tab">
             <div class="row">
               <div class="col-md-12">
                 <button id="btnBitacora" class="btn-success"><i class="fas fa-save"></i> Guardar</button>

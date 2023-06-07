@@ -743,6 +743,8 @@ function getDetalleAnalisis(idCodigo) {
                 case "98":
                 case "89":
                 case "218":
+                case "84": // Olor
+                case "86": // Sabor
                     console.log("entro a caso 8");
                     tab += '<button class="btn btn-danger" id="btnRegresar">Regresar resultado</button>'
                     tab += '<table id="tableResultado" class="table table-sm">';
