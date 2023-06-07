@@ -265,7 +265,7 @@
                             </div> --}}
                             <div class="col-md-8">
                                 <div class="form-group">
-                                    <input type="text" id="resultadoDqo" style="font-size: 20px;color:red;"
+                                    <input type="text" id="resultadoAlcalinidad" style="font-size: 20px;color:red;"
                                         placeholder="Resultado">
                                 </div>
                             </div>

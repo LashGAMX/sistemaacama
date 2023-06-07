@@ -247,7 +247,9 @@
              </div>
 
                <!-- Modal Control Calidad-->
-        <div class="modal fade" id="modalCalidad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        
+        
+               <div class="modal fade" id="modalCalidad" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                  <form wire:submit.prevent="create">

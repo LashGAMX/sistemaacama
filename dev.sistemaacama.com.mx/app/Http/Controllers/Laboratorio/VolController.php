@@ -1007,7 +1007,32 @@ class VolController extends Controller
         return response()->json($data);
     }
     public function operacionVolumetriaAlcalinidad(Request $request){
+        
+        $res1 = $request->A * $request->B;
+        $res2 = $res1 * $request->C;
+        $res = $res2 / $request->D;
 
+        $data = array(
+           
+            'res' => $res
+        );
+        return response()->json($data);
+    }
+    public function guardarAlcalinidad(Request $request){
+        $model = LoteDetalleAlcalinidad::find($request->idDetalle);
+        $model->Titulados = $request->A;
+        $model->Normalidad = $request->B;
+        $model->Factor = $request->C;
+        $model->Volumen = $request->D;
+        $model->Ph = $request->E;
+        $model->Resultado = $request->resultado;
+        $model->save();
+        
+        $data = array(
+           
+            'model' => $model
+        );
+        return response()->json($data);
     }
     public function guardarDqo(Request $request)
     {

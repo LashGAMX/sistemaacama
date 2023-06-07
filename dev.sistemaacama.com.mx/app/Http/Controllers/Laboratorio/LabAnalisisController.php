@@ -11,6 +11,8 @@ use App\Models\GrasasDetalle;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
 use App\Models\LoteDetalleEspectro;
+use App\Models\LoteDetalleGA;
+use App\Models\MatrazGA;
 use App\Models\Parametro;
 use App\Models\PlantillaBitacora;
 use App\Models\ProcesoAnalisis;
@@ -166,7 +168,19 @@ class LabAnalisisController extends Controller
                             break;
                     }
                     break;
-
+                case 13: // G&A
+                    $temp = LoteDetalleGA::create([
+                        'Id_lote' => $res->idLote,
+                        'Id_analisis' => $model->Id_solicitud,
+                        'Id_codigo' => $model->Id_codigo,
+                        'Id_parametro' => $model->Id_parametro,
+                        'Id_control' => 1,
+                        'Vol_muestra' => 50,
+                        'Liberado' => 0,
+                        'Analizo' => 1,
+                    ]);
+                    $tempModel = LoteDetalleGA::where('Id_lote', $res->idLote)->get();
+                    break;
                 default:
                     break;
             }
@@ -187,6 +201,9 @@ class LabAnalisisController extends Controller
                 case 5: // Fisicoquimicos
                     $model = DB::table('ViewLoteDetalleEspectro')->where('Id_lote', $res->idLote)->get();
                     break;
+                    break;
+                case 13: // G&A
+                    $model = DB::table('ViewLoteDetalleGA')->where('Id_lote', $res->idLote)->get();
                     break;
                 default:
                     $model = array();
@@ -220,6 +237,9 @@ class LabAnalisisController extends Controller
                         ->where('Id_parametro', $lote[0]->Id_tecnica)->first();
                     $blanco = DB::table("ViewLoteDetalleEspectro")->where('Id_codigo', $model->Id_codigo)->where('Id_control', 5)->first();
                     break;
+                case 13: //G&A
+                    $model = DB::table("ViewLoteDetalleGA")->where('Id_detalle', $res->id)->first();
+                    break;
                 default:
                     $model = array();
                     break;
@@ -236,6 +256,7 @@ class LabAnalisisController extends Controller
     }
     public function setDetalleMuestra(Request $res)
     {
+        $std = true;
         $lote = LoteAnalisis::where('Id_lote', $res->idLote)->get();
         if ($lote->count()) {
             switch ($lote[0]->Id_area) {
@@ -565,6 +586,66 @@ class LabAnalisisController extends Controller
                             break;
                     }
                     break;
+                case 13://G&A
+                    if ($res->R != '') {
+                        $matraz = MatrazGA::where('Estado', 0)->get();
+                        if ($matraz->count()) {
+                            $mat = rand(0, $matraz->count());
+                            $matraz[$mat]->Estado = 1;
+                            $matraz[$mat]->save();
+                        } else {
+                            $std = false;
+                        }
+                
+                        //$m3 = mt_rand($matraz->Min, $matraz->Max);
+                        $dif = ($matraz[$mat]->Max - $matraz[$mat]->Min);
+                        $ran = (round($dif, 4)) / 10;
+                        $m3 = $matraz[$mat]->Max - $ran;
+                
+                
+                        $mf = ((($res->R / $res->E) * $res->I) + $m3);
+                        $m1 = ($m3 - 0.0002);
+                        $m2 = ($m3 - 0.0001);
+                
+                        $model = LoteDetalleGA::find($res->idMuestra);
+                        $model->Id_matraz = $matraz[$mat]->Id_matraz;
+                        $model->Matraz = $matraz[$mat]->Num_serie;
+                        $model->M_final = $mf;
+                        $model->M_inicial1 = $m1;
+                        $model->M_inicial2 = $m2;
+                        $model->M_inicial3 = $m3;
+                        $model->Ph = $res->L;
+                        $model->Blanco = $res->G;
+                        $model->F_conversion = $res->E;
+                        $model->Vol_muestra = $res->I;
+                        $model->Resultado = ($res->R - $res->G);
+                        $model->Analizo = Auth::user()->id;
+                        $model->save();
+                    }else{
+                        $res1 = $res->H - $res->C;
+                        $res2 = $res1 / $res->I;
+                        $res3 = $res2 * $res->E;
+                        $resultado = $res3 - $res->G;
+                
+                        $matraz = MatrazGA::where('Num_serie', $res->P)->first(); 
+                 
+                        $model = LoteDetalleGA::find($res->idMuestra);
+                        $model->M_final = $res->H; 
+                        $model->Id_matraz = $matraz->Id_matraz;
+                        $model->Matraz = $matraz->Num_serie;
+                        $model->M_inicial1 = $res->J;
+                        $model->M_inicial2 = $res->K;
+                        $model->M_inicial3 = $res->C;
+                        $model->Ph = $res->L;
+                        $model->Blanco = $res->G;
+                        $model->F_conversion = $res->E;
+                        $model->Vol_muestra = $res->I;
+                        $model->Resultado = $resultado;
+                        $model->Analizo = Auth::user()->id;
+                        $model->save();
+                    }
+    
+                    break;
                 default:
                     $model = array();
                     break;
@@ -572,6 +653,7 @@ class LabAnalisisController extends Controller
         }
         $data = array(
             'model' => $model,
+            'std' => $std,
         );
         return response()->json($data);
     }
@@ -612,6 +694,16 @@ class LabAnalisisController extends Controller
                             $model = LoteDetalleEspectro::where('Id_lote', $res->idLote)->get();
                             break;
                     }
+                    break;
+                case 13://G&A
+                        $muestra = LoteDetalleGA::where('Id_detalle', $res->idMuestra)->first();
+                        $model = $muestra->replicate();
+                        $model->Id_control = $res->idControl;
+                        $model->Resultado = NULL;
+                        $model->Liberado = 0;
+                        $model->save(); 
+
+                        $model = LoteDetalleGA::where('Id_lote', $res->idLote)->get();
                     break;
                 default:
                     $model = array();
@@ -738,6 +830,11 @@ class LabAnalisisController extends Controller
                         break;
                 }
                 break;
+            case 13://G&A
+                    $model = LoteDetalleGA::where('Id_detalle', $res->idMuestra)->first();
+                    $model->Observacion = $res->observacion;
+                    $model->save();
+                break;
             default:
                 $model = array();
                 break;
@@ -755,7 +852,7 @@ class LabAnalisisController extends Controller
             $model = Bitacoras::where('Id_lote', $res->id)->first();
             $model->Titulo = $res->titulo;
             $model->Texto = $res->texto;
-            $model->Rev = $res->rev; 
+            $model->Rev = $res->rev;
             $model->save();
         } else {
             $model = Bitacoras::create([
@@ -791,7 +888,7 @@ class LabAnalisisController extends Controller
             1,
             array(215, 280),
             array(0, 0),
-        ); 
+        );
 
         $mpdf->showWatermarkImage = true;
         $mpdf->CSSselectMedia = 'mpdf';
@@ -837,7 +934,7 @@ class LabAnalisisController extends Controller
                         $mpdf->CSSselectMedia = 'mpdf';
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
-                    case 103:// Dureza potable
+                    case 103: // Dureza potable
                         // $htmlFooter = view('exports.laboratorio.fq.espectro.nitratos.capturaFooter', $data);
                         $htmlHeader = view('exports.laboratorio.potable.durezaTotal.127.bitacoraHeader', $data);
                         $htmlCaptura = view('exports.laboratorio.potable.durezaTotal.127.bitacoraBody', $data);
@@ -852,7 +949,7 @@ class LabAnalisisController extends Controller
                         $htmlHeader = view('exports.laboratorio.fq.espectro.nitratos.capturaHeader', $data);
                         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                         $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.capturaBody', $data);
-                        $mpdf->CSSselectMedia = 'mpdf'; 
+                        $mpdf->CSSselectMedia = 'mpdf';
                         $mpdf->WriteHTML($htmlCaptura);
                         break;
                     case 8: //Nitritos residual
@@ -872,7 +969,7 @@ class LabAnalisisController extends Controller
                         $htmlCaptura = view('exports.laboratorio.fq.espectro.nitritos.127.capturaBody', $data);
                         $mpdf->CSSselectMedia = 'mpdf';
                         $mpdf->WriteHTML($htmlCaptura);
-                    break;
+                        break;
                     case 106: // Nitritos Potable
                         $htmlFooter = view('exports.laboratorio.fq.espectro.nitratos.127.capturaFooter', $data);
                         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -881,7 +978,7 @@ class LabAnalisisController extends Controller
                         $htmlCaptura = view('exports.laboratorio.fq.espectro.nitratos.127.capturaBody', $data);
                         $mpdf->CSSselectMedia = 'mpdf';
                         $mpdf->WriteHTML($htmlCaptura);
-                    break;
+                        break;
                     case 99: //cianuros
                         $htmlFooter = view('exports.laboratorio.fq.espectro.cianuros.127.capturaFooter', $data);
                         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
@@ -890,8 +987,8 @@ class LabAnalisisController extends Controller
                         $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.127.capturaBody', $data);
                         $mpdf->CSSselectMedia = 'mpdf';
                         $mpdf->WriteHTML($htmlCaptura);
-                    break;
-                    case 95:// Sulfatos
+                        break;
+                    case 95: // Sulfatos
                         $htmlFooter = view('exports.laboratorio.fq.espectro.sulfatos.127.capturaFooter', $data);
                         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');
                         $htmlHeader = view('exports.laboratorio.fq.espectro.sulfatos.127.capturaHeader', $data);
@@ -908,7 +1005,7 @@ class LabAnalisisController extends Controller
                         $htmlCaptura = view('exports.laboratorio.fq.espectro.fluoruros.127.capturaBody', $data);
                         $mpdf->CSSselectMedia = 'mpdf';
                         $mpdf->WriteHTML($htmlCaptura);
-                        break; 
+                        break;
                     case 96: // SAAM 
                     case 114:
                         $htmlFooter = view('exports.laboratorio.fq.espectro.saam.127.capturaFooter', $data);
@@ -942,8 +1039,8 @@ class LabAnalisisController extends Controller
                         $mpdf->setHeader('<p style="text-align:right">{PAGENO} / {nbpg}<br><br></p>' . $htmlHeader);
                         $htmlCaptura = view('exports.laboratorio.fq.espectro.cianuros.capturaBody', $data);
                         $mpdf->CSSselectMedia = 'mpdf';
-                        $mpdf->WriteHTML($htmlCaptura);        
-                    break;
+                        $mpdf->WriteHTML($htmlCaptura);
+                        break;
                     case 15: // Fosforo
                         $htmlFooter = view('exports.laboratorio.fq.espectro.fosforoTotal.capturaFooter', $data);
                         $mpdf->SetHTMLFooter($htmlFooter, 'O', 'E');

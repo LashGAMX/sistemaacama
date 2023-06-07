@@ -59,6 +59,7 @@ var idLote
 var idMuestra 
 var idMuestra = 0
 var idArea = 0
+var blanco = 0
  //todo funciones
 function setBitacora()
  {
@@ -160,6 +161,7 @@ function setBitacora()
         dataType: "json",
         success: function (response) {
             console.log(response);
+            alert("Control generado")
             getLote();
             getCapturaLote();
         }
@@ -312,7 +314,48 @@ function setBitacora()
                         break;
                 }
             break;
-    
+        case 13://G&A
+            $.ajax({
+                type: "POST",
+                url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                data: {
+                    idLote:idLote,
+                    idMuestra: idMuestra,
+                    R:$("#resultadoGA").val(),
+                    H:$("#hGA1").val(),
+                    J:$("#jGA1").val(),
+                    K:$("#kGA1").val(),
+                    C:$("#cGA1").val(),
+                    L:$("#lGA1").val(),
+                    I:$("#iGA1").val(),
+                    G:$("#gGA1").val(),
+                    E:$("#eGA1").val(),
+                    P:$("#pGA").val(),
+                    _token: $('input[name="_token"]').val()
+                },
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                    if (response.std == true) {
+                        let fixh1 = parseFloat(response.model.M_final).toFixed(4);
+                        let fixj1 = parseFloat(response.model.M_inicial1).toFixed(4);
+                        let fixk1 = parseFloat(response.model.M_inicial2).toFixed(4);
+                        let fixc1 = parseFloat(response.model.M_inicial3).toFixed(4);
+                    
+                        $("#hGA1").val(fixh1); 
+                        $("#jGA1").val(fixj1);
+                        $("#kGA1").val(fixk1);
+                        $("#cGA1").val(fixc1);
+                        $('#pGA').val(response.model.Matraz);
+                        $('#resultadoGA').val(response.model.Resultado.toFixed(4));
+        
+                        alert("Datos guardados y calculados")
+                    } else {
+                        alert("No hay matraz disponible")
+                    }
+                }
+            });
+        break;
         default:
             break;
     }
@@ -465,7 +508,35 @@ function setBitacora()
                             break;
                     }
                     break;
-                
+                case 13://G&A
+                    $("#pGA").val(response.model.Matraz);
+                    $("#resultadoGA").val(response.model.Resultado);
+                    $("#hGA1").val(response.model.M_final);
+                    $("#jGA1").val(response.model.M_inicial1);
+                    $("#kGA1").val(response.model.M_inicial2);
+                    $("#cGA1").val(response.model.M_inicial3);
+                    $("#lGA1").val(response.model.Ph);
+                    $("#iGA1").val(response.model.Vol_muestra);
+                    if(response.model.Id_control != 5)
+                    {
+                        $("#gGA1").val(blanco);   
+                        $("#gGA2").val(blanco);
+                    }else{
+                        $("#gGA1").val(response.model.Blanco);   
+                        $("#gGA2").val(response.model.Blanco);
+                    }
+                    $("#eGA1").val(response.model.F_conversion);
+                    $("#observacionGA").val(response.model.Observacion);
+        
+        
+                    $("#hGA2").val(response.model.M_final);
+                    $("#jGA2").val(response.model.M_inicial1);
+                    $("#kGA2").val(response.model.M_inicial2);
+                    $("#cGA2").val(response.model.M_inicial3);
+                    $("#lGA2").val(response.model.Ph);
+                    $("#iGA2").val(response.model.Vol_muestra);
+                    $("#eGA2").val(response.model.F_conversion);
+                break;
                 default:
 
                 break;
@@ -475,6 +546,7 @@ function setBitacora()
  }
  function getCapturaLote()
  {
+    blanco = 0
     let tabla = document.getElementById('divCaptura');
     let tab = '';
     $.ajax({
@@ -508,6 +580,9 @@ function setBitacora()
                     color = "warning"
                 }
                 tab += '<tr>';
+                if (item.Id_control == 5) {
+                    blanco = item.Resultado
+                } 
 
                 switch (parseInt(response.lote[0].Id_area)) {
                     case 16: // Espectrofotometria 
@@ -523,6 +598,9 @@ function setBitacora()
                                 tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaEspectro">Capturar</button>';
                                 break;
                         }
+                        break;
+                    case 13: // G&A
+                        tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaGA">Capturar</button>';
                         break;
                     default:
                         break;

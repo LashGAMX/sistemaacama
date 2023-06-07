@@ -364,24 +364,42 @@ function operacionAlcalinidad() {
         url: base_url + "/admin/laboratorio/" + area + "/operacionVolumetriaAlcalinidad",
         data: {
             idParametro: $("#formulaTipo").val(),
-            A: $("#cloroA1").val(),
-            E: $("#cloroE1").val(),
-            H: $("#cloroH1").val(),
-            G: $("#cloroG1").val(),
-            B: $("#cloroB1").val(),
-            C: $("#cloroC1").val(),
-            D: $("#cloroD1").val(),
+            A: $("#tituladosAlc1").val(),
+            B: $("#normalidadAlc1").val(),
+            C: $("#facortAlc1").val(),
+            D: $("#volAlc1").val(),
+            E: $("#ph1").val(),
+            
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
         success: function (response) {
             console.log(response);
-            $("#resultadoCloro").val(response.res);
-
-
+            $("#resultadoAlcalinidad").val(response.res);
         }
     });
 
+}
+function guardarAlcalinidad(){
+    $.ajax({
+        type: "POST",
+        url: base_url + "/admin/laboratorio/" + area + "/guardarAlcalinidad",
+        data: {
+            idDetalle: idMuestra,
+            A: $("#tituladosAlc1").val(),
+            B: $("#normalidadAlc1").val(),
+            C: $("#facortAlc1").val(),
+            D: $("#volAlc1").val(),
+            E: $("#ph1").val(),
+            resultado: $("#resultadoAlcalinidad").val(),
+            _token: $('input[name="_token"]').val()
+        },
+        dataType: "json",
+        success: function (response) {
+            console.log(response);
+            getLoteCapturaVol();
+        }
+    });
 }
 function guardarCloro() {
     $.ajax({
