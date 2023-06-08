@@ -638,6 +638,56 @@ function setBitacora()
                     $("#iGA2").val(response.model.Vol_muestra);
                     $("#eGA2").val(response.model.F_conversion);
                 break;
+                case 15://Solidos
+                    if (response.model.Id_parametro == 4) {
+                        document.getElementById('titulomasa1').innerHTML = 'Masa 2'
+                        document.getElementById('titulomasa2').innerHTML = 'Masa 6'
+                    } else {
+                        document.getElementById('titulomasa1').innerHTML = 'Masa B'
+                        document.getElementById('titulomasa2').innerHTML = 'Masa A'
+                    }
+                    switch (parseInt(response.model.Id_parametro)) { 
+                        case 3: // Directos
+                            
+                            break;
+                        case 47: // Por diferencia
+                        case 88:
+                        case 44:
+                        case 45:
+                            $("#nomParametro1SolidosDif").val(response.nom1);
+                            $("#val11SolidosDif").val(response.dif1.Resultado);
+                            $("#nomParametro2SolidosDif").val(response.nom2);
+                            $("#val21SolidosDif").val(response.dif2.Resultado);
+                            let res = (response.dif1.Resultado) - (response.dif2.Resultado);
+                            $("#preResDifSolidosDif").val(res);
+                            $("#resultadoSolidosDif").val(response.detalle.Resultado);
+                            $("#observacionSolidosDif").val(response.detalle.Observacion);
+                            break;
+                        default: // Default
+
+
+                            $("#m11Solidos").val(response.detalle.Masa1);
+                            $("#m12Solidos").val(response.detalle.Masa1);
+                            $("#m21Solidos").val(response.detalle.Masa2);
+                            $("#m22Solidos").val(response.detalle.Masa2);
+                            $("#pcm11Solidos").val(response.detalle.Peso_constante1);
+                            $("#pcm12Solidos").val(response.detalle.Peso_constante1);
+                            $("#pcm21Solidos").val(response.detalle.Peso_constante2);
+                            $("#pcm22Solidos").val(response.detalle.Peso_constante2);
+                            $("#pc1Solidos").val(response.detalle.Peso_muestra1);
+                            $("#pc2Solidos").val(response.detalle.Peso_muestra1);
+                            $("#pc21Solidos").val(response.detalle.Peso_muestra2);
+                            $("#pc22Solidos").val(response.detalle.Peso_muestra2);
+                            $("#v1Solidos").val(response.detalle.Vol_muestra);
+                            $("#v2Solidos").val(response.detalle.Vol_muestra);
+                            $("#f1Solidos").val(response.detalle.Factor_conversion);
+                            $("#f1Solidos").val(response.detalle.Factor_conversion);
+        
+                            $("#crisolSolidos").val(response.detalle.Crisol);
+                            $("#resultadoSolidos").val(response.detalle.Resultado);
+                                $("#observacionSolidos").val(response.detalle.Observacion);
+                            break;
+                    }
                 default:
 
                 break;
@@ -702,6 +752,22 @@ function setBitacora()
                         break;
                     case 13: // G&A
                         tab += '<td><input hidden id="idMuestra'+item.Id_detalle+'" value="'+item.Id_detalle+'"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra('+item.Id_detalle+');" data-toggle="modal" data-target="#modalCapturaGA">Capturar</button>';
+                        break;
+                    case 15: // Solidos
+                        switch (parseInt(item.Id_parametro)) { 
+                            case 3: // Directos
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalCapturaSolidosDir">Capturar</button>';
+                                break;
+                            case 47: // Por diferencia
+                            case 88:
+                            case 44:
+                            case 45:
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalCapturaSolidosDif">Capturar</button>';
+                                break;
+                            default: // Default
+                                tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCapturaSolidos">Capturar</button>';
+                                break;
+                        }
                         break;
                     default:
                         break;

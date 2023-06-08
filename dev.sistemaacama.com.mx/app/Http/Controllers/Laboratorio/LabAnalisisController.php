@@ -241,6 +241,10 @@ class LabAnalisisController extends Controller
         $model = array();
         $curva = array();
         $blanco = array();
+        $dif1 = "Sin datos";
+        $dif2 = "Sin datos";
+        $nom1 = 'sin nombre';
+        $nom2 = 'sin nombre';
 
         $lote = LoteAnalisis::where('Id_lote', $res->idLote)->get();
         if ($lote->count()) {
@@ -257,6 +261,50 @@ class LabAnalisisController extends Controller
                 case 13: //G&A
                     $model = DB::table("ViewLoteDetalleGA")->where('Id_detalle', $res->id)->first();
                     break;
+                case 15:// Solidos
+                    $model = DB::table('ViewLoteDetalleSolidos')->where('Id_detalle', $res->idDetalle)->first(); // Asi se hara con las otras
+                    switch ($lote[0]->Id_parametro) {
+                        case 112: // SDT 
+                            $nom1 = "ST";
+                            $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 91)->first();
+                            $nom2 = "SST";
+                            $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 93)->first();
+                            break;
+                        case 44: // SDV
+                            $nom1 = "STV";
+                            $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 49)->first();
+                            $nom2 = "SSV";
+                            $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 47)->first();
+                            break;
+                        case 43: // SDF
+                            $nom1 = "SDT";
+                            $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 89)->first();
+                            $nom2 = "SDV";
+                            $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 45)->first();
+                            break;
+                        case 45: // SSF
+                            $nom1 = "SST";
+                            $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 93)->first();
+                            $nom2 = "SSV";
+                            $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 47)->first();
+                            break;
+                        case 47: // STF
+                            $nom1 = "ST";
+                            $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 91)->first();
+                            $nom2 = "STV";
+                            $dif2 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 49)->first();
+                            break;
+                        case 3: // SS
+                            $dif1 = DB::table("ViewLoteDetalleSolidos")->where("Folio_servicio", $model->Folio_servicio)->where('Id_parametro', 3)->first();
+                            break;
+                        default:
+                            $dif1 = "Sin datos";
+                            $dif2 = "Sin datos";
+                            $nom1 = 'sin nombre';
+                            $nom2 = 'sin nombre';
+                            break;
+                    }
+                    break;
                 default:
                     $model = array();
                     break;
@@ -268,6 +316,10 @@ class LabAnalisisController extends Controller
             'curva' => $curva,
             'lote' => $lote,
             'blanco' => $blanco,
+            'nom1' => $nom1,
+            'nom2' => $nom2,
+            'dif1' => $dif1,
+            'dif2' => $dif2,
         );
         return response()->json($data);
     }
@@ -739,6 +791,16 @@ class LabAnalisisController extends Controller
 
                         $model = LoteDetalleGA::where('Id_lote', $res->idLote)->get();
                     break;
+                case 15://Solidos
+                    $muestra = LoteDetalleSolidos::where('Id_detalle', $res->idMuestra)->first();
+                    $model = $muestra->replicate();
+                    $model->Id_control = $res->idControl;
+                    $model->Resultado = NULL;
+                    $model->Liberado = 0;
+                    $model->save();
+
+                    $model = LoteDetalleSolidos::where('Id_lote', $res->idLote)->get();
+                    break;
                 default:
                     $model = array();
                     break;
@@ -807,6 +869,25 @@ class LabAnalisisController extends Controller
                     }
                     $model = LoteDetalleGA::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
                     break;
+                case 15://Solidos
+                    $muestras = LoteDetalleSolidos::where('Id_lote', $res->idLote)->where('Liberado', 0)->get();
+                    foreach ($muestras as $item) {
+                        $model = LoteDetalleSolidos::find($item->Id_detalle);
+                        $model->Liberado = 1;
+                        if ($model->Resultado != null) {
+                            $sw = true;
+                            $model->save();
+                        }
+                        if ($item->Id_control == 1) {
+                            $modelCod = CodigoParametros::find($model->Id_codigo);
+                            $modelCod->Resultado = $model->Resultado;
+                            $modelCod->Resultado2 = $model->Resultado;
+                            $modelCod->Analizo = Auth::user()->id;
+                            $modelCod->save();
+                        }
+                    }
+                    $model = LoteDetalleSolidos::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                    break;
                 default:
                     $model = array();
                     break;
@@ -867,6 +948,22 @@ class LabAnalisisController extends Controller
                 $modelCod->save();
 
                 $model = LoteDetalleGA::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
+                break;
+            case 15://Solidos
+                $model = LoteDetalleSolidos::find($res->idMuestra);
+                $model->Liberado = 1;
+                if ($model->Resultado != null) {
+                    $sw = true;
+                    $model->save();
+                }
+
+                $modelCod = CodigoParametros::find($model->Id_codigo);
+                $modelCod->Resultado = $model->Resultado;
+                $modelCod->Resultado2 = $model->Resultado;
+                $modelCod->Analizo = Auth::user()->id;
+                $modelCod->save();
+
+                $model = LoteDetalleSolidos::where('Id_lote', $res->idLote)->where('Liberado', 1)->get();
                 break;
             default:
                 $model = array();

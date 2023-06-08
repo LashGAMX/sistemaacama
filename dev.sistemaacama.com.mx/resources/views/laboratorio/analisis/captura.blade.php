@@ -219,16 +219,16 @@
         {{-- Inicio de Body --}}
         <ul class="nav nav-tabs" id="myTab" role="tablist">
           <li class="nav-item" role="presentation">
-            <button class="nav-link active" id="general-tab" data-toggle="tab" data-target="#general" type="button" role="tab"
-              aria-controls="general" aria-selected="true">General</button>
+            <button class="nav-link active" id="general-tab" data-toggle="tab" data-target="#general" type="button"
+              role="tab" aria-controls="general" aria-selected="true">General</button>
           </li>
           <li class="nav-item" role="presentation">
             <button class="nav-link" id="tabGa-tab" data-toggle="tab" data-target="#tabGa" type="button" role="tab"
               aria-controls="tabGa" aria-selected="false">Datos GA</button>
           </li>
           <li class="nav-item" role="presentation">
-            <button class="nav-link" id="tabPlantillas-tab" data-toggle="tab" data-target="#tabPlantillas" type="button" role="tab"
-              aria-controls="tabPlantillas" aria-selected="false">Plantilla</button>
+            <button class="nav-link" id="tabPlantillas-tab" data-toggle="tab" data-target="#tabPlantillas" type="button"
+              role="tab" aria-controls="tabPlantillas" aria-selected="false">Plantilla</button>
           </li>
         </ul>
         <div class="tab-content" id="myTabContent">
@@ -239,7 +239,8 @@
             <!-- inicio tabla grasas   -->
             <div class="row">
               <div class="col-md-4">
-                <button type="button" id="btnSetDetalleGrasas" class="btn-primary"><i class="fas fa-save"></i> Guardar</button>
+                <button type="button" id="btnSetDetalleGrasas" class="btn-primary"><i class="fas fa-save"></i>
+                  Guardar</button>
               </div>
             </div>
             <div class="row">
@@ -307,7 +308,7 @@
                       <td><input type="datetime-local" id="2pesadoGA3" /></td>
                     </tr>
                   </tbody>
-                </table> 
+                </table>
                 <h4>3. Secado de Cartuchos</h4>
                 <hr />
                 <table class="table">
@@ -339,7 +340,7 @@
                       <td><input type="datetime-local" id="4salidaGA" /></td>
                     </tr>
                   </tbody>
-                </table> 
+                </table>
                 <h4>5. Enfriado de matraces</h4>
                 <hr />
                 <table class="table">
@@ -418,11 +419,11 @@
   </div>
 </div>
 
-{{--? Fin modal control calidad --}}
+{{--todo Fin modal control calidad --}}
 
-{{--todo INICIO Modal de capturas de parametros --}}
+{{--! INICIO Modal de capturas de parametros --}}
 
-{{--? Inicio COT --}}
+{{--todo Inicio COT --}}
 <div class="modal fade" id="modalCapturaCOT" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
@@ -720,9 +721,9 @@
   </div>
 
 </div>
-{{--? Fin COT --}}
+{{--todo Fin COT --}}
 
-{{--? Inicio Sulfatos --}}
+{{--todo Inicio Sulfatos --}}
 
 <div class="modal fade" id="modalCapturaSulfatos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
@@ -886,134 +887,373 @@
   </div>
 </div>
 
-  {{--? Fin Sulfatos --}}
+{{--todo Fin Sulfatos --}}
 
-  {{--? Inicio GA --}}
+{{--todo Inicio GA --}}
 
-  <div class="modal fade" id="modalCapturaGA" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title" id="">Captura de resultados GA</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
+<div class="modal fade" id="modalCapturaGA" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Captura de resultados GA</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="">Observación</label>
+              <input type="text" class="form-control" id="observacionGA" placeholder="Observacion de la muestra">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success" type="button" onclick="setObservacion('observacionGA')"><i
+                  class="voyager-check"></i> Aplicar</button>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i>
+              Ejecutar</button>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="resultado">Resultado</label>
+              <input type="text" id="resultadoGA" style="font-size: 20px;color:red;" placeholder="Resultado">
+            </div>
+          </div>
+          <div class="col-md-5">
+            <input type="text" id="pGA" style="font-size: 20px;color:blue;" placeholder="No. Serie Matraz">
+          </div>
+          <div class="col-md-12">
+            <table class="table" id="">
+              <thead>
+                <tr>
+                  <th>Parametro</th>
+                  <th>Descripción</th>
+                  <th>Valor</th>
+                  <th>Valor2</th>
+                  <th>Tipo</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>H</td>
+                  <td>Masa Final</td>
+                  <td><input type="text" id="hGA1" value="0"></td>
+                  <td><input type="text" id="hGA2" value="0"></td>
+                  <td>V</td>
+                </tr>
+                <tr>
+                  <td>J</td>
+                  <td>Masa Inicial 1</td>
+                  <td><input type="text" id="jGA1" value="0"></td>
+                  <td><input type="text" id="jGA2" value="0"></td>
+                  <td>V</td>
+                </tr>
+                <tr>
+                  <td>K</td>
+                  <td>Masa Inicial 2</td>
+                  <td><input type="text" id="kGA1" value="0"></td>
+                  <td><input type="text" id="kGA2" value="0"></td>
+                  <td>V</td>
+                </tr>
+                <tr>
+                  <td>C</td>
+                  <td>Masa Inicial 3</td>
+                  <td><input type="text" id="cGA1" value="0"></td>
+                  <td><input type="text" id="cGA2" value="0"></td>
+                  <td>V</td>
+                </tr>
+                <tr>
+                  <td>L</td>
+                  <td>Ph</td>
+                  <td><input type="text" id="lGA1" value="0"></td>
+                  <td><input type="text" id="lGA2" value="0"></td>
+                  <td>V</td>
+                </tr>
+                <tr>
+                  <td>I</td>
+                  <td>Volumen</td>
+                  <td><input type="text" id="iGA1" value="0"></td>
+                  <td><input type="text" id="iGA2" value="0"></td>
+                  <td>V</td>
+                </tr>
+                <tr>
+                  <td>G</td>
+                  <td>Blanco</td>
+                  <td><input type="text" id="gGA1" value="0"></td>
+                  <td><input type="text" id="gGA2" value="0"></td>
+                  <td>F</td>
+                </tr>
+                <tr>
+                  <td>E</td>
+                  <td>Factor de conversión</td>
+                  <td><input type="text" id="eGA1" value="1000000"></td>
+                  <td><input type="text" id="eGA2" value="1000000"></td>
+                  <td>C</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="modal-body">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="form-group">
-                <label for="">Observación</label>
-                <input type="text" class="form-control" id="observacionGA" placeholder="Observacion de la muestra">
-              </div>
-              <div class="form-group">
-                <button class="btn btn-success" type="button" onclick="setObservacion('observacionGA')"><i
-                    class="voyager-check"></i> Aplicar</button>
-              </div>
-            </div>
+      </div>
 
-            <div class="col-md-2">
-              <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i>
-                Ejecutar</button>
+    </div>
+  </div>
+</div>
+
+{{--todo Fin GA --}}
+
+{{--todo Inicio Modal Solidos --}}
+
+{{--* Inicio modal directo --}}
+<div class="modal fade" id="modalCapturaSolidosDir" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Captura de resultados Solidos (Diferencia)</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="">Observación</label>
+              <input type="text" class="form-control" id="observacionSolidosDir" placeholder="Observacion de la muestra">
             </div>
-            <div class="col-md-5">
-              <div class="form-group">
-                <label for="resultado">Resultado</label>
-                <input type="text" id="resultadoGA" style="font-size: 20px;color:red;" placeholder="Resultado">
+            <div class="form-group">
+              <button class="btn btn-success" type="button" onclick="setObservacion('observacionSolidosDir')"><i
+                  class="voyager-check"></i> Aplicar</button>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i>
+              Ejecutar</button>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="resultado">Resultado</label>
+              <input type="text" id="resultadoSolidosDir" style="font-size: 20px;color:red;" placeholder="Resultado">
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">Inmhoff</label>
+                  <input type="text" class="form-control" id="inmhoffSolidosDir">
+                </div>
+                <div class="form-group">
+                  <label for="">Resultado</label>
+                  <input type="text" class="form-control" id="resultadoModalSolidosDir">
+                </div>
+                <div class="form-group">
+                  <label for="">Temperatura de la muestra llegada</label>
+                  <input type="text" class="form-control" id="temperaturaLlegadaSolidosDir">
+                </div>
+                <div class="form-group">
+                  <label for="">Temperatura de la muestra al analizar</label>
+                  <input type="text" class="form-control" id="temperaturaAnalizadaSolidosDir">
+
+                </div>
               </div>
-            </div>
-            <div class="col-md-5">
-              <input type="text" id="pGA" style="font-size: 20px;color:blue;" placeholder="No. Serie Matraz">
-            </div>
-            <div class="col-md-12">
-              <table class="table" id="">
-                <thead>
-                  <tr>
-                    <th>Parametro</th>
-                    <th>Descripción</th>
-                    <th>Valor</th>
-                    <th>Valor2</th>
-                    <th>Tipo</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  <tr>
-                    <td>H</td>
-                    <td>Masa Final</td>
-                    <td><input type="text" id="hGA1" value="0"></td>
-                    <td><input type="text" id="hGA2" value="0"></td>
-                    <td>V</td>
-                  </tr>
-                  <tr>
-                    <td>J</td>
-                    <td>Masa Inicial 1</td>
-                    <td><input type="text" id="jGA1" value="0"></td>
-                    <td><input type="text" id="jGA2" value="0"></td>
-                    <td>V</td>
-                  </tr>
-                  <tr>
-                    <td>K</td>
-                    <td>Masa Inicial 2</td>
-                    <td><input type="text" id="kGA1" value="0"></td>
-                    <td><input type="text" id="kGA2" value="0"></td>
-                    <td>V</td>
-                  </tr>
-                  <tr>
-                    <td>C</td>
-                    <td>Masa Inicial 3</td>
-                    <td><input type="text" id="cGA1" value="0"></td>
-                    <td><input type="text" id="cGA2" value="0"></td>
-                    <td>V</td>
-                  </tr>
-                  <tr>
-                    <td>L</td>
-                    <td>Ph</td>
-                    <td><input type="text" id="lGA1" value="0"></td>
-                    <td><input type="text" id="lGA2" value="0"></td>
-                    <td>V</td>
-                  </tr>
-                  <tr>
-                    <td>I</td>
-                    <td>Volumen</td>
-                    <td><input type="text" id="iGA1" value="0"></td>
-                    <td><input type="text" id="iGA2" value="0"></td>
-                    <td>V</td>
-                  </tr>
-                  <tr>
-                    <td>G</td>
-                    <td>Blanco</td>
-                    <td><input type="text" id="gGA1" value="0"></td>
-                    <td><input type="text" id="gGA2" value="0"></td>
-                    <td>F</td>
-                  </tr>
-                  <tr>
-                    <td>E</td>
-                    <td>Factor de conversión</td>
-                    <td><input type="text" id="eGA1" value="1000000"></td>
-                    <td><input type="text" id="eGA2" value="1000000"></td>
-                    <td>C</td>
-                  </tr>
-                </tbody>
-              </table>
             </div>
           </div>
         </div>
+      </div>
 
+    </div>
+  </div>
+</div>
+{{--* Fin modal directo --}}
+
+{{--* Inicio modal por diferencia --}}
+<div class="modal fade" id="modalCapturaSolidosDif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Captura de resultados Solidos (Diferencia)</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="">Observación</label>
+              <input type="text" class="form-control" id="observacionSolidosDif" placeholder="Observacion de la muestra">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success" type="button" onclick="setObservacion('observacionSolidosDif')"><i
+                  class="voyager-check"></i> Aplicar</button>
+            </div>
+          </div>
+
+          <div class="col-md-2">
+            <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i>
+              Ejecutar</button>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="resultado">Resultado</label>
+              <input type="text" id="resultadoSolidosDif" style="font-size: 20px;color:red;" placeholder="Resultado">
+            </div>
+          </div>
+          <div class="col-md-5">
+            <label for="preResDif">Pres resultado</label>
+            <input type="text" id="preResDifSolidosDif" style="font-size: 20px;color:blue;" placeholder="No. Serie Crisol">
+          </div>
+          <div class="col-md-12">
+            <table class="table" id=""> 
+              <thead>
+                <tr>
+                  <th>Parametro</th>
+                  <th>Valor</th>
+                  <th>Valor2</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <tr>
+                      <td><input type="text" id="nomParametro1SolidosDif"></td>
+                      <td><input type="text" id="val11SolidosDif" value="0"></td>
+                      <td><input type="text" id="val12SolidosDif" value="0"></td>
+                  </tr>
+                  <tr>
+                      <td><input type="text" id="nomParametro2SolidosDif"></td>
+                      <td><input type="text" id="val21SolidosDif" value="0"></td>
+                      <td><input type="text" id="val22SolidosDif" value="0"></td>
+                  </tr>
+     
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
+
+    </div>
   </div>
+</div>
+{{--* Fin modal por diferencia --}}
 
-  {{--? Fin GA --}}
+{{--* Inicio modal default --}}.
+<div class="modal fade" id="modalCapturaSolidos" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="">Captura de resultados Solidos</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="">Observación</label>
+              <input type="text" class="form-control" id="observacionSolidos" placeholder="Observacion de la muestra">
+            </div>
+            <div class="form-group">
+              <button class="btn btn-success" type="button" onclick="setObservacion('observacionSolidos')"><i
+                  class="voyager-check"></i> Aplicar</button>
+            </div>
+          </div>
 
-    {{--todo FIN Modal de capturas de parametros --}}
+          <div class="col-md-2">
+            <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i>
+              Ejecutar</button>
+          </div>
+          <div class="col-md-5">
+            <div class="form-group">
+              <label for="resultado">Resultado</label>
+              <input type="text" id="resultadoSolidos" style="font-size: 20px;color:red;" placeholder="Resultado">
+            </div>
+          </div>
+          <div class="col-md-5">
+            <input type="text" id="crisolSolidos" style="font-size: 20px;color:blue;" placeholder="No. Serie Matraz">
+          </div>
+          <div class="col-md-12">
+            <table class="table" id="">
+              <thead>
+                <tr>
+                  {{-- <th>Parametro</th> --}}
+                  <th>Descripción</th>
+                  <th>Valor</th>
+                  <th>Valor2</th>
+                  {{-- <th>Tipo</th> --}}
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>
+                    <div id="titulomasa1">Masa 6</div>
+                  </td>
+                  <td><input name="campos" type="text" id="m11Solidos" value="0"></td>
+                  <td><input name="campos" type="text" id="m12Solidos" value="0"></td>
+                </tr>
+                <tr>
+                  <td>
+                    <div id="titulomasa2Solidos">Masa 2</div>
+                  </td>
+                  <td><input name="campos" type="text" id="m21Solidos" value="0"></td>
+                  <td><input name="campos" type="text" id="m22Solidos" value="0"></td>
+                </tr>
+                <tr>
+                  <td>Peso constante c/muestra 1 A</td>
+                  <td><input name="campos" type="text" id="pcm11Solidos" value="0"></td>
+                  <td><input name="campos" type="text" id="pcm12Solidos" value="0"></td>
+                </tr>
+                <tr>
+                  <td>Peso constante c/muestra 2 A</td>
+                  <td><input name="campos" type="text" id="pcm21Solidos" value="0"></td>
+                  <td><input name="campos" type="text" id="pcm22Solidos" value="0"></td>
+                </tr>
+                <tr>
+                  <td>Peso constante 1 B</td>
+                  <td><input name="campos" type="text" id="pc1Solidos" value="0"></td>
+                  <td><input name="campos" type="text" id="pc2Solidos" value="0"></td>
+                </tr>
+                <tr>
+                  <td>Peso constante 2 B</td>
+                  <td><input name="campos" type="text" id="pc21Solidos" value="0"></td>
+                  <td><input name="campos" type="text" id="pc22Solidos" value="0"></td>
+                </tr>
+                <tr>
+                  <td>Volumen de muestra</td>
+                  <td><input name="campos" type="text" id="v1Solidos" value="0"></td>
+                  <td><input name="campos" type="text" id="v2Solidos" value="0"></td>
+                </tr>
+                <tr>
+                  <td>Factor de conversión</td>
+                  <td><input name="campos" type="text" id="f1Solidos" value="1000000"></td>
+                  <td><input name="campos" type="text" id="f2Solidos" value="1000000"></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
 
-    @endsection
+    </div>
+  </div>
+</div>
+{{--* Fin modal default --}}
+{{--todo Fin Modal Solidos --}}
 
-    @section('javascript')
-    <script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=0.0.2"></script>
-    <script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
-    <script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
-    <script src="{{asset('/assets/summer/summernote.js')}}"></script>
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
-    @stop
+{{--! FIN Modal de capturas de parametros --}}
+
+@endsection
+
+@section('javascript')
+<script src="{{asset('/public/js/laboratorio/analisis/captura.js')}}?v=0.0.2"></script>
+<script src="{{ asset('/public/js/libs/componentes.js')}}"></script>
+<script src="{{ asset('/public/js/libs/tablas.js') }}"></script>
+<script src="{{asset('/assets/summer/summernote.js')}}"></script>
+<link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote-bs4.min.js"></script>
+@stop
