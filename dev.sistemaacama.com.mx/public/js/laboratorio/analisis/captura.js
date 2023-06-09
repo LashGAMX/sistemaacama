@@ -457,6 +457,88 @@ function setBitacora()
                 }
             });
         break;
+        case 15:// Solidos
+            switch (parseInt($('#parametro').val())) { 
+                case 3: // Directos
+                $.ajax({
+                    type: "POST",
+                    url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                    data: {
+                        idLote:idLote,
+                        idMuestra: idMuestra,
+                        resultado: $("#resultadoModalSolidosDir").val(),
+                        inmhoff: $("#inmhoffSolidosDir").val(),
+                        temperaturaLlegada: $("#temperaturaLlegadaSolidosDir").val(),
+                        temperaturaAnalizada: $("#temperaturaAnalizadaSolidosDir").val(),
+                        _token: $('input[name="_token"]').val()
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        console.log(response);
+                        $("#resultadoSolidosDir").val(response.model.Resultado)
+                    }
+                });
+                    break;
+                case 47: // Por diferencia
+                case 88:
+                case 44:
+                case 45:
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                        data: {
+                            idLote:idLote,
+                            idMuestra: idMuestra,
+                            resultado: $("#preResDifSolidosDif").val(),
+                            val1: $("#val11SolidosDif").val(),
+                            val2: $("#val21SolidosDif").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            $("#resultadoSolidosDif").val(response.res);
+                        }
+                    });
+                    break;
+                default: // Default
+                    $.ajax({
+                        type: "POST",
+                        url: base_url + "/admin/laboratorio/" + area + "/setDetalleMuestra", 
+                        data: {
+                            idLote:idLote,
+                            idMuestra: idMuestra,
+                            R: $("#resultadoSolidos").val(),
+                            crisol: $("#crisolSolidos").val(),
+                            masa1: $("#m11Solidos").val(),
+                            masa2: $("#m21Solidos").val(),
+                            pesoConMuestra1: $("#pcm11Solidos").val(),
+                            pesoConMuestra2: $("#pcm21Solidos").val(),
+                            pesoC1: $("#pc1Solidos").val(),
+                            pesoC2: $("#pc21Solidos").val(),
+                            volumen: $("#v1Solidos").val(),
+                            factor: $("#f1Solidos").val(),
+                            _token: $('input[name="_token"]').val()
+                        },
+                        dataType: "json",
+                        success: function (response) {
+                            console.log(response);
+                            if ($("#resultadoSolidos").val() != "") {
+                                $('#crisolSolidos').val(response.model.Crisol);
+                                $("#m11Solidos").val(response.model.Masa1);
+                                $("#m21Solidos").val(response.model.Masa2);
+                                $("#pcm11Solidos").val(response.model.Peso_muestra1);
+                                $("#pcm21Solidos").val(response.model.Peso_muestra2);
+                                $("#pc1Solidos").val(response.model.Peso_constante1);
+                                $("#pc21Solidos").val(response.model.Peso_constante2);
+                            } else {
+                                $('#resultadoSolidos').val(response.model.Resultado.toFixed(4));   
+                            }
+                        }
+                    });
+                    break;
+            }
+        break;
         default:
             break;
     }
@@ -640,11 +722,11 @@ function setBitacora()
                 break;
                 case 15://Solidos
                     if (response.model.Id_parametro == 4) {
-                        document.getElementById('titulomasa1').innerHTML = 'Masa 2'
-                        document.getElementById('titulomasa2').innerHTML = 'Masa 6'
+                        document.getElementById('titulomasa1Solidos').innerHTML = 'Masa 2'
+                        document.getElementById('titulomasa2Solidos').innerHTML = 'Masa 6'
                     } else {
-                        document.getElementById('titulomasa1').innerHTML = 'Masa B'
-                        document.getElementById('titulomasa2').innerHTML = 'Masa A'
+                        document.getElementById('titulomasa1Solidos').innerHTML = 'Masa B'
+                        document.getElementById('titulomasa2Solidos').innerHTML = 'Masa A'
                     }
                     switch (parseInt(response.model.Id_parametro)) { 
                         case 3: // Directos
@@ -660,36 +742,35 @@ function setBitacora()
                             $("#val21SolidosDif").val(response.dif2.Resultado);
                             let res = (response.dif1.Resultado) - (response.dif2.Resultado);
                             $("#preResDifSolidosDif").val(res);
-                            $("#resultadoSolidosDif").val(response.detalle.Resultado);
-                            $("#observacionSolidosDif").val(response.detalle.Observacion);
+                            $("#resultadoSolidosDif").val(response.model.Resultado);
+                            $("#observacionSolidosDif").val(response.model.Observacion);
                             break;
                         default: // Default
 
-
-                            $("#m11Solidos").val(response.detalle.Masa1);
-                            $("#m12Solidos").val(response.detalle.Masa1);
-                            $("#m21Solidos").val(response.detalle.Masa2);
-                            $("#m22Solidos").val(response.detalle.Masa2);
-                            $("#pcm11Solidos").val(response.detalle.Peso_constante1);
-                            $("#pcm12Solidos").val(response.detalle.Peso_constante1);
-                            $("#pcm21Solidos").val(response.detalle.Peso_constante2);
-                            $("#pcm22Solidos").val(response.detalle.Peso_constante2);
-                            $("#pc1Solidos").val(response.detalle.Peso_muestra1);
-                            $("#pc2Solidos").val(response.detalle.Peso_muestra1);
-                            $("#pc21Solidos").val(response.detalle.Peso_muestra2);
-                            $("#pc22Solidos").val(response.detalle.Peso_muestra2);
-                            $("#v1Solidos").val(response.detalle.Vol_muestra);
-                            $("#v2Solidos").val(response.detalle.Vol_muestra);
-                            $("#f1Solidos").val(response.detalle.Factor_conversion);
-                            $("#f1Solidos").val(response.detalle.Factor_conversion);
+                            $("#m11Solidos").val(response.model.Masa1);
+                            $("#m12Solidos").val(response.model.Masa1);
+                            $("#m21Solidos").val(response.model.Masa2);
+                            $("#m22Solidos").val(response.model.Masa2);
+                            $("#pcm11Solidos").val(response.model.Peso_constante1);
+                            $("#pcm12Solidos").val(response.model.Peso_constante1);
+                            $("#pcm21Solidos").val(response.model.Peso_constante2);
+                            $("#pcm22Solidos").val(response.model.Peso_constante2);
+                            $("#pc1Solidos").val(response.model.Peso_muestra1);
+                            $("#pc2Solidos").val(response.model.Peso_muestra1);
+                            $("#pc21Solidos").val(response.model.Peso_muestra2);
+                            $("#pc22Solidos").val(response.model.Peso_muestra2);
+                            $("#v1Solidos").val(response.model.Vol_muestra);
+                            $("#v2Solidos").val(response.model.Vol_muestra);
+                            $("#f1Solidos").val(response.model.Factor_conversion);
+                            $("#f1Solidos").val(response.model.Factor_conversion);
         
-                            $("#crisolSolidos").val(response.detalle.Crisol);
-                            $("#resultadoSolidos").val(response.detalle.Resultado);
-                                $("#observacionSolidos").val(response.detalle.Observacion);
+                            $("#crisolSolidos").val(response.model.Crisol);
+                            $("#resultadoSolidos").val(response.model.Resultado);
+                                $("#observacionSolidos").val(response.model.Observacion);
                             break;
                     }
                 default:
-
+ 
                 break;
             }
         }
@@ -768,6 +849,22 @@ function setBitacora()
                                 tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCapturaSolidos">Capturar</button>';
                                 break;
                         }
+                        break;
+                    case 14: // Volumetria
+                            switch (parseInt(item.Id_parametro)) { 
+                                case 3: // Cloro
+                                    tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalCapturaSolidosDir">Capturar</button>';
+                                    break;
+                                case 47: // Por diferencia
+                                case 88:
+                                case 44:
+                                case 45:
+                                    tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',2);" data-toggle="modal" data-target="#modalCapturaSolidosDif">Capturar</button>';
+                                    break;
+                                default: // Default
+                                    tab += '<td><input hidden id="idMuestra' + item.Id_detalle + '" value="' + item.Id_detalle + '"><button '+status+' type="button" class="btn btn-'+color+'" onclick="getDetalleMuestra(' + item.Id_detalle + ',1);" data-toggle="modal" data-target="#modalCapturaSolidos">Capturar</button>';
+                                    break;
+                            }
                         break;
                     default:
                         break;

@@ -345,7 +345,7 @@ ON det.Id_analisis = sol.Id_solicitud
 INNER JOIN parametros as param
 ON det.Id_parametro = param.Id_parametro
 INNER JOIN control_calidad as con
-ON det.Id_control = con.Id_control
+ON det.Id_control = con.Id_controlViewLoteDetalleSolidos
 INNER JOIN codigo_parametro as cod
 ON det.Id_codigo = cod.Id_codigo
 

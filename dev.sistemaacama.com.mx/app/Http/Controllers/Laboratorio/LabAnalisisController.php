@@ -6,12 +6,16 @@ use App\Http\Controllers\Controller;
 use App\Models\Bitacoras;
 use App\Models\CodigoParametros;
 use App\Models\ControlCalidad;
+use App\Models\CrisolesGA;
 use App\Models\CurvaConstantes;
 use App\Models\GrasasDetalle;
 use App\Models\LoteAnalisis;
 use App\Models\LoteDetalle;
+use App\Models\LoteDetalleCloro;
+use App\Models\LoteDetalleDqo;
 use App\Models\LoteDetalleEspectro;
 use App\Models\LoteDetalleGA;
+use App\Models\LoteDetalleNitrogeno;
 use App\Models\LoteDetalleSolidos;
 use App\Models\MatrazGA;
 use App\Models\Parametro;
@@ -195,6 +199,59 @@ class LabAnalisisController extends Controller
                         'Analizo' => 1,
                     ]);
                     $tempModel = LoteDetalleSolidos::where('Id_lote', $res->idLote)->get();
+                    break;
+                case 14://volumetria
+                    switch ($model->Id_parametro) {
+                        case 6:
+                            $model = LoteDetalleDqo::create([
+                                'Id_lote' => $res->idLote,
+                                'Id_analisis' => $model->Id_solicitud,
+                                'Id_codigo' => $model->Id_codigo,
+                                'Id_parametro' => $model->Id_parametro,
+                                'Id_control' => 1,
+                                'Analizo' => 1,
+                                'Liberado' => 0,
+                            ]);
+                            $tempModel = LoteDetalleDqo::where('Id_lote', $res->idLote)->get();
+                            break;
+                        case 33:
+                        case 218:
+                        case 64:
+                            $model = LoteDetalleCloro::create([
+                                'Id_lote' => $res->idLote,
+                                'Id_analisis' => $model->Id_solicitud,
+                                'Id_codigo' => $model->Id_codigo,
+                                'Id_parametro' => $model->Id_parametro,
+                                'Id_control' => 1,
+                                'Analizo' => 1,
+                                'Liberado' => 0,
+                            ]);
+                            $tempModel = LoteDetalleCloro::where('Id_lote', $res->idLote)->get();
+                            break;
+                        case "9":
+                        case 10:
+                        case 11:
+                        case 287:
+                        case 83:
+                        case 108:
+                            $model = LoteDetalleNitrogeno::create([
+                                'Id_lote' => $res->idLote,
+                                'Id_analisis' => $model->Id_solicitud,
+                                'Id_codigo' => $model->Id_codigo,
+                                'Id_parametro' => $model->Id_parametro,
+                                'Id_control' => 1,
+                                'Id_control' => 1,
+                                'Analizo' => 1,
+                                'Liberado' => 0,
+                            ]);
+                            $tempModel = LoteDetalleNitrogeno::where('Id_lote', $res->idLote)->get();
+                            break;
+                        default:
+                            # code...
+                            break;
+                    }
+            
+                    break;
                 default:
                     break;
             }
@@ -221,6 +278,29 @@ class LabAnalisisController extends Controller
                     break;
                 case 15: // Solidos
                     $model = DB::table('ViewLoteDetalleSolidos')->where('Id_lote', $res->idLote)->get();
+                    break;
+                case 14://Volumetria
+                    switch ($$lote[0]->Id_tecnica) {
+                        case 6: // Dqo
+                            $model = DB::table('ViewLoteDetalleDqo')->where('Id_lote', $res->idLote)->get();
+                            break;
+                        case 33: // Cloro
+                        case 218:
+                        case 64:
+                            $model = DB::table('ViewLoteDetalleCloro')->where('Id_lote', $res->idLote)->get();
+                            break;
+                        case "9": // Nitrogeno
+                        case 10:
+                        case 11:
+                        case 287:
+                        case 83:
+                        case 108:
+                            $model = DB::table('ViewLoteDetalleNitrogeno')->where('Id_lote', $res->idLote)->get();
+                            break;
+                        default:
+                            # code...
+                            break;
+                    }
                     break;
                 default:
                     $model = array();
@@ -262,7 +342,7 @@ class LabAnalisisController extends Controller
                     $model = DB::table("ViewLoteDetalleGA")->where('Id_detalle', $res->id)->first();
                     break;
                 case 15:// Solidos
-                    $model = DB::table('ViewLoteDetalleSolidos')->where('Id_detalle', $res->idDetalle)->first(); // Asi se hara con las otras
+                    $model = DB::table('ViewLoteDetalleSolidos')->where('Id_detalle', $res->id)->first(); // Asi se hara con las otras
                     switch ($lote[0]->Id_parametro) {
                         case 112: // SDT 
                             $nom1 = "ST";
@@ -714,6 +794,81 @@ class LabAnalisisController extends Controller
                         $model->save();
                     }
     
+                    break;
+                case 15:
+                    switch ($lote[0]->Id_tecnica) {
+                        case 3: // Directos
+                    
+                            break;
+                        case 47: // Por diferencia
+                        case 88:
+                        case 44:
+                        case 45:
+                            $model = LoteDetalleSolidos::find($res->idMuestra);
+                            $model->Resultado = $res->resultado;
+                            $model->Masa1 = $res->val1;
+                            $model->Masa2 = $res->val2;
+                            $model->Analizo = Auth::user()->id;
+                            $model->save();
+                    
+                            break;
+                        default: // Default
+                            if ($res->R != "") {
+
+                                $modelCrisol = CrisolesGA::all();
+                                //? Aplica la busqueda de crisol hasta encontrar un crisol desocupado
+                                $cont = $modelCrisol->count();
+                
+                                for ($i = 0; $i < $cont; $i++) {
+                                    # code...
+                                    $id = rand(0, $modelCrisol->count());
+                                    $crisol = CrisolesGA::where('Id_crisol', $id)->first();
+                                    if ($crisol->Estado == 0) {
+                                        break;
+                                    }
+                                }
+                                
+                                
+                                $mf = ((($res->R / $res->factor) * $res->volumen) + $crisol->Peso);
+
+                                $model = LoteDetalleSolidos::find($res->idMuestra);
+                                $model->Id_crisol = $crisol->Id_crisol;
+                                $model->Crisol = $crisol->Num_serie;
+                                $model->Masa1 = $crisol->Peso;
+                                $model->Masa2 = $mf;
+                                $model->Peso_muestra1 = ($crisol->Peso + 0.0001);
+                                $model->Peso_muestra2 = ($crisol->Peso + 0.0002);
+                                $model->Peso_constante1 = $mf + 0.0001;
+                                $model->Peso_constante2 = $mf + 0.0002;
+                                $model->Vol_muestra = $res->volumen;
+                                $model->Factor_conversion = $res->factor;
+                                $model->Resultado = $res->R;
+                                $model->Analizo = Auth::user()->id;
+                                $model->save();
+                            } else {
+                                $res1 = $res->masa2 - $res->masa1;
+                                $res2 = $res1 / $res->volumen;
+                                $resultado = $res2 * $res->factor;
+                        
+                        
+                                $model = LoteDetalleSolidos::find($res->idMuestra);
+                                $model->Crisol = $res->crisol;
+                                $model->Masa1 = $res->masa1;
+                                $model->Masa2 = $res->masa2;
+                                $model->Peso_muestra1 = $res->pesoConMuestra1;
+                                $model->Peso_muestra2 = $res->pesoConMuestra2;
+                                $model->Peso_constante1 = $res->pesoC1;
+                                $model->Peso_constante2 = $res->pesoC2;
+                                $model->Vol_muestra = $res->volumen;
+                                $model->Factor_conversion = $res->factor;
+                                $model->Resultado = $resultado;
+                                $model->Analizo = Auth::user()->id;
+                                $model->save();
+                        
+                            }
+                            
+                            break;
+                    } 
                     break;
                 default:
                     $model = array();

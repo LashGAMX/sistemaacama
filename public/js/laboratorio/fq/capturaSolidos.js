@@ -390,7 +390,7 @@ function guardarDirecto() {
             _token: $('input[name="_token"]').val()
         },
         dataType: "json",
-        success: function (response) {guardarDirecto
+        success: function (response) {
             console.log(response);
           
         }
