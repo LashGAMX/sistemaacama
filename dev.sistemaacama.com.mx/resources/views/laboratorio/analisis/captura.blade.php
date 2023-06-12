@@ -1345,6 +1345,100 @@
   </div>
   {{--* Fin Modal Nitrogeno --}}
 
+    {{--* Inicio Modal Nitrogeno Equipo --}}
+    <div class="modal fade" id="modalCapturaNitrogenoEVol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="">Captura de resultados Nitrogeno</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">Observación</label>
+                  <input type="text" class="form-control" id="observacionNitrogenoEVol" placeholder="Observacion de la muestra">
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-success" type="button" onclick="setObservacion('observacionNitrogenoEVol')"><i
+                      class="voyager-check"></i> Aplicar</button>
+                </div>
+              </div>
+    
+              <div class="col-md-2">
+                <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i>
+                  Ejecutar</button>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                    <input type="text" id="resultadoNitrogenoEVol" style="font-size: 20px;color:red;" placeholder="Resultado">
+                </div>
+            </div>
+  
+              <div class="col-md-12">
+                <table class="table" id=""> 
+                  <thead>
+                    <tr>
+                      <th>Parametro</th>
+                      <th>Descripción</th>
+                      <th>Valor</th>
+                      <th>Valor2</th>
+                      <th>Tipo</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>A</td>
+                          <td>factor de dilución</td>
+                          <td><input type="text" id="factor1ENitrogenoEVol" value="0"></td>
+                          <td><input type="text" id="factor2NitrogenoEVol" value="0"></td>
+                          <td>V</td>
+                      </tr>
+                      <tr>
+                          <td>B</td>
+                          <td>Concentración de NH3 en mg/L</td>
+                          <td><input type="text" id="concentracion1ENitrogenoEVol" value="0"></td>
+                          <td><input type="text" id="concentracion2NitrogenoEVol" value="0"></td>
+                          <td>F</td>
+                      </tr>
+                      <tr>
+                          <td>C</td>
+                          <td>Volumen Añadido al std</td>
+                          <td><input type="text" id="volAñadidoStd1ENitrogenoEVol" value="0"></td>
+                          <td><input type="text" id="volAñadidoStd2NitrogenoEVol" value="0"></td>
+                          <td>F</td>
+                      </tr>
+                      
+                      <tr>
+                          <td>D</td>
+                          <td>Volumen Añadido a Muestra</td>
+                          <td><input type="text" id="VolAñadidoMuestra1ENitrogenoEVol" value="0"></td>
+                          <td><input type="text" id="VolAñadidoMuestra2NitrogenoEVol" value="0"></td>
+                          <td>C</td>
+                      </tr>
+                      <tr>
+                          <td>D</td>
+                          <td>Volumen de la Muestra en mL</td>
+                          <td><input type="text" id="volumenMuestraE1NitrogenoEVol" value="100"></td>
+                          <td><input type="text" id="volumenMuestraE2NitrogenoEVol" value="100"></td>
+                          <td>C</td>
+                      </tr>
+      
+      
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+    {{--* Fin Modal Nitrogeno Equipo --}}
+
   {{--* Inicio Modal Cloro --}}
   <div class="modal fade" id="modalCloroVol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -1444,7 +1538,7 @@
   {{--* Fin Modal Cloro --}}
 
   {{--* Inicio Modal Dbo --}}
-  <div class="modal fade" id="modalDboVol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal fade" id="modalDqoVol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -1458,10 +1552,10 @@
             <div class="col-md-12">
               <div class="form-group">
                 <label for="">Observación</label>
-                <input type="text" class="form-control" id="observacionDboVol" placeholder="Observacion de la muestra">
+                <input type="text" class="form-control" id="observacionDqoVol" placeholder="Observacion de la muestra">
               </div>
               <div class="form-group">
-                <button class="btn btn-success" type="button" onclick="setObservacion('observacionDboVol')"><i
+                <button class="btn btn-success" type="button" onclick="setObservacion('observacionDqoVol')"><i
                     class="voyager-check"></i> Aplicar</button>
               </div>
             </div>
@@ -1471,93 +1565,269 @@
             </div>
             <div class="col-md-8">
               <div class="form-group">
-                <input type="text" id="resultadoDboVol" style="font-size: 20px;color:red;"
+                <input type="text" id="resultadoDqoVol" style="font-size: 20px;color:red;"
                     placeholder="Resultado">
             </div>
           </div>
 
             <div class="col-md-12">
-              <table class="table">
+              <table class="table" id=""> 
                 <thead>
-                    <tr>
-                        <th>Parametro</th>
-                        <th>Descripción</th>
-                        <th>Valor</th>
-                        <th>Valor2</th>
-                        <th>Tipo</th>
-                    </tr>
+                  <tr>
+                    <th>Parametro</th>
+                    <th>Descripción</th>
+                    <th>Valor</th>
+                    <th>Valor2</th>
+                    <th>Tipo-</th>
+                  </tr>
                 </thead>
+                <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
                 <tbody>
                     <tr>
-                        <td>ABS</td>
-                        <td>ABS Promedio</td>
-                        <td><input type="text" id="abs1DboVol"></td>
-                        <td><input type="text" id="abs2DboVol"></td>
+                        <td>B</td>
+                        <td>Mililitros Titulados Muestra</td>
+                        <td><input type="text" id="tituladoDqo1DqoVol" value="0"></td>
+                        <td><input type="text" id="tituladoDqo2DqoVol" value="0"></td>
+                        <td>V</td>
+                    </tr>
+                    <tr>
                         <td>C</td>
+                        <td>Molaridad del FAS</td>
+                        <td><input type="text" id="MolaridadDqo1DqoVol" value="0" disabled></td>
+                        <td><input type="text" id="MolaridadDqo2DqoVol" value="0"></td>
+                        <td>F</td>
                     </tr>
                     <tr>
                         <td>CA</td>
-                        <td>Blanco</td>
-                        <td><input name="campos" type="number" id="blanco1DboVol"></td>
-                        <td><input name="campos" type="number" id="blanco2DboVol"></td>
-                        <td>F</td>
-                    </tr>    
-                    <tr>
-                        <td>CB</td>
-                        <td>b</td>
-                        <td><input name="campos" type="number" id="b1DboVol" disabled></td>
-                        <td><input name="campos" type="number" id="b2DboVol"></td>
+                        <td>Mililitros titulados del blanco</td>
+                        <td><input type="text" id="blancoDqo1DqoVol" value="0" disabled></td>
+                        <td><input type="text" id="blancoDqo2DqoVol" value="0"></td>
                         <td>F</td>
                     </tr>
-                    <tr>
-                        <td>CM</td>
-                        <td>m</td>
-                        <td><input name="campos" type="number" id="m1DboVol" disabled></td>
-                        <td><input name="campos" type="number" id="m2DboVol"></td>
-                        <td>F</td>
-                    </tr>
-                    <tr>
-                        <td>CR</td>
-                        <td>r</td>
-                        <td><input name="campos" type="number" id="r1DboVol" disabled></td>
-                        <td><input name="campos" type="number" id="r2DboVol"></td>
-                        <td>F</td>
-                    </tr>          
                     <tr>
                         <td>D</td>
-                        <td>Factor dilucion</td>
-                        <td><input type="number" id="fDilucion1DboVol" disabled></td>
-                        <td><input type="number" id="fDilucion2DboVol" disabled></td>
-                        <td>V</td>
+                        <td>Factor de quivalencia</td>
+                        <td><input type="text" id="factorDqo1DqoVol" value="8000"></td>
+                        <td><input type="text" id="factorDqo2DqoVol" value="8000"></td> 
+                        <td>C</td>
                     </tr>
-
                     <tr>
                         <td>E</td>
-                        <td>Vol de la muestra</td>
-                        <td><input name="campos" type="number" id="volMuestra1DboVol"></td>
-                        <td><input name="campos" type="number" id="volMuestra2DboVol"></td>
+                        <td>Volumen de muestra</td>
+                        <td><input type="text" id="volDqo1DqoVol" value="0"></td>
+                        <td><input type="text" id="volDqo2DqoVol" value="0"></td>
                         <td>V</td>
                     </tr>
+                    
+                
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+  
+      </div>
+    </div>
+  </div>
+  {{--* Fin Modal Dbo --}}
+    {{--* Inicio Modal Dbo Espectro --}}
+    <div class="modal fade" id="modalDboEVol" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="">Captura de resultados Dbo</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">Observación</label>
+                  <input type="text" class="form-control" id="observacionDboEVol" placeholder="Observacion de la muestra">
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-success" type="button" onclick="setObservacion('observacionDboEVol')"><i
+                      class="voyager-check"></i> Aplicar</button>
+                </div>
+              </div>
+    
+              <div class="col-md-2">
+                <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <input type="text" id="resultadoDboEVol" style="font-size: 20px;color:red;"
+                      placeholder="Resultado">
+              </div>
+            </div>
+  
+              <div class="col-md-12">
+                <table class="table">
+                  <thead>
+                      <tr>
+                          <th>Parametro</th>
+                          <th>Descripción</th>
+                          <th>Valor</th>
+                          <th>Valor2</th>
+                          <th>Tipo</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>ABS</td>
+                          <td>ABS Promedio</td>
+                          <td><input type="text" id="abs1DboEVol"></td>
+                          <td><input type="text" id="abs2DboEVol"></td>
+                          <td>C</td>
+                      </tr>
+                      <tr>
+                          <td>CA</td>
+                          <td>Blanco</td>
+                          <td><input name="campos" type="number" id="blanco1DboEVol"></td>
+                          <td><input name="campos" type="number" id="blanco2DboEVol"></td>
+                          <td>F</td>
+                      </tr>    
+                      <tr>
+                          <td>CB</td>
+                          <td>b</td>
+                          <td><input name="campos" type="number" id="b1DboEVol" disabled></td>
+                          <td><input name="campos" type="number" id="b2DboEVol"></td>
+                          <td>F</td>
+                      </tr>
+                      <tr>
+                          <td>CM</td>
+                          <td>m</td>
+                          <td><input name="campos" type="number" id="m1DboEVol" disabled></td>
+                          <td><input name="campos" type="number" id="m2DboEVol"></td>
+                          <td>F</td>
+                      </tr>
+                      <tr>
+                          <td>CR</td>
+                          <td>r</td>
+                          <td><input name="campos" type="number" id="r1DboEVol" disabled></td>
+                          <td><input name="campos" type="number" id="r2DboEVol"></td>
+                          <td>F</td>
+                      </tr>          
+                      <tr>
+                          <td>D</td>
+                          <td>Factor dilucion</td>
+                          <td><input type="number" id="fDilucion1DboEVol" disabled></td>
+                          <td><input type="number" id="fDilucion2DboEVol" disabled></td>
+                          <td>V</td>
+                      </tr>
+
+                      <tr>
+                          <td>E</td>
+                          <td>Vol de la muestra</td>
+                          <td><input name="campos" type="number" id="volMuestra1DboEVol"></td>
+                          <td><input name="campos" type="number" id="volMuestra2DboEVol"></td>
+                          <td>V</td>
+                      </tr>
+                      <tr>
+                          <td>X</td>
+                          <td>Absorbancia1</td>
+                          <td><input name="campos" type="number" id="abs11DboEVol"></td>
+                          <td><input name="campos" type="number" id="abs12DboEVol"></td>
+                          <td>V</td>
+                      </tr>
+                      <tr>
+                          <td>Y</td>
+                          <td>Absorbancia2</td>
+                          <td><input name="campos" type="number" id="abs21DboEVol"></td>
+                          <td><input name="campos" type="number" id="abs22DboEVol"></td>
+                          <td>V</td>
+                      </tr>
+                      <tr>
+                          <td>Z</td>
+                          <td>Absorbancia3</td>
+                          <td><input name="campos" type="number" id="abs31DboEVol"></td>
+                          <td><input name="campos" type="number" id="abs32DboEVol"></td>
+                          <td>V</td>
+                      </tr>
+                  </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+    {{--* Fin Modal Dbo Espectro--}}
+{{--todo Fin Modal Volumetria  --}}
+
+{{--todo Inicio Modal Directos --}}
+  {{--* Inicio Modal Directo --}}
+  <div class="modal fade" id="modalDirecto" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="">Captura de resultados Directo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label for="">Observación</label>
+                <input type="text" class="form-control" id="observacionDirecto" placeholder="Observacion de la muestra">
+              </div>
+              <div class="form-group">
+                <button class="btn btn-success" type="button" onclick="setObservacion('observacionDirecto')"><i
+                    class="voyager-check"></i> Aplicar</button>
+              </div>
+            </div>
+  
+            <div class="col-md-2">
+              <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
+            </div>
+            <div class="col-md-8">
+              <div class="form-group">
+                <input type="text" id="resultadoDirecto" style="font-size: 20px;color:red;"
+                    placeholder="Resultado">
+            </div>
+          </div>
+
+            <div class="col-md-12">
+              <table class="table" id="">
+                <thead>
                     <tr>
-                        <td>X</td>
-                        <td>Absorbancia1</td>
-                        <td><input name="campos" type="number" id="abs11DboVol"></td>
-                        <td><input name="campos" type="number" id="abs12DboVol"></td>
-                        <td>V</td>
+                        <th>Parametro</th>                       
+                        <th>Valor</th>
+                        <th>Valor2</th>
+                        
+                    </tr>
+                </thead>
+                <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                <tbody>
+                   
+                    <tr>
+                        <td>L1.</td>
+                        <td><input type="text" id="lecturaUno1Directo" value="0"></td>
+                        <td><input type="text" id="lecturaUno2Directo" value="0"></td>
+                        
                     </tr>
                     <tr>
-                        <td>Y</td>
-                        <td>Absorbancia2</td>
-                        <td><input name="campos" type="number" id="abs21DboVol"></td>
-                        <td><input name="campos" type="number" id="abs22DboVol"></td>
-                        <td>V</td>
+                        <td>L2.</td>
+                        <td><input type="text" id="lecturaDos1Directo" value="0"></td>
+                        <td><input type="text" id="lecturaDos2Directo" value="0"></td>
+                        
                     </tr>
                     <tr>
-                        <td>Z</td>
-                        <td>Absorbancia3</td>
-                        <td><input name="campos" type="number" id="abs31DboVol"></td>
-                        <td><input name="campos" type="number" id="abs32DboVol"></td>
-                        <td>V</td>
+                        <td>L3.</td>                                         
+                        <td><input type="text" id="lecturaTres1Directo" value="0"></td>
+                        <td><input type="text" id="lecturaTres2Directo" value="0"></td>
+                       
+                    </tr>
+                    <tr>
+                        <td>Temperatura.</td>
+                        <td><input type="text" id="temperatura1Directo" value="0"></td>
+                        <td><input type="text" id="temperatura2Directo" value="0"></td>
+                      
                     </tr>
                 </tbody>
             </table>
@@ -1568,8 +1838,432 @@
       </div>
     </div>
   </div>
-  {{--* Fin Modal Dbo --}}
-{{--todo Fin Modal Volumetria  --}}
+  {{--* Fin Modal Directo --}}
+    {{--* Inicio Modal Turbiedad --}}
+    <div class="modal fade" id="modalDirectoTur" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="">Captura de resultados Directo</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">Observación</label>
+                  <input type="text" class="form-control" id="observacionDirectoTur" placeholder="Observacion de la muestra">
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-success" type="button" onclick="setObservacion('observacionDirectoTur')"><i
+                      class="voyager-check"></i> Aplicar</button>
+                </div>
+              </div>
+    
+              <div class="col-md-2">
+                <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <input type="text" id="resultadoDirectoTur" style="font-size: 20px;color:red;"
+                      placeholder="Resultado">
+              </div>
+            </div>
+  
+              <div class="col-md-12">
+                <table class="table" id="">
+                  <thead>
+                      <tr>
+                          <th>Parametro</th>
+                         
+                          <th>Valor</th>
+                          <th>Valor2</th>
+                          
+                      </tr>
+                  </thead>
+                  <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                  <tbody>
+                      <tr>
+                          <td>Factor de Dilución.</td>
+                          <td><input type="text" id="dilusionTurb1DirectoTur" value="1"></td>
+                          <td><input type="text" id="dilusionTurb2DirectoTur" value="1"></td>
+                        
+                      </tr>
+                      <tr>
+                          <td>Volumen de Muestra.</td>
+                          <td><input type="text" id="valumenTurb1DirectoTur" value="0"></td>
+                          <td><input type="text" id="volumenTurb2DirectoTur" value="0"></td>
+                        
+                      </tr>
+                      <tr>
+                          <td>L1.</td>
+                          <td><input type="text" id="lecturaUnoTurb1DirectoTur" value="0"></td>
+                          <td><input type="text" id="lecturaUnoTurb2DirectoTur" value="0"></td>
+                          
+                      </tr>
+                      <tr>
+                          <td>L2.</td>
+                          <td><input type="text" id="lecturaDosTurb1DirectoTur" value="0"></td>
+                          <td><input type="text" id="lecturaDosTurb2DirectoTur" value="0"></td>
+                          
+                      </tr>
+                      <tr>
+                          <td>L3.</td>                                         
+                          <td><input type="text" id="lecturaTresTurb1DirectoTur" value="0"></td>
+                          <td><input type="text" id="lecturaTresTurb2DirectoTur" value="0"></td>
+                         
+                      </tr>
+                      <tr>
+                          <td>Promedio.</td>
+                          <td><input type="text" id="promedioTurb1DirectoTur" value="0"></td>
+                          <td><input type="text" id="promedioTurb2DirectoTur" value="0"></td>
+                        
+                      </tr>
+                  </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+    {{--* Fin Modal Turbiedad --}}
+    {{--* Inicio Modal Cloruros --}}
+    <div class="modal fade" id="modalDirectoClo" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="">Captura de resultados Directo Cloruros</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">Observación</label>
+                  <input type="text" class="form-control" id="observacionDirectoClo" placeholder="Observacion de la muestra">
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-success" type="button" onclick="setObservacion('observacionDirectoClo')"><i
+                      class="voyager-check"></i> Aplicar</button>
+                </div>
+              </div>
+    
+              <div class="col-md-2">
+                <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <input type="text" id="resultadoDirectoClo" style="font-size: 20px;color:red;"
+                      placeholder="Resultado">
+              </div>
+            </div>
+  
+              <div class="col-md-12">
+                <table class="table" id="">
+                  <thead>
+                      <tr>
+                          <th>Parametro</th>
+                         
+                          <th>Valor</th>
+                          <th>Valor2</th>
+                          
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Fact. Dilución.</td>
+                          <td><input type="text" id="dilucionCloro1DirectoClo" value="0"></td>
+                          <td><input type="text" id="dilucionCloro2DirectoClo" value="0"></td>
+                        
+                      </tr>
+                      <tr>
+                          <td>Volumen de Muestra.</td>
+                          <td><input type="text" id="volumenCloro1DirectoClo" value="0"></td>
+                          <td><input type="text" id="volumenCloro2DirectoClo" value="0"></td>
+                        
+                      </tr>
+                      <tr>
+                          <td>L1.</td>
+                          <td><input type="text" id="lecturaUnoCloro1DirectoClo" value="0"></td>
+                          <td><input type="text" id="lecturaUnoCloro2DirectoClo" value="0"></td>
+                          
+                      </tr>
+                      <tr>
+                          <td>L2.</td>
+                          <td><input type="text" id="lecturaDosCloro1DirectoClo" value="0"></td>
+                          <td><input type="text" id="lecturaDosCloro2DirectoClo" value="0"></td>
+                          
+                      </tr>
+                      <tr>
+                          <td>L3.</td>                                         
+                          <td><input type="text" id="lecturaTresCloro1DirectoClo" value="0"></td>
+                          <td><input type="text" id="lecturaTresCloro2DirectoClo" value="0"></td>
+                         
+                      </tr>
+                      <tr>
+                          <td>Promedio.</td>
+                          <td><input type="text" id="promedioCloro1DirectoClo" value="0"></td>
+                          <td><input type="text" id="promedioCloro2DirectoClo" value="0"></td>
+                        
+                      </tr>
+                  </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+    {{--* Fin Modal Cloruros --}}
+
+    {{--* Inicio Modal Temperatura --}}
+    <div class="modal fade" id="modalDirectoTemp" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="">Captura de resultados Directo Temperatura</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">Observación</label>
+                  <input type="text" class="form-control" id="observacionDirectoTemp" placeholder="Observacion de la muestra">
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-success" type="button" onclick="setObservacion('observacionDirectoTemp')"><i
+                      class="voyager-check"></i> Aplicar</button>
+                </div>
+              </div>
+    
+              <div class="col-md-2">
+                <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <input type="text" id="resultadoDirectoTemp" style="font-size: 20px;color:red;"
+                      placeholder="Resultado">
+              </div>
+            </div>
+  
+              <div class="col-md-12">
+                <table class="table" id="">
+                  <thead>
+                      <tr>
+                          <th>Parametro</th>
+                         
+                          <th>Valor</th>
+                          <th>Valor2</th>
+                          
+                      </tr>
+                  </thead>
+                  <!-- <button class="btn btn-success" id="btnImprimir" onclick="imprimir();"><i class="fas fa-file-download"></i></button> -->
+                  <tbody>
+                     
+                      <tr>
+                          <td>L1.</td>
+                          <td><input type="text" id="lecturaUno1TDirectoTemp" value="0"></td>
+                          <td><input type="text" id="lecturaUno2TDirectoTemp" value="0"></td>
+                          
+                      </tr>
+                      <tr>
+                          <td>L2.</td>
+                          <td><input type="text" id="lecturaDos1TDirectoTemp" value="0"></td>
+                          <td><input type="text" id="lecturaDos2TDirectoTemp" value="0"></td>
+                          
+                      </tr>
+                      <tr>
+                          <td>L3.</td>                                         
+                          <td><input type="text" id="lecturaTres1TDirectoTemp" value="0"></td>
+                          <td><input type="text" id="lecturaTres2TDirectoTemp" value="0"></td>
+                         
+                      </tr>
+                  </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+    {{--* Fin Modal Temperatura --}}
+  
+
+    {{--* Inicio Modal Color --}}
+    <div class="modal fade" id="modalDirectoColor" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="">Captura de resultados Directo Color</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">Observación</label>
+                  <input type="text" class="form-control" id="observacionDirectoColor" placeholder="Observacion de la muestra">
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-success" type="button" onclick="setObservacion('observacionDirectoColor')"><i
+                      class="voyager-check"></i> Aplicar</button>
+                </div>
+              </div>
+    
+              <div class="col-md-2">
+                <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <input type="text" id="resultadoDirectoColor" style="font-size: 20px;color:red;"
+                      placeholder="Resultado">
+              </div>
+            </div>
+  
+              <div class="col-md-12">
+                <table class="table" id="">
+                  <thead>
+                      <tr>
+                          <th>Parametro</th>
+                         
+                          <th>Valor</th>
+                          <th>Valor2</th>
+                          
+                      </tr>
+                  </thead>
+                  <tbody>
+                     
+                      <tr>
+                          <td>A.</td>
+                          <td>Color aparente.</td>
+                          <td><input type="text" id="aparente1DirectoColor" ></td>
+                          <td><input type="text" id="" ></td>
+                          
+                      </tr>
+                      <tr>
+                          <td>B.</td>
+                          <td>Color verdadero.</td>
+                          <td><input type="text" id="verdadero1DirectoColor" ></td>
+                          <td><input type="text" id="" ></td>
+                          
+                      </tr>
+                      <tr>
+                          <td>C.</td>
+                          <td>Factor dilución.</td>                                         
+                          <td><input type="text" id="dilusion1DirectoColor" ></td>
+                          <td><input type="text" id="" ></td>
+                         
+                      </tr>
+                      <tr>
+                          <td>D.</td>
+                          <td>Volumen muestra.</td>
+                          <td><input type="text" id="volumen1DirectoColor" ></td>
+                          <td><input type="text" id="" ></td>
+                          
+                      </tr>
+                      <tr>
+                          <td>E.</td>
+                          <td>ph.</td>
+                          <td><input type="text" id="ph1DirectoColor" ></td>
+                          <td><input type="text" id="" ></td>
+                          
+                      </tr>
+                      <tr>
+                          <td>G.</td>
+                          <td>Facor de correción.</td>                                         
+                          <td><input type="text" id="factor1DirectoColor" ></td>
+                          <td><input type="text" id="" ></td>
+                         
+                      </tr>
+                  </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+    {{--* Fin Modal Color --}}
+  
+    {{--* Inicio Modal Default --}}
+    <div class="modal fade" id="modalDirectoDef" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="">Captura de resultados Directo Default</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label for="">Observación</label>
+                  <input type="text" class="form-control" id="observacionDirectoDef" placeholder="Observacion de la muestra">
+                </div>
+                <div class="form-group">
+                  <button class="btn btn-success" type="button" onclick="setObservacion('observacionDirectoDef')"><i
+                      class="voyager-check"></i> Aplicar</button>
+                </div>
+              </div>
+    
+              <div class="col-md-2">
+                <button class="btn btn-primary btnEjecutar"><i class="voyager-play"></i> Ejecutar</button>
+              </div>
+              <div class="col-md-8">
+                <div class="form-group">
+                  <input type="text" id="resultadoDirectoDef" style="font-size: 20px;color:red;"
+                      placeholder="Resultado">
+              </div>
+            </div>
+  
+              <div class="col-md-12">
+                <table class="table" id="">
+                  <thead>
+                      <tr>
+                          <th>Parametro</th>
+                         
+                          <th>Valor</th>
+                          <th>Valor2</th>
+                          
+                      </tr>
+                  </thead>
+                  <tbody>
+                     
+                      <tr>
+                          <td>R</td>
+                          <td>Resultado Directo</td>
+                          <td><input type="text" id="resDirectoDef" ></td>
+                          <td><input type="text" id="" ></td>
+                          
+                      </tr>
+
+                  </tbody>
+              </table>
+              </div>
+            </div>
+          </div>
+    
+        </div>
+      </div>
+    </div>
+    {{--* Fin Modal Default --}}
+{{--todo Fin Modal Directos --}}
 
 {{--! FIN Modal de capturas de parametros --}}
 
